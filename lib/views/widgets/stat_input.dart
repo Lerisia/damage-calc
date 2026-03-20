@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
+import '../../models/status.dart';
 import '../../utils/stat_calculator.dart';
 
 class _ClampingFormatter extends TextInputFormatter {
@@ -49,6 +50,7 @@ class StatInput extends StatefulWidget {
   final String? selectedItem;
   final Rank rank;
   final int hpPercent;
+  final StatusCondition status;
   final ValueChanged<int> onLevelChanged;
   final ValueChanged<Nature> onNatureChanged;
   final ValueChanged<Stats> onIvChanged;
@@ -57,6 +59,7 @@ class StatInput extends StatefulWidget {
   final ValueChanged<String?> onItemChanged;
   final ValueChanged<Rank> onRankChanged;
   final ValueChanged<int> onHpPercentChanged;
+  final ValueChanged<StatusCondition> onStatusChanged;
 
   const StatInput({
     super.key,
@@ -70,6 +73,7 @@ class StatInput extends StatefulWidget {
     this.selectedItem,
     required this.rank,
     required this.hpPercent,
+    required this.status,
     required this.onLevelChanged,
     required this.onNatureChanged,
     required this.onIvChanged,
@@ -78,6 +82,7 @@ class StatInput extends StatefulWidget {
     required this.onItemChanged,
     required this.onRankChanged,
     required this.onHpPercentChanged,
+    required this.onStatusChanged,
   });
 
   @override
@@ -100,6 +105,30 @@ class _StatInputState extends State<StatInput> {
             ),
           ))
       .toList();
+
+  static String _statusIcon(StatusCondition st) {
+    switch (st) {
+      case StatusCondition.none: return '✅';
+      case StatusCondition.burn: return '🔥';
+      case StatusCondition.poison: return '☠️';
+      case StatusCondition.badlyPoisoned: return '💀';
+      case StatusCondition.paralysis: return '⚡';
+      case StatusCondition.sleep: return '😴';
+      case StatusCondition.freeze: return '🧊';
+    }
+  }
+
+  static String _statusKo(StatusCondition st) {
+    switch (st) {
+      case StatusCondition.none: return '없음';
+      case StatusCondition.burn: return '화상';
+      case StatusCondition.poison: return '독';
+      case StatusCondition.badlyPoisoned: return '맹독';
+      case StatusCondition.paralysis: return '마비';
+      case StatusCondition.sleep: return '잠듦';
+      case StatusCondition.freeze: return '얼음';
+    }
+  }
 
   static String _natureLabelStatic(Nature n) {
     final ko = n.nameKo;
@@ -190,11 +219,11 @@ class _StatInputState extends State<StatInput> {
 
     return Column(
       children: [
-        // Level + Ability (searchable)
+        // Level + Ability + Status
         Row(
           children: [
-            Expanded(
-              flex: 1,
+            SizedBox(
+              width: 48,
               child: TextFormField(
                 initialValue: '${widget.level}',
                 textAlign: TextAlign.center,
@@ -211,9 +240,9 @@ class _StatInputState extends State<StatInput> {
                 },
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             Expanded(
-              flex: 3,
+              flex: 1,
               child: _abilityNameMap.isNotEmpty
                   ? KeyedSubtree(
                       key: ValueKey('ability_${widget.selectedAbility}'),
@@ -223,6 +252,36 @@ class _StatInputState extends State<StatInput> {
                       decoration: InputDecoration(labelText: '특성', isDense: true),
                       child: Text('-', style: TextStyle(color: Colors.grey)),
                     ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              flex: 1,
+              child: PopupMenuButton<StatusCondition>(
+                initialValue: widget.status,
+                tooltip: '상태이상',
+                child: InputDecorator(
+                  decoration: const InputDecoration(
+                    labelText: '상태이상',
+                    isDense: true,
+                  ),
+                  child: Text(
+                    '${_statusIcon(widget.status)} ${_statusKo(widget.status)}',
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ),
+                itemBuilder: (_) => StatusCondition.values
+                    .map((st) => PopupMenuItem(
+                        value: st,
+                        child: Row(
+                          children: [
+                            Text(_statusIcon(st), style: const TextStyle(fontSize: 18)),
+                            const SizedBox(width: 8),
+                            Text(_statusKo(st)),
+                          ],
+                        )))
+                    .toList(),
+                onSelected: (v) => widget.onStatusChanged(v),
+              ),
             ),
           ],
         ),

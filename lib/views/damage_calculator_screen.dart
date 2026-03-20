@@ -24,6 +24,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Terrain _terrain = Terrain.none;
   Room _room = Room.none;
 
+
   @override
   void initState() {
     super.initState();
@@ -135,6 +136,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   .toList(),
               onSelected: (v) => setState(() => _room = v),
             ),
+            const Spacer(),
+            Text(
+              '결정력 계산기',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.5,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              ),
+            ),
+            const SizedBox(width: 8),
           ],
         ),
         actions: [

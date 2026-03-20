@@ -126,9 +126,17 @@ class _PokemonPanelState extends State<PokemonPanel>
         );
     }
 
-    final double statMod = itemEffect.statModifier * abilityStatMod;
-    final double powerMod =
-        itemEffect.powerModifier * abilityEffect.powerModifier;
+    double statMod = itemEffect.statModifier * abilityStatMod;
+    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+
+    // Ally boost effects
+    if (s.helpingHand) powerMod *= 1.5;
+    if (s.charge && move.type == PokemonType.electric) powerMod *= 2.0;
+    if (s.battery && move.category == MoveCategory.special) powerMod *= 1.3;
+    if (s.powerSpot) powerMod *= 1.3;
+    if (s.flowerGift && move.category == MoveCategory.physical &&
+        (widget.weather == Weather.sun || widget.weather == Weather.harshSun)) statMod *= 1.5;
+    if (s.steelySpirit && move.type == PokemonType.steel) powerMod *= 1.5;
 
     return OffensiveCalculator.calculate(
       baseStats: s.baseStats,
@@ -201,6 +209,7 @@ class _PokemonPanelState extends State<PokemonPanel>
               selectedItem: s.selectedItem,
               rank: s.rank,
               hpPercent: s.hpPercent,
+              status: s.status,
               onLevelChanged: (v) => setState(() { s.level = v; _notify(); }),
               onNatureChanged: (v) => setState(() { s.nature = v; _notify(); }),
               onIvChanged: (v) => setState(() { s.iv = v; _notify(); }),
@@ -209,21 +218,42 @@ class _PokemonPanelState extends State<PokemonPanel>
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notify(); }),
               onRankChanged: (v) => setState(() { s.rank = v; _notify(); }),
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notify(); }),
+              onStatusChanged: (v) => setState(() { s.status = v; _notify(); }),
             ),
           ),
           const SizedBox(height: 12),
 
           _sectionCard(
-            title: '상태이상',
-            child: DropdownButtonFormField<StatusCondition>(
-              value: s.status,
-              isExpanded: true,
-              decoration: const InputDecoration(isDense: true),
-              items: StatusCondition.values
-                  .map((st) => DropdownMenuItem(
-                      value: st, child: Text(_statusKo(st))))
-                  .toList(),
-              onChanged: (v) => setState(() { s.status = v!; _notify(); }),
+            title: '기타 보정',
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(child: _compactCheck('도우미', s.helpingHand, (v) {
+                      setState(() { s.helpingHand = v; _notify(); });
+                    })),
+                    Expanded(child: _compactCheck('배터리', s.battery, (v) {
+                      setState(() { s.battery = v; _notify(); });
+                    })),
+                    Expanded(child: _compactCheck('파워스폿', s.powerSpot, (v) {
+                      setState(() { s.powerSpot = v; _notify(); });
+                    })),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: _compactCheck('충전', s.charge, (v) {
+                      setState(() { s.charge = v; _notify(); });
+                    })),
+                    Expanded(child: _compactCheck('강철정신', s.steelySpirit, (v) {
+                      setState(() { s.steelySpirit = v; _notify(); });
+                    })),
+                    Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
+                      setState(() { s.flowerGift = v; _notify(); });
+                    })),
+                  ],
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
@@ -404,6 +434,31 @@ class _PokemonPanelState extends State<PokemonPanel>
     );
   }
 
+  Widget _compactCheck(String label, bool value, ValueChanged<bool> onChanged) {
+    return InkWell(
+      onTap: () => onChanged(!value),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 22, height: 22,
+              child: Checkbox(
+                value: value,
+                onChanged: (v) => onChanged(v ?? false),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(label, style: const TextStyle(fontSize: 13)),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _sectionCard({Key? key, required String title, required Widget child}) {
     return Card(
       key: key,
@@ -419,18 +474,6 @@ class _PokemonPanelState extends State<PokemonPanel>
         ),
       ),
     );
-  }
-
-  String _statusKo(StatusCondition st) {
-    switch (st) {
-      case StatusCondition.none: return '없음';
-      case StatusCondition.burn: return '화상';
-      case StatusCondition.poison: return '독';
-      case StatusCondition.badlyPoisoned: return '맹독';
-      case StatusCondition.paralysis: return '마비';
-      case StatusCondition.sleep: return '잠듦';
-      case StatusCondition.freeze: return '얼음';
-    }
   }
 
   String _typeKo(PokemonType t) {
