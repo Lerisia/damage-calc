@@ -12,6 +12,7 @@ import '../utils/offensive_calculator.dart';
 import '../utils/move_transform.dart';
 import '../utils/item_effects.dart';
 import '../utils/ability_effects.dart';
+import '../utils/grounded.dart';
 import '../utils/stat_calculator.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/move_selector.dart';
@@ -131,6 +132,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       statModifier: statMod,
       powerModifier: powerMod,
       isCritical: isCritical,
+      grounded: isGrounded(
+        type1: _type1,
+        type2: _type2,
+        ability: _selectedAbility,
+        item: _selectedItem,
+      ),
       stabOverride: abilityEffect.stabOverride,
       criticalOverride: abilityEffect.criticalOverride,
     );
