@@ -450,7 +450,10 @@
     "category": "special",
     "power": 60,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Tera Blast",

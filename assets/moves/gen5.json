@@ -7,7 +7,10 @@
     "category": "physical",
     "power": 180,
     "accuracy": 95,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Guard Split",
@@ -29,7 +32,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ]
   },
   {
@@ -40,7 +44,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Gear Grind",
@@ -100,7 +107,10 @@
     "category": "special",
     "power": 85,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Bolt Strike",
@@ -110,7 +120,10 @@
     "category": "physical",
     "power": 130,
     "accuracy": 85,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Flame Charge",
@@ -120,7 +133,10 @@
     "category": "physical",
     "power": 50,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "After You",
@@ -190,7 +206,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Smack Down",
@@ -200,7 +219,10 @@
     "category": "physical",
     "power": 50,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Coil",
@@ -220,7 +242,10 @@
     "category": "physical",
     "power": 65,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Magic Room",
@@ -290,7 +315,10 @@
     "category": "special",
     "power": 55,
     "accuracy": 95,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Circle Throw",
@@ -310,7 +338,10 @@
     "category": "special",
     "power": 50,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Venoshock",
@@ -380,7 +411,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Flame Burst",
@@ -453,7 +487,10 @@
     "category": "physical",
     "power": 75,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Foul Play",
@@ -543,7 +580,10 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Acrobatics",
@@ -589,7 +629,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Frost Breath",
@@ -601,7 +644,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "custom:always_crit"
+      "custom:always_crit",
+      "custom:has_secondary"
     ]
   },
   {
@@ -635,7 +679,10 @@
     "category": "special",
     "power": 100,
     "accuracy": 50,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Scald",
@@ -645,7 +692,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Relic Song",
@@ -655,7 +705,10 @@
     "category": "special",
     "power": 75,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Sludge Wave",
@@ -665,7 +718,10 @@
     "category": "special",
     "power": 95,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Wide Guard",
@@ -728,7 +784,10 @@
     "category": "special",
     "power": 55,
     "accuracy": 95,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Electro Ball",
@@ -774,7 +833,10 @@
     "category": "special",
     "power": 140,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Fusion Bolt",
@@ -854,7 +916,10 @@
     "category": "special",
     "power": 110,
     "accuracy": 70,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Blue Flare",
@@ -864,7 +929,10 @@
     "category": "special",
     "power": 130,
     "accuracy": 85,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Grass Pledge",
@@ -884,7 +952,10 @@
     "category": "physical",
     "power": 140,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Sky Drop",
@@ -904,7 +975,10 @@
     "category": "physical",
     "power": 65,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Heart Stamp",
@@ -914,7 +988,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Heavy Slam",
@@ -934,7 +1011,10 @@
     "category": "special",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Heat Crash",

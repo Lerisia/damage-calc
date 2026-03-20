@@ -127,7 +127,10 @@
     "category": "physical",
     "power": 30,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Dive",
@@ -177,7 +180,10 @@
     "category": "physical",
     "power": 50,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Dragon Claw",
@@ -200,7 +206,10 @@
     "category": "physical",
     "power": 85,
     "accuracy": 85,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Luster Purge",
@@ -210,7 +219,10 @@
     "category": "special",
     "power": 95,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Rock Blast",
@@ -284,7 +296,10 @@
     "category": "special",
     "power": 55,
     "accuracy": 95,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Howl",
@@ -324,7 +339,10 @@
     "category": "physical",
     "power": 35,
     "accuracy": 85,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Water Sport",
@@ -346,7 +364,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "pulse"
+      "pulse",
+      "custom:has_secondary"
     ]
   },
   {
@@ -357,7 +376,10 @@
     "category": "special",
     "power": 95,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Needle Arm",
@@ -367,7 +389,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Tail Glow",
@@ -407,7 +432,10 @@
     "category": "physical",
     "power": 120,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Imprison",
@@ -450,7 +478,10 @@
     "category": "physical",
     "power": 85,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Crush Claw",
@@ -460,7 +491,10 @@
     "category": "physical",
     "power": 75,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Blast Burn",
@@ -490,7 +524,10 @@
     "category": "physical",
     "power": 70,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Stockpile",
@@ -520,7 +557,10 @@
     "category": "special",
     "power": 140,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Shadow Punch",
@@ -550,7 +590,10 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Arm Thrust",
@@ -590,7 +633,10 @@
     "category": "special",
     "power": 75,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Extrasensory",
@@ -600,7 +646,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Hail",
@@ -640,7 +689,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 95,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Superpower",
@@ -650,7 +702,10 @@
     "category": "physical",
     "power": 120,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Air Cutter",
@@ -680,7 +735,10 @@
     "category": "special",
     "power": 95,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Overheat",
@@ -690,7 +748,10 @@
     "category": "special",
     "power": 130,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Dragon Dance",
@@ -733,7 +794,10 @@
     "category": "special",
     "power": 60,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Nature Power",
@@ -845,7 +909,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "punch"
+      "punch",
+      "custom:has_secondary"
     ]
   },
   {
@@ -866,7 +931,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Knock Off",
@@ -949,7 +1017,10 @@
     "category": "physical",
     "power": 50,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Grass Whistle",

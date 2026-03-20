@@ -77,6 +77,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       rank: _rank,
       hpPercent: _hpPercent,
       hasItem: _selectedItem != null,
+      ability: _selectedAbility,
     );
     final transformed = transformMove(move, context);
 
@@ -84,7 +85,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
         ? getItemEffect(_selectedItem!, move: transformed.move)
         : const ItemEffect();
     final abilityEffect = _selectedAbility != null
-        ? getAbilityEffect(_selectedAbility!, move: transformed.move)
+        ? getAbilityEffect(_selectedAbility!, move: transformed.move,
+            hpPercent: _hpPercent, weather: _weather, terrain: _terrain)
         : const AbilityEffect();
 
     final double statMod =
@@ -107,6 +109,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       statModifier: statMod,
       powerModifier: powerMod,
       isCritical: isCritical,
+      stabOverride: abilityEffect.stabOverride,
+      criticalOverride: abilityEffect.criticalOverride,
     );
   }
 
@@ -284,7 +288,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
 
   Widget _moveSlot(int index) {
     final move = _moves[index];
-    final effectiveType = _typeOverrides[index] ?? move?.type;
+    var effectiveType = _typeOverrides[index] ?? move?.type;
     final effectiveCategory = _categoryOverrides[index] ?? move?.category;
     final int basePower;
     if (move != null) {
@@ -294,8 +298,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
         rank: _rank,
         hpPercent: _hpPercent,
         hasItem: _selectedItem != null,
+        ability: _selectedAbility,
       );
-      basePower = transformMove(move, context).move.power;
+      final transformed = transformMove(move, context);
+      basePower = transformed.move.power;
+      // Update displayed type if skin changed it
+      effectiveType = _typeOverrides[index] ?? transformed.move.type;
     } else {
       basePower = 0;
     }

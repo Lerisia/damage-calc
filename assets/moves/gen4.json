@@ -57,7 +57,10 @@
     "category": "special",
     "power": 60,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Embargo",
@@ -97,7 +100,10 @@
     "category": "special",
     "power": 120,
     "accuracy": 70,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Night Slash",
@@ -170,7 +176,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Double Hit",
@@ -192,7 +201,8 @@
     "accuracy": 80,
     "pp": 5,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ]
   },
   {
@@ -213,7 +223,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Last Resort",
@@ -233,7 +246,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 75,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Drain Punch",
@@ -256,7 +272,10 @@
     "category": "physical",
     "power": 90,
     "accuracy": 85,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Flash Cannon",
@@ -266,7 +285,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Rock Polish",
@@ -286,7 +308,10 @@
     "category": "special",
     "power": 130,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Magnet Bomb",
@@ -306,7 +331,10 @@
     "category": "special",
     "power": 100,
     "accuracy": 75,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Trump Card",
@@ -356,7 +384,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Switcheroo",
@@ -376,7 +407,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Defend Order",
@@ -396,7 +430,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Thunder Fang",
@@ -408,7 +445,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "bite"
+      "bite",
+      "custom:has_secondary"
     ]
   },
   {
@@ -431,7 +469,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:has_secondary"
     ]
   },
   {
@@ -452,7 +491,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Fire Fang",
@@ -464,7 +506,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "bite"
+      "bite",
+      "custom:has_secondary"
     ]
   },
   {
@@ -498,7 +541,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 90,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Psycho Shift",
@@ -574,7 +620,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Tailwind",
@@ -634,7 +683,10 @@
     "category": "special",
     "power": 120,
     "accuracy": 85,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "X-Scissor",
@@ -680,7 +732,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ]
   },
   {
@@ -723,7 +776,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "pulse"
+      "pulse",
+      "custom:has_secondary"
     ]
   },
   {
@@ -754,7 +808,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Shadow Sneak",
@@ -796,7 +853,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "bite"
+      "bite",
+      "custom:has_secondary"
     ]
   },
   {
@@ -809,7 +867,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "ball"
+      "ball",
+      "custom:has_secondary"
     ]
   },
   {
@@ -822,7 +881,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "slice"
+      "slice",
+      "custom:has_secondary"
     ]
   },
   {
@@ -833,7 +893,10 @@
     "category": "special",
     "power": 130,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Dragon Pulse",
@@ -898,7 +961,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ]
   },
   {
@@ -989,7 +1053,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Pluck",
@@ -1009,7 +1076,10 @@
     "category": "special",
     "power": 50,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Lunar Dance",
@@ -1041,7 +1111,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "slice"
+      "slice",
+      "custom:has_secondary"
     ]
   },
   {
@@ -1138,7 +1209,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ]
   },
   {

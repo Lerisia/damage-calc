@@ -77,7 +77,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Headlong Rush",
@@ -592,7 +595,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Rising Voltage",
@@ -625,7 +631,10 @@
     "category": "special",
     "power": 120,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Eternabeam",
@@ -754,7 +763,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "False Surrender",
@@ -796,7 +808,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:use_higher_atk"
+      "custom:use_higher_atk",
+      "custom:has_secondary"
     ]
   },
   {
@@ -817,7 +830,10 @@
     "category": "physical",
     "power": 75,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Surging Strikes",
@@ -860,7 +876,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 90,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Fishious Rend",
@@ -913,7 +932,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Skitter Smack",
@@ -923,7 +945,10 @@
     "category": "physical",
     "power": 70,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Scorching Sands",
@@ -933,7 +958,10 @@
     "category": "special",
     "power": 70,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Aura Wheel",
@@ -943,7 +971,10 @@
     "category": "physical",
     "power": 110,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Overdrive",
@@ -966,7 +997,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Expanding Force",
@@ -989,7 +1023,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Bolt Beak",
@@ -1019,7 +1056,10 @@
     "category": "special",
     "power": 70,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Snap Trap",
@@ -1029,7 +1069,10 @@
     "category": "physical",
     "power": 35,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Thunderous Kick",
@@ -1039,7 +1082,10 @@
     "category": "physical",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Steel Beam",
@@ -1099,7 +1145,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Triple Axel",
@@ -1131,7 +1180,8 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [
-      "ball"
+      "ball",
+      "custom:has_secondary"
     ]
   }
 ]

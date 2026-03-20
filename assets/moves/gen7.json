@@ -144,7 +144,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Lunge",
@@ -154,7 +157,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Toxic Thread",
@@ -174,7 +180,10 @@
     "category": "physical",
     "power": 90,
     "accuracy": 95,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Dragon Hammer",
@@ -217,7 +226,10 @@
     "power": 175,
     "accuracy": 0,
     "pp": 1,
-    "moveClass": "zMove"
+    "moveClass": "zMove",
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Twinkle Tackle",
@@ -431,7 +443,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Burn Up",
@@ -452,7 +467,10 @@
     "power": 185,
     "accuracy": 0,
     "pp": 1,
-    "moveClass": "zMove"
+    "moveClass": "zMove",
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Veevee Volley",
@@ -559,7 +577,10 @@
     "category": "physical",
     "power": 85,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Spectral Thief",
@@ -656,7 +677,10 @@
     "category": "special",
     "power": 110,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Gigavolt Havoc",
@@ -708,7 +732,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Baddy Bad",
@@ -728,7 +755,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Liquidation",
@@ -738,7 +768,10 @@
     "category": "physical",
     "power": 85,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Guardian of Alola",
@@ -908,7 +941,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Nature’s Madness",
@@ -992,7 +1028,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Instruct",
@@ -1023,7 +1062,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Buzzy Buzz",
@@ -1033,7 +1075,10 @@
     "category": "special",
     "power": 60,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Splishy Splash",
@@ -1043,7 +1088,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Corkscrew Crash",
@@ -1137,7 +1185,10 @@
     "category": "physical",
     "power": 70,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Supersonic Skystrike",
@@ -1171,7 +1222,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:always_crit"
+      "custom:always_crit",
+      "custom:has_secondary"
     ]
   },
   {
@@ -1225,7 +1277,10 @@
     "category": "special",
     "power": 130,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Pika Papow",

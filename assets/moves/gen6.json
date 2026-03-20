@@ -49,7 +49,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "punch"
+      "punch",
+      "custom:has_secondary"
     ]
   },
   {
@@ -103,7 +104,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 0,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Hyperspace Hole",
@@ -123,7 +127,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 95,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Precipice Blades",
@@ -213,7 +220,10 @@
     "category": "special",
     "power": 75,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Moonblast",
@@ -223,7 +233,10 @@
     "category": "special",
     "power": 95,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Water Shuriken",
@@ -263,7 +276,10 @@
     "category": "physical",
     "power": 20,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Noble Roar",
@@ -303,7 +319,10 @@
     "category": "physical",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Thousand Waves",
@@ -353,7 +372,10 @@
     "category": "special",
     "power": 110,
     "accuracy": 95,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Aromatic Mist",
@@ -373,7 +395,10 @@
     "category": "special",
     "power": 20,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Fairy Wind",
@@ -475,7 +500,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ]
   },
   {
@@ -569,7 +595,10 @@
     "category": "special",
     "power": 70,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Ion Deluge",
@@ -629,6 +658,9 @@
     "category": "physical",
     "power": 120,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   }
 ]

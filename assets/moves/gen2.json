@@ -7,7 +7,10 @@
     "category": "physical",
     "power": 70,
     "accuracy": 90,
-    "pp": 25
+    "pp": 25,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Spider Web",
@@ -47,7 +50,10 @@
     "category": "physical",
     "power": 50,
     "accuracy": 100,
-    "pp": 40
+    "pp": 40,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Synthesis",
@@ -112,7 +118,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "bite"
+      "bite",
+      "custom:has_secondary"
     ]
   },
   {
@@ -133,7 +140,10 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Moonlight",
@@ -163,7 +173,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Thief",
@@ -246,7 +259,10 @@
     "category": "physical",
     "power": 50,
     "accuracy": 95,
-    "pp": 35
+    "pp": 35,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Perish Song",
@@ -306,7 +322,10 @@
     "category": "special",
     "power": 35,
     "accuracy": 85,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Flail",
@@ -329,7 +348,10 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Baton Pass",
@@ -421,7 +443,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "ball"
+      "ball",
+      "custom:has_secondary"
     ]
   },
   {
@@ -432,7 +455,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 95,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Feint Attack",
@@ -462,7 +488,10 @@
     "category": "physical",
     "power": 65,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Safeguard",
@@ -492,7 +521,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 75,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Morning Sun",
@@ -562,7 +594,10 @@
     "category": "special",
     "power": 55,
     "accuracy": 95,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Aeroblast",
@@ -602,7 +637,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Dragon Breath",
@@ -612,7 +650,10 @@
     "category": "special",
     "power": 60,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Milk Drink",
@@ -632,7 +673,10 @@
     "category": "special",
     "power": 60,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Spite",
@@ -702,7 +746,10 @@
     "category": "special",
     "power": 120,
     "accuracy": 50,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Mud-Slap",
@@ -712,7 +759,10 @@
     "category": "special",
     "power": 20,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Beat Up",
@@ -762,7 +812,10 @@
     "category": "special",
     "power": 50,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Sunny Day",
@@ -822,7 +875,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 50,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Present",
@@ -852,7 +908,10 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": [
+      "custom:has_secondary"
+    ]
   },
   {
     "name": "Frustration",
@@ -872,6 +931,9 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:has_secondary"
+    ]
   }
 ]

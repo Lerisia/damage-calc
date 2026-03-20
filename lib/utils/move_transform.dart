@@ -23,12 +23,15 @@ class MoveContext {
   final int hpPercent;
   final bool hasItem;
 
+  final String? ability;
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
     this.rank = const Rank(),
     this.hpPercent = 100,
     this.hasItem = false,
+    this.ability,
   });
 }
 
@@ -56,15 +59,32 @@ class TransformedMove {
 
 /// Applies all move transformations based on battle context.
 ///
-/// Returns a [TransformedMove] with adjusted type/power and which stat to use.
+/// Order matters:
+/// 1. Type-changing transforms (Weather Ball, Terrain Pulse)
+/// 2. Ability type transforms (-ate skins: only affects Normal moves)
+/// 3. Conditional power changes (Acrobatics, HP-based)
+/// 4. Field-based power boosts (Rising Voltage, etc.)
+/// 5. Rank-based power (Stored Power, etc.)
+/// 6. Stat selection (Body Press, Photon Geyser, etc.)
 TransformedMove transformMove(Move move, MoveContext context) {
+  // 1. Type-changing transforms first
   move = _applyWeather(move, context.weather);
   move = _applyTerrain(move, context.terrain);
+
+  // 2. Ability type transforms (only if still Normal after step 1)
+  move = _applySkin(move, context.ability);
+
+  // 3. Conditional power changes
   move = _applyItemCondition(move, context.hasItem);
   move = _applyHpPower(move, context.hpPercent);
+
+  // 4. Field-based power boosts
   move = _applyTerrainPowerBoost(move, context.terrain);
+
+  // 5. Rank-based power
   move = _applyRankPower(move, context.rank);
 
+  // 6. Stat selection
   final stat = _resolveOffensiveStat(move);
   return TransformedMove(move, stat);
 }
@@ -76,6 +96,31 @@ OffensiveStat _resolveOffensiveStat(Move move) {
   return move.category == MoveCategory.physical
       ? OffensiveStat.attack
       : OffensiveStat.spAttack;
+}
+
+/// -ate abilities: convert Normal moves to another type with 1.2x power.
+const Map<String, PokemonType> _skinAbilities = {
+  'Aerilate': PokemonType.flying,
+  'Pixilate': PokemonType.fairy,
+  'Refrigerate': PokemonType.ice,
+  'Galvanize': PokemonType.electric,
+  'Normalize': PokemonType.normal,
+};
+
+Move _applySkin(Move move, String? ability) {
+  if (ability == null) return move;
+
+  // Normalize: ALL moves become Normal (not just Normal moves)
+  if (ability == 'Normalize') {
+    if (move.type == PokemonType.normal) return move;
+    return move.copyWith(type: PokemonType.normal, power: (move.power * 1.2).floor());
+  }
+
+  // Other skins: only Normal moves get converted
+  final skinType = _skinAbilities[ability];
+  if (skinType == null || move.type != PokemonType.normal) return move;
+
+  return move.copyWith(type: skinType, power: (move.power * 1.2).floor());
 }
 
 /// Weather Ball: changes type and power based on weather.

@@ -39,6 +39,8 @@ class OffensiveCalculator {
     double statModifier = 1.0,
     double powerModifier = 1.0,
     bool isCritical = false,
+    double? stabOverride,
+    double? criticalOverride,
   }) {
     final move = transformed.move;
 
@@ -79,8 +81,8 @@ class OffensiveCalculator {
     final double terrainMod = getTerrainModifier(terrain, move: move);
     final double raw = modifiedStat *
         move.power *
-        (hasStab ? _stabMultiplier : 1.0) *
-        (isCritical ? _criticalMultiplier : 1.0) *
+        (hasStab ? (stabOverride ?? _stabMultiplier) : 1.0) *
+        (isCritical ? (criticalOverride ?? _criticalMultiplier) : 1.0) *
         weatherMod *
         terrainMod *
         powerModifier;
