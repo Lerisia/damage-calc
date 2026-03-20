@@ -44,6 +44,7 @@ class Move {
 
   Move copyWith({
     PokemonType? type,
+    MoveCategory? category,
     int? power,
   }) {
     return Move(
@@ -51,7 +52,7 @@ class Move {
       nameKo: nameKo,
       nameJa: nameJa,
       type: type ?? this.type,
-      category: category,
+      category: category ?? this.category,
       power: power ?? this.power,
       accuracy: accuracy,
       pp: pp,

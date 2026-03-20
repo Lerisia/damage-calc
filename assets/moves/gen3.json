@@ -437,7 +437,10 @@
     "category": "special",
     "power": 150,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:hp_power_high"
+    ]
   },
   {
     "name": "Blaze Kick",
@@ -1009,7 +1012,10 @@
     "category": "special",
     "power": 150,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:hp_power_high"
+    ]
   },
   {
     "name": "Teeter Dance",

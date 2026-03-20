@@ -37,9 +37,45 @@ class OffensiveCalculator {
     double statModifier = 1.0,
     double powerModifier = 1.0,
     bool isCritical = false,
+    bool hasItem = false,
+    int hpPercent = 100,
   }) {
     if (move.category == MoveCategory.status) {
       return 0;
+    }
+
+    // Acrobatics: double power when not holding an item
+    if (move.hasTag('custom:double_no_item') && !hasItem) {
+      move = move.copyWith(power: move.power * 2);
+    }
+
+    // HP-based power (Eruption, Water Spout, Dragon Energy)
+    if (move.hasTag('custom:hp_power_high')) {
+      move = move.copyWith(power: math.max(1, (150 * hpPercent / 100).floor()));
+    }
+
+    // HP-based power (Flail, Reversal) - lower HP = higher power
+    if (move.hasTag('custom:hp_power_low')) {
+      move = move.copyWith(power: _flailPower(hpPercent));
+    }
+
+    // Terrain-based power boosts
+    if (move.hasTag('custom:terrain_double_electric') && terrain == Terrain.electric) {
+      move = move.copyWith(power: move.power * 2);
+    }
+    if (move.hasTag('custom:terrain_boost_psychic') && terrain == Terrain.psychic) {
+      move = move.copyWith(power: (move.power * 1.5).floor());
+    }
+    if (move.hasTag('custom:terrain_boost_misty') && terrain == Terrain.misty) {
+      move = move.copyWith(power: (move.power * 1.5).floor());
+    }
+
+    // Rank-based power (Stored Power, Power Trip): 20 + 20 per positive rank stage
+    if (move.hasTag('custom:rank_power')) {
+      final totalBoosts = [rank.attack, rank.defense, rank.spAttack, rank.spDefense, rank.speed]
+          .where((r) => r > 0)
+          .fold(0, (sum, r) => sum + r);
+      move = move.copyWith(power: 20 + 20 * totalBoosts);
     }
 
     final bool isPhysical = move.category == MoveCategory.physical;
@@ -64,7 +100,17 @@ class OffensiveCalculator {
       rank: effectiveRank,
     );
 
-    final rawStat = isPhysical ? actualStats.attack : actualStats.spAttack;
+    // Determine which stat to use
+    final int rawStat;
+    if (move.hasTag('custom:use_defense')) {
+      // Body Press: use Defense stat
+      rawStat = actualStats.defense;
+    } else if (move.hasTag('custom:use_higher_atk')) {
+      // Photon Geyser, Shell Side Arm: use higher of Attack/Sp.Atk
+      rawStat = math.max(actualStats.attack, actualStats.spAttack);
+    } else {
+      rawStat = isPhysical ? actualStats.attack : actualStats.spAttack;
+    }
     final int modifiedStat = (rawStat * statModifier).floor();
 
     final bool hasStab = move.type == type1 || move.type == type2;
@@ -79,5 +125,15 @@ class OffensiveCalculator {
         powerModifier;
 
     return raw.floor();
+  }
+
+  /// Flail/Reversal power table based on HP percentage
+  static int _flailPower(int hpPercent) {
+    if (hpPercent >= 69) return 20;
+    if (hpPercent >= 35) return 40;
+    if (hpPercent >= 21) return 80;
+    if (hpPercent >= 10) return 100;
+    if (hpPercent >= 4) return 150;
+    return 200;
   }
 }

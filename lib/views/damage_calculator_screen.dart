@@ -45,19 +45,28 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
 
   // 4 move slots
   final List<Move?> _moves = [null, null, null, null];
+  final List<PokemonType?> _typeOverrides = [null, null, null, null];
+  final List<MoveCategory?> _categoryOverrides = [null, null, null, null];
   final List<int?> _powerOverrides = [null, null, null, null];
   final List<bool> _criticals = [false, false, false, false];
 
   String? _selectedItem;
   Rank _rank = const Rank();
+  int _hpPercent = 100;
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
 
-  int? _computeResultFor(Move? move, bool isCritical, int? powerOverride) {
+  int? _computeResultFor(Move? move, bool isCritical, {
+    PokemonType? typeOverride,
+    MoveCategory? categoryOverride,
+    int? powerOverride,
+  }) {
     if (move == null) return null;
-    if (powerOverride != null) {
-      move = move.copyWith(power: powerOverride);
-    }
+    move = move.copyWith(
+      type: typeOverride,
+      power: powerOverride,
+      category: categoryOverride,
+    );
 
     final itemEffect = _selectedItem != null
         ? getItemEffect(_selectedItem!, move: move)
@@ -89,6 +98,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       statModifier: statMod,
       powerModifier: powerMod,
       isCritical: isCritical,
+      hasItem: _selectedItem != null,
+      hpPercent: _hpPercent,
     );
   }
 
@@ -142,6 +153,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
                 onAbilityChanged: (v) => setState(() => _selectedAbility = v),
                 onItemChanged: (v) => setState(() => _selectedItem = v),
                 onRankChanged: (v) => setState(() => _rank = v),
+                hpPercent: _hpPercent,
+                onHpPercentChanged: (v) => setState(() => _hpPercent = v),
               ),
             ),
             const SizedBox(height: 12),
@@ -223,8 +236,46 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
 
   Widget _moveSlot(int index) {
     final move = _moves[index];
-    final effectivePower = _powerOverrides[index] ?? move?.power;
-    final result = _computeResultFor(move, _criticals[index], _powerOverrides[index]);
+    final effectiveType = _typeOverrides[index] ?? move?.type;
+    final effectiveCategory = _categoryOverrides[index] ?? move?.category;
+    var basePower = move?.power ?? 0;
+    if (move != null) {
+      if (move.hasTag('custom:double_no_item') && _selectedItem == null) {
+        basePower = basePower * 2;
+      }
+      if (move.hasTag('custom:terrain_double_electric') && _terrain == Terrain.electric) {
+        basePower = basePower * 2;
+      }
+      if (move.hasTag('custom:terrain_boost_psychic') && _terrain == Terrain.psychic) {
+        basePower = (basePower * 1.5).floor();
+      }
+      if (move.hasTag('custom:terrain_boost_misty') && _terrain == Terrain.misty) {
+        basePower = (basePower * 1.5).floor();
+      }
+      if (move.hasTag('custom:rank_power')) {
+        final totalBoosts = [_rank.attack, _rank.defense, _rank.spAttack, _rank.spDefense, _rank.speed]
+            .where((r) => r > 0)
+            .fold(0, (sum, r) => sum + r);
+        basePower = 20 + 20 * totalBoosts;
+      }
+      if (move.hasTag('custom:hp_power_high')) {
+        basePower = (150 * _hpPercent / 100).floor().clamp(1, 150);
+      }
+      if (move.hasTag('custom:hp_power_low')) {
+        if (_hpPercent >= 69) basePower = 20;
+        else if (_hpPercent >= 35) basePower = 40;
+        else if (_hpPercent >= 21) basePower = 80;
+        else if (_hpPercent >= 10) basePower = 100;
+        else if (_hpPercent >= 4) basePower = 150;
+        else basePower = 200;
+      }
+    }
+    final effectivePower = _powerOverrides[index] ?? basePower;
+    final result = _computeResultFor(move, _criticals[index],
+      typeOverride: _typeOverrides[index],
+      categoryOverride: _categoryOverrides[index],
+      powerOverride: _powerOverrides[index],
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
@@ -236,40 +287,69 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
               key: ValueKey('move_$index'),
               onSelected: (m) => setState(() {
                 _moves[index] = m;
+                _typeOverrides[index] = null;
+                _categoryOverrides[index] = null;
                 _powerOverrides[index] = null;
+                _criticals[index] = m.hasTag('custom:always_crit');
               }),
             ),
           ),
-          // Type
+          // Type (tappable dropdown)
           SizedBox(
-            width: 36,
-            child: Text(
-              move != null ? _typeKo(move.type) : '-',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 11),
-            ),
+            width: 40,
+            child: move != null
+                ? PopupMenuButton<PokemonType>(
+                    initialValue: effectiveType,
+                    padding: EdgeInsets.zero,
+                    child: Text(
+                      _typeKo(effectiveType!),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _typeOverrides[index] != null ? Colors.orange : null,
+                      ),
+                    ),
+                    itemBuilder: (_) => PokemonType.values
+                        .map((t) => PopupMenuItem(value: t, child: Text(_typeKo(t), style: const TextStyle(fontSize: 12))))
+                        .toList(),
+                    onSelected: (t) => setState(() => _typeOverrides[index] = t),
+                  )
+                : const Text('-', textAlign: TextAlign.center),
           ),
-          // Category
+          // Category (tappable dropdown)
           SizedBox(
-            width: 28,
-            child: Text(
-              move != null ? _categoryKo(move.category) : '-',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 11),
-            ),
+            width: 32,
+            child: move != null
+                ? PopupMenuButton<MoveCategory>(
+                    initialValue: effectiveCategory,
+                    padding: EdgeInsets.zero,
+                    child: Text(
+                      _categoryKo(effectiveCategory!),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _categoryOverrides[index] != null ? Colors.orange : null,
+                      ),
+                    ),
+                    itemBuilder: (_) => [MoveCategory.physical, MoveCategory.special]
+                        .map((c) => PopupMenuItem(value: c, child: Text(_categoryKo(c), style: const TextStyle(fontSize: 12))))
+                        .toList(),
+                    onSelected: (c) => setState(() => _categoryOverrides[index] = c),
+                  )
+                : const Text('-', textAlign: TextAlign.center),
           ),
           // Power (editable)
           SizedBox(
-            width: 44,
+            width: 40,
             child: move != null
                 ? SizedBox(
-                    height: 32,
+                    height: 28,
                     child: TextFormField(
-                      key: ValueKey('power_${index}_${move.name}'),
+                      key: ValueKey('power_${index}_${move.name}_$effectivePower'),
                       initialValue: '${effectivePower ?? 0}',
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 13),
                       decoration: const InputDecoration(
                         isDense: true,
                         contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),

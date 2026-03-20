@@ -579,7 +579,10 @@
     "category": "special",
     "power": 150,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:hp_power_high"
+    ]
   },
   {
     "name": "Drum Beating",
@@ -599,7 +602,10 @@
     "category": "special",
     "power": 70,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:terrain_double_electric"
+    ]
   },
   {
     "name": "Magic Powder",
@@ -662,7 +668,10 @@
     "category": "special",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:terrain_boost_misty"
+    ]
   },
   {
     "name": "Body Press",
@@ -672,7 +681,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:use_defense"
+    ]
   },
   {
     "name": "No Retreat",
@@ -782,7 +794,10 @@
     "category": "special",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:use_higher_atk"
+    ]
   },
   {
     "name": "Clangorous Soul",
@@ -812,7 +827,10 @@
     "category": "physical",
     "power": 25,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:always_crit"
+    ]
   },
   {
     "name": "Scale Shot",
@@ -882,7 +900,10 @@
     "category": "physical",
     "power": 75,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:always_crit"
+    ]
   },
   {
     "name": "Freezing Glare",
@@ -955,7 +976,10 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:terrain_boost_psychic"
+    ]
   },
   {
     "name": "Strange Steam",

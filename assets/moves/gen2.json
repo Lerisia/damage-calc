@@ -87,7 +87,10 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:hp_power_low"
+    ]
   },
   {
     "name": "Destiny Bond",
@@ -313,7 +316,10 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:hp_power_low"
+    ]
   },
   {
     "name": "Rock Smash",

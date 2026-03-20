@@ -48,7 +48,10 @@
     "category": "physical",
     "power": 20,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:rank_power"
+    ]
   },
   {
     "name": "Mind Blown",
@@ -1166,7 +1169,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:always_crit"
+    ]
   },
   {
     "name": "Photon Geyser",
@@ -1176,7 +1182,10 @@
     "category": "special",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:use_higher_atk"
+    ]
   },
   {
     "name": "Prismatic Laser",

@@ -167,7 +167,10 @@
     "category": "physical",
     "power": 70,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:always_crit"
+    ]
   },
   {
     "name": "Gigaton Hammer",

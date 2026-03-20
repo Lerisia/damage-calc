@@ -16,6 +16,7 @@ class StatInput extends StatefulWidget {
   final String? selectedAbility;
   final String? selectedItem;
   final Rank rank;
+  final int hpPercent;
   final ValueChanged<int> onLevelChanged;
   final ValueChanged<Nature> onNatureChanged;
   final ValueChanged<Stats> onIvChanged;
@@ -23,6 +24,7 @@ class StatInput extends StatefulWidget {
   final ValueChanged<String> onAbilityChanged;
   final ValueChanged<String?> onItemChanged;
   final ValueChanged<Rank> onRankChanged;
+  final ValueChanged<int> onHpPercentChanged;
 
   const StatInput({
     super.key,
@@ -35,6 +37,7 @@ class StatInput extends StatefulWidget {
     this.selectedAbility,
     this.selectedItem,
     required this.rank,
+    required this.hpPercent,
     required this.onLevelChanged,
     required this.onNatureChanged,
     required this.onIvChanged,
@@ -42,6 +45,7 @@ class StatInput extends StatefulWidget {
     required this.onAbilityChanged,
     required this.onItemChanged,
     required this.onRankChanged,
+    required this.onHpPercentChanged,
   });
 
   @override
@@ -352,10 +356,10 @@ class _StatInputState extends State<StatInput> {
       child: Row(
         children: [
           Expanded(flex: 3, child: Text('', style: style)),
-          Expanded(flex: 2, child: Text('종족값', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 3, child: Text('개체값', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 5, child: Text('노력치', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 4, child: Text('랭크', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 2, child: Text('종족', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text('개체', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 6, child: Text('노력', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text('랭크', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text('실수치', style: style, textAlign: TextAlign.center)),
         ],
       ),
@@ -380,14 +384,14 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 2, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 13))),
           Expanded(flex: 3, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: _evControl(evVal, (v) => onChanged(ivVal, v, null)),
           ),
           Expanded(
-            flex: 4,
+            flex: 3,
             child: rankIndex >= 0
                 ? _rankControl(rankVal, (v) => onChanged(ivVal, evVal, v))
-                : const SizedBox(),
+                : _hpPercentControl(),
           ),
           Expanded(
             flex: 3,
@@ -425,8 +429,8 @@ class _StatInputState extends State<StatInput> {
               ),
               onChanged: (text) {
                 final parsed = int.tryParse(text);
-                if (parsed != null && parsed >= 0 && parsed <= 252) {
-                  onChanged(parsed);
+                if (parsed != null) {
+                  onChanged(parsed.clamp(0, 252));
                 }
               },
             ),
@@ -443,17 +447,33 @@ class _StatInputState extends State<StatInput> {
     );
   }
 
-  Widget _rankControl(int value, ValueChanged<int> onChanged) {
-    final displayText = value >= 0 ? '+$value' : '$value';
+  Widget _hpPercentControl() {
     return Row(
       children: [
-        Expanded(child: _flexButton('-', value > -6 ? () => onChanged(value - 1) : null)),
         Expanded(
-          child: Text(displayText, textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
-              color: value > 0 ? Colors.red : value < 0 ? Colors.blue : null)),
+          child: SizedBox(
+            height: 28,
+            child: TextFormField(
+              key: const ValueKey('hp_pct'),
+              initialValue: '${widget.hpPercent}',
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              style: const TextStyle(fontSize: 13),
+              decoration: const InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                suffixText: '%',
+                suffixStyle: TextStyle(fontSize: 11),
+              ),
+              onChanged: (text) {
+                final parsed = int.tryParse(text);
+                if (parsed != null) {
+                  widget.onHpPercentChanged(parsed.clamp(0, 100));
+                }
+              },
+            ),
+          ),
         ),
-        Expanded(child: _flexButton('+', value < 6 ? () => onChanged(value + 1) : null)),
       ],
     );
   }
@@ -472,6 +492,34 @@ class _StatInputState extends State<StatInput> {
     );
   }
 
+  Widget _rankControl(int value, ValueChanged<int> onChanged) {
+    return SizedBox(
+      height: 28,
+      child: TextFormField(
+        key: const ValueKey('rank_input'),
+        initialValue: '$value',
+        textAlign: TextAlign.center,
+        keyboardType: const TextInputType.numberWithOptions(signed: true),
+        style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+          color: value > 0 ? Colors.red : value < 0 ? Colors.blue : null,
+        ),
+        decoration: const InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+        ),
+        onChanged: (text) {
+          if (text.isEmpty || text == '-') return;
+          final parsed = int.tryParse(text);
+          if (parsed != null) {
+            onChanged(parsed.clamp(-6, 6));
+          }
+        },
+      ),
+    );
+  }
+
   Widget _miniInput(int value, int min, int max, ValueChanged<int> onChanged) {
     return SizedBox(
       height: 32,
@@ -486,8 +534,8 @@ class _StatInputState extends State<StatInput> {
         ),
         onChanged: (text) {
           final parsed = int.tryParse(text);
-          if (parsed != null && parsed >= min && parsed <= max) {
-            onChanged(parsed);
+          if (parsed != null) {
+            onChanged(parsed.clamp(min, max));
           }
         },
       ),
