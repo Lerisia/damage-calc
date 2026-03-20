@@ -22,7 +22,8 @@
   {
     "name": "gardevoirite",
     "nameKo": "가디안나이트",
-    "nameJa": "サーナイトナイト"
+    "nameJa": "サーナイトナイト",
+    "battle": true
   },
   {
     "name": "growlithe-candy",
@@ -32,47 +33,56 @@
   {
     "name": "steelium-z--held",
     "nameKo": "강철Z",
-    "nameJa": "ハガネＺ"
+    "nameJa": "ハガネＺ",
+    "battle": true
   },
   {
     "name": "steelixite",
     "nameKo": "강철톤나이트",
-    "nameJa": "ハガネールナイト"
+    "nameJa": "ハガネールナイト",
+    "battle": true
   },
   {
     "name": "iron-plate",
     "nameKo": "강철플레이트",
-    "nameJa": "こうてつプレート"
+    "nameJa": "こうてつプレート",
+    "battle": true
   },
   {
     "name": "gyaradosite",
     "nameKo": "갸라도스나이트",
-    "nameJa": "ギャラドスナイト"
+    "nameJa": "ギャラドスナイト",
+    "battle": true
   },
   {
     "name": "blastoisinite",
     "nameKo": "거북왕나이트",
-    "nameJa": "カメックスナイト"
+    "nameJa": "カメックスナイト",
+    "battle": true
   },
   {
     "name": "black-belt",
     "nameKo": "검은띠",
-    "nameJa": "くろおび"
+    "nameJa": "くろおび",
+    "battle": true
   },
   {
     "name": "black-glasses",
     "nameKo": "검은안경",
-    "nameJa": "くろいメガネ"
+    "nameJa": "くろいメガネ",
+    "battle": true
   },
   {
     "name": "black-sludge",
     "nameKo": "검은진흙",
-    "nameJa": "くろいヘドロ"
+    "nameJa": "くろいヘドロ",
+    "battle": true
   },
   {
     "name": "iron-ball",
     "nameKo": "검은철구",
-    "nameJa": "くろいてっきゅう"
+    "nameJa": "くろいてっきゅう",
+    "battle": true
   },
   {
     "name": "black-flute",
@@ -82,7 +92,8 @@
   {
     "name": "fightinium-z--held",
     "nameKo": "격투Z",
-    "nameJa": "カクトウＺ"
+    "nameJa": "カクトウＺ",
+    "battle": true
   },
   {
     "name": "hyper-potion",
@@ -92,7 +103,8 @@
   {
     "name": "icicle-plate",
     "nameKo": "고드름플레이트",
-    "nameJa": "つららのプレート"
+    "nameJa": "つららのプレート",
+    "battle": true
   },
   {
     "name": "psyduck-candy",
@@ -102,12 +114,14 @@
   {
     "name": "ghostium-z--held",
     "nameKo": "고스트Z",
-    "nameJa": "ゴーストＺ"
+    "nameJa": "ゴーストＺ",
+    "battle": true
   },
   {
     "name": "ghost-memory",
     "nameKo": "고스트메모리",
-    "nameJa": "ゴーストメモリ"
+    "nameJa": "ゴーストメモリ",
+    "battle": true
   },
   {
     "name": "gastly-candy",
@@ -117,27 +131,32 @@
   {
     "name": "dread-plate",
     "nameKo": "공포플레이트",
-    "nameJa": "こわもてプレート"
+    "nameJa": "こわもてプレート",
+    "battle": true
   },
   {
     "name": "leppa-berry",
     "nameKo": "과사열매",
-    "nameJa": "ヒメリのみ"
+    "nameJa": "ヒメリのみ",
+    "battle": true
   },
   {
     "name": "wide-lens",
     "nameKo": "광각렌즈",
-    "nameJa": "こうかくレンズ"
+    "nameJa": "こうかくレンズ",
+    "battle": true
   },
   {
     "name": "odd-incense",
     "nameKo": "괴상한향로",
-    "nameJa": "あやしいおこう"
+    "nameJa": "あやしいおこう",
+    "battle": true
   },
   {
     "name": "macho-brace",
     "nameKo": "교정깁스",
-    "nameJa": "きょうせいギプス"
+    "nameJa": "きょうせいギプス",
+    "battle": true
   },
   {
     "name": "pidgey-candy",
@@ -147,52 +166,62 @@
   {
     "name": "choice-band",
     "nameKo": "구애머리띠",
-    "nameJa": "こだわりハチマキ"
+    "nameJa": "こだわりハチマキ",
+    "battle": true
   },
   {
     "name": "choice-scarf",
     "nameKo": "구애스카프",
-    "nameJa": "こだわりスカーフ"
+    "nameJa": "こだわりスカーフ",
+    "battle": true
   },
   {
     "name": "choice-specs",
     "nameKo": "구애안경",
-    "nameJa": "こだわりメガネ"
+    "nameJa": "こだわりメガネ",
+    "battle": true
   },
   {
     "name": "thick-club",
     "nameKo": "굵은뼈",
-    "nameJa": "ふといホネ"
+    "nameJa": "ふといホネ",
+    "battle": true
   },
   {
     "name": "apicot-berry",
     "nameKo": "규살열매",
-    "nameJa": "ズアのみ"
+    "nameJa": "ズアのみ",
+    "battle": true
   },
   {
     "name": "ground-memory",
     "nameKo": "그라운드메모리",
-    "nameJa": "グラウンドメモリ"
+    "nameJa": "グラウンドメモリ",
+    "battle": true
   },
   {
     "name": "grass-memory",
     "nameKo": "그래스메모리",
-    "nameJa": "グラスメモリ"
+    "nameJa": "グラスメモリ",
+    "battle": true
   },
   {
     "name": "adamant-orb",
     "nameKo": "금강옥",
-    "nameJa": "こんごうだま"
+    "nameJa": "こんごうだま",
+    "battle": true
   },
   {
     "name": "metal-coat",
     "nameKo": "금속코트",
-    "nameJa": "メタルコート"
+    "nameJa": "メタルコート",
+    "battle": true
   },
   {
     "name": "metal-powder",
     "nameKo": "금속파우더",
-    "nameJa": "メタルパウダー"
+    "nameJa": "メタルパウダー",
+    "battle": true
   },
   {
     "name": "max-revive",
@@ -207,22 +236,26 @@
   {
     "name": "miracle-seed",
     "nameKo": "기적의씨",
-    "nameJa": "きせきのタネ"
+    "nameJa": "きせきのタネ",
+    "battle": true
   },
   {
     "name": "focus-sash",
     "nameKo": "기합의띠",
-    "nameJa": "きあいのタスキ"
+    "nameJa": "きあいのタスキ",
+    "battle": true
   },
   {
     "name": "focus-band",
     "nameKo": "기합의머리띠",
-    "nameJa": "きあいのハチマキ"
+    "nameJa": "きあいのハチマキ",
+    "battle": true
   },
   {
     "name": "sablenite",
     "nameKo": "깜까미나이트",
-    "nameJa": "ヤミラミナイト"
+    "nameJa": "ヤミラミナイト",
+    "battle": true
   },
   {
     "name": "spearow-candy",
@@ -247,32 +280,38 @@
   {
     "name": "passho-berry",
     "nameKo": "꼬시개열매",
-    "nameJa": "イトケのみ"
+    "nameJa": "イトケのみ",
+    "battle": true
   },
   {
     "name": "rose-incense",
     "nameKo": "꽃향로",
-    "nameJa": "おはなのおこう"
+    "nameJa": "おはなのおこう",
+    "battle": true
   },
   {
     "name": "grip-claw",
     "nameKo": "끈기갈고리손톱",
-    "nameJa": "ねばりのかぎづめ"
+    "nameJa": "ねばりのかぎづめ",
+    "battle": true
   },
   {
     "name": "sticky-barb",
     "nameKo": "끈적끈적바늘",
-    "nameJa": "くっつきバリ"
+    "nameJa": "くっつきバリ",
+    "battle": true
   },
   {
     "name": "berry-juice",
     "nameKo": "나무열매쥬스",
-    "nameJa": "きのみジュース"
+    "nameJa": "きのみジュース",
+    "battle": true
   },
   {
     "name": "sceptilite",
     "nameKo": "나무킹나이트",
-    "nameJa": "ジュカインナイト"
+    "nameJa": "ジュカインナイト",
+    "battle": true
   },
   {
     "name": "meowth-candy",
@@ -307,27 +346,32 @@
   {
     "name": "normalium-z--held",
     "nameKo": "노말Z",
-    "nameJa": "ノーマルＺ"
+    "nameJa": "ノーマルＺ",
+    "battle": true
   },
   {
     "name": "never-melt-ice",
     "nameKo": "녹지않는얼음",
-    "nameJa": "とけないこおり"
+    "nameJa": "とけないこおり",
+    "battle": true
   },
   {
     "name": "primarium-z--held",
     "nameKo": "누리레느Z",
-    "nameJa": "アシレーヌＺ"
+    "nameJa": "アシレーヌＺ",
+    "battle": true
   },
   {
     "name": "abomasite",
     "nameKo": "눈설왕나이트",
-    "nameJa": "ユキノオナイト"
+    "nameJa": "ユキノオナイト",
+    "battle": true
   },
   {
     "name": "lagging-tail",
     "nameKo": "느림보꼬리",
-    "nameJa": "こうこうのしっぽ"
+    "nameJa": "こうこうのしっぽ",
+    "battle": true
   },
   {
     "name": "nidoran-f-candy",
@@ -342,7 +386,8 @@
   {
     "name": "audinite",
     "nameKo": "다부니나이트",
-    "nameJa": "タブンネナイト"
+    "nameJa": "タブンネナイト",
+    "battle": true
   },
   {
     "name": "dive-ball",
@@ -352,7 +397,8 @@
   {
     "name": "dark-memory",
     "nameKo": "다크메모리",
-    "nameJa": "ダークメモリ"
+    "nameJa": "ダークメモリ",
+    "battle": true
   },
   {
     "name": "dusk-ball",
@@ -362,27 +408,32 @@
   {
     "name": "banettite",
     "nameKo": "다크펫나이트",
-    "nameJa": "ジュペッタナイト"
+    "nameJa": "ジュペッタナイト",
+    "battle": true
   },
   {
     "name": "expert-belt",
     "nameKo": "달인의띠",
-    "nameJa": "たつじんのおび"
+    "nameJa": "たつじんのおび",
+    "battle": true
   },
   {
     "name": "earth-plate",
     "nameKo": "대지플레이트",
-    "nameJa": "だいちのプレート"
+    "nameJa": "だいちのプレート",
+    "battle": true
   },
   {
     "name": "swampertite",
     "nameKo": "대짱이나이트",
-    "nameJa": "ラグラージナイト"
+    "nameJa": "ラグラージナイト",
+    "battle": true
   },
   {
     "name": "stick",
     "nameKo": "대파",
-    "nameJa": "ながねぎ"
+    "nameJa": "ながねぎ",
+    "battle": true
   },
   {
     "name": "tangela-candy",
@@ -392,17 +443,20 @@
   {
     "name": "poisonium-z--held",
     "nameKo": "독Z",
-    "nameJa": "ドクＺ"
+    "nameJa": "ドクＺ",
+    "battle": true
   },
   {
     "name": "poison-barb",
     "nameKo": "독바늘",
-    "nameJa": "どくバリ"
+    "nameJa": "どくバリ",
+    "battle": true
   },
   {
     "name": "beedrillite",
     "nameKo": "독침붕나이트",
-    "nameJa": "スピアナイト"
+    "nameJa": "スピアナイト",
+    "battle": true
   },
   {
     "name": "doduo-candy",
@@ -412,12 +466,14 @@
   {
     "name": "dragonium-z--held",
     "nameKo": "드래곤Z",
-    "nameJa": "ドラゴンＺ"
+    "nameJa": "ドラゴンＺ",
+    "battle": true
   },
   {
     "name": "dragon-memory",
     "nameKo": "드래곤메모리",
-    "nameJa": "ドラゴンメモリ"
+    "nameJa": "ドラゴンメモリ",
+    "battle": true
   },
   {
     "name": "diglett-candy",
@@ -427,7 +483,8 @@
   {
     "name": "diancite",
     "nameKo": "디안시나이트",
-    "nameJa": "ディアンシナイト"
+    "nameJa": "ディアンシナイト",
+    "battle": true
   },
   {
     "name": "x-defense",
@@ -437,12 +494,14 @@
   {
     "name": "hard-stone",
     "nameKo": "딱딱한돌",
-    "nameJa": "かたいいし"
+    "nameJa": "かたいいし",
+    "battle": true
   },
   {
     "name": "groundium-z--held",
     "nameKo": "땅Z",
-    "nameJa": "ジメンＺ"
+    "nameJa": "ジメンＺ",
+    "battle": true
   },
   {
     "name": "koffing-candy",
@@ -462,12 +521,14 @@
   {
     "name": "latiasite",
     "nameKo": "라티아스나이트",
-    "nameJa": "ラティアスナイト"
+    "nameJa": "ラティアスナイト",
+    "battle": true
   },
   {
     "name": "latiosite",
     "nameKo": "라티오스나이트",
-    "nameJa": "ラティオスナイト"
+    "nameJa": "ラティオスナイト",
+    "battle": true
   },
   {
     "name": "lapras-candy",
@@ -477,12 +538,14 @@
   {
     "name": "rock-memory",
     "nameKo": "락메모리",
-    "nameJa": "ロックメモリ"
+    "nameJa": "ロックメモリ",
+    "battle": true
   },
   {
     "name": "lansat-berry",
     "nameKo": "랑사열매",
-    "nameJa": "サンのみ"
+    "nameJa": "サンのみ",
+    "battle": true
   },
   {
     "name": "luxury-ball",
@@ -497,12 +560,20 @@
   {
     "name": "lucky-punch",
     "nameKo": "럭키펀치",
-    "nameJa": "ラッキーパンチ"
+    "nameJa": "ラッキーパンチ",
+    "battle": true
+  },
+  {
+    "name": "roseli-berry",
+    "nameKo": "로셀열매",
+    "nameJa": "ロゼルのみ",
+    "battle": true
   },
   {
     "name": "chople-berry",
     "nameKo": "로플열매",
-    "nameJa": "ヨプのみ"
+    "nameJa": "ヨプのみ",
+    "battle": true
   },
   {
     "name": "onix-candy",
@@ -512,7 +583,8 @@
   {
     "name": "charti-berry",
     "nameKo": "루미열매",
-    "nameJa": "ヨロギのみ"
+    "nameJa": "ヨロギのみ",
+    "battle": true
   },
   {
     "name": "jynx-candy",
@@ -522,7 +594,8 @@
   {
     "name": "lucarionite",
     "nameKo": "루카리오나이트",
-    "nameJa": "ルカリオナイト"
+    "nameJa": "ルカリオナイト",
+    "battle": true
   },
   {
     "name": "calcium",
@@ -532,22 +605,26 @@
   {
     "name": "lum-berry",
     "nameKo": "리샘열매",
-    "nameJa": "ラムのみ"
+    "nameJa": "ラムのみ",
+    "battle": true
   },
   {
     "name": "charizardite-x",
     "nameKo": "리자몽나이트X",
-    "nameJa": "リザードナイトＸ"
+    "nameJa": "リザードナイトＸ",
+    "battle": true
   },
   {
     "name": "charizardite-y",
     "nameKo": "리자몽나이트Y",
-    "nameJa": "リザードナイトＹ"
+    "nameJa": "リザードナイトＹ",
+    "battle": true
   },
   {
     "name": "tanga-berry",
     "nameKo": "리체열매",
-    "nameJa": "タンガのみ"
+    "nameJa": "タンガのみ",
+    "battle": true
   },
   {
     "name": "repeat-ball",
@@ -557,12 +634,14 @@
   {
     "name": "rindo-berry",
     "nameKo": "린드열매",
-    "nameJa": "リンドのみ"
+    "nameJa": "リンドのみ",
+    "battle": true
   },
   {
     "name": "mago-berry",
     "nameKo": "마고열매",
-    "nameJa": "マゴのみ"
+    "nameJa": "マゴのみ",
+    "battle": true
   },
   {
     "name": "magmar-candy",
@@ -572,7 +651,8 @@
   {
     "name": "tyranitarite",
     "nameKo": "마기라스나이트",
-    "nameJa": "バンギラスナイト"
+    "nameJa": "バンギラスナイト",
+    "battle": true
   },
   {
     "name": "paralyze-heal",
@@ -582,7 +662,8 @@
   {
     "name": "marshadium-z--held",
     "nameKo": "마샤도Z",
-    "nameJa": "マーシャドーＺ"
+    "nameJa": "マーシャドーＺ",
+    "battle": true
   },
   {
     "name": "master-ball",
@@ -592,7 +673,8 @@
   {
     "name": "soul-dew",
     "nameKo": "마음의물방울",
-    "nameJa": "こころのしずく"
+    "nameJa": "こころのしずく",
+    "battle": true
   },
   {
     "name": "mr-mime-candy",
@@ -602,7 +684,8 @@
   {
     "name": "colbur-berry",
     "nameKo": "마코열매",
-    "nameJa": "ナモのみ"
+    "nameJa": "ナモのみ",
+    "battle": true
   },
   {
     "name": "heal-powder",
@@ -617,7 +700,8 @@
   {
     "name": "full-incense",
     "nameKo": "만복향로",
-    "nameJa": "まんぷくおこう"
+    "nameJa": "まんぷくおこう",
+    "battle": true
   },
   {
     "name": "fresh-water",
@@ -637,22 +721,26 @@
   {
     "name": "toxic-orb",
     "nameKo": "맹독구슬",
-    "nameJa": "どくどくだま"
+    "nameJa": "どくどくだま",
+    "battle": true
   },
   {
     "name": "toxic-plate",
     "nameKo": "맹독플레이트",
-    "nameJa": "もうどくプレート"
+    "nameJa": "もうどくプレート",
+    "battle": true
   },
   {
     "name": "leftovers",
     "nameKo": "먹다남은음식",
-    "nameJa": "たべのこし"
+    "nameJa": "たべのこし",
+    "battle": true
   },
   {
     "name": "metagrossite",
     "nameKo": "메타그로스나이트",
-    "nameJa": "メタグロスナイト"
+    "nameJa": "メタグロスナイト",
+    "battle": true
   },
   {
     "name": "ditto-candy",
@@ -662,12 +750,14 @@
   {
     "name": "metronome",
     "nameKo": "메트로놈",
-    "nameJa": "メトロノーム"
+    "nameJa": "メトロノーム",
+    "battle": true
   },
   {
     "name": "mental-herb",
     "nameKo": "멘탈허브",
-    "nameJa": "メンタルハーブ"
+    "nameJa": "メンタルハーブ",
+    "battle": true
   },
   {
     "name": "meltan-candy",
@@ -687,12 +777,14 @@
   {
     "name": "decidium-z--held",
     "nameKo": "모크나이퍼Z",
-    "nameJa": "ジュナイパーＺ"
+    "nameJa": "ジュナイパーＺ",
+    "battle": true
   },
   {
     "name": "charcoal",
     "nameKo": "목탄",
-    "nameJa": "もくたん"
+    "nameJa": "もくたん",
+    "battle": true
   },
   {
     "name": "poke-ball",
@@ -702,27 +794,32 @@
   {
     "name": "lax-incense",
     "nameKo": "무사태평향로",
-    "nameJa": "のんきのおこう"
+    "nameJa": "のんきのおこう",
+    "battle": true
   },
   {
     "name": "figy-berry",
     "nameKo": "무화열매",
-    "nameJa": "フィラのみ"
+    "nameJa": "フィラのみ",
+    "battle": true
   },
   {
     "name": "waterium-z--held",
     "nameKo": "물Z",
-    "nameJa": "ミズＺ"
+    "nameJa": "ミズＺ",
+    "battle": true
   },
   {
     "name": "splash-plate",
     "nameKo": "물방울플레이트",
-    "nameJa": "しずくプレート"
+    "nameJa": "しずくプレート",
+    "battle": true
   },
   {
     "name": "mewnium-z--held",
     "nameKo": "뮤Z",
-    "nameJa": "ミュウＺ"
+    "nameJa": "ミュウＺ",
+    "battle": true
   },
   {
     "name": "mew-candy",
@@ -732,12 +829,14 @@
   {
     "name": "mewtwonite-x",
     "nameKo": "뮤츠나이트X",
-    "nameJa": "ミュウツナイトＸ"
+    "nameJa": "ミュウツナイトＸ",
+    "battle": true
   },
   {
     "name": "mewtwonite-y",
     "nameKo": "뮤츠나이트Y",
-    "nameJa": "ミュウツナイトＹ"
+    "nameJa": "ミュウツナイトＹ",
+    "battle": true
   },
   {
     "name": "mewtwo-candy",
@@ -757,37 +856,44 @@
   {
     "name": "micle-berry",
     "nameKo": "미클열매",
-    "nameJa": "ミクルのみ"
+    "nameJa": "ミクルのみ",
+    "battle": true
   },
   {
     "name": "sea-incense",
     "nameKo": "바닷물향로",
-    "nameJa": "うしおのおこう"
+    "nameJa": "うしおのおこう",
+    "battle": true
   },
   {
     "name": "babiri-berry",
     "nameKo": "바리비열매",
-    "nameJa": "リリバのみ"
+    "nameJa": "リリバのみ",
+    "battle": true
   },
   {
     "name": "rockium-z--held",
     "nameKo": "바위Z",
-    "nameJa": "イワＺ"
+    "nameJa": "イワＺ",
+    "battle": true
   },
   {
     "name": "coba-berry",
     "nameKo": "바코열매",
-    "nameJa": "バコウのみ"
+    "nameJa": "バコウのみ",
+    "battle": true
   },
   {
     "name": "wise-glasses",
     "nameKo": "박식안경",
-    "nameJa": "ものしりメガネ"
+    "nameJa": "ものしりメガネ",
+    "battle": true
   },
   {
     "name": "bright-powder",
     "nameKo": "반짝가루",
-    "nameJa": "ひかりのこな"
+    "nameJa": "ひかりのこな",
+    "battle": true
   },
   {
     "name": "poliwag-candy",
@@ -797,32 +903,38 @@
   {
     "name": "aspear-berry",
     "nameKo": "배리열매",
-    "nameJa": "ナナシのみ"
+    "nameJa": "ナナシのみ",
+    "battle": true
   },
   {
     "name": "lustrous-orb",
     "nameKo": "백옥",
-    "nameJa": "しらたま"
+    "nameJa": "しらたま",
+    "battle": true
   },
   {
     "name": "bug-memory",
     "nameKo": "버그메모리",
-    "nameJa": "バグメモリ"
+    "nameJa": "バグメモリ",
+    "battle": true
   },
   {
     "name": "cheri-berry",
     "nameKo": "버치열매",
-    "nameJa": "クラボのみ"
+    "nameJa": "クラボのみ",
+    "battle": true
   },
   {
     "name": "blazikenite",
     "nameKo": "번치코나이트",
-    "nameJa": "バシャーモナイト"
+    "nameJa": "バシャーモナイト",
+    "battle": true
   },
   {
     "name": "buginium-z--held",
     "nameKo": "벌레Z",
-    "nameJa": "ムシＺ"
+    "nameJa": "ムシＺ",
+    "battle": true
   },
   {
     "name": "everstone",
@@ -837,7 +949,8 @@
   {
     "name": "salamencite",
     "nameKo": "보만다나이트",
-    "nameJa": "ボーマンダナイト"
+    "nameJa": "ボーマンダナイト",
+    "battle": true
   },
   {
     "name": "smooth-rock",
@@ -852,17 +965,20 @@
   {
     "name": "rawst-berry",
     "nameKo": "복분열매",
-    "nameJa": "チーゴのみ"
+    "nameJa": "チーゴのみ",
+    "battle": true
   },
   {
     "name": "pecha-berry",
     "nameKo": "복슝열매",
-    "nameJa": "モモンのみ"
+    "nameJa": "モモンのみ",
+    "battle": true
   },
   {
     "name": "soft-sand",
     "nameKo": "부드러운모래",
-    "nameJa": "やわらかいすな"
+    "nameJa": "やわらかいすな",
+    "battle": true
   },
   {
     "name": "amulet-coin",
@@ -882,32 +998,38 @@
   {
     "name": "flame-plate",
     "nameKo": "불구슬플레이트",
-    "nameJa": "ひのたまプレート"
+    "nameJa": "ひのたまプレート",
+    "battle": true
   },
   {
     "name": "firium-z--held",
     "nameKo": "불꽃Z",
-    "nameJa": "ホノオＺ"
+    "nameJa": "ホノオＺ",
+    "battle": true
   },
   {
     "name": "insect-plate",
     "nameKo": "비단벌레플레이트",
-    "nameJa": "たまむしプレート"
+    "nameJa": "たまむしプレート",
+    "battle": true
   },
   {
     "name": "flyinium-z--held",
     "nameKo": "비행Z",
-    "nameJa": "ヒコウＺ"
+    "nameJa": "ヒコウＺ",
+    "battle": true
   },
   {
     "name": "light-clay",
     "nameKo": "빛의점토",
-    "nameJa": "ひかりのねんど"
+    "nameJa": "ひかりのねんど",
+    "battle": true
   },
   {
     "name": "destiny-knot",
     "nameKo": "빨간실",
-    "nameJa": "あかいいと"
+    "nameJa": "あかいいと",
+    "battle": true
   },
   {
     "name": "red-scarf",
@@ -932,7 +1054,8 @@
   {
     "name": "pinsirite",
     "nameKo": "쁘사이저나이트",
-    "nameJa": "カイロスナイト"
+    "nameJa": "カイロスナイト",
+    "battle": true
   },
   {
     "name": "pinsir-candy",
@@ -952,7 +1075,8 @@
   {
     "name": "psychic-memory",
     "nameKo": "사이킥메모리",
-    "nameJa": "サイキックメモリ"
+    "nameJa": "サイキックメモリ",
+    "battle": true
   },
   {
     "name": "safari-ball",
@@ -972,17 +1096,20 @@
   {
     "name": "life-orb",
     "nameKo": "생명의구슬",
-    "nameJa": "いのちのたま"
+    "nameJa": "いのちのたま",
+    "battle": true
   },
   {
     "name": "sharpedonite",
     "nameKo": "샤크니아나이트",
-    "nameJa": "サメハダナイト"
+    "nameJa": "サメハダナイト",
+    "battle": true
   },
   {
     "name": "quick-claw",
     "nameKo": "선제공격손톱",
-    "nameJa": "せんせいのツメ"
+    "nameJa": "せんせいのツメ",
+    "battle": true
   },
   {
     "name": "sacred-ash",
@@ -997,7 +1124,8 @@
   {
     "name": "kasib-berry",
     "nameKo": "수불열매",
-    "nameJa": "カシブのみ"
+    "nameJa": "カシブのみ",
+    "battle": true
   },
   {
     "name": "great-ball",
@@ -1022,7 +1150,8 @@
   {
     "name": "shuca-berry",
     "nameKo": "슈캐열매",
-    "nameJa": "シュカのみ"
+    "nameJa": "シュカのみ",
+    "battle": true
   },
   {
     "name": "scyther-candy",
@@ -1032,12 +1161,14 @@
   {
     "name": "starf-berry",
     "nameKo": "스타열매",
-    "nameJa": "スターのみ"
+    "nameJa": "スターのみ",
+    "battle": true
   },
   {
     "name": "steel-memory",
     "nameKo": "스틸메모리",
-    "nameJa": "スチールメモリ"
+    "nameJa": "スチールメモリ",
+    "battle": true
   },
   {
     "name": "x-sp-def",
@@ -1057,7 +1188,8 @@
   {
     "name": "quick-powder",
     "nameKo": "스피드파우더",
-    "nameJa": "スピードパウダー"
+    "nameJa": "スピードパウダー",
+    "battle": true
   },
   {
     "name": "drowzee-candy",
@@ -1072,7 +1204,8 @@
   {
     "name": "persim-berry",
     "nameKo": "시몬열매",
-    "nameJa": "キーのみ"
+    "nameJa": "キーのみ",
+    "battle": true
   },
   {
     "name": "vulpix-candy",
@@ -1082,27 +1215,32 @@
   {
     "name": "mystic-water",
     "nameKo": "신비의물방울",
-    "nameJa": "しんぴのしずく"
+    "nameJa": "しんぴのしずく",
+    "battle": true
   },
   {
     "name": "silk-scarf",
     "nameKo": "실크스카프",
-    "nameJa": "シルクのスカーフ"
+    "nameJa": "シルクのスカーフ",
+    "battle": true
   },
   {
     "name": "deep-sea-scale",
     "nameKo": "심해의비늘",
-    "nameJa": "しんかいのウロコ"
+    "nameJa": "しんかいのウロコ",
+    "battle": true
   },
   {
     "name": "deep-sea-tooth",
     "nameKo": "심해의이빨",
-    "nameJa": "しんかいのキバ"
+    "nameJa": "しんかいのキバ",
+    "battle": true
   },
   {
     "name": "manectite",
     "nameKo": "썬더볼트나이트",
-    "nameJa": "ライボルトナイト"
+    "nameJa": "ライボルトナイト",
+    "battle": true
   },
   {
     "name": "zapdos-candy",
@@ -1122,12 +1260,14 @@
   {
     "name": "shed-shell",
     "nameKo": "아름다운허물",
-    "nameJa": "きれいなぬけがら"
+    "nameJa": "きれいなぬけがら",
+    "battle": true
   },
   {
     "name": "aguav-berry",
     "nameKo": "아바열매",
-    "nameJa": "バンジのみ"
+    "nameJa": "バンジのみ",
+    "battle": true
   },
   {
     "name": "ekans-candy",
@@ -1137,17 +1277,20 @@
   {
     "name": "ice-memory",
     "nameKo": "아이스메모리",
-    "nameJa": "アイスメモリ"
+    "nameJa": "アイスメモリ",
+    "battle": true
   },
   {
     "name": "darkinium-z--held",
     "nameKo": "악Z",
-    "nameJa": "アクＺ"
+    "nameJa": "アクＺ",
+    "battle": true
   },
   {
     "name": "aloraichium-z--held",
     "nameKo": "알로라이Z",
-    "nameJa": "アロライＺ"
+    "nameJa": "アロライＺ",
+    "battle": true
   },
   {
     "name": "carbos",
@@ -1167,32 +1310,38 @@
   {
     "name": "stone-plate",
     "nameKo": "암석플레이트",
-    "nameJa": "がんせきプレート"
+    "nameJa": "がんせきプレート",
+    "battle": true
   },
   {
     "name": "rock-incense",
     "nameKo": "암석향로",
-    "nameJa": "がんせきおこう"
+    "nameJa": "がんせきおこう",
+    "battle": true
   },
   {
     "name": "custap-berry",
     "nameKo": "애슈열매",
-    "nameJa": "イバンのみ"
+    "nameJa": "イバンのみ",
+    "battle": true
   },
   {
     "name": "rowap-berry",
     "nameKo": "애터열매",
-    "nameJa": "レンブのみ"
+    "nameJa": "レンブのみ",
+    "battle": true
   },
   {
     "name": "absolite",
     "nameKo": "앱솔나이트",
-    "nameJa": "アブソルナイト"
+    "nameJa": "アブソルナイト",
+    "battle": true
   },
   {
     "name": "slowbronite",
     "nameKo": "야도란나이트",
-    "nameJa": "ヤドランナイト"
+    "nameJa": "ヤドランナイト",
+    "battle": true
   },
   {
     "name": "slowpoke-candy",
@@ -1202,27 +1351,32 @@
   {
     "name": "petaya-berry",
     "nameKo": "야타비열매",
-    "nameJa": "ヤタピのみ"
+    "nameJa": "ヤタピのみ",
+    "battle": true
   },
   {
     "name": "payapa-berry",
     "nameKo": "야파열매",
-    "nameJa": "ウタンのみ"
+    "nameJa": "ウタンのみ",
+    "battle": true
   },
   {
     "name": "incinium-z--held",
     "nameKo": "어흥염Z",
-    "nameJa": "ガオガエンＺ"
+    "nameJa": "ガオガエンＺ",
+    "battle": true
   },
   {
     "name": "icium-z--held",
     "nameKo": "얼음Z",
-    "nameJa": "コオリＺ"
+    "nameJa": "コオリＺ",
+    "battle": true
   },
   {
     "name": "glalitite",
     "nameKo": "얼음귀신나이트",
-    "nameJa": "オニゴーリナイト"
+    "nameJa": "オニゴーリナイト",
+    "battle": true
   },
   {
     "name": "ice-heal",
@@ -1242,17 +1396,20 @@
   {
     "name": "psychium-z--held",
     "nameKo": "에스퍼Z",
-    "nameJa": "エスパーＺ"
+    "nameJa": "エスパーＺ",
+    "battle": true
   },
   {
     "name": "galladite",
     "nameKo": "엘레이드나이트",
-    "nameJa": "エルレイドナイト"
+    "nameJa": "エルレイドナイト",
+    "battle": true
   },
   {
     "name": "linking-cord",
     "nameKo": "연결의끈",
-    "nameJa": "つながりのヒモ"
+    "nameJa": "つながりのヒモ",
+    "battle": true
   },
   {
     "name": "smoke-ball",
@@ -1262,27 +1419,32 @@
   {
     "name": "sharp-beak",
     "nameKo": "예리한부리",
-    "nameJa": "するどいくちばし"
+    "nameJa": "するどいくちばし",
+    "battle": true
   },
   {
     "name": "razor-claw",
     "nameKo": "예리한손톱",
-    "nameJa": "するどいツメ"
+    "nameJa": "するどいツメ",
+    "battle": true
   },
   {
     "name": "razor-fang",
     "nameKo": "예리한이빨",
-    "nameJa": "するどいキバ"
+    "nameJa": "するどいキバ",
+    "battle": true
   },
   {
     "name": "oran-berry",
     "nameKo": "오랭열매",
-    "nameJa": "オレンのみ"
+    "nameJa": "オレンのみ",
+    "battle": true
   },
   {
     "name": "occa-berry",
     "nameKo": "오카열매",
-    "nameJa": "オッカのみ"
+    "nameJa": "オッカのみ",
+    "battle": true
   },
   {
     "name": "tentacool-candy",
@@ -1292,17 +1454,20 @@
   {
     "name": "kings-rock",
     "nameKo": "왕의징표석",
-    "nameJa": "おうじゃのしるし"
+    "nameJa": "おうじゃのしるし",
+    "battle": true
   },
   {
     "name": "medichamite",
     "nameKo": "요가램나이트",
-    "nameJa": "チャーレムナイト"
+    "nameJa": "チャーレムナイト",
+    "battle": true
   },
   {
     "name": "ganlon-berry",
     "nameKo": "용아열매",
-    "nameJa": "リュガのみ"
+    "nameJa": "リュガのみ",
+    "battle": true
   },
   {
     "name": "lava-cookie",
@@ -1312,57 +1477,74 @@
   {
     "name": "dragon-fang",
     "nameKo": "용의이빨",
-    "nameJa": "りゅうのキバ"
+    "nameJa": "りゅうのキバ",
+    "battle": true
   },
   {
     "name": "draco-plate",
     "nameKo": "용의플레이트",
-    "nameJa": "りゅうのプレート"
+    "nameJa": "りゅうのプレート",
+    "battle": true
   },
   {
     "name": "zap-plate",
     "nameKo": "우뢰플레이트",
-    "nameJa": "いかずちプレート"
+    "nameJa": "いかずちプレート",
+    "battle": true
+  },
+  {
+    "name": "rocky-helmet",
+    "nameKo": "울퉁불퉁멧",
+    "nameJa": "ゴツゴツメット",
+    "battle": true
   },
   {
     "name": "water-memory",
     "nameKo": "워터메모리",
-    "nameJa": "ウオーターメモリ"
+    "nameJa": "ウオーターメモリ",
+    "battle": true
   },
   {
     "name": "spooky-plate",
     "nameKo": "원령플레이트",
-    "nameJa": "もののけプレート"
+    "nameJa": "もののけプレート",
+    "battle": true
   },
   {
     "name": "wiki-berry",
     "nameKo": "위키열매",
-    "nameJa": "ウイのみ"
+    "nameJa": "ウイのみ",
+    "battle": true
   },
   {
     "name": "chesto-berry",
     "nameKo": "유루열매",
-    "nameJa": "カゴのみ"
+    "nameJa": "カゴのみ",
+    "battle": true
   },
   {
     "name": "kebia-berry",
     "nameKo": "으름열매",
-    "nameJa": "ビアーのみ"
+    "nameJa": "ビアーのみ",
+    "battle": true
   },
   {
     "name": "silver-powder",
     "nameKo": "은빛가루",
-    "nameJa": "ぎんのこな"
+    "nameJa": "ぎんのこな",
+    "battle": true
   },
   {
     "name": "enigma-berry",
     "nameKo": "의문열매",
-    "nameJa": "ナゾのみ"
+    "nameJa": "ナゾのみ",
+    "battle": true
   },
   {
     "name": "eevium-z--held",
     "nameKo": "이브이Z",
-    "nameJa": "イーブイＺ"
+    "nameJa": "イーブイＺ",
+    "battle": true
   },
   {
     "name": "eevee-candy",
@@ -1377,12 +1559,14 @@
   {
     "name": "mind-plate",
     "nameKo": "이상한플레이트",
-    "nameJa": "ふしぎのプレート"
+    "nameJa": "ふしぎのプレート",
+    "battle": true
   },
   {
     "name": "venusaurite",
     "nameKo": "이상해꽃나이트",
-    "nameJa": "フシギバナイト"
+    "nameJa": "フシギバナイト",
+    "battle": true
   },
   {
     "name": "bulbasaur-candy",
@@ -1392,7 +1576,8 @@
   {
     "name": "lopunnite",
     "nameKo": "이어롭나이트",
-    "nameJa": "ミミロップナイト"
+    "nameJa": "ミミロップナイト",
+    "battle": true
   },
   {
     "name": "guard-spec",
@@ -1402,12 +1587,14 @@
   {
     "name": "electric-memory",
     "nameKo": "일렉트릭메모리",
-    "nameJa": "エレクトロメモリ"
+    "nameJa": "エレクトロメモリ",
+    "battle": true
   },
   {
     "name": "mawilite",
     "nameKo": "입치트나이트",
-    "nameJa": "クチートナイト"
+    "nameJa": "クチートナイト",
+    "battle": true
   },
   {
     "name": "magikarp-candy",
@@ -1417,22 +1604,26 @@
   {
     "name": "sitrus-berry",
     "nameKo": "자뭉열매",
-    "nameJa": "オボンのみ"
+    "nameJa": "オボンのみ",
+    "battle": true
   },
   {
     "name": "jaboca-berry",
     "nameKo": "자보열매",
-    "nameJa": "ジャポのみ"
+    "nameJa": "ジャポのみ",
+    "battle": true
   },
   {
     "name": "magnet",
     "nameKo": "자석",
-    "nameJa": "じしゃく"
+    "nameJa": "じしゃく",
+    "battle": true
   },
   {
     "name": "wave-incense",
     "nameKo": "잔물결향로",
-    "nameJa": "さざなみのおこう"
+    "nameJa": "さざなみのおこう",
+    "battle": true
   },
   {
     "name": "x-accuracy",
@@ -1447,7 +1638,8 @@
   {
     "name": "snorlium-z--held",
     "nameKo": "잠만보Z",
-    "nameJa": "カビゴンＺ"
+    "nameJa": "カビゴンＺ",
+    "battle": true
   },
   {
     "name": "snorlax-candy",
@@ -1457,27 +1649,38 @@
   {
     "name": "spell-tag",
     "nameKo": "저주의부적",
-    "nameJa": "のろいのおふだ"
+    "nameJa": "のろいのおふだ",
+    "battle": true
   },
   {
     "name": "electrium-z--held",
     "nameKo": "전기Z",
-    "nameJa": "デンキＺ"
+    "nameJa": "デンキＺ",
+    "battle": true
   },
   {
     "name": "light-ball",
     "nameKo": "전기구슬",
-    "nameJa": "でんきだま"
+    "nameJa": "でんきだま",
+    "battle": true
   },
   {
     "name": "ampharosite",
     "nameKo": "전룡나이트",
-    "nameJa": "デンリュウナイト"
+    "nameJa": "デンリュウナイト",
+    "battle": true
+  },
+  {
+    "name": "pixie-plate",
+    "nameKo": "정령플레이트",
+    "nameJa": "せいれいプレート",
+    "battle": true
   },
   {
     "name": "shell-bell",
     "nameKo": "조개껍질방울",
-    "nameJa": "かいがらのすず"
+    "nameJa": "かいがらのすず",
+    "battle": true
   },
   {
     "name": "super-potion",
@@ -1487,7 +1690,8 @@
   {
     "name": "fist-plate",
     "nameKo": "주먹플레이트",
-    "nameJa": "こぶしのプレート"
+    "nameJa": "こぶしのプレート",
+    "battle": true
   },
   {
     "name": "zubat-candy",
@@ -1502,7 +1706,14 @@
   {
     "name": "pikashunium-z--held",
     "nameKo": "지우피카Z",
-    "nameJa": "サトピカＺ"
+    "nameJa": "サトピカＺ",
+    "battle": true
+  },
+  {
+    "name": "eviolite",
+    "nameKo": "진화의휘석",
+    "nameJa": "しんかのきせき",
+    "battle": true
   },
   {
     "name": "grimer-candy",
@@ -1522,7 +1733,8 @@
   {
     "name": "wacan-berry",
     "nameKo": "초나열매",
-    "nameJa": "ソクノのみ"
+    "nameJa": "ソクノのみ",
+    "battle": true
   },
   {
     "name": "green-scarf",
@@ -1532,12 +1744,14 @@
   {
     "name": "meadow-plate",
     "nameKo": "초록플레이트",
-    "nameJa": "みどりのプレート"
+    "nameJa": "みどりのプレート",
+    "battle": true
   },
   {
     "name": "scope-lens",
     "nameKo": "초점렌즈",
-    "nameJa": "ピントレンズ"
+    "nameJa": "ピントレンズ",
+    "battle": true
   },
   {
     "name": "damp-rock",
@@ -1547,22 +1761,26 @@
   {
     "name": "liechi-berry",
     "nameKo": "치리열매",
-    "nameJa": "チイラのみ"
+    "nameJa": "チイラのみ",
+    "battle": true
   },
   {
     "name": "chilan-berry",
     "nameKo": "카리열매",
-    "nameJa": "ホズのみ"
+    "nameJa": "ホズのみ",
+    "battle": true
   },
   {
     "name": "tapunium-z--held",
     "nameKo": "카푸Z",
-    "nameJa": "カプＺ"
+    "nameJa": "カプＺ",
+    "battle": true
   },
   {
     "name": "salac-berry",
     "nameKo": "캄라열매",
-    "nameJa": "カムラのみ"
+    "nameJa": "カムラのみ",
+    "battle": true
   },
   {
     "name": "abra-candy",
@@ -1577,7 +1795,8 @@
   {
     "name": "kangaskhanite",
     "nameKo": "캥카나이트",
-    "nameJa": "ガルーラナイト"
+    "nameJa": "ガルーラナイト",
+    "battle": true
   },
   {
     "name": "kangaskhan-candy",
@@ -1622,7 +1841,8 @@
   {
     "name": "big-root",
     "nameKo": "큰뿌리",
-    "nameJa": "おおきなねっこ"
+    "nameJa": "おおきなねっこ",
+    "battle": true
   },
   {
     "name": "zinc",
@@ -1672,12 +1892,14 @@
   {
     "name": "altarianite",
     "nameKo": "파비코리나이트",
-    "nameJa": "チルタリスナイト"
+    "nameJa": "チルタリスナイト",
+    "battle": true
   },
   {
     "name": "iapapa-berry",
     "nameKo": "파야열매",
-    "nameJa": "イアのみ"
+    "nameJa": "イアのみ",
+    "battle": true
   },
   {
     "name": "farfetchd-candy",
@@ -1687,37 +1909,44 @@
   {
     "name": "power-lens",
     "nameKo": "파워렌즈",
-    "nameJa": "パワーレンズ"
+    "nameJa": "パワーレンズ",
+    "battle": true
   },
   {
     "name": "power-bracer",
     "nameKo": "파워리스트",
-    "nameJa": "パワーリスト"
+    "nameJa": "パワーリスト",
+    "battle": true
   },
   {
     "name": "power-band",
     "nameKo": "파워밴드",
-    "nameJa": "パワーバンド"
+    "nameJa": "パワーバンド",
+    "battle": true
   },
   {
     "name": "power-belt",
     "nameKo": "파워벨트",
-    "nameJa": "パワーベルト"
+    "nameJa": "パワーベルト",
+    "battle": true
   },
   {
     "name": "power-anklet",
     "nameKo": "파워앵클릿",
-    "nameJa": "パワーアンクル"
+    "nameJa": "パワーアンクル",
+    "battle": true
   },
   {
     "name": "power-weight",
     "nameKo": "파워웨이트",
-    "nameJa": "パワーウエイト"
+    "nameJa": "パワーウエイト",
+    "battle": true
   },
   {
     "name": "power-herb",
     "nameKo": "파워풀허브",
-    "nameJa": "パワフルハーブ"
+    "nameJa": "パワフルハーブ",
+    "battle": true
   },
   {
     "name": "charmander-candy",
@@ -1727,7 +1956,8 @@
   {
     "name": "fire-memory",
     "nameKo": "파이어메모리",
-    "nameJa": "ファイヤーメモリ"
+    "nameJa": "ファイヤーメモリ",
+    "battle": true
   },
   {
     "name": "moltres-candy",
@@ -1737,22 +1967,26 @@
   {
     "name": "fighting-memory",
     "nameKo": "파이팅메모리",
-    "nameJa": "ファイトメモリ"
+    "nameJa": "ファイトメモリ",
+    "battle": true
   },
   {
     "name": "gengarite",
     "nameKo": "팬텀나이트",
-    "nameJa": "ゲンガナイト"
+    "nameJa": "ゲンガナイト",
+    "battle": true
   },
   {
     "name": "fairium-z--held",
     "nameKo": "페어리Z",
-    "nameJa": "フェアリーＺ"
+    "nameJa": "フェアリーＺ",
+    "battle": true
   },
   {
     "name": "fairy-memory",
     "nameKo": "페어리메모리",
-    "nameJa": "フェアリーメモリ"
+    "nameJa": "フェアリーメモリ",
+    "battle": true
   },
   {
     "name": "soothe-bell",
@@ -1767,7 +2001,8 @@
   {
     "name": "poison-memory",
     "nameKo": "포이즌메모리",
-    "nameJa": "ポイズンメモリ"
+    "nameJa": "ポイズンメモリ",
+    "battle": true
   },
   {
     "name": "pp-max",
@@ -1782,12 +2017,14 @@
   {
     "name": "zoom-lens",
     "nameKo": "포커스렌즈",
-    "nameJa": "フォーカスレンズ"
+    "nameJa": "フォーカスレンズ",
+    "battle": true
   },
   {
     "name": "cameruptite",
     "nameKo": "폭타나이트",
-    "nameJa": "バクーダナイト"
+    "nameJa": "バクーダナイト",
+    "battle": true
   },
   {
     "name": "porygon-candy",
@@ -1797,7 +2034,8 @@
   {
     "name": "sky-plate",
     "nameKo": "푸른하늘플레이트",
-    "nameJa": "あおぞらプレート"
+    "nameJa": "あおぞらプレート",
+    "battle": true
   },
   {
     "name": "jigglypuff-candy",
@@ -1807,7 +2045,8 @@
   {
     "name": "grassium-z--held",
     "nameKo": "풀Z",
-    "nameJa": "クサＺ"
+    "nameJa": "クサＺ",
+    "battle": true
   },
   {
     "name": "max-potion",
@@ -1832,7 +2071,8 @@
   {
     "name": "aerodactylite",
     "nameKo": "프테라나이트",
-    "nameJa": "プテラナイト"
+    "nameJa": "プテラナイト",
+    "battle": true
   },
   {
     "name": "aerodactyl-candy",
@@ -1842,7 +2082,8 @@
   {
     "name": "flying-memory",
     "nameKo": "플라잉메모리",
-    "nameJa": "フライングメモリ"
+    "nameJa": "フライングメモリ",
+    "battle": true
   },
   {
     "name": "x-attack",
@@ -1852,17 +2093,20 @@
   {
     "name": "yache-berry",
     "nameKo": "플카열매",
-    "nameJa": "ヤチェのみ"
+    "nameJa": "ヤチェのみ",
+    "battle": true
   },
   {
     "name": "pidgeotite",
     "nameKo": "피죤투나이트",
-    "nameJa": "ピジョットナイト"
+    "nameJa": "ピジョットナイト",
+    "battle": true
   },
   {
     "name": "pikanium-z--held",
     "nameKo": "피카츄Z",
-    "nameJa": "ピカチュウＺ"
+    "nameJa": "ピカチュウＺ",
+    "battle": true
   },
   {
     "name": "pikachu-candy",
@@ -1872,7 +2116,8 @@
   {
     "name": "haban-berry",
     "nameKo": "하반열매",
-    "nameJa": "ハバンのみ"
+    "nameJa": "ハバンのみ",
+    "battle": true
   },
   {
     "name": "white-flute",
@@ -1882,7 +2127,8 @@
   {
     "name": "white-herb",
     "nameKo": "하양허브",
-    "nameJa": "しろいハーブ"
+    "nameJa": "しろいハーブ",
+    "battle": true
   },
   {
     "name": "ultra-ball",
@@ -1897,12 +2143,14 @@
   {
     "name": "garchompite",
     "nameKo": "한카리아스나이트",
-    "nameJa": "ガブリアスナイト"
+    "nameJa": "ガブリアスナイト",
+    "battle": true
   },
   {
     "name": "scizorite",
     "nameKo": "핫삼나이트",
-    "nameJa": "ハッサムナイト"
+    "nameJa": "ハッサムナイト",
+    "battle": true
   },
   {
     "name": "antidote",
@@ -1922,12 +2170,14 @@
   {
     "name": "heracronite",
     "nameKo": "헤라크로스나이트",
-    "nameJa": "ヘラクロスナイト"
+    "nameJa": "ヘラクロスナイト",
+    "battle": true
   },
   {
     "name": "houndoominite",
     "nameKo": "헬가나이트",
-    "nameJa": "ヘルガナイト"
+    "nameJa": "ヘルガナイト",
+    "battle": true
   },
   {
     "name": "hitmonchan-candy",
@@ -1942,7 +2192,8 @@
   {
     "name": "flame-orb",
     "nameKo": "화염구슬",
-    "nameJa": "かえんだま"
+    "nameJa": "かえんだま",
+    "battle": true
   },
   {
     "name": "full-restore",
@@ -1952,7 +2203,8 @@
   {
     "name": "alakazite",
     "nameKo": "후디나이트",
-    "nameJa": "フーディナイト"
+    "nameJa": "フーディナイト",
+    "battle": true
   },
   {
     "name": "lemonade",
@@ -1962,7 +2214,8 @@
   {
     "name": "twisted-spoon",
     "nameKo": "휘어진스푼",
-    "nameJa": "まがったスプーン"
+    "nameJa": "まがったスプーン",
+    "battle": true
   },
   {
     "name": "heal-ball",
@@ -1977,7 +2230,8 @@
   {
     "name": "muscle-band",
     "nameKo": "힘의머리띠",
-    "nameJa": "ちからのハチマキ"
+    "nameJa": "ちからのハチマキ",
+    "battle": true
   },
   {
     "name": "energy-root",
