@@ -47,6 +47,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
   Terrain terrain = Terrain.none,
   StatusCondition status = StatusCondition.none,
   Stats? actualStats,
+  String? heldItem,
 }) {
   switch (abilityName) {
     // --- Stat modifiers (attack) ---
@@ -144,11 +145,15 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Protosynthesis / Quark Drive ---
     case 'Protosynthesis':
-      return (weather == Weather.sun || weather == Weather.harshSun) && actualStats != null
+      final protoActive = (weather == Weather.sun || weather == Weather.harshSun)
+          || heldItem == 'booster-energy';
+      return protoActive && actualStats != null
           ? AbilityEffect(statModifiers: _boostHighestStat(actualStats))
           : _defaultEffect;
     case 'Quark Drive':
-      return terrain == Terrain.electric && actualStats != null
+      final quarkActive = terrain == Terrain.electric
+          || heldItem == 'booster-energy';
+      return quarkActive && actualStats != null
           ? AbilityEffect(statModifiers: _boostHighestStat(actualStats))
           : _defaultEffect;
 

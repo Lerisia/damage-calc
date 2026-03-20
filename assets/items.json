@@ -350,6 +350,21 @@
     "battle": true
   },
   {
+    "name": "normal-gem",
+    "nameKo": "노말주얼",
+    "nameJa": "ノーマルジュエル"
+  },
+  {
+    "name": "rusted-sword",
+    "nameKo": "녹슨검",
+    "nameJa": "くちたけん"
+  },
+  {
+    "name": "rusted-shield",
+    "nameKo": "녹슨방패",
+    "nameJa": "くちたたて"
+  },
+  {
     "name": "never-melt-ice",
     "nameKo": "녹지않는얼음",
     "nameJa": "とけないこおり",
@@ -456,6 +471,12 @@
     "name": "beedrillite",
     "nameKo": "독침붕나이트",
     "nameJa": "スピアナイト",
+    "battle": true
+  },
+  {
+    "name": "assault-vest",
+    "nameKo": "돌격조끼",
+    "nameJa": "とつげきチョッキ",
     "battle": true
   },
   {
@@ -979,6 +1000,11 @@
     "nameKo": "부드러운모래",
     "nameJa": "やわらかいすな",
     "battle": true
+  },
+  {
+    "name": "booster-energy",
+    "nameKo": "부스트에너지",
+    "nameJa": "ブーストエナジー"
   },
   {
     "name": "amulet-coin",
@@ -1699,6 +1725,11 @@
     "nameJa": "ズバットのアメ"
   },
   {
+    "name": "red-orb",
+    "nameKo": "주홍구슬",
+    "nameJa": "べにいろのたま"
+  },
+  {
     "name": "seel-candy",
     "nameKo": "쥬쥬의사탕",
     "nameJa": "パウワウのアメ"
@@ -1719,6 +1750,11 @@
     "name": "grimer-candy",
     "nameKo": "질퍽이의사탕",
     "nameJa": "ベトベターのアメ"
+  },
+  {
+    "name": "blue-orb",
+    "nameKo": "쪽빛구슬",
+    "nameJa": "あいいろのたま"
   },
   {
     "name": "voltorb-candy",
@@ -1837,6 +1873,21 @@
     "name": "dire-hit",
     "nameKo": "크리티컬커터",
     "nameJa": "クリティカット"
+  },
+  {
+    "name": "adamant-crystal",
+    "nameKo": "큰금강옥",
+    "nameJa": "だいこんごうだま"
+  },
+  {
+    "name": "griseous-core",
+    "nameKo": "큰백금옥",
+    "nameJa": "だいはっきんだま"
+  },
+  {
+    "name": "lustrous-globe",
+    "nameKo": "큰백옥",
+    "nameJa": "だいしらたま"
   },
   {
     "name": "big-root",

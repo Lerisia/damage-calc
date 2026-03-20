@@ -61,6 +61,9 @@ class PokemonPanelState extends State<PokemonPanel>
 
   BattlePokemonState get s => widget.state;
 
+
+
+
   Future<Uint8List?> captureScreenshot() async {
     try {
       return await _screenshotController.capture(
@@ -121,12 +124,13 @@ class PokemonPanelState extends State<PokemonPanel>
     final transformed = transformMove(move, context);
 
     final itemEffect = s.selectedItem != null
-        ? getItemEffect(s.selectedItem!, move: transformed.move)
+        ? getItemEffect(s.selectedItem!, move: transformed.move, pokemonName: s.pokemonName)
         : const ItemEffect();
     final abilityEffect = s.selectedAbility != null
         ? getAbilityEffect(s.selectedAbility!, move: transformed.move,
             hpPercent: s.hpPercent, weather: widget.weather,
             terrain: widget.terrain, status: s.status,
+            heldItem: s.selectedItem,
             actualStats: StatCalculator.calculate(
               baseStats: s.baseStats, iv: s.iv, ev: s.ev,
               nature: s.nature, level: s.level,
@@ -210,14 +214,20 @@ class PokemonPanelState extends State<PokemonPanel>
             title: '포켓몬',
             child: PokemonSelector(
               key: ValueKey('pokemon_${widget.resetCounter}'),
-              onSelected: (name, type1, type2, baseStats, abilities) {
+              onSelected: (name, type1, type2, baseStats, abilities, finalEvo, requiredItem) {
                 setState(() {
+                  s.pokemonName = name;
+                  s.finalEvo = finalEvo;
                   s.type1 = type1;
                   s.type2 = type2;
                   s.baseStats = baseStats;
                   s.pokemonAbilities = abilities;
                   s.selectedAbility =
                       abilities.isNotEmpty ? abilities.first : null;
+                  // Auto-select required item for mega/form-change Pokemon
+                  if (requiredItem != null) {
+                    s.selectedItem = requiredItem;
+                  }
                 });
                 _notify();
               },
@@ -356,6 +366,8 @@ class PokemonPanelState extends State<PokemonPanel>
       rank: s.rank,
       weather: widget.weather,
       ability: s.selectedAbility,
+      item: s.selectedItem,
+      finalEvo: s.finalEvo,
       status: s.status,
       reflect: s.reflect,
       lightScreen: s.lightScreen,

@@ -13,6 +13,8 @@ class Pokemon {
   final List<String> abilities;
   final double weight; // in kg
   final double height; // in m
+  final bool finalEvo;
+  final String? requiredItem;
 
   const Pokemon({
     required this.dexNumber,
@@ -25,6 +27,8 @@ class Pokemon {
     required this.abilities,
     required this.weight,
     required this.height,
+    this.finalEvo = true,
+    this.requiredItem,
   });
 
   /// Create a Pokemon from a JSON map
@@ -42,6 +46,8 @@ class Pokemon {
       abilities: List<String>.from(json['abilities'] as List),
       weight: (json['weight'] as num).toDouble(),
       height: (json['height'] as num).toDouble(),
+      finalEvo: json['finalEvo'] as bool? ?? true,
+      requiredItem: json['requiredItem'] as String?,
     );
   }
 }
