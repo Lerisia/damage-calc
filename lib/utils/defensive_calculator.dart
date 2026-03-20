@@ -5,6 +5,7 @@ import '../models/type.dart';
 import '../models/status.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
+import 'item_effects.dart';
 import 'stat_calculator.dart';
 import 'weather_effects.dart';
 
@@ -21,6 +22,8 @@ class DefensiveCalculator {
     Rank rank = const Rank(),
     Weather weather = Weather.none,
     String? ability,
+    String? item,
+    bool finalEvo = true,
     StatusCondition status = StatusCondition.none,
     bool reflect = false,
     bool lightScreen = false,
@@ -48,6 +51,13 @@ class DefensiveCalculator {
       final abilityEffect = getDefensiveAbilityEffect(ability, status: status);
       defMod *= abilityEffect.defModifier;
       spdMod *= abilityEffect.spdModifier;
+    }
+
+    // Item
+    if (item != null) {
+      final itemEffect = getDefensiveItemEffect(item, finalEvo: finalEvo);
+      defMod *= itemEffect.defModifier;
+      spdMod *= itemEffect.spdModifier;
     }
 
     // Screens
