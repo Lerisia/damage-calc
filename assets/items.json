@@ -352,17 +352,20 @@
   {
     "name": "normal-gem",
     "nameKo": "노말주얼",
-    "nameJa": "ノーマルジュエル"
+    "nameJa": "ノーマルジュエル",
+    "battle": true
   },
   {
     "name": "rusted-sword",
     "nameKo": "녹슨검",
-    "nameJa": "くちたけん"
+    "nameJa": "くちたけん",
+    "battle": true
   },
   {
     "name": "rusted-shield",
     "nameKo": "녹슨방패",
-    "nameJa": "くちたたて"
+    "nameJa": "くちたたて",
+    "battle": true
   },
   {
     "name": "never-melt-ice",
@@ -981,7 +984,8 @@
   {
     "name": "aggronite",
     "nameKo": "보스로라나이트",
-    "nameJa": "ボスゴドラナイト"
+    "nameJa": "ボスゴドラナイト",
+    "battle": true
   },
   {
     "name": "rawst-berry",
@@ -1004,7 +1008,8 @@
   {
     "name": "booster-energy",
     "nameKo": "부스트에너지",
-    "nameJa": "ブーストエナジー"
+    "nameJa": "ブーストエナジー",
+    "battle": true
   },
   {
     "name": "amulet-coin",
@@ -1727,7 +1732,8 @@
   {
     "name": "red-orb",
     "nameKo": "주홍구슬",
-    "nameJa": "べにいろのたま"
+    "nameJa": "べにいろのたま",
+    "battle": true
   },
   {
     "name": "seel-candy",
@@ -1754,7 +1760,8 @@
   {
     "name": "blue-orb",
     "nameKo": "쪽빛구슬",
-    "nameJa": "あいいろのたま"
+    "nameJa": "あいいろのたま",
+    "battle": true
   },
   {
     "name": "voltorb-candy",
@@ -1877,17 +1884,20 @@
   {
     "name": "adamant-crystal",
     "nameKo": "큰금강옥",
-    "nameJa": "だいこんごうだま"
+    "nameJa": "だいこんごうだま",
+    "battle": true
   },
   {
     "name": "griseous-core",
     "nameKo": "큰백금옥",
-    "nameJa": "だいはっきんだま"
+    "nameJa": "だいはっきんだま",
+    "battle": true
   },
   {
     "name": "lustrous-globe",
     "nameKo": "큰백옥",
-    "nameJa": "だいしらたま"
+    "nameJa": "だいしらたま",
+    "battle": true
   },
   {
     "name": "big-root",

@@ -19,7 +19,8 @@
     ],
     "weight": 6.9,
     "height": 0.7,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 2,
@@ -41,7 +42,8 @@
     ],
     "weight": 13.0,
     "height": 1.0,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 3,
@@ -63,7 +65,8 @@
     ],
     "weight": 100.0,
     "height": 2.0,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true
   },
   {
     "dexNumber": 4,
@@ -84,7 +87,8 @@
       "Solar Power"
     ],
     "weight": 8.5,
-    "height": 0.6
+    "height": 0.6,
+    "finalEvo": false
   },
   {
     "dexNumber": 5,
@@ -105,7 +109,8 @@
       "Solar Power"
     ],
     "weight": 19.0,
-    "height": 1.1
+    "height": 1.1,
+    "finalEvo": false
   },
   {
     "dexNumber": 6,
@@ -127,7 +132,8 @@
     ],
     "weight": 90.5,
     "height": 1.7,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 7,
@@ -148,7 +154,8 @@
       "Rain Dish"
     ],
     "weight": 9.0,
-    "height": 0.5
+    "height": 0.5,
+    "finalEvo": false
   },
   {
     "dexNumber": 8,
@@ -169,7 +176,8 @@
       "Rain Dish"
     ],
     "weight": 22.5,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 9,
@@ -190,7 +198,8 @@
       "Rain Dish"
     ],
     "weight": 85.5,
-    "height": 1.6
+    "height": 1.6,
+    "finalEvo": true
   },
   {
     "dexNumber": 10,
@@ -211,7 +220,8 @@
       "Run Away"
     ],
     "weight": 2.9,
-    "height": 0.3
+    "height": 0.3,
+    "finalEvo": false
   },
   {
     "dexNumber": 11,
@@ -231,7 +241,8 @@
       "Shed Skin"
     ],
     "weight": 9.9,
-    "height": 0.7
+    "height": 0.7,
+    "finalEvo": false
   },
   {
     "dexNumber": 12,
@@ -253,7 +264,8 @@
     ],
     "weight": 32.0,
     "height": 1.1,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 13,
@@ -275,7 +287,8 @@
     ],
     "weight": 3.2,
     "height": 0.3,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 14,
@@ -296,7 +309,8 @@
     ],
     "weight": 10.0,
     "height": 0.6,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 15,
@@ -318,7 +332,8 @@
     ],
     "weight": 29.5,
     "height": 1.0,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true
   },
   {
     "dexNumber": 16,
@@ -341,7 +356,8 @@
     ],
     "weight": 1.8,
     "height": 0.3,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": false
   },
   {
     "dexNumber": 17,
@@ -364,7 +380,8 @@
     ],
     "weight": 30.0,
     "height": 1.1,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": false
   },
   {
     "dexNumber": 18,
@@ -387,7 +404,8 @@
     ],
     "weight": 39.5,
     "height": 1.5,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 19,
@@ -409,7 +427,8 @@
       "Hustle"
     ],
     "weight": 3.5,
-    "height": 0.3
+    "height": 0.3,
+    "finalEvo": false
   },
   {
     "dexNumber": 20,
@@ -431,7 +450,8 @@
       "Hustle"
     ],
     "weight": 18.5,
-    "height": 0.7
+    "height": 0.7,
+    "finalEvo": true
   },
   {
     "dexNumber": 21,
@@ -453,7 +473,8 @@
     ],
     "weight": 2.0,
     "height": 0.3,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": false
   },
   {
     "dexNumber": 22,
@@ -475,7 +496,8 @@
     ],
     "weight": 38.0,
     "height": 1.2,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 23,
@@ -497,7 +519,8 @@
       "Unnerve"
     ],
     "weight": 6.9,
-    "height": 2.0
+    "height": 2.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 24,
@@ -519,7 +542,8 @@
       "Unnerve"
     ],
     "weight": 65.0,
-    "height": 3.5
+    "height": 3.5,
+    "finalEvo": true
   },
   {
     "dexNumber": 25,
@@ -540,7 +564,8 @@
       "Lightning Rod"
     ],
     "weight": 6.0,
-    "height": 0.4
+    "height": 0.4,
+    "finalEvo": false
   },
   {
     "dexNumber": 26,
@@ -561,7 +586,8 @@
       "Lightning Rod"
     ],
     "weight": 30.0,
-    "height": 0.8
+    "height": 0.8,
+    "finalEvo": true
   },
   {
     "dexNumber": 27,
@@ -582,7 +608,8 @@
       "Sand Rush"
     ],
     "weight": 12.0,
-    "height": 0.6
+    "height": 0.6,
+    "finalEvo": false
   },
   {
     "dexNumber": 28,
@@ -603,7 +630,8 @@
       "Sand Rush"
     ],
     "weight": 29.5,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": true
   },
   {
     "dexNumber": 29,
@@ -625,7 +653,8 @@
       "Hustle"
     ],
     "weight": 7.0,
-    "height": 0.4
+    "height": 0.4,
+    "finalEvo": false
   },
   {
     "dexNumber": 30,
@@ -647,7 +676,8 @@
       "Hustle"
     ],
     "weight": 20.0,
-    "height": 0.8
+    "height": 0.8,
+    "finalEvo": false
   },
   {
     "dexNumber": 31,
@@ -670,7 +700,8 @@
     ],
     "weight": 60.0,
     "height": 1.3,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": true
   },
   {
     "dexNumber": 32,
@@ -692,7 +723,8 @@
       "Hustle"
     ],
     "weight": 9.0,
-    "height": 0.5
+    "height": 0.5,
+    "finalEvo": false
   },
   {
     "dexNumber": 33,
@@ -714,7 +746,8 @@
       "Hustle"
     ],
     "weight": 19.5,
-    "height": 0.9
+    "height": 0.9,
+    "finalEvo": false
   },
   {
     "dexNumber": 34,
@@ -737,7 +770,8 @@
     ],
     "weight": 62.0,
     "height": 1.4,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": true
   },
   {
     "dexNumber": 35,
@@ -759,7 +793,8 @@
       "Friend Guard"
     ],
     "weight": 7.5,
-    "height": 0.6
+    "height": 0.6,
+    "finalEvo": false
   },
   {
     "dexNumber": 36,
@@ -781,7 +816,8 @@
       "Unaware"
     ],
     "weight": 40.0,
-    "height": 1.3
+    "height": 1.3,
+    "finalEvo": true
   },
   {
     "dexNumber": 37,
@@ -802,7 +838,8 @@
       "Drought"
     ],
     "weight": 9.9,
-    "height": 0.6
+    "height": 0.6,
+    "finalEvo": false
   },
   {
     "dexNumber": 38,
@@ -823,7 +860,8 @@
       "Drought"
     ],
     "weight": 19.9,
-    "height": 1.1
+    "height": 1.1,
+    "finalEvo": true
   },
   {
     "dexNumber": 39,
@@ -846,7 +884,8 @@
     ],
     "weight": 5.5,
     "height": 0.5,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": false
   },
   {
     "dexNumber": 40,
@@ -869,7 +908,8 @@
     ],
     "weight": 12.0,
     "height": 1.0,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": true
   },
   {
     "dexNumber": 41,
@@ -891,7 +931,8 @@
     ],
     "weight": 7.5,
     "height": 0.8,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": false
   },
   {
     "dexNumber": 42,
@@ -913,7 +954,8 @@
     ],
     "weight": 55.0,
     "height": 1.6,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": false
   },
   {
     "dexNumber": 43,
@@ -935,7 +977,8 @@
     ],
     "weight": 5.4,
     "height": 0.5,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 44,
@@ -957,7 +1000,8 @@
     ],
     "weight": 8.6,
     "height": 0.8,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 45,
@@ -979,7 +1023,8 @@
     ],
     "weight": 18.6,
     "height": 1.2,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true
   },
   {
     "dexNumber": 46,
@@ -1002,7 +1047,8 @@
     ],
     "weight": 5.4,
     "height": 0.3,
-    "type2": "grass"
+    "type2": "grass",
+    "finalEvo": false
   },
   {
     "dexNumber": 47,
@@ -1025,7 +1071,8 @@
     ],
     "weight": 29.5,
     "height": 1.0,
-    "type2": "grass"
+    "type2": "grass",
+    "finalEvo": true
   },
   {
     "dexNumber": 48,
@@ -1048,7 +1095,8 @@
     ],
     "weight": 30.0,
     "height": 1.0,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 49,
@@ -1071,7 +1119,8 @@
     ],
     "weight": 12.5,
     "height": 1.5,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true
   },
   {
     "dexNumber": 50,
@@ -1093,7 +1142,8 @@
       "Sand Force"
     ],
     "weight": 0.8,
-    "height": 0.2
+    "height": 0.2,
+    "finalEvo": false
   },
   {
     "dexNumber": 51,
@@ -1115,7 +1165,8 @@
       "Sand Force"
     ],
     "weight": 33.3,
-    "height": 0.7
+    "height": 0.7,
+    "finalEvo": true
   },
   {
     "dexNumber": 52,
@@ -1137,7 +1188,8 @@
       "Unnerve"
     ],
     "weight": 4.2,
-    "height": 0.4
+    "height": 0.4,
+    "finalEvo": false
   },
   {
     "dexNumber": 53,
@@ -1159,7 +1211,8 @@
       "Unnerve"
     ],
     "weight": 32.0,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": true
   },
   {
     "dexNumber": 54,
@@ -1181,7 +1234,8 @@
       "Swift Swim"
     ],
     "weight": 19.6,
-    "height": 0.8
+    "height": 0.8,
+    "finalEvo": false
   },
   {
     "dexNumber": 55,
@@ -1203,7 +1257,8 @@
       "Swift Swim"
     ],
     "weight": 76.6,
-    "height": 1.7
+    "height": 1.7,
+    "finalEvo": true
   },
   {
     "dexNumber": 56,
@@ -1225,7 +1280,8 @@
       "Defiant"
     ],
     "weight": 28.0,
-    "height": 0.5
+    "height": 0.5,
+    "finalEvo": false
   },
   {
     "dexNumber": 57,
@@ -1247,7 +1303,8 @@
       "Defiant"
     ],
     "weight": 32.0,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 58,
@@ -1269,7 +1326,8 @@
       "Justified"
     ],
     "weight": 19.0,
-    "height": 0.7
+    "height": 0.7,
+    "finalEvo": false
   },
   {
     "dexNumber": 59,
@@ -1291,7 +1349,8 @@
       "Justified"
     ],
     "weight": 155.0,
-    "height": 1.9
+    "height": 1.9,
+    "finalEvo": true
   },
   {
     "dexNumber": 60,
@@ -1313,7 +1372,8 @@
       "Swift Swim"
     ],
     "weight": 12.4,
-    "height": 0.6
+    "height": 0.6,
+    "finalEvo": false
   },
   {
     "dexNumber": 61,
@@ -1335,7 +1395,8 @@
       "Swift Swim"
     ],
     "weight": 20.0,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 62,
@@ -1358,7 +1419,8 @@
     ],
     "weight": 54.0,
     "height": 1.3,
-    "type2": "fighting"
+    "type2": "fighting",
+    "finalEvo": true
   },
   {
     "dexNumber": 63,
@@ -1380,7 +1442,8 @@
       "Magic Guard"
     ],
     "weight": 19.5,
-    "height": 0.9
+    "height": 0.9,
+    "finalEvo": false
   },
   {
     "dexNumber": 64,
@@ -1402,7 +1465,8 @@
       "Magic Guard"
     ],
     "weight": 56.5,
-    "height": 1.3
+    "height": 1.3,
+    "finalEvo": false
   },
   {
     "dexNumber": 65,
@@ -1424,7 +1488,8 @@
       "Magic Guard"
     ],
     "weight": 48.0,
-    "height": 1.5
+    "height": 1.5,
+    "finalEvo": true
   },
   {
     "dexNumber": 66,
@@ -1446,7 +1511,8 @@
       "Steadfast"
     ],
     "weight": 19.5,
-    "height": 0.8
+    "height": 0.8,
+    "finalEvo": false
   },
   {
     "dexNumber": 67,
@@ -1468,7 +1534,8 @@
       "Steadfast"
     ],
     "weight": 70.5,
-    "height": 1.5
+    "height": 1.5,
+    "finalEvo": false
   },
   {
     "dexNumber": 68,
@@ -1490,7 +1557,8 @@
       "Steadfast"
     ],
     "weight": 130.0,
-    "height": 1.6
+    "height": 1.6,
+    "finalEvo": true
   },
   {
     "dexNumber": 69,
@@ -1512,7 +1580,8 @@
     ],
     "weight": 4.0,
     "height": 0.7,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 70,
@@ -1534,7 +1603,8 @@
     ],
     "weight": 6.4,
     "height": 1.0,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 71,
@@ -1556,7 +1626,8 @@
     ],
     "weight": 15.5,
     "height": 1.7,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true
   },
   {
     "dexNumber": 72,
@@ -1579,7 +1650,8 @@
     ],
     "weight": 45.5,
     "height": 0.9,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 73,
@@ -1602,7 +1674,8 @@
     ],
     "weight": 55.0,
     "height": 1.6,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true
   },
   {
     "dexNumber": 74,
@@ -1625,7 +1698,8 @@
     ],
     "weight": 20.0,
     "height": 0.4,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": false
   },
   {
     "dexNumber": 75,
@@ -1648,7 +1722,8 @@
     ],
     "weight": 105.0,
     "height": 1.0,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": false
   },
   {
     "dexNumber": 76,
@@ -1671,7 +1746,8 @@
     ],
     "weight": 300.0,
     "height": 1.4,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": true
   },
   {
     "dexNumber": 77,
@@ -1693,7 +1769,8 @@
       "Flame Body"
     ],
     "weight": 30.0,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 78,
@@ -1715,7 +1792,8 @@
       "Flame Body"
     ],
     "weight": 95.0,
-    "height": 1.7
+    "height": 1.7,
+    "finalEvo": true
   },
   {
     "dexNumber": 79,
@@ -1738,7 +1816,8 @@
     ],
     "weight": 36.0,
     "height": 1.2,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": false
   },
   {
     "dexNumber": 80,
@@ -1761,7 +1840,8 @@
     ],
     "weight": 78.5,
     "height": 1.6,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true
   },
   {
     "dexNumber": 81,
@@ -1784,7 +1864,8 @@
     ],
     "weight": 6.0,
     "height": 0.3,
-    "type2": "steel"
+    "type2": "steel",
+    "finalEvo": false
   },
   {
     "dexNumber": 82,
@@ -1807,7 +1888,8 @@
     ],
     "weight": 60.0,
     "height": 1.0,
-    "type2": "steel"
+    "type2": "steel",
+    "finalEvo": false
   },
   {
     "dexNumber": 83,
@@ -1830,7 +1912,8 @@
     ],
     "weight": 15.0,
     "height": 0.8,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 84,
@@ -1853,7 +1936,8 @@
     ],
     "weight": 39.2,
     "height": 1.4,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": false
   },
   {
     "dexNumber": 85,
@@ -1876,7 +1960,8 @@
     ],
     "weight": 85.2,
     "height": 1.8,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 86,
@@ -1898,7 +1983,8 @@
       "Ice Body"
     ],
     "weight": 90.0,
-    "height": 1.1
+    "height": 1.1,
+    "finalEvo": false
   },
   {
     "dexNumber": 87,
@@ -1921,7 +2007,8 @@
     ],
     "weight": 120.0,
     "height": 1.7,
-    "type2": "ice"
+    "type2": "ice",
+    "finalEvo": true
   },
   {
     "dexNumber": 88,
@@ -1943,7 +2030,8 @@
       "Poison Touch"
     ],
     "weight": 30.0,
-    "height": 0.9
+    "height": 0.9,
+    "finalEvo": false
   },
   {
     "dexNumber": 89,
@@ -1965,7 +2053,8 @@
       "Poison Touch"
     ],
     "weight": 30.0,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": true
   },
   {
     "dexNumber": 90,
@@ -1987,7 +2076,8 @@
       "Overcoat"
     ],
     "weight": 4.0,
-    "height": 0.3
+    "height": 0.3,
+    "finalEvo": false
   },
   {
     "dexNumber": 91,
@@ -2010,7 +2100,8 @@
     ],
     "weight": 132.5,
     "height": 1.5,
-    "type2": "ice"
+    "type2": "ice",
+    "finalEvo": true
   },
   {
     "dexNumber": 92,
@@ -2031,7 +2122,8 @@
     ],
     "weight": 0.1,
     "height": 1.3,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 93,
@@ -2052,7 +2144,8 @@
     ],
     "weight": 0.1,
     "height": 1.6,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": false
   },
   {
     "dexNumber": 94,
@@ -2073,7 +2166,8 @@
     ],
     "weight": 40.5,
     "height": 1.5,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true
   },
   {
     "dexNumber": 95,
@@ -2096,7 +2190,8 @@
     ],
     "weight": 210.0,
     "height": 8.8,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": false
   },
   {
     "dexNumber": 96,
@@ -2118,7 +2213,8 @@
       "Inner Focus"
     ],
     "weight": 32.4,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 97,
@@ -2140,7 +2236,8 @@
       "Inner Focus"
     ],
     "weight": 75.6,
-    "height": 1.6
+    "height": 1.6,
+    "finalEvo": true
   },
   {
     "dexNumber": 98,
@@ -2162,7 +2259,8 @@
       "Sheer Force"
     ],
     "weight": 6.5,
-    "height": 0.4
+    "height": 0.4,
+    "finalEvo": false
   },
   {
     "dexNumber": 99,
@@ -2184,7 +2282,8 @@
       "Sheer Force"
     ],
     "weight": 60.0,
-    "height": 1.3
+    "height": 1.3,
+    "finalEvo": true
   },
   {
     "dexNumber": 100,
@@ -2206,7 +2305,8 @@
       "Aftermath"
     ],
     "weight": 10.4,
-    "height": 0.5
+    "height": 0.5,
+    "finalEvo": false
   },
   {
     "dexNumber": 101,
@@ -2228,7 +2328,8 @@
       "Aftermath"
     ],
     "weight": 66.6,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": true
   },
   {
     "dexNumber": 102,
@@ -2250,7 +2351,8 @@
     ],
     "weight": 2.5,
     "height": 0.4,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": false
   },
   {
     "dexNumber": 103,
@@ -2272,7 +2374,8 @@
     ],
     "weight": 120.0,
     "height": 2.0,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true
   },
   {
     "dexNumber": 104,
@@ -2294,7 +2397,8 @@
       "Battle Armor"
     ],
     "weight": 6.5,
-    "height": 0.4
+    "height": 0.4,
+    "finalEvo": false
   },
   {
     "dexNumber": 105,
@@ -2316,7 +2420,8 @@
       "Battle Armor"
     ],
     "weight": 45.0,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": true
   },
   {
     "dexNumber": 106,
@@ -2338,7 +2443,8 @@
       "Unburden"
     ],
     "weight": 49.8,
-    "height": 1.5
+    "height": 1.5,
+    "finalEvo": true
   },
   {
     "dexNumber": 107,
@@ -2360,7 +2466,8 @@
       "Inner Focus"
     ],
     "weight": 50.2,
-    "height": 1.4
+    "height": 1.4,
+    "finalEvo": true
   },
   {
     "dexNumber": 108,
@@ -2382,7 +2489,8 @@
       "Cloud Nine"
     ],
     "weight": 65.5,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": false
   },
   {
     "dexNumber": 109,
@@ -2404,7 +2512,8 @@
       "Stench"
     ],
     "weight": 1.0,
-    "height": 0.6
+    "height": 0.6,
+    "finalEvo": false
   },
   {
     "dexNumber": 110,
@@ -2426,7 +2535,8 @@
       "Stench"
     ],
     "weight": 9.5,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": true
   },
   {
     "dexNumber": 111,
@@ -2449,7 +2559,8 @@
     ],
     "weight": 115.0,
     "height": 1.0,
-    "type2": "rock"
+    "type2": "rock",
+    "finalEvo": false
   },
   {
     "dexNumber": 112,
@@ -2472,7 +2583,8 @@
     ],
     "weight": 120.0,
     "height": 1.9,
-    "type2": "rock"
+    "type2": "rock",
+    "finalEvo": false
   },
   {
     "dexNumber": 113,
@@ -2494,7 +2606,8 @@
       "Healer"
     ],
     "weight": 34.6,
-    "height": 1.1
+    "height": 1.1,
+    "finalEvo": false
   },
   {
     "dexNumber": 114,
@@ -2516,7 +2629,8 @@
       "Regenerator"
     ],
     "weight": 35.0,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 115,
@@ -2538,7 +2652,8 @@
       "Inner Focus"
     ],
     "weight": 80.0,
-    "height": 2.2
+    "height": 2.2,
+    "finalEvo": true
   },
   {
     "dexNumber": 116,
@@ -2560,7 +2675,8 @@
       "Damp"
     ],
     "weight": 8.0,
-    "height": 0.4
+    "height": 0.4,
+    "finalEvo": false
   },
   {
     "dexNumber": 117,
@@ -2582,7 +2698,8 @@
       "Damp"
     ],
     "weight": 25.0,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": false
   },
   {
     "dexNumber": 118,
@@ -2604,7 +2721,8 @@
       "Lightning Rod"
     ],
     "weight": 15.0,
-    "height": 0.6
+    "height": 0.6,
+    "finalEvo": false
   },
   {
     "dexNumber": 119,
@@ -2626,7 +2744,8 @@
       "Lightning Rod"
     ],
     "weight": 39.0,
-    "height": 1.3
+    "height": 1.3,
+    "finalEvo": true
   },
   {
     "dexNumber": 120,
@@ -2648,7 +2767,8 @@
       "Analytic"
     ],
     "weight": 34.5,
-    "height": 0.8
+    "height": 0.8,
+    "finalEvo": false
   },
   {
     "dexNumber": 121,
@@ -2671,7 +2791,8 @@
     ],
     "weight": 80.0,
     "height": 1.1,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true
   },
   {
     "dexNumber": 122,
@@ -2694,7 +2815,8 @@
     ],
     "weight": 54.5,
     "height": 1.3,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": true
   },
   {
     "dexNumber": 123,
@@ -2717,7 +2839,8 @@
     ],
     "weight": 56.0,
     "height": 1.5,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": false
   },
   {
     "dexNumber": 124,
@@ -2740,7 +2863,8 @@
     ],
     "weight": 40.6,
     "height": 1.4,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true
   },
   {
     "dexNumber": 125,
@@ -2761,7 +2885,8 @@
       "Vital Spirit"
     ],
     "weight": 30.0,
-    "height": 1.1
+    "height": 1.1,
+    "finalEvo": false
   },
   {
     "dexNumber": 126,
@@ -2782,7 +2907,8 @@
       "Vital Spirit"
     ],
     "weight": 44.5,
-    "height": 1.3
+    "height": 1.3,
+    "finalEvo": false
   },
   {
     "dexNumber": 127,
@@ -2804,7 +2930,8 @@
       "Moxie"
     ],
     "weight": 55.0,
-    "height": 1.5
+    "height": 1.5,
+    "finalEvo": true
   },
   {
     "dexNumber": 128,
@@ -2826,7 +2953,8 @@
       "Sheer Force"
     ],
     "weight": 88.4,
-    "height": 1.4
+    "height": 1.4,
+    "finalEvo": true
   },
   {
     "dexNumber": 129,
@@ -2847,7 +2975,8 @@
       "Rattled"
     ],
     "weight": 10.0,
-    "height": 0.9
+    "height": 0.9,
+    "finalEvo": false
   },
   {
     "dexNumber": 130,
@@ -2869,7 +2998,8 @@
     ],
     "weight": 235.0,
     "height": 6.5,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 131,
@@ -2892,7 +3022,8 @@
     ],
     "weight": 220.0,
     "height": 2.5,
-    "type2": "ice"
+    "type2": "ice",
+    "finalEvo": true
   },
   {
     "dexNumber": 132,
@@ -2913,7 +3044,8 @@
       "Imposter"
     ],
     "weight": 4.0,
-    "height": 0.3
+    "height": 0.3,
+    "finalEvo": true
   },
   {
     "dexNumber": 133,
@@ -2935,7 +3067,8 @@
       "Anticipation"
     ],
     "weight": 6.5,
-    "height": 0.3
+    "height": 0.3,
+    "finalEvo": false
   },
   {
     "dexNumber": 134,
@@ -2956,7 +3089,8 @@
       "Hydration"
     ],
     "weight": 29.0,
-    "height": 1.0
+    "height": 1.0,
+    "finalEvo": true
   },
   {
     "dexNumber": 135,
@@ -2977,7 +3111,8 @@
       "Quick Feet"
     ],
     "weight": 24.5,
-    "height": 0.8
+    "height": 0.8,
+    "finalEvo": true
   },
   {
     "dexNumber": 136,
@@ -2998,7 +3133,8 @@
       "Guts"
     ],
     "weight": 25.0,
-    "height": 0.9
+    "height": 0.9,
+    "finalEvo": true
   },
   {
     "dexNumber": 137,
@@ -3020,7 +3156,8 @@
       "Analytic"
     ],
     "weight": 36.5,
-    "height": 0.8
+    "height": 0.8,
+    "finalEvo": false
   },
   {
     "dexNumber": 138,
@@ -3043,7 +3180,8 @@
     ],
     "weight": 7.5,
     "height": 0.4,
-    "type2": "water"
+    "type2": "water",
+    "finalEvo": false
   },
   {
     "dexNumber": 139,
@@ -3066,7 +3204,8 @@
     ],
     "weight": 35.0,
     "height": 1.0,
-    "type2": "water"
+    "type2": "water",
+    "finalEvo": true
   },
   {
     "dexNumber": 140,
@@ -3089,7 +3228,8 @@
     ],
     "weight": 11.5,
     "height": 0.5,
-    "type2": "water"
+    "type2": "water",
+    "finalEvo": false
   },
   {
     "dexNumber": 141,
@@ -3112,7 +3252,8 @@
     ],
     "weight": 40.5,
     "height": 1.3,
-    "type2": "water"
+    "type2": "water",
+    "finalEvo": true
   },
   {
     "dexNumber": 142,
@@ -3135,7 +3276,8 @@
     ],
     "weight": 59.0,
     "height": 1.8,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 143,
@@ -3157,7 +3299,8 @@
       "Gluttony"
     ],
     "weight": 460.0,
-    "height": 2.1
+    "height": 2.1,
+    "finalEvo": true
   },
   {
     "dexNumber": 144,
@@ -3179,7 +3322,8 @@
     ],
     "weight": 55.4,
     "height": 1.7,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 145,
@@ -3201,7 +3345,8 @@
     ],
     "weight": 52.6,
     "height": 1.6,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 146,
@@ -3223,7 +3368,8 @@
     ],
     "weight": 60.0,
     "height": 2.0,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 147,
@@ -3244,7 +3390,8 @@
       "Marvel Scale"
     ],
     "weight": 3.3,
-    "height": 1.8
+    "height": 1.8,
+    "finalEvo": false
   },
   {
     "dexNumber": 148,
@@ -3265,7 +3412,8 @@
       "Marvel Scale"
     ],
     "weight": 16.5,
-    "height": 4.0
+    "height": 4.0,
+    "finalEvo": false
   },
   {
     "dexNumber": 149,
@@ -3287,7 +3435,8 @@
     ],
     "weight": 210.0,
     "height": 2.2,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 150,
@@ -3308,7 +3457,8 @@
       "Unnerve"
     ],
     "weight": 122.0,
-    "height": 2.0
+    "height": 2.0,
+    "finalEvo": true
   },
   {
     "dexNumber": 151,
@@ -3328,6 +3478,7 @@
       "Synchronize"
     ],
     "weight": 4.0,
-    "height": 0.4
+    "height": 0.4,
+    "finalEvo": true
   }
 ]

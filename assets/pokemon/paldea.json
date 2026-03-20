@@ -20,7 +20,8 @@
       "Cud Chew"
     ],
     "weight": 115.0,
-    "height": 1.4
+    "height": 1.4,
+    "finalEvo": true
   },
   {
     "dexNumber": 128,
@@ -44,7 +45,8 @@
     ],
     "weight": 85.0,
     "height": 1.4,
-    "type2": "fire"
+    "type2": "fire",
+    "finalEvo": true
   },
   {
     "dexNumber": 128,
@@ -68,7 +70,8 @@
     ],
     "weight": 110.0,
     "height": 1.4,
-    "type2": "water"
+    "type2": "water",
+    "finalEvo": true
   },
   {
     "dexNumber": 194,
@@ -92,6 +95,7 @@
     ],
     "weight": 11.0,
     "height": 0.4,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": false
   }
 ]
