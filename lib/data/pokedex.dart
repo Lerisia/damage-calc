@@ -17,19 +17,19 @@ const _allFiles = [
   'assets/pokemon/galar.json',
   'assets/pokemon/hisui.json',
   'assets/pokemon/paldea.json',
+  'assets/pokemon/forms.json',
 ];
 
-/// Loads all Pokemon data from assets/pokemon/gen*.json
-Future<Map<int, Pokemon>> loadPokedex() async {
-  final Map<int, Pokemon> pokedex = {};
+/// Loads all Pokemon data from assets/pokemon/*.json
+Future<List<Pokemon>> loadPokedex() async {
+  final List<Pokemon> pokedex = [];
 
   for (final file in _allFiles) {
     final jsonString = await rootBundle.loadString(file);
     final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
 
     for (final entry in jsonList) {
-      final pokemon = Pokemon.fromJson(entry as Map<String, dynamic>);
-      pokedex[pokemon.dexNumber] = pokemon;
+      pokedex.add(Pokemon.fromJson(entry as Map<String, dynamic>));
     }
   }
 

@@ -41,7 +41,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       'assets/pokemon/gen9.json',
       'assets/pokemon/mega.json', 'assets/pokemon/alola.json',
       'assets/pokemon/galar.json', 'assets/pokemon/hisui.json',
-      'assets/pokemon/paldea.json',
+      'assets/pokemon/paldea.json', 'assets/pokemon/forms.json',
     ];
 
     for (final file in genFiles) {
@@ -71,8 +71,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       final q = query.toLowerCase();
       results = _allPokemon.where((p) =>
           p.nameKo.contains(q) ||
-          p.name.toLowerCase().contains(q) ||
-          p.dexNumber.toString() == q).toList();
+          p.name.toLowerCase().contains(q)).toList();
     }
     // Selected at top
     if (_selected != null && results.contains(_selected)) {
@@ -115,7 +114,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
           controller: controller,
           focusNode: focusNode,
           decoration: InputDecoration(
-            hintText: _selected?.nameKo ?? '포켓몬 이름 또는 도감번호',
+            hintText: _selected?.nameKo ?? '포켓몬 이름',
             isDense: true,
           ),
         );

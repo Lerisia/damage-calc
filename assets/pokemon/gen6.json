@@ -609,7 +609,7 @@
   {
     "dexNumber": 678,
     "name": "Meowstic",
-    "nameKo": "냐오닉스",
+    "nameKo": "냐오닉스 (수컷)",
     "nameJa": "ニャオニクス",
     "type1": "psychic",
     "baseStats": {
@@ -673,7 +673,7 @@
   {
     "dexNumber": 681,
     "name": "Aegislash",
-    "nameKo": "킬가르도",
+    "nameKo": "킬가르도 (실드폼)",
     "nameJa": "ギルガルド",
     "type1": "steel",
     "baseStats": {
@@ -1313,7 +1313,7 @@
   {
     "dexNumber": 710,
     "name": "Pumpkaboo",
-    "nameKo": "호바귀",
+    "nameKo": "호바귀 (보통사이즈)",
     "nameJa": "バケッチャ",
     "type1": "ghost",
     "baseStats": {
@@ -1336,7 +1336,7 @@
   {
     "dexNumber": 711,
     "name": "Gourgeist",
-    "nameKo": "펌킨인",
+    "nameKo": "펌킨인 (보통사이즈)",
     "nameJa": "パンプジン",
     "type1": "ghost",
     "baseStats": {
@@ -1490,7 +1490,7 @@
   {
     "dexNumber": 718,
     "name": "Zygarde",
-    "nameKo": "지가르데",
+    "nameKo": "지가르데 (50%폼)",
     "nameJa": "ジガルデ",
     "type1": "dragon",
     "baseStats": {
@@ -1532,7 +1532,7 @@
   {
     "dexNumber": 720,
     "name": "Hoopa",
-    "nameKo": "후파",
+    "nameKo": "굴레에 빠진 후파",
     "nameJa": "フーパ",
     "type1": "psychic",
     "baseStats": {

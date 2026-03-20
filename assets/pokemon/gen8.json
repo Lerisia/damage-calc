@@ -854,7 +854,7 @@
   {
     "dexNumber": 849,
     "name": "Toxtricity",
-    "nameKo": "스트린더",
+    "nameKo": "스트린더 (하이한 모습)",
     "nameJa": "ストリンダー",
     "type1": "electric",
     "baseStats": {
@@ -1422,7 +1422,7 @@
   {
     "dexNumber": 875,
     "name": "Eiscue",
-    "nameKo": "빙큐보",
+    "nameKo": "빙큐보 (아이스페이스)",
     "nameJa": "コオリッポ",
     "type1": "ice",
     "baseStats": {
@@ -1442,7 +1442,7 @@
   {
     "dexNumber": 876,
     "name": "Indeedee",
-    "nameKo": "에써르",
+    "nameKo": "에써르 (수컷)",
     "nameJa": "イエッサン",
     "type1": "psychic",
     "baseStats": {
@@ -1712,7 +1712,7 @@
   {
     "dexNumber": 888,
     "name": "Zacian",
-    "nameKo": "자시안",
+    "nameKo": "자시안 (역전의 용사)",
     "nameJa": "ザシアン",
     "type1": "fairy",
     "baseStats": {
@@ -1732,7 +1732,7 @@
   {
     "dexNumber": 889,
     "name": "Zamazenta",
-    "nameKo": "자마젠타",
+    "nameKo": "자마젠타 (역전의 용사)",
     "nameJa": "ザマゼンタ",
     "type1": "fighting",
     "baseStats": {
@@ -1793,7 +1793,7 @@
   {
     "dexNumber": 892,
     "name": "Urshifu",
-    "nameKo": "우라오스",
+    "nameKo": "우라오스 (일격의 태세)",
     "nameJa": "ウーラオス",
     "type1": "fighting",
     "baseStats": {
@@ -1867,7 +1867,7 @@
       "speed": 80
     },
     "abilities": [
-      "Dragons Maw"
+      "Dragon’s Maw"
     ],
     "weight": 200.0,
     "height": 2.1
@@ -2005,7 +2005,7 @@
   {
     "dexNumber": 902,
     "name": "Basculegion",
-    "nameKo": "대쓰여너",
+    "nameKo": "대쓰여너 (수컷)",
     "nameJa": "イダイトウ",
     "type1": "water",
     "baseStats": {
@@ -2074,7 +2074,7 @@
   {
     "dexNumber": 905,
     "name": "Enamorus",
-    "nameKo": "러브로스",
+    "nameKo": "러브로스 (화신폼)",
     "nameJa": "ラブトロス",
     "type1": "fairy",
     "baseStats": {

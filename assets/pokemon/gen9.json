@@ -216,7 +216,7 @@
   {
     "dexNumber": 916,
     "name": "Oinkologne",
-    "nameKo": "퍼퓨돈",
+    "nameKo": "퍼퓨돈 (수컷)",
     "nameJa": "パフュートン",
     "type1": "normal",
     "baseStats": {
@@ -468,7 +468,7 @@
       "speed": 95
     },
     "abilities": [
-      "Well Baked Body",
+      "Well-Baked Body",
       "Aroma Veil"
     ],
     "weight": 14.9,
@@ -1273,7 +1273,7 @@
   {
     "dexNumber": 964,
     "name": "Palafin",
-    "nameKo": "돌핀맨",
+    "nameKo": "돌핀맨 (나이브폼)",
     "nameJa": "イルカマン",
     "type1": "water",
     "baseStats": {
@@ -1285,7 +1285,7 @@
       "speed": 100
     },
     "abilities": [
-      "Zero To Hero"
+      "Zero to Hero"
     ],
     "weight": 60.2,
     "height": 1.3
@@ -2063,7 +2063,7 @@
       "speed": 84
     },
     "abilities": [
-      "Good As Gold"
+      "Good as Gold"
     ],
     "weight": 30.0,
     "height": 1.2,
@@ -2084,7 +2084,7 @@
       "speed": 70
     },
     "abilities": [
-      "Tablets Of Ruin"
+      "Tablets of Ruin"
     ],
     "weight": 74.2,
     "height": 1.5,
@@ -2105,7 +2105,7 @@
       "speed": 135
     },
     "abilities": [
-      "Sword Of Ruin"
+      "Sword of Ruin"
     ],
     "weight": 152.2,
     "height": 1.9,
@@ -2126,7 +2126,7 @@
       "speed": 45
     },
     "abilities": [
-      "Vessel Of Ruin"
+      "Vessel of Ruin"
     ],
     "weight": 699.7,
     "height": 2.7,
@@ -2147,7 +2147,7 @@
       "speed": 100
     },
     "abilities": [
-      "Beads Of Ruin"
+      "Beads of Ruin"
     ],
     "weight": 4.9,
     "height": 0.4,
@@ -2415,7 +2415,7 @@
   {
     "dexNumber": 1017,
     "name": "Ogerpon",
-    "nameKo": "오거폰",
+    "nameKo": "오거폰 (벽록의 가면)",
     "nameJa": "オーガポン",
     "type1": "grass",
     "baseStats": {
@@ -2565,7 +2565,7 @@
   {
     "dexNumber": 1024,
     "name": "Terapagos",
-    "nameKo": "테라파고스",
+    "nameKo": "테라파고스 (노말폼)",
     "nameJa": "テラパゴス",
     "type1": "normal",
     "baseStats": {

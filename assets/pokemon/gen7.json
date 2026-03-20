@@ -416,7 +416,7 @@
   {
     "dexNumber": 741,
     "name": "Oricorio",
-    "nameKo": "춤추새",
+    "nameKo": "춤추새 (이글이글스타일)",
     "nameJa": "オドリドリ",
     "type1": "fire",
     "baseStats": {
@@ -505,7 +505,7 @@
   {
     "dexNumber": 745,
     "name": "Lycanroc",
-    "nameKo": "루가루암",
+    "nameKo": "루가루암 (한낮의 모습)",
     "nameJa": "ルガルガン",
     "type1": "rock",
     "baseStats": {
@@ -527,7 +527,7 @@
   {
     "dexNumber": 746,
     "name": "Wishiwashi",
-    "nameKo": "약어리",
+    "nameKo": "약어리 (단독의 모습)",
     "nameJa": "ヨワシ",
     "type1": "water",
     "baseStats": {
@@ -1130,7 +1130,7 @@
       "speed": 95
     },
     "abilities": [
-      "Rks System"
+      "RKS System"
     ],
     "weight": 100.5,
     "height": 2.3
@@ -1727,7 +1727,7 @@
       "speed": 65
     },
     "abilities": [
-      "Soul Heart"
+      "Soul-Heart"
     ],
     "weight": 80.5,
     "height": 1.0,

@@ -567,7 +567,7 @@
   {
     "dexNumber": 413,
     "name": "Wormadam",
-    "nameKo": "도롱마담",
+    "nameKo": "도롱마담 (초목도롱)",
     "nameJa": "ミノマダム",
     "type1": "bug",
     "baseStats": {
@@ -2191,7 +2191,7 @@
   {
     "dexNumber": 487,
     "name": "Giratina",
-    "nameKo": "기라티나",
+    "nameKo": "기라티나 (어나더폼)",
     "nameJa": "ギラティナ",
     "type1": "ghost",
     "baseStats": {
@@ -2293,7 +2293,7 @@
   {
     "dexNumber": 492,
     "name": "Shaymin",
-    "nameKo": "쉐이미",
+    "nameKo": "쉐이미 (랜드폼)",
     "nameJa": "シェイミ",
     "type1": "grass",
     "baseStats": {

@@ -1348,7 +1348,7 @@
   {
     "dexNumber": 555,
     "name": "Darmanitan",
-    "nameKo": "불비달마",
+    "nameKo": "불비달마 (노말모드)",
     "nameJa": "ヒヒダルマ",
     "type1": "fire",
     "baseStats": {
@@ -3243,7 +3243,7 @@
   {
     "dexNumber": 641,
     "name": "Tornadus",
-    "nameKo": "토네로스",
+    "nameKo": "토네로스 (화신폼)",
     "nameJa": "トルネロス",
     "type1": "flying",
     "baseStats": {
@@ -3264,7 +3264,7 @@
   {
     "dexNumber": 642,
     "name": "Thundurus",
-    "nameKo": "볼트로스",
+    "nameKo": "볼트로스 (화신폼)",
     "nameJa": "ボルトロス",
     "type1": "electric",
     "baseStats": {
@@ -3328,7 +3328,7 @@
   {
     "dexNumber": 645,
     "name": "Landorus",
-    "nameKo": "랜드로스",
+    "nameKo": "랜드로스 (화신폼)",
     "nameJa": "ランドロス",
     "type1": "ground",
     "baseStats": {
@@ -3392,7 +3392,7 @@
   {
     "dexNumber": 648,
     "name": "Meloetta",
-    "nameKo": "메로엣타",
+    "nameKo": "메로엣타 (보이스폼)",
     "nameJa": "メロエッタ",
     "type1": "normal",
     "baseStats": {
