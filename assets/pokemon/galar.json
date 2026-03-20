@@ -1,0 +1,460 @@
+[
+  {
+    "dexNumber": 52,
+    "formId": 10161,
+    "name": "Galarian Form",
+    "nameKo": "나옹 (가라르의 모습)",
+    "nameJa": "ニャース (ガラルのすがた)",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 50,
+      "attack": 65,
+      "defense": 55,
+      "spAttack": 40,
+      "spDefense": 40,
+      "speed": 40
+    },
+    "abilities": [
+      "Pickup",
+      "Tough Claws",
+      "Unnerve"
+    ],
+    "weight": 7.5,
+    "height": 0.4
+  },
+  {
+    "dexNumber": 77,
+    "formId": 10162,
+    "name": "Galarian Form",
+    "nameKo": "포니타 (가라르의 모습)",
+    "nameJa": "ポニータ (ガラルのすがた)",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 50,
+      "attack": 85,
+      "defense": 55,
+      "spAttack": 65,
+      "spDefense": 65,
+      "speed": 90
+    },
+    "abilities": [
+      "Run Away",
+      "Pastel Veil",
+      "Anticipation"
+    ],
+    "weight": 24.0,
+    "height": 0.8
+  },
+  {
+    "dexNumber": 78,
+    "formId": 10163,
+    "name": "Galarian Form",
+    "nameKo": "날쌩마 (가라르의 모습)",
+    "nameJa": "ギャロップ (ガラルのすがた)",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 65,
+      "attack": 100,
+      "defense": 70,
+      "spAttack": 80,
+      "spDefense": 80,
+      "speed": 105
+    },
+    "abilities": [
+      "Run Away",
+      "Pastel Veil",
+      "Anticipation"
+    ],
+    "weight": 80.0,
+    "height": 1.7,
+    "type2": "fairy"
+  },
+  {
+    "dexNumber": 79,
+    "formId": 10164,
+    "name": "Galarian Form",
+    "nameKo": "야돈 (가라르의 모습)",
+    "nameJa": "ヤドン (ガラルのすがた)",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 90,
+      "attack": 65,
+      "defense": 65,
+      "spAttack": 40,
+      "spDefense": 40,
+      "speed": 15
+    },
+    "abilities": [
+      "Gluttony",
+      "Own Tempo",
+      "Regenerator"
+    ],
+    "weight": 36.0,
+    "height": 1.2
+  },
+  {
+    "dexNumber": 80,
+    "formId": 10165,
+    "name": "Galarian Form",
+    "nameKo": "야도란 (가라르의 모습)",
+    "nameJa": "ヤドラン (ガラルのすがた)",
+    "type1": "poison",
+    "baseStats": {
+      "hp": 95,
+      "attack": 100,
+      "defense": 95,
+      "spAttack": 100,
+      "spDefense": 70,
+      "speed": 30
+    },
+    "abilities": [
+      "Quick Draw",
+      "Own Tempo",
+      "Regenerator"
+    ],
+    "weight": 70.5,
+    "height": 1.6,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 83,
+    "formId": 10166,
+    "name": "Galarian Form",
+    "nameKo": "파오리 (가라르의 모습)",
+    "nameJa": "カモネギ (ガラルのすがた)",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 52,
+      "attack": 95,
+      "defense": 55,
+      "spAttack": 58,
+      "spDefense": 62,
+      "speed": 55
+    },
+    "abilities": [
+      "Steadfast",
+      "Scrappy"
+    ],
+    "weight": 42.0,
+    "height": 0.8
+  },
+  {
+    "dexNumber": 110,
+    "formId": 10167,
+    "name": "Galarian Form",
+    "nameKo": "또도가스 (가라르의 모습)",
+    "nameJa": "マタドガス (ガラルのすがた)",
+    "type1": "poison",
+    "baseStats": {
+      "hp": 65,
+      "attack": 90,
+      "defense": 120,
+      "spAttack": 85,
+      "spDefense": 70,
+      "speed": 60
+    },
+    "abilities": [
+      "Levitate",
+      "Neutralizing Gas",
+      "Misty Surge"
+    ],
+    "weight": 16.0,
+    "height": 3.0,
+    "type2": "fairy"
+  },
+  {
+    "dexNumber": 122,
+    "formId": 10168,
+    "name": "Galarian Form",
+    "nameKo": "마임맨 (가라르의 모습)",
+    "nameJa": "バリヤード (ガラルのすがた)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 50,
+      "attack": 65,
+      "defense": 65,
+      "spAttack": 90,
+      "spDefense": 90,
+      "speed": 100
+    },
+    "abilities": [
+      "Vital Spirit",
+      "Screen Cleaner",
+      "Ice Body"
+    ],
+    "weight": 56.8,
+    "height": 1.4,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 144,
+    "formId": 10169,
+    "name": "Galarian Form",
+    "nameKo": "프리져 (가라르의 모습)",
+    "nameJa": "フリーザー (ガラルのすがた)",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 90,
+      "attack": 85,
+      "defense": 85,
+      "spAttack": 125,
+      "spDefense": 100,
+      "speed": 95
+    },
+    "abilities": [
+      "Competitive"
+    ],
+    "weight": 50.9,
+    "height": 1.7,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 145,
+    "formId": 10170,
+    "name": "Galarian Form",
+    "nameKo": "썬더 (가라르의 모습)",
+    "nameJa": "サンダー (ガラルのすがた)",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 90,
+      "attack": 125,
+      "defense": 90,
+      "spAttack": 85,
+      "spDefense": 90,
+      "speed": 100
+    },
+    "abilities": [
+      "Defiant"
+    ],
+    "weight": 58.2,
+    "height": 1.6,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 146,
+    "formId": 10171,
+    "name": "Galarian Form",
+    "nameKo": "파이어 (가라르의 모습)",
+    "nameJa": "ファイヤー (ガラルのすがた)",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 90,
+      "attack": 85,
+      "defense": 90,
+      "spAttack": 100,
+      "spDefense": 125,
+      "speed": 90
+    },
+    "abilities": [
+      "Berserk"
+    ],
+    "weight": 66.0,
+    "height": 2.0,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 199,
+    "formId": 10172,
+    "name": "Galarian Form",
+    "nameKo": "야도킹 (가라르의 모습)",
+    "nameJa": "ヤドキング (ガラルのすがた)",
+    "type1": "poison",
+    "baseStats": {
+      "hp": 95,
+      "attack": 65,
+      "defense": 80,
+      "spAttack": 110,
+      "spDefense": 110,
+      "speed": 30
+    },
+    "abilities": [
+      "Curious Medicine",
+      "Own Tempo",
+      "Regenerator"
+    ],
+    "weight": 79.5,
+    "height": 1.8,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 222,
+    "formId": 10173,
+    "name": "Galarian Form",
+    "nameKo": "코산호 (가라르의 모습)",
+    "nameJa": "サニーゴ (ガラルのすがた)",
+    "type1": "ghost",
+    "baseStats": {
+      "hp": 60,
+      "attack": 55,
+      "defense": 100,
+      "spAttack": 65,
+      "spDefense": 100,
+      "speed": 30
+    },
+    "abilities": [
+      "Weak Armor",
+      "Cursed Body"
+    ],
+    "weight": 0.5,
+    "height": 0.6
+  },
+  {
+    "dexNumber": 263,
+    "formId": 10174,
+    "name": "Galarian Form",
+    "nameKo": "지그제구리 (가라르의 모습)",
+    "nameJa": "ジグザグマ (ガラルのすがた)",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 38,
+      "attack": 30,
+      "defense": 41,
+      "spAttack": 30,
+      "spDefense": 41,
+      "speed": 60
+    },
+    "abilities": [
+      "Pickup",
+      "Gluttony",
+      "Quick Feet"
+    ],
+    "weight": 17.5,
+    "height": 0.4,
+    "type2": "normal"
+  },
+  {
+    "dexNumber": 264,
+    "formId": 10175,
+    "name": "Galarian Form",
+    "nameKo": "직구리 (가라르의 모습)",
+    "nameJa": "マッスグマ (ガラルのすがた)",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 78,
+      "attack": 70,
+      "defense": 61,
+      "spAttack": 50,
+      "spDefense": 61,
+      "speed": 100
+    },
+    "abilities": [
+      "Pickup",
+      "Gluttony",
+      "Quick Feet"
+    ],
+    "weight": 32.5,
+    "height": 0.5,
+    "type2": "normal"
+  },
+  {
+    "dexNumber": 554,
+    "formId": 10176,
+    "name": "Galarian Form",
+    "nameKo": "달막화 (가라르의 모습)",
+    "nameJa": "ダルマッカ (ガラルのすがた)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 70,
+      "attack": 90,
+      "defense": 45,
+      "spAttack": 15,
+      "spDefense": 45,
+      "speed": 50
+    },
+    "abilities": [
+      "Hustle",
+      "Inner Focus"
+    ],
+    "weight": 40.0,
+    "height": 0.7
+  },
+  {
+    "dexNumber": 555,
+    "formId": 10177,
+    "name": "Galarian Form",
+    "nameKo": "불비달마 (가라르의 모습)",
+    "nameJa": "ヒヒダルマ (ガラルのすがた)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 105,
+      "attack": 140,
+      "defense": 55,
+      "spAttack": 30,
+      "spDefense": 55,
+      "speed": 95
+    },
+    "abilities": [
+      "Gorilla Tactics",
+      "Zen Mode"
+    ],
+    "weight": 120.0,
+    "height": 1.7
+  },
+  {
+    "dexNumber": 555,
+    "formId": 10178,
+    "name": "Zen Mode",
+    "nameKo": "불비달마 (달마모드)",
+    "nameJa": "ヒヒダルマ (ダルマモード)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 105,
+      "attack": 160,
+      "defense": 55,
+      "spAttack": 30,
+      "spDefense": 55,
+      "speed": 135
+    },
+    "abilities": [
+      "Gorilla Tactics",
+      "Zen Mode"
+    ],
+    "weight": 120.0,
+    "height": 1.7,
+    "type2": "fire"
+  },
+  {
+    "dexNumber": 562,
+    "formId": 10179,
+    "name": "Galarian Form",
+    "nameKo": "데스마스 (가라르의 모습)",
+    "nameJa": "デスマス (ガラルのすがた)",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 38,
+      "attack": 55,
+      "defense": 85,
+      "spAttack": 30,
+      "spDefense": 65,
+      "speed": 30
+    },
+    "abilities": [
+      "Wandering Spirit"
+    ],
+    "weight": 1.5,
+    "height": 0.5,
+    "type2": "ghost"
+  },
+  {
+    "dexNumber": 618,
+    "formId": 10180,
+    "name": "Galarian Form",
+    "nameKo": "메더 (가라르의 모습)",
+    "nameJa": "マッギョ (ガラルのすがた)",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 109,
+      "attack": 81,
+      "defense": 99,
+      "spAttack": 66,
+      "spDefense": 84,
+      "speed": 32
+    },
+    "abilities": [
+      "Mimicry"
+    ],
+    "weight": 20.5,
+    "height": 0.7,
+    "type2": "steel"
+  }
+]

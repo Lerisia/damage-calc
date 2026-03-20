@@ -39,6 +39,9 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       'assets/pokemon/gen5.json', 'assets/pokemon/gen6.json',
       'assets/pokemon/gen7.json', 'assets/pokemon/gen8.json',
       'assets/pokemon/gen9.json',
+      'assets/pokemon/mega.json', 'assets/pokemon/alola.json',
+      'assets/pokemon/galar.json', 'assets/pokemon/hisui.json',
+      'assets/pokemon/paldea.json',
     ];
 
     for (final file in genFiles) {

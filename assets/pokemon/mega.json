@@ -1,0 +1,1089 @@
+[
+  {
+    "dexNumber": 3,
+    "formId": 10033,
+    "name": "Mega Venusaur",
+    "nameKo": "메가이상해꽃",
+    "nameJa": "メガフシギバナ",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 80,
+      "attack": 100,
+      "defense": 123,
+      "spAttack": 122,
+      "spDefense": 120,
+      "speed": 80
+    },
+    "abilities": [
+      "Thick Fat"
+    ],
+    "weight": 155.5,
+    "height": 2.4,
+    "type2": "poison"
+  },
+  {
+    "dexNumber": 6,
+    "formId": 10034,
+    "name": "Mega Charizard X",
+    "nameKo": "메가리자몽X",
+    "nameJa": "メガリザードンＸ",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 78,
+      "attack": 130,
+      "defense": 111,
+      "spAttack": 130,
+      "spDefense": 85,
+      "speed": 100
+    },
+    "abilities": [
+      "Tough Claws"
+    ],
+    "weight": 110.5,
+    "height": 1.7,
+    "type2": "dragon"
+  },
+  {
+    "dexNumber": 6,
+    "formId": 10035,
+    "name": "Mega Charizard Y",
+    "nameKo": "메가리자몽Y",
+    "nameJa": "メガリザードンＹ",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 78,
+      "attack": 104,
+      "defense": 78,
+      "spAttack": 159,
+      "spDefense": 115,
+      "speed": 100
+    },
+    "abilities": [
+      "Drought"
+    ],
+    "weight": 100.5,
+    "height": 1.7,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 9,
+    "formId": 10036,
+    "name": "Mega Blastoise",
+    "nameKo": "메가거북왕",
+    "nameJa": "メガカメックス",
+    "type1": "water",
+    "baseStats": {
+      "hp": 79,
+      "attack": 103,
+      "defense": 120,
+      "spAttack": 135,
+      "spDefense": 115,
+      "speed": 78
+    },
+    "abilities": [
+      "Mega Launcher"
+    ],
+    "weight": 101.1,
+    "height": 1.6
+  },
+  {
+    "dexNumber": 65,
+    "formId": 10037,
+    "name": "Mega Alakazam",
+    "nameKo": "메가후딘",
+    "nameJa": "メガフーディン",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 55,
+      "attack": 50,
+      "defense": 65,
+      "spAttack": 175,
+      "spDefense": 105,
+      "speed": 150
+    },
+    "abilities": [
+      "Trace"
+    ],
+    "weight": 48.0,
+    "height": 1.2
+  },
+  {
+    "dexNumber": 94,
+    "formId": 10038,
+    "name": "Mega Gengar",
+    "nameKo": "메가팬텀",
+    "nameJa": "メガゲンガー",
+    "type1": "ghost",
+    "baseStats": {
+      "hp": 60,
+      "attack": 65,
+      "defense": 80,
+      "spAttack": 170,
+      "spDefense": 95,
+      "speed": 130
+    },
+    "abilities": [
+      "Shadow Tag"
+    ],
+    "weight": 40.5,
+    "height": 1.4,
+    "type2": "poison"
+  },
+  {
+    "dexNumber": 115,
+    "formId": 10039,
+    "name": "Mega Kangaskhan",
+    "nameKo": "메가캥카",
+    "nameJa": "メガガルーラ",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 105,
+      "attack": 125,
+      "defense": 100,
+      "spAttack": 60,
+      "spDefense": 100,
+      "speed": 100
+    },
+    "abilities": [
+      "Parental Bond"
+    ],
+    "weight": 100.0,
+    "height": 2.2
+  },
+  {
+    "dexNumber": 127,
+    "formId": 10040,
+    "name": "Mega Pinsir",
+    "nameKo": "메가쁘사이저",
+    "nameJa": "メガカイロス",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 65,
+      "attack": 155,
+      "defense": 120,
+      "spAttack": 65,
+      "spDefense": 90,
+      "speed": 105
+    },
+    "abilities": [
+      "Aerilate"
+    ],
+    "weight": 59.0,
+    "height": 1.7,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 130,
+    "formId": 10041,
+    "name": "Mega Gyarados",
+    "nameKo": "메가갸라도스",
+    "nameJa": "メガギャラドス",
+    "type1": "water",
+    "baseStats": {
+      "hp": 95,
+      "attack": 155,
+      "defense": 109,
+      "spAttack": 70,
+      "spDefense": 130,
+      "speed": 81
+    },
+    "abilities": [
+      "Mold Breaker"
+    ],
+    "weight": 305.0,
+    "height": 6.5,
+    "type2": "dark"
+  },
+  {
+    "dexNumber": 142,
+    "formId": 10042,
+    "name": "Mega Aerodactyl",
+    "nameKo": "메가프테라",
+    "nameJa": "メガプテラ",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 80,
+      "attack": 135,
+      "defense": 85,
+      "spAttack": 70,
+      "spDefense": 95,
+      "speed": 150
+    },
+    "abilities": [
+      "Tough Claws"
+    ],
+    "weight": 79.0,
+    "height": 2.1,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 150,
+    "formId": 10043,
+    "name": "Mega Mewtwo X",
+    "nameKo": "메가뮤츠X",
+    "nameJa": "メガミュウツーＸ",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 106,
+      "attack": 190,
+      "defense": 100,
+      "spAttack": 154,
+      "spDefense": 100,
+      "speed": 130
+    },
+    "abilities": [
+      "Steadfast"
+    ],
+    "weight": 127.0,
+    "height": 2.3,
+    "type2": "fighting"
+  },
+  {
+    "dexNumber": 150,
+    "formId": 10044,
+    "name": "Mega Mewtwo Y",
+    "nameKo": "메가뮤츠Y",
+    "nameJa": "メガミュウツーＹ",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 106,
+      "attack": 150,
+      "defense": 70,
+      "spAttack": 194,
+      "spDefense": 120,
+      "speed": 140
+    },
+    "abilities": [
+      "Insomnia"
+    ],
+    "weight": 33.0,
+    "height": 1.5
+  },
+  {
+    "dexNumber": 181,
+    "formId": 10045,
+    "name": "Mega Ampharos",
+    "nameKo": "메가전룡",
+    "nameJa": "メガデンリュウ",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 90,
+      "attack": 95,
+      "defense": 105,
+      "spAttack": 165,
+      "spDefense": 110,
+      "speed": 45
+    },
+    "abilities": [
+      "Mold Breaker"
+    ],
+    "weight": 61.5,
+    "height": 1.4,
+    "type2": "dragon"
+  },
+  {
+    "dexNumber": 212,
+    "formId": 10046,
+    "name": "Mega Scizor",
+    "nameKo": "메가핫삼",
+    "nameJa": "メガハッサム",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 70,
+      "attack": 150,
+      "defense": 140,
+      "spAttack": 65,
+      "spDefense": 100,
+      "speed": 75
+    },
+    "abilities": [
+      "Technician"
+    ],
+    "weight": 125.0,
+    "height": 2.0,
+    "type2": "steel"
+  },
+  {
+    "dexNumber": 214,
+    "formId": 10047,
+    "name": "Mega Heracross",
+    "nameKo": "메가헤라크로스",
+    "nameJa": "メガヘラクロス",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 80,
+      "attack": 185,
+      "defense": 115,
+      "spAttack": 40,
+      "spDefense": 105,
+      "speed": 75
+    },
+    "abilities": [
+      "Skill Link"
+    ],
+    "weight": 62.5,
+    "height": 1.7,
+    "type2": "fighting"
+  },
+  {
+    "dexNumber": 229,
+    "formId": 10048,
+    "name": "Mega Houndoom",
+    "nameKo": "메가헬가",
+    "nameJa": "メガヘルガー",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 75,
+      "attack": 90,
+      "defense": 90,
+      "spAttack": 140,
+      "spDefense": 90,
+      "speed": 115
+    },
+    "abilities": [
+      "Solar Power"
+    ],
+    "weight": 49.5,
+    "height": 1.9,
+    "type2": "fire"
+  },
+  {
+    "dexNumber": 248,
+    "formId": 10049,
+    "name": "Mega Tyranitar",
+    "nameKo": "메가마기라스",
+    "nameJa": "メガバンギラス",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 100,
+      "attack": 164,
+      "defense": 150,
+      "spAttack": 95,
+      "spDefense": 120,
+      "speed": 71
+    },
+    "abilities": [
+      "Sand Stream"
+    ],
+    "weight": 255.0,
+    "height": 2.5,
+    "type2": "dark"
+  },
+  {
+    "dexNumber": 257,
+    "formId": 10050,
+    "name": "Mega Blaziken",
+    "nameKo": "메가번치코",
+    "nameJa": "メガバシャーモ",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 80,
+      "attack": 160,
+      "defense": 80,
+      "spAttack": 130,
+      "spDefense": 80,
+      "speed": 100
+    },
+    "abilities": [
+      "Speed Boost"
+    ],
+    "weight": 52.0,
+    "height": 1.9,
+    "type2": "fighting"
+  },
+  {
+    "dexNumber": 282,
+    "formId": 10051,
+    "name": "Mega Gardevoir",
+    "nameKo": "메가가디안",
+    "nameJa": "メガサーナイト",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 68,
+      "attack": 85,
+      "defense": 65,
+      "spAttack": 165,
+      "spDefense": 135,
+      "speed": 100
+    },
+    "abilities": [
+      "Pixilate"
+    ],
+    "weight": 48.4,
+    "height": 1.6,
+    "type2": "fairy"
+  },
+  {
+    "dexNumber": 303,
+    "formId": 10052,
+    "name": "Mega Mawile",
+    "nameKo": "메가입치트",
+    "nameJa": "メガクチート",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 50,
+      "attack": 105,
+      "defense": 125,
+      "spAttack": 55,
+      "spDefense": 95,
+      "speed": 50
+    },
+    "abilities": [
+      "Huge Power"
+    ],
+    "weight": 23.5,
+    "height": 1.0,
+    "type2": "fairy"
+  },
+  {
+    "dexNumber": 306,
+    "formId": 10053,
+    "name": "Mega Aggron",
+    "nameKo": "메가보스로라",
+    "nameJa": "メガボスゴドラ",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 70,
+      "attack": 140,
+      "defense": 230,
+      "spAttack": 60,
+      "spDefense": 80,
+      "speed": 50
+    },
+    "abilities": [
+      "Filter"
+    ],
+    "weight": 395.0,
+    "height": 2.2
+  },
+  {
+    "dexNumber": 308,
+    "formId": 10054,
+    "name": "Mega Medicham",
+    "nameKo": "메가요가램",
+    "nameJa": "メガチャーレム",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 60,
+      "attack": 100,
+      "defense": 85,
+      "spAttack": 80,
+      "spDefense": 85,
+      "speed": 100
+    },
+    "abilities": [
+      "Pure Power"
+    ],
+    "weight": 31.5,
+    "height": 1.3,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 310,
+    "formId": 10055,
+    "name": "Mega Manectric",
+    "nameKo": "메가썬더볼트",
+    "nameJa": "メガライボルト",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 70,
+      "attack": 75,
+      "defense": 80,
+      "spAttack": 135,
+      "spDefense": 80,
+      "speed": 135
+    },
+    "abilities": [
+      "Intimidate"
+    ],
+    "weight": 44.0,
+    "height": 1.8
+  },
+  {
+    "dexNumber": 354,
+    "formId": 10056,
+    "name": "Mega Banette",
+    "nameKo": "메가다크펫",
+    "nameJa": "メガジュペッタ",
+    "type1": "ghost",
+    "baseStats": {
+      "hp": 64,
+      "attack": 165,
+      "defense": 75,
+      "spAttack": 93,
+      "spDefense": 83,
+      "speed": 75
+    },
+    "abilities": [
+      "Prankster"
+    ],
+    "weight": 13.0,
+    "height": 1.2
+  },
+  {
+    "dexNumber": 359,
+    "formId": 10057,
+    "name": "Mega Absol",
+    "nameKo": "메가앱솔",
+    "nameJa": "メガアブソル",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 65,
+      "attack": 150,
+      "defense": 60,
+      "spAttack": 115,
+      "spDefense": 60,
+      "speed": 115
+    },
+    "abilities": [
+      "Magic Bounce"
+    ],
+    "weight": 49.0,
+    "height": 1.2
+  },
+  {
+    "dexNumber": 445,
+    "formId": 10058,
+    "name": "Mega Garchomp",
+    "nameKo": "메가한카리아스",
+    "nameJa": "メガガブリアス",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 108,
+      "attack": 170,
+      "defense": 115,
+      "spAttack": 120,
+      "spDefense": 95,
+      "speed": 92
+    },
+    "abilities": [
+      "Sand Force"
+    ],
+    "weight": 95.0,
+    "height": 1.9,
+    "type2": "ground"
+  },
+  {
+    "dexNumber": 448,
+    "formId": 10059,
+    "name": "Mega Lucario",
+    "nameKo": "메가루카리오",
+    "nameJa": "メガルカリオ",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 70,
+      "attack": 145,
+      "defense": 88,
+      "spAttack": 140,
+      "spDefense": 70,
+      "speed": 112
+    },
+    "abilities": [
+      "Adaptability"
+    ],
+    "weight": 57.5,
+    "height": 1.3,
+    "type2": "steel"
+  },
+  {
+    "dexNumber": 460,
+    "formId": 10060,
+    "name": "Mega Abomasnow",
+    "nameKo": "메가눈설왕",
+    "nameJa": "メガユキノオー",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 90,
+      "attack": 132,
+      "defense": 105,
+      "spAttack": 132,
+      "spDefense": 105,
+      "speed": 30
+    },
+    "abilities": [
+      "Snow Warning"
+    ],
+    "weight": 185.0,
+    "height": 2.7,
+    "type2": "ice"
+  },
+  {
+    "dexNumber": 380,
+    "formId": 10062,
+    "name": "Mega Latias",
+    "nameKo": "메가라티아스",
+    "nameJa": "メガラティアス",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 80,
+      "attack": 100,
+      "defense": 120,
+      "spAttack": 140,
+      "spDefense": 150,
+      "speed": 110
+    },
+    "abilities": [
+      "Levitate"
+    ],
+    "weight": 52.0,
+    "height": 1.8,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 381,
+    "formId": 10063,
+    "name": "Mega Latios",
+    "nameKo": "메가라티오스",
+    "nameJa": "メガラティオス",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 80,
+      "attack": 130,
+      "defense": 100,
+      "spAttack": 160,
+      "spDefense": 120,
+      "speed": 110
+    },
+    "abilities": [
+      "Levitate"
+    ],
+    "weight": 70.0,
+    "height": 2.3,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 260,
+    "formId": 10064,
+    "name": "Mega Swampert",
+    "nameKo": "메가대짱이",
+    "nameJa": "メガラグラージ",
+    "type1": "water",
+    "baseStats": {
+      "hp": 100,
+      "attack": 150,
+      "defense": 110,
+      "spAttack": 95,
+      "spDefense": 110,
+      "speed": 70
+    },
+    "abilities": [
+      "Swift Swim"
+    ],
+    "weight": 102.0,
+    "height": 1.9,
+    "type2": "ground"
+  },
+  {
+    "dexNumber": 254,
+    "formId": 10065,
+    "name": "Mega Sceptile",
+    "nameKo": "메가나무킹",
+    "nameJa": "メガジュカイン",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 70,
+      "attack": 110,
+      "defense": 75,
+      "spAttack": 145,
+      "spDefense": 85,
+      "speed": 145
+    },
+    "abilities": [
+      "Lightning Rod"
+    ],
+    "weight": 55.2,
+    "height": 1.9,
+    "type2": "dragon"
+  },
+  {
+    "dexNumber": 302,
+    "formId": 10066,
+    "name": "Mega Sableye",
+    "nameKo": "메가깜까미",
+    "nameJa": "メガヤミラミ",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 50,
+      "attack": 85,
+      "defense": 125,
+      "spAttack": 85,
+      "spDefense": 115,
+      "speed": 20
+    },
+    "abilities": [
+      "Magic Bounce"
+    ],
+    "weight": 161.0,
+    "height": 0.5,
+    "type2": "ghost"
+  },
+  {
+    "dexNumber": 334,
+    "formId": 10067,
+    "name": "Mega Altaria",
+    "nameKo": "메가파비코리",
+    "nameJa": "メガチルタリス",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 75,
+      "attack": 110,
+      "defense": 110,
+      "spAttack": 110,
+      "spDefense": 105,
+      "speed": 80
+    },
+    "abilities": [
+      "Pixilate"
+    ],
+    "weight": 20.6,
+    "height": 1.5,
+    "type2": "fairy"
+  },
+  {
+    "dexNumber": 475,
+    "formId": 10068,
+    "name": "Mega Gallade",
+    "nameKo": "메가엘레이드",
+    "nameJa": "メガエルレイド",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 68,
+      "attack": 165,
+      "defense": 95,
+      "spAttack": 65,
+      "spDefense": 115,
+      "speed": 110
+    },
+    "abilities": [
+      "Inner Focus"
+    ],
+    "weight": 56.4,
+    "height": 1.6,
+    "type2": "fighting"
+  },
+  {
+    "dexNumber": 531,
+    "formId": 10069,
+    "name": "Mega Audino",
+    "nameKo": "메가다부니",
+    "nameJa": "メガタブンネ",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 103,
+      "attack": 60,
+      "defense": 126,
+      "spAttack": 80,
+      "spDefense": 126,
+      "speed": 50
+    },
+    "abilities": [
+      "Healer"
+    ],
+    "weight": 32.0,
+    "height": 1.5,
+    "type2": "fairy"
+  },
+  {
+    "dexNumber": 319,
+    "formId": 10070,
+    "name": "Mega Sharpedo",
+    "nameKo": "메가샤크니아",
+    "nameJa": "メガサメハダー",
+    "type1": "water",
+    "baseStats": {
+      "hp": 70,
+      "attack": 140,
+      "defense": 70,
+      "spAttack": 110,
+      "spDefense": 65,
+      "speed": 105
+    },
+    "abilities": [
+      "Strong Jaw"
+    ],
+    "weight": 130.3,
+    "height": 2.5,
+    "type2": "dark"
+  },
+  {
+    "dexNumber": 80,
+    "formId": 10071,
+    "name": "Mega Slowbro",
+    "nameKo": "메가야도란",
+    "nameJa": "メガヤドラン",
+    "type1": "water",
+    "baseStats": {
+      "hp": 95,
+      "attack": 75,
+      "defense": 180,
+      "spAttack": 130,
+      "spDefense": 80,
+      "speed": 30
+    },
+    "abilities": [
+      "Shell Armor"
+    ],
+    "weight": 120.0,
+    "height": 2.0,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 208,
+    "formId": 10072,
+    "name": "Mega Steelix",
+    "nameKo": "메가강철톤",
+    "nameJa": "メガハガネール",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 75,
+      "attack": 125,
+      "defense": 230,
+      "spAttack": 55,
+      "spDefense": 95,
+      "speed": 30
+    },
+    "abilities": [
+      "Sand Force"
+    ],
+    "weight": 740.0,
+    "height": 10.5,
+    "type2": "ground"
+  },
+  {
+    "dexNumber": 18,
+    "formId": 10073,
+    "name": "Mega Pidgeot",
+    "nameKo": "메가피죤투",
+    "nameJa": "メガピジョット",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 83,
+      "attack": 80,
+      "defense": 80,
+      "spAttack": 135,
+      "spDefense": 80,
+      "speed": 121
+    },
+    "abilities": [
+      "No Guard"
+    ],
+    "weight": 50.5,
+    "height": 2.2,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 362,
+    "formId": 10074,
+    "name": "Mega Glalie",
+    "nameKo": "메가얼음귀신",
+    "nameJa": "メガオニゴーリ",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 80,
+      "attack": 120,
+      "defense": 80,
+      "spAttack": 120,
+      "spDefense": 80,
+      "speed": 100
+    },
+    "abilities": [
+      "Refrigerate"
+    ],
+    "weight": 350.2,
+    "height": 2.1
+  },
+  {
+    "dexNumber": 719,
+    "formId": 10075,
+    "name": "Mega Diancie",
+    "nameKo": "메가디안시",
+    "nameJa": "メガディアンシー",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 50,
+      "attack": 160,
+      "defense": 110,
+      "spAttack": 160,
+      "spDefense": 110,
+      "speed": 110
+    },
+    "abilities": [
+      "Magic Bounce"
+    ],
+    "weight": 27.8,
+    "height": 1.1,
+    "type2": "fairy"
+  },
+  {
+    "dexNumber": 376,
+    "formId": 10076,
+    "name": "Mega Metagross",
+    "nameKo": "메가메타그로스",
+    "nameJa": "メガメタグロス",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 80,
+      "attack": 145,
+      "defense": 150,
+      "spAttack": 105,
+      "spDefense": 110,
+      "speed": 110
+    },
+    "abilities": [
+      "Tough Claws"
+    ],
+    "weight": 942.9,
+    "height": 2.5,
+    "type2": "psychic"
+  },
+  {
+    "dexNumber": 384,
+    "formId": 10079,
+    "name": "Mega Rayquaza",
+    "nameKo": "메가레쿠쟈",
+    "nameJa": "メガレックウザ",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 105,
+      "attack": 180,
+      "defense": 100,
+      "spAttack": 180,
+      "spDefense": 100,
+      "speed": 115
+    },
+    "abilities": [
+      "Delta Stream"
+    ],
+    "weight": 392.0,
+    "height": 10.8,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 323,
+    "formId": 10087,
+    "name": "Mega Camerupt",
+    "nameKo": "메가폭타",
+    "nameJa": "メガバクーダ",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 70,
+      "attack": 120,
+      "defense": 100,
+      "spAttack": 145,
+      "spDefense": 105,
+      "speed": 20
+    },
+    "abilities": [
+      "Sheer Force"
+    ],
+    "weight": 320.5,
+    "height": 2.5,
+    "type2": "ground"
+  },
+  {
+    "dexNumber": 428,
+    "formId": 10088,
+    "name": "Mega Lopunny",
+    "nameKo": "메가이어롭",
+    "nameJa": "メガミミロップ",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 65,
+      "attack": 136,
+      "defense": 94,
+      "spAttack": 54,
+      "spDefense": 96,
+      "speed": 135
+    },
+    "abilities": [
+      "Scrappy"
+    ],
+    "weight": 28.3,
+    "height": 1.3,
+    "type2": "fighting"
+  },
+  {
+    "dexNumber": 373,
+    "formId": 10089,
+    "name": "Mega Salamence",
+    "nameKo": "메가보만다",
+    "nameJa": "メガボーマンダ",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 95,
+      "attack": 145,
+      "defense": 130,
+      "spAttack": 120,
+      "spDefense": 90,
+      "speed": 120
+    },
+    "abilities": [
+      "Aerilate"
+    ],
+    "weight": 112.6,
+    "height": 1.8,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 15,
+    "formId": 10090,
+    "name": "Mega Beedrill",
+    "nameKo": "메가독침붕",
+    "nameJa": "メガスピアー",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 65,
+      "attack": 150,
+      "defense": 40,
+      "spAttack": 15,
+      "spDefense": 80,
+      "speed": 145
+    },
+    "abilities": [
+      "Adaptability"
+    ],
+    "weight": 40.5,
+    "height": 1.4,
+    "type2": "poison"
+  },
+  {
+    "dexNumber": 36,
+    "formId": 10278,
+    "name": "Mega Clefable",
+    "nameKo": "픽시",
+    "nameJa": "ピクシー",
+    "type1": "fairy",
+    "baseStats": {
+      "hp": 95,
+      "attack": 80,
+      "defense": 93,
+      "spAttack": 135,
+      "spDefense": 110,
+      "speed": 70
+    },
+    "abilities": [],
+    "weight": 42.3,
+    "height": 1.7,
+    "type2": "flying"
+  },
+  {
+    "dexNumber": 71,
+    "formId": 10279,
+    "name": "Mega Victreebel",
+    "nameKo": "우츠보트",
+    "nameJa": "ウツボット",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 80,
+      "attack": 125,
+      "defense": 85,
+      "spAttack": 135,
+      "spDefense": 95,
+      "speed": 70
+    },
+    "abilities": [],
+    "weight": 125.5,
+    "height": 4.5,
+    "type2": "poison"
+  }
+]
