@@ -177,7 +177,9 @@ class _StatInputState extends State<StatInput> {
       final List<dynamic> list = json.decode(jsonString) as List<dynamic>;
       final map = <String, String>{};
       for (final entry in list) {
-        map[entry['name'] as String] = entry['nameKo'] as String;
+        if (entry['battle'] == true) {
+          map[entry['name'] as String] = entry['nameKo'] as String;
+        }
       }
       setState(() {
         _itemNameMap = map;
@@ -413,7 +415,9 @@ class _StatInputState extends State<StatInput> {
 
     final initialText = _itemDisplayName(widget.selectedItem);
 
-    return Autocomplete<String>(
+    return KeyedSubtree(
+      key: ValueKey('item_${widget.selectedItem}'),
+      child: Autocomplete<String>(
       initialValue: TextEditingValue(text: initialText),
       displayStringForOption: (key) => _itemDisplayName(key.isEmpty ? null : key),
       optionsBuilder: (textEditingValue) {
@@ -439,6 +443,7 @@ class _StatInputState extends State<StatInput> {
           onTap: () => controller.clear(),
         );
       },
+    ),
     );
   }
 
