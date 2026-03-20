@@ -22,6 +22,8 @@ class DamageCalculatorScreen extends StatefulWidget {
 }
 
 class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
+  int _resetCounter = 0;
+
   // Default: Bulbasaur
   PokemonType _type1 = PokemonType.grass;
   PokemonType? _type2 = PokemonType.poison;
@@ -108,13 +110,52 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
     );
   }
 
-  void _rebuild() => setState(() {});
+  void _reset() {
+    setState(() {
+      _resetCounter++;
+      _type1 = PokemonType.grass;
+      _type2 = PokemonType.poison;
+      _baseStats = const Stats(
+        hp: 45, attack: 49, defense: 49,
+        spAttack: 65, spDefense: 65, speed: 45,
+      );
+      _pokemonAbilities = ['Overgrow', 'Chlorophyll'];
+      _selectedAbility = 'Overgrow';
+      _level = 50;
+      _nature = Nature.hardy;
+      _iv = const Stats(
+        hp: 31, attack: 31, defense: 31,
+        spAttack: 31, spDefense: 31, speed: 31,
+      );
+      _ev = const Stats(
+        hp: 0, attack: 0, defense: 0,
+        spAttack: 0, spDefense: 0, speed: 0,
+      );
+      _moves.fillRange(0, 4, null);
+      _typeOverrides.fillRange(0, 4, null);
+      _categoryOverrides.fillRange(0, 4, null);
+      _powerOverrides.fillRange(0, 4, null);
+      _criticals.fillRange(0, 4, false);
+      _selectedItem = null;
+      _rank = const Rank();
+      _hpPercent = 100;
+      _weather = Weather.none;
+      _terrain = Terrain.none;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('결정력 계산기'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: '초기화',
+            onPressed: _reset,
+          ),
+        ],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -125,6 +166,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
             _sectionCard(
               title: '포켓몬',
               child: PokemonSelector(
+                key: ValueKey('pokemon_$_resetCounter'),
                 onSelected: (name, type1, type2, baseStats, abilities) {
                   setState(() {
                     _type1 = type1;
@@ -142,6 +184,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
             _sectionCard(
               title: '능력치',
               child: StatInput(
+                key: ValueKey('stats_$_resetCounter'),
                 level: _level,
                 nature: _nature,
                 iv: _iv,
@@ -270,7 +313,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
           Expanded(
             flex: 3,
             child: MoveSelector(
-              key: ValueKey('move_$index'),
+              key: ValueKey('move_${index}_$_resetCounter'),
               onSelected: (m) => setState(() {
                 _moves[index] = m;
                 _typeOverrides[index] = null;
