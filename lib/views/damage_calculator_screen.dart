@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import '../utils/image_saver.dart' as saver;
 import '../models/battle_pokemon.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
@@ -18,6 +21,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   final _attacker = BattlePokemonState();
   final _defender = BattlePokemonState();
+  final _attackerPanelKey = GlobalKey<PokemonPanelState>();
+  final _defenderPanelKey = GlobalKey<PokemonPanelState>();
   int _resetCounter = 0;
 
   Weather _weather = Weather.none;
@@ -35,6 +40,34 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _capture() async {
+    final currentTab = _tabController.index;
+    PokemonPanelState? panelState;
+    if (currentTab == 0) {
+      panelState = _attackerPanelKey.currentState;
+    } else if (currentTab == 1) {
+      panelState = _defenderPanelKey.currentState;
+    }
+    if (panelState == null) return;
+
+    final image = await panelState.captureScreenshot();
+    if (image == null || !mounted) return;
+
+    try {
+      final filename = 'pokemon_calc_${DateTime.now().millisecondsSinceEpoch}';
+      await saver.saveImage(image, filename);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('이미지가 저장되었습니다'), duration: Duration(seconds: 2)),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('저장 실패: $e'), duration: const Duration(seconds: 2)),
+      );
+    }
   }
 
   void _reset() {
@@ -152,6 +185,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.camera_alt_outlined),
+            tooltip: '캡처',
+            onPressed: _capture,
+          ),
+          IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: '초기화',
             onPressed: _reset,
@@ -175,18 +213,22 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               controller: _tabController,
               children: [
                 PokemonPanel(
-                  key: ValueKey('attacker_$_resetCounter'),
+                  key: _attackerPanelKey,
                   state: _attacker,
                   weather: _weather,
                   terrain: _terrain,
+                  room: _room,
+                  label: '공격측',
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
                 ),
                 PokemonPanel(
-                  key: ValueKey('defender_$_resetCounter'),
+                  key: _defenderPanelKey,
                   state: _defender,
                   weather: _weather,
                   terrain: _terrain,
+                  room: _room,
+                  label: '방어측',
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
                 ),

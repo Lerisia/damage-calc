@@ -1,8 +1,11 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/move.dart';
+import '../../models/room.dart';
 import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
@@ -25,6 +28,8 @@ class PokemonPanel extends StatefulWidget {
   final BattlePokemonState state;
   final Weather weather;
   final Terrain terrain;
+  final Room room;
+  final String label;
   final VoidCallback onChanged;
   final int resetCounter;
 
@@ -33,22 +38,36 @@ class PokemonPanel extends StatefulWidget {
     required this.state,
     required this.weather,
     required this.terrain,
+    this.room = Room.none,
+    this.label = '',
     required this.onChanged,
     required this.resetCounter,
   });
 
   @override
-  State<PokemonPanel> createState() => _PokemonPanelState();
+  State<PokemonPanel> createState() => PokemonPanelState();
 }
 
-class _PokemonPanelState extends State<PokemonPanel>
+class PokemonPanelState extends State<PokemonPanel>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
   final _movesSectionKey = GlobalKey();
   final _scrollController = ScrollController();
+  final _screenshotController = ScreenshotController();
 
   BattlePokemonState get s => widget.state;
+
+  Future<Uint8List?> captureScreenshot() async {
+    try {
+      return await _screenshotController.capture(
+        delay: const Duration(milliseconds: 100),
+        pixelRatio: 2.0,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
 
   void _notify() {
     widget.onChanged();
@@ -173,9 +192,17 @@ class _PokemonPanelState extends State<PokemonPanel>
       controller: _scrollController,
       padding: EdgeInsets.fromLTRB(16, 16, 16,
           MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+      child: Screenshot(
+        controller: _screenshotController,
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          padding: const EdgeInsets.all(4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Capture header (weather/terrain/room info)
+              _captureHeader(),
+              const SizedBox(height: 8),
           _sectionCard(
             title: '포켓몬',
             child: PokemonSelector(
@@ -274,7 +301,61 @@ class _PokemonPanelState extends State<PokemonPanel>
           ),
         ],
       ),
+    )),
     );
+  }
+
+  Widget _captureHeader() {
+    final parts = <String>[];
+    if (widget.label.isNotEmpty) parts.add(widget.label);
+    if (widget.weather != Weather.none) parts.add(_weatherKo(widget.weather));
+    if (widget.terrain != Terrain.none) parts.add(_terrainKo(widget.terrain));
+    if (widget.room != Room.none) parts.add(_roomKo(widget.room));
+
+    if (parts.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      child: Text(
+        parts.join(' | '),
+        style: TextStyle(
+          fontSize: 12,
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+        ),
+      ),
+    );
+  }
+
+  String _weatherKo(Weather w) {
+    switch (w) {
+      case Weather.none: return '';
+      case Weather.sun: return '☀️쾌청';
+      case Weather.rain: return '🌧️비';
+      case Weather.sandstorm: return '🏜️모래바람';
+      case Weather.snow: return '❄️눈';
+      case Weather.harshSun: return '🔥강한 햇살';
+      case Weather.heavyRain: return '🌊강한 비';
+      case Weather.strongWinds: return '🌪️난기류';
+    }
+  }
+
+  String _terrainKo(Terrain t) {
+    switch (t) {
+      case Terrain.none: return '';
+      case Terrain.electric: return '⚡일렉트릭필드';
+      case Terrain.grassy: return '🌿그래스필드';
+      case Terrain.psychic: return '🔮사이코필드';
+      case Terrain.misty: return '💫미스트필드';
+    }
+  }
+
+  String _roomKo(Room r) {
+    switch (r) {
+      case Room.none: return '';
+      case Room.trickRoom: return '🔄트릭룸';
+      case Room.magicRoom: return '✨매직룸';
+      case Room.wonderRoom: return '❓원더룸';
+    }
   }
 
   Widget _moveHeader(BuildContext context) {
