@@ -68,11 +68,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       category: categoryOverride,
     );
 
+    // Transform move (Weather Ball, HP power, terrain boost, etc.)
+    final context = MoveContext(
+      weather: _weather,
+      terrain: _terrain,
+      rank: _rank,
+      hpPercent: _hpPercent,
+      hasItem: _selectedItem != null,
+    );
+    final transformed = transformMove(move, context);
+
     final itemEffect = _selectedItem != null
-        ? getItemEffect(_selectedItem!, move: move)
+        ? getItemEffect(_selectedItem!, move: transformed.move)
         : const ItemEffect();
     final abilityEffect = _selectedAbility != null
-        ? getAbilityEffect(_selectedAbility!, move: move)
+        ? getAbilityEffect(_selectedAbility!, move: transformed.move)
         : const AbilityEffect();
 
     final double statMod =
@@ -80,16 +90,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
     final double powerMod =
         itemEffect.powerModifier * abilityEffect.powerModifier;
 
-    var effectiveMove = applyWeatherToMove(move, _weather);
-    effectiveMove = applyTerrainToMove(effectiveMove, _terrain);
-
     return OffensiveCalculator.calculate(
       baseStats: _baseStats,
       iv: _iv,
       ev: _ev,
       nature: _nature,
       level: _level,
-      move: effectiveMove,
+      transformed: transformed,
       type1: _type1,
       type2: _type2,
       rank: _rank,
@@ -98,8 +105,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       statModifier: statMod,
       powerModifier: powerMod,
       isCritical: isCritical,
-      hasItem: _selectedItem != null,
-      hpPercent: _hpPercent,
     );
   }
 
@@ -238,37 +243,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
     final move = _moves[index];
     final effectiveType = _typeOverrides[index] ?? move?.type;
     final effectiveCategory = _categoryOverrides[index] ?? move?.category;
-    var basePower = move?.power ?? 0;
+    final int basePower;
     if (move != null) {
-      if (move.hasTag('custom:double_no_item') && _selectedItem == null) {
-        basePower = basePower * 2;
-      }
-      if (move.hasTag('custom:terrain_double_electric') && _terrain == Terrain.electric) {
-        basePower = basePower * 2;
-      }
-      if (move.hasTag('custom:terrain_boost_psychic') && _terrain == Terrain.psychic) {
-        basePower = (basePower * 1.5).floor();
-      }
-      if (move.hasTag('custom:terrain_boost_misty') && _terrain == Terrain.misty) {
-        basePower = (basePower * 1.5).floor();
-      }
-      if (move.hasTag('custom:rank_power')) {
-        final totalBoosts = [_rank.attack, _rank.defense, _rank.spAttack, _rank.spDefense, _rank.speed]
-            .where((r) => r > 0)
-            .fold(0, (sum, r) => sum + r);
-        basePower = 20 + 20 * totalBoosts;
-      }
-      if (move.hasTag('custom:hp_power_high')) {
-        basePower = (150 * _hpPercent / 100).floor().clamp(1, 150);
-      }
-      if (move.hasTag('custom:hp_power_low')) {
-        if (_hpPercent >= 69) basePower = 20;
-        else if (_hpPercent >= 35) basePower = 40;
-        else if (_hpPercent >= 21) basePower = 80;
-        else if (_hpPercent >= 10) basePower = 100;
-        else if (_hpPercent >= 4) basePower = 150;
-        else basePower = 200;
-      }
+      final context = MoveContext(
+        weather: _weather,
+        terrain: _terrain,
+        rank: _rank,
+        hpPercent: _hpPercent,
+        hasItem: _selectedItem != null,
+      );
+      basePower = transformMove(move, context).move.power;
+    } else {
+      basePower = 0;
     }
     final effectivePower = _powerOverrides[index] ?? basePower;
     final result = _computeResultFor(move, _criticals[index],

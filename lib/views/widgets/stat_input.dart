@@ -6,6 +6,38 @@ import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../utils/stat_calculator.dart';
 
+class _ClampingFormatter extends TextInputFormatter {
+  final int min;
+  final int max;
+  final bool allowNegative;
+
+  _ClampingFormatter({required this.min, required this.max, this.allowNegative = false});
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) return newValue;
+    if (allowNegative && newValue.text == '-') return newValue;
+
+    final parsed = int.tryParse(newValue.text);
+    if (parsed == null) return oldValue;
+
+    if (parsed > max) {
+      return TextEditingValue(
+        text: '$max',
+        selection: TextSelection.collapsed(offset: '$max'.length),
+      );
+    }
+    if (parsed < min) {
+      return TextEditingValue(
+        text: '$min',
+        selection: TextSelection.collapsed(offset: '$min'.length),
+      );
+    }
+    return newValue;
+  }
+}
+
 class StatInput extends StatefulWidget {
   final int level;
   final Nature nature;
@@ -422,6 +454,10 @@ class _StatInputState extends State<StatInput> {
               initialValue: '$value',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                _ClampingFormatter(min: 0, max: 252),
+              ],
               style: const TextStyle(fontSize: 13),
               decoration: const InputDecoration(
                 isDense: true,
@@ -458,6 +494,10 @@ class _StatInputState extends State<StatInput> {
               initialValue: '${widget.hpPercent}',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                _ClampingFormatter(min: 0, max: 100),
+              ],
               style: const TextStyle(fontSize: 13),
               decoration: const InputDecoration(
                 isDense: true,
@@ -500,6 +540,9 @@ class _StatInputState extends State<StatInput> {
         initialValue: '$value',
         textAlign: TextAlign.center,
         keyboardType: const TextInputType.numberWithOptions(signed: true),
+        inputFormatters: [
+          _ClampingFormatter(min: -6, max: 6, allowNegative: true),
+        ],
         style: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.bold,
@@ -527,6 +570,10 @@ class _StatInputState extends State<StatInput> {
         initialValue: '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          _ClampingFormatter(min: min, max: max),
+        ],
         style: const TextStyle(fontSize: 13),
         decoration: const InputDecoration(
           isDense: true,
@@ -535,7 +582,7 @@ class _StatInputState extends State<StatInput> {
         onChanged: (text) {
           final parsed = int.tryParse(text);
           if (parsed != null) {
-            onChanged(parsed.clamp(min, max));
+            onChanged(parsed);
           }
         },
       ),
