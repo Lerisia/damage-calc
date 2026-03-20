@@ -147,20 +147,13 @@ class _StatInputState extends State<StatInput> {
     return '$ko (+$buff -$nerf)';
   }
 
-  // Item name -> Korean name
-  static const Map<String, String> _itemKoMap = {
-    'Choice Band': '구애머리띠',
-    'Choice Specs': '구애안경',
-    'Life Orb': '생명의구슬',
-    'Silk Scarf': '실크스카프',
-    'Muscle Band': '힘의머리띠',
-    'Wise Glasses': '박식안경',
-  };
+  Map<String, String> _itemNameMap = {};
 
   @override
   void initState() {
     super.initState();
     _loadAbilities();
+    _loadItems();
   }
 
   Future<void> _loadAbilities() async {
@@ -178,12 +171,31 @@ class _StatInputState extends State<StatInput> {
     } catch (_) {}
   }
 
+  Future<void> _loadItems() async {
+    try {
+      final jsonString = await rootBundle.loadString('assets/items.json');
+      final List<dynamic> list = json.decode(jsonString) as List<dynamic>;
+      final map = <String, String>{};
+      for (final entry in list) {
+        map[entry['name'] as String] = entry['nameKo'] as String;
+      }
+      setState(() {
+        _itemNameMap = map;
+      });
+    } catch (_) {}
+  }
+
   String _abilityKo(String englishName) {
     return _abilityNameMap[englishName] ?? englishName;
   }
 
+  static bool _hasKorean(String s) =>
+      s.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3);
+
   void _rebuildSortedAbilities() {
-    final all = _abilityNameMap.keys.toList();
+    final all = _abilityNameMap.keys
+        .where((a) => _hasKorean(_abilityKo(a)))
+        .toList();
     final pokemon = widget.pokemonAbilities;
     final rest = all.where((a) => !pokemon.contains(a)).toList();
     rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
@@ -389,11 +401,11 @@ class _StatInputState extends State<StatInput> {
 
   String _itemDisplayName(String? key) {
     if (key == null || key.isEmpty) return '없음';
-    return _itemKoMap[key] ?? key;
+    return _itemNameMap[key] ?? key;
   }
 
   Widget _itemAutocomplete() {
-    final allItems = ['', ..._itemKoMap.keys];
+    final allItems = ['', ..._itemNameMap.keys];
     if (widget.selectedItem != null && allItems.contains(widget.selectedItem)) {
       allItems.remove(widget.selectedItem);
       allItems.insert(0, widget.selectedItem!);

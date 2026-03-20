@@ -19,25 +19,25 @@ const _defaultEffect = ItemEffect();
 /// Items that don't affect offensive power return default modifiers (1.0, 1.0).
 ItemEffect getItemEffect(String itemName, {required Move move}) {
   switch (itemName) {
-    case 'Choice Band':
+    case 'choice-band':
       return move.category == MoveCategory.physical
           ? const ItemEffect(statModifier: 1.5)
           : _defaultEffect;
-    case 'Choice Specs':
+    case 'choice-specs':
       return move.category == MoveCategory.special
           ? const ItemEffect(statModifier: 1.5)
           : _defaultEffect;
-    case 'Life Orb':
+    case 'life-orb':
       return const ItemEffect(powerModifier: 1.3);
-    case 'Silk Scarf':
+    case 'silk-scarf':
       return move.type == PokemonType.normal
           ? const ItemEffect(powerModifier: 1.2)
           : _defaultEffect;
-    case 'Muscle Band':
+    case 'muscle-band':
       return move.category == MoveCategory.physical
           ? const ItemEffect(powerModifier: 1.1)
           : _defaultEffect;
-    case 'Wise Glasses':
+    case 'wise-glasses':
       return move.category == MoveCategory.special
           ? const ItemEffect(powerModifier: 1.1)
           : _defaultEffect;
