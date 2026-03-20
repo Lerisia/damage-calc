@@ -1,8 +1,1122 @@
 [
-  { "name": "Choice Band", "nameKo": "구애머리띠", "nameJa": "こだわりハチマキ" },
-  { "name": "Choice Specs", "nameKo": "구애안경", "nameJa": "こだわりメガネ" },
-  { "name": "Life Orb", "nameKo": "생명의구슬", "nameJa": "いのちのたま" },
-  { "name": "Silk Scarf", "nameKo": "실크스카프", "nameJa": "シルクスカーフ" },
-  { "name": "Muscle Band", "nameKo": "힘의머리띠", "nameJa": "ちからのハチマキ" },
-  { "name": "Wise Glasses", "nameKo": "박식안경", "nameJa": "ものしりメガネ" }
+  {
+    "name": "adamant-orb",
+    "nameKo": "금강옥",
+    "nameJa": "こんごうだま"
+  },
+  {
+    "name": "aguav-berry",
+    "nameKo": "아바열매",
+    "nameJa": "バンジのみ"
+  },
+  {
+    "name": "amulet-coin",
+    "nameKo": "부적금화",
+    "nameJa": "おまもりこばん"
+  },
+  {
+    "name": "antidote",
+    "nameKo": "해독제",
+    "nameJa": "どくけし"
+  },
+  {
+    "name": "apicot-berry",
+    "nameKo": "규살열매",
+    "nameJa": "ズアのみ"
+  },
+  {
+    "name": "aspear-berry",
+    "nameKo": "배리열매",
+    "nameJa": "ナナシのみ"
+  },
+  {
+    "name": "awakening",
+    "nameKo": "잠깨는약",
+    "nameJa": "ねむけざまし"
+  },
+  {
+    "name": "babiri-berry",
+    "nameKo": "바리비열매",
+    "nameJa": "リリバのみ"
+  },
+  {
+    "name": "berry-juice",
+    "nameKo": "나무열매쥬스",
+    "nameJa": "きのみジュース"
+  },
+  {
+    "name": "big-root",
+    "nameKo": "큰뿌리",
+    "nameJa": "おおきなねっこ"
+  },
+  {
+    "name": "black-belt",
+    "nameKo": "검은띠",
+    "nameJa": "くろおび"
+  },
+  {
+    "name": "black-flute",
+    "nameKo": "검정비드로",
+    "nameJa": "くろいビードロ"
+  },
+  {
+    "name": "black-glasses",
+    "nameKo": "검은안경",
+    "nameJa": "くろいメガネ"
+  },
+  {
+    "name": "black-sludge",
+    "nameKo": "검은진흙",
+    "nameJa": "くろいヘドロ"
+  },
+  {
+    "name": "blue-flute",
+    "nameKo": "파랑비드로",
+    "nameJa": "あおいビードロ"
+  },
+  {
+    "name": "blue-scarf",
+    "nameKo": "파랑밴드",
+    "nameJa": "あおいバンダナ"
+  },
+  {
+    "name": "bright-powder",
+    "nameKo": "반짝가루",
+    "nameJa": "ひかりのこな"
+  },
+  {
+    "name": "burn-heal",
+    "nameKo": "화상치료제",
+    "nameJa": "やけどなおし"
+  },
+  {
+    "name": "calcium",
+    "nameKo": "리보플라빈",
+    "nameJa": "リゾチウム"
+  },
+  {
+    "name": "carbos",
+    "nameKo": "알칼로이드",
+    "nameJa": "インドメタシン"
+  },
+  {
+    "name": "charcoal",
+    "nameKo": "목탄",
+    "nameJa": "もくたん"
+  },
+  {
+    "name": "charti-berry",
+    "nameKo": "루미열매",
+    "nameJa": "ヨロギのみ"
+  },
+  {
+    "name": "cheri-berry",
+    "nameKo": "버치열매",
+    "nameJa": "クラボのみ"
+  },
+  {
+    "name": "cherish-ball",
+    "nameKo": "프레셔스볼",
+    "nameJa": "プレシャスボール"
+  },
+  {
+    "name": "chesto-berry",
+    "nameKo": "유루열매",
+    "nameJa": "カゴのみ"
+  },
+  {
+    "name": "chilan-berry",
+    "nameKo": "카리열매",
+    "nameJa": "ホズのみ"
+  },
+  {
+    "name": "choice-band",
+    "nameKo": "구애머리띠",
+    "nameJa": "こだわりハチマキ"
+  },
+  {
+    "name": "choice-scarf",
+    "nameKo": "구애스카프",
+    "nameJa": "こだわりスカーフ"
+  },
+  {
+    "name": "choice-specs",
+    "nameKo": "구애안경",
+    "nameJa": "こだわりメガネ"
+  },
+  {
+    "name": "chople-berry",
+    "nameKo": "로플열매",
+    "nameJa": "ヨプのみ"
+  },
+  {
+    "name": "cleanse-tag",
+    "nameKo": "순결의부적",
+    "nameJa": "きよめのおふだ"
+  },
+  {
+    "name": "coba-berry",
+    "nameKo": "바코열매",
+    "nameJa": "バコウのみ"
+  },
+  {
+    "name": "colbur-berry",
+    "nameKo": "마코열매",
+    "nameJa": "ナモのみ"
+  },
+  {
+    "name": "custap-berry",
+    "nameKo": "애슈열매",
+    "nameJa": "イバンのみ"
+  },
+  {
+    "name": "damp-rock",
+    "nameKo": "축축한바위",
+    "nameJa": "しめったいわ"
+  },
+  {
+    "name": "deep-sea-scale",
+    "nameKo": "심해의비늘",
+    "nameJa": "しんかいのウロコ"
+  },
+  {
+    "name": "deep-sea-tooth",
+    "nameKo": "심해의이빨",
+    "nameJa": "しんかいのキバ"
+  },
+  {
+    "name": "destiny-knot",
+    "nameKo": "빨간실",
+    "nameJa": "あかいいと"
+  },
+  {
+    "name": "dire-hit",
+    "nameKo": "크리티컬커터",
+    "nameJa": "クリティカット"
+  },
+  {
+    "name": "dive-ball",
+    "nameKo": "다이브볼",
+    "nameJa": "ダイブボール"
+  },
+  {
+    "name": "draco-plate",
+    "nameKo": "용의플레이트",
+    "nameJa": "りゅうのプレート"
+  },
+  {
+    "name": "dragon-fang",
+    "nameKo": "용의이빨",
+    "nameJa": "りゅうのキバ"
+  },
+  {
+    "name": "dread-plate",
+    "nameKo": "공포플레이트",
+    "nameJa": "こわもてプレート"
+  },
+  {
+    "name": "dusk-ball",
+    "nameKo": "다크볼",
+    "nameJa": "ダークボール"
+  },
+  {
+    "name": "earth-plate",
+    "nameKo": "대지플레이트",
+    "nameJa": "だいちのプレート"
+  },
+  {
+    "name": "elixir",
+    "nameKo": "PP에이더",
+    "nameJa": "ピーピーエイダー"
+  },
+  {
+    "name": "energy-powder",
+    "nameKo": "힘의가루",
+    "nameJa": "ちからのこな"
+  },
+  {
+    "name": "energy-root",
+    "nameKo": "힘의뿌리",
+    "nameJa": "ちからのねっこ"
+  },
+  {
+    "name": "enigma-berry",
+    "nameKo": "의문열매",
+    "nameJa": "ナゾのみ"
+  },
+  {
+    "name": "ether",
+    "nameKo": "PP에이드",
+    "nameJa": "ピーピーエイド"
+  },
+  {
+    "name": "everstone",
+    "nameKo": "변함없는돌",
+    "nameJa": "かわらずのいし"
+  },
+  {
+    "name": "exp-share",
+    "nameKo": "학습장치",
+    "nameJa": "がくしゅうそうち"
+  },
+  {
+    "name": "expert-belt",
+    "nameKo": "달인의띠",
+    "nameJa": "たつじんのおび"
+  },
+  {
+    "name": "figy-berry",
+    "nameKo": "무화열매",
+    "nameJa": "フィラのみ"
+  },
+  {
+    "name": "fist-plate",
+    "nameKo": "주먹플레이트",
+    "nameJa": "こぶしのプレート"
+  },
+  {
+    "name": "flame-orb",
+    "nameKo": "화염구슬",
+    "nameJa": "かえんだま"
+  },
+  {
+    "name": "flame-plate",
+    "nameKo": "불구슬플레이트",
+    "nameJa": "ひのたまプレート"
+  },
+  {
+    "name": "fluffy-tail",
+    "nameKo": "에나비꼬리",
+    "nameJa": "エネコのシッポ"
+  },
+  {
+    "name": "focus-band",
+    "nameKo": "기합의머리띠",
+    "nameJa": "きあいのハチマキ"
+  },
+  {
+    "name": "focus-sash",
+    "nameKo": "기합의띠",
+    "nameJa": "きあいのタスキ"
+  },
+  {
+    "name": "fresh-water",
+    "nameKo": "맛있는물",
+    "nameJa": "おいしいみず"
+  },
+  {
+    "name": "full-heal",
+    "nameKo": "만병통치제",
+    "nameJa": "なんでもなおし"
+  },
+  {
+    "name": "full-incense",
+    "nameKo": "만복향로",
+    "nameJa": "まんぷくおこう"
+  },
+  {
+    "name": "full-restore",
+    "nameKo": "회복약",
+    "nameJa": "かいふくのくすり"
+  },
+  {
+    "name": "ganlon-berry",
+    "nameKo": "용아열매",
+    "nameJa": "リュガのみ"
+  },
+  {
+    "name": "great-ball",
+    "nameKo": "수퍼볼",
+    "nameJa": "スーパーボール"
+  },
+  {
+    "name": "green-scarf",
+    "nameKo": "초록밴드",
+    "nameJa": "みどりのバンダナ"
+  },
+  {
+    "name": "grip-claw",
+    "nameKo": "끈기갈고리손톱",
+    "nameJa": "ねばりのかぎづめ"
+  },
+  {
+    "name": "guard-spec",
+    "nameKo": "이펙트가드",
+    "nameJa": "エフェクトガード"
+  },
+  {
+    "name": "haban-berry",
+    "nameKo": "하반열매",
+    "nameJa": "ハバンのみ"
+  },
+  {
+    "name": "hard-stone",
+    "nameKo": "딱딱한돌",
+    "nameJa": "かたいいし"
+  },
+  {
+    "name": "heal-ball",
+    "nameKo": "힐볼",
+    "nameJa": "ヒールボール"
+  },
+  {
+    "name": "heal-powder",
+    "nameKo": "만능가루",
+    "nameJa": "ばんのうごな"
+  },
+  {
+    "name": "heat-rock",
+    "nameKo": "뜨거운바위",
+    "nameJa": "あついいわ"
+  },
+  {
+    "name": "hp-up",
+    "nameKo": "맥스업",
+    "nameJa": "マックスアップ"
+  },
+  {
+    "name": "hyper-potion",
+    "nameKo": "고급상처약",
+    "nameJa": "すごいキズぐすり"
+  },
+  {
+    "name": "iapapa-berry",
+    "nameKo": "파야열매",
+    "nameJa": "イアのみ"
+  },
+  {
+    "name": "ice-heal",
+    "nameKo": "얼음상태치료제",
+    "nameJa": "こおりなおし"
+  },
+  {
+    "name": "icicle-plate",
+    "nameKo": "고드름플레이트",
+    "nameJa": "つららのプレート"
+  },
+  {
+    "name": "icy-rock",
+    "nameKo": "차가운바위",
+    "nameJa": "つめたいいわ"
+  },
+  {
+    "name": "insect-plate",
+    "nameKo": "비단벌레플레이트",
+    "nameJa": "たまむしプレート"
+  },
+  {
+    "name": "iron",
+    "nameKo": "사포닌",
+    "nameJa": "ブロムヘキシン"
+  },
+  {
+    "name": "iron-ball",
+    "nameKo": "검은철구",
+    "nameJa": "くろいてっきゅう"
+  },
+  {
+    "name": "iron-plate",
+    "nameKo": "강철플레이트",
+    "nameJa": "こうてつプレート"
+  },
+  {
+    "name": "jaboca-berry",
+    "nameKo": "자보열매",
+    "nameJa": "ジャポのみ"
+  },
+  {
+    "name": "kasib-berry",
+    "nameKo": "수불열매",
+    "nameJa": "カシブのみ"
+  },
+  {
+    "name": "kebia-berry",
+    "nameKo": "으름열매",
+    "nameJa": "ビアーのみ"
+  },
+  {
+    "name": "kings-rock",
+    "nameKo": "왕의징표석",
+    "nameJa": "おうじゃのしるし"
+  },
+  {
+    "name": "lagging-tail",
+    "nameKo": "느림보꼬리",
+    "nameJa": "こうこうのしっぽ"
+  },
+  {
+    "name": "lansat-berry",
+    "nameKo": "랑사열매",
+    "nameJa": "サンのみ"
+  },
+  {
+    "name": "lava-cookie",
+    "nameKo": "용암전병",
+    "nameJa": "フエンせんべい"
+  },
+  {
+    "name": "lax-incense",
+    "nameKo": "무사태평향로",
+    "nameJa": "のんきのおこう"
+  },
+  {
+    "name": "leftovers",
+    "nameKo": "먹다남은음식",
+    "nameJa": "たべのこし"
+  },
+  {
+    "name": "lemonade",
+    "nameKo": "후르츠밀크",
+    "nameJa": "ミックスオレ"
+  },
+  {
+    "name": "leppa-berry",
+    "nameKo": "과사열매",
+    "nameJa": "ヒメリのみ"
+  },
+  {
+    "name": "liechi-berry",
+    "nameKo": "치리열매",
+    "nameJa": "チイラのみ"
+  },
+  {
+    "name": "life-orb",
+    "nameKo": "생명의구슬",
+    "nameJa": "いのちのたま"
+  },
+  {
+    "name": "light-ball",
+    "nameKo": "전기구슬",
+    "nameJa": "でんきだま"
+  },
+  {
+    "name": "light-clay",
+    "nameKo": "빛의점토",
+    "nameJa": "ひかりのねんど"
+  },
+  {
+    "name": "linking-cord",
+    "nameKo": "연결의끈",
+    "nameJa": "つながりのヒモ"
+  },
+  {
+    "name": "luck-incense",
+    "nameKo": "행운의향로",
+    "nameJa": "こううんのおこう"
+  },
+  {
+    "name": "lucky-egg",
+    "nameKo": "행복의알",
+    "nameJa": "しあわせタマゴ"
+  },
+  {
+    "name": "lucky-punch",
+    "nameKo": "럭키펀치",
+    "nameJa": "ラッキーパンチ"
+  },
+  {
+    "name": "lum-berry",
+    "nameKo": "리샘열매",
+    "nameJa": "ラムのみ"
+  },
+  {
+    "name": "lustrous-orb",
+    "nameKo": "백옥",
+    "nameJa": "しらたま"
+  },
+  {
+    "name": "luxury-ball",
+    "nameKo": "럭셔리볼",
+    "nameJa": "ゴージャスボール"
+  },
+  {
+    "name": "macho-brace",
+    "nameKo": "교정깁스",
+    "nameJa": "きょうせいギプス"
+  },
+  {
+    "name": "magnet",
+    "nameKo": "자석",
+    "nameJa": "じしゃく"
+  },
+  {
+    "name": "mago-berry",
+    "nameKo": "마고열매",
+    "nameJa": "マゴのみ"
+  },
+  {
+    "name": "master-ball",
+    "nameKo": "마스터볼",
+    "nameJa": "マスターボール"
+  },
+  {
+    "name": "max-elixir",
+    "nameKo": "PP맥스",
+    "nameJa": "ピーピーマックス"
+  },
+  {
+    "name": "max-ether",
+    "nameKo": "PP회복",
+    "nameJa": "ピーピーリカバー"
+  },
+  {
+    "name": "max-potion",
+    "nameKo": "풀회복약",
+    "nameJa": "まんたんのくすり"
+  },
+  {
+    "name": "max-revive",
+    "nameKo": "기력의덩어리",
+    "nameJa": "げんきのかたまり"
+  },
+  {
+    "name": "meadow-plate",
+    "nameKo": "초록플레이트",
+    "nameJa": "みどりのプレート"
+  },
+  {
+    "name": "mental-herb",
+    "nameKo": "멘탈허브",
+    "nameJa": "メンタルハーブ"
+  },
+  {
+    "name": "metal-coat",
+    "nameKo": "금속코트",
+    "nameJa": "メタルコート"
+  },
+  {
+    "name": "metal-powder",
+    "nameKo": "금속파우더",
+    "nameJa": "メタルパウダー"
+  },
+  {
+    "name": "metronome",
+    "nameKo": "메트로놈",
+    "nameJa": "メトロノーム"
+  },
+  {
+    "name": "micle-berry",
+    "nameKo": "미클열매",
+    "nameJa": "ミクルのみ"
+  },
+  {
+    "name": "mind-plate",
+    "nameKo": "이상한플레이트",
+    "nameJa": "ふしぎのプレート"
+  },
+  {
+    "name": "miracle-seed",
+    "nameKo": "기적의씨",
+    "nameJa": "きせきのタネ"
+  },
+  {
+    "name": "moomoo-milk",
+    "nameKo": "튼튼밀크",
+    "nameJa": "モーモーミルク"
+  },
+  {
+    "name": "muscle-band",
+    "nameKo": "힘의머리띠",
+    "nameJa": "ちからのハチマキ"
+  },
+  {
+    "name": "mystic-water",
+    "nameKo": "신비의물방울",
+    "nameJa": "しんぴのしずく"
+  },
+  {
+    "name": "nest-ball",
+    "nameKo": "네스트볼",
+    "nameJa": "ネストボール"
+  },
+  {
+    "name": "net-ball",
+    "nameKo": "넷트볼",
+    "nameJa": "ネットボール"
+  },
+  {
+    "name": "never-melt-ice",
+    "nameKo": "녹지않는얼음",
+    "nameJa": "とけないこおり"
+  },
+  {
+    "name": "occa-berry",
+    "nameKo": "오카열매",
+    "nameJa": "オッカのみ"
+  },
+  {
+    "name": "odd-incense",
+    "nameKo": "괴상한향로",
+    "nameJa": "あやしいおこう"
+  },
+  {
+    "name": "old-gateau",
+    "nameKo": "숲의양갱",
+    "nameJa": "もりのヨウカン"
+  },
+  {
+    "name": "oran-berry",
+    "nameKo": "오랭열매",
+    "nameJa": "オレンのみ"
+  },
+  {
+    "name": "paralyze-heal",
+    "nameKo": "마비치료제",
+    "nameJa": "まひなおし"
+  },
+  {
+    "name": "passho-berry",
+    "nameKo": "꼬시개열매",
+    "nameJa": "イトケのみ"
+  },
+  {
+    "name": "payapa-berry",
+    "nameKo": "야파열매",
+    "nameJa": "ウタンのみ"
+  },
+  {
+    "name": "pecha-berry",
+    "nameKo": "복슝열매",
+    "nameJa": "モモンのみ"
+  },
+  {
+    "name": "persim-berry",
+    "nameKo": "시몬열매",
+    "nameJa": "キーのみ"
+  },
+  {
+    "name": "petaya-berry",
+    "nameKo": "야타비열매",
+    "nameJa": "ヤタピのみ"
+  },
+  {
+    "name": "pink-scarf",
+    "nameKo": "분홍밴드",
+    "nameJa": "ピンクのバンダナ"
+  },
+  {
+    "name": "poison-barb",
+    "nameKo": "독바늘",
+    "nameJa": "どくバリ"
+  },
+  {
+    "name": "poke-ball",
+    "nameKo": "몬스터볼",
+    "nameJa": "モンスターボール"
+  },
+  {
+    "name": "poke-doll",
+    "nameKo": "삐삐인형",
+    "nameJa": "ピッピにんぎょう"
+  },
+  {
+    "name": "potion",
+    "nameKo": "상처약",
+    "nameJa": "キズぐすり"
+  },
+  {
+    "name": "power-anklet",
+    "nameKo": "파워앵클릿",
+    "nameJa": "パワーアンクル"
+  },
+  {
+    "name": "power-band",
+    "nameKo": "파워밴드",
+    "nameJa": "パワーバンド"
+  },
+  {
+    "name": "power-belt",
+    "nameKo": "파워벨트",
+    "nameJa": "パワーベルト"
+  },
+  {
+    "name": "power-bracer",
+    "nameKo": "파워리스트",
+    "nameJa": "パワーリスト"
+  },
+  {
+    "name": "power-herb",
+    "nameKo": "파워풀허브",
+    "nameJa": "パワフルハーブ"
+  },
+  {
+    "name": "power-lens",
+    "nameKo": "파워렌즈",
+    "nameJa": "パワーレンズ"
+  },
+  {
+    "name": "power-weight",
+    "nameKo": "파워웨이트",
+    "nameJa": "パワーウエイト"
+  },
+  {
+    "name": "pp-max",
+    "nameKo": "포인트맥스",
+    "nameJa": "ポイントマックス"
+  },
+  {
+    "name": "pp-up",
+    "nameKo": "포인트업",
+    "nameJa": "ポイントアップ"
+  },
+  {
+    "name": "premier-ball",
+    "nameKo": "프레미어볼",
+    "nameJa": "プレミアボール"
+  },
+  {
+    "name": "protein",
+    "nameKo": "타우린",
+    "nameJa": "タウリン"
+  },
+  {
+    "name": "pure-incense",
+    "nameKo": "순결의향로",
+    "nameJa": "きよめのおこう"
+  },
+  {
+    "name": "quick-ball",
+    "nameKo": "퀵볼",
+    "nameJa": "クイックボール"
+  },
+  {
+    "name": "quick-claw",
+    "nameKo": "선제공격손톱",
+    "nameJa": "せんせいのツメ"
+  },
+  {
+    "name": "quick-powder",
+    "nameKo": "스피드파우더",
+    "nameJa": "スピードパウダー"
+  },
+  {
+    "name": "rare-candy",
+    "nameKo": "이상한사탕",
+    "nameJa": "ふしぎなアメ"
+  },
+  {
+    "name": "rawst-berry",
+    "nameKo": "복분열매",
+    "nameJa": "チーゴのみ"
+  },
+  {
+    "name": "razor-claw",
+    "nameKo": "예리한손톱",
+    "nameJa": "するどいツメ"
+  },
+  {
+    "name": "razor-fang",
+    "nameKo": "예리한이빨",
+    "nameJa": "するどいキバ"
+  },
+  {
+    "name": "red-flute",
+    "nameKo": "빨강비드로",
+    "nameJa": "あかいビードロ"
+  },
+  {
+    "name": "red-scarf",
+    "nameKo": "빨강밴드",
+    "nameJa": "あかいバンダナ"
+  },
+  {
+    "name": "repeat-ball",
+    "nameKo": "리피드볼",
+    "nameJa": "リピートボール"
+  },
+  {
+    "name": "revival-herb",
+    "nameKo": "부활초",
+    "nameJa": "ふっかつそう"
+  },
+  {
+    "name": "revive",
+    "nameKo": "기력의조각",
+    "nameJa": "げんきのかけら"
+  },
+  {
+    "name": "rindo-berry",
+    "nameKo": "린드열매",
+    "nameJa": "リンドのみ"
+  },
+  {
+    "name": "rock-incense",
+    "nameKo": "암석향로",
+    "nameJa": "がんせきおこう"
+  },
+  {
+    "name": "rose-incense",
+    "nameKo": "꽃향로",
+    "nameJa": "おはなのおこう"
+  },
+  {
+    "name": "rowap-berry",
+    "nameKo": "애터열매",
+    "nameJa": "レンブのみ"
+  },
+  {
+    "name": "sacred-ash",
+    "nameKo": "성스러운분말",
+    "nameJa": "せいなるはい"
+  },
+  {
+    "name": "safari-ball",
+    "nameKo": "사파리볼",
+    "nameJa": "サファリボール"
+  },
+  {
+    "name": "salac-berry",
+    "nameKo": "캄라열매",
+    "nameJa": "カムラのみ"
+  },
+  {
+    "name": "scope-lens",
+    "nameKo": "초점렌즈",
+    "nameJa": "ピントレンズ"
+  },
+  {
+    "name": "sea-incense",
+    "nameKo": "바닷물향로",
+    "nameJa": "うしおのおこう"
+  },
+  {
+    "name": "sharp-beak",
+    "nameKo": "예리한부리",
+    "nameJa": "するどいくちばし"
+  },
+  {
+    "name": "shed-shell",
+    "nameKo": "아름다운허물",
+    "nameJa": "きれいなぬけがら"
+  },
+  {
+    "name": "shell-bell",
+    "nameKo": "조개껍질방울",
+    "nameJa": "かいがらのすず"
+  },
+  {
+    "name": "shuca-berry",
+    "nameKo": "슈캐열매",
+    "nameJa": "シュカのみ"
+  },
+  {
+    "name": "silk-scarf",
+    "nameKo": "실크스카프",
+    "nameJa": "シルクのスカーフ"
+  },
+  {
+    "name": "silver-powder",
+    "nameKo": "은빛가루",
+    "nameJa": "ぎんのこな"
+  },
+  {
+    "name": "sitrus-berry",
+    "nameKo": "자뭉열매",
+    "nameJa": "オボンのみ"
+  },
+  {
+    "name": "sky-plate",
+    "nameKo": "푸른하늘플레이트",
+    "nameJa": "あおぞらプレート"
+  },
+  {
+    "name": "smoke-ball",
+    "nameKo": "연막탄",
+    "nameJa": "けむりだま"
+  },
+  {
+    "name": "smooth-rock",
+    "nameKo": "보송보송바위",
+    "nameJa": "さらさらいわ"
+  },
+  {
+    "name": "soda-pop",
+    "nameKo": "미네랄사이다",
+    "nameJa": "サイコソーダ"
+  },
+  {
+    "name": "soft-sand",
+    "nameKo": "부드러운모래",
+    "nameJa": "やわらかいすな"
+  },
+  {
+    "name": "soothe-bell",
+    "nameKo": "평온의방울",
+    "nameJa": "やすらぎのすず"
+  },
+  {
+    "name": "soul-dew",
+    "nameKo": "마음의물방울",
+    "nameJa": "こころのしずく"
+  },
+  {
+    "name": "spell-tag",
+    "nameKo": "저주의부적",
+    "nameJa": "のろいのおふだ"
+  },
+  {
+    "name": "splash-plate",
+    "nameKo": "물방울플레이트",
+    "nameJa": "しずくプレート"
+  },
+  {
+    "name": "spooky-plate",
+    "nameKo": "원령플레이트",
+    "nameJa": "もののけプレート"
+  },
+  {
+    "name": "starf-berry",
+    "nameKo": "스타열매",
+    "nameJa": "スターのみ"
+  },
+  {
+    "name": "stick",
+    "nameKo": "대파",
+    "nameJa": "ながねぎ"
+  },
+  {
+    "name": "sticky-barb",
+    "nameKo": "끈적끈적바늘",
+    "nameJa": "くっつきバリ"
+  },
+  {
+    "name": "stone-plate",
+    "nameKo": "암석플레이트",
+    "nameJa": "がんせきプレート"
+  },
+  {
+    "name": "super-potion",
+    "nameKo": "좋은상처약",
+    "nameJa": "いいキズぐすり"
+  },
+  {
+    "name": "tanga-berry",
+    "nameKo": "리체열매",
+    "nameJa": "タンガのみ"
+  },
+  {
+    "name": "thick-club",
+    "nameKo": "굵은뼈",
+    "nameJa": "ふといホネ"
+  },
+  {
+    "name": "timer-ball",
+    "nameKo": "타이마볼",
+    "nameJa": "タイマーボール"
+  },
+  {
+    "name": "toxic-orb",
+    "nameKo": "맹독구슬",
+    "nameJa": "どくどくだま"
+  },
+  {
+    "name": "toxic-plate",
+    "nameKo": "맹독플레이트",
+    "nameJa": "もうどくプレート"
+  },
+  {
+    "name": "twisted-spoon",
+    "nameKo": "휘어진스푼",
+    "nameJa": "まがったスプーン"
+  },
+  {
+    "name": "ultra-ball",
+    "nameKo": "하이퍼볼",
+    "nameJa": "ハイパーボール"
+  },
+  {
+    "name": "wacan-berry",
+    "nameKo": "초나열매",
+    "nameJa": "ソクノのみ"
+  },
+  {
+    "name": "wave-incense",
+    "nameKo": "잔물결향로",
+    "nameJa": "さざなみのおこう"
+  },
+  {
+    "name": "white-flute",
+    "nameKo": "하양비드로",
+    "nameJa": "しろいビードロ"
+  },
+  {
+    "name": "white-herb",
+    "nameKo": "하양허브",
+    "nameJa": "しろいハーブ"
+  },
+  {
+    "name": "wide-lens",
+    "nameKo": "광각렌즈",
+    "nameJa": "こうかくレンズ"
+  },
+  {
+    "name": "wiki-berry",
+    "nameKo": "위키열매",
+    "nameJa": "ウイのみ"
+  },
+  {
+    "name": "wise-glasses",
+    "nameKo": "박식안경",
+    "nameJa": "ものしりメガネ"
+  },
+  {
+    "name": "x-accuracy",
+    "nameKo": "잘-맞히기",
+    "nameJa": "ヨクアタール"
+  },
+  {
+    "name": "x-attack",
+    "nameKo": "플러스파워",
+    "nameJa": "プラスパワー"
+  },
+  {
+    "name": "x-defense",
+    "nameKo": "디펜드업",
+    "nameJa": "ディフェンダー"
+  },
+  {
+    "name": "x-sp-atk",
+    "nameKo": "스페셜업",
+    "nameJa": "スペシャルアップ"
+  },
+  {
+    "name": "x-sp-def",
+    "nameKo": "스페셜가드",
+    "nameJa": "スペシャルガード"
+  },
+  {
+    "name": "x-speed",
+    "nameKo": "스피드업",
+    "nameJa": "スピーダー"
+  },
+  {
+    "name": "yache-berry",
+    "nameKo": "플카열매",
+    "nameJa": "ヤチェのみ"
+  },
+  {
+    "name": "yellow-flute",
+    "nameKo": "노랑비드로",
+    "nameJa": "きいろビードロ"
+  },
+  {
+    "name": "yellow-scarf",
+    "nameKo": "노랑밴드",
+    "nameJa": "きいろのバンダナ"
+  },
+  {
+    "name": "zap-plate",
+    "nameKo": "우뢰플레이트",
+    "nameJa": "いかずちプレート"
+  },
+  {
+    "name": "zinc",
+    "nameKo": "키토산",
+    "nameJa": "キトサン"
+  },
+  {
+    "name": "zoom-lens",
+    "nameKo": "포커스렌즈",
+    "nameJa": "フォーカスレンズ"
+  }
 ]
