@@ -40,11 +40,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void _reset() {
     setState(() {
       _resetCounter++;
-      _attacker.reset();
-      _defender.reset();
-      _weather = Weather.none;
-      _terrain = Terrain.none;
-      _room = Room.none;
+      final currentTab = _tabController.index;
+      if (currentTab == 0) {
+        _attacker.reset();
+      } else if (currentTab == 1) {
+        _defender.reset();
+      }
     });
   }
 
