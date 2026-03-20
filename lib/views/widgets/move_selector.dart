@@ -6,8 +6,9 @@ import '../../models/type.dart';
 
 class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;
+  final VoidCallback? onTap;
 
-  const MoveSelector({super.key, required this.onSelected});
+  const MoveSelector({super.key, required this.onSelected, this.onTap});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -146,6 +147,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         return TextField(
           controller: controller,
           focusNode: focusNode,
+          onTap: widget.onTap,
           decoration: InputDecoration(
             hintText: _selected?.nameKo ?? '기술 이름',
             isDense: true,

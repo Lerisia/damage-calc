@@ -27,6 +27,32 @@ class DamageCalculatorScreen extends StatefulWidget {
 
 class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
   int _resetCounter = 0;
+  final _movesSectionKey = GlobalKey();
+  final _scrollController = ScrollController();
+
+  void _scrollToMoves() {
+    // Scroll in two phases to sync with keyboard animation
+    // Phase 1: start immediately with a rough scroll
+    _doScrollToMoves();
+    // Phase 2: refine after keyboard settles
+    Future.delayed(const Duration(milliseconds: 500), _doScrollToMoves);
+  }
+
+  void _doScrollToMoves() {
+    final ctx = _movesSectionKey.currentContext;
+    if (ctx == null) return;
+
+    final box = ctx.findRenderObject() as RenderBox;
+    final offset = box.localToGlobal(Offset.zero).dy;
+    final appBarHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
+    final target = _scrollController.offset + offset - appBarHeight;
+
+    _scrollController.animateTo(
+      target.clamp(0, _scrollController.position.maxScrollExtent),
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeOutCubic,
+    );
+  }
 
   // Default: Bulbasaur
   PokemonType _type1 = PokemonType.grass;
@@ -192,7 +218,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        controller: _scrollController,
+        padding: EdgeInsets.fromLTRB(16, 16, 16,
+            MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -241,6 +269,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
             const SizedBox(height: 12),
 
             _sectionCard(
+              key: _movesSectionKey,
               title: '기술',
               child: Column(
                 children: [
@@ -351,6 +380,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
             flex: 3,
             child: MoveSelector(
               key: ValueKey('move_${index}_$_resetCounter'),
+              onTap: _scrollToMoves,
               onSelected: (m) => setState(() {
                 _moves[index] = m;
                 _typeOverrides[index] = null;
@@ -481,8 +511,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
     }
   }
 
-  Widget _sectionCard({required String title, required Widget child}) {
+  Widget _sectionCard({Key? key, required String title, required Widget child}) {
     return Card(
+      key: key,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
