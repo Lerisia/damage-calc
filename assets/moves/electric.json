@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Thunderbolt",
+    "nameKo": "10만볼트",
+    "nameJa": "１０まんボルト",
+    "type": "electric",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Wild Charge",
+    "nameKo": "와일드볼트",
+    "nameJa": "ワイルドボルト",
+    "type": "electric",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact",
+      "recoil"
+    ]
+  }
+]

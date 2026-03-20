@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Brave Bird",
+    "nameKo": "브레이브버드",
+    "nameJa": "ブレイブバード",
+    "type": "flying",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact",
+      "recoil"
+    ]
+  },
+  {
+    "name": "Hurricane",
+    "nameKo": "폭풍",
+    "nameJa": "ぼうふう",
+    "type": "flying",
+    "category": "special",
+    "power": 110,
+    "accuracy": 70,
+    "pp": 10
+  }
+]

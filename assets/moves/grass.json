@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Energy Ball",
+    "nameKo": "에너지볼",
+    "nameJa": "エナジーボール",
+    "type": "grass",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "tags": [
+      "ball"
+    ]
+  },
+  {
+    "name": "Leaf Blade",
+    "nameKo": "리프블레이드",
+    "nameJa": "リーフブレード",
+    "type": "grass",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact",
+      "slice"
+    ]
+  }
+]

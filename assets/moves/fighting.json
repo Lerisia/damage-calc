@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Close Combat",
+    "nameKo": "인파이트",
+    "nameJa": "インファイト",
+    "type": "fighting",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Aura Sphere",
+    "nameKo": "파동탄",
+    "nameJa": "はどうだん",
+    "type": "fighting",
+    "category": "special",
+    "power": 80,
+    "accuracy": 0,
+    "pp": 20,
+    "tags": [
+      "pulse"
+    ]
+  }
+]

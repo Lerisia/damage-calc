@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Iron Head",
+    "nameKo": "아이언헤드",
+    "nameJa": "アイアンヘッド",
+    "type": "steel",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Flash Cannon",
+    "nameKo": "러스터캐논",
+    "nameJa": "ラスターカノン",
+    "type": "steel",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Dark Pulse",
+    "nameKo": "악의파동",
+    "nameJa": "あくのはどう",
+    "type": "dark",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "pulse"
+    ]
+  },
+  {
+    "name": "Knock Off",
+    "nameKo": "탁쳐서떨구기",
+    "nameJa": "はたきおとす",
+    "type": "dark",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "tags": [
+      "contact"
+    ]
+  }
+]

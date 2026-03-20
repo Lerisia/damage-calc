@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Shadow Ball",
+    "nameKo": "섀도볼",
+    "nameJa": "シャドーボール",
+    "type": "ghost",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "ball"
+    ]
+  },
+  {
+    "name": "Shadow Claw",
+    "nameKo": "섀도크루",
+    "nameJa": "シャドークロー",
+    "type": "ghost",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  }
+]

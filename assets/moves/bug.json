@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Bug Buzz",
+    "nameKo": "벌레의야단법석",
+    "nameJa": "むしのさざめき",
+    "type": "bug",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "tags": [
+      "sound"
+    ]
+  },
+  {
+    "name": "X-Scissor",
+    "nameKo": "시저크로스",
+    "nameJa": "シザークロス",
+    "type": "bug",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact",
+      "slice"
+    ]
+  }
+]

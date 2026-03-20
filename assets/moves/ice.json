@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Ice Beam",
+    "nameKo": "냉동빔",
+    "nameJa": "れいとうビーム",
+    "type": "ice",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Icicle Crash",
+    "nameKo": "고드름떨구기",
+    "nameJa": "つららおとし",
+    "type": "ice",
+    "category": "physical",
+    "power": 85,
+    "accuracy": 90,
+    "pp": 10,
+    "tags": [
+      "contact"
+    ]
+  }
+]

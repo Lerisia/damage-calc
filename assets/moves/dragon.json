@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Dragon Claw",
+    "nameKo": "드래곤크루",
+    "nameJa": "ドラゴンクロー",
+    "type": "dragon",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Draco Meteor",
+    "nameKo": "용성군",
+    "nameJa": "りゅうせいぐん",
+    "type": "dragon",
+    "category": "special",
+    "power": 130,
+    "accuracy": 90,
+    "pp": 5
+  }
+]

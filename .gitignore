@@ -1,0 +1,29 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.metadata
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Pub
+pubspec.lock
+
+# Web build
+web/
+
+# Claude memory
+.claude/
+
+# Scripts (dev only)
+scripts/

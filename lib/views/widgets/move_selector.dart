@@ -1,0 +1,123 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../models/move.dart';
+import '../../models/type.dart';
+
+class MoveSelector extends StatefulWidget {
+  final void Function(Move move) onSelected;
+
+  const MoveSelector({super.key, required this.onSelected});
+
+  @override
+  State<MoveSelector> createState() => _MoveSelectorState();
+}
+
+class _MoveSelectorState extends State<MoveSelector> {
+  List<Move> _allMoves = [];
+  Move? _selected;
+  bool _hasFocusListenerAttached = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMoves();
+  }
+
+  Future<void> _loadMoves() async {
+    final List<Move> all = [];
+    const typeFiles = [
+      'normal', 'fire', 'water', 'electric', 'grass', 'ice',
+      'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug',
+      'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy',
+    ];
+
+    for (final type in typeFiles) {
+      try {
+        final jsonString = await rootBundle.loadString('assets/moves/$type.json');
+        final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
+        for (final entry in jsonList) {
+          all.add(Move.fromJson(entry as Map<String, dynamic>));
+        }
+      } catch (_) {}
+    }
+
+    all.sort((a, b) => a.nameKo.compareTo(b.nameKo));
+    setState(() => _allMoves = all);
+  }
+
+  String _typeKo(PokemonType t) {
+    const map = {
+      PokemonType.normal: '노말', PokemonType.fire: '불꽃',
+      PokemonType.water: '물', PokemonType.electric: '전기',
+      PokemonType.grass: '풀', PokemonType.ice: '얼음',
+      PokemonType.fighting: '격투', PokemonType.poison: '독',
+      PokemonType.ground: '땅', PokemonType.flying: '비행',
+      PokemonType.psychic: '에스퍼', PokemonType.bug: '벌레',
+      PokemonType.rock: '바위', PokemonType.ghost: '고스트',
+      PokemonType.dragon: '드래곤', PokemonType.dark: '악',
+      PokemonType.steel: '강철', PokemonType.fairy: '페어리',
+    };
+    return map[t] ?? t.name;
+  }
+
+  String _categoryKo(MoveCategory c) {
+    switch (c) {
+      case MoveCategory.physical: return '물리';
+      case MoveCategory.special: return '특수';
+      case MoveCategory.status: return '변화';
+    }
+  }
+
+  String _moveDisplay(Move m) =>
+      '${m.nameKo} (${_typeKo(m.type)} / ${_categoryKo(m.category)} / 위력${m.power})';
+
+  List<Move> _sortedOptions(String query) {
+    List<Move> results;
+    if (query.isEmpty) {
+      results = List.of(_allMoves);
+    } else {
+      final q = query.toLowerCase();
+      results = _allMoves.where((m) =>
+          m.nameKo.contains(q) ||
+          m.name.toLowerCase().contains(q)).toList();
+    }
+    if (_selected != null && results.contains(_selected)) {
+      results.remove(_selected);
+      results.insert(0, _selected!);
+    }
+    return results;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Autocomplete<Move>(
+      displayStringForOption: _moveDisplay,
+      optionsBuilder: (textEditingValue) => _sortedOptions(textEditingValue.text),
+      onSelected: (move) {
+        setState(() => _selected = move);
+        widget.onSelected(move);
+      },
+      fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+        if (!_hasFocusListenerAttached) {
+          _hasFocusListenerAttached = true;
+          focusNode.addListener(() {
+            if (focusNode.hasFocus) {
+              controller.clear();
+            } else if (controller.text.isEmpty && _selected != null) {
+              controller.text = _moveDisplay(_selected!);
+            }
+          });
+        }
+        return TextField(
+          controller: controller,
+          focusNode: focusNode,
+          decoration: InputDecoration(
+            hintText: _selected != null ? _moveDisplay(_selected!) : '기술 이름',
+            isDense: true,
+          ),
+        );
+      },
+    );
+  }
+}

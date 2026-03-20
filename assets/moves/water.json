@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Surf",
+    "nameKo": "파도타기",
+    "nameJa": "なみのり",
+    "type": "water",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Waterfall",
+    "nameKo": "폭포오르기",
+    "nameJa": "たきのぼり",
+    "type": "water",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  }
+]

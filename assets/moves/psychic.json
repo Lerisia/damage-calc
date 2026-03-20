@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Psychic",
+    "nameKo": "사이코키네시스",
+    "nameJa": "サイコキネシス",
+    "type": "psychic",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Psyshock",
+    "nameKo": "사이코쇼크",
+    "nameJa": "サイコショック",
+    "type": "psychic",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  }
+]
