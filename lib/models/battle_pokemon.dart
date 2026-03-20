@@ -1,0 +1,90 @@
+import 'move.dart';
+import 'nature.dart';
+import 'rank.dart';
+import 'stats.dart';
+import 'status.dart';
+import 'type.dart';
+
+/// Holds all configuration state for one side of a battle (attacker or defender)
+class BattlePokemonState {
+  PokemonType type1;
+  PokemonType? type2;
+  Stats baseStats;
+  List<String> pokemonAbilities;
+  String? selectedAbility;
+  int level;
+  Nature nature;
+  Stats iv;
+  Stats ev;
+  List<Move?> moves;
+  List<PokemonType?> typeOverrides;
+  List<MoveCategory?> categoryOverrides;
+  List<int?> powerOverrides;
+  List<bool> criticals;
+  String? selectedItem;
+  Rank rank;
+  int hpPercent;
+  StatusCondition status;
+
+  BattlePokemonState({
+    this.type1 = PokemonType.grass,
+    this.type2 = PokemonType.poison,
+    Stats? baseStats,
+    List<String>? pokemonAbilities,
+    this.selectedAbility = 'Overgrow',
+    this.level = 50,
+    this.nature = Nature.hardy,
+    Stats? iv,
+    Stats? ev,
+    List<Move?>? moves,
+    List<PokemonType?>? typeOverrides,
+    List<MoveCategory?>? categoryOverrides,
+    List<int?>? powerOverrides,
+    List<bool>? criticals,
+    this.selectedItem,
+    this.rank = const Rank(),
+    this.hpPercent = 100,
+    this.status = StatusCondition.none,
+  })  : baseStats = baseStats ?? const Stats(
+            hp: 45, attack: 49, defense: 49,
+            spAttack: 65, spDefense: 65, speed: 45),
+        pokemonAbilities = pokemonAbilities ?? ['Overgrow', 'Chlorophyll'],
+        iv = iv ?? const Stats(
+            hp: 31, attack: 31, defense: 31,
+            spAttack: 31, spDefense: 31, speed: 31),
+        ev = ev ?? const Stats(
+            hp: 0, attack: 0, defense: 0,
+            spAttack: 0, spDefense: 0, speed: 0),
+        moves = moves ?? [null, null, null, null],
+        typeOverrides = typeOverrides ?? [null, null, null, null],
+        categoryOverrides = categoryOverrides ?? [null, null, null, null],
+        powerOverrides = powerOverrides ?? [null, null, null, null],
+        criticals = criticals ?? [false, false, false, false];
+
+  void reset() {
+    type1 = PokemonType.grass;
+    type2 = PokemonType.poison;
+    baseStats = const Stats(
+        hp: 45, attack: 49, defense: 49,
+        spAttack: 65, spDefense: 65, speed: 45);
+    pokemonAbilities = ['Overgrow', 'Chlorophyll'];
+    selectedAbility = 'Overgrow';
+    level = 50;
+    nature = Nature.hardy;
+    iv = const Stats(
+        hp: 31, attack: 31, defense: 31,
+        spAttack: 31, spDefense: 31, speed: 31);
+    ev = const Stats(
+        hp: 0, attack: 0, defense: 0,
+        spAttack: 0, spDefense: 0, speed: 0);
+    moves = [null, null, null, null];
+    typeOverrides = [null, null, null, null];
+    categoryOverrides = [null, null, null, null];
+    powerOverrides = [null, null, null, null];
+    criticals = [false, false, false, false];
+    selectedItem = null;
+    rank = const Rank();
+    hpPercent = 100;
+    status = StatusCondition.none;
+  }
+}

@@ -115,7 +115,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Weather/Terrain stat modifiers ---
     case 'Solar Power':
-      return weather == Weather.sun
+      return (weather == Weather.sun || weather == Weather.harshSun)
           ? const AbilityEffect(
               statModifiers: AbilityStatModifiers(spAttack: 1.5))
           : _defaultEffect;
@@ -127,7 +127,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
     case 'Orichalcum Pulse':
-      return weather == Weather.sun
+      return (weather == Weather.sun || weather == Weather.harshSun)
           ? const AbilityEffect(
               statModifiers: AbilityStatModifiers(attack: 1.3))
           : _defaultEffect;
@@ -137,14 +137,14 @@ AbilityEffect getAbilityEffect(String abilityName, {
               statModifiers: AbilityStatModifiers(spAttack: 1.3))
           : _defaultEffect;
     case 'Flower Gift':
-      return weather == Weather.sun
+      return (weather == Weather.sun || weather == Weather.harshSun)
           ? const AbilityEffect(
               statModifiers: AbilityStatModifiers(attack: 1.5, spDefense: 1.5))
           : _defaultEffect;
 
     // --- Protosynthesis / Quark Drive ---
     case 'Protosynthesis':
-      return weather == Weather.sun && actualStats != null
+      return (weather == Weather.sun || weather == Weather.harshSun) && actualStats != null
           ? AbilityEffect(statModifiers: _boostHighestStat(actualStats))
           : _defaultEffect;
     case 'Quark Drive':
