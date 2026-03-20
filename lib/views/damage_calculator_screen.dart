@@ -231,6 +231,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   label: '방어측',
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
+                  isAttacker: false,
                 ),
                 _buildDamageCalcTab(),
               ],

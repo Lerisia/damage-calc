@@ -25,12 +25,19 @@ class BattlePokemonState {
   Rank rank;
   int hpPercent;
   StatusCondition status;
+  // Offensive ally boosts
   bool helpingHand;
   bool charge;
   bool battery;
   bool powerSpot;
   bool flowerGift;
   bool steelySpirit;
+
+  // Defensive ally boosts
+  bool reflect;
+  bool lightScreen;
+  bool auroraVeil;
+  bool friendGuard;
 
   BattlePokemonState({
     this.type1 = PokemonType.grass,
@@ -57,6 +64,10 @@ class BattlePokemonState {
     this.powerSpot = false,
     this.flowerGift = false,
     this.steelySpirit = false,
+    this.reflect = false,
+    this.lightScreen = false,
+    this.auroraVeil = false,
+    this.friendGuard = false,
   })  : baseStats = baseStats ?? const Stats(
             hp: 45, attack: 49, defense: 49,
             spAttack: 65, spDefense: 65, speed: 45),
@@ -104,5 +115,9 @@ class BattlePokemonState {
     powerSpot = false;
     flowerGift = false;
     steelySpirit = false;
+    reflect = false;
+    lightScreen = false;
+    auroraVeil = false;
+    friendGuard = false;
   }
 }

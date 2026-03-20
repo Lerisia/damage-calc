@@ -17,6 +17,7 @@ import '../../utils/ability_effects.dart';
 import '../../utils/grounded.dart';
 import '../../utils/item_effects.dart';
 import '../../utils/move_transform.dart';
+import '../../utils/defensive_calculator.dart';
 import '../../utils/offensive_calculator.dart';
 import '../../utils/stat_calculator.dart';
 import 'move_selector.dart';
@@ -32,6 +33,7 @@ class PokemonPanel extends StatefulWidget {
   final String label;
   final VoidCallback onChanged;
   final int resetCounter;
+  final bool isAttacker;
 
   const PokemonPanel({
     super.key,
@@ -42,6 +44,7 @@ class PokemonPanel extends StatefulWidget {
     this.label = '',
     required this.onChanged,
     required this.resetCounter,
+    this.isAttacker = true,
   });
 
   @override
@@ -250,58 +253,142 @@ class PokemonPanelState extends State<PokemonPanel>
           ),
           const SizedBox(height: 12),
 
-          _sectionCard(
-            title: '기타 보정',
+          if (widget.isAttacker) ...[
+            _sectionCard(
+              title: '기타 보정',
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: _compactCheck('도우미', s.helpingHand, (v) {
+                        setState(() { s.helpingHand = v; _notify(); });
+                      })),
+                      Expanded(child: _compactCheck('배터리', s.battery, (v) {
+                        setState(() { s.battery = v; _notify(); });
+                      })),
+                      Expanded(child: _compactCheck('파워스폿', s.powerSpot, (v) {
+                        setState(() { s.powerSpot = v; _notify(); });
+                      })),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: _compactCheck('충전', s.charge, (v) {
+                        setState(() { s.charge = v; _notify(); });
+                      })),
+                      Expanded(child: _compactCheck('강철정신', s.steelySpirit, (v) {
+                        setState(() { s.steelySpirit = v; _notify(); });
+                      })),
+                      Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
+                        setState(() { s.flowerGift = v; _notify(); });
+                      })),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            _sectionCard(
+              key: _movesSectionKey,
+              title: '기술',
+              child: Column(
+                children: [
+                  _moveHeader(context),
+                  const Divider(height: 1),
+                  for (int i = 0; i < 4; i++) ...[
+                    if (i > 0) const SizedBox(height: 2),
+                    _moveSlot(i),
+                  ],
+                ],
+              ),
+            ),
+          ] else ...[
+            _sectionCard(
+              title: '기타 보정',
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: _compactCheck('리플렉터', s.reflect, (v) {
+                        setState(() { s.reflect = v; _notify(); });
+                      })),
+                      Expanded(child: _compactCheck('빛의장막', s.lightScreen, (v) {
+                        setState(() { s.lightScreen = v; _notify(); });
+                      })),
+                      Expanded(child: _compactCheck('오로라베일', s.auroraVeil, (v) {
+                        setState(() { s.auroraVeil = v; _notify(); });
+                      })),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: _compactCheck('프렌드가드', s.friendGuard, (v) {
+                        setState(() { s.friendGuard = v; _notify(); });
+                      })),
+                      Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
+                        setState(() { s.flowerGift = v; _notify(); });
+                      })),
+                      const Expanded(child: SizedBox()),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            _bulkDisplay(),
+          ],
+        ],
+      ),
+    )),
+    );
+  }
+
+  Widget _bulkDisplay() {
+    final bulk = DefensiveCalculator.calculate(
+      baseStats: s.baseStats,
+      iv: s.iv,
+      ev: s.ev,
+      nature: s.nature,
+      level: s.level,
+      rank: s.rank,
+    );
+
+    return _sectionCard(
+      title: '내구',
+      child: Row(
+        children: [
+          Expanded(
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(child: _compactCheck('도우미', s.helpingHand, (v) {
-                      setState(() { s.helpingHand = v; _notify(); });
-                    })),
-                    Expanded(child: _compactCheck('배터리', s.battery, (v) {
-                      setState(() { s.battery = v; _notify(); });
-                    })),
-                    Expanded(child: _compactCheck('파워스폿', s.powerSpot, (v) {
-                      setState(() { s.powerSpot = v; _notify(); });
-                    })),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(child: _compactCheck('충전', s.charge, (v) {
-                      setState(() { s.charge = v; _notify(); });
-                    })),
-                    Expanded(child: _compactCheck('강철정신', s.steelySpirit, (v) {
-                      setState(() { s.steelySpirit = v; _notify(); });
-                    })),
-                    Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
-                      setState(() { s.flowerGift = v; _notify(); });
-                    })),
-                  ],
-                ),
+                Text('물리 내구', style: TextStyle(
+                  fontSize: 12, color: Colors.blue[400],
+                )),
+                const SizedBox(height: 4),
+                Text('${bulk.physical}', style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold,
+                  color: Colors.blue[700],
+                )),
               ],
             ),
           ),
-          const SizedBox(height: 12),
-
-          _sectionCard(
-            key: _movesSectionKey,
-            title: '기술',
+          Container(width: 1, height: 40, color: Colors.blue.withValues(alpha: 0.2)),
+          Expanded(
             child: Column(
               children: [
-                _moveHeader(context),
-                const Divider(height: 1),
-                for (int i = 0; i < 4; i++) ...[
-                  if (i > 0) const SizedBox(height: 2),
-                  _moveSlot(i),
-                ],
+                Text('특수 내구', style: TextStyle(
+                  fontSize: 12, color: Colors.blue[400],
+                )),
+                const SizedBox(height: 4),
+                Text('${bulk.special}', style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold,
+                  color: Colors.blue[700],
+                )),
               ],
             ),
           ),
         ],
       ),
-    )),
     );
   }
 
@@ -320,7 +407,7 @@ class PokemonPanelState extends State<PokemonPanel>
         parts.join(' | '),
         style: TextStyle(
           fontSize: 12,
-          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          color: widget.isAttacker ? Colors.red[400] : Colors.blue[400],
         ),
       ),
     );
@@ -541,14 +628,25 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   Widget _sectionCard({Key? key, required String title, required Widget child}) {
+    final accentColor = widget.isAttacker ? Colors.red : Colors.blue;
+    final cardColor = Color.lerp(Theme.of(context).cardColor, accentColor, 0.06);
+    final titleColor = widget.isAttacker ? Colors.red[700] : Colors.blue[700];
+
     return Card(
       key: key,
+      color: cardColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: accentColor.withValues(alpha: 0.2)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: Theme.of(context).textTheme.titleSmall),
+            Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              color: titleColor,
+            )),
             const SizedBox(height: 8),
             child,
           ],
