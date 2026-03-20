@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import '../models/move.dart';
 import '../models/nature.dart';
@@ -10,6 +12,7 @@ import '../utils/offensive_calculator.dart';
 import '../utils/move_transform.dart';
 import '../utils/item_effects.dart';
 import '../utils/ability_effects.dart';
+import '../utils/stat_calculator.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/stat_input.dart';
@@ -86,11 +89,30 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
         : const ItemEffect();
     final abilityEffect = _selectedAbility != null
         ? getAbilityEffect(_selectedAbility!, move: transformed.move,
-            hpPercent: _hpPercent, weather: _weather, terrain: _terrain)
+            hpPercent: _hpPercent, weather: _weather, terrain: _terrain,
+            actualStats: StatCalculator.calculate(
+              baseStats: _baseStats, iv: _iv, ev: _ev,
+              nature: _nature, level: _level,
+            ))
         : const AbilityEffect();
 
-    final double statMod =
-        itemEffect.statModifier * abilityEffect.statModifier;
+    // Resolve ability stat modifier based on which stat the move uses
+    final double abilityStatMod;
+    switch (transformed.offensiveStat) {
+      case OffensiveStat.attack:
+        abilityStatMod = abilityEffect.statModifiers.attack;
+      case OffensiveStat.spAttack:
+        abilityStatMod = abilityEffect.statModifiers.spAttack;
+      case OffensiveStat.defense:
+        abilityStatMod = abilityEffect.statModifiers.defense;
+      case OffensiveStat.higherAttack:
+        abilityStatMod = math.max(
+          abilityEffect.statModifiers.attack,
+          abilityEffect.statModifiers.spAttack,
+        );
+    }
+
+    final double statMod = itemEffect.statModifier * abilityStatMod;
     final double powerMod =
         itemEffect.powerModifier * abilityEffect.powerModifier;
 
