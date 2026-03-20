@@ -182,8 +182,13 @@ class _StatInputState extends State<StatInput> {
     return _abilityNameMap[englishName] ?? englishName;
   }
 
+  static bool _hasKorean(String s) =>
+      s.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3);
+
   void _rebuildSortedAbilities() {
-    final all = _abilityNameMap.keys.toList();
+    final all = _abilityNameMap.keys
+        .where((a) => _hasKorean(_abilityKo(a)))
+        .toList();
     final pokemon = widget.pokemonAbilities;
     final rest = all.where((a) => !pokemon.contains(a)).toList();
     rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
