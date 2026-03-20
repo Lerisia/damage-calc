@@ -25,42 +25,42 @@ void main() {
     );
 
     test('sun boosts Fire moves by 1.5x', () {
-      final mod = getWeatherModifier(Weather.sun, move: flamethrower);
+      final mod = getWeatherOffensiveModifier(Weather.sun, move: flamethrower);
       expect(mod, equals(1.5));
     });
 
     test('sun weakens Water moves to 0.5x', () {
-      final mod = getWeatherModifier(Weather.sun, move: surf);
+      final mod = getWeatherOffensiveModifier(Weather.sun, move: surf);
       expect(mod, equals(0.5));
     });
 
     test('rain boosts Water moves by 1.5x', () {
-      final mod = getWeatherModifier(Weather.rain, move: surf);
+      final mod = getWeatherOffensiveModifier(Weather.rain, move: surf);
       expect(mod, equals(1.5));
     });
 
     test('rain weakens Fire moves to 0.5x', () {
-      final mod = getWeatherModifier(Weather.rain, move: flamethrower);
+      final mod = getWeatherOffensiveModifier(Weather.rain, move: flamethrower);
       expect(mod, equals(0.5));
     });
 
     test('sun does not affect other types', () {
-      final mod = getWeatherModifier(Weather.sun, move: thunderbolt);
+      final mod = getWeatherOffensiveModifier(Weather.sun, move: thunderbolt);
       expect(mod, equals(1.0));
     });
 
     test('sandstorm does not affect offensive power', () {
-      final mod = getWeatherModifier(Weather.sandstorm, move: flamethrower);
+      final mod = getWeatherOffensiveModifier(Weather.sandstorm, move: flamethrower);
       expect(mod, equals(1.0));
     });
 
     test('snow does not affect offensive power', () {
-      final mod = getWeatherModifier(Weather.snow, move: surf);
+      final mod = getWeatherOffensiveModifier(Weather.snow, move: surf);
       expect(mod, equals(1.0));
     });
 
     test('no weather returns 1.0', () {
-      final mod = getWeatherModifier(Weather.none, move: flamethrower);
+      final mod = getWeatherOffensiveModifier(Weather.none, move: flamethrower);
       expect(mod, equals(1.0));
     });
 
@@ -71,7 +71,7 @@ void main() {
         power: 80, accuracy: 100, pp: 15,
         tags: ['custom:sun_boost'],
       );
-      final mod = getWeatherModifier(Weather.sun, move: hydroSteam);
+      final mod = getWeatherOffensiveModifier(Weather.sun, move: hydroSteam);
       expect(mod, equals(1.5));
     });
 
@@ -82,7 +82,7 @@ void main() {
         power: 80, accuracy: 100, pp: 15,
         tags: ['custom:sun_boost'],
       );
-      final mod = getWeatherModifier(Weather.rain, move: hydroSteam);
+      final mod = getWeatherOffensiveModifier(Weather.rain, move: hydroSteam);
       expect(mod, equals(1.5));
     });
   });

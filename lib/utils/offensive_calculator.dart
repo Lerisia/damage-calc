@@ -81,7 +81,7 @@ class OffensiveCalculator {
     final int modifiedStat = (rawStat * statModifier).floor();
 
     final bool hasStab = move.type == type1 || move.type == type2;
-    final double weatherMod = getWeatherModifier(weather, move: move);
+    final double weatherMod = getWeatherOffensiveModifier(weather, move: move);
     final double terrainMod = getTerrainModifier(terrain, move: move, grounded: grounded);
 
     // Burn halves physical damage unless Guts negates it

@@ -104,7 +104,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
       return move.type == PokemonType.electric
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
-    case "Dragon's Maw":
+    case "Dragon\u2019s Maw":
       return move.type == PokemonType.dragon
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
@@ -207,6 +207,44 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     default:
       return _defaultEffect;
+  }
+}
+
+/// Defensive ability effect on bulk calculation.
+class DefensiveAbilityEffect {
+  final double defModifier;
+  final double spdModifier;
+
+  const DefensiveAbilityEffect({
+    this.defModifier = 1.0,
+    this.spdModifier = 1.0,
+  });
+}
+
+const _defaultDefensiveEffect = DefensiveAbilityEffect();
+
+/// Returns the defensive effect of [abilityName] on bulk.
+///
+/// - Fur Coat: Def x2
+/// - Ice Scales: SpDef x2 (special damage halved)
+/// - Fluffy: Def x2 (physical damage halved, fire weakness separate)
+/// - Marvel Scale: Def x1.5 when statused
+DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
+  StatusCondition status = StatusCondition.none,
+}) {
+  switch (abilityName) {
+    case 'Fur Coat':
+      return const DefensiveAbilityEffect(defModifier: 2.0);
+    case 'Ice Scales':
+      return const DefensiveAbilityEffect(spdModifier: 2.0);
+    case 'Fluffy':
+      return const DefensiveAbilityEffect(defModifier: 2.0);
+    case 'Marvel Scale':
+      return status != StatusCondition.none
+          ? const DefensiveAbilityEffect(defModifier: 1.5)
+          : _defaultDefensiveEffect;
+    default:
+      return _defaultDefensiveEffect;
   }
 }
 

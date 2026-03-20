@@ -351,7 +351,17 @@ class PokemonPanelState extends State<PokemonPanel>
       ev: s.ev,
       nature: s.nature,
       level: s.level,
+      type1: s.type1,
+      type2: s.type2,
       rank: s.rank,
+      weather: widget.weather,
+      ability: s.selectedAbility,
+      status: s.status,
+      reflect: s.reflect,
+      lightScreen: s.lightScreen,
+      auroraVeil: s.auroraVeil,
+      friendGuard: s.friendGuard,
+      flowerGift: s.flowerGift,
     );
 
     return _sectionCard(
