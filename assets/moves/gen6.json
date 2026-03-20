@@ -1,0 +1,634 @@
+[
+  {
+    "name": "Phantom Force",
+    "nameKo": "고스트다이브",
+    "nameJa": "ゴーストダイブ",
+    "type": "ghost",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Eerie Impulse",
+    "nameKo": "괴전파",
+    "nameJa": "かいでんぱ",
+    "type": "electric",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Land’s Wrath",
+    "nameKo": "그라운드포스",
+    "nameJa": "グランドフォース",
+    "type": "ground",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Grassy Terrain",
+    "nameKo": "그래스필드",
+    "nameJa": "グラスフィールド",
+    "type": "grass",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Power-Up Punch",
+    "nameKo": "그로우펀치",
+    "nameJa": "グロウパンチ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 20,
+    "tags": [
+      "punch"
+    ]
+  },
+  {
+    "name": "Origin Pulse",
+    "nameKo": "근원의파동",
+    "nameJa": "こんげんのはどう",
+    "type": "water",
+    "category": "special",
+    "power": 110,
+    "accuracy": 85,
+    "pp": 10,
+    "tags": [
+      "pulse"
+    ]
+  },
+  {
+    "name": "Petal Blizzard",
+    "nameKo": "꽃보라",
+    "nameJa": "はなふぶき",
+    "type": "grass",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Sticky Web",
+    "nameKo": "끈적끈적네트",
+    "nameJa": "ねばねばネット",
+    "type": "bug",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Spiky Shield",
+    "nameKo": "니들가드",
+    "nameJa": "ニードルガード",
+    "type": "grass",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Hyperspace Fury",
+    "nameKo": "다른차원러시",
+    "nameJa": "いじげんラッシュ",
+    "type": "dark",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 0,
+    "pp": 5
+  },
+  {
+    "name": "Hyperspace Hole",
+    "nameKo": "다른차원홀",
+    "nameJa": "いじげんホール",
+    "type": "psychic",
+    "category": "special",
+    "power": 80,
+    "accuracy": 0,
+    "pp": 5
+  },
+  {
+    "name": "Diamond Storm",
+    "nameKo": "다이아스톰",
+    "nameJa": "ダイヤストーム",
+    "type": "rock",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 95,
+    "pp": 5
+  },
+  {
+    "name": "Precipice Blades",
+    "nameKo": "단애의칼",
+    "nameJa": "だんがいのつるぎ",
+    "type": "ground",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 85,
+    "pp": 10
+  },
+  {
+    "name": "Oblivion Wing",
+    "nameKo": "데스윙",
+    "nameJa": "デスウイング",
+    "type": "flying",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Topsy-Turvy",
+    "nameKo": "뒤집어엎기",
+    "nameJa": "ひっくりかえす",
+    "type": "dark",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Draining Kiss",
+    "nameKo": "드레인키스",
+    "nameJa": "ドレインキッス",
+    "type": "fairy",
+    "category": "special",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Mat Block",
+    "nameKo": "마룻바닥세워막기",
+    "nameJa": "たたみがえし",
+    "type": "fighting",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Fell Stinger",
+    "nameKo": "마지막일침",
+    "nameJa": "とどめばり",
+    "type": "bug",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 25
+  },
+  {
+    "name": "Parting Shot",
+    "nameKo": "막말내뱉기",
+    "nameJa": "すてゼリフ",
+    "type": "dark",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Dazzling Gleam",
+    "nameKo": "매지컬샤인",
+    "nameJa": "マジカルシャイン",
+    "type": "fairy",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Mystical Fire",
+    "nameKo": "매지컬플레임",
+    "nameJa": "マジカルフレイム",
+    "type": "fire",
+    "category": "special",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Moonblast",
+    "nameKo": "문포스",
+    "nameJa": "ムーンフォース",
+    "type": "fairy",
+    "category": "special",
+    "power": 95,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Water Shuriken",
+    "nameKo": "물수리검",
+    "nameJa": "みずしゅりけん",
+    "type": "water",
+    "category": "special",
+    "power": 15,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Misty Terrain",
+    "nameKo": "미스트필드",
+    "nameJa": "ミストフィールド",
+    "type": "fairy",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Venom Drench",
+    "nameKo": "베놈트랩",
+    "nameJa": "ベノムトラップ",
+    "type": "poison",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Nuzzle",
+    "nameKo": "볼부비부비",
+    "nameJa": "ほっぺすりすり",
+    "type": "electric",
+    "category": "physical",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Noble Roar",
+    "nameKo": "부르짖기",
+    "nameJa": "おたけび",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 30
+  },
+  {
+    "name": "Powder",
+    "nameKo": "분진",
+    "nameJa": "ふんじん",
+    "type": "bug",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Confide",
+    "nameKo": "비밀이야기",
+    "nameJa": "ないしょばなし",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Thousand Arrows",
+    "nameKo": "사우전드애로",
+    "nameJa": "サウザンアロー",
+    "type": "ground",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Thousand Waves",
+    "nameKo": "사우전드웨이브",
+    "nameJa": "サウザンウェーブ",
+    "type": "ground",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Hold Hands",
+    "nameKo": "손에손잡기",
+    "nameJa": "てをつなぐ",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 40
+  },
+  {
+    "name": "Electrify",
+    "nameKo": "송전",
+    "nameJa": "そうでん",
+    "type": "electric",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Forest’s Curse",
+    "nameKo": "숲의저주",
+    "nameJa": "もりののろい",
+    "type": "grass",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Steam Eruption",
+    "nameKo": "스팀버스트",
+    "nameJa": "スチームバースト",
+    "type": "water",
+    "category": "special",
+    "power": 110,
+    "accuracy": 95,
+    "pp": 5
+  },
+  {
+    "name": "Aromatic Mist",
+    "nameKo": "아로마미스트",
+    "nameJa": "アロマミスト",
+    "type": "fairy",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Infestation",
+    "nameKo": "엉겨붙기",
+    "nameJa": "まとわりつく",
+    "type": "bug",
+    "category": "special",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Fairy Wind",
+    "nameKo": "요정의바람",
+    "nameJa": "ようせいのかぜ",
+    "type": "fairy",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30
+  },
+  {
+    "name": "Rototiller",
+    "nameKo": "일구기",
+    "nameJa": "たがやす",
+    "type": "ground",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Electric Terrain",
+    "nameKo": "일렉트릭필드",
+    "nameJa": "エレキフィールド",
+    "type": "electric",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Magnetic Flux",
+    "nameKo": "자기장조작",
+    "nameJa": "じばそうさ",
+    "type": "electric",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Hold Back",
+    "nameKo": "적당히손봐주기",
+    "nameJa": "てかげん",
+    "type": "normal",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 40
+  },
+  {
+    "name": "Geomancy",
+    "nameKo": "지오컨트롤",
+    "nameJa": "ジオコントロール",
+    "type": "fairy",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Disarming Voice",
+    "nameKo": "차밍보이스",
+    "nameJa": "チャームボイス",
+    "type": "fairy",
+    "category": "special",
+    "power": 40,
+    "accuracy": 0,
+    "pp": 15
+  },
+  {
+    "name": "Baby-Doll Eyes",
+    "nameKo": "초롱초롱눈동자",
+    "nameJa": "つぶらなひとみ",
+    "type": "fairy",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 30
+  },
+  {
+    "name": "Celebrate",
+    "nameKo": "축하",
+    "nameJa": "おいわい",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 40
+  },
+  {
+    "name": "Play Rough",
+    "nameKo": "치근거리기",
+    "nameJa": "じゃれつく",
+    "type": "fairy",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 90,
+    "pp": 10,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Play Nice",
+    "nameKo": "친해지기",
+    "nameJa": "なかよくする",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "King’s Shield",
+    "nameKo": "킹실드",
+    "nameJa": "キングシールド",
+    "type": "steel",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Crafty Shield",
+    "nameKo": "트릭가드",
+    "nameJa": "トリックガード",
+    "type": "fairy",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Belch",
+    "nameKo": "트림",
+    "nameJa": "ゲップ",
+    "type": "poison",
+    "category": "special",
+    "power": 120,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Parabolic Charge",
+    "nameKo": "파라볼라차지",
+    "nameJa": "パラボラチャージ",
+    "type": "electric",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Light of Ruin",
+    "nameKo": "파멸의빛",
+    "nameJa": "はめつのひかり",
+    "type": "fairy",
+    "category": "special",
+    "power": 140,
+    "accuracy": 90,
+    "pp": 5
+  },
+  {
+    "name": "Fairy Lock",
+    "nameKo": "페어리록",
+    "nameJa": "フェアリーロック",
+    "type": "fairy",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Boomburst",
+    "nameKo": "폭음파",
+    "nameJa": "ばくおんぱ",
+    "type": "normal",
+    "category": "special",
+    "power": 140,
+    "accuracy": 100,
+    "pp": 10,
+    "tags": [
+      "sound"
+    ]
+  },
+  {
+    "name": "Freeze-Dry",
+    "nameKo": "프리즈드라이",
+    "nameJa": "フリーズドライ",
+    "type": "ice",
+    "category": "special",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Ion Deluge",
+    "nameKo": "플라스마샤워",
+    "nameJa": "プラズマシャワー",
+    "type": "electric",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 25
+  },
+  {
+    "name": "Flower Shield",
+    "nameKo": "플라워가드",
+    "nameJa": "フラワーガード",
+    "type": "fairy",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Flying Press",
+    "nameKo": "플라잉프레스",
+    "nameJa": "フライングプレス",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 95,
+    "pp": 10
+  },
+  {
+    "name": "Happy Hour",
+    "nameKo": "해피타임",
+    "nameJa": "ハッピータイム",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 30
+  },
+  {
+    "name": "Trick-or-Treat",
+    "nameKo": "핼러윈",
+    "nameJa": "ハロウィン",
+    "type": "ghost",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Dragon Ascent",
+    "nameKo": "화룡점정",
+    "nameJa": "ガリョウテンセイ",
+    "type": "flying",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5
+  }
+]

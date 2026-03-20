@@ -7,6 +7,13 @@ enum MoveCategory {
   status,
 }
 
+/// Regular, Z-move, or Max move
+enum MoveClass {
+  normal,
+  zMove,
+  maxMove,
+}
+
 /// A Pokemon move
 class Move {
   final String name;
@@ -17,6 +24,7 @@ class Move {
   final int power;
   final int accuracy;
   final int pp;
+  final MoveClass moveClass;
   final List<String> tags;
 
   const Move({
@@ -28,6 +36,7 @@ class Move {
     required this.power,
     required this.accuracy,
     required this.pp,
+    this.moveClass = MoveClass.normal,
     this.tags = const [],
   });
 
@@ -46,6 +55,7 @@ class Move {
       power: power ?? this.power,
       accuracy: accuracy,
       pp: pp,
+      moveClass: moveClass,
       tags: tags,
     );
   }
@@ -60,6 +70,9 @@ class Move {
       power: json['power'] as int,
       accuracy: json['accuracy'] as int,
       pp: json['pp'] as int,
+      moveClass: json['moveClass'] != null
+          ? MoveClass.values.byName(json['moveClass'] as String)
+          : MoveClass.normal,
       tags: json['tags'] != null
           ? List<String>.from(json['tags'] as List)
           : const [],

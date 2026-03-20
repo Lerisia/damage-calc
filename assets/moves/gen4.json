@@ -1,0 +1,1194 @@
+[
+  {
+    "name": "Guard Swap",
+    "nameKo": "가드스웹",
+    "nameJa": "ガードスワップ",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Acupressure",
+    "nameKo": "경혈찌르기",
+    "nameJa": "つぼをつく",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 30
+  },
+  {
+    "name": "Worry Seed",
+    "nameKo": "고민씨",
+    "nameJa": "なやみのタネ",
+    "type": "grass",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Spacial Rend",
+    "nameKo": "공간절단",
+    "nameJa": "あくうせつだん",
+    "type": "dragon",
+    "category": "special",
+    "power": 100,
+    "accuracy": 95,
+    "pp": 5
+  },
+  {
+    "name": "Attack Order",
+    "nameKo": "공격지령",
+    "nameJa": "こうげきしれい",
+    "type": "bug",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Ominous Wind",
+    "nameKo": "괴상한바람",
+    "nameJa": "あやしいかぜ",
+    "type": "ghost",
+    "category": "special",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Embargo",
+    "nameKo": "금제",
+    "nameJa": "さしおさえ",
+    "type": "dark",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Giga Impact",
+    "nameKo": "기가임팩트",
+    "nameJa": "ギガインパクト",
+    "type": "normal",
+    "category": "physical",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5
+  },
+  {
+    "name": "Sucker Punch",
+    "nameKo": "기습",
+    "nameJa": "ふいうち",
+    "type": "dark",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Focus Blast",
+    "nameKo": "기합구슬",
+    "nameJa": "きあいだま",
+    "type": "fighting",
+    "category": "special",
+    "power": 120,
+    "accuracy": 70,
+    "pp": 5
+  },
+  {
+    "name": "Night Slash",
+    "nameKo": "깜짝베기",
+    "nameJa": "つじぎり",
+    "type": "dark",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "slice"
+    ]
+  },
+  {
+    "name": "Nasty Plot",
+    "nameKo": "나쁜음모",
+    "nameJa": "わるだくみ",
+    "type": "dark",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Roost",
+    "nameKo": "날개쉬기",
+    "nameJa": "はねやすめ",
+    "type": "flying",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 5
+  },
+  {
+    "name": "Fling",
+    "nameKo": "내던지기",
+    "nameJa": "なげつける",
+    "type": "dark",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Avalanche",
+    "nameKo": "눈사태",
+    "nameJa": "ゆきなだれ",
+    "type": "ice",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Dark Void",
+    "nameKo": "다크홀",
+    "nameJa": "ダークホール",
+    "type": "dark",
+    "category": "status",
+    "power": 0,
+    "accuracy": 50,
+    "pp": 10
+  },
+  {
+    "name": "Earth Power",
+    "nameKo": "대지의힘",
+    "nameJa": "だいちのちから",
+    "type": "ground",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Double Hit",
+    "nameKo": "더블어택",
+    "nameJa": "ダブルアタック",
+    "type": "normal",
+    "category": "physical",
+    "power": 35,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Gunk Shot",
+    "nameKo": "더스트슈트",
+    "nameJa": "ダストシュート",
+    "type": "poison",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 80,
+    "pp": 5,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Toxic Spikes",
+    "nameKo": "독압정",
+    "nameJa": "どくびし",
+    "type": "poison",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Poison Jab",
+    "nameKo": "독찌르기",
+    "nameJa": "どくづき",
+    "type": "poison",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Last Resort",
+    "nameKo": "뒀다쓰기",
+    "nameJa": "とっておき",
+    "type": "normal",
+    "category": "physical",
+    "power": 140,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Dragon Rush",
+    "nameKo": "드래곤다이브",
+    "nameJa": "ドラゴンダイブ",
+    "type": "dragon",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 75,
+    "pp": 10
+  },
+  {
+    "name": "Drain Punch",
+    "nameKo": "드레인펀치",
+    "nameJa": "ドレインパンチ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10,
+    "tags": [
+      "punch"
+    ]
+  },
+  {
+    "name": "Rock Climb",
+    "nameKo": "락클라임",
+    "nameJa": "ロッククライム",
+    "type": "normal",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 85,
+    "pp": 20
+  },
+  {
+    "name": "Flash Cannon",
+    "nameKo": "러스터캐논",
+    "nameJa": "ラスターカノン",
+    "type": "steel",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Rock Polish",
+    "nameKo": "록커트",
+    "nameJa": "ロックカット",
+    "type": "rock",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Leaf Storm",
+    "nameKo": "리프스톰",
+    "nameJa": "リーフストーム",
+    "type": "grass",
+    "category": "special",
+    "power": 130,
+    "accuracy": 90,
+    "pp": 5
+  },
+  {
+    "name": "Magnet Bomb",
+    "nameKo": "마그넷봄",
+    "nameJa": "マグネットボム",
+    "type": "steel",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Magma Storm",
+    "nameKo": "마그마스톰",
+    "nameJa": "マグマストーム",
+    "type": "fire",
+    "category": "special",
+    "power": 100,
+    "accuracy": 75,
+    "pp": 5
+  },
+  {
+    "name": "Trump Card",
+    "nameKo": "마지막수단",
+    "nameJa": "きりふだ",
+    "type": "normal",
+    "category": "special",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 5
+  },
+  {
+    "name": "Metal Burst",
+    "nameKo": "메탈버스트",
+    "nameJa": "メタルバースト",
+    "type": "steel",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Crush Grip",
+    "nameKo": "묵사발",
+    "nameJa": "にぎりつぶす",
+    "type": "normal",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Miracle Eye",
+    "nameKo": "미라클아이",
+    "nameJa": "ミラクルアイ",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 40
+  },
+  {
+    "name": "Mirror Shot",
+    "nameKo": "미러숏",
+    "nameJa": "ミラーショット",
+    "type": "steel",
+    "category": "special",
+    "power": 65,
+    "accuracy": 85,
+    "pp": 10
+  },
+  {
+    "name": "Switcheroo",
+    "nameKo": "바꿔치기",
+    "nameJa": "すりかえ",
+    "type": "dark",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Force Palm",
+    "nameKo": "발경",
+    "nameJa": "はっけい",
+    "type": "fighting",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Defend Order",
+    "nameKo": "방어지령",
+    "nameJa": "ぼうぎょしれい",
+    "type": "bug",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Discharge",
+    "nameKo": "방전",
+    "nameJa": "ほうでん",
+    "type": "electric",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Thunder Fang",
+    "nameKo": "번개엄니",
+    "nameJa": "かみなりのキバ",
+    "type": "electric",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 95,
+    "pp": 15,
+    "tags": [
+      "bite"
+    ]
+  },
+  {
+    "name": "Bug Bite",
+    "nameKo": "벌레먹음",
+    "nameJa": "むしくい",
+    "type": "bug",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Bug Buzz",
+    "nameKo": "벌레의야단법석",
+    "nameJa": "むしのさざめき",
+    "type": "bug",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "tags": [
+      "sound"
+    ]
+  },
+  {
+    "name": "Payback",
+    "nameKo": "보복",
+    "nameJa": "しっぺがえし",
+    "type": "dark",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Lava Plume",
+    "nameKo": "분연",
+    "nameJa": "ふんえん",
+    "type": "fire",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Fire Fang",
+    "nameKo": "불꽃엄니",
+    "nameJa": "ほのおのキバ",
+    "type": "fire",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 95,
+    "pp": 15,
+    "tags": [
+      "bite"
+    ]
+  },
+  {
+    "name": "Bullet Punch",
+    "nameKo": "불릿펀치",
+    "nameJa": "バレットパンチ",
+    "type": "steel",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30
+  },
+  {
+    "name": "Brave Bird",
+    "nameKo": "브레이브버드",
+    "nameJa": "ブレイブバード",
+    "type": "flying",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Zen Headbutt",
+    "nameKo": "사념의박치기",
+    "nameJa": "しねんのずつき",
+    "type": "psychic",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 90,
+    "pp": 15
+  },
+  {
+    "name": "Psycho Shift",
+    "nameKo": "사이코시프트",
+    "nameJa": "サイコシフト",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Psycho Cut",
+    "nameKo": "사이코커터",
+    "nameJa": "サイコカッター",
+    "type": "psychic",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "tags": [
+      "slice"
+    ]
+  },
+  {
+    "name": "Shadow Force",
+    "nameKo": "섀도다이브",
+    "nameJa": "シャドーダイブ",
+    "type": "ghost",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Shadow Claw",
+    "nameKo": "섀도크루",
+    "nameJa": "シャドークロー",
+    "type": "ghost",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Me First",
+    "nameKo": "선취",
+    "nameJa": "さきどり",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Brine",
+    "nameKo": "소금물",
+    "nameJa": "しおみず",
+    "type": "water",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Chatter",
+    "nameKo": "수다",
+    "nameJa": "おしゃべり",
+    "type": "flying",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Tailwind",
+    "nameKo": "순풍",
+    "nameJa": "おいかぜ",
+    "type": "flying",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 15
+  },
+  {
+    "name": "Stealth Rock",
+    "nameKo": "스텔스록",
+    "nameJa": "ステルスロック",
+    "type": "rock",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Stone Edge",
+    "nameKo": "스톤에지",
+    "nameJa": "ストーンエッジ",
+    "type": "rock",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 80,
+    "pp": 5
+  },
+  {
+    "name": "Assurance",
+    "nameKo": "승부굳히기",
+    "nameJa": "ダメおし",
+    "type": "dark",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Roar of Time",
+    "nameKo": "시간의포효",
+    "nameJa": "ときのほうこう",
+    "type": "dragon",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5
+  },
+  {
+    "name": "Seed Flare",
+    "nameKo": "시드플레어",
+    "nameJa": "シードフレア",
+    "type": "grass",
+    "category": "special",
+    "power": 120,
+    "accuracy": 85,
+    "pp": 5
+  },
+  {
+    "name": "X-Scissor",
+    "nameKo": "시저크로스",
+    "nameJa": "シザークロス",
+    "type": "bug",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact",
+      "slice"
+    ]
+  },
+  {
+    "name": "Judgment",
+    "nameKo": "심판의뭉치",
+    "nameJa": "さばきのつぶて",
+    "type": "normal",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Seed Bomb",
+    "nameKo": "씨폭탄",
+    "nameJa": "タネばくだん",
+    "type": "grass",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Iron Head",
+    "nameKo": "아이언헤드",
+    "nameJa": "アイアンヘッド",
+    "type": "steel",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Aqua Ring",
+    "nameKo": "아쿠아링",
+    "nameJa": "アクアリング",
+    "type": "water",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  },
+  {
+    "name": "Aqua Jet",
+    "nameKo": "아쿠아제트",
+    "nameJa": "アクアジェット",
+    "type": "water",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Aqua Tail",
+    "nameKo": "아쿠아테일",
+    "nameJa": "アクアテール",
+    "type": "water",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Dark Pulse",
+    "nameKo": "악의파동",
+    "nameJa": "あくのはどう",
+    "type": "dark",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "pulse"
+    ]
+  },
+  {
+    "name": "Defog",
+    "nameKo": "안개제거",
+    "nameJa": "きりばらい",
+    "type": "flying",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 15
+  },
+  {
+    "name": "Rock Wrecker",
+    "nameKo": "암석포",
+    "nameJa": "がんせきほう",
+    "type": "rock",
+    "category": "physical",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5
+  },
+  {
+    "name": "Hammer Arm",
+    "nameKo": "암해머",
+    "nameJa": "アームハンマー",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Shadow Sneak",
+    "nameKo": "야습",
+    "nameJa": "かげうち",
+    "type": "ghost",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30
+  },
+  {
+    "name": "Head Smash",
+    "nameKo": "양날박치기",
+    "nameJa": "もろはのずつき",
+    "type": "rock",
+    "category": "physical",
+    "power": 150,
+    "accuracy": 80,
+    "pp": 5
+  },
+  {
+    "name": "Ice Shard",
+    "nameKo": "얼음뭉치",
+    "nameJa": "こおりのつぶて",
+    "type": "ice",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30
+  },
+  {
+    "name": "Ice Fang",
+    "nameKo": "얼음엄니",
+    "nameJa": "こおりのキバ",
+    "type": "ice",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 95,
+    "pp": 15,
+    "tags": [
+      "bite"
+    ]
+  },
+  {
+    "name": "Energy Ball",
+    "nameKo": "에너지볼",
+    "nameJa": "エナジーボール",
+    "type": "grass",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "tags": [
+      "ball"
+    ]
+  },
+  {
+    "name": "Air Slash",
+    "nameKo": "에어슬래시",
+    "nameJa": "エアスラッシュ",
+    "type": "flying",
+    "category": "special",
+    "power": 75,
+    "accuracy": 95,
+    "pp": 15,
+    "tags": [
+      "slice"
+    ]
+  },
+  {
+    "name": "Draco Meteor",
+    "nameKo": "용성군",
+    "nameJa": "りゅうせいぐん",
+    "type": "dragon",
+    "category": "special",
+    "power": 130,
+    "accuracy": 90,
+    "pp": 5
+  },
+  {
+    "name": "Dragon Pulse",
+    "nameKo": "용의파동",
+    "nameJa": "りゅうのはどう",
+    "type": "dragon",
+    "category": "special",
+    "power": 85,
+    "accuracy": 100,
+    "pp": 10,
+    "tags": [
+      "pulse"
+    ]
+  },
+  {
+    "name": "Wood Hammer",
+    "nameKo": "우드해머",
+    "nameJa": "ウッドハンマー",
+    "type": "grass",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Gastro Acid",
+    "nameKo": "위액",
+    "nameJa": "いえき",
+    "type": "poison",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "U-turn",
+    "nameKo": "유턴",
+    "nameJa": "とんぼがえり",
+    "type": "bug",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Captivate",
+    "nameKo": "유혹",
+    "nameJa": "ゆうわく",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Close Combat",
+    "nameKo": "인파이트",
+    "nameJa": "インファイト",
+    "type": "fighting",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Natural Gift",
+    "nameKo": "자연의은혜",
+    "nameJa": "しぜんのめぐみ",
+    "type": "normal",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Gyro Ball",
+    "nameKo": "자이로볼",
+    "nameJa": "ジャイロボール",
+    "type": "steel",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Wake-Up Slap",
+    "nameKo": "잠깨움뺨치기",
+    "nameJa": "めざましビンタ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Magnet Rise",
+    "nameKo": "전자부유",
+    "nameJa": "でんじふゆう",
+    "type": "electric",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Lucky Chant",
+    "nameKo": "주술",
+    "nameJa": "おまじない",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 30
+  },
+  {
+    "name": "Gravity",
+    "nameKo": "중력",
+    "nameJa": "じゅうりょく",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 5
+  },
+  {
+    "name": "Wring Out",
+    "nameKo": "쥐어짜기",
+    "nameJa": "しぼりとる",
+    "type": "normal",
+    "category": "special",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Vacuum Wave",
+    "nameKo": "진공파",
+    "nameJa": "しんくうは",
+    "type": "fighting",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30
+  },
+  {
+    "name": "Mud Bomb",
+    "nameKo": "진흙폭탄",
+    "nameJa": "どろばくだん",
+    "type": "ground",
+    "category": "special",
+    "power": 65,
+    "accuracy": 85,
+    "pp": 10
+  },
+  {
+    "name": "Pluck",
+    "nameKo": "쪼아대기",
+    "nameJa": "ついばむ",
+    "type": "flying",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Charge Beam",
+    "nameKo": "차지빔",
+    "nameJa": "チャージビーム",
+    "type": "electric",
+    "category": "special",
+    "power": 50,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Lunar Dance",
+    "nameKo": "초승달춤",
+    "nameJa": "みかづきのまい",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Healing Wish",
+    "nameKo": "치유소원",
+    "nameJa": "いやしのねがい",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Cross Poison",
+    "nameKo": "크로스포이즌",
+    "nameJa": "クロスポイズン",
+    "type": "poison",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "tags": [
+      "slice"
+    ]
+  },
+  {
+    "name": "Trick Room",
+    "nameKo": "트릭룸",
+    "nameJa": "トリックルーム",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 5
+  },
+  {
+    "name": "Aura Sphere",
+    "nameKo": "파동탄",
+    "nameJa": "はどうだん",
+    "type": "fighting",
+    "category": "special",
+    "power": 80,
+    "accuracy": 0,
+    "pp": 20,
+    "tags": [
+      "pulse",
+      "ball"
+    ]
+  },
+  {
+    "name": "Power Swap",
+    "nameKo": "파워스웹",
+    "nameJa": "パワースワップ",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Power Gem",
+    "nameKo": "파워젬",
+    "nameJa": "パワージェム",
+    "type": "rock",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Power Trick",
+    "nameKo": "파워트릭",
+    "nameJa": "パワートリック",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Power Whip",
+    "nameKo": "파워휩",
+    "nameJa": "パワーウィップ",
+    "type": "grass",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 85,
+    "pp": 10
+  },
+  {
+    "name": "Feint",
+    "nameKo": "페인트",
+    "nameJa": "フェイント",
+    "type": "normal",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Grass Knot",
+    "nameKo": "풀묶기",
+    "nameJa": "くさむすび",
+    "type": "grass",
+    "category": "special",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Flare Blitz",
+    "nameKo": "플레어드라이브",
+    "nameJa": "フレアドライブ",
+    "type": "fire",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "contact"
+    ]
+  },
+  {
+    "name": "Heart Swap",
+    "nameKo": "하트스웹",
+    "nameJa": "ハートスワップ",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Punishment",
+    "nameKo": "혼내기",
+    "nameJa": "おしおき",
+    "type": "dark",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Heal Block",
+    "nameKo": "회복봉인",
+    "nameJa": "かいふくふうじ",
+    "type": "psychic",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Heal Order",
+    "nameKo": "회복지령",
+    "nameJa": "かいふくしれい",
+    "type": "bug",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Copycat",
+    "nameKo": "흉내쟁이",
+    "nameJa": "まねっこ",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 20
+  }
+]

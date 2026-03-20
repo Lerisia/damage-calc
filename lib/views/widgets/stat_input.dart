@@ -55,7 +55,14 @@ class _StatInputState extends State<StatInput> {
   int _evResetCounter = 0;
 
   static final List<DropdownMenuItem<Nature>> _natureItems = Nature.values
-      .map((n) => DropdownMenuItem(value: n, child: Text(_natureLabelStatic(n))))
+      .map((n) => DropdownMenuItem(
+            value: n,
+            child: Text(
+              _natureLabelStatic(n),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ))
       .toList();
 
   static String _natureLabelStatic(Nature n) {
@@ -189,15 +196,17 @@ class _StatInputState extends State<StatInput> {
         Row(
           children: [
             Expanded(
+              flex: 3,
               child: DropdownButtonFormField<Nature>(
                 value: widget.nature,
+                isExpanded: true,
                 decoration: const InputDecoration(labelText: '성격', isDense: true),
                 items: _natureItems,
                 onChanged: (v) => widget.onNatureChanged(v!),
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(child: _itemAutocomplete()),
+            const SizedBox(width: 8),
+            Expanded(flex: 2, child: _itemAutocomplete()),
           ],
         ),
         const SizedBox(height: 12),
@@ -342,12 +351,12 @@ class _StatInputState extends State<StatInput> {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          SizedBox(width: 44, child: Text('', style: style)),
-          SizedBox(width: 40, child: Text('종족값', style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 44, child: Text('개체값', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 3, child: Text('노력치', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 2, child: Text('랭크', style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 44, child: Text('실수치', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text('', style: style)),
+          Expanded(flex: 2, child: Text('종족값', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text('개체값', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 5, child: Text('노력치', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 4, child: Text('랭크', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text('실수치', style: style, textAlign: TextAlign.center)),
         ],
       ),
     );
@@ -367,23 +376,23 @@ class _StatInputState extends State<StatInput> {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         children: [
-          SizedBox(width: 44, child: Text(label, style: const TextStyle(fontSize: 15))),
-          SizedBox(width: 40, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 15))),
-          SizedBox(width: 44, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
+          Expanded(flex: 3, child: Text(label, style: const TextStyle(fontSize: 13))),
+          Expanded(flex: 2, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 13))),
+          Expanded(flex: 3, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: _evControl(evVal, (v) => onChanged(ivVal, v, null)),
           ),
           Expanded(
-            flex: 2,
+            flex: 4,
             child: rankIndex >= 0
                 ? _rankControl(rankVal, (v) => onChanged(ivVal, evVal, v))
                 : const SizedBox(),
           ),
-          SizedBox(
-            width: 44,
+          Expanded(
+            flex: 3,
             child: Text('$actual', textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
           ),
         ],
       ),
@@ -392,38 +401,44 @@ class _StatInputState extends State<StatInput> {
 
   Widget _evControl(int value, ValueChanged<int> onChanged) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        _smallButton('0', () {
-          setState(() => _evResetCounter++);
-          onChanged(0);
-        }),
-        SizedBox(
-          width: 36,
-          height: 32,
-          child: TextFormField(
-            key: ValueKey('ev_$_evResetCounter'),
-            initialValue: '$value',
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-            style: const TextStyle(fontSize: 14),
-            decoration: const InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+        Expanded(
+          flex: 2,
+          child: _flexButton('0', () {
+            setState(() => _evResetCounter++);
+            onChanged(0);
+          }),
+        ),
+        Expanded(
+          flex: 3,
+          child: SizedBox(
+            height: 28,
+            child: TextFormField(
+              key: ValueKey('ev_$_evResetCounter'),
+              initialValue: '$value',
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              style: const TextStyle(fontSize: 13),
+              decoration: const InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+              ),
+              onChanged: (text) {
+                final parsed = int.tryParse(text);
+                if (parsed != null && parsed >= 0 && parsed <= 252) {
+                  onChanged(parsed);
+                }
+              },
             ),
-            onChanged: (text) {
-              final parsed = int.tryParse(text);
-              if (parsed != null && parsed >= 0 && parsed <= 252) {
-                onChanged(parsed);
-              }
-            },
           ),
         ),
-        _smallButton('max', () {
-          setState(() => _evResetCounter++);
-          onChanged(252);
-        }),
+        Expanded(
+          flex: 3,
+          child: _flexButton('max', () {
+            setState(() => _evResetCounter++);
+            onChanged(252);
+          }),
+        ),
       ],
     );
   }
@@ -431,28 +446,24 @@ class _StatInputState extends State<StatInput> {
   Widget _rankControl(int value, ValueChanged<int> onChanged) {
     final displayText = value >= 0 ? '+$value' : '$value';
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        _smallButton('-', value > -6 ? () => onChanged(value - 1) : null),
-        SizedBox(
-          width: 28,
+        Expanded(child: _flexButton('-', value > -6 ? () => onChanged(value - 1) : null)),
+        Expanded(
           child: Text(displayText, textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
               color: value > 0 ? Colors.red : value < 0 ? Colors.blue : null)),
         ),
-        _smallButton('+', value < 6 ? () => onChanged(value + 1) : null),
+        Expanded(child: _flexButton('+', value < 6 ? () => onChanged(value + 1) : null)),
       ],
     );
   }
 
-  Widget _smallButton(String text, VoidCallback? onPressed) {
+  Widget _flexButton(String text, VoidCallback? onPressed) {
     return SizedBox(
-      width: text.length > 1 ? 32 : 26,
-      height: 26,
+      height: 24,
       child: IconButton(
         onPressed: onPressed,
-        icon: Text(text, style: const TextStyle(fontSize: 11)),
+        icon: Text(text, style: const TextStyle(fontSize: 10)),
         padding: EdgeInsets.zero,
         style: IconButton.styleFrom(
           side: const BorderSide(width: 0.5, color: Colors.grey),
@@ -468,7 +479,7 @@ class _StatInputState extends State<StatInput> {
         initialValue: '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        style: const TextStyle(fontSize: 14),
+        style: const TextStyle(fontSize: 13),
         decoration: const InputDecoration(
           isDense: true,
           contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),

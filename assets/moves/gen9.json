@@ -1,0 +1,695 @@
+[
+  {
+    "name": "Aqua Cutter",
+    "nameKo": "아쿠아커터",
+    "nameJa": "アクアカッター",
+    "type": "water",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Aqua Step",
+    "nameKo": "아쿠아스텝",
+    "nameJa": "アクアステップ",
+    "type": "water",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Armor Cannon",
+    "nameKo": "아머캐논",
+    "nameJa": "アーマーキャノン",
+    "type": "fire",
+    "category": "special",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Axe Kick",
+    "nameKo": "발꿈치찍기",
+    "nameJa": "かかとおとし",
+    "type": "fighting",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Bitter Blade",
+    "nameKo": "원념의칼",
+    "nameJa": "むねんのつるぎ",
+    "type": "fire",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Blazing Torque",
+    "nameKo": "번액셀",
+    "nameJa": "バーンアクセル",
+    "type": "fire",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Blood Moon",
+    "nameKo": "블러드문",
+    "nameJa": "ブラッドムーン",
+    "type": "normal",
+    "category": "special",
+    "power": 140,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Chilling Water",
+    "nameKo": "찬물끼얹기",
+    "nameJa": "ひやみず",
+    "type": "water",
+    "category": "special",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Chilly Reception",
+    "nameKo": "썰렁개그",
+    "nameJa": "さむいギャグ",
+    "type": "ice",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Collision Course",
+    "nameKo": "액셀브레이크",
+    "nameJa": "アクセルブレイク",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Combat Torque",
+    "nameKo": "파이트액셀",
+    "nameJa": "ファイトアクセル",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Comeuppance",
+    "nameKo": "앙갚음",
+    "nameJa": "ほうふく",
+    "type": "dark",
+    "category": "physical",
+    "power": 1,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Doodle",
+    "nameKo": "베껴그리기",
+    "nameJa": "うつしえ",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Double Shock",
+    "nameKo": "전광쌍격",
+    "nameJa": "でんこうそうげき",
+    "type": "electric",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Electro Drift",
+    "nameKo": "라이트닝드라이브",
+    "nameJa": "イナズマドライブ",
+    "type": "electric",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Fillet Away",
+    "nameKo": "제살깎기",
+    "nameJa": "みをけずる",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Flower Trick",
+    "nameKo": "트릭플라워",
+    "nameJa": "トリックフラワー",
+    "type": "grass",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Gigaton Hammer",
+    "nameKo": "거대해머",
+    "nameJa": "デカハンマー",
+    "type": "steel",
+    "category": "physical",
+    "power": 160,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Glaive Rush",
+    "nameKo": "대검돌격",
+    "nameJa": "きょけんとつげき",
+    "type": "dragon",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Hyper Drill",
+    "nameKo": "하이퍼드릴",
+    "nameJa": "ハイパードリル",
+    "type": "normal",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Ice Spinner",
+    "nameKo": "아이스스피너",
+    "nameJa": "アイススピナー",
+    "type": "ice",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Ivy Cudgel",
+    "nameKo": "덩굴방망이",
+    "nameJa": "ツタこんぼう",
+    "type": "grass",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Jet Punch",
+    "nameKo": "제트펀치",
+    "nameJa": "ジェットパンチ",
+    "type": "water",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Kowtow Cleave",
+    "nameKo": "도각참",
+    "nameJa": "ドゲザン",
+    "type": "dark",
+    "category": "physical",
+    "power": 85,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Last Respects",
+    "nameKo": "성묘",
+    "nameJa": "おはかまいり",
+    "type": "ghost",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Lumina Crash",
+    "nameKo": "루미나콜리전",
+    "nameJa": "ルミナコリジョン",
+    "type": "psychic",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Magical Torque",
+    "nameKo": "매지컬액셀",
+    "nameJa": "マジカルアクセル",
+    "type": "fairy",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Make It Rain",
+    "nameKo": "골드러시",
+    "nameJa": "ゴールドラッシュ",
+    "type": "steel",
+    "category": "special",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Matcha Gotcha",
+    "nameKo": "휘적휘적포",
+    "nameJa": "シャカシャカほう",
+    "type": "grass",
+    "category": "special",
+    "power": 80,
+    "accuracy": 90,
+    "pp": 15
+  },
+  {
+    "name": "Mortal Spin",
+    "nameKo": "킬러스핀",
+    "nameJa": "キラースピン",
+    "type": "poison",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Noxious Torque",
+    "nameKo": "포이즌액셀",
+    "nameJa": "ポイズンアクセル",
+    "type": "poison",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Order Up",
+    "nameKo": "한판내기",
+    "nameJa": "いっちょうあがり",
+    "type": "dragon",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Population Bomb",
+    "nameKo": "찍찍베기",
+    "nameJa": "ネズミざん",
+    "type": "normal",
+    "category": "physical",
+    "power": 20,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Pounce",
+    "nameKo": "달려들기",
+    "nameJa": "とびつく",
+    "type": "bug",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Rage Fist",
+    "nameKo": "분노의주먹",
+    "nameJa": "ふんどのこぶし",
+    "type": "ghost",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Raging Bull",
+    "nameKo": "레이징불",
+    "nameJa": "レイジングブル",
+    "type": "normal",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Revival Blessing",
+    "nameKo": "회생의기도",
+    "nameJa": "さいきのいのり",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 1
+  },
+  {
+    "name": "Ruination",
+    "nameKo": "카타스트로피",
+    "nameJa": "カタストロフィ",
+    "type": "dark",
+    "category": "special",
+    "power": 1,
+    "accuracy": 90,
+    "pp": 10
+  },
+  {
+    "name": "Salt Cure",
+    "nameKo": "소금절이",
+    "nameJa": "しおづけ",
+    "type": "rock",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Shed Tail",
+    "nameKo": "꼬리자르기",
+    "nameJa": "しっぽきり",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Silk Trap",
+    "nameKo": "스레드트랩",
+    "nameJa": "スレッドトラップ",
+    "type": "bug",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Snowscape",
+    "nameKo": "설경",
+    "nameJa": "ゆきげしき",
+    "type": "ice",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Spicy Extract",
+    "nameKo": "하바네로엑기스",
+    "nameJa": "ハバネロエキス",
+    "type": "grass",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 15
+  },
+  {
+    "name": "Spin Out",
+    "nameKo": "휠스핀",
+    "nameJa": "ホイールスピン",
+    "type": "steel",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Syrup Bomb",
+    "nameKo": "시럽봄",
+    "nameJa": "みずあめボム",
+    "type": "grass",
+    "category": "special",
+    "power": 60,
+    "accuracy": 85,
+    "pp": 10
+  },
+  {
+    "name": "Tera Blast",
+    "nameKo": "테라버스트",
+    "nameJa": "テラバースト",
+    "type": "normal",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Tidy Up",
+    "nameKo": "정리정돈",
+    "nameJa": "おかたづけ",
+    "type": "normal",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Torch Song",
+    "nameKo": "플레어송",
+    "nameJa": "フレアソング",
+    "type": "fire",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Trailblaze",
+    "nameKo": "개척하기",
+    "nameJa": "くさわけ",
+    "type": "grass",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 20
+  },
+  {
+    "name": "Triple Dive",
+    "nameKo": "트리플다이브",
+    "nameJa": "トリプルダイブ",
+    "type": "water",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 95,
+    "pp": 10
+  },
+  {
+    "name": "Twin Beam",
+    "nameKo": "트윈빔",
+    "nameJa": "ツインビーム",
+    "type": "psychic",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Wicked Torque",
+    "nameKo": "다크액셀",
+    "nameJa": "ダークアクセル",
+    "type": "dark",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Upper Hand",
+    "nameKo": "기선제압",
+    "nameJa": "はやてがえし",
+    "type": "fighting",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Dragon Cheer",
+    "nameKo": "드래곤옐",
+    "nameJa": "ドラゴンエール",
+    "type": "dragon",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 15
+  },
+  {
+    "name": "Alluring Voice",
+    "nameKo": "매혹의보이스",
+    "nameJa": "みわくのボイス",
+    "type": "fairy",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Fickle Beam",
+    "nameKo": "변덕레이저",
+    "nameJa": "きまぐレーザー",
+    "type": "dragon",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Psychic Noise",
+    "nameKo": "사이코노이즈",
+    "nameJa": "サイコノイズ",
+    "type": "psychic",
+    "category": "special",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Psyblade",
+    "nameKo": "사이코블레이드",
+    "nameJa": "サイコブレイド ",
+    "type": "psychic",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15
+  },
+  {
+    "name": "Supercell Slam",
+    "nameKo": "썬더다이브",
+    "nameJa": "サンダーダイブ",
+    "type": "electric",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 95,
+    "pp": 15
+  },
+  {
+    "name": "Malignant Chain",
+    "nameKo": "악독사슬",
+    "nameJa": "じゃどくのくさり",
+    "type": "poison",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Temper Flare",
+    "nameKo": "열불내기",
+    "nameJa": "やけっぱち",
+    "type": "fire",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Electro Shot",
+    "nameKo": "일렉트로빔",
+    "nameJa": "エレクトロビーム",
+    "type": "electric",
+    "category": "special",
+    "power": 130,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Thunderclap",
+    "nameKo": "질풍신뢰",
+    "nameJa": "じんらい",
+    "type": "electric",
+    "category": "special",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Tachyon Cutter",
+    "nameKo": "타키온커터",
+    "nameJa": "タキオンカッター",
+    "type": "steel",
+    "category": "special",
+    "power": 50,
+    "accuracy": 0,
+    "pp": 10
+  },
+  {
+    "name": "Tera Starstorm",
+    "nameKo": "테라클러스터",
+    "nameJa": "テラクラスター",
+    "type": "normal",
+    "category": "special",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Mighty Cleave",
+    "nameKo": "파워풀에지",
+    "nameJa": "パワフルエッジ",
+    "type": "rock",
+    "category": "physical",
+    "power": 95,
+    "accuracy": 100,
+    "pp": 5
+  },
+  {
+    "name": "Hard Press",
+    "nameKo": "하드프레스",
+    "nameJa": "ハードプレス",
+    "type": "steel",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 10
+  },
+  {
+    "name": "Hydro Steam",
+    "nameKo": "하이드로스팀",
+    "nameJa": "ハイドロスチーム",
+    "type": "water",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "tags": [
+      "custom:sun_boost"
+    ]
+  },
+  {
+    "name": "Burning Bulwark",
+    "nameKo": "화염의수호",
+    "nameJa": "かえんのまもり",
+    "type": "fire",
+    "category": "status",
+    "power": 0,
+    "accuracy": 0,
+    "pp": 10
+  }
+]

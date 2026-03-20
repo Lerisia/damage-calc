@@ -26,15 +26,17 @@ class _MoveSelectorState extends State<MoveSelector> {
 
   Future<void> _loadMoves() async {
     final List<Move> all = [];
-    const typeFiles = [
-      'normal', 'fire', 'water', 'electric', 'grass', 'ice',
-      'fighting', 'poison', 'ground', 'flying', 'psychic', 'bug',
-      'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy',
+    const genFiles = [
+      'assets/moves/gen1.json', 'assets/moves/gen2.json',
+      'assets/moves/gen3.json', 'assets/moves/gen4.json',
+      'assets/moves/gen5.json', 'assets/moves/gen6.json',
+      'assets/moves/gen7.json', 'assets/moves/gen8.json',
+      'assets/moves/gen9.json',
     ];
 
-    for (final type in typeFiles) {
+    for (final file in genFiles) {
       try {
-        final jsonString = await rootBundle.loadString('assets/moves/$type.json');
+        final jsonString = await rootBundle.loadString(file);
         final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
         for (final entry in jsonList) {
           all.add(Move.fromJson(entry as Map<String, dynamic>));
@@ -42,6 +44,10 @@ class _MoveSelectorState extends State<MoveSelector> {
       } catch (_) {}
     }
 
+    // Filter: only normal-class physical/special moves
+    all.removeWhere((m) =>
+        m.category == MoveCategory.status ||
+        m.moveClass != MoveClass.normal);
     all.sort((a, b) => a.nameKo.compareTo(b.nameKo));
     setState(() => _allMoves = all);
   }
@@ -92,8 +98,36 @@ class _MoveSelectorState extends State<MoveSelector> {
   @override
   Widget build(BuildContext context) {
     return Autocomplete<Move>(
-      displayStringForOption: _moveDisplay,
+      displayStringForOption: (m) => m.nameKo,
       optionsBuilder: (textEditingValue) => _sortedOptions(textEditingValue.text),
+      optionsViewBuilder: (context, onSelected, options) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: options.length,
+                itemBuilder: (context, index) {
+                  final m = options.elementAt(index);
+                  return ListTile(
+                    dense: true,
+                    title: Text(m.nameKo),
+                    subtitle: Text(
+                      '${_typeKo(m.type)} / ${_categoryKo(m.category)} / 위력${m.power}',
+                      style: const TextStyle(fontSize: 11),
+                    ),
+                    onTap: () => onSelected(m),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
       onSelected: (move) {
         setState(() => _selected = move);
         widget.onSelected(move);
@@ -105,7 +139,7 @@ class _MoveSelectorState extends State<MoveSelector> {
             if (focusNode.hasFocus) {
               controller.clear();
             } else if (controller.text.isEmpty && _selected != null) {
-              controller.text = _moveDisplay(_selected!);
+              controller.text = _selected!.nameKo;
             }
           });
         }
@@ -113,7 +147,7 @@ class _MoveSelectorState extends State<MoveSelector> {
           controller: controller,
           focusNode: focusNode,
           decoration: InputDecoration(
-            hintText: _selected != null ? _moveDisplay(_selected!) : '기술 이름',
+            hintText: _selected?.nameKo ?? '기술 이름',
             isDense: true,
           ),
         );

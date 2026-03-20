@@ -51,7 +51,13 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       } catch (_) {}
     }
 
-    setState(() => _allPokemon = all);
+    setState(() {
+      _allPokemon = all;
+      // Default to Bulbasaur
+      if (_selected == null && all.isNotEmpty) {
+        _selected = all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first);
+      }
+    });
   }
 
   List<Pokemon> _sortedOptions(String query) {
@@ -76,8 +82,14 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   @override
   Widget build(BuildContext context) {
     return Autocomplete<Pokemon>(
+      initialValue: TextEditingValue(text: _selected?.nameKo ?? ''),
       displayStringForOption: (p) => p.nameKo,
-      optionsBuilder: (textEditingValue) => _sortedOptions(textEditingValue.text),
+      optionsBuilder: (textEditingValue) {
+        if (textEditingValue.text == _selected?.nameKo) {
+          return _sortedOptions('');
+        }
+        return _sortedOptions(textEditingValue.text);
+      },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
         widget.onSelected(

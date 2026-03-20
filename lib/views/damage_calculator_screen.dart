@@ -22,14 +22,15 @@ class DamageCalculatorScreen extends StatefulWidget {
 }
 
 class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
-  PokemonType _type1 = PokemonType.normal;
-  PokemonType? _type2;
+  // Default: Bulbasaur
+  PokemonType _type1 = PokemonType.grass;
+  PokemonType? _type2 = PokemonType.poison;
   Stats _baseStats = const Stats(
-    hp: 0, attack: 0, defense: 0,
-    spAttack: 0, spDefense: 0, speed: 0,
+    hp: 45, attack: 49, defense: 49,
+    spAttack: 65, spDefense: 65, speed: 45,
   );
-  List<String> _pokemonAbilities = [];
-  String? _selectedAbility;
+  List<String> _pokemonAbilities = ['Overgrow', 'Chlorophyll'];
+  String? _selectedAbility = 'Overgrow';
 
   int _level = 50;
   Nature _nature = Nature.hardy;
@@ -44,6 +45,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
 
   // 4 move slots
   final List<Move?> _moves = [null, null, null, null];
+  final List<int?> _powerOverrides = [null, null, null, null];
   final List<bool> _criticals = [false, false, false, false];
 
   String? _selectedItem;
@@ -51,8 +53,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
 
-  int? _computeResultFor(Move? move, bool isCritical) {
+  int? _computeResultFor(Move? move, bool isCritical, int? powerOverride) {
     if (move == null) return null;
+    if (powerOverride != null) {
+      move = move.copyWith(power: powerOverride);
+    }
 
     final itemEffect = _selectedItem != null
         ? getItemEffect(_selectedItem!, move: move)
@@ -146,24 +151,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
               child: Column(
                 children: [
                   // Header row
-                  Row(
-                    children: [
-                      const Expanded(child: SizedBox()),
-                      const SizedBox(
-                        width: 32,
-                        child: Text('급소', textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 11, color: Colors.grey)),
-                      ),
-                      const SizedBox(
-                        width: 64,
-                        child: Text('결정력', textAlign: TextAlign.right,
-                          style: TextStyle(fontSize: 11, color: Colors.grey)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
+                  _moveHeader(context),
+                  const Divider(height: 1),
                   for (int i = 0; i < 4; i++) ...[
-                    if (i > 0) const SizedBox(height: 4),
+                    if (i > 0) const SizedBox(height: 2),
                     _moveSlot(i),
                   ],
                 ],
@@ -213,41 +204,135 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
     );
   }
 
-  Widget _moveSlot(int index) {
-    final result = _computeResultFor(_moves[index], _criticals[index]);
+  Widget _moveHeader(BuildContext context) {
+    final style = Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Expanded(flex: 3, child: Text('기술명', style: style)),
+          SizedBox(width: 36, child: Text('타입', style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 28, child: Text('분류', style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 40, child: Text('위력', style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 28, child: Text('급소', style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 60, child: Text('결정력', style: style, textAlign: TextAlign.right)),
+        ],
+      ),
+    );
+  }
 
-    return Row(
-      children: [
-        Expanded(
-          child: MoveSelector(
-            key: ValueKey('move_$index'),
-            onSelected: (move) => setState(() => _moves[index] = move),
-          ),
-        ),
-        SizedBox(
-          width: 32,
-          child: Checkbox(
-            value: _criticals[index],
-            onChanged: (v) => setState(() => _criticals[index] = v ?? false),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            visualDensity: VisualDensity.compact,
-          ),
-        ),
-        // Result
-        SizedBox(
-          width: 64,
-          child: Text(
-            result != null ? '$result' : '-',
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+  Widget _moveSlot(int index) {
+    final move = _moves[index];
+    final effectivePower = _powerOverrides[index] ?? move?.power;
+    final result = _computeResultFor(move, _criticals[index], _powerOverrides[index]);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: MoveSelector(
+              key: ValueKey('move_$index'),
+              onSelected: (m) => setState(() {
+                _moves[index] = m;
+                _powerOverrides[index] = null;
+              }),
             ),
           ),
-        ),
-      ],
+          // Type
+          SizedBox(
+            width: 36,
+            child: Text(
+              move != null ? _typeKo(move.type) : '-',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 11),
+            ),
+          ),
+          // Category
+          SizedBox(
+            width: 28,
+            child: Text(
+              move != null ? _categoryKo(move.category) : '-',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 11),
+            ),
+          ),
+          // Power (editable)
+          SizedBox(
+            width: 44,
+            child: move != null
+                ? SizedBox(
+                    height: 32,
+                    child: TextFormField(
+                      key: ValueKey('power_${index}_${move.name}'),
+                      initialValue: '${effectivePower ?? 0}',
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                      ),
+                      onChanged: (text) {
+                        final parsed = int.tryParse(text);
+                        if (parsed != null && parsed >= 0) {
+                          setState(() => _powerOverrides[index] = parsed);
+                        }
+                      },
+                    ),
+                  )
+                : const Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
+          ),
+          // Critical
+          SizedBox(
+            width: 28,
+            child: Checkbox(
+              value: _criticals[index],
+              onChanged: (v) => setState(() => _criticals[index] = v ?? false),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity.compact,
+            ),
+          ),
+          // Result
+          SizedBox(
+            width: 60,
+            child: Text(
+              result != null ? '$result' : '-',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
+  }
+
+  String _typeKo(PokemonType t) {
+    const map = {
+      PokemonType.normal: '노말', PokemonType.fire: '불꽃',
+      PokemonType.water: '물', PokemonType.electric: '전기',
+      PokemonType.grass: '풀', PokemonType.ice: '얼음',
+      PokemonType.fighting: '격투', PokemonType.poison: '독',
+      PokemonType.ground: '땅', PokemonType.flying: '비행',
+      PokemonType.psychic: '에스퍼', PokemonType.bug: '벌레',
+      PokemonType.rock: '바위', PokemonType.ghost: '고스트',
+      PokemonType.dragon: '드래곤', PokemonType.dark: '악',
+      PokemonType.steel: '강철', PokemonType.fairy: '페어리',
+    };
+    return map[t] ?? t.name;
+  }
+
+  String _categoryKo(MoveCategory c) {
+    switch (c) {
+      case MoveCategory.physical: return '물리';
+      case MoveCategory.special: return '특수';
+      case MoveCategory.status: return '변화';
+    }
   }
 
   Widget _sectionCard({required String title, required Widget child}) {
