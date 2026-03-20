@@ -12,6 +12,8 @@ class PokemonSelector extends StatefulWidget {
     PokemonType? type2,
     Stats baseStats,
     List<String> abilities,
+    bool finalEvo,
+    String? requiredItem,
   ) onSelected;
 
   const PokemonSelector({super.key, required this.onSelected});
@@ -96,7 +98,8 @@ class _PokemonSelectorState extends State<PokemonSelector> {
         setState(() => _selected = pokemon);
         widget.onSelected(
           pokemon.name, pokemon.type1, pokemon.type2,
-          pokemon.baseStats, pokemon.abilities,
+          pokemon.baseStats, pokemon.abilities, pokemon.finalEvo,
+          pokemon.requiredItem,
         );
       },
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {

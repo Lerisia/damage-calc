@@ -7,6 +7,8 @@ import 'type.dart';
 
 /// Holds all configuration state for one side of a battle (attacker or defender)
 class BattlePokemonState {
+  String pokemonName;
+  bool finalEvo;
   PokemonType type1;
   PokemonType? type2;
   Stats baseStats;
@@ -40,6 +42,8 @@ class BattlePokemonState {
   bool friendGuard;
 
   BattlePokemonState({
+    this.pokemonName = 'bulbasaur',
+    this.finalEvo = false,
     this.type1 = PokemonType.grass,
     this.type2 = PokemonType.poison,
     Stats? baseStats,
@@ -85,6 +89,8 @@ class BattlePokemonState {
         criticals = criticals ?? [false, false, false, false];
 
   void reset() {
+    pokemonName = 'bulbasaur';
+    finalEvo = false;
     type1 = PokemonType.grass;
     type2 = PokemonType.poison;
     baseStats = const Stats(

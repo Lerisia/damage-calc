@@ -61,59 +61,8 @@ class PokemonPanelState extends State<PokemonPanel>
 
   BattlePokemonState get s => widget.state;
 
-  static const _megaStoneMap = {
-    'mega venusaur': 'venusaurite',
-    'mega charizard x': 'charizardite-x',
-    'mega charizard y': 'charizardite-y',
-    'mega blastoise': 'blastoisinite',
-    'mega alakazam': 'alakazite',
-    'mega gengar': 'gengarite',
-    'mega kangaskhan': 'kangaskhanite',
-    'mega pinsir': 'pinsirite',
-    'mega gyarados': 'gyaradosite',
-    'mega aerodactyl': 'aerodactylite',
-    'mega mewtwo x': 'mewtwonite-x',
-    'mega mewtwo y': 'mewtwonite-y',
-    'mega ampharos': 'ampharosite',
-    'mega scizor': 'scizorite',
-    'mega heracross': 'heracronite',
-    'mega houndoom': 'houndoominite',
-    'mega tyranitar': 'tyranitarite',
-    'mega blaziken': 'blazikenite',
-    'mega gardevoir': 'gardevoirite',
-    'mega mawile': 'mawilite',
-    'mega aggron': 'aggronite',
-    'mega medicham': 'medichamite',
-    'mega manectric': 'manectite',
-    'mega banette': 'banettite',
-    'mega absol': 'absolite',
-    'mega garchomp': 'garchompite',
-    'mega lucario': 'lucarionite',
-    'mega abomasnow': 'abomasite',
-    'mega latias': 'latiasite',
-    'mega latios': 'latiosite',
-    'mega swampert': 'swampertite',
-    'mega sceptile': 'sceptilite',
-    'mega sableye': 'sablenite',
-    'mega altaria': 'altarianite',
-    'mega gallade': 'galladite',
-    'mega audino': 'audinite',
-    'mega sharpedo': 'sharpedonite',
-    'mega slowbro': 'slowbronite',
-    'mega steelix': 'steelixite',
-    'mega pidgeot': 'pidgeotite',
-    'mega glalie': 'glalitite',
-    'mega diancie': 'diancite',
-    'mega metagross': 'metagrossite',
-    'mega camerupt': 'cameruptite',
-    'mega lopunny': 'lopunnite',
-    'mega salamence': 'salamencite',
-    'mega beedrill': 'beedrillite',
-  };
 
-  String? _getMegaStone(String pokemonName) {
-    return _megaStoneMap[pokemonName.toLowerCase()];
-  }
+
 
   Future<Uint8List?> captureScreenshot() async {
     try {
@@ -175,12 +124,13 @@ class PokemonPanelState extends State<PokemonPanel>
     final transformed = transformMove(move, context);
 
     final itemEffect = s.selectedItem != null
-        ? getItemEffect(s.selectedItem!, move: transformed.move)
+        ? getItemEffect(s.selectedItem!, move: transformed.move, pokemonName: s.pokemonName)
         : const ItemEffect();
     final abilityEffect = s.selectedAbility != null
         ? getAbilityEffect(s.selectedAbility!, move: transformed.move,
             hpPercent: s.hpPercent, weather: widget.weather,
             terrain: widget.terrain, status: s.status,
+            heldItem: s.selectedItem,
             actualStats: StatCalculator.calculate(
               baseStats: s.baseStats, iv: s.iv, ev: s.ev,
               nature: s.nature, level: s.level,
@@ -264,18 +214,19 @@ class PokemonPanelState extends State<PokemonPanel>
             title: '포켓몬',
             child: PokemonSelector(
               key: ValueKey('pokemon_${widget.resetCounter}'),
-              onSelected: (name, type1, type2, baseStats, abilities) {
+              onSelected: (name, type1, type2, baseStats, abilities, finalEvo, requiredItem) {
                 setState(() {
+                  s.pokemonName = name;
+                  s.finalEvo = finalEvo;
                   s.type1 = type1;
                   s.type2 = type2;
                   s.baseStats = baseStats;
                   s.pokemonAbilities = abilities;
                   s.selectedAbility =
                       abilities.isNotEmpty ? abilities.first : null;
-                  // Auto-select mega stone for mega Pokemon
-                  final megaStone = _getMegaStone(name);
-                  if (megaStone != null) {
-                    s.selectedItem = megaStone;
+                  // Auto-select required item for mega/form-change Pokemon
+                  if (requiredItem != null) {
+                    s.selectedItem = requiredItem;
                   }
                 });
                 _notify();
@@ -415,6 +366,8 @@ class PokemonPanelState extends State<PokemonPanel>
       rank: s.rank,
       weather: widget.weather,
       ability: s.selectedAbility,
+      item: s.selectedItem,
+      finalEvo: s.finalEvo,
       status: s.status,
       reflect: s.reflect,
       lightScreen: s.lightScreen,

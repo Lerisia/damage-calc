@@ -19,7 +19,9 @@
     ],
     "weight": 155.5,
     "height": 2.4,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true,
+    "requiredItem": "venusaurite"
   },
   {
     "dexNumber": 6,
@@ -41,7 +43,9 @@
     ],
     "weight": 110.5,
     "height": 1.7,
-    "type2": "dragon"
+    "type2": "dragon",
+    "finalEvo": true,
+    "requiredItem": "charizardite-x"
   },
   {
     "dexNumber": 6,
@@ -63,7 +67,9 @@
     ],
     "weight": 100.5,
     "height": 1.7,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true,
+    "requiredItem": "charizardite-y"
   },
   {
     "dexNumber": 9,
@@ -84,7 +90,9 @@
       "Mega Launcher"
     ],
     "weight": 101.1,
-    "height": 1.6
+    "height": 1.6,
+    "finalEvo": true,
+    "requiredItem": "blastoisinite"
   },
   {
     "dexNumber": 65,
@@ -105,7 +113,9 @@
       "Trace"
     ],
     "weight": 48.0,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": true,
+    "requiredItem": "alakazite"
   },
   {
     "dexNumber": 94,
@@ -127,7 +137,9 @@
     ],
     "weight": 40.5,
     "height": 1.4,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true,
+    "requiredItem": "gengarite"
   },
   {
     "dexNumber": 115,
@@ -148,7 +160,9 @@
       "Parental Bond"
     ],
     "weight": 100.0,
-    "height": 2.2
+    "height": 2.2,
+    "finalEvo": true,
+    "requiredItem": "kangaskhanite"
   },
   {
     "dexNumber": 127,
@@ -170,7 +184,9 @@
     ],
     "weight": 59.0,
     "height": 1.7,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true,
+    "requiredItem": "pinsirite"
   },
   {
     "dexNumber": 130,
@@ -192,7 +208,9 @@
     ],
     "weight": 305.0,
     "height": 6.5,
-    "type2": "dark"
+    "type2": "dark",
+    "finalEvo": true,
+    "requiredItem": "gyaradosite"
   },
   {
     "dexNumber": 142,
@@ -214,7 +232,9 @@
     ],
     "weight": 79.0,
     "height": 2.1,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true,
+    "requiredItem": "aerodactylite"
   },
   {
     "dexNumber": 150,
@@ -236,7 +256,9 @@
     ],
     "weight": 127.0,
     "height": 2.3,
-    "type2": "fighting"
+    "type2": "fighting",
+    "finalEvo": true,
+    "requiredItem": "mewtwonite-x"
   },
   {
     "dexNumber": 150,
@@ -257,7 +279,9 @@
       "Insomnia"
     ],
     "weight": 33.0,
-    "height": 1.5
+    "height": 1.5,
+    "finalEvo": true,
+    "requiredItem": "mewtwonite-y"
   },
   {
     "dexNumber": 181,
@@ -279,7 +303,9 @@
     ],
     "weight": 61.5,
     "height": 1.4,
-    "type2": "dragon"
+    "type2": "dragon",
+    "finalEvo": true,
+    "requiredItem": "ampharosite"
   },
   {
     "dexNumber": 212,
@@ -301,7 +327,9 @@
     ],
     "weight": 125.0,
     "height": 2.0,
-    "type2": "steel"
+    "type2": "steel",
+    "finalEvo": true,
+    "requiredItem": "scizorite"
   },
   {
     "dexNumber": 214,
@@ -323,7 +351,9 @@
     ],
     "weight": 62.5,
     "height": 1.7,
-    "type2": "fighting"
+    "type2": "fighting",
+    "finalEvo": true,
+    "requiredItem": "heracronite"
   },
   {
     "dexNumber": 229,
@@ -345,7 +375,9 @@
     ],
     "weight": 49.5,
     "height": 1.9,
-    "type2": "fire"
+    "type2": "fire",
+    "finalEvo": true,
+    "requiredItem": "houndoominite"
   },
   {
     "dexNumber": 248,
@@ -367,7 +399,9 @@
     ],
     "weight": 255.0,
     "height": 2.5,
-    "type2": "dark"
+    "type2": "dark",
+    "finalEvo": true,
+    "requiredItem": "tyranitarite"
   },
   {
     "dexNumber": 257,
@@ -389,7 +423,9 @@
     ],
     "weight": 52.0,
     "height": 1.9,
-    "type2": "fighting"
+    "type2": "fighting",
+    "finalEvo": true,
+    "requiredItem": "blazikenite"
   },
   {
     "dexNumber": 282,
@@ -411,7 +447,9 @@
     ],
     "weight": 48.4,
     "height": 1.6,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": true,
+    "requiredItem": "gardevoirite"
   },
   {
     "dexNumber": 303,
@@ -433,7 +471,9 @@
     ],
     "weight": 23.5,
     "height": 1.0,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": true,
+    "requiredItem": "mawilite"
   },
   {
     "dexNumber": 306,
@@ -454,7 +494,9 @@
       "Filter"
     ],
     "weight": 395.0,
-    "height": 2.2
+    "height": 2.2,
+    "finalEvo": true,
+    "requiredItem": "aggronite"
   },
   {
     "dexNumber": 308,
@@ -476,7 +518,9 @@
     ],
     "weight": 31.5,
     "height": 1.3,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true,
+    "requiredItem": "medichamite"
   },
   {
     "dexNumber": 310,
@@ -497,7 +541,9 @@
       "Intimidate"
     ],
     "weight": 44.0,
-    "height": 1.8
+    "height": 1.8,
+    "finalEvo": true,
+    "requiredItem": "manectite"
   },
   {
     "dexNumber": 354,
@@ -518,7 +564,9 @@
       "Prankster"
     ],
     "weight": 13.0,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": true,
+    "requiredItem": "banettite"
   },
   {
     "dexNumber": 359,
@@ -539,7 +587,9 @@
       "Magic Bounce"
     ],
     "weight": 49.0,
-    "height": 1.2
+    "height": 1.2,
+    "finalEvo": true,
+    "requiredItem": "absolite"
   },
   {
     "dexNumber": 445,
@@ -561,7 +611,9 @@
     ],
     "weight": 95.0,
     "height": 1.9,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": true,
+    "requiredItem": "garchompite"
   },
   {
     "dexNumber": 448,
@@ -583,7 +635,9 @@
     ],
     "weight": 57.5,
     "height": 1.3,
-    "type2": "steel"
+    "type2": "steel",
+    "finalEvo": true,
+    "requiredItem": "lucarionite"
   },
   {
     "dexNumber": 460,
@@ -605,7 +659,9 @@
     ],
     "weight": 185.0,
     "height": 2.7,
-    "type2": "ice"
+    "type2": "ice",
+    "finalEvo": true,
+    "requiredItem": "abomasite"
   },
   {
     "dexNumber": 380,
@@ -627,7 +683,9 @@
     ],
     "weight": 52.0,
     "height": 1.8,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true,
+    "requiredItem": "latiasite"
   },
   {
     "dexNumber": 381,
@@ -649,7 +707,9 @@
     ],
     "weight": 70.0,
     "height": 2.3,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true,
+    "requiredItem": "latiosite"
   },
   {
     "dexNumber": 260,
@@ -671,7 +731,9 @@
     ],
     "weight": 102.0,
     "height": 1.9,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": true,
+    "requiredItem": "swampertite"
   },
   {
     "dexNumber": 254,
@@ -693,7 +755,9 @@
     ],
     "weight": 55.2,
     "height": 1.9,
-    "type2": "dragon"
+    "type2": "dragon",
+    "finalEvo": true,
+    "requiredItem": "sceptilite"
   },
   {
     "dexNumber": 302,
@@ -715,7 +779,9 @@
     ],
     "weight": 161.0,
     "height": 0.5,
-    "type2": "ghost"
+    "type2": "ghost",
+    "finalEvo": true,
+    "requiredItem": "sablenite"
   },
   {
     "dexNumber": 334,
@@ -737,7 +803,9 @@
     ],
     "weight": 20.6,
     "height": 1.5,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": true,
+    "requiredItem": "altarianite"
   },
   {
     "dexNumber": 475,
@@ -759,7 +827,9 @@
     ],
     "weight": 56.4,
     "height": 1.6,
-    "type2": "fighting"
+    "type2": "fighting",
+    "finalEvo": true,
+    "requiredItem": "galladite"
   },
   {
     "dexNumber": 531,
@@ -781,7 +851,9 @@
     ],
     "weight": 32.0,
     "height": 1.5,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": true,
+    "requiredItem": "audinite"
   },
   {
     "dexNumber": 319,
@@ -803,7 +875,9 @@
     ],
     "weight": 130.3,
     "height": 2.5,
-    "type2": "dark"
+    "type2": "dark",
+    "finalEvo": true,
+    "requiredItem": "sharpedonite"
   },
   {
     "dexNumber": 80,
@@ -825,7 +899,9 @@
     ],
     "weight": 120.0,
     "height": 2.0,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true,
+    "requiredItem": "slowbronite"
   },
   {
     "dexNumber": 208,
@@ -847,7 +923,9 @@
     ],
     "weight": 740.0,
     "height": 10.5,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": true,
+    "requiredItem": "steelixite"
   },
   {
     "dexNumber": 18,
@@ -869,7 +947,9 @@
     ],
     "weight": 50.5,
     "height": 2.2,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true,
+    "requiredItem": "pidgeotite"
   },
   {
     "dexNumber": 362,
@@ -890,7 +970,9 @@
       "Refrigerate"
     ],
     "weight": 350.2,
-    "height": 2.1
+    "height": 2.1,
+    "finalEvo": true,
+    "requiredItem": "glalitite"
   },
   {
     "dexNumber": 719,
@@ -912,7 +994,9 @@
     ],
     "weight": 27.8,
     "height": 1.1,
-    "type2": "fairy"
+    "type2": "fairy",
+    "finalEvo": true,
+    "requiredItem": "diancite"
   },
   {
     "dexNumber": 376,
@@ -934,7 +1018,9 @@
     ],
     "weight": 942.9,
     "height": 2.5,
-    "type2": "psychic"
+    "type2": "psychic",
+    "finalEvo": true,
+    "requiredItem": "metagrossite"
   },
   {
     "dexNumber": 384,
@@ -956,7 +1042,8 @@
     ],
     "weight": 392.0,
     "height": 10.8,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true
   },
   {
     "dexNumber": 323,
@@ -978,7 +1065,9 @@
     ],
     "weight": 320.5,
     "height": 2.5,
-    "type2": "ground"
+    "type2": "ground",
+    "finalEvo": true,
+    "requiredItem": "cameruptite"
   },
   {
     "dexNumber": 428,
@@ -1000,7 +1089,9 @@
     ],
     "weight": 28.3,
     "height": 1.3,
-    "type2": "fighting"
+    "type2": "fighting",
+    "finalEvo": true,
+    "requiredItem": "lopunnite"
   },
   {
     "dexNumber": 373,
@@ -1022,7 +1113,9 @@
     ],
     "weight": 112.6,
     "height": 1.8,
-    "type2": "flying"
+    "type2": "flying",
+    "finalEvo": true,
+    "requiredItem": "salamencite"
   },
   {
     "dexNumber": 15,
@@ -1044,6 +1137,8 @@
     ],
     "weight": 40.5,
     "height": 1.4,
-    "type2": "poison"
+    "type2": "poison",
+    "finalEvo": true,
+    "requiredItem": "beedrillite"
   }
 ]
