@@ -61,6 +61,60 @@ class PokemonPanelState extends State<PokemonPanel>
 
   BattlePokemonState get s => widget.state;
 
+  static const _megaStoneMap = {
+    'mega venusaur': 'venusaurite',
+    'mega charizard x': 'charizardite-x',
+    'mega charizard y': 'charizardite-y',
+    'mega blastoise': 'blastoisinite',
+    'mega alakazam': 'alakazite',
+    'mega gengar': 'gengarite',
+    'mega kangaskhan': 'kangaskhanite',
+    'mega pinsir': 'pinsirite',
+    'mega gyarados': 'gyaradosite',
+    'mega aerodactyl': 'aerodactylite',
+    'mega mewtwo x': 'mewtwonite-x',
+    'mega mewtwo y': 'mewtwonite-y',
+    'mega ampharos': 'ampharosite',
+    'mega scizor': 'scizorite',
+    'mega heracross': 'heracronite',
+    'mega houndoom': 'houndoominite',
+    'mega tyranitar': 'tyranitarite',
+    'mega blaziken': 'blazikenite',
+    'mega gardevoir': 'gardevoirite',
+    'mega mawile': 'mawilite',
+    'mega aggron': 'aggronite',
+    'mega medicham': 'medichamite',
+    'mega manectric': 'manectite',
+    'mega banette': 'banettite',
+    'mega absol': 'absolite',
+    'mega garchomp': 'garchompite',
+    'mega lucario': 'lucarionite',
+    'mega abomasnow': 'abomasite',
+    'mega latias': 'latiasite',
+    'mega latios': 'latiosite',
+    'mega swampert': 'swampertite',
+    'mega sceptile': 'sceptilite',
+    'mega sableye': 'sablenite',
+    'mega altaria': 'altarianite',
+    'mega gallade': 'galladite',
+    'mega audino': 'audinite',
+    'mega sharpedo': 'sharpedonite',
+    'mega slowbro': 'slowbronite',
+    'mega steelix': 'steelixite',
+    'mega pidgeot': 'pidgeotite',
+    'mega glalie': 'glalitite',
+    'mega diancie': 'diancite',
+    'mega metagross': 'metagrossite',
+    'mega camerupt': 'cameruptite',
+    'mega lopunny': 'lopunnite',
+    'mega salamence': 'salamencite',
+    'mega beedrill': 'beedrillite',
+  };
+
+  String? _getMegaStone(String pokemonName) {
+    return _megaStoneMap[pokemonName.toLowerCase()];
+  }
+
   Future<Uint8List?> captureScreenshot() async {
     try {
       return await _screenshotController.capture(
@@ -218,6 +272,11 @@ class PokemonPanelState extends State<PokemonPanel>
                   s.pokemonAbilities = abilities;
                   s.selectedAbility =
                       abilities.isNotEmpty ? abilities.first : null;
+                  // Auto-select mega stone for mega Pokemon
+                  final megaStone = _getMegaStone(name);
+                  if (megaStone != null) {
+                    s.selectedItem = megaStone;
+                  }
                 });
                 _notify();
               },

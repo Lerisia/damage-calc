@@ -1045,45 +1045,5 @@
     "weight": 40.5,
     "height": 1.4,
     "type2": "poison"
-  },
-  {
-    "dexNumber": 36,
-    "formId": 10278,
-    "name": "Mega Clefable",
-    "nameKo": "픽시",
-    "nameJa": "ピクシー",
-    "type1": "fairy",
-    "baseStats": {
-      "hp": 95,
-      "attack": 80,
-      "defense": 93,
-      "spAttack": 135,
-      "spDefense": 110,
-      "speed": 70
-    },
-    "abilities": [],
-    "weight": 42.3,
-    "height": 1.7,
-    "type2": "flying"
-  },
-  {
-    "dexNumber": 71,
-    "formId": 10279,
-    "name": "Mega Victreebel",
-    "nameKo": "우츠보트",
-    "nameJa": "ウツボット",
-    "type1": "grass",
-    "baseStats": {
-      "hp": 80,
-      "attack": 125,
-      "defense": 85,
-      "spAttack": 135,
-      "spDefense": 95,
-      "speed": 70
-    },
-    "abilities": [],
-    "weight": 125.5,
-    "height": 4.5,
-    "type2": "poison"
   }
 ]
