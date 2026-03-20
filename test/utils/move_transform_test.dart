@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/rank.dart';
+import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/weather.dart';
 import 'package:damage_calc/models/terrain.dart';
@@ -242,6 +243,44 @@ void main() {
       final result = transformMove(storedPower,
           const MoveContext(rank: Rank(attack: 2, defense: -1)));
       expect(result.move.power, equals(60)); // 20 + 2*20
+    });
+  });
+
+  group('Facade (status power)', () {
+    const facade = Move(
+      name: 'Facade', nameKo: '객기', nameJa: 'からげんき',
+      type: PokemonType.normal, category: MoveCategory.physical,
+      power: 70, accuracy: 100, pp: 20, tags: ['custom:facade'],
+    );
+
+    test('doubles power when burned', () {
+      final result = transformMove(facade,
+          const MoveContext(status: StatusCondition.burn));
+      expect(result.move.power, equals(140));
+    });
+
+    test('doubles power when poisoned', () {
+      final result = transformMove(facade,
+          const MoveContext(status: StatusCondition.poison));
+      expect(result.move.power, equals(140));
+    });
+
+    test('doubles power when paralyzed', () {
+      final result = transformMove(facade,
+          const MoveContext(status: StatusCondition.paralysis));
+      expect(result.move.power, equals(140));
+    });
+
+    test('normal power when healthy', () {
+      final result = transformMove(facade,
+          const MoveContext(status: StatusCondition.none));
+      expect(result.move.power, equals(70));
+    });
+
+    test('normal power when asleep', () {
+      final result = transformMove(facade,
+          const MoveContext(status: StatusCondition.sleep));
+      expect(result.move.power, equals(70));
     });
   });
 

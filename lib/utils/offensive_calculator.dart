@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import '../models/stats.dart';
+import '../models/status.dart';
 import '../models/nature.dart';
 import '../models/move.dart';
 import '../models/rank.dart';
@@ -40,6 +41,8 @@ class OffensiveCalculator {
     double powerModifier = 1.0,
     bool isCritical = false,
     bool grounded = true,
+    StatusCondition status = StatusCondition.none,
+    bool hasGuts = false,
     double? stabOverride,
     double? criticalOverride,
   }) {
@@ -80,12 +83,22 @@ class OffensiveCalculator {
     final bool hasStab = move.type == type1 || move.type == type2;
     final double weatherMod = getWeatherModifier(weather, move: move);
     final double terrainMod = getTerrainModifier(terrain, move: move, grounded: grounded);
+
+    // Burn halves physical damage unless Guts negates it
+    final double burnMod =
+        (status == StatusCondition.burn &&
+         move.category == MoveCategory.physical &&
+         !hasGuts)
+            ? 0.5
+            : 1.0;
+
     final double raw = modifiedStat *
         move.power *
         (hasStab ? (stabOverride ?? _stabMultiplier) : 1.0) *
         (isCritical ? (criticalOverride ?? _criticalMultiplier) : 1.0) *
         weatherMod *
         terrainMod *
+        burnMod *
         powerModifier;
 
     return raw.floor();

@@ -5,6 +5,7 @@ import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/weather.dart';
+import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/utils/move_transform.dart';
 import 'package:damage_calc/utils/offensive_calculator.dart';
@@ -263,6 +264,45 @@ void main() {
         grounded: false,
       );
       expect(result, equals(7650));
+    });
+  });
+
+  group('Burn penalty', () {
+    test('burn halves physical damage', () {
+      // Atk = 69, power = 40 -> 2760 * 0.5 = 1380
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        status: StatusCondition.burn,
+      );
+      expect(result, equals(1380));
+    });
+
+    test('burn does not affect special moves', () {
+      // SpA = 85, power = 90 -> 7650 (unchanged)
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(flamethrower),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        status: StatusCondition.burn,
+      );
+      expect(result, equals(7650));
+    });
+
+    test('Guts negates burn penalty', () {
+      // Atk = 69, power = 40 -> 2760 (no halving)
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        status: StatusCondition.burn,
+        hasGuts: true,
+      );
+      expect(result, equals(2760));
     });
   });
 

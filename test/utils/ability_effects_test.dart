@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/stats.dart';
+import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/weather.dart';
@@ -393,6 +394,56 @@ void main() {
     test('Sniper sets critical multiplier to 2.25x', () {
       final effect = getAbilityEffect('Sniper', move: physicalNormal);
       expect(effect.criticalOverride, equals(2.25));
+    });
+  });
+
+  group('Status conditional abilities', () {
+    test('Guts boosts attack when burned', () {
+      final effect = getAbilityEffect('Guts',
+          move: physicalNormal, status: StatusCondition.burn);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Guts boosts attack when paralyzed', () {
+      final effect = getAbilityEffect('Guts',
+          move: physicalNormal, status: StatusCondition.paralysis);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Guts no effect when healthy', () {
+      final effect = getAbilityEffect('Guts',
+          move: physicalNormal, status: StatusCondition.none);
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('Toxic Boost boosts attack when poisoned', () {
+      final effect = getAbilityEffect('Toxic Boost',
+          move: physicalNormal, status: StatusCondition.poison);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Toxic Boost boosts attack when badly poisoned', () {
+      final effect = getAbilityEffect('Toxic Boost',
+          move: physicalNormal, status: StatusCondition.badlyPoisoned);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Toxic Boost no effect when burned', () {
+      final effect = getAbilityEffect('Toxic Boost',
+          move: physicalNormal, status: StatusCondition.burn);
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('Flare Boost boosts spAttack when burned', () {
+      final effect = getAbilityEffect('Flare Boost',
+          move: specialFire, status: StatusCondition.burn);
+      expect(effect.statModifiers.spAttack, equals(1.5));
+    });
+
+    test('Flare Boost no effect when poisoned', () {
+      final effect = getAbilityEffect('Flare Boost',
+          move: specialFire, status: StatusCondition.poison);
+      expect(effect.statModifiers.spAttack, equals(1.0));
     });
   });
 

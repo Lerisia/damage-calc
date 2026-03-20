@@ -6,6 +6,7 @@ import '../models/nature.dart';
 import '../models/rank.dart';
 import '../models/stats.dart';
 import '../models/type.dart';
+import '../models/status.dart';
 import '../models/weather.dart';
 import '../models/terrain.dart';
 import '../utils/offensive_calculator.dart';
@@ -85,6 +86,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
   String? _selectedItem;
   Rank _rank = const Rank();
   int _hpPercent = 100;
+  StatusCondition _status = StatusCondition.none;
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
 
@@ -108,6 +110,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       hpPercent: _hpPercent,
       hasItem: _selectedItem != null,
       ability: _selectedAbility,
+      status: _status,
     );
     final transformed = transformMove(move, context);
 
@@ -116,7 +119,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
         : const ItemEffect();
     final abilityEffect = _selectedAbility != null
         ? getAbilityEffect(_selectedAbility!, move: transformed.move,
-            hpPercent: _hpPercent, weather: _weather, terrain: _terrain,
+            hpPercent: _hpPercent, weather: _weather, terrain: _terrain, status: _status,
             actualStats: StatCalculator.calculate(
               baseStats: _baseStats, iv: _iv, ev: _ev,
               nature: _nature, level: _level,
@@ -166,6 +169,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       ),
       stabOverride: abilityEffect.stabOverride,
       criticalOverride: abilityEffect.criticalOverride,
+      status: _status,
+      hasGuts: _selectedAbility == 'Guts',
     );
   }
 
@@ -198,6 +203,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       _selectedItem = null;
       _rank = const Rank();
       _hpPercent = 100;
+      _status = StatusCondition.none;
       _weather = Weather.none;
       _terrain = Terrain.none;
     });
@@ -281,6 +287,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
                     _moveSlot(i),
                   ],
                 ],
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            _sectionCard(
+              title: '상태이상',
+              child: DropdownButtonFormField<StatusCondition>(
+                value: _status,
+                isExpanded: true,
+                decoration: const InputDecoration(isDense: true),
+                items: StatusCondition.values
+                    .map((s) => DropdownMenuItem(
+                        value: s, child: Text(_statusKo(s))))
+                    .toList(),
+                onChanged: (v) => setState(() => _status = v!),
               ),
             ),
             const SizedBox(height: 12),
@@ -535,6 +556,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen> {
       case Weather.rain: return '비';
       case Weather.sandstorm: return '모래바람';
       case Weather.snow: return '눈';
+    }
+  }
+
+  String _statusKo(StatusCondition s) {
+    switch (s) {
+      case StatusCondition.none: return '없음';
+      case StatusCondition.burn: return '화상';
+      case StatusCondition.poison: return '독';
+      case StatusCondition.badlyPoisoned: return '맹독';
+      case StatusCondition.paralysis: return '마비';
+      case StatusCondition.sleep: return '잠듦';
+      case StatusCondition.freeze: return '얼음';
     }
   }
 

@@ -27,7 +27,10 @@
     "category": "physical",
     "power": 70,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:facade"
+    ]
   },
   {
     "name": "Fake Tears",

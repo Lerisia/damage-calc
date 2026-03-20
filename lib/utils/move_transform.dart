@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import '../models/move.dart';
 import '../models/rank.dart';
 import '../models/stats.dart';
+import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
@@ -24,6 +25,7 @@ class MoveContext {
   final bool hasItem;
 
   final String? ability;
+  final StatusCondition status;
 
   const MoveContext({
     this.weather = Weather.none,
@@ -32,6 +34,7 @@ class MoveContext {
     this.hpPercent = 100,
     this.hasItem = false,
     this.ability,
+    this.status = StatusCondition.none,
   });
 }
 
@@ -77,6 +80,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // 3. Conditional power changes
   move = _applyItemCondition(move, context.hasItem);
   move = _applyHpPower(move, context.hpPercent);
+  move = _applyStatusPower(move, context.status);
 
   // 4. Field-based power boosts
   move = _applyTerrainPowerBoost(move, context.terrain);
@@ -184,6 +188,20 @@ Move _applyHpPower(Move move, int hpPercent) {
   }
   if (move.hasTag('custom:hp_power_low')) {
     return move.copyWith(power: _flailPower(hpPercent));
+  }
+  return move;
+}
+
+/// Facade: doubles power when burned, poisoned, or paralyzed.
+Move _applyStatusPower(Move move, StatusCondition status) {
+  if (move.hasTag('custom:facade') && status != StatusCondition.none) {
+    final isAffected = status == StatusCondition.burn ||
+        status == StatusCondition.poison ||
+        status == StatusCondition.badlyPoisoned ||
+        status == StatusCondition.paralysis;
+    if (isAffected) {
+      return move.copyWith(power: move.power * 2);
+    }
   }
   return move;
 }

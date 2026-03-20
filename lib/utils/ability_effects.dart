@@ -1,5 +1,6 @@
 import '../models/move.dart';
 import '../models/stats.dart';
+import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
@@ -44,6 +45,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
   int hpPercent = 100,
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
+  StatusCondition status = StatusCondition.none,
   Stats? actualStats,
 }) {
   switch (abilityName) {
@@ -185,6 +187,23 @@ AbilityEffect getAbilityEffect(String abilityName, {
     // --- Critical override ---
     case 'Sniper':
       return const AbilityEffect(criticalOverride: 2.25);
+
+    // --- Status conditional ---
+    case 'Guts':
+      return status != StatusCondition.none
+          ? const AbilityEffect(
+              statModifiers: AbilityStatModifiers(attack: 1.5))
+          : _defaultEffect;
+    case 'Toxic Boost':
+      return (status == StatusCondition.poison || status == StatusCondition.badlyPoisoned)
+          ? const AbilityEffect(
+              statModifiers: AbilityStatModifiers(attack: 1.5))
+          : _defaultEffect;
+    case 'Flare Boost':
+      return status == StatusCondition.burn
+          ? const AbilityEffect(
+              statModifiers: AbilityStatModifiers(spAttack: 1.5))
+          : _defaultEffect;
 
     default:
       return _defaultEffect;
