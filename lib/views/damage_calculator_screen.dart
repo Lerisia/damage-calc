@@ -409,9 +409,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               Expanded(child: _dmgCheck('오로라베일', _defender.auroraVeil, (v) {
                 setState(() => _defender.auroraVeil = v);
               })),
-              Expanded(child: _dmgCheck('프렌드가드', _defender.friendGuard, (v) {
-                setState(() => _defender.friendGuard = v);
-              })),
             ],
           ),
           const SizedBox(height: 12),
@@ -472,13 +469,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     if (!result.isEmpty && eff > 0) {
       final info = result.koInfo;
       if (info.hits > 0) {
-        final label = RandomFactor.koLabel(info.koCount, info.totalCount) ?? '';
-        final pct = (info.koCount / info.totalCount * 100);
-        if (label == '확정') {
+        if (info.koCount >= info.totalCount) {
           koText = '확정 ${info.hits}타';
           koColor = info.hits <= 2 ? Colors.red : Colors.orange;
         } else {
-          koText = '$label ${info.hits}타 (${pct.toStringAsFixed(1)}%)';
+          final pct = (info.koCount / info.totalCount * 100);
+          koText = '난수 ${info.hits}타 (${pct.toStringAsFixed(1)}%)';
           koColor = Colors.orange;
         }
       }
@@ -508,6 +504,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               const SizedBox(width: 8),
               Text(KoStrings.getTypeKo(effectiveType),
                   style: TextStyle(fontSize: 13, color: Colors.grey[700])),
+              const SizedBox(width: 8),
+              Text(KoStrings.getTypeKo(effectiveType),
+                  style: TextStyle(fontSize: 13, color: typeColor, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
               Text(effLabel, style: TextStyle(fontSize: 13, color: effColor, fontWeight: FontWeight.bold)),
             ],
