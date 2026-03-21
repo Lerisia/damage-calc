@@ -110,7 +110,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "priority": 2
   },
   {
     "name": "Odor Sleuth",
@@ -173,7 +174,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "priority": 5
   },
   {
     "name": "Poison Fang",
@@ -245,7 +247,8 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "priority": -4
   },
   {
     "name": "Recycle",
@@ -596,7 +599,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "priority": 3
   },
   {
     "name": "Arm Thrust",
@@ -1130,6 +1134,7 @@
     "category": "physical",
     "power": 150,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "priority": -3
   }
 ]

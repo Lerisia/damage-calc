@@ -90,7 +90,8 @@
     "category": "physical",
     "power": 70,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "priority": 1
   },
   {
     "name": "Focus Blast",
@@ -156,7 +157,8 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "priority": -4
   },
   {
     "name": "Dark Void",
@@ -354,7 +356,8 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "priority": -5
   },
   {
     "name": "Crush Grip",
@@ -518,7 +521,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "priority": 1
   },
   {
     "name": "Brave Bird",
@@ -757,7 +761,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "priority": 1
   },
   {
     "name": "Aqua Tail",
@@ -824,7 +829,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "priority": 1
   },
   {
     "name": "Head Smash",
@@ -844,7 +850,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "priority": 1
   },
   {
     "name": "Ice Fang",
@@ -1051,7 +1058,8 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "priority": 1
   },
   {
     "name": "Mud Bomb",
@@ -1131,7 +1139,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 5
+    "pp": 5,
+    "priority": -7
   },
   {
     "name": "Aura Sphere",
@@ -1195,7 +1204,8 @@
     "category": "physical",
     "power": 30,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "priority": 2
   },
   {
     "name": "Grass Knot",
@@ -1207,7 +1217,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "custom:weight_based"
+      "custom:weight_based",
+      "custom:weight_target"
     ]
   },
   {

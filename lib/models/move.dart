@@ -26,6 +26,7 @@ class Move {
   final int pp;
   final MoveClass moveClass;
   final List<String> tags;
+  final int priority;
 
   const Move({
     required this.name,
@@ -38,9 +39,13 @@ class Move {
     required this.pp,
     this.moveClass = MoveClass.normal,
     this.tags = const [],
+    this.priority = 0,
   });
 
   bool hasTag(String tag) => tags.contains(tag);
+
+  /// Whether this move has positive priority (선공기).
+  bool get isPriority => priority > 0;
 
   Move copyWith({
     String? name,
@@ -51,6 +56,7 @@ class Move {
     int? power,
     MoveClass? moveClass,
     List<String>? tags,
+    int? priority,
   }) {
     return Move(
       name: name ?? this.name,
@@ -63,6 +69,7 @@ class Move {
       pp: pp,
       moveClass: moveClass ?? this.moveClass,
       tags: tags ?? this.tags,
+      priority: priority ?? this.priority,
     );
   }
 
@@ -82,6 +89,7 @@ class Move {
       tags: json['tags'] != null
           ? List<String>.from(json['tags'] as List)
           : const [],
+      priority: json['priority'] as int? ?? 0,
     );
   }
 }

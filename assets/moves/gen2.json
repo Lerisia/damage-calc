@@ -229,7 +229,8 @@
     "pp": 30,
     "tags": [
       "punch"
-    ]
+    ],
+    "priority": 1
   },
   {
     "name": "Magnitude",
@@ -240,7 +241,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Megahorn",
@@ -316,7 +319,8 @@
     "category": "special",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "priority": -5
   },
   {
     "name": "Whirlpool",
@@ -375,7 +379,8 @@
     "category": "physical",
     "power": 70,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": -1
   },
   {
     "name": "Protect",
@@ -385,7 +390,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   },
   {
     "name": "Belly Drum",
@@ -405,7 +411,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   },
   {
     "name": "Bone Rush",
@@ -515,7 +522,8 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "priority": 2
   },
   {
     "name": "Iron Tail",
@@ -869,7 +877,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 5
+    "pp": 5,
+    "priority": 4
   },
   {
     "name": "Dynamic Punch",
