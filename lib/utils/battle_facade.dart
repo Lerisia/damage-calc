@@ -240,7 +240,9 @@ class BattleFacade {
     final effectiveItem =
         (isDmaxed && _dmaxNullItems.contains(state.selectedItem))
             ? null
-            : state.selectedItem;
+            : state.selectedAbility == 'Klutz'
+                ? null
+                : state.selectedItem;
     final itemEffect = effectiveItem != null
         ? getItemEffect(effectiveItem,
             move: transformed.move, pokemonName: state.pokemonName)
@@ -334,7 +336,7 @@ class BattleFacade {
       rank: state.rank,
       weather: weather,
       ability: state.selectedAbility,
-      item: state.selectedItem,
+      item: state.selectedAbility == 'Klutz' ? null : state.selectedItem,
       finalEvo: state.finalEvo,
       status: state.status,
       room: room,

@@ -33,8 +33,8 @@ int calcEffectiveSpeed({
         weather: weather, terrain: terrain, status: status, heldItem: item);
   }
 
-  // Item modifier (Choice Scarf nullified during Dynamax)
-  if (item != null) {
+  // Item modifier (Klutz negates item effects; Choice Scarf nullified during Dynamax)
+  if (item != null && ability != 'Klutz') {
     if (!(isDynamaxed && item == 'choice-scarf')) {
       speed *= getSpeedItemEffect(item).speedModifier;
     }

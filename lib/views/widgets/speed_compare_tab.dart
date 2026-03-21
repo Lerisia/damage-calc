@@ -94,6 +94,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
   bool _isAlwaysLast(BattlePokemonState s) {
     if (s.selectedItem == null) return false;
     if (s.dynamax != DynamaxState.none) return false;
+    if (s.selectedAbility == 'Klutz') return false;
     return getSpeedItemEffect(s.selectedItem!).alwaysLast;
   }
 
