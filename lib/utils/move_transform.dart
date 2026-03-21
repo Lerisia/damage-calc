@@ -120,6 +120,11 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = _applyTeraBlast(move, context);
   }
 
+  // 2.7. Long Reach: remove contact tag
+  if (context.ability == 'Long Reach' && move.hasTag(MoveTags.contact)) {
+    move = move.copyWith(tags: move.tags.where((t) => t != MoveTags.contact).toList());
+  }
+
   // 3. Conditional power changes
   move = _applyItemCondition(move, context.hasItem);
   move = _applyHpPower(move, context.hpPercent);
