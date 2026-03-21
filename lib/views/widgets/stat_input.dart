@@ -6,6 +6,10 @@ import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../models/status.dart';
 import '../../utils/localization.dart';
+import '../../models/terrain.dart';
+import '../../models/weather.dart';
+import '../../utils/ability_effects.dart';
+import '../../utils/item_effects.dart';
 import '../../utils/stat_calculator.dart';
 
 class _ClampingFormatter extends TextInputFormatter {
@@ -85,9 +89,13 @@ class StatInput extends StatefulWidget {
     required this.onHpPercentChanged,
     required this.onStatusChanged,
     this.opponentSpeed,
+    this.weather = Weather.none,
+    this.terrain = Terrain.none,
   });
 
   final int? opponentSpeed;
+  final Weather weather;
+  final Terrain terrain;
 
   @override
   State<StatInput> createState() => _StatInputState();
@@ -360,7 +368,7 @@ class _StatInputState extends State<StatInput> {
           if (newRank != null) _updateRank(speVal: newRank);
         }, rankIndex: 4),
         const Divider(height: 1),
-        _summaryRow(context, actualStats.speed),
+        _summaryRow(context, _effectiveSpeed(actualStats.speed)),
       ],
     );
   }
@@ -453,6 +461,19 @@ class _StatInputState extends State<StatInput> {
       spDefense: spdVal ?? widget.rank.spDefense,
       speed: speVal ?? widget.rank.speed,
     ));
+  }
+
+  int _effectiveSpeed(int baseSpeed) {
+    double speed = baseSpeed.toDouble();
+    if (widget.selectedAbility != null) {
+      speed *= getSpeedAbilityModifier(widget.selectedAbility!,
+          weather: widget.weather, terrain: widget.terrain, status: widget.status);
+    }
+    if (widget.selectedItem != null) {
+      final effect = getSpeedItemEffect(widget.selectedItem!);
+      speed *= effect.speedModifier;
+    }
+    return speed.floor();
   }
 
   Widget _summaryRow(BuildContext context, int mySpeed) {

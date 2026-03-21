@@ -279,6 +279,36 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   }
 }
 
+/// Returns the speed modifier from [abilityName] given battle conditions.
+double getSpeedAbilityModifier(String abilityName, {
+  Weather weather = Weather.none,
+  Terrain terrain = Terrain.none,
+  StatusCondition status = StatusCondition.none,
+}) {
+  switch (abilityName) {
+    // --- Weather-based speed doubling ---
+    case 'Swift Swim':
+      return (weather == Weather.rain || weather == Weather.heavyRain) ? 2.0 : 1.0;
+    case 'Chlorophyll':
+      return (weather == Weather.sun || weather == Weather.harshSun) ? 2.0 : 1.0;
+    case 'Sand Rush':
+      return weather == Weather.sandstorm ? 2.0 : 1.0;
+    case 'Slush Rush':
+      return weather == Weather.snow ? 2.0 : 1.0;
+
+    // --- Terrain-based ---
+    case 'Surge Surfer':
+      return terrain == Terrain.electric ? 2.0 : 1.0;
+
+    // --- Status-based ---
+    case 'Quick Feet':
+      return status != StatusCondition.none ? 1.5 : 1.0;
+
+    default:
+      return 1.0;
+  }
+}
+
 /// Determine which stat is highest and boost it by 1.3x (1.5x for speed)
 AbilityStatModifiers _boostHighestStat(Stats stats) {
   // Compare attack, defense, spAttack, spDefense, speed (not HP)

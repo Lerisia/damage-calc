@@ -286,6 +286,8 @@ class PokemonPanelState extends State<PokemonPanel>
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notify(); }),
               onRankChanged: (v) => setState(() { s.rank = v; _notify(); }),
               opponentSpeed: widget.opponentSpeed,
+              weather: widget.weather,
+              terrain: widget.terrain,
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notify(); }),
               onStatusChanged: (v) => setState(() { s.status = v; _notify(); }),
             ),
