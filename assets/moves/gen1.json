@@ -20,7 +20,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Spike Cannon",
@@ -30,7 +31,8 @@
     "category": "physical",
     "power": 20,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Guillotine",
@@ -40,7 +42,8 @@
     "category": "physical",
     "power": 0,
     "accuracy": 30,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Sharpen",
@@ -50,7 +53,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Bubble",
@@ -86,7 +90,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Pay Day",
@@ -96,7 +101,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Fly",
@@ -106,7 +112,8 @@
     "category": "physical",
     "power": 90,
     "accuracy": 95,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Strength",
@@ -116,7 +123,8 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Dig",
@@ -126,7 +134,8 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Barrage",
@@ -136,7 +145,10 @@
     "category": "physical",
     "power": 15,
     "accuracy": 85,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "ball"
+    ]
   },
   {
     "name": "Double Team",
@@ -146,7 +158,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Focus Energy",
@@ -156,7 +169,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Wrap",
@@ -192,7 +206,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Tail Whip",
@@ -202,7 +217,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Petal Dance",
@@ -212,7 +228,8 @@
     "category": "special",
     "power": 120,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Dream Eater",
@@ -222,7 +239,8 @@
     "category": "special",
     "power": 100,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Night Shade",
@@ -245,7 +263,8 @@
     "category": "physical",
     "power": 120,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Wing Attack",
@@ -255,7 +274,8 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 35
+    "pp": 35,
+    "tags": []
   },
   {
     "name": "Whirlwind",
@@ -266,7 +286,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "priority": -6
+    "priority": -6,
+    "tags": []
   },
   {
     "name": "Ice Beam",
@@ -303,7 +324,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 55,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Acid Armor",
@@ -313,7 +335,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Body Slam",
@@ -350,7 +373,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Substitute",
@@ -360,7 +384,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Explosion",
@@ -370,7 +395,8 @@
     "category": "physical",
     "power": 250,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Twineedle",
@@ -393,7 +419,8 @@
     "category": "physical",
     "power": 45,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": []
   },
   {
     "name": "Poison Powder",
@@ -416,7 +443,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 90,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Poison Sting",
@@ -439,7 +467,8 @@
     "category": "physical",
     "power": 50,
     "accuracy": 90,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Rolling Kick",
@@ -462,7 +491,10 @@
     "category": "physical",
     "power": 90,
     "accuracy": 85,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "recoil"
+    ]
   },
   {
     "name": "Double Kick",
@@ -472,7 +504,8 @@
     "category": "physical",
     "power": 30,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Mirror Move",
@@ -482,7 +515,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Fissure",
@@ -492,7 +526,8 @@
     "category": "physical",
     "power": 0,
     "accuracy": 30,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Skull Bash",
@@ -515,7 +550,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Fury Attack",
@@ -525,7 +561,8 @@
     "category": "physical",
     "power": 15,
     "accuracy": 85,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Fury Swipes",
@@ -535,7 +572,8 @@
     "category": "physical",
     "power": 18,
     "accuracy": 80,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Pound",
@@ -545,7 +583,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 35
+    "pp": 35,
+    "tags": []
   },
   {
     "name": "Amnesia",
@@ -555,7 +594,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Toxic",
@@ -565,7 +605,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Mega Drain",
@@ -575,7 +616,8 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Mega Kick",
@@ -585,7 +627,8 @@
     "category": "physical",
     "power": 120,
     "accuracy": 75,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Mega Punch",
@@ -595,7 +638,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 85,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "punch"
+    ]
   },
   {
     "name": "Sand Attack",
@@ -605,7 +651,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Tackle",
@@ -628,7 +675,10 @@
     "category": "physical",
     "power": 130,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "recoil"
+    ]
   },
   {
     "name": "Bite",
@@ -652,7 +702,8 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": []
   },
   {
     "name": "Pin Missile",
@@ -662,7 +713,8 @@
     "category": "physical",
     "power": 25,
     "accuracy": 95,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Gust",
@@ -672,7 +724,8 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 35
+    "pp": 35,
+    "tags": []
   },
   {
     "name": "Headbutt",
@@ -695,7 +748,8 @@
     "category": "physical",
     "power": 50,
     "accuracy": 0,
-    "pp": 1
+    "pp": 1,
+    "tags": []
   },
   {
     "name": "Barrier",
@@ -705,7 +759,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Glare",
@@ -715,7 +770,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Spore",
@@ -765,7 +821,10 @@
     "category": "physical",
     "power": 70,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "slice"
+    ]
   },
   {
     "name": "Transform",
@@ -775,7 +834,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Rage",
@@ -785,7 +845,8 @@
     "category": "physical",
     "power": 20,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Super Fang",
@@ -861,7 +922,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Bonemerang",
@@ -871,7 +933,8 @@
     "category": "physical",
     "power": 50,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Bone Club",
@@ -894,7 +957,8 @@
     "category": "physical",
     "power": 0,
     "accuracy": 30,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Horn Attack",
@@ -904,7 +968,8 @@
     "category": "physical",
     "power": 65,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": []
   },
   {
     "name": "Disable",
@@ -914,7 +979,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Psywave",
@@ -924,7 +990,8 @@
     "category": "special",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Psychic",
@@ -947,7 +1014,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Sonic Boom",
@@ -957,7 +1025,8 @@
     "category": "special",
     "power": 0,
     "accuracy": 90,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Metronome",
@@ -967,7 +1036,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Solar Beam",
@@ -977,7 +1047,8 @@
     "category": "special",
     "power": 120,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Sleep Powder",
@@ -1001,7 +1072,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "priority": -6
+    "priority": -6,
+    "tags": []
   },
   {
     "name": "Kinesis",
@@ -1011,7 +1083,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 80,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Smog",
@@ -1047,7 +1120,8 @@
     "category": "special",
     "power": 60,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "String Shot",
@@ -1057,7 +1131,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 95,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Screech",
@@ -1067,7 +1142,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 85,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Leech Seed",
@@ -1077,7 +1153,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Lovely Kiss",
@@ -1087,7 +1164,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 75,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Low Kick",
@@ -1112,7 +1190,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Egg Bomb",
@@ -1122,7 +1201,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 75,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "ball"
+    ]
   },
   {
     "name": "Smokescreen",
@@ -1132,7 +1214,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Double Slap",
@@ -1142,7 +1225,8 @@
     "category": "physical",
     "power": 15,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Comet Punch",
@@ -1152,7 +1236,10 @@
     "category": "physical",
     "power": 18,
     "accuracy": 85,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "punch"
+    ]
   },
   {
     "name": "Confusion",
@@ -1201,7 +1288,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Dragon Rage",
@@ -1211,7 +1299,8 @@
     "category": "special",
     "power": 0,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Acid",
@@ -1235,7 +1324,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "priority": -6
+    "priority": -6,
+    "tags": []
   },
   {
     "name": "Growl",
@@ -1245,7 +1335,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Defense Curl",
@@ -1255,7 +1346,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Confuse Ray",
@@ -1265,7 +1357,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Double-Edge",
@@ -1275,7 +1368,10 @@
     "category": "physical",
     "power": 120,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "recoil"
+    ]
   },
   {
     "name": "Razor Leaf",
@@ -1285,7 +1381,10 @@
     "category": "physical",
     "power": 55,
     "accuracy": 95,
-    "pp": 25
+    "pp": 25,
+    "tags": [
+      "slice"
+    ]
   },
   {
     "name": "Self-Destruct",
@@ -1295,7 +1394,8 @@
     "category": "physical",
     "power": 200,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Minimize",
@@ -1305,7 +1405,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Rest",
@@ -1315,7 +1416,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Dizzy Punch",
@@ -1327,7 +1429,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "punch"
     ]
   },
   {
@@ -1352,7 +1455,8 @@
     "power": 40,
     "accuracy": 100,
     "pp": 30,
-    "priority": 1
+    "priority": 1,
+    "tags": []
   },
   {
     "name": "Thunder Shock",
@@ -1375,7 +1479,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 90,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Jump Kick",
@@ -1385,7 +1490,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "recoil"
+    ]
   },
   {
     "name": "Bind",
@@ -1422,7 +1530,10 @@
     "category": "physical",
     "power": 80,
     "accuracy": 80,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "recoil"
+    ]
   },
   {
     "name": "Earthquake",
@@ -1458,7 +1569,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Peck",
@@ -1468,7 +1580,8 @@
     "category": "physical",
     "power": 35,
     "accuracy": 100,
-    "pp": 35
+    "pp": 35,
+    "tags": []
   },
   {
     "name": "Crabhammer",
@@ -1478,7 +1591,8 @@
     "category": "physical",
     "power": 100,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Vise Grip",
@@ -1488,7 +1602,8 @@
     "category": "physical",
     "power": 55,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Bide",
@@ -1499,7 +1614,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "priority": 1
+    "priority": 1,
+    "tags": []
   },
   {
     "name": "Supersonic",
@@ -1509,7 +1625,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 55,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Hypnosis",
@@ -1519,7 +1636,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 60,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Counter",
@@ -1530,7 +1648,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "priority": -5
+    "priority": -5,
+    "tags": []
   },
   {
     "name": "Razor Wind",
@@ -1540,7 +1659,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Swords Dance",
@@ -1550,7 +1670,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Karate Chop",
@@ -1560,7 +1681,8 @@
     "category": "physical",
     "power": 50,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": []
   },
   {
     "name": "Conversion",
@@ -1570,7 +1692,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Splash",
@@ -1580,7 +1703,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Tri Attack",
@@ -1603,7 +1727,8 @@
     "category": "special",
     "power": 150,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Surf",
@@ -1613,7 +1738,8 @@
     "category": "special",
     "power": 90,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Waterfall",
@@ -1637,7 +1763,10 @@
     "category": "physical",
     "power": 50,
     "accuracy": 95,
-    "pp": 30
+    "pp": 30,
+    "tags": [
+      "slice"
+    ]
   },
   {
     "name": "Flash",
@@ -1647,7 +1776,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Hyper Fang",
@@ -1671,7 +1801,8 @@
     "category": "special",
     "power": 110,
     "accuracy": 80,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Scratch",
@@ -1681,7 +1812,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 35
+    "pp": 35,
+    "tags": []
   },
   {
     "name": "Lick",
@@ -1743,7 +1875,8 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Constrict",
@@ -1766,7 +1899,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Haze",
@@ -1776,7 +1910,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Absorb",
@@ -1786,7 +1921,8 @@
     "category": "special",
     "power": 20,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": []
   },
   {
     "name": "Leech Life",
@@ -1796,7 +1932,8 @@
     "category": "physical",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Mist",
@@ -1806,7 +1943,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Slam",
@@ -1816,6 +1954,7 @@
     "category": "physical",
     "power": 80,
     "accuracy": 75,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   }
 ]

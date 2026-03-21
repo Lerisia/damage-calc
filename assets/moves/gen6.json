@@ -7,7 +7,8 @@
     "category": "physical",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Eerie Impulse",
@@ -17,7 +18,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Land’s Wrath",
@@ -27,7 +29,8 @@
     "category": "physical",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Grassy Terrain",
@@ -37,7 +40,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Power-Up Punch",
@@ -74,7 +78,8 @@
     "category": "physical",
     "power": 90,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Sticky Web",
@@ -84,7 +89,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Spiky Shield",
@@ -95,7 +101,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "priority": 4
+    "priority": 4,
+    "tags": []
   },
   {
     "name": "Hyperspace Fury",
@@ -118,7 +125,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 0,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Diamond Storm",
@@ -141,7 +149,8 @@
     "category": "physical",
     "power": 120,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Oblivion Wing",
@@ -151,7 +160,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Topsy-Turvy",
@@ -161,7 +171,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Draining Kiss",
@@ -171,7 +182,8 @@
     "category": "special",
     "power": 50,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Mat Block",
@@ -182,7 +194,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "priority": 3
+    "priority": 3,
+    "tags": []
   },
   {
     "name": "Fell Stinger",
@@ -192,7 +205,8 @@
     "category": "physical",
     "power": 50,
     "accuracy": 100,
-    "pp": 25
+    "pp": 25,
+    "tags": []
   },
   {
     "name": "Parting Shot",
@@ -202,7 +216,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Dazzling Gleam",
@@ -212,7 +227,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Mystical Fire",
@@ -249,7 +265,8 @@
     "power": 15,
     "accuracy": 100,
     "pp": 20,
-    "priority": 1
+    "priority": 1,
+    "tags": []
   },
   {
     "name": "Misty Terrain",
@@ -259,7 +276,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Venom Drench",
@@ -269,7 +287,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Nuzzle",
@@ -292,7 +311,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Powder",
@@ -315,7 +335,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Thousand Arrows",
@@ -339,7 +360,8 @@
     "category": "physical",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Hold Hands",
@@ -349,7 +371,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Electrify",
@@ -359,7 +382,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Forest’s Curse",
@@ -369,7 +393,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Steam Eruption",
@@ -392,7 +417,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Infestation",
@@ -415,7 +441,8 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Rototiller",
@@ -425,7 +452,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Electric Terrain",
@@ -435,7 +463,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Magnetic Flux",
@@ -445,7 +474,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Hold Back",
@@ -455,7 +485,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Geomancy",
@@ -465,7 +496,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Disarming Voice",
@@ -475,7 +507,10 @@
     "category": "special",
     "power": 40,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "sound"
+    ]
   },
   {
     "name": "Baby-Doll Eyes",
@@ -486,7 +521,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 30,
-    "priority": 1
+    "priority": 1,
+    "tags": []
   },
   {
     "name": "Celebrate",
@@ -496,7 +532,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 40
+    "pp": 40,
+    "tags": []
   },
   {
     "name": "Play Rough",
@@ -520,7 +557,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "King’s Shield",
@@ -531,7 +569,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "priority": 4
+    "priority": 4,
+    "tags": []
   },
   {
     "name": "Crafty Shield",
@@ -542,7 +581,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "priority": 3
+    "priority": 3,
+    "tags": []
   },
   {
     "name": "Belch",
@@ -552,7 +592,8 @@
     "category": "special",
     "power": 120,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Parabolic Charge",
@@ -562,7 +603,8 @@
     "category": "special",
     "power": 65,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Light of Ruin",
@@ -572,7 +614,8 @@
     "category": "special",
     "power": 140,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Fairy Lock",
@@ -582,7 +625,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Boomburst",
@@ -619,7 +663,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 25
+    "pp": 25,
+    "tags": []
   },
   {
     "name": "Flower Shield",
@@ -629,7 +674,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Flying Press",
@@ -652,7 +698,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Trick-or-Treat",
@@ -662,7 +709,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Dragon Ascent",
