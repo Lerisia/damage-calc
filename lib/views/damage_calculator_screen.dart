@@ -2,15 +2,12 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import '../utils/image_saver.dart' as saver;
-import '../utils/ability_effects.dart';
+import '../utils/battle_facade.dart';
 import '../utils/damage_calculator.dart';
-import '../utils/defensive_calculator.dart';
 import '../utils/grounded.dart';
 import '../utils/item_effects.dart';
-import '../utils/speed_calculator.dart';
 import '../utils/stat_calculator.dart';
 import '../models/move.dart';
-import '../models/type.dart';
 import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
 import '../models/nature.dart';
@@ -62,15 +59,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   int _calcEffectiveSpeed(BattlePokemonState s) {
-    return calcEffectiveSpeed(
-      baseSpeed: _calcStats(s).speed,
-      ability: s.selectedAbility,
-      item: s.selectedItem,
-      status: s.status,
+    return BattleFacade.calcSpeed(
+      state: s,
       weather: _weather,
       terrain: _terrain,
-      isDynamaxed: s.dynamax != DynamaxState.none,
-      tailwind: s.tailwind,
     );
   }
 
@@ -332,18 +324,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   /// Get the 내구 for the defender.
   ({int physical, int special}) _getDefensiveBulk() {
-    return DefensiveCalculator.calculate(
-      baseStats: _defender.baseStats,
-      iv: _defender.iv, ev: _defender.ev,
-      nature: _defender.nature, level: _defender.level,
-      type1: _defender.type1, type2: _defender.type2,
-      rank: _defender.rank,
+    return BattleFacade.calcBulk(
+      state: _defender,
       weather: _weather,
-      ability: _defender.selectedAbility,
-      item: _defender.selectedItem,
-      finalEvo: _defender.finalEvo,
-      status: _defender.status,
-      flowerGift: _defender.flowerGift,
       room: _room,
     );
   }
