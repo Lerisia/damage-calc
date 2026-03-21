@@ -403,9 +403,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header: 공격측 → 방어측 (Korean names)
-          Text(
-            '${_attacker.pokemonNameKo} → ${_defender.pokemonNameKo}',
+          // Header: 공격측 → 방어측 (with tera type if active)
+          Text.rich(
+            TextSpan(children: [
+              TextSpan(text: _attacker.pokemonNameKo),
+              if (_attacker.terastal.active && _attacker.terastal.teraType != null)
+                TextSpan(text: '(${KoStrings.getTypeKo(_attacker.terastal.teraType!)})',
+                  style: TextStyle(fontSize: 14, color: KoStrings.getTypeColor(_attacker.terastal.teraType!))),
+              const TextSpan(text: ' → '),
+              TextSpan(text: _defender.pokemonNameKo),
+              if (_defender.terastal.active && _defender.terastal.teraType != null)
+                TextSpan(text: '(${KoStrings.getTypeKo(_defender.terastal.teraType!)})',
+                  style: TextStyle(fontSize: 14, color: KoStrings.getTypeColor(_defender.terastal.teraType!))),
+            ]),
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
