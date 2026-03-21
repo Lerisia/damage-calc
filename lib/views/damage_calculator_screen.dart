@@ -636,7 +636,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         return screenKo[parts[1]] ?? note;
       case 'move':
         const moveKo = {
-          'knock_off': '탁쳐서떨구기: 아이템 소지',
+          'knock_off': '아이템 소지',
         };
         final key = parts[1];
         final label = moveKo[key] ?? key;
