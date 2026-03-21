@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
 import '../utils/image_saver.dart' as saver;
@@ -44,6 +45,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   final _attackerPanelKey = GlobalKey<PokemonPanelState>();
   final _defenderPanelKey = GlobalKey<PokemonPanelState>();
   int _resetCounter = 0;
+
+  final _damageTabScreenshotController = ScreenshotController();
+  final _speedTabScreenshotController = ScreenshotController();
 
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
@@ -161,15 +165,32 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Future<void> _capture() async {
     final currentTab = _tabController.index;
-    PokemonPanelState? panelState;
-    if (currentTab == 0) {
-      panelState = _attackerPanelKey.currentState;
-    } else if (currentTab == 1) {
-      panelState = _defenderPanelKey.currentState;
-    }
-    if (panelState == null) return;
+    Uint8List? image;
 
-    final image = await panelState.captureScreenshot();
+    if (currentTab == 0) {
+      final panelState = _attackerPanelKey.currentState;
+      if (panelState == null) return;
+      image = await panelState.captureScreenshot();
+    } else if (currentTab == 1) {
+      final panelState = _defenderPanelKey.currentState;
+      if (panelState == null) return;
+      image = await panelState.captureScreenshot();
+    } else if (currentTab == 2) {
+      try {
+        image = await _damageTabScreenshotController.capture(
+          delay: const Duration(milliseconds: 100),
+          pixelRatio: 2.0,
+        );
+      } catch (_) {}
+    } else if (currentTab == 3) {
+      try {
+        image = await _speedTabScreenshotController.capture(
+          delay: const Duration(milliseconds: 100),
+          pixelRatio: 2.0,
+        );
+      } catch (_) {}
+    }
+
     if (image == null || !mounted) return;
 
     try {
@@ -385,16 +406,22 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   opponentWeight: BattleFacade.effectiveWeight(_attacker),
                 ),
                 _buildDamageCalcTab(),
-                SpeedCompareTab(
-                  attacker: _attacker,
-                  defender: _defender,
-                  weather: _weather,
-                  terrain: _terrain,
-                  room: _room,
-                  onChanged: _onPanelChanged,
-                  resetCounter: _resetCounter,
-                  abilityNameMap: _abilityNameMap,
-                  itemNameMap: _itemNameMap,
+                Screenshot(
+                  controller: _speedTabScreenshotController,
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: SpeedCompareTab(
+                      attacker: _attacker,
+                      defender: _defender,
+                      weather: _weather,
+                      terrain: _terrain,
+                      room: _room,
+                      onChanged: _onPanelChanged,
+                      resetCounter: _resetCounter,
+                      abilityNameMap: _abilityNameMap,
+                      itemNameMap: _itemNameMap,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -449,14 +476,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      child: Column(
+      child: Screenshot(
+        controller: _damageTabScreenshotController,
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Header line 1: names
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              '${_attacker.pokemonNameKo} → ${_defender.pokemonNameKo}',
+              '${_attacker.pokemonNameKo}${_dynamaxLabel(_attacker)} → ${_defender.pokemonNameKo}${_dynamaxLabel(_defender)}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -498,6 +529,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ],
         ],
       ),
+    )),
     );
   }
 
@@ -576,7 +608,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           Row(
             children: [
               Flexible(
-                child: Text(move.nameKo, style: const TextStyle(
+                child: Text(result.move.nameKo, style: const TextStyle(
                   fontSize: 16, fontWeight: FontWeight.bold,
                 )),
               ),
@@ -699,6 +731,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
+
+  String _dynamaxLabel(BattlePokemonState state) {
+    switch (state.dynamax) {
+      case DynamaxState.dynamax:
+        return ' (다이맥스)';
+      case DynamaxState.gigantamax:
+        return ' (거다이맥스)';
+      default:
+        return '';
+    }
+  }
 
   String _fmtEff(double v) {
     return v == v.truncateToDouble() ? v.toInt().toString() : v.toString();

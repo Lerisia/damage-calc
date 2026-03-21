@@ -173,6 +173,7 @@ class BattleFacade {
       opponentAttack: opponentAttack,
       opponentGender: opponentGender,
       myEffectiveSpeed: myEffectiveSpeed,
+      opponentWeight: opponentWeight,
     );
 
     return MoveSlotInfo(
@@ -246,8 +247,12 @@ class BattleFacade {
       category: categoryOverride,
     );
 
+    // Neutralizing Gas: suppress own ability for 결정력
+    final effectiveAbilityForCalc = state.selectedAbility == 'Neutralizing Gas'
+        ? null : state.selectedAbility;
+
     // Cloud Nine / Air Lock negates weather effects
-    if (isWeatherNegating(state.selectedAbility)) weather = Weather.none;
+    if (isWeatherNegating(effectiveAbilityForCalc)) weather = Weather.none;
 
     // Compute base stats once — reused by MoveContext and ability effects.
     final baseStats = _baseActualStats(state);
@@ -268,14 +273,14 @@ class BattleFacade {
     final isDmaxed = state.dynamax != DynamaxState.none;
 
     final effectiveItem = resolveEffectiveItem(
-        item: state.selectedItem, ability: state.selectedAbility, isDynamaxed: isDmaxed);
+        item: state.selectedItem, ability: effectiveAbilityForCalc, isDynamaxed: isDmaxed);
     final itemEffect = effectiveItem != null
         ? getItemEffect(effectiveItem,
             move: transformed.move, pokemonName: state.pokemonName)
         : const ItemEffect();
 
     final effectiveAbility = resolveEffectiveAbility(
-        ability: state.selectedAbility, isDynamaxed: isDmaxed);
+        ability: effectiveAbilityForCalc, isDynamaxed: isDmaxed);
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility,
             move: transformed.move,
@@ -324,12 +329,12 @@ class BattleFacade {
       grounded: isGrounded(
         type1: state.type1,
         type2: state.type2,
-        ability: state.selectedAbility,
+        ability: effectiveAbilityForCalc,
         item: state.selectedItem,
         gravity: room.gravity,
       ),
       status: state.status,
-      hasGuts: state.selectedAbility == 'Guts',
+      hasGuts: effectiveAbilityForCalc == 'Guts',
       stabOverride: abilityEffect.stabOverride,
       criticalOverride: abilityEffect.criticalOverride,
       forceStab: abilityEffect.forceStab,

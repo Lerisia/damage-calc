@@ -556,6 +556,11 @@ int _maxMoveBasePower(Move move) {
     return 130;
   }
 
+  // Weight-based moves -> 130
+  if (move.hasTag(MoveTags.weightRatio) || move.hasTag(MoveTags.weightTarget)) {
+    return 130;
+  }
+
   // Multi-hit moves -> 130 for Dynamax conversion
   if (multiHitMoves.contains(move.name)) {
     return 130;

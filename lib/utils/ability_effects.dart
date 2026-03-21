@@ -546,6 +546,28 @@ bool isMoldBreaker(String? abilityName) {
   return abilityName != null && moldBreakerAbilities.contains(abilityName);
 }
 
+// ====== Neutralizing Gas (화학변화가스) ======
+
+/// Returns true if Neutralizing Gas is active on either side.
+bool hasNeutralizingGas(String? attackerAbility, String? defenderAbility) {
+  return attackerAbility == 'Neutralizing Gas' ||
+      defenderAbility == 'Neutralizing Gas';
+}
+
+/// Returns the effective ability considering Neutralizing Gas.
+///
+/// If either side has Neutralizing Gas, all other abilities are suppressed.
+/// Neutralizing Gas itself is also not treated as having any other effect.
+String? resolveAbilityWithGas({
+  required String? ability,
+  required String? attackerAbility,
+  required String? defenderAbility,
+}) {
+  if (!hasNeutralizingGas(attackerAbility, defenderAbility)) return ability;
+  // Neutralizing Gas suppresses everything, including itself
+  return null;
+}
+
 /// Abilities that are ignored by Mold Breaker during damage calculation.
 /// This covers immunities, damage reduction, and defensive stat boosts.
 const Set<String> ignorableAbilities = {
