@@ -32,8 +32,10 @@ class MoveTags {
   static const String electroSpeed = 'custom:electro_speed';
   static const String weightBased = 'custom:weight_based';
   static const String grassyHalve = 'custom:grassy_halve';
+  static const String doubleDynamax = 'custom:double_dynamax';
   static const String targetPhysDef = 'custom:target_phys_def';
   static const String freezeDry = 'custom:freeze_dry';
   static const String fixedLevel = 'custom:fixed_level';
   static const String fixedHalfHp = 'custom:fixed_half_hp';
+  static const String ignoreDefRank = 'custom:ignore_def_rank';
 }
