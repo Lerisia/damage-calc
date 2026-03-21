@@ -40,22 +40,31 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     });
   }
 
+  String _lastQuery = '';
+  List<Pokemon>? _lastResults;
+
   List<Pokemon> _sortedOptions(String query) {
-    List<Pokemon> results;
+    if (query == _lastQuery && _lastResults != null) return _lastResults!;
+    _lastQuery = query;
+
+    final Iterable<Pokemon> filtered;
     if (query.isEmpty) {
-      results = List.of(_allPokemon);
+      filtered = _allPokemon;
     } else {
       final q = query.toLowerCase();
-      results = _allPokemon.where((p) =>
+      filtered = _allPokemon.where((p) =>
           p.nameKo.contains(q) ||
-          p.name.toLowerCase().contains(q)).toList();
+          p.name.toLowerCase().contains(q));
     }
-    // Selected at top
-    if (_selected != null && results.contains(_selected)) {
-      results.remove(_selected);
-      results.insert(0, _selected!);
+    if (_selected != null) {
+      _lastResults = [
+        if (filtered.contains(_selected)) _selected!,
+        ...filtered.where((p) => p != _selected),
+      ];
+    } else {
+      _lastResults = filtered.toList();
     }
-    return results;
+    return _lastResults!;
   }
 
   @override

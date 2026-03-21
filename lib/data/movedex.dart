@@ -14,8 +14,14 @@ const _genFiles = [
   'assets/moves/gen9.json',
 ];
 
-/// Loads all moves as a list from assets/moves/gen*.json
+List<Move>? _cache;
+
+/// Loads all moves as a list from assets/moves/gen*.json (cached after first load).
+///
+/// Returns a copy so callers can safely sort/filter without mutating the cache.
 Future<List<Move>> loadAllMoves() async {
+  if (_cache != null) return List.of(_cache!);
+
   final List<Move> moves = [];
 
   for (final file in _genFiles) {
@@ -27,7 +33,8 @@ Future<List<Move>> loadAllMoves() async {
     }
   }
 
-  return moves;
+  _cache = moves;
+  return List.of(moves);
 }
 
 /// Loads all move data as a map (keyed by English name)

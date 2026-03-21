@@ -4,7 +4,9 @@ import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
 import '../models/gender.dart';
 import '../models/move.dart';
+import '../models/rank.dart';
 import '../models/room.dart';
+import '../models/stats.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
@@ -113,11 +115,15 @@ class BattleFacade {
       return const MoveSlotInfo();
     }
 
+    // Compute base stats once for this slot
+    final baseStats = _baseActualStats(state);
+
     // Transform for display (name, type, power)
     final ctx = _buildMoveContext(
       state: state,
       weather: weather,
       terrain: terrain,
+      actualStats: baseStats,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
     );
@@ -214,11 +220,15 @@ class BattleFacade {
       category: categoryOverride,
     );
 
+    // Compute base stats once — reused by MoveContext and ability effects.
+    final baseStats = _baseActualStats(state);
+
     // 1. Transform the move (type/power changes based on context)
     final ctx = _buildMoveContext(
       state: state,
       weather: weather,
       terrain: terrain,
+      actualStats: baseStats,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
     );
@@ -243,7 +253,6 @@ class BattleFacade {
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility,
             move: transformed.move,
-            // Dynamax moves use their own power for Technician check
             originalBasePower: isDmaxed ? null : move.power,
             hpPercent: state.hpPercent,
             weather: weather,
@@ -253,13 +262,7 @@ class BattleFacade {
             opponentSpeed: opponentSpeed,
             myGender: state.gender,
             opponentGender: opponentGender,
-            actualStats: StatCalculator.calculate(
-              baseStats: state.baseStats,
-              iv: state.iv,
-              ev: state.ev,
-              nature: state.nature,
-              level: state.level,
-            ))
+            actualStats: baseStats)
         : const AbilityEffect();
 
     // 3. Determine stat modifier based on the offensive stat used
@@ -343,22 +346,37 @@ class BattleFacade {
   // Helpers
   // ------------------------------------------------------------------
 
-  static MoveContext _buildMoveContext({
-    required BattlePokemonState state,
-    required Weather weather,
-    required Terrain terrain,
-    int? myEffectiveSpeed,
-    int? opponentSpeed,
-  }) {
-    // Calculate actual stats for Tera Blast category comparison
-    final actualStats = StatCalculator.calculate(
+  /// Computes rank-less base stats for [state]. Use this single result
+  /// across MoveContext, ability effects, etc. to avoid redundant calls.
+  static Stats _baseActualStats(BattlePokemonState state) {
+    return StatCalculator.calculate(
       baseStats: state.baseStats,
       iv: state.iv,
       ev: state.ev,
       nature: state.nature,
       level: state.level,
-      rank: state.rank,
     );
+  }
+
+  static MoveContext _buildMoveContext({
+    required BattlePokemonState state,
+    required Weather weather,
+    required Terrain terrain,
+    required Stats actualStats,
+    int? myEffectiveSpeed,
+    int? opponentSpeed,
+  }) {
+    // Tera Blast needs rank-applied stats for category comparison
+    final rankedStats = state.rank != const Rank()
+        ? StatCalculator.calculate(
+            baseStats: state.baseStats,
+            iv: state.iv,
+            ev: state.ev,
+            nature: state.nature,
+            level: state.level,
+            rank: state.rank,
+          )
+        : actualStats;
 
     return MoveContext(
       weather: weather,
@@ -374,8 +392,8 @@ class BattleFacade {
       teraType: state.terastal.teraType,
       mySpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
-      actualAttack: actualStats.attack,
-      actualSpAttack: actualStats.spAttack,
+      actualAttack: rankedStats.attack,
+      actualSpAttack: rankedStats.spAttack,
     );
   }
 

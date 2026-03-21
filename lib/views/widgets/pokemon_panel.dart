@@ -63,8 +63,11 @@ class PokemonPanelState extends State<PokemonPanel>
 
   BattlePokemonState get s => widget.state;
 
-
-
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Future<Uint8List?> captureScreenshot() async {
     try {
@@ -81,13 +84,19 @@ class PokemonPanelState extends State<PokemonPanel>
     widget.onChanged();
   }
 
-  int? get myEffectiveSpeed {
-    if (widget.opponentSpeed == null) return null;
-    return BattleFacade.calcSpeed(
-      state: s,
-      weather: widget.weather,
-      terrain: widget.terrain,
-    );
+  // Cached per build cycle — computed once in build(), used by all 4 move slots.
+  int? _cachedSpeed;
+
+  int? get myEffectiveSpeed => _cachedSpeed;
+
+  void _updateCachedSpeed() {
+    _cachedSpeed = widget.opponentSpeed == null
+        ? null
+        : BattleFacade.calcSpeed(
+            state: s,
+            weather: widget.weather,
+            terrain: widget.terrain,
+          );
   }
 
   void _scrollToMoves() {
@@ -129,6 +138,7 @@ class PokemonPanelState extends State<PokemonPanel>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    _updateCachedSpeed();
     return SingleChildScrollView(
       controller: _scrollController,
       padding: EdgeInsets.fromLTRB(16, 16, 16,
@@ -381,7 +391,7 @@ class PokemonPanelState extends State<PokemonPanel>
           Expanded(
             flex: 3,
             child: MoveSelector(
-              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
+              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}'),
               initialMoveName: s.moves[index]?.name,
               displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
               onTap: _scrollToMoves,

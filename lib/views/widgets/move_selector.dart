@@ -45,21 +45,31 @@ class _MoveSelectorState extends State<MoveSelector> {
   String _moveDisplay(Move m) =>
       '${m.nameKo} (${KoStrings.getTypeKo(m.type)} / ${KoStrings.getCategoryKo(m.category)} / 위력${m.power})';
 
+  String _lastQuery = '';
+  List<Move>? _lastResults;
+
   List<Move> _sortedOptions(String query) {
-    List<Move> results;
+    if (query == _lastQuery && _lastResults != null) return _lastResults!;
+    _lastQuery = query;
+
+    final Iterable<Move> filtered;
     if (query.isEmpty) {
-      results = List.of(_allMoves);
+      filtered = _allMoves;
     } else {
       final q = query.toLowerCase();
-      results = _allMoves.where((m) =>
+      filtered = _allMoves.where((m) =>
           m.nameKo.contains(q) ||
-          m.name.toLowerCase().contains(q)).toList();
+          m.name.toLowerCase().contains(q));
     }
-    if (_selected != null && results.contains(_selected)) {
-      results.remove(_selected);
-      results.insert(0, _selected!);
+    if (_selected != null) {
+      _lastResults = [
+        if (filtered.contains(_selected)) _selected!,
+        ...filtered.where((m) => m != _selected),
+      ];
+    } else {
+      _lastResults = filtered.toList();
     }
-    return results;
+    return _lastResults!;
   }
 
   @override
