@@ -49,5 +49,62 @@ void main() {
         isTrue,
       );
     });
+
+    test('Flying/Ground dual type is not grounded', () {
+      expect(
+        isGrounded(type1: PokemonType.flying, type2: PokemonType.ground),
+        isFalse,
+      );
+    });
+
+    test('Ground/Flying dual type is not grounded (type2 flying)', () {
+      expect(
+        isGrounded(type1: PokemonType.ground, type2: PokemonType.flying),
+        isFalse,
+      );
+    });
+
+    test('null ability and item defaults to grounded', () {
+      expect(
+        isGrounded(type1: PokemonType.normal),
+        isTrue,
+      );
+    });
+
+    test('non-Levitate ability is grounded', () {
+      expect(
+        isGrounded(type1: PokemonType.electric, ability: 'Static'),
+        isTrue,
+      );
+    });
+
+    test('non-Air Balloon item is grounded', () {
+      expect(
+        isGrounded(type1: PokemonType.steel, item: 'Leftovers'),
+        isTrue,
+      );
+    });
+
+    test('Levitate takes priority even with non-flying type', () {
+      expect(
+        isGrounded(
+          type1: PokemonType.electric,
+          type2: PokemonType.ghost,
+          ability: 'Levitate',
+        ),
+        isFalse,
+      );
+    });
+
+    test('Air Balloon on non-flying type makes ungrounded', () {
+      expect(
+        isGrounded(
+          type1: PokemonType.fire,
+          type2: PokemonType.ghost,
+          item: 'Air Balloon',
+        ),
+        isFalse,
+      );
+    });
   });
 }

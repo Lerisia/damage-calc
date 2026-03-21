@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/rank.dart';
 import '../models/stats.dart';
 import '../models/status.dart';
@@ -95,8 +96,8 @@ TransformedMove transformMove(Move move, MoveContext context) {
 
 /// Determine which stat the move uses
 OffensiveStat _resolveOffensiveStat(Move move) {
-  if (move.hasTag('custom:use_defense')) return OffensiveStat.defense;
-  if (move.hasTag('custom:use_higher_atk')) return OffensiveStat.higherAttack;
+  if (move.hasTag(MoveTags.useDefense)) return OffensiveStat.defense;
+  if (move.hasTag(MoveTags.useHigherAtk)) return OffensiveStat.higherAttack;
   return move.category == MoveCategory.physical
       ? OffensiveStat.attack
       : OffensiveStat.spAttack;
@@ -175,7 +176,7 @@ Move _applyTerrain(Move move, Terrain terrain) {
 
 /// Acrobatics: double power when not holding an item.
 Move _applyItemCondition(Move move, bool hasItem) {
-  if (move.hasTag('custom:double_no_item') && !hasItem) {
+  if (move.hasTag(MoveTags.doubleNoItem) && !hasItem) {
     return move.copyWith(power: move.power * 2);
   }
   return move;
@@ -183,10 +184,10 @@ Move _applyItemCondition(Move move, bool hasItem) {
 
 /// HP-based power: Eruption/Water Spout/Dragon Energy, Flail/Reversal.
 Move _applyHpPower(Move move, int hpPercent) {
-  if (move.hasTag('custom:hp_power_high')) {
+  if (move.hasTag(MoveTags.hpPowerHigh)) {
     return move.copyWith(power: math.max(1, (150 * hpPercent / 100).floor()));
   }
-  if (move.hasTag('custom:hp_power_low')) {
+  if (move.hasTag(MoveTags.hpPowerLow)) {
     return move.copyWith(power: _flailPower(hpPercent));
   }
   return move;
@@ -194,7 +195,7 @@ Move _applyHpPower(Move move, int hpPercent) {
 
 /// Facade: doubles power when burned, poisoned, or paralyzed.
 Move _applyStatusPower(Move move, StatusCondition status) {
-  if (move.hasTag('custom:facade') && status != StatusCondition.none) {
+  if (move.hasTag(MoveTags.facade) && status != StatusCondition.none) {
     final isAffected = status == StatusCondition.burn ||
         status == StatusCondition.poison ||
         status == StatusCondition.badlyPoisoned ||
@@ -208,13 +209,13 @@ Move _applyStatusPower(Move move, StatusCondition status) {
 
 /// Terrain-based power boosts: Rising Voltage, Expanding Force, Misty Explosion.
 Move _applyTerrainPowerBoost(Move move, Terrain terrain) {
-  if (move.hasTag('custom:terrain_double_electric') && terrain == Terrain.electric) {
+  if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric) {
     return move.copyWith(power: move.power * 2);
   }
-  if (move.hasTag('custom:terrain_boost_psychic') && terrain == Terrain.psychic) {
+  if (move.hasTag(MoveTags.terrainBoostPsychic) && terrain == Terrain.psychic) {
     return move.copyWith(power: (move.power * 1.5).floor());
   }
-  if (move.hasTag('custom:terrain_boost_misty') && terrain == Terrain.misty) {
+  if (move.hasTag(MoveTags.terrainBoostMisty) && terrain == Terrain.misty) {
     return move.copyWith(power: (move.power * 1.5).floor());
   }
   return move;
@@ -222,7 +223,7 @@ Move _applyTerrainPowerBoost(Move move, Terrain terrain) {
 
 /// Rank-based power: Stored Power, Power Trip.
 Move _applyRankPower(Move move, Rank rank) {
-  if (move.hasTag('custom:rank_power')) {
+  if (move.hasTag(MoveTags.rankPower)) {
     final totalBoosts = [rank.attack, rank.defense, rank.spAttack, rank.spDefense, rank.speed]
         .where((r) => r > 0)
         .fold(0, (sum, r) => sum + r);

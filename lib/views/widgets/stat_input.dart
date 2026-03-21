@@ -5,6 +5,7 @@ import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../models/status.dart';
+import '../../utils/localization.dart';
 import '../../utils/stat_calculator.dart';
 
 class _ClampingFormatter extends TextInputFormatter {
@@ -105,30 +106,6 @@ class _StatInputState extends State<StatInput> {
             ),
           ))
       .toList();
-
-  static String _statusIcon(StatusCondition st) {
-    switch (st) {
-      case StatusCondition.none: return '✅';
-      case StatusCondition.burn: return '🔥';
-      case StatusCondition.poison: return '☠️';
-      case StatusCondition.badlyPoisoned: return '💀';
-      case StatusCondition.paralysis: return '⚡';
-      case StatusCondition.sleep: return '😴';
-      case StatusCondition.freeze: return '🧊';
-    }
-  }
-
-  static String _statusKo(StatusCondition st) {
-    switch (st) {
-      case StatusCondition.none: return '없음';
-      case StatusCondition.burn: return '화상';
-      case StatusCondition.poison: return '독';
-      case StatusCondition.badlyPoisoned: return '맹독';
-      case StatusCondition.paralysis: return '마비';
-      case StatusCondition.sleep: return '잠듦';
-      case StatusCondition.freeze: return '얼음';
-    }
-  }
 
   static String _natureLabelStatic(Nature n) {
     final ko = n.nameKo;
@@ -279,7 +256,7 @@ class _StatInputState extends State<StatInput> {
                     isDense: true,
                   ),
                   child: Text(
-                    '${_statusIcon(widget.status)} ${_statusKo(widget.status)}',
+                    '${KoStrings.statusIcon[widget.status]!} ${KoStrings.statusKo[widget.status]!}',
                     style: const TextStyle(fontSize: 15),
                   ),
                 ),
@@ -288,9 +265,9 @@ class _StatInputState extends State<StatInput> {
                         value: st,
                         child: Row(
                           children: [
-                            Text(_statusIcon(st), style: const TextStyle(fontSize: 18)),
+                            Text(KoStrings.statusIcon[st]!, style: const TextStyle(fontSize: 18)),
                             const SizedBox(width: 8),
-                            Text(_statusKo(st)),
+                            Text(KoStrings.statusKo[st]!),
                           ],
                         )))
                     .toList(),

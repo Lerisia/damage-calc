@@ -13,9 +13,11 @@ import '../../models/status.dart';
 import '../../models/terrain.dart';
 import '../../models/type.dart';
 import '../../models/weather.dart';
+import '../../models/move_tags.dart';
 import '../../utils/ability_effects.dart';
 import '../../utils/grounded.dart';
 import '../../utils/item_effects.dart';
+import '../../utils/localization.dart';
 import '../../utils/move_transform.dart';
 import '../../utils/defensive_calculator.dart';
 import '../../utils/offensive_calculator.dart';
@@ -417,9 +419,9 @@ class PokemonPanelState extends State<PokemonPanel>
   Widget _captureHeader() {
     final parts = <String>[];
     if (widget.label.isNotEmpty) parts.add(widget.label);
-    if (widget.weather != Weather.none) parts.add(_weatherKo(widget.weather));
-    if (widget.terrain != Terrain.none) parts.add(_terrainKo(widget.terrain));
-    if (widget.room != Room.none) parts.add(_roomKo(widget.room));
+    if (widget.weather != Weather.none) parts.add(KoStrings.weatherKoWithIcon[widget.weather]!);
+    if (widget.terrain != Terrain.none) parts.add(KoStrings.terrainKoWithIcon[widget.terrain]!);
+    if (widget.room != Room.none) parts.add(KoStrings.roomKoWithIcon[widget.room]!);
 
     if (parts.isEmpty) return const SizedBox.shrink();
 
@@ -433,38 +435,6 @@ class PokemonPanelState extends State<PokemonPanel>
         ),
       ),
     );
-  }
-
-  String _weatherKo(Weather w) {
-    switch (w) {
-      case Weather.none: return '';
-      case Weather.sun: return '☀️쾌청';
-      case Weather.rain: return '🌧️비';
-      case Weather.sandstorm: return '🏜️모래바람';
-      case Weather.snow: return '❄️눈';
-      case Weather.harshSun: return '🔥강한 햇살';
-      case Weather.heavyRain: return '🌊강한 비';
-      case Weather.strongWinds: return '🌪️난기류';
-    }
-  }
-
-  String _terrainKo(Terrain t) {
-    switch (t) {
-      case Terrain.none: return '';
-      case Terrain.electric: return '⚡일렉트릭필드';
-      case Terrain.grassy: return '🌿그래스필드';
-      case Terrain.psychic: return '🔮사이코필드';
-      case Terrain.misty: return '💫미스트필드';
-    }
-  }
-
-  String _roomKo(Room r) {
-    switch (r) {
-      case Room.none: return '';
-      case Room.trickRoom: return '🔄트릭룸';
-      case Room.magicRoom: return '✨매직룸';
-      case Room.wonderRoom: return '❓원더룸';
-    }
   }
 
   Widget _moveHeader(BuildContext context) {
@@ -526,7 +496,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 s.typeOverrides[index] = null;
                 s.categoryOverrides[index] = null;
                 s.powerOverrides[index] = null;
-                s.criticals[index] = m.hasTag('custom:always_crit');
+                s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
                 _notify();
               }),
             ),
@@ -538,7 +508,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     initialValue: effectiveType,
                     padding: EdgeInsets.zero,
                     child: Text(
-                      _typeKo(effectiveType!),
+                      KoStrings.getTypeKo(effectiveType!),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
@@ -546,7 +516,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       ),
                     ),
                     itemBuilder: (_) => PokemonType.values
-                        .map((t) => PopupMenuItem(value: t, child: Text(_typeKo(t), style: const TextStyle(fontSize: 12))))
+                        .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeKo(t), style: const TextStyle(fontSize: 12))))
                         .toList(),
                     onSelected: (t) => setState(() { s.typeOverrides[index] = t; _notify(); }),
                   )
@@ -559,7 +529,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     initialValue: effectiveCategory,
                     padding: EdgeInsets.zero,
                     child: Text(
-                      _categoryKo(effectiveCategory!),
+                      KoStrings.getCategoryKo(effectiveCategory!),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
@@ -567,7 +537,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       ),
                     ),
                     itemBuilder: (_) => [MoveCategory.physical, MoveCategory.special]
-                        .map((c) => PopupMenuItem(value: c, child: Text(_categoryKo(c), style: const TextStyle(fontSize: 12))))
+                        .map((c) => PopupMenuItem(value: c, child: Text(KoStrings.getCategoryKo(c), style: const TextStyle(fontSize: 12))))
                         .toList(),
                     onSelected: (c) => setState(() { s.categoryOverrides[index] = c; _notify(); }),
                   )
@@ -677,26 +647,4 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  String _typeKo(PokemonType t) {
-    const map = {
-      PokemonType.normal: '노말', PokemonType.fire: '불꽃',
-      PokemonType.water: '물', PokemonType.electric: '전기',
-      PokemonType.grass: '풀', PokemonType.ice: '얼음',
-      PokemonType.fighting: '격투', PokemonType.poison: '독',
-      PokemonType.ground: '땅', PokemonType.flying: '비행',
-      PokemonType.psychic: '에스퍼', PokemonType.bug: '벌레',
-      PokemonType.rock: '바위', PokemonType.ghost: '고스트',
-      PokemonType.dragon: '드래곤', PokemonType.dark: '악',
-      PokemonType.steel: '강철', PokemonType.fairy: '페어리',
-    };
-    return map[t] ?? t.name;
-  }
-
-  String _categoryKo(MoveCategory c) {
-    switch (c) {
-      case MoveCategory.physical: return '물리';
-      case MoveCategory.special: return '특수';
-      case MoveCategory.status: return '변화';
-    }
-  }
 }

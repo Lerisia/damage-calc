@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/move.dart';
+import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/terrain.dart';
@@ -12,7 +13,7 @@ void main() {
   const physicalNormal = Move(
     name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
     type: PokemonType.normal, category: MoveCategory.physical,
-    power: 40, accuracy: 100, pp: 35, tags: ['contact'],
+    power: 40, accuracy: 100, pp: 35, tags: [MoveTags.contact],
   );
 
   const specialFire = Move(
@@ -30,37 +31,37 @@ void main() {
   const punchMove = Move(
     name: 'Mach Punch', nameKo: '마하펀치', nameJa: 'マッハパンチ',
     type: PokemonType.fighting, category: MoveCategory.physical,
-    power: 40, accuracy: 100, pp: 30, tags: ['punch', 'contact'],
+    power: 40, accuracy: 100, pp: 30, tags: [MoveTags.punch, MoveTags.contact],
   );
 
   const biteMove = Move(
     name: 'Crunch', nameKo: '깨물어부수기', nameJa: 'かみくだく',
     type: PokemonType.dark, category: MoveCategory.physical,
-    power: 80, accuracy: 100, pp: 15, tags: ['bite', 'contact'],
+    power: 80, accuracy: 100, pp: 15, tags: [MoveTags.bite, MoveTags.contact],
   );
 
   const pulseMove = Move(
     name: 'Dark Pulse', nameKo: '악의파동', nameJa: 'あくのはどう',
     type: PokemonType.dark, category: MoveCategory.special,
-    power: 80, accuracy: 100, pp: 15, tags: ['pulse'],
+    power: 80, accuracy: 100, pp: 15, tags: [MoveTags.pulse],
   );
 
   const sliceMove = Move(
     name: 'Leaf Blade', nameKo: '리프블레이드', nameJa: 'リーフブレード',
     type: PokemonType.grass, category: MoveCategory.physical,
-    power: 90, accuracy: 100, pp: 15, tags: ['slice', 'contact'],
+    power: 90, accuracy: 100, pp: 15, tags: [MoveTags.slice, MoveTags.contact],
   );
 
   const recoilMove = Move(
     name: 'Flare Blitz', nameKo: '플레어드라이브', nameJa: 'フレアドライブ',
     type: PokemonType.fire, category: MoveCategory.physical,
-    power: 120, accuracy: 100, pp: 15, tags: ['recoil', 'contact'],
+    power: 120, accuracy: 100, pp: 15, tags: [MoveTags.recoil, MoveTags.contact],
   );
 
   const soundMove = Move(
     name: 'Bug Buzz', nameKo: '벌레의야단법석', nameJa: 'むしのさざめき',
     type: PokemonType.bug, category: MoveCategory.special,
-    power: 90, accuracy: 100, pp: 10, tags: ['sound'],
+    power: 90, accuracy: 100, pp: 10, tags: [MoveTags.sound],
   );
 
   const lowPowerMove = Move(
@@ -72,7 +73,7 @@ void main() {
   const secondaryMove = Move(
     name: 'Ice Beam', nameKo: '냉동빔', nameJa: 'れいとうビーム',
     type: PokemonType.ice, category: MoveCategory.special,
-    power: 90, accuracy: 100, pp: 10, tags: ['custom:has_secondary'],
+    power: 90, accuracy: 100, pp: 10, tags: [MoveTags.hasSecondary],
   );
 
   const waterMove = Move(
@@ -96,7 +97,7 @@ void main() {
   const dragonMove = Move(
     name: 'Dragon Pulse', nameKo: '용의파동', nameJa: 'りゅうのはどう',
     type: PokemonType.dragon, category: MoveCategory.special,
-    power: 85, accuracy: 100, pp: 10, tags: ['pulse'],
+    power: 85, accuracy: 100, pp: 10, tags: [MoveTags.pulse],
   );
 
   const rockMove = Move(
@@ -114,7 +115,7 @@ void main() {
   const bugMove = Move(
     name: 'X-Scissor', nameKo: '시저크로스', nameJa: 'シザークロス',
     type: PokemonType.bug, category: MoveCategory.physical,
-    power: 80, accuracy: 100, pp: 15, tags: ['slice', 'contact'],
+    power: 80, accuracy: 100, pp: 15, tags: [MoveTags.slice, MoveTags.contact],
   );
 
   group('Stat modifier abilities', () {
@@ -236,8 +237,8 @@ void main() {
       expect(effect.powerModifier, equals(1.3));
     });
 
-    test("Dragon's Maw boosts dragon moves by 1.5x", () {
-      final effect = getAbilityEffect("Dragon's Maw", move: dragonMove);
+    test("Dragon\u2019s Maw boosts dragon moves by 1.5x", () {
+      final effect = getAbilityEffect("Dragon\u2019s Maw", move: dragonMove);
       expect(effect.powerModifier, equals(1.5));
     });
 
@@ -444,6 +445,341 @@ void main() {
       final effect = getAbilityEffect('Flare Boost',
           move: specialFire, status: StatusCondition.poison);
       expect(effect.statModifiers.spAttack, equals(1.0));
+    });
+  });
+
+  group('Weather/Terrain with harsh conditions', () {
+    test('Solar Power boosts spAttack in harsh sun', () {
+      final effect = getAbilityEffect('Solar Power',
+          move: specialFire, weather: Weather.harshSun);
+      expect(effect.statModifiers.spAttack, equals(1.5));
+    });
+
+    test('Orichalcum Pulse boosts attack in harsh sun', () {
+      final effect = getAbilityEffect('Orichalcum Pulse',
+          move: physicalNormal, weather: Weather.harshSun);
+      expect(effect.statModifiers.attack, equals(1.3));
+    });
+
+    test('Orichalcum Pulse no effect without sun', () {
+      final effect = getAbilityEffect('Orichalcum Pulse',
+          move: physicalNormal, weather: Weather.none);
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('Hadron Engine no effect without electric terrain', () {
+      final effect = getAbilityEffect('Hadron Engine',
+          move: electricMove, terrain: Terrain.none);
+      expect(effect.statModifiers.spAttack, equals(1.0));
+    });
+
+    test('Flower Gift boosts in harsh sun', () {
+      final effect = getAbilityEffect('Flower Gift',
+          move: physicalNormal, weather: Weather.harshSun);
+      expect(effect.statModifiers.attack, equals(1.5));
+      expect(effect.statModifiers.spDefense, equals(1.5));
+    });
+
+    test('Flower Gift no effect without sun', () {
+      final effect = getAbilityEffect('Flower Gift',
+          move: physicalNormal, weather: Weather.rain);
+      expect(effect.statModifiers.attack, equals(1.0));
+      expect(effect.statModifiers.spDefense, equals(1.0));
+    });
+
+    test('Sand Force boosts steel in sandstorm', () {
+      final effect = getAbilityEffect('Sand Force',
+          move: steelMove, weather: Weather.sandstorm);
+      expect(effect.powerModifier, equals(1.3));
+    });
+
+    test('Sand Force no effect in non-sandstorm', () {
+      final effect = getAbilityEffect('Sand Force',
+          move: physicalGround, weather: Weather.sun);
+      expect(effect.powerModifier, equals(1.0));
+    });
+  });
+
+  group('Protosynthesis / Quark Drive with booster-energy', () {
+    const highAtkStats = Stats(
+      hp: 100, attack: 150, defense: 80,
+      spAttack: 100, spDefense: 80, speed: 120,
+    );
+
+    const highSpAStats = Stats(
+      hp: 100, attack: 80, defense: 80,
+      spAttack: 150, spDefense: 80, speed: 120,
+    );
+
+    const highDefStats = Stats(
+      hp: 100, attack: 80, defense: 150,
+      spAttack: 80, spDefense: 80, speed: 120,
+    );
+
+    const highSpDStats = Stats(
+      hp: 100, attack: 80, defense: 80,
+      spAttack: 80, spDefense: 150, speed: 120,
+    );
+
+    const highSpeStats = Stats(
+      hp: 100, attack: 80, defense: 80,
+      spAttack: 80, spDefense: 80, speed: 150,
+    );
+
+    test('Protosynthesis activates with booster-energy (no sun)', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: physicalNormal, weather: Weather.none,
+          heldItem: 'booster-energy', actualStats: highAtkStats);
+      expect(effect.statModifiers.attack, equals(1.3));
+    });
+
+    test('Protosynthesis inactive without sun or booster-energy', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: physicalNormal, weather: Weather.none,
+          actualStats: highAtkStats);
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('Protosynthesis inactive without actualStats', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: physicalNormal, weather: Weather.sun);
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('Protosynthesis in harsh sun', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: physicalNormal, weather: Weather.harshSun,
+          actualStats: highAtkStats);
+      expect(effect.statModifiers.attack, equals(1.3));
+    });
+
+    test('Quark Drive activates with booster-energy (no terrain)', () {
+      final effect = getAbilityEffect('Quark Drive',
+          move: electricMove, terrain: Terrain.none,
+          heldItem: 'booster-energy', actualStats: highAtkStats);
+      expect(effect.statModifiers.attack, equals(1.3));
+    });
+
+    test('Quark Drive inactive without terrain or booster-energy', () {
+      final effect = getAbilityEffect('Quark Drive',
+          move: electricMove, terrain: Terrain.none,
+          actualStats: highAtkStats);
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('boostHighestStat picks spAttack when highest', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: specialFire, weather: Weather.sun,
+          actualStats: highSpAStats);
+      expect(effect.statModifiers.spAttack, equals(1.3));
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('boostHighestStat picks defense when highest', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: physicalNormal, weather: Weather.sun,
+          actualStats: highDefStats);
+      expect(effect.statModifiers.defense, equals(1.3));
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('boostHighestStat picks spDefense when highest', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: physicalNormal, weather: Weather.sun,
+          actualStats: highSpDStats);
+      expect(effect.statModifiers.spDefense, equals(1.3));
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('boostHighestStat picks speed (1.5x) when highest', () {
+      final effect = getAbilityEffect('Protosynthesis',
+          move: physicalNormal, weather: Weather.sun,
+          actualStats: highSpeStats);
+      expect(effect.statModifiers.speed, equals(1.5));
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+  });
+
+  group('Tag-based edge cases', () {
+    test('Technician boosts exactly 60 power move', () {
+      const quickAttack = Move(
+        name: 'Quick Attack', nameKo: '전광석화', nameJa: 'でんこうせっか',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 60, accuracy: 100, pp: 30,
+      );
+      final effect = getAbilityEffect('Technician', move: quickAttack);
+      expect(effect.powerModifier, equals(1.5));
+    });
+
+    test('Technician does not boost 61 power move', () {
+      const move61 = Move(
+        name: 'Move61', nameKo: '기술61', nameJa: 'わざ61',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 61, accuracy: 100, pp: 30,
+      );
+      final effect = getAbilityEffect('Technician', move: move61);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Strong Jaw does not boost non-bite', () {
+      final effect = getAbilityEffect('Strong Jaw', move: physicalNormal);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Mega Launcher does not boost non-pulse', () {
+      final effect = getAbilityEffect('Mega Launcher', move: physicalNormal);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Sharpness does not boost non-slice', () {
+      final effect = getAbilityEffect('Sharpness', move: physicalNormal);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Reckless does not boost non-recoil', () {
+      final effect = getAbilityEffect('Reckless', move: physicalNormal);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Punk Rock does not boost non-sound', () {
+      final effect = getAbilityEffect('Punk Rock', move: physicalNormal);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Water Bubble does not boost non-water', () {
+      final effect = getAbilityEffect('Water Bubble', move: physicalNormal);
+      expect(effect.powerModifier, equals(1.0));
+    });
+  });
+
+  group('Type-based edge cases', () {
+    test('Transistor does not boost non-electric', () {
+      final effect = getAbilityEffect('Transistor', move: specialFire);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test("Dragon\u2019s Maw does not boost non-dragon", () {
+      final effect = getAbilityEffect("Dragon\u2019s Maw", move: specialFire);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Rocky Payload does not boost non-rock', () {
+      final effect = getAbilityEffect('Rocky Payload', move: specialFire);
+      expect(effect.powerModifier, equals(1.0));
+    });
+  });
+
+  group('HP conditional edge cases', () {
+    test('Overgrow no effect at HP 34%', () {
+      final effect = getAbilityEffect('Overgrow',
+          move: grassMove, hpPercent: 34);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Overgrow no effect on non-grass moves at low HP', () {
+      final effect = getAbilityEffect('Overgrow',
+          move: specialFire, hpPercent: 10);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Torrent no effect at HP 34%', () {
+      final effect = getAbilityEffect('Torrent',
+          move: waterMove, hpPercent: 34);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Swarm no effect on non-bug moves at low HP', () {
+      final effect = getAbilityEffect('Swarm',
+          move: specialFire, hpPercent: 5);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Blaze exactly at HP 33% triggers', () {
+      final effect = getAbilityEffect('Blaze',
+          move: specialFire, hpPercent: 33);
+      expect(effect.powerModifier, equals(1.5));
+    });
+  });
+
+  group('Status conditional edge cases', () {
+    test('Guts boosts with poison', () {
+      final effect = getAbilityEffect('Guts',
+          move: physicalNormal, status: StatusCondition.poison);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Guts boosts with badly poisoned', () {
+      final effect = getAbilityEffect('Guts',
+          move: physicalNormal, status: StatusCondition.badlyPoisoned);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Guts boosts with sleep', () {
+      final effect = getAbilityEffect('Guts',
+          move: physicalNormal, status: StatusCondition.sleep);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Guts boosts with freeze', () {
+      final effect = getAbilityEffect('Guts',
+          move: physicalNormal, status: StatusCondition.freeze);
+      expect(effect.statModifiers.attack, equals(1.5));
+    });
+
+    test('Toxic Boost no effect when healthy', () {
+      final effect = getAbilityEffect('Toxic Boost',
+          move: physicalNormal, status: StatusCondition.none);
+      expect(effect.statModifiers.attack, equals(1.0));
+    });
+
+    test('Flare Boost no effect when healthy', () {
+      final effect = getAbilityEffect('Flare Boost',
+          move: specialFire, status: StatusCondition.none);
+      expect(effect.statModifiers.spAttack, equals(1.0));
+    });
+  });
+
+  group('Defensive ability effects', () {
+    test('Fur Coat doubles defense', () {
+      final effect = getDefensiveAbilityEffect('Fur Coat');
+      expect(effect.defModifier, equals(2.0));
+      expect(effect.spdModifier, equals(1.0));
+    });
+
+    test('Ice Scales doubles special defense', () {
+      final effect = getDefensiveAbilityEffect('Ice Scales');
+      expect(effect.defModifier, equals(1.0));
+      expect(effect.spdModifier, equals(2.0));
+    });
+
+    test('Fluffy doubles defense', () {
+      final effect = getDefensiveAbilityEffect('Fluffy');
+      expect(effect.defModifier, equals(2.0));
+      expect(effect.spdModifier, equals(1.0));
+    });
+
+    test('Marvel Scale boosts defense when statused', () {
+      final effect = getDefensiveAbilityEffect('Marvel Scale',
+          status: StatusCondition.burn);
+      expect(effect.defModifier, equals(1.5));
+    });
+
+    test('Marvel Scale boosts defense when paralyzed', () {
+      final effect = getDefensiveAbilityEffect('Marvel Scale',
+          status: StatusCondition.paralysis);
+      expect(effect.defModifier, equals(1.5));
+    });
+
+    test('Marvel Scale no effect when healthy', () {
+      final effect = getDefensiveAbilityEffect('Marvel Scale',
+          status: StatusCondition.none);
+      expect(effect.defModifier, equals(1.0));
+    });
+
+    test('unknown defensive ability returns default', () {
+      final effect = getDefensiveAbilityEffect('Pickup');
+      expect(effect.defModifier, equals(1.0));
+      expect(effect.spdModifier, equals(1.0));
     });
   });
 

@@ -1,4 +1,5 @@
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 
@@ -31,12 +32,12 @@ import '../models/weather.dart';
 double getWeatherOffensiveModifier(Weather weather, {required Move move}) {
   switch (weather) {
     case Weather.sun:
-      if (move.hasTag('custom:sun_boost')) return 1.5;
+      if (move.hasTag(MoveTags.sunBoost)) return 1.5;
       if (move.type == PokemonType.fire) return 1.5;
       if (move.type == PokemonType.water) return 0.5;
       return 1.0;
     case Weather.harshSun:
-      if (move.hasTag('custom:sun_boost')) return 1.5;
+      if (move.hasTag(MoveTags.sunBoost)) return 1.5;
       if (move.type == PokemonType.fire) return 1.5;
       if (move.type == PokemonType.water) return 0.0;
       return 1.0;

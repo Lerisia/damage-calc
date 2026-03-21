@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/move.dart';
+import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/rank.dart';
+import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/weather.dart';
@@ -134,7 +136,7 @@ void main() {
     const acrobatics = Move(
       name: 'Acrobatics', nameKo: '애크러뱃', nameJa: 'アクロバット',
       type: PokemonType.flying, category: MoveCategory.physical,
-      power: 55, accuracy: 100, pp: 15, tags: ['custom:double_no_item'],
+      power: 55, accuracy: 100, pp: 15, tags: [MoveTags.doubleNoItem],
     );
 
     test('doubles power without item', () {
@@ -154,13 +156,13 @@ void main() {
     const eruption = Move(
       name: 'Eruption', nameKo: '분화', nameJa: 'ふんか',
       type: PokemonType.fire, category: MoveCategory.special,
-      power: 150, accuracy: 100, pp: 5, tags: ['custom:hp_power_high'],
+      power: 150, accuracy: 100, pp: 5, tags: [MoveTags.hpPowerHigh],
     );
 
     const flail = Move(
       name: 'Flail', nameKo: '바둥바둥', nameJa: 'じたばた',
       type: PokemonType.normal, category: MoveCategory.physical,
-      power: 0, accuracy: 100, pp: 15, tags: ['custom:hp_power_low'],
+      power: 0, accuracy: 100, pp: 15, tags: [MoveTags.hpPowerLow],
     );
 
     test('Eruption at full HP = 150', () {
@@ -204,7 +206,7 @@ void main() {
     const risingVoltage = Move(
       name: 'Rising Voltage', nameKo: '라이징볼트', nameJa: 'ライジングボルト',
       type: PokemonType.electric, category: MoveCategory.special,
-      power: 70, accuracy: 100, pp: 20, tags: ['custom:terrain_double_electric'],
+      power: 70, accuracy: 100, pp: 20, tags: [MoveTags.terrainDoubleElectric],
     );
 
     test('Rising Voltage doubles in Electric Terrain', () {
@@ -224,7 +226,7 @@ void main() {
     const storedPower = Move(
       name: 'Stored Power', nameKo: '어시스트파워', nameJa: 'アシストパワー',
       type: PokemonType.psychic, category: MoveCategory.special,
-      power: 20, accuracy: 100, pp: 10, tags: ['custom:rank_power'],
+      power: 20, accuracy: 100, pp: 10, tags: [MoveTags.rankPower],
     );
 
     test('base power at no boosts', () {
@@ -250,7 +252,7 @@ void main() {
     const facade = Move(
       name: 'Facade', nameKo: '객기', nameJa: 'からげんき',
       type: PokemonType.normal, category: MoveCategory.physical,
-      power: 70, accuracy: 100, pp: 20, tags: ['custom:facade'],
+      power: 70, accuracy: 100, pp: 20, tags: [MoveTags.facade],
     );
 
     test('doubles power when burned', () {
@@ -288,13 +290,13 @@ void main() {
     const bodyPress = Move(
       name: 'Body Press', nameKo: '바디프레스', nameJa: 'ボディプレス',
       type: PokemonType.fighting, category: MoveCategory.physical,
-      power: 80, accuracy: 100, pp: 10, tags: ['custom:use_defense'],
+      power: 80, accuracy: 100, pp: 10, tags: [MoveTags.useDefense],
     );
 
     const photonGeyser = Move(
       name: 'Photon Geyser', nameKo: '포톤가이저', nameJa: 'フォトンガイザー',
       type: PokemonType.psychic, category: MoveCategory.special,
-      power: 100, accuracy: 100, pp: 5, tags: ['custom:use_higher_atk'],
+      power: 100, accuracy: 100, pp: 5, tags: [MoveTags.useHigherAtk],
     );
 
     test('Body Press uses defense stat', () {
@@ -315,6 +317,312 @@ void main() {
     test('normal special move uses spAttack', () {
       final result = transformMove(fireMove, const MoveContext());
       expect(result.offensiveStat, equals(OffensiveStat.spAttack));
+    });
+  });
+
+  group('Weather Ball additional weathers', () {
+    const weatherBall = Move(
+      name: 'Weather Ball', nameKo: '웨더볼', nameJa: 'ウェザーボール',
+      type: PokemonType.normal, category: MoveCategory.special,
+      power: 50, accuracy: 100, pp: 10,
+    );
+
+    test('becomes Rock/100 in sandstorm', () {
+      final result = applyWeatherToMove(weatherBall, Weather.sandstorm);
+      expect(result.type, equals(PokemonType.rock));
+      expect(result.power, equals(100));
+    });
+
+    test('becomes Ice/100 in snow', () {
+      final result = applyWeatherToMove(weatherBall, Weather.snow);
+      expect(result.type, equals(PokemonType.ice));
+      expect(result.power, equals(100));
+    });
+
+    test('stays unchanged in harsh sun', () {
+      final result = applyWeatherToMove(weatherBall, Weather.harshSun);
+      expect(result.type, equals(PokemonType.normal));
+      expect(result.power, equals(50));
+    });
+
+    test('stays unchanged in heavy rain', () {
+      final result = applyWeatherToMove(weatherBall, Weather.heavyRain);
+      expect(result.type, equals(PokemonType.normal));
+      expect(result.power, equals(50));
+    });
+
+    test('stays unchanged in strong winds', () {
+      final result = applyWeatherToMove(weatherBall, Weather.strongWinds);
+      expect(result.type, equals(PokemonType.normal));
+      expect(result.power, equals(50));
+    });
+
+    test('non-Weather Ball move is not affected by weather', () {
+      final result = applyWeatherToMove(normalMove, Weather.sun);
+      expect(result.type, equals(PokemonType.normal));
+      expect(result.power, equals(40));
+    });
+  });
+
+  group('Terrain Pulse additional terrains', () {
+    const terrainPulse = Move(
+      name: 'Terrain Pulse', nameKo: '대지의파동', nameJa: 'テレインパルス',
+      type: PokemonType.normal, category: MoveCategory.special,
+      power: 50, accuracy: 100, pp: 10,
+    );
+
+    test('becomes Grass/100 on Grassy Terrain', () {
+      final result = applyTerrainToMove(terrainPulse, Terrain.grassy);
+      expect(result.type, equals(PokemonType.grass));
+      expect(result.power, equals(100));
+    });
+
+    test('becomes Psychic/100 on Psychic Terrain', () {
+      final result = applyTerrainToMove(terrainPulse, Terrain.psychic);
+      expect(result.type, equals(PokemonType.psychic));
+      expect(result.power, equals(100));
+    });
+
+    test('stays Normal/50 with no terrain', () {
+      final result = applyTerrainToMove(terrainPulse, Terrain.none);
+      expect(result.type, equals(PokemonType.normal));
+      expect(result.power, equals(50));
+    });
+
+    test('non-Terrain Pulse move is not affected by terrain', () {
+      final result = applyTerrainToMove(normalMove, Terrain.electric);
+      expect(result.type, equals(PokemonType.normal));
+      expect(result.power, equals(40));
+    });
+  });
+
+  group('Terrain power boosts additional', () {
+    const expandingForce = Move(
+      name: 'Expanding Force', nameKo: '와이드포스', nameJa: 'ワイドフォース',
+      type: PokemonType.psychic, category: MoveCategory.special,
+      power: 80, accuracy: 100, pp: 10, tags: [MoveTags.terrainBoostPsychic],
+    );
+
+    const mistyExplosion = Move(
+      name: 'Misty Explosion', nameKo: '미스트버스트', nameJa: 'ミストバースト',
+      type: PokemonType.fairy, category: MoveCategory.special,
+      power: 100, accuracy: 100, pp: 5, tags: [MoveTags.terrainBoostMisty],
+    );
+
+    test('Expanding Force gets 1.5x in Psychic Terrain', () {
+      final result = transformMove(expandingForce,
+          const MoveContext(terrain: Terrain.psychic));
+      expect(result.move.power, equals(120)); // 80 * 1.5
+    });
+
+    test('Expanding Force normal without Psychic Terrain', () {
+      final result = transformMove(expandingForce,
+          const MoveContext(terrain: Terrain.none));
+      expect(result.move.power, equals(80));
+    });
+
+    test('Misty Explosion gets 1.5x in Misty Terrain', () {
+      final result = transformMove(mistyExplosion,
+          const MoveContext(terrain: Terrain.misty));
+      expect(result.move.power, equals(150)); // 100 * 1.5
+    });
+
+    test('Misty Explosion normal without Misty Terrain', () {
+      final result = transformMove(mistyExplosion,
+          const MoveContext(terrain: Terrain.none));
+      expect(result.move.power, equals(100));
+    });
+  });
+
+  group('Flail/Reversal power table boundaries', () {
+    const flail = Move(
+      name: 'Flail', nameKo: '바둥바둥', nameJa: 'じたばた',
+      type: PokemonType.normal, category: MoveCategory.physical,
+      power: 0, accuracy: 100, pp: 15, tags: [MoveTags.hpPowerLow],
+    );
+
+    test('Flail at 69% HP = 20', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 69));
+      expect(result.move.power, equals(20));
+    });
+
+    test('Flail at 68% HP = 40', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 68));
+      expect(result.move.power, equals(40));
+    });
+
+    test('Flail at 35% HP = 40', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 35));
+      expect(result.move.power, equals(40));
+    });
+
+    test('Flail at 34% HP = 80', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 34));
+      expect(result.move.power, equals(80));
+    });
+
+    test('Flail at 21% HP = 80', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 21));
+      expect(result.move.power, equals(80));
+    });
+
+    test('Flail at 20% HP = 100', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 20));
+      expect(result.move.power, equals(100));
+    });
+
+    test('Flail at 10% HP = 100', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 10));
+      expect(result.move.power, equals(100));
+    });
+
+    test('Flail at 9% HP = 150', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 9));
+      expect(result.move.power, equals(150));
+    });
+
+    test('Flail at 4% HP = 150', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 4));
+      expect(result.move.power, equals(150));
+    });
+
+    test('Flail at 3% HP = 200', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 3));
+      expect(result.move.power, equals(200));
+    });
+  });
+
+  group('HP-based power edge cases', () {
+    const eruption = Move(
+      name: 'Eruption', nameKo: '분화', nameJa: 'ふんか',
+      type: PokemonType.fire, category: MoveCategory.special,
+      power: 150, accuracy: 100, pp: 5, tags: [MoveTags.hpPowerHigh],
+    );
+
+    test('Eruption at 0% HP = minimum 1', () {
+      final result = transformMove(eruption,
+          const MoveContext(hpPercent: 0));
+      // max(1, floor(150 * 0 / 100)) = max(1, 0) = 1
+      expect(result.move.power, equals(1));
+    });
+
+    test('Eruption at 75% HP = 112', () {
+      final result = transformMove(eruption,
+          const MoveContext(hpPercent: 75));
+      expect(result.move.power, equals(112)); // floor(150 * 75 / 100) = 112
+    });
+  });
+
+  group('Facade additional statuses', () {
+    const facade = Move(
+      name: 'Facade', nameKo: '객기', nameJa: 'からげんき',
+      type: PokemonType.normal, category: MoveCategory.physical,
+      power: 70, accuracy: 100, pp: 20, tags: [MoveTags.facade],
+    );
+
+    test('doubles power when badly poisoned', () {
+      final result = transformMove(facade,
+          const MoveContext(status: StatusCondition.badlyPoisoned));
+      expect(result.move.power, equals(140));
+    });
+
+    test('normal power when frozen', () {
+      final result = transformMove(facade,
+          const MoveContext(status: StatusCondition.freeze));
+      expect(result.move.power, equals(70));
+    });
+  });
+
+  group('Rank-based power edge cases', () {
+    const storedPower = Move(
+      name: 'Stored Power', nameKo: '어시스트파워', nameJa: 'アシストパワー',
+      type: PokemonType.psychic, category: MoveCategory.special,
+      power: 20, accuracy: 100, pp: 10, tags: [MoveTags.rankPower],
+    );
+
+    test('max boosts (+6 all) = 20 + 30*20 = 620', () {
+      final result = transformMove(storedPower,
+          const MoveContext(rank: Rank(
+            attack: 6, defense: 6, spAttack: 6, spDefense: 6, speed: 6,
+          )));
+      expect(result.move.power, equals(620));
+    });
+
+    test('all negative ranks = 20 (no boost)', () {
+      final result = transformMove(storedPower,
+          const MoveContext(rank: Rank(
+            attack: -6, defense: -6, spAttack: -6, spDefense: -6, speed: -6,
+          )));
+      expect(result.move.power, equals(20));
+    });
+
+    test('mixed positive and negative only counts positive', () {
+      final result = transformMove(storedPower,
+          const MoveContext(rank: Rank(
+            attack: 3, defense: -2, spAttack: 1, spDefense: -3, speed: 0,
+          )));
+      // positive: 3 + 1 = 4, power = 20 + 4*20 = 100
+      expect(result.move.power, equals(100));
+    });
+  });
+
+  group('TransformedMove.resolveStat', () {
+    const testStats = Stats(
+      hp: 300, attack: 150, defense: 200,
+      spAttack: 180, spDefense: 100, speed: 120,
+    );
+
+    test('attack returns attack stat', () {
+      final tm = TransformedMove(normalMove, OffensiveStat.attack);
+      expect(tm.resolveStat(testStats), equals(150));
+    });
+
+    test('spAttack returns spAttack stat', () {
+      final tm = TransformedMove(fireMove, OffensiveStat.spAttack);
+      expect(tm.resolveStat(testStats), equals(180));
+    });
+
+    test('defense returns defense stat', () {
+      final tm = TransformedMove(normalMove, OffensiveStat.defense);
+      expect(tm.resolveStat(testStats), equals(200));
+    });
+
+    test('higherAttack returns max of attack and spAttack', () {
+      final tm = TransformedMove(normalMove, OffensiveStat.higherAttack);
+      expect(tm.resolveStat(testStats), equals(180)); // max(150, 180)
+    });
+
+    test('higherAttack returns attack when attack > spAttack', () {
+      const highAtkStats = Stats(
+        hp: 300, attack: 200, defense: 100,
+        spAttack: 150, spDefense: 100, speed: 120,
+      );
+      final tm = TransformedMove(normalMove, OffensiveStat.higherAttack);
+      expect(tm.resolveStat(highAtkStats), equals(200));
+    });
+  });
+
+  group('Skin does not apply to Terrain Pulse after type change', () {
+    test('Terrain Pulse on Electric Terrain with Pixilate stays Electric', () {
+      const terrainPulse = Move(
+        name: 'Terrain Pulse', nameKo: '대지의파동', nameJa: 'テレインパルス',
+        type: PokemonType.normal, category: MoveCategory.special,
+        power: 50, accuracy: 100, pp: 10,
+      );
+      final result = transformMove(terrainPulse,
+          const MoveContext(terrain: Terrain.electric, ability: 'Pixilate'));
+      expect(result.move.type, equals(PokemonType.electric));
+      expect(result.move.power, equals(100));
     });
   });
 }
