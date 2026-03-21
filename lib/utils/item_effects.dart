@@ -2,6 +2,45 @@ import '../models/move.dart';
 import '../models/move_tags.dart';
 import '../models/type.dart';
 
+// ---------------------------------------------------------------------------
+// Item multiplier constants
+// ---------------------------------------------------------------------------
+
+/// Choice Band / Choice Specs: 1.5x to the relevant attacking stat.
+const double kChoiceStatBoost = 1.5;
+
+/// Life Orb: 1.3x power at the cost of recoil.
+const double kLifeOrbPower = 1.3;
+
+/// Muscle Band (physical) / Wise Glasses (special) / Punching Glove (punch):
+/// 1.1x power for matching moves.
+const double kMinorPowerBoost = 1.1;
+
+/// Normal Gem: 1.3x power for a single Normal-type move.
+const double kNormalGemPower = 1.3;
+
+/// Type-boosting held items (Charcoal, Plates, Incenses, etc.): 1.2x power.
+const double kTypeBoostPower = 1.2;
+
+/// Light Ball (Pikachu), Thick Club (Cubone/Marowak),
+/// Deep Sea Tooth (Clamperl): 2.0x to the relevant stat.
+const double kPokemonSpecificStatBoost = 2.0;
+
+/// Legendary signature items (Adamant Orb, Lustrous Orb, etc.): 1.2x power.
+const double kLegendaryItemPower = 1.2;
+
+/// Eviolite: 1.5x Def and SpDef for non-final evolutions.
+const double kEvioliteBulkBoost = 1.5;
+
+/// Assault Vest: 1.5x SpDef.
+const double kAssaultVestSpDef = 1.5;
+
+/// Choice Scarf: 1.5x speed.
+const double kChoiceScarfSpeed = 1.5;
+
+/// Iron Ball / Power items: 0.5x speed.
+const double kHeavyItemSpeedPenalty = 0.5;
+
 /// Offensive modifiers returned by an item
 class ItemEffect {
   final double statModifier;
@@ -73,40 +112,40 @@ ItemEffect getItemEffect(
   switch (itemName) {
     case 'choice-band':
       return move.category == MoveCategory.physical
-          ? const ItemEffect(statModifier: 1.5)
+          ? const ItemEffect(statModifier: kChoiceStatBoost)
           : _defaultEffect;
     case 'choice-specs':
       return move.category == MoveCategory.special
-          ? const ItemEffect(statModifier: 1.5)
+          ? const ItemEffect(statModifier: kChoiceStatBoost)
           : _defaultEffect;
   }
 
   // Power modifier items
   switch (itemName) {
     case 'life-orb':
-      return const ItemEffect(powerModifier: 1.3);
+      return const ItemEffect(powerModifier: kLifeOrbPower);
     case 'muscle-band':
       return move.category == MoveCategory.physical
-          ? const ItemEffect(powerModifier: 1.1)
+          ? const ItemEffect(powerModifier: kMinorPowerBoost)
           : _defaultEffect;
     case 'wise-glasses':
       return move.category == MoveCategory.special
-          ? const ItemEffect(powerModifier: 1.1)
+          ? const ItemEffect(powerModifier: kMinorPowerBoost)
           : _defaultEffect;
     case 'punching-glove':
       return move.hasTag(MoveTags.punch)
-          ? const ItemEffect(powerModifier: 1.1)
+          ? const ItemEffect(powerModifier: kMinorPowerBoost)
           : _defaultEffect;
     case 'normal-gem':
       return move.type == PokemonType.normal
-          ? const ItemEffect(powerModifier: 1.3)
+          ? const ItemEffect(powerModifier: kNormalGemPower)
           : _defaultEffect;
   }
 
-  // Type-boosting items (1.2x)
+  // Type-boosting items
   if (_typeBoostItems.containsKey(itemName)) {
     return move.type == _typeBoostItems[itemName]
-        ? const ItemEffect(powerModifier: 1.2)
+        ? const ItemEffect(powerModifier: kTypeBoostPower)
         : _defaultEffect;
   }
 
@@ -116,35 +155,35 @@ ItemEffect getItemEffect(
     case 'light-ball':
       // Pikachu: 2x Attack and Sp.Atk
       if (name.contains('pikachu')) {
-        return const ItemEffect(statModifier: 2.0);
+        return const ItemEffect(statModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'thick-club':
       // Cubone/Marowak: 2x Attack
       if ((name.contains('cubone') || name.contains('marowak')) &&
           move.category == MoveCategory.physical) {
-        return const ItemEffect(statModifier: 2.0);
+        return const ItemEffect(statModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'deep-sea-tooth':
       // Clamperl: 2x Sp.Atk
       if (name.contains('clamperl') &&
           move.category == MoveCategory.special) {
-        return const ItemEffect(statModifier: 2.0);
+        return const ItemEffect(statModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'adamant-orb':
       // Dialga: 1.2x Dragon/Steel
       if (name.contains('dialga') &&
           (move.type == PokemonType.dragon || move.type == PokemonType.steel)) {
-        return const ItemEffect(powerModifier: 1.2);
+        return const ItemEffect(powerModifier: kLegendaryItemPower);
       }
       return _defaultEffect;
     case 'lustrous-orb':
       // Palkia: 1.2x Dragon/Water
       if (name.contains('palkia') &&
           (move.type == PokemonType.dragon || move.type == PokemonType.water)) {
-        return const ItemEffect(powerModifier: 1.2);
+        return const ItemEffect(powerModifier: kLegendaryItemPower);
       }
       return _defaultEffect;
     case 'griseous-orb':
@@ -152,14 +191,14 @@ ItemEffect getItemEffect(
       // Giratina: 1.2x Dragon/Ghost
       if (name.contains('giratina') &&
           (move.type == PokemonType.dragon || move.type == PokemonType.ghost)) {
-        return const ItemEffect(powerModifier: 1.2);
+        return const ItemEffect(powerModifier: kLegendaryItemPower);
       }
       return _defaultEffect;
     case 'soul-dew':
       // Latios/Latias: 1.2x Dragon/Psychic (Gen 7+)
       if ((name.contains('latios') || name.contains('latias')) &&
           (move.type == PokemonType.dragon || move.type == PokemonType.psychic)) {
-        return const ItemEffect(powerModifier: 1.2);
+        return const ItemEffect(powerModifier: kLegendaryItemPower);
       }
       return _defaultEffect;
   }
@@ -190,10 +229,13 @@ DefensiveItemEffect getDefensiveItemEffect(String itemName, {
   switch (itemName) {
     case 'eviolite':
       return !finalEvo
-          ? const DefensiveItemEffect(defModifier: 1.5, spdModifier: 1.5)
+          ? const DefensiveItemEffect(
+              defModifier: kEvioliteBulkBoost,
+              spdModifier: kEvioliteBulkBoost,
+            )
           : _defaultDefensiveItemEffect;
     case 'assault-vest':
-      return const DefensiveItemEffect(spdModifier: 1.5);
+      return const DefensiveItemEffect(spdModifier: kAssaultVestSpDef);
     default:
       return _defaultDefensiveItemEffect;
   }
@@ -221,16 +263,16 @@ const _defaultSpeedItemEffect = SpeedItemEffect();
 SpeedItemEffect getSpeedItemEffect(String itemName) {
   switch (itemName) {
     case 'choice-scarf':
-      return const SpeedItemEffect(speedModifier: 1.5);
+      return const SpeedItemEffect(speedModifier: kChoiceScarfSpeed);
     case 'iron-ball':
-      return const SpeedItemEffect(speedModifier: 0.5);
+      return const SpeedItemEffect(speedModifier: kHeavyItemSpeedPenalty);
     case 'power-weight':
     case 'power-bracer':
     case 'power-belt':
     case 'power-lens':
     case 'power-band':
     case 'power-anklet':
-      return const SpeedItemEffect(speedModifier: 0.5);
+      return const SpeedItemEffect(speedModifier: kHeavyItemSpeedPenalty);
     case 'full-incense':
     case 'lagging-tail':
       return const SpeedItemEffect(alwaysLast: true);
