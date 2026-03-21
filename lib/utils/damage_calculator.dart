@@ -42,6 +42,10 @@ class DamageResult {
   /// Whether the move is physical
   final bool isPhysical;
 
+  /// Whether the move targets the defender's physical Defense stat.
+  /// True for physical moves AND special moves like Psyshock/Psystrike.
+  final bool targetPhysDef;
+
   /// The move used (after transformation)
   final Move move;
 
@@ -55,6 +59,7 @@ class DamageResult {
     required this.defenderHp,
     required this.effectiveness,
     required this.isPhysical,
+    this.targetPhysDef = false,
     required this.move,
     this.modifierNotes = const [],
   });
@@ -193,18 +198,14 @@ class DamageCalculator {
     final isCritical = attacker.criticals[moveIndex];
     final atkStat = transformed.offensiveStat;
 
-    final effectiveAtkRank = isCritical
-        ? Rank(
-            attack: (atkStat == OffensiveStat.attack || atkStat == OffensiveStat.higherAttack)
-                ? math.max(0, attacker.rank.attack) : attacker.rank.attack,
-            defense: atkStat == OffensiveStat.defense
-                ? math.max(0, attacker.rank.defense) : attacker.rank.defense,
-            spAttack: (atkStat == OffensiveStat.spAttack || atkStat == OffensiveStat.higherAttack)
-                ? math.max(0, attacker.rank.spAttack) : attacker.rank.spAttack,
-            spDefense: attacker.rank.spDefense,
-            speed: attacker.rank.speed,
-          )
-        : attacker.rank;
+    // Unaware (defender) + Critical hit rank adjustments
+    var effectiveAtkRank = getEffectiveOffensiveRank(
+      rank: attacker.rank,
+      offensiveStat: atkStat,
+      isCritical: isCritical,
+      attackerAbility: attacker.selectedAbility,
+      defenderAbility: defender.selectedAbility,
+    );
 
     final atkActual = StatCalculator.calculate(
       baseStats: attacker.baseStats, iv: attacker.iv, ev: attacker.ev,
@@ -269,16 +270,13 @@ class DamageCalculator {
     final int A = (rawA * statMod).floor();
 
     // --- Defender stat ---
-    // Critical hit ignores positive defense ranks
-    final effectiveDefRank = isCritical
-        ? Rank(
-            attack: defender.rank.attack,
-            defense: math.min(0, defender.rank.defense),
-            spAttack: defender.rank.spAttack,
-            spDefense: math.min(0, defender.rank.spDefense),
-            speed: defender.rank.speed,
-          )
-        : defender.rank;
+    // Unaware (attacker) + Critical hit rank adjustments
+    final effectiveDefRank = getEffectiveDefensiveRank(
+      rank: defender.rank,
+      isCritical: isCritical,
+      attackerAbility: effectiveAbility,
+      defenderAbility: defender.selectedAbility,
+    );
 
     final defCalculated = StatCalculator.calculate(
       baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
@@ -431,38 +429,16 @@ class DamageCalculator {
     final bool isSuperEffective = effectiveness > 1.0;
     final bool isNotVeryEffective = effectiveness < 1.0;
 
-    // Attacker: Tinted Lens (not very effective -> x2)
-    double tintedLensMod = 1.0;
-    if (effectiveAbility == 'Tinted Lens' && isNotVeryEffective) {
-      tintedLensMod = 2.0;
-      notes.add('ability:Tinted Lens:×2.0');
-    }
+    // Attacker ability damage modifier (Tinted Lens, Neuroforce)
+    final atkAbilityDmg = getOffensiveAbilityDamageModifier(
+      attackerAbility: effectiveAbility, effectiveness: effectiveness);
+    if (atkAbilityDmg.note != null) notes.add(atkAbilityDmg.note!);
 
-    // Attacker: Neuroforce (super effective -> x1.25)
-    double neuroforceMod = 1.0;
-    if (effectiveAbility == 'Neuroforce' && isSuperEffective) {
-      neuroforceMod = 1.25;
-      notes.add('ability:Neuroforce:×1.25');
-    }
-
-    // Defender: Filter / Solid Rock / Prism Armor (super effective -> x0.75)
-    double filterMod = 1.0;
-    if (defAbilityName != null && isSuperEffective) {
-      if (defAbilityName == 'Filter' || defAbilityName == 'Solid Rock' ||
-          defAbilityName == 'Prism Armor') {
-        filterMod = 0.75;
-        notes.add('ability:$defAbilityName:×0.75');
-      }
-    }
-
-    // Defender: Multiscale / Shadow Shield (full HP -> x0.5)
-    double multiscaleMod = 1.0;
-    if (defAbilityName != null && defender.hpPercent >= 100) {
-      if (defAbilityName == 'Multiscale' || defAbilityName == 'Shadow Shield') {
-        multiscaleMod = 0.5;
-        notes.add('ability:$defAbilityName:×0.5');
-      }
-    }
+    // Defender ability damage modifier (Filter, Solid Rock, Multiscale, etc.)
+    final defAbilityDmg = getDefensiveAbilityDamageModifier(
+      defenderAbility: defAbilityName, effectiveness: effectiveness,
+      defenderHpPercent: defender.hpPercent, moldBreaks: moldBreaks);
+    if (defAbilityDmg.note != null) notes.add(defAbilityDmg.note!);
 
     // Item: Expert Belt (super effective -> x1.2)
     double expertBeltMod = 1.0;
@@ -529,7 +505,7 @@ class DamageCalculator {
     // --- Apply all modifiers ---
     final double modifiers = stab * effectiveness * weatherMod * terrainMod *
         burnMod * critMod * powerMod * defAbilityDmgMod *
-        tintedLensMod * neuroforceMod * filterMod * multiscaleMod * expertBeltMod *
+        atkAbilityDmg.multiplier * defAbilityDmg.multiplier * expertBeltMod *
         screenMod * berryMod;
 
     final int baseDamage = (baseDmg * modifiers).floor();
@@ -547,6 +523,7 @@ class DamageCalculator {
       defenderHp: currentHp > 0 ? currentHp : defActual.hp,
       effectiveness: effectiveness,
       isPhysical: isPhysical,
+      targetPhysDef: targetPhysDef,
       move: effectiveMove,
       modifierNotes: notes,
     );

@@ -6,11 +6,19 @@ double getTypeEffectiveness(PokemonType attackType, PokemonType defenderType) {
   return _chart[attackType]?[defenderType] ?? 1.0;
 }
 
+/// Returns the single-type effectiveness, with Freeze-Dry override.
+double _getEffectiveness(PokemonType attackType, PokemonType defenderType, {bool freezeDry = false}) {
+  // Freeze-Dry: Water is super effective (x2) instead of not very effective
+  if (freezeDry && defenderType == PokemonType.water) return 2.0;
+  return _chart[attackType]?[defenderType] ?? 1.0;
+}
+
 /// Returns the combined effectiveness against a Pokemon with one or two types.
-double getCombinedEffectiveness(PokemonType attackType, PokemonType defType1, PokemonType? defType2) {
-  double mult = getTypeEffectiveness(attackType, defType1);
+/// [freezeDry] overrides Water interaction to x2.
+double getCombinedEffectiveness(PokemonType attackType, PokemonType defType1, PokemonType? defType2, {bool freezeDry = false}) {
+  double mult = _getEffectiveness(attackType, defType1, freezeDry: freezeDry);
   if (defType2 != null) {
-    mult *= getTypeEffectiveness(attackType, defType2);
+    mult *= _getEffectiveness(attackType, defType2, freezeDry: freezeDry);
   }
   return mult;
 }
