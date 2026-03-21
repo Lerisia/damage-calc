@@ -436,9 +436,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               Expanded(child: _dmgCheck('빛의장막', _defender.lightScreen, (v) {
                 setState(() => _defender.lightScreen = v);
               })),
-              Expanded(child: _dmgCheck('오로라베일', _defender.auroraVeil, (v) {
-                setState(() => _defender.auroraVeil = v);
-              })),
+              const Expanded(child: SizedBox()),
             ],
           ),
           const SizedBox(height: 12),
@@ -643,7 +641,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         const screenKo = {
           'reflect': '리플렉터 ×0.5',
           'light_screen': '빛의장막 ×0.5',
-          'aurora_veil': '오로라베일 ×0.5',
           'bypass_crit': '급소: 벽 무시',
           'bypass_infiltrator': '침투: 벽 무시',
         };
@@ -654,6 +651,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           'hex': '상태이상',
           'venoshock': '독 상태',
           'brine': 'HP 절반 이하',
+          'collision': '효과 좋음',
         };
         final key = parts[1];
         final label = moveKo[key] ?? key;
