@@ -312,6 +312,24 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   }
 }
 
+/// Returns true if [abilityName] grants immunity to [moveType].
+bool isAbilityTypeImmune(String abilityName, PokemonType moveType) {
+  const immunities = {
+    'Volt Absorb': PokemonType.electric,
+    'Lightning Rod': PokemonType.electric,
+    'Motor Drive': PokemonType.electric,
+    'Water Absorb': PokemonType.water,
+    'Storm Drain': PokemonType.water,
+    'Dry Skin': PokemonType.water,
+    'Flash Fire': PokemonType.fire,
+    'Well-Baked Body': PokemonType.fire,
+    'Sap Sipper': PokemonType.grass,
+    'Earth Eater': PokemonType.ground,
+    // Levitate is handled by isGrounded check, not here
+  };
+  return immunities[abilityName] == moveType;
+}
+
 /// Returns the speed modifier from [abilityName] given battle conditions.
 ///
 /// Convenience wrapper around [getAbilityEffect] that extracts the speed
