@@ -31,4 +31,8 @@ class MoveTags {
   static const String gyroSpeed = 'custom:gyro_speed';
   static const String electroSpeed = 'custom:electro_speed';
   static const String weightBased = 'custom:weight_based';
+  static const String targetPhysDef = 'custom:target_phys_def';
+  static const String freezeDry = 'custom:freeze_dry';
+  static const String fixedLevel = 'custom:fixed_level';
+  static const String fixedHalfHp = 'custom:fixed_half_hp';
 }

@@ -298,26 +298,31 @@ class DamageCalculator {
     final bool targetPhysDef = isPhysical || effectiveMove.hasTag(MoveTags.targetPhysDef);
     int D = targetPhysDef ? defActual.defense : defActual.spDefense;
 
+    // Mold Breaker: ignore defender's ignorable abilities
+    final bool moldBreaks = shouldIgnoreAbility(effectiveAbility, defender.selectedAbility);
+    final String? effectiveDefAbility = moldBreaks ? null : defender.selectedAbility;
+
     // Defender ability/item defensive modifiers
-    if (defender.selectedAbility != null) {
+    if (effectiveDefAbility != null) {
       final defAbility = getDefensiveAbilityEffect(
-        defender.selectedAbility!, status: defender.status, weather: weather);
+        effectiveDefAbility, status: defender.status, weather: weather);
       D = (D * (targetPhysDef ? defAbility.defModifier : defAbility.spdModifier)).floor();
     }
     if (defender.selectedItem != null) {
       final defItem = getDefensiveItemEffect(
         defender.selectedItem!, finalEvo: defender.finalEvo);
-      D = (D * (isPhysical ? defItem.defModifier : defItem.spdModifier)).floor();
+      D = (D * (targetPhysDef ? defItem.defModifier : defItem.spdModifier)).floor();
     }
     // Weather defensive (sandstorm rock SpDef, snow ice Def)
     final weatherDef = getWeatherDefensiveModifier(
       weather, type1: defender.type1, type2: defender.type2);
-    D = (D * (isPhysical ? weatherDef.defMod : weatherDef.spdMod)).floor();
+    D = (D * (targetPhysDef ? weatherDef.defMod : weatherDef.spdMod)).floor();
 
     // --- Immunity checks ---
-    final defAbilityName = defender.selectedAbility;
+    final defAbilityName = effectiveDefAbility;
     final moveType = effectiveMove.type;
     final notes = <String>[];
+    if (moldBreaks) notes.add('moldbreaker:${attacker.selectedAbility}');
 
     // Weight-based moves fail against Dynamaxed targets
     if (defender.dynamax != DynamaxState.none &&
@@ -515,7 +520,7 @@ class DamageCalculator {
     }
 
     // --- Base damage: official Gen V+ formula ---
-    final int level = attacker.level;
+    final int level = attacker.level.clamp(1, 100);
     final int power = (effectiveMove.power * knockOffMod).floor();
     if (D == 0) D = 1; // prevent division by zero
 
@@ -593,7 +598,7 @@ class DamageCalculator {
     // Calculate fixed damage
     final int fixedDamage;
     if (move.hasTag(MoveTags.fixedLevel)) {
-      fixedDamage = attacker.level;
+      fixedDamage = attacker.level.clamp(1, 100);
     } else {
       // fixedHalfHp: half of defender's current HP
       fixedDamage = (defHp * defender.hpPercent / 100 / 2).ceil().clamp(1, defHp);

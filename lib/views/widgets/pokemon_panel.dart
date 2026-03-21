@@ -450,26 +450,29 @@ class PokemonPanelState extends State<PokemonPanel>
           SizedBox(
             width: 44,
             child: move != null
-                ? SizedBox(
-                    height: 28,
-                    child: TextFormField(
-                      key: ValueKey('power_${index}_${move.name}'),
-                      initialValue: '${effectivePower}',
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      style: const TextStyle(fontSize: 13),
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-                      ),
-                      onChanged: (text) {
-                        final parsed = int.tryParse(text);
-                        if (parsed != null && parsed >= 0) {
-                          setState(() { s.powerOverrides[index] = parsed; _notify(); });
-                        }
-                      },
-                    ),
-                  )
+                ? (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp))
+                    ? const Text('고정', textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 13, color: Colors.grey))
+                    : SizedBox(
+                        height: 28,
+                        child: TextFormField(
+                          key: ValueKey('power_${index}_${move.name}'),
+                          initialValue: '$effectivePower',
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(fontSize: 13),
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                          ),
+                          onChanged: (text) {
+                            final parsed = int.tryParse(text);
+                            if (parsed != null && parsed >= 0) {
+                              setState(() { s.powerOverrides[index] = parsed; _notify(); });
+                            }
+                          },
+                        ),
+                      )
                 : const Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
           ),
           SizedBox(
