@@ -135,6 +135,7 @@ class PokemonPanelState extends State<PokemonPanel>
             hpPercent: s.hpPercent, weather: widget.weather,
             terrain: widget.terrain, status: s.status,
             heldItem: s.selectedItem,
+            opponentSpeed: widget.opponentSpeed,
             actualStats: StatCalculator.calculate(
               baseStats: s.baseStats, iv: s.iv, ev: s.ev,
               nature: s.nature, level: s.level,
@@ -217,7 +218,8 @@ class PokemonPanelState extends State<PokemonPanel>
           _sectionCard(
             title: '포켓몬',
             child: PokemonSelector(
-              key: ValueKey('pokemon_${widget.resetCounter}'),
+              key: ValueKey('pokemon_${widget.resetCounter}_${s.pokemonName}'),
+              initialPokemonName: s.pokemonName,
               onSelected: (name, type1, type2, baseStats, abilities, finalEvo, requiredItem) {
                 setState(() {
                   s.pokemonName = name;
@@ -469,7 +471,8 @@ class PokemonPanelState extends State<PokemonPanel>
           Expanded(
             flex: 3,
             child: MoveSelector(
-              key: ValueKey('move_${index}_${widget.resetCounter}'),
+              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}'),
+              initialMoveName: s.moves[index]?.name,
               onTap: _scrollToMoves,
               onSelected: (m) => setState(() {
                 s.moves[index] = m;

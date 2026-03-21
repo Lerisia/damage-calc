@@ -49,6 +49,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
   StatusCondition status = StatusCondition.none,
   Stats? actualStats,
   String? heldItem,
+  int? opponentSpeed,
 }) {
   switch (abilityName) {
     // --- Stat modifiers (attack) ---
@@ -210,6 +211,14 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(
               statModifiers: AbilityStatModifiers(spAttack: 1.5))
           : _defaultEffect;
+
+    // --- Speed conditional ---
+    case 'Analytic':
+      if (actualStats != null && opponentSpeed != null &&
+          actualStats.speed < opponentSpeed) {
+        return const AbilityEffect(powerModifier: 1.3);
+      }
+      return _defaultEffect;
 
     default:
       return _defaultEffect;

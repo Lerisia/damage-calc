@@ -783,6 +783,32 @@ void main() {
     });
   });
 
+  group('Speed conditional', () {
+    test('Analytic boosts power by 1.3x when slower', () {
+      final effect = getAbilityEffect('Analytic', move: physicalNormal,
+          actualStats: const Stats(hp: 100, attack: 100, defense: 100,
+              spAttack: 100, spDefense: 100, speed: 80),
+          opponentSpeed: 100);
+      expect(effect.powerModifier, equals(1.3));
+    });
+
+    test('Analytic no effect when faster', () {
+      final effect = getAbilityEffect('Analytic', move: physicalNormal,
+          actualStats: const Stats(hp: 100, attack: 100, defense: 100,
+              spAttack: 100, spDefense: 100, speed: 120),
+          opponentSpeed: 100);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('Analytic no effect at same speed', () {
+      final effect = getAbilityEffect('Analytic', move: physicalNormal,
+          actualStats: const Stats(hp: 100, attack: 100, defense: 100,
+              spAttack: 100, spDefense: 100, speed: 100),
+          opponentSpeed: 100);
+      expect(effect.powerModifier, equals(1.0));
+    });
+  });
+
   group('Unknown abilities', () {
     test('unknown ability returns default', () {
       final effect = getAbilityEffect('Pickup', move: physicalNormal);
