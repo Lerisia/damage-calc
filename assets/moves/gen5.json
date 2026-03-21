@@ -457,7 +457,8 @@
     "category": "special",
     "power": 100,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": ["custom:target_phys_def"]
   },
   {
     "name": "Psyshock",
@@ -467,7 +468,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": ["custom:target_phys_def"]
   },
   {
     "name": "Sacred Sword",
@@ -546,7 +548,8 @@
     "category": "special",
     "power": 85,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": ["custom:target_phys_def"]
   },
   {
     "name": "Simple Beam",
