@@ -95,6 +95,7 @@ class StatInput extends StatefulWidget {
     this.weather = Weather.none,
     this.terrain = Terrain.none,
     this.room = Room.none,
+    this.isDynamaxed = false,
   });
 
   final int? opponentSpeed;
@@ -102,6 +103,7 @@ class StatInput extends StatefulWidget {
   final Weather weather;
   final Terrain terrain;
   final Room room;
+  final bool isDynamaxed;
 
   @override
   State<StatInput> createState() => _StatInputState();
@@ -476,8 +478,11 @@ class _StatInputState extends State<StatInput> {
           weather: widget.weather, terrain: widget.terrain, status: widget.status);
     }
     if (widget.selectedItem != null) {
-      final effect = getSpeedItemEffect(widget.selectedItem!);
-      speed *= effect.speedModifier;
+      // Choice Scarf is nullified during Dynamax
+      if (!(widget.isDynamaxed && widget.selectedItem == 'choice-scarf')) {
+        final effect = getSpeedItemEffect(widget.selectedItem!);
+        speed *= effect.speedModifier;
+      }
     }
     return speed.floor();
   }
@@ -492,7 +497,7 @@ class _StatInputState extends State<StatInput> {
     String speedText = '';
     Color speedColor = Colors.grey;
     if (widget.opponentSpeed != null) {
-      final bool alwaysLast = widget.selectedItem != null &&
+      final bool alwaysLast = !widget.isDynamaxed && widget.selectedItem != null &&
           getSpeedItemEffect(widget.selectedItem!).alwaysLast;
       final result = getSpeedResult(
         mySpeed: mySpeed,

@@ -6,6 +6,7 @@ import '../utils/ability_effects.dart';
 import '../utils/item_effects.dart';
 import '../utils/stat_calculator.dart';
 import '../models/battle_pokemon.dart';
+import '../models/dynamax.dart';
 import '../models/stats.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
@@ -57,14 +58,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           weather: _weather, terrain: _terrain, status: s.status);
     }
     if (s.selectedItem != null) {
-      final effect = getSpeedItemEffect(s.selectedItem!);
-      speed *= effect.speedModifier;
+      // Choice Scarf is nullified during Dynamax
+      final isDmaxed = s.dynamax != DynamaxState.none;
+      if (!(isDmaxed && s.selectedItem == 'choice-scarf')) {
+        final effect = getSpeedItemEffect(s.selectedItem!);
+        speed *= effect.speedModifier;
+      }
     }
     return speed.floor();
   }
 
   bool _isAlwaysLast(BattlePokemonState s) {
     if (s.selectedItem == null) return false;
+    if (s.dynamax != DynamaxState.none) return false;
     return getSpeedItemEffect(s.selectedItem!).alwaysLast;
   }
 

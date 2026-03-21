@@ -103,7 +103,11 @@ class PokemonPanelState extends State<PokemonPanel>
           weather: widget.weather, terrain: widget.terrain, status: s.status);
     }
     if (s.selectedItem != null) {
-      spd *= getSpeedItemEffect(s.selectedItem!).speedModifier;
+      // Choice Scarf is nullified during Dynamax
+      final isDmaxed = s.dynamax != DynamaxState.none;
+      if (!(isDmaxed && s.selectedItem == 'choice-scarf')) {
+        spd *= getSpeedItemEffect(s.selectedItem!).speedModifier;
+      }
     }
     return spd.floor();
   }
@@ -325,6 +329,7 @@ class PokemonPanelState extends State<PokemonPanel>
               onRankChanged: (v) => setState(() { s.rank = v; _notify(); }),
               opponentSpeed: widget.opponentSpeed,
               opponentAlwaysLast: widget.opponentAlwaysLast,
+              isDynamaxed: s.dynamax != DynamaxState.none,
               weather: widget.weather,
               terrain: widget.terrain,
               room: widget.room,
@@ -422,6 +427,7 @@ class PokemonPanelState extends State<PokemonPanel>
       finalEvo: s.finalEvo,
       status: s.status,
       flowerGift: s.flowerGift,
+      room: widget.room,
     );
 
     return _sectionCard(
