@@ -396,4 +396,46 @@ void main() {
       expect(getSpeedAbilityModifier('Quick Feet'), equals(1.0));
     });
   });
+
+  group('Parental Bond', () {
+    test('boosts single-target move by 1.25x', () {
+      final effect = getAbilityEffect('Parental Bond', move: physicalNormal);
+      expect(effect.powerModifier, equals(1.25));
+    });
+
+    test('boosts special move by 1.25x', () {
+      final effect = getAbilityEffect('Parental Bond', move: specialFire);
+      expect(effect.powerModifier, equals(1.25));
+    });
+
+    test('does not boost multi-hit move (Bullet Seed)', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '불릿시드', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+      );
+      final effect = getAbilityEffect('Parental Bond', move: bulletSeed);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('does not boost multi-hit move (Icicle Spear)', () {
+      const icicleSpear = Move(
+        name: 'Icicle Spear', nameKo: '고드름침', nameJa: 'つららばり',
+        type: PokemonType.ice, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+      );
+      final effect = getAbilityEffect('Parental Bond', move: icicleSpear);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('does not boost Surging Strikes', () {
+      const surgingStrikes = Move(
+        name: 'Surging Strikes', nameKo: '수류연타', nameJa: 'すいりゅうれんだ',
+        type: PokemonType.water, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 5,
+      );
+      final effect = getAbilityEffect('Parental Bond', move: surgingStrikes);
+      expect(effect.powerModifier, equals(1.0));
+    });
+  });
 }
