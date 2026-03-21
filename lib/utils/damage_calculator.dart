@@ -45,6 +45,9 @@ class DamageResult {
   /// The move used (after transformation)
   final Move move;
 
+  /// Notes explaining special modifiers applied (for UI display)
+  final List<String> modifierNotes;
+
   const DamageResult({
     required this.baseDamage,
     required this.minDamage,
@@ -53,6 +56,7 @@ class DamageResult {
     required this.effectiveness,
     required this.isPhysical,
     required this.move,
+    this.modifierNotes = const [],
   });
 
   double get minPercent => defenderHp > 0 ? minDamage / defenderHp * 100 : 0;
@@ -171,6 +175,7 @@ class DamageCalculator {
         ? null : attacker.selectedAbility;
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility, move: effectiveMove,
+            originalBasePower: isDmaxed ? null : move.power,
             hpPercent: attacker.hpPercent, weather: weather,
             terrain: terrain, status: attacker.status,
             heldItem: effectiveItem,
@@ -215,15 +220,6 @@ class DamageCalculator {
     final int A = (rawA * statMod).floor();
 
     // --- Defender stat ---
-    // Wonder Room swaps base Def/SpDef
-    final effectiveDefBase = room.wonderRoom
-        ? Stats(
-            hp: defender.baseStats.hp, attack: defender.baseStats.attack,
-            defense: defender.baseStats.spDefense, spAttack: defender.baseStats.spAttack,
-            spDefense: defender.baseStats.defense, speed: defender.baseStats.speed,
-          )
-        : defender.baseStats;
-
     // Critical hit ignores positive defense ranks
     final effectiveDefRank = isCritical
         ? Rank(
@@ -235,10 +231,19 @@ class DamageCalculator {
           )
         : defender.rank;
 
-    final defActual = StatCalculator.calculate(
-      baseStats: effectiveDefBase, iv: defender.iv, ev: defender.ev,
+    final defCalculated = StatCalculator.calculate(
+      baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
       nature: defender.nature, level: defender.level, rank: effectiveDefRank,
     );
+
+    // Wonder Room: swap final Def/SpDef after all stat calculations
+    final defActual = room.wonderRoom
+        ? Stats(
+            hp: defCalculated.hp, attack: defCalculated.attack,
+            defense: defCalculated.spDefense, spAttack: defCalculated.spAttack,
+            spDefense: defCalculated.defense, speed: defCalculated.speed,
+          )
+        : defCalculated;
 
     int D = isPhysical ? defActual.defense : defActual.spDefense;
 
@@ -263,18 +268,31 @@ class DamageCalculator {
       weather, type1: defender.type1, type2: defender.type2);
     D = (D * (isPhysical ? weatherDef.defMod : weatherDef.spdMod)).floor();
 
-    // --- Type immunity check (abilities) ---
+    // --- Immunity checks ---
     final defAbilityName = defender.selectedAbility;
     final moveType = effectiveMove.type;
+    final notes = <String>[];
+
+    // Type immunity abilities (Volt Absorb, Water Absorb, Flash Fire, etc.)
     if (defAbilityName != null && isAbilityTypeImmune(defAbilityName, moveType)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: ['$defAbilityName 특성에 의해 무효'],
+      );
+    }
+    // Move-based immunity (Bulletproof, Soundproof, Overcoat)
+    if (defAbilityName != null && isAbilityMoveImmune(defAbilityName, effectiveMove)) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defActual.hp, effectiveness: 0.0,
+        isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: ['$defAbilityName 특성에 의해 무효'],
       );
     }
 
-    // --- Ground immunity (non-grounded) ---
+    // Ground immunity (non-grounded)
     if (moveType == PokemonType.ground) {
       final defGrounded = isGrounded(
         type1: defender.type1, type2: defender.type2,
@@ -286,6 +304,7 @@ class DamageCalculator {
           baseDamage: 0, minDamage: 0, maxDamage: 0,
           defenderHp: defActual.hp, effectiveness: 0.0,
           isPhysical: isPhysical, move: effectiveMove,
+          modifierNotes: ['비접지 상태로 땅 기술 무효'],
         );
       }
     }
@@ -299,6 +318,7 @@ class DamageCalculator {
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: ['타입 상성에 의해 무효'],
       );
     }
 
@@ -306,24 +326,39 @@ class DamageCalculator {
     final bool hasStab = effectiveMove.type == attacker.type1 ||
         effectiveMove.type == attacker.type2;
     final double stab = hasStab ? (abilityEffect.stabOverride ?? 1.5) : 1.0;
+    if (hasStab) notes.add('자속보정 ×${stab}');
 
     // --- Weather/Terrain offensive ---
     final double weatherMod = getWeatherOffensiveModifier(weather, move: effectiveMove);
+    if (weatherMod != 1.0) notes.add('날씨 보정 ×$weatherMod');
     final atkGrounded = isGrounded(
       type1: attacker.type1, type2: attacker.type2,
       ability: attacker.selectedAbility, item: attacker.selectedItem,
       gravity: room.gravity,
     );
     final double terrainMod = getTerrainModifier(terrain, move: effectiveMove, grounded: atkGrounded);
+    if (terrainMod != 1.0) notes.add('필드 보정 ×$terrainMod');
 
     // --- Burn ---
     final bool hasGuts = attacker.selectedAbility == 'Guts';
     final double burnMod = (attacker.status == StatusCondition.burn &&
         isPhysical && !hasGuts) ? 0.5 : 1.0;
+    if (burnMod != 1.0) notes.add('화상 ×0.5');
 
     // --- Critical ---
     final double critMod = isCritical
         ? (abilityEffect.criticalOverride ?? 1.5) : 1.0;
+    if (isCritical) notes.add('급소 ×$critMod');
+
+    // --- Defender ability type-based damage modifier ---
+    double defAbilityDmgMod = 1.0;
+    if (defAbilityName != null) {
+      defAbilityDmgMod = getDefensiveAbilityDamageMultiplier(
+        defAbilityName, move: effectiveMove);
+      if (defAbilityDmgMod != 1.0) {
+        notes.add('$defAbilityName ×$defAbilityDmgMod');
+      }
+    }
 
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level;
@@ -334,7 +369,7 @@ class DamageCalculator {
 
     // --- Apply all modifiers ---
     final double modifiers = stab * effectiveness * weatherMod * terrainMod *
-        burnMod * critMod * powerMod;
+        burnMod * critMod * powerMod * defAbilityDmgMod;
 
     final int baseDamage = (baseDmg * modifiers).floor();
 
@@ -349,6 +384,7 @@ class DamageCalculator {
       effectiveness: effectiveness,
       isPhysical: isPhysical,
       move: effectiveMove,
+      modifierNotes: notes,
     );
   }
 }
