@@ -450,38 +450,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header: 공격측 → 방어측 with type info
-          Text(
-            '${_attacker.pokemonNameKo} → ${_defender.pokemonNameKo}',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _dmgTypeBadge(_attacker.type1),
-              if (_attacker.type2 != null) ...[
-                const SizedBox(width: 3),
-                _dmgTypeBadge(_attacker.type2!),
+          // Header: 공격측 → 방어측 with type names
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(_attacker.pokemonNameKo, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(width: 4),
+                _dmgTypeLabel(_attacker),
+                const Text('  →  ', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                Text(_defender.pokemonNameKo, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(width: 4),
+                _dmgTypeLabel(_defender),
               ],
-              if (_attacker.terastal.active && _attacker.terastal.teraType != null) ...[
-                const Text(' → ', style: TextStyle(fontSize: 11, color: Colors.grey)),
-                _dmgTypeBadge(_attacker.terastal.teraType!),
-              ],
-              const SizedBox(width: 12),
-              const Text('→', style: TextStyle(fontSize: 14, color: Colors.grey)),
-              const SizedBox(width: 12),
-              _dmgTypeBadge(_defender.type1),
-              if (_defender.type2 != null) ...[
-                const SizedBox(width: 3),
-                _dmgTypeBadge(_defender.type2!),
-              ],
-              if (_defender.terastal.active && _defender.terastal.teraType != null) ...[
-                const Text(' → ', style: TextStyle(fontSize: 11, color: Colors.grey)),
-                _dmgTypeBadge(_defender.terastal.teraType!),
-              ],
-            ],
+            ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -646,6 +629,24 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ],
       ),
     );
+  }
+
+  Widget _dmgTypeLabel(BattlePokemonState state) {
+    final parts = <InlineSpan>[
+      TextSpan(text: KoStrings.getTypeKo(state.type1),
+        style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(state.type1), fontWeight: FontWeight.bold)),
+    ];
+    if (state.type2 != null) {
+      parts.add(TextSpan(text: '/', style: TextStyle(fontSize: 12, color: Colors.grey.shade400)));
+      parts.add(TextSpan(text: KoStrings.getTypeKo(state.type2!),
+        style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(state.type2!), fontWeight: FontWeight.bold)));
+    }
+    if (state.terastal.active && state.terastal.teraType != null) {
+      parts.add(const TextSpan(text: '→', style: TextStyle(fontSize: 10, color: Colors.grey)));
+      parts.add(TextSpan(text: KoStrings.getTypeKo(state.terastal.teraType!),
+        style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(state.terastal.teraType!), fontWeight: FontWeight.bold)));
+    }
+    return Text.rich(TextSpan(children: parts));
   }
 
   Widget _dmgTypeBadge(PokemonType type) {
