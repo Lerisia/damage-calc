@@ -11,6 +11,7 @@ import 'type.dart';
 /// Holds all configuration state for one side of a battle (attacker or defender)
 class BattlePokemonState {
   String pokemonName;
+  String pokemonNameKo;
   bool finalEvo;
   Gender gender;
   int genderRate;
@@ -44,6 +45,9 @@ class BattlePokemonState {
   bool flowerGift;
   bool steelySpirit;
 
+  // Speed boosts
+  bool tailwind;
+
   // Defensive ally boosts
   bool reflect;
   bool lightScreen;
@@ -52,6 +56,7 @@ class BattlePokemonState {
 
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
+    this.pokemonNameKo = '이상해씨',
     this.finalEvo = false,
     this.gender = Gender.unset,
     this.genderRate = 4,
@@ -83,6 +88,7 @@ class BattlePokemonState {
     this.powerSpot = false,
     this.flowerGift = false,
     this.steelySpirit = false,
+    this.tailwind = false,
     this.reflect = false,
     this.lightScreen = false,
     this.auroraVeil = false,
@@ -105,6 +111,7 @@ class BattlePokemonState {
 
   void reset() {
     pokemonName = 'bulbasaur';
+    pokemonNameKo = '이상해씨';
     finalEvo = false;
     gender = Gender.unset;
     genderRate = 4;
@@ -142,6 +149,7 @@ class BattlePokemonState {
     powerSpot = false;
     flowerGift = false;
     steelySpirit = false;
+    tailwind = false;
     reflect = false;
     lightScreen = false;
     auroraVeil = false;
