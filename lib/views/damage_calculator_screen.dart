@@ -86,6 +86,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    // Rebuild when switching tabs so damage/speed tabs pick up latest mutable state
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) setState(() {});
+    });
     _loadNameMaps();
   }
 

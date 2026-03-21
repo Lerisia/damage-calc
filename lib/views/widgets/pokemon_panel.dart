@@ -80,8 +80,23 @@ class PokemonPanelState extends State<PokemonPanel>
     }
   }
 
-  void _notify() {
+  /// Propagate to parent — triggers full screen rebuild.
+  /// Use only for changes that affect the OTHER panel (speed, pokemon switch, gender).
+  void _notifyParent() {
     widget.onChanged();
+  }
+
+  /// Notify parent only if effective speed actually changed.
+  /// For IV/EV/rank changes that usually don't affect speed.
+  void _notifyIfSpeedChanged() {
+    final newSpeed = BattleFacade.calcSpeed(
+      state: s,
+      weather: widget.weather,
+      terrain: widget.terrain,
+    );
+    if (newSpeed != _cachedSpeed) {
+      _notifyParent();
+    }
   }
 
   // Cached per build cycle — computed once in build(), used by all 4 move slots.
@@ -189,7 +204,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     s.selectedItem = pokemon.requiredItem;
                   }
                 });
-                _notify();
+                _notifyParent();
               },
             )),
             const SizedBox(width: 8),
@@ -216,13 +231,13 @@ class PokemonPanelState extends State<PokemonPanel>
               rank: s.rank,
               hpPercent: s.hpPercent,
               status: s.status,
-              onLevelChanged: (v) => setState(() { s.level = v; _notify(); }),
-              onNatureChanged: (v) => setState(() { s.nature = v; _notify(); }),
-              onIvChanged: (v) => setState(() { s.iv = v; _notify(); }),
-              onEvChanged: (v) => setState(() { s.ev = v; _notify(); }),
-              onAbilityChanged: (v) => setState(() { s.selectedAbility = v; _notify(); }),
-              onItemChanged: (v) => setState(() { s.selectedItem = v; _notify(); }),
-              onRankChanged: (v) => setState(() { s.rank = v; _notify(); }),
+              onLevelChanged: (v) => setState(() { s.level = v; _notifyParent(); }),
+              onNatureChanged: (v) => setState(() { s.nature = v; _notifyParent(); }),
+              onIvChanged: (v) => setState(() { s.iv = v; _notifyIfSpeedChanged(); }),
+              onEvChanged: (v) => setState(() { s.ev = v; _notifyIfSpeedChanged(); }),
+              onAbilityChanged: (v) => setState(() { s.selectedAbility = v; _notifyParent(); }),
+              onItemChanged: (v) => setState(() { s.selectedItem = v; _notifyParent(); }),
+              onRankChanged: (v) => setState(() { s.rank = v; _notifyIfSpeedChanged(); }),
               opponentSpeed: widget.opponentSpeed,
               opponentAlwaysLast: widget.opponentAlwaysLast,
               isDynamaxed: s.dynamax != DynamaxState.none,
@@ -230,8 +245,8 @@ class PokemonPanelState extends State<PokemonPanel>
               weather: widget.weather,
               terrain: widget.terrain,
               room: widget.room,
-              onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notify(); }),
-              onStatusChanged: (v) => setState(() { s.status = v; _notify(); }),
+              onHpPercentChanged: (v) => setState(() { s.hpPercent = v; }),
+              onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
             ),
           ),
           const SizedBox(height: 12),
@@ -241,11 +256,11 @@ class PokemonPanelState extends State<PokemonPanel>
             child: Row(
               children: [
                 Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
-                  setState(() { s.tailwind = v; _notify(); });
+                  setState(() { s.tailwind = v; _notifyParent(); });
                 })),
                 if (widget.isAttacker)
                   Expanded(child: _compactCheck('충전', s.charge, (v) {
-                    setState(() { s.charge = v; _notify(); });
+                    setState(() { s.charge = v; });
                   }))
                 else
                   const Expanded(child: SizedBox()),
@@ -401,7 +416,6 @@ class PokemonPanelState extends State<PokemonPanel>
                 s.categoryOverrides[index] = null;
                 s.powerOverrides[index] = null;
                 s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
-                _notify();
               }),
             ),
           ),
@@ -422,7 +436,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     itemBuilder: (_) => PokemonType.values
                         .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeKo(t), style: const TextStyle(fontSize: 12))))
                         .toList(),
-                    onSelected: (t) => setState(() { s.typeOverrides[index] = t; _notify(); }),
+                    onSelected: (t) => setState(() { s.typeOverrides[index] = t; }),
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
@@ -443,7 +457,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     itemBuilder: (_) => [MoveCategory.physical, MoveCategory.special]
                         .map((c) => PopupMenuItem(value: c, child: Text(KoStrings.getCategoryKo(c), style: const TextStyle(fontSize: 12))))
                         .toList(),
-                    onSelected: (c) => setState(() { s.categoryOverrides[index] = c; _notify(); }),
+                    onSelected: (c) => setState(() { s.categoryOverrides[index] = c; }),
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
@@ -468,7 +482,7 @@ class PokemonPanelState extends State<PokemonPanel>
                           onChanged: (text) {
                             final parsed = int.tryParse(text);
                             if (parsed != null && parsed >= 0) {
-                              setState(() { s.powerOverrides[index] = parsed; _notify(); });
+                              setState(() { s.powerOverrides[index] = parsed; });
                             }
                           },
                         ),
@@ -479,7 +493,7 @@ class PokemonPanelState extends State<PokemonPanel>
             width: 28,
             child: Checkbox(
               value: s.criticals[index],
-              onChanged: (v) => setState(() { s.criticals[index] = v ?? false; _notify(); }),
+              onChanged: (v) => setState(() { s.criticals[index] = v ?? false; }),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: VisualDensity.compact,
             ),
@@ -573,7 +587,7 @@ class PokemonPanelState extends State<PokemonPanel>
               break;
           }
         });
-        _notify();
+        _notifyParent();
       },
       child: Text(label, style: TextStyle(fontSize: 22, color: color)),
     );
@@ -621,7 +635,7 @@ class PokemonPanelState extends State<PokemonPanel>
               break;
           }
         });
-        _notify();
+        _notifyParent();
       },
       child: SizedBox(
         width: 24,
@@ -710,7 +724,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 s.terastal = TerastalState(active: true, teraType: t);
                 s.dynamax = DynamaxState.none;
               });
-              _notify();
+              _notifyParent();
               Navigator.pop(ctx);
             },
             child: Text(ko),
@@ -721,7 +735,7 @@ class PokemonPanelState extends State<PokemonPanel>
               setState(() {
                 s.terastal = const TerastalState();
               });
-              _notify();
+              _notifyParent();
               Navigator.pop(ctx);
             },
             child: const Text('테라 안함', style: TextStyle(color: Colors.grey)),
