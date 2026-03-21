@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/stat_calculator.dart';
 import '../models/battle_pokemon.dart';
+import '../models/stats.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
@@ -40,11 +41,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     });
   }
 
-  int _calcSpeed(BattlePokemonState s) {
+  Stats _calcStats(BattlePokemonState s) {
     return StatCalculator.calculate(
       baseStats: s.baseStats, iv: s.iv, ev: s.ev,
       nature: s.nature, level: s.level, rank: s.rank,
-    ).speed;
+    );
   }
 
 
@@ -249,7 +250,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   label: '공격측',
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
-                  opponentSpeed: _calcSpeed(_defender),
+                  opponentSpeed: _calcStats(_defender).speed,
+                  opponentAttack: _calcStats(_defender).attack,
+                  opponentGender: _defender.gender,
                 ),
                 PokemonPanel(
                   key: _defenderPanelKey,
@@ -261,7 +264,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
                   isAttacker: false,
-                  opponentSpeed: _calcSpeed(_attacker),
+                  opponentSpeed: _calcStats(_attacker).speed,
+                  opponentAttack: _calcStats(_attacker).attack,
+                  opponentGender: _attacker.gender,
                 ),
                 _buildDamageCalcTab(),
               ],

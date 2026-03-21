@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
+import '../../models/gender.dart';
 import '../../models/move.dart';
 import '../../models/room.dart';
 import '../../models/nature.dart';
@@ -37,6 +38,8 @@ class PokemonPanel extends StatefulWidget {
   final int resetCounter;
   final bool isAttacker;
   final int? opponentSpeed;
+  final int? opponentAttack;
+  final Gender? opponentGender;
 
   const PokemonPanel({
     super.key,
@@ -49,6 +52,8 @@ class PokemonPanel extends StatefulWidget {
     required this.resetCounter,
     this.isAttacker = true,
     this.opponentSpeed,
+    this.opponentAttack,
+    this.opponentGender,
   });
 
   @override
@@ -136,6 +141,8 @@ class PokemonPanelState extends State<PokemonPanel>
             terrain: widget.terrain, status: s.status,
             heldItem: s.selectedItem,
             opponentSpeed: widget.opponentSpeed,
+            myGender: s.gender,
+            opponentGender: widget.opponentGender ?? Gender.unset,
             actualStats: StatCalculator.calculate(
               baseStats: s.baseStats, iv: s.iv, ev: s.ev,
               nature: s.nature, level: s.level,
@@ -155,6 +162,8 @@ class PokemonPanelState extends State<PokemonPanel>
           abilityEffect.statModifiers.attack,
           abilityEffect.statModifiers.spAttack,
         );
+      case OffensiveStat.opponentAttack:
+        abilityStatMod = 1.0;
     }
 
     double statMod = itemEffect.statModifier * abilityStatMod;
@@ -194,6 +203,7 @@ class PokemonPanelState extends State<PokemonPanel>
       hasGuts: s.selectedAbility == 'Guts',
       stabOverride: abilityEffect.stabOverride,
       criticalOverride: abilityEffect.criticalOverride,
+      opponentAttack: widget.opponentAttack,
     );
   }
 
@@ -217,28 +227,40 @@ class PokemonPanelState extends State<PokemonPanel>
               const SizedBox(height: 8),
           _sectionCard(
             title: '포켓몬',
-            child: PokemonSelector(
+            child: Row(children: [
+            Expanded(child: PokemonSelector(
               key: ValueKey('pokemon_${widget.resetCounter}_${s.pokemonName}'),
               initialPokemonName: s.pokemonName,
-              onSelected: (name, type1, type2, baseStats, abilities, finalEvo, requiredItem) {
+              onSelected: (name, type1, type2, baseStats, abilities, finalEvo, requiredItem, genderRate) {
                 setState(() {
                   s.pokemonName = name;
                   s.finalEvo = finalEvo;
+                  s.genderRate = genderRate;
+                  if (genderRate == -1) {
+                    s.gender = Gender.genderless;
+                  } else if (genderRate == 0) {
+                    s.gender = Gender.male;
+                  } else if (genderRate == 8) {
+                    s.gender = Gender.female;
+                  } else {
+                    s.gender = Gender.unset;
+                  }
                   s.type1 = type1;
                   s.type2 = type2;
                   s.baseStats = baseStats;
                   s.pokemonAbilities = abilities;
                   s.selectedAbility =
                       abilities.isNotEmpty ? abilities.first : null;
-                  // Auto-select required item for mega/form-change Pokemon
                   if (requiredItem != null) {
                     s.selectedItem = requiredItem;
                   }
                 });
                 _notify();
               },
-            ),
-          ),
+            )),
+            const SizedBox(width: 8),
+            _genderIcon(),
+          ]),),
           const SizedBox(height: 12),
 
           _sectionCard(
@@ -602,6 +624,56 @@ class PokemonPanelState extends State<PokemonPanel>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _genderIcon() {
+    final g = s.gender;
+    final rate = s.genderRate;
+    final bool locked = rate == -1 || rate == 0 || rate == 8;
+
+    String label;
+    Color color;
+    switch (g) {
+      case Gender.male:
+        label = '♂';
+        color = Colors.blue;
+        break;
+      case Gender.female:
+        label = '♀';
+        color = Colors.pink;
+        break;
+      case Gender.genderless:
+        label = '⚪';
+        color = Colors.grey;
+        break;
+      case Gender.unset:
+        label = '⚪';
+        color = Colors.grey.shade400;
+        break;
+    }
+
+    return GestureDetector(
+      onTap: locked ? null : () {
+        setState(() {
+          // Cycle: unset -> male -> female -> unset
+          switch (s.gender) {
+            case Gender.unset:
+              s.gender = Gender.male;
+              break;
+            case Gender.male:
+              s.gender = Gender.female;
+              break;
+            case Gender.female:
+              s.gender = Gender.unset;
+              break;
+            default:
+              break;
+          }
+        });
+        _notify();
+      },
+      child: Text(label, style: TextStyle(fontSize: 22, color: color)),
     );
   }
 

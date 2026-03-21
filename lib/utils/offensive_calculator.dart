@@ -45,6 +45,7 @@ class OffensiveCalculator {
     bool hasGuts = false,
     double? stabOverride,
     double? criticalOverride,
+    int? opponentAttack,
   }) {
     final move = transformed.move;
 
@@ -77,7 +78,7 @@ class OffensiveCalculator {
       rank: effectiveRank,
     );
 
-    final int rawStat = transformed.resolveStat(actualStats);
+    final int rawStat = transformed.resolveStat(actualStats, opponentAttack: opponentAttack);
     final int modifiedStat = (rawStat * statModifier).floor();
 
     final bool hasStab = move.type == type1 || move.type == type2;

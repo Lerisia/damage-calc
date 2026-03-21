@@ -19,7 +19,8 @@
     "weight": 4.0,
     "height": 0.4,
     "type2": "fire",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 495,
@@ -41,7 +42,8 @@
     ],
     "weight": 8.1,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 496,
@@ -63,7 +65,8 @@
     ],
     "weight": 16.0,
     "height": 0.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 497,
@@ -85,7 +88,8 @@
     ],
     "weight": 63.0,
     "height": 3.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 498,
@@ -107,7 +111,8 @@
     ],
     "weight": 9.9,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 499,
@@ -130,7 +135,8 @@
     "weight": 55.5,
     "height": 1.0,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 500,
@@ -153,7 +159,8 @@
     "weight": 150.0,
     "height": 1.6,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 501,
@@ -175,7 +182,8 @@
     ],
     "weight": 5.9,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 502,
@@ -197,7 +205,8 @@
     ],
     "weight": 24.5,
     "height": 0.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 503,
@@ -219,7 +228,8 @@
     ],
     "weight": 94.6,
     "height": 1.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 504,
@@ -242,7 +252,8 @@
     ],
     "weight": 11.6,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 505,
@@ -265,7 +276,8 @@
     ],
     "weight": 27.0,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 506,
@@ -288,7 +300,8 @@
     ],
     "weight": 4.1,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 507,
@@ -311,7 +324,8 @@
     ],
     "weight": 14.7,
     "height": 0.9,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 508,
@@ -334,7 +348,8 @@
     ],
     "weight": 61.0,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 509,
@@ -357,7 +372,8 @@
     ],
     "weight": 10.1,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 510,
@@ -380,7 +396,8 @@
     ],
     "weight": 37.5,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 511,
@@ -402,7 +419,8 @@
     ],
     "weight": 10.5,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 512,
@@ -424,7 +442,8 @@
     ],
     "weight": 30.5,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 513,
@@ -446,7 +465,8 @@
     ],
     "weight": 11.0,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 514,
@@ -468,7 +488,8 @@
     ],
     "weight": 28.0,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 515,
@@ -490,7 +511,8 @@
     ],
     "weight": 13.5,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 516,
@@ -512,7 +534,8 @@
     ],
     "weight": 29.0,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 517,
@@ -535,7 +558,8 @@
     ],
     "weight": 23.3,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 518,
@@ -558,7 +582,8 @@
     ],
     "weight": 60.5,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 519,
@@ -582,7 +607,8 @@
     "weight": 2.1,
     "height": 0.3,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 520,
@@ -606,7 +632,8 @@
     "weight": 15.0,
     "height": 0.6,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 521,
@@ -630,7 +657,8 @@
     "weight": 29.0,
     "height": 1.2,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 522,
@@ -653,7 +681,8 @@
     ],
     "weight": 29.8,
     "height": 0.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 523,
@@ -676,7 +705,8 @@
     ],
     "weight": 79.5,
     "height": 1.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 524,
@@ -699,7 +729,8 @@
     ],
     "weight": 18.0,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 525,
@@ -722,7 +753,8 @@
     ],
     "weight": 102.0,
     "height": 0.9,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 526,
@@ -745,7 +777,8 @@
     ],
     "weight": 260.0,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 527,
@@ -769,7 +802,8 @@
     "weight": 2.1,
     "height": 0.4,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 528,
@@ -793,7 +827,8 @@
     "weight": 10.5,
     "height": 0.9,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 529,
@@ -816,7 +851,8 @@
     ],
     "weight": 8.5,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 530,
@@ -840,7 +876,8 @@
     "weight": 40.4,
     "height": 0.7,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 531,
@@ -863,7 +900,8 @@
     ],
     "weight": 31.0,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 532,
@@ -886,7 +924,8 @@
     ],
     "weight": 12.5,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 2
   },
   {
     "dexNumber": 533,
@@ -909,7 +948,8 @@
     ],
     "weight": 40.0,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 2
   },
   {
     "dexNumber": 534,
@@ -932,7 +972,8 @@
     ],
     "weight": 87.0,
     "height": 1.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 2
   },
   {
     "dexNumber": 535,
@@ -955,7 +996,8 @@
     ],
     "weight": 4.5,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 536,
@@ -979,7 +1021,8 @@
     "weight": 17.0,
     "height": 0.8,
     "type2": "ground",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 537,
@@ -1003,7 +1046,8 @@
     "weight": 62.0,
     "height": 1.5,
     "type2": "ground",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 538,
@@ -1026,7 +1070,8 @@
     ],
     "weight": 55.5,
     "height": 1.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 539,
@@ -1049,7 +1094,8 @@
     ],
     "weight": 51.0,
     "height": 1.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 540,
@@ -1073,7 +1119,8 @@
     "weight": 2.5,
     "height": 0.3,
     "type2": "grass",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 541,
@@ -1097,7 +1144,8 @@
     "weight": 7.3,
     "height": 0.5,
     "type2": "grass",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 542,
@@ -1121,7 +1169,8 @@
     "weight": 20.5,
     "height": 1.2,
     "type2": "grass",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 543,
@@ -1145,7 +1194,8 @@
     "weight": 5.3,
     "height": 0.4,
     "type2": "poison",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 544,
@@ -1169,7 +1219,8 @@
     "weight": 58.5,
     "height": 1.2,
     "type2": "poison",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 545,
@@ -1193,7 +1244,8 @@
     "weight": 200.5,
     "height": 2.5,
     "type2": "poison",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 546,
@@ -1217,7 +1269,8 @@
     "weight": 0.6,
     "height": 0.3,
     "type2": "fairy",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 547,
@@ -1241,7 +1294,8 @@
     "weight": 6.6,
     "height": 0.7,
     "type2": "fairy",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 548,
@@ -1264,7 +1318,8 @@
     ],
     "weight": 6.6,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 549,
@@ -1287,7 +1342,8 @@
     ],
     "weight": 16.3,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 550,
@@ -1310,7 +1366,8 @@
     ],
     "weight": 18.0,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 551,
@@ -1334,7 +1391,8 @@
     "weight": 15.2,
     "height": 0.7,
     "type2": "dark",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 552,
@@ -1358,7 +1416,8 @@
     "weight": 33.4,
     "height": 1.0,
     "type2": "dark",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 553,
@@ -1382,7 +1441,8 @@
     "weight": 96.3,
     "height": 1.5,
     "type2": "dark",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 554,
@@ -1404,7 +1464,8 @@
     ],
     "weight": 37.5,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 555,
@@ -1426,7 +1487,8 @@
     ],
     "weight": 92.9,
     "height": 1.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 556,
@@ -1449,7 +1511,8 @@
     ],
     "weight": 28.0,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 557,
@@ -1473,7 +1536,8 @@
     "weight": 14.5,
     "height": 0.3,
     "type2": "rock",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 558,
@@ -1497,7 +1561,8 @@
     "weight": 200.0,
     "height": 1.4,
     "type2": "rock",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 559,
@@ -1521,7 +1586,8 @@
     "weight": 11.8,
     "height": 0.6,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 560,
@@ -1545,7 +1611,8 @@
     "weight": 30.0,
     "height": 1.1,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 561,
@@ -1569,7 +1636,8 @@
     "weight": 14.0,
     "height": 1.4,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 562,
@@ -1590,7 +1658,8 @@
     ],
     "weight": 1.5,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 563,
@@ -1611,7 +1680,8 @@
     ],
     "weight": 76.5,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 564,
@@ -1635,7 +1705,8 @@
     "weight": 16.5,
     "height": 0.7,
     "type2": "rock",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 565,
@@ -1659,7 +1730,8 @@
     "weight": 81.0,
     "height": 1.2,
     "type2": "rock",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 566,
@@ -1681,7 +1753,8 @@
     "weight": 9.5,
     "height": 0.5,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 567,
@@ -1703,7 +1776,8 @@
     "weight": 32.0,
     "height": 1.4,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 568,
@@ -1726,7 +1800,8 @@
     ],
     "weight": 31.0,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 569,
@@ -1749,7 +1824,8 @@
     ],
     "weight": 107.3,
     "height": 1.9,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 570,
@@ -1770,7 +1846,8 @@
     ],
     "weight": 12.5,
     "height": 0.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 571,
@@ -1791,7 +1868,8 @@
     ],
     "weight": 81.1,
     "height": 1.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 572,
@@ -1814,7 +1892,8 @@
     ],
     "weight": 5.8,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 573,
@@ -1837,7 +1916,8 @@
     ],
     "weight": 7.5,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 574,
@@ -1860,7 +1940,8 @@
     ],
     "weight": 5.8,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 575,
@@ -1883,7 +1964,8 @@
     ],
     "weight": 18.0,
     "height": 0.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 576,
@@ -1906,7 +1988,8 @@
     ],
     "weight": 44.0,
     "height": 1.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 577,
@@ -1929,7 +2012,8 @@
     ],
     "weight": 1.0,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 578,
@@ -1952,7 +2036,8 @@
     ],
     "weight": 8.0,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 579,
@@ -1975,7 +2060,8 @@
     ],
     "weight": 20.1,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 580,
@@ -1999,7 +2085,8 @@
     "weight": 5.5,
     "height": 0.5,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 581,
@@ -2023,7 +2110,8 @@
     "weight": 24.2,
     "height": 1.3,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 582,
@@ -2046,7 +2134,8 @@
     ],
     "weight": 5.7,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 583,
@@ -2069,7 +2158,8 @@
     ],
     "weight": 41.0,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 584,
@@ -2092,7 +2182,8 @@
     ],
     "weight": 57.5,
     "height": 1.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 585,
@@ -2116,7 +2207,8 @@
     "weight": 19.5,
     "height": 0.6,
     "type2": "grass",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 586,
@@ -2140,7 +2232,8 @@
     "weight": 92.5,
     "height": 1.9,
     "type2": "grass",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 587,
@@ -2163,7 +2256,8 @@
     "weight": 5.0,
     "height": 0.4,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 588,
@@ -2186,7 +2280,8 @@
     ],
     "weight": 5.9,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 589,
@@ -2210,7 +2305,8 @@
     "weight": 33.0,
     "height": 1.0,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 590,
@@ -2233,7 +2329,8 @@
     "weight": 1.0,
     "height": 0.2,
     "type2": "poison",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 591,
@@ -2256,7 +2353,8 @@
     "weight": 10.5,
     "height": 0.6,
     "type2": "poison",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 592,
@@ -2280,7 +2378,8 @@
     "weight": 33.0,
     "height": 1.2,
     "type2": "ghost",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 593,
@@ -2304,7 +2403,8 @@
     "weight": 135.0,
     "height": 2.2,
     "type2": "ghost",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 594,
@@ -2327,7 +2427,8 @@
     ],
     "weight": 31.6,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 595,
@@ -2351,7 +2452,8 @@
     "weight": 0.6,
     "height": 0.1,
     "type2": "electric",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 596,
@@ -2375,7 +2477,8 @@
     "weight": 14.3,
     "height": 0.8,
     "type2": "electric",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 597,
@@ -2397,7 +2500,8 @@
     "weight": 18.8,
     "height": 0.6,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 598,
@@ -2420,7 +2524,8 @@
     "weight": 110.0,
     "height": 1.0,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 599,
@@ -2443,7 +2548,8 @@
     ],
     "weight": 21.0,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 600,
@@ -2466,7 +2572,8 @@
     ],
     "weight": 51.0,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 601,
@@ -2489,7 +2596,8 @@
     ],
     "weight": 81.0,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 602,
@@ -2510,7 +2618,8 @@
     ],
     "weight": 0.3,
     "height": 0.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 603,
@@ -2531,7 +2640,8 @@
     ],
     "weight": 22.0,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 604,
@@ -2552,7 +2662,8 @@
     ],
     "weight": 80.5,
     "height": 2.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 605,
@@ -2575,7 +2686,8 @@
     ],
     "weight": 9.0,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 606,
@@ -2598,7 +2710,8 @@
     ],
     "weight": 34.5,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 607,
@@ -2622,7 +2735,8 @@
     "weight": 3.1,
     "height": 0.3,
     "type2": "fire",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 608,
@@ -2646,7 +2760,8 @@
     "weight": 13.0,
     "height": 0.6,
     "type2": "fire",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 609,
@@ -2670,7 +2785,8 @@
     "weight": 34.3,
     "height": 1.0,
     "type2": "fire",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 610,
@@ -2693,7 +2809,8 @@
     ],
     "weight": 18.0,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 611,
@@ -2716,7 +2833,8 @@
     ],
     "weight": 36.0,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 612,
@@ -2739,7 +2857,8 @@
     ],
     "weight": 105.5,
     "height": 1.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 613,
@@ -2762,7 +2881,8 @@
     ],
     "weight": 8.5,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 614,
@@ -2785,7 +2905,8 @@
     ],
     "weight": 260.0,
     "height": 2.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 615,
@@ -2806,7 +2927,8 @@
     ],
     "weight": 148.0,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 616,
@@ -2829,7 +2951,8 @@
     ],
     "weight": 7.7,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 617,
@@ -2852,7 +2975,8 @@
     ],
     "weight": 25.3,
     "height": 0.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 618,
@@ -2876,7 +3000,8 @@
     "weight": 11.0,
     "height": 0.7,
     "type2": "electric",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 619,
@@ -2899,7 +3024,8 @@
     ],
     "weight": 20.0,
     "height": 0.9,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 620,
@@ -2922,7 +3048,8 @@
     ],
     "weight": 35.5,
     "height": 1.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 621,
@@ -2945,7 +3072,8 @@
     ],
     "weight": 139.0,
     "height": 1.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 622,
@@ -2969,7 +3097,8 @@
     "weight": 92.0,
     "height": 1.0,
     "type2": "ghost",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 623,
@@ -2993,7 +3122,8 @@
     "weight": 330.0,
     "height": 2.8,
     "type2": "ghost",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 624,
@@ -3017,7 +3147,8 @@
     "weight": 10.2,
     "height": 0.5,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 625,
@@ -3041,7 +3172,8 @@
     "weight": 70.0,
     "height": 1.6,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 626,
@@ -3064,7 +3196,8 @@
     ],
     "weight": 94.6,
     "height": 1.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 627,
@@ -3088,7 +3221,8 @@
     "weight": 10.5,
     "height": 0.5,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 628,
@@ -3112,7 +3246,8 @@
     "weight": 41.0,
     "height": 1.5,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 629,
@@ -3136,7 +3271,8 @@
     "weight": 9.0,
     "height": 0.5,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 630,
@@ -3160,7 +3296,8 @@
     "weight": 39.5,
     "height": 1.2,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 631,
@@ -3183,7 +3320,8 @@
     ],
     "weight": 58.0,
     "height": 1.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 632,
@@ -3207,7 +3345,8 @@
     "weight": 33.0,
     "height": 0.3,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 633,
@@ -3229,7 +3368,8 @@
     "weight": 17.3,
     "height": 0.8,
     "type2": "dragon",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 634,
@@ -3251,7 +3391,8 @@
     "weight": 50.0,
     "height": 1.4,
     "type2": "dragon",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 635,
@@ -3273,7 +3414,8 @@
     "weight": 160.0,
     "height": 1.8,
     "type2": "dragon",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 636,
@@ -3296,7 +3438,8 @@
     "weight": 28.8,
     "height": 1.1,
     "type2": "fire",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 637,
@@ -3319,7 +3462,8 @@
     "weight": 46.0,
     "height": 1.6,
     "type2": "fire",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 638,
@@ -3341,7 +3485,8 @@
     "weight": 250.0,
     "height": 2.1,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 639,
@@ -3363,7 +3508,8 @@
     "weight": 260.0,
     "height": 1.9,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 640,
@@ -3385,7 +3531,8 @@
     "weight": 200.0,
     "height": 2.0,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 641,
@@ -3407,7 +3554,8 @@
     ],
     "weight": 63.0,
     "height": 1.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 642,
@@ -3430,7 +3578,8 @@
     "weight": 61.0,
     "height": 1.5,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 643,
@@ -3452,7 +3601,8 @@
     "weight": 330.0,
     "height": 3.2,
     "type2": "fire",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 644,
@@ -3474,7 +3624,8 @@
     "weight": 345.0,
     "height": 2.9,
     "type2": "electric",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 645,
@@ -3497,7 +3648,8 @@
     "weight": 68.0,
     "height": 1.5,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 646,
@@ -3519,7 +3671,8 @@
     "weight": 325.0,
     "height": 3.0,
     "type2": "ice",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 647,
@@ -3541,7 +3694,8 @@
     "weight": 48.5,
     "height": 1.4,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 648,
@@ -3563,7 +3717,8 @@
     "weight": 6.5,
     "height": 0.6,
     "type2": "psychic",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 649,
@@ -3585,6 +3740,7 @@
     "weight": 82.5,
     "height": 1.5,
     "type2": "steel",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   }
 ]

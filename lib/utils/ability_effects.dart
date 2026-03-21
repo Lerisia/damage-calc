@@ -1,3 +1,4 @@
+import '../models/gender.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
 import '../models/stats.dart';
@@ -50,6 +51,8 @@ AbilityEffect getAbilityEffect(String abilityName, {
   Stats? actualStats,
   String? heldItem,
   int? opponentSpeed,
+  Gender myGender = Gender.unset,
+  Gender opponentGender = Gender.unset,
 }) {
   switch (abilityName) {
     // --- Stat modifiers (attack) ---
@@ -217,6 +220,19 @@ AbilityEffect getAbilityEffect(String abilityName, {
       if (actualStats != null && opponentSpeed != null &&
           actualStats.speed < opponentSpeed) {
         return const AbilityEffect(powerModifier: 1.3);
+      }
+      return _defaultEffect;
+
+    // --- Gender conditional ---
+    case 'Rivalry':
+      final hasGender = myGender == Gender.male || myGender == Gender.female;
+      final oppHasGender = opponentGender == Gender.male || opponentGender == Gender.female;
+      if (hasGender && oppHasGender) {
+        if (myGender == opponentGender) {
+          return const AbilityEffect(powerModifier: 1.25);
+        } else {
+          return const AbilityEffect(powerModifier: 0.75);
+        }
       }
       return _defaultEffect;
 

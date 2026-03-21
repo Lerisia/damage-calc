@@ -22,7 +22,8 @@
     "weight": 22.7,
     "height": 0.8,
     "type2": "rock",
-    "finalEvo": false
+    "finalEvo": false,
+    "genderRate": 2
   },
   {
     "dexNumber": 59,
@@ -47,7 +48,8 @@
     "weight": 168.0,
     "height": 2.0,
     "type2": "rock",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 2
   },
   {
     "dexNumber": 100,
@@ -72,7 +74,8 @@
     "weight": 13.0,
     "height": 0.5,
     "type2": "grass",
-    "finalEvo": false
+    "finalEvo": false,
+    "genderRate": -1
   },
   {
     "dexNumber": 101,
@@ -97,7 +100,8 @@
     "weight": 71.0,
     "height": 1.2,
     "type2": "grass",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 157,
@@ -121,7 +125,8 @@
     "weight": 69.8,
     "height": 1.6,
     "type2": "ghost",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 211,
@@ -146,7 +151,8 @@
     "weight": 3.9,
     "height": 0.5,
     "type2": "poison",
-    "finalEvo": false
+    "finalEvo": false,
+    "genderRate": 4
   },
   {
     "dexNumber": 215,
@@ -171,7 +177,8 @@
     "weight": 27.0,
     "height": 0.9,
     "type2": "poison",
-    "finalEvo": false
+    "finalEvo": false,
+    "genderRate": 4
   },
   {
     "dexNumber": 503,
@@ -195,7 +202,8 @@
     "weight": 58.2,
     "height": 1.5,
     "type2": "dark",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 549,
@@ -220,7 +228,8 @@
     "weight": 19.2,
     "height": 1.2,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 570,
@@ -243,7 +252,8 @@
     "weight": 12.5,
     "height": 0.7,
     "type2": "ghost",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 571,
@@ -266,7 +276,8 @@
     "weight": 73.0,
     "height": 1.6,
     "type2": "ghost",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 628,
@@ -291,7 +302,8 @@
     "weight": 43.4,
     "height": 1.7,
     "type2": "flying",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 705,
@@ -316,7 +328,8 @@
     "weight": 68.5,
     "height": 0.7,
     "type2": "dragon",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 706,
@@ -341,7 +354,8 @@
     "weight": 334.1,
     "height": 1.7,
     "type2": "dragon",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 713,
@@ -366,7 +380,8 @@
     "weight": 262.4,
     "height": 1.4,
     "type2": "rock",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 724,
@@ -390,6 +405,7 @@
     "weight": 37.0,
     "height": 1.6,
     "type2": "fighting",
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   }
 ]

@@ -15,6 +15,7 @@ enum OffensiveStat {
   spAttack,
   defense,
   higherAttack,
+  opponentAttack,
 }
 
 /// Context for move transformation
@@ -46,8 +47,9 @@ class TransformedMove {
 
   const TransformedMove(this.move, this.offensiveStat);
 
-  /// Resolve the actual stat value from calculated stats
-  int resolveStat(Stats actualStats) {
+  /// Resolve the actual stat value from calculated stats.
+  /// [opponentAttack] is needed for Foul Play (uses opponent's Attack stat).
+  int resolveStat(Stats actualStats, {int? opponentAttack}) {
     switch (offensiveStat) {
       case OffensiveStat.attack:
         return actualStats.attack;
@@ -57,6 +59,8 @@ class TransformedMove {
         return actualStats.defense;
       case OffensiveStat.higherAttack:
         return math.max(actualStats.attack, actualStats.spAttack);
+      case OffensiveStat.opponentAttack:
+        return opponentAttack ?? actualStats.attack;
     }
   }
 }
@@ -98,6 +102,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
 OffensiveStat _resolveOffensiveStat(Move move) {
   if (move.hasTag(MoveTags.useDefense)) return OffensiveStat.defense;
   if (move.hasTag(MoveTags.useHigherAtk)) return OffensiveStat.higherAttack;
+  if (move.hasTag(MoveTags.useOpponentAtk)) return OffensiveStat.opponentAttack;
   return move.category == MoveCategory.physical
       ? OffensiveStat.attack
       : OffensiveStat.spAttack;

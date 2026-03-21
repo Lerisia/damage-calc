@@ -1,3 +1,4 @@
+import 'gender.dart';
 import 'move.dart';
 import 'nature.dart';
 import 'rank.dart';
@@ -9,6 +10,8 @@ import 'type.dart';
 class BattlePokemonState {
   String pokemonName;
   bool finalEvo;
+  Gender gender;
+  int genderRate;
   PokemonType type1;
   PokemonType? type2;
   Stats baseStats;
@@ -44,6 +47,8 @@ class BattlePokemonState {
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
     this.finalEvo = false,
+    this.gender = Gender.unset,
+    this.genderRate = 4,
     this.type1 = PokemonType.grass,
     this.type2 = PokemonType.poison,
     Stats? baseStats,
@@ -91,6 +96,8 @@ class BattlePokemonState {
   void reset() {
     pokemonName = 'bulbasaur';
     finalEvo = false;
+    gender = Gender.unset;
+    genderRate = 4;
     type1 = PokemonType.grass;
     type2 = PokemonType.poison;
     baseStats = const Stats(
