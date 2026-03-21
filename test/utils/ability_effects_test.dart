@@ -314,13 +314,20 @@ void main() {
       expect(effect.spdModifier, equals(1.0));
     });
 
-    test('Ice Scales doubles special defense', () {
+    test('Ice Scales halves special damage via damage multiplier', () {
       final effect = getDefensiveAbilityEffect('Ice Scales');
-      expect(effect.spdModifier, equals(2.0));
+      expect(effect.spdModifier, equals(1.0));
+      final mult = getDefensiveAbilityDamageMultiplier(
+          'Ice Scales', move: specialFire);
+      expect(mult, equals(0.5));
     });
 
-    test('Fluffy doubles defense', () {
-      expect(getDefensiveAbilityEffect('Fluffy').defModifier, equals(2.0));
+    test('Fluffy halves contact damage via damage multiplier', () {
+      final effect = getDefensiveAbilityEffect('Fluffy');
+      expect(effect.defModifier, equals(1.0));
+      final mult = getDefensiveAbilityDamageMultiplier(
+          'Fluffy', move: physicalNormal);
+      expect(mult, equals(0.5));
     });
 
     test('Marvel Scale boosts defense when statused', () {

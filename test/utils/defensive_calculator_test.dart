@@ -88,14 +88,16 @@ void main() {
       expect(result.special, equals(24817));
     });
 
-    test('Ice Scales doubles special bulk', () {
+    test('Ice Scales does not affect bulk (damage multiplier instead)', () {
+      // Ice Scales is now handled as a damage multiplier (x0.5 special),
+      // not as a stat modifier, so bulk is unchanged.
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: Nature.hardy, level: 50,
         type1: PokemonType.bug,
         ability: 'Ice Scales',
       );
-      expect(result.special, equals(49635)); // 120 * 85 * 2.0
+      expect(result.special, equals(24817)); // unchanged
       expect(result.physical, equals(20145));
     });
 
