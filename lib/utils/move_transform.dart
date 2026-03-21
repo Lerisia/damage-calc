@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import '../models/dynamax.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
 import '../models/rank.dart';
@@ -29,6 +30,9 @@ class MoveContext {
   final String? ability;
   final StatusCondition status;
 
+  final DynamaxState dynamax;
+  final String? pokemonName; // for G-Max move lookup
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
@@ -37,6 +41,8 @@ class MoveContext {
     this.hasItem = false,
     this.ability,
     this.status = StatusCondition.none,
+    this.dynamax = DynamaxState.none,
+    this.pokemonName,
   });
 }
 
@@ -93,7 +99,12 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // 5. Rank-based power
   move = _applyRankPower(move, context.rank);
 
-  // 6. Stat selection
+  // 6. Dynamax transform (after all other power changes)
+  if (context.dynamax != DynamaxState.none) {
+    move = _applyDynamax(move, context.dynamax, context.pokemonName);
+  }
+
+  // 7. Stat selection
   final stat = _resolveOffensiveStat(move);
   return TransformedMove(move, stat);
 }
@@ -245,6 +256,208 @@ int _flailPower(int hpPercent) {
   if (hpPercent >= 10) return 100;
   if (hpPercent >= 4) return 150;
   return 200;
+}
+
+// ====== Dynamax Transformation ======
+
+/// Max Move names by type
+const Map<PokemonType, String> _maxMoveNames = {
+  PokemonType.normal: 'Max Strike',
+  PokemonType.fighting: 'Max Knuckle',
+  PokemonType.flying: 'Max Airstream',
+  PokemonType.poison: 'Max Ooze',
+  PokemonType.ground: 'Max Quake',
+  PokemonType.rock: 'Max Rockfall',
+  PokemonType.bug: 'Max Flutterby',
+  PokemonType.ghost: 'Max Phantasm',
+  PokemonType.steel: 'Max Steelspike',
+  PokemonType.fire: 'Max Flare',
+  PokemonType.water: 'Max Geyser',
+  PokemonType.grass: 'Max Overgrowth',
+  PokemonType.electric: 'Max Lightning',
+  PokemonType.psychic: 'Max Mindstorm',
+  PokemonType.ice: 'Max Hailstorm',
+  PokemonType.dragon: 'Max Wyrmwind',
+  PokemonType.dark: 'Max Darkness',
+  PokemonType.fairy: 'Max Starfall',
+};
+
+const Map<PokemonType, String> _maxMoveNamesKo = {
+  PokemonType.normal: '다이어택',
+  PokemonType.fighting: '다이너클',
+  PokemonType.flying: '다이제트',
+  PokemonType.poison: '다이애시드',
+  PokemonType.ground: '다이어스',
+  PokemonType.rock: '다이록',
+  PokemonType.bug: '다이웜',
+  PokemonType.ghost: '다이홀',
+  PokemonType.steel: '다이스틸',
+  PokemonType.fire: '다이번',
+  PokemonType.water: '다이스트림',
+  PokemonType.grass: '다이소드',
+  PokemonType.electric: '다이썬더',
+  PokemonType.psychic: '다이사이코',
+  PokemonType.ice: '다이아이스',
+  PokemonType.dragon: '다이드래군',
+  PokemonType.dark: '다이악',
+  PokemonType.fairy: '다이페어리',
+};
+
+/// G-Max move mapping: pokemonName -> {type: (name, nameKo, power)}
+/// G-Max moves replace the Max Move of their signature type.
+/// Starter G-Max moves have fixed power 160.
+class _GmaxMove {
+  final String name;
+  final String nameKo;
+  final PokemonType type;
+  final int? fixedPower; // null = use normal max move power table
+
+  const _GmaxMove(this.name, this.nameKo, this.type, [this.fixedPower]);
+}
+
+const Map<String, _GmaxMove> _gmaxMoves = {
+  'charizard': _GmaxMove('G-Max Wildfire', '거다이끝불', PokemonType.fire),
+  'butterfree': _GmaxMove('G-Max Befuddle', '거다이고분', PokemonType.bug),
+  'pikachu': _GmaxMove('G-Max Volt Crash', '거다이만뢰', PokemonType.electric),
+  'meowth': _GmaxMove('G-Max Gold Rush', '거다이코방', PokemonType.normal),
+  'machamp': _GmaxMove('G-Max Chi Strike', '거다이강권', PokemonType.fighting),
+  'gengar': _GmaxMove('G-Max Terror', '거다이겐에이', PokemonType.ghost),
+  'kingler': _GmaxMove('G-Max Foam Burst', '거다이거품', PokemonType.water),
+  'lapras': _GmaxMove('G-Max Resonance', '거다이공명', PokemonType.ice),
+  'eevee': _GmaxMove('G-Max Cuddle', '거다이포옹', PokemonType.normal),
+  'snorlax': _GmaxMove('G-Max Replenish', '거다이재활용', PokemonType.normal),
+  'garbodor': _GmaxMove('G-Max Malodor', '거다이악취', PokemonType.poison),
+  'melmetal': _GmaxMove('G-Max Meltdown', '거다이용단', PokemonType.steel),
+  'corviknight': _GmaxMove('G-Max Wind Rage', '거다이선풍', PokemonType.flying),
+  'orbeetle': _GmaxMove('G-Max Gravitas', '거다이천문', PokemonType.psychic),
+  'drednaw': _GmaxMove('G-Max Stonesurge', '거다이간여울', PokemonType.water),
+  'coalossal': _GmaxMove('G-Max Volcalith', '거다이분석', PokemonType.rock),
+  'flapple': _GmaxMove('G-Max Tartness', '거다이산미', PokemonType.grass),
+  'appletun': _GmaxMove('G-Max Sweetness', '거다이감미', PokemonType.grass),
+  'sandaconda': _GmaxMove('G-Max Sand Blast', '거다이사진', PokemonType.ground),
+  'toxtricity': _GmaxMove('G-Max Stun Shock', '거다이감전', PokemonType.electric),
+  'centiskorch': _GmaxMove('G-Max Centiferno', '거다이화장', PokemonType.fire),
+  'hatterene': _GmaxMove('G-Max Smite', '거다이천벌', PokemonType.fairy),
+  'grimmsnarl': _GmaxMove('G-Max Snooze', '거다이수면', PokemonType.dark),
+  'alcremie': _GmaxMove('G-Max Finale', '거다이단미', PokemonType.fairy),
+  'copperajah': _GmaxMove('G-Max Steelsurge', '거다이강진', PokemonType.steel),
+  'duraludon': _GmaxMove('G-Max Depletion', '거다이감퇴', PokemonType.dragon),
+  'venusaur': _GmaxMove('G-Max Vine Lash', '거다이밀림', PokemonType.grass, 160),
+  'blastoise': _GmaxMove('G-Max Cannonade', '거다이포격', PokemonType.water, 160),
+  'rillaboom': _GmaxMove('G-Max Drum Solo', '거다이연주', PokemonType.grass, 160),
+  'cinderace': _GmaxMove('G-Max Fireball', '거다이화구', PokemonType.fire, 160),
+  'inteleon': _GmaxMove('G-Max Hydrosnipe', '거다이저격', PokemonType.water, 160),
+  'urshifu-single-strike': _GmaxMove('G-Max One Blow', '거다이일격', PokemonType.dark),
+  'urshifu-rapid-strike': _GmaxMove('G-Max Rapid Flow', '거다이연격', PokemonType.water),
+};
+
+/// Standard Max Move power conversion table.
+int _maxMovePower(int basePower, PokemonType type) {
+  // Fighting and Poison types have reduced Max Move power
+  final bool reduced = type == PokemonType.fighting || type == PokemonType.poison;
+
+  if (reduced) {
+    if (basePower <= 40) return 70;
+    if (basePower <= 50) return 75;
+    if (basePower <= 60) return 80;
+    if (basePower <= 70) return 85;
+    if (basePower <= 100) return 90;
+    if (basePower <= 120) return 95;
+    return 100;
+  }
+
+  if (basePower <= 40) return 90;
+  if (basePower <= 50) return 100;
+  if (basePower <= 60) return 110;
+  if (basePower <= 70) return 120;
+  if (basePower <= 100) return 130;
+  if (basePower <= 120) return 140;
+  return 150;
+}
+
+/// Determine the base power for Max Move conversion.
+/// Handles special cases: multi-hit, OHKO, variable power, fixed damage.
+int _maxMoveBasePower(Move move) {
+  // OHKO moves -> 130
+  if (move.name == 'Guillotine' || move.name == 'Fissure' ||
+      move.name == 'Horn Drill' || move.name == 'Sheer Cold') {
+    return 130;
+  }
+
+  // Fixed damage / counter moves -> 75
+  if (move.name == 'Seismic Toss' || move.name == 'Night Shade' ||
+      move.name == 'Dragon Rage' || move.name == 'Sonic Boom' ||
+      move.name == 'Counter' || move.name == 'Mirror Coat' ||
+      move.name == 'Metal Burst' || move.name == 'Super Fang' ||
+      move.name == 'Endeavor') {
+    // Super Fang and Endeavor map to 100/130 respectively based on Bulbapedia
+    if (move.name == 'Super Fang') return 100;
+    if (move.name == 'Endeavor') return 130;
+    return 75;
+  }
+
+  // Variable power moves (Flail, Reversal, Eruption, etc.) -> 130
+  if (move.hasTag(MoveTags.hpPowerHigh) || move.hasTag(MoveTags.hpPowerLow) ||
+      move.hasTag(MoveTags.rankPower)) {
+    return 130;
+  }
+
+  // Multi-hit moves -> use single-hit power for conversion
+  // (Bulbapedia shows they map to 130 for most)
+  if (move.name == 'Pin Missile' || move.name == 'Tail Slap' ||
+      move.name == 'Bullet Seed' || move.name == 'Icicle Spear' ||
+      move.name == 'Rock Blast' || move.name == 'Population Bomb' ||
+      move.name == 'Scale Shot' || move.name == 'Fury Attack' ||
+      move.name == 'Fury Swipes' || move.name == 'Bone Rush' ||
+      move.name == 'Arm Thrust' || move.name == 'Barrage' ||
+      move.name == 'Comet Punch' || move.name == 'Double Slap' ||
+      move.name == 'Spike Cannon' || move.name == 'Water Shuriken' ||
+      move.name == 'Surge Strikes' || move.name == 'Triple Axel' ||
+      move.name == 'Triple Kick' || move.name == 'Double Hit') {
+    return 130;
+  }
+
+  // Normal: use the move's base power
+  return move.power;
+}
+
+/// Apply Dynamax/Gigantamax transformation to a move.
+Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
+  // Status moves -> Max Guard (no offensive calc needed, but return something)
+  if (move.category == MoveCategory.status) {
+    return move.copyWith(
+      name: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
+      type: PokemonType.normal, power: 0,
+      moveClass: MoveClass.maxMove,
+    );
+  }
+
+  final type = move.type;
+  final basePower = _maxMoveBasePower(move);
+  final maxPower = _maxMovePower(basePower, type);
+
+  // Check for G-Max move
+  if (dynamax == DynamaxState.gigantamax && pokemonName != null) {
+    final key = pokemonName.toLowerCase();
+    final gmaxMove = _gmaxMoves[key];
+    if (gmaxMove != null && type == gmaxMove.type) {
+      final gmaxPower = gmaxMove.fixedPower ?? maxPower;
+      return move.copyWith(
+        name: gmaxMove.name, nameKo: gmaxMove.nameKo,
+        power: gmaxPower,
+        moveClass: MoveClass.maxMove,
+      );
+    }
+  }
+
+  // Standard Max Move
+  final maxName = _maxMoveNames[type] ?? 'Max Strike';
+  final maxNameKo = _maxMoveNamesKo[type] ?? '다이어택';
+  return move.copyWith(
+    name: maxName, nameKo: maxNameKo,
+    power: maxPower,
+    moveClass: MoveClass.maxMove,
+  );
 }
 
 // Legacy wrappers for backward compatibility with tests

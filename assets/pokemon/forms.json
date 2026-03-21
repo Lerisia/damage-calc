@@ -688,7 +688,8 @@
     "height": 9.8,
     "finalEvo": true,
     "requiredItem": "blue-orb",
-    "genderRate": -1
+    "genderRate": -1,
+    "canDynamax": false
   },
   {
     "dexNumber": 383,
@@ -713,7 +714,8 @@
     "height": 5.0,
     "finalEvo": true,
     "requiredItem": "red-orb",
-    "genderRate": -1
+    "genderRate": -1,
+    "canDynamax": false
   },
   {
     "dexNumber": 720,

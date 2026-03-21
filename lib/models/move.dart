@@ -43,21 +43,26 @@ class Move {
   bool hasTag(String tag) => tags.contains(tag);
 
   Move copyWith({
+    String? name,
+    String? nameKo,
+    String? nameJa,
     PokemonType? type,
     MoveCategory? category,
     int? power,
+    MoveClass? moveClass,
+    List<String>? tags,
   }) {
     return Move(
-      name: name,
-      nameKo: nameKo,
-      nameJa: nameJa,
+      name: name ?? this.name,
+      nameKo: nameKo ?? this.nameKo,
+      nameJa: nameJa ?? this.nameJa,
       type: type ?? this.type,
       category: category ?? this.category,
       power: power ?? this.power,
       accuracy: accuracy,
       pp: pp,
-      moveClass: moveClass,
-      tags: tags,
+      moveClass: moveClass ?? this.moveClass,
+      tags: tags ?? this.tags,
     );
   }
 
