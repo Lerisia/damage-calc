@@ -47,22 +47,29 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     if (query == _lastQuery && _lastResults != null) return _lastResults!;
     _lastQuery = query;
 
-    final Iterable<Pokemon> filtered;
     if (query.isEmpty) {
-      filtered = _allPokemon;
-    } else {
-      final q = query.toLowerCase();
-      filtered = _allPokemon.where((p) =>
-          p.nameKo.contains(q) ||
-          p.name.toLowerCase().contains(q));
+      _lastResults = _selected != null
+          ? [_selected!, ..._allPokemon.where((p) => p != _selected)]
+          : List.of(_allPokemon);
+      return _lastResults!;
     }
-    if (_selected != null) {
-      _lastResults = [
-        if (filtered.contains(_selected)) _selected!,
-        ...filtered.where((p) => p != _selected),
-      ];
-    } else {
-      _lastResults = filtered.toList();
+
+    final q = query.toLowerCase();
+    final startsWith = <Pokemon>[];
+    final contains = <Pokemon>[];
+    for (final p in _allPokemon) {
+      final ko = p.nameKo.toLowerCase();
+      final en = p.name.toLowerCase();
+      if (ko.startsWith(q) || en.startsWith(q)) {
+        startsWith.add(p);
+      } else if (ko.contains(q) || en.contains(q)) {
+        contains.add(p);
+      }
+    }
+    _lastResults = [...startsWith, ...contains];
+    if (_selected != null && _lastResults!.contains(_selected)) {
+      _lastResults!.remove(_selected);
+      _lastResults!.insert(0, _selected!);
     }
     return _lastResults!;
   }

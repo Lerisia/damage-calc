@@ -52,22 +52,29 @@ class _MoveSelectorState extends State<MoveSelector> {
     if (query == _lastQuery && _lastResults != null) return _lastResults!;
     _lastQuery = query;
 
-    final Iterable<Move> filtered;
     if (query.isEmpty) {
-      filtered = _allMoves;
-    } else {
-      final q = query.toLowerCase();
-      filtered = _allMoves.where((m) =>
-          m.nameKo.contains(q) ||
-          m.name.toLowerCase().contains(q));
+      _lastResults = _selected != null
+          ? [_selected!, ..._allMoves.where((m) => m != _selected)]
+          : List.of(_allMoves);
+      return _lastResults!;
     }
-    if (_selected != null) {
-      _lastResults = [
-        if (filtered.contains(_selected)) _selected!,
-        ...filtered.where((m) => m != _selected),
-      ];
-    } else {
-      _lastResults = filtered.toList();
+
+    final q = query.toLowerCase();
+    final startsWith = <Move>[];
+    final contains = <Move>[];
+    for (final m in _allMoves) {
+      final ko = m.nameKo.toLowerCase();
+      final en = m.name.toLowerCase();
+      if (ko.startsWith(q) || en.startsWith(q)) {
+        startsWith.add(m);
+      } else if (ko.contains(q) || en.contains(q)) {
+        contains.add(m);
+      }
+    }
+    _lastResults = [...startsWith, ...contains];
+    if (_selected != null && _lastResults!.contains(_selected)) {
+      _lastResults!.remove(_selected);
+      _lastResults!.insert(0, _selected!);
     }
     return _lastResults!;
   }
