@@ -85,12 +85,6 @@
     "battle": true
   },
   {
-    "name": "air-balloon",
-    "nameKo": "풍선",
-    "nameJa": "ふうせん",
-    "battle": true
-  },
-  {
     "name": "black-flute",
     "nameKo": "검정비드로",
     "nameJa": "くろいビードロ"
@@ -209,6 +203,12 @@
     "name": "grass-memory",
     "nameKo": "그래스메모리",
     "nameJa": "グラスメモリ",
+    "battle": true
+  },
+  {
+    "name": "grassy-seed",
+    "nameKo": "그래시시드",
+    "nameJa": "グラスシード",
     "battle": true
   },
   {
@@ -594,6 +594,12 @@
     "battle": true
   },
   {
+    "name": "red-card",
+    "nameKo": "레드카드",
+    "nameJa": "レッドカード",
+    "battle": true
+  },
+  {
     "name": "roseli-berry",
     "nameKo": "로셀열매",
     "nameJa": "ロゼルのみ",
@@ -625,6 +631,12 @@
     "name": "lucarionite",
     "nameKo": "루카리오나이트",
     "nameJa": "ルカリオナイト",
+    "battle": true
+  },
+  {
+    "name": "room-service",
+    "nameKo": "룸서비스",
+    "nameJa": "ルームサービス",
     "battle": true
   },
   {
@@ -811,6 +823,12 @@
     "battle": true
   },
   {
+    "name": "throat-spray",
+    "nameKo": "목스프레이",
+    "nameJa": "のどスプレー",
+    "battle": true
+  },
+  {
     "name": "charcoal",
     "nameKo": "목탄",
     "nameJa": "もくたん",
@@ -884,6 +902,18 @@
     "nameJa": "ミニリュウのアメ"
   },
   {
+    "name": "mirror-herb",
+    "nameKo": "미러허브",
+    "nameJa": "ミラーハーブ",
+    "battle": true
+  },
+  {
+    "name": "misty-seed",
+    "nameKo": "미스트시드",
+    "nameJa": "ミストシード",
+    "battle": true
+  },
+  {
     "name": "micle-berry",
     "nameKo": "미클열매",
     "nameJa": "ミクルのみ",
@@ -929,6 +959,12 @@
     "name": "poliwag-candy",
     "nameKo": "발챙이의사탕",
     "nameJa": "ニョロモのアメ"
+  },
+  {
+    "name": "safety-goggles",
+    "nameKo": "방진고글",
+    "nameJa": "ぼうじんゴーグル",
+    "battle": true
   },
   {
     "name": "aspear-berry",
@@ -1110,6 +1146,12 @@
     "nameJa": "ピッピにんぎょう"
   },
   {
+    "name": "psychic-seed",
+    "nameKo": "사이코시드",
+    "nameJa": "サイコシード",
+    "battle": true
+  },
+  {
     "name": "psychic-memory",
     "nameKo": "사이킥메모리",
     "nameJa": "サイキックメモリ",
@@ -1157,6 +1199,12 @@
     "name": "shellder-candy",
     "nameKo": "셀러의사탕",
     "nameJa": "シェルダーのアメ"
+  },
+  {
+    "name": "loaded-dice",
+    "nameKo": "속임수주사위",
+    "nameJa": "いかさまダイス",
+    "battle": true
   },
   {
     "name": "kasib-berry",
@@ -1324,6 +1372,12 @@
     "battle": true
   },
   {
+    "name": "kee-berry",
+    "nameKo": "악키열매",
+    "nameJa": "アッキのみ",
+    "battle": true
+  },
+  {
     "name": "aloraichium-z--held",
     "nameKo": "알로라이Z",
     "nameJa": "アロライＺ",
@@ -1395,6 +1449,12 @@
     "name": "payapa-berry",
     "nameKo": "야파열매",
     "nameJa": "ウタンのみ",
+    "battle": true
+  },
+  {
+    "name": "weakness-policy",
+    "nameKo": "약점보험",
+    "nameJa": "じゃくてんほけん",
     "battle": true
   },
   {
@@ -1566,6 +1626,12 @@
     "battle": true
   },
   {
+    "name": "covert-cloak",
+    "nameKo": "은밀망토",
+    "nameJa": "おんみつマント",
+    "battle": true
+  },
+  {
     "name": "silver-powder",
     "nameKo": "은빛가루",
     "nameJa": "ぎんのこな",
@@ -1625,6 +1691,12 @@
     "name": "electric-memory",
     "nameKo": "일렉트릭메모리",
     "nameJa": "エレクトロメモリ",
+    "battle": true
+  },
+  {
+    "name": "electric-seed",
+    "nameKo": "일렉트릭시드",
+    "nameJa": "エレキシード",
     "battle": true
   },
   {
@@ -1912,9 +1984,21 @@
     "battle": true
   },
   {
+    "name": "clear-amulet",
+    "nameKo": "클리어참",
+    "nameJa": "クリアチャーム",
+    "battle": true
+  },
+  {
     "name": "zinc",
     "nameKo": "키토산",
     "nameJa": "キトサン"
+  },
+  {
+    "name": "maranga-berry",
+    "nameKo": "타라프열매",
+    "nameJa": "タラプのみ",
+    "battle": true
   },
   {
     "name": "protein",
@@ -1927,14 +2011,38 @@
     "nameJa": "タイマーボール"
   },
   {
+    "name": "eject-button",
+    "nameKo": "탈출버튼",
+    "nameJa": "だっしゅつボタン",
+    "battle": true
+  },
+  {
+    "name": "eject-pack",
+    "nameKo": "탈출팩",
+    "nameJa": "だっしゅつパック",
+    "battle": true
+  },
+  {
     "name": "cubone-candy",
     "nameKo": "탕구리의사탕",
     "nameJa": "カラカラのアメ"
   },
   {
+    "name": "heavy-duty-boots",
+    "nameKo": "통굽부츠",
+    "nameJa": "あつぞこブーツ",
+    "battle": true
+  },
+  {
     "name": "kabuto-candy",
     "nameKo": "투구의사탕",
     "nameJa": "カブトのアメ"
+  },
+  {
+    "name": "ability-shield",
+    "nameKo": "특성가드",
+    "nameJa": "とくせいガード",
+    "battle": true
   },
   {
     "name": "moomoo-milk",
@@ -2044,6 +2152,12 @@
     "battle": true
   },
   {
+    "name": "punching-glove",
+    "nameKo": "펀칭글로브",
+    "nameJa": "パンチグローブ",
+    "battle": true
+  },
+  {
     "name": "fairium-z--held",
     "nameKo": "페어리Z",
     "nameJa": "フェアリーＺ",
@@ -2119,6 +2233,12 @@
     "name": "max-potion",
     "nameKo": "풀회복약",
     "nameJa": "まんたんのくすり"
+  },
+  {
+    "name": "air-balloon",
+    "nameKo": "풍선",
+    "nameJa": "ふうせん",
+    "battle": true
   },
   {
     "name": "premier-ball",
@@ -2233,6 +2353,12 @@
     "name": "luck-incense",
     "nameKo": "행운의향로",
     "nameJa": "こううんのおこう"
+  },
+  {
+    "name": "blunder-policy",
+    "nameKo": "허탕보험",
+    "nameJa": "からぶりほけん",
+    "battle": true
   },
   {
     "name": "heracronite",

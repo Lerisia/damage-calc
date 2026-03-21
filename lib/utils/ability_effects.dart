@@ -177,7 +177,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
       return move != null && move.type == PokemonType.electric
           ? const AbilityEffect(powerModifier: kMediumPowerBoost)
           : _defaultEffect;
-    case "Dragon\u2019s Maw":
+    case "Dragon's Maw":
       return move != null && move.type == PokemonType.dragon
           ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
