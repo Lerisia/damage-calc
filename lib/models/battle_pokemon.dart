@@ -17,6 +17,7 @@ class BattlePokemonState {
   int genderRate;
   PokemonType type1;
   PokemonType? type2;
+  double weight; // kg
   Stats baseStats;
   List<String> pokemonAbilities;
   String? selectedAbility;
@@ -55,6 +56,7 @@ class BattlePokemonState {
     this.genderRate = 4,
     this.type1 = PokemonType.grass,
     this.type2 = PokemonType.poison,
+    this.weight = 6.9,
     Stats? baseStats,
     List<String>? pokemonAbilities,
     this.selectedAbility = 'Overgrow',
@@ -104,6 +106,7 @@ class BattlePokemonState {
     genderRate = 4;
     type1 = PokemonType.grass;
     type2 = PokemonType.poison;
+    weight = 6.9;
     baseStats = const Stats(
         hp: 45, attack: 49, defense: 49,
         spAttack: 65, spDefense: 65, speed: 45);

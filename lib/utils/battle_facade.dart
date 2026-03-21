@@ -130,6 +130,7 @@ class BattleFacade {
     int? opponentAttack,
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
+    double? opponentWeight,
   }) {
     final move = state.moves[moveIndex];
     if (move == null) {
@@ -147,6 +148,7 @@ class BattleFacade {
       actualStats: baseStats,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
+      opponentWeight: opponentWeight,
     );
     final transformed = transformMove(move, ctx);
 
@@ -200,6 +202,7 @@ class BattleFacade {
     int? opponentAttack,
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
+    double? opponentWeight,
   }) {
     return _calcOffensivePower(
       state: state,
@@ -215,6 +218,7 @@ class BattleFacade {
       opponentAttack: opponentAttack,
       opponentGender: opponentGender,
       myEffectiveSpeed: myEffectiveSpeed,
+      opponentWeight: opponentWeight,
     );
   }
 
@@ -232,6 +236,7 @@ class BattleFacade {
     int? opponentAttack,
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
+    double? opponentWeight,
   }) {
     if (move == null) return null;
 
@@ -255,6 +260,7 @@ class BattleFacade {
       actualStats: baseStats,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
+      opponentWeight: opponentWeight,
     );
     final transformed = transformMove(move, ctx);
 
@@ -384,6 +390,20 @@ class BattleFacade {
     );
   }
 
+  /// Returns the effective weight after ability/item modifiers.
+  static double effectiveWeight(BattlePokemonState state) {
+    var w = state.weight;
+    switch (state.selectedAbility) {
+      case 'Heavy Metal':
+        w *= 2;
+      case 'Light Metal':
+        w *= 0.5;
+    }
+    // Float item also halves weight
+    if (state.selectedItem == 'float-stone') w *= 0.5;
+    return w;
+  }
+
   static MoveContext _buildMoveContext({
     required BattlePokemonState state,
     required Weather weather,
@@ -391,6 +411,7 @@ class BattleFacade {
     required Stats actualStats,
     int? myEffectiveSpeed,
     int? opponentSpeed,
+    double? opponentWeight,
   }) {
     // Tera Blast needs rank-applied stats for category comparison
     final rankedStats = state.rank != const Rank()
@@ -420,6 +441,8 @@ class BattleFacade {
       opponentSpeed: opponentSpeed,
       actualAttack: rankedStats.attack,
       actualSpAttack: rankedStats.spAttack,
+      myWeight: effectiveWeight(state),
+      opponentWeight: opponentWeight,
     );
   }
 

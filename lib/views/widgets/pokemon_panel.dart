@@ -33,6 +33,7 @@ class PokemonPanel extends StatefulWidget {
   final bool opponentAlwaysLast;
   final int? opponentAttack;
   final Gender? opponentGender;
+  final double? opponentWeight;
 
   const PokemonPanel({
     super.key,
@@ -47,6 +48,7 @@ class PokemonPanel extends StatefulWidget {
     this.opponentSpeed,
     this.opponentAlwaysLast = false,
     this.opponentAttack,
+    this.opponentWeight,
     this.opponentGender,
   });
 
@@ -148,6 +150,7 @@ class PokemonPanelState extends State<PokemonPanel>
       opponentAttack: widget.opponentAttack,
       opponentGender: widget.opponentGender ?? Gender.unset,
       myEffectiveSpeed: myEffectiveSpeed,
+      opponentWeight: widget.opponentWeight,
     );
   }
 
@@ -197,6 +200,7 @@ class PokemonPanelState extends State<PokemonPanel>
                   }
                   s.type1 = pokemon.type1;
                   s.type2 = pokemon.type2;
+                  s.weight = pokemon.weight;
                   s.baseStats = pokemon.baseStats;
                   s.pokemonAbilities = pokemon.abilities;
                   s.selectedAbility =
@@ -396,6 +400,7 @@ class PokemonPanelState extends State<PokemonPanel>
       opponentAttack: widget.opponentAttack,
       opponentGender: widget.opponentGender ?? Gender.unset,
       myEffectiveSpeed: myEffectiveSpeed,
+      opponentWeight: widget.opponentWeight,
     );
     final effectiveType = info.effectiveType ?? move?.type;
     final effectiveCategory = info.effectiveCategory ?? move?.category;
