@@ -21,8 +21,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
-  final _attacker = BattlePokemonState();
-  final _defender = BattlePokemonState();
+  var _attacker = BattlePokemonState();
+  var _defender = BattlePokemonState();
   final _attackerPanelKey = GlobalKey<PokemonPanelState>();
   final _defenderPanelKey = GlobalKey<PokemonPanelState>();
   int _resetCounter = 0;
@@ -30,6 +30,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
   Room _room = Room.none;
+
+  void _swapSides() {
+    setState(() {
+      final temp = _attacker;
+      _attacker = _defender;
+      _defender = temp;
+      _resetCounter++;
+    });
+  }
 
   int _calcSpeed(BattlePokemonState s) {
     return StatCalculator.calculate(
@@ -43,11 +52,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) {
-        setState(() {});
-      }
-    });
   }
 
   @override
@@ -204,6 +208,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.swap_horiz),
+            tooltip: '공수전환',
+            onPressed: _swapSides,
+          ),
+          IconButton(
             icon: const Icon(Icons.camera_alt_outlined),
             tooltip: '캡처',
             onPressed: _capture,
@@ -228,8 +237,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
           // Tab content
           Expanded(
-            child: IndexedStack(
-              index: _tabController.index,
+            child: TabBarView(
+              controller: _tabController,
               children: [
                 PokemonPanel(
                   key: _attackerPanelKey,
@@ -273,3 +282,4 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 }
+
