@@ -793,6 +793,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           'wake_up_slap': '수면 상태',
           'smelling_salts': '마비 상태',
           'barb_barrage': '독 상태',
+          'bolt_beak': '선공',
+          'payback': '후공',
         };
         final key = parts[1];
         final label = moveKo[key] ?? key;
