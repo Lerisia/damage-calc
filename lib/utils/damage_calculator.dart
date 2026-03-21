@@ -260,6 +260,7 @@ class DamageCalculator {
       pokemonName: attacker.pokemonName,
       weather: weather,
       terrain: terrain,
+      heldItem: attacker.selectedItem,
     );
     final atkType1 = atkTypeOverride?.type1 ?? attacker.type1;
     final PokemonType? atkType2 = atkTypeOverride != null ? atkTypeOverride.type2 : attacker.type2;
@@ -269,6 +270,7 @@ class DamageCalculator {
       pokemonName: defender.pokemonName,
       weather: weather,
       terrain: terrain,
+      heldItem: defender.selectedItem,
     );
     // Defender type: Terastal takes priority over ability override
     // (handled later in type effectiveness section)

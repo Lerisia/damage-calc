@@ -559,6 +559,7 @@ class PokemonPanelState extends State<PokemonPanel>
       pokemonName: s.pokemonName,
       weather: widget.weather,
       terrain: widget.terrain,
+      heldItem: s.selectedItem,
     );
     final type1 = override?.type1 ?? s.type1;
     final type2 = override != null ? override.type2 : s.type2;
