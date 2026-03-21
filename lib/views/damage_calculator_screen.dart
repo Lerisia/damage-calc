@@ -9,6 +9,7 @@ import '../utils/damage_calculator.dart';
 import '../utils/random_factor.dart';
 import '../utils/grounded.dart';
 import '../utils/item_effects.dart';
+import '../utils/speed_calculator.dart';
 import '../utils/stat_calculator.dart';
 import '../models/move.dart';
 import '../models/type.dart';
@@ -388,7 +389,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   weather: _weather,
                   terrain: _terrain,
                   room: _room,
-                  onChanged: () => setState(() {}),
+                  onChanged: _onPanelChanged,
                   resetCounter: _resetCounter,
                   abilityNameMap: _abilityNameMap,
                   itemNameMap: _itemNameMap,
