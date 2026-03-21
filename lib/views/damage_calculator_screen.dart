@@ -450,21 +450,23 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header: 공격측 → 방어측 with type names
+          // Header line 1: names
           FittedBox(
             fit: BoxFit.scaleDown,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(_attacker.pokemonNameKo, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(width: 4),
-                _dmgTypeLabel(_attacker),
-                const Text('  →  ', style: TextStyle(fontSize: 16, color: Colors.grey)),
-                Text(_defender.pokemonNameKo, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(width: 4),
-                _dmgTypeLabel(_defender),
-              ],
+            child: Text(
+              '${_attacker.pokemonNameKo} → ${_defender.pokemonNameKo}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+          ),
+          const SizedBox(height: 2),
+          // Header line 2: types
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _dmgTypeText(_attacker),
+              const Text('  →  ', style: TextStyle(fontSize: 12, color: Colors.grey)),
+              _dmgTypeText(_defender),
+            ],
           ),
           const SizedBox(height: 4),
           Text(
@@ -631,20 +633,26 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  Widget _dmgTypeLabel(BattlePokemonState state) {
+  Widget _dmgTypeText(BattlePokemonState state) {
+    // Terastal: show tera type only (overrides original)
+    if (state.terastal.active && state.terastal.teraType != null &&
+        state.terastal.teraType != PokemonType.stellar) {
+      final t = state.terastal.teraType!;
+      return Text.rich(TextSpan(children: [
+        TextSpan(text: KoStrings.getTypeKo(t),
+          style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(t), fontWeight: FontWeight.bold)),
+        TextSpan(text: ' (테라)', style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+      ]));
+    }
+    // Normal: type1/type2
     final parts = <InlineSpan>[
       TextSpan(text: KoStrings.getTypeKo(state.type1),
-        style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(state.type1), fontWeight: FontWeight.bold)),
+        style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type1), fontWeight: FontWeight.bold)),
     ];
     if (state.type2 != null) {
-      parts.add(TextSpan(text: '/', style: TextStyle(fontSize: 12, color: Colors.grey.shade400)));
+      parts.add(TextSpan(text: '/', style: TextStyle(fontSize: 13, color: Colors.grey.shade400)));
       parts.add(TextSpan(text: KoStrings.getTypeKo(state.type2!),
-        style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(state.type2!), fontWeight: FontWeight.bold)));
-    }
-    if (state.terastal.active && state.terastal.teraType != null) {
-      parts.add(const TextSpan(text: '→', style: TextStyle(fontSize: 10, color: Colors.grey)));
-      parts.add(TextSpan(text: KoStrings.getTypeKo(state.terastal.teraType!),
-        style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(state.terastal.teraType!), fontWeight: FontWeight.bold)));
+        style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type2!), fontWeight: FontWeight.bold)));
     }
     return Text.rich(TextSpan(children: parts));
   }
