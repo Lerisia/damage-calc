@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../models/move.dart';
-import '../../models/type.dart';
+import '../../utils/localization.dart';
 
 class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;
@@ -53,31 +53,8 @@ class _MoveSelectorState extends State<MoveSelector> {
     setState(() => _allMoves = all);
   }
 
-  String _typeKo(PokemonType t) {
-    const map = {
-      PokemonType.normal: '노말', PokemonType.fire: '불꽃',
-      PokemonType.water: '물', PokemonType.electric: '전기',
-      PokemonType.grass: '풀', PokemonType.ice: '얼음',
-      PokemonType.fighting: '격투', PokemonType.poison: '독',
-      PokemonType.ground: '땅', PokemonType.flying: '비행',
-      PokemonType.psychic: '에스퍼', PokemonType.bug: '벌레',
-      PokemonType.rock: '바위', PokemonType.ghost: '고스트',
-      PokemonType.dragon: '드래곤', PokemonType.dark: '악',
-      PokemonType.steel: '강철', PokemonType.fairy: '페어리',
-    };
-    return map[t] ?? t.name;
-  }
-
-  String _categoryKo(MoveCategory c) {
-    switch (c) {
-      case MoveCategory.physical: return '물리';
-      case MoveCategory.special: return '특수';
-      case MoveCategory.status: return '변화';
-    }
-  }
-
   String _moveDisplay(Move m) =>
-      '${m.nameKo} (${_typeKo(m.type)} / ${_categoryKo(m.category)} / 위력${m.power})';
+      '${m.nameKo} (${KoStrings.getTypeKo(m.type)} / ${KoStrings.getCategoryKo(m.category)} / 위력${m.power})';
 
   List<Move> _sortedOptions(String query) {
     List<Move> results;
@@ -118,7 +95,7 @@ class _MoveSelectorState extends State<MoveSelector> {
                     dense: true,
                     title: Text(m.nameKo),
                     subtitle: Text(
-                      '${_typeKo(m.type)} / ${_categoryKo(m.category)} / 위력${m.power}',
+                      '${KoStrings.getTypeKo(m.type)} / ${KoStrings.getCategoryKo(m.category)} / 위력${m.power}',
                       style: const TextStyle(fontSize: 11),
                     ),
                     onTap: () => onSelected(m),

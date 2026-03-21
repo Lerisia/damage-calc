@@ -77,5 +77,42 @@ void main() {
           move: dragonPulse, grounded: false);
       expect(mod, equals(1.0));
     });
+
+    test('Electric Terrain does not affect non-electric moves', () {
+      final mod = getTerrainModifier(Terrain.electric, move: psychic);
+      expect(mod, equals(1.0));
+    });
+
+    test('Grassy Terrain does not affect non-grass moves', () {
+      final mod = getTerrainModifier(Terrain.grassy, move: flamethrower);
+      expect(mod, equals(1.0));
+    });
+
+    test('Psychic Terrain does not affect non-psychic moves', () {
+      final mod = getTerrainModifier(Terrain.psychic, move: flamethrower);
+      expect(mod, equals(1.0));
+    });
+
+    test('Misty Terrain does not affect non-dragon moves', () {
+      final mod = getTerrainModifier(Terrain.misty, move: flamethrower);
+      expect(mod, equals(1.0));
+    });
+
+    test('ungrounded ignores Grassy Terrain boost', () {
+      final mod = getTerrainModifier(Terrain.grassy,
+          move: energyBall, grounded: false);
+      expect(mod, equals(1.0));
+    });
+
+    test('ungrounded ignores Psychic Terrain boost', () {
+      final mod = getTerrainModifier(Terrain.psychic,
+          move: psychic, grounded: false);
+      expect(mod, equals(1.0));
+    });
+
+    test('grounded defaults to true', () {
+      final mod = getTerrainModifier(Terrain.electric, move: thunderbolt);
+      expect(mod, equals(1.3));
+    });
   });
 }

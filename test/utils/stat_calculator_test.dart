@@ -173,5 +173,148 @@ void main() {
       expect(withRank.attack, equals(withoutRank.attack));
       expect(withRank.speed, equals(withoutRank.speed));
     });
+
+    test('rank +1 on spAttack', () {
+      final result = StatCalculator.calculate(
+        baseStats: baseStats,
+        iv: const Stats(
+          hp: 31, attack: 31, defense: 31,
+          spAttack: 31, spDefense: 31, speed: 31,
+        ),
+        ev: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        nature: Nature.hardy,
+        level: 50,
+        rank: const Rank(spAttack: 1),
+      );
+      // SpA without rank = 85, rank +1 = 1.5x -> floor(85 * 1.5) = 127
+      expect(result.spAttack, equals(127));
+      // Attack unaffected
+      expect(result.attack, equals(69));
+    });
+
+    test('rank -2 on speed', () {
+      final result = StatCalculator.calculate(
+        baseStats: baseStats,
+        iv: const Stats(
+          hp: 31, attack: 31, defense: 31,
+          spAttack: 31, spDefense: 31, speed: 31,
+        ),
+        ev: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        nature: Nature.hardy,
+        level: 50,
+        rank: const Rank(speed: -2),
+      );
+      // Speed without rank = 65, rank -2 = 0.5x -> floor(65 * 0.5) = 32
+      expect(result.speed, equals(32));
+    });
+
+    test('combined rank and nature boost', () {
+      final result = StatCalculator.calculate(
+        baseStats: baseStats,
+        iv: const Stats(
+          hp: 31, attack: 31, defense: 31,
+          spAttack: 31, spDefense: 31, speed: 31,
+        ),
+        ev: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        nature: Nature.adamant, // +Atk -SpA
+        level: 50,
+        rank: const Rank(attack: 2),
+      );
+      // Atk = 69 base, nature 1.1x -> 75, rank +2 = 2.0x -> 150
+      // But rank is applied in the stat formula: raw * nature * rank
+      // raw = 64 + 5 = 69 (at base), then * 1.1 * 2.0 = floor(69 * 1.1 * 2.0) = floor(151.8) = 151
+      // Wait, let me recalculate:
+      // raw = ((2*49+31)*50/100) + 5 = (129*50/100) + 5 = 64 + 5 = 69
+      // 69 * 1.1 (nature) * 2.0 (rank) = 69 * 2.2 = 151.8 -> 151
+      expect(result.attack, equals(151));
+    });
+
+    test('rank +6 on defense', () {
+      final result = StatCalculator.calculate(
+        baseStats: baseStats,
+        iv: const Stats(
+          hp: 31, attack: 31, defense: 31,
+          spAttack: 31, spDefense: 31, speed: 31,
+        ),
+        ev: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        nature: Nature.hardy,
+        level: 50,
+        rank: const Rank(defense: 6),
+      );
+      // Def = 69, rank +6 = 4.0x -> floor(69 * 4.0) = 276
+      expect(result.defense, equals(276));
+    });
+
+    test('rank -6 on spDefense', () {
+      final result = StatCalculator.calculate(
+        baseStats: baseStats,
+        iv: const Stats(
+          hp: 31, attack: 31, defense: 31,
+          spAttack: 31, spDefense: 31, speed: 31,
+        ),
+        ev: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        nature: Nature.hardy,
+        level: 50,
+        rank: const Rank(spDefense: -6),
+      );
+      // SpD base=65: ((2*65+31)*50/100)+5 = (161*50/100)+5 = 80+5 = 85
+      // rank -6 = 0.25x -> floor(85 * 0.25) = 21
+      expect(result.spDefense, equals(21));
+    });
+
+    test('zero IVs lower stats', () {
+      final result = StatCalculator.calculate(
+        baseStats: baseStats,
+        iv: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        ev: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        nature: Nature.hardy,
+        level: 50,
+      );
+      // HP: ((2*45+0)*50/100)+50+10 = (90*50/100)+60 = 45+60 = 105
+      expect(result.hp, equals(105));
+      // Atk: ((2*49+0)*50/100)+5 = (98*50/100)+5 = 49+5 = 54
+      expect(result.attack, equals(54));
+    });
+
+    test('level 1 calculation', () {
+      final result = StatCalculator.calculate(
+        baseStats: baseStats,
+        iv: const Stats(
+          hp: 31, attack: 31, defense: 31,
+          spAttack: 31, spDefense: 31, speed: 31,
+        ),
+        ev: const Stats(
+          hp: 0, attack: 0, defense: 0,
+          spAttack: 0, spDefense: 0, speed: 0,
+        ),
+        nature: Nature.hardy,
+        level: 1,
+      );
+      // HP: ((2*45+31)*1/100)+1+10 = (121/100)+11 = 1+11 = 12
+      expect(result.hp, equals(12));
+      // Atk: ((2*49+31)*1/100)+5 = (129/100)+5 = 1+5 = 6
+      expect(result.attack, equals(6));
+    });
   });
 }

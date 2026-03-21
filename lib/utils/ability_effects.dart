@@ -1,4 +1,5 @@
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/stats.dart';
 import '../models/status.dart';
 import '../models/terrain.dart';
@@ -64,27 +65,27 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Tag-based power modifiers ---
     case 'Tough Claws':
-      return move.hasTag('contact')
+      return move.hasTag(MoveTags.contact)
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
     case 'Iron Fist':
-      return move.hasTag('punch')
+      return move.hasTag(MoveTags.punch)
           ? const AbilityEffect(powerModifier: 1.2)
           : _defaultEffect;
     case 'Reckless':
-      return move.hasTag('recoil')
+      return move.hasTag(MoveTags.recoil)
           ? const AbilityEffect(powerModifier: 1.2)
           : _defaultEffect;
     case 'Strong Jaw':
-      return move.hasTag('bite')
+      return move.hasTag(MoveTags.bite)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Mega Launcher':
-      return move.hasTag('pulse')
+      return move.hasTag(MoveTags.pulse)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Sharpness':
-      return move.hasTag('slice')
+      return move.hasTag(MoveTags.slice)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Technician':
@@ -181,11 +182,11 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(powerModifier: 2.0)
           : _defaultEffect;
     case 'Punk Rock':
-      return move.hasTag('sound')
+      return move.hasTag(MoveTags.sound)
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
     case 'Sheer Force':
-      return move.hasTag('custom:has_secondary')
+      return move.hasTag(MoveTags.hasSecondary)
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
 

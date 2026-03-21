@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/nature.dart';
 import 'package:damage_calc/models/move.dart';
+import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/weather.dart';
@@ -320,6 +321,132 @@ void main() {
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
       expect(result, equals(0));
+    });
+  });
+
+  group('Rank integration', () {
+    test('positive spAttack rank boosts special damage', () {
+      // SpA base = 85, rank +2 = 2.0x -> 170
+      // power = 90 -> 170 * 90 = 15300
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(psychicMove),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        rank: const Rank(spAttack: 2),
+      );
+      expect(result, equals(15300));
+    });
+
+    test('negative attack rank reduces physical damage', () {
+      // Atk = 69, rank -1 = 2/3 -> 46
+      // power = 40 -> 46 * 40 = 1840
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        rank: const Rank(attack: -1),
+      );
+      expect(result, equals(1840));
+    });
+  });
+
+  group('Combined modifiers', () {
+    test('STAB + weather + statModifier', () {
+      // Bulbasaur using Sludge Bomb (Poison STAB) in rain
+      // SpA = 85, power = 90, STAB 1.5x, rain doesn't affect poison
+      // 85 * 90 * 1.5 * 1.5 (statMod) = floor(85 * 1.5) = 127; 127 * 90 * 1.5 = 17145
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(sludgeBomb),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        statModifier: 1.5,
+        weather: Weather.rain,
+      );
+      expect(result, equals(17145));
+    });
+
+    test('STAB + powerModifier', () {
+      // SpA = 85, power = 90, STAB 1.5x, powerMod 1.3x
+      // floor(85 * 90 * 1.5 * 1.3) = floor(14917.5) = 14917
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(sludgeBomb),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        powerModifier: 1.3,
+      );
+      expect(result, equals(14917));
+    });
+
+    test('critical + STAB + weather', () {
+      // Flamethrower in sun with STAB (if fire type)
+      // Not STAB for Bulbasaur (Grass/Poison)
+      // SpA = 85, power = 90, crit 1.5x, sun 1.5x = 85*90*1.5*1.5 = 17213
+      // Wait: 85 * 90 * 1.5 * 1.5 = 17212.5 -> 17212
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(flamethrower),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        isCritical: true,
+        weather: Weather.sun,
+      );
+      expect(result, equals(17212));
+    });
+  });
+
+  group('Body Press stat selection', () {
+    test('Body Press uses defense stat', () {
+      const bodyPress = Move(
+        name: 'Body Press', nameKo: '바디프레스', nameJa: 'ボディプレス',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 80, accuracy: 100, pp: 10, tags: [MoveTags.useDefense],
+      );
+      // Def = 69, power = 80 -> 69 * 80 = 5520
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(bodyPress),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+      );
+      expect(result, equals(5520));
+    });
+  });
+
+  group('Misty terrain reduces dragon', () {
+    test('Misty Terrain halves dragon move damage when grounded', () {
+      const dragonPulse = Move(
+        name: 'Dragon Pulse', nameKo: '용의파동', nameJa: 'りゅうのはどう',
+        type: PokemonType.dragon, category: MoveCategory.special,
+        power: 85, accuracy: 100, pp: 10,
+      );
+      // SpA = 85, power = 85, misty 0.5x -> floor(85*85*0.5) = 3612
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(dragonPulse),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        terrain: Terrain.misty,
+        grounded: true,
+      );
+      expect(result, equals(3612));
+    });
+  });
+
+  group('Rain weakens fire', () {
+    test('rain halves fire move damage', () {
+      // SpA = 85, power = 90, rain 0.5x -> floor(85*90*0.5) = 3825
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(flamethrower),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        weather: Weather.rain,
+      );
+      expect(result, equals(3825));
     });
   });
 }

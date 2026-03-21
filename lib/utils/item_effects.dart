@@ -1,4 +1,5 @@
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/type.dart';
 
 /// Offensive modifiers returned by an item
@@ -93,7 +94,7 @@ ItemEffect getItemEffect(
           ? const ItemEffect(powerModifier: 1.1)
           : _defaultEffect;
     case 'punching-glove':
-      return move.hasTag('punch')
+      return move.hasTag(MoveTags.punch)
           ? const ItemEffect(powerModifier: 1.1)
           : _defaultEffect;
     case 'normal-gem':

@@ -6,6 +6,7 @@ import '../models/battle_pokemon.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
+import '../utils/localization.dart';
 import 'widgets/pokemon_panel.dart';
 
 class DamageCalculatorScreen extends StatefulWidget {
@@ -98,7 +99,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_weatherIcon(_weather), style: const TextStyle(fontSize: 20)),
+                    Text(KoStrings.weatherIcon[_weather]!, style: const TextStyle(fontSize: 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -108,9 +109,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       value: w,
                       child: Row(
                         children: [
-                          Text(_weatherIcon(w), style: const TextStyle(fontSize: 18)),
+                          Text(KoStrings.weatherIcon[w]!, style: const TextStyle(fontSize: 18)),
                           const SizedBox(width: 8),
-                          Text(_weatherKo(w)),
+                          Text(KoStrings.weatherKo[w]!),
                         ],
                       )))
                   .toList(),
@@ -125,7 +126,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_terrainIcon(_terrain), style: const TextStyle(fontSize: 20)),
+                    Text(KoStrings.terrainIcon[_terrain]!, style: const TextStyle(fontSize: 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -135,9 +136,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       value: t,
                       child: Row(
                         children: [
-                          Text(_terrainIcon(t), style: const TextStyle(fontSize: 18)),
+                          Text(KoStrings.terrainIcon[t]!, style: const TextStyle(fontSize: 18)),
                           const SizedBox(width: 8),
-                          Text(_terrainKo(t)),
+                          Text(KoStrings.terrainKo[t]!),
                         ],
                       )))
                   .toList(),
@@ -152,7 +153,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_roomIcon(_room), style: const TextStyle(fontSize: 20)),
+                    Text(KoStrings.roomIcon[_room]!, style: const TextStyle(fontSize: 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -162,9 +163,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       value: r,
                       child: Row(
                         children: [
-                          Text(_roomIcon(r), style: const TextStyle(fontSize: 18)),
+                          Text(KoStrings.roomIcon[r]!, style: const TextStyle(fontSize: 18)),
                           const SizedBox(width: 8),
-                          Text(_roomKo(r)),
+                          Text(KoStrings.roomKo[r]!),
                         ],
                       )))
                   .toList(),
@@ -250,69 +251,5 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         style: TextStyle(fontSize: 18, color: Colors.grey),
       ),
     );
-  }
-
-  String _weatherIcon(Weather w) {
-    switch (w) {
-      case Weather.none: return '☁️';
-      case Weather.sun: return '☀️';
-      case Weather.rain: return '🌧️';
-      case Weather.sandstorm: return '🏜️';
-      case Weather.snow: return '❄️';
-      case Weather.harshSun: return '🔥';
-      case Weather.heavyRain: return '🌊';
-      case Weather.strongWinds: return '🌪️';
-    }
-  }
-
-  String _roomIcon(Room r) {
-    switch (r) {
-      case Room.none: return '🚪';
-      case Room.trickRoom: return '🔄';
-      case Room.magicRoom: return '✨';
-      case Room.wonderRoom: return '❓';
-    }
-  }
-
-  String _roomKo(Room r) {
-    switch (r) {
-      case Room.none: return '없음';
-      case Room.trickRoom: return '트릭룸';
-      case Room.magicRoom: return '매직룸';
-      case Room.wonderRoom: return '원더룸';
-    }
-  }
-
-  String _terrainIcon(Terrain t) {
-    switch (t) {
-      case Terrain.none: return '🌍';
-      case Terrain.electric: return '⚡';
-      case Terrain.grassy: return '🌿';
-      case Terrain.psychic: return '🔮';
-      case Terrain.misty: return '💫';
-    }
-  }
-
-  String _weatherKo(Weather w) {
-    switch (w) {
-      case Weather.none: return '없음';
-      case Weather.sun: return '쾌청';
-      case Weather.rain: return '비';
-      case Weather.sandstorm: return '모래바람';
-      case Weather.snow: return '눈';
-      case Weather.harshSun: return '강한 햇살';
-      case Weather.heavyRain: return '강한 비';
-      case Weather.strongWinds: return '난기류';
-    }
-  }
-
-  String _terrainKo(Terrain t) {
-    switch (t) {
-      case Terrain.none: return '없음';
-      case Terrain.electric: return '일렉트릭필드';
-      case Terrain.grassy: return '그래스필드';
-      case Terrain.psychic: return '사이코필드';
-      case Terrain.misty: return '미스트필드';
-    }
   }
 }
