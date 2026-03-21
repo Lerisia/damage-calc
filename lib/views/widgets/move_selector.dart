@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/movedex.dart';
 import '../../models/move.dart';
+import '../../utils/korean_search.dart';
 import '../../utils/localization.dart';
 
 class MoveSelector extends StatefulWidget {
@@ -59,19 +60,19 @@ class _MoveSelectorState extends State<MoveSelector> {
       return _lastResults!;
     }
 
-    final q = query.toLowerCase();
-    final startsWith = <Move>[];
-    final contains = <Move>[];
+    final scored = <(Move, int)>[];
     for (final m in _allMoves) {
-      final ko = m.nameKo.toLowerCase();
-      final en = m.name.toLowerCase();
-      if (ko.startsWith(q) || en.startsWith(q)) {
-        startsWith.add(m);
-      } else if (ko.contains(q) || en.contains(q)) {
-        contains.add(m);
-      }
+      final koScore = koreanMatchScore(query, m.nameKo);
+      final enScore = koreanMatchScore(query, m.name);
+      final score = koScore > enScore ? koScore : enScore;
+      if (score > 0) scored.add((m, score));
     }
-    _lastResults = [...startsWith, ...contains];
+    scored.sort((a, b) {
+      final cmp = b.$2.compareTo(a.$2);
+      if (cmp != 0) return cmp;
+      return a.$1.nameKo.compareTo(b.$1.nameKo);
+    });
+    _lastResults = scored.map((e) => e.$1).toList();
     if (_selected != null && _lastResults!.contains(_selected)) {
       _lastResults!.remove(_selected);
       _lastResults!.insert(0, _selected!);
