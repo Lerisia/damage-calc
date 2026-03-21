@@ -198,3 +198,43 @@ DefensiveItemEffect getDefensiveItemEffect(String itemName, {
       return _defaultDefensiveItemEffect;
   }
 }
+
+/// Speed item effect.
+class SpeedItemEffect {
+  final double speedModifier;
+  final bool alwaysLast;
+
+  const SpeedItemEffect({
+    this.speedModifier = 1.0,
+    this.alwaysLast = false,
+  });
+}
+
+const _defaultSpeedItemEffect = SpeedItemEffect();
+
+/// Returns the speed effect of [itemName].
+///
+/// - Choice Scarf: speed x1.5
+/// - Iron Ball: speed x0.5
+/// - Power items: speed x0.5
+/// - Full Incense / Lagging Tail: always move last
+SpeedItemEffect getSpeedItemEffect(String itemName) {
+  switch (itemName) {
+    case 'choice-scarf':
+      return const SpeedItemEffect(speedModifier: 1.5);
+    case 'iron-ball':
+      return const SpeedItemEffect(speedModifier: 0.5);
+    case 'power-weight':
+    case 'power-bracer':
+    case 'power-belt':
+    case 'power-lens':
+    case 'power-band':
+    case 'power-anklet':
+      return const SpeedItemEffect(speedModifier: 0.5);
+    case 'full-incense':
+    case 'lagging-tail':
+      return const SpeedItemEffect(alwaysLast: true);
+    default:
+      return _defaultSpeedItemEffect;
+  }
+}
