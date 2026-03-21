@@ -2071,6 +2071,7 @@
     "weight": 800.0,
     "height": 2.5,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "canGmax": true
   }
 ]

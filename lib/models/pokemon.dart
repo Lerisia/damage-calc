@@ -16,6 +16,8 @@ class Pokemon {
   final bool finalEvo;
   final String? requiredItem;
   final int genderRate; // -1=genderless, 0=male only, 8=female only, 1-7=ratio
+  final bool canDynamax;
+  final bool canGmax;
 
   const Pokemon({
     required this.dexNumber,
@@ -31,6 +33,8 @@ class Pokemon {
     this.finalEvo = true,
     this.requiredItem,
     this.genderRate = 4,
+    this.canDynamax = true,
+    this.canGmax = false,
   });
 
   /// Create a Pokemon from a JSON map
@@ -51,6 +55,8 @@ class Pokemon {
       finalEvo: json['finalEvo'] as bool? ?? true,
       requiredItem: json['requiredItem'] as String?,
       genderRate: json['genderRate'] as int? ?? 4,
+      canDynamax: json['canDynamax'] as bool? ?? true,
+      canGmax: json['canGmax'] as bool? ?? false,
     );
   }
 }
