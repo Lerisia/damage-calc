@@ -328,6 +328,40 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   }
 }
 
+/// Returns a damage multiplier for the defender's ability based on the
+/// incoming move's type and tags.
+///
+/// This handles type-specific damage reduction/increase that can't be
+/// expressed as simple def/spd stat modifiers.
+double getDefensiveAbilityDamageMultiplier(String abilityName, {
+  required Move move,
+}) {
+  final moveType = move.type;
+  switch (abilityName) {
+    case 'Thick Fat':
+      return (moveType == PokemonType.fire || moveType == PokemonType.ice)
+          ? 0.5 : 1.0;
+    case 'Heatproof':
+      return moveType == PokemonType.fire ? 0.5 : 1.0;
+    case 'Water Bubble':
+      return moveType == PokemonType.fire ? 0.5 : 1.0;
+    case 'Purifying Salt':
+      return moveType == PokemonType.ghost ? 0.5 : 1.0;
+    case 'Dry Skin':
+      return moveType == PokemonType.fire ? 1.25 : 1.0;
+    case 'Fluffy':
+      // Contact halved is handled by defModifier 2.0; fire takes double
+      if (moveType == PokemonType.fire) return 2.0;
+      // Non-contact moves bypass Fluffy's defense boost
+      if (!move.hasTag(MoveTags.contact)) return 1.0;
+      return 1.0;
+    case 'Punk Rock':
+      return move.hasTag(MoveTags.sound) ? 0.5 : 1.0;
+    default:
+      return 1.0;
+  }
+}
+
 /// Returns true if [abilityName] grants immunity to a specific [move]
 /// based on move tags (ball, sound, powder).
 bool isAbilityMoveImmune(String abilityName, Move move) {
@@ -369,9 +403,10 @@ double getSpeedAbilityModifier(String abilityName, {
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
   StatusCondition status = StatusCondition.none,
+  String? heldItem,
 }) {
   return getAbilityEffect(abilityName,
-    weather: weather, terrain: terrain, status: status,
+    weather: weather, terrain: terrain, status: status, heldItem: heldItem,
   ).statModifiers.speed;
 }
 

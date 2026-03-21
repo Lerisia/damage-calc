@@ -30,7 +30,7 @@ int calcEffectiveSpeed({
   // Ability modifier
   if (ability != null) {
     speed *= getSpeedAbilityModifier(ability,
-        weather: weather, terrain: terrain, status: status);
+        weather: weather, terrain: terrain, status: status, heldItem: item);
   }
 
   // Item modifier (Choice Scarf nullified during Dynamax)
