@@ -15,6 +15,7 @@ class Pokemon {
   final double height; // in m
   final bool finalEvo;
   final String? requiredItem;
+  final int genderRate; // -1=genderless, 0=male only, 8=female only, 1-7=ratio
 
   const Pokemon({
     required this.dexNumber,
@@ -29,6 +30,7 @@ class Pokemon {
     required this.height,
     this.finalEvo = true,
     this.requiredItem,
+    this.genderRate = 4,
   });
 
   /// Create a Pokemon from a JSON map
@@ -48,6 +50,7 @@ class Pokemon {
       height: (json['height'] as num).toDouble(),
       finalEvo: json['finalEvo'] as bool? ?? true,
       requiredItem: json['requiredItem'] as String?,
+      genderRate: json['genderRate'] as int? ?? 4,
     );
   }
 }

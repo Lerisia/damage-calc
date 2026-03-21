@@ -13,6 +13,7 @@ class PokemonSelector extends StatefulWidget {
     List<String> abilities,
     bool finalEvo,
     String? requiredItem,
+    int genderRate,
   ) onSelected;
   final String initialPokemonName;
 
@@ -85,6 +86,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
           pokemon.name, pokemon.type1, pokemon.type2,
           pokemon.baseStats, pokemon.abilities, pokemon.finalEvo,
           pokemon.requiredItem,
+          pokemon.genderRate,
         );
       },
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {

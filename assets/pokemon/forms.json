@@ -20,7 +20,8 @@
     ],
     "weight": 60.8,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 386,
@@ -43,7 +44,8 @@
     ],
     "weight": 60.8,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 386,
@@ -66,7 +68,8 @@
     ],
     "weight": 60.8,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 413,
@@ -90,7 +93,8 @@
     ],
     "weight": 6.5,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 413,
@@ -114,7 +118,8 @@
     ],
     "weight": 6.5,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 492,
@@ -137,7 +142,8 @@
     ],
     "weight": 5.2,
     "height": 0.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 487,
@@ -161,7 +167,8 @@
     "weight": 650.0,
     "height": 6.9,
     "finalEvo": true,
-    "requiredItem": "griseous-core"
+    "requiredItem": "griseous-core",
+    "genderRate": -1
   },
   {
     "dexNumber": 479,
@@ -184,7 +191,8 @@
     ],
     "weight": 0.3,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 479,
@@ -207,7 +215,8 @@
     ],
     "weight": 0.3,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 479,
@@ -230,7 +239,8 @@
     ],
     "weight": 0.3,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 479,
@@ -253,7 +263,8 @@
     ],
     "weight": 0.3,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 479,
@@ -276,7 +287,8 @@
     ],
     "weight": 0.3,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 555,
@@ -300,7 +312,8 @@
     ],
     "weight": 92.9,
     "height": 1.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 648,
@@ -323,7 +336,8 @@
     ],
     "weight": 6.5,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 641,
@@ -346,7 +360,8 @@
     ],
     "weight": 63.0,
     "height": 1.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 642,
@@ -369,7 +384,8 @@
     ],
     "weight": 61.0,
     "height": 3.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 645,
@@ -392,7 +408,8 @@
     ],
     "weight": 68.0,
     "height": 1.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 646,
@@ -415,7 +432,8 @@
     ],
     "weight": 325.0,
     "height": 3.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 646,
@@ -438,7 +456,8 @@
     ],
     "weight": 325.0,
     "height": 3.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 678,
@@ -463,7 +482,8 @@
     ],
     "weight": 8.5,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 681,
@@ -486,7 +506,8 @@
     ],
     "weight": 53.0,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 710,
@@ -511,7 +532,8 @@
     ],
     "weight": 3.5,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 710,
@@ -536,7 +558,8 @@
     ],
     "weight": 7.5,
     "height": 0.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 710,
@@ -561,7 +584,8 @@
     ],
     "weight": 15.0,
     "height": 0.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 711,
@@ -586,7 +610,8 @@
     ],
     "weight": 9.5,
     "height": 0.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 711,
@@ -611,7 +636,8 @@
     ],
     "weight": 14.0,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 711,
@@ -636,7 +662,8 @@
     ],
     "weight": 39.0,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 382,
@@ -660,7 +687,8 @@
     "weight": 430.0,
     "height": 9.8,
     "finalEvo": true,
-    "requiredItem": "blue-orb"
+    "requiredItem": "blue-orb",
+    "genderRate": -1
   },
   {
     "dexNumber": 383,
@@ -684,7 +712,8 @@
     "weight": 999.7,
     "height": 5.0,
     "finalEvo": true,
-    "requiredItem": "red-orb"
+    "requiredItem": "red-orb",
+    "genderRate": -1
   },
   {
     "dexNumber": 720,
@@ -707,7 +736,8 @@
     ],
     "weight": 490.0,
     "height": 6.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 718,
@@ -730,7 +760,8 @@
     ],
     "weight": 610.0,
     "height": 4.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 741,
@@ -753,7 +784,8 @@
     ],
     "weight": 3.4,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 741,
@@ -776,7 +808,8 @@
     ],
     "weight": 3.4,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 741,
@@ -799,7 +832,8 @@
     ],
     "weight": 3.4,
     "height": 0.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 6
   },
   {
     "dexNumber": 745,
@@ -824,7 +858,8 @@
     ],
     "weight": 25.0,
     "height": 1.1,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 746,
@@ -847,7 +882,8 @@
     ],
     "weight": 78.6,
     "height": 8.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 745,
@@ -870,7 +906,8 @@
     ],
     "weight": 25.0,
     "height": 0.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 800,
@@ -893,7 +930,8 @@
     ],
     "weight": 460.0,
     "height": 3.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 800,
@@ -916,7 +954,8 @@
     ],
     "weight": 350.0,
     "height": 4.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 800,
@@ -939,7 +978,8 @@
     ],
     "weight": 230.0,
     "height": 7.5,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 718,
@@ -962,7 +1002,8 @@
     ],
     "weight": 33.5,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 849,
@@ -987,7 +1028,8 @@
     ],
     "weight": 40.0,
     "height": 1.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 875,
@@ -1010,7 +1052,8 @@
     ],
     "weight": 89.0,
     "height": 1.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 876,
@@ -1035,7 +1078,8 @@
     ],
     "weight": 28.0,
     "height": 0.9,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 888,
@@ -1059,7 +1103,8 @@
     "weight": 355.0,
     "height": 2.8,
     "finalEvo": true,
-    "requiredItem": "rusted-sword"
+    "requiredItem": "rusted-sword",
+    "genderRate": -1
   },
   {
     "dexNumber": 889,
@@ -1083,7 +1128,8 @@
     "weight": 785.0,
     "height": 2.9,
     "finalEvo": true,
-    "requiredItem": "rusted-shield"
+    "requiredItem": "rusted-shield",
+    "genderRate": -1
   },
   {
     "dexNumber": 892,
@@ -1106,7 +1152,8 @@
     ],
     "weight": 105.0,
     "height": 1.9,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 1
   },
   {
     "dexNumber": 898,
@@ -1129,7 +1176,8 @@
     ],
     "weight": 809.1,
     "height": 2.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 898,
@@ -1152,7 +1200,8 @@
     ],
     "weight": 53.6,
     "height": 2.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 902,
@@ -1177,7 +1226,8 @@
     ],
     "weight": 110.0,
     "height": 3.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 905,
@@ -1200,7 +1250,8 @@
     ],
     "weight": 48.0,
     "height": 1.6,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 8
   },
   {
     "dexNumber": 916,
@@ -1225,7 +1276,8 @@
     ],
     "weight": 120.0,
     "height": 1.0,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 0
   },
   {
     "dexNumber": 964,
@@ -1248,7 +1300,8 @@
     ],
     "weight": 97.4,
     "height": 1.8,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 901,
@@ -1271,7 +1324,8 @@
     ],
     "weight": 290.0,
     "height": 2.4,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": 4
   },
   {
     "dexNumber": 1017,
@@ -1294,7 +1348,8 @@
     ],
     "weight": 39.8,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 1017,
@@ -1317,7 +1372,8 @@
     ],
     "weight": 39.8,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 1017,
@@ -1340,7 +1396,8 @@
     ],
     "weight": 39.8,
     "height": 1.2,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 1024,
@@ -1363,7 +1420,8 @@
     ],
     "weight": 16.0,
     "height": 0.3,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 1024,
@@ -1386,7 +1444,8 @@
     ],
     "weight": 77.0,
     "height": 1.7,
-    "finalEvo": true
+    "finalEvo": true,
+    "genderRate": -1
   },
   {
     "dexNumber": 483,
@@ -1411,7 +1470,8 @@
     "weight": 848.7,
     "height": 7.0,
     "finalEvo": true,
-    "requiredItem": "adamant-crystal"
+    "requiredItem": "adamant-crystal",
+    "genderRate": -1
   },
   {
     "dexNumber": 484,
@@ -1436,6 +1496,7 @@
     "weight": 659.0,
     "height": 6.3,
     "finalEvo": true,
-    "requiredItem": "lustrous-globe"
+    "requiredItem": "lustrous-globe",
+    "genderRate": -1
   }
 ]

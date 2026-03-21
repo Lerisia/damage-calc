@@ -25,4 +25,5 @@ class MoveTags {
   static const String terrainBoostMisty = 'custom:terrain_boost_misty';
   static const String rankPower = 'custom:rank_power';
   static const String sunBoost = 'custom:sun_boost';
+  static const String useOpponentAtk = 'custom:use_opponent_atk';
 }

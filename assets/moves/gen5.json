@@ -500,7 +500,10 @@
     "category": "physical",
     "power": 95,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:use_opponent_atk"
+    ]
   },
   {
     "name": "Hone Claws",
