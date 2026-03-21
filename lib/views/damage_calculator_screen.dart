@@ -11,6 +11,7 @@ import '../utils/grounded.dart';
 import '../utils/item_effects.dart';
 import '../utils/stat_calculator.dart';
 import '../models/move.dart';
+import '../models/type.dart';
 import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
 import '../models/nature.dart';
@@ -51,6 +52,50 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Map<String, String> _abilityNameMap = {};
   Map<String, String> _itemNameMap = {};
 
+  // Ability → Weather/Terrain auto-set
+  static const _abilityWeather = {
+    'Drought': Weather.sun,
+    'Desolate Land': Weather.harshSun,
+    'Drizzle': Weather.rain,
+    'Primordial Sea': Weather.heavyRain,
+    'Sand Stream': Weather.sandstorm,
+    'Snow Warning': Weather.snow,
+    'Delta Stream': Weather.strongWinds,
+    'Orichalcum Pulse': Weather.sun,
+  };
+
+  static const _abilityTerrain = {
+    'Electric Surge': Terrain.electric,
+    'Grassy Surge': Terrain.grassy,
+    'Psychic Surge': Terrain.psychic,
+    'Misty Surge': Terrain.misty,
+    'Hadron Engine': Terrain.electric,
+  };
+
+  /// Called when either panel changes. Syncs weather/terrain from abilities.
+  void _onPanelChanged() {
+    setState(() {
+      _syncWeatherTerrain();
+    });
+  }
+
+  void _syncWeatherTerrain() {
+    final defAbility = _defender.selectedAbility;
+    final atkAbility = _attacker.selectedAbility;
+
+    final atkWeather = atkAbility != null ? _abilityWeather[atkAbility] : null;
+    final defWeather = defAbility != null ? _abilityWeather[defAbility] : null;
+    if (atkWeather != null || defWeather != null) {
+      _weather = atkWeather ?? defWeather!;
+    }
+
+    final atkTerrain = atkAbility != null ? _abilityTerrain[atkAbility] : null;
+    final defTerrain = defAbility != null ? _abilityTerrain[defAbility] : null;
+    if (atkTerrain != null || defTerrain != null) {
+      _terrain = atkTerrain ?? defTerrain!;
+    }
+  }
+
   void _swapSides() {
     setState(() {
       final temp = _attacker;
@@ -75,20 +120,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  bool _isAlwaysLast(BattlePokemonState s) {
-    if (s.selectedItem == null) return false;
-    if (s.dynamax != DynamaxState.none) return false;
-    if (s.selectedAbility == 'Klutz') return false;
-    return getSpeedItemEffect(s.selectedItem!).alwaysLast;
-  }
+  bool _isAlwaysLast(BattlePokemonState s) => isAlwaysLast(s);
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    // Rebuild when switching tabs so damage/speed tabs pick up latest mutable state
+    // Rebuild only when switching to damage/speed tabs (index 2, 3)
+    // to pick up latest mutable state without rebuilding on attacker/defender tab switches
     _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) setState(() {});
+      if (!_tabController.indexIsChanging && _tabController.index >= 2) {
+        setState(() {});
+      }
     });
     _loadNameMaps();
   }
@@ -316,7 +359,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   terrain: _terrain,
                   room: _room,
                   label: '공격측',
-                  onChanged: () => setState(() {}),
+                  onChanged: _onPanelChanged,
                   resetCounter: _resetCounter,
                   opponentSpeed: _calcEffectiveSpeed(_defender),
                   opponentAlwaysLast: _isAlwaysLast(_defender),
@@ -330,7 +373,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   terrain: _terrain,
                   room: _room,
                   label: '방어측',
-                  onChanged: () => setState(() {}),
+                  onChanged: _onPanelChanged,
                   resetCounter: _resetCounter,
                   isAttacker: false,
                   opponentSpeed: _calcEffectiveSpeed(_attacker),
@@ -406,21 +449,38 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header: 공격측 → 방어측 (with tera type if active)
-          Text.rich(
-            TextSpan(children: [
-              TextSpan(text: _attacker.pokemonNameKo),
-              if (_attacker.terastal.active && _attacker.terastal.teraType != null)
-                TextSpan(text: '(${KoStrings.getTypeKo(_attacker.terastal.teraType!)})',
-                  style: TextStyle(fontSize: 14, color: KoStrings.getTypeColor(_attacker.terastal.teraType!))),
-              const TextSpan(text: ' → '),
-              TextSpan(text: _defender.pokemonNameKo),
-              if (_defender.terastal.active && _defender.terastal.teraType != null)
-                TextSpan(text: '(${KoStrings.getTypeKo(_defender.terastal.teraType!)})',
-                  style: TextStyle(fontSize: 14, color: KoStrings.getTypeColor(_defender.terastal.teraType!))),
-            ]),
+          // Header: 공격측 → 방어측 with type info
+          Text(
+            '${_attacker.pokemonNameKo} → ${_defender.pokemonNameKo}',
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _dmgTypeBadge(_attacker.type1),
+              if (_attacker.type2 != null) ...[
+                const SizedBox(width: 3),
+                _dmgTypeBadge(_attacker.type2!),
+              ],
+              if (_attacker.terastal.active && _attacker.terastal.teraType != null) ...[
+                const Text(' → ', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                _dmgTypeBadge(_attacker.terastal.teraType!),
+              ],
+              const SizedBox(width: 12),
+              const Text('→', style: TextStyle(fontSize: 14, color: Colors.grey)),
+              const SizedBox(width: 12),
+              _dmgTypeBadge(_defender.type1),
+              if (_defender.type2 != null) ...[
+                const SizedBox(width: 3),
+                _dmgTypeBadge(_defender.type2!),
+              ],
+              if (_defender.terastal.active && _defender.terastal.teraType != null) ...[
+                const Text(' → ', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                _dmgTypeBadge(_defender.terastal.teraType!),
+              ],
+            ],
           ),
           const SizedBox(height: 4),
           Text(
@@ -583,6 +643,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _dmgTypeBadge(PokemonType type) {
+    final color = KoStrings.getTypeColor(type);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(3),
+      ),
+      child: Text(
+        KoStrings.getTypeKo(type),
+        style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
