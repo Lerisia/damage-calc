@@ -205,17 +205,8 @@ class DamageCalculator {
         abilityStatMod = 1.0;
     }
 
-    double statMod = itemEffect.statModifier * abilityStatMod;
-    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
-
-    // Ally boost effects
-    if (attacker.helpingHand) powerMod *= 1.5;
-    if (attacker.charge && effectiveMove.type == PokemonType.electric) powerMod *= 2.0;
-    if (attacker.battery && effectiveMove.category == MoveCategory.special) powerMod *= 1.3;
-    if (attacker.powerSpot) powerMod *= 1.3;
-    if (attacker.flowerGift && effectiveMove.category == MoveCategory.physical &&
-        (weather == Weather.sun || weather == Weather.harshSun)) statMod *= 1.5;
-    if (attacker.steelySpirit && effectiveMove.type == PokemonType.steel) powerMod *= 1.5;
+    final double statMod = itemEffect.statModifier * abilityStatMod;
+    final double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
 
     final int A = (rawA * statMod).floor();
 
@@ -250,18 +241,13 @@ class DamageCalculator {
     // Defender ability/item defensive modifiers
     if (defender.selectedAbility != null) {
       final defAbility = getDefensiveAbilityEffect(
-        defender.selectedAbility!, status: defender.status);
+        defender.selectedAbility!, status: defender.status, weather: weather);
       D = (D * (isPhysical ? defAbility.defModifier : defAbility.spdModifier)).floor();
     }
     if (defender.selectedItem != null) {
       final defItem = getDefensiveItemEffect(
         defender.selectedItem!, finalEvo: defender.finalEvo);
       D = (D * (isPhysical ? defItem.defModifier : defItem.spdModifier)).floor();
-    }
-    // Flower Gift defensive (sun: SpDef x1.5)
-    if (!isPhysical && defender.flowerGift &&
-        (weather == Weather.sun || weather == Weather.harshSun)) {
-      D = (D * 1.5).floor();
     }
     // Weather defensive (sandstorm rock SpDef, snow ice Def)
     final weatherDef = getWeatherDefensiveModifier(
@@ -360,6 +346,50 @@ class DamageCalculator {
       }
     }
 
+    // --- Effectiveness-dependent modifiers ---
+    final bool isSuperEffective = effectiveness > 1.0;
+    final bool isNotVeryEffective = effectiveness < 1.0;
+
+    // Attacker: Tinted Lens (not very effective -> x2)
+    double tintedLensMod = 1.0;
+    if (effectiveAbility == 'Tinted Lens' && isNotVeryEffective) {
+      tintedLensMod = 2.0;
+      notes.add('색안경: 반감 ×2.0');
+    }
+
+    // Attacker: Neuroforce (super effective -> x1.25)
+    double neuroforceMod = 1.0;
+    if (effectiveAbility == 'Neuroforce' && isSuperEffective) {
+      neuroforceMod = 1.25;
+      notes.add('브레인포스: 효과발군 ×1.25');
+    }
+
+    // Defender: Filter / Solid Rock / Prism Armor (super effective -> x0.75)
+    double filterMod = 1.0;
+    if (defAbilityName != null && isSuperEffective) {
+      if (defAbilityName == 'Filter' || defAbilityName == 'Solid Rock' ||
+          defAbilityName == 'Prism Armor') {
+        filterMod = 0.75;
+        notes.add('$defAbilityName: 효과발군 ×0.75');
+      }
+    }
+
+    // Defender: Multiscale / Shadow Shield (full HP -> x0.5)
+    double multiscaleMod = 1.0;
+    if (defAbilityName != null && defender.hpPercent >= 100) {
+      if (defAbilityName == 'Multiscale' || defAbilityName == 'Shadow Shield') {
+        multiscaleMod = 0.5;
+        notes.add('$defAbilityName: HP 풀 ×0.5');
+      }
+    }
+
+    // Item: Expert Belt (super effective -> x1.2)
+    double expertBeltMod = 1.0;
+    if (effectiveItem == 'expert-belt' && isSuperEffective) {
+      expertBeltMod = 1.2;
+      notes.add('달인의띠: 효과발군 ×1.2');
+    }
+
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level;
     final int power = effectiveMove.power;
@@ -369,7 +399,8 @@ class DamageCalculator {
 
     // --- Apply all modifiers ---
     final double modifiers = stab * effectiveness * weatherMod * terrainMod *
-        burnMod * critMod * powerMod * defAbilityDmgMod;
+        burnMod * critMod * powerMod * defAbilityDmgMod *
+        tintedLensMod * neuroforceMod * filterMod * multiscaleMod * expertBeltMod;
 
     final int baseDamage = (baseDmg * modifiers).floor();
 
