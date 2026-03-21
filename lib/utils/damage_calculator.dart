@@ -191,15 +191,21 @@ class DamageCalculator {
       return DamageResult.empty;
     }
 
+    // --- Neutralizing Gas: suppress all abilities ---
+    final bool gasActive = hasNeutralizingGas(
+        attacker.selectedAbility, defender.selectedAbility);
+    final String? atkAbilityRaw = gasActive ? null : attacker.selectedAbility;
+    final String? defAbilityRaw = gasActive ? null : defender.selectedAbility;
+
     // Cloud Nine / Air Lock: negate weather if either side has the ability
     final List<String> weatherNotes = [];
     final originalWeather = weather;
     weather = effectiveWeather(weather,
-        abilityA: attacker.selectedAbility, abilityB: defender.selectedAbility);
+        abilityA: atkAbilityRaw, abilityB: defAbilityRaw);
     if (weather != originalWeather) {
-      weatherNotes.add(isWeatherNegating(attacker.selectedAbility)
-          ? 'ability:${attacker.selectedAbility}:날씨부정'
-          : 'ability:${defender.selectedAbility}:날씨부정');
+      weatherNotes.add(isWeatherNegating(atkAbilityRaw)
+          ? 'ability:${atkAbilityRaw}:날씨부정'
+          : 'ability:${defAbilityRaw}:날씨부정');
     }
 
     // --- Fixed damage moves (bypass normal formula entirely) ---
@@ -207,6 +213,7 @@ class DamageCalculator {
       return _calcFixedDamage(
         attacker: attacker, defender: defender, move: effectiveMove,
         weather: weather, room: room,
+        defenderAbility: defAbilityRaw,
       );
     }
 
@@ -226,7 +233,7 @@ class DamageCalculator {
       rank: attacker.rank,
       hpPercent: attacker.hpPercent,
       hasItem: attacker.selectedItem != null,
-      ability: attacker.selectedAbility,
+      ability: atkAbilityRaw,
       status: attacker.status,
       dynamax: attacker.dynamax,
       pokemonName: attacker.pokemonName,
@@ -240,17 +247,19 @@ class DamageCalculator {
 
     // Ability-based type overrides (e.g. Forecast for Castform)
     final atkTypeOverride = getAbilityTypeOverride(
-      ability: attacker.selectedAbility,
+      ability: atkAbilityRaw,
       pokemonName: attacker.pokemonName,
       weather: weather,
+      terrain: terrain,
     );
     final atkType1 = atkTypeOverride?.type1 ?? attacker.type1;
     final PokemonType? atkType2 = atkTypeOverride != null ? atkTypeOverride.type2 : attacker.type2;
 
     final defTypeOverride = getAbilityTypeOverride(
-      ability: defender.selectedAbility,
+      ability: defAbilityRaw,
       pokemonName: defender.pokemonName,
       weather: weather,
+      terrain: terrain,
     );
     // Defender type: Terastal takes priority over ability override
     // (handled later in type effectiveness section)
@@ -266,8 +275,8 @@ class DamageCalculator {
       rank: attacker.rank,
       offensiveStat: atkStat,
       isCritical: isCritical,
-      attackerAbility: attacker.selectedAbility,
-      defenderAbility: defender.selectedAbility,
+      attackerAbility: atkAbilityRaw,
+      defenderAbility: defAbilityRaw,
     );
 
     final atkActual = StatCalculator.calculate(
@@ -280,13 +289,13 @@ class DamageCalculator {
 
     // Item/ability resolution (Klutz, Dynamax nullification)
     final effectiveItem = resolveEffectiveItem(
-        item: attacker.selectedItem, ability: attacker.selectedAbility, isDynamaxed: isDmaxed);
+        item: attacker.selectedItem, ability: atkAbilityRaw, isDynamaxed: isDmaxed);
     final itemEffect = effectiveItem != null
         ? getItemEffect(effectiveItem, move: effectiveMove, pokemonName: attacker.pokemonName)
         : const ItemEffect();
 
     final effectiveAbility = resolveEffectiveAbility(
-        ability: attacker.selectedAbility, isDynamaxed: isDmaxed);
+        ability: atkAbilityRaw, isDynamaxed: isDmaxed);
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility, move: effectiveMove,
             originalBasePower: isDmaxed ? null : move.power,
@@ -332,7 +341,7 @@ class DamageCalculator {
     // --- Ruin abilities (not affected by Mold Breaker) ---
     final ruin = getRuinModifiers(
       attackerAbility: effectiveAbility,
-      defenderAbility: defender.selectedAbility,
+      defenderAbility: defAbilityRaw,
       isPhysical: isPhysical,
     );
     A = (A * ruin.atkMod).floor();
@@ -343,7 +352,7 @@ class DamageCalculator {
       rank: defender.rank,
       isCritical: isCritical,
       attackerAbility: effectiveAbility,
-      defenderAbility: defender.selectedAbility,
+      defenderAbility: defAbilityRaw,
       ignoreDefRank: effectiveMove.hasTag(MoveTags.ignoreDefRank),
     );
 
@@ -366,8 +375,8 @@ class DamageCalculator {
     int D = targetPhysDef ? defActual.defense : defActual.spDefense;
 
     // Mold Breaker: ignore defender's ignorable abilities
-    final bool moldBreaks = shouldIgnoreAbility(effectiveAbility, defender.selectedAbility);
-    final String? effectiveDefAbility = moldBreaks ? null : defender.selectedAbility;
+    final bool moldBreaks = shouldIgnoreAbility(effectiveAbility, defAbilityRaw);
+    final String? effectiveDefAbility = moldBreaks ? null : defAbilityRaw;
 
     // Defender ability/item defensive modifiers
     if (effectiveDefAbility != null) {
@@ -395,6 +404,7 @@ class DamageCalculator {
     final defAbilityName = effectiveDefAbility;
     final moveType = effectiveMove.type;
     final notes = <String>[];
+    if (gasActive) notes.add('ability:Neutralizing Gas:특성 무효화');
     notes.addAll(weatherNotes);
     if (moldBreaks) notes.add('moldbreaker:${attacker.selectedAbility}');
     notes.addAll(ruin.notes);
@@ -573,19 +583,19 @@ class DamageCalculator {
     final double weatherMod = getWeatherOffensiveModifier(weather, move: effectiveMove);
     final atkGrounded = isGrounded(
       type1: atkType1, type2: atkType2,
-      ability: attacker.selectedAbility, item: attacker.selectedItem,
+      ability: atkAbilityRaw, item: attacker.selectedItem,
       gravity: room.gravity,
     );
     final defGrounded = isGrounded(
       type1: defEffType1, type2: defEffType2,
-      ability: defender.selectedAbility, item: defender.selectedItem,
+      ability: defAbilityRaw, item: defender.selectedItem,
       gravity: room.gravity,
     );
     final double terrainMod = getTerrainModifier(terrain,
       move: effectiveMove, attackerGrounded: atkGrounded, defenderGrounded: defGrounded);
 
     // --- Burn ---
-    final bool hasGuts = attacker.selectedAbility == 'Guts';
+    final bool hasGuts = atkAbilityRaw == 'Guts';
     final double burnMod = (attacker.status == StatusCondition.burn &&
         isPhysical && !hasGuts) ? kBurnDamageReduction : 1.0;
 
@@ -746,8 +756,8 @@ class DamageCalculator {
     // --- Aura abilities (Fairy Aura / Dark Aura / Aura Break) ---
     final aura = getAuraModifier(
       moveType: moveType,
-      attackerAbility: attacker.selectedAbility,
-      defenderAbility: defender.selectedAbility,
+      attackerAbility: atkAbilityRaw,
+      defenderAbility: defAbilityRaw,
     );
     if (aura.note != null) notes.add(aura.note!);
 
@@ -813,6 +823,7 @@ class DamageCalculator {
     required Move move,
     required Weather weather,
     required RoomConditions room,
+    String? defenderAbility,
   }) {
     final defStats = StatCalculator.calculate(
       baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
@@ -836,13 +847,13 @@ class DamageCalculator {
     }
 
     // Ability type immunity
-    if (defender.selectedAbility != null &&
-        isAbilityTypeImmune(defender.selectedAbility!, move.type)) {
+    if (defenderAbility != null &&
+        isAbilityTypeImmune(defenderAbility, move.type)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: move,
-        modifierNotes: ['ability:${defender.selectedAbility}:immune'],
+        modifierNotes: ['ability:$defenderAbility:immune'],
       );
     }
 

@@ -415,7 +415,7 @@ class PokemonPanelState extends State<PokemonPanel>
           Expanded(
             flex: 3,
             child: MoveSelector(
-              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}'),
+              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
               initialMoveName: s.moves[index]?.name,
               displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
               onTap: _scrollToMoves,
@@ -479,7 +479,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     : SizedBox(
                         height: 28,
                         child: TextFormField(
-                          key: ValueKey('power_${index}_${move.name}'),
+                          key: ValueKey('power_${index}_${move.name}_${s.dynamax}'),
                           initialValue: '$effectivePower',
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,
@@ -557,6 +557,7 @@ class PokemonPanelState extends State<PokemonPanel>
       ability: s.selectedAbility,
       pokemonName: s.pokemonName,
       weather: widget.weather,
+      terrain: widget.terrain,
     );
     final type1 = override?.type1 ?? s.type1;
     final type2 = override != null ? override.type2 : s.type2;
