@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../models/stats.dart';
 import '../../models/type.dart';
@@ -34,31 +33,9 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   }
 
   Future<void> _loadPokemon() async {
-    final List<Pokemon> all = [];
-    const genFiles = [
-      'assets/pokemon/gen1.json', 'assets/pokemon/gen2.json',
-      'assets/pokemon/gen3.json', 'assets/pokemon/gen4.json',
-      'assets/pokemon/gen5.json', 'assets/pokemon/gen6.json',
-      'assets/pokemon/gen7.json', 'assets/pokemon/gen8.json',
-      'assets/pokemon/gen9.json',
-      'assets/pokemon/mega.json', 'assets/pokemon/alola.json',
-      'assets/pokemon/galar.json', 'assets/pokemon/hisui.json',
-      'assets/pokemon/paldea.json', 'assets/pokemon/forms.json',
-    ];
-
-    for (final file in genFiles) {
-      try {
-        final jsonString = await rootBundle.loadString(file);
-        final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
-        for (final entry in jsonList) {
-          all.add(Pokemon.fromJson(entry as Map<String, dynamic>));
-        }
-      } catch (_) {}
-    }
-
+    final all = await loadPokedex();
     setState(() {
       _allPokemon = all;
-      // Default to Bulbasaur
       if (_selected == null && all.isNotEmpty) {
         _selected = all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first);
       }

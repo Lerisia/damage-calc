@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../../data/movedex.dart';
 import '../../models/move.dart';
 import '../../utils/localization.dart';
 
@@ -26,25 +25,7 @@ class _MoveSelectorState extends State<MoveSelector> {
   }
 
   Future<void> _loadMoves() async {
-    final List<Move> all = [];
-    const genFiles = [
-      'assets/moves/gen1.json', 'assets/moves/gen2.json',
-      'assets/moves/gen3.json', 'assets/moves/gen4.json',
-      'assets/moves/gen5.json', 'assets/moves/gen6.json',
-      'assets/moves/gen7.json', 'assets/moves/gen8.json',
-      'assets/moves/gen9.json',
-    ];
-
-    for (final file in genFiles) {
-      try {
-        final jsonString = await rootBundle.loadString(file);
-        final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
-        for (final entry in jsonList) {
-          all.add(Move.fromJson(entry as Map<String, dynamic>));
-        }
-      } catch (_) {}
-    }
-
+    final all = await loadAllMoves();
     // Filter: only normal-class physical/special moves
     all.removeWhere((m) =>
         m.category == MoveCategory.status ||

@@ -14,19 +14,24 @@ const _genFiles = [
   'assets/moves/gen9.json',
 ];
 
-/// Loads all move data from assets/moves/gen*.json
-Future<Map<String, Move>> loadMovedex() async {
-  final Map<String, Move> movedex = {};
+/// Loads all moves as a list from assets/moves/gen*.json
+Future<List<Move>> loadAllMoves() async {
+  final List<Move> moves = [];
 
   for (final file in _genFiles) {
     final jsonString = await rootBundle.loadString(file);
     final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
 
     for (final entry in jsonList) {
-      final move = Move.fromJson(entry as Map<String, dynamic>);
-      movedex[move.name] = move;
+      moves.add(Move.fromJson(entry as Map<String, dynamic>));
     }
   }
 
-  return movedex;
+  return moves;
+}
+
+/// Loads all move data as a map (keyed by English name)
+Future<Map<String, Move>> loadMovedex() async {
+  final moves = await loadAllMoves();
+  return {for (final m in moves) m.name: m};
 }
