@@ -13,7 +13,7 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
-import 'battle_facade.dart' show dmaxNullItems, dmaxNullAbilities;
+import 'battle_facade.dart' show dmaxNullItems, dmaxNullAbilities, resolveEffectiveItem, resolveEffectiveAbility;
 import 'grounded.dart';
 import 'item_effects.dart';
 import 'move_transform.dart';
@@ -22,6 +22,32 @@ import 'stat_calculator.dart';
 import 'terrain_effects.dart';
 import 'type_effectiveness.dart';
 import 'weather_effects.dart';
+
+// ====== Damage formula constants ======
+
+/// STAB multipliers
+const double kStandardStab = 1.5;
+const double kStellarStabMatching = 2.0;
+const double kStellarStabNonMatching = 1.2;
+const double kTeraStabBonus = 0.5;
+
+/// Combat modifiers
+const double kBurnDamageReduction = 0.5;
+const double kCriticalMultiplier = 1.5;
+const double kScreenReduction = 0.5;
+const double kExpertBeltBoost = 1.2;
+const double kTeraShellReduction = 0.5;
+const double kChargePowerBoost = 2.0;
+
+/// Move-specific power multipliers
+const double kKnockOffBoost = 1.5;
+const double kDoubleMovePower = 2.0;
+const double kSolarBeamWeatherPenalty = 0.5;
+const double kGravAppleBoost = 1.5;
+const double kCollisionCourseBoost = 5461 / 4096; // ~1.3333
+
+/// Terastal minimum power threshold
+const int kTeraMinPower = 60;
 
 /// Result of a single move's damage calculation.
 class DamageResult {
@@ -287,7 +313,7 @@ class DamageCalculator {
 
     // Charge: Electric moves deal 2x damage
     if (attacker.charge && effectiveMove.type == PokemonType.electric) {
-      powerMod *= 2.0;
+      powerMod *= kChargePowerBoost;
     }
 
     int A = (rawA * statMod).floor();
@@ -394,7 +420,7 @@ class DamageCalculator {
     // Ground immunity (non-grounded)
     if (moveType == PokemonType.ground) {
       final defGrounded = isGrounded(
-        type1: defender.type1, type2: defender.type2,
+        type1: defEffType1, type2: defEffType2,
         ability: defAbilityName, item: defender.selectedItem,
         gravity: room.gravity,
       );
@@ -450,8 +476,8 @@ class DamageCalculator {
     if (defAbilityName == 'Tera Shell' &&
         defender.hpPercent >= 100 &&
         effectiveness > 1.0) {
-      effectiveness = 0.5;
-      notes.add('ability:Tera Shell:×0.5');
+      effectiveness = kTeraShellReduction;
+      notes.add('ability:Tera Shell:×$kTeraShellReduction');
     }
 
     // Wonder Guard: only super effective moves deal damage
@@ -475,15 +501,15 @@ class DamageCalculator {
     if (attacker.terastal.active && attacker.terastal.teraType != null) {
       final teraType = attacker.terastal.teraType!;
       if (teraType == PokemonType.stellar) {
-        stab = isOriginalStab ? 2.0 : 1.2;
+        stab = isOriginalStab ? kStellarStabMatching : kStellarStabNonMatching;
       } else if (isTeraStab && isOriginalStab) {
-        stab = abilityEffect.stabOverride != null ? (abilityEffect.stabOverride! + 0.5) : 2.0;
+        stab = abilityEffect.stabOverride != null ? (abilityEffect.stabOverride! + kTeraStabBonus) : kStellarStabMatching;
       } else if (isTeraStab || isOriginalStab) {
-        stab = abilityEffect.stabOverride ?? 1.5;
+        stab = abilityEffect.stabOverride ?? kStandardStab;
       }
     } else {
       final bool hasStab = (abilityEffect.forceStab) || isOriginalStab;
-      stab = hasStab ? (abilityEffect.stabOverride ?? 1.5) : 1.0;
+      stab = hasStab ? (abilityEffect.stabOverride ?? kStandardStab) : 1.0;
     }
 
     // --- Weather/Terrain offensive ---
@@ -494,7 +520,7 @@ class DamageCalculator {
       gravity: room.gravity,
     );
     final defGrounded = isGrounded(
-      type1: defender.type1, type2: defender.type2,
+      type1: defEffType1, type2: defEffType2,
       ability: defender.selectedAbility, item: defender.selectedItem,
       gravity: room.gravity,
     );
@@ -504,11 +530,11 @@ class DamageCalculator {
     // --- Burn ---
     final bool hasGuts = attacker.selectedAbility == 'Guts';
     final double burnMod = (attacker.status == StatusCondition.burn &&
-        isPhysical && !hasGuts) ? 0.5 : 1.0;
+        isPhysical && !hasGuts) ? kBurnDamageReduction : 1.0;
 
     // --- Critical ---
     final double critMod = isCritical
-        ? (abilityEffect.criticalOverride ?? 1.5) : 1.0;
+        ? (abilityEffect.criticalOverride ?? kCriticalMultiplier) : 1.0;
 
     // --- Defender ability type-based damage modifier ---
     // (not included in bulk calc, so noted here)
@@ -539,8 +565,8 @@ class DamageCalculator {
     // Item: Expert Belt (super effective -> x1.2)
     double expertBeltMod = 1.0;
     if (effectiveItem == 'expert-belt' && isSuperEffective) {
-      expertBeltMod = 1.2;
-      notes.add('item:expert-belt:×1.2');
+      expertBeltMod = kExpertBeltBoost;
+      notes.add('item:expert-belt:×$kExpertBeltBoost');
     }
 
     // --- Screens (Reflect / Light Screen / Aurora Veil) ---
@@ -548,10 +574,10 @@ class DamageCalculator {
     double screenMod = 1.0;
     if (!bypassScreens) {
       if (isPhysical && defender.reflect) {
-        screenMod = 0.5;
+        screenMod = kScreenReduction;
         notes.add('screen:reflect');
       } else if (!isPhysical && defender.lightScreen) {
-        screenMod = 0.5;
+        screenMod = kScreenReduction;
         notes.add('screen:light_screen');
       }
     } else if (defender.reflect || defender.lightScreen) {
@@ -586,72 +612,72 @@ class DamageCalculator {
       final bool isFixedItem = defItem == defender.pokemonName.toLowerCase().replaceAll(' ', '-') ||
           _isUnremovableItem(defItem, defender.pokemonName);
       if (!isFixedItem) {
-        movePowerMod = 1.5;
-        notes.add('move:knock_off:×1.5');
+        movePowerMod = kKnockOffBoost;
+        notes.add('move:knock_off:×$kKnockOffBoost');
       }
     }
     if (effectiveMove.hasTag(MoveTags.doubleOnStatus) && defender.status != StatusCondition.none) {
-      movePowerMod *= 2.0;
-      notes.add('move:hex:×2.0');
+      movePowerMod *= kDoubleMovePower;
+      notes.add('move:hex:×$kDoubleMovePower');
     }
     if (effectiveMove.hasTag(MoveTags.doubleOnPoison) &&
         (defender.status == StatusCondition.poison || defender.status == StatusCondition.badlyPoisoned)) {
-      movePowerMod *= 2.0;
-      notes.add('move:venoshock:×2.0');
+      movePowerMod *= kDoubleMovePower;
+      notes.add('move:venoshock:×$kDoubleMovePower');
     }
     if (effectiveMove.hasTag(MoveTags.doubleOnHalfHp) && defender.hpPercent <= 50) {
-      movePowerMod *= 2.0;
-      notes.add('move:brine:×2.0');
+      movePowerMod *= kDoubleMovePower;
+      notes.add('move:brine:×$kDoubleMovePower');
     }
 
     // Dynamax Cannon / Behemoth Blade / Behemoth Bash: x2 vs Dynamaxed target
     if (effectiveMove.hasTag(MoveTags.doubleDynamax) &&
         defender.dynamax != DynamaxState.none) {
-      movePowerMod *= 2.0;
-      notes.add('다이맥스 상대 ×2.0');
+      movePowerMod *= kDoubleMovePower;
+      notes.add('다이맥스 상대 ×$kDoubleMovePower');
     }
 
     // Solar Beam / Solar Blade: halved in rain, sandstorm, snow, heavy rain
     if ((effectiveMove.name == 'Solar Beam' || effectiveMove.name == 'Solar Blade') &&
         (weather == Weather.rain || weather == Weather.sandstorm ||
          weather == Weather.snow || weather == Weather.heavyRain)) {
-      movePowerMod *= 0.5;
-      notes.add('move:solar_halve:×0.5');
+      movePowerMod *= kSolarBeamWeatherPenalty;
+      notes.add('move:solar_halve:×$kSolarBeamWeatherPenalty');
     }
 
     // Grav Apple: boosted under gravity
     if (effectiveMove.name == 'Grav Apple' && room.gravity) {
-      movePowerMod *= 1.5;
-      notes.add('move:grav_apple:×1.5');
+      movePowerMod *= kGravAppleBoost;
+      notes.add('move:grav_apple:×$kGravAppleBoost');
     }
 
     // Wake-Up Slap: doubled on sleeping target
     if (effectiveMove.name == 'Wake-Up Slap' &&
         defender.status == StatusCondition.sleep) {
-      movePowerMod *= 2.0;
-      notes.add('move:wake_up_slap:×2.0');
+      movePowerMod *= kDoubleMovePower;
+      notes.add('move:wake_up_slap:×$kDoubleMovePower');
     }
 
     // Smelling Salts: doubled on paralyzed target
     if (effectiveMove.name == 'Smelling Salts' &&
         defender.status == StatusCondition.paralysis) {
-      movePowerMod *= 2.0;
-      notes.add('move:smelling_salts:×2.0');
+      movePowerMod *= kDoubleMovePower;
+      notes.add('move:smelling_salts:×$kDoubleMovePower');
     }
 
     // Barb Barrage: doubled on poisoned target
     if (effectiveMove.name == 'Barb Barrage' &&
         (defender.status == StatusCondition.poison ||
          defender.status == StatusCondition.badlyPoisoned)) {
-      movePowerMod *= 2.0;
-      notes.add('move:barb_barrage:×2.0');
+      movePowerMod *= kDoubleMovePower;
+      notes.add('move:barb_barrage:×$kDoubleMovePower');
     }
 
-    // Terastal minimum power: Tera STAB moves below 60 become 60 (not Stellar)
+    // Terastal minimum power: Tera STAB moves below threshold become threshold (not Stellar)
     final bool teraMinPower = isTeraStab &&
         attacker.terastal.teraType != PokemonType.stellar &&
-        effectiveMove.power < 60 && effectiveMove.power > 0;
-    final int basePower = teraMinPower ? 60 : effectiveMove.power;
+        effectiveMove.power < kTeraMinPower && effectiveMove.power > 0;
+    final int basePower = teraMinPower ? kTeraMinPower : effectiveMove.power;
 
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
@@ -660,11 +686,19 @@ class DamageCalculator {
 
     final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;
 
+    // --- Aura abilities (Fairy Aura / Dark Aura / Aura Break) ---
+    final aura = getAuraModifier(
+      moveType: moveType,
+      attackerAbility: attacker.selectedAbility,
+      defenderAbility: defender.selectedAbility,
+    );
+    if (aura.note != null) notes.add(aura.note!);
+
     // --- Collision Course / Electro Drift: x1.3333 on super effective ---
     double collisionMod = 1.0;
     if (isSuperEffective &&
         (effectiveMove.name == 'Collision Course' || effectiveMove.name == 'Electro Drift')) {
-      collisionMod = 5461 / 4096; // ~1.3333
+      collisionMod = kCollisionCourseBoost;
       notes.add('move:collision:×1.33');
     }
 
@@ -688,6 +722,9 @@ class DamageCalculator {
     baseDamage = (baseDamage * expertBeltMod).floor();
     baseDamage = (baseDamage * screenMod).floor();
     baseDamage = (baseDamage * berryMod).floor();
+    if (aura.multiplier != 1.0) {
+      baseDamage = (baseDamage * aura.multiplier).floor();
+    }
     baseDamage = (baseDamage * collisionMod).floor();
 
     // --- Random factor ---
