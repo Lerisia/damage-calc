@@ -64,8 +64,16 @@ class DamageResult {
     this.modifierNotes = const [],
   });
 
-  double get minPercent => defenderHp > 0 ? minDamage / defenderHp * 100 : 0;
-  double get maxPercent => defenderHp > 0 ? maxDamage / defenderHp * 100 : 0;
+  double get minPercent {
+    if (defenderHp <= 0) return 0;
+    final v = minDamage / defenderHp * 100;
+    return v.isFinite ? v : 0;
+  }
+  double get maxPercent {
+    if (defenderHp <= 0) return 0;
+    final v = maxDamage / defenderHp * 100;
+    return v.isFinite ? v : 0;
+  }
 
   /// N-hit KO analysis including random roll combinations.
   ({int hits, int koCount, int totalCount}) get koInfo =>
@@ -482,22 +490,39 @@ class DamageCalculator {
       );
     }
 
-    // --- Knock Off power boost ---
-    double knockOffMod = 1.0;
+    // --- Move-specific power modifiers based on defender state ---
+    double movePowerMod = 1.0;
+
+    // Knock Off: x1.5 if defender holds a removable item
     if (effectiveMove.name == 'Knock Off' && defender.selectedItem != null) {
-      // Items that can't be knocked off don't grant the boost
       final defItem = defender.selectedItem!;
-      final bool isFixedItem = defItem == defender.pokemonName.toLowerCase().replaceAll(' ', '-') || // requiredItem logic
+      final bool isFixedItem = defItem == defender.pokemonName.toLowerCase().replaceAll(' ', '-') ||
           _isUnremovableItem(defItem, defender.pokemonName);
       if (!isFixedItem) {
-        knockOffMod = 1.5;
+        movePowerMod = 1.5;
         notes.add('move:knock_off:×1.5');
       }
+    }
+    // Hex: x2 if defender has a status condition
+    else if (effectiveMove.name == 'Hex' && defender.status != StatusCondition.none) {
+      movePowerMod = 2.0;
+      notes.add('move:hex:×2.0');
+    }
+    // Venoshock: x2 if defender is poisoned
+    else if (effectiveMove.name == 'Venoshock' &&
+        (defender.status == StatusCondition.poison || defender.status == StatusCondition.badlyPoisoned)) {
+      movePowerMod = 2.0;
+      notes.add('move:venoshock:×2.0');
+    }
+    // Brine: x2 if defender HP <= 50%
+    else if (effectiveMove.name == 'Brine' && defender.hpPercent <= 50) {
+      movePowerMod = 2.0;
+      notes.add('move:brine:×2.0');
     }
 
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
-    final int power = (effectiveMove.power * knockOffMod).floor();
+    final int power = (effectiveMove.power * movePowerMod).floor();
     if (D == 0) D = 1; // prevent division by zero
 
     final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;

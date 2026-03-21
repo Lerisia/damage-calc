@@ -639,6 +639,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       case 'move':
         const moveKo = {
           'knock_off': '아이템 소지',
+          'hex': '상태이상',
+          'venoshock': '독 상태',
+          'brine': 'HP 절반 이하',
         };
         final key = parts[1];
         final label = moveKo[key] ?? key;
