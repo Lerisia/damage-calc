@@ -298,7 +298,8 @@
     "category": "physical",
     "power": 90,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "priority": 2
   },
   {
     "name": "Shattered Psyche",
@@ -818,7 +819,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "priority": 2
   },
   {
     "name": "Anchor Shot",
@@ -1158,7 +1160,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   },
   {
     "name": "Let’s Snuggle Forever",

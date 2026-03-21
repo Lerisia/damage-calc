@@ -94,7 +94,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   },
   {
     "name": "Hyperspace Fury",
@@ -180,7 +181,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 3
   },
   {
     "name": "Fell Stinger",
@@ -246,7 +248,8 @@
     "category": "special",
     "power": 15,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "priority": 1
   },
   {
     "name": "Misty Terrain",
@@ -481,7 +484,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "priority": 1
   },
   {
     "name": "Celebrate",
@@ -525,7 +529,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   },
   {
     "name": "Crafty Shield",
@@ -535,7 +540,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 3
   },
   {
     "name": "Belch",

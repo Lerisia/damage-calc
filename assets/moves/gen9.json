@@ -230,7 +230,8 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "priority": 1
   },
   {
     "name": "Kowtow Cleave",
@@ -410,7 +411,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   },
   {
     "name": "Snowscape",
@@ -533,7 +535,8 @@
     "category": "physical",
     "power": 65,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "priority": 1
   },
   {
     "name": "Dragon Cheer",
@@ -633,7 +636,8 @@
     "category": "special",
     "power": 70,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "priority": 1
   },
   {
     "name": "Tachyon Cutter",
@@ -696,6 +700,7 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   }
 ]

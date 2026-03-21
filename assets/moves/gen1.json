@@ -265,7 +265,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "priority": -6
   },
   {
     "name": "Ice Beam",
@@ -999,7 +1000,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "priority": -6
   },
   {
     "name": "Kinesis",
@@ -1097,7 +1099,9 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "custom:weight_based"
+      "contact",
+      "custom:weight_based",
+      "custom:weight_target"
     ]
   },
   {
@@ -1230,7 +1234,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "priority": -6
   },
   {
     "name": "Growl",
@@ -1346,7 +1351,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "priority": 1
   },
   {
     "name": "Thunder Shock",
@@ -1427,7 +1433,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Stomp",
@@ -1490,7 +1498,8 @@
     "category": "physical",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 1
   },
   {
     "name": "Supersonic",
@@ -1520,7 +1529,8 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "priority": -5
   },
   {
     "name": "Razor Wind",

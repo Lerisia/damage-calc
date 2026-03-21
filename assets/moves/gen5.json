@@ -186,7 +186,8 @@
     "category": "physical",
     "power": 60,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "priority": -6
   },
   {
     "name": "Drill Run",
@@ -329,7 +330,8 @@
     "category": "physical",
     "power": 60,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "priority": -6
   },
   {
     "name": "Struggle Bug",
@@ -391,7 +393,8 @@
     "pp": 20,
     "tags": [
       "powder"
-    ]
+    ],
+    "priority": 2
   },
   {
     "name": "Work Up",
@@ -454,7 +457,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "priority": 2
   },
   {
     "name": "Psystrike",
@@ -759,7 +763,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "priority": 3
   },
   {
     "name": "Wild Charge",
@@ -935,7 +940,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "priority": 3
   },
   {
     "name": "Hurricane",
@@ -1032,7 +1038,9 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:weight_based"
+      "contact",
+      "custom:weight_based",
+      "custom:weight_ratio"
     ]
   },
   {
@@ -1058,7 +1066,9 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:weight_based"
+      "contact",
+      "custom:weight_based",
+      "custom:weight_ratio"
     ]
   }
 ]

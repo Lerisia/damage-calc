@@ -298,7 +298,8 @@
     "category": "physical",
     "power": 55,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "priority": 1
   },
   {
     "name": "Snipe Shot",
@@ -496,7 +497,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "moveClass": "maxMove"
+    "moveClass": "maxMove",
+    "priority": 4
   },
   {
     "name": "Max Flutterby",
@@ -754,7 +756,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "priority": 4
   },
   {
     "name": "Glacial Lance",

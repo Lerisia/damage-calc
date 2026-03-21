@@ -429,6 +429,37 @@ class DamageCalculator {
       );
     }
 
+    // Priority move immunity (Queenly Majesty, Dazzling, Armor Tail)
+    // Mold Breaker ignores this
+    if (!moldBreaks && effectiveMove.priority > 0 && defAbilityName != null) {
+      const priorityBlockers = {'Queenly Majesty', 'Dazzling', 'Armor Tail'};
+      if (priorityBlockers.contains(defAbilityName)) {
+        return DamageResult(
+          baseDamage: 0, minDamage: 0, maxDamage: 0,
+          defenderHp: defActual.hp, effectiveness: 0.0,
+          isPhysical: isPhysical, move: effectiveMove,
+          modifierNotes: ['ability:$defAbilityName:선공기 무효'],
+        );
+      }
+    }
+
+    // Psychic Terrain blocks priority moves against grounded targets
+    if (effectiveMove.priority > 0 && terrain == Terrain.psychic) {
+      final defGroundedForTerrain = isGrounded(
+        type1: defEffType1, type2: defEffType2,
+        ability: defAbilityName, item: defender.selectedItem,
+        gravity: room.gravity,
+      );
+      if (defGroundedForTerrain) {
+        return DamageResult(
+          baseDamage: 0, minDamage: 0, maxDamage: 0,
+          defenderHp: defActual.hp, effectiveness: 0.0,
+          isPhysical: isPhysical, move: effectiveMove,
+          modifierNotes: ['사이코필드: 선공기 무효'],
+        );
+      }
+    }
+
     // Ground immunity (non-grounded)
     if (moveType == PokemonType.ground) {
       final defGrounded = isGrounded(
