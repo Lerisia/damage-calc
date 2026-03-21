@@ -345,6 +345,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   room: _room,
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
+                  abilityNameMap: _abilityNameMap,
+                  itemNameMap: _itemNameMap,
                 ),
               ],
             ),
