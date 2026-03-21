@@ -46,6 +46,8 @@ class OffensiveCalculator {
     double? stabOverride,
     double? criticalOverride,
     int? opponentAttack,
+    bool terastallized = false,
+    PokemonType? teraType,
   }) {
     final move = transformed.move;
 
@@ -81,7 +83,30 @@ class OffensiveCalculator {
     final int rawStat = transformed.resolveStat(actualStats, opponentAttack: opponentAttack);
     final int modifiedStat = (rawStat * statModifier).floor();
 
-    final bool hasStab = move.type == type1 || move.type == type2;
+    final bool isOriginalStab = move.type == type1 || move.type == type2;
+    final bool isTeraStab = terastallized && teraType != null && move.type == teraType;
+
+    // Determine STAB multiplier
+    double stabMult = 1.0;
+    if (terastallized && teraType != null) {
+      if (teraType == PokemonType.stellar) {
+        // Stellar: original STAB -> 2.0, non-STAB -> 1.2
+        stabMult = isOriginalStab ? 2.0 : 1.2;
+      } else if (isTeraStab && isOriginalStab) {
+        // Same type tera (e.g. Fire pokemon with Fire tera): 2.0
+        stabMult = stabOverride != null ? (stabOverride + 0.5) : 2.0;
+      } else if (isTeraStab || isOriginalStab) {
+        // Tera type move OR original STAB: 1.5
+        stabMult = stabOverride ?? _stabMultiplier;
+      }
+    } else {
+      stabMult = isOriginalStab ? (stabOverride ?? _stabMultiplier) : 1.0;
+    }
+
+    // Terastal minimum power: moves below 60 power become 60
+    final int effectivePower = (terastallized && isTeraStab && move.power < 60 && move.power > 0)
+        ? 60 : move.power;
+
     final double weatherMod = getWeatherOffensiveModifier(weather, move: move);
     final double terrainMod = getTerrainModifier(terrain, move: move, grounded: grounded);
 
@@ -94,8 +119,8 @@ class OffensiveCalculator {
             : 1.0;
 
     final double raw = modifiedStat *
-        move.power *
-        (hasStab ? (stabOverride ?? _stabMultiplier) : 1.0) *
+        effectivePower *
+        stabMult *
         (isCritical ? (criticalOverride ?? _criticalMultiplier) : 1.0) *
         weatherMod *
         terrainMod *

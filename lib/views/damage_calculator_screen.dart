@@ -8,6 +8,7 @@ import '../utils/stat_calculator.dart';
 import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
 import '../models/stats.dart';
+import '../models/status.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
