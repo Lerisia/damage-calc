@@ -327,7 +327,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:thousand_arrows"
     ]
   },
   {
@@ -638,7 +639,10 @@
     "category": "physical",
     "power": 100,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:flying_press"
+    ]
   },
   {
     "name": "Happy Hour",

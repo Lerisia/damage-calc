@@ -15,7 +15,18 @@ double _getEffectiveness(PokemonType attackType, PokemonType defenderType, {bool
 
 /// Returns the combined effectiveness against a Pokemon with one or two types.
 /// [freezeDry] overrides Water interaction to x2.
-double getCombinedEffectiveness(PokemonType attackType, PokemonType defType1, PokemonType? defType2, {bool freezeDry = false}) {
+/// [flyingPress] calculates Fighting × Flying dual-type effectiveness.
+double getCombinedEffectiveness(PokemonType attackType, PokemonType defType1, PokemonType? defType2, {bool freezeDry = false, bool flyingPress = false}) {
+  if (flyingPress) {
+    // Flying Press: combine Fighting AND Flying effectiveness
+    double fightMult = _getEffectiveness(PokemonType.fighting, defType1);
+    double flyMult = _getEffectiveness(PokemonType.flying, defType1);
+    if (defType2 != null) {
+      fightMult *= _getEffectiveness(PokemonType.fighting, defType2);
+      flyMult *= _getEffectiveness(PokemonType.flying, defType2);
+    }
+    return fightMult * flyMult;
+  }
   double mult = _getEffectiveness(attackType, defType1, freezeDry: freezeDry);
   if (defType2 != null) {
     mult *= _getEffectiveness(attackType, defType2, freezeDry: freezeDry);

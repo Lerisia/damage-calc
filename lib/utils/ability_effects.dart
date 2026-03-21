@@ -795,6 +795,7 @@ Rank getEffectiveDefensiveRank({
   required String pokemonName,
   required Weather weather,
   Terrain terrain = Terrain.none,
+  String? heldItem,
 }) {
   if (ability == null) return null;
 
@@ -827,6 +828,31 @@ Rank getEffectiveDefensiveRank({
         return (type1: PokemonType.psychic, type2: null);
       default:
         return null;
+    }
+  }
+
+  // Multitype (Arceus): type changes based on held Plate
+  if (ability == 'Multitype' && heldItem != null) {
+    const plateTypes = {
+      'flame-plate': PokemonType.fire, 'splash-plate': PokemonType.water,
+      'meadow-plate': PokemonType.grass, 'zap-plate': PokemonType.electric,
+      'icicle-plate': PokemonType.ice, 'fist-plate': PokemonType.fighting,
+      'toxic-plate': PokemonType.poison, 'earth-plate': PokemonType.ground,
+      'sky-plate': PokemonType.flying, 'mind-plate': PokemonType.psychic,
+      'insect-plate': PokemonType.bug, 'stone-plate': PokemonType.rock,
+      'spooky-plate': PokemonType.ghost, 'draco-plate': PokemonType.dragon,
+      'dread-plate': PokemonType.dark, 'iron-plate': PokemonType.steel,
+      'pixie-plate': PokemonType.fairy,
+    };
+    final t = plateTypes[heldItem];
+    if (t != null) return (type1: t, type2: null);
+  }
+
+  // RKS System (Silvally): type changes based on held Memory
+  if (ability == 'RKS System' && heldItem != null && heldItem.endsWith('-memory')) {
+    final typeName = heldItem.substring(0, heldItem.length - '-memory'.length);
+    for (final t in PokemonType.values) {
+      if (t.name == typeName) return (type1: t, type2: null);
     }
   }
 
