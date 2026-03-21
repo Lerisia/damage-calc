@@ -453,7 +453,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 ? SizedBox(
                     height: 28,
                     child: TextFormField(
-                      key: ValueKey('power_${index}_${move.name}_$effectivePower'),
+                      key: ValueKey('power_${index}_${move.name}'),
                       initialValue: '${effectivePower}',
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.number,
