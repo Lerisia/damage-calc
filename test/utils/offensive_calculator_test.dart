@@ -8,6 +8,7 @@ import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/weather.dart';
 import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/terrain.dart';
+import 'package:damage_calc/utils/ability_effects.dart';
 import 'package:damage_calc/utils/move_transform.dart';
 import 'package:damage_calc/utils/offensive_calculator.dart';
 
@@ -508,6 +509,118 @@ void main() {
         opponentAttack: 100,
       );
       expect(result, equals(9500));
+    });
+  });
+
+  group('Ability → OffensiveCalculator integration', () {
+    test('Huge Power doubles attack in final result', () {
+      // getAbilityEffect('Huge Power') -> statModifiers.attack = 2.0
+      // Atk = 69, statMod 2.0 -> floor(69 * 2.0) = 138
+      // power = 40 -> 138 * 40 = 5520
+      final effect = getAbilityEffect('Huge Power', move: tackle);
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        statModifier: effect.statModifiers.attack,
+      );
+      expect(result, equals(5520));
+    });
+
+    test('Life Orb powerModifier from item applies correctly', () {
+      // Atk = 69, power = 40 -> 2760 * 1.3 = 3588
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        powerModifier: 1.3,
+      );
+      expect(result, equals(3588));
+    });
+
+    test('Adaptability overrides STAB to 2.0x', () {
+      // Bulbasaur Poison + Sludge Bomb (Poison) -> STAB
+      // getAbilityEffect('Adaptability') -> stabOverride = 2.0
+      // SpA = 85, power = 90, STAB 2.0 -> floor(85 * 90 * 2.0) = 15300
+      final effect = getAbilityEffect('Adaptability', move: sludgeBomb);
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(sludgeBomb),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        stabOverride: effect.stabOverride,
+      );
+      expect(result, equals(15300));
+    });
+
+    test('Solar Power spAttack modifier in sun', () {
+      // getAbilityEffect('Solar Power', weather: sun) -> statModifiers.spAttack = 1.5
+      // SpA = 85, statMod 1.5 -> floor(85 * 1.5) = 127
+      // power = 90, sun fire boost 1.5 -> floor(127 * 90 * 1.5) = 17145
+      final effect = getAbilityEffect('Solar Power',
+          move: flamethrower, weather: Weather.sun);
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(flamethrower),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        weather: Weather.sun,
+        statModifier: effect.statModifiers.spAttack,
+      );
+      expect(result, equals(17145));
+    });
+
+    test('Analytic powerModifier when slower', () {
+      // getAbilityEffect('Analytic', speed < opponent) -> powerModifier = 1.3
+      // Atk = 69, power = 40 -> 2760 * 1.3 = 3588
+      final slowStats = const Stats(
+          hp: 100, attack: 69, defense: 49,
+          spAttack: 65, spDefense: 65, speed: 30);
+      final effect = getAbilityEffect('Analytic', move: tackle,
+          actualStats: slowStats, opponentSpeed: 100);
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        powerModifier: effect.powerModifier,
+      );
+      expect(result, equals(3588));
+    });
+
+    test('Sniper criticalOverride with crit', () {
+      // getAbilityEffect('Sniper') -> criticalOverride = 2.25
+      // Atk = 69, power = 40, crit 2.25 -> floor(69 * 40 * 2.25) = 6210
+      final effect = getAbilityEffect('Sniper', move: tackle);
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        isCritical: true,
+        criticalOverride: effect.criticalOverride,
+      );
+      expect(result, equals(6210));
+    });
+
+    test('Guts stat + burn negation combined', () {
+      // getAbilityEffect('Guts', status: burn) -> statModifiers.attack = 1.5
+      // Atk = 69, statMod 1.5 -> floor(69 * 1.5) = 103
+      // power = 40, burn negated -> 103 * 40 = 4120
+      final effect = getAbilityEffect('Guts', move: tackle,
+          status: StatusCondition.burn);
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        status: StatusCondition.burn,
+        hasGuts: true,
+        statModifier: effect.statModifiers.attack,
+      );
+      expect(result, equals(4120));
     });
   });
 }

@@ -881,4 +881,61 @@ void main() {
       expect(effect.criticalOverride, isNull);
     });
   });
+
+  group('Speed ability modifiers', () {
+    test('Swift Swim doubles speed in rain', () {
+      expect(getSpeedAbilityModifier('Swift Swim', weather: Weather.rain), equals(2.0));
+    });
+    test('Swift Swim doubles speed in heavy rain', () {
+      expect(getSpeedAbilityModifier('Swift Swim', weather: Weather.heavyRain), equals(2.0));
+    });
+    test('Swift Swim no effect in sun', () {
+      expect(getSpeedAbilityModifier('Swift Swim', weather: Weather.sun), equals(1.0));
+    });
+
+    test('Chlorophyll doubles speed in sun', () {
+      expect(getSpeedAbilityModifier('Chlorophyll', weather: Weather.sun), equals(2.0));
+    });
+    test('Chlorophyll doubles speed in harsh sun', () {
+      expect(getSpeedAbilityModifier('Chlorophyll', weather: Weather.harshSun), equals(2.0));
+    });
+    test('Chlorophyll no effect in rain', () {
+      expect(getSpeedAbilityModifier('Chlorophyll', weather: Weather.rain), equals(1.0));
+    });
+
+    test('Sand Rush doubles speed in sandstorm', () {
+      expect(getSpeedAbilityModifier('Sand Rush', weather: Weather.sandstorm), equals(2.0));
+    });
+    test('Sand Rush no effect in sun', () {
+      expect(getSpeedAbilityModifier('Sand Rush', weather: Weather.sun), equals(1.0));
+    });
+
+    test('Slush Rush doubles speed in snow', () {
+      expect(getSpeedAbilityModifier('Slush Rush', weather: Weather.snow), equals(2.0));
+    });
+    test('Slush Rush no effect in rain', () {
+      expect(getSpeedAbilityModifier('Slush Rush', weather: Weather.rain), equals(1.0));
+    });
+
+    test('Surge Surfer doubles speed in electric terrain', () {
+      expect(getSpeedAbilityModifier('Surge Surfer', terrain: Terrain.electric), equals(2.0));
+    });
+    test('Surge Surfer no effect in grassy terrain', () {
+      expect(getSpeedAbilityModifier('Surge Surfer', terrain: Terrain.grassy), equals(1.0));
+    });
+
+    test('Quick Feet 1.5x when burned', () {
+      expect(getSpeedAbilityModifier('Quick Feet', status: StatusCondition.burn), equals(1.5));
+    });
+    test('Quick Feet 1.5x when paralyzed', () {
+      expect(getSpeedAbilityModifier('Quick Feet', status: StatusCondition.paralysis), equals(1.5));
+    });
+    test('Quick Feet no effect when healthy', () {
+      expect(getSpeedAbilityModifier('Quick Feet'), equals(1.0));
+    });
+
+    test('unknown ability returns 1.0', () {
+      expect(getSpeedAbilityModifier('Intimidate', weather: Weather.rain), equals(1.0));
+    });
+  });
 }
