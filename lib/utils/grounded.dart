@@ -15,6 +15,6 @@ bool isGrounded({
   if (item == 'iron-ball') return true;
   if (type1 == PokemonType.flying || type2 == PokemonType.flying) return false;
   if (ability == 'Levitate') return false;
-  if (item == 'Air Balloon') return false;
+  if (item == 'air-balloon') return false;
   return true;
 }

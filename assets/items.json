@@ -85,6 +85,12 @@
     "battle": true
   },
   {
+    "name": "air-balloon",
+    "nameKo": "풍선",
+    "nameJa": "ふうせん",
+    "battle": true
+  },
+  {
     "name": "black-flute",
     "nameKo": "검정비드로",
     "nameJa": "くろいビードロ"

@@ -208,7 +208,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:grassy_halve"
     ]
   },
   {

@@ -1426,7 +1426,8 @@
     "category": "physical",
     "power": 100,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": ["custom:grassy_halve"]
   },
   {
     "name": "Stomp",

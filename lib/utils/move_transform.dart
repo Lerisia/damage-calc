@@ -304,8 +304,15 @@ Move _applySpeedPower(Move move, int? mySpeed, int? opponentSpeed) {
   return move;
 }
 
-/// Terrain-based power boosts: Rising Voltage, Expanding Force, Misty Explosion.
+/// Terrain-based power boosts and reductions.
+/// - Rising Voltage: 2x in Electric Terrain
+/// - Expanding Force: 1.5x in Psychic Terrain
+/// - Misty Explosion: 1.5x in Misty Terrain
+/// - Earthquake/Bulldoze/Magnitude: 0.5x in Grassy Terrain
 Move _applyTerrainPowerBoost(Move move, Terrain terrain) {
+  if (move.hasTag(MoveTags.grassyHalve) && terrain == Terrain.grassy) {
+    return move.copyWith(power: (move.power * 0.5).floor());
+  }
   if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric) {
     return move.copyWith(power: move.power * 2);
   }
