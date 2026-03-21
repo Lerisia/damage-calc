@@ -42,7 +42,7 @@ const int kPinchHpThreshold = 33;
 const int kDefeatistHpThreshold = 50;
 
 /// Protosynthesis/Quark Drive boost values
-const double kParadoxStatBoost = 1.3;
+const double kParadoxStatBoost = 5461.0 / 4096.0;
 const double kParadoxSpeedBoost = 1.5;
 
 /// Quick Feet speed boost
@@ -202,12 +202,12 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Orichalcum Pulse':
       return (weather == Weather.sun || weather == Weather.harshSun)
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: kMinorStatBoost))
+              statModifiers: AbilityStatModifiers(attack: kParadoxStatBoost))
           : _defaultEffect;
     case 'Hadron Engine':
       return terrain == Terrain.electric
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(spAttack: kMinorStatBoost))
+              statModifiers: AbilityStatModifiers(spAttack: kParadoxStatBoost))
           : _defaultEffect;
     case 'Flower Gift':
       return (weather == Weather.sun || weather == Weather.harshSun)

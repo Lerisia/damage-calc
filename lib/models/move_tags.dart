@@ -49,4 +49,15 @@ class MoveTags {
   static const String doubleOnHalfHp = 'custom:double_on_half_hp';
   static const String flyingPress = 'custom:flying_press';
   static const String thousandArrows = 'custom:thousand_arrows';
+
+  // Weather/field power conditions
+  static const String solarHalve = 'custom:solar_halve';
+  static const String gravityBoost = 'custom:gravity_boost';
+
+  // Status-dependent power doubling (defender state)
+  static const String doubleOnSleep = 'custom:double_on_sleep';
+  static const String doubleOnParalysis = 'custom:double_on_paralysis';
+
+  // Super-effective bonus
+  static const String superEffectiveBoost = 'custom:se_boost';
 }

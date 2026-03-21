@@ -194,8 +194,8 @@ void main() {
       expect(getAbilityEffect('Transistor', move: electricMove).powerModifier, equals(1.3));
     });
 
-    test("Dragon\u2019s Maw boosts dragon moves by 1.5x", () {
-      expect(getAbilityEffect("Dragon\u2019s Maw", move: dragonMove).powerModifier, equals(1.5));
+    test("Dragon's Maw boosts dragon moves by 1.5x", () {
+      expect(getAbilityEffect("Dragon's Maw", move: dragonMove).powerModifier, equals(1.5));
     });
 
     test('Rocky Payload boosts rock moves by 1.5x', () {

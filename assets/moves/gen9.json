@@ -111,7 +111,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [
+      "custom:se_boost"
+    ]
   },
   {
     "name": "Combat Torque",
@@ -166,7 +168,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [
+      "custom:se_boost"
+    ]
   },
   {
     "name": "Fillet Away",

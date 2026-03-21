@@ -339,6 +339,7 @@ class DamageCalculator {
         abilityStatMod = 1.0;
     }
 
+    // Foul Play uses opponent's raw stat, but user's own item/ability modifiers still apply
     final double statMod = itemEffect.statModifier * abilityStatMod;
     double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
 
@@ -534,11 +535,18 @@ class DamageCalculator {
     }
 
     // Scrappy / Mind's Eye: Normal/Fighting moves hit Ghost types
+    // Recalculate effectiveness treating Ghost as neutral instead of immune
     if (effectiveness == 0.0 &&
         (effectiveAbility == 'Scrappy' || effectiveAbility == "Mind's Eye") &&
         (moveType == PokemonType.normal || moveType == PokemonType.fighting) &&
         (defType1 == PokemonType.ghost || defType2 == PokemonType.ghost)) {
-      effectiveness = 1.0;
+      final double eff1 = (defType1 == PokemonType.ghost)
+          ? 1.0
+          : getTypeEffectiveness(moveType, defType1);
+      final double eff2 = (defType2 == PokemonType.ghost)
+          ? 1.0
+          : (defType2 != null ? getTypeEffectiveness(moveType, defType2) : 1.0);
+      effectiveness = eff1 * eff2;
       notes.add('ability:Scrappy:고스트에게 적중');
     }
 
@@ -582,7 +590,7 @@ class DamageCalculator {
       if (teraType == PokemonType.stellar) {
         stab = isOriginalStab ? kStellarStabMatching : kStellarStabNonMatching;
       } else if (isTeraStab && isOriginalStab) {
-        stab = abilityEffect.stabOverride != null ? (abilityEffect.stabOverride! + kTeraStabBonus) : kStellarStabMatching;
+        stab = abilityEffect.stabOverride != null ? 2.25 : kStellarStabMatching;
       } else if (isTeraStab || isOriginalStab) {
         stab = abilityEffect.stabOverride ?? kStandardStab;
       }
@@ -717,7 +725,7 @@ class DamageCalculator {
     }
 
     // Solar Beam / Solar Blade: halved in rain, sandstorm, snow, heavy rain
-    if ((effectiveMove.name == 'Solar Beam' || effectiveMove.name == 'Solar Blade') &&
+    if (effectiveMove.hasTag(MoveTags.solarHalve) &&
         (weather == Weather.rain || weather == Weather.sandstorm ||
          weather == Weather.snow || weather == Weather.heavyRain)) {
       movePowerMod *= kSolarBeamWeatherPenalty;
@@ -725,27 +733,27 @@ class DamageCalculator {
     }
 
     // Grav Apple: boosted under gravity
-    if (effectiveMove.name == 'Grav Apple' && room.gravity) {
+    if (effectiveMove.hasTag(MoveTags.gravityBoost) && room.gravity) {
       movePowerMod *= kGravAppleBoost;
       notes.add('move:grav_apple:×$kGravAppleBoost');
     }
 
     // Wake-Up Slap: doubled on sleeping target
-    if (effectiveMove.name == 'Wake-Up Slap' &&
+    if (effectiveMove.hasTag(MoveTags.doubleOnSleep) &&
         defender.status == StatusCondition.sleep) {
       movePowerMod *= kDoubleMovePower;
       notes.add('move:wake_up_slap:×$kDoubleMovePower');
     }
 
     // Smelling Salts: doubled on paralyzed target
-    if (effectiveMove.name == 'Smelling Salts' &&
+    if (effectiveMove.hasTag(MoveTags.doubleOnParalysis) &&
         defender.status == StatusCondition.paralysis) {
       movePowerMod *= kDoubleMovePower;
       notes.add('move:smelling_salts:×$kDoubleMovePower');
     }
 
     // Barb Barrage: doubled on poisoned target
-    if (effectiveMove.name == 'Barb Barrage' &&
+    if (effectiveMove.hasTag(MoveTags.doubleOnPoison) &&
         (defender.status == StatusCondition.poison ||
          defender.status == StatusCondition.badlyPoisoned)) {
       movePowerMod *= kDoubleMovePower;
@@ -779,7 +787,7 @@ class DamageCalculator {
     // --- Collision Course / Electro Drift: x1.3333 on super effective ---
     double collisionMod = 1.0;
     if (isSuperEffective &&
-        (effectiveMove.name == 'Collision Course' || effectiveMove.name == 'Electro Drift')) {
+        effectiveMove.hasTag(MoveTags.superEffectiveBoost)) {
       collisionMod = kCollisionCourseBoost;
       notes.add('move:collision:×1.33');
     }
