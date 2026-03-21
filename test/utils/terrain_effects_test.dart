@@ -68,14 +68,20 @@ void main() {
 
     test('ungrounded Pokemon ignores terrain boost', () {
       final mod = getTerrainModifier(Terrain.electric,
-          move: thunderbolt, grounded: false);
+          move: thunderbolt, attackerGrounded: false);
       expect(mod, equals(1.0));
     });
 
-    test('ungrounded Pokemon ignores Misty Terrain reduction', () {
+    test('ungrounded defender ignores Misty Terrain reduction', () {
       final mod = getTerrainModifier(Terrain.misty,
-          move: dragonPulse, grounded: false);
+          move: dragonPulse, defenderGrounded: false);
       expect(mod, equals(1.0));
+    });
+
+    test('ungrounded attacker still gets Misty Terrain reduction on grounded defender', () {
+      final mod = getTerrainModifier(Terrain.misty,
+          move: dragonPulse, attackerGrounded: false, defenderGrounded: true);
+      expect(mod, equals(0.5));
     });
 
     test('Electric Terrain does not affect non-electric moves', () {
@@ -100,13 +106,13 @@ void main() {
 
     test('ungrounded ignores Grassy Terrain boost', () {
       final mod = getTerrainModifier(Terrain.grassy,
-          move: energyBall, grounded: false);
+          move: energyBall, attackerGrounded: false);
       expect(mod, equals(1.0));
     });
 
     test('ungrounded ignores Psychic Terrain boost', () {
       final mod = getTerrainModifier(Terrain.psychic,
-          move: psychic, grounded: false);
+          move: psychic, attackerGrounded: false);
       expect(mod, equals(1.0));
     });
 

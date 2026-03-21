@@ -103,10 +103,12 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
 
   String _itemKo(String? key) {
     if (key == null || key.isEmpty) return '없음';
+    if (_itemNameMap.isEmpty) return '...';
     return _itemNameMap[key] ?? key;
   }
 
   String _abilityKo(String key) {
+    if (_abilityNameMap.isEmpty) return '...';
     return _abilityNameMap[key] ?? key;
   }
 
@@ -418,8 +420,22 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
+  /// Returns all abilities sorted: pokemon's own abilities first, then the rest
+  /// alphabetically by Korean name. Only includes abilities with Korean names.
+  List<String> _sortedAbilities(BattlePokemonState state) {
+    if (_abilityNameMap.isEmpty) return state.pokemonAbilities;
+    final pokemon = state.pokemonAbilities
+        .where((a) => _abilityNameMap.containsKey(a))
+        .toList();
+    final rest = _abilityNameMap.keys
+        .where((a) => !state.pokemonAbilities.contains(a))
+        .toList();
+    rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
+    return [...pokemon, ...rest];
+  }
+
   Widget _abilityAutocomplete(BattlePokemonState state) {
-    final abilities = state.pokemonAbilities;
+    final sorted = _sortedAbilities(state);
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
 
     return KeyedSubtree(
@@ -429,11 +445,13 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
         displayStringForOption: (a) => _abilityKo(a),
         optionsBuilder: (textEditingValue) {
           if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
-            return abilities;
+            return sorted;
           }
           final query = textEditingValue.text.toLowerCase();
-          return abilities.where((a) =>
-            _abilityKo(a).contains(query) || a.toLowerCase().contains(query));
+          return sorted.where((a) {
+            final ko = _abilityKo(a);
+            return ko.contains(query) || a.toLowerCase().contains(query);
+          });
         },
         onSelected: (v) { setState(() => state.selectedAbility = v); _notify(); },
         fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
