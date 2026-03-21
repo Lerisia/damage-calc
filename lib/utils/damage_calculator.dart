@@ -520,9 +520,17 @@ class DamageCalculator {
       notes.add('move:brine:×2.0');
     }
 
+    // Terastal minimum power: Tera STAB moves below 60 become 60
+    final bool isTeraStab = attacker.terastal.active &&
+        attacker.terastal.teraType != null &&
+        attacker.terastal.teraType != PokemonType.stellar &&
+        effectiveMove.type == attacker.terastal.teraType;
+    final int basePower = (isTeraStab && effectiveMove.power < 60 && effectiveMove.power > 0)
+        ? 60 : effectiveMove.power;
+
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
-    final int power = (effectiveMove.power * movePowerMod).floor();
+    final int power = (basePower * movePowerMod).floor();
     if (D == 0) D = 1; // prevent division by zero
 
     final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;

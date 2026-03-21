@@ -77,9 +77,11 @@ class DefensiveCalculator {
     final int effectiveSpd = (actualStats.spDefense * spdStatMod).floor();
     final int effectiveHp = isDynamaxed ? actualStats.hp * 2 : actualStats.hp;
 
+    final phys = effectiveHp * effectiveDef / _correctionFactor;
+    final spec = effectiveHp * effectiveSpd / _correctionFactor;
     return (
-      physical: (effectiveHp * effectiveDef / _correctionFactor).floor(),
-      special: (effectiveHp * effectiveSpd / _correctionFactor).floor(),
+      physical: phys.isFinite ? phys.floor() : 0,
+      special: spec.isFinite ? spec.floor() : 0,
     );
   }
 }

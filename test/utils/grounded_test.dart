@@ -18,7 +18,15 @@ void main() {
     });
 
     test('Air Balloon item is not grounded', () {
-      expect(isGrounded(type1: PokemonType.steel, item: 'Air Balloon'), isFalse);
+      expect(isGrounded(type1: PokemonType.steel, item: 'air-balloon'), isFalse);
+    });
+
+    test('Iron Ball grounds Flying types', () {
+      expect(isGrounded(type1: PokemonType.flying, item: 'iron-ball'), isTrue);
+    });
+
+    test('Iron Ball grounds Levitate', () {
+      expect(isGrounded(type1: PokemonType.electric, ability: 'Levitate', item: 'iron-ball'), isTrue);
     });
   });
 }

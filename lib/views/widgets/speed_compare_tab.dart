@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/dynamax.dart';
 import '../../models/nature.dart';
@@ -26,6 +23,8 @@ class SpeedCompareTab extends StatefulWidget {
   final RoomConditions room;
   final VoidCallback onChanged;
   final int resetCounter;
+  final Map<String, String> abilityNameMap;
+  final Map<String, String> itemNameMap;
 
   const SpeedCompareTab({
     super.key,
@@ -36,6 +35,8 @@ class SpeedCompareTab extends StatefulWidget {
     required this.room,
     required this.onChanged,
     required this.resetCounter,
+    required this.abilityNameMap,
+    required this.itemNameMap,
   });
 
   @override
@@ -47,41 +48,8 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
   @override
   bool get wantKeepAlive => true;
 
-  Map<String, String> _itemNameMap = {};
-  Map<String, String> _abilityNameMap = {};
-  List<String>? _cachedItemKeys;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  Future<void> _loadData() async {
-    try {
-      final itemJson = await rootBundle.loadString('assets/items.json');
-      final List<dynamic> items = json.decode(itemJson) as List<dynamic>;
-      final iMap = <String, String>{};
-      for (final e in items) {
-        if (e['battle'] == true) iMap[e['name'] as String] = e['nameKo'] as String;
-      }
-
-      final abilityJson = await rootBundle.loadString('assets/abilities.json');
-      final List<dynamic> abilities = json.decode(abilityJson) as List<dynamic>;
-      final aMap = <String, String>{};
-      for (final e in abilities) {
-        aMap[e['name'] as String] = e['nameKo'] as String;
-      }
-
-      if (mounted) {
-        setState(() {
-          _itemNameMap = iMap;
-          _abilityNameMap = aMap;
-          _cachedItemKeys = null;
-        });
-      }
-    } catch (_) {}
-  }
+  Map<String, String> get _abilityNameMap => widget.abilityNameMap;
+  Map<String, String> get _itemNameMap => widget.itemNameMap;
 
   int _calcEffectiveSpeed(BattlePokemonState s) {
     return BattleFacade.calcSpeed(
@@ -246,28 +214,30 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
           Row(
             children: [
               Text('개체 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-              Expanded(flex: 2, child: _speedInput(
-                key: ValueKey('iv_${state.iv.speed}'),
-                '${state.iv.speed}', (v) {
-                final val = int.tryParse(v) ?? 31;
-                setState(() {
-                  state.iv = Stats(hp: state.iv.hp, attack: state.iv.attack, defense: state.iv.defense,
-                    spAttack: state.iv.spAttack, spDefense: state.iv.spDefense, speed: val.clamp(0, 31));
-                });
-                _notify();
-              })),
+              Expanded(flex: 2, child: _SpeedNumInput(
+                value: state.iv.speed,
+                min: 0, max: 31,
+                onChanged: (val) {
+                  setState(() {
+                    state.iv = Stats(hp: state.iv.hp, attack: state.iv.attack, defense: state.iv.defense,
+                      spAttack: state.iv.spAttack, spDefense: state.iv.spDefense, speed: val);
+                  });
+                  _notify();
+                },
+              )),
               const SizedBox(width: 8),
               Text('노력 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-              Expanded(flex: 3, child: _speedInput(
-                key: ValueKey('ev_${state.ev.speed}'),
-                '${state.ev.speed}', (v) {
-                final val = int.tryParse(v) ?? 0;
-                setState(() {
-                  state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
-                    spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: val.clamp(0, 252));
-                });
-                _notify();
-              })),
+              Expanded(flex: 3, child: _SpeedNumInput(
+                value: state.ev.speed,
+                min: 0, max: 252,
+                onChanged: (val) {
+                  setState(() {
+                    state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
+                      spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: val);
+                  });
+                  _notify();
+                },
+              )),
               _miniButton('0', () {
                 setState(() {
                   state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
@@ -284,31 +254,29 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
               }),
               const SizedBox(width: 8),
               Text('랭크 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-              Expanded(flex: 2, child: _speedInput(
-                key: ValueKey('rank_${state.rank.speed}'),
-                '${state.rank.speed}', (v) {
-                final val = int.tryParse(v) ?? 0;
-                setState(() {
-                  state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
-                    spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val.clamp(-6, 6));
-                });
-                _notify();
-              }, signed: true)),
+              Expanded(flex: 2, child: _SpeedNumInput(
+                value: state.rank.speed,
+                min: -6, max: 6,
+                signed: true,
+                onChanged: (val) {
+                  setState(() {
+                    state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
+                      spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val);
+                  });
+                  _notify();
+                },
+              )),
             ],
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              SizedBox(width: 56, child: TextFormField(
-                key: ValueKey('speed_level_${widget.resetCounter}_${state.level}'),
-                initialValue: '${state.level}',
-                keyboardType: TextInputType.number,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14),
-                decoration: const InputDecoration(labelText: '레벨', isDense: true),
-                onChanged: (v) {
-                  final val = int.tryParse(v) ?? 50;
-                  setState(() => state.level = val.clamp(1, 100));
+              SizedBox(width: 56, child: _SpeedNumInput(
+                value: state.level,
+                min: 1, max: 100,
+                label: '레벨',
+                onChanged: (val) {
+                  setState(() => state.level = val);
                   _notify();
                 },
               )),
@@ -379,30 +347,6 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
-  Widget _speedInput(String initialValue, ValueChanged<String> onChanged, {
-    Key? key, String? label, bool signed = false,
-  }) {
-    return SizedBox(
-      key: key,
-      height: 32,
-      child: TextFormField(
-        initialValue: initialValue,
-        keyboardType: signed
-            ? const TextInputType.numberWithOptions(signed: true)
-            : TextInputType.number,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 14),
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 6),
-          prefixText: label != null ? '$label ' : null,
-          prefixStyle: TextStyle(fontSize: 13, color: Colors.grey.shade600),
-        ),
-        onChanged: onChanged,
-      ),
-    );
-  }
-
   Widget _miniButton(String label, VoidCallback onPressed) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -468,10 +412,10 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
   }
 
   Widget _itemAutocomplete(BattlePokemonState state) {
-    _cachedItemKeys ??= ['', ..._itemNameMap.keys];
+    final allKeys = ['', ..._itemNameMap.keys];
     final allItems = state.selectedItem != null
-        ? [state.selectedItem!, ..._cachedItemKeys!.where((k) => k != state.selectedItem)]
-        : _cachedItemKeys!;
+        ? [state.selectedItem!, ...allKeys.where((k) => k != state.selectedItem)]
+        : allKeys;
     final initialText = _itemKo(state.selectedItem);
 
     return KeyedSubtree(
@@ -497,6 +441,85 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
             decoration: const InputDecoration(labelText: '아이템', isDense: true),
             onTap: () => controller.clear(),
           );
+        },
+      ),
+    );
+  }
+}
+
+/// Numeric input that maintains its own controller so parent rebuilds
+/// don't steal focus. External value changes (e.g. button press) update
+/// the displayed text without recreating the widget.
+class _SpeedNumInput extends StatefulWidget {
+  final int value;
+  final int min;
+  final int max;
+  final bool signed;
+  final String? label;
+  final ValueChanged<int> onChanged;
+
+  const _SpeedNumInput({
+    required this.value,
+    required this.min,
+    required this.max,
+    this.signed = false,
+    this.label,
+    required this.onChanged,
+  });
+
+  @override
+  State<_SpeedNumInput> createState() => _SpeedNumInputState();
+}
+
+class _SpeedNumInputState extends State<_SpeedNumInput> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: '${widget.value}');
+  }
+
+  @override
+  void didUpdateWidget(_SpeedNumInput old) {
+    super.didUpdateWidget(old);
+    // Update text when value changes externally (button press, pokemon change)
+    // but not while the user is typing (controller text would differ)
+    final currentParsed = int.tryParse(_controller.text);
+    if (currentParsed != widget.value) {
+      _controller.text = '${widget.value}';
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: widget.label != null ? null : 32,
+      child: TextFormField(
+        controller: _controller,
+        keyboardType: widget.signed
+            ? const TextInputType.numberWithOptions(signed: true)
+            : TextInputType.number,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 14),
+        decoration: InputDecoration(
+          isDense: true,
+          labelText: widget.label,
+          contentPadding: widget.label != null ? null : const EdgeInsets.symmetric(vertical: 6),
+        ),
+        onChanged: (text) {
+          final parsed = int.tryParse(text);
+          if (parsed != null) {
+            widget.onChanged(parsed.clamp(widget.min, widget.max));
+          } else if (text.isEmpty) {
+            widget.onChanged(widget.min);
+          }
         },
       ),
     );

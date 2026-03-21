@@ -253,20 +253,9 @@ class _StatInputState extends State<StatInput> {
           children: [
             SizedBox(
               width: 48,
-              child: TextFormField(
-                initialValue: '${widget.level}',
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: '레벨',
-                  isDense: true,
-                ),
-                onChanged: (text) {
-                  final parsed = int.tryParse(text);
-                  if (parsed != null && parsed >= 1 && parsed <= 100) {
-                    widget.onLevelChanged(parsed);
-                  }
-                },
+              child: _LevelInput(
+                level: widget.level,
+                onChanged: widget.onLevelChanged,
               ),
             ),
             const SizedBox(width: 8),
@@ -774,4 +763,72 @@ class _StatInputState extends State<StatInput> {
       spDefense: spdVal ?? widget.ev.spDefense, speed: speVal ?? widget.ev.speed);
   }
 
+}
+
+/// Level input that clamps to 1~100 and shows the clamped value on focus loss.
+class _LevelInput extends StatefulWidget {
+  final int level;
+  final ValueChanged<int> onChanged;
+
+  const _LevelInput({required this.level, required this.onChanged});
+
+  @override
+  State<_LevelInput> createState() => _LevelInputState();
+}
+
+class _LevelInputState extends State<_LevelInput> {
+  late final TextEditingController _controller;
+  late final FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: '${widget.level}');
+    _focusNode = FocusNode()..addListener(_onFocusChange);
+  }
+
+  @override
+  void didUpdateWidget(_LevelInput old) {
+    super.didUpdateWidget(old);
+    if (old.level != widget.level && !_focusNode.hasFocus) {
+      _controller.text = '${widget.level}';
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus) {
+      final parsed = int.tryParse(_controller.text);
+      final clamped = parsed != null ? parsed.clamp(1, 100) : 1;
+      _controller.text = '$clamped';
+      widget.onChanged(clamped);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: _controller,
+      focusNode: _focusNode,
+      textAlign: TextAlign.center,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        labelText: '레벨',
+        isDense: true,
+      ),
+      onChanged: (text) {
+        final parsed = int.tryParse(text);
+        if (parsed != null) {
+          widget.onChanged(parsed.clamp(1, 100));
+        }
+      },
+    );
+  }
 }

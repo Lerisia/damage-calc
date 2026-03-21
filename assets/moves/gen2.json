@@ -239,7 +239,8 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 30
+    "pp": 30,
+    "tags": ["custom:grassy_halve"]
   },
   {
     "name": "Megahorn",
