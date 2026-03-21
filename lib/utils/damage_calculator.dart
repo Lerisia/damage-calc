@@ -277,7 +277,7 @@ class DamageCalculator {
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
-        modifierNotes: ['$defAbilityName 특성에 의해 무효'],
+        modifierNotes: ['ability:$defAbilityName:immune'],
       );
     }
     // Move-based immunity (Bulletproof, Soundproof, Overcoat)
@@ -286,7 +286,7 @@ class DamageCalculator {
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
-        modifierNotes: ['$defAbilityName 특성에 의해 무효'],
+        modifierNotes: ['ability:$defAbilityName:immune'],
       );
     }
 
@@ -302,7 +302,7 @@ class DamageCalculator {
           baseDamage: 0, minDamage: 0, maxDamage: 0,
           defenderHp: defActual.hp, effectiveness: 0.0,
           isPhysical: isPhysical, move: effectiveMove,
-          modifierNotes: ['비접지 상태로 땅 기술 무효'],
+          modifierNotes: ['ground:immune'],
         );
       }
     }
@@ -316,7 +316,7 @@ class DamageCalculator {
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
-        modifierNotes: ['타입 상성에 의해 무효'],
+        modifierNotes: ['type:immune'],
       );
     }
 
@@ -326,37 +326,33 @@ class DamageCalculator {
         effectiveMove.type == attacker.type1 ||
         effectiveMove.type == attacker.type2;
     final double stab = hasStab ? (abilityEffect.stabOverride ?? 1.5) : 1.0;
-    if (hasStab) notes.add('자속보정 ×${stab}');
 
     // --- Weather/Terrain offensive ---
     final double weatherMod = getWeatherOffensiveModifier(weather, move: effectiveMove);
-    if (weatherMod != 1.0) notes.add('날씨 보정 ×$weatherMod');
     final atkGrounded = isGrounded(
       type1: attacker.type1, type2: attacker.type2,
       ability: attacker.selectedAbility, item: attacker.selectedItem,
       gravity: room.gravity,
     );
     final double terrainMod = getTerrainModifier(terrain, move: effectiveMove, grounded: atkGrounded);
-    if (terrainMod != 1.0) notes.add('필드 보정 ×$terrainMod');
 
     // --- Burn ---
     final bool hasGuts = attacker.selectedAbility == 'Guts';
     final double burnMod = (attacker.status == StatusCondition.burn &&
         isPhysical && !hasGuts) ? 0.5 : 1.0;
-    if (burnMod != 1.0) notes.add('화상 ×0.5');
 
     // --- Critical ---
     final double critMod = isCritical
         ? (abilityEffect.criticalOverride ?? 1.5) : 1.0;
-    if (isCritical) notes.add('급소 ×$critMod');
 
     // --- Defender ability type-based damage modifier ---
+    // (not included in bulk calc, so noted here)
     double defAbilityDmgMod = 1.0;
     if (defAbilityName != null) {
       defAbilityDmgMod = getDefensiveAbilityDamageMultiplier(
         defAbilityName, move: effectiveMove);
       if (defAbilityDmgMod != 1.0) {
-        notes.add('$defAbilityName ×$defAbilityDmgMod');
+        notes.add('ability:$defAbilityName:×$defAbilityDmgMod');
       }
     }
 
@@ -368,14 +364,14 @@ class DamageCalculator {
     double tintedLensMod = 1.0;
     if (effectiveAbility == 'Tinted Lens' && isNotVeryEffective) {
       tintedLensMod = 2.0;
-      notes.add('색안경: 반감 ×2.0');
+      notes.add('ability:Tinted Lens:×2.0');
     }
 
     // Attacker: Neuroforce (super effective -> x1.25)
     double neuroforceMod = 1.0;
     if (effectiveAbility == 'Neuroforce' && isSuperEffective) {
       neuroforceMod = 1.25;
-      notes.add('브레인포스: 효과 좋음 ×1.25');
+      notes.add('ability:Neuroforce:×1.25');
     }
 
     // Defender: Filter / Solid Rock / Prism Armor (super effective -> x0.75)
@@ -384,7 +380,7 @@ class DamageCalculator {
       if (defAbilityName == 'Filter' || defAbilityName == 'Solid Rock' ||
           defAbilityName == 'Prism Armor') {
         filterMod = 0.75;
-        notes.add('$defAbilityName: 효과 좋음 ×0.75');
+        notes.add('ability:$defAbilityName:×0.75');
       }
     }
 
@@ -393,7 +389,7 @@ class DamageCalculator {
     if (defAbilityName != null && defender.hpPercent >= 100) {
       if (defAbilityName == 'Multiscale' || defAbilityName == 'Shadow Shield') {
         multiscaleMod = 0.5;
-        notes.add('$defAbilityName: HP 풀 ×0.5');
+        notes.add('ability:$defAbilityName:×0.5');
       }
     }
 
@@ -401,24 +397,23 @@ class DamageCalculator {
     double expertBeltMod = 1.0;
     if (effectiveItem == 'expert-belt' && isSuperEffective) {
       expertBeltMod = 1.2;
-      notes.add('달인의띠: 효과 좋음 ×1.2');
+      notes.add('item:expert-belt:×1.2');
     }
 
     // --- Screens (Reflect / Light Screen / Aurora Veil) ---
-    // Critical hits and Infiltrator bypass screens
     final bool bypassScreens = isCritical || effectiveAbility == 'Infiltrator';
     double screenMod = 1.0;
     if (!bypassScreens) {
       if (isPhysical && (defender.reflect || defender.auroraVeil)) {
         screenMod = 0.5;
-        notes.add(defender.reflect ? '리플렉터 ×0.5' : '오로라베일 ×0.5');
+        notes.add(defender.reflect ? 'screen:reflect' : 'screen:aurora_veil');
       } else if (!isPhysical && (defender.lightScreen || defender.auroraVeil)) {
         screenMod = 0.5;
-        notes.add(defender.lightScreen ? '빛의장막 ×0.5' : '오로라베일 ×0.5');
+        notes.add(defender.lightScreen ? 'screen:light_screen' : 'screen:aurora_veil');
       }
     } else if (defender.reflect || defender.lightScreen || defender.auroraVeil) {
-      if (isCritical) notes.add('급소: 벽 무시');
-      if (effectiveAbility == 'Infiltrator') notes.add('침투: 벽 무시');
+      if (isCritical) notes.add('screen:bypass_crit');
+      if (effectiveAbility == 'Infiltrator') notes.add('screen:bypass_infiltrator');
     }
 
     // --- Base damage: official Gen V+ formula ---

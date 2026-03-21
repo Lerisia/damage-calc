@@ -346,9 +346,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  /// Get the 결정력 for a specific move slot from the attacker panel (for display only).
+  /// Get the 결정력 for a specific move slot (always up-to-date).
   int? _getOffensivePower(int moveIndex) {
-    return _attackerPanelKey.currentState?.computeResultFor(moveIndex);
+    return BattleFacade.calcOffensivePower(
+      state: _attacker,
+      moveIndex: moveIndex,
+      weather: _weather,
+      terrain: _terrain,
+      room: _room,
+      opponentSpeed: _calcEffectiveSpeed(_defender),
+      opponentAttack: _calcStats(_defender).attack,
+      opponentGender: _defender.gender,
+    );
   }
 
   /// Get the 내구 for the defender (for display only).
@@ -503,9 +512,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ),
               const SizedBox(width: 8),
               Text(KoStrings.getTypeKo(effectiveType),
-                  style: TextStyle(fontSize: 13, color: Colors.grey[700])),
-              const SizedBox(width: 8),
-              Text(KoStrings.getTypeKo(effectiveType),
                   style: TextStyle(fontSize: 13, color: typeColor, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
               Text(effLabel, style: TextStyle(fontSize: 13, color: effColor, fontWeight: FontWeight.bold)),
@@ -520,17 +526,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           const SizedBox(height: 8),
           // % damage (main) + raw damage + KO
           Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(
-                '${result.minPercent.toStringAsFixed(1)}% ~ ${result.maxPercent.toStringAsFixed(1)}%',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Flexible(
+                child: Text(
+                  '${result.minPercent.toStringAsFixed(1)}~${result.maxPercent.toStringAsFixed(1)}%',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Text(
-                '${result.minDamage} ~ ${result.maxDamage}',
-                style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                '(${result.minDamage}~${result.maxDamage})',
+                style: TextStyle(fontSize: 13, color: Colors.grey[600]),
               ),
               if (koText.isNotEmpty) ...[
                 const Spacer(),
@@ -547,7 +554,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               spacing: 8,
               runSpacing: 2,
               children: result.modifierNotes.map((note) => Text(
-                note,
+                _formatNote(note),
                 style: TextStyle(fontSize: 11, color: Colors.grey[600]),
               )).toList(),
             ),
@@ -728,20 +735,24 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           const SizedBox(height: 10),
 
-          // Row 1: 개체, 노력 (with 0/max), 랭크 (with -1/+1)
+          // Row 1: 개체, 노력 (with 0/max), 랭크
           Row(
             children: [
               Text('개체 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-              SizedBox(width: 40, child: _speedInput('${state.iv.speed}', (v) {
+              Expanded(flex: 2, child: _speedInput(
+                key: ValueKey('iv_${state.iv.speed}'),
+                '${state.iv.speed}', (v) {
                 final val = int.tryParse(v) ?? 31;
                 setState(() {
                   state.iv = Stats(hp: state.iv.hp, attack: state.iv.attack, defense: state.iv.defense,
                     spAttack: state.iv.spAttack, spDefense: state.iv.spDefense, speed: val.clamp(0, 31));
                 });
               })),
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
               Text('노력 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-              SizedBox(width: 44, child: _speedInput('${state.ev.speed}', (v) {
+              Expanded(flex: 3, child: _speedInput(
+                key: ValueKey('ev_${state.ev.speed}'),
+                '${state.ev.speed}', (v) {
                 final val = int.tryParse(v) ?? 0;
                 setState(() {
                   state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
@@ -756,23 +767,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
                   spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: 252);
               })),
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
               Text('랭크 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-              _miniButton('-1', () => setState(() {
-                final val = (state.rank.speed - 1).clamp(-6, 6);
-                state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
-                  spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val);
-              })),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Text('${state.rank.speed >= 0 ? "+" : ""}${state.rank.speed}',
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
-              ),
-              _miniButton('+1', () => setState(() {
-                final val = (state.rank.speed + 1).clamp(-6, 6);
-                state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
-                  spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val);
-              })),
+              Expanded(flex: 2, child: _speedInput(
+                key: ValueKey('rank_${state.rank.speed}'),
+                '${state.rank.speed}', (v) {
+                final val = int.tryParse(v) ?? 0;
+                setState(() {
+                  state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
+                    spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val.clamp(-6, 6));
+                });
+              }, signed: true)),
             ],
           ),
           const SizedBox(height: 8),
@@ -881,12 +886,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  Widget _speedInput(String initialValue, ValueChanged<String> onChanged, {String? label}) {
+  Widget _speedInput(String initialValue, ValueChanged<String> onChanged, {Key? key, String? label, bool signed = false}) {
     return SizedBox(
+      key: key,
       height: 32,
       child: TextFormField(
         initialValue: initialValue,
-        keyboardType: TextInputType.number,
+        keyboardType: signed
+            ? const TextInputType.numberWithOptions(signed: true)
+            : TextInputType.number,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
@@ -977,6 +985,46 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   String _fmtEff(double v) {
     return v == v.truncateToDouble() ? v.toInt().toString() : v.toString();
+  }
+
+  /// Format structured modifier notes into localized Korean text.
+  String _formatNote(String note) {
+    // ability:AbilityName:immune
+    // ability:AbilityName:×0.5
+    // item:item-name:×1.2
+    // screen:reflect / screen:bypass_crit
+    // ground:immune / type:immune
+    final parts = note.split(':');
+    if (parts.length < 2) return note;
+
+    switch (parts[0]) {
+      case 'ability':
+        final name = _abilityNameMap[parts[1]] ?? parts[1];
+        if (parts.length >= 3) {
+          if (parts[2] == 'immune') return '$name 특성에 의해 무효';
+          return '$name ${parts[2]}';
+        }
+        return name;
+      case 'item':
+        final name = _itemNameMap[parts[1]] ?? parts[1];
+        if (parts.length >= 3) return '$name ${parts[2]}';
+        return name;
+      case 'screen':
+        const screenKo = {
+          'reflect': '리플렉터 ×0.5',
+          'light_screen': '빛의장막 ×0.5',
+          'aurora_veil': '오로라베일 ×0.5',
+          'bypass_crit': '급소: 벽 무시',
+          'bypass_infiltrator': '침투: 벽 무시',
+        };
+        return screenKo[parts[1]] ?? note;
+      case 'ground':
+        return '비접지 상태로 땅 기술 무효';
+      case 'type':
+        return '타입 상성에 의해 무효';
+      default:
+        return note;
+    }
   }
 }
 
