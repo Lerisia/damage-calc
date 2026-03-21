@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
 import '../utils/damage_calculator.dart';
+import '../utils/random_factor.dart';
 import '../utils/grounded.dart';
 import '../utils/item_effects.dart';
 import '../utils/stat_calculator.dart';
@@ -20,6 +23,7 @@ import '../models/weather.dart';
 import '../utils/localization.dart';
 import '../utils/room_effects.dart';
 import 'widgets/pokemon_panel.dart';
+import 'widgets/pokemon_selector.dart';
 
 class DamageCalculatorScreen extends StatefulWidget {
   const DamageCalculatorScreen({super.key});
@@ -41,6 +45,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
   RoomConditions _room = const RoomConditions();
+
+  // Cached data for speed tab
+  Map<String, String> _itemNameMap = {};
+  Map<String, String> _abilityNameMap = {};
 
   void _swapSides() {
     setState(() {
@@ -76,6 +84,27 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    _loadSpeedTabData();
+  }
+
+  Future<void> _loadSpeedTabData() async {
+    try {
+      final itemJson = await rootBundle.loadString('assets/items.json');
+      final List<dynamic> items = json.decode(itemJson) as List<dynamic>;
+      final iMap = <String, String>{};
+      for (final e in items) {
+        if (e['battle'] == true) iMap[e['name'] as String] = e['nameKo'] as String;
+      }
+
+      final abilityJson = await rootBundle.loadString('assets/abilities.json');
+      final List<dynamic> abilities = json.decode(abilityJson) as List<dynamic>;
+      final aMap = <String, String>{};
+      for (final e in abilities) {
+        aMap[e['name'] as String] = e['nameKo'] as String;
+      }
+
+      if (mounted) setState(() { _itemNameMap = iMap; _abilityNameMap = aMap; });
+    } catch (_) {}
   }
 
   @override
@@ -366,7 +395,26 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
+
+          // Defensive condition checkboxes
+          Row(
+            children: [
+              Expanded(child: _dmgCheck('리플렉터', _defender.reflect, (v) {
+                setState(() => _defender.reflect = v);
+              })),
+              Expanded(child: _dmgCheck('빛의장막', _defender.lightScreen, (v) {
+                setState(() => _defender.lightScreen = v);
+              })),
+              Expanded(child: _dmgCheck('오로라베일', _defender.auroraVeil, (v) {
+                setState(() => _defender.auroraVeil = v);
+              })),
+              Expanded(child: _dmgCheck('프렌드가드', _defender.friendGuard, (v) {
+                setState(() => _defender.friendGuard = v);
+              })),
+            ],
+          ),
+          const SizedBox(height: 12),
 
           for (int i = 0; i < 4; i++) ...[
             _buildMoveResult(i),
@@ -418,22 +466,34 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       effColor = Colors.grey;
     }
 
-    // KO info
+    // KO info using N-hit analysis
     String koText = '';
     Color koColor = Colors.grey;
-    if (result.isEmpty || eff == 0) {
-      // no KO info
-    } else if (result.hitsToKo == 1) {
-      final label = result.oneshotLabel ?? '확정';
-      koText = '$label 1타';
-      koColor = label == '확정' ? Colors.red : Colors.orange;
-    } else if (result.hitsToKo > 0) {
-      koText = '확정 ${result.hitsToKo}타';
-      koColor = result.hitsToKo <= 2 ? Colors.red : Colors.orange;
+    if (!result.isEmpty && eff > 0) {
+      final info = result.koInfo;
+      if (info.hits > 0) {
+        final label = RandomFactor.koLabel(info.koCount, info.totalCount) ?? '';
+        final pct = (info.koCount / info.totalCount * 100);
+        if (label == '확정') {
+          koText = '확정 ${info.hits}타';
+          koColor = info.hits <= 2 ? Colors.red : Colors.orange;
+        } else {
+          koText = '$label ${info.hits}타 (${pct.toStringAsFixed(1)}%)';
+          koColor = Colors.orange;
+        }
+      }
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+    final typeColor = KoStrings.getTypeColor(effectiveType);
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      decoration: BoxDecoration(
+        color: Color.lerp(Colors.white, typeColor, 0.08),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: typeColor.withValues(alpha: 0.3)),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -447,7 +507,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ),
               const SizedBox(width: 8),
               Text(KoStrings.getTypeKo(effectiveType),
-                  style: TextStyle(fontSize: 13, color: Colors.grey[600])),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[700])),
               const SizedBox(width: 8),
               Text(effLabel, style: TextStyle(fontSize: 13, color: effColor, fontWeight: FontWeight.bold)),
             ],
@@ -456,10 +516,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           // 결정력 / 내구 info (display only)
           Text(
             '$categoryLabel 결정력 ${offPower ?? '-'} → $categoryLabel 내구 $defBulk',
-            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
           ),
-          const SizedBox(height: 6),
-          // % damage (main focus) + raw damage (secondary)
+          const SizedBox(height: 8),
+          // % damage (main) + raw damage + KO
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -468,10 +528,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 '${result.minPercent.toStringAsFixed(1)}% ~ ${result.maxPercent.toStringAsFixed(1)}%',
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
               Text(
-                '(${result.minDamage} ~ ${result.maxDamage})',
-                style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                '${result.minDamage} ~ ${result.maxDamage}',
+                style: TextStyle(fontSize: 15, color: Colors.grey[700]),
               ),
               if (koText.isNotEmpty) ...[
                 const Spacer(),
@@ -481,7 +541,44 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ],
             ],
           ),
+          // Modifier notes
+          if (result.modifierNotes.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 8,
+              runSpacing: 2,
+              children: result.modifierNotes.map((note) => Text(
+                note,
+                style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+              )).toList(),
+            ),
+          ],
         ],
+      ),
+    );
+  }
+
+  Widget _dmgCheck(String label, bool value, ValueChanged<bool> onChanged) {
+    return InkWell(
+      onTap: () => onChanged(!value),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(width: 20, height: 20, child: Checkbox(
+              value: value,
+              onChanged: (v) => onChanged(v ?? false),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity.compact,
+            )),
+            const SizedBox(width: 2),
+            Flexible(child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(label, style: const TextStyle(fontSize: 12)),
+            )),
+          ],
+        ),
       ),
     );
   }
@@ -594,11 +691,27 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header: label + pokemon name + base speed
+          // Header: label + pokemon selector + base speed
           Row(
             children: [
               Text('$label ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: color)),
-              Expanded(child: Text(state.pokemonNameKo, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis)),
+              Expanded(child: PokemonSelector(
+                key: ValueKey('speed_pokemon_${state.pokemonName}'),
+                initialPokemonName: state.pokemonName,
+                onSelected: (pokemon) => setState(() {
+                  state.pokemonName = pokemon.name;
+                  state.pokemonNameKo = pokemon.nameKo;
+                  state.finalEvo = pokemon.finalEvo;
+                  state.type1 = pokemon.type1;
+                  state.type2 = pokemon.type2;
+                  state.baseStats = pokemon.baseStats;
+                  state.pokemonAbilities = pokemon.abilities;
+                  state.selectedAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
+                  state.genderRate = pokemon.genderRate;
+                  _resetCounter++;
+                }),
+              )),
+              const SizedBox(width: 8),
               Text('종족값 $speedBase', style: TextStyle(fontSize: 13, color: Colors.grey.shade500)),
             ],
           ),
@@ -619,7 +732,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           // Row 1: 개체, 노력 (with 0/max), 랭크 (with -1/+1)
           Row(
             children: [
-              // 개체
               Text('개체 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
               SizedBox(width: 40, child: _speedInput('${state.iv.speed}', (v) {
                 final val = int.tryParse(v) ?? 31;
@@ -629,7 +741,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 });
               })),
               const SizedBox(width: 12),
-              // 노력
               Text('노력 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
               SizedBox(width: 44, child: _speedInput('${state.ev.speed}', (v) {
                 final val = int.tryParse(v) ?? 0;
@@ -647,7 +758,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: 252);
               })),
               const SizedBox(width: 12),
-              // 랭크
               Text('랭크 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
               _miniButton('-1', () => setState(() {
                 final val = (state.rank.speed - 1).clamp(-6, 6);
@@ -668,7 +778,41 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           const SizedBox(height: 8),
 
-          // Row 2: 성격, 상태이상, 순풍
+          // Row 2: 레벨, 특성, 상태이상
+          Row(
+            children: [
+              SizedBox(width: 56, child: TextFormField(
+                key: ValueKey('speed_level_${state.level}'),
+                initialValue: '${state.level}',
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 14),
+                decoration: const InputDecoration(labelText: '레벨', isDense: true),
+                onChanged: (v) {
+                  final val = int.tryParse(v) ?? 50;
+                  setState(() => state.level = val.clamp(1, 100));
+                },
+              )),
+              const SizedBox(width: 8),
+              Expanded(flex: 3, child: _speedAbilityAutocomplete(state)),
+              const SizedBox(width: 8),
+              Expanded(flex: 2, child: DropdownButtonFormField<StatusCondition>(
+                value: state.status,
+                isDense: true,
+                isExpanded: true,
+                decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                style: const TextStyle(fontSize: 13, color: Colors.black87),
+                items: [StatusCondition.none, StatusCondition.paralysis].map((st) {
+                  return DropdownMenuItem(value: st, child: Text(
+                    st == StatusCondition.none ? '없음' : '마비', style: const TextStyle(fontSize: 13)));
+                }).toList(),
+                onChanged: (v) { if (v != null) setState(() => state.status = v); },
+              )),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          // Row 3: 성격, 아이템
           Row(
             children: [
               Expanded(flex: 3, child: DropdownButtonFormField<Nature>(
@@ -686,24 +830,20 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 onChanged: (v) { if (v != null) setState(() => state.nature = v); },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 2, child: DropdownButtonFormField<StatusCondition>(
-                value: state.status,
-                isDense: true,
-                isExpanded: true,
-                decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                style: const TextStyle(fontSize: 13, color: Colors.black87),
-                items: [StatusCondition.none, StatusCondition.paralysis].map((st) {
-                  return DropdownMenuItem(value: st, child: Text(
-                    st == StatusCondition.none ? '없음' : '마비', style: const TextStyle(fontSize: 13)));
-                }).toList(),
-                onChanged: (v) { if (v != null) setState(() => state.status = v); },
-              )),
-              const SizedBox(width: 8),
-              Expanded(flex: 2, child: InkWell(
+              Expanded(flex: 2, child: _speedItemAutocomplete(state)),
+            ],
+          ),
+          const SizedBox(height: 6),
+
+          // Row 4: 순풍
+          Row(
+            children: [
+              InkWell(
                 onTap: () => setState(() => state.tailwind = !state.tailwind),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(width: 22, height: 22, child: Checkbox(
                         value: state.tailwind,
@@ -712,11 +852,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                         visualDensity: VisualDensity.compact,
                       )),
                       const SizedBox(width: 4),
-                      const Flexible(child: FittedBox(fit: BoxFit.scaleDown, child: Text('순풍', style: TextStyle(fontSize: 14)))),
+                      const Text('순풍', style: TextStyle(fontSize: 14)),
                     ],
                   ),
                 ),
-              )),
+              ),
             ],
           ),
         ],
@@ -742,7 +882,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  Widget _speedInput(String initialValue, ValueChanged<String> onChanged) {
+  Widget _speedInput(String initialValue, ValueChanged<String> onChanged, {String? label}) {
     return SizedBox(
       height: 32,
       child: TextFormField(
@@ -750,8 +890,88 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 14),
-        decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 6)),
+        decoration: InputDecoration(
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 6),
+          prefixText: label != null ? '$label ' : null,
+          prefixStyle: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+        ),
         onChanged: onChanged,
+      ),
+    );
+  }
+
+  String _itemKo(String? key) {
+    if (key == null || key.isEmpty) return '없음';
+    return _itemNameMap[key] ?? key;
+  }
+
+  String _abilityKo(String key) {
+    return _abilityNameMap[key] ?? key;
+  }
+
+  Widget _speedAbilityAutocomplete(BattlePokemonState state) {
+    final abilities = state.pokemonAbilities;
+    final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
+
+    return KeyedSubtree(
+      key: ValueKey('speed_ability_${state.selectedAbility}_${state.pokemonName}'),
+      child: Autocomplete<String>(
+        initialValue: TextEditingValue(text: initialText),
+        displayStringForOption: (a) => _abilityKo(a),
+        optionsBuilder: (textEditingValue) {
+          if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
+            return abilities;
+          }
+          final query = textEditingValue.text.toLowerCase();
+          return abilities.where((a) =>
+            _abilityKo(a).contains(query) || a.toLowerCase().contains(query));
+        },
+        onSelected: (v) => setState(() => state.selectedAbility = v),
+        fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+          return TextField(
+            controller: controller,
+            focusNode: focusNode,
+            decoration: const InputDecoration(labelText: '특성', isDense: true),
+            onTap: () => controller.clear(),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _speedItemAutocomplete(BattlePokemonState state) {
+    final allItems = ['', ..._itemNameMap.keys];
+    if (state.selectedItem != null && allItems.contains(state.selectedItem)) {
+      allItems.remove(state.selectedItem);
+      allItems.insert(0, state.selectedItem!);
+    }
+    final initialText = _itemKo(state.selectedItem);
+
+    return KeyedSubtree(
+      key: ValueKey('speed_item_${state.selectedItem}'),
+      child: Autocomplete<String>(
+        initialValue: TextEditingValue(text: initialText),
+        displayStringForOption: (key) => _itemKo(key.isEmpty ? null : key),
+        optionsBuilder: (textEditingValue) {
+          if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
+            return allItems;
+          }
+          final query = textEditingValue.text.toLowerCase();
+          return allItems.where((key) {
+            final ko = _itemKo(key.isEmpty ? null : key);
+            return ko.contains(query) || key.toLowerCase().contains(query);
+          });
+        },
+        onSelected: (v) => setState(() => state.selectedItem = v.isEmpty ? null : v),
+        fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+          return TextField(
+            controller: controller,
+            focusNode: focusNode,
+            decoration: const InputDecoration(labelText: '아이템', isDense: true),
+            onTap: () => controller.clear(),
+          );
+        },
       ),
     );
   }

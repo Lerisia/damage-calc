@@ -62,10 +62,17 @@ class DamageResult {
   double get minPercent => defenderHp > 0 ? minDamage / defenderHp * 100 : 0;
   double get maxPercent => defenderHp > 0 ? maxDamage / defenderHp * 100 : 0;
 
-  int get oneshotRolls => RandomFactor.koRolls(baseDamage, defenderHp);
-  String? get oneshotLabel => RandomFactor.koLabel(oneshotRolls);
+  /// N-hit KO analysis including random roll combinations.
+  ({int hits, int koCount, int totalCount}) get koInfo =>
+      RandomFactor.nHitKo(baseDamage, defenderHp);
 
-  int get hitsToKo => maxDamage > 0 ? (defenderHp / maxDamage).ceil() : 0;
+  /// Human-readable KO label: "확정 1타", "난수 2타", "고난수 3타", etc.
+  String get koLabel {
+    final info = koInfo;
+    if (info.hits <= 0) return '';
+    final label = RandomFactor.koLabel(info.koCount, info.totalCount) ?? '';
+    return '$label ${info.hits}타'.trim();
+  }
 
   bool get isEmpty => baseDamage == 0 && effectiveness != 0;
 
@@ -309,7 +316,9 @@ class DamageCalculator {
     }
 
     // --- STAB ---
-    final bool hasStab = effectiveMove.type == attacker.type1 ||
+    // Protean/Libero: force STAB on all moves, but NOT during Terastal
+    final bool hasStab = (abilityEffect.forceStab && !attacker.terastal.active) ||
+        effectiveMove.type == attacker.type1 ||
         effectiveMove.type == attacker.type2;
     final double stab = hasStab ? (abilityEffect.stabOverride ?? 1.5) : 1.0;
     if (hasStab) notes.add('자속보정 ×${stab}');
@@ -361,7 +370,7 @@ class DamageCalculator {
     double neuroforceMod = 1.0;
     if (effectiveAbility == 'Neuroforce' && isSuperEffective) {
       neuroforceMod = 1.25;
-      notes.add('브레인포스: 효과발군 ×1.25');
+      notes.add('브레인포스: 효과 좋음 ×1.25');
     }
 
     // Defender: Filter / Solid Rock / Prism Armor (super effective -> x0.75)
@@ -370,7 +379,7 @@ class DamageCalculator {
       if (defAbilityName == 'Filter' || defAbilityName == 'Solid Rock' ||
           defAbilityName == 'Prism Armor') {
         filterMod = 0.75;
-        notes.add('$defAbilityName: 효과발군 ×0.75');
+        notes.add('$defAbilityName: 효과 좋음 ×0.75');
       }
     }
 
@@ -387,7 +396,31 @@ class DamageCalculator {
     double expertBeltMod = 1.0;
     if (effectiveItem == 'expert-belt' && isSuperEffective) {
       expertBeltMod = 1.2;
-      notes.add('달인의띠: 효과발군 ×1.2');
+      notes.add('달인의띠: 효과 좋음 ×1.2');
+    }
+
+    // --- Screens (Reflect / Light Screen / Aurora Veil) ---
+    // Critical hits and Infiltrator bypass screens
+    final bool bypassScreens = isCritical || effectiveAbility == 'Infiltrator';
+    double screenMod = 1.0;
+    if (!bypassScreens) {
+      if (isPhysical && (defender.reflect || defender.auroraVeil)) {
+        screenMod = 0.5;
+        notes.add(defender.reflect ? '리플렉터 ×0.5' : '오로라베일 ×0.5');
+      } else if (!isPhysical && (defender.lightScreen || defender.auroraVeil)) {
+        screenMod = 0.5;
+        notes.add(defender.lightScreen ? '빛의장막 ×0.5' : '오로라베일 ×0.5');
+      }
+    } else if (defender.reflect || defender.lightScreen || defender.auroraVeil) {
+      if (isCritical) notes.add('급소: 벽 무시');
+      if (effectiveAbility == 'Infiltrator') notes.add('침투: 벽 무시');
+    }
+
+    // --- Friend Guard (doubles ally ability) ---
+    double friendGuardMod = 1.0;
+    if (defender.friendGuard) {
+      friendGuardMod = 0.75;
+      notes.add('프렌드가드 ×0.75');
     }
 
     // --- Base damage: official Gen V+ formula ---
@@ -400,7 +433,8 @@ class DamageCalculator {
     // --- Apply all modifiers ---
     final double modifiers = stab * effectiveness * weatherMod * terrainMod *
         burnMod * critMod * powerMod * defAbilityDmgMod *
-        tintedLensMod * neuroforceMod * filterMod * multiscaleMod * expertBeltMod;
+        tintedLensMod * neuroforceMod * filterMod * multiscaleMod * expertBeltMod *
+        screenMod * friendGuardMod;
 
     final int baseDamage = (baseDmg * modifiers).floor();
 
