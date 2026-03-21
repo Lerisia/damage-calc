@@ -12,6 +12,7 @@ import '../../models/terrain.dart';
 import '../../models/type.dart';
 import '../../models/weather.dart';
 import '../../models/move_tags.dart';
+import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/battle_facade.dart';
 import '../../utils/localization.dart';
 import 'move_selector.dart';
@@ -208,16 +209,7 @@ class PokemonPanelState extends State<PokemonPanel>
               },
             )),
             const SizedBox(width: 4),
-            _typeBadge(s.type1),
-            if (s.type2 != null) ...[
-              const SizedBox(width: 2),
-              _typeBadge(s.type2!),
-            ],
-            if (s.terastal.active && s.terastal.teraType != null) ...[
-              const Padding(padding: EdgeInsets.symmetric(horizontal: 2),
-                child: Text('→', style: TextStyle(fontSize: 10, color: Colors.grey))),
-              _typeBadge(s.terastal.teraType!, isTera: true),
-            ],
+            ..._effectiveTypeBadges(),
             const SizedBox(width: 4),
             _genderIcon(),
             const SizedBox(width: 4),
@@ -553,6 +545,24 @@ class PokemonPanelState extends State<PokemonPanel>
         ),
       ),
     );
+  }
+
+  List<Widget> _effectiveTypeBadges() {
+    final override = getAbilityTypeOverride(
+      ability: s.selectedAbility,
+      pokemonName: s.pokemonName,
+      weather: widget.weather,
+    );
+    final type1 = override?.type1 ?? s.type1;
+    final type2 = override != null ? override.type2 : s.type2;
+
+    return [
+      _typeBadge(type1),
+      if (type2 != null) ...[
+        const SizedBox(width: 2),
+        _typeBadge(type2),
+      ],
+    ];
   }
 
   Widget _typeBadge(PokemonType type, {bool isTera = false}) {
