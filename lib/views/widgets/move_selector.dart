@@ -7,8 +7,9 @@ class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;
   final VoidCallback? onTap;
   final String? initialMoveName;
+  final String? displayNameOverride;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -105,14 +106,22 @@ class _MoveSelectorState extends State<MoveSelector> {
             if (focusNode.hasFocus) {
               controller.clear();
             } else if (controller.text.isEmpty && _selected != null) {
-              controller.text = _selected!.nameKo;
+              final display = widget.displayNameOverride ?? _selected!.nameKo;
+              controller.text = display;
             }
           });
+        }
+        // Show override name when not focused
+        if (!focusNode.hasFocus && widget.displayNameOverride != null && _selected != null) {
+          controller.text = widget.displayNameOverride!;
         }
         return TextField(
           controller: controller,
           focusNode: focusNode,
           onTap: widget.onTap,
+          style: widget.displayNameOverride != null
+              ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500)
+              : null,
           decoration: InputDecoration(
             hintText: _selected?.nameKo ?? '기술 이름',
             isDense: true,

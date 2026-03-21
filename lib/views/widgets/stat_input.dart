@@ -6,10 +6,12 @@ import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../models/status.dart';
 import '../../utils/localization.dart';
+import '../../models/room.dart';
 import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../utils/ability_effects.dart';
 import '../../utils/item_effects.dart';
+import '../../utils/room_effects.dart';
 import '../../utils/stat_calculator.dart';
 
 class _ClampingFormatter extends TextInputFormatter {
@@ -92,12 +94,14 @@ class StatInput extends StatefulWidget {
     this.opponentAlwaysLast = false,
     this.weather = Weather.none,
     this.terrain = Terrain.none,
+    this.room = Room.none,
   });
 
   final int? opponentSpeed;
   final bool opponentAlwaysLast;
   final Weather weather;
   final Terrain terrain;
+  final Room room;
 
   @override
   State<StatInput> createState() => _StatInputState();
@@ -488,24 +492,30 @@ class _StatInputState extends State<StatInput> {
     String speedText = '';
     Color speedColor = Colors.grey;
     if (widget.opponentSpeed != null) {
-      // Check for always-last items (Lagging Tail, Full Incense)
       final bool alwaysLast = widget.selectedItem != null &&
           getSpeedItemEffect(widget.selectedItem!).alwaysLast;
-      final opp = widget.opponentSpeed!;
-      if (alwaysLast && !widget.opponentAlwaysLast) {
-        speedText = '확정 후공';
-        speedColor = Colors.red;
-      } else if (!alwaysLast && widget.opponentAlwaysLast) {
-        speedText = '확정 선공';
-        speedColor = Colors.green;
-      } else if (mySpeed > opp) {
-        speedText = '상대보다 빠름 ▲';
-        speedColor = Colors.green;
-      } else if (mySpeed < opp) {
-        speedText = '상대보다 느림 ▼';
-        speedColor = Colors.red;
-      } else {
-        speedText = '동속';
+      final result = getSpeedResult(
+        mySpeed: mySpeed,
+        opponentSpeed: widget.opponentSpeed!,
+        myAlwaysLast: alwaysLast,
+        opponentAlwaysLast: widget.opponentAlwaysLast,
+        room: widget.room,
+      );
+      switch (result) {
+        case SpeedResult.alwaysLast:
+          speedText = '확정 후공';
+          speedColor = Colors.red;
+        case SpeedResult.alwaysFirst:
+          speedText = '확정 선공';
+          speedColor = Colors.green;
+        case SpeedResult.faster:
+          speedText = '상대보다 빠름 ▲';
+          speedColor = Colors.green;
+        case SpeedResult.slower:
+          speedText = '상대보다 느림 ▼';
+          speedColor = Colors.red;
+        case SpeedResult.tied:
+          speedText = '동속';
         speedColor = Colors.orange;
       }
     }

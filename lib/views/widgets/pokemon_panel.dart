@@ -327,6 +327,7 @@ class PokemonPanelState extends State<PokemonPanel>
               opponentAlwaysLast: widget.opponentAlwaysLast,
               weather: widget.weather,
               terrain: widget.terrain,
+              room: widget.room,
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notify(); }),
               onStatusChanged: (v) => setState(() { s.status = v; _notify(); }),
             ),
