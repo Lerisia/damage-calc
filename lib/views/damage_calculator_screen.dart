@@ -6,6 +6,7 @@ import '../utils/ability_effects.dart';
 import '../utils/item_effects.dart';
 import '../utils/stat_calculator.dart';
 import '../models/battle_pokemon.dart';
+import '../models/dynamax.dart';
 import '../models/stats.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
@@ -32,7 +33,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
-  Room _room = Room.none;
+  RoomConditions _room = const RoomConditions();
 
   void _swapSides() {
     setState(() {
@@ -57,12 +58,26 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           weather: _weather, terrain: _terrain, status: s.status);
     }
     if (s.selectedItem != null) {
-      final effect = getSpeedItemEffect(s.selectedItem!);
-      speed *= effect.speedModifier;
+      // Choice Scarf is nullified during Dynamax
+      final isDmaxed = s.dynamax != DynamaxState.none;
+      if (!(isDmaxed && s.selectedItem == 'choice-scarf')) {
+        final effect = getSpeedItemEffect(s.selectedItem!);
+        speed *= effect.speedModifier;
+      }
+    }
+    // Paralysis halves speed (Quick Feet negates this)
+    if (s.status == StatusCondition.paralysis &&
+        s.selectedAbility != 'Quick Feet') {
+      speed *= 0.5;
     }
     return speed.floor();
   }
 
+  bool _isAlwaysLast(BattlePokemonState s) {
+    if (s.selectedItem == null) return false;
+    if (s.dynamax != DynamaxState.none) return false;
+    return getSpeedItemEffect(s.selectedItem!).alwaysLast;
+  }
 
   @override
   void initState() {
@@ -177,32 +192,45 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   .toList(),
               onSelected: (v) => setState(() => _terrain = v),
             ),
-            // Room dropdown icon
-            PopupMenuButton<Room>(
-              initialValue: _room,
-              tooltip: '룸',
+            // Room/Gravity toggle popup
+            PopupMenuButton<String>(
+              tooltip: '룸/중력',
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(KoStrings.roomIcon[_room]!, style: const TextStyle(fontSize: 20)),
+                    Text(_room.hasAny ? '🔄' : '🚪', style: const TextStyle(fontSize: 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
               ),
-              itemBuilder: (_) => Room.values
-                  .map((r) => PopupMenuItem(
-                      value: r,
-                      child: Row(
-                        children: [
-                          Text(KoStrings.roomIcon[r]!, style: const TextStyle(fontSize: 18)),
-                          const SizedBox(width: 8),
-                          Text(KoStrings.roomKo[r]!),
-                        ],
-                      )))
-                  .toList(),
-              onSelected: (v) => setState(() => _room = v),
+              itemBuilder: (_) => [
+                CheckedPopupMenuItem(
+                  value: 'trickRoom', checked: _room.trickRoom,
+                  child: const Text('🔄 트릭룸'),
+                ),
+                CheckedPopupMenuItem(
+                  value: 'magicRoom', checked: _room.magicRoom,
+                  child: const Text('✨ 매직룸'),
+                ),
+                CheckedPopupMenuItem(
+                  value: 'wonderRoom', checked: _room.wonderRoom,
+                  child: const Text('❓ 원더룸'),
+                ),
+                CheckedPopupMenuItem(
+                  value: 'gravity', checked: _room.gravity,
+                  child: const Text('🌀 중력'),
+                ),
+              ],
+              onSelected: (v) => setState(() {
+                switch (v) {
+                  case 'trickRoom': _room = _room.copyWith(trickRoom: !_room.trickRoom);
+                  case 'magicRoom': _room = _room.copyWith(magicRoom: !_room.magicRoom);
+                  case 'wonderRoom': _room = _room.copyWith(wonderRoom: !_room.wonderRoom);
+                  case 'gravity': _room = _room.copyWith(gravity: !_room.gravity);
+                }
+              }),
             ),
             Expanded(
               child: FittedBox(
@@ -267,6 +295,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
                   opponentSpeed: _calcEffectiveSpeed(_defender),
+                  opponentAlwaysLast: _isAlwaysLast(_defender),
                   opponentAttack: _calcStats(_defender).attack,
                   opponentGender: _defender.gender,
                 ),
@@ -281,6 +310,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   resetCounter: _resetCounter,
                   isAttacker: false,
                   opponentSpeed: _calcEffectiveSpeed(_attacker),
+                  opponentAlwaysLast: _isAlwaysLast(_attacker),
                   opponentAttack: _calcStats(_attacker).attack,
                   opponentGender: _attacker.gender,
                 ),

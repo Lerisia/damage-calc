@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:damage_calc/models/dynamax.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/rank.dart';
@@ -623,6 +624,290 @@ void main() {
           const MoveContext(terrain: Terrain.electric, ability: 'Pixilate'));
       expect(result.move.type, equals(PokemonType.electric));
       expect(result.move.power, equals(100));
+    });
+  });
+
+  group('Speed-based power', () {
+    const gyroBall = Move(
+      name: 'Gyro Ball', nameKo: '자이로볼', nameJa: 'ジャイロボール',
+      type: PokemonType.steel, category: MoveCategory.physical,
+      power: 0, accuracy: 100, pp: 5,
+      tags: [MoveTags.contact, 'ball', MoveTags.gyroSpeed],
+    );
+
+    const electroBall = Move(
+      name: 'Electro Ball', nameKo: '일렉트릭볼', nameJa: 'エレキボール',
+      type: PokemonType.electric, category: MoveCategory.special,
+      power: 0, accuracy: 100, pp: 10,
+      tags: ['ball', MoveTags.electroSpeed],
+    );
+
+    test('Gyro Ball: slow user vs fast target = high power', () {
+      // 25 * 200 / 50 + 1 = 101
+      final result = transformMove(gyroBall,
+          const MoveContext(mySpeed: 50, opponentSpeed: 200));
+      expect(result.move.power, equals(101));
+    });
+
+    test('Gyro Ball: caps at 150', () {
+      // 25 * 300 / 10 + 1 = 751 -> capped to 150
+      final result = transformMove(gyroBall,
+          const MoveContext(mySpeed: 10, opponentSpeed: 300));
+      expect(result.move.power, equals(150));
+    });
+
+    test('Gyro Ball: same speed = low power', () {
+      // 25 * 100 / 100 + 1 = 26
+      final result = transformMove(gyroBall,
+          const MoveContext(mySpeed: 100, opponentSpeed: 100));
+      expect(result.move.power, equals(26));
+    });
+
+    test('Gyro Ball: no speed data keeps original power', () {
+      final result = transformMove(gyroBall, const MoveContext());
+      expect(result.move.power, equals(0));
+    });
+
+    test('Electro Ball: 4x faster = 150 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 400, opponentSpeed: 100));
+      expect(result.move.power, equals(150));
+    });
+
+    test('Electro Ball: 3x faster = 120 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 300, opponentSpeed: 100));
+      expect(result.move.power, equals(120));
+    });
+
+    test('Electro Ball: 2x faster = 80 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 200, opponentSpeed: 100));
+      expect(result.move.power, equals(80));
+    });
+
+    test('Electro Ball: less than 2x faster = 60 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 150, opponentSpeed: 100));
+      expect(result.move.power, equals(60));
+    });
+
+    test('Electro Ball: same speed = 60 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 100, opponentSpeed: 100));
+      expect(result.move.power, equals(60));
+    });
+  });
+
+  // ====== Dynamax Tests ======
+  group('Dynamax transform', () {
+    // Standard power conversion
+    test('Tackle (40) -> Max Strike (90)', () {
+      final result = transformMove(normalMove,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이어택'));
+      expect(result.move.power, equals(90));
+      expect(result.move.type, equals(PokemonType.normal));
+    });
+
+    test('Flamethrower (90) -> Max Flare (130)', () {
+      final result = transformMove(fireMove,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이번'));
+      expect(result.move.power, equals(130));
+    });
+
+    test('fire move 130 power -> Max Flare (150)', () {
+      const overheat = Move(
+        name: 'Overheat', nameKo: '오버히트', nameJa: 'オーバーヒート',
+        type: PokemonType.fire, category: MoveCategory.special,
+        power: 130, accuracy: 90, pp: 5,
+      );
+      final result = transformMove(overheat,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.power, equals(150));
+    });
+
+    // Fighting/Poison reduced power
+    test('Close Combat (120) -> Max Knuckle (95)', () {
+      const closeCombat = Move(
+        name: 'Close Combat', nameKo: '인파이트', nameJa: 'インファイト',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 120, accuracy: 100, pp: 5,
+      );
+      final result = transformMove(closeCombat,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이너클'));
+      expect(result.move.power, equals(95));
+    });
+
+    test('Sludge Bomb (90) -> Max Ooze (90)', () {
+      const sludgeBomb = Move(
+        name: 'Sludge Bomb', nameKo: '오물폭탄', nameJa: 'ヘドロばくだん',
+        type: PokemonType.poison, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 10,
+      );
+      final result = transformMove(sludgeBomb,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이애시드'));
+      expect(result.move.power, equals(90));
+    });
+
+    // Type-specific Max Move names
+    test('Grass move -> 다이그래스', () {
+      const grassMove = Move(
+        name: 'Energy Ball', nameKo: '에너지볼', nameJa: 'エナジーボール',
+        type: PokemonType.grass, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 10,
+      );
+      final result = transformMove(grassMove,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이그래스'));
+    });
+
+    test('Ghost move -> 다이할로우', () {
+      const shadowBall = Move(
+        name: 'Shadow Ball', nameKo: '섀도볼', nameJa: 'シャドーボール',
+        type: PokemonType.ghost, category: MoveCategory.special,
+        power: 80, accuracy: 100, pp: 15,
+      );
+      final result = transformMove(shadowBall,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이할로우'));
+    });
+
+    test('Dragon move -> 다이드라군', () {
+      const dragonPulse = Move(
+        name: 'Dragon Pulse', nameKo: '용의파동', nameJa: 'りゅうのはどう',
+        type: PokemonType.dragon, category: MoveCategory.special,
+        power: 85, accuracy: 100, pp: 10,
+      );
+      final result = transformMove(dragonPulse,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이드라군'));
+    });
+
+    test('Dark move -> 다이아크', () {
+      const darkPulse = Move(
+        name: 'Dark Pulse', nameKo: '악의파동', nameJa: 'あくのはどう',
+        type: PokemonType.dark, category: MoveCategory.special,
+        power: 80, accuracy: 100, pp: 15,
+      );
+      final result = transformMove(darkPulse,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이아크'));
+    });
+
+    // Special move handling
+    test('OHKO move -> base 130 -> max power 150', () {
+      const fissure = Move(
+        name: 'Fissure', nameKo: '땅가르기', nameJa: 'じわれ',
+        type: PokemonType.ground, category: MoveCategory.physical,
+        power: 0, accuracy: 30, pp: 5,
+      );
+      final result = transformMove(fissure,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      // base 130 -> conversion table 130+ -> 150
+      expect(result.move.power, equals(150));
+      expect(result.move.nameKo, equals('다이어스'));
+    });
+
+    test('Multi-hit move (Icicle Spear 25) -> base 130 -> max 150', () {
+      const icicleSpear = Move(
+        name: 'Icicle Spear', nameKo: '고드름침', nameJa: 'つららばり',
+        type: PokemonType.ice, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+      );
+      final result = transformMove(icicleSpear,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      // base 130 -> conversion table 130+ -> 150
+      expect(result.move.power, equals(150));
+    });
+
+    test('Variable power move (Flail) -> base 130 -> max 150', () {
+      const flail = Move(
+        name: 'Flail', nameKo: '바둥바둥', nameJa: 'じたばた',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 0, accuracy: 100, pp: 15,
+        tags: [MoveTags.hpPowerLow],
+      );
+      final result = transformMove(flail,
+          const MoveContext(dynamax: DynamaxState.dynamax, hpPercent: 10));
+      // base 130 -> conversion table 130+ -> 150
+      expect(result.move.power, equals(150));
+    });
+
+    // Status move -> Max Guard
+    test('Status move -> Max Guard with 0 power', () {
+      const swordsD = Move(
+        name: 'Swords Dance', nameKo: '칼춤', nameJa: 'つるぎのまい',
+        type: PokemonType.normal, category: MoveCategory.status,
+        power: 0, accuracy: 100, pp: 20,
+      );
+      final result = transformMove(swordsD,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.nameKo, equals('다이월'));
+      expect(result.move.power, equals(0));
+    });
+
+    // No transform when not dynamaxed
+    test('No transform when dynamax is none', () {
+      final result = transformMove(normalMove, const MoveContext());
+      expect(result.move.nameKo, equals('몸통박치기'));
+      expect(result.move.power, equals(40));
+    });
+
+    // G-Max moves
+    test('Charizard fire move -> G-Max Wildfire (거다이옥염)', () {
+      final result = transformMove(fireMove,
+          const MoveContext(dynamax: DynamaxState.gigantamax, pokemonName: 'Charizard'));
+      expect(result.move.nameKo, equals('거다이옥염'));
+      expect(result.move.power, equals(130)); // 90 -> 130
+    });
+
+    test('Charizard non-fire move -> regular Max Move', () {
+      final result = transformMove(normalMove,
+          const MoveContext(dynamax: DynamaxState.gigantamax, pokemonName: 'Charizard'));
+      expect(result.move.nameKo, equals('다이어택'));
+    });
+
+    test('Venusaur grass move -> G-Max Vine Lash at 160 power', () {
+      const grassMove = Move(
+        name: 'Energy Ball', nameKo: '에너지볼', nameJa: 'エナジーボール',
+        type: PokemonType.grass, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 10,
+      );
+      final result = transformMove(grassMove,
+          const MoveContext(dynamax: DynamaxState.gigantamax, pokemonName: 'Venusaur'));
+      expect(result.move.nameKo, equals('거다이편달'));
+      expect(result.move.power, equals(160));
+    });
+
+    test('Regular dynamax for Charizard (not gigantamax) -> normal Max Move', () {
+      final result = transformMove(fireMove,
+          const MoveContext(dynamax: DynamaxState.dynamax, pokemonName: 'Charizard'));
+      expect(result.move.nameKo, equals('다이번'));
+    });
+
+    // Skin + Dynamax interaction
+    test('Pixilate Normal move -> Fairy type -> Max Starfall', () {
+      final result = transformMove(normalMove,
+          const MoveContext(dynamax: DynamaxState.dynamax, ability: 'Pixilate'));
+      expect(result.move.type, equals(PokemonType.fairy));
+      expect(result.move.nameKo, equals('다이페어리'));
+    });
+
+    // Weather Ball + Dynamax
+    test('Weather Ball in sun -> Fire -> Max Flare', () {
+      const weatherBall = Move(
+        name: 'Weather Ball', nameKo: '웨더볼', nameJa: 'ウェザーボール',
+        type: PokemonType.normal, category: MoveCategory.special,
+        power: 50, accuracy: 100, pp: 10,
+      );
+      final result = transformMove(weatherBall,
+          const MoveContext(dynamax: DynamaxState.dynamax, weather: Weather.sun));
+      expect(result.move.type, equals(PokemonType.fire));
+      expect(result.move.nameKo, equals('다이번'));
     });
   });
 }

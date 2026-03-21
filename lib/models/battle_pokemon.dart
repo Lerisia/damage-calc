@@ -1,3 +1,4 @@
+import 'dynamax.dart';
 import 'gender.dart';
 import 'move.dart';
 import 'nature.dart';
@@ -27,6 +28,9 @@ class BattlePokemonState {
   List<int?> powerOverrides;
   List<bool> criticals;
   String? selectedItem;
+  DynamaxState dynamax;
+  bool canDynamax;
+  bool canGmax;
   Rank rank;
   int hpPercent;
   StatusCondition status;
@@ -64,6 +68,9 @@ class BattlePokemonState {
     List<int?>? powerOverrides,
     List<bool>? criticals,
     this.selectedItem,
+    this.dynamax = DynamaxState.none,
+    this.canDynamax = true,
+    this.canGmax = false,
     this.rank = const Rank(),
     this.hpPercent = 100,
     this.status = StatusCondition.none,
@@ -119,6 +126,9 @@ class BattlePokemonState {
     powerOverrides = [null, null, null, null];
     criticals = [false, false, false, false];
     selectedItem = null;
+    dynamax = DynamaxState.none;
+    canDynamax = true;
+    canGmax = false;
     rank = const Rank();
     hpPercent = 100;
     status = StatusCondition.none;

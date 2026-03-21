@@ -4,6 +4,7 @@ import 'package:damage_calc/models/nature.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/status.dart';
+import 'package:damage_calc/models/room.dart';
 import 'package:damage_calc/models/weather.dart';
 import 'package:damage_calc/utils/defensive_calculator.dart';
 
@@ -236,6 +237,84 @@ void main() {
       );
       // SpD = floor(85 * 1.5 * 1.5) = floor(191.25) = 191, Special: 120 * 191 = 22920
       expect(result.special, equals(55766));
+    });
+  });
+
+  group('Wonder Room', () {
+    test('swaps Defense and Sp.Def', () {
+      // Normal: HP=120, Def=69, SpDef=85
+      // Wonder Room: Def uses SpDef(85), SpDef uses Def(69)
+      final normal = DefensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        type1: PokemonType.grass,
+      );
+      final wonder = DefensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        type1: PokemonType.grass,
+        room: RoomConditions(wonderRoom: true),
+      );
+      expect(wonder.physical, equals(normal.special));
+      expect(wonder.special, equals(normal.physical));
+    });
+
+    test('Wonder Room with defensive modifiers applies correctly', () {
+      // Assault Vest (SpDef x1.5) under Wonder Room:
+      // Physical uses SpDef(85) base, Special uses Def(69) base * 1.5
+      final result = DefensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        type1: PokemonType.grass,
+        item: 'assault-vest',
+        room: RoomConditions(wonderRoom: true),
+      );
+      // Physical: HP(120) * SpDef(85) / 0.411 = 24817
+      expect(result.physical, equals(24817));
+      // Special: HP(120) * floor(Def(69) * 1.5) / 0.411 = floor(120 * 103 / 0.411) = 30072
+      expect(result.special, equals(30072));
+    });
+
+    test('Wonder Room with rank: rank stays on original stat', () {
+      // Bulbasaur: Def base=49, SpDef base=65
+      // Wonder Room swaps bases: Def base=65, SpDef base=49
+      // Def rank +2 (2.0x) applies to Def (now using base 65)
+      // Normal (no WR): Def = _calcStat(49,...) * 2.0, SpDef = _calcStat(65,...)
+      // Wonder Room: Def = _calcStat(65,...) * 2.0, SpDef = _calcStat(49,...)
+      final wonder = DefensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        type1: PokemonType.grass,
+        rank: const Rank(defense: 2),
+        room: RoomConditions(wonderRoom: true),
+      );
+      final normal = DefensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        type1: PokemonType.grass,
+        rank: const Rank(defense: 2),
+      );
+      // They should NOT be simple swaps because rank +2 is on defense
+      expect(wonder.physical, isNot(equals(normal.physical)));
+      // WR physical uses base 65 with rank +2: stat = floor((2*65+31)*50/100+5)*2.0 = 170
+      // HP = 120, bulk = floor(120 * 170 / 0.411) = 49635
+      expect(wonder.physical, equals(49635));
+    });
+
+    test('non-Wonder rooms do not swap', () {
+      final trick = DefensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        type1: PokemonType.grass,
+        room: RoomConditions(trickRoom: true),
+      );
+      final normal = DefensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        type1: PokemonType.grass,
+      );
+      expect(trick.physical, equals(normal.physical));
+      expect(trick.special, equals(normal.special));
     });
   });
 }

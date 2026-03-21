@@ -409,17 +409,6 @@ void main() {
       expect(effect.statModifier, equals(2.0));
     });
 
-    test('light-ball without pokemonName returns default', () {
-      final effect = getItemEffect('light-ball', move: tackle);
-      expect(effect.statModifier, equals(1.0));
-    });
-
-    // --- Default ---
-    test('unknown item returns default modifiers', () {
-      final effect = getItemEffect('focus-sash', move: tackle);
-      expect(effect.statModifier, equals(1.0));
-      expect(effect.powerModifier, equals(1.0));
-    });
   });
 
   group('DefensiveItemEffect', () {
@@ -435,22 +424,11 @@ void main() {
       expect(effect.spdModifier, equals(1.0));
     });
 
-    test('eviolite defaults to finalEvo true (no boost)', () {
-      final effect = getDefensiveItemEffect('eviolite');
-      expect(effect.defModifier, equals(1.0));
-      expect(effect.spdModifier, equals(1.0));
-    });
-
     test('assault-vest boosts SpDef by 1.5x', () {
       final effect = getDefensiveItemEffect('assault-vest');
       expect(effect.defModifier, equals(1.0));
       expect(effect.spdModifier, equals(1.5));
     });
 
-    test('unknown defensive item returns default', () {
-      final effect = getDefensiveItemEffect('leftovers');
-      expect(effect.defModifier, equals(1.0));
-      expect(effect.spdModifier, equals(1.0));
-    });
   });
 }

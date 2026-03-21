@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
-import '../../models/stats.dart';
-import '../../models/type.dart';
 
 class PokemonSelector extends StatefulWidget {
-  final void Function(
-    String name,
-    PokemonType type1,
-    PokemonType? type2,
-    Stats baseStats,
-    List<String> abilities,
-    bool finalEvo,
-    String? requiredItem,
-    int genderRate,
-  ) onSelected;
+  final void Function(Pokemon pokemon) onSelected;
   final String initialPokemonName;
 
   const PokemonSelector({
@@ -82,12 +71,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
-        widget.onSelected(
-          pokemon.name, pokemon.type1, pokemon.type2,
-          pokemon.baseStats, pokemon.abilities, pokemon.finalEvo,
-          pokemon.requiredItem,
-          pokemon.genderRate,
-        );
+        widget.onSelected(pokemon);
       },
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
         if (!_hasFocusListenerAttached) {
