@@ -6,8 +6,9 @@ import '../../utils/localization.dart';
 class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;
   final VoidCallback? onTap;
+  final String? initialMoveName;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -31,7 +32,13 @@ class _MoveSelectorState extends State<MoveSelector> {
         m.category == MoveCategory.status ||
         m.moveClass != MoveClass.normal);
     all.sort((a, b) => a.nameKo.compareTo(b.nameKo));
-    setState(() => _allMoves = all);
+    setState(() {
+      _allMoves = all;
+      if (_selected == null && widget.initialMoveName != null) {
+        final match = all.where((m) => m.name == widget.initialMoveName);
+        if (match.isNotEmpty) _selected = match.first;
+      }
+    });
   }
 
   String _moveDisplay(Move m) =>

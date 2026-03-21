@@ -14,8 +14,13 @@ class PokemonSelector extends StatefulWidget {
     bool finalEvo,
     String? requiredItem,
   ) onSelected;
+  final String initialPokemonName;
 
-  const PokemonSelector({super.key, required this.onSelected});
+  const PokemonSelector({
+    super.key,
+    required this.onSelected,
+    this.initialPokemonName = 'Bulbasaur',
+  });
 
   @override
   State<PokemonSelector> createState() => _PokemonSelectorState();
@@ -37,7 +42,10 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     setState(() {
       _allPokemon = all;
       if (_selected == null && all.isNotEmpty) {
-        _selected = all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first);
+        _selected = all.firstWhere(
+          (p) => p.name == widget.initialPokemonName,
+          orElse: () => all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first),
+        );
       }
     });
   }
