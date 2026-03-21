@@ -39,11 +39,18 @@ void main() {
     });
 
     test('koLabel describes KO chance', () {
-      expect(RandomFactor.koLabel(16), equals('확정'));
-      expect(RandomFactor.koLabel(14), equals('고난수'));
-      expect(RandomFactor.koLabel(8), equals('난수'));
-      expect(RandomFactor.koLabel(2), equals('저난수'));
-      expect(RandomFactor.koLabel(0), isNull);
+      expect(RandomFactor.koLabel(16, 16), equals('확정'));
+      expect(RandomFactor.koLabel(14, 16), equals('난수'));
+      expect(RandomFactor.koLabel(1, 16), equals('난수'));
+      expect(RandomFactor.koLabel(0, 16), isNull);
+    });
+
+    test('nHitKo calculates multi-hit KO', () {
+      // damage 60 vs hp 100: min 51, max 60. No 1-hit KO.
+      // 2-hit: min 102, always KOs -> 확정 2타
+      final info = RandomFactor.nHitKo(60, 100);
+      expect(info.hits, equals(2));
+      expect(info.koCount, equals(info.totalCount)); // 확정
     });
   });
 }

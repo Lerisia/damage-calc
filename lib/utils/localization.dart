@@ -1,3 +1,4 @@
+import 'dart:ui';
 import '../models/move.dart';
 import '../models/room.dart';
 import '../models/status.dart';
@@ -143,4 +144,28 @@ class KoStrings {
 
   /// Helper to get a category's Korean name.
   static String getCategoryKo(MoveCategory c) => categoryKo[c] ?? c.name;
+
+  /// Type colors used for UI backgrounds, badges, etc.
+  static const Map<PokemonType, Color> typeColor = {
+    PokemonType.normal: Color(0xFFA8A878),
+    PokemonType.fire: Color(0xFFF08030),
+    PokemonType.water: Color(0xFF6890F0),
+    PokemonType.electric: Color(0xFFF8D030),
+    PokemonType.grass: Color(0xFF78C850),
+    PokemonType.ice: Color(0xFF98D8D8),
+    PokemonType.fighting: Color(0xFFC03028),
+    PokemonType.poison: Color(0xFFA040A0),
+    PokemonType.ground: Color(0xFFE0C068),
+    PokemonType.flying: Color(0xFFA890F0),
+    PokemonType.psychic: Color(0xFFF85888),
+    PokemonType.bug: Color(0xFFA8B820),
+    PokemonType.rock: Color(0xFFB8A038),
+    PokemonType.ghost: Color(0xFF705898),
+    PokemonType.dragon: Color(0xFF7038F8),
+    PokemonType.dark: Color(0xFF705848),
+    PokemonType.steel: Color(0xFFB8B8D0),
+    PokemonType.fairy: Color(0xFFEE99AC),
+  };
+
+  static Color getTypeColor(PokemonType t) => typeColor[t] ?? const Color(0xFFA8A878);
 }
