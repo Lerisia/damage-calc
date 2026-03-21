@@ -193,6 +193,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
   move = _applyHpPower(move, context.hpPercent);
   move = _applyStatusPower(move, context.status);
   move = _applySpeedPower(move, context.mySpeed, context.opponentSpeed);
+  move = _applyTurnOrderPower(move, context.mySpeed, context.opponentSpeed);
   move = _applyWeightPower(move, context.myWeight, context.opponentWeight);
 
   // 4. Field-based power boosts
@@ -379,6 +380,30 @@ Move _applySpeedPower(Move move, int? mySpeed, int? opponentSpeed) {
       power = 60;
     }
     return move.copyWith(power: power);
+  }
+
+  return move;
+}
+
+/// Turn-order power: moves that double power based on who moves first.
+Move _applyTurnOrderPower(Move move, int? mySpeed, int? opponentSpeed) {
+  if (mySpeed == null || opponentSpeed == null) return move;
+
+  // Bolt Beak / Fishious Rend: x2 power when moving first
+  if ((move.name == 'Bolt Beak' || move.name == 'Fishious Rend') &&
+      mySpeed > opponentSpeed) {
+    return move.copyWith(power: move.power * 2);
+  }
+
+  // Payback: x2 power when moving second
+  if (move.name == 'Payback' && mySpeed < opponentSpeed) {
+    return move.copyWith(power: move.power * 2);
+  }
+
+  // Revenge / Avalanche: x2 power when moving second
+  if ((move.name == 'Revenge' || move.name == 'Avalanche') &&
+      mySpeed < opponentSpeed) {
+    return move.copyWith(power: move.power * 2);
   }
 
   return move;

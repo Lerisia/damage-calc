@@ -1332,7 +1332,7 @@
   },
   {
     "dexNumber": 865,
-    "name": "Sirfetch’d",
+    "name": "Sirfetch'd",
     "nameKo": "창파나이트",
     "nameJa": "ネギガナイト",
     "type1": "fighting",
@@ -2058,7 +2058,7 @@
       "speed": 80
     },
     "abilities": [
-      "Dragon’s Maw"
+      "Dragon's Maw"
     ],
     "weight": 200.0,
     "height": 2.1,

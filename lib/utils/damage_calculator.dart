@@ -752,42 +752,8 @@ class DamageCalculator {
       notes.add('move:barb_barrage:×$kDoubleMovePower');
     }
 
-    // Bolt Beak / Fishious Rend: doubled when attacker moves first
-    if ((effectiveMove.name == 'Bolt Beak' || effectiveMove.name == 'Fishious Rend') &&
-        opponentSpeed != null) {
-      final atkSpeed = calcEffectiveSpeed(
-        baseSpeed: atkBaseStats.speed,
-        ability: atkAbilityRaw,
-        item: attacker.selectedItem,
-        status: attacker.status,
-        weather: weather,
-        terrain: terrain,
-        isDynamaxed: isDmaxed,
-        tailwind: attacker.tailwind,
-      );
-      if (atkSpeed > opponentSpeed!) {
-        movePowerMod *= kDoubleMovePower;
-        notes.add('move:bolt_beak:×$kDoubleMovePower');
-      }
-    }
-
-    // Payback: doubled when attacker moves second (slower)
-    if (effectiveMove.name == 'Payback' && opponentSpeed != null) {
-      final atkSpeed = calcEffectiveSpeed(
-        baseSpeed: atkBaseStats.speed,
-        ability: atkAbilityRaw,
-        item: attacker.selectedItem,
-        status: attacker.status,
-        weather: weather,
-        terrain: terrain,
-        isDynamaxed: isDmaxed,
-        tailwind: attacker.tailwind,
-      );
-      if (atkSpeed < opponentSpeed!) {
-        movePowerMod *= kDoubleMovePower;
-        notes.add('move:payback:×$kDoubleMovePower');
-      }
-    }
+    // Bolt Beak / Fishious Rend / Payback / Revenge / Avalanche:
+    // Turn-order power doubling is now handled in move_transform.dart
 
     // Terastal minimum power: Tera STAB moves below threshold become threshold (not Stellar)
     final bool teraMinPower = isTeraStab &&
