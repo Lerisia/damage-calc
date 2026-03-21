@@ -1,3 +1,4 @@
+import '../models/room.dart';
 import '../models/stats.dart';
 import '../models/nature.dart';
 import '../models/rank.dart';
@@ -30,9 +31,21 @@ class DefensiveCalculator {
     bool finalEvo = true,
     StatusCondition status = StatusCondition.none,
     bool flowerGift = false,
+    RoomConditions room = const RoomConditions(),
+    bool isDynamaxed = false,
   }) {
+    // Wonder Room: swap base Defense and Sp.Def before stat calculation.
+    // Rank changes stay on their original stat (not swapped).
+    final effectiveBaseStats = room.wonderRoom
+        ? Stats(
+            hp: baseStats.hp, attack: baseStats.attack,
+            defense: baseStats.spDefense, spAttack: baseStats.spAttack,
+            spDefense: baseStats.defense, speed: baseStats.speed,
+          )
+        : baseStats;
+
     final actualStats = StatCalculator.calculate(
-      baseStats: baseStats,
+      baseStats: effectiveBaseStats,
       iv: iv,
       ev: ev,
       nature: nature,
@@ -70,10 +83,11 @@ class DefensiveCalculator {
     // Calculate bulk: HP * modified stat
     final int effectiveDef = (actualStats.defense * defStatMod).floor();
     final int effectiveSpd = (actualStats.spDefense * spdStatMod).floor();
+    final int effectiveHp = isDynamaxed ? actualStats.hp * 2 : actualStats.hp;
 
     return (
-      physical: (actualStats.hp * effectiveDef / _correctionFactor).floor(),
-      special: (actualStats.hp * effectiveSpd / _correctionFactor).floor(),
+      physical: (effectiveHp * effectiveDef / _correctionFactor).floor(),
+      special: (effectiveHp * effectiveSpd / _correctionFactor).floor(),
     );
   }
 }

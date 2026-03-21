@@ -94,7 +94,7 @@ class StatInput extends StatefulWidget {
     this.opponentAlwaysLast = false,
     this.weather = Weather.none,
     this.terrain = Terrain.none,
-    this.room = Room.none,
+    this.room = const RoomConditions(),
     this.isDynamaxed = false,
   });
 
@@ -102,7 +102,7 @@ class StatInput extends StatefulWidget {
   final bool opponentAlwaysLast;
   final Weather weather;
   final Terrain terrain;
-  final Room room;
+  final RoomConditions room;
   final bool isDynamaxed;
 
   @override
@@ -339,7 +339,7 @@ class _StatInputState extends State<StatInput> {
             actualStats.hp, null, 0, (newIv, newEv, _) {
           widget.onIvChanged(_copyIv(hpVal: newIv));
           widget.onEvChanged(_copyEv(hpVal: newEv));
-        }, rankIndex: -1),
+        }, rankIndex: -1, dynamaxHp: widget.isDynamaxed),
         _statRow(context, '공격', widget.baseStats.attack, widget.iv.attack,
             widget.ev.attack, actualStats.attack, widget.nature.attackModifier,
             widget.rank.attack, (newIv, newEv, newRank) {
@@ -565,6 +565,7 @@ class _StatInputState extends State<StatInput> {
     int actual, double? natureModifier, int rankVal,
     void Function(int newIv, int newEv, int? newRank) onChanged, {
     required int rankIndex,
+    bool dynamaxHp = false,
   }) {
     Color? actualColor;
     if (natureModifier != null && natureModifier > 1.0) actualColor = Colors.red;
@@ -589,8 +590,17 @@ class _StatInputState extends State<StatInput> {
           ),
           Expanded(
             flex: 3,
-            child: Text('$actual', textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
+            child: dynamaxHp
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text('$actual', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
+                    Text('(×2)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
+                  ],
+                )
+              : Text('$actual', textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
           ),
         ],
       ),

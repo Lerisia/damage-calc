@@ -33,7 +33,7 @@ class PokemonPanel extends StatefulWidget {
   final BattlePokemonState state;
   final Weather weather;
   final Terrain terrain;
-  final Room room;
+  final RoomConditions room;
   final String label;
   final VoidCallback onChanged;
   final int resetCounter;
@@ -48,7 +48,7 @@ class PokemonPanel extends StatefulWidget {
     required this.state,
     required this.weather,
     required this.terrain,
-    this.room = Room.none,
+    this.room = const RoomConditions(),
     this.label = '',
     required this.onChanged,
     required this.resetCounter,
@@ -428,6 +428,7 @@ class PokemonPanelState extends State<PokemonPanel>
       status: s.status,
       flowerGift: s.flowerGift,
       room: widget.room,
+      isDynamaxed: s.dynamax != DynamaxState.none,
     );
 
     return _sectionCard(
@@ -473,7 +474,10 @@ class PokemonPanelState extends State<PokemonPanel>
     if (widget.label.isNotEmpty) parts.add(widget.label);
     if (widget.weather != Weather.none) parts.add(KoStrings.weatherKoWithIcon[widget.weather]!);
     if (widget.terrain != Terrain.none) parts.add(KoStrings.terrainKoWithIcon[widget.terrain]!);
-    if (widget.room != Room.none) parts.add(KoStrings.roomKoWithIcon[widget.room]!);
+    if (widget.room.trickRoom) parts.add('🔄트릭룸');
+    if (widget.room.magicRoom) parts.add('✨매직룸');
+    if (widget.room.wonderRoom) parts.add('❓원더룸');
+    if (widget.room.gravity) parts.add('🌀중력');
 
     if (parts.isEmpty) return const SizedBox.shrink();
 
