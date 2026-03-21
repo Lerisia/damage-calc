@@ -484,6 +484,11 @@ class _StatInputState extends State<StatInput> {
         speed *= effect.speedModifier;
       }
     }
+    // Paralysis halves speed (Quick Feet negates this)
+    if (widget.status == StatusCondition.paralysis &&
+        widget.selectedAbility != 'Quick Feet') {
+      speed *= 0.5;
+    }
     return speed.floor();
   }
 

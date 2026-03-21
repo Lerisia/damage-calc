@@ -32,7 +32,7 @@ void main() {
       final result = compareSpeed(
         mySpeed: 80, opponentSpeed: 100,
         myAlwaysLast: false, opponentAlwaysLast: false,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       );
       expect(result, greaterThan(0));
     });
@@ -41,7 +41,7 @@ void main() {
       final result = compareSpeed(
         mySpeed: 120, opponentSpeed: 100,
         myAlwaysLast: false, opponentAlwaysLast: false,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       );
       expect(result, lessThan(0));
     });
@@ -50,7 +50,7 @@ void main() {
       final result = compareSpeed(
         mySpeed: 100, opponentSpeed: 100,
         myAlwaysLast: false, opponentAlwaysLast: false,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       );
       expect(result, equals(0));
     });
@@ -67,7 +67,7 @@ void main() {
       final result = compareSpeed(
         mySpeed: 200, opponentSpeed: 50,
         myAlwaysLast: true, opponentAlwaysLast: false,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       );
       expect(result, lessThan(0));
     });
@@ -84,7 +84,7 @@ void main() {
       final result = compareSpeed(
         mySpeed: 50, opponentSpeed: 200,
         myAlwaysLast: false, opponentAlwaysLast: true,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       );
       expect(result, greaterThan(0));
     });
@@ -101,7 +101,7 @@ void main() {
       final result = compareSpeed(
         mySpeed: 120, opponentSpeed: 100,
         myAlwaysLast: true, opponentAlwaysLast: true,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       );
       expect(result, lessThan(0));
     });
@@ -133,7 +133,7 @@ void main() {
       expect(getSpeedResult(
         mySpeed: 80, opponentSpeed: 100,
         myAlwaysLast: false, opponentAlwaysLast: false,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       ), equals(SpeedResult.faster));
     });
 
@@ -148,7 +148,7 @@ void main() {
       expect(getSpeedResult(
         mySpeed: 200, opponentSpeed: 50,
         myAlwaysLast: true, opponentAlwaysLast: false,
-        room: Room.trickRoom,
+        room: RoomConditions(trickRoom: true),
       ), equals(SpeedResult.alwaysLast));
     });
 

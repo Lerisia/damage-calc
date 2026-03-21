@@ -11,7 +11,7 @@ int compareSpeed({
   required int opponentSpeed,
   required bool myAlwaysLast,
   required bool opponentAlwaysLast,
-  Room room = Room.none,
+  RoomConditions room = const RoomConditions(),
 }) {
   // Always-last takes priority over Trick Room
   if (myAlwaysLast && !opponentAlwaysLast) return -1;
@@ -19,7 +19,7 @@ int compareSpeed({
   // Both or neither always-last: compare speed normally (or reversed)
 
   final diff = mySpeed - opponentSpeed;
-  if (room == Room.trickRoom) return -diff;
+  if (room.trickRoom) return -diff;
   return diff;
 }
 
@@ -38,7 +38,7 @@ SpeedResult getSpeedResult({
   required int opponentSpeed,
   required bool myAlwaysLast,
   required bool opponentAlwaysLast,
-  Room room = Room.none,
+  RoomConditions room = const RoomConditions(),
 }) {
   if (myAlwaysLast && !opponentAlwaysLast) return SpeedResult.alwaysLast;
   if (!myAlwaysLast && opponentAlwaysLast) return SpeedResult.alwaysFirst;

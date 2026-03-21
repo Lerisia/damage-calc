@@ -6,6 +6,7 @@ import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/dynamax.dart';
 import '../../models/gender.dart';
+import '../../models/terastal.dart';
 import '../../models/move.dart';
 import '../../models/room.dart';
 import '../../models/nature.dart';
@@ -109,6 +110,11 @@ class PokemonPanelState extends State<PokemonPanel>
         spd *= getSpeedItemEffect(s.selectedItem!).speedModifier;
       }
     }
+    // Paralysis halves speed (Quick Feet negates this)
+    if (s.status == StatusCondition.paralysis &&
+        s.selectedAbility != 'Quick Feet') {
+      spd *= 0.5;
+    }
     return spd.floor();
   }
 
@@ -155,6 +161,8 @@ class PokemonPanelState extends State<PokemonPanel>
       status: s.status,
       dynamax: s.dynamax,
       pokemonName: s.pokemonName,
+      terastallized: s.terastal.active,
+      teraType: s.terastal.teraType,
       mySpeed: myEffectiveSpeed,
       opponentSpeed: widget.opponentSpeed,
     );
@@ -235,12 +243,15 @@ class PokemonPanelState extends State<PokemonPanel>
         type2: s.type2,
         ability: s.selectedAbility,
         item: s.selectedItem,
+        gravity: widget.room.gravity,
       ),
       status: s.status,
       hasGuts: s.selectedAbility == 'Guts',
       stabOverride: abilityEffect.stabOverride,
       criticalOverride: abilityEffect.criticalOverride,
       opponentAttack: widget.opponentAttack,
+      terastallized: s.terastal.active,
+      teraType: s.terastal.teraType,
     );
   }
 
@@ -302,6 +313,8 @@ class PokemonPanelState extends State<PokemonPanel>
             _genderIcon(),
             const SizedBox(width: 4),
             _dynamaxIcon(),
+            const SizedBox(width: 4),
+            _terastalIcon(),
           ]),),
           const SizedBox(height: 12),
 
@@ -764,6 +777,7 @@ class PokemonPanelState extends State<PokemonPanel>
           switch (s.dynamax) {
             case DynamaxState.none:
               s.dynamax = DynamaxState.dynamax;
+              s.terastal = const TerastalState(); // 테라 해제
               break;
             case DynamaxState.dynamax:
               if (s.canGmax) {
@@ -801,6 +815,104 @@ class PokemonPanelState extends State<PokemonPanel>
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  /// Whether this Pokemon is a mega evolution (can't terastal)
+  bool get _isMega => s.pokemonName.toLowerCase().startsWith('mega ');
+
+  Widget _terastalIcon() {
+    // Mega evolutions can't terastal
+    if (_isMega) return const SizedBox(width: 24);
+
+    final isActive = s.terastal.active;
+    final teraType = s.terastal.teraType;
+
+    // Type color mapping
+    Color _typeColor(PokemonType? t) {
+      if (t == null) return Colors.grey;
+      const colors = {
+        PokemonType.normal: Color(0xFFA8A878), PokemonType.fire: Color(0xFFF08030),
+        PokemonType.water: Color(0xFF6890F0), PokemonType.electric: Color(0xFFF8D030),
+        PokemonType.grass: Color(0xFF78C850), PokemonType.ice: Color(0xFF98D8D8),
+        PokemonType.fighting: Color(0xFFC03028), PokemonType.poison: Color(0xFFA040A0),
+        PokemonType.ground: Color(0xFFE0C068), PokemonType.flying: Color(0xFFA890F0),
+        PokemonType.psychic: Color(0xFFF85888), PokemonType.bug: Color(0xFFA8B820),
+        PokemonType.rock: Color(0xFFB8A038), PokemonType.ghost: Color(0xFF705898),
+        PokemonType.dragon: Color(0xFF7038F8), PokemonType.dark: Color(0xFF705848),
+        PokemonType.steel: Color(0xFFB8B8D0), PokemonType.fairy: Color(0xFFEE99AC),
+        PokemonType.stellar: Color(0xFFE0C0FF),
+      };
+      return colors[t] ?? Colors.grey;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        if (!isActive && teraType == null) {
+          // First tap: show type picker
+          _showTeraTypePicker();
+        } else if (!isActive && teraType != null) {
+          // Type selected but not active: activate
+          setState(() {
+            s.terastal = s.terastal.copyWith(active: true);
+            s.dynamax = DynamaxState.none; // 다이맥스 해제
+          });
+          _notify();
+        } else {
+          // Active: deactivate
+          setState(() {
+            s.terastal = const TerastalState();
+          });
+          _notify();
+        }
+      },
+      onLongPress: _showTeraTypePicker,
+      child: Container(
+        width: 24,
+        height: 24,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: isActive ? _typeColor(teraType).withOpacity(0.3) : Colors.transparent,
+          border: Border.all(
+            color: isActive ? _typeColor(teraType) : Colors.grey.shade400,
+            width: isActive ? 2 : 1,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            isActive ? 'T' : (teraType != null ? '·' : ''),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: isActive ? _typeColor(teraType) : Colors.grey,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showTeraTypePicker() {
+    showDialog(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        title: const Text('테라스탈 타입'),
+        children: PokemonType.values.map((t) {
+          final ko = KoStrings.typeKo[t];
+          if (ko == null) return const SizedBox.shrink();
+          return SimpleDialogOption(
+            onPressed: () {
+              setState(() {
+                s.terastal = TerastalState(active: true, teraType: t);
+                s.dynamax = DynamaxState.none;
+              });
+              _notify();
+              Navigator.pop(ctx);
+            },
+            child: Text(ko),
+          );
+        }).toList(),
       ),
     );
   }

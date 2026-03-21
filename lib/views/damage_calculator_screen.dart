@@ -33,7 +33,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
-  Room _room = Room.none;
+  RoomConditions _room = const RoomConditions();
 
   void _swapSides() {
     setState(() {
@@ -64,6 +64,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         final effect = getSpeedItemEffect(s.selectedItem!);
         speed *= effect.speedModifier;
       }
+    }
+    // Paralysis halves speed (Quick Feet negates this)
+    if (s.status == StatusCondition.paralysis &&
+        s.selectedAbility != 'Quick Feet') {
+      speed *= 0.5;
     }
     return speed.floor();
   }
@@ -187,32 +192,45 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   .toList(),
               onSelected: (v) => setState(() => _terrain = v),
             ),
-            // Room dropdown icon
-            PopupMenuButton<Room>(
-              initialValue: _room,
-              tooltip: '룸',
+            // Room/Gravity toggle popup
+            PopupMenuButton<String>(
+              tooltip: '룸/중력',
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(KoStrings.roomIcon[_room]!, style: const TextStyle(fontSize: 20)),
+                    Text(_room.hasAny ? '🔄' : '🚪', style: const TextStyle(fontSize: 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
               ),
-              itemBuilder: (_) => Room.values
-                  .map((r) => PopupMenuItem(
-                      value: r,
-                      child: Row(
-                        children: [
-                          Text(KoStrings.roomIcon[r]!, style: const TextStyle(fontSize: 18)),
-                          const SizedBox(width: 8),
-                          Text(KoStrings.roomKo[r]!),
-                        ],
-                      )))
-                  .toList(),
-              onSelected: (v) => setState(() => _room = v),
+              itemBuilder: (_) => [
+                CheckedPopupMenuItem(
+                  value: 'trickRoom', checked: _room.trickRoom,
+                  child: const Text('🔄 트릭룸'),
+                ),
+                CheckedPopupMenuItem(
+                  value: 'magicRoom', checked: _room.magicRoom,
+                  child: const Text('✨ 매직룸'),
+                ),
+                CheckedPopupMenuItem(
+                  value: 'wonderRoom', checked: _room.wonderRoom,
+                  child: const Text('❓ 원더룸'),
+                ),
+                CheckedPopupMenuItem(
+                  value: 'gravity', checked: _room.gravity,
+                  child: const Text('🌀 중력'),
+                ),
+              ],
+              onSelected: (v) => setState(() {
+                switch (v) {
+                  case 'trickRoom': _room = _room.copyWith(trickRoom: !_room.trickRoom);
+                  case 'magicRoom': _room = _room.copyWith(magicRoom: !_room.magicRoom);
+                  case 'wonderRoom': _room = _room.copyWith(wonderRoom: !_room.wonderRoom);
+                  case 'gravity': _room = _room.copyWith(gravity: !_room.gravity);
+                }
+              }),
             ),
             Expanded(
               child: FittedBox(
