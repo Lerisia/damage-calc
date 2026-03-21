@@ -42,8 +42,13 @@ class AbilityEffect {
 const _defaultEffect = AbilityEffect();
 
 /// Returns the offensive effect of [abilityName] given the [move] being used.
+///
+/// [originalBasePower] is the move's base power before any transformation
+/// (e.g. Acrobatics 55 before doubling). Used for Technician's ≤60 check.
+/// If null, falls back to [move.power].
 AbilityEffect getAbilityEffect(String abilityName, {
   Move? move,
+  int? originalBasePower,
   int hpPercent = 100,
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
@@ -99,7 +104,8 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Technician':
-      return move != null && move.power <= 60
+      final techPower = originalBasePower ?? move?.power ?? 0;
+      return move != null && techPower <= 60
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
 
@@ -274,6 +280,10 @@ AbilityEffect getAbilityEffect(String abilityName, {
       return status != StatusCondition.none
           ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 1.5))
           : _defaultEffect;
+    case 'Unburden':
+      return heldItem == null
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          : _defaultEffect;
 
     default:
       return _defaultEffect;
@@ -315,6 +325,21 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
           : _defaultDefensiveEffect;
     default:
       return _defaultDefensiveEffect;
+  }
+}
+
+/// Returns true if [abilityName] grants immunity to a specific [move]
+/// based on move tags (ball, sound, powder).
+bool isAbilityMoveImmune(String abilityName, Move move) {
+  switch (abilityName) {
+    case 'Bulletproof':
+      return move.hasTag(MoveTags.ball);
+    case 'Soundproof':
+      return move.hasTag(MoveTags.sound);
+    case 'Overcoat':
+      return move.hasTag(MoveTags.powder);
+    default:
+      return false;
   }
 }
 

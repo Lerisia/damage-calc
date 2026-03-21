@@ -10,6 +10,8 @@ class MoveTags {
   static const String pulse = 'pulse';
   static const String slice = 'slice';
   static const String recoil = 'recoil';
+  static const String ball = 'ball';
+  static const String powder = 'powder';
 
   // Custom tags for special move mechanics
   static const String alwaysCrit = 'custom:always_crit';
