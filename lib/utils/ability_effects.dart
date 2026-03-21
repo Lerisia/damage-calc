@@ -43,7 +43,7 @@ const _defaultEffect = AbilityEffect();
 
 /// Returns the offensive effect of [abilityName] given the [move] being used.
 AbilityEffect getAbilityEffect(String abilityName, {
-  required Move move,
+  Move? move,
   int hpPercent = 100,
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
@@ -69,31 +69,31 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Tag-based power modifiers ---
     case 'Tough Claws':
-      return move.hasTag(MoveTags.contact)
+      return move != null && move.hasTag(MoveTags.contact)
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
     case 'Iron Fist':
-      return move.hasTag(MoveTags.punch)
+      return move != null && move.hasTag(MoveTags.punch)
           ? const AbilityEffect(powerModifier: 1.2)
           : _defaultEffect;
     case 'Reckless':
-      return move.hasTag(MoveTags.recoil)
+      return move != null && move.hasTag(MoveTags.recoil)
           ? const AbilityEffect(powerModifier: 1.2)
           : _defaultEffect;
     case 'Strong Jaw':
-      return move.hasTag(MoveTags.bite)
+      return move != null && move.hasTag(MoveTags.bite)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Mega Launcher':
-      return move.hasTag(MoveTags.pulse)
+      return move != null && move.hasTag(MoveTags.pulse)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Sharpness':
-      return move.hasTag(MoveTags.slice)
+      return move != null && move.hasTag(MoveTags.slice)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Technician':
-      return move.power <= 60
+      return move != null && move.power <= 60
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
 
@@ -103,19 +103,19 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Type-based power modifiers ---
     case 'Steelworker':
-      return move.type == PokemonType.steel
+      return move != null && move.type == PokemonType.steel
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Transistor':
-      return move.type == PokemonType.electric
+      return move != null && move.type == PokemonType.electric
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
     case "Dragon\u2019s Maw":
-      return move.type == PokemonType.dragon
+      return move != null && move.type == PokemonType.dragon
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Rocky Payload':
-      return move.type == PokemonType.rock
+      return move != null && move.type == PokemonType.rock
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
 
@@ -126,7 +126,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
               statModifiers: AbilityStatModifiers(spAttack: 1.5))
           : _defaultEffect;
     case 'Sand Force':
-      return (weather == Weather.sandstorm &&
+      return (weather == Weather.sandstorm && move != null &&
               (move.type == PokemonType.ground ||
                move.type == PokemonType.rock ||
                move.type == PokemonType.steel))
@@ -164,33 +164,33 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- HP conditional ---
     case 'Blaze':
-      return (hpPercent <= 33 && move.type == PokemonType.fire)
+      return (hpPercent <= 33 && move != null && move.type == PokemonType.fire)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Overgrow':
-      return (hpPercent <= 33 && move.type == PokemonType.grass)
+      return (hpPercent <= 33 && move != null && move.type == PokemonType.grass)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Torrent':
-      return (hpPercent <= 33 && move.type == PokemonType.water)
+      return (hpPercent <= 33 && move != null && move.type == PokemonType.water)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
     case 'Swarm':
-      return (hpPercent <= 33 && move.type == PokemonType.bug)
+      return (hpPercent <= 33 && move != null && move.type == PokemonType.bug)
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
 
     // --- Other power modifiers ---
     case 'Water Bubble':
-      return move.type == PokemonType.water
+      return move != null && move.type == PokemonType.water
           ? const AbilityEffect(powerModifier: 2.0)
           : _defaultEffect;
     case 'Punk Rock':
-      return move.hasTag(MoveTags.sound)
+      return move != null && move.hasTag(MoveTags.sound)
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
     case 'Sheer Force':
-      return move.hasTag(MoveTags.hasSecondary)
+      return move != null && move.hasTag(MoveTags.hasSecondary)
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
 
@@ -236,6 +236,32 @@ AbilityEffect getAbilityEffect(String abilityName, {
       }
       return _defaultEffect;
 
+    // --- Speed stat modifiers ---
+    case 'Swift Swim':
+      return (weather == Weather.rain || weather == Weather.heavyRain)
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          : _defaultEffect;
+    case 'Chlorophyll':
+      return (weather == Weather.sun || weather == Weather.harshSun)
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          : _defaultEffect;
+    case 'Sand Rush':
+      return weather == Weather.sandstorm
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          : _defaultEffect;
+    case 'Slush Rush':
+      return weather == Weather.snow
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          : _defaultEffect;
+    case 'Surge Surfer':
+      return terrain == Terrain.electric
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          : _defaultEffect;
+    case 'Quick Feet':
+      return status != StatusCondition.none
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 1.5))
+          : _defaultEffect;
+
     default:
       return _defaultEffect;
   }
@@ -280,33 +306,17 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
 }
 
 /// Returns the speed modifier from [abilityName] given battle conditions.
+///
+/// Convenience wrapper around [getAbilityEffect] that extracts the speed
+/// stat modifier.
 double getSpeedAbilityModifier(String abilityName, {
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
   StatusCondition status = StatusCondition.none,
 }) {
-  switch (abilityName) {
-    // --- Weather-based speed doubling ---
-    case 'Swift Swim':
-      return (weather == Weather.rain || weather == Weather.heavyRain) ? 2.0 : 1.0;
-    case 'Chlorophyll':
-      return (weather == Weather.sun || weather == Weather.harshSun) ? 2.0 : 1.0;
-    case 'Sand Rush':
-      return weather == Weather.sandstorm ? 2.0 : 1.0;
-    case 'Slush Rush':
-      return weather == Weather.snow ? 2.0 : 1.0;
-
-    // --- Terrain-based ---
-    case 'Surge Surfer':
-      return terrain == Terrain.electric ? 2.0 : 1.0;
-
-    // --- Status-based ---
-    case 'Quick Feet':
-      return status != StatusCondition.none ? 1.5 : 1.0;
-
-    default:
-      return 1.0;
-  }
+  return getAbilityEffect(abilityName,
+    weather: weather, terrain: terrain, status: status,
+  ).statModifiers.speed;
 }
 
 /// Determine which stat is highest and boost it by 1.3x (1.5x for speed)

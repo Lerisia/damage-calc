@@ -18,6 +18,7 @@ import '../../models/type.dart';
 import '../../models/weather.dart';
 import '../../models/move_tags.dart';
 import '../../utils/ability_effects.dart';
+import '../../utils/speed_calculator.dart';
 import '../../utils/grounded.dart';
 import '../../utils/item_effects.dart';
 import '../../utils/localization.dart';
@@ -98,24 +99,16 @@ class PokemonPanelState extends State<PokemonPanel>
       baseStats: s.baseStats, iv: s.iv, ev: s.ev,
       nature: s.nature, level: s.level, rank: s.rank,
     );
-    double spd = stats.speed.toDouble();
-    if (s.selectedAbility != null) {
-      spd *= getSpeedAbilityModifier(s.selectedAbility!,
-          weather: widget.weather, terrain: widget.terrain, status: s.status);
-    }
-    if (s.selectedItem != null) {
-      // Choice Scarf is nullified during Dynamax
-      final isDmaxed = s.dynamax != DynamaxState.none;
-      if (!(isDmaxed && s.selectedItem == 'choice-scarf')) {
-        spd *= getSpeedItemEffect(s.selectedItem!).speedModifier;
-      }
-    }
-    // Paralysis halves speed (Quick Feet negates this)
-    if (s.status == StatusCondition.paralysis &&
-        s.selectedAbility != 'Quick Feet') {
-      spd *= 0.5;
-    }
-    return spd.floor();
+    return calcEffectiveSpeed(
+      baseSpeed: stats.speed,
+      ability: s.selectedAbility,
+      item: s.selectedItem,
+      status: s.status,
+      weather: widget.weather,
+      terrain: widget.terrain,
+      isDynamaxed: s.dynamax != DynamaxState.none,
+      tailwind: s.tailwind,
+    );
   }
 
   void _scrollToMoves() {
@@ -136,6 +129,16 @@ class PokemonPanelState extends State<PokemonPanel>
       target.clamp(0, _scrollController.position.maxScrollExtent),
       duration: const Duration(milliseconds: 350),
       curve: Curves.easeOutCubic,
+    );
+  }
+
+  /// Public accessor for 결정력 of a specific move slot.
+  int? computeResultFor(int moveIndex) {
+    return _computeResultFor(
+      s.moves[moveIndex], s.criticals[moveIndex],
+      typeOverride: s.typeOverrides[moveIndex],
+      categoryOverride: s.categoryOverrides[moveIndex],
+      powerOverride: s.powerOverrides[moveIndex],
     );
   }
 
@@ -345,6 +348,7 @@ class PokemonPanelState extends State<PokemonPanel>
               opponentSpeed: widget.opponentSpeed,
               opponentAlwaysLast: widget.opponentAlwaysLast,
               isDynamaxed: s.dynamax != DynamaxState.none,
+              tailwind: s.tailwind,
               weather: widget.weather,
               terrain: widget.terrain,
               room: widget.room,
@@ -385,6 +389,15 @@ class PokemonPanelState extends State<PokemonPanel>
                       })),
                     ],
                   ),
+                  Row(
+                    children: [
+                      Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
+                        setState(() { s.tailwind = v; _notify(); });
+                      })),
+                      const Expanded(child: SizedBox()),
+                      const Expanded(child: SizedBox()),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -412,7 +425,9 @@ class PokemonPanelState extends State<PokemonPanel>
                   Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
                     setState(() { s.flowerGift = v; _notify(); });
                   })),
-                  const Expanded(child: SizedBox()),
+                  Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
+                    setState(() { s.tailwind = v; _notify(); });
+                  })),
                   const Expanded(child: SizedBox()),
                 ],
               ),

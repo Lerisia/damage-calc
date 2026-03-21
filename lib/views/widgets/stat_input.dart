@@ -11,6 +11,7 @@ import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../utils/ability_effects.dart';
 import '../../utils/item_effects.dart';
+import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../../utils/stat_calculator.dart';
 
@@ -96,6 +97,7 @@ class StatInput extends StatefulWidget {
     this.terrain = Terrain.none,
     this.room = const RoomConditions(),
     this.isDynamaxed = false,
+    this.tailwind = false,
   });
 
   final int? opponentSpeed;
@@ -104,6 +106,7 @@ class StatInput extends StatefulWidget {
   final Terrain terrain;
   final RoomConditions room;
   final bool isDynamaxed;
+  final bool tailwind;
 
   @override
   State<StatInput> createState() => _StatInputState();
@@ -472,24 +475,16 @@ class _StatInputState extends State<StatInput> {
   }
 
   int _effectiveSpeed(int baseSpeed) {
-    double speed = baseSpeed.toDouble();
-    if (widget.selectedAbility != null) {
-      speed *= getSpeedAbilityModifier(widget.selectedAbility!,
-          weather: widget.weather, terrain: widget.terrain, status: widget.status);
-    }
-    if (widget.selectedItem != null) {
-      // Choice Scarf is nullified during Dynamax
-      if (!(widget.isDynamaxed && widget.selectedItem == 'choice-scarf')) {
-        final effect = getSpeedItemEffect(widget.selectedItem!);
-        speed *= effect.speedModifier;
-      }
-    }
-    // Paralysis halves speed (Quick Feet negates this)
-    if (widget.status == StatusCondition.paralysis &&
-        widget.selectedAbility != 'Quick Feet') {
-      speed *= 0.5;
-    }
-    return speed.floor();
+    return calcEffectiveSpeed(
+      baseSpeed: baseSpeed,
+      ability: widget.selectedAbility,
+      item: widget.selectedItem,
+      status: widget.status,
+      weather: widget.weather,
+      terrain: widget.terrain,
+      isDynamaxed: widget.isDynamaxed,
+      tailwind: widget.tailwind,
+    );
   }
 
   Widget _summaryRow(BuildContext context, int mySpeed) {
