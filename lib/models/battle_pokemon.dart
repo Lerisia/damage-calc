@@ -41,6 +41,12 @@ class BattlePokemonState {
   // Speed boosts
   bool tailwind;
 
+  // Defensive conditions
+  bool reflect;
+  bool lightScreen;
+  bool auroraVeil;
+  bool friendGuard;
+
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
     this.pokemonNameKo = '이상해씨',
@@ -70,6 +76,10 @@ class BattlePokemonState {
     this.hpPercent = 100,
     this.status = StatusCondition.none,
     this.tailwind = false,
+    this.reflect = false,
+    this.lightScreen = false,
+    this.auroraVeil = false,
+    this.friendGuard = false,
   })  : baseStats = baseStats ?? const Stats(
             hp: 45, attack: 49, defense: 49,
             spAttack: 65, spDefense: 65, speed: 45),
@@ -121,5 +131,9 @@ class BattlePokemonState {
     hpPercent = 100;
     status = StatusCondition.none;
     tailwind = false;
+    reflect = false;
+    lightScreen = false;
+    auroraVeil = false;
+    friendGuard = false;
   }
 }
