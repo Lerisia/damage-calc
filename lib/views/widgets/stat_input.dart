@@ -84,7 +84,10 @@ class StatInput extends StatefulWidget {
     required this.onRankChanged,
     required this.onHpPercentChanged,
     required this.onStatusChanged,
+    this.opponentSpeed,
   });
+
+  final int? opponentSpeed;
 
   @override
   State<StatInput> createState() => _StatInputState();
@@ -340,6 +343,8 @@ class _StatInputState extends State<StatInput> {
           widget.onEvChanged(_copyEv(speVal: newEv));
           if (newRank != null) _updateRank(speVal: newRank);
         }, rankIndex: 4),
+        const Divider(height: 1),
+        _summaryRow(context, actualStats.speed),
       ],
     );
   }
@@ -432,6 +437,47 @@ class _StatInputState extends State<StatInput> {
       spDefense: spdVal ?? widget.rank.spDefense,
       speed: speVal ?? widget.rank.speed,
     ));
+  }
+
+  Widget _summaryRow(BuildContext context, int mySpeed) {
+    final bs = widget.baseStats;
+    final ev = widget.ev;
+    final baseTotal = bs.hp + bs.attack + bs.defense + bs.spAttack + bs.spDefense + bs.speed;
+    final evTotal = ev.hp + ev.attack + ev.defense + ev.spAttack + ev.spDefense + ev.speed;
+    final style = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
+
+    String speedText = '';
+    Color speedColor = Colors.grey;
+    if (widget.opponentSpeed != null) {
+      final opp = widget.opponentSpeed!;
+      if (mySpeed > opp) {
+        speedText = '상대보다 빠름 ▲';
+        speedColor = Colors.green;
+      } else if (mySpeed < opp) {
+        speedText = '상대보다 느림 ▼';
+        speedColor = Colors.red;
+      } else {
+        speedText = '동속';
+        speedColor = Colors.orange;
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Expanded(flex: 3, child: Container()),
+          Expanded(flex: 2, child: Text('$baseTotal', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 2, child: Container()),
+          Expanded(flex: 6, child: Text('$evTotal/510', style: style.copyWith(
+            color: evTotal > 510 ? Colors.red : null,
+          ), textAlign: TextAlign.center)),
+          Expanded(flex: 7, child: Text(speedText, style: style.copyWith(
+            color: speedColor, fontSize: 13,
+          ), textAlign: TextAlign.center)),
+        ],
+      ),
+    );
   }
 
   Widget _statHeader(BuildContext context) {
