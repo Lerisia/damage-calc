@@ -30,4 +30,5 @@ class MoveTags {
   static const String useOpponentAtk = 'custom:use_opponent_atk';
   static const String gyroSpeed = 'custom:gyro_speed';
   static const String electroSpeed = 'custom:electro_speed';
+  static const String weightBased = 'custom:weight_based';
 }
