@@ -392,7 +392,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   Widget _buildDamageCalcTab() {
-    final defHp = _calcStats(_defender).hp;
+    final defMaxHp = _calcStats(_defender).hp;
+    final defCurrentHp = (defMaxHp * _defender.hpPercent / 100).floor();
     final bulk = _getDefensiveBulk();
 
     return SingleChildScrollView(
@@ -408,7 +409,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           const SizedBox(height: 4),
           Text(
-            'HP $defHp | 물리내구 ${bulk.physical} | 특수내구 ${bulk.special}',
+            'HP $defCurrentHp/$defMaxHp | 물리내구 ${bulk.physical} | 특수내구 ${bulk.special}',
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),

@@ -147,7 +147,19 @@ class DamageCalculator {
       power: attacker.powerOverrides[moveIndex],
     );
 
-    if (effectiveMove.category == MoveCategory.status || effectiveMove.power == 0) {
+    if (effectiveMove.category == MoveCategory.status) {
+      return DamageResult.empty;
+    }
+
+    // --- Fixed damage moves (bypass normal formula entirely) ---
+    if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp)) {
+      return _calcFixedDamage(
+        attacker: attacker, defender: defender, move: effectiveMove,
+        weather: weather, room: room,
+      );
+    }
+
+    if (effectiveMove.power == 0) {
       return DamageResult.empty;
     }
 
@@ -282,13 +294,15 @@ class DamageCalculator {
           )
         : defCalculated;
 
-    int D = isPhysical ? defActual.defense : defActual.spDefense;
+    // Psyshock/Psystrike/Secret Sword: special move targeting physical Defense
+    final bool targetPhysDef = isPhysical || effectiveMove.hasTag(MoveTags.targetPhysDef);
+    int D = targetPhysDef ? defActual.defense : defActual.spDefense;
 
     // Defender ability/item defensive modifiers
     if (defender.selectedAbility != null) {
       final defAbility = getDefensiveAbilityEffect(
         defender.selectedAbility!, status: defender.status, weather: weather);
-      D = (D * (isPhysical ? defAbility.defModifier : defAbility.spdModifier)).floor();
+      D = (D * (targetPhysDef ? defAbility.defModifier : defAbility.spdModifier)).floor();
     }
     if (defender.selectedItem != null) {
       final defItem = getDefensiveItemEffect(
@@ -354,7 +368,8 @@ class DamageCalculator {
 
     // --- Type effectiveness ---
     final effectiveness = getCombinedEffectiveness(
-      moveType, defender.type1, defender.type2);
+      moveType, defender.type1, defender.type2,
+      freezeDry: effectiveMove.hasTag(MoveTags.freezeDry));
 
     if (effectiveness == 0.0) {
       return DamageResult(
@@ -517,15 +532,81 @@ class DamageCalculator {
     // --- Random factor ---
     final range = RandomFactor.range(baseDamage);
 
+    // Use current HP (based on hpPercent) for KO calculations
+    final int currentHp = (defActual.hp * defender.hpPercent / 100).floor();
+
     return DamageResult(
       baseDamage: baseDamage,
       minDamage: range.min,
       maxDamage: range.max,
-      defenderHp: defActual.hp,
+      defenderHp: currentHp > 0 ? currentHp : defActual.hp,
       effectiveness: effectiveness,
       isPhysical: isPhysical,
       move: effectiveMove,
       modifierNotes: notes,
+    );
+  }
+
+  /// Fixed damage moves bypass the normal damage formula.
+  /// - fixedLevel: damage = attacker's level (Night Shade, Seismic Toss)
+  /// - fixedHalfHp: damage = defender's HP / 2 (Super Fang)
+  /// Type immunities still apply; stat/item modifiers do not.
+  static DamageResult _calcFixedDamage({
+    required BattlePokemonState attacker,
+    required BattlePokemonState defender,
+    required Move move,
+    required Weather weather,
+    required RoomConditions room,
+  }) {
+    final defStats = StatCalculator.calculate(
+      baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
+      nature: defender.nature, level: defender.level,
+    );
+    final defHp = defender.dynamax != DynamaxState.none
+        ? defStats.hp * 2
+        : defStats.hp;
+    final isPhysical = move.category == MoveCategory.physical;
+
+    // Type immunity check
+    final effectiveness = getCombinedEffectiveness(
+      move.type, defender.type1, defender.type2);
+    if (effectiveness == 0.0) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defHp, effectiveness: 0.0,
+        isPhysical: isPhysical, move: move,
+        modifierNotes: ['type:immune'],
+      );
+    }
+
+    // Ability type immunity
+    if (defender.selectedAbility != null &&
+        isAbilityTypeImmune(defender.selectedAbility!, move.type)) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defHp, effectiveness: 0.0,
+        isPhysical: isPhysical, move: move,
+        modifierNotes: ['ability:${defender.selectedAbility}:immune'],
+      );
+    }
+
+    // Calculate fixed damage
+    final int fixedDamage;
+    if (move.hasTag(MoveTags.fixedLevel)) {
+      fixedDamage = attacker.level;
+    } else {
+      // fixedHalfHp: half of defender's current HP
+      fixedDamage = (defHp * defender.hpPercent / 100 / 2).ceil().clamp(1, defHp);
+    }
+
+    return DamageResult(
+      baseDamage: fixedDamage,
+      minDamage: fixedDamage,
+      maxDamage: fixedDamage,
+      defenderHp: defHp,
+      effectiveness: 1.0,
+      isPhysical: isPhysical,
+      move: move,
     );
   }
 }
