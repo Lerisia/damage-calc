@@ -286,12 +286,13 @@ class DamageCalculator {
     A = (A * ruin.atkMod).floor();
 
     // --- Defender stat ---
-    // Unaware (attacker) + Critical hit rank adjustments
+    // Unaware (attacker) + Critical hit + ignore-def-rank moves
     final effectiveDefRank = getEffectiveDefensiveRank(
       rank: defender.rank,
       isCritical: isCritical,
       attackerAbility: effectiveAbility,
       defenderAbility: defender.selectedAbility,
+      ignoreDefRank: effectiveMove.hasTag(MoveTags.ignoreDefRank),
     );
 
     final defCalculated = StatCalculator.calculate(
@@ -508,14 +509,14 @@ class DamageCalculator {
     final bool bypassScreens = isCritical || effectiveAbility == 'Infiltrator';
     double screenMod = 1.0;
     if (!bypassScreens) {
-      if (isPhysical && (defender.reflect || defender.auroraVeil)) {
+      if (isPhysical && defender.reflect) {
         screenMod = 0.5;
-        notes.add(defender.reflect ? 'screen:reflect' : 'screen:aurora_veil');
-      } else if (!isPhysical && (defender.lightScreen || defender.auroraVeil)) {
+        notes.add('screen:reflect');
+      } else if (!isPhysical && defender.lightScreen) {
         screenMod = 0.5;
-        notes.add(defender.lightScreen ? 'screen:light_screen' : 'screen:aurora_veil');
+        notes.add('screen:light_screen');
       }
-    } else if (defender.reflect || defender.lightScreen || defender.auroraVeil) {
+    } else if (defender.reflect || defender.lightScreen) {
       if (isCritical) notes.add('screen:bypass_crit');
       if (effectiveAbility == 'Infiltrator') notes.add('screen:bypass_infiltrator');
     }
@@ -589,11 +590,19 @@ class DamageCalculator {
 
     final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;
 
+    // --- Collision Course / Electro Drift: x1.3333 on super effective ---
+    double collisionMod = 1.0;
+    if (isSuperEffective &&
+        (effectiveMove.name == 'Collision Course' || effectiveMove.name == 'Electro Drift')) {
+      collisionMod = 5461 / 4096; // ~1.3333
+      notes.add('move:collision:×1.33');
+    }
+
     // --- Apply all modifiers ---
     final double modifiers = stab * effectiveness * weatherMod * terrainMod *
         burnMod * critMod * powerMod * defAbilityDmgMod *
         atkAbilityDmg.multiplier * defAbilityDmg.multiplier * expertBeltMod *
-        screenMod * berryMod;
+        screenMod * berryMod * collisionMod;
 
     final int baseDamage = (baseDmg * modifiers).floor();
 

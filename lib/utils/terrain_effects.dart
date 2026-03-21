@@ -2,6 +2,8 @@ import '../models/move.dart';
 import '../models/type.dart';
 import '../models/terrain.dart';
 
+import '../models/move_tags.dart';
+
 /// Returns the power modifier for the given [terrain] and [move].
 ///
 /// [attackerGrounded]: Electric/Grassy/Psychic boosts apply when attacker is grounded.
@@ -15,6 +17,8 @@ double getTerrainModifier(Terrain terrain, {
     case Terrain.electric:
       return (attackerGrounded && move.type == PokemonType.electric) ? 1.3 : 1.0;
     case Terrain.grassy:
+      // Grassy Terrain halves ground-hitting moves (tagged) on grounded targets
+      if (defenderGrounded && move.hasTag(MoveTags.grassyHalve)) return 0.5;
       return (attackerGrounded && move.type == PokemonType.grass) ? 1.3 : 1.0;
     case Terrain.psychic:
       return (attackerGrounded && move.type == PokemonType.psychic) ? 1.3 : 1.0;
