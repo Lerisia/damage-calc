@@ -13,7 +13,7 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
-import 'battle_facade.dart' show dmaxNullItems, dmaxNullAbilities, resolveEffectiveItem, resolveEffectiveAbility;
+import 'battle_facade.dart' show dmaxNullItems, dmaxNullAbilities, resolveEffectiveItem, resolveEffectiveAbility, BattleFacade;
 import 'grounded.dart';
 import 'item_effects.dart';
 import 'move_transform.dart';
@@ -217,9 +217,8 @@ class DamageCalculator {
       );
     }
 
-    if (effectiveMove.power == 0) {
-      return DamageResult.empty;
-    }
+    // Note: power == 0 check moved AFTER transform, since weight-based
+    // and speed-based moves start at 0 and get power from transform.
 
     // Transform move (weather ball, terrain pulse, skins, tera blast, etc.)
     final isDmaxed = attacker.dynamax != DynamaxState.none;
@@ -241,9 +240,16 @@ class DamageCalculator {
       teraType: attacker.terastal.teraType,
       actualAttack: atkBaseStats.attack,
       actualSpAttack: atkBaseStats.spAttack,
+      myWeight: BattleFacade.effectiveWeight(attacker),
+      opponentWeight: BattleFacade.effectiveWeight(defender),
     );
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
+
+    // After transform: if power is still 0, no damage
+    if (effectiveMove.power == 0) {
+      return DamageResult.empty;
+    }
 
     // Ability-based type overrides (e.g. Forecast for Castform)
     final atkTypeOverride = getAbilityTypeOverride(
