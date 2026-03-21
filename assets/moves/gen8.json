@@ -270,7 +270,8 @@
     "category": "physical",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": ["contact", "custom:double_dynamax"]
   },
   {
     "name": "Behemoth Bash",
@@ -280,7 +281,8 @@
     "category": "physical",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": ["contact", "custom:double_dynamax"]
   },
   {
     "name": "Grassy Glide",
@@ -364,7 +366,8 @@
     "category": "special",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": ["custom:double_dynamax"]
   },
   {
     "name": "Max Flare",

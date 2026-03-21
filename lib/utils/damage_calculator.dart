@@ -275,7 +275,15 @@ class DamageCalculator {
       powerMod *= 2.0;
     }
 
-    final int A = (rawA * statMod).floor();
+    int A = (rawA * statMod).floor();
+
+    // --- Ruin abilities (not affected by Mold Breaker) ---
+    final ruin = getRuinModifiers(
+      attackerAbility: effectiveAbility,
+      defenderAbility: defender.selectedAbility,
+      isPhysical: isPhysical,
+    );
+    A = (A * ruin.atkMod).floor();
 
     // --- Defender stat ---
     // Unaware (attacker) + Critical hit rank adjustments
@@ -324,11 +332,15 @@ class DamageCalculator {
       weather, type1: defender.type1, type2: defender.type2);
     D = (D * (targetPhysDef ? weatherDef.defMod : weatherDef.spdMod)).floor();
 
+    // Apply Ruin defensive modifier
+    D = (D * ruin.defMod).floor();
+
     // --- Immunity checks ---
     final defAbilityName = effectiveDefAbility;
     final moveType = effectiveMove.type;
     final notes = <String>[];
     if (moldBreaks) notes.add('moldbreaker:${attacker.selectedAbility}');
+    notes.addAll(ruin.notes);
 
     // Weight-based moves fail against Dynamaxed targets
     if (defender.dynamax != DynamaxState.none &&
@@ -377,9 +389,21 @@ class DamageCalculator {
       }
     }
 
+    // --- Defender type (Terastal changes defensive type) ---
+    final PokemonType defType1;
+    final PokemonType? defType2;
+    if (defender.terastal.active && defender.terastal.teraType != null &&
+        defender.terastal.teraType != PokemonType.stellar) {
+      defType1 = defender.terastal.teraType!;
+      defType2 = null;
+    } else {
+      defType1 = defender.type1;
+      defType2 = defender.type2;
+    }
+
     // --- Type effectiveness ---
     final effectiveness = getCombinedEffectiveness(
-      moveType, defender.type1, defender.type2,
+      moveType, defType1, defType2,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry));
 
     if (effectiveness == 0.0) {
@@ -391,12 +415,37 @@ class DamageCalculator {
       );
     }
 
-    // --- STAB ---
-    // Protean/Libero: force STAB on all moves, but NOT during Terastal
-    final bool hasStab = (abilityEffect.forceStab && !attacker.terastal.active) ||
-        effectiveMove.type == attacker.type1 ||
+    // Wonder Guard: only super effective moves deal damage
+    if (defAbilityName == 'Wonder Guard' && effectiveness <= 1.0) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defActual.hp, effectiveness: effectiveness,
+        isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: ['ability:Wonder Guard:immune'],
+      );
+    }
+
+    // --- STAB (with Terastal rules) ---
+    final bool isOriginalStab = effectiveMove.type == attacker.type1 ||
         effectiveMove.type == attacker.type2;
-    final double stab = hasStab ? (abilityEffect.stabOverride ?? 1.5) : 1.0;
+    final bool isTeraStab = attacker.terastal.active &&
+        attacker.terastal.teraType != null &&
+        effectiveMove.type == attacker.terastal.teraType;
+
+    double stab = 1.0;
+    if (attacker.terastal.active && attacker.terastal.teraType != null) {
+      final teraType = attacker.terastal.teraType!;
+      if (teraType == PokemonType.stellar) {
+        stab = isOriginalStab ? 2.0 : 1.2;
+      } else if (isTeraStab && isOriginalStab) {
+        stab = abilityEffect.stabOverride != null ? (abilityEffect.stabOverride! + 0.5) : 2.0;
+      } else if (isTeraStab || isOriginalStab) {
+        stab = abilityEffect.stabOverride ?? 1.5;
+      }
+    } else {
+      final bool hasStab = (abilityEffect.forceStab) || isOriginalStab;
+      stab = hasStab ? (abilityEffect.stabOverride ?? 1.5) : 1.0;
+    }
 
     // --- Weather/Terrain offensive ---
     final double weatherMod = getWeatherOffensiveModifier(weather, move: effectiveMove);
@@ -520,13 +569,18 @@ class DamageCalculator {
       notes.add('move:brine:×2.0');
     }
 
-    // Terastal minimum power: Tera STAB moves below 60 become 60
-    final bool isTeraStab = attacker.terastal.active &&
-        attacker.terastal.teraType != null &&
+    // Dynamax Cannon / Behemoth Blade / Behemoth Bash: x2 vs Dynamaxed target
+    if (effectiveMove.hasTag(MoveTags.doubleDynamax) &&
+        defender.dynamax != DynamaxState.none) {
+      movePowerMod *= 2.0;
+      notes.add('다이맥스 상대 ×2.0');
+    }
+
+    // Terastal minimum power: Tera STAB moves below 60 become 60 (not Stellar)
+    final bool teraMinPower = isTeraStab &&
         attacker.terastal.teraType != PokemonType.stellar &&
-        effectiveMove.type == attacker.terastal.teraType;
-    final int basePower = (isTeraStab && effectiveMove.power < 60 && effectiveMove.power > 0)
-        ? 60 : effectiveMove.power;
+        effectiveMove.power < 60 && effectiveMove.power > 0;
+    final int basePower = teraMinPower ? 60 : effectiveMove.power;
 
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
