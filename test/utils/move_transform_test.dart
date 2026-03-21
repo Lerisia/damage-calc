@@ -340,16 +340,16 @@ void main() {
       expect(result.power, equals(100));
     });
 
-    test('stays unchanged in harsh sun', () {
+    test('becomes fire in harsh sun', () {
       final result = applyWeatherToMove(weatherBall, Weather.harshSun);
-      expect(result.type, equals(PokemonType.normal));
-      expect(result.power, equals(50));
+      expect(result.type, equals(PokemonType.fire));
+      expect(result.power, equals(100));
     });
 
-    test('stays unchanged in heavy rain', () {
+    test('becomes water in heavy rain', () {
       final result = applyWeatherToMove(weatherBall, Weather.heavyRain);
-      expect(result.type, equals(PokemonType.normal));
-      expect(result.power, equals(50));
+      expect(result.type, equals(PokemonType.water));
+      expect(result.power, equals(100));
     });
 
     test('stays unchanged in strong winds', () {
