@@ -201,6 +201,23 @@ class DamageCalculator {
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
 
+    // Ability-based type overrides (e.g. Forecast for Castform)
+    final atkTypeOverride = getAbilityTypeOverride(
+      ability: attacker.selectedAbility,
+      pokemonName: attacker.pokemonName,
+      weather: weather,
+    );
+    final atkType1 = atkTypeOverride?.type1 ?? attacker.type1;
+    final PokemonType? atkType2 = atkTypeOverride != null ? atkTypeOverride.type2 : attacker.type2;
+
+    final defTypeOverride = getAbilityTypeOverride(
+      ability: defender.selectedAbility,
+      pokemonName: defender.pokemonName,
+      weather: weather,
+    );
+    // Defender type: Terastal takes priority over ability override
+    // (handled later in type effectiveness section)
+
     final isPhysical = effectiveMove.category == MoveCategory.physical;
 
     // --- Attacker stat ---
@@ -224,16 +241,15 @@ class DamageCalculator {
     // Resolve which stat to use (Foul Play uses opponent's attack)
     int rawA = transformed.resolveStat(atkActual, opponentAttack: opponentAttack);
 
-    // Item effect on attacking stat
-    final effectiveItem = (isDmaxed && dmaxNullItems.contains(attacker.selectedItem))
-        ? null : attacker.selectedItem;
+    // Item/ability resolution (Klutz, Dynamax nullification)
+    final effectiveItem = resolveEffectiveItem(
+        item: attacker.selectedItem, ability: attacker.selectedAbility, isDynamaxed: isDmaxed);
     final itemEffect = effectiveItem != null
         ? getItemEffect(effectiveItem, move: effectiveMove, pokemonName: attacker.pokemonName)
         : const ItemEffect();
 
-    // Ability effect
-    final effectiveAbility = (isDmaxed && dmaxNullAbilities.contains(attacker.selectedAbility))
-        ? null : attacker.selectedAbility;
+    final effectiveAbility = resolveEffectiveAbility(
+        ability: attacker.selectedAbility, isDynamaxed: isDmaxed);
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility, move: effectiveMove,
             originalBasePower: isDmaxed ? null : move.power,
@@ -328,8 +344,11 @@ class DamageCalculator {
       D = (D * (targetPhysDef ? defItem.defModifier : defItem.spdModifier)).floor();
     }
     // Weather defensive (sandstorm rock SpDef, snow ice Def)
+    // Use ability-overridden types if applicable
+    final defEffType1 = defTypeOverride?.type1 ?? defender.type1;
+    final defEffType2 = defTypeOverride != null ? defTypeOverride.type2 : defender.type2;
     final weatherDef = getWeatherDefensiveModifier(
-      weather, type1: defender.type1, type2: defender.type2);
+      weather, type1: defEffType1, type2: defEffType2);
     D = (D * (targetPhysDef ? weatherDef.defMod : weatherDef.spdMod)).floor();
 
     // Apply Ruin defensive modifier
@@ -389,13 +408,16 @@ class DamageCalculator {
       }
     }
 
-    // --- Defender type (Terastal changes defensive type) ---
+    // --- Defender type (Terastal > Ability override > original) ---
     final PokemonType defType1;
     final PokemonType? defType2;
     if (defender.terastal.active && defender.terastal.teraType != null &&
         defender.terastal.teraType != PokemonType.stellar) {
       defType1 = defender.terastal.teraType!;
       defType2 = null;
+    } else if (defTypeOverride != null) {
+      defType1 = defTypeOverride.type1;
+      defType2 = defTypeOverride.type2;
     } else {
       defType1 = defender.type1;
       defType2 = defender.type2;
@@ -443,8 +465,8 @@ class DamageCalculator {
     }
 
     // --- STAB (with Terastal rules) ---
-    final bool isOriginalStab = effectiveMove.type == attacker.type1 ||
-        effectiveMove.type == attacker.type2;
+    final bool isOriginalStab = effectiveMove.type == atkType1 ||
+        effectiveMove.type == atkType2;
     final bool isTeraStab = attacker.terastal.active &&
         attacker.terastal.teraType != null &&
         effectiveMove.type == attacker.terastal.teraType;
@@ -467,7 +489,7 @@ class DamageCalculator {
     // --- Weather/Terrain offensive ---
     final double weatherMod = getWeatherOffensiveModifier(weather, move: effectiveMove);
     final atkGrounded = isGrounded(
-      type1: attacker.type1, type2: attacker.type2,
+      type1: atkType1, type2: atkType2,
       ability: attacker.selectedAbility, item: attacker.selectedItem,
       gravity: room.gravity,
     );

@@ -489,9 +489,10 @@ class _StatInputState extends State<StatInput> {
     String speedText = '';
     Color speedColor = Colors.grey;
     if (widget.opponentSpeed != null) {
-      final bool alwaysLast = !widget.isDynamaxed && widget.selectedItem != null &&
-          widget.selectedAbility != 'Klutz' &&
-          getSpeedItemEffect(widget.selectedItem!).alwaysLast;
+      final bool alwaysLast = checkAlwaysLast(
+          item: widget.selectedItem,
+          ability: widget.selectedAbility,
+          isDynamaxed: widget.isDynamaxed);
       final result = getSpeedResult(
         mySpeed: mySpeed,
         opponentSpeed: widget.opponentSpeed!,
