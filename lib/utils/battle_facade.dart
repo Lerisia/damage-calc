@@ -124,7 +124,7 @@ class BattleFacade {
     final transformed = transformMove(move, ctx);
 
     final effectiveType = state.typeOverrides[moveIndex] ?? transformed.move.type;
-    final effectiveCategory = state.categoryOverrides[moveIndex] ?? move.category;
+    final effectiveCategory = state.categoryOverrides[moveIndex] ?? transformed.move.category;
     final basePower = transformed.move.power;
     final effectivePower = state.powerOverrides[moveIndex] ?? basePower;
     final displayName = transformed.move.nameKo;
@@ -356,6 +356,16 @@ class BattleFacade {
     int? myEffectiveSpeed,
     int? opponentSpeed,
   }) {
+    // Calculate actual stats for Tera Blast category comparison
+    final actualStats = StatCalculator.calculate(
+      baseStats: state.baseStats,
+      iv: state.iv,
+      ev: state.ev,
+      nature: state.nature,
+      level: state.level,
+      rank: state.rank,
+    );
+
     return MoveContext(
       weather: weather,
       terrain: terrain,
@@ -370,6 +380,8 @@ class BattleFacade {
       teraType: state.terastal.teraType,
       mySpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
+      actualAttack: actualStats.attack,
+      actualSpAttack: actualStats.spAttack,
     );
   }
 

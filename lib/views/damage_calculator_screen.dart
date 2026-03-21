@@ -317,12 +317,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  /// Get the 결정력 for a specific move slot from the attacker panel.
+  /// Get the 결정력 for a specific move slot from the attacker panel (for display only).
   int? _getOffensivePower(int moveIndex) {
     return _attackerPanelKey.currentState?.computeResultFor(moveIndex);
   }
 
-  /// Get the 내구 for the defender.
+  /// Get the 내구 for the defender (for display only).
   ({int physical, int special}) _getDefensiveBulk() {
     return BattleFacade.calcBulk(
       state: _defender,
@@ -332,41 +332,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   DamageResult _calcDamage(int moveIndex) {
-    final move = _attacker.moves[moveIndex];
-    if (move == null) {
-      return DamageResult(
-        offensivePower: 0, defensiveBulk: 0,
-        effectiveness: 1.0, baseDamage: 0,
-        minDamage: 0, maxDamage: 0,
-        defenderHp: _calcStats(_defender).hp,
-        isPhysical: true,
-      );
-    }
-
-    final effectiveType = _attacker.typeOverrides[moveIndex] ?? move.type;
-    final effectiveCategory = _attacker.categoryOverrides[moveIndex] ?? move.category;
-    final isPhysical = effectiveCategory == MoveCategory.physical;
-
-    final offensivePower = _getOffensivePower(moveIndex) ?? 0;
-    final bulk = _getDefensiveBulk();
-    final defensiveBulk = isPhysical ? bulk.physical : bulk.special;
-    final defHp = _calcStats(_defender).hp;
-
     return DamageCalculator.calculate(
-      offensivePower: offensivePower,
-      defensiveBulk: defensiveBulk,
-      moveType: effectiveType,
-      defType1: _defender.type1,
-      defType2: _defender.type2,
-      defenderHp: defHp,
-      isPhysical: isPhysical,
-      defenderGrounded: isGrounded(
-        type1: _defender.type1,
-        type2: _defender.type2,
-        ability: _defender.selectedAbility,
-        item: _defender.selectedItem,
-        gravity: _room.gravity,
-      ),
+      attacker: _attacker,
+      defender: _defender,
+      moveIndex: moveIndex,
+      weather: _weather,
+      terrain: _terrain,
+      room: _room,
+      opponentAttack: _calcStats(_defender).attack,
+      opponentSpeed: _calcEffectiveSpeed(_defender),
+      opponentGender: _defender.gender,
     );
   }
 
@@ -413,8 +388,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
 
     final result = _calcDamage(index);
-    final effectiveType = _attacker.typeOverrides[index] ?? move.type;
+    final effectiveType = result.move.type;
     final categoryLabel = result.isPhysical ? '물리' : '특수';
+    final offPower = _getOffensivePower(index);
+    final bulk = _getDefensiveBulk();
+    final defBulk = result.isPhysical ? bulk.physical : bulk.special;
 
     // Effectiveness label
     final eff = result.effectiveness;
@@ -455,59 +433,54 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Move name + type
+          // Move name + type + effectiveness
           Row(
             children: [
               Flexible(
                 child: Text(move.nameKo, style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold,
+                  fontSize: 16, fontWeight: FontWeight.bold,
                 )),
               ),
               const SizedBox(width: 8),
               Text(KoStrings.getTypeKo(effectiveType),
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600])),
+              const SizedBox(width: 8),
+              Text(effLabel, style: TextStyle(fontSize: 13, color: effColor, fontWeight: FontWeight.bold)),
             ],
           ),
-          const SizedBox(height: 4),
-          // Effectiveness
-          Text(effLabel, style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 4),
-          // 결정력 / 내구 info
+          const SizedBox(height: 6),
+          // 결정력 / 내구 info (display only)
           Text(
-            '$categoryLabel 결정력 ${result.offensivePower} → $categoryLabel 내구 ${result.defensiveBulk}',
-            style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+            '$categoryLabel 결정력 ${offPower ?? '-'} → $categoryLabel 내구 $defBulk',
+            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
           ),
           const SizedBox(height: 6),
-          // Damage range + percent
+          // % damage (main focus) + raw damage (secondary)
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
-                '${result.minDamage} ~ ${result.maxDamage}',
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                '${result.minPercent.toStringAsFixed(1)}% ~ ${result.maxPercent.toStringAsFixed(1)}%',
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  '(${result.minPercent.toStringAsFixed(1)}% ~ ${result.maxPercent.toStringAsFixed(1)}%)',
-                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                ),
+              Text(
+                '(${result.minDamage} ~ ${result.maxDamage})',
+                style: TextStyle(fontSize: 13, color: Colors.grey[500]),
               ),
+              if (koText.isNotEmpty) ...[
+                const Spacer(),
+                Text(koText, style: TextStyle(
+                  fontSize: 16, color: koColor, fontWeight: FontWeight.bold,
+                )),
+              ],
             ],
           ),
-          // KO label
-          if (koText.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Text(koText, style: TextStyle(
-                fontSize: 16, color: koColor, fontWeight: FontWeight.bold,
-              )),
-            ),
         ],
       ),
     );
@@ -621,16 +594,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
+          // Header: label + pokemon name + base speed
           Row(
             children: [
               Text('$label ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: color)),
               Expanded(child: Text(state.pokemonNameKo, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis)),
+              Text('종족값 $speedBase', style: TextStyle(fontSize: 13, color: Colors.grey.shade500)),
             ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
-          // Speed result
+          // 실수치 → 최종
           Row(
             children: [
               Text('실수치 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
@@ -642,40 +616,59 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           const SizedBox(height: 10),
 
-          // Speed stat row (flex-based)
+          // Row 1: 개체, 노력 (with 0/max), 랭크 (with -1/+1)
           Row(
             children: [
-              Expanded(flex: 2, child: Text('종족', style: TextStyle(fontSize: 13, color: Colors.grey.shade600), textAlign: TextAlign.center)),
-              Expanded(flex: 2, child: Center(child: Text('$speedBase', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)))),
-              Expanded(flex: 2, child: Text('개체', style: TextStyle(fontSize: 13, color: Colors.grey.shade600), textAlign: TextAlign.center)),
-              Expanded(flex: 2, child: _speedInput('${state.iv.speed}', (v) {
+              // 개체
+              Text('개체 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+              SizedBox(width: 40, child: _speedInput('${state.iv.speed}', (v) {
                 final val = int.tryParse(v) ?? 31;
                 setState(() {
                   state.iv = Stats(hp: state.iv.hp, attack: state.iv.attack, defense: state.iv.defense,
                     spAttack: state.iv.spAttack, spDefense: state.iv.spDefense, speed: val.clamp(0, 31));
                 });
               })),
-              Expanded(flex: 2, child: Text('노력', style: TextStyle(fontSize: 13, color: Colors.grey.shade600), textAlign: TextAlign.center)),
-              Expanded(flex: 2, child: _speedInput('${state.ev.speed}', (v) {
+              const SizedBox(width: 12),
+              // 노력
+              Text('노력 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+              SizedBox(width: 44, child: _speedInput('${state.ev.speed}', (v) {
                 final val = int.tryParse(v) ?? 0;
                 setState(() {
                   state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
                     spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: val.clamp(0, 252));
                 });
               })),
-              Expanded(flex: 2, child: Text('랭크', style: TextStyle(fontSize: 13, color: Colors.grey.shade600), textAlign: TextAlign.center)),
-              Expanded(flex: 2, child: _speedInput('${state.rank.speed}', (v) {
-                final val = int.tryParse(v) ?? 0;
-                setState(() {
-                  state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
-                    spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val.clamp(-6, 6));
-                });
-              }, signed: true)),
+              _miniButton('0', () => setState(() {
+                state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
+                  spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: 0);
+              })),
+              _miniButton('max', () => setState(() {
+                state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
+                  spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: 252);
+              })),
+              const SizedBox(width: 12),
+              // 랭크
+              Text('랭크 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+              _miniButton('-1', () => setState(() {
+                final val = (state.rank.speed - 1).clamp(-6, 6);
+                state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
+                  spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val);
+              })),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text('${state.rank.speed >= 0 ? "+" : ""}${state.rank.speed}',
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+              ),
+              _miniButton('+1', () => setState(() {
+                final val = (state.rank.speed + 1).clamp(-6, 6);
+                state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
+                  spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val);
+              })),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
 
-          // Modifiers row (flex-based)
+          // Row 2: 성격, 상태이상, 순풍
           Row(
             children: [
               Expanded(flex: 3, child: DropdownButtonFormField<Nature>(
@@ -731,12 +724,30 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  Widget _speedInput(String initialValue, ValueChanged<String> onChanged, {bool signed = false}) {
+  Widget _miniButton(String label, VoidCallback onPressed) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(label, style: TextStyle(fontSize: 11, color: Colors.grey.shade700)),
+        ),
+      ),
+    );
+  }
+
+  Widget _speedInput(String initialValue, ValueChanged<String> onChanged) {
     return SizedBox(
       height: 32,
       child: TextFormField(
         initialValue: initialValue,
-        keyboardType: signed ? const TextInputType.numberWithOptions(signed: true) : TextInputType.number,
+        keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 14),
         decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 6)),

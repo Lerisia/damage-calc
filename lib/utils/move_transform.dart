@@ -39,6 +39,12 @@ class MoveContext {
   final int? mySpeed;
   final int? opponentSpeed;
 
+  /// Actual (rank-applied) Attack stat — needed for Tera Blast category check.
+  final int? actualAttack;
+
+  /// Actual (rank-applied) Sp.Attack stat — needed for Tera Blast category check.
+  final int? actualSpAttack;
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
@@ -53,6 +59,8 @@ class MoveContext {
     this.teraType,
     this.mySpeed,
     this.opponentSpeed,
+    this.actualAttack,
+    this.actualSpAttack,
   });
 }
 
@@ -98,9 +106,9 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // 2. Ability type transforms (only if still Normal after step 1)
   move = _applySkin(move, context.ability);
 
-  // 2.5. Tera Blast: change type to tera type when terastallized
+  // 2.5. Tera Blast: various changes when terastallized
   if (context.terastallized && context.teraType != null && move.name == 'Tera Blast') {
-    move = move.copyWith(type: context.teraType);
+    move = _applyTeraBlast(move, context);
   }
 
   // 3. Conditional power changes
@@ -135,6 +143,33 @@ OffensiveStat _resolveOffensiveStat(Move move) {
       : OffensiveStat.spAttack;
 }
 
+/// Tera Blast transformations when terastallized:
+/// - Type changes to Tera type
+/// - If Attack > Sp.Attack, becomes Physical
+/// - Stellar Tera: power becomes 100
+Move _applyTeraBlast(Move move, MoveContext context) {
+  final teraType = context.teraType!;
+
+  // Stellar Tera Blast: power 100, type stays Normal
+  if (teraType == PokemonType.stellar) {
+    // Category: physical if Attack > SpAttack
+    final category = (context.actualAttack != null &&
+            context.actualSpAttack != null &&
+            context.actualAttack! > context.actualSpAttack!)
+        ? MoveCategory.physical
+        : move.category;
+    return move.copyWith(power: 100, category: category);
+  }
+
+  // Normal Tera Blast: change type, and physical if Attack > SpAttack
+  final category = (context.actualAttack != null &&
+          context.actualSpAttack != null &&
+          context.actualAttack! > context.actualSpAttack!)
+      ? MoveCategory.physical
+      : move.category;
+  return move.copyWith(type: teraType, category: category);
+}
+
 /// -ate abilities: convert Normal moves to another type with 1.2x power.
 const Map<String, PokemonType> _skinAbilities = {
   'Aerilate': PokemonType.flying,
@@ -147,10 +182,9 @@ const Map<String, PokemonType> _skinAbilities = {
 Move _applySkin(Move move, String? ability) {
   if (ability == null) return move;
 
-  // Normalize: ALL moves become Normal (not just Normal moves)
+  // Normalize: ALL moves become Normal (type change only, 1.2x is in ability_effects)
   if (ability == 'Normalize') {
-    if (move.type == PokemonType.normal) return move;
-    return move.copyWith(type: PokemonType.normal, power: (move.power * 1.2).floor());
+    return move.copyWith(type: PokemonType.normal);
   }
 
   // Other skins: only Normal moves get converted

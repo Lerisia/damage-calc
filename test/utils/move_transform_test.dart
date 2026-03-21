@@ -105,18 +105,18 @@ void main() {
       expect(result.move.power, equals(90));
     });
 
-    test('Normalize converts all moves to Normal with 1.2x power', () {
+    test('Normalize converts non-Normal moves to Normal (power unchanged)', () {
       final result = transformMove(fireMove,
           const MoveContext(ability: 'Normalize'));
       expect(result.move.type, equals(PokemonType.normal));
-      expect(result.move.power, equals(108)); // 90 * 1.2
+      expect(result.move.power, equals(90)); // power unchanged, 1.2x in ability_effects
     });
 
-    test('Normalize does not boost already-Normal moves', () {
+    test('Normalize does not change power (1.2x is in ability_effects)', () {
       final result = transformMove(normalMove,
           const MoveContext(ability: 'Normalize'));
       expect(result.move.type, equals(PokemonType.normal));
-      expect(result.move.power, equals(40)); // unchanged
+      expect(result.move.power, equals(40)); // power unchanged here
     });
 
     test('Skin does not apply after Weather Ball type change', () {
