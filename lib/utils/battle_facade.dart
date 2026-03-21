@@ -25,6 +25,23 @@ const dmaxNullItems = {'choice-band', 'choice-specs', 'choice-scarf'};
 /// Abilities nullified during Dynamax.
 const dmaxNullAbilities = {'Gorilla Tactics', 'Sheer Force'};
 
+/// Resolves the effective held item considering Klutz and Dynamax nullification.
+String? resolveEffectiveItem({
+  String? item, String? ability, bool isDynamaxed = false,
+}) {
+  if (ability == 'Klutz') return null;
+  if (isDynamaxed && dmaxNullItems.contains(item)) return null;
+  return item;
+}
+
+/// Resolves the effective ability considering Dynamax nullification.
+String? resolveEffectiveAbility({
+  String? ability, bool isDynamaxed = false,
+}) {
+  if (isDynamaxed && dmaxNullAbilities.contains(ability)) return null;
+  return ability;
+}
+
 /// Display-ready information for a single move slot.
 class MoveSlotInfo {
   /// Transformed move name (e.g. 다이번 for Dynamax Fire move).
@@ -237,21 +254,15 @@ class BattleFacade {
     // 2. Resolve item/ability effects (Dynamax nullification applied)
     final isDmaxed = state.dynamax != DynamaxState.none;
 
-    final effectiveItem =
-        (isDmaxed && dmaxNullItems.contains(state.selectedItem))
-            ? null
-            : state.selectedAbility == 'Klutz'
-                ? null
-                : state.selectedItem;
+    final effectiveItem = resolveEffectiveItem(
+        item: state.selectedItem, ability: state.selectedAbility, isDynamaxed: isDmaxed);
     final itemEffect = effectiveItem != null
         ? getItemEffect(effectiveItem,
             move: transformed.move, pokemonName: state.pokemonName)
         : const ItemEffect();
 
-    final effectiveAbility =
-        (isDmaxed && dmaxNullAbilities.contains(state.selectedAbility))
-            ? null
-            : state.selectedAbility;
+    final effectiveAbility = resolveEffectiveAbility(
+        ability: state.selectedAbility, isDynamaxed: isDmaxed);
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility,
             move: transformed.move,

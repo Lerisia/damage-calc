@@ -11,6 +11,7 @@ import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../utils/battle_facade.dart';
 import '../../utils/item_effects.dart';
+import '../../utils/speed_calculator.dart';
 import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../widgets/pokemon_selector.dart';
@@ -60,12 +61,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
-  bool _isAlwaysLast(BattlePokemonState s) {
-    if (s.selectedItem == null) return false;
-    if (s.dynamax != DynamaxState.none) return false;
-    if (s.selectedAbility == 'Klutz') return false;
-    return getSpeedItemEffect(s.selectedItem!).alwaysLast;
-  }
+  bool _isAlwaysLast(BattlePokemonState s) => isAlwaysLast(s);
 
   void _notify() {
     widget.onChanged();

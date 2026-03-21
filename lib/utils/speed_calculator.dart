@@ -1,3 +1,5 @@
+import '../models/battle_pokemon.dart';
+import '../models/dynamax.dart';
 import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
@@ -51,4 +53,26 @@ int calcEffectiveSpeed({
   }
 
   return speed.floor();
+}
+
+/// Whether [state] has an always-last item effect (Lagging Tail, Full Incense).
+/// Dynamax and Klutz negate this.
+bool isAlwaysLast(BattlePokemonState state) {
+  return checkAlwaysLast(
+    item: state.selectedItem,
+    ability: state.selectedAbility,
+    isDynamaxed: state.dynamax != DynamaxState.none,
+  );
+}
+
+/// Parameter-based version for contexts without full [BattlePokemonState].
+bool checkAlwaysLast({
+  String? item,
+  String? ability,
+  bool isDynamaxed = false,
+}) {
+  if (item == null) return false;
+  if (isDynamaxed) return false;
+  if (ability == 'Klutz') return false;
+  return getSpeedItemEffect(item).alwaysLast;
 }
