@@ -72,8 +72,10 @@ AbilityEffect getAbilityEffect(String abilityName, {
       return const AbilityEffect(
         statModifiers: AbilityStatModifiers(attack: 1.5));
     case 'Hustle':
-      return const AbilityEffect(
-        statModifiers: AbilityStatModifiers(attack: 1.5));
+      return move != null && move.category == MoveCategory.physical
+          ? const AbilityEffect(
+              statModifiers: AbilityStatModifiers(attack: 1.5))
+          : _defaultEffect;
 
     // --- Normalize: 1.2x to all Normal-type moves (type change is in move_transform) ---
     case 'Normalize':

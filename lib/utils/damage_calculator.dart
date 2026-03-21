@@ -334,7 +334,13 @@ class DamageCalculator {
       ability: attacker.selectedAbility, item: attacker.selectedItem,
       gravity: room.gravity,
     );
-    final double terrainMod = getTerrainModifier(terrain, move: effectiveMove, grounded: atkGrounded);
+    final defGrounded = isGrounded(
+      type1: defender.type1, type2: defender.type2,
+      ability: defender.selectedAbility, item: defender.selectedItem,
+      gravity: room.gravity,
+    );
+    final double terrainMod = getTerrainModifier(terrain,
+      move: effectiveMove, attackerGrounded: atkGrounded, defenderGrounded: defGrounded);
 
     // --- Burn ---
     final bool hasGuts = attacker.selectedAbility == 'Guts';

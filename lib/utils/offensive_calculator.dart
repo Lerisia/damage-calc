@@ -41,6 +41,7 @@ class OffensiveCalculator {
     double powerModifier = 1.0,
     bool isCritical = false,
     bool grounded = true,
+    bool defenderGrounded = true,
     StatusCondition status = StatusCondition.none,
     bool hasGuts = false,
     double? stabOverride,
@@ -110,7 +111,8 @@ class OffensiveCalculator {
         ? 60 : move.power;
 
     final double weatherMod = getWeatherOffensiveModifier(weather, move: move);
-    final double terrainMod = getTerrainModifier(terrain, move: move, grounded: grounded);
+    final double terrainMod = getTerrainModifier(terrain,
+        move: move, attackerGrounded: grounded, defenderGrounded: defenderGrounded);
 
     // Burn halves physical damage unless Guts negates it
     final double burnMod =
