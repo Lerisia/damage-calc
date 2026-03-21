@@ -229,13 +229,10 @@ void main() {
         level: 50,
         rank: const Rank(attack: 2),
       );
-      // Atk = 69 base, nature 1.1x -> 75, rank +2 = 2.0x -> 150
-      // But rank is applied in the stat formula: raw * nature * rank
-      // raw = 64 + 5 = 69 (at base), then * 1.1 * 2.0 = floor(69 * 1.1 * 2.0) = floor(151.8) = 151
-      // Wait, let me recalculate:
-      // raw = ((2*49+31)*50/100) + 5 = (129*50/100) + 5 = 64 + 5 = 69
-      // 69 * 1.1 (nature) * 2.0 (rank) = 69 * 2.2 = 151.8 -> 151
-      expect(result.attack, equals(151));
+      // raw = ((2*49+31)*50/100) + 5 = 64 + 5 = 69
+      // floor(69 * 1.1) = floor(75.9) = 75 (nature applied first)
+      // floor(75 * 2.0) = 150 (rank applied second)
+      expect(result.attack, equals(150));
     });
 
     test('rank +6 on defense', () {

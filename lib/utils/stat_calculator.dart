@@ -35,10 +35,11 @@ class StatCalculator {
     return ((2 * base + iv + ev ~/ 4) * level ~/ 100) + level + 10;
   }
 
-  /// Other stats = (((2 * base + iv + ev/4) * level / 100) + 5) * nature * rank
+  /// Other stats = floor(floor(((2*base+iv+ev/4)*level/100)+5) * nature) * rank
   static int _calcStat(
       int base, int iv, int ev, int level, double natureModifier, double rankMultiplier) {
     final int raw = ((2 * base + iv + ev ~/ 4) * level ~/ 100) + 5;
-    return (raw * natureModifier * rankMultiplier).floor();
+    final int withNature = (raw * natureModifier).floor();
+    return (withNature * rankMultiplier).floor();
   }
 }
