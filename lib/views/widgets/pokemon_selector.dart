@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
+import '../../utils/korean_search.dart';
 
 class PokemonSelector extends StatefulWidget {
   final void Function(Pokemon pokemon) onSelected;
@@ -54,19 +55,19 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       return _lastResults!;
     }
 
-    final q = query.toLowerCase();
-    final startsWith = <Pokemon>[];
-    final contains = <Pokemon>[];
+    final scored = <(Pokemon, int)>[];
     for (final p in _allPokemon) {
-      final ko = p.nameKo.toLowerCase();
-      final en = p.name.toLowerCase();
-      if (ko.startsWith(q) || en.startsWith(q)) {
-        startsWith.add(p);
-      } else if (ko.contains(q) || en.contains(q)) {
-        contains.add(p);
-      }
+      final koScore = koreanMatchScore(query, p.nameKo);
+      final enScore = koreanMatchScore(query, p.name);
+      final score = koScore > enScore ? koScore : enScore;
+      if (score > 0) scored.add((p, score));
     }
-    _lastResults = [...startsWith, ...contains];
+    scored.sort((a, b) {
+      final cmp = b.$2.compareTo(a.$2);
+      if (cmp != 0) return cmp;
+      return a.$1.nameKo.compareTo(b.$1.nameKo);
+    });
+    _lastResults = scored.map((e) => e.$1).toList();
     if (_selected != null && _lastResults!.contains(_selected)) {
       _lastResults!.remove(_selected);
       _lastResults!.insert(0, _selected!);
