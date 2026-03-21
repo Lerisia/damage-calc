@@ -634,6 +634,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           'bypass_infiltrator': '침투: 벽 무시',
         };
         return screenKo[parts[1]] ?? note;
+      case 'move':
+        const moveKo = {
+          'knock_off': '아이템 소지',
+        };
+        final key = parts[1];
+        final label = moveKo[key] ?? key;
+        if (parts.length >= 3) return '$label ${parts[2]}';
+        return label;
       case 'ground':
         return '비접지 상태로 땅 기술 무효';
       case 'type':

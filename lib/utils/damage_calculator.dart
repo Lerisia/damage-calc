@@ -482,7 +482,7 @@ class DamageCalculator {
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
-        modifierNotes: ['상대 아이템 없음: 폴터가이스트 실패'],
+        modifierNotes: ['상대 아이템 없음: 실패'],
       );
     }
 
