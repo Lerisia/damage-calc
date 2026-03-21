@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -9,23 +8,12 @@ import '../../models/gender.dart';
 import '../../models/terastal.dart';
 import '../../models/move.dart';
 import '../../models/room.dart';
-import '../../models/nature.dart';
-import '../../models/rank.dart';
-import '../../models/stats.dart';
-import '../../models/status.dart';
 import '../../models/terrain.dart';
 import '../../models/type.dart';
 import '../../models/weather.dart';
 import '../../models/move_tags.dart';
-import '../../utils/ability_effects.dart';
-import '../../utils/speed_calculator.dart';
-import '../../utils/grounded.dart';
-import '../../utils/item_effects.dart';
+import '../../utils/battle_facade.dart';
 import '../../utils/localization.dart';
-import '../../utils/move_transform.dart';
-import '../../utils/defensive_calculator.dart';
-import '../../utils/offensive_calculator.dart';
-import '../../utils/stat_calculator.dart';
 import 'move_selector.dart';
 import 'pokemon_selector.dart';
 import 'stat_input.dart';
@@ -95,19 +83,10 @@ class PokemonPanelState extends State<PokemonPanel>
 
   int? get myEffectiveSpeed {
     if (widget.opponentSpeed == null) return null;
-    final stats = StatCalculator.calculate(
-      baseStats: s.baseStats, iv: s.iv, ev: s.ev,
-      nature: s.nature, level: s.level, rank: s.rank,
-    );
-    return calcEffectiveSpeed(
-      baseSpeed: stats.speed,
-      ability: s.selectedAbility,
-      item: s.selectedItem,
-      status: s.status,
+    return BattleFacade.calcSpeed(
+      state: s,
       weather: widget.weather,
       terrain: widget.terrain,
-      isDynamaxed: s.dynamax != DynamaxState.none,
-      tailwind: s.tailwind,
     );
   }
 
@@ -134,127 +113,16 @@ class PokemonPanelState extends State<PokemonPanel>
 
   /// Public accessor for 결정력 of a specific move slot.
   int? computeResultFor(int moveIndex) {
-    return _computeResultFor(
-      s.moves[moveIndex], s.criticals[moveIndex],
-      typeOverride: s.typeOverrides[moveIndex],
-      categoryOverride: s.categoryOverrides[moveIndex],
-      powerOverride: s.powerOverrides[moveIndex],
-    );
-  }
-
-  int? _computeResultFor(Move? move, bool isCritical, {
-    PokemonType? typeOverride,
-    MoveCategory? categoryOverride,
-    int? powerOverride,
-  }) {
-    if (move == null) return null;
-    move = move.copyWith(
-      type: typeOverride,
-      power: powerOverride,
-      category: categoryOverride,
-    );
-
-    final context = MoveContext(
+    return BattleFacade.calcOffensivePower(
+      state: s,
+      moveIndex: moveIndex,
       weather: widget.weather,
       terrain: widget.terrain,
-      rank: s.rank,
-      hpPercent: s.hpPercent,
-      hasItem: s.selectedItem != null,
-      ability: s.selectedAbility,
-      status: s.status,
-      dynamax: s.dynamax,
-      pokemonName: s.pokemonName,
-      terastallized: s.terastal.active,
-      teraType: s.terastal.teraType,
-      mySpeed: myEffectiveSpeed,
+      room: widget.room,
       opponentSpeed: widget.opponentSpeed,
-    );
-    final transformed = transformMove(move, context);
-
-    // During Dynamax: Choice items and some abilities are nullified
-    final isDmaxed = s.dynamax != DynamaxState.none;
-    final _dmaxNullItems = {'choice-band', 'choice-specs', 'choice-scarf'};
-    final effectiveItem = (isDmaxed && _dmaxNullItems.contains(s.selectedItem))
-        ? null : s.selectedItem;
-    final itemEffect = effectiveItem != null
-        ? getItemEffect(effectiveItem, move: transformed.move, pokemonName: s.pokemonName)
-        : const ItemEffect();
-    // During Dynamax: Gorilla Tactics and Sheer Force are nullified
-    const _dmaxNullAbilities = {'Gorilla Tactics', 'Sheer Force'};
-    final effectiveAbility = (isDmaxed && _dmaxNullAbilities.contains(s.selectedAbility))
-        ? null : s.selectedAbility;
-    final abilityEffect = effectiveAbility != null
-        ? getAbilityEffect(effectiveAbility, move: transformed.move,
-            hpPercent: s.hpPercent, weather: widget.weather,
-            terrain: widget.terrain, status: s.status,
-            heldItem: effectiveItem,
-            opponentSpeed: widget.opponentSpeed,
-            myGender: s.gender,
-            opponentGender: widget.opponentGender ?? Gender.unset,
-            actualStats: StatCalculator.calculate(
-              baseStats: s.baseStats, iv: s.iv, ev: s.ev,
-              nature: s.nature, level: s.level,
-            ))
-        : const AbilityEffect();
-
-    final double abilityStatMod;
-    switch (transformed.offensiveStat) {
-      case OffensiveStat.attack:
-        abilityStatMod = abilityEffect.statModifiers.attack;
-      case OffensiveStat.spAttack:
-        abilityStatMod = abilityEffect.statModifiers.spAttack;
-      case OffensiveStat.defense:
-        abilityStatMod = abilityEffect.statModifiers.defense;
-      case OffensiveStat.higherAttack:
-        abilityStatMod = math.max(
-          abilityEffect.statModifiers.attack,
-          abilityEffect.statModifiers.spAttack,
-        );
-      case OffensiveStat.opponentAttack:
-        abilityStatMod = 1.0;
-    }
-
-    double statMod = itemEffect.statModifier * abilityStatMod;
-    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
-
-    // Ally boost effects
-    if (s.helpingHand) powerMod *= 1.5;
-    if (s.charge && move.type == PokemonType.electric) powerMod *= 2.0;
-    if (s.battery && move.category == MoveCategory.special) powerMod *= 1.3;
-    if (s.powerSpot) powerMod *= 1.3;
-    if (s.flowerGift && move.category == MoveCategory.physical &&
-        (widget.weather == Weather.sun || widget.weather == Weather.harshSun)) statMod *= 1.5;
-    if (s.steelySpirit && move.type == PokemonType.steel) powerMod *= 1.5;
-
-    return OffensiveCalculator.calculate(
-      baseStats: s.baseStats,
-      iv: s.iv,
-      ev: s.ev,
-      nature: s.nature,
-      level: s.level,
-      transformed: transformed,
-      type1: s.type1,
-      type2: s.type2,
-      rank: s.rank,
-      weather: widget.weather,
-      terrain: widget.terrain,
-      statModifier: statMod,
-      powerModifier: powerMod,
-      isCritical: isCritical,
-      grounded: isGrounded(
-        type1: s.type1,
-        type2: s.type2,
-        ability: s.selectedAbility,
-        item: s.selectedItem,
-        gravity: widget.room.gravity,
-      ),
-      status: s.status,
-      hasGuts: s.selectedAbility == 'Guts',
-      stabOverride: abilityEffect.stabOverride,
-      criticalOverride: abilityEffect.criticalOverride,
       opponentAttack: widget.opponentAttack,
-      terastallized: s.terastal.active,
-      teraType: s.terastal.teraType,
+      opponentGender: widget.opponentGender ?? Gender.unset,
+      myEffectiveSpeed: myEffectiveSpeed,
     );
   }
 
@@ -442,23 +310,10 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   Widget _bulkDisplay() {
-    final bulk = DefensiveCalculator.calculate(
-      baseStats: s.baseStats,
-      iv: s.iv,
-      ev: s.ev,
-      nature: s.nature,
-      level: s.level,
-      type1: s.type1,
-      type2: s.type2,
-      rank: s.rank,
+    final bulk = BattleFacade.calcBulk(
+      state: s,
       weather: widget.weather,
-      ability: s.selectedAbility,
-      item: s.selectedItem,
-      finalEvo: s.finalEvo,
-      status: s.status,
-      flowerGift: s.flowerGift,
       room: widget.room,
-      isDynamaxed: s.dynamax != DynamaxState.none,
     );
 
     return _sectionCard(
@@ -542,39 +397,22 @@ class PokemonPanelState extends State<PokemonPanel>
 
   Widget _moveSlot(int index) {
     final move = s.moves[index];
-    var effectiveType = s.typeOverrides[index] ?? move?.type;
-    final effectiveCategory = s.categoryOverrides[index] ?? move?.category;
-    String? displayName = move?.nameKo;
-    final int basePower;
-    if (move != null) {
-      final ctx = MoveContext(
-        weather: widget.weather,
-        terrain: widget.terrain,
-        rank: s.rank,
-        hpPercent: s.hpPercent,
-        hasItem: s.selectedItem != null,
-        ability: s.selectedAbility,
-        status: s.status,
-        dynamax: s.dynamax,
-        pokemonName: s.pokemonName,
-        terastallized: s.terastal.active,
-        teraType: s.terastal.teraType,
-        mySpeed: myEffectiveSpeed,
-        opponentSpeed: widget.opponentSpeed,
-      );
-      final transformed = transformMove(move, ctx);
-      basePower = transformed.move.power;
-      effectiveType = s.typeOverrides[index] ?? transformed.move.type;
-      displayName = transformed.move.nameKo;
-    } else {
-      basePower = 0;
-    }
-    final effectivePower = s.powerOverrides[index] ?? basePower;
-    final result = _computeResultFor(move, s.criticals[index],
-      typeOverride: s.typeOverrides[index],
-      categoryOverride: s.categoryOverrides[index],
-      powerOverride: s.powerOverrides[index],
+    final info = BattleFacade.getMoveSlotInfo(
+      state: s,
+      moveIndex: index,
+      weather: widget.weather,
+      terrain: widget.terrain,
+      room: widget.room,
+      opponentSpeed: widget.opponentSpeed,
+      opponentAttack: widget.opponentAttack,
+      opponentGender: widget.opponentGender ?? Gender.unset,
+      myEffectiveSpeed: myEffectiveSpeed,
     );
+    final effectiveType = info.effectiveType ?? move?.type;
+    final effectiveCategory = info.effectiveCategory ?? move?.category;
+    final displayName = info.displayName ?? move?.nameKo;
+    final effectivePower = info.effectivePower;
+    final result = info.offensivePower;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
