@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import '../utils/image_saver.dart' as saver;
+import '../utils/stat_calculator.dart';
 import '../models/battle_pokemon.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
@@ -29,6 +30,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
   Room _room = Room.none;
+
+  int _calcSpeed(BattlePokemonState s) {
+    return StatCalculator.calculate(
+      baseStats: s.baseStats, iv: s.iv, ev: s.ev,
+      nature: s.nature, level: s.level, rank: s.rank,
+    ).speed;
+  }
 
 
   @override
@@ -171,14 +179,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   .toList(),
               onSelected: (v) => setState(() => _room = v),
             ),
-            const Spacer(),
-            Text(
-              '결정력 계산기',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1.5,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+            Expanded(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerRight,
+                child: Text(
+                  '결정력 계산기',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.5,
+                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 8),
@@ -222,6 +235,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   label: '공격측',
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
+                  opponentSpeed: _calcSpeed(_defender),
                 ),
                 PokemonPanel(
                   key: _defenderPanelKey,
@@ -233,6 +247,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
                   isAttacker: false,
+                  opponentSpeed: _calcSpeed(_attacker),
                 ),
                 _buildDamageCalcTab(),
               ],
