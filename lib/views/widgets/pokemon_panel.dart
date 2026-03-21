@@ -480,7 +480,7 @@ class PokemonPanelState extends State<PokemonPanel>
                         height: 28,
                         child: TextFormField(
                           key: ValueKey('power_${index}_${move.name}_${s.dynamax}'
-                            '${(move.hasTag(MoveTags.weightRatio) || move.hasTag(MoveTags.weightTarget)) ? '_$effectivePower' : ''}'),
+                            '${_isVariablePowerMove(move) ? '_$effectivePower' : ''}'),
                           initialValue: '$effectivePower',
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,
@@ -571,6 +571,14 @@ class PokemonPanelState extends State<PokemonPanel>
         _typeBadge(type2),
       ],
     ];
+  }
+
+  /// Moves whose displayed power depends on external state (opponent weight, speed).
+  bool _isVariablePowerMove(Move move) {
+    return move.hasTag(MoveTags.weightRatio) || move.hasTag(MoveTags.weightTarget) ||
+        move.name == 'Bolt Beak' || move.name == 'Fishious Rend' ||
+        move.name == 'Payback' || move.name == 'Revenge' || move.name == 'Avalanche' ||
+        move.hasTag(MoveTags.gyroSpeed) || move.hasTag(MoveTags.electroSpeed);
   }
 
   Widget _typeBadge(PokemonType type, {bool isTera = false}) {

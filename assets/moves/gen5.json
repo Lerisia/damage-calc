@@ -20,7 +20,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Icicle Crash",
@@ -32,7 +33,6 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "contact",
       "custom:has_secondary"
     ]
   },
@@ -57,7 +57,8 @@
     "category": "physical",
     "power": 50,
     "accuracy": 85,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Shift Gear",
@@ -67,7 +68,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Bestow",
@@ -77,7 +79,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Shell Smash",
@@ -87,7 +90,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Quiver Dance",
@@ -97,7 +101,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Night Daze",
@@ -146,7 +151,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Dual Chop",
@@ -156,7 +162,8 @@
     "category": "physical",
     "power": 40,
     "accuracy": 90,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Round",
@@ -166,7 +173,10 @@
     "category": "special",
     "power": 60,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "sound"
+    ]
   },
   {
     "name": "Entrainment",
@@ -176,7 +186,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Dragon Tail",
@@ -187,7 +198,8 @@
     "power": 60,
     "accuracy": 90,
     "pp": 10,
-    "priority": -6
+    "priority": -6,
+    "tags": []
   },
   {
     "name": "Drill Run",
@@ -197,7 +209,8 @@
     "category": "physical",
     "power": 80,
     "accuracy": 95,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Bulldoze",
@@ -234,7 +247,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Low Sweep",
@@ -257,7 +271,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Final Gambit",
@@ -267,7 +282,8 @@
     "category": "special",
     "power": 0,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Soak",
@@ -277,7 +293,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Water Pledge",
@@ -287,7 +304,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Reflect Type",
@@ -297,7 +315,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Autotomize",
@@ -307,7 +326,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Snarl",
@@ -319,7 +339,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "sound"
     ]
   },
   {
@@ -331,7 +352,8 @@
     "power": 60,
     "accuracy": 90,
     "pp": 10,
-    "priority": -6
+    "priority": -6,
+    "tags": []
   },
   {
     "name": "Struggle Bug",
@@ -380,7 +402,8 @@
     "category": "special",
     "power": 70,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": []
   },
   {
     "name": "Rage Powder",
@@ -404,7 +427,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 30
+    "pp": 30,
+    "tags": []
   },
   {
     "name": "Fire Pledge",
@@ -414,7 +438,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Fiery Dance",
@@ -437,7 +462,8 @@
     "category": "special",
     "power": 70,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Incinerate",
@@ -447,7 +473,8 @@
     "category": "special",
     "power": 60,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Ally Switch",
@@ -458,7 +485,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "priority": 2
+    "priority": 2,
+    "tags": []
   },
   {
     "name": "Psystrike",
@@ -511,7 +539,8 @@
     "accuracy": 95,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "slice"
     ]
   },
   {
@@ -535,7 +564,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Quash",
@@ -545,7 +575,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Tail Slap",
@@ -555,7 +586,8 @@
     "category": "physical",
     "power": 25,
     "accuracy": 85,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Secret Sword",
@@ -578,7 +610,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Synchronoise",
@@ -588,7 +621,8 @@
     "category": "special",
     "power": 120,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Head Charge",
@@ -598,7 +632,10 @@
     "category": "physical",
     "power": 120,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "recoil"
+    ]
   },
   {
     "name": "Acid Spray",
@@ -610,7 +647,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "ball"
     ]
   },
   {
@@ -701,7 +739,10 @@
     "category": "special",
     "power": 40,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "sound"
+    ]
   },
   {
     "name": "Inferno",
@@ -739,7 +780,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "sound"
     ]
   },
   {
@@ -764,7 +806,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "priority": 3
+    "priority": 3,
+    "tags": []
   },
   {
     "name": "Wild Charge",
@@ -776,7 +819,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "contact"
+      "contact",
+      "recoil"
     ]
   },
   {
@@ -787,7 +831,8 @@
     "category": "physical",
     "power": 75,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Wonder Room",
@@ -797,7 +842,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Retaliate",
@@ -807,7 +853,8 @@
     "category": "physical",
     "power": 70,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Electroweb",
@@ -857,7 +904,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Ice Burn",
@@ -880,7 +928,8 @@
     "category": "physical",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Fusion Flare",
@@ -890,7 +939,8 @@
     "category": "special",
     "power": 100,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Clear Smog",
@@ -900,7 +950,8 @@
     "category": "special",
     "power": 50,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Techno Blast",
@@ -910,7 +961,8 @@
     "category": "special",
     "power": 120,
     "accuracy": 100,
-    "pp": 5
+    "pp": 5,
+    "tags": []
   },
   {
     "name": "Telekinesis",
@@ -920,7 +972,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 15
+    "pp": 15,
+    "tags": []
   },
   {
     "name": "Power Split",
@@ -930,7 +983,8 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Quick Guard",
@@ -941,7 +995,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "priority": 3
+    "priority": 3,
+    "tags": []
   },
   {
     "name": "Hurricane",
@@ -977,7 +1032,8 @@
     "category": "special",
     "power": 80,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Freeze Shock",
@@ -1000,7 +1056,8 @@
     "category": "physical",
     "power": 60,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": []
   },
   {
     "name": "Steamroller",
@@ -1053,7 +1110,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "ball"
     ]
   },
   {
