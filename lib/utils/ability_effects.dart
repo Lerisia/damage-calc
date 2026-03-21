@@ -11,6 +11,46 @@ import '../models/type.dart';
 import '../models/weather.dart';
 import 'move_transform.dart';
 
+// ====== Ability modifier constants ======
+
+/// Stat multiplier constants
+const double kDoubleStatBoost = 2.0;
+const double kMajorStatBoost = 1.5;
+const double kMinorStatBoost = 1.3;
+const double kHalfStat = 0.5;
+
+/// Power multiplier constants
+const double kDoublePower = 2.0;
+const double kMajorPowerBoost = 1.5;
+const double kMediumPowerBoost = 1.3;
+const double kMinorPowerBoost = 1.2;
+const double kParentalBondMultiplier = 1.25;
+const double kRivalrySameGender = 1.25;
+const double kRivalryOppositeGender = 0.75;
+
+/// Critical hit override
+const double kSniperCritical = 2.25;
+
+/// STAB override
+const double kAdaptabilityStab = 2.0;
+
+/// Technician threshold
+const int kTechnicianMaxPower = 60;
+
+/// HP threshold for Blaze/Overgrow/Torrent/Swarm/Defeatist
+const int kPinchHpThreshold = 33;
+const int kDefeatistHpThreshold = 50;
+
+/// Protosynthesis/Quark Drive boost values
+const double kParadoxStatBoost = 1.3;
+const double kParadoxSpeedBoost = 1.5;
+
+/// Quick Feet speed boost
+const double kQuickFeetSpeed = 1.5;
+
+/// Weather/terrain speed boost
+const double kWeatherSpeedBoost = 2.0;
+
 /// Per-stat modifiers from an ability
 class AbilityStatModifiers {
   final double attack;
@@ -71,56 +111,56 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Huge Power':
     case 'Pure Power':
       return const AbilityEffect(
-        statModifiers: AbilityStatModifiers(attack: 2.0));
+        statModifiers: AbilityStatModifiers(attack: kDoubleStatBoost));
     case 'Gorilla Tactics':
       return const AbilityEffect(
-        statModifiers: AbilityStatModifiers(attack: 1.5));
+        statModifiers: AbilityStatModifiers(attack: kMajorStatBoost));
     case 'Hustle':
       return move != null && move.category == MoveCategory.physical
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: 1.5))
+              statModifiers: AbilityStatModifiers(attack: kMajorStatBoost))
           : _defaultEffect;
 
     // --- Normalize: 1.2x to all Normal-type moves (type change is in move_transform) ---
     case 'Normalize':
       return move != null && move.type == PokemonType.normal
-          ? const AbilityEffect(powerModifier: 1.2)
+          ? const AbilityEffect(powerModifier: kMinorPowerBoost)
           : _defaultEffect;
 
     // --- Tag-based power modifiers ---
     case 'Tough Claws':
       return move != null && move.hasTag(MoveTags.contact)
-          ? const AbilityEffect(powerModifier: 1.3)
+          ? const AbilityEffect(powerModifier: kMediumPowerBoost)
           : _defaultEffect;
     case 'Iron Fist':
       return move != null && move.hasTag(MoveTags.punch)
-          ? const AbilityEffect(powerModifier: 1.2)
+          ? const AbilityEffect(powerModifier: kMinorPowerBoost)
           : _defaultEffect;
     case 'Reckless':
       return move != null && move.hasTag(MoveTags.recoil)
-          ? const AbilityEffect(powerModifier: 1.2)
+          ? const AbilityEffect(powerModifier: kMinorPowerBoost)
           : _defaultEffect;
     case 'Strong Jaw':
       return move != null && move.hasTag(MoveTags.bite)
-          ? const AbilityEffect(powerModifier: 1.5)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Mega Launcher':
       return move != null && move.hasTag(MoveTags.pulse)
-          ? const AbilityEffect(powerModifier: 1.5)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Sharpness':
       return move != null && move.hasTag(MoveTags.slice)
-          ? const AbilityEffect(powerModifier: 1.5)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Technician':
       final techPower = originalBasePower ?? move?.power ?? 0;
-      return move != null && techPower <= 60
-          ? const AbilityEffect(powerModifier: 1.5)
+      return move != null && techPower <= kTechnicianMaxPower
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
 
     // --- STAB override ---
     case 'Adaptability':
-      return const AbilityEffect(stabOverride: 2.0);
+      return const AbilityEffect(stabOverride: kAdaptabilityStab);
 
     // --- Force STAB on all moves (type changes to match move) ---
     case 'Protean':
@@ -131,48 +171,48 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Steelworker':
     case 'Steely Spirit':
       return move != null && move.type == PokemonType.steel
-          ? const AbilityEffect(powerModifier: 1.5)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Transistor':
       return move != null && move.type == PokemonType.electric
-          ? const AbilityEffect(powerModifier: 1.3)
+          ? const AbilityEffect(powerModifier: kMediumPowerBoost)
           : _defaultEffect;
     case "Dragon\u2019s Maw":
       return move != null && move.type == PokemonType.dragon
-          ? const AbilityEffect(powerModifier: 1.5)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Rocky Payload':
       return move != null && move.type == PokemonType.rock
-          ? const AbilityEffect(powerModifier: 1.5)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
 
     // --- Weather/Terrain stat modifiers ---
     case 'Solar Power':
       return (weather == Weather.sun || weather == Weather.harshSun)
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(spAttack: 1.5))
+              statModifiers: AbilityStatModifiers(spAttack: kMajorStatBoost))
           : _defaultEffect;
     case 'Sand Force':
       return (weather == Weather.sandstorm && move != null &&
               (move.type == PokemonType.ground ||
                move.type == PokemonType.rock ||
                move.type == PokemonType.steel))
-          ? const AbilityEffect(powerModifier: 1.3)
+          ? const AbilityEffect(powerModifier: kMediumPowerBoost)
           : _defaultEffect;
     case 'Orichalcum Pulse':
       return (weather == Weather.sun || weather == Weather.harshSun)
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: 1.3))
+              statModifiers: AbilityStatModifiers(attack: kMinorStatBoost))
           : _defaultEffect;
     case 'Hadron Engine':
       return terrain == Terrain.electric
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(spAttack: 1.3))
+              statModifiers: AbilityStatModifiers(spAttack: kMinorStatBoost))
           : _defaultEffect;
     case 'Flower Gift':
       return (weather == Weather.sun || weather == Weather.harshSun)
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: 1.5, spDefense: 1.5))
+              statModifiers: AbilityStatModifiers(attack: kMajorStatBoost, spDefense: kMajorStatBoost))
           : _defaultEffect;
 
     // --- Protosynthesis / Quark Drive ---
@@ -191,76 +231,74 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- HP conditional ---
     case 'Blaze':
-      return (hpPercent <= 33 && move != null && move.type == PokemonType.fire)
-          ? const AbilityEffect(powerModifier: 1.5)
+      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.fire)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Overgrow':
-      return (hpPercent <= 33 && move != null && move.type == PokemonType.grass)
-          ? const AbilityEffect(powerModifier: 1.5)
+      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.grass)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Torrent':
-      return (hpPercent <= 33 && move != null && move.type == PokemonType.water)
-          ? const AbilityEffect(powerModifier: 1.5)
+      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.water)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Swarm':
-      return (hpPercent <= 33 && move != null && move.type == PokemonType.bug)
-          ? const AbilityEffect(powerModifier: 1.5)
+      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.bug)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
 
     // --- Other power modifiers ---
     case 'Water Bubble':
       return move != null && move.type == PokemonType.water
-          ? const AbilityEffect(powerModifier: 2.0)
+          ? const AbilityEffect(powerModifier: kDoublePower)
           : _defaultEffect;
     case 'Punk Rock':
       return move != null && move.hasTag(MoveTags.sound)
-          ? const AbilityEffect(powerModifier: 1.3)
+          ? const AbilityEffect(powerModifier: kMediumPowerBoost)
           : _defaultEffect;
     case 'Sheer Force':
       return move != null && move.hasTag(MoveTags.hasSecondary)
-          ? const AbilityEffect(powerModifier: 1.3)
+          ? const AbilityEffect(powerModifier: kMediumPowerBoost)
           : _defaultEffect;
 
     // --- Parental Bond (Mega Kangaskhan) ---
     case 'Parental Bond':
-      // 1.0x + 0.25x = 1.25x total for single-target moves
-      // Does not activate on multi-hit moves
       if (move != null && _isMultiHit(move)) return _defaultEffect;
-      return const AbilityEffect(powerModifier: 1.25);
+      return const AbilityEffect(powerModifier: kParentalBondMultiplier);
 
     // --- Critical override ---
     case 'Sniper':
-      return const AbilityEffect(criticalOverride: 2.25);
+      return const AbilityEffect(criticalOverride: kSniperCritical);
 
     // --- Status conditional ---
     case 'Guts':
       return status != StatusCondition.none
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: 1.5))
+              statModifiers: AbilityStatModifiers(attack: kMajorStatBoost))
           : _defaultEffect;
     case 'Toxic Boost':
       return (status == StatusCondition.poison || status == StatusCondition.badlyPoisoned)
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: 1.5))
+              statModifiers: AbilityStatModifiers(attack: kMajorStatBoost))
           : _defaultEffect;
     case 'Flare Boost':
       return status == StatusCondition.burn
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(spAttack: 1.5))
+              statModifiers: AbilityStatModifiers(spAttack: kMajorStatBoost))
           : _defaultEffect;
 
     // --- HP conditional (stat reduction) ---
     case 'Defeatist':
-      return hpPercent <= 50
+      return hpPercent <= kDefeatistHpThreshold
           ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: 0.5, spAttack: 0.5))
+              statModifiers: AbilityStatModifiers(attack: kHalfStat, spAttack: kHalfStat))
           : _defaultEffect;
 
     // --- Speed conditional ---
     case 'Analytic':
       if (actualStats != null && opponentSpeed != null &&
           actualStats.speed < opponentSpeed) {
-        return const AbilityEffect(powerModifier: 1.3);
+        return const AbilityEffect(powerModifier: kMediumPowerBoost);
       }
       return _defaultEffect;
 
@@ -270,9 +308,9 @@ AbilityEffect getAbilityEffect(String abilityName, {
       final oppHasGender = opponentGender == Gender.male || opponentGender == Gender.female;
       if (hasGender && oppHasGender) {
         if (myGender == opponentGender) {
-          return const AbilityEffect(powerModifier: 1.25);
+          return const AbilityEffect(powerModifier: kRivalrySameGender);
         } else {
-          return const AbilityEffect(powerModifier: 0.75);
+          return const AbilityEffect(powerModifier: kRivalryOppositeGender);
         }
       }
       return _defaultEffect;
@@ -280,31 +318,31 @@ AbilityEffect getAbilityEffect(String abilityName, {
     // --- Speed stat modifiers ---
     case 'Swift Swim':
       return (weather == Weather.rain || weather == Weather.heavyRain)
-          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kWeatherSpeedBoost))
           : _defaultEffect;
     case 'Chlorophyll':
       return (weather == Weather.sun || weather == Weather.harshSun)
-          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kWeatherSpeedBoost))
           : _defaultEffect;
     case 'Sand Rush':
       return weather == Weather.sandstorm
-          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kWeatherSpeedBoost))
           : _defaultEffect;
     case 'Slush Rush':
       return weather == Weather.snow
-          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kWeatherSpeedBoost))
           : _defaultEffect;
     case 'Surge Surfer':
       return terrain == Terrain.electric
-          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kWeatherSpeedBoost))
           : _defaultEffect;
     case 'Quick Feet':
       return status != StatusCondition.none
-          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 1.5))
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kQuickFeetSpeed))
           : _defaultEffect;
     case 'Unburden':
       return heldItem == null
-          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: 2.0))
+          ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kDoubleStatBoost))
           : _defaultEffect;
 
     default:
@@ -465,18 +503,18 @@ AbilityStatModifiers _boostHighestStat(Stats stats) {
 
   final highest = values.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
 
-  // Speed gets 1.5x, others get 1.3x
+  // Speed gets kParadoxSpeedBoost, others get kParadoxStatBoost
   switch (highest) {
     case 'attack':
-      return const AbilityStatModifiers(attack: 1.3);
+      return const AbilityStatModifiers(attack: kParadoxStatBoost);
     case 'defense':
-      return const AbilityStatModifiers(defense: 1.3);
+      return const AbilityStatModifiers(defense: kParadoxStatBoost);
     case 'spAttack':
-      return const AbilityStatModifiers(spAttack: 1.3);
+      return const AbilityStatModifiers(spAttack: kParadoxStatBoost);
     case 'spDefense':
-      return const AbilityStatModifiers(spDefense: 1.3);
+      return const AbilityStatModifiers(spDefense: kParadoxStatBoost);
     case 'speed':
-      return const AbilityStatModifiers(speed: 1.5);
+      return const AbilityStatModifiers(speed: kParadoxSpeedBoost);
     default:
       return const AbilityStatModifiers();
   }
@@ -708,4 +746,36 @@ Rank getEffectiveDefensiveRank({
   }
 
   return (atkMod: atkMod, defMod: defMod, notes: notes);
+}
+
+// ====== Ability-based type changes ======
+
+/// Returns the effective types for a Pokemon considering ability-based
+/// type changes (e.g. Forecast, Protean).
+///
+/// Returns null if the ability doesn't change the type.
+({PokemonType type1, PokemonType? type2})? getAbilityTypeOverride({
+  required String? ability,
+  required String pokemonName,
+  required Weather weather,
+}) {
+  if (ability == null) return null;
+
+  // Forecast: Castform only
+  if (ability == 'Forecast' && pokemonName.toLowerCase().contains('castform')) {
+    switch (weather) {
+      case Weather.sun:
+      case Weather.harshSun:
+        return (type1: PokemonType.fire, type2: null);
+      case Weather.rain:
+      case Weather.heavyRain:
+        return (type1: PokemonType.water, type2: null);
+      case Weather.snow:
+        return (type1: PokemonType.ice, type2: null);
+      default:
+        return (type1: PokemonType.normal, type2: null);
+    }
+  }
+
+  return null;
 }
