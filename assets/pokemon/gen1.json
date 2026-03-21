@@ -69,7 +69,8 @@
     "height": 2.0,
     "type2": "poison",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "canGmax": true
   },
   {
     "dexNumber": 4,
@@ -139,7 +140,8 @@
     "height": 1.7,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "canGmax": true
   },
   {
     "dexNumber": 7,
@@ -208,7 +210,8 @@
     "weight": 85.5,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "canGmax": true
   },
   {
     "dexNumber": 10,
@@ -277,7 +280,8 @@
     "height": 1.1,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "canGmax": true
   },
   {
     "dexNumber": 13,
@@ -590,7 +594,8 @@
     "weight": 6.0,
     "height": 0.4,
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "canGmax": true
   },
   {
     "dexNumber": 26,
@@ -1241,7 +1246,8 @@
     "weight": 4.2,
     "height": 0.4,
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "canGmax": true
   },
   {
     "dexNumber": 53,
@@ -1626,7 +1632,8 @@
     "weight": 130.0,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 2
+    "genderRate": 2,
+    "canGmax": true
   },
   {
     "dexNumber": 69,
@@ -2261,7 +2268,8 @@
     "height": 1.5,
     "type2": "poison",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "canGmax": true
   },
   {
     "dexNumber": 95,
@@ -2382,7 +2390,8 @@
     "weight": 60.0,
     "height": 1.3,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "canGmax": true
   },
   {
     "dexNumber": 100,
@@ -3154,7 +3163,8 @@
     "height": 2.5,
     "type2": "ice",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "canGmax": true
   },
   {
     "dexNumber": 132,
@@ -3201,7 +3211,8 @@
     "weight": 6.5,
     "height": 0.3,
     "finalEvo": false,
-    "genderRate": 1
+    "genderRate": 1,
+    "canGmax": true
   },
   {
     "dexNumber": 134,
@@ -3443,7 +3454,8 @@
     "weight": 460.0,
     "height": 2.1,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "canGmax": true
   },
   {
     "dexNumber": 144,

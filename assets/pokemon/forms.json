@@ -1104,7 +1104,8 @@
     "height": 2.8,
     "finalEvo": true,
     "requiredItem": "rusted-sword",
-    "genderRate": -1
+    "genderRate": -1,
+    "canDynamax": false
   },
   {
     "dexNumber": 889,
@@ -1129,7 +1130,8 @@
     "height": 2.9,
     "finalEvo": true,
     "requiredItem": "rusted-shield",
-    "genderRate": -1
+    "genderRate": -1,
+    "canDynamax": false
   },
   {
     "dexNumber": 892,
@@ -1153,7 +1155,8 @@
     "weight": 105.0,
     "height": 1.9,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "canGmax": true
   },
   {
     "dexNumber": 898,

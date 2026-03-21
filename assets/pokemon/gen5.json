@@ -1825,7 +1825,8 @@
     "weight": 107.3,
     "height": 1.9,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "canGmax": true
   },
   {
     "dexNumber": 570,
