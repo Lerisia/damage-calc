@@ -45,6 +45,7 @@ class OffensiveCalculator {
     bool hasGuts = false,
     double? stabOverride,
     double? criticalOverride,
+    bool forceStab = false,
     int? opponentAttack,
     bool terastallized = false,
     PokemonType? teraType,
@@ -83,7 +84,8 @@ class OffensiveCalculator {
     final int rawStat = transformed.resolveStat(actualStats, opponentAttack: opponentAttack);
     final int modifiedStat = (rawStat * statModifier).floor();
 
-    final bool isOriginalStab = move.type == type1 || move.type == type2;
+    // Protean/Libero: force STAB on all moves, but NOT during Terastal
+    final bool isOriginalStab = (forceStab && !terastallized) || move.type == type1 || move.type == type2;
     final bool isTeraStab = terastallized && teraType != null && move.type == teraType;
 
     // Determine STAB multiplier

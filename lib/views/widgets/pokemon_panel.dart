@@ -230,10 +230,15 @@ class PokemonPanelState extends State<PokemonPanel>
             title: '기타 보정',
             child: Row(
               children: [
+                if (widget.isAttacker)
+                  Expanded(child: _compactCheck('충전', s.charge, (v) {
+                    setState(() { s.charge = v; _notify(); });
+                  }))
+                else
+                  const Expanded(child: SizedBox()),
                 Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
                   setState(() { s.tailwind = v; _notify(); });
                 })),
-                const Expanded(child: SizedBox()),
                 const Expanded(child: SizedBox()),
               ],
             ),

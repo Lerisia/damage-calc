@@ -30,12 +30,15 @@ class AbilityEffect {
   final double powerModifier;
   final double? stabOverride;
   final double? criticalOverride;
+  /// Whether all moves get STAB (Protean, Libero).
+  final bool forceStab;
 
   const AbilityEffect({
     this.statModifiers = const AbilityStatModifiers(),
     this.powerModifier = 1.0,
     this.stabOverride,
     this.criticalOverride,
+    this.forceStab = false,
   });
 }
 
@@ -112,6 +115,11 @@ AbilityEffect getAbilityEffect(String abilityName, {
     // --- STAB override ---
     case 'Adaptability':
       return const AbilityEffect(stabOverride: 2.0);
+
+    // --- Force STAB on all moves (type changes to match move) ---
+    case 'Protean':
+    case 'Libero':
+      return const AbilityEffect(forceStab: true);
 
     // --- Type-based power modifiers ---
     case 'Steelworker':
