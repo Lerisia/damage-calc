@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../data/movedex.dart';
 import '../../models/move.dart';
@@ -85,8 +86,7 @@ class _MoveSelectorState extends State<MoveSelector> {
     return Autocomplete<Move>(
       displayStringForOption: (m) => m.nameKo,
       optionsBuilder: (textEditingValue) {
-        // Skip search while Korean IME is composing to prevent garbled input
-        if (textEditingValue.composing != TextRange.empty) {
+        if (!kIsWeb && textEditingValue.composing != TextRange.empty) {
           return _lastResults ?? _sortedOptions('');
         }
         return _sortedOptions(textEditingValue.text);

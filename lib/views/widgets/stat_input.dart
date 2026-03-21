@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../models/nature.dart';
@@ -383,7 +384,7 @@ class _StatInputState extends State<StatInput> {
       initialValue: TextEditingValue(text: initialText),
       displayStringForOption: (a) => _abilityKo(a),
       optionsBuilder: (textEditingValue) {
-        if (textEditingValue.composing != TextRange.empty) return sorted;
+        if (!kIsWeb && textEditingValue.composing != TextRange.empty) return sorted;
         if (textEditingValue.text.isEmpty ||
             textEditingValue.text == initialText) {
           return sorted;
@@ -428,7 +429,7 @@ class _StatInputState extends State<StatInput> {
       initialValue: TextEditingValue(text: initialText),
       displayStringForOption: (key) => _itemDisplayName(key.isEmpty ? null : key),
       optionsBuilder: (textEditingValue) {
-        if (textEditingValue.composing != TextRange.empty) return allItems;
+        if (!kIsWeb && textEditingValue.composing != TextRange.empty) return allItems;
         if (textEditingValue.text.isEmpty ||
             textEditingValue.text == initialText) {
           return allItems;
