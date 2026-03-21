@@ -3,6 +3,22 @@ import '../models/move_tags.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 
+/// Abilities that negate all weather effects while on the field.
+const _weatherNegatingAbilities = {'Cloud Nine', 'Air Lock'};
+
+/// Returns true if [ability] negates weather effects.
+bool isWeatherNegating(String? ability) =>
+    ability != null && _weatherNegatingAbilities.contains(ability);
+
+/// Returns the effective weather considering weather-negating abilities.
+/// If any provided ability negates weather, returns [Weather.none].
+Weather effectiveWeather(Weather weather, {String? abilityA, String? abilityB}) {
+  if (isWeatherNegating(abilityA) || isWeatherNegating(abilityB)) {
+    return Weather.none;
+  }
+  return weather;
+}
+
 /// Returns the defensive stat modifier for the given [weather] and types.
 ///
 /// Sandstorm: Rock-type SpDef x1.5
