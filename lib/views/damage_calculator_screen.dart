@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../data/abilitydex.dart';
+import '../data/itemdex.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
 import '../utils/damage_calculator.dart';
@@ -95,17 +95,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Future<void> _loadNameMaps() async {
     try {
-      final itemJson = await rootBundle.loadString('assets/items.json');
-      final List<dynamic> items = json.decode(itemJson) as List<dynamic>;
+      final items = await loadItemdex();
+      final abilities = await loadAbilitydex();
       final iMap = <String, String>{};
-      for (final e in items) {
-        iMap[e['name'] as String] = e['nameKo'] as String;
+      for (final e in items.values) {
+        iMap[e.name] = e.nameKo;
       }
-      final abilityJson = await rootBundle.loadString('assets/abilities.json');
-      final List<dynamic> abilities = json.decode(abilityJson) as List<dynamic>;
       final aMap = <String, String>{};
-      for (final e in abilities) {
-        aMap[e['name'] as String] = e['nameKo'] as String;
+      for (final e in abilities.values) {
+        aMap[e.name] = e.nameKo;
       }
       if (mounted) setState(() { _itemNameMap = iMap; _abilityNameMap = aMap; });
     } catch (_) {}
@@ -379,6 +377,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     return BattleFacade.calcBulk(
       state: _defender,
       weather: _weather,
+      terrain: _terrain,
       room: _room,
     );
   }
@@ -446,7 +445,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           const SizedBox(height: 12),
 
           for (int i = 0; i < 4; i++) ...[
-            _buildMoveResult(i),
+            _buildMoveResult(i, bulk),
             if (i < 3) const Divider(height: 28),
           ],
         ],
@@ -454,7 +453,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  Widget _buildMoveResult(int index) {
+  Widget _buildMoveResult(int index, ({int physical, int special}) bulk) {
     final move = _attacker.moves[index];
     if (move == null) {
       return Padding(
@@ -469,7 +468,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final offLabel = result.isPhysical ? '물리' : '특수';
     final defLabel = result.targetPhysDef ? '물리' : '특수';
     final offPower = _getOffensivePower(index);
-    final bulk = _getDefensiveBulk();
     final defBulk = result.targetPhysDef ? bulk.physical : bulk.special;
 
     // Effectiveness label
@@ -656,6 +654,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           'venoshock': '독 상태',
           'brine': 'HP 절반 이하',
           'collision': '효과 좋음',
+          'solar_halve': '비/모래/눈',
+          'grav_apple': '중력',
+          'wake_up_slap': '수면 상태',
+          'smelling_salts': '마비 상태',
+          'barb_barrage': '독 상태',
         };
         final key = parts[1];
         final label = moveKo[key] ?? key;

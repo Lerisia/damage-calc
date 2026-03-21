@@ -249,6 +249,13 @@ AbilityEffect getAbilityEffect(String abilityName, {
               statModifiers: AbilityStatModifiers(spAttack: 1.5))
           : _defaultEffect;
 
+    // --- HP conditional (stat reduction) ---
+    case 'Defeatist':
+      return hpPercent <= 50
+          ? const AbilityEffect(
+              statModifiers: AbilityStatModifiers(attack: 0.5, spAttack: 0.5))
+          : _defaultEffect;
+
     // --- Speed conditional ---
     case 'Analytic':
       if (actualStats != null && opponentSpeed != null &&
@@ -327,6 +334,7 @@ const _defaultDefensiveEffect = DefensiveAbilityEffect();
 DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   StatusCondition status = StatusCondition.none,
   Weather weather = Weather.none,
+  Terrain terrain = Terrain.none,
 }) {
   switch (abilityName) {
     case 'Fur Coat':
@@ -341,6 +349,10 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
     case 'Flower Gift':
       return (weather == Weather.sun || weather == Weather.harshSun)
           ? const DefensiveAbilityEffect(spdModifier: 1.5)
+          : _defaultDefensiveEffect;
+    case 'Grass Pelt':
+      return terrain == Terrain.grassy
+          ? const DefensiveAbilityEffect(defModifier: 1.5)
           : _defaultDefensiveEffect;
     default:
       return _defaultDefensiveEffect;
@@ -503,7 +515,7 @@ const Set<String> ignorableAbilities = {
   // Type immunities (missing from original list)
   'Earth Eater', 'Well-Baked Body',
   // Defensive stat boosts
-  'Marvel Scale', 'Flower Gift',
+  'Marvel Scale', 'Flower Gift', 'Grass Pelt',
   // Crit/accuracy (less relevant but ignorable)
   'Battle Armor', 'Shell Armor',
   'Sand Veil', 'Snow Cloak',

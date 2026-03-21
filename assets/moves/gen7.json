@@ -28,7 +28,11 @@
     "category": "physical",
     "power": 85,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "contact",
+      "custom:ignore_def_rank"
+    ]
   },
   {
     "name": "Spirit Shackle",

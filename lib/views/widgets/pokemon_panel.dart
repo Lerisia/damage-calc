@@ -298,6 +298,7 @@ class PokemonPanelState extends State<PokemonPanel>
     final bulk = BattleFacade.calcBulk(
       state: s,
       weather: widget.weather,
+      terrain: widget.terrain,
       room: widget.room,
     );
 
