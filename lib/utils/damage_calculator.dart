@@ -406,9 +406,9 @@ class DamageCalculator {
       moveType, defType1, defType2,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry));
 
-    // Scrappy: Normal/Fighting moves hit Ghost types
+    // Scrappy / Mind's Eye: Normal/Fighting moves hit Ghost types
     if (effectiveness == 0.0 &&
-        effectiveAbility == 'Scrappy' &&
+        (effectiveAbility == 'Scrappy' || effectiveAbility == "Mind's Eye") &&
         (moveType == PokemonType.normal || moveType == PokemonType.fighting) &&
         (defType1 == PokemonType.ghost || defType2 == PokemonType.ghost)) {
       effectiveness = 1.0;
