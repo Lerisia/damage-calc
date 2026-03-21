@@ -67,6 +67,12 @@ AbilityEffect getAbilityEffect(String abilityName, {
       return const AbilityEffect(
         statModifiers: AbilityStatModifiers(attack: 1.5));
 
+    // --- Normalize: 1.2x to all Normal-type moves (type change is in move_transform) ---
+    case 'Normalize':
+      return move != null && move.type == PokemonType.normal
+          ? const AbilityEffect(powerModifier: 1.2)
+          : _defaultEffect;
+
     // --- Tag-based power modifiers ---
     case 'Tough Claws':
       return move != null && move.hasTag(MoveTags.contact)
