@@ -43,6 +43,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -223,8 +228,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
           // Tab content
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
+            child: IndexedStack(
+              index: _tabController.index,
               children: [
                 PokemonPanel(
                   key: _attackerPanelKey,

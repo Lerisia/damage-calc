@@ -20,8 +20,12 @@ const _allFiles = [
   'assets/pokemon/forms.json',
 ];
 
-/// Loads all Pokemon data from assets/pokemon/*.json
+List<Pokemon>? _cache;
+
+/// Loads all Pokemon data from assets/pokemon/*.json (cached after first load)
 Future<List<Pokemon>> loadPokedex() async {
+  if (_cache != null) return _cache!;
+
   final List<Pokemon> pokedex = [];
 
   for (final file in _allFiles) {
@@ -33,5 +37,6 @@ Future<List<Pokemon>> loadPokedex() async {
     }
   }
 
+  _cache = pokedex;
   return pokedex;
 }

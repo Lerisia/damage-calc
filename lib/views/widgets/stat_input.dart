@@ -136,7 +136,17 @@ class _StatInputState extends State<StatInput> {
     _loadItems();
   }
 
+  static Map<String, String>? _abilityCache;
+  static Map<String, String>? _itemCache;
+
   Future<void> _loadAbilities() async {
+    if (_abilityCache != null) {
+      setState(() {
+        _abilityNameMap = _abilityCache!;
+        _rebuildSortedAbilities();
+      });
+      return;
+    }
     try {
       final jsonString = await rootBundle.loadString('assets/abilities.json');
       final List<dynamic> list = json.decode(jsonString) as List<dynamic>;
@@ -144,6 +154,7 @@ class _StatInputState extends State<StatInput> {
       for (final entry in list) {
         map[entry['name'] as String] = entry['nameKo'] as String;
       }
+      _abilityCache = map;
       setState(() {
         _abilityNameMap = map;
         _rebuildSortedAbilities();
@@ -152,6 +163,10 @@ class _StatInputState extends State<StatInput> {
   }
 
   Future<void> _loadItems() async {
+    if (_itemCache != null) {
+      setState(() { _itemNameMap = _itemCache!; });
+      return;
+    }
     try {
       final jsonString = await rootBundle.loadString('assets/items.json');
       final List<dynamic> list = json.decode(jsonString) as List<dynamic>;
@@ -161,6 +176,7 @@ class _StatInputState extends State<StatInput> {
           map[entry['name'] as String] = entry['nameKo'] as String;
         }
       }
+      _itemCache = map;
       setState(() {
         _itemNameMap = map;
       });
