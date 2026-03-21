@@ -449,4 +449,65 @@ void main() {
       expect(result, equals(3825));
     });
   });
+
+  group('Foul Play', () {
+    const foulPlay = Move(
+      name: 'Foul Play', nameKo: '속임수', nameJa: 'イカサマ',
+      type: PokemonType.dark, category: MoveCategory.physical,
+      power: 95, accuracy: 100, pp: 15,
+      tags: [MoveTags.useOpponentAtk],
+    );
+
+    test('uses opponent attack stat instead of own', () {
+      // Own Atk = 69 (Bulbasaur), but Foul Play uses opponent's attack
+      // opponentAttack = 150, power = 95, Dark STAB 1.5
+      // floor(150 * 95 * 1.5) = 21375
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(foulPlay),
+        type1: PokemonType.dark,
+        opponentAttack: 150,
+      );
+      expect(result, equals(21375));
+    });
+
+    test('falls back to own attack when opponentAttack is null', () {
+      // Atk = 69, power = 95, Dark STAB 1.5 -> floor(69 * 95 * 1.5) = 9832
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(foulPlay),
+        type1: PokemonType.dark,
+      );
+      expect(result, equals(9832));
+    });
+
+    test('STAB applies based on attacker type', () {
+      // Dark-type attacker using Foul Play with STAB
+      // opponentAttack = 100, power = 95, STAB 1.5
+      // floor(100 * 95 * 1.5) = 14250
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(foulPlay),
+        type1: PokemonType.dark,
+        opponentAttack: 100,
+      );
+      expect(result, equals(14250));
+    });
+
+    test('no STAB when attacker is not dark type', () {
+      // Non-dark attacker, opponentAttack = 100, power = 95
+      // 100 * 95 = 9500 (no STAB)
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: Nature.hardy, level: 50,
+        transformed: _transform(foulPlay),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        opponentAttack: 100,
+      );
+      expect(result, equals(9500));
+    });
+  });
 }
