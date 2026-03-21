@@ -225,6 +225,7 @@ const _defaultDefensiveItemEffect = DefensiveItemEffect();
 /// - Assault Vest: SpDef x1.5
 DefensiveItemEffect getDefensiveItemEffect(String itemName, {
   bool finalEvo = true,
+  String? pokemonName,
 }) {
   switch (itemName) {
     case 'eviolite':
@@ -236,6 +237,11 @@ DefensiveItemEffect getDefensiveItemEffect(String itemName, {
           : _defaultDefensiveItemEffect;
     case 'assault-vest':
       return const DefensiveItemEffect(spdModifier: kAssaultVestSpDef);
+    case 'deep-sea-scale':
+      if (pokemonName != null && pokemonName.toLowerCase().contains('clamperl')) {
+        return const DefensiveItemEffect(spdModifier: 2.0);
+      }
+      return _defaultDefensiveItemEffect;
     default:
       return _defaultDefensiveItemEffect;
   }

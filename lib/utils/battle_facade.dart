@@ -323,6 +323,7 @@ class BattleFacade {
   static ({int physical, int special}) calcBulk({
     required BattlePokemonState state,
     required Weather weather,
+    Terrain terrain = Terrain.none,
     required RoomConditions room,
   }) {
     return DefensiveCalculator.calculate(
@@ -337,8 +338,10 @@ class BattleFacade {
       weather: weather,
       ability: state.selectedAbility,
       item: state.selectedAbility == 'Klutz' ? null : state.selectedItem,
+      pokemonName: state.pokemonName,
       finalEvo: state.finalEvo,
       status: state.status,
+      terrain: terrain,
       room: room,
       isDynamaxed: state.dynamax != DynamaxState.none,
     );

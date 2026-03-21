@@ -319,12 +319,12 @@ class DamageCalculator {
     // Defender ability/item defensive modifiers
     if (effectiveDefAbility != null) {
       final defAbility = getDefensiveAbilityEffect(
-        effectiveDefAbility, status: defender.status, weather: weather);
+        effectiveDefAbility, status: defender.status, weather: weather, terrain: terrain);
       D = (D * (targetPhysDef ? defAbility.defModifier : defAbility.spdModifier)).floor();
     }
     if (defender.selectedItem != null) {
       final defItem = getDefensiveItemEffect(
-        defender.selectedItem!, finalEvo: defender.finalEvo);
+        defender.selectedItem!, finalEvo: defender.finalEvo, pokemonName: defender.pokemonName);
       D = (D * (targetPhysDef ? defItem.defModifier : defItem.spdModifier)).floor();
     }
     // Weather defensive (sandstorm rock SpDef, snow ice Def)
@@ -402,9 +402,18 @@ class DamageCalculator {
     }
 
     // --- Type effectiveness ---
-    final effectiveness = getCombinedEffectiveness(
+    var effectiveness = getCombinedEffectiveness(
       moveType, defType1, defType2,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry));
+
+    // Scrappy: Normal/Fighting moves hit Ghost types
+    if (effectiveness == 0.0 &&
+        effectiveAbility == 'Scrappy' &&
+        (moveType == PokemonType.normal || moveType == PokemonType.fighting) &&
+        (defType1 == PokemonType.ghost || defType2 == PokemonType.ghost)) {
+      effectiveness = 1.0;
+      notes.add('ability:Scrappy:고스트에게 적중');
+    }
 
     if (effectiveness == 0.0) {
       return DamageResult(
@@ -413,6 +422,14 @@ class DamageCalculator {
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: ['type:immune'],
       );
+    }
+
+    // Tera Shell: full HP reduces super effective to 0.5x
+    if (defAbilityName == 'Tera Shell' &&
+        defender.hpPercent >= 100 &&
+        effectiveness > 1.0) {
+      effectiveness = 0.5;
+      notes.add('ability:Tera Shell:×0.5');
     }
 
     // Wonder Guard: only super effective moves deal damage
@@ -570,6 +587,42 @@ class DamageCalculator {
         defender.dynamax != DynamaxState.none) {
       movePowerMod *= 2.0;
       notes.add('다이맥스 상대 ×2.0');
+    }
+
+    // Solar Beam / Solar Blade: halved in rain, sandstorm, snow, heavy rain
+    if ((effectiveMove.name == 'Solar Beam' || effectiveMove.name == 'Solar Blade') &&
+        (weather == Weather.rain || weather == Weather.sandstorm ||
+         weather == Weather.snow || weather == Weather.heavyRain)) {
+      movePowerMod *= 0.5;
+      notes.add('move:solar_halve:×0.5');
+    }
+
+    // Grav Apple: boosted under gravity
+    if (effectiveMove.name == 'Grav Apple' && room.gravity) {
+      movePowerMod *= 1.5;
+      notes.add('move:grav_apple:×1.5');
+    }
+
+    // Wake-Up Slap: doubled on sleeping target
+    if (effectiveMove.name == 'Wake-Up Slap' &&
+        defender.status == StatusCondition.sleep) {
+      movePowerMod *= 2.0;
+      notes.add('move:wake_up_slap:×2.0');
+    }
+
+    // Smelling Salts: doubled on paralyzed target
+    if (effectiveMove.name == 'Smelling Salts' &&
+        defender.status == StatusCondition.paralysis) {
+      movePowerMod *= 2.0;
+      notes.add('move:smelling_salts:×2.0');
+    }
+
+    // Barb Barrage: doubled on poisoned target
+    if (effectiveMove.name == 'Barb Barrage' &&
+        (defender.status == StatusCondition.poison ||
+         defender.status == StatusCondition.badlyPoisoned)) {
+      movePowerMod *= 2.0;
+      notes.add('move:barb_barrage:×2.0');
     }
 
     // Terastal minimum power: Tera STAB moves below 60 become 60 (not Stellar)

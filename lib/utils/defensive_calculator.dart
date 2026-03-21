@@ -4,6 +4,7 @@ import '../models/nature.dart';
 import '../models/rank.dart';
 import '../models/type.dart';
 import '../models/status.dart';
+import '../models/terrain.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
 import 'item_effects.dart';
@@ -28,8 +29,10 @@ class DefensiveCalculator {
     Weather weather = Weather.none,
     String? ability,
     String? item,
+    String? pokemonName,
     bool finalEvo = true,
     StatusCondition status = StatusCondition.none,
+    Terrain terrain = Terrain.none,
     RoomConditions room = const RoomConditions(),
     bool isDynamaxed = false,
   }) {
@@ -60,14 +63,14 @@ class DefensiveCalculator {
 
     // Ability (modifies the stat itself)
     if (ability != null) {
-      final abilityEffect = getDefensiveAbilityEffect(ability, status: status, weather: weather);
+      final abilityEffect = getDefensiveAbilityEffect(ability, status: status, weather: weather, terrain: terrain);
       defStatMod *= abilityEffect.defModifier;
       spdStatMod *= abilityEffect.spdModifier;
     }
 
     // Item (modifies the stat itself)
     if (item != null) {
-      final itemEffect = getDefensiveItemEffect(item, finalEvo: finalEvo);
+      final itemEffect = getDefensiveItemEffect(item, finalEvo: finalEvo, pokemonName: pokemonName);
       defStatMod *= itemEffect.defModifier;
       spdStatMod *= itemEffect.spdModifier;
     }
