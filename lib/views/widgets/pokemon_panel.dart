@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
+import '../../models/dynamax.dart';
 import '../../models/gender.dart';
 import '../../models/move.dart';
 import '../../models/room.dart';
@@ -38,6 +39,7 @@ class PokemonPanel extends StatefulWidget {
   final int resetCounter;
   final bool isAttacker;
   final int? opponentSpeed;
+  final bool opponentAlwaysLast;
   final int? opponentAttack;
   final Gender? opponentGender;
 
@@ -52,6 +54,7 @@ class PokemonPanel extends StatefulWidget {
     required this.resetCounter,
     this.isAttacker = true,
     this.opponentSpeed,
+    this.opponentAlwaysLast = false,
     this.opponentAttack,
     this.opponentGender,
   });
@@ -86,6 +89,23 @@ class PokemonPanelState extends State<PokemonPanel>
 
   void _notify() {
     widget.onChanged();
+  }
+
+  int? get myEffectiveSpeed {
+    if (widget.opponentSpeed == null) return null;
+    final stats = StatCalculator.calculate(
+      baseStats: s.baseStats, iv: s.iv, ev: s.ev,
+      nature: s.nature, level: s.level, rank: s.rank,
+    );
+    double spd = stats.speed.toDouble();
+    if (s.selectedAbility != null) {
+      spd *= getSpeedAbilityModifier(s.selectedAbility!,
+          weather: widget.weather, terrain: widget.terrain, status: s.status);
+    }
+    if (s.selectedItem != null) {
+      spd *= getSpeedItemEffect(s.selectedItem!).speedModifier;
+    }
+    return spd.floor();
   }
 
   void _scrollToMoves() {
@@ -129,17 +149,30 @@ class PokemonPanelState extends State<PokemonPanel>
       hasItem: s.selectedItem != null,
       ability: s.selectedAbility,
       status: s.status,
+      dynamax: s.dynamax,
+      pokemonName: s.pokemonName,
+      mySpeed: myEffectiveSpeed,
+      opponentSpeed: widget.opponentSpeed,
     );
     final transformed = transformMove(move, context);
 
-    final itemEffect = s.selectedItem != null
-        ? getItemEffect(s.selectedItem!, move: transformed.move, pokemonName: s.pokemonName)
+    // During Dynamax: Choice items and some abilities are nullified
+    final isDmaxed = s.dynamax != DynamaxState.none;
+    final _dmaxNullItems = {'choice-band', 'choice-specs', 'choice-scarf'};
+    final effectiveItem = (isDmaxed && _dmaxNullItems.contains(s.selectedItem))
+        ? null : s.selectedItem;
+    final itemEffect = effectiveItem != null
+        ? getItemEffect(effectiveItem, move: transformed.move, pokemonName: s.pokemonName)
         : const ItemEffect();
-    final abilityEffect = s.selectedAbility != null
-        ? getAbilityEffect(s.selectedAbility!, move: transformed.move,
+    // During Dynamax: Gorilla Tactics and Sheer Force are nullified
+    const _dmaxNullAbilities = {'Gorilla Tactics', 'Sheer Force'};
+    final effectiveAbility = (isDmaxed && _dmaxNullAbilities.contains(s.selectedAbility))
+        ? null : s.selectedAbility;
+    final abilityEffect = effectiveAbility != null
+        ? getAbilityEffect(effectiveAbility, move: transformed.move,
             hpPercent: s.hpPercent, weather: widget.weather,
             terrain: widget.terrain, status: s.status,
-            heldItem: s.selectedItem,
+            heldItem: effectiveItem,
             opponentSpeed: widget.opponentSpeed,
             myGender: s.gender,
             opponentGender: widget.opponentGender ?? Gender.unset,
@@ -231,28 +264,31 @@ class PokemonPanelState extends State<PokemonPanel>
             Expanded(child: PokemonSelector(
               key: ValueKey('pokemon_${widget.resetCounter}_${s.pokemonName}'),
               initialPokemonName: s.pokemonName,
-              onSelected: (name, type1, type2, baseStats, abilities, finalEvo, requiredItem, genderRate) {
+              onSelected: (pokemon) {
                 setState(() {
-                  s.pokemonName = name;
-                  s.finalEvo = finalEvo;
-                  s.genderRate = genderRate;
-                  if (genderRate == -1) {
+                  s.pokemonName = pokemon.name;
+                  s.finalEvo = pokemon.finalEvo;
+                  s.canDynamax = pokemon.canDynamax;
+                  s.canGmax = pokemon.canGmax;
+                  s.dynamax = DynamaxState.none;
+                  s.genderRate = pokemon.genderRate;
+                  if (pokemon.genderRate == -1) {
                     s.gender = Gender.genderless;
-                  } else if (genderRate == 0) {
+                  } else if (pokemon.genderRate == 0) {
                     s.gender = Gender.male;
-                  } else if (genderRate == 8) {
+                  } else if (pokemon.genderRate == 8) {
                     s.gender = Gender.female;
                   } else {
                     s.gender = Gender.unset;
                   }
-                  s.type1 = type1;
-                  s.type2 = type2;
-                  s.baseStats = baseStats;
-                  s.pokemonAbilities = abilities;
+                  s.type1 = pokemon.type1;
+                  s.type2 = pokemon.type2;
+                  s.baseStats = pokemon.baseStats;
+                  s.pokemonAbilities = pokemon.abilities;
                   s.selectedAbility =
-                      abilities.isNotEmpty ? abilities.first : null;
-                  if (requiredItem != null) {
-                    s.selectedItem = requiredItem;
+                      pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
+                  if (pokemon.requiredItem != null) {
+                    s.selectedItem = pokemon.requiredItem;
                   }
                 });
                 _notify();
@@ -260,6 +296,8 @@ class PokemonPanelState extends State<PokemonPanel>
             )),
             const SizedBox(width: 8),
             _genderIcon(),
+            const SizedBox(width: 4),
+            _dynamaxIcon(),
           ]),),
           const SizedBox(height: 12),
 
@@ -286,6 +324,7 @@ class PokemonPanelState extends State<PokemonPanel>
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notify(); }),
               onRankChanged: (v) => setState(() { s.rank = v; _notify(); }),
               opponentSpeed: widget.opponentSpeed,
+              opponentAlwaysLast: widget.opponentAlwaysLast,
               weather: widget.weather,
               terrain: widget.terrain,
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notify(); }),
@@ -464,6 +503,7 @@ class PokemonPanelState extends State<PokemonPanel>
     final move = s.moves[index];
     var effectiveType = s.typeOverrides[index] ?? move?.type;
     final effectiveCategory = s.categoryOverrides[index] ?? move?.category;
+    String? displayName = move?.nameKo;
     final int basePower;
     if (move != null) {
       final ctx = MoveContext(
@@ -474,10 +514,15 @@ class PokemonPanelState extends State<PokemonPanel>
         hasItem: s.selectedItem != null,
         ability: s.selectedAbility,
         status: s.status,
+        dynamax: s.dynamax,
+        pokemonName: s.pokemonName,
+        mySpeed: myEffectiveSpeed,
+        opponentSpeed: widget.opponentSpeed,
       );
       final transformed = transformMove(move, ctx);
       basePower = transformed.move.power;
       effectiveType = s.typeOverrides[index] ?? transformed.move.type;
+      displayName = transformed.move.nameKo;
     } else {
       basePower = 0;
     }
@@ -495,8 +540,9 @@ class PokemonPanelState extends State<PokemonPanel>
           Expanded(
             flex: 3,
             child: MoveSelector(
-              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}'),
+              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
               initialMoveName: s.moves[index]?.name,
+              displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
               onTap: _scrollToMoves,
               onSelected: (m) => setState(() {
                 s.moves[index] = m;
@@ -676,6 +722,75 @@ class PokemonPanelState extends State<PokemonPanel>
         _notify();
       },
       child: Text(label, style: TextStyle(fontSize: 22, color: color)),
+    );
+  }
+
+  Widget _dynamaxIcon() {
+    if (!s.canDynamax) {
+      return const SizedBox(width: 24);
+    }
+
+    String label;
+    Color color;
+    switch (s.dynamax) {
+      case DynamaxState.none:
+        label = '🔴';
+        color = Colors.grey.shade400;
+        break;
+      case DynamaxState.dynamax:
+        label = '🔴';
+        color = Colors.red;
+        break;
+      case DynamaxState.gigantamax:
+        label = '🔴';
+        color = Colors.deepOrange;
+        break;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          switch (s.dynamax) {
+            case DynamaxState.none:
+              s.dynamax = DynamaxState.dynamax;
+              break;
+            case DynamaxState.dynamax:
+              if (s.canGmax) {
+                s.dynamax = DynamaxState.gigantamax;
+              } else {
+                s.dynamax = DynamaxState.none;
+              }
+              break;
+            case DynamaxState.gigantamax:
+              s.dynamax = DynamaxState.none;
+              break;
+          }
+        });
+        _notify();
+      },
+      child: Container(
+        width: 24,
+        height: 24,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: s.dynamax != DynamaxState.none ? Colors.red.shade100 : Colors.transparent,
+          border: Border.all(
+            color: s.dynamax != DynamaxState.none ? Colors.red : Colors.grey.shade400,
+            width: s.dynamax != DynamaxState.none ? 2 : 1,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            s.dynamax == DynamaxState.gigantamax ? 'G' :
+            s.dynamax == DynamaxState.dynamax ? 'D' : '',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: s.dynamax != DynamaxState.none ? Colors.red.shade800 : Colors.grey,
+            ),
+          ),
+        ),
+      ),
     );
   }
 

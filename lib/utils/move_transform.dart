@@ -33,6 +33,9 @@ class MoveContext {
   final DynamaxState dynamax;
   final String? pokemonName; // for G-Max move lookup
 
+  final int? mySpeed;
+  final int? opponentSpeed;
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
@@ -43,6 +46,8 @@ class MoveContext {
     this.status = StatusCondition.none,
     this.dynamax = DynamaxState.none,
     this.pokemonName,
+    this.mySpeed,
+    this.opponentSpeed,
   });
 }
 
@@ -92,6 +97,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
   move = _applyItemCondition(move, context.hasItem);
   move = _applyHpPower(move, context.hpPercent);
   move = _applyStatusPower(move, context.status);
+  move = _applySpeedPower(move, context.mySpeed, context.opponentSpeed);
 
   // 4. Field-based power boosts
   move = _applyTerrainPowerBoost(move, context.terrain);
@@ -223,6 +229,37 @@ Move _applyStatusPower(Move move, StatusCondition status) {
   return move;
 }
 
+/// Speed-based power: Gyro Ball, Electro Ball.
+Move _applySpeedPower(Move move, int? mySpeed, int? opponentSpeed) {
+  if (mySpeed == null || opponentSpeed == null || mySpeed <= 0 || opponentSpeed <= 0) {
+    return move;
+  }
+
+  // Gyro Ball: min(150, floor(25 * opponent / self) + 1)
+  if (move.hasTag(MoveTags.gyroSpeed)) {
+    final power = math.min(150, (25 * opponentSpeed / mySpeed).floor() + 1);
+    return move.copyWith(power: math.max(1, power));
+  }
+
+  // Electro Ball: power based on speed ratio (self / opponent)
+  if (move.hasTag(MoveTags.electroSpeed)) {
+    final ratio = mySpeed / opponentSpeed;
+    final int power;
+    if (ratio >= 4) {
+      power = 150;
+    } else if (ratio >= 3) {
+      power = 120;
+    } else if (ratio >= 2) {
+      power = 80;
+    } else {
+      power = 60;
+    }
+    return move.copyWith(power: power);
+  }
+
+  return move;
+}
+
 /// Terrain-based power boosts: Rising Voltage, Expanding Force, Misty Explosion.
 Move _applyTerrainPowerBoost(Move move, Terrain terrain) {
   if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric) {
@@ -290,16 +327,16 @@ const Map<PokemonType, String> _maxMoveNamesKo = {
   PokemonType.ground: '다이어스',
   PokemonType.rock: '다이록',
   PokemonType.bug: '다이웜',
-  PokemonType.ghost: '다이홀',
+  PokemonType.ghost: '다이할로우',
   PokemonType.steel: '다이스틸',
   PokemonType.fire: '다이번',
   PokemonType.water: '다이스트림',
-  PokemonType.grass: '다이소드',
+  PokemonType.grass: '다이그래스',
   PokemonType.electric: '다이썬더',
   PokemonType.psychic: '다이사이코',
   PokemonType.ice: '다이아이스',
-  PokemonType.dragon: '다이드래군',
-  PokemonType.dark: '다이악',
+  PokemonType.dragon: '다이드라군',
+  PokemonType.dark: '다이아크',
   PokemonType.fairy: '다이페어리',
 };
 
@@ -316,36 +353,36 @@ class _GmaxMove {
 }
 
 const Map<String, _GmaxMove> _gmaxMoves = {
-  'charizard': _GmaxMove('G-Max Wildfire', '거다이끝불', PokemonType.fire),
-  'butterfree': _GmaxMove('G-Max Befuddle', '거다이고분', PokemonType.bug),
+  'charizard': _GmaxMove('G-Max Wildfire', '거다이옥염', PokemonType.fire),
+  'butterfree': _GmaxMove('G-Max Befuddle', '거다이고혹', PokemonType.bug),
   'pikachu': _GmaxMove('G-Max Volt Crash', '거다이만뢰', PokemonType.electric),
-  'meowth': _GmaxMove('G-Max Gold Rush', '거다이코방', PokemonType.normal),
-  'machamp': _GmaxMove('G-Max Chi Strike', '거다이강권', PokemonType.fighting),
-  'gengar': _GmaxMove('G-Max Terror', '거다이겐에이', PokemonType.ghost),
-  'kingler': _GmaxMove('G-Max Foam Burst', '거다이거품', PokemonType.water),
-  'lapras': _GmaxMove('G-Max Resonance', '거다이공명', PokemonType.ice),
+  'meowth': _GmaxMove('G-Max Gold Rush', '거다이금화', PokemonType.normal),
+  'machamp': _GmaxMove('G-Max Chi Strike', '거다이회심격', PokemonType.fighting),
+  'gengar': _GmaxMove('G-Max Terror', '거다이환영', PokemonType.ghost),
+  'kingler': _GmaxMove('G-Max Foam Burst', '거다이포말', PokemonType.water),
+  'lapras': _GmaxMove('G-Max Resonance', '거다이선율', PokemonType.ice),
   'eevee': _GmaxMove('G-Max Cuddle', '거다이포옹', PokemonType.normal),
-  'snorlax': _GmaxMove('G-Max Replenish', '거다이재활용', PokemonType.normal),
+  'snorlax': _GmaxMove('G-Max Replenish', '거다이재생', PokemonType.normal),
   'garbodor': _GmaxMove('G-Max Malodor', '거다이악취', PokemonType.poison),
-  'melmetal': _GmaxMove('G-Max Meltdown', '거다이용단', PokemonType.steel),
-  'corviknight': _GmaxMove('G-Max Wind Rage', '거다이선풍', PokemonType.flying),
-  'orbeetle': _GmaxMove('G-Max Gravitas', '거다이천문', PokemonType.psychic),
-  'drednaw': _GmaxMove('G-Max Stonesurge', '거다이간여울', PokemonType.water),
+  'melmetal': _GmaxMove('G-Max Meltdown', '거다이융격', PokemonType.steel),
+  'corviknight': _GmaxMove('G-Max Wind Rage', '거다이풍격', PokemonType.flying),
+  'orbeetle': _GmaxMove('G-Max Gravitas', '거다이천도', PokemonType.psychic),
+  'drednaw': _GmaxMove('G-Max Stonesurge', '거다이암진', PokemonType.water),
   'coalossal': _GmaxMove('G-Max Volcalith', '거다이분석', PokemonType.rock),
-  'flapple': _GmaxMove('G-Max Tartness', '거다이산미', PokemonType.grass),
-  'appletun': _GmaxMove('G-Max Sweetness', '거다이감미', PokemonType.grass),
+  'flapple': _GmaxMove('G-Max Tartness', '거다이산격', PokemonType.grass),
+  'appletun': _GmaxMove('G-Max Sweetness', '거다이감로', PokemonType.grass),
   'sandaconda': _GmaxMove('G-Max Sand Blast', '거다이사진', PokemonType.ground),
   'toxtricity': _GmaxMove('G-Max Stun Shock', '거다이감전', PokemonType.electric),
-  'centiskorch': _GmaxMove('G-Max Centiferno', '거다이화장', PokemonType.fire),
+  'centiskorch': _GmaxMove('G-Max Centiferno', '거다이백화', PokemonType.fire),
   'hatterene': _GmaxMove('G-Max Smite', '거다이천벌', PokemonType.fairy),
-  'grimmsnarl': _GmaxMove('G-Max Snooze', '거다이수면', PokemonType.dark),
-  'alcremie': _GmaxMove('G-Max Finale', '거다이단미', PokemonType.fairy),
+  'grimmsnarl': _GmaxMove('G-Max Snooze', '거다이수마', PokemonType.dark),
+  'alcremie': _GmaxMove('G-Max Finale', '거다이단원', PokemonType.fairy),
   'copperajah': _GmaxMove('G-Max Steelsurge', '거다이강진', PokemonType.steel),
-  'duraludon': _GmaxMove('G-Max Depletion', '거다이감퇴', PokemonType.dragon),
-  'venusaur': _GmaxMove('G-Max Vine Lash', '거다이밀림', PokemonType.grass, 160),
+  'duraludon': _GmaxMove('G-Max Depletion', '거다이감쇠', PokemonType.dragon),
+  'venusaur': _GmaxMove('G-Max Vine Lash', '거다이편달', PokemonType.grass, 160),
   'blastoise': _GmaxMove('G-Max Cannonade', '거다이포격', PokemonType.water, 160),
-  'rillaboom': _GmaxMove('G-Max Drum Solo', '거다이연주', PokemonType.grass, 160),
-  'cinderace': _GmaxMove('G-Max Fireball', '거다이화구', PokemonType.fire, 160),
+  'rillaboom': _GmaxMove('G-Max Drum Solo', '거다이난타', PokemonType.grass, 160),
+  'cinderace': _GmaxMove('G-Max Fireball', '거다이화염구', PokemonType.fire, 160),
   'inteleon': _GmaxMove('G-Max Hydrosnipe', '거다이저격', PokemonType.water, 160),
   'urshifu-single-strike': _GmaxMove('G-Max One Blow', '거다이일격', PokemonType.dark),
   'urshifu-rapid-strike': _GmaxMove('G-Max Rapid Flow', '거다이연격', PokemonType.water),

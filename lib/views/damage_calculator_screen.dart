@@ -63,6 +63,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     return speed.floor();
   }
 
+  bool _isAlwaysLast(BattlePokemonState s) {
+    if (s.selectedItem == null) return false;
+    return getSpeedItemEffect(s.selectedItem!).alwaysLast;
+  }
 
   @override
   void initState() {
@@ -267,6 +271,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   onChanged: () => setState(() {}),
                   resetCounter: _resetCounter,
                   opponentSpeed: _calcEffectiveSpeed(_defender),
+                  opponentAlwaysLast: _isAlwaysLast(_defender),
                   opponentAttack: _calcStats(_defender).attack,
                   opponentGender: _defender.gender,
                 ),
@@ -281,6 +286,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   resetCounter: _resetCounter,
                   isAttacker: false,
                   opponentSpeed: _calcEffectiveSpeed(_attacker),
+                  opponentAlwaysLast: _isAlwaysLast(_attacker),
                   opponentAttack: _calcStats(_attacker).attack,
                   opponentGender: _attacker.gender,
                 ),

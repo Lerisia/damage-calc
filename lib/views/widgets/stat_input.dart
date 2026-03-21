@@ -89,11 +89,13 @@ class StatInput extends StatefulWidget {
     required this.onHpPercentChanged,
     required this.onStatusChanged,
     this.opponentSpeed,
+    this.opponentAlwaysLast = false,
     this.weather = Weather.none,
     this.terrain = Terrain.none,
   });
 
   final int? opponentSpeed;
+  final bool opponentAlwaysLast;
   final Weather weather;
   final Terrain terrain;
 
@@ -486,8 +488,17 @@ class _StatInputState extends State<StatInput> {
     String speedText = '';
     Color speedColor = Colors.grey;
     if (widget.opponentSpeed != null) {
+      // Check for always-last items (Lagging Tail, Full Incense)
+      final bool alwaysLast = widget.selectedItem != null &&
+          getSpeedItemEffect(widget.selectedItem!).alwaysLast;
       final opp = widget.opponentSpeed!;
-      if (mySpeed > opp) {
+      if (alwaysLast && !widget.opponentAlwaysLast) {
+        speedText = '확정 후공';
+        speedColor = Colors.red;
+      } else if (!alwaysLast && widget.opponentAlwaysLast) {
+        speedText = '확정 선공';
+        speedColor = Colors.green;
+      } else if (mySpeed > opp) {
         speedText = '상대보다 빠름 ▲';
         speedColor = Colors.green;
       } else if (mySpeed < opp) {

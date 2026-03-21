@@ -802,7 +802,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "ball"
+      "ball",
+      "custom:electro_speed"
     ]
   },
   {

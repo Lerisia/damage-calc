@@ -625,4 +625,76 @@ void main() {
       expect(result.move.power, equals(100));
     });
   });
+
+  group('Speed-based power', () {
+    const gyroBall = Move(
+      name: 'Gyro Ball', nameKo: '자이로볼', nameJa: 'ジャイロボール',
+      type: PokemonType.steel, category: MoveCategory.physical,
+      power: 0, accuracy: 100, pp: 5,
+      tags: [MoveTags.contact, 'ball', MoveTags.gyroSpeed],
+    );
+
+    const electroBall = Move(
+      name: 'Electro Ball', nameKo: '일렉트릭볼', nameJa: 'エレキボール',
+      type: PokemonType.electric, category: MoveCategory.special,
+      power: 0, accuracy: 100, pp: 10,
+      tags: ['ball', MoveTags.electroSpeed],
+    );
+
+    test('Gyro Ball: slow user vs fast target = high power', () {
+      // 25 * 200 / 50 + 1 = 101
+      final result = transformMove(gyroBall,
+          const MoveContext(mySpeed: 50, opponentSpeed: 200));
+      expect(result.move.power, equals(101));
+    });
+
+    test('Gyro Ball: caps at 150', () {
+      // 25 * 300 / 10 + 1 = 751 -> capped to 150
+      final result = transformMove(gyroBall,
+          const MoveContext(mySpeed: 10, opponentSpeed: 300));
+      expect(result.move.power, equals(150));
+    });
+
+    test('Gyro Ball: same speed = low power', () {
+      // 25 * 100 / 100 + 1 = 26
+      final result = transformMove(gyroBall,
+          const MoveContext(mySpeed: 100, opponentSpeed: 100));
+      expect(result.move.power, equals(26));
+    });
+
+    test('Gyro Ball: no speed data keeps original power', () {
+      final result = transformMove(gyroBall, const MoveContext());
+      expect(result.move.power, equals(0));
+    });
+
+    test('Electro Ball: 4x faster = 150 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 400, opponentSpeed: 100));
+      expect(result.move.power, equals(150));
+    });
+
+    test('Electro Ball: 3x faster = 120 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 300, opponentSpeed: 100));
+      expect(result.move.power, equals(120));
+    });
+
+    test('Electro Ball: 2x faster = 80 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 200, opponentSpeed: 100));
+      expect(result.move.power, equals(80));
+    });
+
+    test('Electro Ball: less than 2x faster = 60 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 150, opponentSpeed: 100));
+      expect(result.move.power, equals(60));
+    });
+
+    test('Electro Ball: same speed = 60 power', () {
+      final result = transformMove(electroBall,
+          const MoveContext(mySpeed: 100, opponentSpeed: 100));
+      expect(result.move.power, equals(60));
+    });
+  });
 }

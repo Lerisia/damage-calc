@@ -26,4 +26,6 @@ class MoveTags {
   static const String rankPower = 'custom:rank_power';
   static const String sunBoost = 'custom:sun_boost';
   static const String useOpponentAtk = 'custom:use_opponent_atk';
+  static const String gyroSpeed = 'custom:gyro_speed';
+  static const String electroSpeed = 'custom:electro_speed';
 }
