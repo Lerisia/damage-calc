@@ -207,7 +207,18 @@ class PokemonPanelState extends State<PokemonPanel>
                 _notifyParent();
               },
             )),
-            const SizedBox(width: 8),
+            const SizedBox(width: 4),
+            _typeBadge(s.type1),
+            if (s.type2 != null) ...[
+              const SizedBox(width: 2),
+              _typeBadge(s.type2!),
+            ],
+            if (s.terastal.active && s.terastal.teraType != null) ...[
+              const Padding(padding: EdgeInsets.symmetric(horizontal: 2),
+                child: Text('→', style: TextStyle(fontSize: 10, color: Colors.grey))),
+              _typeBadge(s.terastal.teraType!, isTera: true),
+            ],
+            const SizedBox(width: 4),
             _genderIcon(),
             const SizedBox(width: 4),
             _dynamaxIcon(),
@@ -540,6 +551,22 @@ class PokemonPanelState extends State<PokemonPanel>
             )),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _typeBadge(PokemonType type, {bool isTera = false}) {
+    final color = KoStrings.getTypeColor(type);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(4),
+        border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
+      ),
+      child: Text(
+        KoStrings.getTypeKo(type),
+        style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
