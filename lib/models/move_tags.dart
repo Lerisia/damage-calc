@@ -47,4 +47,6 @@ class MoveTags {
   static const String doubleOnStatus = 'custom:double_on_status';
   static const String doubleOnPoison = 'custom:double_on_poison';
   static const String doubleOnHalfHp = 'custom:double_on_half_hp';
+  static const String flyingPress = 'custom:flying_press';
+  static const String thousandArrows = 'custom:thousand_arrows';
 }

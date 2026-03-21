@@ -481,8 +481,8 @@ class DamageCalculator {
       }
     }
 
-    // Ground immunity (non-grounded)
-    if (moveType == PokemonType.ground) {
+    // Ground immunity (non-grounded) — Thousand Arrows bypasses this
+    if (moveType == PokemonType.ground && !effectiveMove.hasTag(MoveTags.thousandArrows)) {
       final defGrounded = isGrounded(
         type1: defEffType1, type2: defEffType2,
         ability: defAbilityName, item: defender.selectedItem,
@@ -516,7 +516,8 @@ class DamageCalculator {
     // --- Type effectiveness ---
     var effectiveness = getCombinedEffectiveness(
       moveType, defType1, defType2,
-      freezeDry: effectiveMove.hasTag(MoveTags.freezeDry));
+      freezeDry: effectiveMove.hasTag(MoveTags.freezeDry),
+      flyingPress: effectiveMove.hasTag(MoveTags.flyingPress));
 
     // Strong Winds (Delta Stream): removes Flying-type weaknesses
     // Ice/Electric/Rock vs Flying becomes 1x instead of 2x
