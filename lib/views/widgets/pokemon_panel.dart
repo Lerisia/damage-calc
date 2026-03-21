@@ -557,6 +557,8 @@ class PokemonPanelState extends State<PokemonPanel>
         status: s.status,
         dynamax: s.dynamax,
         pokemonName: s.pokemonName,
+        terastallized: s.terastal.active,
+        teraType: s.terastal.teraType,
         mySpeed: myEffectiveSpeed,
         opponentSpeed: widget.opponentSpeed,
       );
