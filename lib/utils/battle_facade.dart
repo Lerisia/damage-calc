@@ -18,6 +18,7 @@ import 'offensive_calculator.dart';
 import 'defensive_calculator.dart';
 import 'speed_calculator.dart';
 import 'stat_calculator.dart';
+import 'weather_effects.dart';
 
 /// Items nullified during Dynamax.
 const dmaxNullItems = {'choice-band', 'choice-specs', 'choice-scarf'};
@@ -98,12 +99,15 @@ class BattleFacade {
       level: state.level,
       rank: state.rank,
     );
+    // Cloud Nine / Air Lock negates weather for speed abilities
+    final effWeather = isWeatherNegating(state.selectedAbility)
+        ? Weather.none : weather;
     return calcEffectiveSpeed(
       baseSpeed: stats.speed,
       ability: state.selectedAbility,
       item: state.selectedItem,
       status: state.status,
-      weather: weather,
+      weather: effWeather,
       terrain: terrain,
       isDynamaxed: state.dynamax != DynamaxState.none,
       tailwind: state.tailwind,
@@ -237,6 +241,9 @@ class BattleFacade {
       category: categoryOverride,
     );
 
+    // Cloud Nine / Air Lock negates weather effects
+    if (isWeatherNegating(state.selectedAbility)) weather = Weather.none;
+
     // Compute base stats once — reused by MoveContext and ability effects.
     final baseStats = _baseActualStats(state);
 
@@ -337,6 +344,9 @@ class BattleFacade {
     Terrain terrain = Terrain.none,
     required RoomConditions room,
   }) {
+    // Cloud Nine / Air Lock negates weather effects
+    final effWeather = isWeatherNegating(state.selectedAbility)
+        ? Weather.none : weather;
     return DefensiveCalculator.calculate(
       baseStats: state.baseStats,
       iv: state.iv,
@@ -346,7 +356,7 @@ class BattleFacade {
       type1: state.type1,
       type2: state.type2,
       rank: state.rank,
-      weather: weather,
+      weather: effWeather,
       ability: state.selectedAbility,
       item: state.selectedAbility == 'Klutz' ? null : state.selectedItem,
       pokemonName: state.pokemonName,

@@ -191,6 +191,17 @@ class DamageCalculator {
       return DamageResult.empty;
     }
 
+    // Cloud Nine / Air Lock: negate weather if either side has the ability
+    final List<String> weatherNotes = [];
+    final originalWeather = weather;
+    weather = effectiveWeather(weather,
+        abilityA: attacker.selectedAbility, abilityB: defender.selectedAbility);
+    if (weather != originalWeather) {
+      weatherNotes.add(isWeatherNegating(attacker.selectedAbility)
+          ? 'ability:${attacker.selectedAbility}:날씨부정'
+          : 'ability:${defender.selectedAbility}:날씨부정');
+    }
+
     // --- Fixed damage moves (bypass normal formula entirely) ---
     if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp)) {
       return _calcFixedDamage(
@@ -384,6 +395,7 @@ class DamageCalculator {
     final defAbilityName = effectiveDefAbility;
     final moveType = effectiveMove.type;
     final notes = <String>[];
+    notes.addAll(weatherNotes);
     if (moldBreaks) notes.add('moldbreaker:${attacker.selectedAbility}');
     notes.addAll(ruin.notes);
 
