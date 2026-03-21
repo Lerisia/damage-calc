@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:damage_calc/models/gender.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/stats.dart';
@@ -806,6 +807,68 @@ void main() {
               spAttack: 100, spDefense: 100, speed: 100),
           opponentSpeed: 100);
       expect(effect.powerModifier, equals(1.0));
+    });
+  });
+
+  group('Rivalry', () {
+    test('same gender boosts power by 1.25x', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.male, opponentGender: Gender.male);
+      expect(effect.powerModifier, equals(1.25));
+    });
+
+    test('same gender female-female boosts by 1.25x', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.female, opponentGender: Gender.female);
+      expect(effect.powerModifier, equals(1.25));
+    });
+
+    test('different gender reduces power to 0.75x', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.male, opponentGender: Gender.female);
+      expect(effect.powerModifier, equals(0.75));
+    });
+
+    test('different gender female-male reduces to 0.75x', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.female, opponentGender: Gender.male);
+      expect(effect.powerModifier, equals(0.75));
+    });
+
+    test('no effect when attacker is genderless', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.genderless, opponentGender: Gender.male);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('no effect when defender is genderless', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.male, opponentGender: Gender.genderless);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('no effect when both are genderless', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.genderless, opponentGender: Gender.genderless);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('no effect when attacker gender is unset', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.unset, opponentGender: Gender.male);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('no effect when defender gender is unset', () {
+      final effect = getAbilityEffect('Rivalry', move: physicalNormal,
+        myGender: Gender.female, opponentGender: Gender.unset);
+      expect(effect.powerModifier, equals(1.0));
+    });
+
+    test('works with special moves too', () {
+      final effect = getAbilityEffect('Rivalry', move: specialFire,
+        myGender: Gender.male, opponentGender: Gender.male);
+      expect(effect.powerModifier, equals(1.25));
     });
   });
 
