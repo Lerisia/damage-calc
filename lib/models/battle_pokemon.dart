@@ -1,5 +1,6 @@
 import 'dynamax.dart';
 import 'gender.dart';
+import 'terastal.dart';
 import 'move.dart';
 import 'nature.dart';
 import 'rank.dart';
@@ -29,6 +30,7 @@ class BattlePokemonState {
   List<bool> criticals;
   String? selectedItem;
   DynamaxState dynamax;
+  TerastalState terastal;
   bool canDynamax;
   bool canGmax;
   Rank rank;
@@ -69,6 +71,7 @@ class BattlePokemonState {
     List<bool>? criticals,
     this.selectedItem,
     this.dynamax = DynamaxState.none,
+    this.terastal = const TerastalState(),
     this.canDynamax = true,
     this.canGmax = false,
     this.rank = const Rank(),
@@ -127,6 +130,7 @@ class BattlePokemonState {
     criticals = [false, false, false, false];
     selectedItem = null;
     dynamax = DynamaxState.none;
+    terastal = const TerastalState();
     canDynamax = true;
     canGmax = false;
     rank = const Rank();

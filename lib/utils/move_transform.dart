@@ -33,6 +33,9 @@ class MoveContext {
   final DynamaxState dynamax;
   final String? pokemonName; // for G-Max move lookup
 
+  final bool terastallized;
+  final PokemonType? teraType;
+
   final int? mySpeed;
   final int? opponentSpeed;
 
@@ -46,6 +49,8 @@ class MoveContext {
     this.status = StatusCondition.none,
     this.dynamax = DynamaxState.none,
     this.pokemonName,
+    this.terastallized = false,
+    this.teraType,
     this.mySpeed,
     this.opponentSpeed,
   });
@@ -92,6 +97,11 @@ TransformedMove transformMove(Move move, MoveContext context) {
 
   // 2. Ability type transforms (only if still Normal after step 1)
   move = _applySkin(move, context.ability);
+
+  // 2.5. Tera Blast: change type to tera type when terastallized
+  if (context.terastallized && context.teraType != null && move.name == 'Tera Blast') {
+    move = move.copyWith(type: context.teraType);
+  }
 
   // 3. Conditional power changes
   move = _applyItemCondition(move, context.hasItem);

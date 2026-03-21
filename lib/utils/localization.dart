@@ -28,6 +28,7 @@ class KoStrings {
     PokemonType.dark: '악',
     PokemonType.steel: '강철',
     PokemonType.fairy: '페어리',
+    PokemonType.stellar: '스텔라',
   };
 
   static const Map<MoveCategory, String> categoryKo = {

@@ -793,27 +793,19 @@ class PokemonPanelState extends State<PokemonPanel>
         });
         _notify();
       },
-      child: Container(
+      child: SizedBox(
         width: 24,
         height: 24,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: s.dynamax != DynamaxState.none ? Colors.red.shade100 : Colors.transparent,
-          border: Border.all(
-            color: s.dynamax != DynamaxState.none ? Colors.red : Colors.grey.shade400,
-            width: s.dynamax != DynamaxState.none ? 2 : 1,
-          ),
-        ),
         child: Center(
-          child: Text(
-            s.dynamax == DynamaxState.gigantamax ? 'G' :
-            s.dynamax == DynamaxState.dynamax ? 'D' : '',
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: s.dynamax != DynamaxState.none ? Colors.red.shade800 : Colors.grey,
-            ),
-          ),
+          child: s.dynamax != DynamaxState.none
+            ? Text(
+                s.dynamax == DynamaxState.gigantamax ? 'G' : 'D',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red.shade700),
+              )
+            : const Opacity(
+                opacity: 0.3,
+                child: Text('⬆', style: TextStyle(fontSize: 20)),
+              ),
         ),
       ),
     );
@@ -848,47 +840,28 @@ class PokemonPanelState extends State<PokemonPanel>
     }
 
     return GestureDetector(
-      onTap: () {
-        if (!isActive && teraType == null) {
-          // First tap: show type picker
-          _showTeraTypePicker();
-        } else if (!isActive && teraType != null) {
-          // Type selected but not active: activate
-          setState(() {
-            s.terastal = s.terastal.copyWith(active: true);
-            s.dynamax = DynamaxState.none; // 다이맥스 해제
-          });
-          _notify();
-        } else {
-          // Active: deactivate
-          setState(() {
-            s.terastal = const TerastalState();
-          });
-          _notify();
-        }
-      },
-      onLongPress: _showTeraTypePicker,
-      child: Container(
+      onTap: _showTeraTypePicker,
+      child: SizedBox(
         width: 24,
         height: 24,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: isActive ? _typeColor(teraType).withOpacity(0.3) : Colors.transparent,
-          border: Border.all(
-            color: isActive ? _typeColor(teraType) : Colors.grey.shade400,
-            width: isActive ? 2 : 1,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            isActive ? 'T' : (teraType != null ? '·' : ''),
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: isActive ? _typeColor(teraType) : Colors.grey,
+        child: isActive
+          ? Container(
+              width: 22,
+              height: 22,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _typeColor(teraType),
+              ),
+              child: const Center(
+                child: Text('T', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+              ),
+            )
+          : const Center(
+              child: Opacity(
+                opacity: 0.3,
+                child: Text('💎', style: TextStyle(fontSize: 20)),
+              ),
             ),
-          ),
-        ),
       ),
     );
   }
@@ -912,7 +885,17 @@ class PokemonPanelState extends State<PokemonPanel>
             },
             child: Text(ko),
           );
-        }).toList(),
+        }).toList()
+          ..insert(0, SimpleDialogOption(
+            onPressed: () {
+              setState(() {
+                s.terastal = const TerastalState();
+              });
+              _notify();
+              Navigator.pop(ctx);
+            },
+            child: const Text('테라 안함', style: TextStyle(color: Colors.grey)),
+          )),
       ),
     );
   }
