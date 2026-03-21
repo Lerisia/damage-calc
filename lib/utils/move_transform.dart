@@ -52,6 +52,12 @@ class MoveContext {
   /// Opponent's weight in kg (after ability modifiers).
   final double? opponentWeight;
 
+  /// User's primary type (for Revelation Dance).
+  final PokemonType? userType1;
+
+  /// User's held item name (for Judgment, Multi-Attack).
+  final String? heldItem;
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
@@ -70,6 +76,8 @@ class MoveContext {
     this.actualSpAttack,
     this.myWeight,
     this.opponentWeight,
+    this.userType1,
+    this.heldItem,
   });
 }
 
@@ -129,6 +137,45 @@ TransformedMove transformMove(Move move, MoveContext context) {
     };
     final t = ogerponType[context.pokemonName!.toLowerCase()];
     if (t != null) move = move.copyWith(type: t);
+  }
+
+  // 2.51. Judgment (Arceus): type changes based on held Plate
+  if (move.name == 'Judgment' && context.heldItem != null) {
+    final plateType = _plateTypes[context.heldItem!];
+    if (plateType != null) move = move.copyWith(type: plateType);
+  }
+
+  // 2.52. Multi-Attack (Silvally): type changes based on held Memory
+  if (move.name == 'Multi-Attack' && context.heldItem != null) {
+    final memoryType = _memoryType(context.heldItem!);
+    if (memoryType != null) move = move.copyWith(type: memoryType);
+  }
+
+  // 2.53. Revelation Dance: type matches user's primary type
+  if (move.name == 'Revelation Dance' && context.userType1 != null) {
+    move = move.copyWith(type: context.userType1);
+  }
+
+  // 2.54. Aura Wheel (Morpeko): Electric for base, Dark for Hangry
+  if (move.name == 'Aura Wheel' && context.pokemonName != null) {
+    final lower = context.pokemonName!.toLowerCase();
+    if (lower == 'morpeko-hangry') {
+      move = move.copyWith(type: PokemonType.dark);
+    } else {
+      move = move.copyWith(type: PokemonType.electric);
+    }
+  }
+
+  // 2.55. Raging Bull (Paldean Tauros): type based on breed
+  if (move.name == 'Raging Bull' && context.pokemonName != null) {
+    final lower = context.pokemonName!.toLowerCase();
+    if (lower == 'tauros-paldea-combat' || lower == '10250') {
+      move = move.copyWith(type: PokemonType.fighting);
+    } else if (lower == 'tauros-paldea-blaze' || lower == '10251') {
+      move = move.copyWith(type: PokemonType.fire);
+    } else if (lower == 'tauros-paldea-aqua' || lower == '10252') {
+      move = move.copyWith(type: PokemonType.water);
+    }
   }
 
   // 2.6. Tera Blast: various changes when terastallized
@@ -618,6 +665,37 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
     power: maxPower,
     moveClass: MoveClass.maxMove,
   );
+}
+
+/// Plate → type mapping for Judgment (Arceus).
+const _plateTypes = {
+  'flame-plate': PokemonType.fire,
+  'splash-plate': PokemonType.water,
+  'meadow-plate': PokemonType.grass,
+  'zap-plate': PokemonType.electric,
+  'icicle-plate': PokemonType.ice,
+  'fist-plate': PokemonType.fighting,
+  'toxic-plate': PokemonType.poison,
+  'earth-plate': PokemonType.ground,
+  'sky-plate': PokemonType.flying,
+  'mind-plate': PokemonType.psychic,
+  'insect-plate': PokemonType.bug,
+  'stone-plate': PokemonType.rock,
+  'spooky-plate': PokemonType.ghost,
+  'draco-plate': PokemonType.dragon,
+  'dread-plate': PokemonType.dark,
+  'iron-plate': PokemonType.steel,
+  'pixie-plate': PokemonType.fairy,
+};
+
+/// Extracts PokemonType from a Memory item name (e.g. 'fire-memory' → fire).
+PokemonType? _memoryType(String itemName) {
+  if (!itemName.endsWith('-memory')) return null;
+  final typeName = itemName.substring(0, itemName.length - '-memory'.length);
+  for (final t in PokemonType.values) {
+    if (t.name == typeName) return t;
+  }
+  return null;
 }
 
 // Legacy wrappers for backward compatibility with tests

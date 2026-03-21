@@ -18,6 +18,7 @@ import 'grounded.dart';
 import 'item_effects.dart';
 import 'move_transform.dart';
 import 'random_factor.dart';
+import 'speed_calculator.dart';
 import 'stat_calculator.dart';
 import 'terrain_effects.dart';
 import 'type_effectiveness.dart';
@@ -242,6 +243,8 @@ class DamageCalculator {
       actualSpAttack: atkBaseStats.spAttack,
       myWeight: BattleFacade.effectiveWeight(attacker),
       opponentWeight: BattleFacade.effectiveWeight(defender),
+      userType1: attacker.type1,
+      heldItem: attacker.selectedItem,
     );
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
@@ -744,6 +747,43 @@ class DamageCalculator {
          defender.status == StatusCondition.badlyPoisoned)) {
       movePowerMod *= kDoubleMovePower;
       notes.add('move:barb_barrage:×$kDoubleMovePower');
+    }
+
+    // Bolt Beak / Fishious Rend: doubled when attacker moves first
+    if ((effectiveMove.name == 'Bolt Beak' || effectiveMove.name == 'Fishious Rend') &&
+        opponentSpeed != null) {
+      final atkSpeed = calcEffectiveSpeed(
+        baseSpeed: atkBaseStats.speed,
+        ability: atkAbilityRaw,
+        item: attacker.selectedItem,
+        status: attacker.status,
+        weather: weather,
+        terrain: terrain,
+        isDynamaxed: isDmaxed,
+        tailwind: attacker.tailwind,
+      );
+      if (atkSpeed > opponentSpeed!) {
+        movePowerMod *= kDoubleMovePower;
+        notes.add('move:bolt_beak:×$kDoubleMovePower');
+      }
+    }
+
+    // Payback: doubled when attacker moves second (slower)
+    if (effectiveMove.name == 'Payback' && opponentSpeed != null) {
+      final atkSpeed = calcEffectiveSpeed(
+        baseSpeed: atkBaseStats.speed,
+        ability: atkAbilityRaw,
+        item: attacker.selectedItem,
+        status: attacker.status,
+        weather: weather,
+        terrain: terrain,
+        isDynamaxed: isDmaxed,
+        tailwind: attacker.tailwind,
+      );
+      if (atkSpeed < opponentSpeed!) {
+        movePowerMod *= kDoubleMovePower;
+        notes.add('move:payback:×$kDoubleMovePower');
+      }
     }
 
     // Terastal minimum power: Tera STAB moves below threshold become threshold (not Stellar)

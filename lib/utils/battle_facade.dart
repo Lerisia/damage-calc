@@ -448,6 +448,8 @@ class BattleFacade {
       actualSpAttack: rankedStats.spAttack,
       myWeight: effectiveWeight(state),
       opponentWeight: opponentWeight,
+      userType1: state.type1,
+      heldItem: state.selectedItem,
     );
   }
 
