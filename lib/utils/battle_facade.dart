@@ -173,6 +173,7 @@ class BattleFacade {
       opponentAttack: opponentAttack,
       opponentGender: opponentGender,
       myEffectiveSpeed: myEffectiveSpeed,
+      opponentWeight: opponentWeight,
     );
 
     return MoveSlotInfo(
