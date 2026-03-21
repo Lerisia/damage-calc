@@ -5,6 +5,7 @@ import '../utils/image_saver.dart' as saver;
 import '../utils/ability_effects.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/defensive_calculator.dart';
+import '../utils/grounded.dart';
 import '../utils/item_effects.dart';
 import '../utils/speed_calculator.dart';
 import '../utils/stat_calculator.dart';
@@ -376,6 +377,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       defType2: _defender.type2,
       defenderHp: defHp,
       isPhysical: isPhysical,
+      defenderGrounded: isGrounded(
+        type1: _defender.type1,
+        type2: _defender.type2,
+        ability: _defender.selectedAbility,
+        item: _defender.selectedItem,
+        gravity: _room.gravity,
+      ),
     );
   }
 
@@ -391,19 +399,20 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           // Header: 공격측 → 방어측 (Korean names)
           Text(
             '${_attacker.pokemonNameKo} → ${_defender.pokemonNameKo}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
+          const SizedBox(height: 4),
           Text(
             'HP $defHp | 물리내구 ${bulk.physical} | 특수내구 ${bulk.special}',
-            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           for (int i = 0; i < 4; i++) ...[
             _buildMoveResult(i),
-            if (i < 3) const Divider(height: 24),
+            if (i < 3) const Divider(height: 28),
           ],
         ],
       ),
@@ -414,9 +423,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final move = _attacker.moves[index];
     if (move == null) {
       return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Text('기술 ${index + 1}: 미설정',
-            style: TextStyle(color: Colors.grey[400])),
+            style: TextStyle(fontSize: 16, color: Colors.grey[400])),
       );
     }
 
@@ -449,63 +458,75 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
 
     // KO info
-    String koLabel = '';
+    String koText = '';
     Color koColor = Colors.grey;
-    if (result.hitsToKo == 1) {
-      final label = result.oneshotLabel;
-      koLabel = '$label 1타';
+    if (result.isEmpty || eff == 0) {
+      // no KO info
+    } else if (result.hitsToKo == 1) {
+      final label = result.oneshotLabel ?? '확정';
+      koText = '$label 1타';
       koColor = label == '확정' ? Colors.red : Colors.orange;
     } else if (result.hitsToKo > 0) {
-      koLabel = '${result.hitsToKo}타';
+      koText = '확정 ${result.hitsToKo}타';
       koColor = result.hitsToKo <= 2 ? Colors.red : Colors.orange;
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Move name + type + effectiveness
-        Row(
-          children: [
-            Text(move.nameKo, style: const TextStyle(
-              fontSize: 15, fontWeight: FontWeight.bold,
-            )),
-            const SizedBox(width: 8),
-            Text(KoStrings.getTypeKo(effectiveType),
-                style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-            if (effLabel.isNotEmpty) ...[
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Move name + type
+          Row(
+            children: [
+              Flexible(
+                child: Text(move.nameKo, style: const TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold,
+                )),
+              ),
               const SizedBox(width: 8),
-              Text(effLabel, style: TextStyle(fontSize: 12, color: effColor, fontWeight: FontWeight.bold)),
+              Text(KoStrings.getTypeKo(effectiveType),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600])),
             ],
-          ],
-        ),
-        const SizedBox(height: 2),
-        // 결정력 / 내구 info
-        Text(
-          '$categoryLabel 결정력 ${result.offensivePower} → $categoryLabel 내구 ${result.defensiveBulk}',
-          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-        ),
-        const SizedBox(height: 4),
-        // Damage range + percent + KO
-        Row(
-          children: [
-            Text(
-              '${result.minDamage} ~ ${result.maxDamage}',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              '(${result.minPercent.toStringAsFixed(1)}% ~ ${result.maxPercent.toStringAsFixed(1)}%)',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-            ),
-            if (koLabel.isNotEmpty) ...[
-              const Spacer(),
-              Text(koLabel, style: TextStyle(
-                fontSize: 14, color: koColor, fontWeight: FontWeight.bold,
+          ),
+          const SizedBox(height: 4),
+          // Effectiveness
+          Text(effLabel, style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          // 결정력 / 내구 info
+          Text(
+            '$categoryLabel 결정력 ${result.offensivePower} → $categoryLabel 내구 ${result.defensiveBulk}',
+            style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+          ),
+          const SizedBox(height: 6),
+          // Damage range + percent
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                '${result.minDamage} ~ ${result.maxDamage}',
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  '(${result.minPercent.toStringAsFixed(1)}% ~ ${result.maxPercent.toStringAsFixed(1)}%)',
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                ),
+              ),
+            ],
+          ),
+          // KO label
+          if (koText.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(koText, style: TextStyle(
+                fontSize: 16, color: koColor, fontWeight: FontWeight.bold,
               )),
-            ],
-          ],
-        ),
-      ],
+            ),
+        ],
+      ),
     );
   }
 
