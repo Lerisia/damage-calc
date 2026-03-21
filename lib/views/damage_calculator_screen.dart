@@ -52,7 +52,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -214,14 +214,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             onPressed: _swapSides,
           ),
           IconButton(
-            icon: const Icon(Icons.camera_alt_outlined),
-            tooltip: '캡처',
-            onPressed: _capture,
-          ),
-          IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: '초기화',
             onPressed: _reset,
+          ),
+          IconButton(
+            icon: const Icon(Icons.camera_alt_outlined),
+            tooltip: '캡처',
+            onPressed: _capture,
           ),
         ],
         bottom: TabBar(
@@ -229,7 +229,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           tabs: const [
             Tab(text: '공격측'),
             Tab(text: '방어측'),
-            Tab(text: '대미지 계산'),
+            Tab(text: '대미지'),
+            Tab(text: '스피드'),
           ],
         ),
       ),
@@ -269,6 +270,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   opponentGender: _attacker.gender,
                 ),
                 _buildDamageCalcTab(),
+                _buildSpeedCompareTab(),
               ],
             ),
           ),
@@ -281,6 +283,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     return const Center(
       child: Text(
         '대미지 계산\n(준비 중)',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18, color: Colors.grey),
+      ),
+    );
+  }
+
+  Widget _buildSpeedCompareTab() {
+    return const Center(
+      child: Text(
+        '스피드 비교\n(준비 중)',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 18, color: Colors.grey),
       ),
