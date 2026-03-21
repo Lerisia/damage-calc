@@ -454,6 +454,20 @@ class DamageCalculator {
       moveType, defType1, defType2,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry));
 
+    // Strong Winds (Delta Stream): removes Flying-type weaknesses
+    // Ice/Electric/Rock vs Flying becomes 1x instead of 2x
+    if (weather == Weather.strongWinds &&
+        (defType1 == PokemonType.flying || defType2 == PokemonType.flying) &&
+        effectiveness > 1.0 &&
+        (moveType == PokemonType.ice || moveType == PokemonType.electric || moveType == PokemonType.rock)) {
+      // Recalculate without the Flying weakness
+      final nonFlyingEff = defType1 == PokemonType.flying
+          ? (defType2 != null ? getCombinedEffectiveness(moveType, defType2, null) : 1.0)
+          : getCombinedEffectiveness(moveType, defType1, null);
+      effectiveness = nonFlyingEff;
+      notes.add('weather:strong_winds');
+    }
+
     // Scrappy / Mind's Eye: Normal/Fighting moves hit Ghost types
     if (effectiveness == 0.0 &&
         (effectiveAbility == 'Scrappy' || effectiveAbility == "Mind's Eye") &&
