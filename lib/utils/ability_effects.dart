@@ -345,6 +345,17 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kDoubleStatBoost))
           : _defaultEffect;
 
+    // --- Aura abilities (self-boost for 결정력) ---
+    // Aura Break reversal is handled in getAuraModifier() during damage calc.
+    case 'Fairy Aura':
+      return move != null && move.type == PokemonType.fairy
+          ? const AbilityEffect(powerModifier: kAuraBoost)
+          : _defaultEffect;
+    case 'Dark Aura':
+      return move != null && move.type == PokemonType.dark
+          ? const AbilityEffect(powerModifier: kAuraBoost)
+          : _defaultEffect;
+
     default:
       return _defaultEffect;
   }
@@ -377,8 +388,7 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   switch (abilityName) {
     case 'Fur Coat':
       return const DefensiveAbilityEffect(defModifier: 2.0);
-    case 'Ice Scales':
-      return const DefensiveAbilityEffect(spdModifier: 2.0);
+    // Ice Scales: handled in getDefensiveAbilityDamageMultiplier (special damage x0.5)
     // Fluffy: handled in getDefensiveAbilityDamageMultiplier (contact-dependent)
     case 'Marvel Scale':
       return status != StatusCondition.none
@@ -407,6 +417,8 @@ double getDefensiveAbilityDamageMultiplier(String abilityName, {
 }) {
   final moveType = move.type;
   switch (abilityName) {
+    case 'Ice Scales':
+      return move.category == MoveCategory.special ? 0.5 : 1.0;
     case 'Thick Fat':
       return (moveType == PokemonType.fire || moveType == PokemonType.ice)
           ? 0.5 : 1.0;
@@ -560,6 +572,8 @@ const Set<String> ignorableAbilities = {
   // Stat protection
   'Clear Body', 'White Smoke', 'Full Metal Body',
   'Hyper Cutter', 'Big Pecks',
+  // Damage nullification
+  'Tera Shell', 'Ice Face', 'Disguise',
   // Other
   'Sturdy', 'Unaware', 'Wonder Skin',
   'Shield Dust', 'Damp',
@@ -758,6 +772,7 @@ Rank getEffectiveDefensiveRank({
   required String? ability,
   required String pokemonName,
   required Weather weather,
+  Terrain terrain = Terrain.none,
 }) {
   if (ability == null) return null;
 
@@ -777,5 +792,79 @@ Rank getEffectiveDefensiveRank({
     }
   }
 
+  // Mimicry: type changes based on terrain
+  if (ability == 'Mimicry' && terrain != Terrain.none) {
+    switch (terrain) {
+      case Terrain.electric:
+        return (type1: PokemonType.electric, type2: null);
+      case Terrain.grassy:
+        return (type1: PokemonType.grass, type2: null);
+      case Terrain.misty:
+        return (type1: PokemonType.fairy, type2: null);
+      case Terrain.psychic:
+        return (type1: PokemonType.psychic, type2: null);
+      default:
+        return null;
+    }
+  }
+
   return null;
+}
+
+// ====== Aura abilities ======
+
+/// Aura boost/nerf value
+const double kAuraBoost = 4 / 3; // ~1.3333
+const double kAuraNerfed = 3 / 4; // 0.75
+
+/// Returns the damage modifier from aura interaction in damage calculation.
+///
+/// 결정력 already includes attacker's own aura (x1.33).
+/// This handles the defender's side only:
+///
+/// - Attacker has no aura → defender's aura applies (x1.33)
+/// - Attacker has same aura as defender → skip (already in 결정력)
+/// - Attacker has aura, defender has different aura → apply defender's aura
+/// - Attacker has aura, defender has Aura Break → reverse attacker's aura
+///   (결정력 had x1.33, correct to x0.75 → multiply by 0.75/1.33)
+({double multiplier, String? note}) getAuraModifier({
+  required PokemonType moveType,
+  required String? attackerAbility,
+  required String? defenderAbility,
+}) {
+  final bool atkHasMatchingAura =
+      (attackerAbility == 'Fairy Aura' && moveType == PokemonType.fairy) ||
+      (attackerAbility == 'Dark Aura' && moveType == PokemonType.dark);
+
+  final bool defHasMatchingAura =
+      (defenderAbility == 'Fairy Aura' && moveType == PokemonType.fairy) ||
+      (defenderAbility == 'Dark Aura' && moveType == PokemonType.dark);
+
+  final bool defHasAuraBreak = defenderAbility == 'Aura Break';
+
+  // Case 1: Attacker has no aura → apply defender's aura
+  if (!atkHasMatchingAura) {
+    if (defHasMatchingAura) {
+      return (multiplier: kAuraBoost, note: 'ability:$defenderAbility:×1.33');
+    }
+    return (multiplier: 1.0, note: null);
+  }
+
+  // Case 2: Attacker has aura
+  if (defHasMatchingAura) {
+    // Same aura → already in 결정력, skip
+    return (multiplier: 1.0, note: null);
+  }
+
+  if (defHasAuraBreak) {
+    // Aura Break reverses: 결정력 had x1.33, should be x0.75
+    // Correction = 0.75 / 1.33 = kAuraNerfed / kAuraBoost
+    return (
+      multiplier: kAuraNerfed / kAuraBoost,
+      note: 'ability:Aura Break:×0.75',
+    );
+  }
+
+  // Defender has unrelated ability → no additional modifier
+  return (multiplier: 1.0, note: null);
 }
