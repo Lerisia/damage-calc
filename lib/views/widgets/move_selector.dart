@@ -76,7 +76,13 @@ class _MoveSelectorState extends State<MoveSelector> {
   Widget build(BuildContext context) {
     return Autocomplete<Move>(
       displayStringForOption: (m) => m.nameKo,
-      optionsBuilder: (textEditingValue) => _sortedOptions(textEditingValue.text),
+      optionsBuilder: (textEditingValue) {
+        // Skip search while Korean IME is composing to prevent garbled input
+        if (textEditingValue.composing != TextRange.empty) {
+          return _lastResults ?? _sortedOptions('');
+        }
+        return _sortedOptions(textEditingValue.text);
+      },
       optionsViewBuilder: (context, onSelected, options) {
         return Align(
           alignment: Alignment.topLeft,

@@ -389,6 +389,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
         initialValue: TextEditingValue(text: initialText),
         displayStringForOption: (a) => _abilityKo(a),
         optionsBuilder: (textEditingValue) {
+          if (textEditingValue.composing != TextRange.empty) return sorted;
           if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
             return sorted;
           }
@@ -424,6 +425,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
         initialValue: TextEditingValue(text: initialText),
         displayStringForOption: (key) => _itemKo(key.isEmpty ? null : key),
         optionsBuilder: (textEditingValue) {
+          if (textEditingValue.composing != TextRange.empty) return allItems;
           if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
             return allItems;
           }
