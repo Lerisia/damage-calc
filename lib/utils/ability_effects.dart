@@ -115,6 +115,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Type-based power modifiers ---
     case 'Steelworker':
+    case 'Steely Spirit':
       return move != null && move.type == PokemonType.steel
           ? const AbilityEffect(powerModifier: 1.5)
           : _defaultEffect;
@@ -311,6 +312,7 @@ const _defaultDefensiveEffect = DefensiveAbilityEffect();
 /// - Marvel Scale: Def x1.5 when statused
 DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   StatusCondition status = StatusCondition.none,
+  Weather weather = Weather.none,
 }) {
   switch (abilityName) {
     case 'Fur Coat':
@@ -322,6 +324,10 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
     case 'Marvel Scale':
       return status != StatusCondition.none
           ? const DefensiveAbilityEffect(defModifier: 1.5)
+          : _defaultDefensiveEffect;
+    case 'Flower Gift':
+      return (weather == Weather.sun || weather == Weather.harshSun)
+          ? const DefensiveAbilityEffect(spdModifier: 1.5)
           : _defaultDefensiveEffect;
     default:
       return _defaultDefensiveEffect;
