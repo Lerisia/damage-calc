@@ -243,6 +243,8 @@ class BattleFacade {
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility,
             move: transformed.move,
+            // Dynamax moves use their own power for Technician check
+            originalBasePower: isDmaxed ? null : move.power,
             hpPercent: state.hpPercent,
             weather: weather,
             terrain: terrain,
@@ -266,23 +268,10 @@ class BattleFacade {
       abilityEffect.statModifiers,
     );
 
-    double statMod = itemEffect.statModifier * abilityStatMod;
-    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+    final double statMod = itemEffect.statModifier * abilityStatMod;
+    final double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
 
-    // 4. Apply ally boosts
-    _applyAllyBoosts(
-      state: state,
-      move: move,
-      weather: weather,
-      statMod: statMod,
-      powerMod: powerMod,
-      onResult: (s, p) {
-        statMod = s;
-        powerMod = p;
-      },
-    );
-
-    // 5. Final calculation
+    // 4. Final calculation
     return OffensiveCalculator.calculate(
       baseStats: state.baseStats,
       iv: state.iv,
@@ -339,7 +328,6 @@ class BattleFacade {
       item: state.selectedItem,
       finalEvo: state.finalEvo,
       status: state.status,
-      flowerGift: state.flowerGift,
       room: room,
       isDynamaxed: state.dynamax != DynamaxState.none,
     );
@@ -403,24 +391,4 @@ class BattleFacade {
     }
   }
 
-  static void _applyAllyBoosts({
-    required BattlePokemonState state,
-    required Move move,
-    required Weather weather,
-    required double statMod,
-    required double powerMod,
-    required void Function(double statMod, double powerMod) onResult,
-  }) {
-    if (state.helpingHand) powerMod *= 1.5;
-    if (state.charge && move.type == PokemonType.electric) powerMod *= 2.0;
-    if (state.battery && move.category == MoveCategory.special) powerMod *= 1.3;
-    if (state.powerSpot) powerMod *= 1.3;
-    if (state.flowerGift &&
-        move.category == MoveCategory.physical &&
-        (weather == Weather.sun || weather == Weather.harshSun)) {
-      statMod *= 1.5;
-    }
-    if (state.steelySpirit && move.type == PokemonType.steel) powerMod *= 1.5;
-    onResult(statMod, powerMod);
-  }
 }

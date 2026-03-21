@@ -170,7 +170,7 @@ void main() {
         nature: Nature.hardy, level: 50,
         type1: PokemonType.normal,
         weather: Weather.sun,
-        flowerGift: true,
+        ability: 'Flower Gift',
       );
       expect(result.physical, equals(20145));
       // Special: floor(120 * 85 * 1.5) = 15300
@@ -183,7 +183,7 @@ void main() {
         nature: Nature.hardy, level: 50,
         type1: PokemonType.normal,
         weather: Weather.rain,
-        flowerGift: true,
+        ability: 'Flower Gift',
       );
       expect(result.special, equals(24817));
     });
@@ -194,7 +194,7 @@ void main() {
         nature: Nature.hardy, level: 50,
         type1: PokemonType.normal,
         weather: Weather.harshSun,
-        flowerGift: true,
+        ability: 'Flower Gift',
       );
       expect(result.special, equals(37080));
     });
@@ -275,12 +275,11 @@ void main() {
       expect(result.special, equals(30072));
     });
 
-    test('Wonder Room with rank: rank stays on original stat', () {
+    test('Wonder Room with rank: swaps final stats (rank applied before swap)', () {
       // Bulbasaur: Def base=49, SpDef base=65
-      // Wonder Room swaps bases: Def base=65, SpDef base=49
-      // Def rank +2 (2.0x) applies to Def (now using base 65)
-      // Normal (no WR): Def = _calcStat(49,...) * 2.0, SpDef = _calcStat(65,...)
-      // Wonder Room: Def = _calcStat(65,...) * 2.0, SpDef = _calcStat(49,...)
+      // Rank +2 on defense: Def = floor(69 * 2.0) = 138, SpDef = 85
+      // Wonder Room swaps final values: physical uses 85, special uses 138
+      // HP = 120
       final wonder = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: Nature.hardy, level: 50,
@@ -288,17 +287,10 @@ void main() {
         rank: const Rank(defense: 2),
         room: RoomConditions(wonderRoom: true),
       );
-      final normal = DefensiveCalculator.calculate(
-        baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
-        type1: PokemonType.grass,
-        rank: const Rank(defense: 2),
-      );
-      // They should NOT be simple swaps because rank +2 is on defense
-      expect(wonder.physical, isNot(equals(normal.physical)));
-      // WR physical uses base 65 with rank +2: stat = floor((2*65+31)*50/100+5)*2.0 = 170
-      // HP = 120, bulk = floor(120 * 170 / 0.411) = 49635
-      expect(wonder.physical, equals(49635));
+      // physical bulk = floor(120 * 85 / 0.411) = 24817
+      expect(wonder.physical, equals(24817));
+      // special bulk = floor(120 * 138 / 0.411) = 40291
+      expect(wonder.special, equals(40291));
     });
 
     test('non-Wonder rooms do not swap', () {

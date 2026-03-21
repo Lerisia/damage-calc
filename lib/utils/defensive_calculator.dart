@@ -30,28 +30,26 @@ class DefensiveCalculator {
     String? item,
     bool finalEvo = true,
     StatusCondition status = StatusCondition.none,
-    bool flowerGift = false,
     RoomConditions room = const RoomConditions(),
     bool isDynamaxed = false,
   }) {
-    // Wonder Room: swap base Defense and Sp.Def before stat calculation.
-    // Rank changes stay on their original stat (not swapped).
-    final effectiveBaseStats = room.wonderRoom
-        ? Stats(
-            hp: baseStats.hp, attack: baseStats.attack,
-            defense: baseStats.spDefense, spAttack: baseStats.spAttack,
-            spDefense: baseStats.defense, speed: baseStats.speed,
-          )
-        : baseStats;
-
-    final actualStats = StatCalculator.calculate(
-      baseStats: effectiveBaseStats,
+    final calculatedStats = StatCalculator.calculate(
+      baseStats: baseStats,
       iv: iv,
       ev: ev,
       nature: nature,
       level: level,
       rank: rank,
     );
+
+    // Wonder Room: swap the final calculated Defense and Sp.Def values.
+    final actualStats = room.wonderRoom
+        ? Stats(
+            hp: calculatedStats.hp, attack: calculatedStats.attack,
+            defense: calculatedStats.spDefense, spAttack: calculatedStats.spAttack,
+            spDefense: calculatedStats.defense, speed: calculatedStats.speed,
+          )
+        : calculatedStats;
 
     // Stat modifiers: applied to individual def/spd stats before HP multiplication
     final weatherMod = getWeatherDefensiveModifier(
@@ -62,7 +60,7 @@ class DefensiveCalculator {
 
     // Ability (modifies the stat itself)
     if (ability != null) {
-      final abilityEffect = getDefensiveAbilityEffect(ability, status: status);
+      final abilityEffect = getDefensiveAbilityEffect(ability, status: status, weather: weather);
       defStatMod *= abilityEffect.defModifier;
       spdStatMod *= abilityEffect.spdModifier;
     }
@@ -72,12 +70,6 @@ class DefensiveCalculator {
       final itemEffect = getDefensiveItemEffect(item, finalEvo: finalEvo);
       defStatMod *= itemEffect.defModifier;
       spdStatMod *= itemEffect.spdModifier;
-    }
-
-    // Flower Gift (sun/harsh sun: SpDef x1.5 - stat modifier)
-    if (flowerGift &&
-        (weather == Weather.sun || weather == Weather.harshSun)) {
-      spdStatMod *= 1.5;
     }
 
     // Calculate bulk: HP * modified stat

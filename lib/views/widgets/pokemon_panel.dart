@@ -226,51 +226,21 @@ class PokemonPanelState extends State<PokemonPanel>
           ),
           const SizedBox(height: 12),
 
-          if (widget.isAttacker) ...[
-            _sectionCard(
-              title: '기타 보정',
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(child: _compactCheck('도우미', s.helpingHand, (v) {
-                        setState(() { s.helpingHand = v; _notify(); });
-                      })),
-                      Expanded(child: _compactCheck('배터리', s.battery, (v) {
-                        setState(() { s.battery = v; _notify(); });
-                      })),
-                      Expanded(child: _compactCheck('파워스폿', s.powerSpot, (v) {
-                        setState(() { s.powerSpot = v; _notify(); });
-                      })),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(child: _compactCheck('충전', s.charge, (v) {
-                        setState(() { s.charge = v; _notify(); });
-                      })),
-                      Expanded(child: _compactCheck('강철정신', s.steelySpirit, (v) {
-                        setState(() { s.steelySpirit = v; _notify(); });
-                      })),
-                      Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
-                        setState(() { s.flowerGift = v; _notify(); });
-                      })),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
-                        setState(() { s.tailwind = v; _notify(); });
-                      })),
-                      const Expanded(child: SizedBox()),
-                      const Expanded(child: SizedBox()),
-                    ],
-                  ),
-                ],
-              ),
+          _sectionCard(
+            title: '기타 보정',
+            child: Row(
+              children: [
+                Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
+                  setState(() { s.tailwind = v; _notify(); });
+                })),
+                const Expanded(child: SizedBox()),
+                const Expanded(child: SizedBox()),
+              ],
             ),
-            const SizedBox(height: 12),
+          ),
+          const SizedBox(height: 12),
 
+          if (widget.isAttacker) ...[
             _sectionCard(
               key: _movesSectionKey,
               title: '기술',
@@ -286,21 +256,6 @@ class PokemonPanelState extends State<PokemonPanel>
               ),
             ),
           ] else ...[
-            _sectionCard(
-              title: '기타 보정',
-              child: Row(
-                children: [
-                  Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
-                    setState(() { s.flowerGift = v; _notify(); });
-                  })),
-                  Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
-                    setState(() { s.tailwind = v; _notify(); });
-                  })),
-                  const Expanded(child: SizedBox()),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
             _bulkDisplay(),
           ],
         ],
