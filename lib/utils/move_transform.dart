@@ -115,6 +115,11 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // 2. Ability type transforms (only if still Normal after step 1)
   move = _applySkin(move, context.ability);
 
+  // 2b. Liquid Voice: sound moves become Water type (no power boost)
+  if (context.ability == 'Liquid Voice' && move.hasTag(MoveTags.sound)) {
+    move = move.copyWith(type: PokemonType.water);
+  }
+
   // 2.5. Tera Blast: various changes when terastallized
   if (context.terastallized && context.teraType != null && move.name == 'Tera Blast') {
     move = _applyTeraBlast(move, context);
