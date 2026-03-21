@@ -213,7 +213,12 @@ class DamageCalculator {
     }
 
     final double statMod = itemEffect.statModifier * abilityStatMod;
-    final double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+
+    // Charge: Electric moves deal 2x damage
+    if (attacker.charge && effectiveMove.type == PokemonType.electric) {
+      powerMod *= 2.0;
+    }
 
     final int A = (rawA * statMod).floor();
 
@@ -416,13 +421,6 @@ class DamageCalculator {
       if (effectiveAbility == 'Infiltrator') notes.add('침투: 벽 무시');
     }
 
-    // --- Friend Guard (doubles ally ability) ---
-    double friendGuardMod = 1.0;
-    if (defender.friendGuard) {
-      friendGuardMod = 0.75;
-      notes.add('프렌드가드 ×0.75');
-    }
-
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level;
     final int power = effectiveMove.power;
@@ -434,7 +432,7 @@ class DamageCalculator {
     final double modifiers = stab * effectiveness * weatherMod * terrainMod *
         burnMod * critMod * powerMod * defAbilityDmgMod *
         tintedLensMod * neuroforceMod * filterMod * multiscaleMod * expertBeltMod *
-        screenMod * friendGuardMod;
+        screenMod;
 
     final int baseDamage = (baseDmg * modifiers).floor();
 

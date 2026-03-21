@@ -269,7 +269,12 @@ class BattleFacade {
     );
 
     final double statMod = itemEffect.statModifier * abilityStatMod;
-    final double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+
+    // Charge: Electric moves deal 2x damage
+    if (state.charge && transformed.move.type == PokemonType.electric) {
+      powerMod *= 2.0;
+    }
 
     // 4. Final calculation
     return OffensiveCalculator.calculate(
@@ -298,6 +303,7 @@ class BattleFacade {
       hasGuts: state.selectedAbility == 'Guts',
       stabOverride: abilityEffect.stabOverride,
       criticalOverride: abilityEffect.criticalOverride,
+      forceStab: abilityEffect.forceStab,
       opponentAttack: opponentAttack,
       terastallized: state.terastal.active,
       teraType: state.terastal.teraType,

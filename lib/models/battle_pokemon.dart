@@ -38,14 +38,14 @@ class BattlePokemonState {
   int hpPercent;
   StatusCondition status;
 
-  // Speed boosts
+  // Self-applied battle conditions
+  bool charge; // Charge: next Electric move deals 2x damage
   bool tailwind;
 
   // Defensive conditions
   bool reflect;
   bool lightScreen;
   bool auroraVeil;
-  bool friendGuard;
 
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
@@ -75,11 +75,11 @@ class BattlePokemonState {
     this.rank = const Rank(),
     this.hpPercent = 100,
     this.status = StatusCondition.none,
+    this.charge = false,
     this.tailwind = false,
     this.reflect = false,
     this.lightScreen = false,
     this.auroraVeil = false,
-    this.friendGuard = false,
   })  : baseStats = baseStats ?? const Stats(
             hp: 45, attack: 49, defense: 49,
             spAttack: 65, spDefense: 65, speed: 45),
@@ -130,10 +130,10 @@ class BattlePokemonState {
     rank = const Rank();
     hpPercent = 100;
     status = StatusCondition.none;
+    charge = false;
     tailwind = false;
     reflect = false;
     lightScreen = false;
     auroraVeil = false;
-    friendGuard = false;
   }
 }
