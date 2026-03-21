@@ -241,6 +241,41 @@ DefensiveItemEffect getDefensiveItemEffect(String itemName, {
   }
 }
 
+/// Type-resist berries: halve damage from a super-effective move of the matching type.
+/// Chilan Berry halves Normal-type damage (doesn't require super effective).
+const Map<String, PokemonType> typeResistBerries = {
+  'occa-berry': PokemonType.fire,
+  'passho-berry': PokemonType.water,
+  'wacan-berry': PokemonType.electric,
+  'rindo-berry': PokemonType.grass,
+  'yache-berry': PokemonType.ice,
+  'chople-berry': PokemonType.fighting,
+  'kebia-berry': PokemonType.poison,
+  'shuca-berry': PokemonType.ground,
+  'coba-berry': PokemonType.flying,
+  'payapa-berry': PokemonType.psychic,
+  'tanga-berry': PokemonType.bug,
+  'charti-berry': PokemonType.rock,
+  'kasib-berry': PokemonType.ghost,
+  'haban-berry': PokemonType.dragon,
+  'colbur-berry': PokemonType.dark,
+  'babiri-berry': PokemonType.steel,
+  'roseli-berry': PokemonType.fairy,
+  'chilan-berry': PokemonType.normal,
+};
+
+/// Returns the damage multiplier from a type-resist berry.
+/// Returns 0.5 if the berry matches and conditions are met, 1.0 otherwise.
+double getResistBerryModifier(String? itemName, PokemonType moveType, double effectiveness) {
+  if (itemName == null) return 1.0;
+  final berryType = typeResistBerries[itemName];
+  if (berryType == null || berryType != moveType) return 1.0;
+  // Chilan Berry works on Normal-type (always, no super effective requirement)
+  // Other berries only work when the move is super effective
+  if (itemName == 'chilan-berry' || effectiveness > 1.0) return 0.5;
+  return 1.0;
+}
+
 /// Speed item effect.
 class SpeedItemEffect {
   final double speedModifier;

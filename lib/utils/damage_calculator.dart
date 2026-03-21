@@ -416,6 +416,15 @@ class DamageCalculator {
       if (effectiveAbility == 'Infiltrator') notes.add('screen:bypass_infiltrator');
     }
 
+    // --- Type-resist berry ---
+    double berryMod = 1.0;
+    if (defender.selectedItem != null) {
+      berryMod = getResistBerryModifier(defender.selectedItem, moveType, effectiveness);
+      if (berryMod != 1.0) {
+        notes.add('item:${defender.selectedItem}:×$berryMod');
+      }
+    }
+
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level;
     final int power = effectiveMove.power;
@@ -427,7 +436,7 @@ class DamageCalculator {
     final double modifiers = stab * effectiveness * weatherMod * terrainMod *
         burnMod * critMod * powerMod * defAbilityDmgMod *
         tintedLensMod * neuroforceMod * filterMod * multiscaleMod * expertBeltMod *
-        screenMod;
+        screenMod * berryMod;
 
     final int baseDamage = (baseDmg * modifiers).floor();
 
