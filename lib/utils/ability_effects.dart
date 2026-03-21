@@ -495,10 +495,14 @@ const Set<String> ignorableAbilities = {
   // Move-based immunities
   'Soundproof', 'Bulletproof', 'Overcoat',
   // Damage reduction
-  'Filter', 'Solid Rock', 'Multiscale', 'Shadow Shield',
+  'Filter', 'Solid Rock', 'Prism Armor',
+  'Multiscale', 'Shadow Shield',
   'Fur Coat', 'Ice Scales', 'Fluffy',
-  'Thick Fat', 'Heatproof', 'Purifying Salt',
+  'Thick Fat', 'Heatproof', 'Water Bubble', 'Purifying Salt',
+  'Punk Rock',
   'Friend Guard',
+  // Type immunities (missing from original list)
+  'Earth Eater', 'Well-Baked Body',
   // Defensive stat boosts
   'Marvel Scale', 'Flower Gift',
   // Crit/accuracy (less relevant but ignorable)
