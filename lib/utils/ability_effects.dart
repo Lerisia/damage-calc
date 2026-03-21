@@ -194,6 +194,13 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(powerModifier: 1.3)
           : _defaultEffect;
 
+    // --- Parental Bond (Mega Kangaskhan) ---
+    case 'Parental Bond':
+      // 1.0x + 0.25x = 1.25x total for single-target moves
+      // Does not activate on multi-hit moves
+      if (move != null && _isMultiHit(move)) return _defaultEffect;
+      return const AbilityEffect(powerModifier: 1.25);
+
     // --- Critical override ---
     case 'Sniper':
       return const AbilityEffect(criticalOverride: 2.25);
@@ -305,6 +312,24 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   }
 }
 
+/// Returns true if [abilityName] grants immunity to [moveType].
+bool isAbilityTypeImmune(String abilityName, PokemonType moveType) {
+  const immunities = {
+    'Volt Absorb': PokemonType.electric,
+    'Lightning Rod': PokemonType.electric,
+    'Motor Drive': PokemonType.electric,
+    'Water Absorb': PokemonType.water,
+    'Storm Drain': PokemonType.water,
+    'Dry Skin': PokemonType.water,
+    'Flash Fire': PokemonType.fire,
+    'Well-Baked Body': PokemonType.fire,
+    'Sap Sipper': PokemonType.grass,
+    'Earth Eater': PokemonType.ground,
+    // Levitate is handled by isGrounded check, not here
+  };
+  return immunities[abilityName] == moveType;
+}
+
 /// Returns the speed modifier from [abilityName] given battle conditions.
 ///
 /// Convenience wrapper around [getAbilityEffect] that extracts the speed
@@ -320,6 +345,18 @@ double getSpeedAbilityModifier(String abilityName, {
 }
 
 /// Determine which stat is highest and boost it by 1.3x (1.5x for speed)
+/// Multi-hit moves that don't trigger Parental Bond.
+const _multiHitMoves = {
+  'Bullet Seed', 'Icicle Spear', 'Rock Blast', 'Pin Missile', 'Tail Slap',
+  'Scale Shot', 'Population Bomb', 'Bone Rush', 'Arm Thrust', 'Barrage',
+  'Comet Punch', 'Double Slap', 'Fury Attack', 'Fury Swipes', 'Spike Cannon',
+  'Water Shuriken', 'Triple Axel', 'Triple Kick', 'Triple Dive',
+  'Surging Strikes', 'Double Hit', 'Double Iron Bash', 'Dragon Darts',
+  'Dual Wingbeat', 'Twineedle',
+};
+
+bool _isMultiHit(Move move) => _multiHitMoves.contains(move.name);
+
 AbilityStatModifiers _boostHighestStat(Stats stats) {
   // Compare attack, defense, spAttack, spDefense, speed (not HP)
   final values = {
