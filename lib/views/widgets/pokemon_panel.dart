@@ -36,6 +36,7 @@ class PokemonPanel extends StatefulWidget {
   final VoidCallback onChanged;
   final int resetCounter;
   final bool isAttacker;
+  final int? opponentSpeed;
 
   const PokemonPanel({
     super.key,
@@ -47,6 +48,7 @@ class PokemonPanel extends StatefulWidget {
     required this.onChanged,
     required this.resetCounter,
     this.isAttacker = true,
+    this.opponentSpeed,
   });
 
   @override
@@ -259,6 +261,7 @@ class PokemonPanelState extends State<PokemonPanel>
               onAbilityChanged: (v) => setState(() { s.selectedAbility = v; _notify(); }),
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notify(); }),
               onRankChanged: (v) => setState(() { s.rank = v; _notify(); }),
+              opponentSpeed: widget.opponentSpeed,
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notify(); }),
               onStatusChanged: (v) => setState(() { s.status = v; _notify(); }),
             ),
@@ -318,32 +321,13 @@ class PokemonPanelState extends State<PokemonPanel>
           ] else ...[
             _sectionCard(
               title: '기타 보정',
-              child: Column(
+              child: Row(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(child: _compactCheck('리플렉터', s.reflect, (v) {
-                        setState(() { s.reflect = v; _notify(); });
-                      })),
-                      Expanded(child: _compactCheck('빛의장막', s.lightScreen, (v) {
-                        setState(() { s.lightScreen = v; _notify(); });
-                      })),
-                      Expanded(child: _compactCheck('오로라베일', s.auroraVeil, (v) {
-                        setState(() { s.auroraVeil = v; _notify(); });
-                      })),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(child: _compactCheck('프렌드가드', s.friendGuard, (v) {
-                        setState(() { s.friendGuard = v; _notify(); });
-                      })),
-                      Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
-                        setState(() { s.flowerGift = v; _notify(); });
-                      })),
-                      const Expanded(child: SizedBox()),
-                    ],
-                  ),
+                  Expanded(child: _compactCheck('플라워기프트', s.flowerGift, (v) {
+                    setState(() { s.flowerGift = v; _notify(); });
+                  })),
+                  const Expanded(child: SizedBox()),
+                  const Expanded(child: SizedBox()),
                 ],
               ),
             ),
@@ -371,10 +355,6 @@ class PokemonPanelState extends State<PokemonPanel>
       item: s.selectedItem,
       finalEvo: s.finalEvo,
       status: s.status,
-      reflect: s.reflect,
-      lightScreen: s.lightScreen,
-      auroraVeil: s.auroraVeil,
-      friendGuard: s.friendGuard,
       flowerGift: s.flowerGift,
     );
 
@@ -612,7 +592,10 @@ class PokemonPanelState extends State<PokemonPanel>
               ),
             ),
             const SizedBox(width: 4),
-            Text(label, style: const TextStyle(fontSize: 13)),
+            Flexible(child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(label, style: const TextStyle(fontSize: 13)),
+            )),
           ],
         ),
       ),

@@ -31,8 +31,8 @@ void main() {
         nature: Nature.hardy, level: 50,
         type1: PokemonType.grass,
       );
-      // HP = 120, Def = 69 -> 120 * 69 = 8280
-      expect(result.physical, equals(8280));
+      // HP = 120, Def = 69 -> floor(120 * 69 / 0.411) = 20145
+      expect(result.physical, equals(20145));
     });
 
     test('special bulk = HP * SpDef', () {
@@ -41,8 +41,8 @@ void main() {
         nature: Nature.hardy, level: 50,
         type1: PokemonType.grass,
       );
-      // HP = 120, SpD = 85 -> 120 * 85 = 10200
-      expect(result.special, equals(10200));
+      // HP = 120, SpD = 85 -> floor(120 * 85 / 0.411) = 24817
+      expect(result.special, equals(24817));
     });
   });
 
@@ -54,10 +54,10 @@ void main() {
         type1: PokemonType.rock,
         weather: Weather.sandstorm,
       );
-      // HP = 120, SpD = 85, sandstorm 1.5x -> floor(120 * 85 * 1.5) = 15300
-      expect(result.special, equals(15300));
+      // SpD = floor(85 * 1.5) = 127, HP * SpD = 120 * 127 = 15240
+      expect(result.special, equals(37080));
       // Physical unaffected
-      expect(result.physical, equals(8280));
+      expect(result.physical, equals(20145));
     });
 
     test('snow boosts Ice-type physical bulk', () {
@@ -67,10 +67,10 @@ void main() {
         type1: PokemonType.ice,
         weather: Weather.snow,
       );
-      // HP = 120, Def = 69, snow 1.5x -> floor(120 * 69 * 1.5) = 12420
-      expect(result.physical, equals(12420));
+      // Def = floor(69 * 1.5) = 103, HP * Def = 120 * 103 = 12360
+      expect(result.physical, equals(30072));
       // Special unaffected
-      expect(result.special, equals(10200));
+      expect(result.special, equals(24817));
     });
   });
 
@@ -83,8 +83,8 @@ void main() {
         ability: 'Fur Coat',
       );
       // HP = 120, Def = 69, Fur Coat 2.0x -> floor(120 * 69 * 2.0) = 16560
-      expect(result.physical, equals(16560));
-      expect(result.special, equals(10200));
+      expect(result.physical, equals(40291));
+      expect(result.special, equals(24817));
     });
 
     test('Ice Scales doubles special bulk', () {
@@ -94,8 +94,8 @@ void main() {
         type1: PokemonType.bug,
         ability: 'Ice Scales',
       );
-      expect(result.special, equals(20400)); // 120 * 85 * 2.0
-      expect(result.physical, equals(8280));
+      expect(result.special, equals(49635)); // 120 * 85 * 2.0
+      expect(result.physical, equals(20145));
     });
 
     test('Marvel Scale boosts physical bulk when statused', () {
@@ -106,8 +106,8 @@ void main() {
         ability: 'Marvel Scale',
         status: StatusCondition.burn,
       );
-      // floor(120 * 69 * 1.5) = 12420
-      expect(result.physical, equals(12420));
+      // Def = floor(69 * 1.5) = 103, Physical: 120 * 103 = 12360
+      expect(result.physical, equals(30072));
     });
 
     test('Marvel Scale no effect when healthy', () {
@@ -118,7 +118,7 @@ void main() {
         ability: 'Marvel Scale',
         status: StatusCondition.none,
       );
-      expect(result.physical, equals(8280));
+      expect(result.physical, equals(20145));
     });
   });
 
@@ -131,10 +131,10 @@ void main() {
         item: 'eviolite',
         finalEvo: false,
       );
-      // Physical: floor(120 * 69 * 1.5) = 12420
-      expect(result.physical, equals(12420));
-      // Special: floor(120 * 85 * 1.5) = 15300
-      expect(result.special, equals(15300));
+      // Def = floor(69 * 1.5) = 103, Physical: 120 * 103 = 12360
+      expect(result.physical, equals(30072));
+      // SpD = floor(85 * 1.5) = 127, Special: 120 * 127 = 15240
+      expect(result.special, equals(37080));
     });
 
     test('Eviolite no effect for final evo', () {
@@ -145,8 +145,8 @@ void main() {
         item: 'eviolite',
         finalEvo: true,
       );
-      expect(result.physical, equals(8280));
-      expect(result.special, equals(10200));
+      expect(result.physical, equals(20145));
+      expect(result.special, equals(24817));
     });
 
     test('Assault Vest boosts special bulk', () {
@@ -156,59 +156,9 @@ void main() {
         type1: PokemonType.fighting,
         item: 'assault-vest',
       );
-      expect(result.physical, equals(8280));
+      expect(result.physical, equals(20145));
       // Special: floor(120 * 85 * 1.5) = 15300
-      expect(result.special, equals(15300));
-    });
-  });
-
-  group('Screens', () {
-    test('Reflect doubles physical bulk', () {
-      final result = DefensiveCalculator.calculate(
-        baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
-        type1: PokemonType.normal,
-        reflect: true,
-      );
-      expect(result.physical, equals(16560)); // 8280 * 2
-      expect(result.special, equals(10200));
-    });
-
-    test('Light Screen doubles special bulk', () {
-      final result = DefensiveCalculator.calculate(
-        baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
-        type1: PokemonType.normal,
-        lightScreen: true,
-      );
-      expect(result.physical, equals(8280));
-      expect(result.special, equals(20400)); // 10200 * 2
-    });
-
-    test('Aurora Veil doubles both bulks', () {
-      final result = DefensiveCalculator.calculate(
-        baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
-        type1: PokemonType.normal,
-        auroraVeil: true,
-      );
-      expect(result.physical, equals(16560));
-      expect(result.special, equals(20400));
-    });
-  });
-
-  group('Friend Guard', () {
-    test('Friend Guard boosts both bulks by 4/3', () {
-      final result = DefensiveCalculator.calculate(
-        baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
-        type1: PokemonType.normal,
-        friendGuard: true,
-      );
-      // Physical: floor(120 * 69 * 4/3) = floor(11040) = 11040
-      expect(result.physical, equals(11040));
-      // Special: floor(120 * 85 * 4/3) = floor(13600) = 13600
-      expect(result.special, equals(13600));
+      expect(result.special, equals(37080));
     });
   });
 
@@ -221,9 +171,9 @@ void main() {
         weather: Weather.sun,
         flowerGift: true,
       );
-      expect(result.physical, equals(8280));
+      expect(result.physical, equals(20145));
       // Special: floor(120 * 85 * 1.5) = 15300
-      expect(result.special, equals(15300));
+      expect(result.special, equals(37080));
     });
 
     test('Flower Gift no effect without sun', () {
@@ -234,7 +184,7 @@ void main() {
         weather: Weather.rain,
         flowerGift: true,
       );
-      expect(result.special, equals(10200));
+      expect(result.special, equals(24817));
     });
 
     test('Flower Gift works in harsh sun', () {
@@ -245,7 +195,7 @@ void main() {
         weather: Weather.harshSun,
         flowerGift: true,
       );
-      expect(result.special, equals(15300));
+      expect(result.special, equals(37080));
     });
   });
 
@@ -259,7 +209,7 @@ void main() {
       );
       // Def = 69, rank +2 = 2.0x -> 138
       // Physical: 120 * 138 = 16560
-      expect(result.physical, equals(16560));
+      expect(result.physical, equals(40291));
     });
 
     test('negative spDefense rank decreases special bulk', () {
@@ -271,24 +221,11 @@ void main() {
       );
       // SpD = 85, rank -2 = 0.5x -> 42
       // Special: 120 * 42 = 5040
-      expect(result.special, equals(5040));
+      expect(result.special, equals(12262));
     });
   });
 
   group('Combined modifiers', () {
-    test('Eviolite + Reflect stack', () {
-      final result = DefensiveCalculator.calculate(
-        baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
-        type1: PokemonType.grass,
-        item: 'eviolite',
-        finalEvo: false,
-        reflect: true,
-      );
-      // Physical: floor(120 * 69 * 1.5 * 2.0) = floor(24840) = 24840
-      expect(result.physical, equals(24840));
-    });
-
     test('Sandstorm + Assault Vest stack for Rock type', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
@@ -297,8 +234,8 @@ void main() {
         weather: Weather.sandstorm,
         item: 'assault-vest',
       );
-      // Special: floor(120 * 85 * 1.5 * 1.5) = floor(22950) = 22950
-      expect(result.special, equals(22950));
+      // SpD = floor(85 * 1.5 * 1.5) = floor(191.25) = 191, Special: 120 * 191 = 22920
+      expect(result.special, equals(55766));
     });
   });
 }
