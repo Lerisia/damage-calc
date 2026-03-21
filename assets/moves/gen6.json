@@ -299,7 +299,10 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "powder"
+    ]
   },
   {
     "name": "Confide",

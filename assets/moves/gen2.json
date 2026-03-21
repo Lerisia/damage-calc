@@ -292,7 +292,10 @@
     "category": "status",
     "power": 0,
     "accuracy": 100,
-    "pp": 40
+    "pp": 40,
+    "tags": [
+      "powder"
+    ]
   },
   {
     "name": "Future Sight",

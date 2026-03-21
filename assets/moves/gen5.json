@@ -381,7 +381,10 @@
     "category": "status",
     "power": 0,
     "accuracy": 0,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "powder"
+    ]
   },
   {
     "name": "Work Up",
