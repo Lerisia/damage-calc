@@ -313,9 +313,8 @@ Move _applySpeedPower(Move move, int? mySpeed, int? opponentSpeed) {
 /// - Misty Explosion: 1.5x in Misty Terrain
 /// - Earthquake/Bulldoze/Magnitude: 0.5x in Grassy Terrain
 Move _applyTerrainPowerBoost(Move move, Terrain terrain) {
-  if (move.hasTag(MoveTags.grassyHalve) && terrain == Terrain.grassy) {
-    return move.copyWith(power: (move.power * 0.5).floor());
-  }
+  // Note: Grassy Terrain halving Earthquake/Bulldoze is in terrain_effects.dart
+  // (applied as a damage modifier), NOT here, to avoid double application.
   if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric) {
     return move.copyWith(power: move.power * 2);
   }
