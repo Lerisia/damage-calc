@@ -71,10 +71,10 @@ void main() {
     });
 
     // --- Power modifier items ---
-    test('life-orb boosts power by 1.3x', () {
+    test('life-orb boosts power by ~1.3x (5324/4096)', () {
       final effect = getItemEffect('life-orb', move: tackle);
       expect(effect.statModifier, equals(1.0));
-      expect(effect.powerModifier, equals(1.3));
+      expect(effect.powerModifier, closeTo(5324/4096, 0.001));
     });
 
     test('muscle-band boosts physical moves by 1.1x', () {

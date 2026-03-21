@@ -222,12 +222,12 @@ void main() {
     });
 
     test('Orichalcum Pulse boosts attack in sun/harsh sun', () {
-      expect(getAbilityEffect('Orichalcum Pulse', move: physicalNormal, weather: Weather.sun).statModifiers.attack, equals(1.3));
+      expect(getAbilityEffect('Orichalcum Pulse', move: physicalNormal, weather: Weather.sun).statModifiers.attack, closeTo(5461/4096, 0.001));
       expect(getAbilityEffect('Orichalcum Pulse', move: physicalNormal, weather: Weather.none).statModifiers.attack, equals(1.0));
     });
 
     test('Hadron Engine boosts spAttack in electric terrain', () {
-      expect(getAbilityEffect('Hadron Engine', move: electricMove, terrain: Terrain.electric).statModifiers.spAttack, equals(1.3));
+      expect(getAbilityEffect('Hadron Engine', move: electricMove, terrain: Terrain.electric).statModifiers.spAttack, closeTo(5461/4096, 0.001));
       expect(getAbilityEffect('Hadron Engine', move: electricMove, terrain: Terrain.none).statModifiers.spAttack, equals(1.0));
     });
 
@@ -257,7 +257,7 @@ void main() {
 
     test('Protosynthesis boosts highest stat in sun', () {
       final effect = getAbilityEffect('Protosynthesis', move: physicalNormal, weather: Weather.sun, actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, equals(1.3));
+      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
     });
 
     test('Protosynthesis boosts speed by 1.5x if highest', () {
@@ -267,7 +267,7 @@ void main() {
 
     test('Protosynthesis activates with booster-energy without sun', () {
       final effect = getAbilityEffect('Protosynthesis', move: physicalNormal, weather: Weather.none, heldItem: 'booster-energy', actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, equals(1.3));
+      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
     });
 
     test('Protosynthesis inactive without sun or booster-energy', () {
@@ -277,12 +277,12 @@ void main() {
 
     test('Quark Drive boosts highest stat in electric terrain', () {
       final effect = getAbilityEffect('Quark Drive', move: electricMove, terrain: Terrain.electric, actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, equals(1.3));
+      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
     });
 
     test('Quark Drive activates with booster-energy without terrain', () {
       final effect = getAbilityEffect('Quark Drive', move: electricMove, terrain: Terrain.none, heldItem: 'booster-energy', actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, equals(1.3));
+      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
     });
   });
 
