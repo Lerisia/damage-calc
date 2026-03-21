@@ -46,6 +46,12 @@ class MoveContext {
   /// Actual (rank-applied) Sp.Attack stat — needed for Tera Blast category check.
   final int? actualSpAttack;
 
+  /// User's weight in kg (after ability modifiers).
+  final double? myWeight;
+
+  /// Opponent's weight in kg (after ability modifiers).
+  final double? opponentWeight;
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
@@ -62,6 +68,8 @@ class MoveContext {
     this.opponentSpeed,
     this.actualAttack,
     this.actualSpAttack,
+    this.myWeight,
+    this.opponentWeight,
   });
 }
 
@@ -117,6 +125,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
   move = _applyHpPower(move, context.hpPercent);
   move = _applyStatusPower(move, context.status);
   move = _applySpeedPower(move, context.mySpeed, context.opponentSpeed);
+  move = _applyWeightPower(move, context.myWeight, context.opponentWeight);
 
   // 4. Field-based power boosts
   move = _applyTerrainPowerBoost(move, context.terrain);
@@ -300,6 +309,51 @@ Move _applySpeedPower(Move move, int? mySpeed, int? opponentSpeed) {
       power = 80;
     } else {
       power = 60;
+    }
+    return move.copyWith(power: power);
+  }
+
+  return move;
+}
+
+/// Weight-based power: Heavy Slam/Heat Crash (ratio) and Low Kick/Grass Knot (target weight).
+Move _applyWeightPower(Move move, double? myWeight, double? opponentWeight) {
+  // Heavy Slam / Heat Crash: power based on user/target weight ratio
+  if (move.hasTag(MoveTags.weightRatio)) {
+    if (myWeight == null || opponentWeight == null || opponentWeight <= 0) return move;
+    final ratio = myWeight / opponentWeight;
+    final int power;
+    if (ratio >= 5) {
+      power = 120;
+    } else if (ratio >= 4) {
+      power = 100;
+    } else if (ratio >= 3) {
+      power = 80;
+    } else if (ratio >= 2) {
+      power = 60;
+    } else {
+      power = 40;
+    }
+    return move.copyWith(power: power);
+  }
+
+  // Low Kick / Grass Knot: power based on target weight
+  if (move.hasTag(MoveTags.weightTarget)) {
+    if (opponentWeight == null) return move;
+    final w = opponentWeight;
+    final int power;
+    if (w >= 200) {
+      power = 120;
+    } else if (w >= 100) {
+      power = 100;
+    } else if (w >= 50) {
+      power = 80;
+    } else if (w >= 25) {
+      power = 60;
+    } else if (w >= 10) {
+      power = 40;
+    } else {
+      power = 20;
     }
     return move.copyWith(power: power);
   }

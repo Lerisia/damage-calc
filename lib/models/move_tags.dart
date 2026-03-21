@@ -31,6 +31,8 @@ class MoveTags {
   static const String gyroSpeed = 'custom:gyro_speed';
   static const String electroSpeed = 'custom:electro_speed';
   static const String weightBased = 'custom:weight_based';
+  static const String weightRatio = 'custom:weight_ratio';   // Heavy Slam, Heat Crash
+  static const String weightTarget = 'custom:weight_target'; // Low Kick, Grass Knot
   static const String grassyHalve = 'custom:grassy_halve';
   static const String doubleDynamax = 'custom:double_dynamax';
   static const String targetPhysDef = 'custom:target_phys_def';

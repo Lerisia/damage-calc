@@ -366,6 +366,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   opponentAlwaysLast: _isAlwaysLast(_defender),
                   opponentAttack: _calcStats(_defender).attack,
                   opponentGender: _defender.gender,
+                  opponentWeight: BattleFacade.effectiveWeight(_defender),
                 ),
                 PokemonPanel(
                   key: _defenderPanelKey,
@@ -381,6 +382,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   opponentAlwaysLast: _isAlwaysLast(_attacker),
                   opponentAttack: _calcStats(_attacker).attack,
                   opponentGender: _attacker.gender,
+                  opponentWeight: BattleFacade.effectiveWeight(_attacker),
                 ),
                 _buildDamageCalcTab(),
                 SpeedCompareTab(
@@ -717,7 +719,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         final name = _abilityNameMap[parts[1]] ?? parts[1];
         if (parts.length >= 3) {
           if (parts[2] == 'immune') return '$name 특성에 의해 무효';
-          return '$name ${parts[2]}';
+          final detail = parts[2];
+          // If detail starts with '-', join without space (e.g. 페어리오라-오라브레이크)
+          if (detail.startsWith('-')) return '$name$detail';
+          return '$name $detail';
         }
         return name;
       case 'item':
