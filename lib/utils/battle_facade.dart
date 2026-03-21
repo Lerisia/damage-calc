@@ -20,10 +20,10 @@ import 'speed_calculator.dart';
 import 'stat_calculator.dart';
 
 /// Items nullified during Dynamax.
-const _dmaxNullItems = {'choice-band', 'choice-specs', 'choice-scarf'};
+const dmaxNullItems = {'choice-band', 'choice-specs', 'choice-scarf'};
 
 /// Abilities nullified during Dynamax.
-const _dmaxNullAbilities = {'Gorilla Tactics', 'Sheer Force'};
+const dmaxNullAbilities = {'Gorilla Tactics', 'Sheer Force'};
 
 /// Display-ready information for a single move slot.
 class MoveSlotInfo {
@@ -238,7 +238,7 @@ class BattleFacade {
     final isDmaxed = state.dynamax != DynamaxState.none;
 
     final effectiveItem =
-        (isDmaxed && _dmaxNullItems.contains(state.selectedItem))
+        (isDmaxed && dmaxNullItems.contains(state.selectedItem))
             ? null
             : state.selectedAbility == 'Klutz'
                 ? null
@@ -249,7 +249,7 @@ class BattleFacade {
         : const ItemEffect();
 
     final effectiveAbility =
-        (isDmaxed && _dmaxNullAbilities.contains(state.selectedAbility))
+        (isDmaxed && dmaxNullAbilities.contains(state.selectedAbility))
             ? null
             : state.selectedAbility;
     final abilityEffect = effectiveAbility != null

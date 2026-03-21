@@ -352,7 +352,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:double_on_poison"
+    ]
   },
   {
     "name": "Hex",
@@ -362,7 +365,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:double_on_status"
+    ]
   },
   {
     "name": "Volt Switch",
@@ -459,7 +465,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": ["custom:target_phys_def"]
+    "tags": [
+      "custom:target_phys_def"
+    ]
   },
   {
     "name": "Psyshock",
@@ -470,7 +478,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": ["custom:target_phys_def"]
+    "tags": [
+      "custom:target_phys_def"
+    ]
   },
   {
     "name": "Sacred Sword",
@@ -482,7 +492,9 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "slice"
+      "contact",
+      "slice",
+      "custom:ignore_def_rank"
     ]
   },
   {
@@ -550,7 +562,9 @@
     "power": 85,
     "accuracy": 100,
     "pp": 10,
-    "tags": ["custom:target_phys_def"]
+    "tags": [
+      "custom:target_phys_def"
+    ]
   },
   {
     "name": "Simple Beam",
@@ -616,7 +630,11 @@
     "category": "physical",
     "power": 70,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "contact",
+      "custom:ignore_def_rank"
+    ]
   },
   {
     "name": "Stored Power",

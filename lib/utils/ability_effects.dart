@@ -429,9 +429,8 @@ double getSpeedAbilityModifier(String abilityName, {
   ).statModifiers.speed;
 }
 
-/// Determine which stat is highest and boost it by 1.3x (1.5x for speed)
-/// Multi-hit moves that don't trigger Parental Bond.
-const _multiHitMoves = {
+/// Multi-hit moves (used by Parental Bond check and Dynamax power table).
+const multiHitMoves = {
   'Bullet Seed', 'Icicle Spear', 'Rock Blast', 'Pin Missile', 'Tail Slap',
   'Scale Shot', 'Population Bomb', 'Bone Rush', 'Arm Thrust', 'Barrage',
   'Comet Punch', 'Double Slap', 'Fury Attack', 'Fury Swipes', 'Spike Cannon',
@@ -440,7 +439,7 @@ const _multiHitMoves = {
   'Dual Wingbeat', 'Twineedle',
 };
 
-bool _isMultiHit(Move move) => _multiHitMoves.contains(move.name);
+bool _isMultiHit(Move move) => multiHitMoves.contains(move.name);
 
 AbilityStatModifiers _boostHighestStat(Stats stats) {
   // Compare attack, defense, spAttack, spDefense, speed (not HP)
@@ -576,6 +575,7 @@ Rank getEffectiveDefensiveRank({
   required bool isCritical,
   String? attackerAbility,
   String? defenderAbility,
+  bool ignoreDefRank = false,
 }) {
   var r = rank;
 
@@ -588,8 +588,9 @@ Rank getEffectiveDefensiveRank({
     );
   }
 
-  // Critical hit: clamp positive defense ranks to 0
-  if (isCritical) {
+  // Sacred Sword / Chip Away / Darkest Lariat: ignore positive defense ranks
+  // Critical hit: also clamp positive defense ranks to 0
+  if (ignoreDefRank || isCritical) {
     r = Rank(
       attack: r.attack,
       defense: math.min(0, r.defense),
@@ -652,4 +653,47 @@ Rank getEffectiveDefensiveRank({
   }
 
   return (multiplier: 1.0, note: null);
+}
+
+// ====== Ruins (재앙) ======
+
+/// Returns stat multipliers from Ruin abilities.
+///
+/// Ruin abilities reduce the opponent's corresponding stat by 25% (x0.75):
+/// - Tablets of Ruin (defender has): attacker's Attack x0.75
+/// - Vessel of Ruin (defender has): attacker's Sp.Atk x0.75
+/// - Sword of Ruin (attacker has): defender's Defense x0.75
+/// - Beads of Ruin (attacker has): defender's Sp.Def x0.75
+({double atkMod, double defMod, List<String> notes}) getRuinModifiers({
+  required String? attackerAbility,
+  required String? defenderAbility,
+  required bool isPhysical,
+}) {
+  double atkMod = 1.0;
+  double defMod = 1.0;
+  final notes = <String>[];
+
+  // Defender's Ruin abilities reduce attacker's offensive stat
+  if (defenderAbility != null) {
+    if (isPhysical && defenderAbility == 'Tablets of Ruin') {
+      atkMod *= 0.75;
+      notes.add('ability:Tablets of Ruin:공격 ×0.75');
+    } else if (!isPhysical && defenderAbility == 'Vessel of Ruin') {
+      atkMod *= 0.75;
+      notes.add('ability:Vessel of Ruin:특공 ×0.75');
+    }
+  }
+
+  // Attacker's Ruin abilities reduce defender's defensive stat
+  if (attackerAbility != null) {
+    if (isPhysical && attackerAbility == 'Sword of Ruin') {
+      defMod *= 0.75;
+      notes.add('ability:Sword of Ruin:방어 ×0.75');
+    } else if (!isPhysical && attackerAbility == 'Beads of Ruin') {
+      defMod *= 0.75;
+      notes.add('ability:Beads of Ruin:특방 ×0.75');
+    }
+  }
+
+  return (atkMod: atkMod, defMod: defMod, notes: notes);
 }

@@ -38,4 +38,11 @@ class MoveTags {
   static const String fixedLevel = 'custom:fixed_level';
   static const String fixedHalfHp = 'custom:fixed_half_hp';
   static const String ignoreDefRank = 'custom:ignore_def_rank';
+
+  // Move-specific power conditions (based on defender state)
+  static const String requiresDefItem = 'custom:requires_def_item';
+  static const String knockOff = 'custom:knock_off';
+  static const String doubleOnStatus = 'custom:double_on_status';
+  static const String doubleOnPoison = 'custom:double_on_poison';
+  static const String doubleOnHalfHp = 'custom:double_on_half_hp';
 }

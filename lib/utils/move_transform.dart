@@ -9,6 +9,7 @@ import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
+import 'ability_effects.dart' show multiHitMoves;
 
 /// Which stat the move should use for offense
 enum OffensiveStat {
@@ -492,18 +493,8 @@ int _maxMoveBasePower(Move move) {
     return 130;
   }
 
-  // Multi-hit moves -> use single-hit power for conversion
-  // (Bulbapedia shows they map to 130 for most)
-  if (move.name == 'Pin Missile' || move.name == 'Tail Slap' ||
-      move.name == 'Bullet Seed' || move.name == 'Icicle Spear' ||
-      move.name == 'Rock Blast' || move.name == 'Population Bomb' ||
-      move.name == 'Scale Shot' || move.name == 'Fury Attack' ||
-      move.name == 'Fury Swipes' || move.name == 'Bone Rush' ||
-      move.name == 'Arm Thrust' || move.name == 'Barrage' ||
-      move.name == 'Comet Punch' || move.name == 'Double Slap' ||
-      move.name == 'Spike Cannon' || move.name == 'Water Shuriken' ||
-      move.name == 'Surge Strikes' || move.name == 'Triple Axel' ||
-      move.name == 'Triple Kick' || move.name == 'Double Hit') {
+  // Multi-hit moves -> 130 for Dynamax conversion
+  if (multiHitMoves.contains(move.name)) {
     return 130;
   }
 

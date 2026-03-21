@@ -271,7 +271,10 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": ["contact", "custom:double_dynamax"]
+    "tags": [
+      "contact",
+      "custom:double_dynamax"
+    ]
   },
   {
     "name": "Behemoth Bash",
@@ -282,7 +285,10 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": ["contact", "custom:double_dynamax"]
+    "tags": [
+      "contact",
+      "custom:double_dynamax"
+    ]
   },
   {
     "name": "Grassy Glide",
@@ -367,7 +373,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": ["custom:double_dynamax"]
+    "tags": [
+      "custom:double_dynamax"
+    ]
   },
   {
     "name": "Max Flare",
@@ -1171,7 +1179,10 @@
     "category": "physical",
     "power": 110,
     "accuracy": 90,
-    "pp": 5
+    "pp": 5,
+    "tags": [
+      "custom:requires_def_item"
+    ]
   },
   {
     "name": "Pyro Ball",

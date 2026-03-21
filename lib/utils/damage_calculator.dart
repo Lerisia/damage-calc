@@ -13,6 +13,7 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
+import 'battle_facade.dart' show dmaxNullItems, dmaxNullAbilities;
 import 'grounded.dart';
 import 'item_effects.dart';
 import 'move_transform.dart';
@@ -224,7 +225,6 @@ class DamageCalculator {
     int rawA = transformed.resolveStat(atkActual, opponentAttack: opponentAttack);
 
     // Item effect on attacking stat
-    final dmaxNullItems = {'choice-band', 'choice-specs', 'choice-scarf'};
     final effectiveItem = (isDmaxed && dmaxNullItems.contains(attacker.selectedItem))
         ? null : attacker.selectedItem;
     final itemEffect = effectiveItem != null
@@ -232,7 +232,6 @@ class DamageCalculator {
         : const ItemEffect();
 
     // Ability effect
-    final dmaxNullAbilities = {'Gorilla Tactics', 'Sheer Force'};
     final effectiveAbility = (isDmaxed && dmaxNullAbilities.contains(attacker.selectedAbility))
         ? null : attacker.selectedAbility;
     final abilityEffect = effectiveAbility != null
@@ -530,8 +529,8 @@ class DamageCalculator {
       }
     }
 
-    // --- Poltergeist: fails if defender has no item ---
-    if (effectiveMove.name == 'Poltergeist' && defender.selectedItem == null) {
+    // --- Moves that require defender to have an item ---
+    if (effectiveMove.hasTag(MoveTags.requiresDefItem) && defender.selectedItem == null) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: 0.0,
@@ -543,8 +542,7 @@ class DamageCalculator {
     // --- Move-specific power modifiers based on defender state ---
     double movePowerMod = 1.0;
 
-    // Knock Off: x1.5 if defender holds a removable item
-    if (effectiveMove.name == 'Knock Off' && defender.selectedItem != null) {
+    if (effectiveMove.hasTag(MoveTags.knockOff) && defender.selectedItem != null) {
       final defItem = defender.selectedItem!;
       final bool isFixedItem = defItem == defender.pokemonName.toLowerCase().replaceAll(' ', '-') ||
           _isUnremovableItem(defItem, defender.pokemonName);
@@ -553,20 +551,17 @@ class DamageCalculator {
         notes.add('move:knock_off:×1.5');
       }
     }
-    // Hex: x2 if defender has a status condition
-    else if (effectiveMove.name == 'Hex' && defender.status != StatusCondition.none) {
-      movePowerMod = 2.0;
+    if (effectiveMove.hasTag(MoveTags.doubleOnStatus) && defender.status != StatusCondition.none) {
+      movePowerMod *= 2.0;
       notes.add('move:hex:×2.0');
     }
-    // Venoshock: x2 if defender is poisoned
-    else if (effectiveMove.name == 'Venoshock' &&
+    if (effectiveMove.hasTag(MoveTags.doubleOnPoison) &&
         (defender.status == StatusCondition.poison || defender.status == StatusCondition.badlyPoisoned)) {
-      movePowerMod = 2.0;
+      movePowerMod *= 2.0;
       notes.add('move:venoshock:×2.0');
     }
-    // Brine: x2 if defender HP <= 50%
-    else if (effectiveMove.name == 'Brine' && defender.hpPercent <= 50) {
-      movePowerMod = 2.0;
+    if (effectiveMove.hasTag(MoveTags.doubleOnHalfHp) && defender.hpPercent <= 50) {
+      movePowerMod *= 2.0;
       notes.add('move:brine:×2.0');
     }
 
