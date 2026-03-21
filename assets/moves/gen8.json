@@ -903,7 +903,10 @@
     "category": "physical",
     "power": 85,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "bite"
+    ]
   },
   {
     "name": "Astral Barrage",

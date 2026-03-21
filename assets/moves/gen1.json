@@ -1659,7 +1659,8 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "bite"
     ]
   },
   {
