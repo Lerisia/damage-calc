@@ -9,8 +9,12 @@ import 'item_effects.dart';
 import 'stat_calculator.dart';
 import 'weather_effects.dart';
 
-/// Calculates defensive bulk (내구) as HP * Defense or HP * SpDefense.
+/// Calculates defensive bulk (내구) as HP * Defense / 0.411.
+///
+/// The 0.411 correction factor comes from the damage formula,
+/// making bulk values directly comparable to 결정력 (offensive power).
 class DefensiveCalculator {
+  static const double _correctionFactor = 0.411;
   static ({int physical, int special}) calculate({
     required Stats baseStats,
     required Stats iv,
@@ -25,10 +29,6 @@ class DefensiveCalculator {
     String? item,
     bool finalEvo = true,
     StatusCondition status = StatusCondition.none,
-    bool reflect = false,
-    bool lightScreen = false,
-    bool auroraVeil = false,
-    bool friendGuard = false,
     bool flowerGift = false,
   }) {
     final actualStats = StatCalculator.calculate(
@@ -40,45 +40,40 @@ class DefensiveCalculator {
       rank: rank,
     );
 
+    // Stat modifiers: applied to individual def/spd stats before HP multiplication
     final weatherMod = getWeatherDefensiveModifier(
       weather, type1: type1, type2: type2,
     );
-    double defMod = weatherMod.defMod;
-    double spdMod = weatherMod.spdMod;
+    double defStatMod = weatherMod.defMod;
+    double spdStatMod = weatherMod.spdMod;
 
-    // Ability
+    // Ability (modifies the stat itself)
     if (ability != null) {
       final abilityEffect = getDefensiveAbilityEffect(ability, status: status);
-      defMod *= abilityEffect.defModifier;
-      spdMod *= abilityEffect.spdModifier;
+      defStatMod *= abilityEffect.defModifier;
+      spdStatMod *= abilityEffect.spdModifier;
     }
 
-    // Item
+    // Item (modifies the stat itself)
     if (item != null) {
       final itemEffect = getDefensiveItemEffect(item, finalEvo: finalEvo);
-      defMod *= itemEffect.defModifier;
-      spdMod *= itemEffect.spdModifier;
+      defStatMod *= itemEffect.defModifier;
+      spdStatMod *= itemEffect.spdModifier;
     }
 
-    // Screens
-    if (reflect || auroraVeil) defMod *= 2.0;
-    if (lightScreen || auroraVeil) spdMod *= 2.0;
-
-    // Friend Guard (damage x0.75 = bulk x4/3)
-    if (friendGuard) {
-      defMod *= 4.0 / 3.0;
-      spdMod *= 4.0 / 3.0;
-    }
-
-    // Flower Gift (sun/harsh sun: SpDef x1.5)
+    // Flower Gift (sun/harsh sun: SpDef x1.5 - stat modifier)
     if (flowerGift &&
         (weather == Weather.sun || weather == Weather.harshSun)) {
-      spdMod *= 1.5;
+      spdStatMod *= 1.5;
     }
 
+    // Calculate bulk: HP * modified stat
+    final int effectiveDef = (actualStats.defense * defStatMod).floor();
+    final int effectiveSpd = (actualStats.spDefense * spdStatMod).floor();
+
     return (
-      physical: (actualStats.hp * actualStats.defense * defMod).floor(),
-      special: (actualStats.hp * actualStats.spDefense * spdMod).floor(),
+      physical: (actualStats.hp * effectiveDef / _correctionFactor).floor(),
+      special: (actualStats.hp * effectiveSpd / _correctionFactor).floor(),
     );
   }
 }
