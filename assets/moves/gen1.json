@@ -232,7 +232,10 @@
     "category": "special",
     "power": 0,
     "accuracy": 100,
-    "pp": 15
+    "pp": 15,
+    "tags": [
+      "custom:fixed_level"
+    ]
   },
   {
     "name": "Thrash",
@@ -791,7 +794,10 @@
     "category": "physical",
     "power": 0,
     "accuracy": 90,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:fixed_half_hp"
+    ]
   },
   {
     "name": "Ember",
@@ -1396,7 +1402,11 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "contact",
+      "custom:fixed_level"
+    ]
   },
   {
     "name": "Submission",

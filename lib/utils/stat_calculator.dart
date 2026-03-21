@@ -14,17 +14,18 @@ class StatCalculator {
     required int level,
     Rank rank = const Rank(),
   }) {
+    final lv = level.clamp(1, 100);
     return Stats(
-      hp: _calcHp(baseStats.hp, iv.hp, ev.hp, level),
-      attack: _calcStat(baseStats.attack, iv.attack, ev.attack, level,
+      hp: _calcHp(baseStats.hp, iv.hp, ev.hp, lv),
+      attack: _calcStat(baseStats.attack, iv.attack, ev.attack, lv,
           nature.attackModifier, rank.attackMultiplier),
-      defense: _calcStat(baseStats.defense, iv.defense, ev.defense, level,
+      defense: _calcStat(baseStats.defense, iv.defense, ev.defense, lv,
           nature.defenseModifier, rank.defenseMultiplier),
-      spAttack: _calcStat(baseStats.spAttack, iv.spAttack, ev.spAttack, level,
+      spAttack: _calcStat(baseStats.spAttack, iv.spAttack, ev.spAttack, lv,
           nature.spAttackModifier, rank.spAttackMultiplier),
       spDefense: _calcStat(baseStats.spDefense, iv.spDefense, ev.spDefense,
-          level, nature.spDefenseModifier, rank.spDefenseMultiplier),
-      speed: _calcStat(baseStats.speed, iv.speed, ev.speed, level,
+          lv, nature.spDefenseModifier, rank.spDefenseMultiplier),
+      speed: _calcStat(baseStats.speed, iv.speed, ev.speed, lv,
           nature.speedModifier, rank.speedMultiplier),
     );
   }
