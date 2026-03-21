@@ -90,6 +90,40 @@ class DamageResult {
 /// `damage = floor(floor((2*Lv/5+2) * Power * A/D) / 50 + 2) * modifiers * random`
 ///
 /// Takes [BattlePokemonState] for both sides and battle conditions.
+
+/// Items that can't be removed by Knock Off (no power boost).
+/// Mega Stones for the matching Pokemon, Z-Crystals, Primal orbs,
+/// Memories (Silvally), form-change items are handled via requiredItem
+/// in the Pokemon data. This covers generic categories.
+bool _isUnremovableItem(String itemName, String pokemonName) {
+  // Z-Crystals
+  if (itemName.endsWith('--held')) return true;
+  // Mega stones (if name ends with 'ite' variants)
+  if (itemName.endsWith('ite') || itemName.endsWith('ite-x') || itemName.endsWith('ite-y')) {
+    // Only unremovable if the Pokemon can actually use it
+    // For simplicity, all mega stones are unremovable
+    return true;
+  }
+  // Memory items (Silvally)
+  if (itemName.endsWith('-memory')) return true;
+  // Form-change items checked via requiredItem in Pokemon JSON
+  // Primal orbs, Rusted Sword/Shield, Ogerpon masks, etc.
+  const fixedItems = {
+    'blue-orb', 'red-orb', 'rusted-sword', 'rusted-shield',
+    'griseous-core', 'griseous-orb', 'adamant-crystal', 'lustrous-globe',
+    'adamant-orb', 'lustrous-orb', // these are removable actually, but orbs are not
+  };
+  if (fixedItems.contains(itemName)) return true;
+  // Booster Energy on Paradox Pokemon
+  if (itemName == 'booster-energy') {
+    final lower = pokemonName.toLowerCase();
+    // Paradox Pokemon have specific names; simplify by checking ability later
+    // For now, booster energy is always removable (conservative)
+    return false;
+  }
+  return false;
+}
+
 class DamageCalculator {
   /// Calculate damage for a specific move slot.
   static DamageResult calculate({
@@ -271,6 +305,17 @@ class DamageCalculator {
     final moveType = effectiveMove.type;
     final notes = <String>[];
 
+    // Weight-based moves fail against Dynamaxed targets
+    if (defender.dynamax != DynamaxState.none &&
+        effectiveMove.hasTag(MoveTags.weightBased)) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defActual.hp, effectiveness: 0.0,
+        isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: ['다이맥스 상대에게 무게 기반 기술 무효'],
+      );
+    }
+
     // Type immunity abilities (Volt Absorb, Water Absorb, Flash Fire, etc.)
     if (defAbilityName != null && isAbilityTypeImmune(defAbilityName, moveType)) {
       return DamageResult(
@@ -431,9 +476,32 @@ class DamageCalculator {
       }
     }
 
+    // --- Poltergeist: fails if defender has no item ---
+    if (effectiveMove.name == 'Poltergeist' && defender.selectedItem == null) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defActual.hp, effectiveness: 0.0,
+        isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: ['상대 아이템 없음: 폴터가이스트 실패'],
+      );
+    }
+
+    // --- Knock Off power boost ---
+    double knockOffMod = 1.0;
+    if (effectiveMove.name == 'Knock Off' && defender.selectedItem != null) {
+      // Items that can't be knocked off don't grant the boost
+      final defItem = defender.selectedItem!;
+      final bool isFixedItem = defItem == defender.pokemonName.toLowerCase().replaceAll(' ', '-') || // requiredItem logic
+          _isUnremovableItem(defItem, defender.pokemonName);
+      if (!isFixedItem) {
+        knockOffMod = 1.5;
+        notes.add('move:knock_off:×1.5');
+      }
+    }
+
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level;
-    final int power = effectiveMove.power;
+    final int power = (effectiveMove.power * knockOffMod).floor();
     if (D == 0) D = 1; // prevent division by zero
 
     final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;

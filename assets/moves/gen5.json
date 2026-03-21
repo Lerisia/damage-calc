@@ -1008,7 +1008,10 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:weight_based"
+    ]
   },
   {
     "name": "Searing Shot",
@@ -1031,6 +1034,9 @@
     "category": "physical",
     "power": 0,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:weight_based"
+    ]
   }
 ]

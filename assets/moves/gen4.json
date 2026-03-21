@@ -1202,7 +1202,10 @@
     "category": "special",
     "power": 0,
     "accuracy": 100,
-    "pp": 20
+    "pp": 20,
+    "tags": [
+      "custom:weight_based"
+    ]
   },
   {
     "name": "Flare Blitz",
