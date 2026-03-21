@@ -203,8 +203,10 @@ Move _applyWeather(Move move, Weather weather) {
   final PokemonType weatherType;
   switch (weather) {
     case Weather.sun:
+    case Weather.harshSun:
       weatherType = PokemonType.fire;
     case Weather.rain:
+    case Weather.heavyRain:
       weatherType = PokemonType.water;
     case Weather.sandstorm:
       weatherType = PokemonType.rock;

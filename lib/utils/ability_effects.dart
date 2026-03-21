@@ -333,8 +333,7 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
       return const DefensiveAbilityEffect(defModifier: 2.0);
     case 'Ice Scales':
       return const DefensiveAbilityEffect(spdModifier: 2.0);
-    case 'Fluffy':
-      return const DefensiveAbilityEffect(defModifier: 2.0);
+    // Fluffy: handled in getDefensiveAbilityDamageMultiplier (contact-dependent)
     case 'Marvel Scale':
       return status != StatusCondition.none
           ? const DefensiveAbilityEffect(defModifier: 1.5)
@@ -370,10 +369,10 @@ double getDefensiveAbilityDamageMultiplier(String abilityName, {
     case 'Dry Skin':
       return moveType == PokemonType.fire ? 1.25 : 1.0;
     case 'Fluffy':
-      // Contact halved is handled by defModifier 2.0; fire takes double
+      // Fire moves deal double damage
       if (moveType == PokemonType.fire) return 2.0;
-      // Non-contact moves bypass Fluffy's defense boost
-      if (!move.hasTag(MoveTags.contact)) return 1.0;
+      // Contact moves deal half damage
+      if (move.hasTag(MoveTags.contact)) return 0.5;
       return 1.0;
     case 'Punk Rock':
       return move.hasTag(MoveTags.sound) ? 0.5 : 1.0;
