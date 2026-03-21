@@ -282,10 +282,12 @@ class PokemonPanelState extends State<PokemonPanel>
               onSelected: (pokemon) {
                 setState(() {
                   s.pokemonName = pokemon.name;
+                  s.pokemonNameKo = pokemon.nameKo;
                   s.finalEvo = pokemon.finalEvo;
                   s.canDynamax = pokemon.canDynamax;
                   s.canGmax = pokemon.canGmax;
                   s.dynamax = DynamaxState.none;
+                  s.terastal = const TerastalState();
                   s.genderRate = pokemon.genderRate;
                   if (pokemon.genderRate == -1) {
                     s.gender = Gender.genderless;
