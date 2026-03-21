@@ -610,7 +610,10 @@
     "category": "special",
     "power": 65,
     "accuracy": 100,
-    "pp": 10
+    "pp": 10,
+    "tags": [
+      "custom:double_on_half_hp"
+    ]
   },
   {
     "name": "Chatter",
