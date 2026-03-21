@@ -10,7 +10,7 @@ import '../models/type.dart';
 const double kChoiceStatBoost = 1.5;
 
 /// Life Orb: 1.3x power at the cost of recoil.
-const double kLifeOrbPower = 1.3;
+const double kLifeOrbPower = 5324.0 / 4096.0;
 
 /// Muscle Band (physical) / Wise Glasses (special) / Punching Glove (punch):
 /// 1.1x power for matching moves.

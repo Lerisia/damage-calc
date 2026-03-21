@@ -1073,7 +1073,9 @@
     "power": 70,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [
+      "custom:double_on_sleep"
+    ]
   },
   {
     "name": "Magnet Rise",

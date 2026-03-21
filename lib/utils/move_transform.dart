@@ -376,8 +376,10 @@ Move _applySpeedPower(Move move, int? mySpeed, int? opponentSpeed) {
       power = 120;
     } else if (ratio >= 2) {
       power = 80;
-    } else {
+    } else if (ratio >= 1) {
       power = 60;
+    } else {
+      power = 40;
     }
     return move.copyWith(power: power);
   }

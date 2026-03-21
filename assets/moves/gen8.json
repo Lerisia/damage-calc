@@ -8,7 +8,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [
+      "custom:double_on_poison"
+    ]
   },
   {
     "name": "Bitter Malice",
@@ -90,7 +92,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:gravity_boost"
     ]
   },
   {

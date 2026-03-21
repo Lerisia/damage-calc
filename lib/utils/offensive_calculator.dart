@@ -25,6 +25,13 @@ class OffensiveCalculator {
   static const double _stabMultiplier = 1.5;
   static const double _criticalMultiplier = 1.5;
 
+  // Terastal STAB constants
+  static const double _stellarStabMatching = 2.0;
+  static const double _stellarStabNonMatching = 1.2;
+  static const double _teraStabSameType = 2.0;
+  static const double _teraStabSameTypeWithOverride = 2.25;
+  static const int _teraMinPower = 60;
+
   static int calculate({
     required Stats baseStats,
     required Stats iv,
@@ -94,10 +101,9 @@ class OffensiveCalculator {
     if (terastallized && teraType != null) {
       if (teraType == PokemonType.stellar) {
         // Stellar: original STAB -> 2.0, non-STAB -> 1.2
-        stabMult = isOriginalStab ? 2.0 : 1.2;
+        stabMult = isOriginalStab ? _stellarStabMatching : _stellarStabNonMatching;
       } else if (isTeraStab && isOriginalStab) {
-        // Same type tera (e.g. Fire pokemon with Fire tera): 2.0
-        stabMult = stabOverride != null ? (stabOverride + 0.5) : 2.0;
+        stabMult = stabOverride != null ? _teraStabSameTypeWithOverride : _teraStabSameType;
       } else if (isTeraStab || isOriginalStab) {
         // Tera type move OR original STAB: 1.5
         stabMult = stabOverride ?? _stabMultiplier;
@@ -107,8 +113,8 @@ class OffensiveCalculator {
     }
 
     // Terastal minimum power: moves below 60 power become 60
-    final int effectivePower = (terastallized && isTeraStab && move.power < 60 && move.power > 0)
-        ? 60 : move.power;
+    final int effectivePower = (terastallized && isTeraStab && move.power < _teraMinPower && move.power > 0)
+        ? _teraMinPower : move.power;
 
     final double weatherMod = getWeatherOffensiveModifier(weather, move: move);
     final double terrainMod = getTerrainModifier(terrain,

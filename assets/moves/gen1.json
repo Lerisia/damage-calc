@@ -1048,7 +1048,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [
+      "custom:solar_halve"
+    ]
   },
   {
     "name": "Sleep Powder",
