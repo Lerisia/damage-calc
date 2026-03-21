@@ -479,7 +479,8 @@ class PokemonPanelState extends State<PokemonPanel>
                     : SizedBox(
                         height: 28,
                         child: TextFormField(
-                          key: ValueKey('power_${index}_${move.name}_${s.dynamax}'),
+                          key: ValueKey('power_${index}_${move.name}_${s.dynamax}'
+                            '${(move.hasTag(MoveTags.weightRatio) || move.hasTag(MoveTags.weightTarget)) ? '_$effectivePower' : ''}'),
                           initialValue: '$effectivePower',
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,

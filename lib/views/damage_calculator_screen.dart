@@ -442,6 +442,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       opponentSpeed: _calcEffectiveSpeed(_defender),
       opponentAttack: _calcStats(_defender).attack,
       opponentGender: _defender.gender,
+      opponentWeight: BattleFacade.effectiveWeight(_defender),
     );
   }
 
