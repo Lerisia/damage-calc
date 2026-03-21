@@ -593,13 +593,27 @@ class DamageCalculator {
       notes.add('move:collision:×1.33');
     }
 
-    // --- Apply all modifiers ---
-    final double modifiers = stab * effectiveness * weatherMod * terrainMod *
-        burnMod * critMod * powerMod * defAbilityDmgMod *
-        atkAbilityDmg.multiplier * defAbilityDmg.multiplier * expertBeltMod *
-        screenMod * berryMod * collisionMod;
-
-    final int baseDamage = (baseDmg * modifiers).floor();
+    // --- Apply modifiers sequentially with floor after each ---
+    // Order follows the official Gen V+ damage formula.
+    int baseDamage = baseDmg;
+    baseDamage = (baseDamage * stab).floor();
+    baseDamage = (baseDamage * effectiveness).floor();
+    baseDamage = (baseDamage * weatherMod).floor();
+    baseDamage = (baseDamage * terrainMod).floor();
+    baseDamage = (baseDamage * burnMod).floor();
+    baseDamage = (baseDamage * critMod).floor();
+    baseDamage = (baseDamage * powerMod).floor();
+    baseDamage = (baseDamage * defAbilityDmgMod).floor();
+    if (atkAbilityDmg.multiplier != 1.0) {
+      baseDamage = (baseDamage * atkAbilityDmg.multiplier).floor();
+    }
+    if (defAbilityDmg.multiplier != 1.0) {
+      baseDamage = (baseDamage * defAbilityDmg.multiplier).floor();
+    }
+    baseDamage = (baseDamage * expertBeltMod).floor();
+    baseDamage = (baseDamage * screenMod).floor();
+    baseDamage = (baseDamage * berryMod).floor();
+    baseDamage = (baseDamage * collisionMod).floor();
 
     // --- Random factor ---
     final range = RandomFactor.range(baseDamage);
