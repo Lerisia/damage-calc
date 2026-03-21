@@ -452,10 +452,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
     final result = _calcDamage(index);
     final effectiveType = result.move.type;
-    final categoryLabel = result.isPhysical ? '물리' : '특수';
+    final offLabel = result.isPhysical ? '물리' : '특수';
+    final defLabel = result.targetPhysDef ? '물리' : '특수';
     final offPower = _getOffensivePower(index);
     final bulk = _getDefensiveBulk();
-    final defBulk = result.isPhysical ? bulk.physical : bulk.special;
+    final defBulk = result.targetPhysDef ? bulk.physical : bulk.special;
 
     // Effectiveness label
     final eff = result.effectiveness;
@@ -529,7 +530,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           const SizedBox(height: 6),
           // 결정력 / 내구 info (display only)
           Text(
-            '$categoryLabel 결정력 ${offPower ?? '-'} → $categoryLabel 내구 $defBulk',
+            '$offLabel 결정력 ${offPower ?? '-'} → $defLabel 내구 $defBulk',
             style: TextStyle(fontSize: 14, color: Colors.grey[700]),
           ),
           const SizedBox(height: 8),
@@ -643,6 +644,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         final label = moveKo[key] ?? key;
         if (parts.length >= 3) return '$label ${parts[2]}';
         return label;
+      case 'moldbreaker':
+        final name = _abilityNameMap[parts[1]] ?? parts[1];
+        return '$name: 상대 특성 무시';
       case 'ground':
         return '비접지 상태로 땅 기술 무효';
       case 'type':

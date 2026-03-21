@@ -1,11 +1,15 @@
+import 'dart:math' as math;
+
 import '../models/gender.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
+import '../models/rank.dart';
 import '../models/stats.dart';
 import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
+import 'move_transform.dart';
 
 /// Per-stat modifiers from an ability
 class AbilityStatModifiers {
@@ -466,4 +470,183 @@ AbilityStatModifiers _boostHighestStat(Stats stats) {
     default:
       return const AbilityStatModifiers();
   }
+}
+
+// ====== Mold Breaker ======
+
+/// Abilities that act as Mold Breaker (ignore defender's ignorable abilities).
+const Set<String> moldBreakerAbilities = {
+  'Mold Breaker',
+  'Teravolt',
+  'Turboblaze',
+};
+
+/// Returns true if [abilityName] is a Mold Breaker variant.
+bool isMoldBreaker(String? abilityName) {
+  return abilityName != null && moldBreakerAbilities.contains(abilityName);
+}
+
+/// Abilities that are ignored by Mold Breaker during damage calculation.
+/// This covers immunities, damage reduction, and defensive stat boosts.
+const Set<String> ignorableAbilities = {
+  // Type immunities
+  'Levitate', 'Flash Fire', 'Lightning Rod', 'Motor Drive',
+  'Volt Absorb', 'Water Absorb', 'Sap Sipper', 'Storm Drain',
+  'Dry Skin', 'Wonder Guard',
+  // Move-based immunities
+  'Soundproof', 'Bulletproof', 'Overcoat',
+  // Damage reduction
+  'Filter', 'Solid Rock', 'Multiscale', 'Shadow Shield',
+  'Fur Coat', 'Ice Scales', 'Fluffy',
+  'Thick Fat', 'Heatproof', 'Purifying Salt',
+  'Friend Guard',
+  // Defensive stat boosts
+  'Marvel Scale', 'Flower Gift',
+  // Crit/accuracy (less relevant but ignorable)
+  'Battle Armor', 'Shell Armor',
+  'Sand Veil', 'Snow Cloak',
+  // Stat protection
+  'Clear Body', 'White Smoke', 'Full Metal Body',
+  'Hyper Cutter', 'Big Pecks',
+  // Other
+  'Sturdy', 'Unaware', 'Wonder Skin',
+  'Shield Dust', 'Damp',
+};
+
+/// Returns true if [defenderAbility] should be ignored because
+/// the attacker has a Mold Breaker variant ability.
+bool shouldIgnoreAbility(String? attackerAbility, String? defenderAbility) {
+  if (defenderAbility == null) return false;
+  if (!isMoldBreaker(attackerAbility)) return false;
+  return ignorableAbilities.contains(defenderAbility);
+}
+
+// ====== Unaware (천진) ======
+
+/// Returns the effective offensive rank considering Unaware and critical hits.
+///
+/// - Unaware (defender): resets attacker's offensive ranks to 0.
+/// - Critical hit: clamps negative offensive ranks to 0.
+/// - Mold Breaker on attacker ignores defender's Unaware.
+Rank getEffectiveOffensiveRank({
+  required Rank rank,
+  required OffensiveStat offensiveStat,
+  required bool isCritical,
+  String? attackerAbility,
+  String? defenderAbility,
+}) {
+  var r = rank;
+
+  // Unaware: defender ignores attacker's offensive rank changes
+  if (defenderAbility == 'Unaware' &&
+      !shouldIgnoreAbility(attackerAbility, defenderAbility)) {
+    r = Rank(
+      attack: 0, defense: r.defense,
+      spAttack: 0, spDefense: r.spDefense,
+      speed: r.speed,
+    );
+  }
+
+  // Critical hit: clamp negative offensive rank to 0
+  if (isCritical) {
+    r = Rank(
+      attack: (offensiveStat == OffensiveStat.attack || offensiveStat == OffensiveStat.higherAttack)
+          ? math.max(0, r.attack) : r.attack,
+      defense: offensiveStat == OffensiveStat.defense
+          ? math.max(0, r.defense) : r.defense,
+      spAttack: (offensiveStat == OffensiveStat.spAttack || offensiveStat == OffensiveStat.higherAttack)
+          ? math.max(0, r.spAttack) : r.spAttack,
+      spDefense: r.spDefense,
+      speed: r.speed,
+    );
+  }
+
+  return r;
+}
+
+/// Returns the effective defensive rank considering Unaware and critical hits.
+///
+/// - Unaware (attacker): resets defender's defensive ranks to 0.
+/// - Critical hit: clamps positive defensive ranks to 0.
+Rank getEffectiveDefensiveRank({
+  required Rank rank,
+  required bool isCritical,
+  String? attackerAbility,
+  String? defenderAbility,
+}) {
+  var r = rank;
+
+  // Unaware: attacker ignores defender's defensive rank changes
+  if (attackerAbility == 'Unaware') {
+    r = Rank(
+      attack: r.attack, defense: 0,
+      spAttack: r.spAttack, spDefense: 0,
+      speed: r.speed,
+    );
+  }
+
+  // Critical hit: clamp positive defense ranks to 0
+  if (isCritical) {
+    r = Rank(
+      attack: r.attack,
+      defense: math.min(0, r.defense),
+      spAttack: r.spAttack,
+      spDefense: math.min(0, r.spDefense),
+      speed: r.speed,
+    );
+  }
+
+  return r;
+}
+
+// ====== Damage-phase ability modifiers ======
+
+/// Returns a damage multiplier for defender abilities that activate
+/// based on type effectiveness or HP conditions.
+/// These are separate from bulk (stat) modifiers.
+({double multiplier, String? note}) getDefensiveAbilityDamageModifier({
+  required String? defenderAbility,
+  required double effectiveness,
+  required int defenderHpPercent,
+  required bool moldBreaks,
+}) {
+  if (defenderAbility == null || moldBreaks) return (multiplier: 1.0, note: null);
+
+  // Filter / Solid Rock / Prism Armor: super effective x0.75
+  if (effectiveness > 1.0) {
+    if (defenderAbility == 'Filter' || defenderAbility == 'Solid Rock' ||
+        defenderAbility == 'Prism Armor') {
+      return (multiplier: 0.75, note: 'ability:$defenderAbility:×0.75');
+    }
+  }
+
+  // Multiscale / Shadow Shield: full HP x0.5
+  if (defenderHpPercent >= 100) {
+    if (defenderAbility == 'Multiscale' || defenderAbility == 'Shadow Shield') {
+      return (multiplier: 0.5, note: 'ability:$defenderAbility:×0.5');
+    }
+  }
+
+  return (multiplier: 1.0, note: null);
+}
+
+/// Returns a damage multiplier for attacker abilities that activate
+/// based on type effectiveness.
+({double multiplier, String? note}) getOffensiveAbilityDamageModifier({
+  required String? attackerAbility,
+  required double effectiveness,
+}) {
+  if (attackerAbility == null) return (multiplier: 1.0, note: null);
+
+  // Tinted Lens: not very effective x2
+  if (effectiveness < 1.0 && attackerAbility == 'Tinted Lens') {
+    return (multiplier: 2.0, note: 'ability:Tinted Lens:×2.0');
+  }
+
+  // Neuroforce: super effective x1.25
+  if (effectiveness > 1.0 && attackerAbility == 'Neuroforce') {
+    return (multiplier: 1.25, note: 'ability:Neuroforce:×1.25');
+  }
+
+  return (multiplier: 1.0, note: null);
 }
