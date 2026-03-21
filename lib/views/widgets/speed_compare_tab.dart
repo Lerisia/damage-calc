@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/dynamax.dart';
@@ -389,7 +390,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
         initialValue: TextEditingValue(text: initialText),
         displayStringForOption: (a) => _abilityKo(a),
         optionsBuilder: (textEditingValue) {
-          if (textEditingValue.composing != TextRange.empty) return sorted;
+          if (!kIsWeb && textEditingValue.composing != TextRange.empty) return sorted;
           if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
             return sorted;
           }
@@ -425,7 +426,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
         initialValue: TextEditingValue(text: initialText),
         displayStringForOption: (key) => _itemKo(key.isEmpty ? null : key),
         optionsBuilder: (textEditingValue) {
-          if (textEditingValue.composing != TextRange.empty) return allItems;
+          if (!kIsWeb && textEditingValue.composing != TextRange.empty) return allItems;
           if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
             return allItems;
           }
