@@ -438,6 +438,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             onPressed: _swapSides,
           ),
           IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: '전체 초기화',
+            onPressed: _resetBothSides,
+          ),
+          IconButton(
             icon: const Icon(Icons.camera_alt_outlined),
             tooltip: '캡처',
             onPressed: _capture,
@@ -457,7 +462,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          if (constraints.maxWidth >= 1050) {
+          if (constraints.maxWidth >= 1400) {
+            return _buildExtraWideLayout();
+          } else if (constraints.maxWidth >= 1050) {
             return _buildWideLayout();
           }
           return _buildNarrowLayout();
@@ -466,25 +473,88 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
+  /// Extra-wide layout: 4 columns (Attacker | Defender | Damage | Speed)
+  /// Each column capped at 480px, centered on very wide screens.
+  Widget _buildExtraWideLayout() {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1920),
+        child: Row(
+          children: [
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
+              ),
+            ),
+            const VerticalDivider(width: 1),
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
+              ),
+            ),
+            const VerticalDivider(width: 1),
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: _buildDamageCalcTab(),
+              ),
+            ),
+            const VerticalDivider(width: 1),
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: SpeedCompareTab(
+                  attacker: _attacker,
+                  defender: _defender,
+                  weather: _weather,
+                  terrain: _terrain,
+                  room: _room,
+                  onChanged: _onPanelChanged,
+                  resetCounter: _resetCounter,
+                  abilityNameMap: _abilityNameMap,
+                  itemNameMap: _itemNameMap,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   /// Wide layout: 3 columns (Attacker | Defender | Damage+Speed tabs)
+  /// Each column capped at 480px, centered.
   Widget _buildWideLayout() {
-    return Row(
-      children: [
-        // Left: Attacker
-        Expanded(
-          child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1440),
+        child: Row(
+          children: [
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
+              ),
+            ),
+            const VerticalDivider(width: 1),
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
+              ),
+            ),
+            const VerticalDivider(width: 1),
+            Expanded(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 480),
+                child: _buildRightPanel(),
+              ),
+            ),
+          ],
         ),
-        const VerticalDivider(width: 1),
-        // Center: Defender
-        Expanded(
-          child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
-        ),
-        const VerticalDivider(width: 1),
-        // Right: Damage + Speed (sub-tabs)
-        Expanded(
-          child: _buildRightPanel(),
-        ),
-      ],
+      ),
     );
   }
 
@@ -533,9 +603,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             children: [
               _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
               _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
-              _buildDamageSpeedTab(child: _buildDamageCalcTab()),
-              _buildDamageSpeedTab(
-                child: Screenshot(
+              _buildDamageCalcTab(),
+              Screenshot(
                   controller: _speedTabScreenshotController,
                   child: Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -552,7 +621,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -591,27 +659,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           );
   }
 
-  Widget _buildDamageSpeedTab({required Widget child}) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Row(
-            children: [
-              const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.refresh, size: 20),
-                tooltip: '초기화',
-                visualDensity: VisualDensity.compact,
-                onPressed: _resetBothSides,
-              ),
-            ],
-          ),
-        ),
-        Expanded(child: child),
-      ],
-    );
-  }
 
   /// Get the 결정력 for a specific move slot (always up-to-date).
   int? _getOffensivePower(int moveIndex) {
