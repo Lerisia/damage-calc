@@ -208,6 +208,17 @@ class DamageCalculator {
       weatherNotes.add('weather_negate:$negator');
     }
 
+    // --- Gravity: certain moves are disabled ---
+    if (room.gravity && effectiveMove.hasTag(MoveTags.disabledByGravity)) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: 1, effectiveness: 0.0,
+        isPhysical: effectiveMove.category == MoveCategory.physical,
+        move: effectiveMove,
+        modifierNotes: ['중력: 사용 불가'],
+      );
+    }
+
     // --- Fixed damage moves (bypass normal formula entirely) ---
     if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
         move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
@@ -387,8 +398,10 @@ class DamageCalculator {
     final bool targetPhysDef = isPhysical || effectiveMove.hasTag(MoveTags.targetPhysDef);
     int D = targetPhysDef ? defActual.defense : defActual.spDefense;
 
-    // Mold Breaker: ignore defender's ignorable abilities
-    final bool moldBreaks = shouldIgnoreAbility(effectiveAbility, defAbilityRaw);
+    // Mold Breaker or ability-ignoring moves: ignore defender's ignorable abilities
+    final bool moldBreaks = shouldIgnoreAbility(effectiveAbility, defAbilityRaw) ||
+        (effectiveMove.hasTag(MoveTags.ignoreAbility) &&
+         defAbilityRaw != null && ignorableAbilities.contains(defAbilityRaw));
     final String? effectiveDefAbility = moldBreaks ? null : defAbilityRaw;
 
     // Shell Armor / Battle Armor: negate critical hit

@@ -115,7 +115,9 @@
     "power": 90,
     "accuracy": 95,
     "pp": 15,
-    "tags": []
+    "tags": [
+      "custom:disabled_by_gravity"
+    ]
   },
   {
     "name": "Strength",
@@ -689,7 +691,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "recoil"
+      "recoil",
+      "custom:disabled_by_gravity"
     ]
   },
   {
@@ -1518,7 +1521,8 @@
     "accuracy": 95,
     "pp": 10,
     "tags": [
-      "recoil"
+      "recoil",
+      "custom:disabled_by_gravity"
     ]
   },
   {
@@ -1730,7 +1734,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 40,
-    "tags": []
+    "tags": [
+      "custom:disabled_by_gravity"
+    ]
   },
   {
     "name": "Tri Attack",

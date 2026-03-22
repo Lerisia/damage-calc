@@ -371,7 +371,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [
+      "custom:ignore_ability"
+    ]
   },
   {
     "name": "Shore Up",
@@ -622,7 +624,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [
+      "custom:ignore_ability"
+    ]
   },
   {
     "name": "Shadow Bone",
@@ -1341,7 +1345,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:use_higher_atk"
+      "custom:use_higher_atk",
+      "custom:ignore_ability"
     ]
   },
   {
