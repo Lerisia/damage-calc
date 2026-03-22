@@ -128,6 +128,9 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   void _scrollToSection(GlobalKey key) {
+    // Only scroll when virtual keyboard is actually present
+    final keyboardUp = MediaQuery.of(context).viewInsets.bottom > 0;
+    if (!keyboardUp) return;
     _doScrollToSection(key);
     Future.delayed(const Duration(milliseconds: 500), () => _doScrollToSection(key));
   }
@@ -479,14 +482,17 @@ class PokemonPanelState extends State<PokemonPanel>
                     initialMoveName: s.moves[index]?.name,
                     displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
                     onTap: _scrollToMoves,
-                    onSelected: (m) => setState(() {
-                      s.moves[index] = m;
-                      s.typeOverrides[index] = null;
-                      s.categoryOverrides[index] = null;
-                      s.powerOverrides[index] = null;
-                      s.hitOverrides[index] = null;
-                      s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
-                    }),
+                    onSelected: (m) {
+                      setState(() {
+                        s.moves[index] = m;
+                        s.typeOverrides[index] = null;
+                        s.categoryOverrides[index] = null;
+                        s.powerOverrides[index] = null;
+                        s.hitOverrides[index] = null;
+                        s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
+                      });
+                      _notifyParent();
+                    },
                   ),
                 ),
                 if (move != null && move.isMultiHit)
@@ -512,7 +518,7 @@ class PokemonPanelState extends State<PokemonPanel>
                           child: Text('×$h', style: const TextStyle(fontSize: 13)),
                         ),
                     ],
-                    onSelected: (h) => setState(() { s.hitOverrides[index] = h; }),
+                    onSelected: (h) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); },
                   ),
               ],
             ),
@@ -534,7 +540,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     itemBuilder: (_) => PokemonType.values
                         .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeKo(t), style: const TextStyle(fontSize: 12))))
                         .toList(),
-                    onSelected: (t) => setState(() { s.typeOverrides[index] = t; }),
+                    onSelected: (t) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); },
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
@@ -555,7 +561,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     itemBuilder: (_) => [MoveCategory.physical, MoveCategory.special]
                         .map((c) => PopupMenuItem(value: c, child: Text(KoStrings.getCategoryKo(c), style: const TextStyle(fontSize: 12))))
                         .toList(),
-                    onSelected: (c) => setState(() { s.categoryOverrides[index] = c; }),
+                    onSelected: (c) { setState(() { s.categoryOverrides[index] = c; }); _notifyParent(); },
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
@@ -586,6 +592,7 @@ class PokemonPanelState extends State<PokemonPanel>
                             final parsed = int.tryParse(text);
                             if (parsed != null && parsed >= 0) {
                               setState(() { s.powerOverrides[index] = parsed; });
+                              _notifyParent();
                             }
                           },
                         ),
@@ -596,7 +603,7 @@ class PokemonPanelState extends State<PokemonPanel>
             width: 28,
             child: Checkbox(
               value: s.criticals[index],
-              onChanged: (v) => setState(() { s.criticals[index] = v ?? false; }),
+              onChanged: (v) { setState(() { s.criticals[index] = v ?? false; }); _notifyParent(); },
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: VisualDensity.compact,
             ),
