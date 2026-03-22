@@ -99,7 +99,10 @@ class StatInput extends StatefulWidget {
     this.room = const RoomConditions(),
     this.isDynamaxed = false,
     this.tailwind = false,
+    this.onItemTap,
   });
+
+  final VoidCallback? onItemTap;
 
   final int? opponentSpeed;
   final bool opponentAlwaysLast;
@@ -449,7 +452,10 @@ class _StatInputState extends State<StatInput> {
             labelText: '아이템',
             isDense: true,
           ),
-          onTap: () => controller.clear(),
+          onTap: () {
+            controller.clear();
+            widget.onItemTap?.call();
+          },
         );
       },
     ),

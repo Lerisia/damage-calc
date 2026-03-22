@@ -61,6 +61,7 @@ class PokemonPanelState extends State<PokemonPanel>
   @override
   bool get wantKeepAlive => true;
   final _movesSectionKey = GlobalKey();
+  final _statsSectionKey = GlobalKey();
   final _scrollController = ScrollController();
   final _screenshotController = ScreenshotController();
 
@@ -117,13 +118,16 @@ class PokemonPanelState extends State<PokemonPanel>
           );
   }
 
-  void _scrollToMoves() {
-    _doScrollToMoves();
-    Future.delayed(const Duration(milliseconds: 500), _doScrollToMoves);
+  void _scrollToSection(GlobalKey key) {
+    _doScrollToSection(key);
+    Future.delayed(const Duration(milliseconds: 500), () => _doScrollToSection(key));
   }
 
-  void _doScrollToMoves() {
-    final ctx = _movesSectionKey.currentContext;
+  void _scrollToMoves() => _scrollToSection(_movesSectionKey);
+  void _scrollToStats() => _scrollToSection(_statsSectionKey);
+
+  void _doScrollToSection(GlobalKey key) {
+    final ctx = key.currentContext;
     if (ctx == null) return;
 
     final box = ctx.findRenderObject() as RenderBox;
@@ -224,6 +228,7 @@ class PokemonPanelState extends State<PokemonPanel>
           const SizedBox(height: 12),
 
           _sectionCard(
+            key: _statsSectionKey,
             title: '능력치',
             child: StatInput(
               key: ValueKey('stats_${widget.resetCounter}'),
@@ -254,6 +259,7 @@ class PokemonPanelState extends State<PokemonPanel>
               room: widget.room,
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; }),
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
+              onItemTap: _scrollToStats,
             ),
           ),
           const SizedBox(height: 12),
