@@ -182,7 +182,7 @@ class PokemonPanelState extends State<PokemonPanel>
             children: [
               // Capture header (weather/terrain/room info)
               _captureHeader(),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
           _sectionCard(
             title: '포켓몬',
             child: Row(children: [
