@@ -36,7 +36,7 @@ class _MoveSelectorState extends State<MoveSelector> {
     all.removeWhere((m) =>
         m.category == MoveCategory.status ||
         m.moveClass != MoveClass.normal);
-    all.sort((a, b) => a.nameKo.compareTo(b.nameKo));
+    // Keep original order (gen1 → gen9, registration order)
     setState(() {
       _allMoves = all;
       if (_selected == null && widget.initialMoveName != null) {
@@ -146,10 +146,11 @@ class _MoveSelectorState extends State<MoveSelector> {
           focusNode: focusNode,
           onTap: widget.onTap,
           style: widget.displayNameOverride != null
-              ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500)
-              : null,
+              ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
+              : const TextStyle(fontSize: 14),
           decoration: InputDecoration(
             hintText: _selected?.nameKo ?? '기술 이름',
+            hintStyle: const TextStyle(fontSize: 14),
             isDense: true,
           ),
         );
