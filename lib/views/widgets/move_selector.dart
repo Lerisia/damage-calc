@@ -57,9 +57,10 @@ class _MoveSelectorState extends State<MoveSelector> {
     _lastQuery = query;
 
     if (query.isEmpty) {
-      _lastResults = _selected != null
+      final all = _selected != null
           ? [_selected!, ..._allMoves.where((m) => m != _selected)]
           : List.of(_allMoves);
+      _lastResults = all.length > 30 ? all.sublist(0, 30) : all;
       return _lastResults!;
     }
 

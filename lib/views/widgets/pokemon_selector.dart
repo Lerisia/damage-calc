@@ -53,9 +53,10 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     _lastSelected = _selected;
 
     if (query.isEmpty) {
-      _lastResults = _selected != null
+      final all = _selected != null
           ? [_selected!, ..._allPokemon.where((p) => p != _selected)]
           : List.of(_allPokemon);
+      _lastResults = all.length > 30 ? all.sublist(0, 30) : all;
       return _lastResults!;
     }
 
@@ -93,6 +94,33 @@ class _PokemonSelectorState extends State<PokemonSelector> {
           return _sortedOptions('');
         }
         return _sortedOptions(textEditingValue.text);
+      },
+      optionsViewBuilder: (context, onSelected, options) {
+        final list = options.toList();
+        final displayCount = list.length > 30 ? 30 : list.length;
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 250),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: displayCount,
+                itemBuilder: (context, index) {
+                  final p = list[index];
+                  return ListTile(
+                    dense: true,
+                    visualDensity: VisualDensity.compact,
+                    title: Text(p.nameKo, style: const TextStyle(fontSize: 14)),
+                    onTap: () => onSelected(p),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
       },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
