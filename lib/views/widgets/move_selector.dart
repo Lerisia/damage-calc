@@ -107,14 +107,26 @@ class _MoveSelectorState extends State<MoveSelector> {
                 itemCount: options.length,
                 itemBuilder: (context, index) {
                   final m = options.elementAt(index);
-                  return ListTile(
-                    dense: true,
-                    title: Text(m.nameKo),
-                    subtitle: Text(
-                      '${KoStrings.getTypeKo(m.type)} / ${KoStrings.getCategoryKo(m.category)} / 위력${m.power}',
-                      style: const TextStyle(fontSize: 11),
-                    ),
+                  return InkWell(
                     onTap: () => onSelected(m),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Text(m.nameKo, style: const TextStyle(fontSize: 14),
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          const SizedBox(width: 8),
+                          Text.rich(TextSpan(children: [
+                            TextSpan(text: KoStrings.getTypeKo(m.type),
+                                style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(m.type))),
+                            TextSpan(text: ' ${KoStrings.getCategoryKo(m.category)} ${m.power}',
+                                style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                          ])),
+                        ],
+                      ),
+                    ),
                   );
                 },
               ),

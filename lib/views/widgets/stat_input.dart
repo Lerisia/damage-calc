@@ -564,9 +564,8 @@ class _StatInputState extends State<StatInput> {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Container()),
-          Expanded(flex: 2, child: Text('$baseTotal', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 2, child: Container()),
+          Expanded(flex: 5, child: Text('$baseTotal', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 6, child: Text('$evTotal/510', style: style.copyWith(
             color: evTotal > 510 ? Colors.red : null,
           ), textAlign: TextAlign.center)),

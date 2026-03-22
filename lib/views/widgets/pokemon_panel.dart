@@ -71,6 +71,7 @@ class PokemonPanelState extends State<PokemonPanel>
   final _statsSectionKey = GlobalKey();
   final _scrollController = ScrollController();
   final _screenshotController = ScreenshotController();
+  int? _focusedMoveIndex;
 
   BattlePokemonState get s => widget.state;
 
@@ -472,62 +473,71 @@ class PokemonPanelState extends State<PokemonPanel>
     }
     final result = info.offensivePower;
 
+    final isSearching = _focusedMoveIndex == index;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
           Expanded(
             flex: 3,
-            child: Row(
-              children: [
-                Expanded(
-                  child: MoveSelector(
-                    key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
-                    initialMoveName: s.moves[index]?.name,
-                    displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
-                    onTap: _scrollToMoves,
-                    onSelected: (m) {
-                      setState(() {
-                        s.moves[index] = m;
-                        s.typeOverrides[index] = null;
-                        s.categoryOverrides[index] = null;
-                        s.powerOverrides[index] = null;
-                        s.hitOverrides[index] = null;
-                        s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
-                      });
-                      _notifyParent();
-                    },
+            child: Focus(
+              onFocusChange: (hasFocus) {
+                setState(() => _focusedMoveIndex = hasFocus ? index : null);
+              },
+              child: Row(
+                children: [
+                  Expanded(
+                    child: MoveSelector(
+                      key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
+                      initialMoveName: s.moves[index]?.name,
+                      displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
+                      onTap: _scrollToMoves,
+                      onSelected: (m) {
+                        FocusScope.of(context).unfocus();
+                        setState(() {
+                          _focusedMoveIndex = null;
+                          s.moves[index] = m;
+                          s.typeOverrides[index] = null;
+                          s.categoryOverrides[index] = null;
+                          s.powerOverrides[index] = null;
+                          s.hitOverrides[index] = null;
+                          s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
+                        });
+                        _notifyParent();
+                      },
+                    ),
                   ),
-                ),
-                if (move != null && move.isMultiHit)
-                  PopupMenuButton<int>(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 2),
-                      child: Text(
-                        '×${s.hitOverrides[index] ?? move.maxHits}',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: s.hitOverrides[index] != null ? Colors.orange : Colors.grey[600],
+                  if (!isSearching && move != null && move.isMultiHit)
+                    PopupMenuButton<int>(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 2),
+                        child: Text(
+                          '×${s.hitOverrides[index] ?? move.maxHits}',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: s.hitOverrides[index] != null ? Colors.orange : Colors.grey[600],
+                          ),
                         ),
                       ),
+                      itemBuilder: (_) => [
+                        for (int h = move.minHits; h <= move.maxHits; h++)
+                          PopupMenuItem(
+                            value: h,
+                            height: 32,
+                            child: Text('×$h', style: const TextStyle(fontSize: 13)),
+                          ),
+                      ],
+                      onSelected: (h) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); },
                     ),
-                    itemBuilder: (_) => [
-                      for (int h = move.minHits; h <= move.maxHits; h++)
-                        PopupMenuItem(
-                          value: h,
-                          height: 32,
-                          child: Text('×$h', style: const TextStyle(fontSize: 13)),
-                        ),
-                    ],
-                    onSelected: (h) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); },
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
-          SizedBox(
+          if (!isSearching) SizedBox(
             width: 40,
             child: move != null
                 ? PopupMenuButton<PokemonType>(
@@ -548,7 +558,7 @@ class PokemonPanelState extends State<PokemonPanel>
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
-          SizedBox(
+          if (!isSearching) SizedBox(
             width: 32,
             child: move != null
                 ? PopupMenuButton<MoveCategory>(
@@ -569,7 +579,7 @@ class PokemonPanelState extends State<PokemonPanel>
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
-          SizedBox(
+          if (!isSearching) SizedBox(
             width: 44,
             child: move != null
                 ? (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
@@ -603,7 +613,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       )
                 : const Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
           ),
-          SizedBox(
+          if (!isSearching) SizedBox(
             width: 28,
             child: Checkbox(
               value: s.criticals[index],
@@ -612,7 +622,7 @@ class PokemonPanelState extends State<PokemonPanel>
               visualDensity: VisualDensity.compact,
             ),
           ),
-          SizedBox(
+          if (!isSearching) SizedBox(
             width: 60,
             child: Text(
               result != null ? '$result' : '-',
