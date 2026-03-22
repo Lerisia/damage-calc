@@ -204,9 +204,8 @@ class DamageCalculator {
     weather = effectiveWeather(weather,
         abilityA: atkAbilityRaw, abilityB: defAbilityRaw);
     if (weather != originalWeather) {
-      weatherNotes.add(isWeatherNegating(atkAbilityRaw)
-          ? 'ability:${atkAbilityRaw}:날씨부정'
-          : 'ability:${defAbilityRaw}:날씨부정');
+      final negator = isWeatherNegating(atkAbilityRaw) ? atkAbilityRaw! : defAbilityRaw!;
+      weatherNotes.add('weather_negate:$negator');
     }
 
     // --- Fixed damage moves (bypass normal formula entirely) ---
@@ -763,11 +762,21 @@ class DamageCalculator {
     // Bolt Beak / Fishious Rend / Payback / Revenge / Avalanche:
     // Turn-order power doubling is now handled in move_transform.dart
 
+    // Power scales with target's remaining HP
+    int dynamicPower = effectiveMove.power;
+    if (effectiveMove.hasTag(MoveTags.powerByTargetHp120)) {
+      // Wring Out / Crush Grip: power = 120 × (target current HP / target max HP) + 1
+      dynamicPower = (120 * defender.hpPercent / 100).floor().clamp(1, 120) + 1;
+    } else if (effectiveMove.hasTag(MoveTags.powerByTargetHp100)) {
+      // Hard Press: power = 100 × (target current HP / target max HP) + 1
+      dynamicPower = (100 * defender.hpPercent / 100).floor().clamp(1, 100) + 1;
+    }
+
     // Terastal minimum power: Tera STAB moves below threshold become threshold (not Stellar)
     final bool teraMinPower = isTeraStab &&
         attacker.terastal.teraType != PokemonType.stellar &&
-        effectiveMove.power < kTeraMinPower && effectiveMove.power > 0;
-    final int basePower = teraMinPower ? kTeraMinPower : effectiveMove.power;
+        dynamicPower < kTeraMinPower && dynamicPower > 0;
+    final int basePower = teraMinPower ? kTeraMinPower : dynamicPower;
 
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
