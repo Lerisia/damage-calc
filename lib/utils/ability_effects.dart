@@ -585,8 +585,9 @@ const Set<String> ignorableAbilities = {
   // Move-based immunities
   'Soundproof', 'Bulletproof', 'Overcoat',
   // Damage reduction
-  'Filter', 'Solid Rock', 'Prism Armor',
-  'Multiscale', 'Shadow Shield',
+  'Filter', 'Solid Rock',
+  // Prism Armor, Shadow Shield, Full Metal Body: NOT ignorable (legendary exclusive)
+  'Multiscale',
   'Fur Coat', 'Ice Scales', 'Fluffy',
   'Thick Fat', 'Heatproof', 'Water Bubble', 'Purifying Salt',
   'Punk Rock',
@@ -599,7 +600,8 @@ const Set<String> ignorableAbilities = {
   'Battle Armor', 'Shell Armor',
   'Sand Veil', 'Snow Cloak',
   // Stat protection
-  'Clear Body', 'White Smoke', 'Full Metal Body',
+  'Clear Body', 'White Smoke',
+  // Full Metal Body: NOT ignorable (legendary exclusive, see above)
   'Hyper Cutter', 'Big Pecks',
   // Damage nullification
   'Tera Shell', 'Ice Face', 'Disguise',
