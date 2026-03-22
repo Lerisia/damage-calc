@@ -71,11 +71,7 @@ class _MoveSelectorState extends State<MoveSelector> {
       final score = koScore > enScore ? koScore : enScore;
       if (score > 0) scored.add((m, score));
     }
-    scored.sort((a, b) {
-      final cmp = b.$2.compareTo(a.$2);
-      if (cmp != 0) return cmp;
-      return a.$1.nameKo.compareTo(b.$1.nameKo);
-    });
+    scored.sort((a, b) => b.$2.compareTo(a.$2));
     _lastResults = scored.map((e) => e.$1).toList();
     if (_selected != null && _lastResults!.contains(_selected)) {
       _lastResults!.remove(_selected);
