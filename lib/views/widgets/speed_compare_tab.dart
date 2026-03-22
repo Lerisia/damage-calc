@@ -287,10 +287,10 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 isDense: true,
                 isExpanded: true,
                 decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14, fontFamily: 'Jua'),
                 items: StatusCondition.values.map((st) {
                   return DropdownMenuItem(value: st, child: Text(
-                    KoStrings.statusKo[st] ?? st.name, style: const TextStyle(fontSize: 14)));
+                    KoStrings.statusKo[st] ?? st.name, style: const TextStyle(fontSize: 14, fontFamily: 'Jua')));
                 }).toList(),
                 onChanged: (v) { if (v != null) { setState(() => state.status = v); _notify(); } },
               )),
@@ -304,12 +304,12 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 isDense: true,
                 isExpanded: true,
                 decoration: const InputDecoration(labelText: '성격', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                style: const TextStyle(fontSize: 14),
+                style: const TextStyle(fontSize: 14, fontFamily: 'Jua'),
                 items: Nature.values.map((n) {
                   final isBuff = n.speedModifier > 1.0;
                   final isNerf = n.speedModifier < 1.0;
                   return DropdownMenuItem(value: n, child: Text(n.nameKo,
-                    style: TextStyle(fontSize: 14, color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
+                    style: TextStyle(fontSize: 14, fontFamily: 'Jua', color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
                 }).toList(),
                 onChanged: (v) { if (v != null) { setState(() => state.nature = v); _notify(); } },
               )),
