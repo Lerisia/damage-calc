@@ -209,7 +209,8 @@ class DamageCalculator {
     }
 
     // --- Fixed damage moves (bypass normal formula entirely) ---
-    if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp)) {
+    if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
+        move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
       return _calcFixedDamage(
         attacker: attacker, defender: defender, move: effectiveMove,
         weather: weather, room: room,
@@ -925,6 +926,10 @@ class DamageCalculator {
     final int fixedDamage;
     if (move.hasTag(MoveTags.fixedLevel)) {
       fixedDamage = attacker.level.clamp(1, 100);
+    } else if (move.hasTag(MoveTags.fixed20)) {
+      fixedDamage = 20;
+    } else if (move.hasTag(MoveTags.fixed40)) {
+      fixedDamage = 40;
     } else {
       // fixedHalfHp: half of defender's current HP
       fixedDamage = (defHp * defender.hpPercent / 100 / 2).ceil().clamp(1, defHp);
