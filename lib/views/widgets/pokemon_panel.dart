@@ -1,3 +1,4 @@
+import 'dart:math' as _math;
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -517,7 +518,8 @@ class PokemonPanelState extends State<PokemonPanel>
           SizedBox(
             width: 44,
             child: move != null
-                ? (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp))
+                ? (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
+                    move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40))
                     ? const Text('고정', textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 13, color: Colors.grey))
                     : SizedBox(
@@ -681,30 +683,13 @@ class PokemonPanelState extends State<PokemonPanel>
       return const SizedBox(width: 24);
     }
 
-    String label;
-    Color color;
-    switch (s.dynamax) {
-      case DynamaxState.none:
-        label = '🔴';
-        color = Colors.grey.shade400;
-        break;
-      case DynamaxState.dynamax:
-        label = '🔴';
-        color = Colors.red;
-        break;
-      case DynamaxState.gigantamax:
-        label = '🔴';
-        color = Colors.deepOrange;
-        break;
-    }
-
     return GestureDetector(
       onTap: () {
         setState(() {
           switch (s.dynamax) {
             case DynamaxState.none:
               s.dynamax = DynamaxState.dynamax;
-              s.terastal = const TerastalState(); // 테라 해제
+              s.terastal = const TerastalState();
               break;
             case DynamaxState.dynamax:
               if (s.canGmax) {
@@ -721,18 +706,10 @@ class PokemonPanelState extends State<PokemonPanel>
         _notifyParent();
       },
       child: SizedBox(
-        width: 24,
-        height: 24,
-        child: Center(
-          child: s.dynamax != DynamaxState.none
-            ? Text(
-                s.dynamax == DynamaxState.gigantamax ? 'G' : 'D',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red.shade700),
-              )
-            : const Opacity(
-                opacity: 0.3,
-                child: Text('⬆', style: TextStyle(fontSize: 20)),
-              ),
+        width: 26,
+        height: 26,
+        child: CustomPaint(
+          painter: _DynamaxPainter(state: s.dynamax, isGmax: s.dynamax == DynamaxState.gigantamax),
         ),
       ),
     );
@@ -769,26 +746,14 @@ class PokemonPanelState extends State<PokemonPanel>
     return GestureDetector(
       onTap: _showTeraTypePicker,
       child: SizedBox(
-        width: 24,
-        height: 24,
-        child: isActive
-          ? Container(
-              width: 22,
-              height: 22,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _typeColor(teraType),
-              ),
-              child: const Center(
-                child: Text('T', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
-              ),
-            )
-          : const Center(
-              child: Opacity(
-                opacity: 0.3,
-                child: Text('💎', style: TextStyle(fontSize: 20)),
-              ),
-            ),
+        width: 26,
+        height: 26,
+        child: CustomPaint(
+          painter: _TerastalPainter(
+            active: isActive,
+            typeColor: isActive ? _typeColor(teraType) : Colors.grey.shade400,
+          ),
+        ),
       ),
     );
   }
@@ -855,4 +820,94 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
+}
+
+/// Dynamax icon: circle with radiating energy cross.
+/// Inactive: grey outline + faint arrow. Active: red/orange filled.
+class _DynamaxPainter extends CustomPainter {
+  final DynamaxState state;
+  final bool isGmax;
+  _DynamaxPainter({required this.state, required this.isGmax});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = Offset(size.width / 2, size.height / 2);
+    final r = size.width / 2 - 1;
+
+    if (state == DynamaxState.none) {
+      final p = Paint()..color = Colors.grey.shade400..style = PaintingStyle.stroke..strokeWidth = 1.5;
+      canvas.drawCircle(c, r, p);
+      final ap = Paint()..color = Colors.grey.shade400..style = PaintingStyle.stroke..strokeWidth = 1.5..strokeCap = StrokeCap.round;
+      canvas.drawLine(Offset(c.dx, c.dy - r * 0.4), Offset(c.dx, c.dy + r * 0.3), ap);
+      canvas.drawLine(Offset(c.dx - r * 0.25, c.dy - r * 0.1), Offset(c.dx, c.dy - r * 0.4), ap);
+      canvas.drawLine(Offset(c.dx + r * 0.25, c.dy - r * 0.1), Offset(c.dx, c.dy - r * 0.4), ap);
+      return;
+    }
+
+    final base = isGmax ? Colors.orange.shade700 : Colors.red.shade700;
+    final glow = (isGmax ? Colors.orange.shade300 : Colors.red.shade300).withValues(alpha: 0.4);
+    canvas.drawCircle(c, r + 1, Paint()..color = glow..style = PaintingStyle.fill);
+    canvas.drawCircle(c, r - 1, Paint()..color = base..style = PaintingStyle.fill);
+
+    final lp = Paint()..color = Colors.white.withValues(alpha: 0.85)..style = PaintingStyle.stroke..strokeWidth = 1.8..strokeCap = StrokeCap.round;
+    final lr = r * 0.5;
+    for (int i = 0; i < 4; i++) {
+      final a = i * _math.pi / 2 + _math.pi / 4;
+      canvas.drawLine(c, Offset(c.dx + lr * _math.cos(a), c.dy + lr * _math.sin(a)), lp);
+    }
+
+    final tp = TextPainter(
+      text: TextSpan(text: isGmax ? 'G' : 'D', style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    tp.paint(canvas, Offset(c.dx - tp.width / 2, c.dy - tp.height / 2));
+  }
+
+  @override
+  bool shouldRepaint(covariant _DynamaxPainter old) => old.state != state || old.isGmax != isGmax;
+}
+
+/// Terastal icon: hexagonal crystal with pointed vertices (star-hexagon).
+/// Inactive: grey outline. Active: filled with type color + facet lines.
+class _TerastalPainter extends CustomPainter {
+  final bool active;
+  final Color typeColor;
+  _TerastalPainter({required this.active, required this.typeColor});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = Offset(size.width / 2, size.height / 2);
+    final outerR = size.width / 2 - 1;
+    final innerR = outerR * 0.65;
+
+    // Star-hexagon: alternate between outer points and inner edges
+    final path = Path();
+    for (int i = 0; i < 6; i++) {
+      final outerA = i * _math.pi / 3 - _math.pi / 2;
+      final innerA = outerA + _math.pi / 6;
+      final ox = c.dx + outerR * _math.cos(outerA);
+      final oy = c.dy + outerR * _math.sin(outerA);
+      final ix = c.dx + innerR * _math.cos(innerA);
+      final iy = c.dy + innerR * _math.sin(innerA);
+      if (i == 0) { path.moveTo(ox, oy); } else { path.lineTo(ox, oy); }
+      path.lineTo(ix, iy);
+    }
+    path.close();
+
+    if (active) {
+      canvas.drawPath(path, Paint()..color = typeColor..style = PaintingStyle.fill);
+      canvas.drawPath(path, Paint()..color = Colors.white.withValues(alpha: 0.5)..style = PaintingStyle.stroke..strokeWidth = 0.8);
+      // Facet lines for crystal sparkle
+      final fp = Paint()..color = Colors.white.withValues(alpha: 0.35)..style = PaintingStyle.stroke..strokeWidth = 0.6;
+      for (int i = 0; i < 6; i++) {
+        final a = i * _math.pi / 3 - _math.pi / 2;
+        canvas.drawLine(c, Offset(c.dx + outerR * _math.cos(a), c.dy + outerR * _math.sin(a)), fp);
+      }
+    } else {
+      canvas.drawPath(path, Paint()..color = Colors.grey.shade400..style = PaintingStyle.stroke..strokeWidth = 1.2);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _TerastalPainter old) => old.active != active || old.typeColor != typeColor;
 }

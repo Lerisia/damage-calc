@@ -1026,7 +1026,9 @@
     "power": 0,
     "accuracy": 90,
     "pp": 20,
-    "tags": []
+    "tags": [
+      "custom:fixed_20"
+    ]
   },
   {
     "name": "Metronome",
@@ -1302,7 +1304,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [
+      "custom:fixed_40"
+    ]
   },
   {
     "name": "Acid",

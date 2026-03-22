@@ -39,6 +39,8 @@ class MoveTags {
   static const String freezeDry = 'custom:freeze_dry';
   static const String fixedLevel = 'custom:fixed_level';
   static const String fixedHalfHp = 'custom:fixed_half_hp';
+  static const String fixed20 = 'custom:fixed_20';
+  static const String fixed40 = 'custom:fixed_40';
   static const String ignoreDefRank = 'custom:ignore_def_rank';
 
   // Move-specific power conditions (based on defender state)
