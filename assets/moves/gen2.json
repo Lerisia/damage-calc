@@ -1008,7 +1008,7 @@
     "power": 10,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": ["contact", "custom:escalating_hits"],
     "minHits": 3,
     "maxHits": 3
   },

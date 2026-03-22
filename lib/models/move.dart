@@ -1,3 +1,4 @@
+import 'move_tags.dart';
 import 'type.dart';
 
 /// Physical, special, or status
@@ -48,6 +49,16 @@ class Move {
 
   /// Whether this is a multi-hit move.
   bool get isMultiHit => maxHits > 1;
+
+  /// Total power for [hits] hits.
+  /// Escalating moves (Triple Axel): base*(1+2+...+hits) = base*hits*(hits+1)/2
+  /// Normal multi-hit: base*hits
+  int totalPower(int hits) {
+    if (hasTag(MoveTags.escalatingHits)) {
+      return power * hits * (hits + 1) ~/ 2;
+    }
+    return power * hits;
+  }
 
   bool hasTag(String tag) => tags.contains(tag);
 
