@@ -179,7 +179,7 @@ class PokemonPanelState extends State<PokemonPanel>
       padding: EdgeInsets.fromLTRB(16, 16, 16,
           MediaQuery.of(context).viewInsets.bottom > 0
               ? MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom
-              : 32),
+              : 120),
       child: Screenshot(
         controller: _screenshotController,
         child: Container(

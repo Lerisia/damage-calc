@@ -490,7 +490,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ],
               ),
       ),
-      body: LayoutBuilder(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        behavior: HitTestBehavior.translucent,
+        child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth >= 1400) {
             return Screenshot(
@@ -511,7 +514,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           }
           return _buildNarrowLayout();
         },
-      ),
+      )),
     );
   }
 
@@ -623,6 +626,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         Expanded(
           child: TabBarView(
             controller: _tabController,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
               _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
@@ -729,7 +733,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final bulk = _getDefensiveBulk();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
       child: Screenshot(
         controller: _damageTabScreenshotController,
         child: Container(

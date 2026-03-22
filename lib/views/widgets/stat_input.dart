@@ -446,7 +446,8 @@ class _StatInputState extends State<StatInput> {
             labelText: '특성',
             isDense: true,
           ),
-          onTap: () => controller.clear(),
+          onTap: () => controller.selection = TextSelection(
+            baseOffset: 0, extentOffset: controller.text.length),
           onChanged: kIsWeb ? (_) => setState(() {}) : null,
         );
       },
@@ -494,7 +495,8 @@ class _StatInputState extends State<StatInput> {
             isDense: true,
           ),
           onTap: () {
-            controller.clear();
+            controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length);
             widget.onItemTap?.call();
           },
           onChanged: kIsWeb ? (_) => setState(() {}) : null,
