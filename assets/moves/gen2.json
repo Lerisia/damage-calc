@@ -248,17 +248,81 @@
     "priority": 1
   },
   {
-    "name": "Magnitude",
-    "nameKo": "매그니튜드",
-    "nameJa": "マグニチュード",
+    "name": "Magnitude 4",
+    "nameKo": "매그니튜드 4",
+    "nameJa": "マグニチュード4",
     "type": "ground",
     "category": "physical",
-    "power": 0,
+    "power": 10,
     "accuracy": 100,
     "pp": 30,
-    "tags": [
-      "custom:grassy_halve"
-    ]
+    "tags": ["custom:grassy_halve"]
+  },
+  {
+    "name": "Magnitude 5",
+    "nameKo": "매그니튜드 5",
+    "nameJa": "マグニチュード5",
+    "type": "ground",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 100,
+    "pp": 30,
+    "tags": ["custom:grassy_halve"]
+  },
+  {
+    "name": "Magnitude 6",
+    "nameKo": "매그니튜드 6",
+    "nameJa": "マグニチュード6",
+    "type": "ground",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 30,
+    "tags": ["custom:grassy_halve"]
+  },
+  {
+    "name": "Magnitude 7",
+    "nameKo": "매그니튜드 7",
+    "nameJa": "マグニチュード7",
+    "type": "ground",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 30,
+    "tags": ["custom:grassy_halve"]
+  },
+  {
+    "name": "Magnitude 8",
+    "nameKo": "매그니튜드 8",
+    "nameJa": "マグニチュード8",
+    "type": "ground",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 30,
+    "tags": ["custom:grassy_halve"]
+  },
+  {
+    "name": "Magnitude 9",
+    "nameKo": "매그니튜드 9",
+    "nameJa": "マグニチュード9",
+    "type": "ground",
+    "category": "physical",
+    "power": 110,
+    "accuracy": 100,
+    "pp": 30,
+    "tags": ["custom:grassy_halve"]
+  },
+  {
+    "name": "Magnitude 10",
+    "nameKo": "매그니튜드 10",
+    "nameJa": "マグニチュード10",
+    "type": "ground",
+    "category": "physical",
+    "power": 150,
+    "accuracy": 100,
+    "pp": 30,
+    "tags": ["custom:grassy_halve"]
   },
   {
     "name": "Megahorn",
