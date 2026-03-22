@@ -355,7 +355,10 @@
     "height": 1.7,
     "type2": "dragon",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "히끄래곤"
+    ]
   },
   {
     "dexNumber": 713,

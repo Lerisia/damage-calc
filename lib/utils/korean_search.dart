@@ -15,13 +15,15 @@ class SearchEntry<T> {
   final String enLower;
   final List<int> koRunes;
   final List<int> chosungIndices; // 초성 index per syllable
+  final List<String> aliasesLower; // 별명 (lowercase)
 
-  SearchEntry(this.item, String nameKo, String nameEn)
+  SearchEntry(this.item, String nameKo, String nameEn, {List<String> aliases = const []})
       : koLower = nameKo.toLowerCase(),
         enLower = nameEn.toLowerCase(),
         koRunes = nameKo.toLowerCase().runes.toList(),
         chosungIndices = nameKo.runes.map((c) =>
-            _isSyllable(c) ? (c - 0xAC00) ~/ 588 : -1).toList();
+            _isSyllable(c) ? (c - 0xAC00) ~/ 588 : -1).toList(),
+        aliasesLower = aliases.map((a) => a.toLowerCase()).toList();
 }
 
 /// Scores a pre-computed entry against a pre-computed query.
@@ -43,7 +45,14 @@ int scoreEntry(List<int> qRunes, String qLower, SearchEntry entry) {
   // 5. 초성/mixed contains match
   if (_chosungContainsMatchRunes(qRunes, entry.koRunes)) return 30;
 
-  // 6. English fallback
+  // 6. Alias match (별명)
+  for (final alias in entry.aliasesLower) {
+    if (qLower == alias) return 95;
+    if (alias.startsWith(qLower)) return 75;
+    if (alias.contains(qLower)) return 55;
+  }
+
+  // 7. English fallback
   if (entry.enLower.contains(qLower)) return 20;
 
   return 0;

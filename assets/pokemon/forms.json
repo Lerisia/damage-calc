@@ -192,7 +192,10 @@
     "weight": 0.3,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "aliases": [
+      "불로토무"
+    ]
   },
   {
     "dexNumber": 479,
@@ -216,7 +219,10 @@
     "weight": 0.3,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "aliases": [
+      "물로토무"
+    ]
   },
   {
     "dexNumber": 479,
@@ -288,7 +294,10 @@
     "weight": 0.3,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "aliases": [
+      "풀로토무"
+    ]
   },
   {
     "dexNumber": 555,
@@ -1158,7 +1167,10 @@
     "height": 1.9,
     "finalEvo": true,
     "genderRate": 1,
-    "canGmax": true
+    "canGmax": true,
+    "aliases": [
+      "물라오스"
+    ]
   },
   {
     "dexNumber": 898,
@@ -1354,7 +1366,10 @@
     "weight": 39.8,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "aliases": [
+      "물거폰"
+    ]
   },
   {
     "dexNumber": 1017,
@@ -1378,7 +1393,10 @@
     "weight": 39.8,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "aliases": [
+      "불거폰"
+    ]
   },
   {
     "dexNumber": 1017,
@@ -1402,7 +1420,10 @@
     "weight": 39.8,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "aliases": [
+      "돌거폰"
+    ]
   },
   {
     "dexNumber": 1024,
