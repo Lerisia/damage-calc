@@ -235,7 +235,8 @@
     "accuracy": 85,
     "pp": 5,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:disabled_by_gravity"
     ]
   },
   {

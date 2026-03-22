@@ -689,7 +689,8 @@
     "accuracy": 95,
     "pp": 10,
     "tags": [
-      "custom:flying_press"
+      "custom:flying_press",
+      "custom:disabled_by_gravity"
     ]
   },
   {
