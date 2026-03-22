@@ -593,6 +593,12 @@ class DamageCalculator {
     // Note: Scrappy, Ground→Flying, Corrosion immunity overrides
     // are handled above in the type immunity check section.
 
+    // Stellar-type Tera Starstorm: super effective vs Terastallized targets
+    if (moveType == PokemonType.stellar && defender.terastal.active) {
+      effectiveness = 2.0;
+      notes.add('스텔라: 테라스탈 상대 효과 좋음');
+    }
+
     // Tera Shell: full HP reduces super effective to 0.5x
     if (defAbilityName == 'Tera Shell' &&
         defender.hpPercent >= 100 &&
