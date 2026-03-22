@@ -34,6 +34,9 @@ class PokemonPanel extends StatefulWidget {
   final int? opponentAttack;
   final Gender? opponentGender;
   final double? opponentWeight;
+  final VoidCallback? onSave;
+  final VoidCallback? onLoad;
+  final VoidCallback? onReset;
 
   const PokemonPanel({
     super.key,
@@ -50,6 +53,9 @@ class PokemonPanel extends StatefulWidget {
     this.opponentAttack,
     this.opponentWeight,
     this.opponentGender,
+    this.onSave,
+    this.onLoad,
+    this.onReset,
   });
 
   @override
@@ -61,6 +67,7 @@ class PokemonPanelState extends State<PokemonPanel>
   @override
   bool get wantKeepAlive => true;
   final _movesSectionKey = GlobalKey();
+  final _statsSectionKey = GlobalKey();
   final _scrollController = ScrollController();
   final _screenshotController = ScreenshotController();
 
@@ -117,13 +124,16 @@ class PokemonPanelState extends State<PokemonPanel>
           );
   }
 
-  void _scrollToMoves() {
-    _doScrollToMoves();
-    Future.delayed(const Duration(milliseconds: 500), _doScrollToMoves);
+  void _scrollToSection(GlobalKey key) {
+    _doScrollToSection(key);
+    Future.delayed(const Duration(milliseconds: 500), () => _doScrollToSection(key));
   }
 
-  void _doScrollToMoves() {
-    final ctx = _movesSectionKey.currentContext;
+  void _scrollToMoves() => _scrollToSection(_movesSectionKey);
+  void _scrollToStats() => _scrollToSection(_statsSectionKey);
+
+  void _doScrollToSection(GlobalKey key) {
+    final ctx = key.currentContext;
     if (ctx == null) return;
 
     final box = ctx.findRenderObject() as RenderBox;
@@ -224,6 +234,7 @@ class PokemonPanelState extends State<PokemonPanel>
           const SizedBox(height: 12),
 
           _sectionCard(
+            key: _statsSectionKey,
             title: '능력치',
             child: StatInput(
               key: ValueKey('stats_${widget.resetCounter}'),
@@ -254,6 +265,7 @@ class PokemonPanelState extends State<PokemonPanel>
               room: widget.room,
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; }),
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
+              onItemTap: _scrollToStats,
             ),
           ),
           const SizedBox(height: 12),
@@ -357,16 +369,47 @@ class PokemonPanelState extends State<PokemonPanel>
     if (widget.room.wonderRoom) parts.add('❓원더룸');
     if (widget.room.gravity) parts.add('🌀중력');
 
-    if (parts.isEmpty) return const SizedBox.shrink();
+    if (parts.isEmpty && widget.onSave == null) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      child: Text(
-        parts.join(' | '),
-        style: TextStyle(
-          fontSize: 12,
-          color: widget.isAttacker ? Colors.red[400] : Colors.blue[400],
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+      child: Row(
+        children: [
+          Expanded(child: Text(
+            parts.join(' | '),
+            style: TextStyle(
+              fontSize: 12,
+              color: widget.isAttacker ? Colors.red[400] : Colors.blue[400],
+            ),
+          )),
+          if (widget.onSave != null)
+            IconButton(
+              icon: const Icon(Icons.save_outlined, size: 22),
+              tooltip: '샘플 저장',
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              onPressed: widget.onSave,
+            ),
+          if (widget.onLoad != null)
+            IconButton(
+              icon: const Icon(Icons.folder_open_outlined, size: 22),
+              tooltip: '샘플 불러오기',
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              onPressed: widget.onLoad,
+            ),
+          if (widget.onReset != null)
+            IconButton(
+              icon: const Icon(Icons.refresh, size: 22),
+              tooltip: '초기화',
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              onPressed: widget.onReset,
+            ),
+        ],
       ),
     );
   }

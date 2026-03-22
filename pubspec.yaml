@@ -12,6 +12,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   screenshot: ^3.0.0
   image_gallery_saver_plus: ^4.0.1
+  path_provider: ^2.1.0
+  shared_preferences: ^2.5.4
 
 dev_dependencies:
   flutter_test:

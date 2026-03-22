@@ -16,4 +16,18 @@ class TerastalState {
 
   /// Whether this is a "Stellar" type terastal
   bool get isStellar => active && teraType == PokemonType.stellar;
+
+  Map<String, dynamic> toJson() => {
+    'active': active,
+    'teraType': teraType?.name,
+  };
+
+  factory TerastalState.fromJson(Map<String, dynamic> json) {
+    return TerastalState(
+      active: json['active'] as bool? ?? false,
+      teraType: json['teraType'] != null
+          ? PokemonType.values.byName(json['teraType'] as String)
+          : null,
+    );
+  }
 }

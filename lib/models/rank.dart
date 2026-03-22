@@ -27,6 +27,24 @@ class Rank {
   double get spDefenseMultiplier => multiplier(spDefense);
   double get speedMultiplier => multiplier(speed);
 
+  Map<String, dynamic> toJson() => {
+    'attack': attack,
+    'defense': defense,
+    'spAttack': spAttack,
+    'spDefense': spDefense,
+    'speed': speed,
+  };
+
+  factory Rank.fromJson(Map<String, dynamic> json) {
+    return Rank(
+      attack: json['attack'] as int? ?? 0,
+      defense: json['defense'] as int? ?? 0,
+      spAttack: json['spAttack'] as int? ?? 0,
+      spDefense: json['spDefense'] as int? ?? 0,
+      speed: json['speed'] as int? ?? 0,
+    );
+  }
+
   static double multiplier(int stage) {
     if (stage >= 0) {
       return (2 + stage) / 2;
