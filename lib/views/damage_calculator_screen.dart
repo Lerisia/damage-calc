@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import '../utils/damage_calculator.dart';
 import '../utils/random_factor.dart';
 import '../utils/grounded.dart';
 import '../utils/item_effects.dart';
+import '../utils/korean_search.dart';
 import '../utils/speed_calculator.dart';
 import '../utils/stat_calculator.dart';
 import '../models/move.dart';
@@ -1033,7 +1035,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 }
 
-class _SampleListSheet extends StatelessWidget {
+class _SampleListSheet extends StatefulWidget {
   final List<({String name, BattlePokemonState state})> samples;
   final Map<String, String> itemNameMap;
   final ValueChanged<int> onLoad;
@@ -1047,13 +1049,38 @@ class _SampleListSheet extends StatelessWidget {
   });
 
   @override
+  State<_SampleListSheet> createState() => _SampleListSheetState();
+}
+
+class _SampleListSheetState extends State<_SampleListSheet> {
+  String _query = '';
+
+  List<int> _filteredIndices() {
+    if (_query.isEmpty) {
+      return List.generate(widget.samples.length, (i) => i);
+    }
+    final scored = <(int, int)>[];
+    for (int i = 0; i < widget.samples.length; i++) {
+      final sample = widget.samples[i];
+      final nameScore = koreanMatchScore(_query, sample.name);
+      final pokemonKoScore = koreanMatchScore(_query, sample.state.pokemonNameKo);
+      final pokemonEnScore = koreanMatchScore(_query, sample.state.pokemonName);
+      final score = [nameScore, pokemonKoScore, pokemonEnScore].reduce(math.max);
+      if (score > 0) scored.add((i, score));
+    }
+    scored.sort((a, b) => b.$2.compareTo(a.$2));
+    return scored.map((e) => e.$1).toList();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (samples.isEmpty) {
+    if (widget.samples.isEmpty) {
       return const SizedBox(
         height: 200,
         child: Center(child: Text('저장된 샘플이 없습니다')),
       );
     }
+    final indices = _filteredIndices();
     return DraggableScrollableSheet(
       initialChildSize: 0.5,
       minChildSize: 0.3,
@@ -1062,39 +1089,52 @@ class _SampleListSheet extends StatelessWidget {
       builder: (ctx, scrollController) {
         return Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(12),
-              child: Text('샘플 불러오기',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+              child: TextField(
+                autofocus: false,
+                decoration: const InputDecoration(
+                  hintText: '샘플 검색',
+                  prefixIcon: Icon(Icons.search, size: 20),
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(vertical: 8),
+                ),
+                onChanged: (v) => setState(() => _query = v),
+              ),
             ),
+            const SizedBox(height: 4),
             const Divider(height: 1),
             Expanded(
-              child: ListView.separated(
-                controller: scrollController,
-                itemCount: samples.length,
-                separatorBuilder: (_, __) => const Divider(height: 1),
-                itemBuilder: (ctx, i) {
-                  final sample = samples[i];
-                  final state = sample.state;
-                  final itemKo = state.selectedItem != null
-                      ? itemNameMap[state.selectedItem] ?? state.selectedItem
-                      : null;
-                  final parts = [
-                    'Lv.${state.level}',
-                    state.nature.nameKo,
-                    if (itemKo != null) itemKo,
-                  ];
-                  return ListTile(
-                    title: Text(sample.name),
-                    subtitle: Text('${state.pokemonNameKo} | ${parts.join(' ')}'),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline, size: 20),
-                      onPressed: () => onDelete(i),
+              child: indices.isEmpty
+                  ? Center(child: Text('검색 결과 없음',
+                      style: TextStyle(color: Colors.grey[400])))
+                  : ListView.separated(
+                      controller: scrollController,
+                      itemCount: indices.length,
+                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      itemBuilder: (ctx, i) {
+                        final idx = indices[i];
+                        final sample = widget.samples[idx];
+                        final state = sample.state;
+                        final itemKo = state.selectedItem != null
+                            ? widget.itemNameMap[state.selectedItem] ?? state.selectedItem
+                            : null;
+                        final parts = [
+                          'Lv.${state.level}',
+                          state.nature.nameKo,
+                          if (itemKo != null) itemKo,
+                        ];
+                        return ListTile(
+                          title: Text(sample.name),
+                          subtitle: Text('${state.pokemonNameKo} | ${parts.join(' ')}'),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete_outline, size: 20),
+                            onPressed: () => widget.onDelete(idx),
+                          ),
+                          onTap: () => widget.onLoad(idx),
+                        );
+                      },
                     ),
-                    onTap: () => onLoad(i),
-                  );
-                },
-              ),
             ),
           ],
         );
