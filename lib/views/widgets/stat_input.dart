@@ -350,12 +350,20 @@ class _StatInputState extends State<StatInput> {
                 initialValue: widget.nature,
                 tooltip: '성격',
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                child: InputDecorator(
-                  decoration: const InputDecoration(labelText: '성격', isDense: true),
-                  child: Text(
-                    _natureLabelStatic(widget.nature),
-                    style: const TextStyle(fontSize: 14),
-                    overflow: TextOverflow.ellipsis,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('성격', style: TextStyle(fontSize: 11, color: Colors.grey[600])),
+                      const SizedBox(height: 2),
+                      Text(
+                        _natureLabelStatic(widget.nature),
+                        style: const TextStyle(fontSize: 14),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
                 itemBuilder: (_) => _naturePopupItems,
