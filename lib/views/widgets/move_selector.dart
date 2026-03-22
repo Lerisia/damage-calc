@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../data/movedex.dart';
@@ -21,6 +22,7 @@ class _MoveSelectorState extends State<MoveSelector> {
   List<Move> _allMoves = [];
   Move? _selected;
   bool _hasFocusListenerAttached = false;
+
 
   @override
   void initState() {
@@ -89,14 +91,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         if (!kIsWeb && textEditingValue.composing != TextRange.empty) {
           return _lastResults ?? _sortedOptions('');
         }
-        var query = textEditingValue.text;
-        if (query.isNotEmpty) {
-          final lastCode = query.runes.last;
-          if (lastCode >= 0x3131 && lastCode <= 0x314E && query.runes.length > 1) {
-            query = String.fromCharCodes(query.runes.toList()..removeLast());
-          }
-        }
-        return _sortedOptions(query);
+        return _sortedOptions(textEditingValue.text);
       },
       optionsViewBuilder: (context, onSelected, options) {
         return Align(
