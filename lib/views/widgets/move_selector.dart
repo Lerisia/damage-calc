@@ -89,7 +89,14 @@ class _MoveSelectorState extends State<MoveSelector> {
         if (!kIsWeb && textEditingValue.composing != TextRange.empty) {
           return _lastResults ?? _sortedOptions('');
         }
-        return _sortedOptions(textEditingValue.text);
+        var query = textEditingValue.text;
+        if (query.isNotEmpty) {
+          final lastCode = query.runes.last;
+          if (lastCode >= 0x3131 && lastCode <= 0x314E && query.runes.length > 1) {
+            query = String.fromCharCodes(query.runes.toList()..removeLast());
+          }
+        }
+        return _sortedOptions(query);
       },
       optionsViewBuilder: (context, onSelected, options) {
         return Align(

@@ -90,7 +90,15 @@ class _PokemonSelectorState extends State<PokemonSelector> {
         if (textEditingValue.text == _selected?.nameKo) {
           return _sortedOptions('');
         }
-        return _sortedOptions(textEditingValue.text);
+        // Strip trailing lone jamo (ㄱ-ㅎ) for smoother Korean input on custom keyboards
+        var query = textEditingValue.text;
+        if (query.isNotEmpty) {
+          final lastCode = query.runes.last;
+          if (lastCode >= 0x3131 && lastCode <= 0x314E && query.runes.length > 1) {
+            query = String.fromCharCodes(query.runes.toList()..removeLast());
+          }
+        }
+        return _sortedOptions(query);
       },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
