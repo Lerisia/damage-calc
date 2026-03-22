@@ -171,7 +171,7 @@ class _StatInputState extends State<StatInput> {
 
   void _debounce(VoidCallback fn) {
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 300), fn);
+    _debounceTimer = Timer(const Duration(milliseconds: 150), fn);
   }
 
   static Map<String, String>? _abilityCache;

@@ -95,7 +95,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// during rapid input (e.g. typing EVs).
   void _onPanelChanged() {
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+    _debounceTimer = Timer(const Duration(milliseconds: 100), () {
       if (mounted) {
         setState(() {
           _syncWeatherTerrain();
