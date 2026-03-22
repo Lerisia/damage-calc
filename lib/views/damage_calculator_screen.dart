@@ -224,7 +224,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('초기화'),
-        content: const Text('양측 포켓몬이 모두 초기화됩니다'),
+        content: const Text('양측 포켓몬과 날씨/필드/룸이 모두 초기화됩니다'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('취소')),
           TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('확인')),
@@ -236,6 +236,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         _resetCounter++;
         _attacker.reset();
         _defender.reset();
+        _weather = Weather.none;
+        _terrain = Terrain.none;
+        _room = const RoomConditions();
       });
     }
   }
