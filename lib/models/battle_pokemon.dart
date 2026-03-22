@@ -42,6 +42,7 @@ class BattlePokemonState {
   // Self-applied battle conditions
   bool charge; // Charge: next Electric move deals 2x damage
   bool tailwind;
+  bool stickyWeb; // Sticky Web: speed x0.5 (grounded only)
 
   // Defensive conditions
   bool reflect;
@@ -79,6 +80,7 @@ class BattlePokemonState {
     this.status = StatusCondition.none,
     this.charge = false,
     this.tailwind = false,
+    this.stickyWeb = false,
     this.reflect = false,
     this.lightScreen = false,
     this.auroraVeil = false,
@@ -129,6 +131,7 @@ class BattlePokemonState {
     'status': status.name,
     'charge': charge,
     'tailwind': tailwind,
+    'stickyWeb': stickyWeb,
     'reflect': reflect,
     'lightScreen': lightScreen,
     'auroraVeil': auroraVeil,
@@ -171,6 +174,7 @@ class BattlePokemonState {
       status: StatusCondition.values.byName(json['status'] as String),
       charge: json['charge'] as bool? ?? false,
       tailwind: json['tailwind'] as bool? ?? false,
+      stickyWeb: json['stickyWeb'] as bool? ?? false,
       reflect: json['reflect'] as bool? ?? false,
       lightScreen: json['lightScreen'] as bool? ?? false,
       auroraVeil: json['auroraVeil'] as bool? ?? false,
@@ -214,6 +218,7 @@ class BattlePokemonState {
     status = StatusCondition.none;
     charge = false;
     tailwind = false;
+    stickyWeb = false;
     reflect = false;
     lightScreen = false;
     auroraVeil = false;

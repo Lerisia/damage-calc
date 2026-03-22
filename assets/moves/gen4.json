@@ -390,7 +390,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [
+      "custom:power_target_hp_120"
+    ]
   },
   {
     "name": "Miracle Eye",
@@ -1119,7 +1121,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [
+      "custom:power_target_hp_120"
+    ]
   },
   {
     "name": "Vacuum Wave",

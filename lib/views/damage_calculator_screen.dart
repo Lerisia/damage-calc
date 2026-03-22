@@ -139,6 +139,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       state: s,
       weather: _weather,
       terrain: _terrain,
+      room: _room,
     );
   }
 

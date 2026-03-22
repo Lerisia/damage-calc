@@ -769,7 +769,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [
+      "custom:power_target_hp_100"
+    ]
   },
   {
     "name": "Hydro Steam",
