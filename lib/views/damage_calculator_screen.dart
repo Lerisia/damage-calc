@@ -148,7 +148,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    // IndexedStack needs setState on every tab change to update visible child
+    // Refresh state on tab change (e.g. for toolbar button visibility)
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
         setState(() {});
@@ -572,8 +572,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     return Column(
       children: [
         Expanded(
-          child: IndexedStack(
-            index: _tabController.index,
+          child: TabBarView(
+            controller: _tabController,
             children: [
               _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
               _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
@@ -1003,6 +1003,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         final label = moveKo[key] ?? key;
         if (parts.length >= 3) return '$label ${parts[2]}';
         return label;
+      case 'weather_negate':
+        final name = _abilityNameMap[parts[1]] ?? parts[1];
+        return name;
       case 'moldbreaker':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
         return '$name: 상대 특성 무시';

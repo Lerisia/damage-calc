@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
@@ -23,6 +24,15 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   Pokemon? _selected;
   bool _hasFocusListenerAttached = false;
 
+  Timer? _searchDebounce;
+  String _activeQuery = '';
+
+  @override
+  void dispose() {
+    _searchDebounce?.cancel();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -43,11 +53,13 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   }
 
   String _lastQuery = '';
+  Pokemon? _lastSelected;
   List<Pokemon>? _lastResults;
 
   List<Pokemon> _sortedOptions(String query) {
-    if (query == _lastQuery && _lastResults != null) return _lastResults!;
+    if (query == _lastQuery && _lastSelected == _selected && _lastResults != null) return _lastResults!;
     _lastQuery = query;
+    _lastSelected = _selected;
 
     if (query.isEmpty) {
       _lastResults = _selected != null
@@ -82,23 +94,14 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       initialValue: TextEditingValue(text: _selected?.nameKo ?? ''),
       displayStringForOption: (p) => p.nameKo,
       optionsBuilder: (textEditingValue) {
-        // Skip search while Korean IME is composing to prevent garbled input on mobile.
-        // Web IMEs keep composing active throughout, so skip the guard on web.
+        // Skip search while Korean IME is composing (native only)
         if (!kIsWeb && textEditingValue.composing != TextRange.empty) {
           return _lastResults ?? _sortedOptions('');
         }
         if (textEditingValue.text == _selected?.nameKo) {
           return _sortedOptions('');
         }
-        // Strip trailing lone jamo (ㄱ-ㅎ) for smoother Korean input on custom keyboards
-        var query = textEditingValue.text;
-        if (query.isNotEmpty) {
-          final lastCode = query.runes.last;
-          if (lastCode >= 0x3131 && lastCode <= 0x314E && query.runes.length > 1) {
-            query = String.fromCharCodes(query.runes.toList()..removeLast());
-          }
-        }
-        return _sortedOptions(query);
+        return _sortedOptions(_stripIncomplete(textEditingValue.text));
       },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
