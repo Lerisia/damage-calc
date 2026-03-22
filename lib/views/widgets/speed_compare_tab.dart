@@ -6,6 +6,7 @@ import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../models/status.dart';
+import '../../utils/localization.dart';
 import '../../models/room.dart';
 import '../../models/terrain.dart';
 import '../../models/weather.dart';
@@ -195,7 +196,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Text('종족값 $speedBase', style: TextStyle(fontSize: 13, color: Colors.grey.shade500)),
+              Text('종족값 $speedBase', style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
             ],
           ),
           const SizedBox(height: 8),
@@ -211,7 +212,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
           const SizedBox(height: 10),
           Row(
             children: [
-              Text('개체 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+              Text('개체 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Expanded(flex: 2, child: _SpeedNumInput(
                 value: state.iv.speed,
                 min: 0, max: 31,
@@ -224,7 +225,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Text('노력 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+              Text('노력 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Expanded(flex: 3, child: _SpeedNumInput(
                 value: state.ev.speed,
                 min: 0, max: 252,
@@ -251,7 +252,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 _notify();
               }),
               const SizedBox(width: 8),
-              Text('랭크 ', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
+              Text('랭크 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Expanded(flex: 2, child: _SpeedNumInput(
                 value: state.rank.speed,
                 min: -6, max: 6,
@@ -286,10 +287,10 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 isDense: true,
                 isExpanded: true,
                 decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                style: const TextStyle(fontSize: 13, color: Colors.black87),
-                items: [StatusCondition.none, StatusCondition.paralysis].map((st) {
+                style: const TextStyle(fontSize: 14),
+                items: StatusCondition.values.map((st) {
                   return DropdownMenuItem(value: st, child: Text(
-                    st == StatusCondition.none ? '없음' : '마비', style: const TextStyle(fontSize: 13)));
+                    KoStrings.statusKo[st] ?? st.name, style: const TextStyle(fontSize: 14)));
                 }).toList(),
                 onChanged: (v) { if (v != null) { setState(() => state.status = v); _notify(); } },
               )),
@@ -303,12 +304,12 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 isDense: true,
                 isExpanded: true,
                 decoration: const InputDecoration(labelText: '성격', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                style: const TextStyle(fontSize: 13, color: Colors.black87),
+                style: const TextStyle(fontSize: 14),
                 items: Nature.values.map((n) {
                   final isBuff = n.speedModifier > 1.0;
                   final isNerf = n.speedModifier < 1.0;
                   return DropdownMenuItem(value: n, child: Text(n.nameKo,
-                    style: TextStyle(fontSize: 13, color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
+                    style: TextStyle(fontSize: 14, color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
                 }).toList(),
                 onChanged: (v) { if (v != null) { setState(() => state.nature = v); _notify(); } },
               )),
