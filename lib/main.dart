@@ -16,6 +16,14 @@ class DamageCalcApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Damage Calculator',
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: const TextScaler.linear(1.1),
+          ),
+          child: child!,
+        );
+      },
       theme: ThemeData(
         colorSchemeSeed: Colors.red,
         brightness: Brightness.light,

@@ -179,7 +179,7 @@ class PokemonPanelState extends State<PokemonPanel>
         controller: _screenshotController,
         child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -633,7 +633,7 @@ class PokemonPanelState extends State<PokemonPanel>
             const SizedBox(width: 4),
             Flexible(child: FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(label, style: const TextStyle(fontSize: 13)),
+              child: Text(label, style: const TextStyle(fontSize: 14)),
             )),
           ],
         ),

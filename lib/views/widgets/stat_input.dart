@@ -549,7 +549,7 @@ class _StatInputState extends State<StatInput> {
             color: evTotal > 510 ? Colors.red : null,
           ), textAlign: TextAlign.center)),
           Expanded(flex: 7, child: Text(speedText, style: style.copyWith(
-            color: speedColor, fontSize: 13,
+            color: speedColor, fontSize: 14,
           ), textAlign: TextAlign.center)),
         ],
       ),
@@ -588,8 +588,8 @@ class _StatInputState extends State<StatInput> {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Text(label, style: const TextStyle(fontSize: 13))),
-          Expanded(flex: 2, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 13))),
+          Expanded(flex: 3, child: Text(label, style: const TextStyle(fontSize: 14))),
+          Expanded(flex: 2, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 14))),
           Expanded(flex: 3, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
           Expanded(
             flex: 6,
@@ -608,7 +608,7 @@ class _StatInputState extends State<StatInput> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('$actual', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
+                    Text('$actual', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
                     Text('(×2)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
                   ],
                 )
@@ -643,7 +643,7 @@ class _StatInputState extends State<StatInput> {
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: 252),
               ],
-              style: const TextStyle(fontSize: 13),
+              style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
@@ -683,7 +683,7 @@ class _StatInputState extends State<StatInput> {
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: 100),
               ],
-              style: const TextStyle(fontSize: 13),
+              style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
@@ -729,7 +729,7 @@ class _StatInputState extends State<StatInput> {
           _ClampingFormatter(min: -6, max: 6, allowNegative: true),
         ],
         style: TextStyle(
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: FontWeight.bold,
           color: value > 0 ? Colors.red : value < 0 ? Colors.blue : null,
         ),
@@ -759,7 +759,7 @@ class _StatInputState extends State<StatInput> {
           FilteringTextInputFormatter.digitsOnly,
           _ClampingFormatter(min: min, max: max),
         ],
-        style: const TextStyle(fontSize: 13),
+        style: const TextStyle(fontSize: 14),
         decoration: const InputDecoration(
           isDense: true,
           contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),

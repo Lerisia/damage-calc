@@ -59,6 +59,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   final _damageTabScreenshotController = ScreenshotController();
   final _speedTabScreenshotController = ScreenshotController();
+  final _wideLayoutScreenshotController = ScreenshotController();
 
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
@@ -166,9 +167,39 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     super.dispose();
   }
 
+  bool get _isWideLayout => MediaQuery.of(context).size.width >= 1050;
+
   Future<void> _capture() async {
-    final currentTab = _tabController.index;
     Uint8List? image;
+
+    // Wide layout: capture entire screen
+    if (_isWideLayout) {
+      try {
+        image = await _wideLayoutScreenshotController.capture(
+          delay: const Duration(milliseconds: 100),
+          pixelRatio: 2.0,
+        );
+      } catch (_) {}
+
+      if (image == null || !mounted) return;
+      try {
+        final filename = 'pokemon_calc_${DateTime.now().millisecondsSinceEpoch}';
+        await saver.saveImage(image, filename);
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('전체 화면이 저장되었습니다'), duration: Duration(seconds: 2)),
+        );
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('저장 실패: $e'), duration: const Duration(seconds: 2)),
+        );
+      }
+      return;
+    }
+
+    // Narrow layout: capture current tab
+    final currentTab = _tabController.index;
 
     if (currentTab == 0) {
       final panelState = _attackerPanelKey.currentState;
@@ -462,9 +493,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth >= 1400) {
-            return _buildExtraWideLayout();
+            return Screenshot(
+              controller: _wideLayoutScreenshotController,
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: _buildExtraWideLayout(),
+              ),
+            );
           } else if (constraints.maxWidth >= 1050) {
-            return _buildWideLayout();
+            return Screenshot(
+              controller: _wideLayoutScreenshotController,
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                child: _buildWideLayout(),
+              ),
+            );
           }
           return _buildNarrowLayout();
         },
@@ -588,6 +631,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   controller: _speedTabScreenshotController,
                   child: Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
+                    padding: const EdgeInsets.all(12),
                     child: SpeedCompareTab(
                       attacker: _attacker,
                       defender: _defender,
@@ -690,6 +734,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         controller: _damageTabScreenshotController,
         child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
+          padding: const EdgeInsets.all(12),
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -934,7 +979,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             const SizedBox(width: 2),
             Flexible(child: FittedBox(
               fit: BoxFit.scaleDown,
-              child: Text(label, style: const TextStyle(fontSize: 12)),
+              child: Text(label, style: const TextStyle(fontSize: 14)),
             )),
           ],
         ),
