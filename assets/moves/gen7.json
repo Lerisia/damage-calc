@@ -165,7 +165,9 @@
     "tags": [
       "custom:has_secondary",
       "punch"
-    ]
+    ],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Lunge",

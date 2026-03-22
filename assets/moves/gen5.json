@@ -58,7 +58,9 @@
     "power": 50,
     "accuracy": 85,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Shift Gear",
@@ -163,7 +165,9 @@
     "power": 40,
     "accuracy": 90,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Round",
@@ -587,7 +591,9 @@
     "power": 25,
     "accuracy": 85,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Secret Sword",

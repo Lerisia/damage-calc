@@ -459,18 +459,34 @@ class PokemonPanelState extends State<PokemonPanel>
         children: [
           Expanded(
             flex: 3,
-            child: MoveSelector(
-              key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
-              initialMoveName: s.moves[index]?.name,
-              displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
-              onTap: _scrollToMoves,
-              onSelected: (m) => setState(() {
-                s.moves[index] = m;
-                s.typeOverrides[index] = null;
-                s.categoryOverrides[index] = null;
-                s.powerOverrides[index] = null;
-                s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
-              }),
+            child: Row(
+              children: [
+                Expanded(
+                  child: MoveSelector(
+                    key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
+                    initialMoveName: s.moves[index]?.name,
+                    displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
+                    onTap: _scrollToMoves,
+                    onSelected: (m) => setState(() {
+                      s.moves[index] = m;
+                      s.typeOverrides[index] = null;
+                      s.categoryOverrides[index] = null;
+                      s.powerOverrides[index] = null;
+                      s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
+                    }),
+                  ),
+                ),
+                if (move != null && move.isMultiHit)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 2),
+                    child: Text(
+                      move.minHits == move.maxHits
+                          ? '×${move.maxHits}'
+                          : '×${move.minHits}-${move.maxHits}',
+                      style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                    ),
+                  ),
+              ],
             ),
           ),
           SizedBox(
@@ -649,12 +665,7 @@ class PokemonPanelState extends State<PokemonPanel>
       case Gender.genderless:
         icon = Text('-', style: TextStyle(fontSize: 20, color: Colors.grey.shade500, fontWeight: FontWeight.bold));
       case Gender.unset:
-        icon = Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('♂', style: TextStyle(fontSize: 16, color: Colors.blue.shade300)),
-            Text('♀', style: TextStyle(fontSize: 16, color: Colors.pink.shade300)),
-          ],
+        icon = Text('⚥', style: TextStyle(fontSize: 20, color: Colors.purple.shade300),
         );
     }
 
@@ -829,38 +840,95 @@ class _DynamaxPainter extends CustomPainter {
   final bool isGmax;
   _DynamaxPainter({required this.state, required this.isGmax});
 
+  /// Build the Dynamax X silhouette inspired by the original logo.
+  /// Features: narrow upper prongs, center horn, thick lower prongs.
+  Path _buildDmaxX(double s) {
+    final path = Path();
+    final cx = s / 2;
+    final cy = s * 0.40;
+
+    // Start from center-top horn tip
+    path.moveTo(cx, s * 0.02);
+
+    // Left side of center horn → top-left prong
+    path.lineTo(cx - s * 0.06, cy - s * 0.06);
+    path.lineTo(s * 0.05, s * 0.05);   // top-left tip
+    path.lineTo(s * 0.15, s * 0.18);   // inner edge of top-left prong
+    path.lineTo(cx - s * 0.10, cy + s * 0.02);
+
+    // Down to bottom-left prong (thick, heavy)
+    path.lineTo(s * -0.02, s * 0.98);  // bottom-left outer tip (wide)
+    path.lineTo(s * 0.10, s * 0.90);
+    path.lineTo(s * 0.14, s * 0.95);
+    path.lineTo(s * 0.22, s * 0.85);
+    path.lineTo(s * 0.26, s * 0.88);
+    path.lineTo(s * 0.38, s * 0.68);   // inner edge
+    path.lineTo(cx - s * 0.03, cy + s * 0.12);
+
+    // Cross to right side
+    path.lineTo(cx + s * 0.03, cy + s * 0.12);
+
+    // Bottom-right prong (thick, heavy)
+    path.lineTo(s * 0.62, s * 0.68);
+    path.lineTo(s * 0.74, s * 0.88);
+    path.lineTo(s * 0.78, s * 0.85);
+    path.lineTo(s * 0.86, s * 0.95);
+    path.lineTo(s * 0.90, s * 0.90);
+    path.lineTo(s * 1.02, s * 0.98);   // bottom-right outer tip (wide)
+
+    // Up to top-right prong
+    path.lineTo(cx + s * 0.10, cy + s * 0.02);
+    path.lineTo(s * 0.85, s * 0.18);
+    path.lineTo(s * 0.95, s * 0.05);   // top-right tip
+    path.lineTo(cx + s * 0.06, cy - s * 0.06);
+
+    path.close();
+    return path;
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
-    final c = Offset(size.width / 2, size.height / 2);
-    final r = size.width / 2 - 1;
+    final s = size.width;
+    final path = _buildDmaxX(s);
 
     if (state == DynamaxState.none) {
-      final p = Paint()..color = Colors.grey.shade400..style = PaintingStyle.stroke..strokeWidth = 1.5;
-      canvas.drawCircle(c, r, p);
-      final ap = Paint()..color = Colors.grey.shade400..style = PaintingStyle.stroke..strokeWidth = 1.5..strokeCap = StrokeCap.round;
-      canvas.drawLine(Offset(c.dx, c.dy - r * 0.4), Offset(c.dx, c.dy + r * 0.3), ap);
-      canvas.drawLine(Offset(c.dx - r * 0.25, c.dy - r * 0.1), Offset(c.dx, c.dy - r * 0.4), ap);
-      canvas.drawLine(Offset(c.dx + r * 0.25, c.dy - r * 0.1), Offset(c.dx, c.dy - r * 0.4), ap);
+      canvas.drawPath(path, Paint()
+        ..color = Colors.grey.shade400
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0
+        ..strokeJoin = StrokeJoin.round);
       return;
     }
 
-    final base = isGmax ? Colors.orange.shade700 : Colors.red.shade700;
-    final glow = (isGmax ? Colors.orange.shade300 : Colors.red.shade300).withValues(alpha: 0.4);
-    canvas.drawCircle(c, r + 1, Paint()..color = glow..style = PaintingStyle.fill);
-    canvas.drawCircle(c, r - 1, Paint()..color = base..style = PaintingStyle.fill);
+    final baseColor = Colors.red.shade600;
 
-    final lp = Paint()..color = Colors.white.withValues(alpha: 0.85)..style = PaintingStyle.stroke..strokeWidth = 1.8..strokeCap = StrokeCap.round;
-    final lr = r * 0.5;
-    for (int i = 0; i < 4; i++) {
-      final a = i * _math.pi / 2 + _math.pi / 4;
-      canvas.drawLine(c, Offset(c.dx + lr * _math.cos(a), c.dy + lr * _math.sin(a)), lp);
+    if (isGmax) {
+      // Gigantamax: ominous multi-layered glow
+      canvas.drawPath(path, Paint()
+        ..color = Colors.red.shade200.withValues(alpha: 0.25)
+        ..style = PaintingStyle.fill
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6));
+      canvas.drawPath(path, Paint()
+        ..color = Colors.red.shade400.withValues(alpha: 0.4)
+        ..style = PaintingStyle.fill
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3));
+      canvas.drawPath(path, Paint()
+        ..color = baseColor
+        ..style = PaintingStyle.fill);
+      canvas.drawPath(path, Paint()
+        ..color = Colors.white.withValues(alpha: 0.4)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.8);
+    } else {
+      // Dynamax: simple solid fill
+      canvas.drawPath(path, Paint()
+        ..color = Colors.red.shade300.withValues(alpha: 0.3)
+        ..style = PaintingStyle.fill
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2));
+      canvas.drawPath(path, Paint()
+        ..color = baseColor
+        ..style = PaintingStyle.fill);
     }
-
-    final tp = TextPainter(
-      text: TextSpan(text: isGmax ? 'G' : 'D', style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    tp.paint(canvas, Offset(c.dx - tp.width / 2, c.dy - tp.height / 2));
   }
 
   @override
@@ -877,7 +945,7 @@ class _TerastalPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final c = Offset(size.width / 2, size.height / 2);
-    final outerR = size.width / 2 - 1;
+    final outerR = size.width / 2;
     final innerR = outerR * 0.65;
 
     // Star-hexagon: alternate between outer points and inner edges
