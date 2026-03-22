@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
@@ -24,14 +23,6 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   Pokemon? _selected;
   bool _hasFocusListenerAttached = false;
 
-  Timer? _searchDebounce;
-  String _activeQuery = '';
-
-  @override
-  void dispose() {
-    _searchDebounce?.cancel();
-    super.dispose();
-  }
 
   @override
   void initState() {
@@ -101,7 +92,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
         if (textEditingValue.text == _selected?.nameKo) {
           return _sortedOptions('');
         }
-        return _sortedOptions(_stripIncomplete(textEditingValue.text));
+        return _sortedOptions(textEditingValue.text);
       },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
