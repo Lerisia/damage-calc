@@ -140,6 +140,17 @@ class _PokemonSelectorState extends State<PokemonSelector> {
         return TextField(
           controller: controller,
           focusNode: focusNode,
+          textInputAction: TextInputAction.done,
+          onSubmitted: (_) {
+            final results = _sortedOptions(controller.text);
+            if (results.isNotEmpty) {
+              final pick = results.first;
+              setState(() => _selected = pick);
+              widget.onSelected(pick);
+              controller.text = pick.nameKo;
+              focusNode.unfocus();
+            }
+          },
           decoration: InputDecoration(
             hintText: _selected?.nameKo ?? '포켓몬 이름',
             isDense: true,
