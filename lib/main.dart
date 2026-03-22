@@ -9,6 +9,23 @@ void main() {
   runApp(const DamageCalcApp());
 }
 
+const _fontFallback = ['NotoSansKR', 'sans-serif'];
+
+ThemeData _buildTheme(Brightness brightness) {
+  final base = ThemeData(
+    colorSchemeSeed: Colors.red,
+    brightness: brightness,
+    useMaterial3: true,
+    fontFamily: 'Jua',
+  );
+  // Apply fontFamilyFallback to all text styles so missing Jua glyphs
+  // (e.g. rare syllables during Korean IME composition) fall back to
+  // NotoSansKR instead of showing □.
+  return base.copyWith(
+    textTheme: base.textTheme.apply(fontFamilyFallback: _fontFallback),
+  );
+}
+
 class DamageCalcApp extends StatelessWidget {
   const DamageCalcApp({super.key});
 
@@ -17,25 +34,25 @@ class DamageCalcApp extends StatelessWidget {
     return MaterialApp(
       title: 'Damage Calculator',
       builder: (context, child) {
-        return MediaQuery(
+        final mediaChild = MediaQuery(
           data: MediaQuery.of(context).copyWith(
             textScaler: const TextScaler.linear(1.1),
           ),
           child: child!,
         );
+        // Wrap with DefaultTextStyle to guarantee fontFamilyFallback
+        // reaches every widget, including TextField composing text.
+        final defaultStyle = DefaultTextStyle.of(context).style;
+        return DefaultTextStyle(
+          style: defaultStyle.copyWith(
+            fontFamily: 'Jua',
+            fontFamilyFallback: _fontFallback,
+          ),
+          child: mediaChild,
+        );
       },
-      theme: ThemeData(
-        colorSchemeSeed: Colors.red,
-        brightness: Brightness.light,
-        useMaterial3: true,
-        fontFamily: 'Jua',
-      ),
-      darkTheme: ThemeData(
-        colorSchemeSeed: Colors.red,
-        brightness: Brightness.dark,
-        useMaterial3: true,
-        fontFamily: 'Jua',
-      ),
+      theme: _buildTheme(Brightness.light),
+      darkTheme: _buildTheme(Brightness.dark),
       themeMode: ThemeMode.system,
       home: const _AppLoader(),
     );

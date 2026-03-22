@@ -8,6 +8,47 @@
 /// - Mixed search: "피ㅋ" → 피카츄
 /// - Syllable-prefix: "이사" → 이상해씨 (사 matches 상 as incomplete input)
 
+/// Pre-computed search data for fast matching.
+class SearchEntry<T> {
+  final T item;
+  final String koLower;
+  final String enLower;
+  final List<int> koRunes;
+  final List<int> chosungIndices; // 초성 index per syllable
+
+  SearchEntry(this.item, String nameKo, String nameEn)
+      : koLower = nameKo.toLowerCase(),
+        enLower = nameEn.toLowerCase(),
+        koRunes = nameKo.toLowerCase().runes.toList(),
+        chosungIndices = nameKo.runes.map((c) =>
+            _isSyllable(c) ? (c - 0xAC00) ~/ 588 : -1).toList();
+}
+
+/// Scores a pre-computed entry against a pre-computed query.
+int scoreEntry(List<int> qRunes, String qLower, SearchEntry entry) {
+  // 1. Exact match
+  if (qLower == entry.koLower) return 100;
+
+  // 2. Prefix match (with syllable-prefix on last char)
+  if (qRunes.length <= entry.koRunes.length &&
+      _prefixMatchRunes(qRunes, entry.koRunes)) return 80;
+
+  // 3. Contains match
+  if (entry.koLower.contains(qLower)) return 60;
+
+  // 4. 초성/mixed prefix match
+  if (qRunes.length <= entry.koRunes.length &&
+      _chosungPrefixMatchRunes(qRunes, entry.koRunes)) return 50;
+
+  // 5. 초성/mixed contains match
+  if (_chosungContainsMatchRunes(qRunes, entry.koRunes)) return 30;
+
+  // 6. English fallback
+  if (entry.enLower.contains(qLower)) return 20;
+
+  return 0;
+}
+
 const _chosung = [
   'ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ',
   'ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ',
@@ -59,6 +100,8 @@ int _jamoToChosungIndex(int code) {
 
 /// Match score for search ranking. Higher = better match.
 /// Returns 0 for no match.
+///
+/// Prefer [scoreEntry] with pre-computed [SearchEntry] for batch searches.
 int koreanMatchScore(String query, String target) {
   if (query.isEmpty) return 0;
 
@@ -81,6 +124,62 @@ int koreanMatchScore(String query, String target) {
   if (_chosungContainsMatch(q, t)) return 30;
 
   return 0;
+}
+
+// ------------------------------------------------------------------
+// Runes-based matching (for pre-computed SearchEntry)
+// ------------------------------------------------------------------
+
+bool _prefixMatchRunes(List<int> qRunes, List<int> tRunes) {
+  for (int i = 0; i < qRunes.length; i++) {
+    final qc = qRunes[i];
+    final tc = tRunes[i];
+    if (i == qRunes.length - 1) {
+      if (!_syllableMatch(qc, tc)) return false;
+    } else {
+      if (qc != tc) return false;
+    }
+  }
+  return true;
+}
+
+bool _chosungPrefixMatchRunes(List<int> qRunes, List<int> tRunes) {
+  for (int i = 0; i < qRunes.length; i++) {
+    final qc = qRunes[i];
+    final tc = tRunes[i];
+    if (_isJamo(qc)) {
+      if (!_isSyllable(tc)) return false;
+      final jamoIdx = _jamoToChosungIndex(qc);
+      if (jamoIdx < 0 || jamoIdx != _chosungIndex(tc)) return false;
+    } else if (i == qRunes.length - 1) {
+      if (!_syllableMatch(qc, tc)) return false;
+    } else {
+      if (qc != tc) return false;
+    }
+  }
+  return true;
+}
+
+bool _chosungContainsMatchRunes(List<int> qRunes, List<int> tRunes) {
+  final maxStart = tRunes.length - qRunes.length;
+  for (int start = 1; start <= maxStart; start++) {
+    bool match = true;
+    for (int i = 0; i < qRunes.length; i++) {
+      final qc = qRunes[i];
+      final tc = tRunes[start + i];
+      if (_isJamo(qc)) {
+        if (!_isSyllable(tc)) { match = false; break; }
+        final jamoIdx = _jamoToChosungIndex(qc);
+        if (jamoIdx < 0 || jamoIdx != _chosungIndex(tc)) { match = false; break; }
+      } else if (i == qRunes.length - 1) {
+        if (!_syllableMatch(qc, tc)) { match = false; break; }
+      } else {
+        if (qc != tc) { match = false; break; }
+      }
+    }
+    if (match) return true;
+  }
+  return false;
 }
 
 /// Prefix match with syllable-prefix support on the last character.

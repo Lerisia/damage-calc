@@ -27,6 +27,9 @@ flutter:
     - family: Jua
       fonts:
         - asset: assets/fonts/Jua-Regular.ttf
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Fallback.ttf
 
   assets:
     - assets/
