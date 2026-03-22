@@ -20,11 +20,13 @@ class DamageCalcApp extends StatelessWidget {
         colorSchemeSeed: Colors.red,
         brightness: Brightness.light,
         useMaterial3: true,
+        fontFamily: 'Pretendard Variable',
       ),
       darkTheme: ThemeData(
         colorSchemeSeed: Colors.red,
         brightness: Brightness.dark,
         useMaterial3: true,
+        fontFamily: 'Pretendard Variable',
       ),
       themeMode: ThemeMode.system,
       home: const _AppLoader(),
