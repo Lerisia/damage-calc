@@ -87,10 +87,6 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       initialValue: TextEditingValue(text: _selected?.nameKo ?? ''),
       displayStringForOption: (p) => p.nameKo,
       optionsBuilder: (textEditingValue) {
-        // Skip search while Korean IME is composing (native only)
-        if (!kIsWeb && textEditingValue.composing != TextRange.empty) {
-          return _lastResults ?? _sortedOptions('');
-        }
         if (textEditingValue.text == _selected?.nameKo) {
           return _sortedOptions('');
         }
