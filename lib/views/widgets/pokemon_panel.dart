@@ -177,7 +177,9 @@ class PokemonPanelState extends State<PokemonPanel>
     return SingleChildScrollView(
       controller: _scrollController,
       padding: EdgeInsets.fromLTRB(16, 16, 16,
-          MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom),
+          MediaQuery.of(context).viewInsets.bottom > 0
+              ? MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom
+              : 32),
       child: Screenshot(
         controller: _screenshotController,
         child: Container(
