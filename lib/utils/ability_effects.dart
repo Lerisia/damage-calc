@@ -554,6 +554,13 @@ bool hasNeutralizingGas(String? attackerAbility, String? defenderAbility) {
       defenderAbility == 'Neutralizing Gas';
 }
 
+/// Abilities that prevent critical hits against the holder.
+const _critImmunityAbilities = {'Shell Armor', 'Battle Armor'};
+
+/// Returns true if [ability] prevents critical hits.
+bool isCritImmune(String? ability) =>
+    ability != null && _critImmunityAbilities.contains(ability);
+
 /// Returns the effective ability considering Neutralizing Gas.
 ///
 /// If either side has Neutralizing Gas, all other abilities are suppressed.

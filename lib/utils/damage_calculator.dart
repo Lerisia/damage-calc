@@ -277,7 +277,8 @@ class DamageCalculator {
     final isPhysical = effectiveMove.category == MoveCategory.physical;
 
     // --- Attacker stat ---
-    final isCritical = attacker.criticals[moveIndex];
+    // Note: isCritical may be overridden later by Shell Armor / Battle Armor
+    var isCritical = attacker.criticals[moveIndex];
     final atkStat = transformed.offensiveStat;
 
     // Unaware (defender) + Critical hit rank adjustments
@@ -389,6 +390,13 @@ class DamageCalculator {
     final bool moldBreaks = shouldIgnoreAbility(effectiveAbility, defAbilityRaw);
     final String? effectiveDefAbility = moldBreaks ? null : defAbilityRaw;
 
+    // Shell Armor / Battle Armor: negate critical hit
+    String? critNegateNote;
+    if (isCritical && isCritImmune(effectiveDefAbility)) {
+      isCritical = false;
+      critNegateNote = 'ability:$effectiveDefAbility:급소에 맞지 않음';
+    }
+
     // Defender ability/item defensive modifiers
     if (effectiveDefAbility != null) {
       final defAbility = getDefensiveAbilityEffect(
@@ -417,6 +425,7 @@ class DamageCalculator {
     final notes = <String>[];
     if (gasActive) notes.add('ability:Neutralizing Gas:특성 무효화');
     notes.addAll(weatherNotes);
+    if (critNegateNote != null) notes.add(critNegateNote);
     if (moldBreaks) notes.add('moldbreaker:${attacker.selectedAbility}');
     // Unaware: show when it actually affects the calculation
     if (defAbilityRaw == 'Unaware' && !moldBreaks) {
@@ -508,6 +517,32 @@ class DamageCalculator {
       moveType, defType1, defType2,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry),
       flyingPress: effectiveMove.hasTag(MoveTags.flyingPress));
+
+    // --- Ground vs Flying: grounding overrides type immunity ---
+    if (moveType == PokemonType.ground && effectiveness == 0.0) {
+      final bool defIsGrounded = isGrounded(
+        type1: defType1, type2: defType2,
+        ability: defAbilityName, item: defender.selectedItem,
+        gravity: room.gravity,
+      );
+      final bool hitsAnyway = defIsGrounded || effectiveMove.hasTag(MoveTags.thousandArrows);
+
+      if (hitsAnyway) {
+        // Recalculate treating Ground→Flying as neutral (1.0) instead of immune (0.0)
+        final other = defType1 == PokemonType.flying ? defType2 : defType1;
+        final otherEff = other != null && other != PokemonType.flying
+            ? getTypeEffectiveness(PokemonType.ground, other)
+            : 1.0;
+        effectiveness = otherEff;
+      } else {
+        return DamageResult(
+          baseDamage: 0, minDamage: 0, maxDamage: 0,
+          defenderHp: defActual.hp, effectiveness: 0.0,
+          isPhysical: isPhysical, move: effectiveMove,
+          modifierNotes: ['ground:immune'],
+        );
+      }
+    }
 
     // Strong Winds (Delta Stream): removes Flying-type weaknesses
     // Ice/Electric/Rock vs Flying becomes 1x instead of 2x
