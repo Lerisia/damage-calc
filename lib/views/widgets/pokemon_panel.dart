@@ -490,14 +490,10 @@ class PokemonPanelState extends State<PokemonPanel>
                   ),
                 ),
                 if (move != null && move.isMultiHit)
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        final current = s.hitOverrides[index] ?? move.maxHits;
-                        final next = current >= move.maxHits ? move.minHits : current + 1;
-                        s.hitOverrides[index] = next;
-                      });
-                    },
+                  PopupMenuButton<int>(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 2),
                       child: Text(
@@ -508,6 +504,15 @@ class PokemonPanelState extends State<PokemonPanel>
                         ),
                       ),
                     ),
+                    itemBuilder: (_) => [
+                      for (int h = move.minHits; h <= move.maxHits; h++)
+                        PopupMenuItem(
+                          value: h,
+                          height: 32,
+                          child: Text('×$h', style: const TextStyle(fontSize: 13)),
+                        ),
+                    ],
+                    onSelected: (h) => setState(() { s.hitOverrides[index] = h; }),
                   ),
               ],
             ),
