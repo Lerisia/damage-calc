@@ -18,6 +18,7 @@ class Pokemon {
   final int genderRate; // -1=genderless, 0=male only, 8=female only, 1-7=ratio
   final bool canDynamax;
   final bool canGmax;
+  final List<String> aliases; // 별명 (e.g. 불거폰, 랜드)
 
   const Pokemon({
     required this.dexNumber,
@@ -35,6 +36,7 @@ class Pokemon {
     this.genderRate = 4,
     this.canDynamax = true,
     this.canGmax = false,
+    this.aliases = const [],
   });
 
   /// Create a Pokemon from a JSON map
@@ -57,6 +59,9 @@ class Pokemon {
       genderRate: json['genderRate'] as int? ?? 4,
       canDynamax: json['canDynamax'] as bool? ?? true,
       canGmax: json['canGmax'] as bool? ?? false,
+      aliases: json['aliases'] != null
+          ? List<String>.from(json['aliases'] as List)
+          : const [],
     );
   }
 

@@ -1996,7 +1996,10 @@
     "type2": "dark",
     "finalEvo": true,
     "genderRate": 1,
-    "canGmax": true
+    "canGmax": true,
+    "aliases": [
+      "악라오스"
+    ]
   },
   {
     "dexNumber": 893,

@@ -35,7 +35,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     final all = await loadPokedex();
     setState(() {
       _allPokemon = all;
-      _searchEntries = all.map((p) => SearchEntry(p, p.nameKo, p.name)).toList();
+      _searchEntries = all.map((p) => SearchEntry(p, p.nameKo, p.name, aliases: p.aliases)).toList();
       if (_selected == null && all.isNotEmpty) {
         _selected = all.firstWhere(
           (p) => p.name == widget.initialPokemonName,
