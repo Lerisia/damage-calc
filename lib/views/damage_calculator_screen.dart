@@ -1014,6 +1014,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       case 'weather':
         const weatherKo = {
           'strong_winds': '난기류: 비행 약점 무효화',
+          'harsh_sun_water': '강한 햇살: 물 기술 무효',
+          'heavy_rain_fire': '강한 비: 불꽃 기술 무효',
         };
         return weatherKo[parts[1]] ?? note;
       case 'ground':

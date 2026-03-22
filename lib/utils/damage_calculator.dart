@@ -488,23 +488,6 @@ class DamageCalculator {
       }
     }
 
-    // Ground immunity (non-grounded) — Thousand Arrows bypasses this
-    if (moveType == PokemonType.ground && !effectiveMove.hasTag(MoveTags.thousandArrows)) {
-      final defGrounded = isGrounded(
-        type1: defEffType1, type2: defEffType2,
-        ability: defAbilityName, item: defender.selectedItem,
-        gravity: room.gravity,
-      );
-      if (!defGrounded) {
-        return DamageResult(
-          baseDamage: 0, minDamage: 0, maxDamage: 0,
-          defenderHp: defActual.hp, effectiveness: 0.0,
-          isPhysical: isPhysical, move: effectiveMove,
-          modifierNotes: ['ground:immune'],
-        );
-      }
-    }
-
     // --- Defender type (Terastal > Ability override > original) ---
     final PokemonType defType1;
     final PokemonType? defType2;
@@ -607,6 +590,16 @@ class DamageCalculator {
 
     // --- Weather/Terrain offensive ---
     final double weatherMod = getWeatherOffensiveModifier(weather, move: effectiveMove);
+    if (weatherMod == 0.0) {
+      final reason = weather == Weather.harshSun
+          ? 'weather:harsh_sun_water' : 'weather:heavy_rain_fire';
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defActual.hp, effectiveness: 0.0,
+        isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: [...notes, reason],
+      );
+    }
     final atkGrounded = isGrounded(
       type1: atkType1, type2: atkType2,
       ability: atkAbilityRaw, item: attacker.selectedItem,
