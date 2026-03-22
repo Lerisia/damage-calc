@@ -747,9 +747,9 @@ Rank getEffectiveDefensiveRank({
     return (multiplier: 2.0, note: 'ability:Tinted Lens:×2.0');
   }
 
-  // Neuroforce: super effective x1.25
+  // Neuroforce: super effective x1.2 (5120/4096)
   if (effectiveness > 1.0 && attackerAbility == 'Neuroforce') {
-    return (multiplier: 1.25, note: 'ability:Neuroforce:×1.25');
+    return (multiplier: 5120 / 4096, note: 'ability:Neuroforce:×1.2');
   }
 
   return (multiplier: 1.0, note: null);

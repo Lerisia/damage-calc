@@ -21,22 +21,31 @@ const _allFiles = [
 ];
 
 List<Pokemon>? _cache;
+Future<List<Pokemon>>? _loading;
 
-/// Loads all Pokemon data from assets/pokemon/*.json (cached after first load)
-Future<List<Pokemon>> loadPokedex() async {
-  if (_cache != null) return _cache!;
+/// Loads all Pokemon data from assets/pokemon/*.json (cached after first load).
+/// Uses parallel loading for faster startup.
+Future<List<Pokemon>> loadPokedex() {
+  if (_cache != null) return Future.value(_cache!);
+  return _loading ??= _doLoad();
+}
 
-  final List<Pokemon> pokedex = [];
-
-  for (final file in _allFiles) {
+Future<List<Pokemon>> _doLoad() async {
+  // Load all files in parallel
+  final futures = _allFiles.map((file) async {
     final jsonString = await rootBundle.loadString(file);
     final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
+    return jsonList.map((e) => Pokemon.fromJson(e as Map<String, dynamic>)).toList();
+  });
 
-    for (final entry in jsonList) {
-      pokedex.add(Pokemon.fromJson(entry as Map<String, dynamic>));
-    }
-  }
+  final results = await Future.wait(futures);
+  final pokedex = results.expand((list) => list).toList();
 
   _cache = pokedex;
   return pokedex;
+}
+
+/// Call this early (e.g. in main or initState) to start loading in background.
+void preloadPokedex() {
+  loadPokedex();
 }
