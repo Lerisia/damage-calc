@@ -13,6 +13,8 @@ import '../../models/terrain.dart';
 import '../../models/type.dart';
 import '../../models/weather.dart';
 import '../../models/move_tags.dart';
+import '../../data/pokedex.dart';
+import '../../models/pokemon.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/battle_facade.dart';
 import '../../utils/localization.dart';
@@ -228,6 +230,10 @@ class PokemonPanelState extends State<PokemonPanel>
                       ? 'Supreme Overlord 0' : firstAbility;
                   if (pokemon.requiredItem != null) {
                     s.selectedItem = pokemon.requiredItem;
+                  }
+                  // Terapagos Stellar Form: auto-enable Stellar Tera
+                  if (pokemon.name == 'terapagos-stellar') {
+                    s.terastal = TerastalState(active: true, teraType: PokemonType.stellar);
                   }
                 });
                 _notifyParent();
@@ -791,6 +797,26 @@ class PokemonPanelState extends State<PokemonPanel>
   /// Whether this Pokemon is a mega evolution (can't terastal)
   bool get _isMega => s.pokemonName.toLowerCase().startsWith('mega ');
 
+  bool get _isTerapagosTerastal => s.pokemonName == 'terapagos-terastal';
+  bool get _isTerapagosStellar => s.pokemonName == 'terapagos-stellar';
+
+  /// Switch between Terapagos forms, preserving all user settings.
+  Future<void> _switchTerapagosForm(String targetFormName) async {
+    final pokedex = await loadPokedex();
+    final target = pokedex.firstWhere((p) => p.name == targetFormName);
+    setState(() {
+      s.pokemonName = target.name;
+      s.pokemonNameKo = target.nameKo;
+      s.type1 = target.type1;
+      s.type2 = target.type2;
+      s.weight = target.weight;
+      s.baseStats = target.baseStats;
+      s.pokemonAbilities = target.abilities;
+      s.selectedAbility = target.abilities.isNotEmpty ? target.abilities.first : null;
+    });
+    _notifyParent();
+  }
+
   Widget _terastalIcon() {
     // Mega evolutions can't terastal
     if (_isMega) return const SizedBox(width: 24);
@@ -832,6 +858,25 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   void _showTeraTypePicker() {
+    // Terapagos Terastal: only Stellar type, auto-switch to Stellar Form
+    if (_isTerapagosTerastal) {
+      setState(() {
+        s.terastal = TerastalState(active: true, teraType: PokemonType.stellar);
+        s.dynamax = DynamaxState.none;
+      });
+      _switchTerapagosForm('terapagos-stellar');
+      return;
+    }
+
+    // Terapagos Stellar: toggle off → switch back to Terastal Form
+    if (_isTerapagosStellar && s.terastal.active) {
+      setState(() {
+        s.terastal = const TerastalState();
+      });
+      _switchTerapagosForm('terapagos-terastal');
+      return;
+    }
+
     showDialog(
       context: context,
       builder: (ctx) => SimpleDialog(

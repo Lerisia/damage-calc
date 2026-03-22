@@ -198,7 +198,7 @@ class DamageCalculator {
     final String? atkAbilityRaw = gasActive ? null : attacker.selectedAbility;
     final String? defAbilityRaw = gasActive ? null : defender.selectedAbility;
 
-    // Cloud Nine / Air Lock: negate weather if either side has the ability
+    // Cloud Nine / Air Lock / Teraform Zero: negate weather/terrain
     final List<String> weatherNotes = [];
     final originalWeather = weather;
     weather = effectiveWeather(weather,
@@ -206,6 +206,13 @@ class DamageCalculator {
     if (weather != originalWeather) {
       final negator = isWeatherNegating(atkAbilityRaw) ? atkAbilityRaw! : defAbilityRaw!;
       weatherNotes.add('weather_negate:$negator');
+    }
+    final originalTerrain = terrain;
+    terrain = effectiveTerrain(terrain,
+        abilityA: atkAbilityRaw, abilityB: defAbilityRaw);
+    if (terrain != originalTerrain) {
+      final negator = isTerrainNegating(atkAbilityRaw) ? atkAbilityRaw! : defAbilityRaw!;
+      weatherNotes.add('terrain_negate:$negator');
     }
 
     // --- Gravity: certain moves are disabled ---
