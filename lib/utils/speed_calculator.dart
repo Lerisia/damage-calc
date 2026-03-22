@@ -11,8 +11,6 @@ const double paralysisSpeedModifier = 0.5;
 
 /// Field effect speed modifier constants.
 const double tailwindSpeedModifier = 2.0;
-const double stickyWebSpeedModifier = 0.5;
-
 /// Calculates the effective speed after all modifiers.
 ///
 /// Modifier application order: ability → item → paralysis → tailwind.
@@ -27,8 +25,6 @@ int calcEffectiveSpeed({
   Terrain terrain = Terrain.none,
   bool isDynamaxed = false,
   bool tailwind = false,
-  bool stickyWeb = false,
-  bool grounded = true,
 }) {
   double speed = baseSpeed.toDouble();
 
@@ -53,11 +49,6 @@ int calcEffectiveSpeed({
   // Tailwind
   if (tailwind) {
     speed *= tailwindSpeedModifier;
-  }
-
-  // Sticky Web (grounded only)
-  if (stickyWeb && grounded) {
-    speed *= stickyWebSpeedModifier;
   }
 
   return speed.floor();
