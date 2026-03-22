@@ -283,6 +283,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       isScrollControlled: true,
       builder: (ctx) => _SampleListSheet(
         samples: samples,
+        itemNameMap: _itemNameMap,
         onLoad: (index) {
           setState(() {
             final loaded = samples[index].state;
@@ -1022,11 +1023,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
 class _SampleListSheet extends StatelessWidget {
   final List<({String name, BattlePokemonState state})> samples;
+  final Map<String, String> itemNameMap;
   final ValueChanged<int> onLoad;
   final ValueChanged<int> onDelete;
 
   const _SampleListSheet({
     required this.samples,
+    this.itemNameMap = const {},
     required this.onLoad,
     required this.onDelete,
   });
@@ -1061,10 +1064,17 @@ class _SampleListSheet extends StatelessWidget {
                 itemBuilder: (ctx, i) {
                   final sample = samples[i];
                   final state = sample.state;
-                  final info = 'Lv.${state.level} ${state.nature.nameKo}';
+                  final itemKo = state.selectedItem != null
+                      ? itemNameMap[state.selectedItem] ?? state.selectedItem
+                      : null;
+                  final parts = [
+                    'Lv.${state.level}',
+                    state.nature.nameKo,
+                    if (itemKo != null) itemKo,
+                  ];
                   return ListTile(
                     title: Text(sample.name),
-                    subtitle: Text('${state.pokemonNameKo} | $info'),
+                    subtitle: Text('${state.pokemonNameKo} | ${parts.join(' ')}'),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete_outline, size: 20),
                       onPressed: () => onDelete(i),
