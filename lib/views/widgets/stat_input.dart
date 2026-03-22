@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -121,6 +122,7 @@ class _StatInputState extends State<StatInput> {
   List<String> _cachedSortedAbilities = [];
   List<String> _lastPokemonAbilities = [];
   int _evResetCounter = 0;
+  Timer? _debounceTimer;
 
   static final List<DropdownMenuItem<Nature>> _natureItems = Nature.values
       .map((n) => DropdownMenuItem(
@@ -153,10 +155,22 @@ class _StatInputState extends State<StatInput> {
   Map<String, String> _itemNameMap = {};
 
   @override
+  @override
   void initState() {
     super.initState();
     _loadAbilities();
     _loadItems();
+  }
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
+  void _debounce(VoidCallback fn) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 300), fn);
   }
 
   static Map<String, String>? _abilityCache;
@@ -638,7 +652,7 @@ class _StatInputState extends State<StatInput> {
               onChanged: (text) {
                 final parsed = int.tryParse(text);
                 if (parsed != null) {
-                  onChanged(parsed.clamp(0, 252));
+                  _debounce(() => onChanged(parsed.clamp(0, 252)));
                 }
               },
             ),
@@ -754,7 +768,7 @@ class _StatInputState extends State<StatInput> {
         onChanged: (text) {
           final parsed = int.tryParse(text);
           if (parsed != null) {
-            onChanged(parsed);
+            _debounce(() => onChanged(parsed));
           }
         },
       ),
