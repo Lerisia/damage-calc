@@ -450,7 +450,19 @@ class PokemonPanelState extends State<PokemonPanel>
     final effectiveType = info.effectiveType ?? move?.type;
     final effectiveCategory = info.effectiveCategory ?? move?.category;
     final displayName = info.displayName ?? move?.nameKo;
-    final effectivePower = info.effectivePower;
+    // For multi-hit moves: show total power based on hit count
+    final int displayPower;
+    if (move != null && move.isMultiHit) {
+      final hits = s.hitOverrides[index] ?? move.maxHits;
+      final basePwr = s.powerOverrides[index] ?? info.basePower;
+      if (move.hasTag(MoveTags.escalatingHits)) {
+        displayPower = basePwr * hits * (hits + 1) ~/ 2;
+      } else {
+        displayPower = basePwr * hits;
+      }
+    } else {
+      displayPower = info.effectivePower;
+    }
     final result = info.offensivePower;
 
     return Padding(
@@ -472,18 +484,29 @@ class PokemonPanelState extends State<PokemonPanel>
                       s.typeOverrides[index] = null;
                       s.categoryOverrides[index] = null;
                       s.powerOverrides[index] = null;
+                      s.hitOverrides[index] = null;
                       s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
                     }),
                   ),
                 ),
                 if (move != null && move.isMultiHit)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 2),
-                    child: Text(
-                      move.minHits == move.maxHits
-                          ? '×${move.maxHits}'
-                          : '×${move.minHits}-${move.maxHits}',
-                      style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        final current = s.hitOverrides[index] ?? move.maxHits;
+                        final next = current >= move.maxHits ? move.minHits : current + 1;
+                        s.hitOverrides[index] = next;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: Text(
+                        '×${s.hitOverrides[index] ?? move.maxHits}',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: s.hitOverrides[index] != null ? Colors.orange : Colors.grey[600],
+                        ),
+                      ),
                     ),
                   ),
               ],
@@ -538,11 +561,15 @@ class PokemonPanelState extends State<PokemonPanel>
                     move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40))
                     ? const Text('고정', textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 13, color: Colors.grey))
+                    : move.isMultiHit
+                    ? Text('$displayPower', textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500,
+                          color: Colors.grey[700]))
                     : SizedBox(
                         height: 28,
                         child: TextFormField(
-                          key: ValueKey('power_${index}_${move.name}_$effectivePower'),
-                          initialValue: '$effectivePower',
+                          key: ValueKey('power_${index}_${move.name}_$displayPower'),
+                          initialValue: '$displayPower',
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,
                           style: const TextStyle(fontSize: 13),
@@ -656,17 +683,17 @@ class PokemonPanelState extends State<PokemonPanel>
     final rate = s.genderRate;
     final bool locked = rate == -1 || rate == 0 || rate == 8;
 
-    Widget icon;
+    String label;
+    Color color;
     switch (g) {
       case Gender.male:
-        icon = const Text('♂', style: TextStyle(fontSize: 20, color: Colors.blue, fontWeight: FontWeight.bold));
+        label = '♂'; color = Colors.blue;
       case Gender.female:
-        icon = const Text('♀', style: TextStyle(fontSize: 20, color: Colors.pink, fontWeight: FontWeight.bold));
+        label = '♀'; color = Colors.pink;
       case Gender.genderless:
-        icon = Text('-', style: TextStyle(fontSize: 20, color: Colors.grey.shade500, fontWeight: FontWeight.bold));
+        label = '-'; color = Colors.grey.shade500;
       case Gender.unset:
-        icon = Text('⚥', style: TextStyle(fontSize: 20, color: Colors.purple.shade300),
-        );
+        label = '⚥'; color = Colors.purple.shade300;
     }
 
     return GestureDetector(
@@ -685,7 +712,16 @@ class PokemonPanelState extends State<PokemonPanel>
         });
         _notifyParent();
       },
-      child: icon,
+      child: SizedBox(
+        width: 24,
+        height: 24,
+        child: Center(
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: Text(label, style: TextStyle(fontSize: 22, color: color, fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ),
     );
   }
 

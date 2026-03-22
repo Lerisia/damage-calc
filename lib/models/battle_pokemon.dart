@@ -29,6 +29,7 @@ class BattlePokemonState {
   List<PokemonType?> typeOverrides;
   List<MoveCategory?> categoryOverrides;
   List<int?> powerOverrides;
+  List<int?> hitOverrides;
   List<bool> criticals;
   String? selectedItem;
   DynamaxState dynamax;
@@ -67,6 +68,7 @@ class BattlePokemonState {
     List<PokemonType?>? typeOverrides,
     List<MoveCategory?>? categoryOverrides,
     List<int?>? powerOverrides,
+    List<int?>? hitOverrides,
     List<bool>? criticals,
     this.selectedItem,
     this.dynamax = DynamaxState.none,
@@ -95,6 +97,7 @@ class BattlePokemonState {
         typeOverrides = typeOverrides ?? [null, null, null, null],
         categoryOverrides = categoryOverrides ?? [null, null, null, null],
         powerOverrides = powerOverrides ?? [null, null, null, null],
+        hitOverrides = hitOverrides ?? [null, null, null, null],
         criticals = criticals ?? [false, false, false, false];
 
   Map<String, dynamic> toJson() => {
@@ -117,6 +120,7 @@ class BattlePokemonState {
     'typeOverrides': typeOverrides.map((t) => t?.name).toList(),
     'categoryOverrides': categoryOverrides.map((c) => c?.name).toList(),
     'powerOverrides': powerOverrides,
+    'hitOverrides': hitOverrides,
     'criticals': criticals,
     'selectedItem': selectedItem,
     'dynamax': dynamax.name,
@@ -159,6 +163,9 @@ class BattlePokemonState {
       categoryOverrides: (json['categoryOverrides'] as List).map((c) =>
           c != null ? MoveCategory.values.byName(c as String) : null).toList(),
       powerOverrides: List<int?>.from(json['powerOverrides'] as List),
+      hitOverrides: json['hitOverrides'] != null
+          ? List<int?>.from(json['hitOverrides'] as List)
+          : null,
       criticals: List<bool>.from(json['criticals'] as List),
       selectedItem: json['selectedItem'] as String?,
       dynamax: DynamaxState.values.byName(json['dynamax'] as String),
@@ -202,6 +209,7 @@ class BattlePokemonState {
     typeOverrides = [null, null, null, null];
     categoryOverrides = [null, null, null, null];
     powerOverrides = [null, null, null, null];
+    hitOverrides = [null, null, null, null];
     criticals = [false, false, false, false];
     selectedItem = null;
     dynamax = DynamaxState.none;

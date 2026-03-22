@@ -62,8 +62,15 @@ class MoveTags {
 
   // Super-effective bonus
   static const String superEffectiveBoost = 'custom:se_boost';
+  static const String escalatingHits = 'custom:escalating_hits';
 
   // Power scales with target's remaining HP (high HP = high power)
   static const String powerByTargetHp120 = 'custom:power_target_hp_120';
   static const String powerByTargetHp100 = 'custom:power_target_hp_100';
+
+  // Move ignores target's ability (same as Mold Breaker)
+  static const String ignoreAbility = 'custom:ignore_ability';
+
+  // Move disabled by Gravity
+  static const String disabledByGravity = 'custom:disabled_by_gravity';
 }
