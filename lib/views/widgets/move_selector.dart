@@ -20,6 +20,7 @@ class MoveSelector extends StatefulWidget {
 
 class _MoveSelectorState extends State<MoveSelector> {
   List<Move> _allMoves = [];
+  List<SearchEntry<Move>> _searchEntries = [];
   Move? _selected;
   bool _hasFocusListenerAttached = false;
 
@@ -39,6 +40,7 @@ class _MoveSelectorState extends State<MoveSelector> {
     // Keep original order (gen1 → gen9, registration order)
     setState(() {
       _allMoves = all;
+      _searchEntries = all.map((m) => SearchEntry(m, m.nameKo, m.name)).toList();
       if (_selected == null && widget.initialMoveName != null) {
         final match = all.where((m) => m.name == widget.initialMoveName);
         if (match.isNotEmpty) _selected = match.first;
@@ -57,19 +59,18 @@ class _MoveSelectorState extends State<MoveSelector> {
     _lastQuery = query;
 
     if (query.isEmpty) {
-      final all = _selected != null
+      _lastResults = _selected != null
           ? [_selected!, ..._allMoves.where((m) => m != _selected)]
           : List.of(_allMoves);
-      _lastResults = all.length > 30 ? all.sublist(0, 30) : all;
       return _lastResults!;
     }
 
+    final qLower = query.toLowerCase();
+    final qRunes = qLower.runes.toList();
     final scored = <(Move, int)>[];
-    for (final m in _allMoves) {
-      final koScore = koreanMatchScore(query, m.nameKo);
-      final enScore = koreanMatchScore(query, m.name);
-      final score = koScore > enScore ? koScore : enScore;
-      if (score > 0) scored.add((m, score));
+    for (final entry in _searchEntries) {
+      final score = scoreEntry(qRunes, qLower, entry);
+      if (score > 0) scored.add((entry.item, score));
     }
     scored.sort((a, b) => b.$2.compareTo(a.$2));
     _lastResults = scored.map((e) => e.$1).toList();

@@ -20,6 +20,7 @@ class PokemonSelector extends StatefulWidget {
 
 class _PokemonSelectorState extends State<PokemonSelector> {
   List<Pokemon> _allPokemon = [];
+  List<SearchEntry<Pokemon>> _searchEntries = [];
   Pokemon? _selected;
   bool _hasFocusListenerAttached = false;
 
@@ -34,6 +35,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     final all = await loadPokedex();
     setState(() {
       _allPokemon = all;
+      _searchEntries = all.map((p) => SearchEntry(p, p.nameKo, p.name)).toList();
       if (_selected == null && all.isNotEmpty) {
         _selected = all.firstWhere(
           (p) => p.name == widget.initialPokemonName,
@@ -53,19 +55,18 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     _lastSelected = _selected;
 
     if (query.isEmpty) {
-      final all = _selected != null
+      _lastResults = _selected != null
           ? [_selected!, ..._allPokemon.where((p) => p != _selected)]
           : List.of(_allPokemon);
-      _lastResults = all.length > 30 ? all.sublist(0, 30) : all;
       return _lastResults!;
     }
 
+    final qLower = query.toLowerCase();
+    final qRunes = qLower.runes.toList();
     final scored = <(Pokemon, int)>[];
-    for (final p in _allPokemon) {
-      final koScore = koreanMatchScore(query, p.nameKo);
-      final enScore = koreanMatchScore(query, p.name);
-      final score = koScore > enScore ? koScore : enScore;
-      if (score > 0) scored.add((p, score));
+    for (final entry in _searchEntries) {
+      final score = scoreEntry(qRunes, qLower, entry);
+      if (score > 0) scored.add((entry.item, score));
     }
     scored.sort((a, b) {
       final cmp = b.$2.compareTo(a.$2);
@@ -97,7 +98,6 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       },
       optionsViewBuilder: (context, onSelected, options) {
         final list = options.toList();
-        final displayCount = list.length > 30 ? 30 : list.length;
         return Align(
           alignment: Alignment.topLeft,
           child: Material(
@@ -107,7 +107,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
-                itemCount: displayCount,
+                itemCount: list.length,
                 itemBuilder: (context, index) {
                   final p = list[index];
                   return ListTile(
