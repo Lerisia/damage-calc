@@ -125,13 +125,11 @@ class _StatInputState extends State<StatInput> {
   int _evResetCounter = 0;
   Timer? _debounceTimer;
 
-  static final List<PopupMenuItem<Nature>> _naturePopupItems = Nature.values
-      .map((n) => PopupMenuItem(
+  static final List<DropdownMenuItem<Nature>> _natureDropdownItems = Nature.values
+      .map((n) => DropdownMenuItem(
             value: n,
-            height: 36,
             child: Text(
               _natureLabelStatic(n),
-              style: const TextStyle(fontSize: 13),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -346,25 +344,13 @@ class _StatInputState extends State<StatInput> {
           children: [
             Expanded(
               flex: 3,
-              child: PopupMenuButton<Nature>(
-                initialValue: widget.nature,
-                tooltip: '성격',
-                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                child: InputDecorator(
-                  decoration: const InputDecoration(
-                    labelText: '성격',
-                    isDense: true,
-                    isCollapsed: true,
-                    contentPadding: EdgeInsets.only(bottom: 4),
-                  ),
-                  child: Text(
-                    _natureLabelStatic(widget.nature),
-                    style: const TextStyle(fontSize: 14),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                itemBuilder: (_) => _naturePopupItems,
-                onSelected: (v) => widget.onNatureChanged(v),
+              child: DropdownButtonFormField<Nature>(
+                value: widget.nature,
+                isExpanded: true,
+                menuMaxHeight: 300,
+                decoration: const InputDecoration(labelText: '성격', isDense: true),
+                items: _natureDropdownItems,
+                onChanged: (v) => widget.onNatureChanged(v!),
               ),
             ),
             const SizedBox(width: 8),
