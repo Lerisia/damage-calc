@@ -143,6 +143,17 @@ class _MoveSelectorState extends State<MoveSelector> {
           controller: controller,
           focusNode: focusNode,
           onTap: widget.onTap,
+          textInputAction: TextInputAction.done,
+          onSubmitted: (_) {
+            final results = _sortedOptions(controller.text);
+            if (results.isNotEmpty) {
+              final pick = results.first;
+              setState(() => _selected = pick);
+              widget.onSelected(pick);
+              controller.text = pick.nameKo;
+              focusNode.unfocus();
+            }
+          },
           style: widget.displayNameOverride != null
               ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
               : const TextStyle(fontSize: 14),
