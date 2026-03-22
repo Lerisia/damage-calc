@@ -120,7 +120,13 @@ TransformedMove transformMove(Move move, MoveContext context) {
   move = _applyWeather(move, context.weather);
   move = _applyTerrain(move, context.terrain);
 
-  // 2. Ability type transforms (only if still Normal after step 1)
+  // 1.5. Tera Blast: type/category changes when terastallized
+  // Must happen BEFORE skins so Normal Tera Blast can be converted by -ate abilities
+  if (context.terastallized && context.teraType != null && move.name == 'Tera Blast') {
+    move = _applyTeraBlast(move, context);
+  }
+
+  // 2. Ability type transforms (only if still Normal after step 1/1.5)
   move = _applySkin(move, context.ability);
 
   // 2b. Liquid Voice: sound moves become Water type (no power boost)
@@ -178,10 +184,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
     }
   }
 
-  // 2.6. Tera Blast: various changes when terastallized
-  if (context.terastallized && context.teraType != null && move.name == 'Tera Blast') {
-    move = _applyTeraBlast(move, context);
-  }
+  // 2.6. (Tera Blast moved to step 1.5)
 
   // 2.7. Long Reach: remove contact tag
   if (context.ability == 'Long Reach' && move.hasTag(MoveTags.contact)) {

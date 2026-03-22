@@ -32,7 +32,14 @@ import 'widgets/speed_compare_tab.dart';
 import 'widgets/pokemon_selector.dart';
 
 class DamageCalculatorScreen extends StatefulWidget {
-  const DamageCalculatorScreen({super.key});
+  final Map<String, String> abilityNameMap;
+  final Map<String, String> itemNameMap;
+
+  const DamageCalculatorScreen({
+    super.key,
+    this.abilityNameMap = const {},
+    this.itemNameMap = const {},
+  });
 
   @override
   State<DamageCalculatorScreen> createState() => _DamageCalculatorScreenState();
@@ -57,9 +64,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Timer? _debounceTimer;
 
-  // Name maps for _formatNote (loaded async)
-  Map<String, String> _abilityNameMap = {};
-  Map<String, String> _itemNameMap = {};
+  // Name maps (provided by _AppLoader, already loaded)
+  Map<String, String> get _abilityNameMap => widget.abilityNameMap;
+  Map<String, String> get _itemNameMap => widget.itemNameMap;
 
   // Ability → Weather/Terrain auto-set
   static const _abilityWeather = {
@@ -141,30 +148,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    // Rebuild only when switching to damage/speed tabs (index 2, 3)
-    // to pick up latest mutable state without rebuilding on attacker/defender tab switches
+    // IndexedStack needs setState on every tab change to update visible child
     _tabController.addListener(() {
-      if (!_tabController.indexIsChanging && _tabController.index >= 2) {
+      if (!_tabController.indexIsChanging) {
         setState(() {});
       }
     });
-    _loadNameMaps();
-  }
-
-  Future<void> _loadNameMaps() async {
-    try {
-      final items = await loadItemdex();
-      final abilities = await loadAbilitydex();
-      final iMap = <String, String>{};
-      for (final e in items.values) {
-        iMap[e.name] = e.nameKo;
-      }
-      final aMap = <String, String>{};
-      for (final e in abilities.values) {
-        aMap[e.name] = e.nameKo;
-      }
-      if (mounted) setState(() { _itemNameMap = iMap; _abilityNameMap = aMap; });
-    } catch (_) {}
   }
 
   @override
@@ -480,42 +469,31 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1920),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
-              ),
+              child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
-              ),
+              child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: _buildDamageCalcTab(),
-              ),
+              child: _buildDamageCalcTab(),
             ),
             const VerticalDivider(width: 1),
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: SpeedCompareTab(
-                  attacker: _attacker,
-                  defender: _defender,
-                  weather: _weather,
-                  terrain: _terrain,
-                  room: _room,
-                  onChanged: _onPanelChanged,
-                  resetCounter: _resetCounter,
-                  abilityNameMap: _abilityNameMap,
-                  itemNameMap: _itemNameMap,
-                ),
+              child: SpeedCompareTab(
+                attacker: _attacker,
+                defender: _defender,
+                weather: _weather,
+                terrain: _terrain,
+                room: _room,
+                onChanged: _onPanelChanged,
+                resetCounter: _resetCounter,
+                abilityNameMap: _abilityNameMap,
+                itemNameMap: _itemNameMap,
               ),
             ),
           ],
@@ -531,26 +509,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 1440),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
-              ),
+              child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
-              ),
+              child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 480),
-                child: _buildRightPanel(),
-              ),
+              child: _buildRightPanel(),
             ),
           ],
         ),
@@ -598,8 +568,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     return Column(
       children: [
         Expanded(
-          child: TabBarView(
-            controller: _tabController,
+          child: IndexedStack(
+            index: _tabController.index,
             children: [
               _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
               _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
