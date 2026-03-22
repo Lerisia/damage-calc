@@ -18,6 +18,7 @@ import 'offensive_calculator.dart';
 import 'defensive_calculator.dart';
 import 'speed_calculator.dart';
 import 'stat_calculator.dart';
+import 'terrain_effects.dart';
 import 'weather_effects.dart';
 
 /// Items nullified during Dynamax.
@@ -100,16 +101,18 @@ class BattleFacade {
       level: state.level,
       rank: state.rank,
     );
-    // Cloud Nine / Air Lock negates weather for speed abilities
+    // Cloud Nine / Air Lock / Teraform Zero negates weather/terrain
     final effWeather = isWeatherNegating(state.selectedAbility)
         ? Weather.none : weather;
+    final effTerrain = isTerrainNegating(state.selectedAbility)
+        ? Terrain.none : terrain;
     return calcEffectiveSpeed(
       baseSpeed: stats.speed,
       ability: state.selectedAbility,
       item: state.selectedItem,
       status: state.status,
       weather: effWeather,
-      terrain: terrain,
+      terrain: effTerrain,
       isDynamaxed: state.dynamax != DynamaxState.none,
       tailwind: state.tailwind,
     );
@@ -252,8 +255,9 @@ class BattleFacade {
     final effectiveAbilityForCalc = state.selectedAbility == 'Neutralizing Gas'
         ? null : state.selectedAbility;
 
-    // Cloud Nine / Air Lock negates weather effects
+    // Cloud Nine / Air Lock / Teraform Zero negates weather/terrain
     if (isWeatherNegating(effectiveAbilityForCalc)) weather = Weather.none;
+    if (isTerrainNegating(effectiveAbilityForCalc)) terrain = Terrain.none;
 
     // Compute base stats once — reused by MoveContext and ability effects.
     final baseStats = _baseActualStats(state);
@@ -367,9 +371,11 @@ class BattleFacade {
     Terrain terrain = Terrain.none,
     required RoomConditions room,
   }) {
-    // Cloud Nine / Air Lock negates weather effects
+    // Cloud Nine / Air Lock / Teraform Zero negates weather/terrain
     final effWeather = isWeatherNegating(state.selectedAbility)
         ? Weather.none : weather;
+    final effTerrain = isTerrainNegating(state.selectedAbility)
+        ? Terrain.none : terrain;
     return DefensiveCalculator.calculate(
       baseStats: state.baseStats,
       iv: state.iv,
@@ -385,7 +391,7 @@ class BattleFacade {
       pokemonName: state.pokemonName,
       finalEvo: state.finalEvo,
       status: state.status,
-      terrain: terrain,
+      terrain: effTerrain,
       room: room,
       isDynamaxed: state.dynamax != DynamaxState.none,
     );

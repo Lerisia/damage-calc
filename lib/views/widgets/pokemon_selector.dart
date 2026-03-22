@@ -33,9 +33,10 @@ class _PokemonSelectorState extends State<PokemonSelector> {
 
   Future<void> _loadPokemon() async {
     final all = await loadPokedex();
+    final visible = all.where((p) => !p.hidden).toList();
     setState(() {
-      _allPokemon = all;
-      _searchEntries = all.map((p) => SearchEntry(p, p.nameKo, p.name, aliases: p.aliases)).toList();
+      _allPokemon = visible;
+      _searchEntries = visible.map((p) => SearchEntry(p, p.nameKo, p.name, aliases: p.aliases)).toList();
       if (_selected == null && all.isNotEmpty) {
         _selected = all.firstWhere(
           (p) => p.name == widget.initialPokemonName,

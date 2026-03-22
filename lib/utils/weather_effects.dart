@@ -4,7 +4,7 @@ import '../models/type.dart';
 import '../models/weather.dart';
 
 /// Abilities that negate all weather effects while on the field.
-const _weatherNegatingAbilities = {'Cloud Nine', 'Air Lock'};
+const _weatherNegatingAbilities = {'Cloud Nine', 'Air Lock', 'Teraform Zero'};
 
 /// Returns true if [ability] negates weather effects.
 bool isWeatherNegating(String? ability) =>

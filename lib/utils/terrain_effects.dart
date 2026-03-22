@@ -4,6 +4,21 @@ import '../models/terrain.dart';
 
 import '../models/move_tags.dart';
 
+/// Abilities that negate all terrain effects while on the field.
+const _terrainNegatingAbilities = {'Teraform Zero'};
+
+/// Returns true if [ability] negates terrain effects.
+bool isTerrainNegating(String? ability) =>
+    ability != null && _terrainNegatingAbilities.contains(ability);
+
+/// Returns the effective terrain considering terrain-negating abilities.
+Terrain effectiveTerrain(Terrain terrain, {String? abilityA, String? abilityB}) {
+  if (isTerrainNegating(abilityA) || isTerrainNegating(abilityB)) {
+    return Terrain.none;
+  }
+  return terrain;
+}
+
 /// Returns the power modifier for the given [terrain] and [move].
 ///
 /// [attackerGrounded]: Electric/Grassy/Psychic boosts apply when attacker is grounded.

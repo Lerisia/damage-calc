@@ -1061,7 +1061,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         return label;
       case 'weather_negate':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
-        return name;
+        return '$name: 날씨 무효';
+      case 'terrain_negate':
+        final name = _abilityNameMap[parts[1]] ?? parts[1];
+        return '$name: 필드 무효';
       case 'moldbreaker':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
         return name;
