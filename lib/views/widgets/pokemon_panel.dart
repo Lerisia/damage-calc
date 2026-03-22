@@ -279,9 +279,6 @@ class PokemonPanelState extends State<PokemonPanel>
                 Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
                   setState(() { s.tailwind = v; _notifyParent(); });
                 })),
-                Expanded(child: _compactCheck('끈적끈적네트', s.stickyWeb, (v) {
-                  setState(() { s.stickyWeb = v; _notifyParent(); });
-                })),
                 if (widget.isAttacker)
                   Expanded(child: _compactCheck('충전', s.charge, (v) {
                     setState(() { s.charge = v; });
@@ -641,48 +638,41 @@ class PokemonPanelState extends State<PokemonPanel>
     final rate = s.genderRate;
     final bool locked = rate == -1 || rate == 0 || rate == 8;
 
-    String label;
-    Color color;
+    Widget icon;
     switch (g) {
       case Gender.male:
-        label = '♂';
-        color = Colors.blue;
-        break;
+        icon = const Text('♂', style: TextStyle(fontSize: 20, color: Colors.blue, fontWeight: FontWeight.bold));
       case Gender.female:
-        label = '♀';
-        color = Colors.pink;
-        break;
+        icon = const Text('♀', style: TextStyle(fontSize: 20, color: Colors.pink, fontWeight: FontWeight.bold));
       case Gender.genderless:
-        label = '⚪';
-        color = Colors.grey;
-        break;
+        icon = Text('-', style: TextStyle(fontSize: 20, color: Colors.grey.shade500, fontWeight: FontWeight.bold));
       case Gender.unset:
-        label = '⚪';
-        color = Colors.grey.shade400;
-        break;
+        icon = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('♂', style: TextStyle(fontSize: 16, color: Colors.blue.shade300)),
+            Text('♀', style: TextStyle(fontSize: 16, color: Colors.pink.shade300)),
+          ],
+        );
     }
 
     return GestureDetector(
       onTap: locked ? null : () {
         setState(() {
-          // Cycle: unset -> male -> female -> unset
           switch (s.gender) {
             case Gender.unset:
               s.gender = Gender.male;
-              break;
             case Gender.male:
               s.gender = Gender.female;
-              break;
             case Gender.female:
               s.gender = Gender.unset;
-              break;
             default:
               break;
           }
         });
         _notifyParent();
       },
-      child: Text(label, style: TextStyle(fontSize: 22, color: color)),
+      child: icon,
     );
   }
 
