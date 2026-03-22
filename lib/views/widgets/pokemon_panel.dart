@@ -128,10 +128,8 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   void _scrollToSection(GlobalKey key) {
-    // Only scroll when virtual keyboard is actually present
-    final keyboardUp = MediaQuery.of(context).viewInsets.bottom > 0;
-    if (!keyboardUp) return;
     _doScrollToSection(key);
+    // Retry after keyboard animation completes
     Future.delayed(const Duration(milliseconds: 500), () => _doScrollToSection(key));
   }
 
@@ -140,12 +138,14 @@ class PokemonPanelState extends State<PokemonPanel>
 
   void _doScrollToSection(GlobalKey key) {
     final ctx = key.currentContext;
-    if (ctx == null) return;
+    if (ctx == null || !_scrollController.hasClients) return;
 
     final box = ctx.findRenderObject() as RenderBox;
     final offset = box.localToGlobal(Offset.zero).dy;
-    final appBarHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
-    final target = _scrollController.offset + offset - appBarHeight;
+    // Account for AppBar + TabBar + status bar
+    final topBarHeight = kToolbarHeight + kTextTabBarHeight +
+        MediaQuery.of(context).padding.top;
+    final target = _scrollController.offset + offset - topBarHeight - 8;
 
     _scrollController.animateTo(
       target.clamp(0, _scrollController.position.maxScrollExtent),

@@ -1812,7 +1812,7 @@
   },
   {
     "name": "Mega Falinks",
-    "nameKo": "메가모단단게",
+    "nameKo": "메가대여르",
     "nameJa": "メガタイレーツ",
     "type1": "fighting",
     "baseStats": {
@@ -1824,7 +1824,7 @@
       "speed": 100
     },
     "abilities": [
-      "Iron Fist"
+      "Battle Armor"
     ],
     "weight": 62.0,
     "height": 3.0,
