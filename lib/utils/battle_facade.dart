@@ -310,7 +310,18 @@ class BattleFacade {
       powerMod *= 2.0;
     }
 
-    // 4. Final calculation
+    // 4. Resolve effective type (Multitype, RKS System, Forecast, etc.)
+    final abilityTypeOverride = getAbilityTypeOverride(
+      ability: effectiveAbilityForCalc,
+      pokemonName: state.pokemonName,
+      weather: weather,
+      terrain: terrain,
+      heldItem: state.selectedItem,
+    );
+    final effectiveType1 = abilityTypeOverride?.type1 ?? state.type1;
+    final effectiveType2 = abilityTypeOverride != null ? abilityTypeOverride.type2 : state.type2;
+
+    // 5. Final calculation
     return OffensiveCalculator.calculate(
       baseStats: state.baseStats,
       iv: state.iv,
@@ -318,8 +329,8 @@ class BattleFacade {
       nature: state.nature,
       level: state.level,
       transformed: transformed,
-      type1: state.type1,
-      type2: state.type2,
+      type1: effectiveType1,
+      type2: effectiveType2,
       rank: state.rank,
       weather: weather,
       terrain: terrain,
@@ -327,8 +338,8 @@ class BattleFacade {
       powerModifier: powerMod,
       isCritical: isCritical,
       grounded: isGrounded(
-        type1: state.type1,
-        type2: state.type2,
+        type1: effectiveType1,
+        type2: effectiveType2,
         ability: effectiveAbilityForCalc,
         item: state.selectedItem,
         gravity: room.gravity,
