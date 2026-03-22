@@ -271,6 +271,7 @@ const Map<String, PokemonType> _skinAbilities = {
   'Pixilate': PokemonType.fairy,
   'Refrigerate': PokemonType.ice,
   'Galvanize': PokemonType.electric,
+  'Steel Skin': PokemonType.steel,
   'Normalize': PokemonType.normal,
 };
 
