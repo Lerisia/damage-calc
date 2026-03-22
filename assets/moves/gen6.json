@@ -266,7 +266,9 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 1,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Misty Terrain",

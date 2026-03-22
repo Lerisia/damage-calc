@@ -375,7 +375,9 @@
     "power": 20,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 1,
+    "maxHits": 10
   },
   {
     "name": "Pounce",
@@ -570,7 +572,9 @@
     "power": 30,
     "accuracy": 95,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 3,
+    "maxHits": 3
   },
   {
     "name": "Twin Beam",

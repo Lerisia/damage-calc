@@ -27,6 +27,8 @@ class Move {
   final MoveClass moveClass;
   final List<String> tags;
   final int priority;
+  final int minHits;
+  final int maxHits;
 
   const Move({
     required this.name,
@@ -40,7 +42,12 @@ class Move {
     this.moveClass = MoveClass.normal,
     this.tags = const [],
     this.priority = 0,
+    this.minHits = 1,
+    this.maxHits = 1,
   });
+
+  /// Whether this is a multi-hit move.
+  bool get isMultiHit => maxHits > 1;
 
   bool hasTag(String tag) => tags.contains(tag);
 
@@ -70,6 +77,8 @@ class Move {
       moveClass: moveClass ?? this.moveClass,
       tags: tags ?? this.tags,
       priority: priority ?? this.priority,
+      minHits: this.minHits,
+      maxHits: this.maxHits,
     );
   }
 
@@ -85,6 +94,8 @@ class Move {
     'moveClass': moveClass.name,
     'tags': tags,
     'priority': priority,
+    if (minHits != 1) 'minHits': minHits,
+    if (maxHits != 1) 'maxHits': maxHits,
   };
 
   factory Move.fromJson(Map<String, dynamic> json) {
@@ -104,6 +115,8 @@ class Move {
           ? List<String>.from(json['tags'] as List)
           : const [],
       priority: json['priority'] as int? ?? 0,
+      minHits: json['minHits'] as int? ?? 1,
+      maxHits: json['maxHits'] as int? ?? 1,
     );
   }
 }

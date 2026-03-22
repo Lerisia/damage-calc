@@ -32,7 +32,9 @@
     "power": 20,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Guillotine",
@@ -148,7 +150,9 @@
     "pp": 20,
     "tags": [
       "ball"
-    ]
+    ],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Double Team",
@@ -409,7 +413,9 @@
     "pp": 20,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Vine Whip",
@@ -505,7 +511,9 @@
     "power": 30,
     "accuracy": 100,
     "pp": 30,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Mirror Move",
@@ -562,7 +570,9 @@
     "power": 15,
     "accuracy": 85,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Fury Swipes",
@@ -573,7 +583,9 @@
     "power": 18,
     "accuracy": 80,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Pound",
@@ -714,7 +726,9 @@
     "power": 25,
     "accuracy": 95,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Gust",
@@ -934,7 +948,9 @@
     "power": 50,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Bone Club",
@@ -1230,7 +1246,9 @@
     "power": 15,
     "accuracy": 85,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Comet Punch",
@@ -1243,7 +1261,9 @@
     "pp": 15,
     "tags": [
       "punch"
-    ]
+    ],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Confusion",

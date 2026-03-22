@@ -256,7 +256,9 @@
     "power": 10,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Magnitude 5",
@@ -267,7 +269,9 @@
     "power": 30,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Magnitude 6",
@@ -278,7 +282,9 @@
     "power": 50,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Magnitude 7",
@@ -289,7 +295,9 @@
     "power": 70,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Magnitude 8",
@@ -300,7 +308,9 @@
     "power": 90,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Magnitude 9",
@@ -311,7 +321,9 @@
     "power": 110,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Magnitude 10",
@@ -322,7 +334,9 @@
     "power": 150,
     "accuracy": 100,
     "pp": 30,
-    "tags": ["custom:grassy_halve"]
+    "tags": [
+      "custom:grassy_halve"
+    ]
   },
   {
     "name": "Megahorn",
@@ -512,7 +526,9 @@
     "power": 25,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Rain Dance",
@@ -992,7 +1008,9 @@
     "power": 10,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 3,
+    "maxHits": 3
   },
   {
     "name": "Detect",

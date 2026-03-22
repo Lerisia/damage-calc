@@ -625,7 +625,9 @@
     "power": 40,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Decorate",
@@ -647,7 +649,9 @@
     "power": 50,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Dragon Energy",
@@ -938,7 +942,9 @@
     "tags": [
       "custom:always_crit",
       "punch"
-    ]
+    ],
+    "minHits": 3,
+    "maxHits": 3
   },
   {
     "name": "Scale Shot",
@@ -949,7 +955,9 @@
     "power": 25,
     "accuracy": 90,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Meteor Assault",
@@ -1266,7 +1274,9 @@
     "power": 20,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 3,
+    "maxHits": 3
   },
   {
     "name": "Poltergeist",

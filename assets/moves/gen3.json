@@ -54,7 +54,9 @@
     "power": 25,
     "accuracy": 100,
     "pp": 30,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Metal Sound",
@@ -78,7 +80,9 @@
     "pp": 30,
     "tags": [
       "ball"
-    ]
+    ],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Feather Dance",
@@ -256,7 +260,9 @@
     "power": 25,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Revenge",
@@ -655,7 +661,9 @@
     "power": 15,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 5
   },
   {
     "name": "Sky Uppercut",

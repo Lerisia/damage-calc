@@ -206,7 +206,9 @@
     "power": 35,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "minHits": 2,
+    "maxHits": 2
   },
   {
     "name": "Gunk Shot",
