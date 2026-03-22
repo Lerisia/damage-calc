@@ -27,15 +27,6 @@ class DamageCalcApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      builder: (context, child) {
-        // Constrain to mobile width on wide screens (web)
-        return Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 480),
-            child: child,
-          ),
-        );
-      },
       home: const _AppLoader(),
     );
   }

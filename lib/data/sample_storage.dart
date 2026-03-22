@@ -1,20 +1,16 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/battle_pokemon.dart';
 
 class SampleStorage {
-  static Future<String> get _path async {
-    final dir = await getApplicationDocumentsDirectory();
-    return '${dir.path}/pokemon_samples.json';
-  }
+  static const _key = 'pokemon_samples';
 
   static Future<List<({String name, BattlePokemonState state})>> loadSamples() async {
     try {
-      final file = File(await _path);
-      if (!await file.exists()) return [];
-      final content = await file.readAsString();
-      final list = jsonDecode(content) as List;
+      final prefs = await SharedPreferences.getInstance();
+      final json = prefs.getString(_key);
+      if (json == null) return [];
+      final list = jsonDecode(json) as List;
       return list.map((entry) {
         final map = entry as Map<String, dynamic>;
         return (
@@ -37,8 +33,8 @@ class SampleStorage {
       'name': name,
       'state': state.toJson(),
     });
-    final file = File(await _path);
-    await file.writeAsString(jsonEncode(list));
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_key, jsonEncode(list));
   }
 
   static Future<void> deleteSample(int index) async {
@@ -49,7 +45,7 @@ class SampleStorage {
       'state': s.state.toJson(),
     }).toList();
     list.removeAt(index);
-    final file = File(await _path);
-    await file.writeAsString(jsonEncode(list));
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_key, jsonEncode(list));
   }
 }

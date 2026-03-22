@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -54,6 +55,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Terrain _terrain = Terrain.none;
   RoomConditions _room = const RoomConditions();
 
+  Timer? _debounceTimer;
+
   // Name maps for _formatNote (loaded async)
   Map<String, String> _abilityNameMap = {};
   Map<String, String> _itemNameMap = {};
@@ -78,10 +81,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     'Hadron Engine': Terrain.electric,
   };
 
-  /// Called when either panel changes. Syncs weather/terrain from abilities.
+  /// Called when either panel changes. Debounced to avoid excessive rebuilds
+  /// during rapid input (e.g. typing EVs).
   void _onPanelChanged() {
-    setState(() {
-      _syncWeatherTerrain();
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() {
+          _syncWeatherTerrain();
+        });
+      }
     });
   }
 
@@ -160,6 +169,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _tabController.dispose();
     super.dispose();
   }
@@ -433,15 +443,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             onPressed: _capture,
           ),
         ],
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: '공격측'),
-            Tab(text: '방어측'),
-            Tab(text: '대미지'),
-            Tab(text: '스피드'),
-          ],
-        ),
+        bottom: MediaQuery.of(context).size.width >= 1050
+            ? null
+            : TabBar(
+                controller: _tabController,
+                tabs: const [
+                  Tab(text: '공격측'),
+                  Tab(text: '방어측'),
+                  Tab(text: '대미지'),
+                  Tab(text: '스피드'),
+                ],
+              ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -550,37 +562,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Widget _buildPokemonTab(int side, String label, BattlePokemonState state, GlobalKey<PokemonPanelState> panelKey) {
     final isAttacker = side == 0;
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Row(
-            children: [
-              Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.save_outlined, size: 20),
-                tooltip: '샘플 저장',
-                visualDensity: VisualDensity.compact,
-                onPressed: () => _showSaveDialog(state),
-              ),
-              IconButton(
-                icon: const Icon(Icons.folder_open_outlined, size: 20),
-                tooltip: '샘플 불러오기',
-                visualDensity: VisualDensity.compact,
-                onPressed: () => _showLoadSheet(side),
-              ),
-              IconButton(
-                icon: const Icon(Icons.refresh, size: 20),
-                tooltip: '초기화',
-                visualDensity: VisualDensity.compact,
-                onPressed: () => _resetSide(side),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: PokemonPanel(
+    return PokemonPanel(
             key: panelKey,
             state: state,
             weather: _weather,
@@ -588,6 +570,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             room: _room,
             label: label,
             onChanged: _onPanelChanged,
+            onSave: () => _showSaveDialog(state),
+            onLoad: () => _showLoadSheet(side),
+            onReset: () => _resetSide(side),
             resetCounter: _resetCounter,
             isAttacker: isAttacker,
             opponentSpeed: isAttacker
@@ -603,10 +588,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentWeight: isAttacker
                 ? BattleFacade.effectiveWeight(_defender)
                 : BattleFacade.effectiveWeight(_attacker),
-          ),
-        ),
-      ],
-    );
+          );
   }
 
   Widget _buildDamageSpeedTab({required Widget child}) {
