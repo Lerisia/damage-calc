@@ -24,7 +24,8 @@ const double kDoublePower = 2.0;
 const double kMajorPowerBoost = 1.5;
 const double kMediumPowerBoost = 1.3;
 const double kMinorPowerBoost = 1.2;
-const double kParentalBondMultiplier = 1.2;
+const double kParentalBondMultiplier = 1.25; // Gen 7+: second hit = 25%
+const double kParentalBondFixed = 2.0; // Fixed damage moves: full damage both hits
 const double kRivalrySameGender = 1.25;
 const double kRivalryOppositeGender = 0.75;
 
@@ -264,6 +265,10 @@ AbilityEffect getAbilityEffect(String abilityName, {
     // --- Parental Bond (Mega Kangaskhan) ---
     case 'Parental Bond':
       if (move != null && _isMultiHit(move)) return _defaultEffect;
+      // Fixed damage moves (Seismic Toss, Night Shade, etc.): both hits full damage = x2
+      if (move != null && (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp))) {
+        return const AbilityEffect(powerModifier: kParentalBondFixed);
+      }
       return const AbilityEffect(powerModifier: kParentalBondMultiplier);
 
     // --- Critical override ---
