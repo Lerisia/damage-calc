@@ -103,6 +103,7 @@ class PokemonPanelState extends State<PokemonPanel>
       state: s,
       weather: widget.weather,
       terrain: widget.terrain,
+      room: widget.room,
     );
     if (newSpeed != _cachedSpeed) {
       _notifyParent();
@@ -121,6 +122,7 @@ class PokemonPanelState extends State<PokemonPanel>
             state: s,
             weather: widget.weather,
             terrain: widget.terrain,
+            room: widget.room,
           );
   }
 
@@ -277,13 +279,15 @@ class PokemonPanelState extends State<PokemonPanel>
                 Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
                   setState(() { s.tailwind = v; _notifyParent(); });
                 })),
+                Expanded(child: _compactCheck('끈적끈적네트', s.stickyWeb, (v) {
+                  setState(() { s.stickyWeb = v; _notifyParent(); });
+                })),
                 if (widget.isAttacker)
                   Expanded(child: _compactCheck('충전', s.charge, (v) {
                     setState(() { s.charge = v; });
                   }))
                 else
                   const Expanded(child: SizedBox()),
-                const Expanded(child: SizedBox()),
               ],
             ),
           ),

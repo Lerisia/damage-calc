@@ -90,6 +90,7 @@ class BattleFacade {
     required BattlePokemonState state,
     required Weather weather,
     required Terrain terrain,
+    required RoomConditions room,
   }) {
     final stats = StatCalculator.calculate(
       baseStats: state.baseStats,
@@ -111,6 +112,12 @@ class BattleFacade {
       terrain: terrain,
       isDynamaxed: state.dynamax != DynamaxState.none,
       tailwind: state.tailwind,
+      stickyWeb: state.stickyWeb,
+      grounded: isGrounded(
+        type1: state.type1, type2: state.type2,
+        ability: state.selectedAbility, item: state.selectedItem,
+        gravity: room.gravity,
+      ),
     );
   }
 

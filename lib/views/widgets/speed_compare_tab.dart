@@ -58,6 +58,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
       state: s,
       weather: widget.weather,
       terrain: widget.terrain,
+      room: widget.room,
     );
   }
 
@@ -333,6 +334,26 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                       )),
                       const SizedBox(width: 4),
                       const Text('순풍', style: TextStyle(fontSize: 14)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              InkWell(
+                onTap: () { setState(() => state.stickyWeb = !state.stickyWeb); _notify(); },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: 22, height: 22, child: Checkbox(
+                        value: state.stickyWeb,
+                        onChanged: (v) { setState(() => state.stickyWeb = v ?? false); _notify(); },
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        visualDensity: VisualDensity.compact,
+                      )),
+                      const SizedBox(width: 4),
+                      const Flexible(child: FittedBox(fit: BoxFit.scaleDown, child: Text('끈적끈적네트', style: TextStyle(fontSize: 14)))),
                     ],
                   ),
                 ),

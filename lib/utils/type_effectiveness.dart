@@ -7,8 +7,8 @@ double getTypeEffectiveness(PokemonType attackType, PokemonType defenderType) {
 }
 
 /// Returns the single-type effectiveness, with Freeze-Dry override.
+/// Note: type immunities (0x) are NOT in the chart — handled by damage calculator.
 double _getEffectiveness(PokemonType attackType, PokemonType defenderType, {bool freezeDry = false}) {
-  // Freeze-Dry: Water is super effective (x2) instead of not very effective
   if (freezeDry && defenderType == PokemonType.water) return 2.0;
   return _chart[attackType]?[defenderType] ?? 1.0;
 }
@@ -16,6 +16,7 @@ double _getEffectiveness(PokemonType attackType, PokemonType defenderType, {bool
 /// Returns the combined effectiveness against a Pokemon with one or two types.
 /// [freezeDry] overrides Water interaction to x2.
 /// [flyingPress] calculates Fighting × Flying dual-type effectiveness.
+/// Note: type immunities are handled separately in damage_calculator.dart.
 double getCombinedEffectiveness(PokemonType attackType, PokemonType defType1, PokemonType? defType2, {bool freezeDry = false, bool flyingPress = false}) {
   if (flyingPress) {
     // Flying Press: combine Fighting AND Flying effectiveness
@@ -34,10 +35,34 @@ double getCombinedEffectiveness(PokemonType attackType, PokemonType defType1, Po
   return mult;
 }
 
+/// Type immunity pairs: attack type → defender type that would be immune.
+/// These are checked separately from the effectiveness chart because
+/// various mechanics can override them (Scrappy, grounding, Corrosion, etc.)
+const Map<PokemonType, Set<PokemonType>> typeImmunities = {
+  PokemonType.normal: {PokemonType.ghost},
+  PokemonType.fighting: {PokemonType.ghost},
+  PokemonType.electric: {PokemonType.ground},
+  PokemonType.poison: {PokemonType.steel},
+  PokemonType.ground: {PokemonType.flying},
+  PokemonType.psychic: {PokemonType.dark},
+  PokemonType.ghost: {PokemonType.normal},
+  PokemonType.dragon: {PokemonType.fairy},
+};
+
+/// Check if a move type has a type immunity against the defender's types.
+/// Returns true if at least one of the defender's types is immune.
+bool hasTypeImmunity(PokemonType moveType, PokemonType defType1, PokemonType? defType2) {
+  final immuneSet = typeImmunities[moveType];
+  if (immuneSet == null) return false;
+  if (immuneSet.contains(defType1)) return true;
+  if (defType2 != null && immuneSet.contains(defType2)) return true;
+  return false;
+}
+
 const Map<PokemonType, Map<PokemonType, double>> _chart = {
   PokemonType.normal: {
     PokemonType.rock: 0.5,
-    PokemonType.ghost: 0.0,
+    PokemonType.ghost: 1.0, // immunity handled separately
     PokemonType.steel: 0.5,
   },
   PokemonType.fire: {
@@ -62,7 +87,7 @@ const Map<PokemonType, Map<PokemonType, double>> _chart = {
     PokemonType.water: 2.0,
     PokemonType.electric: 0.5,
     PokemonType.grass: 0.5,
-    PokemonType.ground: 0.0,
+    PokemonType.ground: 1.0, // immunity handled separately
     PokemonType.flying: 2.0,
     PokemonType.dragon: 0.5,
   },
@@ -96,7 +121,7 @@ const Map<PokemonType, Map<PokemonType, double>> _chart = {
     PokemonType.psychic: 0.5,
     PokemonType.bug: 0.5,
     PokemonType.rock: 2.0,
-    PokemonType.ghost: 0.0,
+    PokemonType.ghost: 1.0, // immunity handled separately
     PokemonType.dark: 2.0,
     PokemonType.steel: 2.0,
     PokemonType.fairy: 0.5,
@@ -107,7 +132,7 @@ const Map<PokemonType, Map<PokemonType, double>> _chart = {
     PokemonType.ground: 0.5,
     PokemonType.rock: 0.5,
     PokemonType.ghost: 0.5,
-    PokemonType.steel: 0.0,
+    PokemonType.steel: 1.0, // immunity handled separately
     PokemonType.fairy: 2.0,
   },
   PokemonType.ground: {
@@ -115,7 +140,7 @@ const Map<PokemonType, Map<PokemonType, double>> _chart = {
     PokemonType.electric: 2.0,
     PokemonType.grass: 0.5,
     PokemonType.poison: 2.0,
-    PokemonType.flying: 0.0,
+    PokemonType.flying: 1.0, // immunity handled separately
     PokemonType.bug: 0.5,
     PokemonType.rock: 2.0,
     PokemonType.steel: 2.0,
@@ -132,7 +157,7 @@ const Map<PokemonType, Map<PokemonType, double>> _chart = {
     PokemonType.fighting: 2.0,
     PokemonType.poison: 2.0,
     PokemonType.psychic: 0.5,
-    PokemonType.dark: 0.0,
+    PokemonType.dark: 1.0, // immunity handled separately
     PokemonType.steel: 0.5,
   },
   PokemonType.bug: {
@@ -157,7 +182,7 @@ const Map<PokemonType, Map<PokemonType, double>> _chart = {
     PokemonType.steel: 0.5,
   },
   PokemonType.ghost: {
-    PokemonType.normal: 0.0,
+    PokemonType.normal: 1.0, // immunity handled separately
     PokemonType.psychic: 2.0,
     PokemonType.ghost: 2.0,
     PokemonType.dark: 0.5,
@@ -165,7 +190,7 @@ const Map<PokemonType, Map<PokemonType, double>> _chart = {
   PokemonType.dragon: {
     PokemonType.dragon: 2.0,
     PokemonType.steel: 0.5,
-    PokemonType.fairy: 0.0,
+    PokemonType.fairy: 1.0, // immunity handled separately
   },
   PokemonType.dark: {
     PokemonType.fighting: 0.5,

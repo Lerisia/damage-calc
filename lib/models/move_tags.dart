@@ -60,4 +60,8 @@ class MoveTags {
 
   // Super-effective bonus
   static const String superEffectiveBoost = 'custom:se_boost';
+
+  // Power scales with target's remaining HP (high HP = high power)
+  static const String powerByTargetHp120 = 'custom:power_target_hp_120';
+  static const String powerByTargetHp100 = 'custom:power_target_hp_100';
 }

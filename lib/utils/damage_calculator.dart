@@ -512,34 +512,52 @@ class DamageCalculator {
       defType2 = defender.type2;
     }
 
-    // --- Type effectiveness ---
+    // --- Type effectiveness (immunities removed from chart, checked below) ---
     var effectiveness = getCombinedEffectiveness(
       moveType, defType1, defType2,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry),
       flyingPress: effectiveMove.hasTag(MoveTags.flyingPress));
 
-    // --- Ground vs Flying: grounding overrides type immunity ---
-    if (moveType == PokemonType.ground && effectiveness == 0.0) {
-      final bool defIsGrounded = isGrounded(
-        type1: defType1, type2: defType2,
-        ability: defAbilityName, item: defender.selectedItem,
-        gravity: room.gravity,
-      );
-      final bool hitsAnyway = defIsGrounded || effectiveMove.hasTag(MoveTags.thousandArrows);
+    // --- Type immunity check ---
+    // Each immunity can be overridden by specific mechanics.
+    if (hasTypeImmunity(moveType, defType1, defType2)) {
+      bool immune = true;
 
-      if (hitsAnyway) {
-        // Recalculate treating Ground→Flying as neutral (1.0) instead of immune (0.0)
-        final other = defType1 == PokemonType.flying ? defType2 : defType1;
-        final otherEff = other != null && other != PokemonType.flying
-            ? getTypeEffectiveness(PokemonType.ground, other)
-            : 1.0;
-        effectiveness = otherEff;
-      } else {
+      // Normal/Fighting → Ghost: overridden by Scrappy / Mind's Eye
+      if ((moveType == PokemonType.normal || moveType == PokemonType.fighting) &&
+          (defType1 == PokemonType.ghost || defType2 == PokemonType.ghost) &&
+          (effectiveAbility == 'Scrappy' || effectiveAbility == "Mind's Eye")) {
+        immune = false;
+        notes.add('ability:$effectiveAbility:고스트에게 적중');
+      }
+
+      // Ground → Flying: overridden by grounding or Thousand Arrows
+      if (moveType == PokemonType.ground &&
+          (defType1 == PokemonType.flying || defType2 == PokemonType.flying)) {
+        final defIsGrounded = isGrounded(
+          type1: defType1, type2: defType2,
+          ability: defAbilityName, item: defender.selectedItem,
+          gravity: room.gravity,
+        );
+        if (defIsGrounded || effectiveMove.hasTag(MoveTags.thousandArrows)) {
+          immune = false;
+        }
+      }
+
+      // Poison → Steel: overridden by Corrosion
+      if (moveType == PokemonType.poison &&
+          (defType1 == PokemonType.steel || defType2 == PokemonType.steel) &&
+          effectiveAbility == 'Corrosion') {
+        immune = false;
+        notes.add('ability:Corrosion:강철에게 적중');
+      }
+
+      if (immune) {
         return DamageResult(
           baseDamage: 0, minDamage: 0, maxDamage: 0,
           defenderHp: defActual.hp, effectiveness: 0.0,
           isPhysical: isPhysical, move: effectiveMove,
-          modifierNotes: ['ground:immune'],
+          modifierNotes: [...notes, 'type:immune'],
         );
       }
     }
@@ -558,30 +576,8 @@ class DamageCalculator {
       notes.add('weather:strong_winds');
     }
 
-    // Scrappy / Mind's Eye: Normal/Fighting moves hit Ghost types
-    // Recalculate effectiveness treating Ghost as neutral instead of immune
-    if (effectiveness == 0.0 &&
-        (effectiveAbility == 'Scrappy' || effectiveAbility == "Mind's Eye") &&
-        (moveType == PokemonType.normal || moveType == PokemonType.fighting) &&
-        (defType1 == PokemonType.ghost || defType2 == PokemonType.ghost)) {
-      final double eff1 = (defType1 == PokemonType.ghost)
-          ? 1.0
-          : getTypeEffectiveness(moveType, defType1);
-      final double eff2 = (defType2 == PokemonType.ghost)
-          ? 1.0
-          : (defType2 != null ? getTypeEffectiveness(moveType, defType2) : 1.0);
-      effectiveness = eff1 * eff2;
-      notes.add('ability:Scrappy:고스트에게 적중');
-    }
-
-    if (effectiveness == 0.0) {
-      return DamageResult(
-        baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: 0.0,
-        isPhysical: isPhysical, move: effectiveMove,
-        modifierNotes: ['type:immune'],
-      );
-    }
+    // Note: Scrappy, Ground→Flying, Corrosion immunity overrides
+    // are handled above in the type immunity check section.
 
     // Tera Shell: full HP reduces super effective to 0.5x
     if (defAbilityName == 'Tera Shell' &&
