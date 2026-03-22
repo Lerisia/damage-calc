@@ -86,9 +86,6 @@ class _MoveSelectorState extends State<MoveSelector> {
     return Autocomplete<Move>(
       displayStringForOption: (m) => m.nameKo,
       optionsBuilder: (textEditingValue) {
-        if (!kIsWeb && textEditingValue.composing != TextRange.empty) {
-          return _lastResults ?? _sortedOptions('');
-        }
         if (_selected != null && textEditingValue.text == _selected!.nameKo) {
           return _sortedOptions('');
         }
