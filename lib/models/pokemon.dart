@@ -59,4 +59,11 @@ class Pokemon {
       canGmax: json['canGmax'] as bool? ?? false,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Pokemon && name == other.name;
+
+  @override
+  int get hashCode => name.hashCode;
 }
