@@ -15,26 +15,25 @@ const _genFiles = [
 ];
 
 List<Move>? _cache;
+Future<List<Move>>? _loading;
 
 /// Loads all moves as a list from assets/moves/gen*.json (cached after first load).
-///
-/// Returns a copy so callers can safely sort/filter without mutating the cache.
-Future<List<Move>> loadAllMoves() async {
-  if (_cache != null) return List.of(_cache!);
+/// Uses parallel loading for faster startup.
+Future<List<Move>> loadAllMoves() {
+  if (_cache != null) return Future.value(List.of(_cache!));
+  return (_loading ??= _doLoad()).then((_) => List.of(_cache!));
+}
 
-  final List<Move> moves = [];
-
-  for (final file in _genFiles) {
+Future<List<Move>> _doLoad() async {
+  final futures = _genFiles.map((file) async {
     final jsonString = await rootBundle.loadString(file);
     final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
+    return jsonList.map((e) => Move.fromJson(e as Map<String, dynamic>)).toList();
+  });
 
-    for (final entry in jsonList) {
-      moves.add(Move.fromJson(entry as Map<String, dynamic>));
-    }
-  }
-
-  _cache = moves;
-  return List.of(moves);
+  final results = await Future.wait(futures);
+  _cache = results.expand((list) => list).toList();
+  return _cache!;
 }
 
 /// Loads all move data as a map (keyed by English name)

@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../../data/abilitydex.dart';
+import '../../data/itemdex.dart';
 import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
@@ -185,11 +185,10 @@ class _StatInputState extends State<StatInput> {
       return;
     }
     try {
-      final jsonString = await rootBundle.loadString('assets/abilities.json');
-      final List<dynamic> list = json.decode(jsonString) as List<dynamic>;
+      final dex = await loadAbilitydex();
       final map = <String, String>{};
-      for (final entry in list) {
-        map[entry['name'] as String] = entry['nameKo'] as String;
+      for (final entry in dex.entries) {
+        map[entry.key] = entry.value.nameKo;
       }
       _abilityCache = map;
       setState(() {
@@ -205,12 +204,11 @@ class _StatInputState extends State<StatInput> {
       return;
     }
     try {
-      final jsonString = await rootBundle.loadString('assets/items.json');
-      final List<dynamic> list = json.decode(jsonString) as List<dynamic>;
+      final dex = await loadItemdex();
       final map = <String, String>{};
-      for (final entry in list) {
-        if (entry['battle'] == true) {
-          map[entry['name'] as String] = entry['nameKo'] as String;
+      for (final entry in dex.entries) {
+        if (entry.value.battle) {
+          map[entry.key] = entry.value.nameKo;
         }
       }
       _itemCache = map;
