@@ -720,9 +720,19 @@
     "nameJa": "マルチタイプ"
   },
   {
+    "name": "Mega Golisopod Ability",
+    "nameKo": "메가갑주무사 특성 (미공개)",
+    "nameJa": "メガグソクムシャ特性"
+  },
+  {
     "name": "Mega Launcher",
     "nameKo": "메가런처",
     "nameJa": "メガランチャー"
+  },
+  {
+    "name": "Mega Zygarde Ability",
+    "nameKo": "메가지가르데 특성 (미공개)",
+    "nameJa": "メガジガルデ特性"
   },
   {
     "name": "Full Metal Body",
@@ -1088,6 +1098,11 @@
     "name": "Skill Link",
     "nameKo": "스킬링크",
     "nameJa": "スキルリンク"
+  },
+  {
+    "name": "Steel Skin",
+    "nameKo": "스틸스킨",
+    "nameJa": "スチールスキン"
   },
   {
     "name": "Shadow Shield",
@@ -1531,32 +1546,32 @@
   },
   {
     "name": "Supreme Overlord 0",
-    "nameKo": "총대장 (쓰러진 아군 0)",
+    "nameKo": "총대장 ×0",
     "nameJa": "そうだいしょう(0)"
   },
   {
     "name": "Supreme Overlord 1",
-    "nameKo": "총대장 (쓰러진 아군 1)",
+    "nameKo": "총대장 ×1",
     "nameJa": "そうだいしょう(1)"
   },
   {
     "name": "Supreme Overlord 2",
-    "nameKo": "총대장 (쓰러진 아군 2)",
+    "nameKo": "총대장 ×2",
     "nameJa": "そうだいしょう(2)"
   },
   {
     "name": "Supreme Overlord 3",
-    "nameKo": "총대장 (쓰러진 아군 3)",
+    "nameKo": "총대장 ×3",
     "nameJa": "そうだいしょう(3)"
   },
   {
     "name": "Supreme Overlord 4",
-    "nameKo": "총대장 (쓰러진 아군 4)",
+    "nameKo": "총대장 ×4",
     "nameJa": "そうだいしょう(4)"
   },
   {
     "name": "Supreme Overlord 5",
-    "nameKo": "총대장 (쓰러진 아군 5)",
+    "nameKo": "총대장 ×5",
     "nameJa": "そうだいしょう(5)"
   },
   {

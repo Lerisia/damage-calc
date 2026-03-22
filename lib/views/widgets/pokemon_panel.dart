@@ -221,8 +221,10 @@ class PokemonPanelState extends State<PokemonPanel>
                   s.weight = pokemon.weight;
                   s.baseStats = pokemon.baseStats;
                   s.pokemonAbilities = pokemon.abilities;
-                  s.selectedAbility =
-                      pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
+                  final firstAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
+                  // Supreme Overlord → default to Supreme Overlord 0
+                  s.selectedAbility = firstAbility == 'Supreme Overlord'
+                      ? 'Supreme Overlord 0' : firstAbility;
                   if (pokemon.requiredItem != null) {
                     s.selectedItem = pokemon.requiredItem;
                   }
