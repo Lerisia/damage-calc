@@ -604,13 +604,16 @@ class _StatInputState extends State<StatInput> {
           Expanded(
             flex: 3,
             child: dynamaxHp
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('$actual', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
-                    Text('(×2)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
-                  ],
+              ? FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('$actual', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
+                      Text('(×2)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
+                    ],
+                  ),
                 )
               : Text('$actual', textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),

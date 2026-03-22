@@ -126,6 +126,19 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = _applyTeraBlast(move, context);
   }
 
+  // 1.6. Tera Starstorm: becomes Stellar type when used by Terapagos (Stellar Form)
+  // Also becomes physical if Attack > SpAttack
+  if (move.name == 'Tera Starstorm' && context.pokemonName != null &&
+      context.pokemonName!.toLowerCase().contains('terapagos')) {
+    var newType = PokemonType.stellar;
+    var newCategory = move.category;
+    if (context.actualAttack != null && context.actualSpAttack != null &&
+        context.actualAttack! > context.actualSpAttack!) {
+      newCategory = MoveCategory.physical;
+    }
+    move = move.copyWith(type: newType, category: newCategory);
+  }
+
   // 2. Ability type transforms (only if still Normal after step 1/1.5)
   move = _applySkin(move, context.ability);
 

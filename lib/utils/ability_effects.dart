@@ -350,6 +350,14 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(statModifiers: AbilityStatModifiers(speed: kDoubleStatBoost))
           : _defaultEffect;
 
+    // --- Supreme Overlord (총대장): +10% per fainted ally ---
+    case 'Supreme Overlord 0': return _defaultEffect;
+    case 'Supreme Overlord 1': return const AbilityEffect(powerModifier: 1.1);
+    case 'Supreme Overlord 2': return const AbilityEffect(powerModifier: 1.2);
+    case 'Supreme Overlord 3': return const AbilityEffect(powerModifier: 1.3);
+    case 'Supreme Overlord 4': return const AbilityEffect(powerModifier: 1.4);
+    case 'Supreme Overlord 5': return const AbilityEffect(powerModifier: 1.5);
+
     // --- Aura abilities (self-boost for 결정력) ---
     // Aura Break reversal is handled in getAuraModifier() during damage calc.
     case 'Fairy Aura':
