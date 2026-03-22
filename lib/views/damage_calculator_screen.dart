@@ -715,14 +715,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
           // Defensive condition checkboxes
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: _dmgCheck('리플렉터', _defender.reflect, (v) {
+              _dmgCheck('리플렉터', _defender.reflect, (v) {
                 setState(() => _defender.reflect = v);
-              })),
-              Expanded(child: _dmgCheck('빛의장막', _defender.lightScreen, (v) {
+              }),
+              const SizedBox(width: 16),
+              _dmgCheck('빛의장막', _defender.lightScreen, (v) {
                 setState(() => _defender.lightScreen = v);
-              })),
-              const Expanded(child: SizedBox()),
+              }),
             ],
           ),
           const SizedBox(height: 12),
