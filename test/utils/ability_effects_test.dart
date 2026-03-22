@@ -444,14 +444,14 @@ void main() {
   });
 
   group('Parental Bond', () {
-    test('boosts single-target move by 1.25x', () {
+    test('boosts single-target move by 1.2x', () {
       final effect = getAbilityEffect('Parental Bond', move: physicalNormal);
-      expect(effect.powerModifier, equals(1.25));
+      expect(effect.powerModifier, equals(1.2));
     });
 
-    test('boosts special move by 1.25x', () {
+    test('boosts special move by 1.2x', () {
       final effect = getAbilityEffect('Parental Bond', move: specialFire);
-      expect(effect.powerModifier, equals(1.25));
+      expect(effect.powerModifier, equals(1.2));
     });
 
     test('does not boost multi-hit move (Bullet Seed)', () {

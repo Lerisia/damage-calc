@@ -24,7 +24,7 @@ const double kDoublePower = 2.0;
 const double kMajorPowerBoost = 1.5;
 const double kMediumPowerBoost = 1.3;
 const double kMinorPowerBoost = 1.2;
-const double kParentalBondMultiplier = 1.25;
+const double kParentalBondMultiplier = 1.2;
 const double kRivalrySameGender = 1.25;
 const double kRivalryOppositeGender = 0.75;
 
