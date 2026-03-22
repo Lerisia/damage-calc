@@ -317,6 +317,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             PopupMenuButton<Weather>(
               initialValue: _weather,
               tooltip: '날씨',
+              popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 150)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
@@ -344,6 +345,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             PopupMenuButton<Terrain>(
               initialValue: _terrain,
               tooltip: '필드',
+              popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 150)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
@@ -370,6 +372,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             // Room/Gravity toggle popup
             PopupMenuButton<String>(
               tooltip: '룸/중력',
+              popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 150)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
