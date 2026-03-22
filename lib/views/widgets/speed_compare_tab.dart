@@ -189,7 +189,9 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                     state.type2 = pokemon.type2;
                     state.baseStats = pokemon.baseStats;
                     state.pokemonAbilities = pokemon.abilities;
-                    state.selectedAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
+                    final firstAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
+                    state.selectedAbility = firstAbility == 'Supreme Overlord'
+                        ? 'Supreme Overlord 0' : firstAbility;
                     state.genderRate = pokemon.genderRate;
                   });
                   _notify();
@@ -368,11 +370,21 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
   /// alphabetically by Korean name. Only includes abilities with Korean names.
   List<String> _sortedAbilities(BattlePokemonState state) {
     if (_abilityNameMap.isEmpty) return state.pokemonAbilities;
-    final pokemon = state.pokemonAbilities
-        .where((a) => _abilityNameMap.containsKey(a))
-        .toList();
+    // Expand Supreme Overlord → Supreme Overlord 0~5
+    final pokemon = <String>[];
+    for (final a in state.pokemonAbilities) {
+      if (a == 'Supreme Overlord') {
+        for (int i = 0; i <= 5; i++) {
+          final key = 'Supreme Overlord $i';
+          if (_abilityNameMap.containsKey(key)) pokemon.add(key);
+        }
+      } else if (_abilityNameMap.containsKey(a)) {
+        pokemon.add(a);
+      }
+    }
+    final pokemonSet = state.pokemonAbilities.toSet();
     final rest = _abilityNameMap.keys
-        .where((a) => !state.pokemonAbilities.contains(a))
+        .where((a) => !pokemonSet.contains(a) && !pokemon.contains(a))
         .toList();
     rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
     return [...pokemon, ...rest];

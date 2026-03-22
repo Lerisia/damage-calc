@@ -226,15 +226,31 @@ class _StatInputState extends State<StatInput> {
   static bool _hasKorean(String s) =>
       s.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3);
 
+  /// Expands abilities that have numbered variants (e.g. Supreme Overlord → 0~5).
+  static List<String> _expandAbilities(List<String> abilities, Map<String, String> nameMap) {
+    final expanded = <String>[];
+    for (final a in abilities) {
+      if (a == 'Supreme Overlord') {
+        for (int i = 0; i <= 5; i++) {
+          final key = 'Supreme Overlord $i';
+          if (nameMap.containsKey(key)) expanded.add(key);
+        }
+      } else {
+        expanded.add(a);
+      }
+    }
+    return expanded;
+  }
+
   void _rebuildSortedAbilities() {
     final all = _abilityNameMap.keys
         .where((a) => _hasKorean(_abilityKo(a)))
         .toList();
-    final pokemon = widget.pokemonAbilities;
+    final pokemon = _expandAbilities(widget.pokemonAbilities, _abilityNameMap);
     final rest = all.where((a) => !pokemon.contains(a)).toList();
     rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
     _cachedSortedAbilities = [...pokemon, ...rest];
-    _lastPokemonAbilities = List.of(pokemon);
+    _lastPokemonAbilities = List.of(widget.pokemonAbilities);
   }
 
   List<String> _sortedAbilities() {
