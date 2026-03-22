@@ -1,0 +1,1 @@
+{"inputs":["/home/elyss/damage-calc/web/*/index.html","/home/elyss/damage-calc/web/flutter_bootstrap.js","/home/elyss/flutter/bin/cache/engine.stamp"],"outputs":["/home/elyss/damage-calc/build/web/*/index.html","/home/elyss/damage-calc/build/web/flutter_bootstrap.js"],"buildKey":"[{\"compileTarget\":\"dart2js\",\"renderer\":\"canvaskit\",\"mainJsPath\":\"main.dart.js\"},{}]"}

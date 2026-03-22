@@ -1,0 +1,460 @@
+[
+  {
+    "dexNumber": 19,
+    "formId": 10091,
+    "name": "Alolan Form",
+    "nameKo": "꼬렛 (알로라의 모습)",
+    "nameJa": "コラッタ (アローラのすがた)",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 30,
+      "attack": 56,
+      "defense": 35,
+      "spAttack": 25,
+      "spDefense": 35,
+      "speed": 72
+    },
+    "abilities": [
+      "Gluttony",
+      "Hustle",
+      "Thick Fat"
+    ],
+    "weight": 3.8,
+    "height": 0.3,
+    "type2": "normal",
+    "finalEvo": false,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 20,
+    "formId": 10092,
+    "name": "Alolan Form",
+    "nameKo": "레트라 (알로라의 모습)",
+    "nameJa": "ラッタ (アローラのすがた)",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 75,
+      "attack": 71,
+      "defense": 70,
+      "spAttack": 40,
+      "spDefense": 80,
+      "speed": 77
+    },
+    "abilities": [
+      "Gluttony",
+      "Hustle",
+      "Thick Fat"
+    ],
+    "weight": 25.5,
+    "height": 0.7,
+    "type2": "normal",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 26,
+    "formId": 10100,
+    "name": "Alolan Form",
+    "nameKo": "라이츄 (알로라의 모습)",
+    "nameJa": "ライチュウ (アローラのすがた)",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 60,
+      "attack": 85,
+      "defense": 50,
+      "spAttack": 95,
+      "spDefense": 85,
+      "speed": 110
+    },
+    "abilities": [
+      "Surge Surfer"
+    ],
+    "weight": 21.0,
+    "height": 0.7,
+    "type2": "psychic",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 27,
+    "formId": 10101,
+    "name": "Alolan Form",
+    "nameKo": "모래두지 (알로라의 모습)",
+    "nameJa": "サンド (アローラのすがた)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 50,
+      "attack": 75,
+      "defense": 90,
+      "spAttack": 10,
+      "spDefense": 35,
+      "speed": 40
+    },
+    "abilities": [
+      "Snow Cloak",
+      "Slush Rush"
+    ],
+    "weight": 40.0,
+    "height": 0.7,
+    "type2": "steel",
+    "finalEvo": false,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 28,
+    "formId": 10102,
+    "name": "Alolan Form",
+    "nameKo": "고지 (알로라의 모습)",
+    "nameJa": "サンドパン (アローラのすがた)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 75,
+      "attack": 100,
+      "defense": 120,
+      "spAttack": 25,
+      "spDefense": 65,
+      "speed": 65
+    },
+    "abilities": [
+      "Snow Cloak",
+      "Slush Rush"
+    ],
+    "weight": 55.0,
+    "height": 1.2,
+    "type2": "steel",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 37,
+    "formId": 10103,
+    "name": "Alolan Form",
+    "nameKo": "식스테일 (알로라의 모습)",
+    "nameJa": "ロコン (アローラのすがた)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 38,
+      "attack": 41,
+      "defense": 40,
+      "spAttack": 50,
+      "spDefense": 65,
+      "speed": 65
+    },
+    "abilities": [
+      "Snow Cloak",
+      "Snow Warning"
+    ],
+    "weight": 9.9,
+    "height": 0.6,
+    "finalEvo": false,
+    "genderRate": 6
+  },
+  {
+    "dexNumber": 38,
+    "formId": 10104,
+    "name": "Alolan Form",
+    "nameKo": "나인테일 (알로라의 모습)",
+    "nameJa": "キュウコン (アローラのすがた)",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 73,
+      "attack": 67,
+      "defense": 75,
+      "spAttack": 81,
+      "spDefense": 100,
+      "speed": 109
+    },
+    "abilities": [
+      "Snow Cloak",
+      "Snow Warning"
+    ],
+    "weight": 19.9,
+    "height": 1.1,
+    "type2": "fairy",
+    "finalEvo": true,
+    "genderRate": 6
+  },
+  {
+    "dexNumber": 50,
+    "formId": 10105,
+    "name": "Alolan Form",
+    "nameKo": "디그다 (알로라의 모습)",
+    "nameJa": "ディグダ (アローラのすがた)",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 10,
+      "attack": 55,
+      "defense": 30,
+      "spAttack": 35,
+      "spDefense": 45,
+      "speed": 90
+    },
+    "abilities": [
+      "Sand Veil",
+      "Tangling Hair",
+      "Sand Force"
+    ],
+    "weight": 1.0,
+    "height": 0.2,
+    "type2": "steel",
+    "finalEvo": false,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 51,
+    "formId": 10106,
+    "name": "Alolan Form",
+    "nameKo": "닥트리오 (알로라의 모습)",
+    "nameJa": "ダグトリオ (アローラのすがた)",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 35,
+      "attack": 100,
+      "defense": 60,
+      "spAttack": 50,
+      "spDefense": 70,
+      "speed": 110
+    },
+    "abilities": [
+      "Sand Veil",
+      "Tangling Hair",
+      "Sand Force"
+    ],
+    "weight": 66.6,
+    "height": 0.7,
+    "type2": "steel",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 52,
+    "formId": 10107,
+    "name": "Alolan Form",
+    "nameKo": "나옹 (알로라의 모습)",
+    "nameJa": "ニャース (アローラのすがた)",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 40,
+      "attack": 35,
+      "defense": 35,
+      "spAttack": 50,
+      "spDefense": 40,
+      "speed": 90
+    },
+    "abilities": [
+      "Pickup",
+      "Technician",
+      "Rattled"
+    ],
+    "weight": 4.2,
+    "height": 0.4,
+    "finalEvo": false,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 53,
+    "formId": 10108,
+    "name": "Alolan Form",
+    "nameKo": "페르시온 (알로라의 모습)",
+    "nameJa": "ペルシアン (アローラのすがた)",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 65,
+      "attack": 60,
+      "defense": 60,
+      "spAttack": 75,
+      "spDefense": 65,
+      "speed": 115
+    },
+    "abilities": [
+      "Fur Coat",
+      "Technician",
+      "Rattled"
+    ],
+    "weight": 33.0,
+    "height": 1.1,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 74,
+    "formId": 10109,
+    "name": "Alolan Form",
+    "nameKo": "꼬마돌 (알로라의 모습)",
+    "nameJa": "イシツブテ (アローラのすがた)",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 40,
+      "attack": 80,
+      "defense": 100,
+      "spAttack": 30,
+      "spDefense": 30,
+      "speed": 20
+    },
+    "abilities": [
+      "Magnet Pull",
+      "Sturdy",
+      "Galvanize"
+    ],
+    "weight": 20.3,
+    "height": 0.4,
+    "type2": "electric",
+    "finalEvo": false,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 75,
+    "formId": 10110,
+    "name": "Alolan Form",
+    "nameKo": "데구리 (알로라의 모습)",
+    "nameJa": "ゴローン (アローラのすがた)",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 55,
+      "attack": 95,
+      "defense": 115,
+      "spAttack": 45,
+      "spDefense": 45,
+      "speed": 35
+    },
+    "abilities": [
+      "Magnet Pull",
+      "Sturdy",
+      "Galvanize"
+    ],
+    "weight": 110.0,
+    "height": 1.0,
+    "type2": "electric",
+    "finalEvo": false,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 76,
+    "formId": 10111,
+    "name": "Alolan Form",
+    "nameKo": "딱구리 (알로라의 모습)",
+    "nameJa": "ゴローニャ (アローラのすがた)",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 80,
+      "attack": 120,
+      "defense": 130,
+      "spAttack": 55,
+      "spDefense": 65,
+      "speed": 45
+    },
+    "abilities": [
+      "Magnet Pull",
+      "Sturdy",
+      "Galvanize"
+    ],
+    "weight": 316.0,
+    "height": 1.7,
+    "type2": "electric",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 88,
+    "formId": 10112,
+    "name": "Alolan Form",
+    "nameKo": "질퍽이 (알로라의 모습)",
+    "nameJa": "ベトベター (アローラのすがた)",
+    "type1": "poison",
+    "baseStats": {
+      "hp": 80,
+      "attack": 80,
+      "defense": 50,
+      "spAttack": 40,
+      "spDefense": 50,
+      "speed": 25
+    },
+    "abilities": [
+      "Poison Touch",
+      "Gluttony",
+      "Power of Alchemy"
+    ],
+    "weight": 42.0,
+    "height": 0.7,
+    "type2": "dark",
+    "finalEvo": false,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 89,
+    "formId": 10113,
+    "name": "Alolan Form",
+    "nameKo": "질뻐기 (알로라의 모습)",
+    "nameJa": "ベトベトン (アローラのすがた)",
+    "type1": "poison",
+    "baseStats": {
+      "hp": 105,
+      "attack": 105,
+      "defense": 75,
+      "spAttack": 65,
+      "spDefense": 100,
+      "speed": 50
+    },
+    "abilities": [
+      "Poison Touch",
+      "Gluttony",
+      "Power of Alchemy"
+    ],
+    "weight": 52.0,
+    "height": 1.0,
+    "type2": "dark",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 103,
+    "formId": 10114,
+    "name": "Alolan Form",
+    "nameKo": "나시 (알로라의 모습)",
+    "nameJa": "ナッシー (アローラのすがた)",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 95,
+      "attack": 105,
+      "defense": 85,
+      "spAttack": 125,
+      "spDefense": 75,
+      "speed": 45
+    },
+    "abilities": [
+      "Frisk",
+      "Harvest"
+    ],
+    "weight": 415.6,
+    "height": 10.9,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 105,
+    "formId": 10115,
+    "name": "Alolan Form",
+    "nameKo": "텅구리 (알로라의 모습)",
+    "nameJa": "ガラガラ (アローラのすがた)",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 60,
+      "attack": 80,
+      "defense": 110,
+      "spAttack": 50,
+      "spDefense": 80,
+      "speed": 45
+    },
+    "abilities": [
+      "Cursed Body",
+      "Lightning Rod",
+      "Rock Head"
+    ],
+    "weight": 34.0,
+    "height": 1.0,
+    "type2": "ghost",
+    "finalEvo": true,
+    "genderRate": 4
+  }
+]

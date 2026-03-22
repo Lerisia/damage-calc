@@ -1,0 +1,2312 @@
+[
+  {
+    "dexNumber": 810,
+    "name": "Grookey",
+    "nameKo": "흥나숭",
+    "nameJa": "サルノリ",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 50,
+      "attack": 65,
+      "defense": 50,
+      "spAttack": 40,
+      "spDefense": 40,
+      "speed": 65
+    },
+    "abilities": [
+      "Overgrow",
+      "Grassy Surge"
+    ],
+    "weight": 5.0,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 1
+  },
+  {
+    "dexNumber": 811,
+    "name": "Thwackey",
+    "nameKo": "채키몽",
+    "nameJa": "バチンキー",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 70,
+      "attack": 85,
+      "defense": 70,
+      "spAttack": 55,
+      "spDefense": 60,
+      "speed": 80
+    },
+    "abilities": [
+      "Overgrow",
+      "Grassy Surge"
+    ],
+    "weight": 14.0,
+    "height": 0.7,
+    "finalEvo": true,
+    "genderRate": 1
+  },
+  {
+    "dexNumber": 812,
+    "name": "Rillaboom",
+    "nameKo": "고릴타",
+    "nameJa": "ゴリランダー",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 100,
+      "attack": 125,
+      "defense": 90,
+      "spAttack": 60,
+      "spDefense": 70,
+      "speed": 85
+    },
+    "abilities": [
+      "Overgrow",
+      "Grassy Surge"
+    ],
+    "weight": 90.0,
+    "height": 2.1,
+    "finalEvo": true,
+    "genderRate": 1,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 813,
+    "name": "Scorbunny",
+    "nameKo": "염버니",
+    "nameJa": "ヒバニー",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 50,
+      "attack": 71,
+      "defense": 40,
+      "spAttack": 40,
+      "spDefense": 40,
+      "speed": 69
+    },
+    "abilities": [
+      "Blaze",
+      "Libero"
+    ],
+    "weight": 4.5,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 1
+  },
+  {
+    "dexNumber": 814,
+    "name": "Raboot",
+    "nameKo": "래비풋",
+    "nameJa": "ラビフット",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 65,
+      "attack": 86,
+      "defense": 60,
+      "spAttack": 55,
+      "spDefense": 60,
+      "speed": 94
+    },
+    "abilities": [
+      "Blaze",
+      "Libero"
+    ],
+    "weight": 9.0,
+    "height": 0.6,
+    "finalEvo": true,
+    "genderRate": 1
+  },
+  {
+    "dexNumber": 815,
+    "name": "Cinderace",
+    "nameKo": "에이스번",
+    "nameJa": "エースバーン",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 80,
+      "attack": 116,
+      "defense": 75,
+      "spAttack": 65,
+      "spDefense": 75,
+      "speed": 119
+    },
+    "abilities": [
+      "Blaze",
+      "Libero"
+    ],
+    "weight": 33.0,
+    "height": 1.4,
+    "finalEvo": true,
+    "genderRate": 1,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 816,
+    "name": "Sobble",
+    "nameKo": "울머기",
+    "nameJa": "メッソン",
+    "type1": "water",
+    "baseStats": {
+      "hp": 50,
+      "attack": 40,
+      "defense": 40,
+      "spAttack": 70,
+      "spDefense": 40,
+      "speed": 70
+    },
+    "abilities": [
+      "Torrent",
+      "Sniper"
+    ],
+    "weight": 4.0,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 1
+  },
+  {
+    "dexNumber": 817,
+    "name": "Drizzile",
+    "nameKo": "누겔레온",
+    "nameJa": "ジメレオン",
+    "type1": "water",
+    "baseStats": {
+      "hp": 65,
+      "attack": 60,
+      "defense": 55,
+      "spAttack": 95,
+      "spDefense": 55,
+      "speed": 90
+    },
+    "abilities": [
+      "Torrent",
+      "Sniper"
+    ],
+    "weight": 11.5,
+    "height": 0.7,
+    "finalEvo": true,
+    "genderRate": 1
+  },
+  {
+    "dexNumber": 818,
+    "name": "Inteleon",
+    "nameKo": "인텔리레온",
+    "nameJa": "インテレオン",
+    "type1": "water",
+    "baseStats": {
+      "hp": 70,
+      "attack": 85,
+      "defense": 65,
+      "spAttack": 125,
+      "spDefense": 65,
+      "speed": 120
+    },
+    "abilities": [
+      "Torrent",
+      "Sniper"
+    ],
+    "weight": 45.2,
+    "height": 1.9,
+    "finalEvo": true,
+    "genderRate": 1,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 819,
+    "name": "Skwovet",
+    "nameKo": "탐리스",
+    "nameJa": "ホシガリス",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 70,
+      "attack": 55,
+      "defense": 55,
+      "spAttack": 35,
+      "spDefense": 35,
+      "speed": 25
+    },
+    "abilities": [
+      "Cheek Pouch",
+      "Gluttony"
+    ],
+    "weight": 2.5,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 820,
+    "name": "Greedent",
+    "nameKo": "요씽리스",
+    "nameJa": "ヨクバリス",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 120,
+      "attack": 95,
+      "defense": 95,
+      "spAttack": 55,
+      "spDefense": 75,
+      "speed": 20
+    },
+    "abilities": [
+      "Cheek Pouch",
+      "Gluttony"
+    ],
+    "weight": 6.0,
+    "height": 0.6,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 821,
+    "name": "Rookidee",
+    "nameKo": "파라꼬",
+    "nameJa": "ココガラ",
+    "type1": "flying",
+    "baseStats": {
+      "hp": 38,
+      "attack": 47,
+      "defense": 35,
+      "spAttack": 33,
+      "spDefense": 35,
+      "speed": 57
+    },
+    "abilities": [
+      "Keen Eye",
+      "Unnerve",
+      "Big Pecks"
+    ],
+    "weight": 1.8,
+    "height": 0.2,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 822,
+    "name": "Corvisquire",
+    "nameKo": "파크로우",
+    "nameJa": "アオガラス",
+    "type1": "flying",
+    "baseStats": {
+      "hp": 68,
+      "attack": 67,
+      "defense": 55,
+      "spAttack": 43,
+      "spDefense": 55,
+      "speed": 77
+    },
+    "abilities": [
+      "Keen Eye",
+      "Unnerve",
+      "Big Pecks"
+    ],
+    "weight": 16.0,
+    "height": 0.8,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 823,
+    "name": "Corviknight",
+    "nameKo": "아머까오",
+    "nameJa": "アーマーガア",
+    "type1": "flying",
+    "baseStats": {
+      "hp": 98,
+      "attack": 87,
+      "defense": 105,
+      "spAttack": 53,
+      "spDefense": 85,
+      "speed": 67
+    },
+    "abilities": [
+      "Pressure",
+      "Unnerve",
+      "Mirror Armor"
+    ],
+    "weight": 75.0,
+    "height": 2.2,
+    "type2": "steel",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 824,
+    "name": "Blipbug",
+    "nameKo": "두루지벌레",
+    "nameJa": "サッチムシ",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 25,
+      "attack": 20,
+      "defense": 20,
+      "spAttack": 25,
+      "spDefense": 45,
+      "speed": 45
+    },
+    "abilities": [
+      "Swarm",
+      "Compound Eyes",
+      "Telepathy"
+    ],
+    "weight": 8.0,
+    "height": 0.4,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 825,
+    "name": "Dottler",
+    "nameKo": "레돔벌레",
+    "nameJa": "レドームシ",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 50,
+      "attack": 35,
+      "defense": 80,
+      "spAttack": 50,
+      "spDefense": 90,
+      "speed": 30
+    },
+    "abilities": [
+      "Swarm",
+      "Compound Eyes",
+      "Telepathy"
+    ],
+    "weight": 19.5,
+    "height": 0.4,
+    "type2": "psychic",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 826,
+    "name": "Orbeetle",
+    "nameKo": "이올브",
+    "nameJa": "イオルブ",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 60,
+      "attack": 45,
+      "defense": 110,
+      "spAttack": 80,
+      "spDefense": 120,
+      "speed": 90
+    },
+    "abilities": [
+      "Swarm",
+      "Frisk",
+      "Telepathy"
+    ],
+    "weight": 40.8,
+    "height": 0.4,
+    "type2": "psychic",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 827,
+    "name": "Nickit",
+    "nameKo": "훔처우",
+    "nameJa": "クスネ",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 40,
+      "attack": 28,
+      "defense": 28,
+      "spAttack": 47,
+      "spDefense": 52,
+      "speed": 50
+    },
+    "abilities": [
+      "Run Away",
+      "Unburden",
+      "Stakeout"
+    ],
+    "weight": 8.9,
+    "height": 0.6,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 828,
+    "name": "Thievul",
+    "nameKo": "폭슬라이",
+    "nameJa": "フォクスライ",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 70,
+      "attack": 58,
+      "defense": 58,
+      "spAttack": 87,
+      "spDefense": 92,
+      "speed": 90
+    },
+    "abilities": [
+      "Run Away",
+      "Unburden",
+      "Stakeout"
+    ],
+    "weight": 19.9,
+    "height": 1.2,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 829,
+    "name": "Gossifleur",
+    "nameKo": "꼬모카",
+    "nameJa": "ヒメンカ",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 40,
+      "attack": 40,
+      "defense": 60,
+      "spAttack": 40,
+      "spDefense": 60,
+      "speed": 10
+    },
+    "abilities": [
+      "Cotton Down",
+      "Regenerator",
+      "Effect Spore"
+    ],
+    "weight": 2.2,
+    "height": 0.4,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 830,
+    "name": "Eldegoss",
+    "nameKo": "백솜모카",
+    "nameJa": "ワタシラガ",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 60,
+      "attack": 50,
+      "defense": 90,
+      "spAttack": 80,
+      "spDefense": 120,
+      "speed": 60
+    },
+    "abilities": [
+      "Cotton Down",
+      "Regenerator",
+      "Effect Spore"
+    ],
+    "weight": 2.5,
+    "height": 0.5,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 831,
+    "name": "Wooloo",
+    "nameKo": "우르",
+    "nameJa": "ウールー",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 42,
+      "attack": 40,
+      "defense": 55,
+      "spAttack": 40,
+      "spDefense": 45,
+      "speed": 48
+    },
+    "abilities": [
+      "Fluffy",
+      "Run Away",
+      "Bulletproof"
+    ],
+    "weight": 6.0,
+    "height": 0.6,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 832,
+    "name": "Dubwool",
+    "nameKo": "배우르",
+    "nameJa": "バイウールー",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 72,
+      "attack": 80,
+      "defense": 100,
+      "spAttack": 60,
+      "spDefense": 90,
+      "speed": 88
+    },
+    "abilities": [
+      "Fluffy",
+      "Steadfast",
+      "Bulletproof"
+    ],
+    "weight": 43.0,
+    "height": 1.3,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 833,
+    "name": "Chewtle",
+    "nameKo": "깨물부기",
+    "nameJa": "カムカメ",
+    "type1": "water",
+    "baseStats": {
+      "hp": 50,
+      "attack": 64,
+      "defense": 50,
+      "spAttack": 38,
+      "spDefense": 38,
+      "speed": 44
+    },
+    "abilities": [
+      "Strong Jaw",
+      "Shell Armor",
+      "Swift Swim"
+    ],
+    "weight": 8.5,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 834,
+    "name": "Drednaw",
+    "nameKo": "갈가부기",
+    "nameJa": "カジリガメ",
+    "type1": "water",
+    "baseStats": {
+      "hp": 90,
+      "attack": 115,
+      "defense": 90,
+      "spAttack": 48,
+      "spDefense": 68,
+      "speed": 74
+    },
+    "abilities": [
+      "Strong Jaw",
+      "Shell Armor",
+      "Swift Swim"
+    ],
+    "weight": 115.5,
+    "height": 1.0,
+    "type2": "rock",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 835,
+    "name": "Yamper",
+    "nameKo": "멍파치",
+    "nameJa": "ワンパチ",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 59,
+      "attack": 45,
+      "defense": 50,
+      "spAttack": 40,
+      "spDefense": 50,
+      "speed": 26
+    },
+    "abilities": [
+      "Ball Fetch",
+      "Rattled"
+    ],
+    "weight": 13.5,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 836,
+    "name": "Boltund",
+    "nameKo": "펄스멍",
+    "nameJa": "パルスワン",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 69,
+      "attack": 90,
+      "defense": 60,
+      "spAttack": 90,
+      "spDefense": 60,
+      "speed": 121
+    },
+    "abilities": [
+      "Strong Jaw",
+      "Competitive"
+    ],
+    "weight": 34.0,
+    "height": 1.0,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 837,
+    "name": "Rolycoly",
+    "nameKo": "탄동",
+    "nameJa": "タンドン",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 30,
+      "attack": 40,
+      "defense": 50,
+      "spAttack": 40,
+      "spDefense": 50,
+      "speed": 30
+    },
+    "abilities": [
+      "Steam Engine",
+      "Heatproof",
+      "Flash Fire"
+    ],
+    "weight": 12.0,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 838,
+    "name": "Carkol",
+    "nameKo": "탄차곤",
+    "nameJa": "トロッゴン",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 80,
+      "attack": 60,
+      "defense": 90,
+      "spAttack": 60,
+      "spDefense": 70,
+      "speed": 50
+    },
+    "abilities": [
+      "Steam Engine",
+      "Flame Body",
+      "Flash Fire"
+    ],
+    "weight": 78.0,
+    "height": 1.1,
+    "type2": "fire",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 839,
+    "name": "Coalossal",
+    "nameKo": "석탄산",
+    "nameJa": "セキタンザン",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 110,
+      "attack": 80,
+      "defense": 120,
+      "spAttack": 80,
+      "spDefense": 90,
+      "speed": 30
+    },
+    "abilities": [
+      "Steam Engine",
+      "Flame Body",
+      "Flash Fire"
+    ],
+    "weight": 310.5,
+    "height": 2.8,
+    "type2": "fire",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 840,
+    "name": "Applin",
+    "nameKo": "과사삭벌레",
+    "nameJa": "カジッチュ",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 40,
+      "attack": 40,
+      "defense": 80,
+      "spAttack": 40,
+      "spDefense": 40,
+      "speed": 20
+    },
+    "abilities": [
+      "Ripen",
+      "Gluttony",
+      "Bulletproof"
+    ],
+    "weight": 0.5,
+    "height": 0.2,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 841,
+    "name": "Flapple",
+    "nameKo": "애프룡",
+    "nameJa": "アップリュー",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 70,
+      "attack": 110,
+      "defense": 80,
+      "spAttack": 95,
+      "spDefense": 60,
+      "speed": 70
+    },
+    "abilities": [
+      "Ripen",
+      "Gluttony",
+      "Hustle"
+    ],
+    "weight": 1.0,
+    "height": 0.3,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 842,
+    "name": "Appletun",
+    "nameKo": "단지래플",
+    "nameJa": "タルップル",
+    "type1": "grass",
+    "baseStats": {
+      "hp": 110,
+      "attack": 85,
+      "defense": 80,
+      "spAttack": 100,
+      "spDefense": 80,
+      "speed": 30
+    },
+    "abilities": [
+      "Ripen",
+      "Gluttony",
+      "Thick Fat"
+    ],
+    "weight": 13.0,
+    "height": 0.4,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 843,
+    "name": "Silicobra",
+    "nameKo": "모래뱀",
+    "nameJa": "スナヘビ",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 52,
+      "attack": 57,
+      "defense": 75,
+      "spAttack": 35,
+      "spDefense": 50,
+      "speed": 46
+    },
+    "abilities": [
+      "Sand Spit",
+      "Shed Skin",
+      "Sand Veil"
+    ],
+    "weight": 7.6,
+    "height": 2.2,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 844,
+    "name": "Sandaconda",
+    "nameKo": "사다이사",
+    "nameJa": "サダイジャ",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 72,
+      "attack": 107,
+      "defense": 125,
+      "spAttack": 65,
+      "spDefense": 70,
+      "speed": 71
+    },
+    "abilities": [
+      "Sand Spit",
+      "Shed Skin",
+      "Sand Veil"
+    ],
+    "weight": 65.5,
+    "height": 3.8,
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 845,
+    "name": "Cramorant",
+    "nameKo": "윽우지",
+    "nameJa": "ウッウ",
+    "type1": "flying",
+    "baseStats": {
+      "hp": 70,
+      "attack": 85,
+      "defense": 55,
+      "spAttack": 85,
+      "spDefense": 95,
+      "speed": 85
+    },
+    "abilities": [
+      "Gulp Missile"
+    ],
+    "weight": 18.0,
+    "height": 0.8,
+    "type2": "water",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 846,
+    "name": "Arrokuda",
+    "nameKo": "찌로꼬치",
+    "nameJa": "サシカマス",
+    "type1": "water",
+    "baseStats": {
+      "hp": 41,
+      "attack": 63,
+      "defense": 40,
+      "spAttack": 40,
+      "spDefense": 30,
+      "speed": 66
+    },
+    "abilities": [
+      "Swift Swim",
+      "Propeller Tail"
+    ],
+    "weight": 1.0,
+    "height": 0.5,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 847,
+    "name": "Barraskewda",
+    "nameKo": "꼬치조",
+    "nameJa": "カマスジョー",
+    "type1": "water",
+    "baseStats": {
+      "hp": 61,
+      "attack": 123,
+      "defense": 60,
+      "spAttack": 60,
+      "spDefense": 50,
+      "speed": 136
+    },
+    "abilities": [
+      "Swift Swim",
+      "Propeller Tail"
+    ],
+    "weight": 30.0,
+    "height": 1.3,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 848,
+    "name": "Toxel",
+    "nameKo": "일레즌",
+    "nameJa": "エレズン",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 40,
+      "attack": 38,
+      "defense": 35,
+      "spAttack": 54,
+      "spDefense": 35,
+      "speed": 40
+    },
+    "abilities": [
+      "Rattled",
+      "Static",
+      "Klutz"
+    ],
+    "weight": 11.0,
+    "height": 0.4,
+    "type2": "poison",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 849,
+    "name": "Toxtricity",
+    "nameKo": "스트린더 (하이한 모습)",
+    "nameJa": "ストリンダー",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 75,
+      "attack": 98,
+      "defense": 70,
+      "spAttack": 114,
+      "spDefense": 70,
+      "speed": 75
+    },
+    "abilities": [
+      "Punk Rock",
+      "Plus",
+      "Technician"
+    ],
+    "weight": 40.0,
+    "height": 1.6,
+    "type2": "poison",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 850,
+    "name": "Sizzlipede",
+    "nameKo": "태우지네",
+    "nameJa": "ヤクデ",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 50,
+      "attack": 65,
+      "defense": 45,
+      "spAttack": 50,
+      "spDefense": 50,
+      "speed": 45
+    },
+    "abilities": [
+      "Flash Fire",
+      "White Smoke",
+      "Flame Body"
+    ],
+    "weight": 1.0,
+    "height": 0.7,
+    "type2": "bug",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 851,
+    "name": "Centiskorch",
+    "nameKo": "다태우지네",
+    "nameJa": "マルヤクデ",
+    "type1": "fire",
+    "baseStats": {
+      "hp": 100,
+      "attack": 115,
+      "defense": 65,
+      "spAttack": 90,
+      "spDefense": 90,
+      "speed": 65
+    },
+    "abilities": [
+      "Flash Fire",
+      "White Smoke",
+      "Flame Body"
+    ],
+    "weight": 120.0,
+    "height": 3.0,
+    "type2": "bug",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 852,
+    "name": "Clobbopus",
+    "nameKo": "때때무노",
+    "nameJa": "タタッコ",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 50,
+      "attack": 68,
+      "defense": 60,
+      "spAttack": 50,
+      "spDefense": 50,
+      "speed": 32
+    },
+    "abilities": [
+      "Limber",
+      "Technician"
+    ],
+    "weight": 4.0,
+    "height": 0.6,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 853,
+    "name": "Grapploct",
+    "nameKo": "케오퍼스",
+    "nameJa": "オトスパス",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 80,
+      "attack": 118,
+      "defense": 90,
+      "spAttack": 70,
+      "spDefense": 80,
+      "speed": 42
+    },
+    "abilities": [
+      "Limber",
+      "Technician"
+    ],
+    "weight": 39.0,
+    "height": 1.6,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 854,
+    "name": "Sinistea",
+    "nameKo": "데인차",
+    "nameJa": "ヤバチャ",
+    "type1": "ghost",
+    "baseStats": {
+      "hp": 40,
+      "attack": 45,
+      "defense": 45,
+      "spAttack": 74,
+      "spDefense": 54,
+      "speed": 50
+    },
+    "abilities": [
+      "Weak Armor",
+      "Cursed Body"
+    ],
+    "weight": 0.2,
+    "height": 0.1,
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 855,
+    "name": "Polteageist",
+    "nameKo": "포트데스",
+    "nameJa": "ポットデス",
+    "type1": "ghost",
+    "baseStats": {
+      "hp": 60,
+      "attack": 65,
+      "defense": 65,
+      "spAttack": 134,
+      "spDefense": 114,
+      "speed": 70
+    },
+    "abilities": [
+      "Weak Armor",
+      "Cursed Body"
+    ],
+    "weight": 0.4,
+    "height": 0.2,
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 856,
+    "name": "Hatenna",
+    "nameKo": "몸지브림",
+    "nameJa": "ミブリム",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 42,
+      "attack": 30,
+      "defense": 45,
+      "spAttack": 56,
+      "spDefense": 53,
+      "speed": 39
+    },
+    "abilities": [
+      "Healer",
+      "Anticipation",
+      "Magic Bounce"
+    ],
+    "weight": 3.4,
+    "height": 0.4,
+    "finalEvo": true,
+    "genderRate": 8
+  },
+  {
+    "dexNumber": 857,
+    "name": "Hattrem",
+    "nameKo": "손지브림",
+    "nameJa": "テブリム",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 57,
+      "attack": 40,
+      "defense": 65,
+      "spAttack": 86,
+      "spDefense": 73,
+      "speed": 49
+    },
+    "abilities": [
+      "Healer",
+      "Anticipation",
+      "Magic Bounce"
+    ],
+    "weight": 4.8,
+    "height": 0.6,
+    "finalEvo": true,
+    "genderRate": 8
+  },
+  {
+    "dexNumber": 858,
+    "name": "Hatterene",
+    "nameKo": "브리무음",
+    "nameJa": "ブリムオン",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 57,
+      "attack": 90,
+      "defense": 95,
+      "spAttack": 136,
+      "spDefense": 103,
+      "speed": 29
+    },
+    "abilities": [
+      "Healer",
+      "Anticipation",
+      "Magic Bounce"
+    ],
+    "weight": 5.1,
+    "height": 2.1,
+    "type2": "fairy",
+    "finalEvo": true,
+    "genderRate": 8,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 859,
+    "name": "Impidimp",
+    "nameKo": "메롱꿍",
+    "nameJa": "ベロバー",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 45,
+      "attack": 45,
+      "defense": 30,
+      "spAttack": 55,
+      "spDefense": 40,
+      "speed": 50
+    },
+    "abilities": [
+      "Prankster",
+      "Frisk",
+      "Pickpocket"
+    ],
+    "weight": 5.5,
+    "height": 0.4,
+    "type2": "fairy",
+    "finalEvo": true,
+    "genderRate": 0
+  },
+  {
+    "dexNumber": 860,
+    "name": "Morgrem",
+    "nameKo": "쏘겨모",
+    "nameJa": "ギモー",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 65,
+      "attack": 60,
+      "defense": 45,
+      "spAttack": 75,
+      "spDefense": 55,
+      "speed": 70
+    },
+    "abilities": [
+      "Prankster",
+      "Frisk",
+      "Pickpocket"
+    ],
+    "weight": 12.5,
+    "height": 0.8,
+    "type2": "fairy",
+    "finalEvo": true,
+    "genderRate": 0
+  },
+  {
+    "dexNumber": 861,
+    "name": "Grimmsnarl",
+    "nameKo": "오롱털",
+    "nameJa": "オーロンゲ",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 95,
+      "attack": 120,
+      "defense": 65,
+      "spAttack": 95,
+      "spDefense": 75,
+      "speed": 60
+    },
+    "abilities": [
+      "Prankster",
+      "Frisk",
+      "Pickpocket"
+    ],
+    "weight": 61.0,
+    "height": 1.5,
+    "type2": "fairy",
+    "finalEvo": true,
+    "genderRate": 0,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 862,
+    "name": "Obstagoon",
+    "nameKo": "가로막구리",
+    "nameJa": "タチフサグマ",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 93,
+      "attack": 90,
+      "defense": 101,
+      "spAttack": 60,
+      "spDefense": 81,
+      "speed": 95
+    },
+    "abilities": [
+      "Reckless",
+      "Guts",
+      "Defiant"
+    ],
+    "weight": 46.0,
+    "height": 1.6,
+    "type2": "normal",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 863,
+    "name": "Perrserker",
+    "nameKo": "나이킹",
+    "nameJa": "ニャイキング",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 70,
+      "attack": 110,
+      "defense": 100,
+      "spAttack": 50,
+      "spDefense": 60,
+      "speed": 50
+    },
+    "abilities": [
+      "Battle Armor",
+      "Tough Claws",
+      "Steely Spirit"
+    ],
+    "weight": 28.0,
+    "height": 0.8,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 864,
+    "name": "Cursola",
+    "nameKo": "산호르곤",
+    "nameJa": "サニゴーン",
+    "type1": "ghost",
+    "baseStats": {
+      "hp": 60,
+      "attack": 95,
+      "defense": 50,
+      "spAttack": 145,
+      "spDefense": 130,
+      "speed": 30
+    },
+    "abilities": [
+      "Weak Armor",
+      "Perish Body"
+    ],
+    "weight": 0.4,
+    "height": 1.0,
+    "finalEvo": true,
+    "genderRate": 6
+  },
+  {
+    "dexNumber": 865,
+    "name": "Sirfetch'd",
+    "nameKo": "창파나이트",
+    "nameJa": "ネギガナイト",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 62,
+      "attack": 135,
+      "defense": 95,
+      "spAttack": 68,
+      "spDefense": 82,
+      "speed": 65
+    },
+    "abilities": [
+      "Steadfast",
+      "Scrappy"
+    ],
+    "weight": 117.0,
+    "height": 0.8,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 866,
+    "name": "Mr. Rime",
+    "nameKo": "마임꽁꽁",
+    "nameJa": "バリコオル",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 80,
+      "attack": 85,
+      "defense": 75,
+      "spAttack": 110,
+      "spDefense": 100,
+      "speed": 70
+    },
+    "abilities": [
+      "Tangled Feet",
+      "Screen Cleaner",
+      "Ice Body"
+    ],
+    "weight": 58.2,
+    "height": 1.5,
+    "type2": "psychic",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 867,
+    "name": "Runerigus",
+    "nameKo": "데스판",
+    "nameJa": "デスバーン",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 58,
+      "attack": 95,
+      "defense": 145,
+      "spAttack": 50,
+      "spDefense": 105,
+      "speed": 30
+    },
+    "abilities": [
+      "Wandering Spirit"
+    ],
+    "weight": 66.6,
+    "height": 1.6,
+    "type2": "ghost",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 868,
+    "name": "Milcery",
+    "nameKo": "마빌크",
+    "nameJa": "マホミル",
+    "type1": "fairy",
+    "baseStats": {
+      "hp": 45,
+      "attack": 40,
+      "defense": 40,
+      "spAttack": 50,
+      "spDefense": 61,
+      "speed": 34
+    },
+    "abilities": [
+      "Sweet Veil",
+      "Aroma Veil"
+    ],
+    "weight": 0.3,
+    "height": 0.2,
+    "finalEvo": true,
+    "genderRate": 8
+  },
+  {
+    "dexNumber": 869,
+    "name": "Alcremie",
+    "nameKo": "마휘핑",
+    "nameJa": "マホイップ",
+    "type1": "fairy",
+    "baseStats": {
+      "hp": 65,
+      "attack": 60,
+      "defense": 75,
+      "spAttack": 110,
+      "spDefense": 121,
+      "speed": 64
+    },
+    "abilities": [
+      "Sweet Veil",
+      "Aroma Veil"
+    ],
+    "weight": 0.5,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 8,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 870,
+    "name": "Falinks",
+    "nameKo": "대여르",
+    "nameJa": "タイレーツ",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 65,
+      "attack": 100,
+      "defense": 100,
+      "spAttack": 70,
+      "spDefense": 60,
+      "speed": 75
+    },
+    "abilities": [
+      "Battle Armor",
+      "Defiant"
+    ],
+    "weight": 62.0,
+    "height": 3.0,
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 871,
+    "name": "Pincurchin",
+    "nameKo": "찌르성게",
+    "nameJa": "バチンウニ",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 48,
+      "attack": 101,
+      "defense": 95,
+      "spAttack": 91,
+      "spDefense": 85,
+      "speed": 15
+    },
+    "abilities": [
+      "Lightning Rod",
+      "Electric Surge"
+    ],
+    "weight": 1.0,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 872,
+    "name": "Snom",
+    "nameKo": "누니머기",
+    "nameJa": "ユキハミ",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 30,
+      "attack": 25,
+      "defense": 35,
+      "spAttack": 45,
+      "spDefense": 30,
+      "speed": 20
+    },
+    "abilities": [
+      "Shield Dust",
+      "Ice Scales"
+    ],
+    "weight": 3.8,
+    "height": 0.3,
+    "type2": "bug",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 873,
+    "name": "Frosmoth",
+    "nameKo": "모스노우",
+    "nameJa": "モスノウ",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 70,
+      "attack": 65,
+      "defense": 60,
+      "spAttack": 125,
+      "spDefense": 90,
+      "speed": 65
+    },
+    "abilities": [
+      "Shield Dust",
+      "Ice Scales"
+    ],
+    "weight": 42.0,
+    "height": 1.3,
+    "type2": "bug",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 874,
+    "name": "Stonjourner",
+    "nameKo": "돌헨진",
+    "nameJa": "イシヘンジン",
+    "type1": "rock",
+    "baseStats": {
+      "hp": 100,
+      "attack": 125,
+      "defense": 135,
+      "spAttack": 20,
+      "spDefense": 20,
+      "speed": 70
+    },
+    "abilities": [
+      "Power Spot"
+    ],
+    "weight": 520.0,
+    "height": 2.5,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 875,
+    "name": "Eiscue",
+    "nameKo": "빙큐보 (아이스페이스)",
+    "nameJa": "コオリッポ",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 75,
+      "attack": 80,
+      "defense": 110,
+      "spAttack": 65,
+      "spDefense": 90,
+      "speed": 50
+    },
+    "abilities": [
+      "Ice Face"
+    ],
+    "weight": 89.0,
+    "height": 1.4,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 876,
+    "name": "Indeedee",
+    "nameKo": "에써르 (수컷)",
+    "nameJa": "イエッサン",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 60,
+      "attack": 65,
+      "defense": 55,
+      "spAttack": 105,
+      "spDefense": 95,
+      "speed": 95
+    },
+    "abilities": [
+      "Inner Focus",
+      "Synchronize",
+      "Psychic Surge"
+    ],
+    "weight": 28.0,
+    "height": 0.9,
+    "type2": "normal",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 877,
+    "name": "Morpeko",
+    "nameKo": "모르페코",
+    "nameJa": "モルペコ",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 58,
+      "attack": 95,
+      "defense": 58,
+      "spAttack": 70,
+      "spDefense": 58,
+      "speed": 97
+    },
+    "abilities": [
+      "Hunger Switch"
+    ],
+    "weight": 3.0,
+    "height": 0.3,
+    "type2": "dark",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 878,
+    "name": "Cufant",
+    "nameKo": "끼리동",
+    "nameJa": "ゾウドウ",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 72,
+      "attack": 80,
+      "defense": 49,
+      "spAttack": 40,
+      "spDefense": 49,
+      "speed": 40
+    },
+    "abilities": [
+      "Sheer Force",
+      "Heavy Metal"
+    ],
+    "weight": 100.0,
+    "height": 1.2,
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 879,
+    "name": "Copperajah",
+    "nameKo": "대왕끼리동",
+    "nameJa": "ダイオウドウ",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 122,
+      "attack": 130,
+      "defense": 69,
+      "spAttack": 80,
+      "spDefense": 69,
+      "speed": 30
+    },
+    "abilities": [
+      "Sheer Force",
+      "Heavy Metal"
+    ],
+    "weight": 650.0,
+    "height": 3.0,
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 880,
+    "name": "Dracozolt",
+    "nameKo": "파치래곤",
+    "nameJa": "パッチラゴン",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 90,
+      "attack": 100,
+      "defense": 90,
+      "spAttack": 80,
+      "spDefense": 70,
+      "speed": 75
+    },
+    "abilities": [
+      "Volt Absorb",
+      "Hustle",
+      "Sand Rush"
+    ],
+    "weight": 190.0,
+    "height": 1.8,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 881,
+    "name": "Arctozolt",
+    "nameKo": "파치르돈",
+    "nameJa": "パッチルドン",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 90,
+      "attack": 100,
+      "defense": 90,
+      "spAttack": 90,
+      "spDefense": 80,
+      "speed": 55
+    },
+    "abilities": [
+      "Volt Absorb",
+      "Static",
+      "Slush Rush"
+    ],
+    "weight": 150.0,
+    "height": 2.3,
+    "type2": "ice",
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 882,
+    "name": "Dracovish",
+    "nameKo": "어래곤",
+    "nameJa": "ウオノラゴン",
+    "type1": "water",
+    "baseStats": {
+      "hp": 90,
+      "attack": 90,
+      "defense": 100,
+      "spAttack": 70,
+      "spDefense": 80,
+      "speed": 75
+    },
+    "abilities": [
+      "Water Absorb",
+      "Strong Jaw",
+      "Sand Rush"
+    ],
+    "weight": 215.0,
+    "height": 2.3,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 883,
+    "name": "Arctovish",
+    "nameKo": "어치르돈",
+    "nameJa": "ウオチルドン",
+    "type1": "water",
+    "baseStats": {
+      "hp": 90,
+      "attack": 90,
+      "defense": 100,
+      "spAttack": 80,
+      "spDefense": 90,
+      "speed": 55
+    },
+    "abilities": [
+      "Water Absorb",
+      "Ice Body",
+      "Slush Rush"
+    ],
+    "weight": 175.0,
+    "height": 2.0,
+    "type2": "ice",
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 884,
+    "name": "Duraludon",
+    "nameKo": "두랄루돈",
+    "nameJa": "ジュラルドン",
+    "type1": "steel",
+    "baseStats": {
+      "hp": 70,
+      "attack": 95,
+      "defense": 115,
+      "spAttack": 120,
+      "spDefense": 50,
+      "speed": 85
+    },
+    "abilities": [
+      "Light Metal",
+      "Heavy Metal",
+      "Stalwart"
+    ],
+    "weight": 40.0,
+    "height": 1.8,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": 4,
+    "canGmax": true
+  },
+  {
+    "dexNumber": 885,
+    "name": "Dreepy",
+    "nameKo": "드라꼰",
+    "nameJa": "ドラメシヤ",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 28,
+      "attack": 60,
+      "defense": 30,
+      "spAttack": 40,
+      "spDefense": 30,
+      "speed": 82
+    },
+    "abilities": [
+      "Clear Body",
+      "Infiltrator",
+      "Cursed Body"
+    ],
+    "weight": 2.0,
+    "height": 0.5,
+    "type2": "ghost",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 886,
+    "name": "Drakloak",
+    "nameKo": "드래런치",
+    "nameJa": "ドロンチ",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 68,
+      "attack": 80,
+      "defense": 50,
+      "spAttack": 60,
+      "spDefense": 50,
+      "speed": 102
+    },
+    "abilities": [
+      "Clear Body",
+      "Infiltrator",
+      "Cursed Body"
+    ],
+    "weight": 11.0,
+    "height": 1.4,
+    "type2": "ghost",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 887,
+    "name": "Dragapult",
+    "nameKo": "드래펄트",
+    "nameJa": "ドラパルト",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 88,
+      "attack": 120,
+      "defense": 75,
+      "spAttack": 100,
+      "spDefense": 75,
+      "speed": 142
+    },
+    "abilities": [
+      "Clear Body",
+      "Infiltrator",
+      "Cursed Body"
+    ],
+    "weight": 50.0,
+    "height": 3.0,
+    "type2": "ghost",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 888,
+    "name": "Zacian",
+    "nameKo": "자시안 (역전의 용사)",
+    "nameJa": "ザシアン",
+    "type1": "fairy",
+    "baseStats": {
+      "hp": 92,
+      "attack": 120,
+      "defense": 115,
+      "spAttack": 80,
+      "spDefense": 115,
+      "speed": 138
+    },
+    "abilities": [
+      "Intrepid Sword"
+    ],
+    "weight": 110.0,
+    "height": 2.8,
+    "finalEvo": true,
+    "genderRate": -1,
+    "canDynamax": false
+  },
+  {
+    "dexNumber": 889,
+    "name": "Zamazenta",
+    "nameKo": "자마젠타 (역전의 용사)",
+    "nameJa": "ザマゼンタ",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 92,
+      "attack": 120,
+      "defense": 115,
+      "spAttack": 80,
+      "spDefense": 115,
+      "speed": 138
+    },
+    "abilities": [
+      "Dauntless Shield"
+    ],
+    "weight": 210.0,
+    "height": 2.9,
+    "finalEvo": true,
+    "genderRate": -1,
+    "canDynamax": false
+  },
+  {
+    "dexNumber": 890,
+    "name": "Eternatus",
+    "nameKo": "무한다이노",
+    "nameJa": "ムゲンダイナ",
+    "type1": "poison",
+    "baseStats": {
+      "hp": 140,
+      "attack": 85,
+      "defense": 95,
+      "spAttack": 145,
+      "spDefense": 95,
+      "speed": 130
+    },
+    "abilities": [
+      "Pressure"
+    ],
+    "weight": 950.0,
+    "height": 20.0,
+    "type2": "dragon",
+    "finalEvo": true,
+    "genderRate": -1,
+    "canDynamax": false
+  },
+  {
+    "dexNumber": 891,
+    "name": "Kubfu",
+    "nameKo": "치고마",
+    "nameJa": "ダクマ",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 60,
+      "attack": 90,
+      "defense": 60,
+      "spAttack": 53,
+      "spDefense": 50,
+      "speed": 72
+    },
+    "abilities": [
+      "Inner Focus"
+    ],
+    "weight": 12.0,
+    "height": 0.6,
+    "finalEvo": true,
+    "genderRate": 1
+  },
+  {
+    "dexNumber": 892,
+    "name": "Urshifu",
+    "nameKo": "우라오스 (일격의 태세)",
+    "nameJa": "ウーラオス",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 100,
+      "attack": 130,
+      "defense": 100,
+      "spAttack": 63,
+      "spDefense": 60,
+      "speed": 97
+    },
+    "abilities": [
+      "Unseen Fist"
+    ],
+    "weight": 105.0,
+    "height": 1.9,
+    "type2": "dark",
+    "finalEvo": true,
+    "genderRate": 1,
+    "canGmax": true,
+    "aliases": [
+      "악라오스"
+    ]
+  },
+  {
+    "dexNumber": 893,
+    "name": "Zarude",
+    "nameKo": "자루도",
+    "nameJa": "ザルード",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 105,
+      "attack": 120,
+      "defense": 105,
+      "spAttack": 70,
+      "spDefense": 95,
+      "speed": 105
+    },
+    "abilities": [
+      "Leaf Guard"
+    ],
+    "weight": 70.0,
+    "height": 1.8,
+    "type2": "grass",
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 894,
+    "name": "Regieleki",
+    "nameKo": "레지에레키",
+    "nameJa": "レジエレキ",
+    "type1": "electric",
+    "baseStats": {
+      "hp": 80,
+      "attack": 100,
+      "defense": 50,
+      "spAttack": 100,
+      "spDefense": 50,
+      "speed": 200
+    },
+    "abilities": [
+      "Transistor"
+    ],
+    "weight": 145.0,
+    "height": 1.2,
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 895,
+    "name": "Regidrago",
+    "nameKo": "레지드래고",
+    "nameJa": "レジドラゴ",
+    "type1": "dragon",
+    "baseStats": {
+      "hp": 200,
+      "attack": 100,
+      "defense": 50,
+      "spAttack": 100,
+      "spDefense": 50,
+      "speed": 80
+    },
+    "abilities": [
+      "Dragon's Maw"
+    ],
+    "weight": 200.0,
+    "height": 2.1,
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 896,
+    "name": "Glastrier",
+    "nameKo": "블리자포스",
+    "nameJa": "ブリザポス",
+    "type1": "ice",
+    "baseStats": {
+      "hp": 100,
+      "attack": 145,
+      "defense": 130,
+      "spAttack": 65,
+      "spDefense": 110,
+      "speed": 30
+    },
+    "abilities": [
+      "Chilling Neigh"
+    ],
+    "weight": 800.0,
+    "height": 2.2,
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 897,
+    "name": "Spectrier",
+    "nameKo": "레이스포스",
+    "nameJa": "レイスポス",
+    "type1": "ghost",
+    "baseStats": {
+      "hp": 100,
+      "attack": 65,
+      "defense": 60,
+      "spAttack": 145,
+      "spDefense": 80,
+      "speed": 130
+    },
+    "abilities": [
+      "Grim Neigh"
+    ],
+    "weight": 44.5,
+    "height": 2.0,
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 898,
+    "name": "Calyrex",
+    "nameKo": "버드렉스",
+    "nameJa": "バドレックス",
+    "type1": "psychic",
+    "baseStats": {
+      "hp": 100,
+      "attack": 80,
+      "defense": 80,
+      "spAttack": 80,
+      "spDefense": 80,
+      "speed": 80
+    },
+    "abilities": [
+      "Unnerve"
+    ],
+    "weight": 7.7,
+    "height": 1.1,
+    "type2": "grass",
+    "finalEvo": true,
+    "genderRate": -1
+  },
+  {
+    "dexNumber": 899,
+    "name": "Wyrdeer",
+    "nameKo": "신비록",
+    "nameJa": "アヤシシ",
+    "type1": "normal",
+    "baseStats": {
+      "hp": 103,
+      "attack": 105,
+      "defense": 72,
+      "spAttack": 105,
+      "spDefense": 75,
+      "speed": 65
+    },
+    "abilities": [
+      "Intimidate",
+      "Frisk",
+      "Sap Sipper"
+    ],
+    "weight": 95.1,
+    "height": 1.8,
+    "type2": "psychic",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 900,
+    "name": "Kleavor",
+    "nameKo": "사마자르",
+    "nameJa": "バサギリ",
+    "type1": "bug",
+    "baseStats": {
+      "hp": 70,
+      "attack": 135,
+      "defense": 95,
+      "spAttack": 45,
+      "spDefense": 70,
+      "speed": 85
+    },
+    "abilities": [
+      "Swarm",
+      "Sheer Force",
+      "Sharpness"
+    ],
+    "weight": 89.0,
+    "height": 1.8,
+    "type2": "rock",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 901,
+    "name": "Ursaluna",
+    "nameKo": "다투곰",
+    "nameJa": "ガチグマ",
+    "type1": "ground",
+    "baseStats": {
+      "hp": 130,
+      "attack": 140,
+      "defense": 105,
+      "spAttack": 45,
+      "spDefense": 80,
+      "speed": 50
+    },
+    "abilities": [
+      "Guts",
+      "Bulletproof",
+      "Unnerve"
+    ],
+    "weight": 290.0,
+    "height": 2.4,
+    "type2": "normal",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 902,
+    "name": "Basculegion",
+    "nameKo": "대쓰여너 (수컷)",
+    "nameJa": "イダイトウ",
+    "type1": "water",
+    "baseStats": {
+      "hp": 120,
+      "attack": 112,
+      "defense": 65,
+      "spAttack": 80,
+      "spDefense": 75,
+      "speed": 78
+    },
+    "abilities": [
+      "Swift Swim",
+      "Adaptability",
+      "Mold Breaker"
+    ],
+    "weight": 110.0,
+    "height": 3.0,
+    "type2": "ghost",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 903,
+    "name": "Sneasler",
+    "nameKo": "포푸니크",
+    "nameJa": "オオニューラ",
+    "type1": "fighting",
+    "baseStats": {
+      "hp": 80,
+      "attack": 130,
+      "defense": 60,
+      "spAttack": 40,
+      "spDefense": 80,
+      "speed": 120
+    },
+    "abilities": [
+      "Pressure",
+      "Unburden",
+      "Poison Touch"
+    ],
+    "weight": 43.0,
+    "height": 1.3,
+    "type2": "poison",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 904,
+    "name": "Overqwil",
+    "nameKo": "장침바루",
+    "nameJa": "ハリーマン",
+    "type1": "dark",
+    "baseStats": {
+      "hp": 85,
+      "attack": 115,
+      "defense": 95,
+      "spAttack": 65,
+      "spDefense": 65,
+      "speed": 85
+    },
+    "abilities": [
+      "Poison Point",
+      "Swift Swim",
+      "Intimidate"
+    ],
+    "weight": 60.5,
+    "height": 2.5,
+    "type2": "poison",
+    "finalEvo": true,
+    "genderRate": 4
+  },
+  {
+    "dexNumber": 905,
+    "name": "Enamorus",
+    "nameKo": "러브로스 (화신폼)",
+    "nameJa": "ラブトロス",
+    "type1": "fairy",
+    "baseStats": {
+      "hp": 74,
+      "attack": 115,
+      "defense": 70,
+      "spAttack": 135,
+      "spDefense": 80,
+      "speed": 106
+    },
+    "abilities": [
+      "Cute Charm",
+      "Contrary"
+    ],
+    "weight": 48.0,
+    "height": 1.6,
+    "type2": "flying",
+    "finalEvo": true,
+    "genderRate": 8
+  }
+]
