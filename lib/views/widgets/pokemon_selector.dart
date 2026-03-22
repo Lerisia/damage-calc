@@ -131,7 +131,10 @@ class _PokemonSelectorState extends State<PokemonSelector> {
           _hasFocusListenerAttached = true;
           focusNode.addListener(() {
             if (focusNode.hasFocus) {
-              controller.clear();
+              controller.selection = TextSelection(
+                baseOffset: 0,
+                extentOffset: controller.text.length,
+              );
             } else if (controller.text.isEmpty && _selected != null) {
               controller.text = _selected!.nameKo;
             }
@@ -141,6 +144,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
           controller: controller,
           focusNode: focusNode,
           textInputAction: TextInputAction.done,
+          onChanged: kIsWeb ? (_) => setState(() {}) : null,
           onSubmitted: (_) {
             final results = _sortedOptions(controller.text);
             if (results.isNotEmpty) {

@@ -89,6 +89,9 @@ class _MoveSelectorState extends State<MoveSelector> {
         if (!kIsWeb && textEditingValue.composing != TextRange.empty) {
           return _lastResults ?? _sortedOptions('');
         }
+        if (_selected != null && textEditingValue.text == _selected!.nameKo) {
+          return _sortedOptions('');
+        }
         return _sortedOptions(textEditingValue.text);
       },
       optionsViewBuilder: (context, onSelected, options) {
@@ -128,7 +131,10 @@ class _MoveSelectorState extends State<MoveSelector> {
           _hasFocusListenerAttached = true;
           focusNode.addListener(() {
             if (focusNode.hasFocus) {
-              controller.clear();
+              controller.selection = TextSelection(
+                baseOffset: 0,
+                extentOffset: controller.text.length,
+              );
             } else if (controller.text.isEmpty && _selected != null) {
               final display = widget.displayNameOverride ?? _selected!.nameKo;
               controller.text = display;
@@ -144,6 +150,7 @@ class _MoveSelectorState extends State<MoveSelector> {
           focusNode: focusNode,
           onTap: widget.onTap,
           textInputAction: TextInputAction.done,
+          onChanged: kIsWeb ? (_) => setState(() {}) : null,
           onSubmitted: (_) {
             final results = _sortedOptions(controller.text);
             if (results.isNotEmpty) {

@@ -125,11 +125,13 @@ class _StatInputState extends State<StatInput> {
   int _evResetCounter = 0;
   Timer? _debounceTimer;
 
-  static final List<DropdownMenuItem<Nature>> _natureItems = Nature.values
-      .map((n) => DropdownMenuItem(
+  static final List<PopupMenuItem<Nature>> _naturePopupItems = Nature.values
+      .map((n) => PopupMenuItem(
             value: n,
+            height: 36,
             child: Text(
               _natureLabelStatic(n),
+              style: const TextStyle(fontSize: 13),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -310,6 +312,7 @@ class _StatInputState extends State<StatInput> {
               child: PopupMenuButton<StatusCondition>(
                 initialValue: widget.status,
                 tooltip: '상태이상',
+                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 child: InputDecorator(
                   decoration: const InputDecoration(
                     labelText: '상태이상',
@@ -343,12 +346,25 @@ class _StatInputState extends State<StatInput> {
           children: [
             Expanded(
               flex: 3,
-              child: DropdownButtonFormField<Nature>(
-                value: widget.nature,
-                isExpanded: true,
-                decoration: const InputDecoration(labelText: '성격', isDense: true),
-                items: _natureItems,
-                onChanged: (v) => widget.onNatureChanged(v!),
+              child: PopupMenuButton<Nature>(
+                initialValue: widget.nature,
+                tooltip: '성격',
+                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                child: InputDecorator(
+                  decoration: const InputDecoration(
+                    labelText: '성격',
+                    isDense: true,
+                    isCollapsed: true,
+                    contentPadding: EdgeInsets.only(bottom: 4),
+                  ),
+                  child: Text(
+                    _natureLabelStatic(widget.nature),
+                    style: const TextStyle(fontSize: 14),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                itemBuilder: (_) => _naturePopupItems,
+                onSelected: (v) => widget.onNatureChanged(v),
               ),
             ),
             const SizedBox(width: 8),
@@ -435,7 +451,9 @@ class _StatInputState extends State<StatInput> {
             labelText: '특성',
             isDense: true,
           ),
-          onTap: () => controller.clear(),
+          onTap: () => controller.selection = TextSelection(
+            baseOffset: 0, extentOffset: controller.text.length),
+          onChanged: kIsWeb ? (_) => setState(() {}) : null,
         );
       },
     );
@@ -482,9 +500,11 @@ class _StatInputState extends State<StatInput> {
             isDense: true,
           ),
           onTap: () {
-            controller.clear();
+            controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length);
             widget.onItemTap?.call();
           },
+          onChanged: kIsWeb ? (_) => setState(() {}) : null,
         );
       },
     ),

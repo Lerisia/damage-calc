@@ -119,7 +119,7 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
     }
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
       child: Column(
         children: [
           _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed),
@@ -416,7 +416,9 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
             controller: controller,
             focusNode: focusNode,
             decoration: const InputDecoration(labelText: '특성', isDense: true),
-            onTap: () => controller.clear(),
+            onTap: () => controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length),
+            onChanged: kIsWeb ? (_) => setState(() {}) : null,
           );
         },
       ),
@@ -452,7 +454,9 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
             controller: controller,
             focusNode: focusNode,
             decoration: const InputDecoration(labelText: '아이템', isDense: true),
-            onTap: () => controller.clear(),
+            onTap: () => controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length),
+            onChanged: kIsWeb ? (_) => setState(() {}) : null,
           );
         },
       ),
