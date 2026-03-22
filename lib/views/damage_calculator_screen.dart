@@ -1009,6 +1009,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       case 'moldbreaker':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
         return name;
+      case 'unaware':
+        return '천진';
       case 'weather':
         const weatherKo = {
           'strong_winds': '난기류: 비행 약점 무효화',

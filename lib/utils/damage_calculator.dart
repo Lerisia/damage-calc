@@ -418,6 +418,13 @@ class DamageCalculator {
     if (gasActive) notes.add('ability:Neutralizing Gas:특성 무효화');
     notes.addAll(weatherNotes);
     if (moldBreaks) notes.add('moldbreaker:${attacker.selectedAbility}');
+    // Unaware: show when it actually affects the calculation
+    if (defAbilityRaw == 'Unaware' && !moldBreaks) {
+      notes.add('unaware:defender');
+    }
+    if (effectiveAbility == 'Unaware') {
+      notes.add('unaware:attacker');
+    }
     notes.addAll(ruin.notes);
 
     // Weight-based moves fail against Dynamaxed targets
@@ -605,13 +612,14 @@ class DamageCalculator {
       ability: atkAbilityRaw, item: attacker.selectedItem,
       gravity: room.gravity,
     );
-    final defGrounded = isGrounded(
+    // Defender grounding for terrain: use effectiveDefAbility (Mold Breaker applied)
+    final defGroundedForTerrain = isGrounded(
       type1: defEffType1, type2: defEffType2,
-      ability: defAbilityRaw, item: defender.selectedItem,
+      ability: effectiveDefAbility, item: defender.selectedItem,
       gravity: room.gravity,
     );
     final double terrainMod = getTerrainModifier(terrain,
-      move: effectiveMove, attackerGrounded: atkGrounded, defenderGrounded: defGrounded);
+      move: effectiveMove, attackerGrounded: atkGrounded, defenderGrounded: defGroundedForTerrain);
 
     // --- Burn ---
     final bool hasGuts = atkAbilityRaw == 'Guts';
