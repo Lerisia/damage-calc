@@ -73,6 +73,20 @@ class Move {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'nameKo': nameKo,
+    'nameJa': nameJa,
+    'type': type.name,
+    'category': category.name,
+    'power': power,
+    'accuracy': accuracy,
+    'pp': pp,
+    'moveClass': moveClass.name,
+    'tags': tags,
+    'priority': priority,
+  };
+
   factory Move.fromJson(Map<String, dynamic> json) {
     return Move(
       name: json['name'] as String,

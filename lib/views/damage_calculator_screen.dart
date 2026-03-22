@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
+import '../data/sample_storage.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
 import '../utils/damage_calculator.dart';
@@ -208,16 +209,97 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
   }
 
-  void _reset() {
+  void _resetSide(int side) {
     setState(() {
       _resetCounter++;
-      final currentTab = _tabController.index;
-      if (currentTab == 0) {
+      if (side == 0) {
         _attacker.reset();
-      } else if (currentTab == 1) {
+      } else {
         _defender.reset();
       }
     });
+  }
+
+  Future<void> _resetBothSides() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('초기화'),
+        content: const Text('양측 포켓몬이 모두 초기화됩니다'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('취소')),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('확인')),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      setState(() {
+        _resetCounter++;
+        _attacker.reset();
+        _defender.reset();
+      });
+    }
+  }
+
+  Future<void> _showSaveDialog(BattlePokemonState state) async {
+    final controller = TextEditingController(text: state.pokemonNameKo);
+    final name = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('샘플 저장'),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            labelText: '샘플 이름',
+            border: OutlineInputBorder(),
+          ),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('취소')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, controller.text),
+            child: const Text('저장'),
+          ),
+        ],
+      ),
+    );
+    if (name != null && name.isNotEmpty) {
+      await SampleStorage.saveSample(name, state);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('"$name" 저장 완료'), duration: const Duration(seconds: 2)),
+      );
+    }
+  }
+
+  Future<void> _showLoadSheet(int side) async {
+    final samples = await SampleStorage.loadSamples();
+    if (!mounted) return;
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (ctx) => _SampleListSheet(
+        samples: samples,
+        onLoad: (index) {
+          setState(() {
+            final loaded = samples[index].state;
+            if (side == 0) {
+              _attacker = loaded;
+            } else {
+              _defender = loaded;
+            }
+            _resetCounter++;
+          });
+          Navigator.pop(ctx);
+        },
+        onDelete: (index) async {
+          await SampleStorage.deleteSample(index);
+          Navigator.pop(ctx);
+          _showLoadSheet(side);
+        },
+      ),
+    );
   }
 
   @override
@@ -346,11 +428,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             onPressed: _swapSides,
           ),
           IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: '초기화',
-            onPressed: _reset,
-          ),
-          IconButton(
             icon: const Icon(Icons.camera_alt_outlined),
             tooltip: '캡처',
             onPressed: _capture,
@@ -366,47 +443,87 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ],
         ),
       ),
-      body: Column(
-        children: [
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth >= 1050) {
+            return _buildWideLayout();
+          }
+          return _buildNarrowLayout();
+        },
+      ),
+    );
+  }
 
-          // Tab content
+  /// Wide layout: 3 columns (Attacker | Defender | Damage+Speed tabs)
+  Widget _buildWideLayout() {
+    return Row(
+      children: [
+        // Left: Attacker
+        Expanded(
+          child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
+        ),
+        const VerticalDivider(width: 1),
+        // Center: Defender
+        Expanded(
+          child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
+        ),
+        const VerticalDivider(width: 1),
+        // Right: Damage + Speed (sub-tabs)
+        Expanded(
+          child: _buildRightPanel(),
+        ),
+      ],
+    );
+  }
+
+  /// Right panel for wide layout: Damage and Speed as sub-tabs
+  Widget _buildRightPanel() {
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          const TabBar(
+            tabs: [
+              Tab(text: '대미지'),
+              Tab(text: '스피드'),
+            ],
+          ),
           Expanded(
             child: TabBarView(
-              controller: _tabController,
               children: [
-                PokemonPanel(
-                  key: _attackerPanelKey,
-                  state: _attacker,
-                  weather: _weather,
-                  terrain: _terrain,
-                  room: _room,
-                  label: '공격측',
-                  onChanged: _onPanelChanged,
-                  resetCounter: _resetCounter,
-                  opponentSpeed: _calcEffectiveSpeed(_defender),
-                  opponentAlwaysLast: _isAlwaysLast(_defender),
-                  opponentAttack: _calcStats(_defender).attack,
-                  opponentGender: _defender.gender,
-                  opponentWeight: BattleFacade.effectiveWeight(_defender),
-                ),
-                PokemonPanel(
-                  key: _defenderPanelKey,
-                  state: _defender,
-                  weather: _weather,
-                  terrain: _terrain,
-                  room: _room,
-                  label: '방어측',
-                  onChanged: _onPanelChanged,
-                  resetCounter: _resetCounter,
-                  isAttacker: false,
-                  opponentSpeed: _calcEffectiveSpeed(_attacker),
-                  opponentAlwaysLast: _isAlwaysLast(_attacker),
-                  opponentAttack: _calcStats(_attacker).attack,
-                  opponentGender: _attacker.gender,
-                  opponentWeight: BattleFacade.effectiveWeight(_attacker),
-                ),
                 _buildDamageCalcTab(),
-                Screenshot(
+                SpeedCompareTab(
+                  attacker: _attacker,
+                  defender: _defender,
+                  weather: _weather,
+                  terrain: _terrain,
+                  room: _room,
+                  onChanged: _onPanelChanged,
+                  resetCounter: _resetCounter,
+                  abilityNameMap: _abilityNameMap,
+                  itemNameMap: _itemNameMap,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Narrow layout: current 4-tab mobile layout
+  Widget _buildNarrowLayout() {
+    return Column(
+      children: [
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
+              _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
+              _buildDamageSpeedTab(child: _buildDamageCalcTab()),
+              _buildDamageSpeedTab(
+                child: Screenshot(
                   controller: _speedTabScreenshotController,
                   child: Container(
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -423,11 +540,94 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPokemonTab(int side, String label, BattlePokemonState state, GlobalKey<PokemonPanelState> panelKey) {
+    final isAttacker = side == 0;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Row(
+            children: [
+              Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.save_outlined, size: 20),
+                tooltip: '샘플 저장',
+                visualDensity: VisualDensity.compact,
+                onPressed: () => _showSaveDialog(state),
+              ),
+              IconButton(
+                icon: const Icon(Icons.folder_open_outlined, size: 20),
+                tooltip: '샘플 불러오기',
+                visualDensity: VisualDensity.compact,
+                onPressed: () => _showLoadSheet(side),
+              ),
+              IconButton(
+                icon: const Icon(Icons.refresh, size: 20),
+                tooltip: '초기화',
+                visualDensity: VisualDensity.compact,
+                onPressed: () => _resetSide(side),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: PokemonPanel(
+            key: panelKey,
+            state: state,
+            weather: _weather,
+            terrain: _terrain,
+            room: _room,
+            label: label,
+            onChanged: _onPanelChanged,
+            resetCounter: _resetCounter,
+            isAttacker: isAttacker,
+            opponentSpeed: isAttacker
+                ? _calcEffectiveSpeed(_defender)
+                : _calcEffectiveSpeed(_attacker),
+            opponentAlwaysLast: isAttacker
+                ? _isAlwaysLast(_defender)
+                : _isAlwaysLast(_attacker),
+            opponentAttack: isAttacker
+                ? _calcStats(_defender).attack
+                : _calcStats(_attacker).attack,
+            opponentGender: isAttacker ? _defender.gender : _attacker.gender,
+            opponentWeight: isAttacker
+                ? BattleFacade.effectiveWeight(_defender)
+                : BattleFacade.effectiveWeight(_attacker),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDamageSpeedTab({required Widget child}) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Row(
+            children: [
+              const Spacer(),
+              IconButton(
+                icon: const Icon(Icons.refresh, size: 20),
+                tooltip: '초기화',
+                visualDensity: VisualDensity.compact,
+                onPressed: _resetBothSides,
+              ),
+            ],
+          ),
+        ),
+        Expanded(child: child),
+      ],
     );
   }
 
@@ -815,6 +1015,67 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       default:
         return note;
     }
+  }
+}
+
+class _SampleListSheet extends StatelessWidget {
+  final List<({String name, BattlePokemonState state})> samples;
+  final ValueChanged<int> onLoad;
+  final ValueChanged<int> onDelete;
+
+  const _SampleListSheet({
+    required this.samples,
+    required this.onLoad,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (samples.isEmpty) {
+      return const SizedBox(
+        height: 200,
+        child: Center(child: Text('저장된 샘플이 없습니다')),
+      );
+    }
+    return DraggableScrollableSheet(
+      initialChildSize: 0.5,
+      minChildSize: 0.3,
+      maxChildSize: 0.8,
+      expand: false,
+      builder: (ctx, scrollController) {
+        return Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(12),
+              child: Text('샘플 불러오기',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ),
+            const Divider(height: 1),
+            Expanded(
+              child: ListView.separated(
+                controller: scrollController,
+                itemCount: samples.length,
+                separatorBuilder: (_, __) => const Divider(height: 1),
+                itemBuilder: (ctx, i) {
+                  final sample = samples[i];
+                  final state = sample.state;
+                  final info = 'Lv.${state.level} ${state.nature.nameKo}';
+                  return ListTile(
+                    title: Text(sample.name),
+                    subtitle: Text('${state.pokemonNameKo} | $info'),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline, size: 20),
+                      onPressed: () => onDelete(i),
+                    ),
+                    onTap: () => onLoad(i),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 

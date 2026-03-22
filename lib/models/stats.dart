@@ -26,4 +26,13 @@ class Stats {
       speed: json['speed'] as int,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'hp': hp,
+    'attack': attack,
+    'defense': defense,
+    'spAttack': spAttack,
+    'spDefense': spDefense,
+    'speed': speed,
+  };
 }
