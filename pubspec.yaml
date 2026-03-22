@@ -23,7 +23,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  fonts:
+    - family: Jua
+      fonts:
+        - asset: assets/fonts/Jua-Regular.ttf
+
   assets:
     - assets/
+    - assets/fonts/
     - assets/pokemon/
     - assets/moves/
