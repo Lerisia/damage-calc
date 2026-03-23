@@ -78,11 +78,21 @@ class PokemonPanelState extends State<PokemonPanel>
   final _screenshotController = ScreenshotController();
   int? _focusedMoveIndex;
 
+  // Power input controllers — one per move slot.
+  // Using controllers instead of initialValue + key avoids rebuilding
+  // the TextFormField (and dismissing the keyboard) on every keystroke.
+  final List<TextEditingController> _powerControllers =
+      List.generate(4, (_) => TextEditingController());
+  final List<int?> _lastDisplayPower = List.filled(4, null);
+
   BattlePokemonState get s => widget.state;
 
   @override
   void dispose() {
     _scrollController.dispose();
+    for (final c in _powerControllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -571,26 +581,15 @@ class PokemonPanelState extends State<PokemonPanel>
                     ? Text('$displayPower', textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500,
                           color: Colors.grey[700]))
-                    : SizedBox(
-                        height: 28,
-                        child: TextFormField(
-                          key: ValueKey('power_${index}_${move.name}_${s.dynamax}_${displayPower}'),
-                          initialValue: '$displayPower',
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
-                          style: const TextStyle(fontSize: 13),
-                          decoration: const InputDecoration(
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-                          ),
-                          onChanged: (text) {
-                            final parsed = int.tryParse(text);
-                            if (parsed != null && parsed >= 0) {
-                              setState(() { s.powerOverrides[index] = parsed; });
-                              _notifyParent();
-                            }
-                          },
-                        ),
+                    : _PowerInput(
+                        displayPower: displayPower,
+                        controller: _powerControllers[index],
+                        lastDisplayPower: _lastDisplayPower,
+                        slotIndex: index,
+                        onPowerChanged: (parsed) {
+                          setState(() { s.powerOverrides[index] = parsed; });
+                          _notifyParent();
+                        },
                       )
                 : const Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
           ),
@@ -1075,4 +1074,99 @@ class _TerastalPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _TerastalPainter old) => old.active != active || old.typeColor != typeColor;
+}
+
+/// Stateful widget for power input that safely handles controller updates.
+/// Prevents crashes by deferring controller text updates to post-frame
+/// callbacks and tracking focus to avoid overwriting user input.
+class _PowerInput extends StatefulWidget {
+  final int displayPower;
+  final TextEditingController controller;
+  final List<int?> lastDisplayPower;
+  final int slotIndex;
+  final ValueChanged<int> onPowerChanged;
+
+  const _PowerInput({
+    required this.displayPower,
+    required this.controller,
+    required this.lastDisplayPower,
+    required this.slotIndex,
+    required this.onPowerChanged,
+  });
+
+  @override
+  State<_PowerInput> createState() => _PowerInputState();
+}
+
+class _PowerInputState extends State<_PowerInput> {
+  final _focusNode = FocusNode();
+  bool _hasFocus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      _hasFocus = _focusNode.hasFocus;
+      if (!_hasFocus) {
+        // When losing focus, sync controller with display power
+        final text = widget.controller.text;
+        final parsed = int.tryParse(text);
+        if (parsed == null || text.isEmpty) {
+          widget.controller.text = '${widget.displayPower}';
+          widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+        }
+      }
+    });
+    // Initialize controller text
+    if (widget.controller.text.isEmpty ||
+        widget.controller.text == '0' && widget.displayPower != 0) {
+      widget.controller.text = '${widget.displayPower}';
+    }
+    widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+  }
+
+  @override
+  void didUpdateWidget(_PowerInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Only update controller text when external power changes AND user is not typing
+    if (!_hasFocus && oldWidget.displayPower != widget.displayPower) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && !_hasFocus) {
+          widget.controller.text = '${widget.displayPower}';
+          widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 28,
+      child: TextFormField(
+        controller: widget.controller,
+        focusNode: _focusNode,
+        textAlign: TextAlign.center,
+        keyboardType: TextInputType.number,
+        style: const TextStyle(fontSize: 13),
+        decoration: const InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+        ),
+        onChanged: (text) {
+          final parsed = int.tryParse(text);
+          if (parsed != null && parsed >= 0) {
+            widget.lastDisplayPower[widget.slotIndex] = parsed;
+            widget.onPowerChanged(parsed);
+          }
+        },
+      ),
+    );
+  }
 }
