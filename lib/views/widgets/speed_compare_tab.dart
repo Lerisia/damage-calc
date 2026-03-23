@@ -215,16 +215,18 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
               Text('  →  ', style: TextStyle(fontSize: 14, color: Colors.grey.shade400)),
               Text('최종 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Text('$effSpeed', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color)),
+              if (effSpeed > 0) ...[
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    _speedTierDescription(state.level, effSpeed),
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ],
           ),
-          if (effSpeed > 0)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                _speedTierDescription(state.level, effSpeed),
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
-              ),
-            ),
           const SizedBox(height: 10),
           Row(
             children: [

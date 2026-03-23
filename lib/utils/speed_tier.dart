@@ -88,13 +88,13 @@ class SpeedTierTable {
     final parts = <String>[];
 
     if (maxTie != null) {
-      parts.add('최속$maxTie족');
+      parts.add('최속${maxTie}족 동속');
     } else if (maxTier != null) {
       parts.add('최속${maxTier}족 추월');
     }
 
     if (neutralTie != null && neutralTie != maxTie) {
-      parts.add('준속$neutralTie족');
+      parts.add('준속${neutralTie}족 동속');
     } else if (neutralTier != null && neutralTier != maxTier) {
       parts.add('준속${neutralTier}족 추월');
     }
