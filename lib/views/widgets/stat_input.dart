@@ -657,6 +657,7 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _evControl(int value, ValueChanged<int> onChanged) {
+    final isWide = MediaQuery.of(context).size.width >= 600;
     return Row(
       children: [
         Expanded(
@@ -666,6 +667,14 @@ class _StatInputState extends State<StatInput> {
             onChanged(0);
           }),
         ),
+        if (isWide)
+          Expanded(
+            flex: 2,
+            child: _flexButton('-4', value <= 0 ? null : () {
+              setState(() => _evResetCounter++);
+              onChanged((value - 4).clamp(0, 252));
+            }),
+          ),
         Expanded(
           flex: 3,
           child: SizedBox(
@@ -693,6 +702,14 @@ class _StatInputState extends State<StatInput> {
             ),
           ),
         ),
+        if (isWide)
+          Expanded(
+            flex: 2,
+            child: _flexButton('+4', value >= 252 ? null : () {
+              setState(() => _evResetCounter++);
+              onChanged((value + 4).clamp(0, 252));
+            }),
+          ),
         Expanded(
           flex: 3,
           child: _flexButton('max', () {
@@ -754,6 +771,37 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _rankControl(int value, ValueChanged<int> onChanged) {
+    final isWide = MediaQuery.of(context).size.width >= 600;
+    if (isWide) {
+      return Row(
+        children: [
+          Expanded(
+            child: _flexButton('-', value <= -6 ? null : () {
+              setState(() => _evResetCounter++);
+              onChanged((value - 1).clamp(-6, 6));
+            }),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              value > 0 ? '+$value' : '$value',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: value > 0 ? Colors.red : value < 0 ? Colors.blue : null,
+              ),
+            ),
+          ),
+          Expanded(
+            child: _flexButton('+', value >= 6 ? null : () {
+              setState(() => _evResetCounter++);
+              onChanged((value + 1).clamp(-6, 6));
+            }),
+          ),
+        ],
+      );
+    }
     return SizedBox(
       height: 28,
       child: TextFormField(
