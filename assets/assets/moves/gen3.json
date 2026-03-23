@@ -261,7 +261,9 @@
     "power": 25,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "ball"
+    ],
     "minHits": 2,
     "maxHits": 5
   },

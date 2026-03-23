@@ -375,7 +375,9 @@
     "power": 20,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "slice"
+    ],
     "minHits": 1,
     "maxHits": 10
   },

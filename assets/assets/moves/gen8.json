@@ -105,7 +105,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [
+      "punch"
+    ]
   },
   {
     "name": "Infernal Parade",

@@ -605,6 +605,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "slice",
       "custom:target_phys_def"
     ]
   },
