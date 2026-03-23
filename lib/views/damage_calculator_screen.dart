@@ -390,6 +390,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         title: Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isWide ? maxAppBarWidth : double.infinity),
+            child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: isWide ? 12 : 0),
             child: Row(
           children: [
             // Weather dropdown
@@ -403,8 +405,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _weather == Weather.none
-                        ? Text('날씨', style: TextStyle(fontSize: 14, color: Colors.grey.shade500))
-                        : Text(KoStrings.weatherIcon[_weather]!, style: const TextStyle(fontSize: 20)),
+                        ? Text('날씨', style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
+                        : Text(KoStrings.weatherIcon[_weather]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -435,8 +437,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _terrain == Terrain.none
-                        ? Text('필드', style: TextStyle(fontSize: 14, color: Colors.grey.shade500))
-                        : Text(KoStrings.terrainIcon[_terrain]!, style: const TextStyle(fontSize: 20)),
+                        ? Text('필드', style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
+                        : Text(KoStrings.terrainIcon[_terrain]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -466,7 +468,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text('룸', style: TextStyle(
-                      fontSize: 14,
+                      fontSize: isWide ? 16 : 14,
                       color: _room.hasAny ? Colors.purple : Colors.grey.shade500,
                       fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
                     )),
@@ -524,7 +526,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               TextButton.icon(
                 onPressed: _swapSides,
                 icon: const Icon(Icons.swap_horiz),
-                label: const Text('공수교대', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                label: const Text('공수교대', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
               IconButton(
@@ -536,7 +538,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               TextButton.icon(
                 onPressed: _resetBothSides,
                 icon: const Icon(Icons.refresh),
-                label: const Text('초기화', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                label: const Text('초기화', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
               IconButton(
@@ -548,7 +550,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               TextButton.icon(
                 onPressed: _capture,
                 icon: const Icon(Icons.camera_alt_outlined),
-                label: const Text('캡처', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                label: const Text('캡처', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
               IconButton(
@@ -574,6 +576,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ],
           ],
         ),
+          ),
           ),
         ),
         bottom: isWide

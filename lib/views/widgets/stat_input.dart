@@ -598,8 +598,8 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 3, child: Text('', style: style)),
           Expanded(flex: 2, child: Text('종족', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text('개체', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 6, child: Text('노력', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 3, child: Text('랭크', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 7, child: Text('노력', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 2, child: Text('랭크', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text('실수치', style: style, textAlign: TextAlign.center)),
         ],
       ),
@@ -625,11 +625,11 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 2, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 14))),
           Expanded(flex: 3, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
           Expanded(
-            flex: 6,
+            flex: 7,
             child: _evControl(evVal, (v) => onChanged(ivVal, v, null)),
           ),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: rankIndex >= 0
                 ? _rankControl(rankVal, (v) => onChanged(ivVal, evVal, v))
                 : _hpPercentControl(),
@@ -670,7 +670,7 @@ class _StatInputState extends State<StatInput> {
         if (isWide)
           Expanded(
             flex: 2,
-            child: _flexButton('-4', value <= 0 ? null : () {
+            child: _flexButton('-', value <= 0 ? null : () {
               setState(() => _evResetCounter++);
               onChanged((value - 4).clamp(0, 252));
             }),
@@ -705,7 +705,7 @@ class _StatInputState extends State<StatInput> {
         if (isWide)
           Expanded(
             flex: 2,
-            child: _flexButton('+4', value >= 252 ? null : () {
+            child: _flexButton('+', value >= 252 ? null : () {
               setState(() => _evResetCounter++);
               onChanged((value + 4).clamp(0, 252));
             }),
@@ -771,46 +771,15 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _rankControl(int value, ValueChanged<int> onChanged) {
-    final isWide = MediaQuery.of(context).size.width >= 600;
-    if (isWide) {
-      return Row(
-        children: [
-          Expanded(
-            child: _flexButton('-', value <= -6 ? null : () {
-              setState(() => _evResetCounter++);
-              onChanged((value - 1).clamp(-6, 6));
-            }),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
-              value > 0 ? '+$value' : '$value',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: value > 0 ? Colors.red : value < 0 ? Colors.blue : null,
-              ),
-            ),
-          ),
-          Expanded(
-            child: _flexButton('+', value >= 6 ? null : () {
-              setState(() => _evResetCounter++);
-              onChanged((value + 1).clamp(-6, 6));
-            }),
-          ),
-        ],
-      );
-    }
     return SizedBox(
-      height: 28,
+      height: 32,
       child: TextFormField(
-        key: const ValueKey('rank_input'),
-        initialValue: '$value',
+        key: ValueKey('rank_${value}_$_evResetCounter'),
+        initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
         keyboardType: const TextInputType.numberWithOptions(signed: true),
         inputFormatters: [
-          _ClampingFormatter(min: -6, max: 6, allowNegative: true),
+          FilteringTextInputFormatter.allow(RegExp(r'^-?[0-6]?$')),
         ],
         style: TextStyle(
           fontSize: 14,
@@ -819,13 +788,17 @@ class _StatInputState extends State<StatInput> {
         ),
         decoration: const InputDecoration(
           isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+          contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
         ),
         onChanged: (text) {
           if (text.isEmpty || text == '-') return;
           final parsed = int.tryParse(text);
           if (parsed != null) {
-            onChanged(parsed.clamp(-6, 6));
+            final clamped = parsed.clamp(-6, 6);
+            _debounce(() {
+              setState(() => _evResetCounter++);
+              onChanged(clamped);
+            });
           }
         },
       ),
