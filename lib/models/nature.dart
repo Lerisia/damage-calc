@@ -84,3 +84,14 @@ enum Nature {
     timid: 'おくびょう', hasty: 'せっかち', jolly: 'ようき', naive: 'むじゃき', serious: 'まじめ',
   };
 }
+
+/// Frequently used natures first, then the rest in original order.
+const sortedNatures = [
+  Nature.hardy, Nature.adamant, Nature.jolly, Nature.modest,
+  Nature.timid, Nature.impish, Nature.bold, Nature.calm, Nature.careful,
+  // rest in enum order
+  Nature.lonely, Nature.brave, Nature.naughty, Nature.docile,
+  Nature.relaxed, Nature.lax, Nature.hasty, Nature.serious, Nature.naive,
+  Nature.mild, Nature.quiet, Nature.bashful, Nature.rash,
+  Nature.gentle, Nature.sassy, Nature.quirky,
+];

@@ -128,7 +128,7 @@ class _StatInputState extends State<StatInput> {
   int _evResetCounter = 0;
   Timer? _debounceTimer;
 
-  static final List<DropdownMenuItem<Nature>> _natureDropdownItems = Nature.values
+  static final List<DropdownMenuItem<Nature>> _natureDropdownItems = sortedNatures
       .map((n) => DropdownMenuItem(
             value: n,
             child: Text(

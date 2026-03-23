@@ -367,7 +367,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 isDense: true,
                 isExpanded: true,
                 decoration: const InputDecoration(labelText: '성격', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                items: Nature.values.map((n) {
+                items: sortedNatures.map((n) {
                   final isBuff = n.speedModifier > 1.0;
                   final isNerf = n.speedModifier < 1.0;
                   return DropdownMenuItem(value: n, child: Text(n.nameKo,
