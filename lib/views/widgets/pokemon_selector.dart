@@ -153,7 +153,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
             }
           },
           decoration: InputDecoration(
-            hintText: _selected?.nameKo ?? '포켓몬 이름',
+            hintText: _selected?.nameKo ?? '이름 검색',
             isDense: true,
           ),
         );

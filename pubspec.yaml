@@ -1,5 +1,5 @@
 name: damage_calc
-description: Pokemon battle damage calculator
+description: Battle damage calculator
 publish_to: 'none'
 version: 1.0.0+1
 

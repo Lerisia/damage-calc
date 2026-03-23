@@ -196,47 +196,13 @@ class PokemonPanelState extends State<PokemonPanel>
               _captureHeader(),
               const SizedBox(height: 4),
           _sectionCard(
-            title: '포켓몬',
+            title: '종',
             child: Row(children: [
             Expanded(child: PokemonSelector(
               key: ValueKey('pokemon_${widget.resetCounter}_${s.pokemonName}'),
               initialPokemonName: s.pokemonName,
               onSelected: (pokemon) {
-                setState(() {
-                  s.pokemonName = pokemon.name;
-                  s.pokemonNameKo = pokemon.nameKo;
-                  s.finalEvo = pokemon.finalEvo;
-                  s.canDynamax = pokemon.canDynamax;
-                  s.canGmax = pokemon.canGmax;
-                  s.dynamax = DynamaxState.none;
-                  s.terastal = const TerastalState();
-                  s.genderRate = pokemon.genderRate;
-                  if (pokemon.genderRate == -1) {
-                    s.gender = Gender.genderless;
-                  } else if (pokemon.genderRate == 0) {
-                    s.gender = Gender.male;
-                  } else if (pokemon.genderRate == 8) {
-                    s.gender = Gender.female;
-                  } else {
-                    s.gender = Gender.unset;
-                  }
-                  s.type1 = pokemon.type1;
-                  s.type2 = pokemon.type2;
-                  s.weight = pokemon.weight;
-                  s.baseStats = pokemon.baseStats;
-                  s.pokemonAbilities = pokemon.abilities;
-                  final firstAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
-                  // Supreme Overlord → default to Supreme Overlord 0
-                  s.selectedAbility = firstAbility == 'Supreme Overlord'
-                      ? 'Supreme Overlord 0' : firstAbility;
-                  if (pokemon.requiredItem != null) {
-                    s.selectedItem = pokemon.requiredItem;
-                  }
-                  // Terapagos Stellar Form: auto-enable Stellar Tera
-                  if (pokemon.name == 'terapagos-stellar') {
-                    s.terastal = TerastalState(active: true, teraType: PokemonType.stellar);
-                  }
-                });
+                setState(() => s.applyPokemon(pokemon));
                 _notifyParent();
               },
             )),

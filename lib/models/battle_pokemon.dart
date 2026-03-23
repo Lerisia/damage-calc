@@ -1,5 +1,6 @@
 import 'dynamax.dart';
 import 'gender.dart';
+import 'pokemon.dart';
 import 'terastal.dart';
 import 'move.dart';
 import 'nature.dart';
@@ -224,5 +225,40 @@ class BattlePokemonState {
     reflect = false;
     lightScreen = false;
     auroraVeil = false;
+  }
+
+  /// Apply a Pokemon species selection, updating all relevant fields.
+  void applyPokemon(Pokemon pokemon) {
+    pokemonName = pokemon.name;
+    pokemonNameKo = pokemon.nameKo;
+    finalEvo = pokemon.finalEvo;
+    canDynamax = pokemon.canDynamax;
+    canGmax = pokemon.canGmax;
+    dynamax = DynamaxState.none;
+    terastal = const TerastalState();
+    genderRate = pokemon.genderRate;
+    if (pokemon.genderRate == -1) {
+      gender = Gender.genderless;
+    } else if (pokemon.genderRate == 0) {
+      gender = Gender.male;
+    } else if (pokemon.genderRate == 8) {
+      gender = Gender.female;
+    } else {
+      gender = Gender.unset;
+    }
+    type1 = pokemon.type1;
+    type2 = pokemon.type2;
+    weight = pokemon.weight;
+    baseStats = pokemon.baseStats;
+    pokemonAbilities = pokemon.abilities;
+    final firstAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
+    selectedAbility = firstAbility == 'Supreme Overlord'
+        ? 'Supreme Overlord 0' : firstAbility;
+    if (pokemon.requiredItem != null) {
+      selectedItem = pokemon.requiredItem;
+    }
+    if (pokemon.name == 'terapagos-stellar') {
+      terastal = TerastalState(active: true, teraType: PokemonType.stellar);
+    }
   }
 }

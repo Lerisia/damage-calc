@@ -211,19 +211,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 key: ValueKey('speed_pokemon_${widget.resetCounter}_${state.pokemonName}'),
                 initialPokemonName: state.pokemonName,
                 onSelected: (pokemon) {
-                  setState(() {
-                    state.pokemonName = pokemon.name;
-                    state.pokemonNameKo = pokemon.nameKo;
-                    state.finalEvo = pokemon.finalEvo;
-                    state.type1 = pokemon.type1;
-                    state.type2 = pokemon.type2;
-                    state.baseStats = pokemon.baseStats;
-                    state.pokemonAbilities = pokemon.abilities;
-                    final firstAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
-                    state.selectedAbility = firstAbility == 'Supreme Overlord'
-                        ? 'Supreme Overlord 0' : firstAbility;
-                    state.genderRate = pokemon.genderRate;
-                  });
+                  setState(() => state.applyPokemon(pokemon));
                   _notify();
                 },
               )),
