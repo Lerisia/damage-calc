@@ -157,9 +157,9 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  /// Public accessor for 결정력 of a specific move slot.
+  /// Public accessor for 결정력 of a specific move slot (with multi-hit applied).
   int? computeResultFor(int moveIndex) {
-    return BattleFacade.calcOffensivePower(
+    final singleHit = BattleFacade.calcOffensivePower(
       state: s,
       moveIndex: moveIndex,
       weather: widget.weather,
@@ -171,6 +171,8 @@ class PokemonPanelState extends State<PokemonPanel>
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: widget.opponentWeight,
     );
+    if (singleHit == null) return null;
+    return _applyHits(singleHit, s.moves[moveIndex], s.hitOverrides[moveIndex]);
   }
 
   @override
@@ -179,7 +181,7 @@ class PokemonPanelState extends State<PokemonPanel>
     _updateCachedSpeed();
     return SingleChildScrollView(
       controller: _scrollController,
-      padding: EdgeInsets.fromLTRB(16, 16, 16,
+      padding: EdgeInsets.fromLTRB(16, 8, 16,
           MediaQuery.of(context).viewInsets.bottom > 0
               ? MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom
               : 120),
@@ -631,7 +633,9 @@ class PokemonPanelState extends State<PokemonPanel>
           if (!isSearching) SizedBox(
             width: 60,
             child: Text(
-              result != null ? '$result' : '-',
+              result != null
+                  ? '${_applyHits(result, move, s.hitOverrides[index])}'
+                  : '-',
               textAlign: TextAlign.right,
               style: TextStyle(
                 fontSize: 14,
@@ -693,7 +697,18 @@ class PokemonPanelState extends State<PokemonPanel>
     ];
   }
 
-  /// Moves whose displayed power depends on external state (opponent weight, speed).
+  /// Multiply single-hit 결정력 by hit count for multi-hit moves.
+  int _applyHits(int singleHitResult, Move? move, int? hitOverride) {
+    if (move == null || !move.isMultiHit) return singleHitResult;
+    final hits = hitOverride ?? move.maxHits;
+    if (move.hasTag(MoveTags.escalatingHits)) {
+      // Escalating: 1st hit = base, 2nd = 2x, 3rd = 3x, ...
+      // Total multiplier = hits*(hits+1)/2
+      return singleHitResult * hits * (hits + 1) ~/ 2;
+    }
+    return singleHitResult * hits;
+  }
+
   Widget _typeBadge(PokemonType type, {bool isTera = false}) {
     final color = KoStrings.getTypeColor(type);
     return Container(
