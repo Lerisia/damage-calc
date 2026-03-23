@@ -501,7 +501,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 }
               }),
             ),
-            Expanded(
+            if (isWide) const Spacer() else Expanded(
               child: GestureDetector(
                 onTap: () => _showAboutDialog(context),
                 child: FittedBox(
@@ -556,6 +556,22 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 tooltip: '캡처',
                 onPressed: _capture,
               ),
+            if (isWide) ...[
+              const Spacer(),
+              GestureDetector(
+                onTap: () => _showAboutDialog(context),
+                child: Text(
+                  '결정력 계산기',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.5,
+                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+            ],
           ],
         ),
           ),
