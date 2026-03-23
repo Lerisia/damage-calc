@@ -51,6 +51,8 @@
 	<string>스크린샷을 사진 앨범에 저장하기 위해 접근 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>스크린샷을 사진 앨범에 저장하기 위해 접근 권한이 필요합니다.</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

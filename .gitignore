@@ -27,3 +27,13 @@ web/
 
 # Scripts (dev only)
 scripts/
+
+# Apple signing (never commit)
+*.p8
+*.p12
+*.pem
+*.cer
+*.mobileprovision
+
+# Coverage
+coverage/

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
@@ -56,7 +55,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Terrain _terrain = Terrain.none;
   RoomConditions _room = const RoomConditions();
 
-  Timer? _debounceTimer;
 
   // Name maps (provided by _AppLoader, already loaded)
   Map<String, String> get _abilityNameMap => widget.abilityNameMap;
@@ -64,17 +62,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   // Ability → Weather/Terrain auto-set (from weather_effects / terrain_effects)
 
-  /// Called when either panel changes. Debounced to avoid excessive rebuilds
-  /// during rapid input (e.g. typing EVs).
+  /// Called when either panel changes.
   void _onPanelChanged() {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 100), () {
-      if (mounted) {
-        setState(() {
-          _syncWeatherTerrain();
-        });
-      }
-    });
+    if (mounted) {
+      setState(() {
+        _syncWeatherTerrain();
+      });
+    }
   }
 
   void _syncWeatherTerrain() {
@@ -128,6 +122,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     // Refresh state on tab change (e.g. for toolbar button visibility)
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
+        FocusManager.instance.primaryFocus?.unfocus();
+        _attackerPanelKey.currentState?.scrollToTop();
+        _defenderPanelKey.currentState?.scrollToTop();
+        _speedTabKey.currentState?.scrollToTop();
         setState(() {});
       }
     });
@@ -135,7 +133,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   @override
   void dispose() {
-    _debounceTimer?.cancel();
     _tabController.dispose();
     super.dispose();
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../utils/korean_search.dart';
+import 'adaptive_dropdown.dart';
 
 class PokemonSelector extends StatefulWidget {
   final void Function(Pokemon pokemon) onSelected;
@@ -23,6 +24,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   List<SearchEntry<Pokemon>> _searchEntries = [];
   Pokemon? _selected;
   bool _hasFocusListenerAttached = false;
+  BuildContext? _fieldContext;
 
 
   @override
@@ -95,8 +97,11 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       },
       optionsViewBuilder: (context, onSelected, options) {
         final list = options.toList();
-        return Align(
-          alignment: Alignment.topLeft,
+        final align = _fieldContext != null
+            ? dropdownAlignment(_fieldContext!)
+            : Alignment.topLeft;
+        return dismissibleOptionsWrapper(
+          alignment: align,
           child: Material(
             elevation: 4,
             child: ConstrainedBox(
@@ -122,6 +127,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
         widget.onSelected(pokemon);
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
         if (!_hasFocusListenerAttached) {
@@ -137,10 +143,15 @@ class _PokemonSelectorState extends State<PokemonSelector> {
             }
           });
         }
+        _fieldContext = context;
         return TextField(
           controller: controller,
           focusNode: focusNode,
           textInputAction: TextInputAction.done,
+          onTap: () {
+            // Dismiss any other focused field before opening autocomplete
+            FocusScope.of(context).requestFocus(focusNode);
+          },
           onChanged: kIsWeb ? (_) => setState(() {}) : null,
           onSubmitted: (_) {
             final results = _sortedOptions(controller.text);

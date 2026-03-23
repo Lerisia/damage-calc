@@ -13,6 +13,7 @@ import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../utils/battle_facade.dart';
 import '../../utils/speed_calculator.dart';
+import 'adaptive_dropdown.dart';
 import '../../utils/speed_tier.dart';
 import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
@@ -60,6 +61,12 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   final _atkItemRowKey = GlobalKey();
   final _defAbilityRowKey = GlobalKey();
   final _defItemRowKey = GlobalKey();
+
+  void scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
+  }
 
   @override
   void dispose() {
@@ -419,6 +426,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   Widget _abilityAutocomplete(BattlePokemonState state, VoidCallback? onTapScroll) {
     final sorted = _sortedAbilities(state);
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
+    BuildContext? fieldCtx;
 
     return KeyedSubtree(
       key: ValueKey('speed_ability_${state.selectedAbility}_${state.pokemonName}'),
@@ -436,11 +444,40 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             return ko.contains(query) || a.toLowerCase().contains(query);
           });
         },
+        optionsViewBuilder: (context, onSelected, options) {
+          final align = fieldCtx != null ? dropdownAlignment(fieldCtx!) : Alignment.topLeft;
+          return dismissibleOptionsWrapper(
+            alignment: align,
+            child: Material(
+              elevation: 4,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 200),
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: options.length,
+                  itemBuilder: (context, index) {
+                    final a = options.elementAt(index);
+                    return InkWell(
+                      onTap: () => onSelected(a),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        child: Text(_abilityKo(a), style: const TextStyle(fontSize: 14)),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
         onSelected: (v) { setState(() => state.selectedAbility = v); _notify(); },
         fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+          fieldCtx = context;
           return TextField(
             controller: controller,
             focusNode: focusNode,
+            textInputAction: TextInputAction.done,
             decoration: const InputDecoration(labelText: '특성', isDense: true),
             onTap: () {
               controller.selection = TextSelection(
@@ -460,6 +497,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         ? [state.selectedItem!, ...allKeys.where((k) => k != state.selectedItem)]
         : allKeys;
     final initialText = _itemKo(state.selectedItem);
+    BuildContext? fieldCtx;
 
     return KeyedSubtree(
       key: ValueKey('speed_item_${state.selectedItem}'),
@@ -482,11 +520,40 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           scored.sort((a, b) => b.$2.compareTo(a.$2));
           return scored.map((e) => e.$1);
         },
+        optionsViewBuilder: (context, onSelected, options) {
+          final align = fieldCtx != null ? dropdownAlignment(fieldCtx!) : Alignment.topLeft;
+          return dismissibleOptionsWrapper(
+            alignment: align,
+            child: Material(
+              elevation: 4,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 200),
+                child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  itemCount: options.length,
+                  itemBuilder: (context, index) {
+                    final key = options.elementAt(index);
+                    return InkWell(
+                      onTap: () => onSelected(key),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        child: Text(_itemKo(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
         onSelected: (v) { setState(() => state.selectedItem = v.isEmpty ? null : v); _notify(); },
         fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+          fieldCtx = context;
           return TextField(
             controller: controller,
             focusNode: focusNode,
+            textInputAction: TextInputAction.done,
             decoration: const InputDecoration(labelText: '아이템', isDense: true),
             onTap: () {
               controller.selection = TextSelection(
@@ -560,6 +627,7 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
         keyboardType: widget.signed
             ? TextInputType.text
             : TextInputType.number,
+        textInputAction: TextInputAction.done,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(

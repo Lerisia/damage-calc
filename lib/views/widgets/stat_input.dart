@@ -18,6 +18,7 @@ import '../../utils/item_effects.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../../utils/stat_calculator.dart';
+import 'adaptive_dropdown.dart';
 
 class _ClampingFormatter extends TextInputFormatter {
   final int min;
@@ -417,6 +418,7 @@ class _StatInputState extends State<StatInput> {
         ? _abilityKo(widget.selectedAbility!)
         : '';
 
+    BuildContext? abilityFieldCtx;
     return Autocomplete<String>(
       initialValue: TextEditingValue(text: initialText),
       displayStringForOption: (a) => _abilityKo(a),
@@ -431,11 +433,40 @@ class _StatInputState extends State<StatInput> {
             _abilityKo(a).contains(query) ||
             a.toLowerCase().contains(query));
       },
+      optionsViewBuilder: (context, onSelected, options) {
+        final align = abilityFieldCtx != null ? dropdownAlignment(abilityFieldCtx!) : Alignment.topLeft;
+        return dismissibleOptionsWrapper(
+          alignment: align,
+          child: Material(
+            elevation: 4,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: options.length,
+                itemBuilder: (context, index) {
+                  final a = options.elementAt(index);
+                  return InkWell(
+                    onTap: () => onSelected(a),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      child: Text(_abilityKo(a), style: const TextStyle(fontSize: 14)),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
       onSelected: (v) => widget.onAbilityChanged(v),
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+        abilityFieldCtx = context;
         return TextField(
           controller: controller,
           focusNode: focusNode,
+          textInputAction: TextInputAction.done,
           decoration: const InputDecoration(
             labelText: '특성',
             isDense: true,
@@ -465,6 +496,7 @@ class _StatInputState extends State<StatInput> {
 
     final initialText = _itemDisplayName(widget.selectedItem);
 
+    BuildContext? itemFieldCtx;
     return KeyedSubtree(
       key: ValueKey('item_${widget.selectedItem}'),
       child: Autocomplete<String>(
@@ -486,11 +518,40 @@ class _StatInputState extends State<StatInput> {
         scored.sort((a, b) => b.$2.compareTo(a.$2));
         return scored.map((e) => e.$1);
       },
+      optionsViewBuilder: (context, onSelected, options) {
+        final align = itemFieldCtx != null ? dropdownAlignment(itemFieldCtx!) : Alignment.topLeft;
+        return dismissibleOptionsWrapper(
+          alignment: align,
+          child: Material(
+            elevation: 4,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: options.length,
+                itemBuilder: (context, index) {
+                  final key = options.elementAt(index);
+                  return InkWell(
+                    onTap: () => onSelected(key),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      child: Text(_itemDisplayName(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
       onSelected: (v) => widget.onItemChanged(v.isEmpty ? null : v),
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+        itemFieldCtx = context;
         return TextField(
           controller: controller,
           focusNode: focusNode,
+          textInputAction: TextInputAction.done,
           decoration: const InputDecoration(
             labelText: '아이템',
             isDense: true,
@@ -686,6 +747,7 @@ class _StatInputState extends State<StatInput> {
               initialValue: '$value',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: 252),
@@ -734,6 +796,7 @@ class _StatInputState extends State<StatInput> {
               initialValue: '${widget.hpPercent}',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.done,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: 100),
@@ -780,6 +843,7 @@ class _StatInputState extends State<StatInput> {
         initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^-?[0-6]?$')),
         ],
@@ -814,6 +878,7 @@ class _StatInputState extends State<StatInput> {
         initialValue: '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.done,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
           _ClampingFormatter(min: min, max: max),
@@ -901,6 +966,7 @@ class _LevelInputState extends State<_LevelInput> {
       focusNode: _focusNode,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.done,
       decoration: const InputDecoration(
         labelText: '레벨',
         isDense: true,

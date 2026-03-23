@@ -88,6 +88,12 @@ class PokemonPanelState extends State<PokemonPanel>
 
   BattlePokemonState get s => widget.state;
 
+  void scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -114,19 +120,6 @@ class PokemonPanelState extends State<PokemonPanel>
     widget.onChanged();
   }
 
-  /// Notify parent only if effective speed actually changed.
-  /// For IV/EV/rank changes that usually don't affect speed.
-  void _notifyIfSpeedChanged() {
-    final newSpeed = BattleFacade.calcSpeed(
-      state: s,
-      weather: widget.weather,
-      terrain: widget.terrain,
-      room: widget.room,
-    );
-    if (newSpeed != _cachedSpeed) {
-      _notifyParent();
-    }
-  }
 
   // Cached per build cycle — computed once in build(), used by all 4 move slots.
   int? _cachedSpeed;
@@ -145,29 +138,21 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   void _scrollToSection(GlobalKey key) {
-    _doScrollToSection(key);
-    // Retry after keyboard animation completes (iOS keyboard is slower)
-    Future.delayed(const Duration(milliseconds: 400), () => _doScrollToSection(key));
-    Future.delayed(const Duration(milliseconds: 800), () => _doScrollToSection(key));
+    // Wait for keyboard to fully appear before scrolling once
+    Future.delayed(const Duration(milliseconds: 500), () => _ensureVisible(key));
   }
 
+  void _scrollToMoves() => _scrollToSection(_movesSectionKey);
   void _scrollToStats() => _scrollToSection(_statsSectionKey);
 
-  void _doScrollToSection(GlobalKey key) {
+  void _ensureVisible(GlobalKey key) {
     final ctx = key.currentContext;
-    if (ctx == null || !_scrollController.hasClients) return;
-
-    final box = ctx.findRenderObject() as RenderBox;
-    final offset = box.localToGlobal(Offset.zero).dy;
-    // Account for AppBar + TabBar + status bar
-    final topBarHeight = kToolbarHeight + kTextTabBarHeight +
-        MediaQuery.of(context).padding.top;
-    final target = _scrollController.offset + offset - topBarHeight - 8;
-
-    _scrollController.animateTo(
-      target.clamp(0, _scrollController.position.maxScrollExtent),
-      duration: const Duration(milliseconds: 350),
+    if (ctx == null) return;
+    Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeOutCubic,
+      alignment: 0.2,
     );
   }
 
@@ -195,10 +180,7 @@ class PokemonPanelState extends State<PokemonPanel>
     _updateCachedSpeed();
     return SingleChildScrollView(
       controller: _scrollController,
-      padding: EdgeInsets.fromLTRB(4, 2, 4,
-          MediaQuery.of(context).viewInsets.bottom > 0
-              ? MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom
-              : 120),
+      padding: const EdgeInsets.fromLTRB(4, 2, 4, 500),
       child: Screenshot(
         controller: _screenshotController,
         child: Container(
@@ -250,11 +232,11 @@ class PokemonPanelState extends State<PokemonPanel>
               status: s.status,
               onLevelChanged: (v) => setState(() { s.level = v; _notifyParent(); }),
               onNatureChanged: (v) => setState(() { s.nature = v; _notifyParent(); }),
-              onIvChanged: (v) => setState(() { s.iv = v; _notifyIfSpeedChanged(); }),
-              onEvChanged: (v) => setState(() { s.ev = v; _notifyIfSpeedChanged(); }),
+              onIvChanged: (v) => setState(() { s.iv = v; _notifyParent(); }),
+              onEvChanged: (v) => setState(() { s.ev = v; _notifyParent(); }),
               onAbilityChanged: (v) => setState(() { s.selectedAbility = v; _notifyParent(); }),
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notifyParent(); }),
-              onRankChanged: (v) => setState(() { s.rank = v; _notifyIfSpeedChanged(); }),
+              onRankChanged: (v) => setState(() { s.rank = v; _notifyParent(); }),
               opponentSpeed: widget.opponentSpeed,
               opponentAlwaysLast: widget.opponentAlwaysLast,
               isDynamaxed: s.dynamax != DynamaxState.none,
@@ -262,7 +244,7 @@ class PokemonPanelState extends State<PokemonPanel>
               weather: widget.weather,
               terrain: widget.terrain,
               room: widget.room,
-              onHpPercentChanged: (v) => setState(() { s.hpPercent = v; }),
+              onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notifyParent(); }),
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
               onItemTap: _scrollToStats,
               onAbilityTap: _scrollToStats,
@@ -486,7 +468,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
                       initialMoveName: s.moves[index]?.name,
                       displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
-                      onTap: () => _scrollToSection(_moveRowKeys[index]),
+                      onTap: _scrollToMoves,
                       onSelected: (m) {
                         FocusScope.of(context).unfocus();
                         setState(() {
@@ -1161,6 +1143,7 @@ class _PowerInputState extends State<_PowerInput> {
         focusNode: _focusNode,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.done,
         style: const TextStyle(fontSize: 13),
         decoration: const InputDecoration(
           isDense: true,

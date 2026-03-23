@@ -5,6 +5,7 @@ import '../../data/movedex.dart';
 import '../../models/move.dart';
 import '../../utils/korean_search.dart';
 import '../../utils/localization.dart';
+import 'adaptive_dropdown.dart';
 
 class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;
@@ -23,6 +24,7 @@ class _MoveSelectorState extends State<MoveSelector> {
   List<SearchEntry<Move>> _searchEntries = [];
   Move? _selected;
   bool _hasFocusListenerAttached = false;
+  BuildContext? _fieldContext;
 
 
   @override
@@ -92,8 +94,11 @@ class _MoveSelectorState extends State<MoveSelector> {
         return _sortedOptions(textEditingValue.text);
       },
       optionsViewBuilder: (context, onSelected, options) {
-        return Align(
-          alignment: Alignment.topLeft,
+        final align = _fieldContext != null
+            ? dropdownAlignment(_fieldContext!)
+            : Alignment.topLeft;
+        return dismissibleOptionsWrapper(
+          alignment: align,
           child: Material(
             elevation: 4,
             child: ConstrainedBox(
@@ -136,6 +141,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         widget.onSelected(move);
       },
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+        _fieldContext = context;
         if (!_hasFocusListenerAttached) {
           _hasFocusListenerAttached = true;
           focusNode.addListener(() {

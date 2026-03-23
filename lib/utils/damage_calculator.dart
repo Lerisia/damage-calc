@@ -140,7 +140,7 @@ class DamageResult {
     }
     // Multi-hit didn't KO in one use; calculate N-use KO using
     // total damage per use (min/max) instead of individual hit rolls.
-    if (maxDamage <= 0) return (hits: 0, koCount: 0, totalCount: 1);
+    if (maxDamage <= 0 || minDamage <= 0) return (hits: 0, koCount: 0, totalCount: 1);
     final guaranteedUses = (defenderHp / minDamage).ceil();
     final bestUses = (defenderHp / maxDamage).ceil();
     if (guaranteedUses == bestUses) {

@@ -78,7 +78,9 @@ jobs:
       - name: Auto-increment build number
         run: |
           BUILD_NUMBER=${{ github.run_number }}
-          sed -i "s/version: \(.*\)+.*/version: \1+${BUILD_NUMBER}/" pubspec.yaml
+          sed -i '' "s/version: \(.*\)+.*/version: \1+${BUILD_NUMBER}/" pubspec.yaml
+          echo "Build number: $BUILD_NUMBER"
+          grep version pubspec.yaml
 
       - name: Build iOS IPA for App Store
         run: |

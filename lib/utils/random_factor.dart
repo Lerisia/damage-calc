@@ -102,6 +102,7 @@ class RandomFactor {
     final minDmg = apply(baseDamage, minRoll);
     final maxDmg = apply(baseDamage, maxRoll);
     if (maxDmg <= 0) return (hits: 0, koCount: 0, totalCount: 1);
+    if (minDmg <= 0) return (hits: 0, koCount: 0, totalCount: 1);
 
     // Guaranteed N-hit with min damage
     final guaranteedHits = (hp / minDmg).ceil();
@@ -159,6 +160,7 @@ class RandomFactor {
     final minDmg = rolls.reduce((a, b) => a < b ? a : b);
     final maxDmg = rolls.reduce((a, b) => a > b ? a : b);
     if (maxDmg <= 0) return (hits: 0, koCount: 0, totalCount: 1);
+    if (minDmg <= 0) return (hits: 0, koCount: 0, totalCount: 1);
 
     final guaranteedHits = (hp / minDmg).ceil();
     final bestHits = (hp / maxDmg).ceil();
