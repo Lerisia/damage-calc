@@ -116,4 +116,55 @@ class RandomFactor {
     // It's a 난수 situation at bestHits
     return (hits: bestHits, koCount: 1, totalCount: 2); // approximate
   }
+
+  // --- Multi-hit damage distribution via convolution ---
+
+  /// Returns (min, max) total damage for a multi-hit move.
+  /// [perHitDamages] is a list of base damages for each hit (before random factor).
+  /// For normal multi-hit, all values are the same; for escalating, each is different.
+  static ({int min, int max}) multiHitRange(List<int> perHitDamages) {
+    int minTotal = 0, maxTotal = 0;
+    for (final d in perHitDamages) {
+      minTotal += apply(d, minRoll);
+      maxTotal += apply(d, maxRoll);
+    }
+    return (min: minTotal, max: maxTotal);
+  }
+
+  /// Build the probability distribution of total damage for a multi-hit move
+  /// using convolution. Each hit independently rolls one of 16 values.
+  ///
+  /// [perHitDamages] is a list of base damages per hit.
+  /// Returns a map of {totalDamage: probability}.
+  static Map<int, double> multiHitDistribution(List<int> perHitDamages) {
+    // Start with a single "0 damage with probability 1.0"
+    Map<int, double> dist = {0: 1.0};
+
+    for (final baseDmg in perHitDamages) {
+      final hitValues = allRolls(baseDmg);
+      final next = <int, double>{};
+      final hitProb = 1.0 / rollCount;
+
+      for (final entry in dist.entries) {
+        for (final hitDmg in hitValues) {
+          final total = entry.key + hitDmg;
+          next[total] = (next[total] ?? 0.0) + entry.value * hitProb;
+        }
+      }
+      dist = next;
+    }
+    return dist;
+  }
+
+  /// KO probability from a multi-hit damage distribution.
+  /// Returns (koProb, totalProb=1.0) for display.
+  static ({double koProb}) multiHitKoProb(List<int> perHitDamages, int hp) {
+    if (hp <= 0) return (koProb: 1.0);
+    final dist = multiHitDistribution(perHitDamages);
+    double koProb = 0.0;
+    for (final entry in dist.entries) {
+      if (entry.key >= hp) koProb += entry.value;
+    }
+    return (koProb: koProb);
+  }
 }
