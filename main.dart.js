@@ -8373,8 +8373,8 @@ if(b4&&b3.b!=null){b3=b3.b
 b3.toString
 if(b3===B.bO)i9.e=e5?2:1.2
 else if(e6&&e5)i9.e=b8.c!=null?2.25:2
-else if(e6||e5){e7=b8.c
-i9.e=e7==null?1.5:e7}}else{if(b8.e||e5){b3=b8.c
+else if(e6){e7=b8.c
+i9.e=e7==null?1.5:e7}else if(e5)i9.e=1.5}else{if(b8.e||e5){b3=b8.c
 e7=b3==null?1.5:b3}else e7=1
 i9.e=e7}e8=A.aK1(m,r)
 if(e8===0){e9=m===B.c6?"weather:harsh_sun_water":"weather:heavy_rain_fire"
@@ -28619,10 +28619,12 @@ m=B.c.bR(b6.ZE(A.ho(a,c,a4,a5,a6,n),a7)*b1)
 if(!(a0&&!b4)){r=e.d
 l=r===b7||r===b8}else l=!0
 k=b4&&b3!=null&&e.d===b3
-j=1
-if(b4&&b3!=null){if(b3===B.bO)j=l?2:1.2
+if(b4&&b3!=null)if(b3===B.bO)j=l?2:1.2
 else if(k&&l)j=b0!=null?2.25:2
-else if(k||l)j=b0==null?1.5:b0}else if(l)j=b0==null?1.5:b0
+else if(k)j=b0==null?1.5:b0
+else j=l?1.5:1
+else if(l)j=b0==null?1.5:b0
+else j=1
 r=!1
 if(b4)if(k)if(e.as<=1)if(e.z<=0){r=e.f
 r=r<60&&r>0}i=r?60:e.f
