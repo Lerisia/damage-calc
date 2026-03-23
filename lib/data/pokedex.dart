@@ -23,6 +23,24 @@ const _allFiles = [
 List<Pokemon>? _cache;
 Future<List<Pokemon>>? _loading;
 
+/// Maps requiredItem -> set of dexNumbers that use it.
+/// Used to check if an item is unremovable for a specific Pokemon.
+Map<String, Set<int>>? _requiredItemOwners;
+
+/// Returns the requiredItem → dexNumber owners map (built on first call).
+Map<String, Set<int>> getRequiredItemOwners() {
+  if (_requiredItemOwners != null) return _requiredItemOwners!;
+  if (_cache == null) return {};
+  final map = <String, Set<int>>{};
+  for (final p in _cache!) {
+    if (p.requiredItem != null) {
+      map.putIfAbsent(p.requiredItem!, () => {}).add(p.dexNumber);
+    }
+  }
+  _requiredItemOwners = map;
+  return map;
+}
+
 /// Loads all Pokemon data from assets/pokemon/*.json (cached after first load).
 /// Uses parallel loading for faster startup.
 Future<List<Pokemon>> loadPokedex() {

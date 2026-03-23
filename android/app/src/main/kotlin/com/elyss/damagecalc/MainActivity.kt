@@ -1,4 +1,4 @@
-package com.example.damage_calc
+package com.elyss.damagecalc
 
 import io.flutter.embedding.android.FlutterActivity
 

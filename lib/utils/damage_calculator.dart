@@ -11,6 +11,7 @@ import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
+import '../data/pokedex.dart';
 import 'ability_effects.dart';
 import 'battle_facade.dart' show resolveEffectiveItem, resolveEffectiveAbility, BattleFacade;
 import 'grounded.dart';
@@ -200,33 +201,21 @@ class DamageResult {
 /// Takes [BattlePokemonState] for both sides and battle conditions.
 
 /// Items that can't be removed by Knock Off (no power boost).
-/// Mega Stones for the matching Pokemon, Z-Crystals, Primal orbs,
-/// Memories (Silvally), form-change items are handled via requiredItem
-/// in the Pokemon data. This covers generic categories.
-bool _isUnremovableItem(String itemName, String pokemonName) {
-  // Z-Crystals
+/// Uses requiredItem data from Pokedex + pattern rules for multi-item holders.
+bool _isUnremovableItem(String itemName, int dexNumber) {
+  // Z-Crystals are always unremovable
   if (itemName.endsWith('--held')) return true;
-  // Mega stones (if name ends with 'ite' variants)
-  if (itemName.endsWith('ite') || itemName.endsWith('ite-x') || itemName.endsWith('ite-y')) {
-    // Only unremovable if the Pokemon can actually use it
-    // For simplicity, all mega stones are unremovable
+  // Silvally (dex 773) + Memory items
+  if (dexNumber == 773 && itemName.endsWith('-memory')) return true;
+  // Arceus (dex 493) + Plates
+  if (dexNumber == 493 && itemName.endsWith('-plate')) return true;
+  // Ogerpon (dex 1017) + Masks
+  if (dexNumber == 1017 && itemName.endsWith('-mask')) return true;
+  // Check requiredItem data (mega stones, primal orbs, etc.)
+  final owners = getRequiredItemOwners();
+  final ownerDexNumbers = owners[itemName];
+  if (ownerDexNumbers != null && ownerDexNumbers.contains(dexNumber)) {
     return true;
-  }
-  // Memory items (Silvally)
-  if (itemName.endsWith('-memory')) return true;
-  // Form-change items checked via requiredItem in Pokemon JSON
-  // Primal orbs, Rusted Sword/Shield, Ogerpon masks, etc.
-  const fixedItems = {
-    'blue-orb', 'red-orb', 'rusted-sword', 'rusted-shield',
-    'griseous-core', 'griseous-orb', 'adamant-crystal', 'lustrous-globe',
-    'adamant-orb', 'lustrous-orb', // these are removable actually, but orbs are not
-  };
-  if (fixedItems.contains(itemName)) return true;
-  // Booster Energy on Paradox Pokemon
-  if (itemName == 'booster-energy') {
-    // Paradox Pokemon have specific names; simplify by checking ability later
-    // For now, booster energy is always removable (conservative)
-    return false;
   }
   return false;
 }
@@ -823,8 +812,8 @@ class DamageCalculator {
 
     if (effectiveMove.hasTag(MoveTags.knockOff) && defender.selectedItem != null) {
       final defItem = defender.selectedItem!;
-      final bool isFixedItem = defItem == defender.pokemonName.toLowerCase().replaceAll(' ', '-') ||
-          _isUnremovableItem(defItem, defender.pokemonName);
+      final bool isFixedItem =
+          _isUnremovableItem(defItem, defender.dexNumber);
       if (!isFixedItem) {
         movePowerMod = kKnockOffBoost;
         notes.add('move:knock_off:×$kKnockOffBoost');
