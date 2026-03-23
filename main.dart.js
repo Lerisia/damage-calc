@@ -1017,7 +1017,7 @@ r.setAttribute("aria-live",q)
 return r},
 aVT(a){var s=a.a
 if(s.y)return B.a2q
-else if(s.d!==B.J)return B.a2r
+else if(s.d!==B.K)return B.a2r
 else return B.a2p},
 aSK(a){var s=new A.ah2(A.cf(v.G.document,"input"),new A.oJ(a.p3,B.el),B.qf,a),r=A.qZ(s.c2(0),a)
 s.a!==$&&A.b6()
@@ -7910,9 +7910,9 @@ case"Protosynthesis":return(l===B.c5||l===B.c6||c==="booster-energy")&&b!=null?A
 case"Quark Drive":return(k===B.cJ||c==="booster-energy")&&b!=null?A.aDC(A.aJ2(b)):B.E
 case"Blaze":return d<=33&&e!=null&&e.d===B.O?B.bX:B.E
 case"Overgrow":return d<=33&&e!=null&&e.d===B.Z?B.bX:B.E
-case"Torrent":return d<=33&&e!=null&&e.d===B.K?B.bX:B.E
+case"Torrent":return d<=33&&e!=null&&e.d===B.J?B.bX:B.E
 case"Swarm":return d<=33&&e!=null&&e.d===B.b0?B.bX:B.E
-case"Water Bubble":return e!=null&&e.d===B.K?B.on:B.E
+case"Water Bubble":return e!=null&&e.d===B.J?B.on:B.E
 case"Punk Rock":return e!=null&&B.b.m(e.y,"sound")?B.dy:B.E
 case"Sheer Force":return e!=null&&B.b.m(e.y,"custom:has_secondary")?B.dy:B.E
 case"Parental Bond":s=e!=null
@@ -8462,8 +8462,11 @@ if(f6.a<1)if(i4.id>=100){i=d0==="Multiscale"||d0==="Shadow Shield"
 g9=i}h0=c&&i4.id>=100&&i1.d<1
 h1=i1.x!==1
 i=i4.dx
-if(i==="kee-berry"&&a5)d8.push("warning:kee-berry:\uc5f0\uc18d\uae30 \ubc29\uc5b4\u2191 \ubbf8\ubc18\uc601")
-else if(i==="maranga-berry"&&f)d8.push("warning:maranga-berry:\uc5f0\uc18d\uae30 \ud2b9\ubc29\u2191 \ubbf8\ubc18\uc601")
+if(i==="kee-berry"&&a5)d8.push("warning:\uc5f0\uc18d\uae30 \uc545\ud0a4\uc5f4\ub9e4 \ubc29\uc5b4\u2191 \ubbf8\ubc18\uc601")
+else if(i==="maranga-berry"&&f)d8.push("warning:\uc5f0\uc18d\uae30 \ud0c0\ub77c\ud504\uc5f4\ub9e4 \ud2b9\ubc29\u2191 \ubbf8\ubc18\uc601")
+if(d0==="Weak Armor"&&a5)d8.push("warning:\uc5f0\uc18d\uae30 \uae68\uc5b4\uc9c4\uac11\uc637 \ubc29\uc5b4\u2193 \ubbf8\ubc18\uc601")
+else if(d0==="Stamina"&&a5)d8.push("warning:\uc5f0\uc18d\uae30 \uc9c0\uad6c\ub825 \ubc29\uc5b4\u2191 \ubbf8\ubc18\uc601")
+else if(d0==="Water Compaction"&&a5&&d7===B.J)d8.push("warning:\uc5f0\uc18d\uae30 \uc544\ucfe0\uc544\ucf54\ud2b8 \ubc29\uc5b4\u2191\u2191 \ubbf8\ubc18\uc601")
 e4=h0?e4:-1
 h2=g9?1:-1
 h3=h1?1:-1
@@ -8538,7 +8541,7 @@ r=r===B.al||r===B.Y}else r=!1
 if(r)return B.h_
 return B.bi
 case"lustrous-orb":if(B.d.m(s,"palkia")){r=b.d
-r=r===B.al||r===B.K}else r=!1
+r=r===B.al||r===B.J}else r=!1
 if(r)return B.h_
 return B.bi
 case"griseous-orb":case"griseous-core":if(B.d.m(s,"giratina")){r=b.d
@@ -8664,7 +8667,7 @@ if(s){r=a.e
 s=b.at>b.ax
 a=a.VS(s?B.bw:r,B.bT)}s=b.f
 a=A.aVv(a,s)
-if(s==="Liquid Voice"&&B.b.m(a.y,"sound"))a=a.jz(B.K)
+if(s==="Liquid Voice"&&B.b.m(a.y,"sound"))a=a.jz(B.J)
 if(a.a==="Ivy Cudgel"){q=B.PL.h(0,b.x.toLowerCase())
 if(q!=null)a=a.jz(q)}if(a.a==="Judgment"&&b.cx!=null){p=b.cx
 p.toString
@@ -8677,7 +8680,7 @@ if(a.a==="Aura Wheel")a=b.x.toLowerCase()==="morpeko-hangry"?a.jz(B.aw):a.jz(B.a
 if(a.a==="Raging Bull"){m=b.x.toLowerCase()
 if(m==="tauros-paldea-combat"||m==="10250")a=a.jz(B.ay)
 else if(m==="tauros-paldea-blaze"||m==="10251")a=a.jz(B.O)
-else if(m==="tauros-paldea-aqua"||m==="10252")a=a.jz(B.K)}if(s==="Long Reach"&&B.b.m(a.y,"contact")){s=a.y
+else if(m==="tauros-paldea-aqua"||m==="10252")a=a.jz(B.J)}if(s==="Long Reach"&&B.b.m(a.y,"contact")){s=a.y
 p=A.a2(s).i("aw<1>")
 s=A.T(new A.aw(s,new A.azk(),p),p.i("l.E"))
 a=a.an5(s)}s=b.Q
@@ -8714,7 +8717,7 @@ aVC(a,b){var s
 if(a.a!=="Weather Ball"||b===B.c4)return a
 switch(b.a){case 1:case 5:s=B.O
 break
-case 2:case 6:s=B.K
+case 2:case 6:s=B.J
 break
 case 3:s=B.aa
 break
@@ -21356,7 +21359,7 @@ case 1:s=new A.d1("\u202a",B.b8)
 break
 default:s=null}a=s.Y(0,a).Y(0,new A.d1("\u202c",B.b8))}if(c.a.length===0)return a
 return c.Y(0,new A.d1("\n",B.b8)).Y(0,a)},
-J1(a){if(a==null)return B.J
+J1(a){if(a==null)return B.K
 if(a)return B.aT
 return B.hG},
 aCh(a){var s,r,q,p=a.a,o=p!==B.es?1:0
@@ -21368,7 +21371,7 @@ if(a.x)o|=16
 r=a.r
 if(r===B.aT)o|=32
 q=a.c
-if(q!==B.J)o|=64
+if(q!==B.K)o|=64
 if(q===B.aT)o|=128
 if(a.y)o|=256
 if(a.z)o|=512
@@ -21379,22 +21382,22 @@ if(a.ax)o|=8192
 if(a.ay)o|=16384
 if(a.ch)o|=32768
 q=a.d
-if(q!==B.J)o|=65536
+if(q!==B.K)o|=65536
 if(q===B.aT)o|=131072
 if(a.CW)o|=262144
 if(a.cx)o|=524288
 if(a.cy)o|=1048576
-if(r!==B.J)o|=2097152
+if(r!==B.K)o|=2097152
 if(a.db)o|=4194304
 if(a.dx)o|=8388608
 if(a.dy)o|=16777216
 if(p===B.et)o|=33554432
 p=a.e
-if(p!==B.J)o|=67108864
+if(p!==B.K)o|=67108864
 if(p===B.aT)o|=134217728
-if(s!==B.J)o|=268435456
+if(s!==B.K)o|=268435456
 p=a.f
-if(p!==B.J)o|=536870912
+if(p!==B.K)o|=536870912
 return p===B.aT?o|1073741824:o},
 xZ:function xZ(a,b){this.a=a
 this.b=b},
@@ -28686,7 +28689,7 @@ case 3:return b&&d.d===B.aD?1.3:1
 case 4:return c&&d.d===B.al?0.5:1
 default:return 1}},
 IW(a,b,c){var s
-if(c&&b===B.K)return 2
+if(c&&b===B.J)return 2
 s=B.P7.h(0,a)
 s=s==null?null:s.h(0,b)
 return s==null?1:s},
@@ -28712,19 +28715,19 @@ aKh(a,b){var s,r="custom:sun_boost"
 switch(a.a){case 1:if(B.b.m(b.y,r))return 1.5
 s=b.d
 if(s===B.O)return 1.5
-if(s===B.K)return 0.5
+if(s===B.J)return 0.5
 return 1
 case 5:if(B.b.m(b.y,r))return 1.5
 s=b.d
 if(s===B.O)return 1.5
-if(s===B.K)return 0
+if(s===B.J)return 0
 return 1
 case 2:s=b.d
-if(s===B.K)return 1.5
+if(s===B.J)return 1.5
 if(s===B.O)return 0.5
 return 1
 case 6:s=b.d
-if(s===B.K)return 1.5
+if(s===B.J)return 1.5
 if(s===B.O)return 0
 return 1
 default:return 1}},
@@ -33563,7 +33566,7 @@ s=!0}return s===!0}}
 A.PE.prototype={
 d3(a){var s,r,q=this.a
 if((q.x1&1)!==0){s=q.a.b
-if(s!==B.J){q=q.p4
+if(s!==B.K){q=q.p4
 q===$&&A.a()
 r=s===B.aT
 q=B.Ut.m(0,q)
@@ -33610,7 +33613,7 @@ A.LJ.prototype={
 d3(a){var s,r=this.a
 if((r.x1&1)!==0){r=r.a.e
 s=this.b.a
-if(r!==B.J){s===$&&A.a()
+if(r!==B.K){s===$&&A.a()
 r=A.a9(r===B.aT)
 r.toString
 s.setAttribute("aria-expanded",r)}else{s===$&&A.a()
@@ -33622,12 +33625,12 @@ s===$&&A.a()
 s.focus($.ej())
 return!0},
 d3(a){var s,r,q=this,p=q.a
-if(p.a.r!==B.J){s=q.d
+if(p.a.r!==B.K){s=q.d
 if(s.b==null){r=q.b.a
 r===$&&A.a()
 s.Yy(p.p2,r)}p=p.a
 if(p.r===B.aT){p=p.c
-p=p===B.J||p===B.aT}else p=!1
+p=p===B.K||p===B.aT}else p=!1
 s.Vp(p)}else q.d.Cw()}}
 A.tf.prototype={
 H(){return"AccessibilityFocusManagerEvent."+this.b}}
@@ -33694,7 +33697,7 @@ A.Z(s,"margin","0")
 A.Z(s,"padding","0")
 A.Z(s,"font-size","10px")
 return r},
-aQ(){if(this.c.a.r!==B.J){var s=this.e
+aQ(){if(this.c.a.r!==B.K){var s=this.e
 if(s!=null){s.aQ()
 return!0}}this.f.Ei().aQ()
 return!0}}
@@ -34093,7 +34096,7 @@ d3(a){var s,r
 this.h5(0)
 s=this.c.a
 r=this.a
-if(s.e!==B.J){r===$&&A.a()
+if(s.e!==B.K){r===$&&A.a()
 s=A.a9("menu")
 s.toString
 r.setAttribute("aria-haspopup",s)}else{r===$&&A.a()
@@ -34165,7 +34168,7 @@ A.P3.prototype={
 d3(a){var s,r=this.a
 if((r.x1&1)!==0){r=r.a.f
 s=this.b.a
-if(r!==B.J){s===$&&A.a()
+if(r!==B.K){s===$&&A.a()
 r=A.a9(r===B.aT)
 r.toString
 s.setAttribute("aria-required",r)}else{s===$&&A.a()
@@ -34429,7 +34432,7 @@ GI(a){var s=this,r=new A.MS(a,s.c,s)
 s.f=r
 s.cY(r)},
 GL(){var s=this.c
-if(s.a.b!==B.J&&!s.gJ5())this.cY(new A.PE(s,this))},
+if(s.a.b!==B.K&&!s.gJ5())this.cY(new A.PE(s,this))},
 cY(a){var s=this.d;(s==null?this.d=A.b([],t.JO):s).push(a)},
 d3(a){var s,r,q,p,o,n=this,m=n.c
 if((m.x1&134217728)!==0)n.Ks()
@@ -34525,7 +34528,7 @@ r=s.a
 r===$&&A.a()
 r.removeAttribute("role")}s.h5(0)},
 aQ(){var s,r,q=this.c
-if(q.a.r!==B.J){s=this.e
+if(q.a.r!==B.K){s=this.e
 if(s!=null){s.aQ()
 return!0}}r=q.dy
 if(!(r!=null&&!B.cD.ga7(r))){q=q.z
@@ -34947,7 +34950,7 @@ i===$&&A.a()
 m.insertBefore(i,s)
 s.remove()}}},
 gJ5(){var s=this.a
-return s.a!==B.es||s.d!==B.J},
+return s.a!==B.es||s.d!==B.K},
 Zm(a){var s,r,q,p,o,n,m=this,l=m.dy
 if(!(l!=null&&!B.cD.ga7(l)))return
 l=m.y
@@ -35521,7 +35524,7 @@ if(r!=null&&r.length!==0){if((q.x1&1024)!==0){r=A.a9(r)
 r.toString
 s.setAttribute("aria-label",r)}}else s.removeAttribute("aria-label")
 r=q.a.f
-if(r!==B.J){r=A.a9(r===B.aT)
+if(r!==B.K){r=A.a9(r===B.aT)
 r.toString
 s.setAttribute("aria-required",r)}else s.removeAttribute("aria-required")
 o.ajW()},
@@ -44553,7 +44556,7 @@ A.Ec.prototype={
 H(){return"Tristate."+this.b},
 aR(a){if(this===B.aT||a===B.aT)return B.aT
 if(this===B.hG||a===B.hG)return B.hG
-return B.J}}
+return B.K}}
 A.CZ.prototype={
 aR(a5){var s=this,r=s.a.aR(a5.a),q=s.b.aR(a5.b),p=s.c.aR(a5.c),o=s.d.aR(a5.d),n=s.e.aR(a5.e),m=s.f.aR(a5.f),l=s.r.aR(a5.r),k=s.w||a5.w,j=s.x||a5.x,i=s.y||a5.y,h=s.z||a5.z,g=s.Q||a5.Q,f=s.as||a5.as,e=s.at||a5.at,d=s.ax||a5.ax,c=s.ay||a5.ay,b=s.ch||a5.ch,a=s.CW||a5.CW,a0=s.cx||a5.cx,a1=s.cy||a5.cy,a2=s.db||a5.db,a3=s.dx||a5.dx,a4=s.dy||a5.dy
 return A.aGV(a,s.fr||a5.fr,k,r,p,n,l,h,d,c,i,a4,a2,b,a0,g,a1,m,q,a3,j,o,e,f)},
@@ -73562,9 +73565,9 @@ this.r=!0},
 saqU(a){this.q=this.q.amO(a)
 this.r=!0},
 sJ6(a){var s,r=this
-if(!a)r.q=r.q.Hq(B.J)
+if(!a)r.q=r.q.Hq(B.K)
 else{s=r.q
-if(s.r===B.J)r.q=s.Hq(B.hG)}r.r=!0},
+if(s.r===B.K)r.q=s.Hq(B.hG)}r.r=!0},
 soz(a){this.q=this.q.Hq(A.J1(a))
 this.r=!0},
 syF(a){var s=this
@@ -73614,9 +73617,9 @@ if((n.x&a.x)!==0)return!1
 s=n.q
 r=a.q
 q=!0
-if(!(s.a!==B.es&&r.a!==B.es))if(!(s.b!==B.J&&r.b!==B.J)){p=r.c
-o=s.c!==B.J
-if(!(o&&p!==B.J))if(!(s.d!==B.J&&r.d!==B.J))if(!(o&&p!==B.J))if(!(s.e!==B.J&&r.e!==B.J))if(!(s.f!==B.J&&r.f!==B.J))if(!(s.r!==B.J&&r.r!==B.J))if(!(s.w&&r.w))if(!(s.x&&r.x))if(!(s.y&&r.y))if(!(s.z&&r.z))if(!(s.Q&&r.Q))if(!(s.as&&r.as))if(!(s.at&&r.at))if(!(s.ax&&r.ax))if(!(s.ay&&r.ay))if(!(s.ch&&r.ch))if(!(s.CW&&r.CW))if(!(s.cx&&r.cx))if(!(s.cy&&r.cy))if(!(s.db&&r.db))if(!(s.dx&&r.dx))s=s.dy&&r.dy||s.fr!==r.fr
+if(!(s.a!==B.es&&r.a!==B.es))if(!(s.b!==B.K&&r.b!==B.K)){p=r.c
+o=s.c!==B.K
+if(!(o&&p!==B.K))if(!(s.d!==B.K&&r.d!==B.K))if(!(o&&p!==B.K))if(!(s.e!==B.K&&r.e!==B.K))if(!(s.f!==B.K&&r.f!==B.K))if(!(s.r!==B.K&&r.r!==B.K))if(!(s.w&&r.w))if(!(s.x&&r.x))if(!(s.y&&r.y))if(!(s.z&&r.z))if(!(s.Q&&r.Q))if(!(s.as&&r.as))if(!(s.at&&r.at))if(!(s.ax&&r.ax))if(!(s.ay&&r.ay))if(!(s.ch&&r.ch))if(!(s.CW&&r.CW))if(!(s.cx&&r.cx))if(!(s.cy&&r.cy))if(!(s.db&&r.db))if(!(s.dx&&r.dx))s=s.dy&&r.dy||s.fr!==r.fr
 else s=q
 else s=q
 else s=q
@@ -98003,7 +98006,7 @@ B.r9=s([B.eQ,B.eR,B.eS,B.eT,B.mm,B.mn,B.mo,B.mp,B.xp],A.an("A<hQ>"))
 B.m4=s([!0,!1],t.HZ)
 B.Nv=s(["pointerdown","pointermove","pointerleave","pointerup","pointercancel","touchstart","touchend","touchmove","touchcancel","mousedown","mousemove","mouseleave","mouseup","wheel"],t.s)
 B.O=new A.by(1,"fire")
-B.K=new A.by(2,"water")
+B.J=new A.by(2,"water")
 B.a7=new A.by(3,"electric")
 B.Z=new A.by(4,"grass")
 B.ax=new A.by(5,"ice")
@@ -98020,7 +98023,7 @@ B.aw=new A.by(15,"dark")
 B.Y=new A.by(16,"steel")
 B.am=new A.by(17,"fairy")
 B.bT=new A.by(18,"stellar")
-B.ch=s([B.ak,B.O,B.K,B.a7,B.Z,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am,B.bT],A.an("A<by>"))
+B.ch=s([B.ak,B.O,B.J,B.a7,B.Z,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am,B.bT],A.an("A<by>"))
 B.bw=new A.dw(0,"physical")
 B.dX=new A.dw(1,"special")
 B.ra=s([B.bw,B.dX,B.dY],t.af)
@@ -98060,8 +98063,8 @@ B.j1=new A.ng(3,"spaceBetween")
 B.x2=new A.ng(4,"spaceAround")
 B.x3=new A.ng(5,"spaceEvenly")
 B.x=new A.N8(1,"max")
-B.P2=new A.aF([B.ak,"Max Strike",B.ay,"Max Knuckle",B.a8,"Max Airstream",B.ap,"Max Ooze",B.aE,"Max Quake",B.aa,"Max Rockfall",B.b0,"Max Flutterby",B.av,"Max Phantasm",B.Y,"Max Steelspike",B.O,"Max Flare",B.K,"Max Geyser",B.Z,"Max Overgrowth",B.a7,"Max Lightning",B.aD,"Max Mindstorm",B.ax,"Max Hailstorm",B.al,"Max Wyrmwind",B.aw,"Max Darkness",B.am,"Max Starfall"],t.H7)
-B.P3=new A.aF([B.ak,"\ub2e4\uc774\uc5b4\ud0dd",B.ay,"\ub2e4\uc774\ub108\ud074",B.a8,"\ub2e4\uc774\uc81c\ud2b8",B.ap,"\ub2e4\uc774\uc560\uc2dc\ub4dc",B.aE,"\ub2e4\uc774\uc5b4\uc2a4",B.aa,"\ub2e4\uc774\ub85d",B.b0,"\ub2e4\uc774\uc6dc",B.av,"\ub2e4\uc774\ud560\ub85c\uc6b0",B.Y,"\ub2e4\uc774\uc2a4\ud2f8",B.O,"\ub2e4\uc774\ubc88",B.K,"\ub2e4\uc774\uc2a4\ud2b8\ub9bc",B.Z,"\ub2e4\uc774\uadf8\ub798\uc2a4",B.a7,"\ub2e4\uc774\uc36c\ub354",B.aD,"\ub2e4\uc774\uc0ac\uc774\ucf54",B.ax,"\ub2e4\uc774\uc544\uc774\uc2a4",B.al,"\ub2e4\uc774\ub4dc\ub77c\uad70",B.aw,"\ub2e4\uc774\uc544\ud06c",B.am,"\ub2e4\uc774\ud398\uc5b4\ub9ac"],t.H7)
+B.P2=new A.aF([B.ak,"Max Strike",B.ay,"Max Knuckle",B.a8,"Max Airstream",B.ap,"Max Ooze",B.aE,"Max Quake",B.aa,"Max Rockfall",B.b0,"Max Flutterby",B.av,"Max Phantasm",B.Y,"Max Steelspike",B.O,"Max Flare",B.J,"Max Geyser",B.Z,"Max Overgrowth",B.a7,"Max Lightning",B.aD,"Max Mindstorm",B.ax,"Max Hailstorm",B.al,"Max Wyrmwind",B.aw,"Max Darkness",B.am,"Max Starfall"],t.H7)
+B.P3=new A.aF([B.ak,"\ub2e4\uc774\uc5b4\ud0dd",B.ay,"\ub2e4\uc774\ub108\ud074",B.a8,"\ub2e4\uc774\uc81c\ud2b8",B.ap,"\ub2e4\uc774\uc560\uc2dc\ub4dc",B.aE,"\ub2e4\uc774\uc5b4\uc2a4",B.aa,"\ub2e4\uc774\ub85d",B.b0,"\ub2e4\uc774\uc6dc",B.av,"\ub2e4\uc774\ud560\ub85c\uc6b0",B.Y,"\ub2e4\uc774\uc2a4\ud2f8",B.O,"\ub2e4\uc774\ubc88",B.J,"\ub2e4\uc774\uc2a4\ud2b8\ub9bc",B.Z,"\ub2e4\uc774\uadf8\ub798\uc2a4",B.a7,"\ub2e4\uc774\uc36c\ub354",B.aD,"\ub2e4\uc774\uc0ac\uc774\ucf54",B.ax,"\ub2e4\uc774\uc544\uc774\uc2a4",B.al,"\ub2e4\uc774\ub4dc\ub77c\uad70",B.aw,"\ub2e4\uc774\uc544\ud06c",B.am,"\ub2e4\uc774\ud398\uc5b4\ub9ac"],t.H7)
 B.cl=new A.h(4294968068)
 B.nk=new A.af(B.cl,!1,!1,!1,!0,B.m)
 B.ci=new A.h(4294968065)
@@ -98128,7 +98131,7 @@ B.EU=new A.bF(8,B.R,B.cd,B.xv,46)
 B.Mi=s([B.EI,B.F_,B.EU],t.E)
 B.P5=new A.aF([0,B.MX,1,B.Nm,2,B.LP,3,B.Nd,4,B.L4,6,B.LY,8,B.Lr,9,B.LF,12,B.M2,16,B.M1,24,B.Mi],A.an("aF<k,G<bF>>"))
 B.Qr={charcoal:0,"mystic-water":1,"miracle-seed":2,magnet:3,"never-melt-ice":4,"black-belt":5,"poison-barb":6,"soft-sand":7,"sharp-beak":8,"twisted-spoon":9,"silver-powder":10,"hard-stone":11,"spell-tag":12,"dragon-fang":13,"black-glasses":14,"metal-coat":15,"silk-scarf":16,"fairy-feather":17,"flame-plate":18,"splash-plate":19,"meadow-plate":20,"zap-plate":21,"icicle-plate":22,"fist-plate":23,"toxic-plate":24,"earth-plate":25,"sky-plate":26,"mind-plate":27,"insect-plate":28,"stone-plate":29,"spooky-plate":30,"draco-plate":31,"dread-plate":32,"iron-plate":33,"pixie-plate":34,"sea-incense":35,"wave-incense":36,"rose-incense":37,"odd-incense":38,"rock-incense":39}
-B.x5=new A.bu(B.Qr,[B.O,B.K,B.Z,B.a7,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.ak,B.am,B.O,B.K,B.Z,B.a7,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am,B.K,B.K,B.Z,B.aD,B.aa],t.qd)
+B.x5=new A.bu(B.Qr,[B.O,B.J,B.Z,B.a7,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.ak,B.am,B.O,B.J,B.Z,B.a7,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am,B.J,B.J,B.Z,B.aD,B.aa],t.qd)
 B.nj=new A.af(B.ci,!1,!1,!0,!1,B.m)
 B.cj=new A.h(4294968066)
 B.ng=new A.af(B.cj,!1,!1,!0,!1,B.m)
@@ -98571,7 +98574,7 @@ B.OT=new A.h(8589935390)
 B.OU=new A.h(8589935391)
 B.P6=new A.aF([32,B.rg,33,B.NU,34,B.NV,35,B.NW,36,B.NX,37,B.NY,38,B.NZ,39,B.O_,40,B.O0,41,B.O1,42,B.rh,43,B.wK,44,B.O2,45,B.wL,46,B.wM,47,B.wN,48,B.wO,49,B.wP,50,B.wQ,51,B.wR,52,B.wS,53,B.wT,54,B.wU,55,B.wV,56,B.wW,57,B.wX,58,B.O3,59,B.O4,60,B.O5,61,B.O6,62,B.O7,63,B.O8,64,B.O9,91,B.OV,92,B.OW,93,B.OX,94,B.OY,95,B.OZ,96,B.P_,97,B.mg,98,B.x1,99,B.mh,100,B.NB,101,B.rb,102,B.rc,103,B.NC,104,B.ND,105,B.NE,106,B.NF,107,B.NG,108,B.NH,109,B.NI,110,B.rd,111,B.NJ,112,B.re,113,B.NK,114,B.NL,115,B.NM,116,B.rf,117,B.NN,118,B.m5,119,B.NO,120,B.m6,121,B.NP,122,B.h5,123,B.NQ,124,B.NR,125,B.NS,126,B.NT,4294967297,B.ri,4294967304,B.bn,4294967305,B.iT,4294967309,B.iU,4294967323,B.h6,4294967423,B.bo,4294967553,B.rj,4294967555,B.iV,4294967556,B.h7,4294967558,B.m7,4294967559,B.rk,4294967560,B.rl,4294967562,B.iW,4294967564,B.iX,4294967566,B.rm,4294967567,B.rn,4294967568,B.ro,4294967569,B.rp,4294968065,B.ci,4294968066,B.cj,4294968067,B.ck,4294968068,B.cl,4294968069,B.dO,4294968070,B.dP,4294968071,B.h8,4294968072,B.h9,4294968321,B.m8,4294968322,B.rq,4294968323,B.rr,4294968324,B.rs,4294968325,B.rt,4294968326,B.ru,4294968327,B.ha,4294968328,B.rv,4294968329,B.rw,4294968330,B.rx,4294968577,B.ry,4294968578,B.rz,4294968579,B.rA,4294968580,B.rB,4294968581,B.rC,4294968582,B.rD,4294968583,B.rE,4294968584,B.rF,4294968585,B.rG,4294968586,B.rH,4294968587,B.rI,4294968588,B.rJ,4294968589,B.rK,4294968590,B.rL,4294968833,B.rM,4294968834,B.rN,4294968835,B.rO,4294968836,B.rP,4294968837,B.rQ,4294968838,B.rR,4294968839,B.rS,4294968840,B.rT,4294968841,B.rU,4294968842,B.rV,4294968843,B.rW,4294969089,B.rX,4294969090,B.rY,4294969091,B.rZ,4294969092,B.t_,4294969093,B.t0,4294969094,B.t1,4294969095,B.t2,4294969096,B.t3,4294969097,B.t4,4294969098,B.t5,4294969099,B.t6,4294969100,B.t7,4294969101,B.t8,4294969102,B.t9,4294969103,B.ta,4294969104,B.tb,4294969105,B.tc,4294969106,B.td,4294969107,B.te,4294969108,B.tf,4294969109,B.tg,4294969110,B.th,4294969111,B.ti,4294969112,B.tj,4294969113,B.tk,4294969114,B.tl,4294969115,B.tm,4294969116,B.tn,4294969117,B.to,4294969345,B.tp,4294969346,B.tq,4294969347,B.tr,4294969348,B.ts,4294969349,B.tt,4294969350,B.tu,4294969351,B.tv,4294969352,B.tw,4294969353,B.tx,4294969354,B.ty,4294969355,B.tz,4294969356,B.tA,4294969357,B.tB,4294969358,B.tC,4294969359,B.tD,4294969360,B.tE,4294969361,B.tF,4294969362,B.tG,4294969363,B.tH,4294969364,B.tI,4294969365,B.tJ,4294969366,B.tK,4294969367,B.tL,4294969368,B.tM,4294969601,B.tN,4294969602,B.tO,4294969603,B.tP,4294969604,B.tQ,4294969605,B.tR,4294969606,B.tS,4294969607,B.tT,4294969608,B.tU,4294969857,B.tV,4294969858,B.tW,4294969859,B.tX,4294969860,B.tY,4294969861,B.tZ,4294969863,B.u_,4294969864,B.u0,4294969865,B.u1,4294969866,B.u2,4294969867,B.u3,4294969868,B.u4,4294969869,B.u5,4294969870,B.u6,4294969871,B.u7,4294969872,B.u8,4294969873,B.u9,4294970113,B.ua,4294970114,B.ub,4294970115,B.uc,4294970116,B.ud,4294970117,B.ue,4294970118,B.uf,4294970119,B.ug,4294970120,B.uh,4294970121,B.ui,4294970122,B.uj,4294970123,B.uk,4294970124,B.ul,4294970125,B.um,4294970126,B.un,4294970127,B.uo,4294970369,B.up,4294970370,B.uq,4294970371,B.ur,4294970372,B.us,4294970373,B.ut,4294970374,B.uu,4294970375,B.uv,4294970625,B.uw,4294970626,B.ux,4294970627,B.uy,4294970628,B.uz,4294970629,B.uA,4294970630,B.uB,4294970631,B.uC,4294970632,B.uD,4294970633,B.uE,4294970634,B.uF,4294970635,B.uG,4294970636,B.uH,4294970637,B.uI,4294970638,B.uJ,4294970639,B.uK,4294970640,B.uL,4294970641,B.uM,4294970642,B.uN,4294970643,B.uO,4294970644,B.uP,4294970645,B.uQ,4294970646,B.uR,4294970647,B.uS,4294970648,B.uT,4294970649,B.uU,4294970650,B.uV,4294970651,B.uW,4294970652,B.uX,4294970653,B.uY,4294970654,B.uZ,4294970655,B.v_,4294970656,B.v0,4294970657,B.v1,4294970658,B.v2,4294970659,B.v3,4294970660,B.v4,4294970661,B.v5,4294970662,B.v6,4294970663,B.v7,4294970664,B.v8,4294970665,B.v9,4294970666,B.va,4294970667,B.vb,4294970668,B.vc,4294970669,B.vd,4294970670,B.ve,4294970671,B.vf,4294970672,B.vg,4294970673,B.vh,4294970674,B.vi,4294970675,B.vj,4294970676,B.vk,4294970677,B.vl,4294970678,B.vm,4294970679,B.vn,4294970680,B.vo,4294970681,B.vp,4294970682,B.vq,4294970683,B.vr,4294970684,B.vs,4294970685,B.vt,4294970686,B.vu,4294970687,B.vv,4294970688,B.vw,4294970689,B.vx,4294970690,B.vy,4294970691,B.vz,4294970692,B.vA,4294970693,B.vB,4294970694,B.vC,4294970695,B.vD,4294970696,B.vE,4294970697,B.vF,4294970698,B.vG,4294970699,B.vH,4294970700,B.vI,4294970701,B.vJ,4294970702,B.vK,4294970703,B.vL,4294970704,B.vM,4294970705,B.vN,4294970706,B.vO,4294970707,B.vP,4294970708,B.vQ,4294970709,B.vR,4294970710,B.vS,4294970711,B.vT,4294970712,B.vU,4294970713,B.vV,4294970714,B.vW,4294970715,B.vX,4294970882,B.vY,4294970884,B.vZ,4294970885,B.w_,4294970886,B.w0,4294970887,B.w1,4294970888,B.w2,4294970889,B.w3,4294971137,B.w4,4294971138,B.w5,4294971393,B.w6,4294971394,B.w7,4294971395,B.w8,4294971396,B.w9,4294971397,B.wa,4294971398,B.wb,4294971399,B.wc,4294971400,B.wd,4294971401,B.we,4294971402,B.wf,4294971403,B.wg,4294971649,B.wh,4294971650,B.wi,4294971651,B.wj,4294971652,B.wk,4294971653,B.wl,4294971654,B.wm,4294971655,B.wn,4294971656,B.wo,4294971657,B.wp,4294971658,B.wq,4294971659,B.wr,4294971660,B.ws,4294971661,B.wt,4294971662,B.wu,4294971663,B.wv,4294971664,B.ww,4294971665,B.wx,4294971666,B.wy,4294971667,B.wz,4294971668,B.wA,4294971669,B.wB,4294971670,B.wC,4294971671,B.wD,4294971672,B.wE,4294971673,B.wF,4294971674,B.wG,4294971675,B.wH,4294971905,B.wI,4294971906,B.wJ,8589934592,B.Oa,8589934593,B.Ob,8589934594,B.Oc,8589934595,B.Od,8589934608,B.Oe,8589934609,B.Of,8589934610,B.Og,8589934611,B.Oh,8589934612,B.Oi,8589934624,B.Oj,8589934625,B.Ok,8589934626,B.Ol,8589934848,B.hb,8589934849,B.iY,8589934850,B.dk,8589934851,B.dQ,8589934852,B.hc,8589934853,B.iZ,8589934854,B.hd,8589934855,B.j_,8589935088,B.m9,8589935090,B.ma,8589935092,B.mb,8589935094,B.mc,8589935117,B.md,8589935144,B.Om,8589935145,B.On,8589935146,B.wY,8589935147,B.wZ,8589935148,B.Oo,8589935149,B.x_,8589935150,B.dR,8589935151,B.x0,8589935152,B.me,8589935153,B.he,8589935154,B.dS,8589935155,B.hf,8589935156,B.dT,8589935157,B.mf,8589935158,B.dU,8589935159,B.hg,8589935160,B.dV,8589935161,B.hh,8589935165,B.Op,8589935361,B.Oq,8589935362,B.Or,8589935363,B.Os,8589935364,B.Ot,8589935365,B.Ou,8589935366,B.Ov,8589935367,B.Ow,8589935368,B.Ox,8589935369,B.Oy,8589935370,B.Oz,8589935371,B.OA,8589935372,B.OB,8589935373,B.OC,8589935374,B.OD,8589935375,B.OE,8589935376,B.OF,8589935377,B.OG,8589935378,B.OH,8589935379,B.OI,8589935380,B.OJ,8589935381,B.OK,8589935382,B.OL,8589935383,B.OM,8589935384,B.ON,8589935385,B.OO,8589935386,B.OP,8589935387,B.OQ,8589935388,B.OR,8589935389,B.OS,8589935390,B.OT,8589935391,B.OU],A.an("aF<k,h>"))
 B.QM={"Volt Absorb":0,"Lightning Rod":1,"Motor Drive":2,"Water Absorb":3,"Storm Drain":4,"Dry Skin":5,"Flash Fire":6,"Well-Baked Body":7,"Sap Sipper":8,"Earth Eater":9}
-B.x7=new A.bu(B.QM,[B.a7,B.a7,B.a7,B.K,B.K,B.K,B.O,B.O,B.Z,B.aE],t.qd)
+B.x7=new A.bu(B.QM,[B.a7,B.a7,B.a7,B.J,B.J,B.J,B.O,B.O,B.Z,B.aE],t.qd)
 B.pk=new A.w(1,0.9411764705882353,0.5019607843137255,0.18823529411764706,B.e)
 B.pH=new A.w(1,0.40784313725490196,0.5647058823529412,0.9411764705882353,B.e)
 B.pf=new A.w(1,0.9725490196078431,0.8156862745098039,0.18823529411764706,B.e)
@@ -98589,13 +98592,13 @@ B.pY=new A.w(1,0.4392156862745098,0.2196078431372549,0.9725490196078431,B.e)
 B.py=new A.w(1,0.4392156862745098,0.34509803921568627,0.2823529411764706,B.e)
 B.pi=new A.w(1,0.7215686274509804,0.7215686274509804,0.8156862745098039,B.e)
 B.pS=new A.w(1,0.9333333333333333,0.6,0.6745098039215687,B.e)
-B.eO=new A.aF([B.ak,B.df,B.O,B.pk,B.K,B.pH,B.a7,B.pf,B.Z,B.pB,B.ax,B.pW,B.ay,B.pz,B.ap,B.pd,B.aE,B.pD,B.a8,B.pU,B.aD,B.pI,B.b0,B.pw,B.aa,B.pN,B.av,B.pu,B.al,B.pY,B.aw,B.py,B.Y,B.pi,B.am,B.pS],t.AZ)
+B.eO=new A.aF([B.ak,B.df,B.O,B.pk,B.J,B.pH,B.a7,B.pf,B.Z,B.pB,B.ax,B.pW,B.ay,B.pz,B.ap,B.pd,B.aE,B.pD,B.a8,B.pU,B.aD,B.pI,B.b0,B.pw,B.aa,B.pN,B.av,B.pu,B.al,B.pY,B.aw,B.py,B.Y,B.pi,B.am,B.pS],t.AZ)
 B.PH=new A.aF([B.aa,0.5,B.av,1,B.Y,0.5],t.d)
-B.Pk=new A.aF([B.O,0.5,B.K,0.5,B.Z,2,B.ax,2,B.b0,2,B.aa,0.5,B.al,0.5,B.Y,2],t.d)
-B.Pm=new A.aF([B.O,2,B.K,0.5,B.Z,0.5,B.aE,2,B.aa,2,B.al,0.5],t.d)
-B.P8=new A.aF([B.K,2,B.a7,0.5,B.Z,0.5,B.aE,1,B.a8,2,B.al,0.5],t.d)
-B.Pc=new A.aF([B.O,0.5,B.K,2,B.Z,0.5,B.ap,0.5,B.aE,2,B.a8,0.5,B.b0,0.5,B.aa,2,B.al,0.5,B.Y,0.5],t.d)
-B.PJ=new A.aF([B.O,0.5,B.K,0.5,B.Z,2,B.ax,0.5,B.aE,2,B.a8,2,B.al,2,B.Y,0.5],t.d)
+B.Pk=new A.aF([B.O,0.5,B.J,0.5,B.Z,2,B.ax,2,B.b0,2,B.aa,0.5,B.al,0.5,B.Y,2],t.d)
+B.Pm=new A.aF([B.O,2,B.J,0.5,B.Z,0.5,B.aE,2,B.aa,2,B.al,0.5],t.d)
+B.P8=new A.aF([B.J,2,B.a7,0.5,B.Z,0.5,B.aE,1,B.a8,2,B.al,0.5],t.d)
+B.Pc=new A.aF([B.O,0.5,B.J,2,B.Z,0.5,B.ap,0.5,B.aE,2,B.a8,0.5,B.b0,0.5,B.aa,2,B.al,0.5,B.Y,0.5],t.d)
+B.PJ=new A.aF([B.O,0.5,B.J,0.5,B.Z,2,B.ax,0.5,B.aE,2,B.a8,2,B.al,2,B.Y,0.5],t.d)
 B.PV=new A.aF([B.ak,2,B.ax,2,B.ap,0.5,B.a8,0.5,B.aD,0.5,B.b0,0.5,B.aa,2,B.av,1,B.aw,2,B.Y,2,B.am,0.5],t.d)
 B.Pq=new A.aF([B.Z,2,B.ap,0.5,B.aE,0.5,B.aa,0.5,B.av,0.5,B.Y,1,B.am,2],t.d)
 B.PT=new A.aF([B.O,2,B.a7,2,B.Z,0.5,B.ap,2,B.a8,1,B.b0,0.5,B.aa,2,B.Y,2],t.d)
@@ -98606,9 +98609,9 @@ B.Ps=new A.aF([B.O,2,B.ax,2,B.ay,0.5,B.aE,0.5,B.a8,2,B.b0,2,B.Y,0.5],t.d)
 B.P4=new A.aF([B.ak,1,B.aD,2,B.av,2,B.aw,0.5],t.d)
 B.Pp=new A.aF([B.al,2,B.Y,0.5,B.am,1],t.d)
 B.PG=new A.aF([B.ay,0.5,B.aD,2,B.av,2,B.aw,0.5,B.am,0.5],t.d)
-B.Pw=new A.aF([B.O,0.5,B.K,0.5,B.a7,0.5,B.ax,2,B.aa,2,B.am,2,B.Y,0.5],t.d)
+B.Pw=new A.aF([B.O,0.5,B.J,0.5,B.a7,0.5,B.ax,2,B.aa,2,B.am,2,B.Y,0.5],t.d)
 B.Po=new A.aF([B.O,0.5,B.ay,2,B.ap,0.5,B.al,2,B.aw,2,B.Y,0.5],t.d)
-B.P7=new A.aF([B.ak,B.PH,B.O,B.Pk,B.K,B.Pm,B.a7,B.P8,B.Z,B.Pc,B.ax,B.PJ,B.ay,B.PV,B.ap,B.Pq,B.aE,B.PT,B.a8,B.Pn,B.aD,B.Pv,B.b0,B.PX,B.aa,B.Ps,B.av,B.P4,B.al,B.Pp,B.aw,B.PG,B.Y,B.Pw,B.am,B.Po],A.an("aF<by,aS<by,I>>"))
+B.P7=new A.aF([B.ak,B.PH,B.O,B.Pk,B.J,B.Pm,B.a7,B.P8,B.Z,B.Pc,B.ax,B.PJ,B.ay,B.PV,B.ap,B.Pq,B.aE,B.PT,B.a8,B.Pn,B.aD,B.Pv,B.b0,B.PX,B.aa,B.Ps,B.av,B.P4,B.al,B.Pp,B.aw,B.PG,B.Y,B.Pw,B.am,B.Po],A.an("aF<by,aS<by,I>>"))
 B.BQ=new A.d2([B.av],t.Y0)
 B.Uh=new A.d2([B.aE],t.Y0)
 B.Ua=new A.d2([B.Y],t.Y0)
@@ -98681,7 +98684,7 @@ B.a2X=new A.ck("G-Max Volt Crash","\uac70\ub2e4\uc774\ub9cc\ub8b0",B.a7,null)
 B.a2Z=new A.ck("G-Max Gold Rush","\uac70\ub2e4\uc774\uae08\ud654",B.ak,null)
 B.a34=new A.ck("G-Max Chi Strike","\uac70\ub2e4\uc774\ud68c\uc2ec\uaca9",B.ay,null)
 B.a3c=new A.ck("G-Max Terror","\uac70\ub2e4\uc774\ud658\uc601",B.av,null)
-B.a2Y=new A.ck("G-Max Foam Burst","\uac70\ub2e4\uc774\ud3ec\ub9d0",B.K,null)
+B.a2Y=new A.ck("G-Max Foam Burst","\uac70\ub2e4\uc774\ud3ec\ub9d0",B.J,null)
 B.a2R=new A.ck("G-Max Resonance","\uac70\ub2e4\uc774\uc120\uc728",B.ax,null)
 B.a36=new A.ck("G-Max Cuddle","\uac70\ub2e4\uc774\ud3ec\uc639",B.ak,null)
 B.a2V=new A.ck("G-Max Replenish","\uac70\ub2e4\uc774\uc7ac\uc0dd",B.ak,null)
@@ -98689,7 +98692,7 @@ B.a39=new A.ck("G-Max Malodor","\uac70\ub2e4\uc774\uc545\ucde8",B.ap,null)
 B.a3_=new A.ck("G-Max Meltdown","\uac70\ub2e4\uc774\uc735\uaca9",B.Y,null)
 B.a2K=new A.ck("G-Max Wind Rage","\uac70\ub2e4\uc774\ud48d\uaca9",B.a8,null)
 B.a2N=new A.ck("G-Max Gravitas","\uac70\ub2e4\uc774\ucc9c\ub3c4",B.aD,null)
-B.a2M=new A.ck("G-Max Stonesurge","\uac70\ub2e4\uc774\uc554\uc9c4",B.K,null)
+B.a2M=new A.ck("G-Max Stonesurge","\uac70\ub2e4\uc774\uc554\uc9c4",B.J,null)
 B.a3f=new A.ck("G-Max Volcalith","\uac70\ub2e4\uc774\ubd84\uc11d",B.aa,null)
 B.a31=new A.ck("G-Max Tartness","\uac70\ub2e4\uc774\uc0b0\uaca9",B.Z,null)
 B.a30=new A.ck("G-Max Sweetness","\uac70\ub2e4\uc774\uac10\ub85c",B.Z,null)
@@ -98702,12 +98705,12 @@ B.a37=new A.ck("G-Max Finale","\uac70\ub2e4\uc774\ub2e8\uc6d0",B.am,null)
 B.a3d=new A.ck("G-Max Steelsurge","\uac70\ub2e4\uc774\uac15\uc9c4",B.Y,null)
 B.a2U=new A.ck("G-Max Depletion","\uac70\ub2e4\uc774\uac10\uc1e0",B.al,null)
 B.a3b=new A.ck("G-Max Vine Lash","\uac70\ub2e4\uc774\ud3b8\ub2ec",B.Z,160)
-B.a2L=new A.ck("G-Max Cannonade","\uac70\ub2e4\uc774\ud3ec\uaca9",B.K,160)
+B.a2L=new A.ck("G-Max Cannonade","\uac70\ub2e4\uc774\ud3ec\uaca9",B.J,160)
 B.a38=new A.ck("G-Max Drum Solo","\uac70\ub2e4\uc774\ub09c\ud0c0",B.Z,160)
 B.a3e=new A.ck("G-Max Fireball","\uac70\ub2e4\uc774\ud654\uc5fc\uad6c",B.O,160)
-B.a2P=new A.ck("G-Max Hydrosnipe","\uac70\ub2e4\uc774\uc800\uaca9",B.K,160)
+B.a2P=new A.ck("G-Max Hydrosnipe","\uac70\ub2e4\uc774\uc800\uaca9",B.J,160)
 B.a2T=new A.ck("G-Max One Blow","\uac70\ub2e4\uc774\uc77c\uaca9",B.aw,null)
-B.a32=new A.ck("G-Max Rapid Flow","\uac70\ub2e4\uc774\uc5f0\uaca9",B.K,null)
+B.a32=new A.ck("G-Max Rapid Flow","\uac70\ub2e4\uc774\uc5f0\uaca9",B.J,null)
 B.Pl=new A.bu(B.QY,[B.a2O,B.a2Q,B.a2X,B.a2Z,B.a34,B.a3c,B.a2Y,B.a2R,B.a36,B.a2V,B.a39,B.a3_,B.a2K,B.a2N,B.a2M,B.a3f,B.a31,B.a30,B.a2W,B.a3a,B.a35,B.a33,B.a2S,B.a37,B.a3d,B.a2U,B.a3b,B.a2L,B.a38,B.a3e,B.a2P,B.a2T,B.a32],A.an("bu<m,ck>"))
 B.V1=new A.af(B.cl,!0,!1,!1,!1,B.m)
 B.V2=new A.af(B.ci,!0,!1,!1,!1,B.m)
@@ -98816,7 +98819,7 @@ B.PE=new A.bu(B.QK,[B.a8,B.am,B.ax,B.a7,B.Y,B.ak],t.qd)
 B.QB={reflect:0,light_screen:1,bypass_crit:2,bypass_infiltrator:3}
 B.PF=new A.bu(B.QB,["\ub9ac\ud50c\ub809\ud130 \xd70.5","\ube5b\uc758\uc7a5\ub9c9 \xd70.5","\uae09\uc18c: \ubcbd \ubb34\uc2dc","\uce68\ud22c: \ubcbd \ubb34\uc2dc"],t.li)
 B.QF={"occa-berry":0,"passho-berry":1,"wacan-berry":2,"rindo-berry":3,"yache-berry":4,"chople-berry":5,"kebia-berry":6,"shuca-berry":7,"coba-berry":8,"payapa-berry":9,"tanga-berry":10,"charti-berry":11,"kasib-berry":12,"haban-berry":13,"colbur-berry":14,"babiri-berry":15,"roseli-berry":16,"chilan-berry":17}
-B.PI=new A.bu(B.QF,[B.O,B.K,B.a7,B.Z,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am,B.ak],t.qd)
+B.PI=new A.bu(B.QF,[B.O,B.J,B.a7,B.Z,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am,B.ak],t.qd)
 B.QH={KeyA:0,KeyB:1,KeyC:2,KeyD:3,KeyE:4,KeyF:5,KeyG:6,KeyH:7,KeyI:8,KeyJ:9,KeyK:10,KeyL:11,KeyM:12,KeyN:13,KeyO:14,KeyP:15,KeyQ:16,KeyR:17,KeyS:18,KeyT:19,KeyU:20,KeyV:21,KeyW:22,KeyX:23,KeyY:24,KeyZ:25,Digit1:26,Digit2:27,Digit3:28,Digit4:29,Digit5:30,Digit6:31,Digit7:32,Digit8:33,Digit9:34,Digit0:35,Minus:36,Equal:37,BracketLeft:38,BracketRight:39,Backslash:40,Semicolon:41,Quote:42,Backquote:43,Comma:44,Period:45,Slash:46}
 B.mk=new A.bu(B.QH,["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0","-","=","[","]","\\",";","'","`",",",".","/"],t.li)
 B.Fg=new A.mA()
@@ -98825,7 +98828,7 @@ B.Fh=new A.mB()
 B.Ff=new A.mz()
 B.PK=new A.aF([B.fb,B.Fg,B.fc,B.Fe,B.f9,B.Fh,B.fa,B.Ff],t.Fp)
 B.Qy={"ogerpon-wellspring-mask":0,"ogerpon-hearthflame-mask":1,"ogerpon-cornerstone-mask":2}
-B.PL=new A.bu(B.Qy,[B.K,B.O,B.aa],t.qd)
+B.PL=new A.bu(B.Qy,[B.J,B.O,B.aa],t.qd)
 B.Qw={"Electric Surge":0,"Grassy Surge":1,"Psychic Surge":2,"Misty Surge":3,"Hadron Engine":4}
 B.xi=new A.bu(B.Qw,[B.cJ,B.fg,B.ea,B.fh,B.cJ],A.an("bu<m,e4>"))
 B.QA={Abort:0,Again:1,AltLeft:2,AltRight:3,ArrowDown:4,ArrowLeft:5,ArrowRight:6,ArrowUp:7,AudioVolumeDown:8,AudioVolumeMute:9,AudioVolumeUp:10,Backquote:11,Backslash:12,Backspace:13,BracketLeft:14,BracketRight:15,BrightnessDown:16,BrightnessUp:17,BrowserBack:18,BrowserFavorites:19,BrowserForward:20,BrowserHome:21,BrowserRefresh:22,BrowserSearch:23,BrowserStop:24,CapsLock:25,Comma:26,ContextMenu:27,ControlLeft:28,ControlRight:29,Convert:30,Copy:31,Cut:32,Delete:33,Digit0:34,Digit1:35,Digit2:36,Digit3:37,Digit4:38,Digit5:39,Digit6:40,Digit7:41,Digit8:42,Digit9:43,DisplayToggleIntExt:44,Eject:45,End:46,Enter:47,Equal:48,Escape:49,Esc:50,F1:51,F10:52,F11:53,F12:54,F13:55,F14:56,F15:57,F16:58,F17:59,F18:60,F19:61,F2:62,F20:63,F21:64,F22:65,F23:66,F24:67,F3:68,F4:69,F5:70,F6:71,F7:72,F8:73,F9:74,Find:75,Fn:76,FnLock:77,GameButton1:78,GameButton10:79,GameButton11:80,GameButton12:81,GameButton13:82,GameButton14:83,GameButton15:84,GameButton16:85,GameButton2:86,GameButton3:87,GameButton4:88,GameButton5:89,GameButton6:90,GameButton7:91,GameButton8:92,GameButton9:93,GameButtonA:94,GameButtonB:95,GameButtonC:96,GameButtonLeft1:97,GameButtonLeft2:98,GameButtonMode:99,GameButtonRight1:100,GameButtonRight2:101,GameButtonSelect:102,GameButtonStart:103,GameButtonThumbLeft:104,GameButtonThumbRight:105,GameButtonX:106,GameButtonY:107,GameButtonZ:108,Help:109,Home:110,Hyper:111,Insert:112,IntlBackslash:113,IntlRo:114,IntlYen:115,KanaMode:116,KeyA:117,KeyB:118,KeyC:119,KeyD:120,KeyE:121,KeyF:122,KeyG:123,KeyH:124,KeyI:125,KeyJ:126,KeyK:127,KeyL:128,KeyM:129,KeyN:130,KeyO:131,KeyP:132,KeyQ:133,KeyR:134,KeyS:135,KeyT:136,KeyU:137,KeyV:138,KeyW:139,KeyX:140,KeyY:141,KeyZ:142,KeyboardLayoutSelect:143,Lang1:144,Lang2:145,Lang3:146,Lang4:147,Lang5:148,LaunchApp1:149,LaunchApp2:150,LaunchAssistant:151,LaunchControlPanel:152,LaunchMail:153,LaunchScreenSaver:154,MailForward:155,MailReply:156,MailSend:157,MediaFastForward:158,MediaPause:159,MediaPlay:160,MediaPlayPause:161,MediaRecord:162,MediaRewind:163,MediaSelect:164,MediaStop:165,MediaTrackNext:166,MediaTrackPrevious:167,MetaLeft:168,MetaRight:169,MicrophoneMuteToggle:170,Minus:171,NonConvert:172,NumLock:173,Numpad0:174,Numpad1:175,Numpad2:176,Numpad3:177,Numpad4:178,Numpad5:179,Numpad6:180,Numpad7:181,Numpad8:182,Numpad9:183,NumpadAdd:184,NumpadBackspace:185,NumpadClear:186,NumpadClearEntry:187,NumpadComma:188,NumpadDecimal:189,NumpadDivide:190,NumpadEnter:191,NumpadEqual:192,NumpadMemoryAdd:193,NumpadMemoryClear:194,NumpadMemoryRecall:195,NumpadMemoryStore:196,NumpadMemorySubtract:197,NumpadMultiply:198,NumpadParenLeft:199,NumpadParenRight:200,NumpadSubtract:201,Open:202,PageDown:203,PageUp:204,Paste:205,Pause:206,Period:207,Power:208,PrintScreen:209,PrivacyScreenToggle:210,Props:211,Quote:212,Resume:213,ScrollLock:214,Select:215,SelectTask:216,Semicolon:217,ShiftLeft:218,ShiftRight:219,ShowAllWindows:220,Slash:221,Sleep:222,Space:223,Super:224,Suspend:225,Tab:226,Turbo:227,Undo:228,WakeUp:229,ZoomToggle:230}
@@ -99065,10 +99068,10 @@ B.Bq=new A.lM(!1)
 B.Br=new A.lM(!0)
 B.PR=new A.bu(B.QX,[B.l2,B.l5,B.l3,B.fQ,B.fR,B.l4,B.eE,B.eF,B.eF,B.eE,B.eI,B.eJ,B.iw,B.ix,B.fW,B.fX,B.iA,B.iB,B.dJ,B.dK,B.qx,B.qy,B.qt,B.qu,B.dJ,B.dK,B.eG,B.eH,B.qj,B.qk,B.lK,B.lL,B.p6,B.Bq,B.Br,B.n6,B.jp,B.iC,B.iD,B.oX,B.p2,B.p3],A.an("bu<m,aQ>"))
 B.QR={"flame-plate":0,"splash-plate":1,"meadow-plate":2,"zap-plate":3,"icicle-plate":4,"fist-plate":5,"toxic-plate":6,"earth-plate":7,"sky-plate":8,"mind-plate":9,"insect-plate":10,"stone-plate":11,"spooky-plate":12,"draco-plate":13,"dread-plate":14,"iron-plate":15,"pixie-plate":16}
-B.xk=new A.bu(B.QR,[B.O,B.K,B.Z,B.a7,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am],t.qd)
+B.xk=new A.bu(B.QR,[B.O,B.J,B.Z,B.a7,B.ax,B.ay,B.ap,B.aE,B.a8,B.aD,B.b0,B.aa,B.av,B.al,B.aw,B.Y,B.am],t.qd)
 B.Hk=new A.w(1,0.8784313725490196,0.7529411764705882,1,B.e)
-B.PS=new A.aF([B.ak,B.df,B.O,B.pk,B.K,B.pH,B.a7,B.pf,B.Z,B.pB,B.ax,B.pW,B.ay,B.pz,B.ap,B.pd,B.aE,B.pD,B.a8,B.pU,B.aD,B.pI,B.b0,B.pw,B.aa,B.pN,B.av,B.pu,B.al,B.pY,B.aw,B.py,B.Y,B.pi,B.am,B.pS,B.bT,B.Hk],t.AZ)
-B.xl=new A.aF([B.ak,"\ub178\ub9d0",B.O,"\ubd88\uaf43",B.K,"\ubb3c",B.a7,"\uc804\uae30",B.Z,"\ud480",B.ax,"\uc5bc\uc74c",B.ay,"\uaca9\ud22c",B.ap,"\ub3c5",B.aE,"\ub545",B.a8,"\ube44\ud589",B.aD,"\uc5d0\uc2a4\ud37c",B.b0,"\ubc8c\ub808",B.aa,"\ubc14\uc704",B.av,"\uace0\uc2a4\ud2b8",B.al,"\ub4dc\ub798\uace4",B.aw,"\uc545",B.Y,"\uac15\ucca0",B.am,"\ud398\uc5b4\ub9ac",B.bT,"\uc2a4\ud154\ub77c"],t.H7)
+B.PS=new A.aF([B.ak,B.df,B.O,B.pk,B.J,B.pH,B.a7,B.pf,B.Z,B.pB,B.ax,B.pW,B.ay,B.pz,B.ap,B.pd,B.aE,B.pD,B.a8,B.pU,B.aD,B.pI,B.b0,B.pw,B.aa,B.pN,B.av,B.pu,B.al,B.pY,B.aw,B.py,B.Y,B.pi,B.am,B.pS,B.bT,B.Hk],t.AZ)
+B.xl=new A.aF([B.ak,"\ub178\ub9d0",B.O,"\ubd88\uaf43",B.J,"\ubb3c",B.a7,"\uc804\uae30",B.Z,"\ud480",B.ax,"\uc5bc\uc74c",B.ay,"\uaca9\ud22c",B.ap,"\ub3c5",B.aE,"\ub545",B.a8,"\ube44\ud589",B.aD,"\uc5d0\uc2a4\ud37c",B.b0,"\ubc8c\ub808",B.aa,"\ubc14\uc704",B.av,"\uace0\uc2a4\ud2b8",B.al,"\ub4dc\ub798\uace4",B.aw,"\uc545",B.Y,"\uac15\ucca0",B.am,"\ud398\uc5b4\ub9ac",B.bT,"\uc2a4\ud154\ub77c"],t.H7)
 B.PU=new A.aF([B.bw,"\ubb3c\ub9ac",B.dX,"\ud2b9\uc218",B.dY,"\ubcc0\ud654"],A.an("aF<dw,m>"))
 B.QL={BU:0,DD:1,FX:2,TP:3,YD:4,ZR:5}
 B.cW=new A.bu(B.QL,["MM","DE","FR","TL","YE","CD"],t.li)
@@ -99301,7 +99304,7 @@ B.cX=new A.vb(0,0,0,0,0)
 B.SG=new A.Gq(1)
 B.SH=new A.ab(0,0)
 B.SI=new A.ab(0,!0)
-B.SJ=new A.i6(B.K,null)
+B.SJ=new A.i6(B.J,null)
 B.SL=new A.i6(B.aD,null)
 B.d3=new A.DR(2,"collapsed")
 B.SN=new A.ab(B.d3,B.d3)
@@ -99431,8 +99434,8 @@ B.BC=new A.cS(64,"increase")
 B.TY=new A.cS(65536,"didLoseAccessibilityFocus")
 B.TZ=new A.cS(8192,"cut")
 B.BD=new A.cS(8388608,"scrollToOffset")
-B.J=new A.Ec(0,0,"none")
-B.jx=new A.CZ(B.es,B.J,B.J,B.J,B.J,B.J,B.J,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1)
+B.K=new A.Ec(0,0,"none")
+B.jx=new A.CZ(B.es,B.K,B.K,B.K,B.K,B.K,B.K,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1,!1)
 B.d0=new A.D_(0,"defer")
 B.BE=new A.D_(1,"opaque")
 B.BF=new A.D_(2,"transparent")
