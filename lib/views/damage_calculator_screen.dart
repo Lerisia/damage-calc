@@ -337,6 +337,47 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
+  void _showAboutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('결정력 계산기', style: TextStyle(fontWeight: FontWeight.bold)),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('v0.1.0-alpha (테스트 버전)'),
+            SizedBox(height: 8),
+            Text('포켓몬스터 실전 배틀 유저를 위한 결정력 계산기'),
+            SizedBox(height: 12),
+            Text('제작  Elyss'),
+            SelectableText('GitHub  github.com/Lerisia/damage-calc'),
+            SizedBox(height: 16),
+            Divider(),
+            SizedBox(height: 8),
+            Text(
+              '본 앱은 Nintendo, Game Freak, The Pokémon Company와 '
+              '관련이 없는 비공식 팬메이드 앱입니다.\n'
+              '포켓몬스터 관련 데이터의 저작권은 원저작자에게 있습니다.',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            SizedBox(height: 12),
+            Text(
+              '문의 및 버그 리포트는 GitHub Issue로 부탁드립니다.',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('닫기'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -442,16 +483,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               }),
             ),
             Expanded(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerRight,
-                child: Text(
-                  '결정력 계산기',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.5,
-                    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              child: GestureDetector(
+                onTap: () => _showAboutDialog(context),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '결정력 계산기',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.5,
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                    ),
                   ),
                 ),
               ),
