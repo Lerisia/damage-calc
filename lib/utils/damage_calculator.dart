@@ -128,6 +128,7 @@ class DamageResult {
   }
 
   /// Multi-hit KO: uses convolution-based probability distribution.
+  /// "1타" = one use of the multi-hit move (all hits combined).
   ({int hits, int koCount, int totalCount}) get _multiHitKoInfo {
     final prob = multiHitKoProb!;
     if (prob >= 1.0) {
@@ -137,8 +138,15 @@ class DamageResult {
       final koCount = (prob * denom).round().clamp(1, denom - 1);
       return (hits: 1, koCount: koCount, totalCount: denom);
     }
-    // Multi-hit didn't KO in one attack; fall back to standard N-hit KO
-    return RandomFactor.nHitKoFromRolls(allRolls, defenderHp);
+    // Multi-hit didn't KO in one use; calculate N-use KO using
+    // total damage per use (min/max) instead of individual hit rolls.
+    if (maxDamage <= 0) return (hits: 0, koCount: 0, totalCount: 1);
+    final guaranteedUses = (defenderHp / minDamage).ceil();
+    final bestUses = (defenderHp / maxDamage).ceil();
+    if (guaranteedUses == bestUses) {
+      return (hits: guaranteedUses, koCount: 1, totalCount: 1);
+    }
+    return (hits: bestUses, koCount: 1, totalCount: 2); // approximate
   }
 
   /// Human-readable KO label: "확정 1타", "난수 2타 (52.3%)", etc.
