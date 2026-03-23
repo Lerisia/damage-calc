@@ -573,7 +573,7 @@
     "accuracy": 95,
     "pp": 10,
     "tags": [],
-    "minHits": 3,
+    "minHits": 1,
     "maxHits": 3
   },
   {
