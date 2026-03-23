@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/nature.dart';
-import '../../models/rank.dart';
-import '../../models/stats.dart';
 import '../../models/status.dart';
 import '../../utils/korean_search.dart';
 import '../../utils/localization.dart';
@@ -271,10 +269,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 value: state.iv.speed,
                 min: 0, max: 31,
                 onChanged: (val) {
-                  setState(() {
-                    state.iv = Stats(hp: state.iv.hp, attack: state.iv.attack, defense: state.iv.defense,
-                      spAttack: state.iv.spAttack, spDefense: state.iv.spDefense, speed: val);
-                  });
+                  setState(() => state.iv = state.iv.copyWith(speed: val));
                   _notify();
                 },
               )),
@@ -284,25 +279,16 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 value: state.ev.speed,
                 min: 0, max: 252,
                 onChanged: (val) {
-                  setState(() {
-                    state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
-                      spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: val);
-                  });
+                  setState(() => state.ev = state.ev.copyWith(speed: val));
                   _notify();
                 },
               )),
               _miniButton('0', () {
-                setState(() {
-                  state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
-                    spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: 0);
-                });
+                setState(() => state.ev = state.ev.copyWith(speed: 0));
                 _notify();
               }),
               _miniButton('max', () {
-                setState(() {
-                  state.ev = Stats(hp: state.ev.hp, attack: state.ev.attack, defense: state.ev.defense,
-                    spAttack: state.ev.spAttack, spDefense: state.ev.spDefense, speed: 252);
-                });
+                setState(() => state.ev = state.ev.copyWith(speed: 252));
                 _notify();
               }),
               const SizedBox(width: 8),
@@ -312,10 +298,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 min: -6, max: 6,
                 signed: true,
                 onChanged: (val) {
-                  setState(() {
-                    state.rank = Rank(attack: state.rank.attack, defense: state.rank.defense,
-                      spAttack: state.rank.spAttack, spDefense: state.rank.spDefense, speed: val);
-                  });
+                  setState(() => state.rank = state.rank.copyWith(speed: val));
                   _notify();
                 },
               )),

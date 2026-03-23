@@ -27,6 +27,20 @@ class Rank {
   double get spDefenseMultiplier => multiplier(spDefense);
   double get speedMultiplier => multiplier(speed);
 
+  Rank copyWith({
+    int? attack,
+    int? defense,
+    int? spAttack,
+    int? spDefense,
+    int? speed,
+  }) => Rank(
+    attack: attack ?? this.attack,
+    defense: defense ?? this.defense,
+    spAttack: spAttack ?? this.spAttack,
+    spDefense: spDefense ?? this.spDefense,
+    speed: speed ?? this.speed,
+  );
+
   Map<String, dynamic> toJson() => {
     'attack': attack,
     'defense': defense,

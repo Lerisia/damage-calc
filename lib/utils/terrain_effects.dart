@@ -4,6 +4,15 @@ import '../models/terrain.dart';
 
 import '../models/move_tags.dart';
 
+/// Maps abilities that auto-set terrain when sent out.
+const abilityTerrainMap = <String, Terrain>{
+  'Electric Surge': Terrain.electric,
+  'Grassy Surge': Terrain.grassy,
+  'Psychic Surge': Terrain.psychic,
+  'Misty Surge': Terrain.misty,
+  'Hadron Engine': Terrain.electric,
+};
+
 /// Abilities that negate all terrain effects while on the field.
 const _terrainNegatingAbilities = {'Teraform Zero'};
 

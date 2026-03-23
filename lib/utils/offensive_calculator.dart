@@ -8,10 +8,18 @@ import '../models/rank.dart';
 import '../models/type.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
+import 'damage_calculator.dart' show kStandardStab, kCriticalMultiplier,
+    kStellarStabMatching, kStellarStabNonMatching, kTeraMinPower, kBurnDamageReduction;
 import 'move_transform.dart';
 import 'stat_calculator.dart';
 import 'terrain_effects.dart';
 import 'weather_effects.dart';
+
+/// Terastal STAB: same original type + tera type
+const double kTeraStabSameType = 2.0;
+
+/// Terastal STAB: same original type + tera type + Adaptability
+const double kTeraStabSameTypeWithOverride = 2.25;
 
 /// Calculates offensive power from a [TransformedMove].
 ///
@@ -22,15 +30,6 @@ import 'weather_effects.dart';
 /// [powerModifier] is applied to the final result (e.g. Life Orb).
 /// Returns 0 for status moves.
 class OffensiveCalculator {
-  static const double _stabMultiplier = 1.5;
-  static const double _criticalMultiplier = 1.5;
-
-  // Terastal STAB constants
-  static const double _stellarStabMatching = 2.0;
-  static const double _stellarStabNonMatching = 1.2;
-  static const double _teraStabSameType = 2.0;
-  static const double _teraStabSameTypeWithOverride = 2.25;
-  static const int _teraMinPower = 60;
 
   static int calculate({
     required Stats baseStats,
@@ -101,25 +100,25 @@ class OffensiveCalculator {
     if (terastallized && teraType != null) {
       if (teraType == PokemonType.stellar) {
         // Stellar: original STAB -> 2.0, non-STAB -> 1.2
-        stabMult = isOriginalStab ? _stellarStabMatching : _stellarStabNonMatching;
+        stabMult = isOriginalStab ? kStellarStabMatching : kStellarStabNonMatching;
       } else if (isTeraStab && isOriginalStab) {
-        stabMult = stabOverride != null ? _teraStabSameTypeWithOverride : _teraStabSameType;
+        stabMult = stabOverride != null ? kTeraStabSameTypeWithOverride : kTeraStabSameType;
       } else if (isTeraStab) {
-        stabMult = stabOverride ?? _stabMultiplier;
+        stabMult = stabOverride ?? kStandardStab;
       } else if (isOriginalStab) {
         // Adaptability does NOT apply to original-type STAB after Tera
-        stabMult = _stabMultiplier;
+        stabMult = kStandardStab;
       }
     } else {
-      stabMult = isOriginalStab ? (stabOverride ?? _stabMultiplier) : 1.0;
+      stabMult = isOriginalStab ? (stabOverride ?? kStandardStab) : 1.0;
     }
 
     // Terastal minimum power: moves below 60 power become 60
     // Exceptions: multi-hit moves and priority moves are not boosted
     final int effectivePower = (terastallized && isTeraStab
         && !move.isMultiHit && move.priority <= 0
-        && move.power < _teraMinPower && move.power > 0)
-        ? _teraMinPower : move.power;
+        && move.power < kTeraMinPower && move.power > 0)
+        ? kTeraMinPower : move.power;
 
     final double weatherMod = getWeatherOffensiveModifier(weather, move: move);
     final double terrainMod = getTerrainModifier(terrain,
@@ -130,13 +129,13 @@ class OffensiveCalculator {
         (status == StatusCondition.burn &&
          move.category == MoveCategory.physical &&
          !hasGuts)
-            ? 0.5
+            ? kBurnDamageReduction
             : 1.0;
 
     final double raw = modifiedStat *
         effectivePower *
         stabMult *
-        (isCritical ? (criticalOverride ?? _criticalMultiplier) : 1.0) *
+        (isCritical ? (criticalOverride ?? kCriticalMultiplier) : 1.0) *
         weatherMod *
         terrainMod *
         burnMod *

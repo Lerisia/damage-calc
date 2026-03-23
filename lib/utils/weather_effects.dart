@@ -3,6 +3,18 @@ import '../models/move_tags.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 
+/// Maps abilities that auto-set weather when sent out.
+const abilityWeatherMap = <String, Weather>{
+  'Drought': Weather.sun,
+  'Desolate Land': Weather.harshSun,
+  'Drizzle': Weather.rain,
+  'Primordial Sea': Weather.heavyRain,
+  'Sand Stream': Weather.sandstorm,
+  'Snow Warning': Weather.snow,
+  'Delta Stream': Weather.strongWinds,
+  'Orichalcum Pulse': Weather.sun,
+};
+
 /// Abilities that negate all weather effects while on the field.
 const _weatherNegatingAbilities = {'Cloud Nine', 'Air Lock', 'Teraform Zero'};
 

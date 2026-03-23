@@ -27,6 +27,22 @@ class Stats {
     );
   }
 
+  Stats copyWith({
+    int? hp,
+    int? attack,
+    int? defense,
+    int? spAttack,
+    int? spDefense,
+    int? speed,
+  }) => Stats(
+    hp: hp ?? this.hp,
+    attack: attack ?? this.attack,
+    defense: defense ?? this.defense,
+    spAttack: spAttack ?? this.spAttack,
+    spDefense: spDefense ?? this.spDefense,
+    speed: speed ?? this.speed,
+  );
+
   Map<String, dynamic> toJson() => {
     'hp': hp,
     'attack': attack,

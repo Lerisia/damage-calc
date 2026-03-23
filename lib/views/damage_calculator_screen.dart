@@ -4,34 +4,25 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
-import '../data/abilitydex.dart';
-import '../data/itemdex.dart';
 import '../data/sample_storage.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
 import '../utils/damage_calculator.dart';
-import '../utils/random_factor.dart';
-import '../utils/grounded.dart';
-import '../utils/item_effects.dart';
 import '../utils/korean_search.dart';
 import '../utils/speed_calculator.dart';
 import '../utils/stat_calculator.dart';
-import '../models/move.dart';
 import '../models/type.dart';
 import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
-import '../models/nature.dart';
-import '../models/rank.dart';
 import '../models/stats.dart';
-import '../models/status.dart';
 import '../models/room.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
 import '../utils/localization.dart';
-import '../utils/room_effects.dart';
+import '../utils/terrain_effects.dart' show abilityTerrainMap;
+import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'widgets/pokemon_panel.dart';
 import 'widgets/speed_compare_tab.dart';
-import 'widgets/pokemon_selector.dart';
 
 class DamageCalculatorScreen extends StatefulWidget {
   final Map<String, String> abilityNameMap;
@@ -71,25 +62,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Map<String, String> get _abilityNameMap => widget.abilityNameMap;
   Map<String, String> get _itemNameMap => widget.itemNameMap;
 
-  // Ability → Weather/Terrain auto-set
-  static const _abilityWeather = {
-    'Drought': Weather.sun,
-    'Desolate Land': Weather.harshSun,
-    'Drizzle': Weather.rain,
-    'Primordial Sea': Weather.heavyRain,
-    'Sand Stream': Weather.sandstorm,
-    'Snow Warning': Weather.snow,
-    'Delta Stream': Weather.strongWinds,
-    'Orichalcum Pulse': Weather.sun,
-  };
-
-  static const _abilityTerrain = {
-    'Electric Surge': Terrain.electric,
-    'Grassy Surge': Terrain.grassy,
-    'Psychic Surge': Terrain.psychic,
-    'Misty Surge': Terrain.misty,
-    'Hadron Engine': Terrain.electric,
-  };
+  // Ability → Weather/Terrain auto-set (from weather_effects / terrain_effects)
 
   /// Called when either panel changes. Debounced to avoid excessive rebuilds
   /// during rapid input (e.g. typing EVs).
@@ -108,14 +81,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final defAbility = _defender.selectedAbility;
     final atkAbility = _attacker.selectedAbility;
 
-    final atkWeather = atkAbility != null ? _abilityWeather[atkAbility] : null;
-    final defWeather = defAbility != null ? _abilityWeather[defAbility] : null;
+    final atkWeather = atkAbility != null ? abilityWeatherMap[atkAbility] : null;
+    final defWeather = defAbility != null ? abilityWeatherMap[defAbility] : null;
     if (atkWeather != null || defWeather != null) {
       _weather = atkWeather ?? defWeather!;
     }
 
-    final atkTerrain = atkAbility != null ? _abilityTerrain[atkAbility] : null;
-    final defTerrain = defAbility != null ? _abilityTerrain[defAbility] : null;
+    final atkTerrain = atkAbility != null ? abilityTerrainMap[atkAbility] : null;
+    final defTerrain = defAbility != null ? abilityTerrainMap[defAbility] : null;
     if (atkTerrain != null || defTerrain != null) {
       _terrain = atkTerrain ?? defTerrain!;
     }
