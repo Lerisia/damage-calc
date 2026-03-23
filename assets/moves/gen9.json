@@ -587,6 +587,8 @@
     "power": 40,
     "accuracy": 100,
     "pp": 10,
+    "minHits": 2,
+    "maxHits": 2,
     "tags": []
   },
   {
