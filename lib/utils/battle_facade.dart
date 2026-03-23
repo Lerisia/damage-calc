@@ -482,6 +482,8 @@ class BattleFacade {
     double? opponentWeight,
     int? hitCount,
     bool gravity = false,
+    bool attackerGrounded = true,
+    bool defenderGrounded = true,
   }) {
     // Tera Blast needs rank-applied stats for category comparison
     final rankedStats = state.rank != const Rank()
@@ -517,6 +519,8 @@ class BattleFacade {
       heldItem: state.selectedItem,
       hitCount: hitCount,
       gravity: gravity,
+      attackerGrounded: attackerGrounded,
+      defenderGrounded: defenderGrounded,
     );
   }
 

@@ -894,11 +894,11 @@ class DamageCalculator {
     // Power scales with target's remaining HP
     int dynamicPower = effectiveMove.power;
     if (effectiveMove.hasTag(MoveTags.powerByTargetHp120)) {
-      // Wring Out / Crush Grip: power = floor(120 × currentHP / maxHP) + 1
-      dynamicPower = (120 * defender.hpPercent / 100).floor() + 1;
+      // Wring Out / Crush Grip (Gen V+): power = max(1, floor(120 × currentHP / maxHP))
+      dynamicPower = (120 * defender.hpPercent / 100).floor().clamp(1, 120);
     } else if (effectiveMove.hasTag(MoveTags.powerByTargetHp100)) {
-      // Hard Press: power = floor(100 × currentHP / maxHP) + 1
-      dynamicPower = (100 * defender.hpPercent / 100).floor() + 1;
+      // Hard Press (Gen IX): power = max(1, floor(100 × currentHP / maxHP))
+      dynamicPower = (100 * defender.hpPercent / 100).floor().clamp(1, 100);
     }
 
     // Terastal minimum power: Tera STAB moves below threshold become threshold
