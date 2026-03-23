@@ -13,6 +13,7 @@ import '../../models/weather.dart';
 import '../../utils/battle_facade.dart';
 import '../../utils/item_effects.dart';
 import '../../utils/speed_calculator.dart';
+import '../../utils/speed_tier.dart';
 import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../widgets/pokemon_selector.dart';
@@ -67,6 +68,11 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
 
   void _notify() {
     widget.onChanged();
+  }
+
+  String _speedTierDescription(int level, int effSpeed) {
+    final table = getSpeedTierTable(level);
+    return table.describe(effSpeed);
   }
 
   String _itemKo(String? key) {
@@ -211,6 +217,14 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
               Text('$effSpeed', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color)),
             ],
           ),
+          if (effSpeed > 0)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                _speedTierDescription(state.level, effSpeed),
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+              ),
+            ),
           const SizedBox(height: 10),
           Row(
             children: [
