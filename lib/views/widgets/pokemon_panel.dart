@@ -344,28 +344,35 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   Widget _captureHeader() {
-    final parts = <String>[];
-    if (widget.label.isNotEmpty) parts.add(widget.label);
-    if (widget.weather != Weather.none) parts.add(KoStrings.weatherKoWithIcon[widget.weather]!);
-    if (widget.terrain != Terrain.none) parts.add(KoStrings.terrainKoWithIcon[widget.terrain]!);
-    if (widget.room.trickRoom) parts.add('🔄트릭룸');
-    if (widget.room.magicRoom) parts.add('✨매직룸');
-    if (widget.room.wonderRoom) parts.add('❓원더룸');
-    if (widget.room.gravity) parts.add('🌀중력');
+    final label = widget.label;
+    final conditions = <String>[];
+    if (widget.weather != Weather.none) conditions.add(KoStrings.weatherKoWithIcon[widget.weather]!);
+    if (widget.terrain != Terrain.none) conditions.add(KoStrings.terrainKoWithIcon[widget.terrain]!);
+    if (widget.room.trickRoom) conditions.add('🔄트릭룸');
+    if (widget.room.magicRoom) conditions.add('✨매직룸');
+    if (widget.room.wonderRoom) conditions.add('❓원더룸');
+    if (widget.room.gravity) conditions.add('🌀중력');
 
-    if (parts.isEmpty && widget.onSave == null) return const SizedBox.shrink();
+    if (label.isEmpty && conditions.isEmpty && widget.onSave == null) return const SizedBox.shrink();
+
+    final labelColor = widget.isAttacker ? Colors.red[400] : Colors.blue[400];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       child: Row(
         children: [
-          Expanded(child: Text(
-            parts.join(' | '),
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: widget.isAttacker ? Colors.red[400] : Colors.blue[400],
-            ),
+          Expanded(child: Text.rich(
+            TextSpan(children: [
+              if (label.isNotEmpty) TextSpan(
+                text: label,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: labelColor),
+              ),
+              if (label.isNotEmpty && conditions.isNotEmpty) const TextSpan(text: ' '),
+              if (conditions.isNotEmpty) TextSpan(
+                text: conditions.join(' | '),
+                style: TextStyle(fontSize: 12, color: labelColor?.withValues(alpha: 0.7)),
+              ),
+            ]),
           )),
           if (widget.onSave != null)
             IconButton(
@@ -556,7 +563,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     : SizedBox(
                         height: 28,
                         child: TextFormField(
-                          key: ValueKey('power_${index}_${move.name}'),
+                          key: ValueKey('power_${index}_${move.name}_${s.dynamax}_${displayPower}'),
                           initialValue: '$displayPower',
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,

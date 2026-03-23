@@ -791,6 +791,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       room: _room,
       opponentAttack: _calcStats(_defender).attack,
       opponentSpeed: _calcEffectiveSpeed(_defender),
+      myEffectiveSpeed: _calcEffectiveSpeed(_attacker),
       opponentGender: _defender.gender,
     );
   }

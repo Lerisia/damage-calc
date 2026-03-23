@@ -231,6 +231,7 @@ class DamageCalculator {
     required RoomConditions room,
     int? opponentAttack,
     int? opponentSpeed,
+    int? myEffectiveSpeed,
     Gender opponentGender = Gender.unset,
   }) {
     final move = attacker.moves[moveIndex];
@@ -298,6 +299,8 @@ class DamageCalculator {
       userType1: attacker.type1,
       heldItem: attacker.selectedItem,
       hitCount: null, // multi-hit handled after damage calc for per-hit random
+      mySpeed: myEffectiveSpeed,
+      opponentSpeed: opponentSpeed,
     );
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
