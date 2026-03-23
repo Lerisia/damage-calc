@@ -8455,10 +8455,10 @@ i9.z=1
 if(f4&&B.b.m(h,"custom:se_boost")){i9.z=1.333251953125
 d8.push("move:collision:\xd71.33")}g6=new A.a3q(i9,f6,e8,f2,f1,f0,f5,g5)
 g7=g6.$2(g4,100)
-s=j0.as
+s=r.as
 if(s>1){i=j1.cy[j3]
 g8=i==null?s:i}else g8=1
-g9=B.b.m(j0.y,"custom:escalating_hits")
+g9=B.b.m(h,"custom:escalating_hits")
 h0=new A.a3p(g6)
 h1=h0.$1(g4)
 if(g8>1){h2=!1
