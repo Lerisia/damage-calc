@@ -32,7 +32,7 @@ const dmaxNullAbilities = {'Gorilla Tactics', 'Sheer Force'};
 String? resolveEffectiveItem({
   String? item, String? ability, bool isDynamaxed = false,
 }) {
-  if (ability == 'Klutz') return null;
+  if (isKlutz(ability)) return null;
   if (isDynamaxed && dmaxNullItems.contains(item)) return null;
   return item;
 }
@@ -446,7 +446,7 @@ class BattleFacade {
       rank: state.rank,
       weather: effWeather,
       ability: state.selectedAbility,
-      item: state.selectedAbility == 'Klutz' ? null : state.selectedItem,
+      item: isKlutz(state.selectedAbility) ? null : state.selectedItem,
       pokemonName: state.pokemonName,
       finalEvo: state.finalEvo,
       status: state.status,
@@ -475,12 +475,7 @@ class BattleFacade {
   /// Returns the effective weight after ability/item modifiers.
   static double effectiveWeight(BattlePokemonState state) {
     var w = state.weight;
-    switch (state.selectedAbility) {
-      case 'Heavy Metal':
-        w *= 2;
-      case 'Light Metal':
-        w *= 0.5;
-    }
+    w *= getWeightAbilityModifier(state.selectedAbility);
     // Float item also halves weight
     if (state.selectedItem == 'float-stone') w *= 0.5;
     return w;

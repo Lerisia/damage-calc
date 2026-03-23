@@ -583,16 +583,13 @@ class DamageCalculator {
 
     // Priority move immunity (Queenly Majesty, Dazzling, Armor Tail)
     // Mold Breaker ignores this
-    if (!moldBreaks && effectiveMove.priority > 0 && defAbilityName != null) {
-      const priorityBlockers = {'Queenly Majesty', 'Dazzling', 'Armor Tail'};
-      if (priorityBlockers.contains(defAbilityName)) {
-        return DamageResult(
-          baseDamage: 0, minDamage: 0, maxDamage: 0,
-          defenderHp: defActual.hp, effectiveness: 0.0,
-          isPhysical: isPhysical, move: effectiveMove,
-          modifierNotes: ['ability:$defAbilityName:선공기 무효'],
-        );
-      }
+    if (!moldBreaks && effectiveMove.priority > 0 && isPriorityImmune(defAbilityName)) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: defActual.hp, effectiveness: 0.0,
+        isPhysical: isPhysical, move: effectiveMove,
+        modifierNotes: ['ability:$defAbilityName:선공기 무효'],
+      );
     }
 
     // Psychic Terrain blocks priority moves against grounded targets
@@ -641,7 +638,7 @@ class DamageCalculator {
       // Normal/Fighting → Ghost: overridden by Scrappy / Mind's Eye
       if ((moveType == PokemonType.normal || moveType == PokemonType.fighting) &&
           (defType1 == PokemonType.ghost || defType2 == PokemonType.ghost) &&
-          (effectiveAbility == 'Scrappy' || effectiveAbility == "Mind's Eye")) {
+          canHitGhost(effectiveAbility)) {
         immune = false;
         notes.add('ability:$effectiveAbility:고스트에게 적중');
       }
@@ -662,7 +659,7 @@ class DamageCalculator {
       // Poison → Steel: overridden by Corrosion
       if (moveType == PokemonType.poison &&
           (defType1 == PokemonType.steel || defType2 == PokemonType.steel) &&
-          effectiveAbility == 'Corrosion') {
+          canPoisonSteel(effectiveAbility)) {
         immune = false;
         notes.add('ability:Corrosion:강철에게 적중');
       }
@@ -703,15 +700,18 @@ class DamageCalculator {
     // Tera Shell: full HP reduces super effective to 0.5x
     // Save original effectiveness for multi-hit (subsequent hits bypass Tera Shell)
     final double preTeraShellEffectiveness = effectiveness;
-    if (defAbilityName == 'Tera Shell' &&
-        defender.hpPercent >= 100 &&
-        effectiveness > 1.0) {
-      effectiveness = kTeraShellReduction;
+    final teraShellResult = applyTeraShell(
+      defenderAbility: defAbilityName,
+      defenderHpPercent: defender.hpPercent,
+      effectiveness: effectiveness,
+    );
+    if (teraShellResult != effectiveness) {
+      effectiveness = teraShellResult;
       notes.add('ability:Tera Shell:×$kTeraShellReduction');
     }
 
     // Wonder Guard: only super effective moves deal damage
-    if (defAbilityName == 'Wonder Guard' && effectiveness <= 1.0) {
+    if (isWonderGuardImmune(defAbilityName, effectiveness)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
         defenderHp: defActual.hp, effectiveness: effectiveness,
@@ -771,9 +771,8 @@ class DamageCalculator {
       move: effectiveMove, attackerGrounded: atkGrounded, defenderGrounded: defGroundedForTerrain);
 
     // --- Burn ---
-    final bool hasGuts = atkAbilityRaw == 'Guts';
     final double burnMod = (attacker.status == StatusCondition.burn &&
-        isPhysical && !hasGuts) ? kBurnDamageReduction : 1.0;
+        isPhysical && !negatesBurn(atkAbilityRaw)) ? kBurnDamageReduction : 1.0;
 
     // --- Critical ---
     final double critMod = isCritical
@@ -812,7 +811,7 @@ class DamageCalculator {
     }
 
     // --- Screens (Reflect / Light Screen / Aurora Veil) ---
-    final bool bypassScreens = isCritical || effectiveAbility == 'Infiltrator';
+    final bool bypassScreens = isCritical || bypassesScreens(effectiveAbility);
     double screenMod = 1.0;
     if (!bypassScreens) {
       if (isPhysical && defender.reflect) {
@@ -1097,7 +1096,7 @@ class DamageCalculator {
 
   /// Fixed damage moves bypass the normal damage formula.
   /// - fixedLevel: damage = attacker's level (Night Shade, Seismic Toss)
-  /// OHKO moves deal damage equal to the defender's full HP.
+  /// OHKO moves deal damage equal to the defender's current HP.
   /// Blocked by: type immunity, Sturdy, Dynamax, Sheer Cold vs Ice-type.
   static DamageResult _calcOhkoDamage({
     required BattlePokemonState attacker,

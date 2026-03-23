@@ -938,3 +938,75 @@ const double kAuraNerfed = 3 / 4; // 0.75
   // Defender has unrelated ability → no additional modifier
   return (multiplier: 1.0, note: null);
 }
+
+// ====== Priority immunity (여왕의위엄/비비드바디/아머테일) ======
+
+const Set<String> _priorityBlockers = {'Queenly Majesty', 'Dazzling', 'Armor Tail'};
+
+/// Returns true if [defenderAbility] blocks priority moves.
+bool isPriorityImmune(String? defenderAbility) =>
+    defenderAbility != null && _priorityBlockers.contains(defenderAbility);
+
+// ====== Type immunity overrides ======
+
+/// Returns true if [attackerAbility] allows Normal/Fighting to hit Ghost.
+bool canHitGhost(String? attackerAbility) =>
+    attackerAbility == 'Scrappy' || attackerAbility == "Mind's Eye";
+
+/// Returns true if [attackerAbility] allows Poison to hit Steel.
+bool canPoisonSteel(String? attackerAbility) =>
+    attackerAbility == 'Corrosion';
+
+// ====== Tera Shell ======
+
+/// Returns modified effectiveness when defender has Tera Shell at full HP.
+/// Super effective moves become [reduction] (default 0.5x).
+double applyTeraShell({
+  required String? defenderAbility,
+  required int defenderHpPercent,
+  required double effectiveness,
+  double reduction = 0.5,
+}) {
+  if (defenderAbility == 'Tera Shell' &&
+      defenderHpPercent >= 100 &&
+      effectiveness > 1.0) {
+    return reduction;
+  }
+  return effectiveness;
+}
+
+// ====== Wonder Guard (불가사의부적) ======
+
+/// Returns true if Wonder Guard blocks the attack (non-super-effective).
+bool isWonderGuardImmune(String? defenderAbility, double effectiveness) =>
+    defenderAbility == 'Wonder Guard' && effectiveness <= 1.0;
+
+// ====== Guts (근성) ======
+
+/// Returns true if [ability] negates burn damage reduction.
+bool negatesBurn(String? ability) => ability == 'Guts';
+
+// ====== Infiltrator (틈새포착) ======
+
+/// Returns true if [ability] bypasses screens (Reflect/Light Screen).
+bool bypassesScreens(String? ability) => ability == 'Infiltrator';
+
+// ====== Sturdy (옹골참) ======
+
+/// Returns true if [defenderAbility] blocks OHKO moves via Sturdy.
+bool isSturdyOhkoImmune(String? defenderAbility) =>
+    defenderAbility == 'Sturdy';
+
+// ====== Klutz (서투름) ======
+
+/// Returns true if [ability] nullifies the held item.
+bool isKlutz(String? ability) => ability == 'Klutz';
+
+// ====== Weight modifiers (헤비메탈/라이트메탈) ======
+
+/// Returns weight multiplier from ability (Heavy Metal 2x, Light Metal 0.5x).
+double getWeightAbilityModifier(String? ability) {
+  if (ability == 'Heavy Metal') return 2.0;
+  if (ability == 'Light Metal') return 0.5;
+  return 1.0;
+}
