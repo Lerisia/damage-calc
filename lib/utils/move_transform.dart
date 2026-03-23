@@ -51,6 +51,9 @@ class MoveContext {
   /// Opponent's weight in kg (after ability modifiers).
   final double? opponentWeight;
 
+  /// Opponent's remaining HP percentage (0–100).
+  final int? opponentHpPercent;
+
   /// User's primary type (for Revelation Dance).
   final PokemonType? userType1;
 
@@ -62,6 +65,12 @@ class MoveContext {
 
   /// Whether gravity is active.
   final bool gravity;
+
+  /// Whether the attacker is grounded (for terrain power boosts).
+  final bool attackerGrounded;
+
+  /// Whether the defender is grounded (for terrain power reductions).
+  final bool defenderGrounded;
 
   const MoveContext({
     this.weather = Weather.none,
@@ -78,6 +87,8 @@ class MoveContext {
     this.mySpeed,
     this.opponentSpeed,
     this.gravity = false,
+    this.attackerGrounded = true,
+    this.defenderGrounded = true,
     this.actualAttack,
     this.actualSpAttack,
     this.myWeight,
@@ -85,6 +96,7 @@ class MoveContext {
     this.userType1,
     this.heldItem,
     this.hitCount,
+    this.opponentHpPercent,
   });
 }
 
@@ -218,9 +230,12 @@ TransformedMove transformMove(Move move, MoveContext context) {
   move = _applySpeedPower(move, context.mySpeed, context.opponentSpeed);
   move = _applyTurnOrderPower(move, context.mySpeed, context.opponentSpeed);
   move = _applyWeightPower(move, context.myWeight, context.opponentWeight);
+  move = _applyTargetHpPower(move, context.opponentHpPercent);
 
   // 4. Field-based power boosts
-  move = _applyTerrainPowerBoost(move, context.terrain);
+  move = _applyTerrainPowerBoost(move, context.terrain,
+      attackerGrounded: context.attackerGrounded,
+      defenderGrounded: context.defenderGrounded);
 
   // 5. Rank-based power
   move = _applyRankPower(move, context.rank);
@@ -228,6 +243,13 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // 5b. Grav Apple: power * 1.5 under gravity
   if (move.hasTag(MoveTags.gravityBoost) && context.gravity) {
     move = move.copyWith(power: (move.power * 1.5).floor());
+  }
+
+  // 5c. Solar Beam / Solar Blade: halved in rain, sandstorm, snow, heavy rain
+  if (move.hasTag(MoveTags.solarHalve) &&
+      (context.weather == Weather.rain || context.weather == Weather.sandstorm ||
+       context.weather == Weather.snow || context.weather == Weather.heavyRain)) {
+    move = move.copyWith(power: (move.power * 0.5).floor());
   }
 
   // 6. Multi-hit: apply total power (before Dynamax, which has its own formula)
@@ -389,6 +411,10 @@ Move _applyStatusPower(Move move, StatusCondition status) {
       return move.copyWith(power: move.power * 2);
     }
   }
+  // Snore: fails (power 0) if the user is not asleep
+  if (move.name == 'Snore' && status != StatusCondition.sleep) {
+    return move.copyWith(power: 0);
+  }
   return move;
 }
 
@@ -494,14 +520,32 @@ Move _applyWeightPower(Move move, double? myWeight, double? opponentWeight) {
   return move;
 }
 
+/// Target-HP-based power: Crush Grip / Wring Out (120×), Hard Press (100×)
+Move _applyTargetHpPower(Move move, int? opponentHpPercent) {
+  if (opponentHpPercent == null) return move;
+
+  if (move.hasTag(MoveTags.powerByTargetHp120)) {
+    final power = (120 * opponentHpPercent / 100).floor().clamp(1, 120);
+    return move.copyWith(power: power);
+  }
+  if (move.hasTag(MoveTags.powerByTargetHp100)) {
+    final power = (100 * opponentHpPercent / 100).floor().clamp(1, 100);
+    return move.copyWith(power: power);
+  }
+
+  return move;
+}
+
 /// Terrain-based power boosts and reductions.
 /// - Rising Voltage: 2x in Electric Terrain
 /// - Expanding Force: 1.5x in Psychic Terrain
 /// - Misty Explosion: 1.5x in Misty Terrain
 /// - Earthquake/Bulldoze/Magnitude: 0.5x in Grassy Terrain
-Move _applyTerrainPowerBoost(Move move, Terrain terrain) {
-  // Note: Grassy Terrain halving Earthquake/Bulldoze is in terrain_effects.dart
-  // (applied as a damage modifier), NOT here, to avoid double application.
+Move _applyTerrainPowerBoost(Move move, Terrain terrain, {
+  bool attackerGrounded = true,
+  bool defenderGrounded = true,
+}) {
+  // Move-specific terrain boosts (Rising Voltage, Expanding Force, Misty Explosion)
   if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric) {
     return move.copyWith(power: move.power * 2);
   }
@@ -510,6 +554,28 @@ Move _applyTerrainPowerBoost(Move move, Terrain terrain) {
   }
   if (move.hasTag(MoveTags.terrainBoostMisty) && terrain == Terrain.misty) {
     return move.copyWith(power: (move.power * 1.5).floor());
+  }
+
+  // General terrain power modifiers (same as getTerrainModifier)
+  double mod = 1.0;
+  switch (terrain) {
+    case Terrain.electric:
+      if (attackerGrounded && move.type == PokemonType.electric) mod = 1.3;
+    case Terrain.grassy:
+      if (defenderGrounded && move.hasTag(MoveTags.grassyHalve)) {
+        mod = 0.5;
+      } else if (attackerGrounded && move.type == PokemonType.grass) {
+        mod = 1.3;
+      }
+    case Terrain.psychic:
+      if (attackerGrounded && move.type == PokemonType.psychic) mod = 1.3;
+    case Terrain.misty:
+      if (defenderGrounded && move.type == PokemonType.dragon) mod = 0.5;
+    default:
+      break;
+  }
+  if (mod != 1.0) {
+    return move.copyWith(power: (move.power * mod).floor());
   }
   return move;
 }

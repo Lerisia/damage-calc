@@ -17,6 +17,7 @@ import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/battle_facade.dart';
+import '../../utils/grounded.dart';
 import '../../utils/localization.dart';
 import 'move_selector.dart';
 import 'pokemon_selector.dart';
@@ -37,6 +38,7 @@ class PokemonPanel extends StatefulWidget {
   final int? opponentAttack;
   final Gender? opponentGender;
   final double? opponentWeight;
+  final int? opponentHpPercent;
   final VoidCallback? onSave;
   final VoidCallback? onLoad;
   final VoidCallback? onReset;
@@ -55,6 +57,7 @@ class PokemonPanel extends StatefulWidget {
     this.opponentAlwaysLast = false,
     this.opponentAttack,
     this.opponentWeight,
+    this.opponentHpPercent,
     this.opponentGender,
     this.onSave,
     this.onLoad,
@@ -170,6 +173,7 @@ class PokemonPanelState extends State<PokemonPanel>
       opponentGender: widget.opponentGender ?? Gender.unset,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: widget.opponentWeight,
+      opponentHpPercent: widget.opponentHpPercent,
     );
     return singleHit;
   }
@@ -437,6 +441,12 @@ class PokemonPanelState extends State<PokemonPanel>
       opponentGender: widget.opponentGender ?? Gender.unset,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: widget.opponentWeight,
+      opponentHpPercent: widget.opponentHpPercent,
+      attackerGrounded: isGrounded(
+        type1: s.type1, type2: s.type2,
+        ability: s.selectedAbility, item: s.selectedItem,
+        gravity: widget.room.gravity,
+      ),
     );
     final effectiveType = info.effectiveType ?? move?.type;
     final effectiveCategory = info.effectiveCategory ?? move?.category;

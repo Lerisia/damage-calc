@@ -238,11 +238,13 @@ void main() {
         type: PokemonType.electric, category: MoveCategory.special,
         power: 90, accuracy: 100, pp: 15,
       );
-      // SpA = 85, power = 90, terrain 1.3x -> floor(85*90*1.3) = 9945
+      // SpA = 85, power = 90, terrain 1.3x -> floor(85 * floor(90*1.3)) = floor(85*117) = 9945
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: Nature.hardy, level: 50,
-        transformed: _transform(thunderbolt),
+        transformed: _transform(thunderbolt, const MoveContext(
+          terrain: Terrain.electric, attackerGrounded: true,
+        )),
         type1: PokemonType.grass, type2: PokemonType.poison,
         terrain: Terrain.electric,
         grounded: true,
@@ -424,16 +426,18 @@ void main() {
         type: PokemonType.dragon, category: MoveCategory.special,
         power: 85, accuracy: 100, pp: 10,
       );
-      // SpA = 85, power = 85, misty 0.5x -> floor(85*85*0.5) = 3612
+      // SpA = 85, power = 85, misty 0.5x -> floor(85 * floor(85*0.5)) = floor(85*42) = 3570
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: Nature.hardy, level: 50,
-        transformed: _transform(dragonPulse),
+        transformed: _transform(dragonPulse, const MoveContext(
+          terrain: Terrain.misty, defenderGrounded: true,
+        )),
         type1: PokemonType.grass, type2: PokemonType.poison,
         terrain: Terrain.misty,
         grounded: true,
       );
-      expect(result, equals(3612));
+      expect(result, equals(3570));
     });
   });
 

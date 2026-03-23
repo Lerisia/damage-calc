@@ -623,7 +623,8 @@ void main() {
       final result = transformMove(terrainPulse,
           const MoveContext(terrain: Terrain.electric, ability: 'Pixilate'));
       expect(result.move.type, equals(PokemonType.electric));
-      expect(result.move.power, equals(100));
+      // 50 * 2 (terrain pulse) * 1.3 (electric terrain) = 130
+      expect(result.move.power, equals(130));
     });
   });
 

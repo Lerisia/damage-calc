@@ -280,6 +280,16 @@ class DamageCalculator {
       baseStats: attacker.baseStats, iv: attacker.iv, ev: attacker.ev,
       nature: attacker.nature, level: attacker.level, rank: attacker.rank,
     );
+    final atkGroundedEarly = isGrounded(
+      type1: attacker.type1, type2: attacker.type2,
+      ability: atkAbilityRaw, item: attacker.selectedItem,
+      gravity: room.gravity,
+    );
+    final defGroundedEarly = isGrounded(
+      type1: defender.type1, type2: defender.type2,
+      ability: defAbilityRaw, item: defender.selectedItem,
+      gravity: room.gravity,
+    );
     final moveCtx = MoveContext(
       weather: weather,
       terrain: terrain,
@@ -296,12 +306,15 @@ class DamageCalculator {
       actualSpAttack: atkBaseStats.spAttack,
       myWeight: BattleFacade.effectiveWeight(attacker),
       opponentWeight: BattleFacade.effectiveWeight(defender),
+      opponentHpPercent: defender.hpPercent,
       userType1: attacker.type1,
       heldItem: attacker.selectedItem,
       hitCount: null, // multi-hit handled after damage calc for per-hit random
       mySpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
       gravity: room.gravity,
+      attackerGrounded: atkGroundedEarly,
+      defenderGrounded: defGroundedEarly,
     );
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
@@ -315,6 +328,18 @@ class DamageCalculator {
         isPhysical: effectiveMove.category == MoveCategory.physical,
         move: effectiveMove,
         modifierNotes: ['중력: 사용 불가'],
+      );
+    }
+
+    // --- Dream Eater: fails if target is not asleep ---
+    if (effectiveMove.name == 'Dream Eater' &&
+        defender.status != StatusCondition.sleep) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: 1, effectiveness: 0.0,
+        isPhysical: false,
+        move: effectiveMove,
+        modifierNotes: ['꿈먹기: 상대가 잠듦 상태가 아니면 실패'],
       );
     }
 
@@ -337,10 +362,7 @@ class DamageCalculator {
     }
 
     // After transform: if power is still 0, no damage
-    // (except target-HP-based moves whose power is calculated later)
-    if (effectiveMove.power == 0 &&
-        !effectiveMove.hasTag(MoveTags.powerByTargetHp120) &&
-        !effectiveMove.hasTag(MoveTags.powerByTargetHp100)) {
+    if (effectiveMove.power == 0) {
       return DamageResult.empty;
     }
 
@@ -856,13 +878,7 @@ class DamageCalculator {
       notes.add('다이맥스 상대 ×$kDoubleMovePower');
     }
 
-    // Solar Beam / Solar Blade: halved in rain, sandstorm, snow, heavy rain
-    if (effectiveMove.hasTag(MoveTags.solarHalve) &&
-        (weather == Weather.rain || weather == Weather.sandstorm ||
-         weather == Weather.snow || weather == Weather.heavyRain)) {
-      movePowerMod *= kSolarBeamWeatherPenalty;
-      notes.add('move:solar_halve:×$kSolarBeamWeatherPenalty');
-    }
+    // Solar Beam/Blade weather halve now handled in transformMove
 
     // Grav Apple: gravity boost now handled in transformMove
 
@@ -891,15 +907,8 @@ class DamageCalculator {
     // Bolt Beak / Fishious Rend / Payback / Revenge / Avalanche:
     // Turn-order power doubling is now handled in move_transform.dart
 
-    // Power scales with target's remaining HP
-    int dynamicPower = effectiveMove.power;
-    if (effectiveMove.hasTag(MoveTags.powerByTargetHp120)) {
-      // Wring Out / Crush Grip (Gen V+): power = max(1, floor(120 × currentHP / maxHP))
-      dynamicPower = (120 * defender.hpPercent / 100).floor().clamp(1, 120);
-    } else if (effectiveMove.hasTag(MoveTags.powerByTargetHp100)) {
-      // Hard Press (Gen IX): power = max(1, floor(100 × currentHP / maxHP))
-      dynamicPower = (100 * defender.hpPercent / 100).floor().clamp(1, 100);
-    }
+    // Target-HP-based power is now handled in transformMove (_applyTargetHpPower)
+    final int dynamicPower = effectiveMove.power;
 
     // Terastal minimum power: Tera STAB moves below threshold become threshold
     // Exceptions: multi-hit moves and priority moves are not boosted

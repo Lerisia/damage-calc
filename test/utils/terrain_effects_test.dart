@@ -12,18 +12,6 @@ void main() {
       power: 90, accuracy: 100, pp: 15,
     );
 
-    const energyBall = Move(
-      name: 'Energy Ball', nameKo: '에너지볼', nameJa: 'エナジーボール',
-      type: PokemonType.grass, category: MoveCategory.special,
-      power: 90, accuracy: 100, pp: 10,
-    );
-
-    const psychic = Move(
-      name: 'Psychic', nameKo: '사이코키네시스', nameJa: 'サイコキネシス',
-      type: PokemonType.psychic, category: MoveCategory.special,
-      power: 90, accuracy: 100, pp: 10,
-    );
-
     const dragonPulse = Move(
       name: 'Dragon Pulse', nameKo: '용의파동', nameJa: 'りゅうのはどう',
       type: PokemonType.dragon, category: MoveCategory.special,
@@ -36,24 +24,13 @@ void main() {
       power: 90, accuracy: 100, pp: 15,
     );
 
-    test('Electric Terrain boosts Electric moves by 1.3x', () {
-      final mod = getTerrainModifier(Terrain.electric, move: thunderbolt);
-      expect(mod, equals(1.3));
-    });
+    // Terrain power modifiers are now handled in transformMove.
+    // getTerrainModifier always returns 1.0 (kept for backward compat).
 
-    test('Grassy Terrain boosts Grass moves by 1.3x', () {
-      final mod = getTerrainModifier(Terrain.grassy, move: energyBall);
-      expect(mod, equals(1.3));
-    });
-
-    test('Psychic Terrain boosts Psychic moves by 1.3x', () {
-      final mod = getTerrainModifier(Terrain.psychic, move: psychic);
-      expect(mod, equals(1.3));
-    });
-
-    test('Misty Terrain weakens Dragon moves to 0.5x', () {
-      final mod = getTerrainModifier(Terrain.misty, move: dragonPulse);
-      expect(mod, equals(0.5));
+    test('getTerrainModifier always returns 1.0 (terrain handled in transform)', () {
+      expect(getTerrainModifier(Terrain.electric, move: thunderbolt), equals(1.0));
+      expect(getTerrainModifier(Terrain.misty, move: dragonPulse), equals(1.0));
+      expect(getTerrainModifier(Terrain.none, move: thunderbolt), equals(1.0));
     });
 
     test('terrain does not affect non-matching types', () {
@@ -64,61 +41,6 @@ void main() {
     test('no terrain returns 1.0', () {
       final mod = getTerrainModifier(Terrain.none, move: thunderbolt);
       expect(mod, equals(1.0));
-    });
-
-    test('ungrounded Pokemon ignores terrain boost', () {
-      final mod = getTerrainModifier(Terrain.electric,
-          move: thunderbolt, attackerGrounded: false);
-      expect(mod, equals(1.0));
-    });
-
-    test('ungrounded defender ignores Misty Terrain reduction', () {
-      final mod = getTerrainModifier(Terrain.misty,
-          move: dragonPulse, defenderGrounded: false);
-      expect(mod, equals(1.0));
-    });
-
-    test('ungrounded attacker still gets Misty Terrain reduction on grounded defender', () {
-      final mod = getTerrainModifier(Terrain.misty,
-          move: dragonPulse, attackerGrounded: false, defenderGrounded: true);
-      expect(mod, equals(0.5));
-    });
-
-    test('Electric Terrain does not affect non-electric moves', () {
-      final mod = getTerrainModifier(Terrain.electric, move: psychic);
-      expect(mod, equals(1.0));
-    });
-
-    test('Grassy Terrain does not affect non-grass moves', () {
-      final mod = getTerrainModifier(Terrain.grassy, move: flamethrower);
-      expect(mod, equals(1.0));
-    });
-
-    test('Psychic Terrain does not affect non-psychic moves', () {
-      final mod = getTerrainModifier(Terrain.psychic, move: flamethrower);
-      expect(mod, equals(1.0));
-    });
-
-    test('Misty Terrain does not affect non-dragon moves', () {
-      final mod = getTerrainModifier(Terrain.misty, move: flamethrower);
-      expect(mod, equals(1.0));
-    });
-
-    test('ungrounded ignores Grassy Terrain boost', () {
-      final mod = getTerrainModifier(Terrain.grassy,
-          move: energyBall, attackerGrounded: false);
-      expect(mod, equals(1.0));
-    });
-
-    test('ungrounded ignores Psychic Terrain boost', () {
-      final mod = getTerrainModifier(Terrain.psychic,
-          move: psychic, attackerGrounded: false);
-      expect(mod, equals(1.0));
-    });
-
-    test('grounded defaults to true', () {
-      final mod = getTerrainModifier(Terrain.electric, move: thunderbolt);
-      expect(mod, equals(1.3));
     });
   });
 }

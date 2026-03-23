@@ -140,6 +140,9 @@ class BattleFacade {
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
     double? opponentWeight,
+    int? opponentHpPercent,
+    bool attackerGrounded = true,
+    bool defenderGrounded = true,
   }) {
     final move = state.moves[moveIndex];
     if (move == null) {
@@ -160,8 +163,11 @@ class BattleFacade {
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
+      opponentHpPercent: opponentHpPercent,
       hitCount: hits,
       gravity: room.gravity,
+      attackerGrounded: attackerGrounded,
+      defenderGrounded: defenderGrounded,
     );
     final transformed = transformMove(move, ctx);
 
@@ -200,6 +206,8 @@ class BattleFacade {
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: opponentWeight,
       hitCount: hits,
+      attackerGrounded: attackerGrounded,
+      defenderGrounded: defenderGrounded,
     );
 
     // Fixed damage is determined by the TRANSFORMED move, not the original
@@ -207,9 +215,7 @@ class BattleFacade {
         transformed.move.hasTag(MoveTags.fixedHalfHp) ||
         transformed.move.hasTag(MoveTags.fixed20) ||
         transformed.move.hasTag(MoveTags.fixed40) ||
-        transformed.move.hasTag(MoveTags.ohko) ||
-        transformed.move.hasTag(MoveTags.powerByTargetHp120) ||
-        transformed.move.hasTag(MoveTags.powerByTargetHp100);
+        transformed.move.hasTag(MoveTags.ohko);
 
     return MoveSlotInfo(
       displayName: displayName,
@@ -240,6 +246,7 @@ class BattleFacade {
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
     double? opponentWeight,
+    int? opponentHpPercent,
   }) {
     final move = state.moves[moveIndex];
     final hits = move != null && move.isMultiHit
@@ -259,6 +266,7 @@ class BattleFacade {
       opponentGender: opponentGender,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: opponentWeight,
+      opponentHpPercent: opponentHpPercent,
       hitCount: hits,
     );
   }
@@ -278,7 +286,10 @@ class BattleFacade {
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
     double? opponentWeight,
+    int? opponentHpPercent,
     int? hitCount,
+    bool attackerGrounded = true,
+    bool defenderGrounded = true,
   }) {
     if (move == null) return null;
 
@@ -308,8 +319,11 @@ class BattleFacade {
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
+      opponentHpPercent: opponentHpPercent,
       hitCount: hitCount,
       gravity: room.gravity,
+      attackerGrounded: attackerGrounded,
+      defenderGrounded: defenderGrounded,
     );
     final transformed = transformMove(move, ctx);
 
@@ -480,6 +494,7 @@ class BattleFacade {
     int? myEffectiveSpeed,
     int? opponentSpeed,
     double? opponentWeight,
+    int? opponentHpPercent,
     int? hitCount,
     bool gravity = false,
     bool attackerGrounded = true,
@@ -515,6 +530,7 @@ class BattleFacade {
       actualSpAttack: rankedStats.spAttack,
       myWeight: effectiveWeight(state),
       opponentWeight: opponentWeight,
+      opponentHpPercent: opponentHpPercent,
       userType1: state.type1,
       heldItem: state.selectedItem,
       hitCount: hitCount,

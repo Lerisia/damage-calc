@@ -752,6 +752,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentWeight: isAttacker
                 ? BattleFacade.effectiveWeight(_defender)
                 : BattleFacade.effectiveWeight(_attacker),
+            opponentHpPercent: isAttacker
+                ? _defender.hpPercent
+                : _attacker.hpPercent,
           );
   }
 
@@ -768,6 +771,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       opponentAttack: _calcStats(_defender).attack,
       opponentGender: _defender.gender,
       opponentWeight: BattleFacade.effectiveWeight(_defender),
+      opponentHpPercent: _defender.hpPercent,
     );
   }
 
