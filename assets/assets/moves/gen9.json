@@ -433,10 +433,10 @@
     "nameJa": "カタストロフィ",
     "type": "dark",
     "category": "special",
-    "power": 1,
+    "power": 0,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": ["custom:fixed_half_hp"]
   },
   {
     "name": "Salt Cure",
@@ -587,6 +587,8 @@
     "power": 40,
     "accuracy": 100,
     "pp": 10,
+    "minHits": 2,
+    "maxHits": 2,
     "tags": []
   },
   {
