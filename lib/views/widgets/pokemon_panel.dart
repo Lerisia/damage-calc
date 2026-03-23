@@ -281,6 +281,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 children: [
                   _moveHeader(context),
                   const Divider(height: 1),
+                  const SizedBox(height: 2),
                   for (int i = 0; i < 4; i++) ...[
                     if (i > 0) const SizedBox(height: 2),
                     _moveSlot(i),
