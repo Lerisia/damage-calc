@@ -301,6 +301,7 @@ class DamageCalculator {
       hitCount: null, // multi-hit handled after damage calc for per-hit random
       mySpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
+      gravity: room.gravity,
     );
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
@@ -336,7 +337,10 @@ class DamageCalculator {
     }
 
     // After transform: if power is still 0, no damage
-    if (effectiveMove.power == 0) {
+    // (except target-HP-based moves whose power is calculated later)
+    if (effectiveMove.power == 0 &&
+        !effectiveMove.hasTag(MoveTags.powerByTargetHp120) &&
+        !effectiveMove.hasTag(MoveTags.powerByTargetHp100)) {
       return DamageResult.empty;
     }
 
@@ -860,11 +864,7 @@ class DamageCalculator {
       notes.add('move:solar_halve:×$kSolarBeamWeatherPenalty');
     }
 
-    // Grav Apple: boosted under gravity
-    if (effectiveMove.hasTag(MoveTags.gravityBoost) && room.gravity) {
-      movePowerMod *= kGravAppleBoost;
-      notes.add('move:grav_apple:×$kGravAppleBoost');
-    }
+    // Grav Apple: gravity boost now handled in transformMove
 
     // Wake-Up Slap: doubled on sleeping target
     if (effectiveMove.hasTag(MoveTags.doubleOnSleep) &&
@@ -894,11 +894,11 @@ class DamageCalculator {
     // Power scales with target's remaining HP
     int dynamicPower = effectiveMove.power;
     if (effectiveMove.hasTag(MoveTags.powerByTargetHp120)) {
-      // Wring Out / Crush Grip: power = 120 × (target current HP / target max HP) + 1
-      dynamicPower = (120 * defender.hpPercent / 100).floor().clamp(1, 120) + 1;
+      // Wring Out / Crush Grip: power = floor(120 × currentHP / maxHP) + 1
+      dynamicPower = (120 * defender.hpPercent / 100).floor() + 1;
     } else if (effectiveMove.hasTag(MoveTags.powerByTargetHp100)) {
-      // Hard Press: power = 100 × (target current HP / target max HP) + 1
-      dynamicPower = (100 * defender.hpPercent / 100).floor().clamp(1, 100) + 1;
+      // Hard Press: power = floor(100 × currentHP / maxHP) + 1
+      dynamicPower = (100 * defender.hpPercent / 100).floor() + 1;
     }
 
     // Terastal minimum power: Tera STAB moves below threshold become threshold

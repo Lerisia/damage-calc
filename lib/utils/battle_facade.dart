@@ -161,6 +161,7 @@ class BattleFacade {
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
       hitCount: hits,
+      gravity: room.gravity,
     );
     final transformed = transformMove(move, ctx);
 
@@ -206,7 +207,9 @@ class BattleFacade {
         transformed.move.hasTag(MoveTags.fixedHalfHp) ||
         transformed.move.hasTag(MoveTags.fixed20) ||
         transformed.move.hasTag(MoveTags.fixed40) ||
-        transformed.move.hasTag(MoveTags.ohko);
+        transformed.move.hasTag(MoveTags.ohko) ||
+        transformed.move.hasTag(MoveTags.powerByTargetHp120) ||
+        transformed.move.hasTag(MoveTags.powerByTargetHp100);
 
     return MoveSlotInfo(
       displayName: displayName,
@@ -306,6 +309,7 @@ class BattleFacade {
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
       hitCount: hitCount,
+      gravity: room.gravity,
     );
     final transformed = transformMove(move, ctx);
 
@@ -477,6 +481,7 @@ class BattleFacade {
     int? opponentSpeed,
     double? opponentWeight,
     int? hitCount,
+    bool gravity = false,
   }) {
     // Tera Blast needs rank-applied stats for category comparison
     final rankedStats = state.rank != const Rank()
@@ -511,6 +516,7 @@ class BattleFacade {
       userType1: state.type1,
       heldItem: state.selectedItem,
       hitCount: hitCount,
+      gravity: gravity,
     );
   }
 

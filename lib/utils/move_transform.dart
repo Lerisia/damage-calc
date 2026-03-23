@@ -60,6 +60,9 @@ class MoveContext {
   /// Hit count for multi-hit moves (user override or maxHits).
   final int? hitCount;
 
+  /// Whether gravity is active.
+  final bool gravity;
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
@@ -74,6 +77,7 @@ class MoveContext {
     this.teraType,
     this.mySpeed,
     this.opponentSpeed,
+    this.gravity = false,
     this.actualAttack,
     this.actualSpAttack,
     this.myWeight,
@@ -220,6 +224,11 @@ TransformedMove transformMove(Move move, MoveContext context) {
 
   // 5. Rank-based power
   move = _applyRankPower(move, context.rank);
+
+  // 5b. Grav Apple: power * 1.5 under gravity
+  if (move.hasTag(MoveTags.gravityBoost) && context.gravity) {
+    move = move.copyWith(power: (move.power * 1.5).floor());
+  }
 
   // 6. Multi-hit: apply total power (before Dynamax, which has its own formula)
   if (move.isMultiHit && context.hitCount != null && context.hitCount! > 1) {
