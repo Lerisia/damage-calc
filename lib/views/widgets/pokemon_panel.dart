@@ -1105,24 +1105,28 @@ class _PowerInputState extends State<_PowerInput> {
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() {
-      _hasFocus = _focusNode.hasFocus;
-      if (!_hasFocus) {
-        // When losing focus, sync controller with display power
-        final text = widget.controller.text;
-        final parsed = int.tryParse(text);
-        if (parsed == null || text.isEmpty) {
-          widget.controller.text = '${widget.displayPower}';
-          widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
-        }
-      }
-    });
+    _focusNode.addListener(_onFocusChange);
     // Initialize controller text
     if (widget.controller.text.isEmpty ||
-        widget.controller.text == '0' && widget.displayPower != 0) {
+        (widget.controller.text == '0' && widget.displayPower != 0)) {
       widget.controller.text = '${widget.displayPower}';
     }
     widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+  }
+
+  void _onFocusChange() {
+    _hasFocus = _focusNode.hasFocus;
+    if (!_hasFocus && mounted) {
+      // When losing focus, commit the value or reset to display power
+      final text = widget.controller.text;
+      final parsed = int.tryParse(text);
+      if (parsed == null || parsed <= 0 || text.isEmpty) {
+        // Reset to original power and clear override
+        widget.controller.text = '${widget.displayPower}';
+        widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+        widget.onPowerChanged(widget.displayPower);
+      }
+    }
   }
 
   @override
@@ -1141,6 +1145,7 @@ class _PowerInputState extends State<_PowerInput> {
 
   @override
   void dispose() {
+    _focusNode.removeListener(_onFocusChange);
     _focusNode.dispose();
     super.dispose();
   }
@@ -1161,7 +1166,7 @@ class _PowerInputState extends State<_PowerInput> {
         ),
         onChanged: (text) {
           final parsed = int.tryParse(text);
-          if (parsed != null && parsed >= 0) {
+          if (parsed != null && parsed > 0) {
             widget.lastDisplayPower[widget.slotIndex] = parsed;
             widget.onPowerChanged(parsed);
           }
