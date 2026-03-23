@@ -828,12 +828,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final bulk = _getDefensiveBulk();
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
+      padding: const EdgeInsets.fromLTRB(4, 8, 4, 120),
       child: Screenshot(
         controller: _damageTabScreenshotController,
         child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -878,10 +878,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           const SizedBox(height: 12),
 
-          for (int i = 0; i < 4; i++) ...[
+          for (int i = 0; i < 4; i++)
             _buildMoveResult(i, bulk),
-            if (i < 3) const Divider(height: 28),
-          ],
         ],
       ),
     )),
@@ -949,13 +947,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final typeColor = KoStrings.getTypeColor(effectiveType);
 
     return Container(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      decoration: BoxDecoration(
-        color: Color.lerp(Colors.white, typeColor, 0.08),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: typeColor.withValues(alpha: 0.3)),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 2),
+      color: Color.lerp(Colors.white, typeColor, 0.06),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -964,21 +958,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             children: [
               Flexible(
                 child: Text(result.move.nameKo, style: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold,
+                  fontSize: 18, fontWeight: FontWeight.bold,
                 )),
               ),
               const SizedBox(width: 8),
               Text(KoStrings.getTypeKo(effectiveType),
-                  style: TextStyle(fontSize: 13, color: typeColor, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
-              Text(effLabel, style: TextStyle(fontSize: 13, color: effColor, fontWeight: FontWeight.bold)),
+              Text(effLabel, style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
             ],
           ),
           const SizedBox(height: 6),
           // 결정력 / 내구 info (display only)
           Text(
             '$offLabel 결정력 ${offPower ?? '-'} → $defLabel 내구 $defBulk',
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+            style: TextStyle(fontSize: 15, color: Colors.grey[700]),
           ),
           const SizedBox(height: 8),
           // % damage + raw damage + KO (scales down if needed, never truncates)
@@ -989,7 +983,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               children: [
                 Text(
                   '${result.minPercent.toStringAsFixed(1)}~${result.maxPercent.toStringAsFixed(1)}%',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(width: 8),
                 Text(

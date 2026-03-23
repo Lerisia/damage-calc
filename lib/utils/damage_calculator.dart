@@ -314,6 +314,14 @@ class DamageCalculator {
       );
     }
 
+    // --- OHKO moves ---
+    if (effectiveMove.hasTag(MoveTags.ohko)) {
+      return _calcOhkoDamage(
+        attacker: attacker, defender: defender, move: effectiveMove,
+        defenderAbility: defAbilityRaw,
+      );
+    }
+
     // --- Fixed damage moves (checked after transform so Dynamax → Max Guard passes) ---
     if (effectiveMove.hasTag(MoveTags.fixedLevel) || effectiveMove.hasTag(MoveTags.fixedHalfHp) ||
         effectiveMove.hasTag(MoveTags.fixed20) || effectiveMove.hasTag(MoveTags.fixed40)) {
@@ -972,9 +980,9 @@ class DamageCalculator {
     final int baseDamage = applyModifiers(baseDmg, RandomFactor.maxRoll);
 
     // --- Multi-hit: compute per-hit base damages ---
-    final int hitCount = move.isMultiHit
-        ? (attacker.hitOverrides[moveIndex] ?? move.maxHits) : 1;
-    final bool isEscalating = move.hasTag(MoveTags.escalatingHits);
+    final int hitCount = effectiveMove.isMultiHit
+        ? (attacker.hitOverrides[moveIndex] ?? effectiveMove.maxHits) : 1;
+    final bool isEscalating = effectiveMove.hasTag(MoveTags.escalatingHits);
 
     // Helper: compute all 16 roll results for a given baseDmg and modifier overrides
     List<int> allRolls(int dmg, {
@@ -1077,6 +1085,65 @@ class DamageCalculator {
 
   /// Fixed damage moves bypass the normal damage formula.
   /// - fixedLevel: damage = attacker's level (Night Shade, Seismic Toss)
+  /// OHKO moves deal damage equal to the defender's full HP.
+  /// Blocked by: type immunity, Sturdy, Dynamax, Sheer Cold vs Ice-type.
+  static DamageResult _calcOhkoDamage({
+    required BattlePokemonState attacker,
+    required BattlePokemonState defender,
+    required Move move,
+    String? defenderAbility,
+  }) {
+    final defStats = StatCalculator.calculate(
+      baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
+      nature: defender.nature, level: defender.level,
+    );
+    final defHp = defender.dynamax != DynamaxState.none
+        ? defStats.hp * 2 : defStats.hp;
+    final isPhysical = move.category == MoveCategory.physical;
+
+    DamageResult immune(List<String> notes) => DamageResult(
+      baseDamage: 0, minDamage: 0, maxDamage: 0,
+      defenderHp: defHp, effectiveness: 0.0,
+      isPhysical: isPhysical, move: move,
+      modifierNotes: notes,
+    );
+
+    // Dynamax targets are immune to OHKO
+    if (defender.dynamax != DynamaxState.none) {
+      return immune(['다이맥스 상대에게 일격기 무효']);
+    }
+
+    // Type immunity (Normal→Ghost, Ground→Flying, etc.)
+    if (hasTypeImmunity(move.type, defender.type1, defender.type2)) {
+      return immune(['type:immune']);
+    }
+
+    // Sheer Cold: Ice-type targets are immune (Gen 7+)
+    if (move.name == 'Sheer Cold' &&
+        (defender.type1 == PokemonType.ice ||
+         defender.type2 == PokemonType.ice)) {
+      return immune(['얼음 타입에게 절대영도 무효']);
+    }
+
+    // Sturdy: immune to OHKO moves
+    if (defenderAbility == 'Sturdy') {
+      return immune(['ability:Sturdy:일격기 무효']);
+    }
+
+    // OHKO: damage = defender's current HP
+    final currentHp = (defHp * defender.hpPercent / 100).ceil().clamp(1, defHp);
+    return DamageResult(
+      baseDamage: currentHp,
+      minDamage: currentHp,
+      maxDamage: currentHp,
+      defenderHp: defHp,
+      effectiveness: 1.0,
+      isPhysical: isPhysical,
+      move: move,
+      modifierNotes: ['일격기: 상대 HP 전량'],
+    );
+  }
+
   /// - fixedHalfHp: damage = defender's HP / 2 (Super Fang)
   /// Type immunities still apply; stat/item modifiers do not.
   static DamageResult _calcFixedDamage({
@@ -1128,8 +1195,15 @@ class DamageCalculator {
     } else if (move.hasTag(MoveTags.fixed40)) {
       fixedDamage = 40;
     } else {
-      // fixedHalfHp: half of defender's current HP
-      fixedDamage = (defHp * defender.hpPercent / 100 / 2).ceil().clamp(1, defHp);
+      // fixedHalfHp: half of defender's current HP (based on non-Dynamax HP)
+      final baseHp = defStats.hp;
+      final currentBaseHp = (baseHp * defender.hpPercent / 100).ceil().clamp(1, baseHp);
+      fixedDamage = (currentBaseHp / 2).ceil().clamp(1, defHp);
+    }
+
+    final notes = <String>[];
+    if (move.hasTag(MoveTags.fixedHalfHp) && defender.dynamax != DynamaxState.none) {
+      notes.add('다이맥스: 비다이맥스 HP 기준 50%');
     }
 
     return DamageResult(
@@ -1140,6 +1214,7 @@ class DamageCalculator {
       effectiveness: 1.0,
       isPhysical: isPhysical,
       move: move,
+      modifierNotes: notes,
     );
   }
 }

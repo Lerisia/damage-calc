@@ -546,8 +546,7 @@ class PokemonPanelState extends State<PokemonPanel>
           if (!isSearching) SizedBox(
             width: 44,
             child: move != null
-                ? (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
-                    move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40))
+                ? info.isFixedDamage
                     ? const Text('고정', textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 13, color: Colors.grey))
                     : move.isMultiHit
@@ -876,25 +875,20 @@ class PokemonPanelState extends State<PokemonPanel>
     final isWide = MediaQuery.of(context).size.width >= 600;
 
     if (isWide) {
-      return Card(
+      return Container(
         key: key,
         color: cardColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: accentColor.withValues(alpha: 0.2)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: titleColor,
-              )),
-              const SizedBox(height: 8),
-              child,
-            ],
-          ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              color: titleColor,
+            )),
+            const SizedBox(height: 8),
+            child,
+          ],
         ),
       );
     }

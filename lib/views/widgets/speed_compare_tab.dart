@@ -260,7 +260,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               padding: const EdgeInsets.only(top: 2),
               child: Text(
                 _speedTierDescription(state.level, effSpeed),
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
               ),
             ),
           const SizedBox(height: 10),

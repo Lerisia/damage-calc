@@ -1045,7 +1045,7 @@
     "power": 0,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": ["custom:fixed_half_hp"]
   },
   {
     "name": "Revelation Dance",

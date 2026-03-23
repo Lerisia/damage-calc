@@ -9,7 +9,6 @@ import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
-import 'ability_effects.dart' show multiHitMoves;
 
 /// Which stat the move should use for offense
 enum OffensiveStat {
@@ -648,21 +647,10 @@ int _maxMovePower(int basePower, PokemonType type) {
 /// or null if the move should use the normal base-power-to-max-power table.
 int? _fixedMaxMovePower(Move move) {
   // OHKO moves -> fixed 130
-  if (move.name == 'Guillotine' || move.name == 'Fissure' ||
-      move.name == 'Horn Drill' || move.name == 'Sheer Cold') {
-    return 130;
-  }
+  if (move.hasTag(MoveTags.ohko)) return 130;
 
-  // Fixed damage / counter moves
-  if (move.name == 'Seismic Toss' || move.name == 'Night Shade' ||
-      move.name == 'Dragon Rage' || move.name == 'Sonic Boom' ||
-      move.name == 'Counter' || move.name == 'Mirror Coat' ||
-      move.name == 'Metal Burst' || move.name == 'Super Fang' ||
-      move.name == 'Endeavor') {
-    if (move.name == 'Endeavor') return 130;
-    if (move.name == 'Super Fang') return 100;
-    return 75;
-  }
+  // Half-HP moves (Super Fang, Nature's Madness) -> fixed 100
+  if (move.hasTag(MoveTags.fixedHalfHp)) return 100;
 
   // Variable power: HP-based, rank-based, speed-based -> fixed 130
   if (move.hasTag(MoveTags.hpPowerHigh) || move.hasTag(MoveTags.hpPowerLow) ||
@@ -682,9 +670,7 @@ int? _fixedMaxMovePower(Move move) {
   }
 
   // Multi-hit moves -> fixed 130
-  if (multiHitMoves.contains(move.name)) {
-    return 130;
-  }
+  if (move.isMultiHit) return 130;
 
   return null; // use normal table
 }
@@ -692,8 +678,7 @@ int? _fixedMaxMovePower(Move move) {
 /// Apply Dynamax/Gigantamax transformation to a move.
 Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   // Fixed damage moves that don't coexist with Dynamax -> Max Guard
-  if (move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40) ||
-      move.hasTag(MoveTags.fixedHalfHp)) {
+  if (move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
     return move.copyWith(
       name: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
       type: PokemonType.normal, power: 0,

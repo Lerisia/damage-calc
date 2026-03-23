@@ -62,6 +62,9 @@ class MoveSlotInfo {
   /// Final power (user override or basePower).
   final int effectivePower;
 
+  /// Whether the move deals fixed damage (bypasses normal formula).
+  final bool isFixedDamage;
+
   /// 결정력 result, null when no move is set.
   final int? offensivePower;
 
@@ -71,6 +74,7 @@ class MoveSlotInfo {
     this.effectiveCategory,
     this.basePower = 0,
     this.effectivePower = 0,
+    this.isFixedDamage = false,
     this.offensivePower,
   });
 }
@@ -197,12 +201,20 @@ class BattleFacade {
       hitCount: hits,
     );
 
+    // Fixed damage is determined by the TRANSFORMED move, not the original
+    final isFixed = transformed.move.hasTag(MoveTags.fixedLevel) ||
+        transformed.move.hasTag(MoveTags.fixedHalfHp) ||
+        transformed.move.hasTag(MoveTags.fixed20) ||
+        transformed.move.hasTag(MoveTags.fixed40) ||
+        transformed.move.hasTag(MoveTags.ohko);
+
     return MoveSlotInfo(
       displayName: displayName,
       effectiveType: effectiveType,
       effectiveCategory: effectiveCategory,
       basePower: basePower,
       effectivePower: effectivePower,
+      isFixedDamage: isFixed,
       offensivePower: offensivePower,
     );
   }

@@ -45,7 +45,7 @@
     "power": 0,
     "accuracy": 30,
     "pp": 5,
-    "tags": []
+    "tags": ["custom:ohko"]
   },
   {
     "name": "Sharpen",
@@ -537,7 +537,7 @@
     "power": 0,
     "accuracy": 30,
     "pp": 5,
-    "tags": []
+    "tags": ["custom:ohko"]
   },
   {
     "name": "Skull Bash",
@@ -977,7 +977,7 @@
     "power": 0,
     "accuracy": 30,
     "pp": 5,
-    "tags": []
+    "tags": ["custom:ohko"]
   },
   {
     "name": "Horn Attack",

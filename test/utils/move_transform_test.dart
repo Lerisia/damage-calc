@@ -799,32 +799,32 @@ void main() {
     });
 
     // Special move handling
-    test('OHKO move -> base 130 -> max power 150', () {
+    test('OHKO move -> fixed max power 130', () {
       const fissure = Move(
         name: 'Fissure', nameKo: '땅가르기', nameJa: 'じわれ',
         type: PokemonType.ground, category: MoveCategory.physical,
         power: 0, accuracy: 30, pp: 5,
+        tags: ['custom:ohko'],
       );
       final result = transformMove(fissure,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      // base 130 -> conversion table 130+ -> 150
-      expect(result.move.power, equals(150));
+      expect(result.move.power, equals(130));
       expect(result.move.nameKo, equals('다이어스'));
     });
 
-    test('Multi-hit move (Icicle Spear 25) -> base 130 -> max 150', () {
+    test('Multi-hit move (Icicle Spear 25) -> fixed max power 130', () {
       const icicleSpear = Move(
         name: 'Icicle Spear', nameKo: '고드름침', nameJa: 'つららばり',
         type: PokemonType.ice, category: MoveCategory.physical,
         power: 25, accuracy: 100, pp: 30,
+        minHits: 2, maxHits: 5,
       );
       final result = transformMove(icicleSpear,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      // base 130 -> conversion table 130+ -> 150
-      expect(result.move.power, equals(150));
+      expect(result.move.power, equals(130));
     });
 
-    test('Variable power move (Flail) -> base 130 -> max 150', () {
+    test('Variable power move (Flail) -> fixed max power 130', () {
       const flail = Move(
         name: 'Flail', nameKo: '바둥바둥', nameJa: 'じたばた',
         type: PokemonType.normal, category: MoveCategory.physical,
@@ -833,8 +833,7 @@ void main() {
       );
       final result = transformMove(flail,
           const MoveContext(dynamax: DynamaxState.dynamax, hpPercent: 10));
-      // base 130 -> conversion table 130+ -> 150
-      expect(result.move.power, equals(150));
+      expect(result.move.power, equals(130));
     });
 
     // Status move -> Max Guard
