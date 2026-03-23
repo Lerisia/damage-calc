@@ -583,7 +583,7 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
       child: TextFormField(
         controller: _controller,
         keyboardType: widget.signed
-            ? const TextInputType.numberWithOptions(signed: true)
+            ? TextInputType.text
             : TextInputType.number,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 14),

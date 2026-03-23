@@ -591,15 +591,16 @@ class _StatInputState extends State<StatInput> {
 
   Widget _statHeader(BuildContext context) {
     final style = Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey);
+    final isWide = MediaQuery.of(context).size.width >= 600;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
           Expanded(flex: 3, child: Text('', style: style)),
           Expanded(flex: 2, child: Text('종족', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 3, child: Text('개체', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 7, child: Text('노력', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 2, child: Text('랭크', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: isWide ? 2 : 3, child: Text('개체', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: isWide ? 7 : 6, child: Text('노력', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text('랭크', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text('실수치', style: style, textAlign: TextAlign.center)),
         ],
       ),
@@ -613,6 +614,7 @@ class _StatInputState extends State<StatInput> {
     required int rankIndex,
     bool dynamaxHp = false,
   }) {
+    final isWide = MediaQuery.of(context).size.width >= 600;
     Color? actualColor;
     if (natureModifier != null && natureModifier > 1.0) actualColor = Colors.red;
     if (natureModifier != null && natureModifier < 1.0) actualColor = Colors.blue;
@@ -623,13 +625,13 @@ class _StatInputState extends State<StatInput> {
         children: [
           Expanded(flex: 3, child: Text(label, style: const TextStyle(fontSize: 14))),
           Expanded(flex: 2, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 14))),
-          Expanded(flex: 3, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
+          Expanded(flex: isWide ? 2 : 3, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
           Expanded(
-            flex: 7,
+            flex: isWide ? 7 : 6,
             child: _evControl(evVal, (v) => onChanged(ivVal, v, null)),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: rankIndex >= 0
                 ? _rankControl(rankVal, (v) => onChanged(ivVal, evVal, v))
                 : _hpPercentControl(),
@@ -711,7 +713,7 @@ class _StatInputState extends State<StatInput> {
             }),
           ),
         Expanded(
-          flex: 3,
+          flex: 2,
           child: _flexButton('max', () {
             setState(() => _evResetCounter++);
             onChanged(252);
@@ -777,7 +779,7 @@ class _StatInputState extends State<StatInput> {
         key: ValueKey('rank_${value}_$_evResetCounter'),
         initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
-        keyboardType: const TextInputType.numberWithOptions(signed: true),
+        keyboardType: TextInputType.text,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^-?[0-6]?$')),
         ],

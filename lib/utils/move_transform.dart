@@ -644,55 +644,73 @@ int _maxMovePower(int basePower, PokemonType type) {
   return 150;
 }
 
-/// Determine the base power for Max Move conversion.
-/// Handles special cases: multi-hit, OHKO, variable power, fixed damage.
-int _maxMoveBasePower(Move move) {
-  // OHKO moves -> 130
+/// Returns the fixed Max Move power for special moves (bypasses the table),
+/// or null if the move should use the normal base-power-to-max-power table.
+int? _fixedMaxMovePower(Move move) {
+  // OHKO moves -> fixed 130
   if (move.name == 'Guillotine' || move.name == 'Fissure' ||
       move.name == 'Horn Drill' || move.name == 'Sheer Cold') {
     return 130;
   }
 
-  // Fixed damage / counter moves -> 75
+  // Fixed damage / counter moves
   if (move.name == 'Seismic Toss' || move.name == 'Night Shade' ||
       move.name == 'Dragon Rage' || move.name == 'Sonic Boom' ||
       move.name == 'Counter' || move.name == 'Mirror Coat' ||
       move.name == 'Metal Burst' || move.name == 'Super Fang' ||
       move.name == 'Endeavor') {
-    // Super Fang and Endeavor map to 100/130 respectively based on Bulbapedia
-    if (move.name == 'Super Fang') return 100;
     if (move.name == 'Endeavor') return 130;
+    if (move.name == 'Super Fang') return 100;
     return 75;
   }
 
-  // Variable power moves (Flail, Reversal, Eruption, etc.) -> 130
+  // Variable power: HP-based, rank-based, speed-based -> fixed 130
   if (move.hasTag(MoveTags.hpPowerHigh) || move.hasTag(MoveTags.hpPowerLow) ||
-      move.hasTag(MoveTags.rankPower)) {
+      move.hasTag(MoveTags.rankPower) ||
+      move.hasTag(MoveTags.gyroSpeed) || move.hasTag(MoveTags.electroSpeed)) {
     return 130;
   }
 
-  // Weight-based moves -> 130
+  // Weight-based moves -> fixed 130
   if (move.hasTag(MoveTags.weightRatio) || move.hasTag(MoveTags.weightTarget)) {
     return 130;
   }
 
-  // Multi-hit moves -> 130 for Dynamax conversion
+  // Target HP-based power (Crush Grip, Hard Press) -> fixed 130
+  if (move.hasTag(MoveTags.powerByTargetHp120) || move.hasTag(MoveTags.powerByTargetHp100)) {
+    return 130;
+  }
+
+  // Multi-hit moves -> fixed 130
   if (multiHitMoves.contains(move.name)) {
     return 130;
   }
 
-  // Normal: use the move's base power
-  return move.power;
+  return null; // use normal table
 }
 
 /// Apply Dynamax/Gigantamax transformation to a move.
 Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
-  // Fixed damage moves -> Max Guard (Night Shade, Seismic Toss, etc.)
-  if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
-      move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
+  // Fixed damage moves that don't coexist with Dynamax -> Max Guard
+  if (move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40) ||
+      move.hasTag(MoveTags.fixedHalfHp)) {
     return move.copyWith(
       name: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
       type: PokemonType.normal, power: 0,
+      moveClass: MoveClass.maxMove,
+      tags: const [],
+    );
+  }
+
+  // Level-based fixed damage moves -> proper Max Moves
+  // Night Shade: Ghost -> Max Phantasm (100), Seismic Toss: Fighting -> Max Knuckle (75)
+  if (move.hasTag(MoveTags.fixedLevel)) {
+    final maxPower = move.name == 'Night Shade' ? 100 : 75;
+    final maxName = _maxMoveNames[move.type] ?? 'Max Strike';
+    final maxNameKo = _maxMoveNamesKo[move.type] ?? '다이어택';
+    return move.copyWith(
+      name: maxName, nameKo: maxNameKo,
+      power: maxPower,
       moveClass: MoveClass.maxMove,
       tags: const [],
     );
@@ -709,8 +727,8 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   }
 
   final type = move.type;
-  final basePower = _maxMoveBasePower(move);
-  final maxPower = _maxMovePower(basePower, type);
+  final fixed = _fixedMaxMovePower(move);
+  final maxPower = fixed ?? _maxMovePower(move.power, type);
 
   // Check for G-Max move
   if (dynamax == DynamaxState.gigantamax && pokemonName != null) {
