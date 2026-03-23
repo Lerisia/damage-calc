@@ -77,6 +77,7 @@ class PokemonPanelState extends State<PokemonPanel>
   final _scrollController = ScrollController();
   final _screenshotController = ScreenshotController();
   int? _focusedMoveIndex;
+  final List<GlobalKey> _moveRowKeys = List.generate(4, (_) => GlobalKey());
 
   // Power input controllers — one per move slot.
   // Using controllers instead of initialValue + key avoids rebuilding
@@ -145,11 +146,11 @@ class PokemonPanelState extends State<PokemonPanel>
 
   void _scrollToSection(GlobalKey key) {
     _doScrollToSection(key);
-    // Retry after keyboard animation completes
-    Future.delayed(const Duration(milliseconds: 500), () => _doScrollToSection(key));
+    // Retry after keyboard animation completes (iOS keyboard is slower)
+    Future.delayed(const Duration(milliseconds: 400), () => _doScrollToSection(key));
+    Future.delayed(const Duration(milliseconds: 800), () => _doScrollToSection(key));
   }
 
-  void _scrollToMoves() => _scrollToSection(_movesSectionKey);
   void _scrollToStats() => _scrollToSection(_statsSectionKey);
 
   void _doScrollToSection(GlobalKey key) {
@@ -474,6 +475,7 @@ class PokemonPanelState extends State<PokemonPanel>
           Expanded(
             flex: 3,
             child: Focus(
+              key: _moveRowKeys[index],
               onFocusChange: (hasFocus) {
                 setState(() => _focusedMoveIndex = hasFocus ? index : null);
               },
@@ -484,7 +486,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
                       initialMoveName: s.moves[index]?.name,
                       displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
-                      onTap: _scrollToMoves,
+                      onTap: () => _scrollToSection(_moveRowKeys[index]),
                       onSelected: (m) {
                         FocusScope.of(context).unfocus();
                         setState(() {
