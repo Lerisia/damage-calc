@@ -4,6 +4,7 @@ import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
 import '../models/gender.dart';
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/rank.dart';
 import '../models/room.dart';
 import '../models/stats.dart';
@@ -143,6 +144,8 @@ class BattleFacade {
 
     // Compute base stats once for this slot
     final baseStats = _baseActualStats(state);
+    final hits = move.isMultiHit
+        ? (state.hitOverrides[moveIndex] ?? move.maxHits) : null;
 
     // Transform for display (name, type, power)
     final ctx = _buildMoveContext(
@@ -153,6 +156,7 @@ class BattleFacade {
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
+      hitCount: hits,
     );
     final transformed = transformMove(move, ctx);
 
@@ -178,6 +182,7 @@ class BattleFacade {
       opponentGender: opponentGender,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: opponentWeight,
+      hitCount: hits,
     );
 
     return MoveSlotInfo(
@@ -209,9 +214,12 @@ class BattleFacade {
     int? myEffectiveSpeed,
     double? opponentWeight,
   }) {
+    final move = state.moves[moveIndex];
+    final hits = move != null && move.isMultiHit
+        ? (state.hitOverrides[moveIndex] ?? move.maxHits) : null;
     return _calcOffensivePower(
       state: state,
-      move: state.moves[moveIndex],
+      move: move,
       isCritical: state.criticals[moveIndex],
       typeOverride: state.typeOverrides[moveIndex],
       categoryOverride: state.categoryOverrides[moveIndex],
@@ -224,6 +232,7 @@ class BattleFacade {
       opponentGender: opponentGender,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: opponentWeight,
+      hitCount: hits,
     );
   }
 
@@ -242,6 +251,7 @@ class BattleFacade {
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
     double? opponentWeight,
+    int? hitCount,
   }) {
     if (move == null) return null;
 
@@ -271,8 +281,15 @@ class BattleFacade {
       myEffectiveSpeed: myEffectiveSpeed,
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
+      hitCount: hitCount,
     );
     final transformed = transformMove(move, ctx);
+
+    // Gravity: disabled moves return 0 (checked after transform,
+    // so Dynamax moves pass through)
+    if (room.gravity && transformed.move.hasTag(MoveTags.disabledByGravity)) {
+      return 0;
+    }
 
     // 2. Resolve item/ability effects (Dynamax nullification applied)
     final isDmaxed = state.dynamax != DynamaxState.none;
@@ -435,6 +452,7 @@ class BattleFacade {
     int? myEffectiveSpeed,
     int? opponentSpeed,
     double? opponentWeight,
+    int? hitCount,
   }) {
     // Tera Blast needs rank-applied stats for category comparison
     final rankedStats = state.rank != const Rank()
@@ -468,6 +486,7 @@ class BattleFacade {
       opponentWeight: opponentWeight,
       userType1: state.type1,
       heldItem: state.selectedItem,
+      hitCount: hitCount,
     );
   }
 

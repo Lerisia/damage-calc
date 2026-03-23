@@ -171,8 +171,7 @@ class PokemonPanelState extends State<PokemonPanel>
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: widget.opponentWeight,
     );
-    if (singleHit == null) return null;
-    return _applyHits(singleHit, s.moves[moveIndex], s.hitOverrides[moveIndex]);
+    return singleHit;
   }
 
   @override
@@ -466,19 +465,8 @@ class PokemonPanelState extends State<PokemonPanel>
     final effectiveType = info.effectiveType ?? move?.type;
     final effectiveCategory = info.effectiveCategory ?? move?.category;
     final displayName = info.displayName ?? move?.nameKo;
-    // For multi-hit moves: show total power based on hit count
-    final int displayPower;
-    if (move != null && move.isMultiHit) {
-      final hits = s.hitOverrides[index] ?? move.maxHits;
-      final basePwr = s.powerOverrides[index] ?? info.basePower;
-      if (move.hasTag(MoveTags.escalatingHits)) {
-        displayPower = basePwr * hits * (hits + 1) ~/ 2;
-      } else {
-        displayPower = basePwr * hits;
-      }
-    } else {
-      displayPower = info.effectivePower;
-    }
+    // Power already includes multi-hit total from transformMove
+    final displayPower = info.effectivePower;
     final result = info.offensivePower;
 
     final isSearching = _focusedMoveIndex == index;
@@ -516,7 +504,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       },
                     ),
                   ),
-                  if (!isSearching && move != null && move.isMultiHit)
+                  if (!isSearching && move != null && move.isMultiHit && s.dynamax == DynamaxState.none)
                     PopupMenuButton<int>(
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
@@ -634,7 +622,7 @@ class PokemonPanelState extends State<PokemonPanel>
             width: 60,
             child: Text(
               result != null
-                  ? '${_applyHits(result, move, s.hitOverrides[index])}'
+                  ? '$result'
                   : '-',
               textAlign: TextAlign.right,
               style: TextStyle(
@@ -695,18 +683,6 @@ class PokemonPanelState extends State<PokemonPanel>
         _typeBadge(type2),
       ],
     ];
-  }
-
-  /// Multiply single-hit 결정력 by hit count for multi-hit moves.
-  int _applyHits(int singleHitResult, Move? move, int? hitOverride) {
-    if (move == null || !move.isMultiHit) return singleHitResult;
-    final hits = hitOverride ?? move.maxHits;
-    if (move.hasTag(MoveTags.escalatingHits)) {
-      // Escalating: 1st hit = base, 2nd = 2x, 3rd = 3x, ...
-      // Total multiplier = hits*(hits+1)/2
-      return singleHitResult * hits * (hits + 1) ~/ 2;
-    }
-    return singleHitResult * hits;
   }
 
   Widget _typeBadge(PokemonType type, {bool isTera = false}) {

@@ -215,27 +215,6 @@ class DamageCalculator {
       weatherNotes.add('terrain_negate:$negator');
     }
 
-    // --- Gravity: certain moves are disabled ---
-    if (room.gravity && effectiveMove.hasTag(MoveTags.disabledByGravity)) {
-      return DamageResult(
-        baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: 1, effectiveness: 0.0,
-        isPhysical: effectiveMove.category == MoveCategory.physical,
-        move: effectiveMove,
-        modifierNotes: ['중력: 사용 불가'],
-      );
-    }
-
-    // --- Fixed damage moves (bypass normal formula entirely) ---
-    if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
-        move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
-      return _calcFixedDamage(
-        attacker: attacker, defender: defender, move: effectiveMove,
-        weather: weather, room: room,
-        defenderAbility: defAbilityRaw,
-      );
-    }
-
     // Note: power == 0 check moved AFTER transform, since weight-based
     // and speed-based moves start at 0 and get power from transform.
 
@@ -263,9 +242,33 @@ class DamageCalculator {
       opponentWeight: BattleFacade.effectiveWeight(defender),
       userType1: attacker.type1,
       heldItem: attacker.selectedItem,
+      hitCount: move.isMultiHit
+          ? (attacker.hitOverrides[moveIndex] ?? move.maxHits) : null,
     );
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
+
+    // --- Gravity: certain moves are disabled (checked AFTER transform,
+    //     so Dynamax moves are not affected) ---
+    if (room.gravity && effectiveMove.hasTag(MoveTags.disabledByGravity)) {
+      return DamageResult(
+        baseDamage: 0, minDamage: 0, maxDamage: 0,
+        defenderHp: 1, effectiveness: 0.0,
+        isPhysical: effectiveMove.category == MoveCategory.physical,
+        move: effectiveMove,
+        modifierNotes: ['중력: 사용 불가'],
+      );
+    }
+
+    // --- Fixed damage moves (checked after transform so Dynamax → Max Guard passes) ---
+    if (effectiveMove.hasTag(MoveTags.fixedLevel) || effectiveMove.hasTag(MoveTags.fixedHalfHp) ||
+        effectiveMove.hasTag(MoveTags.fixed20) || effectiveMove.hasTag(MoveTags.fixed40)) {
+      return _calcFixedDamage(
+        attacker: attacker, defender: defender, move: effectiveMove,
+        weather: weather, room: room,
+        defenderAbility: defAbilityRaw,
+      );
+    }
 
     // After transform: if power is still 0, no damage
     if (effectiveMove.power == 0) {

@@ -58,6 +58,9 @@ class MoveContext {
   /// User's held item name (for Judgment, Multi-Attack).
   final String? heldItem;
 
+  /// Hit count for multi-hit moves (user override or maxHits).
+  final int? hitCount;
+
   const MoveContext({
     this.weather = Weather.none,
     this.terrain = Terrain.none,
@@ -78,6 +81,7 @@ class MoveContext {
     this.opponentWeight,
     this.userType1,
     this.heldItem,
+    this.hitCount,
   });
 }
 
@@ -218,7 +222,16 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // 5. Rank-based power
   move = _applyRankPower(move, context.rank);
 
-  // 6. Dynamax transform (after all other power changes)
+  // 6. Multi-hit: apply total power (before Dynamax, which has its own formula)
+  if (move.isMultiHit && context.hitCount != null && context.hitCount! > 1) {
+    final hits = context.hitCount!;
+    move = move.copyWith(
+      power: move.totalPower(hits),
+      tags: move.tags.where((t) => t != MoveTags.escalatingHits).toList(),
+    );
+  }
+
+  // 7. Dynamax transform (after all other power changes)
   if (context.dynamax != DynamaxState.none) {
     move = _applyDynamax(move, context.dynamax, context.pokemonName);
   }
@@ -674,12 +687,24 @@ int _maxMoveBasePower(Move move) {
 
 /// Apply Dynamax/Gigantamax transformation to a move.
 Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
+  // Fixed damage moves -> Max Guard (Night Shade, Seismic Toss, etc.)
+  if (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp) ||
+      move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
+    return move.copyWith(
+      name: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
+      type: PokemonType.normal, power: 0,
+      moveClass: MoveClass.maxMove,
+      tags: const [],
+    );
+  }
+
   // Status moves -> Max Guard (no offensive calc needed, but return something)
   if (move.category == MoveCategory.status) {
     return move.copyWith(
       name: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
       type: PokemonType.normal, power: 0,
       moveClass: MoveClass.maxMove,
+      tags: const [], // Dynamax moves lose all original tags
     );
   }
 
@@ -697,6 +722,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
         name: gmaxMove.name, nameKo: gmaxMove.nameKo,
         power: gmaxPower,
         moveClass: MoveClass.maxMove,
+        tags: const [], // Dynamax moves lose all original tags
       );
     }
   }
@@ -708,6 +734,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
     name: maxName, nameKo: maxNameKo,
     power: maxPower,
     moveClass: MoveClass.maxMove,
+    tags: const [], // Dynamax moves lose all original tags
   );
 }
 
