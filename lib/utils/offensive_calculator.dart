@@ -104,9 +104,11 @@ class OffensiveCalculator {
         stabMult = isOriginalStab ? _stellarStabMatching : _stellarStabNonMatching;
       } else if (isTeraStab && isOriginalStab) {
         stabMult = stabOverride != null ? _teraStabSameTypeWithOverride : _teraStabSameType;
-      } else if (isTeraStab || isOriginalStab) {
-        // Tera type move OR original STAB: 1.5
+      } else if (isTeraStab) {
         stabMult = stabOverride ?? _stabMultiplier;
+      } else if (isOriginalStab) {
+        // Adaptability does NOT apply to original-type STAB after Tera
+        stabMult = _stabMultiplier;
       }
     } else {
       stabMult = isOriginalStab ? (stabOverride ?? _stabMultiplier) : 1.0;

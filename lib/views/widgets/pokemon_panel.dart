@@ -180,7 +180,7 @@ class PokemonPanelState extends State<PokemonPanel>
     _updateCachedSpeed();
     return SingleChildScrollView(
       controller: _scrollController,
-      padding: EdgeInsets.fromLTRB(16, 8, 16,
+      padding: EdgeInsets.fromLTRB(4, 2, 4,
           MediaQuery.of(context).viewInsets.bottom > 0
               ? MediaQuery.of(context).size.height * 0.5 + MediaQuery.of(context).viewInsets.bottom
               : 120),
@@ -188,7 +188,7 @@ class PokemonPanelState extends State<PokemonPanel>
         controller: _screenshotController,
         child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -362,13 +362,14 @@ class PokemonPanelState extends State<PokemonPanel>
           Expanded(child: Text(
             parts.join(' | '),
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
               color: widget.isAttacker ? Colors.red[400] : Colors.blue[400],
             ),
           )),
           if (widget.onSave != null)
             IconButton(
-              icon: const Icon(Icons.save_outlined, size: 22),
+              icon: const Icon(Icons.save_outlined, size: 26),
               tooltip: '샘플 저장',
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
@@ -377,7 +378,7 @@ class PokemonPanelState extends State<PokemonPanel>
             ),
           if (widget.onLoad != null)
             IconButton(
-              icon: const Icon(Icons.folder_open_outlined, size: 22),
+              icon: const Icon(Icons.folder_open_outlined, size: 26),
               tooltip: '샘플 불러오기',
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
@@ -386,7 +387,7 @@ class PokemonPanelState extends State<PokemonPanel>
             ),
           if (widget.onReset != null)
             IconButton(
-              icon: const Icon(Icons.refresh, size: 22),
+              icon: const Icon(Icons.refresh, size: 26),
               tooltip: '초기화',
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
@@ -872,26 +873,45 @@ class PokemonPanelState extends State<PokemonPanel>
     final accentColor = widget.isAttacker ? Colors.red : Colors.blue;
     final cardColor = Color.lerp(Theme.of(context).cardColor, accentColor, 0.06);
     final titleColor = widget.isAttacker ? Colors.red[700] : Colors.blue[700];
+    final isWide = MediaQuery.of(context).size.width >= 600;
 
-    return Card(
+    if (isWide) {
+      return Card(
+        key: key,
+        color: cardColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: accentColor.withValues(alpha: 0.2)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                color: titleColor,
+              )),
+              const SizedBox(height: 8),
+              child,
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Container(
       key: key,
       color: cardColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: accentColor.withValues(alpha: 0.2)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              color: titleColor,
-            )),
-            const SizedBox(height: 8),
-            child,
-          ],
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            color: titleColor,
+          )),
+          const SizedBox(height: 6),
+          child,
+        ],
       ),
     );
   }

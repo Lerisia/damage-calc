@@ -697,8 +697,10 @@ class DamageCalculator {
         stab = isOriginalStab ? kStellarStabMatching : kStellarStabNonMatching;
       } else if (isTeraStab && isOriginalStab) {
         stab = abilityEffect.stabOverride != null ? 2.25 : kStellarStabMatching;
-      } else if (isTeraStab || isOriginalStab) {
+      } else if (isTeraStab) {
         stab = abilityEffect.stabOverride ?? kStandardStab;
+      } else if (isOriginalStab) {
+        stab = kStandardStab; // Adaptability does NOT apply to original-type STAB after Tera
       }
     } else {
       final bool hasStab = (abilityEffect.forceStab) || isOriginalStab;

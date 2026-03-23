@@ -174,12 +174,12 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
 
     return SingleChildScrollView(
       controller: _scrollController,
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
+      padding: const EdgeInsets.fromLTRB(4, 4, 4, 120),
       child: Screenshot(
         controller: _screenshotController,
         child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
             children: [
               KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey)),
@@ -187,11 +187,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: resultColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: resultColor.withValues(alpha: 0.3)),
-                ),
+                color: resultColor.withValues(alpha: 0.1),
                 child: Column(
                   children: [
                     Text(resultText, style: TextStyle(
@@ -229,18 +225,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     final speedBase = state.baseStats.speed;
 
     return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.03),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withValues(alpha: 0.15)),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      color: color.withValues(alpha: 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Text('$label ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: color)),
+              Text('$label ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: color)),
               Expanded(child: PokemonSelector(
                 key: ValueKey('speed_pokemon_${widget.resetCounter}_${state.pokemonName}'),
                 initialPokemonName: state.pokemonName,
