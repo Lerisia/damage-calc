@@ -103,9 +103,11 @@ class StatInput extends StatefulWidget {
     this.isDynamaxed = false,
     this.tailwind = false,
     this.onItemTap,
+    this.onAbilityTap,
   });
 
   final VoidCallback? onItemTap;
+  final VoidCallback? onAbilityTap;
 
   final int? opponentSpeed;
   final bool opponentAlwaysLast;
@@ -438,8 +440,11 @@ class _StatInputState extends State<StatInput> {
             labelText: '특성',
             isDense: true,
           ),
-          onTap: () => controller.selection = TextSelection(
-            baseOffset: 0, extentOffset: controller.text.length),
+          onTap: () {
+            controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length);
+            widget.onAbilityTap?.call();
+          },
           onChanged: kIsWeb ? (_) => setState(() {}) : null,
         );
       },

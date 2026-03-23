@@ -250,6 +250,7 @@ class PokemonPanelState extends State<PokemonPanel>
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; }),
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
               onItemTap: _scrollToStats,
+              onAbilityTap: _scrollToStats,
             ),
           ),
           const SizedBox(height: 12),

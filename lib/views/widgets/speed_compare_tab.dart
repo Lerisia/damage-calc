@@ -57,6 +57,35 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   bool get wantKeepAlive => true;
 
   final _screenshotController = ScreenshotController();
+  final _scrollController = ScrollController();
+  final _atkPanelKey = GlobalKey();
+  final _defPanelKey = GlobalKey();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToPanel(GlobalKey key) {
+    _doScrollToPanel(key);
+    Future.delayed(const Duration(milliseconds: 500), () => _doScrollToPanel(key));
+  }
+
+  void _doScrollToPanel(GlobalKey key) {
+    final ctx = key.currentContext;
+    if (ctx == null || !_scrollController.hasClients) return;
+    final box = ctx.findRenderObject() as RenderBox;
+    final offset = box.localToGlobal(Offset.zero).dy;
+    final topBarHeight = kToolbarHeight + kTextTabBarHeight +
+        MediaQuery.of(context).padding.top;
+    final target = _scrollController.offset + offset - topBarHeight - 8;
+    _scrollController.animateTo(
+      target.clamp(0, _scrollController.position.maxScrollExtent),
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeOutCubic,
+    );
+  }
 
   Future<Uint8List?> captureScreenshot() async {
     try {
@@ -142,6 +171,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     }
 
     return SingleChildScrollView(
+      controller: _scrollController,
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
       child: Screenshot(
         controller: _screenshotController,
@@ -150,7 +180,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed),
+              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed, onSearchTap: () => _scrollToPanel(_atkPanelKey))),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
@@ -174,7 +204,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 ),
               ),
               const SizedBox(height: 8),
-              _speedPanel(label: '방어측', color: Colors.blue, state: def, effSpeed: defEffSpeed),
+              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: '방어측', color: Colors.blue, state: def, effSpeed: defEffSpeed, onSearchTap: () => _scrollToPanel(_defPanelKey))),
             ],
           ),
         ),
@@ -187,6 +217,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     required Color color,
     required BattlePokemonState state,
     required int effSpeed,
+    VoidCallback? onSearchTap,
   }) {
     final rawSpeed = StatCalculator.calculate(
       baseStats: state.baseStats, iv: state.iv, ev: state.ev,
@@ -308,7 +339,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 3, child: _abilityAutocomplete(state)),
+              Expanded(flex: 3, child: _abilityAutocomplete(state, onSearchTap)),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: DropdownButtonFormField<StatusCondition>(
                 value: state.status,
@@ -340,7 +371,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 onChanged: (v) { if (v != null) { setState(() => state.nature = v); _notify(); } },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 2, child: _itemAutocomplete(state)),
+              Expanded(flex: 2, child: _itemAutocomplete(state, onSearchTap)),
             ],
           ),
           const SizedBox(height: 6),
@@ -414,7 +445,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     return [...pokemon, ...rest];
   }
 
-  Widget _abilityAutocomplete(BattlePokemonState state) {
+  Widget _abilityAutocomplete(BattlePokemonState state, VoidCallback? onTapScroll) {
     final sorted = _sortedAbilities(state);
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
 
@@ -440,8 +471,11 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             controller: controller,
             focusNode: focusNode,
             decoration: const InputDecoration(labelText: '특성', isDense: true),
-            onTap: () => controller.selection = TextSelection(
-              baseOffset: 0, extentOffset: controller.text.length),
+            onTap: () {
+              controller.selection = TextSelection(
+                baseOffset: 0, extentOffset: controller.text.length);
+              onTapScroll?.call();
+            },
             onChanged: kIsWeb ? (_) => setState(() {}) : null,
           );
         },
@@ -449,7 +483,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
-  Widget _itemAutocomplete(BattlePokemonState state) {
+  Widget _itemAutocomplete(BattlePokemonState state, VoidCallback? onTapScroll) {
     final allKeys = ['', ..._itemNameMap.keys];
     final allItems = state.selectedItem != null
         ? [state.selectedItem!, ...allKeys.where((k) => k != state.selectedItem)]
@@ -483,8 +517,11 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             controller: controller,
             focusNode: focusNode,
             decoration: const InputDecoration(labelText: '아이템', isDense: true),
-            onTap: () => controller.selection = TextSelection(
-              baseOffset: 0, extentOffset: controller.text.length),
+            onTap: () {
+              controller.selection = TextSelection(
+                baseOffset: 0, extentOffset: controller.text.length);
+              onTapScroll?.call();
+            },
             onChanged: kIsWeb ? (_) => setState(() {}) : null,
           );
         },
