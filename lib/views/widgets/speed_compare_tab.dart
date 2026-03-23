@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
-import '../../models/dynamax.dart';
 import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
@@ -15,7 +14,6 @@ import '../../models/room.dart';
 import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../utils/battle_facade.dart';
-import '../../utils/item_effects.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/speed_tier.dart';
 import '../../utils/stat_calculator.dart';
@@ -60,6 +58,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   final _scrollController = ScrollController();
   final _atkPanelKey = GlobalKey();
   final _defPanelKey = GlobalKey();
+  final _atkAbilityRowKey = GlobalKey();
+  final _atkItemRowKey = GlobalKey();
+  final _defAbilityRowKey = GlobalKey();
+  final _defItemRowKey = GlobalKey();
 
   @override
   void dispose() {
@@ -180,7 +182,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed, onSearchTap: () => _scrollToPanel(_atkPanelKey))),
+              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey)),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
@@ -204,7 +206,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 ),
               ),
               const SizedBox(height: 8),
-              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: '방어측', color: Colors.blue, state: def, effSpeed: defEffSpeed, onSearchTap: () => _scrollToPanel(_defPanelKey))),
+              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: '방어측', color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey)),
             ],
           ),
         ),
@@ -217,7 +219,8 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     required Color color,
     required BattlePokemonState state,
     required int effSpeed,
-    VoidCallback? onSearchTap,
+    required GlobalKey abilityRowKey,
+    required GlobalKey itemRowKey,
   }) {
     final rawSpeed = StatCalculator.calculate(
       baseStats: state.baseStats, iv: state.iv, ev: state.ev,
@@ -328,6 +331,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           ),
           const SizedBox(height: 8),
           Row(
+            key: abilityRowKey,
             children: [
               SizedBox(width: 56, child: _SpeedNumInput(
                 value: state.level,
@@ -339,7 +343,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 3, child: _abilityAutocomplete(state, onSearchTap)),
+              Expanded(flex: 3, child: _abilityAutocomplete(state, () => _scrollToPanel(abilityRowKey))),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: DropdownButtonFormField<StatusCondition>(
                 value: state.status,
@@ -356,6 +360,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           ),
           const SizedBox(height: 8),
           Row(
+            key: itemRowKey,
             children: [
               Expanded(flex: 3, child: DropdownButtonFormField<Nature>(
                 value: state.nature,
@@ -371,7 +376,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 onChanged: (v) { if (v != null) { setState(() => state.nature = v); _notify(); } },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 2, child: _itemAutocomplete(state, onSearchTap)),
+              Expanded(flex: 2, child: _itemAutocomplete(state, () => _scrollToPanel(itemRowKey))),
             ],
           ),
           const SizedBox(height: 6),

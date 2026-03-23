@@ -117,36 +117,74 @@ class RandomFactor {
     return (hits: bestHits, koCount: 1, totalCount: 2); // approximate
   }
 
-  // --- Multi-hit damage distribution via convolution ---
+  // --- Roll-based KO calculation (random factor already applied) ---
 
-  /// Returns (min, max) total damage for a multi-hit move.
-  /// [perHitDamages] is a list of base damages for each hit (before random factor).
-  /// For normal multi-hit, all values are the same; for escalating, each is different.
-  static ({int min, int max}) multiHitRange(List<int> perHitDamages) {
-    int minTotal = 0, maxTotal = 0;
-    for (final d in perHitDamages) {
-      minTotal += apply(d, minRoll);
-      maxTotal += apply(d, maxRoll);
+  /// N-hit KO from pre-computed roll values (16 possible damages).
+  static ({int hits, int koCount, int totalCount}) nHitKoFromRolls(
+      List<int> rolls, int hp) {
+    if (rolls.isEmpty || hp <= 0) return (hits: 0, koCount: 0, totalCount: 1);
+
+    // Check 1-hit KO
+    int oneHitKo = rolls.where((d) => d >= hp).length;
+    if (oneHitKo > 0) {
+      return (hits: 1, koCount: oneHitKo, totalCount: rollCount);
     }
-    return (min: minTotal, max: maxTotal);
+
+    // Check 2-hit KO (16×16 = 256 combinations)
+    int twoHitKo = 0;
+    for (final d1 in rolls) {
+      for (final d2 in rolls) {
+        if (d1 + d2 >= hp) twoHitKo++;
+      }
+    }
+    if (twoHitKo > 0) {
+      return (hits: 2, koCount: twoHitKo, totalCount: rollCount * rollCount);
+    }
+
+    // Check 3-hit KO (16^3 = 4096 combinations)
+    int threeHitKo = 0;
+    for (final d1 in rolls) {
+      for (final d2 in rolls) {
+        final d12 = d1 + d2;
+        for (final d3 in rolls) {
+          if (d12 + d3 >= hp) threeHitKo++;
+        }
+      }
+    }
+    if (threeHitKo > 0) {
+      return (hits: 3, koCount: threeHitKo, totalCount: rollCount * rollCount * rollCount);
+    }
+
+    // For 4+ hits, use min/max estimation
+    final minDmg = rolls.reduce((a, b) => a < b ? a : b);
+    final maxDmg = rolls.reduce((a, b) => a > b ? a : b);
+    if (maxDmg <= 0) return (hits: 0, koCount: 0, totalCount: 1);
+
+    final guaranteedHits = (hp / minDmg).ceil();
+    final bestHits = (hp / maxDmg).ceil();
+
+    if (guaranteedHits == bestHits) {
+      return (hits: guaranteedHits, koCount: 1, totalCount: 1);
+    }
+    return (hits: bestHits, koCount: 1, totalCount: 2); // approximate
   }
 
+  // --- Multi-hit damage distribution via convolution ---
+
   /// Build the probability distribution of total damage for a multi-hit move
-  /// using convolution. Each hit independently rolls one of 16 values.
+  /// using convolution. Each hit's 16 possible damage values are provided.
   ///
-  /// [perHitDamages] is a list of base damages per hit.
+  /// [perHitRolls] is a list of per-hit roll arrays (each has 16 values).
   /// Returns a map of {totalDamage: probability}.
-  static Map<int, double> multiHitDistribution(List<int> perHitDamages) {
-    // Start with a single "0 damage with probability 1.0"
+  static Map<int, double> multiHitDistributionFromRolls(List<List<int>> perHitRolls) {
     Map<int, double> dist = {0: 1.0};
 
-    for (final baseDmg in perHitDamages) {
-      final hitValues = allRolls(baseDmg);
+    for (final hitRolls in perHitRolls) {
       final next = <int, double>{};
-      final hitProb = 1.0 / rollCount;
+      final hitProb = 1.0 / hitRolls.length;
 
       for (final entry in dist.entries) {
-        for (final hitDmg in hitValues) {
+        for (final hitDmg in hitRolls) {
           final total = entry.key + hitDmg;
           next[total] = (next[total] ?? 0.0) + entry.value * hitProb;
         }
@@ -156,11 +194,10 @@ class RandomFactor {
     return dist;
   }
 
-  /// KO probability from a multi-hit damage distribution.
-  /// Returns (koProb, totalProb=1.0) for display.
-  static ({double koProb}) multiHitKoProb(List<int> perHitDamages, int hp) {
+  /// KO probability from pre-computed per-hit roll arrays.
+  static ({double koProb}) multiHitKoProbFromRolls(List<List<int>> perHitRolls, int hp) {
     if (hp <= 0) return (koProb: 1.0);
-    final dist = multiHitDistribution(perHitDamages);
+    final dist = multiHitDistributionFromRolls(perHitRolls);
     double koProb = 0.0;
     for (final entry in dist.entries) {
       if (entry.key >= hp) koProb += entry.value;

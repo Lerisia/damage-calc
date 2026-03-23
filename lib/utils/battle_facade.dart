@@ -163,7 +163,19 @@ class BattleFacade {
     final effectiveType = state.typeOverrides[moveIndex] ?? transformed.move.type;
     final effectiveCategory = state.categoryOverrides[moveIndex] ?? transformed.move.category;
     final basePower = transformed.move.power;
-    final effectivePower = state.powerOverrides[moveIndex] ?? basePower;
+    var effectivePower = state.powerOverrides[moveIndex] ?? basePower;
+
+    // Terastal minimum power: Tera STAB moves below 60 become 60
+    // (except multi-hit and priority moves)
+    if (state.terastal.active &&
+        state.terastal.teraType != PokemonType.stellar &&
+        state.terastal.teraType != null &&
+        (effectiveType == state.terastal.teraType) &&
+        !move.isMultiHit &&
+        transformed.move.priority <= 0 &&
+        effectivePower > 0 && effectivePower < 60) {
+      effectivePower = 60;
+    }
     final displayName = transformed.move.nameKo;
 
     // 결정력

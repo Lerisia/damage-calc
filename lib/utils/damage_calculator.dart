@@ -48,15 +48,19 @@ const double kCollisionCourseBoost = 5461 / 4096; // ~1.3333
 /// Terastal minimum power threshold
 const int kTeraMinPower = 60;
 
+/// Pokemon "pokeRound": round to nearest, rounding DOWN at 0.5.
+/// e.g. 10.4→10, 10.5→10, 10.6→11
+int _pokeRound(num x) => (x.toDouble() - 0.5).ceil();
+
 /// Result of a single move's damage calculation.
 class DamageResult {
-  /// Raw base damage before random factor
+  /// Raw base damage (at max roll, for display)
   final int baseDamage;
 
-  /// Minimum damage (random roll 85)
+  /// Minimum damage
   final int minDamage;
 
-  /// Maximum damage (random roll 100)
+  /// Maximum damage
   final int maxDamage;
 
   /// Defender's actual HP
@@ -69,7 +73,6 @@ class DamageResult {
   final bool isPhysical;
 
   /// Whether the move targets the defender's physical Defense stat.
-  /// True for physical moves AND special moves like Psyshock/Psystrike.
   final bool targetPhysDef;
 
   /// The move used (after transformation)
@@ -78,9 +81,12 @@ class DamageResult {
   /// Notes explaining special modifiers applied (for UI display)
   final List<String> modifierNotes;
 
-  /// Per-hit base damages for multi-hit moves (before random factor).
-  /// null for single-hit moves.
-  final List<int>? perHitDamages;
+  /// All 16 possible damage values (one per random roll) for single-hit.
+  final List<int> allRolls;
+
+  /// Per-hit roll lists for multi-hit moves. Each element is 16 possible
+  /// damage values for that hit. null for single-hit moves.
+  final List<List<int>>? perHitAllRolls;
 
   const DamageResult({
     required this.baseDamage,
@@ -92,7 +98,8 @@ class DamageResult {
     this.targetPhysDef = false,
     required this.move,
     this.modifierNotes = const [],
-    this.perHitDamages,
+    this.allRolls = const [],
+    this.perHitAllRolls,
   });
 
   double get minPercent {
@@ -108,16 +115,16 @@ class DamageResult {
 
   /// N-hit KO analysis including random roll combinations.
   ({int hits, int koCount, int totalCount}) get koInfo {
-    if (perHitDamages != null) {
+    if (perHitAllRolls != null) {
       return _multiHitKoInfo;
     }
-    return RandomFactor.nHitKo(baseDamage, defenderHp);
+    return RandomFactor.nHitKoFromRolls(allRolls, defenderHp);
   }
 
   /// Multi-hit KO probability (0.0~1.0), only meaningful for multi-hit moves.
   double? get multiHitKoProb {
-    if (perHitDamages == null) return null;
-    return RandomFactor.multiHitKoProb(perHitDamages!, defenderHp).koProb;
+    if (perHitAllRolls == null) return null;
+    return RandomFactor.multiHitKoProbFromRolls(perHitAllRolls!, defenderHp).koProb;
   }
 
   /// Multi-hit KO: uses convolution-based probability distribution.
@@ -126,13 +133,12 @@ class DamageResult {
     if (prob >= 1.0) {
       return (hits: 1, koCount: 1, totalCount: 1); // 확정
     } else if (prob > 0) {
-      // Use 10000 as denominator for 0.01% precision
       const denom = 10000;
       final koCount = (prob * denom).round().clamp(1, denom - 1);
       return (hits: 1, koCount: koCount, totalCount: denom);
     }
     // Multi-hit didn't KO in one attack; fall back to standard N-hit KO
-    return RandomFactor.nHitKo(baseDamage, defenderHp);
+    return RandomFactor.nHitKoFromRolls(allRolls, defenderHp);
   }
 
   /// Human-readable KO label: "확정 1타", "난수 2타 (52.3%)", etc.
@@ -141,7 +147,7 @@ class DamageResult {
     if (info.hits <= 0) return '';
 
     // Multi-hit move with per-hit distribution
-    if (perHitDamages != null && info.hits == 1) {
+    if (perHitAllRolls != null && info.hits == 1) {
       final prob = multiHitKoProb!;
       if (prob >= 1.0) return '확정 1타';
       if (prob <= 0) return '';
@@ -918,11 +924,15 @@ class DamageCalculator {
       notes.add('move:collision:×1.33');
     }
 
-    // --- Apply modifiers sequentially with floor after each ---
-    // Order follows the official Gen V+ damage formula.
+    // --- Apply modifiers sequentially with pokeRound after each ---
+    // Official Gen V+ order:
+    //   baseDmg × Targets × PB × Weather × GlaiveRush × Critical
+    //   × random × STAB × Type × Burn × other × ZMove × TeraShield
+    // pokeRound = round to nearest, rounding DOWN at 0.5
+    // Random factor uses floor (integer division by 100).
     // Parameterized for multi-hit: first hit may differ from subsequent hits
     // due to Multiscale/Shadow Shield, Tera Shell, and resist berries.
-    int applyModifiers(int baseDmgInput, {
+    int applyModifiers(int baseDmgInput, int randomRoll, {
       double effectivenessHit = -1,
       double defAbilityDmgHit = -1,
       double berryModHit = -1,
@@ -932,50 +942,71 @@ class DamageCalculator {
       final berry = berryModHit < 0 ? berryMod : berryModHit;
 
       int d = baseDmgInput;
-      d = (d * stab).floor();
-      d = (d * eff).floor();
-      d = (d * weatherMod).floor();
-      d = (d * terrainMod).floor();
-      d = (d * burnMod).floor();
-      d = (d * critMod).floor();
-      d = (d * powerMod).floor();
-      d = (d * defAbilityDmgMod).floor();
+      // Pre-random modifiers
+      d = _pokeRound(d * weatherMod);
+      d = _pokeRound(d * critMod);
+      // Random factor (floor, not pokeRound)
+      d = d * randomRoll ~/ 100;
+      // Post-random modifiers
+      d = _pokeRound(d * stab);
+      d = _pokeRound(d * eff);
+      d = _pokeRound(d * burnMod);
+      // "other" bucket: terrain, abilities, items, screens, berries
+      d = _pokeRound(d * terrainMod);
+      d = _pokeRound(d * powerMod);
+      d = _pokeRound(d * defAbilityDmgMod);
       if (atkAbilityDmg.multiplier != 1.0) {
-        d = (d * atkAbilityDmg.multiplier).floor();
+        d = _pokeRound(d * atkAbilityDmg.multiplier);
       }
       if (defAbi != 1.0) {
-        d = (d * defAbi).floor();
+        d = _pokeRound(d * defAbi);
       }
-      d = (d * expertBeltMod).floor();
-      d = (d * screenMod).floor();
-      d = (d * berry).floor();
+      d = _pokeRound(d * expertBeltMod);
+      d = _pokeRound(d * screenMod);
+      d = _pokeRound(d * berry);
       if (aura.multiplier != 1.0) {
-        d = (d * aura.multiplier).floor();
+        d = _pokeRound(d * aura.multiplier);
       }
-      d = (d * collisionMod).floor();
+      d = _pokeRound(d * collisionMod);
       return d;
     }
 
-    final int baseDamage = applyModifiers(baseDmg);
+    final int baseDamage = applyModifiers(baseDmg, RandomFactor.maxRoll);
 
     // --- Multi-hit: compute per-hit base damages ---
     final int hitCount = move.isMultiHit
         ? (attacker.hitOverrides[moveIndex] ?? move.maxHits) : 1;
     final bool isEscalating = move.hasTag(MoveTags.escalatingHits);
 
-    List<int> perHitDamages;
+    // Helper: compute all 16 roll results for a given baseDmg and modifier overrides
+    List<int> allRolls(int dmg, {
+      double effectivenessHit = -1,
+      double defAbilityDmgHit = -1,
+      double berryModHit = -1,
+    }) => [
+      for (int r = RandomFactor.minRoll; r <= RandomFactor.maxRoll; r++)
+        applyModifiers(dmg, r,
+          effectivenessHit: effectivenessHit,
+          defAbilityDmgHit: defAbilityDmgHit,
+          berryModHit: berryModHit,
+        )
+    ];
+
+    // Single-hit: 16 possible damage values
+    final singleHitRolls = allRolls(baseDmg);
+
+    // Multi-hit per-hit rolls (each hit has 16 possible values)
+    List<List<int>>? perHitAllRolls;
     if (hitCount > 1) {
-      // Determine which modifiers change after the first hit:
-      // - Multiscale/Shadow Shield: only at full HP, broken after first hit
+      // Determine which modifiers change after the first hit
       final bool hasMultiscale = defAbilityDmg.multiplier < 1.0 &&
           defender.hpPercent >= 100 &&
           (defAbilityName == 'Multiscale' || defAbilityName == 'Shadow Shield');
-      // - Tera Shell: super effective → 0.5x only at full HP
       final bool hasTeraShell = defAbilityName == 'Tera Shell' &&
           defender.hpPercent >= 100 && effectiveness < 1.0;
-      // - Resist berry: consumed after first hit
       final bool hasBerry = berryMod != 1.0;
-      // - Stat-changing items/abilities on hit: not simulated, warn user
+
+      // Stat-changing items/abilities on hit: not simulated, warn user
       if (defender.selectedItem == 'kee-berry' && isPhysical) {
         notes.add('warning:연속기 악키열매 방어↑ 미반영');
       } else if (defender.selectedItem == 'maranga-berry' && !isPhysical) {
@@ -990,44 +1021,42 @@ class DamageCalculator {
         notes.add('warning:연속기 아쿠아코트 방어↑↑ 미반영');
       }
 
-      // Subsequent hit modifiers (after first hit)
-      final double subEffectiveness = hasTeraShell ? preTeraShellEffectiveness : -1;
-      final double subDefAbility = hasMultiscale ? 1.0 : -1;
+      final double subEff = hasTeraShell ? preTeraShellEffectiveness : -1;
+      final double subDef = hasMultiscale ? 1.0 : -1;
       final double subBerry = hasBerry ? 1.0 : -1;
 
       if (isEscalating) {
         final singleHitPower = effectiveMove.power;
-        perHitDamages = List.generate(hitCount, (i) {
+        perHitAllRolls = List.generate(hitCount, (i) {
           final hitPower = (singleHitPower * (i + 1) * movePowerMod).floor();
           final hitBaseDmg = ((2 * level ~/ 5 + 2) * hitPower * A ~/ D) ~/ 50 + 2;
-          if (i == 0) return applyModifiers(hitBaseDmg);
-          return applyModifiers(hitBaseDmg,
-            effectivenessHit: subEffectiveness,
-            defAbilityDmgHit: subDefAbility,
-            berryModHit: subBerry,
-          );
+          if (i == 0) return allRolls(hitBaseDmg);
+          return allRolls(hitBaseDmg,
+            effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
         });
       } else {
-        final firstHit = baseDamage;
-        final subsequentHit = (hasMultiscale || hasTeraShell || hasBerry)
-            ? applyModifiers(baseDmg,
-                effectivenessHit: subEffectiveness,
-                defAbilityDmgHit: subDefAbility,
-                berryModHit: subBerry,
-              )
-            : firstHit;
-        perHitDamages = [firstHit, ...List.filled(hitCount - 1, subsequentHit)];
+        final firstHitRolls = singleHitRolls;
+        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry)
+            ? allRolls(baseDmg,
+                effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry)
+            : firstHitRolls;
+        perHitAllRolls = [firstHitRolls, ...List.filled(hitCount - 1, subHitRolls)];
       }
-    } else {
-      perHitDamages = [baseDamage];
     }
 
-    // --- Random factor ---
-    final ({int min, int max}) range;
-    if (perHitDamages.length > 1) {
-      range = RandomFactor.multiHitRange(perHitDamages);
+    // --- Compute min/max damage ---
+    final int minDamage, maxDamage;
+    if (perHitAllRolls != null) {
+      int minSum = 0, maxSum = 0;
+      for (final rolls in perHitAllRolls) {
+        minSum += rolls.reduce(math.min);
+        maxSum += rolls.reduce(math.max);
+      }
+      minDamage = minSum;
+      maxDamage = maxSum;
     } else {
-      range = RandomFactor.range(baseDamage);
+      minDamage = singleHitRolls.reduce(math.min);
+      maxDamage = singleHitRolls.reduce(math.max);
     }
 
     // Use current HP (based on hpPercent) for KO calculations
@@ -1035,15 +1064,16 @@ class DamageCalculator {
 
     return DamageResult(
       baseDamage: baseDamage,
-      minDamage: range.min,
-      maxDamage: range.max,
+      minDamage: minDamage,
+      maxDamage: maxDamage,
       defenderHp: currentHp > 0 ? currentHp : defActual.hp,
       effectiveness: effectiveness,
       isPhysical: isPhysical,
       targetPhysDef: targetPhysDef,
       move: effectiveMove,
       modifierNotes: notes,
-      perHitDamages: perHitDamages.length > 1 ? perHitDamages : null,
+      allRolls: singleHitRolls,
+      perHitAllRolls: perHitAllRolls,
     );
   }
 
