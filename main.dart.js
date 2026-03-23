@@ -8058,7 +8058,7 @@ q=p!==B.bO&&p!=null&&l===p&&!q&&r.z<=0&&g>0&&g<60}else q=!1
 if(q)g=60
 f=A.aDt(a,k,!0,o,a5.db[b],d,c,a0,a1,a2,a3,h,a4,a5,a6,m,a7)
 q=r.y
-e=B.b.m(q,"custom:fixed_level")||B.b.m(q,"custom:fixed_half_hp")||B.b.m(q,"custom:fixed_20")||B.b.m(q,"custom:fixed_40")||B.b.m(q,"custom:ohko")||B.b.m(q,"custom:power_target_hp_120")||B.b.m(q,"custom:power_target_hp_100")
+e=B.b.m(q,"custom:fixed_level")||B.b.m(q,"custom:fixed_half_hp")||B.b.m(q,"custom:fixed_20")||B.b.m(q,"custom:fixed_40")||B.b.m(q,"custom:ohko")
 return new A.Ni(r.b,l,j,g,e,f)},
 aDt(a4,a5,a6,a7,a8,a9,b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,c0){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3=null
 if(a9==null)return a3
