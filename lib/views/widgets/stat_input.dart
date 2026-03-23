@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../data/abilitydex.dart';
 import '../../data/itemdex.dart';
+import '../../utils/korean_search.dart';
 import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
@@ -465,16 +466,20 @@ class _StatInputState extends State<StatInput> {
       initialValue: TextEditingValue(text: initialText),
       displayStringForOption: (key) => _itemDisplayName(key.isEmpty ? null : key),
       optionsBuilder: (textEditingValue) {
-        if (!kIsWeb && textEditingValue.composing != TextRange.empty) return allItems;
-        if (textEditingValue.text.isEmpty ||
-            textEditingValue.text == initialText) {
+        final text = textEditingValue.text;
+        if (text.isEmpty || text == initialText) {
           return allItems;
         }
-        final query = textEditingValue.text.toLowerCase();
-        return allItems.where((key) {
+        final scored = <(String, int)>[];
+        for (final key in allItems) {
           final ko = _itemDisplayName(key.isEmpty ? null : key);
-          return ko.contains(query) || key.toLowerCase().contains(query);
-        });
+          final s = koreanMatchScore(text, ko);
+          final e = key.isNotEmpty && key.toLowerCase().contains(text.toLowerCase()) ? 20 : 0;
+          final best = s > e ? s : e;
+          if (best > 0) scored.add((key, best));
+        }
+        scored.sort((a, b) => b.$2.compareTo(a.$2));
+        return scored.map((e) => e.$1);
       },
       onSelected: (v) => widget.onItemChanged(v.isEmpty ? null : v),
       fieldViewBuilder: (context, controller, focusNode, onSubmitted) {

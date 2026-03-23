@@ -58,8 +58,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   int _resetCounter = 0;
 
   final _damageTabScreenshotController = ScreenshotController();
-  final _speedTabScreenshotController = ScreenshotController();
   final _wideLayoutScreenshotController = ScreenshotController();
+  final _speedTabKey = GlobalKey<SpeedCompareTabState>();
 
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
@@ -217,12 +217,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         );
       } catch (_) {}
     } else if (currentTab == 3) {
-      try {
-        image = await _speedTabScreenshotController.capture(
-          delay: const Duration(milliseconds: 100),
-          pixelRatio: 2.0,
-        );
-      } catch (_) {}
+      final speedState = _speedTabKey.currentState;
+      if (speedState != null) {
+        image = await speedState.captureScreenshot();
+      }
     }
 
     if (image == null || !mounted) return;
@@ -631,24 +629,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
               _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
               _buildDamageCalcTab(),
-              Screenshot(
-                  controller: _speedTabScreenshotController,
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    padding: const EdgeInsets.all(12),
-                    child: SpeedCompareTab(
-                      attacker: _attacker,
-                      defender: _defender,
-                      weather: _weather,
-                      terrain: _terrain,
-                      room: _room,
-                      onChanged: _onPanelChanged,
-                      resetCounter: _resetCounter,
-                      abilityNameMap: _abilityNameMap,
-                      itemNameMap: _itemNameMap,
-                    ),
-                  ),
-                ),
+              SpeedCompareTab(
+                key: _speedTabKey,
+                attacker: _attacker,
+                defender: _defender,
+                weather: _weather,
+                terrain: _terrain,
+                room: _room,
+                onChanged: _onPanelChanged,
+                resetCounter: _resetCounter,
+                abilityNameMap: _abilityNameMap,
+                itemNameMap: _itemNameMap,
+              ),
             ],
           ),
         ),

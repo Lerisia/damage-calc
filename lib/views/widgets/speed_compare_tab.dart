@@ -1,11 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/dynamax.dart';
 import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../models/status.dart';
+import '../../utils/korean_search.dart';
 import '../../utils/localization.dart';
 import '../../models/room.dart';
 import '../../models/terrain.dart';
@@ -44,13 +48,26 @@ class SpeedCompareTab extends StatefulWidget {
   });
 
   @override
-  State<SpeedCompareTab> createState() => _SpeedCompareTabState();
+  State<SpeedCompareTab> createState() => SpeedCompareTabState();
 }
 
-class _SpeedCompareTabState extends State<SpeedCompareTab>
+class SpeedCompareTabState extends State<SpeedCompareTab>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  final _screenshotController = ScreenshotController();
+
+  Future<Uint8List?> captureScreenshot() async {
+    try {
+      return await _screenshotController.capture(
+        delay: const Duration(milliseconds: 100),
+        pixelRatio: 2.0,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
 
   Map<String, String> get _abilityNameMap => widget.abilityNameMap;
   Map<String, String> get _itemNameMap => widget.itemNameMap;
@@ -126,34 +143,41 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
-      child: Column(
-        children: [
-          _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed),
-          const SizedBox(height: 8),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              color: resultColor.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: resultColor.withValues(alpha: 0.3)),
-            ),
-            child: Column(
-              children: [
-                Text(resultText, style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold, color: resultColor,
-                )),
-                if (widget.room.trickRoom)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text('🔄 트릭룸 적용 중', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
-                  ),
-              ],
-            ),
+      child: Screenshot(
+        controller: _screenshotController,
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            children: [
+              _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed),
+              const SizedBox(height: 8),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: resultColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: resultColor.withValues(alpha: 0.3)),
+                ),
+                child: Column(
+                  children: [
+                    Text(resultText, style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold, color: resultColor,
+                    )),
+                    if (widget.room.trickRoom)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text('🔄 트릭룸 적용 중', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              _speedPanel(label: '방어측', color: Colors.blue, state: def, effSpeed: defEffSpeed),
+            ],
           ),
-          const SizedBox(height: 8),
-          _speedPanel(label: '방어측', color: Colors.blue, state: def, effSpeed: defEffSpeed),
-        ],
+        ),
       ),
     );
   }
@@ -305,10 +329,9 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 isDense: true,
                 isExpanded: true,
                 decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                style: const TextStyle(fontSize: 14, fontFamily: 'Jua'),
                 items: StatusCondition.values.map((st) {
                   return DropdownMenuItem(value: st, child: Text(
-                    KoStrings.statusKo[st] ?? st.name, style: const TextStyle(fontSize: 14, fontFamily: 'Jua')));
+                    KoStrings.statusKo[st] ?? st.name));
                 }).toList(),
                 onChanged: (v) { if (v != null) { setState(() => state.status = v); _notify(); } },
               )),
@@ -322,12 +345,11 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
                 isDense: true,
                 isExpanded: true,
                 decoration: const InputDecoration(labelText: '성격', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                style: const TextStyle(fontSize: 14, fontFamily: 'Jua'),
                 items: Nature.values.map((n) {
                   final isBuff = n.speedModifier > 1.0;
                   final isNerf = n.speedModifier < 1.0;
                   return DropdownMenuItem(value: n, child: Text(n.nameKo,
-                    style: TextStyle(fontSize: 14, fontFamily: 'Jua', color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
+                    style: TextStyle(color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
                 }).toList(),
                 onChanged: (v) { if (v != null) { setState(() => state.nature = v); _notify(); } },
               )),
@@ -454,15 +476,20 @@ class _SpeedCompareTabState extends State<SpeedCompareTab>
         initialValue: TextEditingValue(text: initialText),
         displayStringForOption: (key) => _itemKo(key.isEmpty ? null : key),
         optionsBuilder: (textEditingValue) {
-          if (!kIsWeb && textEditingValue.composing != TextRange.empty) return allItems;
-          if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
+          final text = textEditingValue.text;
+          if (text.isEmpty || text == initialText) {
             return allItems;
           }
-          final query = textEditingValue.text.toLowerCase();
-          return allItems.where((key) {
+          final scored = <(String, int)>[];
+          for (final key in allItems) {
             final ko = _itemKo(key.isEmpty ? null : key);
-            return ko.contains(query) || key.toLowerCase().contains(query);
-          });
+            final s = koreanMatchScore(text, ko);
+            final e = key.isNotEmpty && key.toLowerCase().contains(text.toLowerCase()) ? 20 : 0;
+            final best = s > e ? s : e;
+            if (best > 0) scored.add((key, best));
+          }
+          scored.sort((a, b) => b.$2.compareTo(a.$2));
+          return scored.map((e) => e.$1);
         },
         onSelected: (v) { setState(() => state.selectedItem = v.isEmpty ? null : v); _notify(); },
         fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
