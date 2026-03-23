@@ -576,9 +576,11 @@ class _StatInputState extends State<StatInput> {
         children: [
           Expanded(flex: 2, child: Container()),
           Expanded(flex: 5, child: Text('$baseTotal', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 6, child: Text('$evTotal/510', style: style.copyWith(
-            color: evTotal > 510 ? Colors.red : null,
-          ), textAlign: TextAlign.center)),
+          Expanded(flex: 6, child: Text(
+            evTotal > 510 ? '초과 ${evTotal - 510}' : '잔여 ${510 - evTotal}',
+            style: style.copyWith(
+              color: evTotal > 510 ? Colors.red : null,
+            ), textAlign: TextAlign.center)),
           Expanded(flex: 7, child: Text(speedText, style: style.copyWith(
             color: speedColor, fontSize: 14,
           ), textAlign: TextAlign.center)),

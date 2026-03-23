@@ -379,30 +379,21 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               Expanded(flex: 2, child: _itemAutocomplete(state, () => _scrollToPanel(itemRowKey))),
             ],
           ),
-          const SizedBox(height: 6),
-          Row(
-            children: [
-              InkWell(
-                onTap: () { setState(() => state.tailwind = !state.tailwind); _notify(); },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(width: 22, height: 22, child: Checkbox(
-                        value: state.tailwind,
-                        onChanged: (v) { setState(() => state.tailwind = v ?? false); _notify(); },
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        visualDensity: VisualDensity.compact,
-                      )),
-                      const SizedBox(width: 4),
-                      const Text('순풍', style: TextStyle(fontSize: 14)),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // 순풍 - hidden for simplicity
+          // const SizedBox(height: 6),
+          // Row(children: [InkWell(
+          //   onTap: () { setState(() => state.tailwind = !state.tailwind); _notify(); },
+          //   child: Padding(padding: const EdgeInsets.symmetric(vertical: 4),
+          //     child: Row(mainAxisSize: MainAxisSize.min, children: [
+          //       SizedBox(width: 22, height: 22, child: Checkbox(
+          //         value: state.tailwind,
+          //         onChanged: (v) { setState(() => state.tailwind = v ?? false); _notify(); },
+          //         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          //         visualDensity: VisualDensity.compact,
+          //       )),
+          //       const SizedBox(width: 4),
+          //       const Text('순풍', style: TextStyle(fontSize: 14)),
+          //     ])))]),
         ],
       ),
     );

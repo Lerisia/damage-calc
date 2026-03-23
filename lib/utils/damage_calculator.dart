@@ -11,7 +11,6 @@ import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
-import '../data/pokedex.dart';
 import 'ability_effects.dart';
 import 'battle_facade.dart' show resolveEffectiveItem, resolveEffectiveAbility, BattleFacade;
 import 'grounded.dart';
@@ -201,22 +200,23 @@ class DamageResult {
 /// Takes [BattlePokemonState] for both sides and battle conditions.
 
 /// Items that can't be removed by Knock Off (no power boost).
-/// Uses requiredItem data from Pokedex + pattern rules for multi-item holders.
-bool _isUnremovableItem(String itemName, int dexNumber) {
-  // Z-Crystals are always unremovable
+bool _isUnremovableItem(String itemName) {
+  // Z-Crystals
   if (itemName.endsWith('--held')) return true;
-  // Silvally (dex 773) + Memory items
-  if (dexNumber == 773 && itemName.endsWith('-memory')) return true;
-  // Arceus (dex 493) + Plates
-  if (dexNumber == 493 && itemName.endsWith('-plate')) return true;
-  // Ogerpon (dex 1017) + Masks
-  if (dexNumber == 1017 && itemName.endsWith('-mask')) return true;
-  // Check requiredItem data (mega stones, primal orbs, etc.)
-  final owners = getRequiredItemOwners();
-  final ownerDexNumbers = owners[itemName];
-  if (ownerDexNumbers != null && ownerDexNumbers.contains(dexNumber)) {
+  // Mega stones
+  if (itemName.endsWith('ite') || itemName.endsWith('ite-x') || itemName.endsWith('ite-y')) {
     return true;
   }
+  // Silvally Memory items
+  if (itemName.endsWith('-memory')) return true;
+  // Arceus Plates
+  if (itemName.endsWith('-plate')) return true;
+  // Primal orbs, Griseous, Rusted items, Origin forme items
+  const fixedItems = {
+    'blue-orb', 'red-orb', 'rusted-sword', 'rusted-shield',
+    'griseous-core', 'griseous-orb', 'adamant-crystal', 'lustrous-globe',
+  };
+  if (fixedItems.contains(itemName)) return true;
   return false;
 }
 
@@ -812,8 +812,7 @@ class DamageCalculator {
 
     if (effectiveMove.hasTag(MoveTags.knockOff) && defender.selectedItem != null) {
       final defItem = defender.selectedItem!;
-      final bool isFixedItem =
-          _isUnremovableItem(defItem, defender.dexNumber);
+      final bool isFixedItem = _isUnremovableItem(defItem);
       if (!isFixedItem) {
         movePowerMod = kKnockOffBoost;
         notes.add('move:knock_off:×$kKnockOffBoost');

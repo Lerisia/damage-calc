@@ -13,7 +13,6 @@ import 'type.dart';
 class BattlePokemonState {
   String pokemonName;
   String pokemonNameKo;
-  int dexNumber;
   bool finalEvo;
   Gender gender;
   int genderRate;
@@ -53,7 +52,6 @@ class BattlePokemonState {
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
     this.pokemonNameKo = '이상해씨',
-    this.dexNumber = 1,
     this.finalEvo = false,
     this.gender = Gender.unset,
     this.genderRate = 4,
@@ -248,7 +246,6 @@ class BattlePokemonState {
     } else {
       gender = Gender.unset;
     }
-    dexNumber = pokemon.dexNumber;
     type1 = pokemon.type1;
     type2 = pokemon.type2;
     weight = pokemon.weight;

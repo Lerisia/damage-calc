@@ -255,23 +255,23 @@ class PokemonPanelState extends State<PokemonPanel>
           ),
           const SizedBox(height: 12),
 
-          _sectionCard(
-            title: '기타 보정',
-            child: Row(
-              children: [
-                Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
-                  setState(() { s.tailwind = v; _notifyParent(); });
-                })),
-                if (widget.isAttacker)
-                  Expanded(child: _compactCheck('충전', s.charge, (v) {
-                    setState(() { s.charge = v; });
-                  }))
-                else
-                  const Expanded(child: SizedBox()),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
+          // 기타 보정 (순풍/충전) - hidden for simplicity
+          // _sectionCard(
+          //   title: '기타 보정',
+          //   child: Row(
+          //     children: [
+          //       Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
+          //         setState(() { s.tailwind = v; _notifyParent(); });
+          //       })),
+          //       if (widget.isAttacker)
+          //         Expanded(child: _compactCheck('충전', s.charge, (v) {
+          //           setState(() { s.charge = v; });
+          //         }))
+          //       else
+          //         const Expanded(child: SizedBox()),
+          //     ],
+          //   ),
+          // ),
 
           if (widget.isAttacker) ...[
             _sectionCard(

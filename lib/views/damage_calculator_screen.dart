@@ -380,12 +380,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isWide = _isWideLayout;
+    final maxAppBarWidth = MediaQuery.of(context).size.width >= 1400 ? 1920.0 : 1440.0;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
-        title: Row(
+        automaticallyImplyLeading: false,
+        actions: const [SizedBox.shrink()],
+        title: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: isWide ? maxAppBarWidth : double.infinity),
+            child: Row(
           children: [
-            // Weather dropdown icon
+            // Weather dropdown
             PopupMenuButton<Weather>(
               initialValue: _weather,
               tooltip: '날씨',
@@ -395,7 +402,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(KoStrings.weatherIcon[_weather]!, style: const TextStyle(fontSize: 20)),
+                    _weather == Weather.none
+                        ? Text('날씨', style: TextStyle(fontSize: 14, color: Colors.grey.shade500))
+                        : Text(KoStrings.weatherIcon[_weather]!, style: const TextStyle(fontSize: 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -405,15 +414,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       value: w,
                       child: Row(
                         children: [
-                          Text(KoStrings.weatherIcon[w]!, style: const TextStyle(fontSize: 18)),
-                          const SizedBox(width: 8),
+                          if (w != Weather.none) ...[
+                            Text(KoStrings.weatherIcon[w]!, style: const TextStyle(fontSize: 18)),
+                            const SizedBox(width: 8),
+                          ],
                           Text(KoStrings.weatherKo[w]!),
                         ],
                       )))
                   .toList(),
               onSelected: (v) => setState(() => _weather = v),
             ),
-            // Terrain dropdown icon
+            // Terrain dropdown
             PopupMenuButton<Terrain>(
               initialValue: _terrain,
               tooltip: '필드',
@@ -423,7 +434,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(KoStrings.terrainIcon[_terrain]!, style: const TextStyle(fontSize: 20)),
+                    _terrain == Terrain.none
+                        ? Text('필드', style: TextStyle(fontSize: 14, color: Colors.grey.shade500))
+                        : Text(KoStrings.terrainIcon[_terrain]!, style: const TextStyle(fontSize: 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -433,8 +446,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       value: t,
                       child: Row(
                         children: [
-                          Text(KoStrings.terrainIcon[t]!, style: const TextStyle(fontSize: 18)),
-                          const SizedBox(width: 8),
+                          if (t != Terrain.none) ...[
+                            Text(KoStrings.terrainIcon[t]!, style: const TextStyle(fontSize: 18)),
+                            const SizedBox(width: 8),
+                          ],
                           Text(KoStrings.terrainKo[t]!),
                         ],
                       )))
@@ -450,7 +465,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(_room.hasAny ? '🔄' : '🚪', style: const TextStyle(fontSize: 20)),
+                    Text('룸', style: TextStyle(
+                      fontSize: 14,
+                      color: _room.hasAny ? Colors.purple : Colors.grey.shade500,
+                      fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
+                    )),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
                 ),
@@ -501,26 +520,47 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ),
             ),
             const SizedBox(width: 8),
+            if (isWide)
+              TextButton.icon(
+                onPressed: _swapSides,
+                icon: const Icon(Icons.swap_horiz),
+                label: const Text('공수교대', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+              )
+            else
+              IconButton(
+                icon: const Icon(Icons.swap_horiz),
+                tooltip: '공수전환',
+                onPressed: _swapSides,
+              ),
+            if (isWide)
+              TextButton.icon(
+                onPressed: _resetBothSides,
+                icon: const Icon(Icons.refresh),
+                label: const Text('초기화', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+              )
+            else
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                tooltip: '전체 초기화',
+                onPressed: _resetBothSides,
+              ),
+            if (isWide)
+              TextButton.icon(
+                onPressed: _capture,
+                icon: const Icon(Icons.camera_alt_outlined),
+                label: const Text('캡처', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+              )
+            else
+              IconButton(
+                icon: const Icon(Icons.camera_alt_outlined),
+                tooltip: '캡처',
+                onPressed: _capture,
+              ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.swap_horiz),
-            tooltip: '공수전환',
-            onPressed: _swapSides,
           ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: '전체 초기화',
-            onPressed: _resetBothSides,
-          ),
-          IconButton(
-            icon: const Icon(Icons.camera_alt_outlined),
-            tooltip: '캡처',
-            onPressed: _capture,
-          ),
-        ],
-        bottom: MediaQuery.of(context).size.width >= 1050
+        ),
+        bottom: isWide
             ? null
             : TabBar(
                 controller: _tabController,
