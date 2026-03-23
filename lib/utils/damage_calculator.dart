@@ -834,9 +834,12 @@ class DamageCalculator {
       dynamicPower = (100 * defender.hpPercent / 100).floor().clamp(1, 100) + 1;
     }
 
-    // Terastal minimum power: Tera STAB moves below threshold become threshold (not Stellar)
+    // Terastal minimum power: Tera STAB moves below threshold become threshold
+    // Exceptions: multi-hit moves and priority moves are not boosted
     final bool teraMinPower = isTeraStab &&
         attacker.terastal.teraType != PokemonType.stellar &&
+        !effectiveMove.isMultiHit &&
+        effectiveMove.priority <= 0 &&
         dynamicPower < kTeraMinPower && dynamicPower > 0;
     final int basePower = teraMinPower ? kTeraMinPower : dynamicPower;
 

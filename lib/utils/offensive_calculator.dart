@@ -113,7 +113,10 @@ class OffensiveCalculator {
     }
 
     // Terastal minimum power: moves below 60 power become 60
-    final int effectivePower = (terastallized && isTeraStab && move.power < _teraMinPower && move.power > 0)
+    // Exceptions: multi-hit moves and priority moves are not boosted
+    final int effectivePower = (terastallized && isTeraStab
+        && !move.isMultiHit && move.priority <= 0
+        && move.power < _teraMinPower && move.power > 0)
         ? _teraMinPower : move.power;
 
     final double weatherMod = getWeatherOffensiveModifier(weather, move: move);
