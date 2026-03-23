@@ -908,7 +908,7 @@
     "power": 0,
     "accuracy": 30,
     "pp": 5,
-    "tags": []
+    "tags": ["custom:ohko"]
   },
   {
     "name": "Smelling Salts",
