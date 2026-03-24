@@ -54,6 +54,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
   RoomConditions _room = const RoomConditions();
+  bool _useSpMode = false;
 
 
   // Name maps (provided by _AppLoader, already loaded)
@@ -316,24 +317,32 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('v0.1.0-alpha (테스트 버전)'),
+            Text('v0.2.0-beta'),
             SizedBox(height: 8),
             Text('포켓몬스터 실전 배틀 유저를 위한 결정력 계산기'),
+            SizedBox(height: 8),
+            Text(
+              '한 명의 실전 배틀 유저가 취미로 만든 무료 프로젝트입니다.\n'
+              'Android / iOS 앱 출시 예정!',
+              style: TextStyle(fontSize: 13),
+            ),
             SizedBox(height: 12),
             Text('제작  Elyss'),
+            SelectableText('웹사이트  damage-calc.com'),
             SelectableText('GitHub  github.com/Lerisia/damage-calc'),
             SizedBox(height: 16),
             Divider(),
             SizedBox(height: 8),
             Text(
-              '본 앱은 Nintendo, Game Freak, The Pokémon Company와 '
-              '관련이 없는 비공식 팬메이드 앱입니다.\n'
-              '포켓몬스터 관련 데이터의 저작권은 원저작자에게 있습니다.',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              '현재 베타 버전입니다. 버그나 개선 의견은\n'
+              'GitHub Issue로 부탁드립니다.',
+              style: TextStyle(fontSize: 12, color: Colors.orange),
             ),
             SizedBox(height: 12),
             Text(
-              '문의 및 버그 리포트는 GitHub Issue로 부탁드립니다.',
+              '본 앱은 Nintendo, Game Freak, The Pokémon Company와 '
+              '관련이 없는 비공식 팬메이드 프로젝트입니다.\n'
+              '포켓몬스터 관련 데이터의 저작권은 원저작자에게 있습니다.',
               style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
@@ -752,6 +761,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentHpPercent: isAttacker
                 ? _defender.hpPercent
                 : _attacker.hpPercent,
+            useSpMode: _useSpMode,
+            onSpModeChanged: (v) => setState(() => _useSpMode = v),
           );
   }
 
