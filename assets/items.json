@@ -2430,5 +2430,545 @@
     "name": "energy-root",
     "nameKo": "힘의뿌리",
     "nameJa": "ちからのねっこ"
+  },
+  {
+    "name": "absolite-z",
+    "nameKo": "앱솔나이트Z",
+    "nameJa": "アブソルナイトZ",
+    "battle": true
+  },
+  {
+    "name": "barbaracite",
+    "nameKo": "거북손데스나이트",
+    "nameJa": "ガメノデスナイト",
+    "battle": true
+  },
+  {
+    "name": "baxcalibrite",
+    "nameKo": "드닐레이브나이트",
+    "nameJa": "セグレイブナイト",
+    "battle": true
+  },
+  {
+    "name": "chandelurite",
+    "nameKo": "샹델라나이트",
+    "nameJa": "シャンデラナイト",
+    "battle": true
+  },
+  {
+    "name": "chesnaughtite",
+    "nameKo": "브리가론나이트",
+    "nameJa": "ブリガロンナイト",
+    "battle": true
+  },
+  {
+    "name": "chimechite",
+    "nameKo": "치렁나이트",
+    "nameJa": "チリーンナイト",
+    "battle": true
+  },
+  {
+    "name": "clefablite",
+    "nameKo": "픽시나이트",
+    "nameJa": "ピクシーナイト",
+    "battle": true
+  },
+  {
+    "name": "crabominite",
+    "nameKo": "모단단게나이트",
+    "nameJa": "ケケンカニナイト",
+    "battle": true
+  },
+  {
+    "name": "darkranite",
+    "nameKo": "다크라이나이트",
+    "nameJa": "ダークライナイト",
+    "battle": true
+  },
+  {
+    "name": "delphoxite",
+    "nameKo": "마폭시나이트",
+    "nameJa": "マフォクシーナイト",
+    "battle": true
+  },
+  {
+    "name": "dragalgite",
+    "nameKo": "드래캄나이트",
+    "nameJa": "ドラミドロナイト",
+    "battle": true
+  },
+  {
+    "name": "dragoninite",
+    "nameKo": "망나뇽나이트",
+    "nameJa": "カイリューナイト",
+    "battle": true
+  },
+  {
+    "name": "drampanite",
+    "nameKo": "할비롱나이트",
+    "nameJa": "ジジーロンナイト",
+    "battle": true
+  },
+  {
+    "name": "eelektrossite",
+    "nameKo": "저리더프나이트",
+    "nameJa": "シビルドンナイト",
+    "battle": true
+  },
+  {
+    "name": "emboarite",
+    "nameKo": "염무왕나이트",
+    "nameJa": "エンブオーナイト",
+    "battle": true
+  },
+  {
+    "name": "excadrite",
+    "nameKo": "몰드류나이트",
+    "nameJa": "ドリュウズナイト",
+    "battle": true
+  },
+  {
+    "name": "falinksite",
+    "nameKo": "대여르나이트",
+    "nameJa": "タイレーツナイト",
+    "battle": true
+  },
+  {
+    "name": "feraligite",
+    "nameKo": "장크로다일나이트",
+    "nameJa": "オーダイルナイト",
+    "battle": true
+  },
+  {
+    "name": "floettite",
+    "nameKo": "플라엣테나이트",
+    "nameJa": "フラエッテナイト",
+    "battle": true
+  },
+  {
+    "name": "froslassite",
+    "nameKo": "눈여아나이트",
+    "nameJa": "ユキメノコナイト",
+    "battle": true
+  },
+  {
+    "name": "garchompite-z",
+    "nameKo": "한카리아스나이트Z",
+    "nameJa": "ガブリアスナイトZ",
+    "battle": true
+  },
+  {
+    "name": "glimmoranite",
+    "nameKo": "킬라플로르나이트",
+    "nameJa": "キラフロルナイト",
+    "battle": true
+  },
+  {
+    "name": "golisopite",
+    "nameKo": "갑주무사나이트",
+    "nameJa": "グソクムシャナイト",
+    "battle": true
+  },
+  {
+    "name": "golurkite",
+    "nameKo": "골루그나이트",
+    "nameJa": "ゴルーグナイト",
+    "battle": true
+  },
+  {
+    "name": "greninjite",
+    "nameKo": "개굴닌자나이트",
+    "nameJa": "ゲッコウガナイト",
+    "battle": true
+  },
+  {
+    "name": "hawluchanite",
+    "nameKo": "루차불나이트",
+    "nameJa": "ルチャブルナイト",
+    "battle": true
+  },
+  {
+    "name": "heatranite",
+    "nameKo": "히드런나이트",
+    "nameJa": "ヒードランナイト",
+    "battle": true
+  },
+  {
+    "name": "lucarionite-z",
+    "nameKo": "루카리오나이트Z",
+    "nameJa": "ルカリオナイトZ",
+    "battle": true
+  },
+  {
+    "name": "magearnite",
+    "nameKo": "마기아나나이트",
+    "nameJa": "マギアナナイト",
+    "battle": true
+  },
+  {
+    "name": "malamarite",
+    "nameKo": "칼라마네로나이트",
+    "nameJa": "カラマネロナイト",
+    "battle": true
+  },
+  {
+    "name": "meganiumite",
+    "nameKo": "메가니움나이트",
+    "nameJa": "メガニウムナイト",
+    "battle": true
+  },
+  {
+    "name": "meowsticite",
+    "nameKo": "냐오닉스나이트",
+    "nameJa": "ニャオニクスナイト",
+    "battle": true
+  },
+  {
+    "name": "pyroarite",
+    "nameKo": "화염레오나이트",
+    "nameJa": "カエンジシナイト",
+    "battle": true
+  },
+  {
+    "name": "raichunite-x",
+    "nameKo": "라이츄나이트X",
+    "nameJa": "ライチュウナイトX",
+    "battle": true
+  },
+  {
+    "name": "raichunite-y",
+    "nameKo": "라이츄나이트Y",
+    "nameJa": "ライチュウナイトY",
+    "battle": true
+  },
+  {
+    "name": "scolipite",
+    "nameKo": "펜드라나이트",
+    "nameJa": "ペンドラーナイト",
+    "battle": true
+  },
+  {
+    "name": "scovillainite",
+    "nameKo": "스코빌런나이트",
+    "nameJa": "スコヴィランナイト",
+    "battle": true
+  },
+  {
+    "name": "scraftinite",
+    "nameKo": "곤율거니나이트",
+    "nameJa": "ズルズキンナイト",
+    "battle": true
+  },
+  {
+    "name": "skarmorite",
+    "nameKo": "무장조나이트",
+    "nameJa": "エアームドナイト",
+    "battle": true
+  },
+  {
+    "name": "staraptite",
+    "nameKo": "찌르호크나이트",
+    "nameJa": "ムクホークナイト",
+    "battle": true
+  },
+  {
+    "name": "starminite",
+    "nameKo": "아쿠스타나이트",
+    "nameJa": "スターミーナイト",
+    "battle": true
+  },
+  {
+    "name": "tatsugirinite",
+    "nameKo": "싸리용나이트",
+    "nameJa": "ミガルーサナイト",
+    "battle": true
+  },
+  {
+    "name": "victreebelite",
+    "nameKo": "우츠보트나이트",
+    "nameJa": "ウツボットナイト",
+    "battle": true
+  },
+  {
+    "name": "zeraorite",
+    "nameKo": "제라오라나이트",
+    "nameJa": "ゼラオラナイト",
+    "battle": true
+  },
+  {
+    "name": "zygardite",
+    "nameKo": "지가르데나이트",
+    "nameJa": "ジガルデナイト",
+    "battle": true
+  },
+  {
+    "name": "absolite-z",
+    "nameKo": "앱솔나이트Z",
+    "nameJa": "アブソルナイトZ",
+    "battle": true
+  },
+  {
+    "name": "barbaracite",
+    "nameKo": "거북손데스나이트",
+    "nameJa": "ガメノデスナイト",
+    "battle": true
+  },
+  {
+    "name": "baxcalibrite",
+    "nameKo": "드닐레이브나이트",
+    "nameJa": "セグレイブナイト",
+    "battle": true
+  },
+  {
+    "name": "chandelurite",
+    "nameKo": "샹델라나이트",
+    "nameJa": "シャンデラナイト",
+    "battle": true
+  },
+  {
+    "name": "chesnaughtite",
+    "nameKo": "브리가론나이트",
+    "nameJa": "ブリガロンナイト",
+    "battle": true
+  },
+  {
+    "name": "chimechite",
+    "nameKo": "치렁나이트",
+    "nameJa": "チリーンナイト",
+    "battle": true
+  },
+  {
+    "name": "clefablite",
+    "nameKo": "픽시나이트",
+    "nameJa": "ピクシーナイト",
+    "battle": true
+  },
+  {
+    "name": "crabominite",
+    "nameKo": "모단단게나이트",
+    "nameJa": "ケケンカニナイト",
+    "battle": true
+  },
+  {
+    "name": "darkranite",
+    "nameKo": "다크라이나이트",
+    "nameJa": "ダークライナイト",
+    "battle": true
+  },
+  {
+    "name": "delphoxite",
+    "nameKo": "마폭시나이트",
+    "nameJa": "マフォクシーナイト",
+    "battle": true
+  },
+  {
+    "name": "dragalgite",
+    "nameKo": "드래캄나이트",
+    "nameJa": "ドラミドロナイト",
+    "battle": true
+  },
+  {
+    "name": "dragoninite",
+    "nameKo": "망나뇽나이트",
+    "nameJa": "カイリューナイト",
+    "battle": true
+  },
+  {
+    "name": "drampanite",
+    "nameKo": "할비롱나이트",
+    "nameJa": "ジジーロンナイト",
+    "battle": true
+  },
+  {
+    "name": "eelektrossite",
+    "nameKo": "저리더프나이트",
+    "nameJa": "シビルドンナイト",
+    "battle": true
+  },
+  {
+    "name": "emboarite",
+    "nameKo": "염무왕나이트",
+    "nameJa": "エンブオーナイト",
+    "battle": true
+  },
+  {
+    "name": "excadrite",
+    "nameKo": "몰드류나이트",
+    "nameJa": "ドリュウズナイト",
+    "battle": true
+  },
+  {
+    "name": "falinksite",
+    "nameKo": "대여르나이트",
+    "nameJa": "タイレーツナイト",
+    "battle": true
+  },
+  {
+    "name": "feraligite",
+    "nameKo": "장크로다일나이트",
+    "nameJa": "オーダイルナイト",
+    "battle": true
+  },
+  {
+    "name": "floettite",
+    "nameKo": "플라엣테나이트",
+    "nameJa": "フラエッテナイト",
+    "battle": true
+  },
+  {
+    "name": "froslassite",
+    "nameKo": "눈여아나이트",
+    "nameJa": "ユキメノコナイト",
+    "battle": true
+  },
+  {
+    "name": "garchompite-z",
+    "nameKo": "한카리아스나이트Z",
+    "nameJa": "ガブリアスナイトZ",
+    "battle": true
+  },
+  {
+    "name": "glimmoranite",
+    "nameKo": "킬라플로르나이트",
+    "nameJa": "キラフロルナイト",
+    "battle": true
+  },
+  {
+    "name": "golisopite",
+    "nameKo": "갑주무사나이트",
+    "nameJa": "グソクムシャナイト",
+    "battle": true
+  },
+  {
+    "name": "golurkite",
+    "nameKo": "골루그나이트",
+    "nameJa": "ゴルーグナイト",
+    "battle": true
+  },
+  {
+    "name": "greninjite",
+    "nameKo": "개굴닌자나이트",
+    "nameJa": "ゲッコウガナイト",
+    "battle": true
+  },
+  {
+    "name": "hawluchanite",
+    "nameKo": "루차불나이트",
+    "nameJa": "ルチャブルナイト",
+    "battle": true
+  },
+  {
+    "name": "heatranite",
+    "nameKo": "히드런나이트",
+    "nameJa": "ヒードランナイト",
+    "battle": true
+  },
+  {
+    "name": "lucarionite-z",
+    "nameKo": "루카리오나이트Z",
+    "nameJa": "ルカリオナイトZ",
+    "battle": true
+  },
+  {
+    "name": "magearnite",
+    "nameKo": "마기아나이트",
+    "nameJa": "マギアナナイト",
+    "battle": true
+  },
+  {
+    "name": "malamarite",
+    "nameKo": "칼라마네로나이트",
+    "nameJa": "カラマネロナイト",
+    "battle": true
+  },
+  {
+    "name": "meganiumite",
+    "nameKo": "메가니움나이트",
+    "nameJa": "メガニウムナイト",
+    "battle": true
+  },
+  {
+    "name": "meowsticite",
+    "nameKo": "냐오닉스나이트",
+    "nameJa": "ニャオニクスナイト",
+    "battle": true
+  },
+  {
+    "name": "pyroarite",
+    "nameKo": "화염레오나이트",
+    "nameJa": "カエンジシナイト",
+    "battle": true
+  },
+  {
+    "name": "raichunite-x",
+    "nameKo": "라이츄나이트X",
+    "nameJa": "ライチュウナイトX",
+    "battle": true
+  },
+  {
+    "name": "raichunite-y",
+    "nameKo": "라이츄나이트Y",
+    "nameJa": "ライチュウナイトY",
+    "battle": true
+  },
+  {
+    "name": "scolipite",
+    "nameKo": "펜드라나이트",
+    "nameJa": "ペンドラーナイト",
+    "battle": true
+  },
+  {
+    "name": "scovillainite",
+    "nameKo": "스코빌런나이트",
+    "nameJa": "スコヴィランナイト",
+    "battle": true
+  },
+  {
+    "name": "scraftinite",
+    "nameKo": "곤율거니나이트",
+    "nameJa": "ズルズキンナイト",
+    "battle": true
+  },
+  {
+    "name": "skarmorite",
+    "nameKo": "무장조나이트",
+    "nameJa": "エアームドナイト",
+    "battle": true
+  },
+  {
+    "name": "staraptite",
+    "nameKo": "찌르호크나이트",
+    "nameJa": "ムクホークナイト",
+    "battle": true
+  },
+  {
+    "name": "starminite",
+    "nameKo": "아쿠스타나이트",
+    "nameJa": "スターミーナイト",
+    "battle": true
+  },
+  {
+    "name": "tatsugirinite",
+    "nameKo": "싸리용나이트",
+    "nameJa": "ミガルーサナイト",
+    "battle": true
+  },
+  {
+    "name": "victreebelite",
+    "nameKo": "우츠보트나이트",
+    "nameJa": "ウツボットナイト",
+    "battle": true
+  },
+  {
+    "name": "zeraorite",
+    "nameKo": "제라오라나이트",
+    "nameJa": "ゼラオラナイト",
+    "battle": true
+  },
+  {
+    "name": "zygardite",
+    "nameKo": "지가르데나이트",
+    "nameJa": "ジガルデナイト",
+    "battle": true
   }
 ]
