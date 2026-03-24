@@ -16,6 +16,7 @@ import '../../utils/ability_effects.dart';
 import '../../utils/item_effects.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
+import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import 'typeahead_helpers.dart';
 
@@ -104,10 +105,16 @@ class StatInput extends StatefulWidget {
     this.tailwind = false,
     this.onItemTap,
     this.onAbilityTap,
+    this.useSpMode = false,
+    this.onSpModeChanged,
   });
 
   final VoidCallback? onItemTap;
   final VoidCallback? onAbilityTap;
+
+  /// Whether to display EV in SP (Stat Point) mode for Champions.
+  final bool useSpMode;
+  final ValueChanged<bool>? onSpModeChanged;
 
   final int? opponentSpeed;
   final bool opponentAlwaysLast;
@@ -550,7 +557,16 @@ class _StatInputState extends State<StatInput> {
     final bs = widget.baseStats;
     final ev = widget.ev;
     final baseTotal = bs.hp + bs.attack + bs.defense + bs.spAttack + bs.spDefense + bs.speed;
-    final evTotal = ev.hp + ev.attack + ev.defense + ev.spAttack + ev.spDefense + ev.speed;
+
+    final int usedPoints;
+    final int maxPoints;
+    if (widget.useSpMode) {
+      usedPoints = ChampionsMode.totalSpFromEv(ev);
+      maxPoints = ChampionsMode.maxTotalSp;
+    } else {
+      usedPoints = ev.hp + ev.attack + ev.defense + ev.spAttack + ev.spDefense + ev.speed;
+      maxPoints = 510;
+    }
     final style = const TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 
     String speedText = '';
@@ -593,9 +609,9 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 2, child: Container()),
           Expanded(flex: 5, child: Text('$baseTotal', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 6, child: Text(
-            evTotal > 510 ? '초과 ${evTotal - 510}' : '잔여 ${510 - evTotal}',
+            usedPoints > maxPoints ? '초과 ${usedPoints - maxPoints}' : '잔여 ${maxPoints - usedPoints}',
             style: style.copyWith(
-              color: evTotal > 510 ? Colors.red : null,
+              color: usedPoints > maxPoints ? Colors.red : null,
             ), textAlign: TextAlign.center)),
           Expanded(flex: 7, child: Text(speedText, style: style.copyWith(
             color: speedColor, fontSize: 14,
@@ -615,7 +631,23 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 3, child: Text('', style: style)),
           Expanded(flex: 2, child: Text('종족', style: style, textAlign: TextAlign.center)),
           Expanded(flex: isWide ? 2 : 3, child: Text('개체', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: isWide ? 7 : 6, child: Text('노력', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: isWide ? 7 : 6, child: widget.onSpModeChanged != null
+              ? GestureDetector(
+                  onTap: () => widget.onSpModeChanged!(!widget.useSpMode),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.useSpMode ? 'SP' : 'EV',
+                        style: style?.copyWith(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(width: 2),
+                      Icon(Icons.swap_horiz, size: 14, color: Colors.grey),
+                    ],
+                  ),
+                )
+              : Text('노력', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text('랭크', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text('실수치', style: style, textAlign: TextAlign.center)),
         ],
@@ -676,6 +708,11 @@ class _StatInputState extends State<StatInput> {
 
   Widget _evControl(int value, ValueChanged<int> onChanged) {
     final isWide = MediaQuery.of(context).size.width >= 600;
+    final sp = widget.useSpMode;
+    final displayValue = sp ? ChampionsMode.evToSp(value) : value;
+    final maxDisplay = sp ? ChampionsMode.maxPerStat : 252;
+    final step = sp ? 1 : 4;
+
     return Row(
       children: [
         Expanded(
@@ -688,9 +725,14 @@ class _StatInputState extends State<StatInput> {
         if (isWide)
           Expanded(
             flex: 2,
-            child: _flexButton('-', value <= 0 ? null : () {
+            child: _flexButton('-', displayValue <= 0 ? null : () {
               setState(() => _evResetCounter++);
-              onChanged((value - 4).clamp(0, 252));
+              if (sp) {
+                final newSp = (displayValue - step).clamp(0, maxDisplay);
+                onChanged(ChampionsMode.spToEv(newSp));
+              } else {
+                onChanged((value - step).clamp(0, 252));
+              }
             }),
           ),
         Expanded(
@@ -698,14 +740,14 @@ class _StatInputState extends State<StatInput> {
           child: SizedBox(
             height: 28,
             child: TextFormField(
-              key: ValueKey('ev_$_evResetCounter'),
-              initialValue: '$value',
+              key: ValueKey('ev_${sp ? "sp" : "ev"}_$_evResetCounter'),
+              initialValue: '$displayValue',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
-                _ClampingFormatter(min: 0, max: 252),
+                _ClampingFormatter(min: 0, max: maxDisplay),
               ],
               style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
@@ -715,7 +757,13 @@ class _StatInputState extends State<StatInput> {
               onChanged: (text) {
                 final parsed = int.tryParse(text);
                 if (parsed != null) {
-                  _debounce(() => onChanged(parsed.clamp(0, 252)));
+                  _debounce(() {
+                    if (sp) {
+                      onChanged(ChampionsMode.spToEv(parsed.clamp(0, maxDisplay)));
+                    } else {
+                      onChanged(parsed.clamp(0, 252));
+                    }
+                  });
                 }
               },
             ),
@@ -724,16 +772,21 @@ class _StatInputState extends State<StatInput> {
         if (isWide)
           Expanded(
             flex: 2,
-            child: _flexButton('+', value >= 252 ? null : () {
+            child: _flexButton('+', displayValue >= maxDisplay ? null : () {
               setState(() => _evResetCounter++);
-              onChanged((value + 4).clamp(0, 252));
+              if (sp) {
+                final newSp = (displayValue + step).clamp(0, maxDisplay);
+                onChanged(ChampionsMode.spToEv(newSp));
+              } else {
+                onChanged((value + step).clamp(0, 252));
+              }
             }),
           ),
         Expanded(
           flex: 2,
           child: _flexButton('max', () {
             setState(() => _evResetCounter++);
-            onChanged(252);
+            onChanged(sp ? ChampionsMode.spToEv(maxDisplay) : 252);
           }),
         ),
       ],

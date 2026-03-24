@@ -42,6 +42,8 @@ class PokemonPanel extends StatefulWidget {
   final VoidCallback? onSave;
   final VoidCallback? onLoad;
   final VoidCallback? onReset;
+  final bool useSpMode;
+  final ValueChanged<bool>? onSpModeChanged;
 
   const PokemonPanel({
     super.key,
@@ -62,6 +64,8 @@ class PokemonPanel extends StatefulWidget {
     this.onSave,
     this.onLoad,
     this.onReset,
+    this.useSpMode = false,
+    this.onSpModeChanged,
   });
 
   @override
@@ -230,6 +234,8 @@ class PokemonPanelState extends State<PokemonPanel>
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
               onItemTap: null,
               onAbilityTap: null,
+              useSpMode: widget.useSpMode,
+              onSpModeChanged: widget.onSpModeChanged,
             ),
           ),
           const SizedBox(height: 12),
