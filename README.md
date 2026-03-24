@@ -1,17 +1,28 @@
-# damage_calc
+# Damage Calculator
 
-A new Flutter project.
+A damage calculator for competitive Pokemon battles.
 
-## Getting Started
+**Website**: [damage-calc.com](https://damage-calc.com)
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Offensive power / damage calculation (official Gen V+ formula)
+- Speed comparison
+- Terastal / Dynamax / Mega Evolution support
+- Legends Z-A new Mega Evolutions included
+- Korean consonant search
+- Responsive UI for mobile and desktop
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Platforms
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Web — [damage-calc.com](https://damage-calc.com)
+- Android / iOS — Coming soon
+
+## Disclaimer
+
+This is an unofficial fan-made project and is not affiliated with Nintendo, Game Freak, or The Pokemon Company.
+All Pokemon-related data and trademarks belong to their respective owners.
+
+## Feedback
+
+Bug reports and feature requests are welcome via [GitHub Issues](https://github.com/Lerisia/damage-calc/issues).

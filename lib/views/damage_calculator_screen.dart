@@ -322,7 +322,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             Text('포켓몬스터 실전 배틀 유저를 위한 결정력 계산기'),
             SizedBox(height: 8),
             Text(
-              '한 명의 실전 배틀 유저가 취미로 만든 무료 프로젝트입니다.\n'
+              '실전 배틀 유저가 취미로 만든 무료 프로젝트입니다.\n'
               'Android / iOS 앱 출시 예정!',
               style: TextStyle(fontSize: 13),
             ),
