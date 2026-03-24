@@ -103,7 +103,11 @@ class _PokemonSelectorState extends State<PokemonSelector> {
         _controller.text = pokemon.nameKo;
         widget.onSelected(pokemon);
       },
-      constraints: const BoxConstraints(maxHeight: 250),
+      onSubmittedPick: (text) {
+        final results = _sortedOptions(text);
+        return results.isNotEmpty ? results.first : null;
+      },
+      maxHeight: 250,
     );
   }
 }

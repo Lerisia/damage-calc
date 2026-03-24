@@ -127,6 +127,10 @@ class _StatInputState extends State<StatInput> {
   List<String> _lastPokemonAbilities = [];
   int _evResetCounter = 0;
   Timer? _debounceTimer;
+  final _abilityController = TextEditingController();
+  final _itemController = TextEditingController();
+  final _abilityFocusNode = FocusNode();
+  final _itemFocusNode = FocusNode();
 
   static final List<DropdownMenuItem<Nature>> _natureDropdownItems = sortedNatures
       .map((n) => DropdownMenuItem(
@@ -169,6 +173,10 @@ class _StatInputState extends State<StatInput> {
   @override
   void dispose() {
     _debounceTimer?.cancel();
+    _abilityController.dispose();
+    _itemController.dispose();
+    _abilityFocusNode.dispose();
+    _itemFocusNode.dispose();
     super.dispose();
   }
 
@@ -416,10 +424,13 @@ class _StatInputState extends State<StatInput> {
     final initialText = widget.selectedAbility != null
         ? _abilityKo(widget.selectedAbility!)
         : '';
-    final controller = TextEditingController(text: initialText);
+    if (!_abilityFocusNode.hasFocus) {
+      _abilityController.text = initialText;
+    }
 
     return buildTypeAhead<String>(
-      controller: controller,
+      controller: _abilityController,
+      focusNode: _abilityFocusNode,
       suggestionsCallback: (query) {
         if (query.isEmpty || query == initialText) return sorted;
         final q = query.toLowerCase();
@@ -434,8 +445,16 @@ class _StatInputState extends State<StatInput> {
         );
       },
       onSelected: (v) {
-        controller.text = _abilityKo(v);
+        _abilityController.text = _abilityKo(v);
+        _abilityFocusNode.unfocus();
         widget.onAbilityChanged(v);
+      },
+      onSubmittedPick: (text) {
+        if (text.isEmpty) return null;
+        final q = text.toLowerCase();
+        final matches = sorted.where((a) =>
+            _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
+        return matches.isNotEmpty ? matches.first : null;
       },
     );
   }
@@ -453,12 +472,15 @@ class _StatInputState extends State<StatInput> {
     }
 
     final initialText = _itemDisplayName(widget.selectedItem);
-    final controller = TextEditingController(text: initialText);
+    if (!_itemFocusNode.hasFocus) {
+      _itemController.text = initialText;
+    }
 
     return KeyedSubtree(
       key: ValueKey('item_${widget.selectedItem}'),
       child: buildTypeAhead<String>(
-        controller: controller,
+        controller: _itemController,
+        focusNode: _itemFocusNode,
         suggestionsCallback: (text) {
           if (text.isEmpty || text == initialText) return allItems;
           final scored = <(String, int)>[];
@@ -480,8 +502,22 @@ class _StatInputState extends State<StatInput> {
           );
         },
         onSelected: (v) {
-          controller.text = _itemDisplayName(v.isEmpty ? null : v);
+          _itemController.text = _itemDisplayName(v.isEmpty ? null : v);
+          _itemFocusNode.unfocus();
           widget.onItemChanged(v.isEmpty ? null : v);
+        },
+        onSubmittedPick: (text) {
+          if (text.isEmpty) return null;
+          final scored = <(String, int)>[];
+          for (final key in allItems) {
+            final ko = _itemDisplayName(key.isEmpty ? null : key);
+            final s = koreanMatchScore(text, ko);
+            final e = key.isNotEmpty && key.toLowerCase().contains(text.toLowerCase()) ? 20 : 0;
+            final best = s > e ? s : e;
+            if (best > 0) scored.add((key, best));
+          }
+          scored.sort((a, b) => b.$2.compareTo(a.$2));
+          return scored.isNotEmpty ? scored.first.$1 : null;
         },
       ),
     );

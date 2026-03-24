@@ -86,6 +86,14 @@ jobs:
         run: |
           flutter build ipa --release --export-options-plist=ios/ExportOptions-AppStore.plist
 
+      - name: Save IPA as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: build/ios/ipa/*.ipa
+          retention-days: 7
+
       - name: Upload to TestFlight
         env:
           API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}

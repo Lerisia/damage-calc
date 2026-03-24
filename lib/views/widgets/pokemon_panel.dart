@@ -548,6 +548,7 @@ class PokemonPanelState extends State<PokemonPanel>
                         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500,
                           color: Colors.grey[700]))
                     : _PowerInput(
+                        key: ValueKey('power_${index}_${move.name}'),
                         displayPower: displayPower,
                         controller: _powerControllers[index],
                         lastDisplayPower: _lastDisplayPower,
@@ -1053,6 +1054,7 @@ class _PowerInput extends StatefulWidget {
   final ValueChanged<int> onPowerChanged;
 
   const _PowerInput({
+    super.key,
     required this.displayPower,
     required this.controller,
     required this.lastDisplayPower,
@@ -1072,11 +1074,8 @@ class _PowerInputState extends State<_PowerInput> {
   void initState() {
     super.initState();
     _focusNode.addListener(_onFocusChange);
-    // Initialize controller text
-    if (widget.controller.text.isEmpty ||
-        (widget.controller.text == '0' && widget.displayPower != 0)) {
-      widget.controller.text = '${widget.displayPower}';
-    }
+    // Always initialize controller text (widget is keyed by move name)
+    widget.controller.text = '${widget.displayPower}';
     widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
   }
 

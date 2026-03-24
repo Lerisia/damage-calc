@@ -80,29 +80,30 @@ class _MoveSelectorState extends State<MoveSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return TypeAheadField<Move>(
+    return buildTypeAhead<Move>(
       controller: _controller,
       suggestionsCallback: (query) {
         if (_selected != null && query == _selected!.nameKo) return _sortedOptions('');
         return _sortedOptions(query);
       },
+      decoration: InputDecoration(
+        hintText: _selected?.nameKo ?? '기술 이름',
+        hintStyle: const TextStyle(fontSize: 14),
+        isDense: true,
+      ),
+      onTap: widget.onTap,
       builder: (context, controller, focusNode) {
         focusNode.addListener(() {
           if (focusNode.hasFocus) {
             _isFocused = true;
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              controller.value = TextEditingValue(
-                text: controller.text,
-                selection: TextSelection(baseOffset: 0, extentOffset: controller.text.length),
-                composing: TextRange.empty,
-              );
-            });
+            controller.clear();
+            widget.onTap?.call();
           } else {
             _isFocused = false;
             if (controller.text.isEmpty && _selected != null) {
               controller.text = widget.displayNameOverride ?? _selected!.nameKo;
             }
-            if (!_isFocused && widget.displayNameOverride != null && _selected != null) {
+            if (widget.displayNameOverride != null && _selected != null) {
               controller.text = widget.displayNameOverride!;
             }
           }
@@ -113,10 +114,6 @@ class _MoveSelectorState extends State<MoveSelector> {
         return TextField(
           controller: controller,
           focusNode: focusNode,
-          onTap: () {
-            selectAllOnTap(controller);
-            widget.onTap?.call();
-          },
           textInputAction: TextInputAction.done,
           onSubmitted: (_) {
             final results = _sortedOptions(controller.text);
@@ -163,14 +160,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         _controller.text = move.nameKo;
         widget.onSelected(move);
       },
-      constraints: const BoxConstraints(maxHeight: 200),
-      hideOnEmpty: false,
-      hideOnSelect: typeaheadHideOnSelect,
-      retainOnLoading: typeaheadRetainOnLoading,
-      animationDuration: typeaheadAnimationDuration,
-      debounceDuration: typeaheadDebounceDuration,
-      autoFlipDirection: typeaheadAutoFlipDirection,
-      hideOnUnfocus: typeaheadHideOnUnfocus,
+      maxHeight: 200,
     );
   }
 }
