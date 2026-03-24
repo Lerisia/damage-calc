@@ -46312,7 +46312,7 @@ A.ah1.prototype={
 $1(a){return A.ax(["name",a.a,"state",a.b.e6()],t.N,t.K)},
 $S:127}
 A.LL.prototype={
-I(a){return new A.Bu(B.a2r,new A.a4x(),"Damage Calculator",A.aLi(B.au),A.aLi(B.aJ),B.De,null)}}
+I(a){return new A.Bu(B.a2r,new A.a4x(),"\uacb0\uc815\ub825 \uacc4\uc0b0\uae30",A.aLi(B.au),A.aLi(B.aJ),B.De,null)}}
 A.a4x.prototype={
 $2(a,b){var s,r=null,q=A.bq(a,r,t.w).w.I8(B.a3v)
 b.toString
