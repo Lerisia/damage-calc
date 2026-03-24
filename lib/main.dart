@@ -32,7 +32,7 @@ class DamageCalcApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Damage Calculator',
+      title: '결정력 계산기',
       builder: (context, child) {
         final mediaChild = MediaQuery(
           data: MediaQuery.of(context).copyWith(
