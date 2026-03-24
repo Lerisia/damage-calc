@@ -85,7 +85,7 @@ class KoStrings {
     Terrain.electric: '⚡',
     Terrain.grassy: '🌿',
     Terrain.psychic: '🔮',
-    Terrain.misty: '💫',
+    Terrain.misty: '🌫️',
   };
 
   /// Terrain Korean names with emoji prefix (for capture headers).
@@ -94,7 +94,7 @@ class KoStrings {
     Terrain.electric: '⚡일렉트릭필드',
     Terrain.grassy: '🌿그래스필드',
     Terrain.psychic: '🔮사이코필드',
-    Terrain.misty: '💫미스트필드',
+    Terrain.misty: '🌫️미스트필드',
   };
 
   static const Map<Room, String> roomKo = {
