@@ -35,7 +35,7 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
 
   <title>damage_calc</title>
-  <link rel="manifest" href="manifest.json">
+  <!-- manifest.json removed: no PWA needed -->
 </head>
 <body>
   <!--
@@ -46,6 +46,17 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
+  <!-- Unregister any old service workers and clear their caches -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        registrations.forEach(function(r) { r.unregister(); });
+      });
+      caches.keys().then(function(names) {
+        names.forEach(function(name) { caches.delete(name); });
+      });
+    }
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
