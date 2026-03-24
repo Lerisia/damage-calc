@@ -137,24 +137,6 @@ class PokemonPanelState extends State<PokemonPanel>
           );
   }
 
-  void _scrollToSection(GlobalKey key) {
-    // Wait for keyboard to fully appear before scrolling once
-    Future.delayed(const Duration(milliseconds: 500), () => _ensureVisible(key));
-  }
-
-  void _scrollToMoves() => _scrollToSection(_movesSectionKey);
-  void _scrollToStats() => _scrollToSection(_statsSectionKey);
-
-  void _ensureVisible(GlobalKey key) {
-    final ctx = key.currentContext;
-    if (ctx == null) return;
-    Scrollable.ensureVisible(
-      ctx,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOutCubic,
-      alignment: 0.2,
-    );
-  }
 
   /// Public accessor for 결정력 of a specific move slot (with multi-hit applied).
   int? computeResultFor(int moveIndex) {
@@ -180,7 +162,7 @@ class PokemonPanelState extends State<PokemonPanel>
     _updateCachedSpeed();
     return SingleChildScrollView(
       controller: _scrollController,
-      padding: const EdgeInsets.fromLTRB(4, 2, 4, 500),
+      padding: const EdgeInsets.fromLTRB(4, 2, 4, 200),
       child: Screenshot(
         controller: _screenshotController,
         child: Container(
@@ -246,8 +228,8 @@ class PokemonPanelState extends State<PokemonPanel>
               room: widget.room,
               onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notifyParent(); }),
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
-              onItemTap: _scrollToStats,
-              onAbilityTap: _scrollToStats,
+              onItemTap: null,
+              onAbilityTap: null,
             ),
           ),
           const SizedBox(height: 12),
@@ -468,7 +450,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
                       initialMoveName: s.moves[index]?.name,
                       displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
-                      onTap: _scrollToMoves,
+                      onTap: null,
                       onSelected: (m) {
                         FocusScope.of(context).unfocus();
                         setState(() {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../data/abilitydex.dart';
@@ -18,7 +17,7 @@ import '../../utils/item_effects.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../../utils/stat_calculator.dart';
-import 'adaptive_dropdown.dart';
+import 'typeahead_helpers.dart';
 
 class _ClampingFormatter extends TextInputFormatter {
   final int min;
@@ -417,67 +416,26 @@ class _StatInputState extends State<StatInput> {
     final initialText = widget.selectedAbility != null
         ? _abilityKo(widget.selectedAbility!)
         : '';
+    final controller = TextEditingController(text: initialText);
 
-    BuildContext? abilityFieldCtx;
-    return Autocomplete<String>(
-      initialValue: TextEditingValue(text: initialText),
-      displayStringForOption: (a) => _abilityKo(a),
-      optionsBuilder: (textEditingValue) {
-        if (!kIsWeb && textEditingValue.composing != TextRange.empty) return sorted;
-        if (textEditingValue.text.isEmpty ||
-            textEditingValue.text == initialText) {
-          return sorted;
-        }
-        final query = textEditingValue.text.toLowerCase();
+    return buildTypeAhead<String>(
+      controller: controller,
+      suggestionsCallback: (query) {
+        if (query.isEmpty || query == initialText) return sorted;
+        final q = query.toLowerCase();
         return sorted.where((a) =>
-            _abilityKo(a).contains(query) ||
-            a.toLowerCase().contains(query));
+            _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
       },
-      optionsViewBuilder: (context, onSelected, options) {
-        final align = abilityFieldCtx != null ? dropdownAlignment(abilityFieldCtx!) : Alignment.topLeft;
-        return dismissibleOptionsWrapper(
-          alignment: align,
-          child: Material(
-            elevation: 4,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 200),
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: options.length,
-                itemBuilder: (context, index) {
-                  final a = options.elementAt(index);
-                  return InkWell(
-                    onTap: () => onSelected(a),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: Text(_abilityKo(a), style: const TextStyle(fontSize: 14)),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
+      decoration: const InputDecoration(labelText: '특성', isDense: true),
+      itemBuilder: (context, ability) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(_abilityKo(ability), style: const TextStyle(fontSize: 14)),
         );
       },
-      onSelected: (v) => widget.onAbilityChanged(v),
-      fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
-        abilityFieldCtx = context;
-        return TextField(
-          controller: controller,
-          focusNode: focusNode,
-          textInputAction: TextInputAction.done,
-          decoration: const InputDecoration(
-            labelText: '특성',
-            isDense: true,
-          ),
-          onTap: () {
-            controller.selection = TextSelection(
-              baseOffset: 0, extentOffset: controller.text.length);
-            widget.onAbilityTap?.call();
-          },
-          onChanged: kIsWeb ? (_) => setState(() {}) : null,
-        );
+      onSelected: (v) {
+        controller.text = _abilityKo(v);
+        widget.onAbilityChanged(v);
       },
     );
   }
@@ -495,76 +453,37 @@ class _StatInputState extends State<StatInput> {
     }
 
     final initialText = _itemDisplayName(widget.selectedItem);
+    final controller = TextEditingController(text: initialText);
 
-    BuildContext? itemFieldCtx;
     return KeyedSubtree(
       key: ValueKey('item_${widget.selectedItem}'),
-      child: Autocomplete<String>(
-      initialValue: TextEditingValue(text: initialText),
-      displayStringForOption: (key) => _itemDisplayName(key.isEmpty ? null : key),
-      optionsBuilder: (textEditingValue) {
-        final text = textEditingValue.text;
-        if (text.isEmpty || text == initialText) {
-          return allItems;
-        }
-        final scored = <(String, int)>[];
-        for (final key in allItems) {
-          final ko = _itemDisplayName(key.isEmpty ? null : key);
-          final s = koreanMatchScore(text, ko);
-          final e = key.isNotEmpty && key.toLowerCase().contains(text.toLowerCase()) ? 20 : 0;
-          final best = s > e ? s : e;
-          if (best > 0) scored.add((key, best));
-        }
-        scored.sort((a, b) => b.$2.compareTo(a.$2));
-        return scored.map((e) => e.$1);
-      },
-      optionsViewBuilder: (context, onSelected, options) {
-        final align = itemFieldCtx != null ? dropdownAlignment(itemFieldCtx!) : Alignment.topLeft;
-        return dismissibleOptionsWrapper(
-          alignment: align,
-          child: Material(
-            elevation: 4,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 200),
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: options.length,
-                itemBuilder: (context, index) {
-                  final key = options.elementAt(index);
-                  return InkWell(
-                    onTap: () => onSelected(key),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: Text(_itemDisplayName(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        );
-      },
-      onSelected: (v) => widget.onItemChanged(v.isEmpty ? null : v),
-      fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
-        itemFieldCtx = context;
-        return TextField(
-          controller: controller,
-          focusNode: focusNode,
-          textInputAction: TextInputAction.done,
-          decoration: const InputDecoration(
-            labelText: '아이템',
-            isDense: true,
-          ),
-          onTap: () {
-            controller.selection = TextSelection(
-              baseOffset: 0, extentOffset: controller.text.length);
-            widget.onItemTap?.call();
-          },
-          onChanged: kIsWeb ? (_) => setState(() {}) : null,
-        );
-      },
-    ),
+      child: buildTypeAhead<String>(
+        controller: controller,
+        suggestionsCallback: (text) {
+          if (text.isEmpty || text == initialText) return allItems;
+          final scored = <(String, int)>[];
+          for (final key in allItems) {
+            final ko = _itemDisplayName(key.isEmpty ? null : key);
+            final s = koreanMatchScore(text, ko);
+            final e = key.isNotEmpty && key.toLowerCase().contains(text.toLowerCase()) ? 20 : 0;
+            final best = s > e ? s : e;
+            if (best > 0) scored.add((key, best));
+          }
+          scored.sort((a, b) => b.$2.compareTo(a.$2));
+          return scored.map((e) => e.$1).toList();
+        },
+        decoration: const InputDecoration(labelText: '아이템', isDense: true),
+        itemBuilder: (context, key) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Text(_itemDisplayName(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
+          );
+        },
+        onSelected: (v) {
+          controller.text = _itemDisplayName(v.isEmpty ? null : v);
+          widget.onItemChanged(v.isEmpty ? null : v);
+        },
+      ),
     );
   }
 

@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
@@ -13,8 +12,8 @@ import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../utils/battle_facade.dart';
 import '../../utils/speed_calculator.dart';
-import 'adaptive_dropdown.dart';
 import '../../utils/speed_tier.dart';
+import 'typeahead_helpers.dart';
 import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../widgets/pokemon_selector.dart';
@@ -74,25 +73,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     super.dispose();
   }
 
-  void _scrollToPanel(GlobalKey key) {
-    _doScrollToPanel(key);
-    Future.delayed(const Duration(milliseconds: 500), () => _doScrollToPanel(key));
-  }
-
-  void _doScrollToPanel(GlobalKey key) {
-    final ctx = key.currentContext;
-    if (ctx == null || !_scrollController.hasClients) return;
-    final box = ctx.findRenderObject() as RenderBox;
-    final offset = box.localToGlobal(Offset.zero).dy;
-    final topBarHeight = kToolbarHeight + kTextTabBarHeight +
-        MediaQuery.of(context).padding.top;
-    final target = _scrollController.offset + offset - topBarHeight - 8;
-    _scrollController.animateTo(
-      target.clamp(0, _scrollController.position.maxScrollExtent),
-      duration: const Duration(milliseconds: 350),
-      curve: Curves.easeOutCubic,
-    );
-  }
 
   Future<Uint8List?> captureScreenshot() async {
     try {
@@ -325,7 +305,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 3, child: _abilityAutocomplete(state, () => _scrollToPanel(abilityRowKey))),
+              Expanded(flex: 3, child: _abilityAutocomplete(state)),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: DropdownButtonFormField<StatusCondition>(
                 value: state.status,
@@ -358,7 +338,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 onChanged: (v) { if (v != null) { setState(() => state.nature = v); _notify(); } },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 2, child: _itemAutocomplete(state, () => _scrollToPanel(itemRowKey))),
+              Expanded(flex: 2, child: _itemAutocomplete(state)),
             ],
           ),
           // 순풍 - hidden for simplicity
@@ -423,92 +403,51 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     return [...pokemon, ...rest];
   }
 
-  Widget _abilityAutocomplete(BattlePokemonState state, VoidCallback? onTapScroll) {
+  Widget _abilityAutocomplete(BattlePokemonState state) {
     final sorted = _sortedAbilities(state);
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
-    BuildContext? fieldCtx;
+    final controller = TextEditingController(text: initialText);
 
     return KeyedSubtree(
       key: ValueKey('speed_ability_${state.selectedAbility}_${state.pokemonName}'),
-      child: Autocomplete<String>(
-        initialValue: TextEditingValue(text: initialText),
-        displayStringForOption: (a) => _abilityKo(a),
-        optionsBuilder: (textEditingValue) {
-          if (!kIsWeb && textEditingValue.composing != TextRange.empty) return sorted;
-          if (textEditingValue.text.isEmpty || textEditingValue.text == initialText) {
-            return sorted;
-          }
-          final query = textEditingValue.text.toLowerCase();
-          return sorted.where((a) {
-            final ko = _abilityKo(a);
-            return ko.contains(query) || a.toLowerCase().contains(query);
-          });
+      child: buildTypeAhead<String>(
+        controller: controller,
+        suggestionsCallback: (query) {
+          if (query.isEmpty || query == initialText) return sorted;
+          final q = query.toLowerCase();
+          return sorted.where((a) =>
+              _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
         },
-        optionsViewBuilder: (context, onSelected, options) {
-          final align = fieldCtx != null ? dropdownAlignment(fieldCtx!) : Alignment.topLeft;
-          return dismissibleOptionsWrapper(
-            alignment: align,
-            child: Material(
-              elevation: 4,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 200),
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: options.length,
-                  itemBuilder: (context, index) {
-                    final a = options.elementAt(index);
-                    return InkWell(
-                      onTap: () => onSelected(a),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        child: Text(_abilityKo(a), style: const TextStyle(fontSize: 14)),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
+        decoration: const InputDecoration(labelText: '특성', isDense: true),
+        itemBuilder: (context, ability) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Text(_abilityKo(ability), style: const TextStyle(fontSize: 14)),
           );
         },
-        onSelected: (v) { setState(() => state.selectedAbility = v); _notify(); },
-        fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
-          fieldCtx = context;
-          return TextField(
-            controller: controller,
-            focusNode: focusNode,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: '특성', isDense: true),
-            onTap: () {
-              controller.selection = TextSelection(
-                baseOffset: 0, extentOffset: controller.text.length);
-              onTapScroll?.call();
-            },
-            onChanged: kIsWeb ? (_) => setState(() {}) : null,
-          );
+        onSelected: (v) {
+          controller.text = _abilityKo(v);
+          setState(() => state.selectedAbility = v);
+          _notify();
         },
       ),
     );
   }
 
-  Widget _itemAutocomplete(BattlePokemonState state, VoidCallback? onTapScroll) {
+  Widget _itemAutocomplete(BattlePokemonState state) {
     final allKeys = ['', ..._itemNameMap.keys];
     final allItems = state.selectedItem != null
         ? [state.selectedItem!, ...allKeys.where((k) => k != state.selectedItem)]
         : allKeys;
     final initialText = _itemKo(state.selectedItem);
-    BuildContext? fieldCtx;
+    final controller = TextEditingController(text: initialText);
 
     return KeyedSubtree(
       key: ValueKey('speed_item_${state.selectedItem}'),
-      child: Autocomplete<String>(
-        initialValue: TextEditingValue(text: initialText),
-        displayStringForOption: (key) => _itemKo(key.isEmpty ? null : key),
-        optionsBuilder: (textEditingValue) {
-          final text = textEditingValue.text;
-          if (text.isEmpty || text == initialText) {
-            return allItems;
-          }
+      child: buildTypeAhead<String>(
+        controller: controller,
+        suggestionsCallback: (text) {
+          if (text.isEmpty || text == initialText) return allItems;
           final scored = <(String, int)>[];
           for (final key in allItems) {
             final ko = _itemKo(key.isEmpty ? null : key);
@@ -518,50 +457,19 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             if (best > 0) scored.add((key, best));
           }
           scored.sort((a, b) => b.$2.compareTo(a.$2));
-          return scored.map((e) => e.$1);
+          return scored.map((e) => e.$1).toList();
         },
-        optionsViewBuilder: (context, onSelected, options) {
-          final align = fieldCtx != null ? dropdownAlignment(fieldCtx!) : Alignment.topLeft;
-          return dismissibleOptionsWrapper(
-            alignment: align,
-            child: Material(
-              elevation: 4,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 200),
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: options.length,
-                  itemBuilder: (context, index) {
-                    final key = options.elementAt(index);
-                    return InkWell(
-                      onTap: () => onSelected(key),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        child: Text(_itemKo(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
+        decoration: const InputDecoration(labelText: '아이템', isDense: true),
+        itemBuilder: (context, key) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Text(_itemKo(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
           );
         },
-        onSelected: (v) { setState(() => state.selectedItem = v.isEmpty ? null : v); _notify(); },
-        fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
-          fieldCtx = context;
-          return TextField(
-            controller: controller,
-            focusNode: focusNode,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: '아이템', isDense: true),
-            onTap: () {
-              controller.selection = TextSelection(
-                baseOffset: 0, extentOffset: controller.text.length);
-              onTapScroll?.call();
-            },
-            onChanged: kIsWeb ? (_) => setState(() {}) : null,
-          );
+        onSelected: (v) {
+          controller.text = _itemKo(v.isEmpty ? null : v);
+          setState(() => state.selectedItem = v.isEmpty ? null : v);
+          _notify();
         },
       ),
     );

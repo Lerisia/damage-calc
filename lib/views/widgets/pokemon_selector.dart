@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../utils/korean_search.dart';
-import 'adaptive_dropdown.dart';
+import 'typeahead_helpers.dart';
 
 class PokemonSelector extends StatefulWidget {
   final void Function(Pokemon pokemon) onSelected;
@@ -23,14 +22,18 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   List<Pokemon> _allPokemon = [];
   List<SearchEntry<Pokemon>> _searchEntries = [];
   Pokemon? _selected;
-  bool _hasFocusListenerAttached = false;
-  BuildContext? _fieldContext;
-
+  final _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadPokemon();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<void> _loadPokemon() async {
@@ -44,24 +47,16 @@ class _PokemonSelectorState extends State<PokemonSelector> {
           (p) => p.name == widget.initialPokemonName,
           orElse: () => all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first),
         );
+        _controller.text = _selected?.nameKo ?? '';
       }
     });
   }
 
-  String _lastQuery = '';
-  Pokemon? _lastSelected;
-  List<Pokemon>? _lastResults;
-
   List<Pokemon> _sortedOptions(String query) {
-    if (query == _lastQuery && _lastSelected == _selected && _lastResults != null) return _lastResults!;
-    _lastQuery = query;
-    _lastSelected = _selected;
-
     if (query.isEmpty) {
-      _lastResults = _selected != null
+      return _selected != null
           ? [_selected!, ..._allPokemon.where((p) => p != _selected)]
           : List.of(_allPokemon);
-      return _lastResults!;
     }
 
     final qLower = query.toLowerCase();
@@ -76,99 +71,39 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       if (cmp != 0) return cmp;
       return a.$1.nameKo.compareTo(b.$1.nameKo);
     });
-    _lastResults = scored.map((e) => e.$1).toList();
-    if (_selected != null && _lastResults!.contains(_selected)) {
-      _lastResults!.remove(_selected);
-      _lastResults!.insert(0, _selected!);
+    final results = scored.map((e) => e.$1).toList();
+    if (_selected != null && results.contains(_selected)) {
+      results.remove(_selected);
+      results.insert(0, _selected!);
     }
-    return _lastResults!;
+    return results;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<Pokemon>(
-      initialValue: TextEditingValue(text: _selected?.nameKo ?? ''),
-      displayStringForOption: (p) => p.nameKo,
-      optionsBuilder: (textEditingValue) {
-        if (textEditingValue.text == _selected?.nameKo) {
-          return _sortedOptions('');
-        }
-        return _sortedOptions(textEditingValue.text);
+    return buildTypeAhead<Pokemon>(
+      controller: _controller,
+      suggestionsCallback: (query) {
+        if (query == _selected?.nameKo) return _sortedOptions('');
+        return _sortedOptions(query);
       },
-      optionsViewBuilder: (context, onSelected, options) {
-        final list = options.toList();
-        final align = _fieldContext != null
-            ? dropdownAlignment(_fieldContext!)
-            : Alignment.topLeft;
-        return dismissibleOptionsWrapper(
-          alignment: align,
-          child: Material(
-            elevation: 4,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 250),
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  final p = list[index];
-                  return ListTile(
-                    dense: true,
-                    visualDensity: VisualDensity.compact,
-                    title: Text(p.nameKo, style: const TextStyle(fontSize: 14)),
-                    onTap: () => onSelected(p),
-                  );
-                },
-              ),
-            ),
-          ),
+      decoration: InputDecoration(
+        hintText: _selected?.nameKo ?? '이름 검색',
+        isDense: true,
+      ),
+      itemBuilder: (context, pokemon) {
+        return ListTile(
+          dense: true,
+          visualDensity: VisualDensity.compact,
+          title: Text(pokemon.nameKo, style: const TextStyle(fontSize: 14)),
         );
       },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
+        _controller.text = pokemon.nameKo;
         widget.onSelected(pokemon);
-        FocusManager.instance.primaryFocus?.unfocus();
       },
-      fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
-        if (!_hasFocusListenerAttached) {
-          _hasFocusListenerAttached = true;
-          focusNode.addListener(() {
-            if (focusNode.hasFocus) {
-              controller.selection = TextSelection(
-                baseOffset: 0,
-                extentOffset: controller.text.length,
-              );
-            } else if (controller.text.isEmpty && _selected != null) {
-              controller.text = _selected!.nameKo;
-            }
-          });
-        }
-        _fieldContext = context;
-        return TextField(
-          controller: controller,
-          focusNode: focusNode,
-          textInputAction: TextInputAction.done,
-          onTap: () {
-            // Dismiss any other focused field before opening autocomplete
-            FocusScope.of(context).requestFocus(focusNode);
-          },
-          onChanged: kIsWeb ? (_) => setState(() {}) : null,
-          onSubmitted: (_) {
-            final results = _sortedOptions(controller.text);
-            if (results.isNotEmpty) {
-              final pick = results.first;
-              setState(() => _selected = pick);
-              widget.onSelected(pick);
-              controller.text = pick.nameKo;
-              focusNode.unfocus();
-            }
-          },
-          decoration: InputDecoration(
-            hintText: _selected?.nameKo ?? '이름 검색',
-            isDense: true,
-          ),
-        );
-      },
+      constraints: const BoxConstraints(maxHeight: 250),
     );
   }
 }

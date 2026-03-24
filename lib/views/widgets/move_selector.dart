@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../data/movedex.dart';
 import '../../models/move.dart';
 import '../../utils/korean_search.dart';
+import 'typeahead_helpers.dart';
 import '../../utils/localization.dart';
-import 'adaptive_dropdown.dart';
 
 class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;
@@ -23,9 +22,8 @@ class _MoveSelectorState extends State<MoveSelector> {
   List<Move> _allMoves = [];
   List<SearchEntry<Move>> _searchEntries = [];
   Move? _selected;
-  bool _hasFocusListenerAttached = false;
-  BuildContext? _fieldContext;
-
+  final _controller = TextEditingController();
+  bool _isFocused = false;
 
   @override
   void initState() {
@@ -33,38 +31,35 @@ class _MoveSelectorState extends State<MoveSelector> {
     _loadMoves();
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadMoves() async {
     final all = await loadAllMoves();
-    // Filter: only normal-class physical/special moves
     all.removeWhere((m) =>
         m.category == MoveCategory.status ||
         m.moveClass != MoveClass.normal);
-    // Keep original order (gen1 → gen9, registration order)
     setState(() {
       _allMoves = all;
       _searchEntries = all.map((m) => SearchEntry(m, m.nameKo, m.name)).toList();
       if (_selected == null && widget.initialMoveName != null) {
         final match = all.where((m) => m.name == widget.initialMoveName);
-        if (match.isNotEmpty) _selected = match.first;
+        if (match.isNotEmpty) {
+          _selected = match.first;
+          _controller.text = widget.displayNameOverride ?? _selected!.nameKo;
+        }
       }
     });
   }
 
-  String _moveDisplay(Move m) =>
-      '${m.nameKo} (${KoStrings.getTypeKo(m.type)} / ${KoStrings.getCategoryKo(m.category)} / 위력${m.power})';
-
-  String _lastQuery = '';
-  List<Move>? _lastResults;
-
   List<Move> _sortedOptions(String query) {
-    if (query == _lastQuery && _lastResults != null) return _lastResults!;
-    _lastQuery = query;
-
     if (query.isEmpty) {
-      _lastResults = _selected != null
+      return _selected != null
           ? [_selected!, ..._allMoves.where((m) => m != _selected)]
           : List.of(_allMoves);
-      return _lastResults!;
     }
 
     final qLower = query.toLowerCase();
@@ -75,97 +70,54 @@ class _MoveSelectorState extends State<MoveSelector> {
       if (score > 0) scored.add((entry.item, score));
     }
     scored.sort((a, b) => b.$2.compareTo(a.$2));
-    _lastResults = scored.map((e) => e.$1).toList();
-    if (_selected != null && _lastResults!.contains(_selected)) {
-      _lastResults!.remove(_selected);
-      _lastResults!.insert(0, _selected!);
+    final results = scored.map((e) => e.$1).toList();
+    if (_selected != null && results.contains(_selected)) {
+      results.remove(_selected);
+      results.insert(0, _selected!);
     }
-    return _lastResults!;
+    return results;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Autocomplete<Move>(
-      displayStringForOption: (m) => m.nameKo,
-      optionsBuilder: (textEditingValue) {
-        if (_selected != null && textEditingValue.text == _selected!.nameKo) {
-          return _sortedOptions('');
-        }
-        return _sortedOptions(textEditingValue.text);
+    return TypeAheadField<Move>(
+      controller: _controller,
+      suggestionsCallback: (query) {
+        if (_selected != null && query == _selected!.nameKo) return _sortedOptions('');
+        return _sortedOptions(query);
       },
-      optionsViewBuilder: (context, onSelected, options) {
-        final align = _fieldContext != null
-            ? dropdownAlignment(_fieldContext!)
-            : Alignment.topLeft;
-        return dismissibleOptionsWrapper(
-          alignment: align,
-          child: Material(
-            elevation: 4,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 200),
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: options.length,
-                itemBuilder: (context, index) {
-                  final m = options.elementAt(index);
-                  return InkWell(
-                    onTap: () => onSelected(m),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: Text(m.nameKo, style: const TextStyle(fontSize: 14),
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                          const SizedBox(width: 8),
-                          Text.rich(TextSpan(children: [
-                            TextSpan(text: KoStrings.getTypeKo(m.type),
-                                style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(m.type))),
-                            TextSpan(text: ' ${KoStrings.getCategoryKo(m.category)} ${m.power}',
-                                style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-                          ])),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        );
-      },
-      onSelected: (move) {
-        setState(() => _selected = move);
-        widget.onSelected(move);
-      },
-      fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
-        _fieldContext = context;
-        if (!_hasFocusListenerAttached) {
-          _hasFocusListenerAttached = true;
-          focusNode.addListener(() {
-            if (focusNode.hasFocus) {
-              controller.selection = TextSelection(
-                baseOffset: 0,
-                extentOffset: controller.text.length,
+      builder: (context, controller, focusNode) {
+        focusNode.addListener(() {
+          if (focusNode.hasFocus) {
+            _isFocused = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              controller.value = TextEditingValue(
+                text: controller.text,
+                selection: TextSelection(baseOffset: 0, extentOffset: controller.text.length),
+                composing: TextRange.empty,
               );
-            } else if (controller.text.isEmpty && _selected != null) {
-              final display = widget.displayNameOverride ?? _selected!.nameKo;
-              controller.text = display;
+            });
+          } else {
+            _isFocused = false;
+            if (controller.text.isEmpty && _selected != null) {
+              controller.text = widget.displayNameOverride ?? _selected!.nameKo;
             }
-          });
-        }
-        // Show override name when not focused
-        if (!focusNode.hasFocus && widget.displayNameOverride != null && _selected != null) {
+            if (!_isFocused && widget.displayNameOverride != null && _selected != null) {
+              controller.text = widget.displayNameOverride!;
+            }
+          }
+        });
+        if (!_isFocused && widget.displayNameOverride != null && _selected != null) {
           controller.text = widget.displayNameOverride!;
         }
         return TextField(
           controller: controller,
           focusNode: focusNode,
-          onTap: widget.onTap,
+          onTap: () {
+            selectAllOnTap(controller);
+            widget.onTap?.call();
+          },
           textInputAction: TextInputAction.done,
-          onChanged: kIsWeb ? (_) => setState(() {}) : null,
           onSubmitted: (_) {
             final results = _sortedOptions(controller.text);
             if (results.isNotEmpty) {
@@ -186,6 +138,39 @@ class _MoveSelectorState extends State<MoveSelector> {
           ),
         );
       },
+      itemBuilder: (context, move) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Row(
+            children: [
+              Flexible(
+                child: Text(move.nameKo, style: const TextStyle(fontSize: 14),
+                    overflow: TextOverflow.ellipsis),
+              ),
+              const SizedBox(width: 8),
+              Text.rich(TextSpan(children: [
+                TextSpan(text: KoStrings.getTypeKo(move.type),
+                    style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(move.type))),
+                TextSpan(text: ' ${KoStrings.getCategoryKo(move.category)} ${move.power}',
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              ])),
+            ],
+          ),
+        );
+      },
+      onSelected: (move) {
+        setState(() => _selected = move);
+        _controller.text = move.nameKo;
+        widget.onSelected(move);
+      },
+      constraints: const BoxConstraints(maxHeight: 200),
+      hideOnEmpty: false,
+      hideOnSelect: typeaheadHideOnSelect,
+      retainOnLoading: typeaheadRetainOnLoading,
+      animationDuration: typeaheadAnimationDuration,
+      debounceDuration: typeaheadDebounceDuration,
+      autoFlipDirection: typeaheadAutoFlipDirection,
+      hideOnUnfocus: typeaheadHideOnUnfocus,
     );
   }
 }
