@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Black border -->
+  <rect x="0" y="0" width="512" height="512" fill="#000000"/>
+
+  <!-- Red top half -->
+  <rect x="32" y="32" width="448" height="224" fill="#E53935"/>
+
+  <!-- White bottom half -->
+  <rect x="32" y="256" width="448" height="224" fill="#FFFFFF"/>
+
+  <!-- Plus (+) top-left quadrant center: (138, 144) -->
+  <rect x="78" y="126" width="120" height="36" rx="6" fill="#FFFFFF"/>
+  <rect x="120" y="84" width="36" height="120" rx="6" fill="#FFFFFF"/>
+
+  <!-- Minus (-) top-right quadrant center: (374, 144) -->
+  <rect x="314" y="126" width="120" height="36" rx="6" fill="#FFFFFF"/>
+
+  <!-- Multiply (x) bottom-left quadrant center: (138, 368) -->
+  <g transform="translate(138, 368) rotate(45)">
+    <rect x="-60" y="-18" width="120" height="36" rx="6" fill="#E53935"/>
+  </g>
+  <g transform="translate(138, 368) rotate(-45)">
+    <rect x="-60" y="-18" width="120" height="36" rx="6" fill="#E53935"/>
+  </g>
+
+  <!-- Divide (÷) bottom-right quadrant center: (374, 368) -->
+  <rect x="314" y="350" width="120" height="36" rx="6" fill="#E53935"/>
+  <circle cx="374" cy="318" r="22" fill="#E53935"/>
+  <circle cx="374" cy="418" r="22" fill="#E53935"/>
+</svg>
