@@ -1873,5 +1873,15 @@
     "name": "Triage",
     "nameKo": "힐링시프트",
     "nameJa": "ヒーリングシフト"
+  },
+  {
+    "name": "Mega Sol",
+    "nameKo": "메가솔라",
+    "nameJa": "メガソーラー"
+  },
+  {
+    "name": "Dragonize",
+    "nameKo": "드래곤스킨",
+    "nameJa": "ドラゴンスキン"
   }
 ]

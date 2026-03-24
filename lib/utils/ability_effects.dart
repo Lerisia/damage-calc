@@ -77,6 +77,9 @@ class AbilityEffect {
   final double? criticalOverride;
   /// Whether all moves get STAB (Protean, Libero).
   final bool forceStab;
+  /// Override the attacker's effective weather for offensive calculations.
+  /// Used by Mega Sol to apply Sun effects without changing actual weather.
+  final Weather? weatherOverride;
 
   const AbilityEffect({
     this.statModifiers = const AbilityStatModifiers(),
@@ -84,10 +87,21 @@ class AbilityEffect {
     this.stabOverride,
     this.criticalOverride,
     this.forceStab = false,
+    this.weatherOverride,
   });
 }
 
 const _defaultEffect = AbilityEffect();
+
+/// Returns the effective offensive weather considering weather-override abilities.
+/// Mega Sol applies Sun for the attacker without changing actual field weather.
+Weather effectiveOffensiveWeather(Weather weather, {String? ability}) {
+  if (ability == 'Mega Sol' &&
+      weather != Weather.sun && weather != Weather.harshSun) {
+    return Weather.sun;
+  }
+  return weather;
+}
 
 /// Returns the offensive effect of [abilityName] given the [move] being used.
 ///
@@ -167,6 +181,12 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Protean':
     case 'Libero':
       return const AbilityEffect(forceStab: true);
+
+    // --- Weather override (applies Sun without changing actual weather) ---
+    case 'Mega Sol':
+      return (weather != Weather.sun && weather != Weather.harshSun)
+          ? const AbilityEffect(weatherOverride: Weather.sun)
+          : _defaultEffect;
 
     // --- Type-based power modifiers ---
     case 'Steelworker':

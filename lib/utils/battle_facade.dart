@@ -154,10 +154,13 @@ class BattleFacade {
     final hits = move.isMultiHit
         ? (state.hitOverrides[moveIndex] ?? move.maxHits) : null;
 
+    // Weather-override abilities (Mega Sol: applies Sun for offense)
+    final atkWeather = effectiveOffensiveWeather(weather, ability: state.selectedAbility);
+
     // Transform for display (name, type, power)
     final ctx = _buildMoveContext(
       state: state,
-      weather: weather,
+      weather: atkWeather,
       terrain: terrain,
       actualStats: baseStats,
       myEffectiveSpeed: myEffectiveSpeed,
@@ -307,13 +310,16 @@ class BattleFacade {
     if (isWeatherNegating(effectiveAbilityForCalc)) weather = Weather.none;
     if (isTerrainNegating(effectiveAbilityForCalc)) terrain = Terrain.none;
 
+    // Weather-override abilities (Mega Sol: applies Sun for offense)
+    final atkWeather = effectiveOffensiveWeather(weather, ability: effectiveAbilityForCalc);
+
     // Compute base stats once — reused by MoveContext and ability effects.
     final baseStats = _baseActualStats(state);
 
     // 1. Transform the move (type/power changes based on context)
     final ctx = _buildMoveContext(
       state: state,
-      weather: weather,
+      weather: atkWeather,
       terrain: terrain,
       actualStats: baseStats,
       myEffectiveSpeed: myEffectiveSpeed,

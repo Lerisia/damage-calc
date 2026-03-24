@@ -271,6 +271,12 @@ class DamageCalculator {
       weatherNotes.add('terrain_negate:$negator');
     }
 
+    // Weather-override abilities (Mega Sol: applies Sun for offense)
+    final atkWeather = effectiveOffensiveWeather(weather, ability: atkAbilityRaw);
+    if (atkWeather != weather) {
+      weatherNotes.add('ability:$atkAbilityRaw:쾌청 적용');
+    }
+
     // Note: power == 0 check moved AFTER transform, since weight-based
     // and speed-based moves start at 0 and get power from transform.
 
@@ -291,7 +297,7 @@ class DamageCalculator {
       gravity: room.gravity,
     );
     final moveCtx = MoveContext(
-      weather: weather,
+      weather: atkWeather,
       terrain: terrain,
       rank: attacker.rank,
       hpPercent: attacker.hpPercent,
@@ -745,7 +751,7 @@ class DamageCalculator {
     }
 
     // --- Weather/Terrain offensive ---
-    final double weatherMod = getWeatherOffensiveModifier(weather, move: effectiveMove);
+    final double weatherMod = getWeatherOffensiveModifier(atkWeather, move: effectiveMove);
     if (weatherMod == 0.0) {
       final reason = weather == Weather.harshSun
           ? 'weather:harsh_sun_water' : 'weather:heavy_rain_fire';
