@@ -34,7 +34,9 @@
     "power": 100,
     "accuracy": 80,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "wind"
+    ],
     "nameEn": "Bleakwind Storm"
   },
   {
@@ -47,6 +49,7 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Ceaseless Edge"
@@ -74,7 +77,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Dire Claw"
   },
   {
@@ -114,6 +119,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Headlong Rush"
@@ -187,7 +193,9 @@
     "power": 70,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Psyshield Bash"
   },
   {
@@ -211,7 +219,9 @@
     "power": 100,
     "accuracy": 80,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "wind"
+    ],
     "nameEn": "Sandsear Storm"
   },
   {
@@ -235,7 +245,9 @@
     "power": 100,
     "accuracy": 80,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "wind"
+    ],
     "nameEn": "Springtide Storm"
   },
   {
@@ -248,6 +260,7 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Stone Axe"
@@ -298,6 +311,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "recoil"
     ],
     "nameEn": "Wave Crash"
@@ -311,7 +325,9 @@
     "power": 100,
     "accuracy": 80,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "wind"
+    ],
     "nameEn": "Wildbolt Storm"
   },
   {
@@ -323,7 +339,9 @@
     "power": 40,
     "accuracy": 100,
     "pp": 40,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Branch Poke"
   },
   {
@@ -367,7 +385,9 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 1,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Grassy Glide"
   },
   {
@@ -679,7 +699,9 @@
     "power": 40,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Dual Wingbeat"
@@ -761,7 +783,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "powder"
+    ],
     "nameEn": "Magic Powder"
   },
   {
@@ -812,6 +836,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "bite"
     ],
     "nameEn": "Jaw Lock"
@@ -840,6 +865,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:use_defense"
     ],
     "nameEn": "Body Press"
@@ -889,7 +915,9 @@
     "power": 75,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Lash Out"
   },
   {
@@ -940,7 +968,9 @@
     "power": 80,
     "accuracy": 0,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "False Surrender"
   },
   {
@@ -993,7 +1023,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "sound"
+    ],
     "nameEn": "Clangorous Soul"
   },
   {
@@ -1006,6 +1038,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Spirit Break"
@@ -1020,6 +1053,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:always_crit",
       "punch"
     ],
@@ -1077,6 +1111,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "bite"
     ],
     "nameEn": "Fishious Rend"
@@ -1102,7 +1137,9 @@
     "power": 130,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Steel Roller"
   },
   {
@@ -1115,6 +1152,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:always_crit",
       "punch"
     ],
@@ -1144,6 +1182,7 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Skitter Smack"
@@ -1200,6 +1239,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Breaking Swipe"
@@ -1241,7 +1281,9 @@
     "power": 85,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Bolt Beak"
   },
   {
@@ -1280,6 +1322,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Snap Trap"
@@ -1294,6 +1337,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Thunderous Kick"
@@ -1343,7 +1387,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Flip Turn"
   },
   {
