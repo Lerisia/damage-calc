@@ -10,7 +10,8 @@
     "pp": 10,
     "tags": [
       "custom:double_on_poison"
-    ]
+    ],
+    "nameEn": "Barb Barrage"
   },
   {
     "name": "Bitter Malice",
@@ -21,7 +22,8 @@
     "power": 75,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Bitter Malice"
   },
   {
     "name": "Bleakwind Storm",
@@ -32,7 +34,8 @@
     "power": 100,
     "accuracy": 80,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Bleakwind Storm"
   },
   {
     "name": "Ceaseless Edge",
@@ -45,7 +48,8 @@
     "pp": 15,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Ceaseless Edge"
   },
   {
     "name": "Chloroblast",
@@ -58,7 +62,8 @@
     "pp": 5,
     "tags": [
       "recoil"
-    ]
+    ],
+    "nameEn": "Chloroblast"
   },
   {
     "name": "Dire Claw",
@@ -69,7 +74,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Dire Claw"
   },
   {
     "name": "Esper Wing",
@@ -80,7 +86,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Esper Wing"
   },
   {
     "name": "Grav Apple",
@@ -94,7 +101,8 @@
     "tags": [
       "custom:has_secondary",
       "custom:gravity_boost"
-    ]
+    ],
+    "nameEn": "Grav Apple"
   },
   {
     "name": "Headlong Rush",
@@ -107,7 +115,8 @@
     "pp": 5,
     "tags": [
       "punch"
-    ]
+    ],
+    "nameEn": "Headlong Rush"
   },
   {
     "name": "Infernal Parade",
@@ -118,7 +127,8 @@
     "power": 60,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Infernal Parade"
   },
   {
     "name": "Lunar Blessing",
@@ -129,7 +139,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Lunar Blessing"
   },
   {
     "name": "Mountain Gale",
@@ -140,7 +151,8 @@
     "power": 100,
     "accuracy": 85,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Mountain Gale"
   },
   {
     "name": "Mystical Power",
@@ -151,7 +163,8 @@
     "power": 70,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Mystical Power"
   },
   {
     "name": "Power Shift",
@@ -162,7 +175,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Power Shift"
   },
   {
     "name": "Psyshield Bash",
@@ -173,7 +187,8 @@
     "power": 70,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Psyshield Bash"
   },
   {
     "name": "Raging Fury",
@@ -184,7 +199,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Raging Fury"
   },
   {
     "name": "Sandsear Storm",
@@ -195,7 +211,8 @@
     "power": 100,
     "accuracy": 80,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Sandsear Storm"
   },
   {
     "name": "Shelter",
@@ -206,7 +223,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Shelter"
   },
   {
     "name": "Springtide Storm",
@@ -217,7 +235,8 @@
     "power": 100,
     "accuracy": 80,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Springtide Storm"
   },
   {
     "name": "Stone Axe",
@@ -230,7 +249,8 @@
     "pp": 15,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Stone Axe"
   },
   {
     "name": "Take Heart",
@@ -241,7 +261,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Take Heart"
   },
   {
     "name": "Triple Arrows",
@@ -252,7 +273,8 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Triple Arrows"
   },
   {
     "name": "Victory Dance",
@@ -263,7 +285,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Victory Dance"
   },
   {
     "name": "Wave Crash",
@@ -276,7 +299,8 @@
     "pp": 10,
     "tags": [
       "recoil"
-    ]
+    ],
+    "nameEn": "Wave Crash"
   },
   {
     "name": "Wildbolt Storm",
@@ -287,7 +311,8 @@
     "power": 100,
     "accuracy": 80,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Wildbolt Storm"
   },
   {
     "name": "Branch Poke",
@@ -298,7 +323,8 @@
     "power": 40,
     "accuracy": 100,
     "pp": 40,
-    "tags": []
+    "tags": [],
+    "nameEn": "Branch Poke"
   },
   {
     "name": "Behemoth Blade",
@@ -313,7 +339,8 @@
       "contact",
       "custom:double_dynamax",
       "slice"
-    ]
+    ],
+    "nameEn": "Behemoth Blade"
   },
   {
     "name": "Behemoth Bash",
@@ -327,7 +354,8 @@
     "tags": [
       "contact",
       "custom:double_dynamax"
-    ]
+    ],
+    "nameEn": "Behemoth Bash"
   },
   {
     "name": "Grassy Glide",
@@ -339,7 +367,8 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 1,
-    "tags": []
+    "tags": [],
+    "nameEn": "Grassy Glide"
   },
   {
     "name": "Snipe Shot",
@@ -350,7 +379,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Snipe Shot"
   },
   {
     "name": "Teatime",
@@ -361,7 +391,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Teatime"
   },
   {
     "name": "Max Overgrowth",
@@ -373,7 +404,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Overgrowth"
   },
   {
     "name": "Max Knuckle",
@@ -385,7 +417,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Knuckle"
   },
   {
     "name": "Max Wyrmwind",
@@ -397,7 +430,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Wyrmwind"
   },
   {
     "name": "Max Rockfall",
@@ -409,7 +443,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Rockfall"
   },
   {
     "name": "Dynamax Cannon",
@@ -422,7 +457,8 @@
     "pp": 5,
     "tags": [
       "custom:double_dynamax"
-    ]
+    ],
+    "nameEn": "Dynamax Cannon"
   },
   {
     "name": "Max Flare",
@@ -434,7 +470,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Flare"
   },
   {
     "name": "Max Mindstorm",
@@ -446,7 +483,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Mindstorm"
   },
   {
     "name": "Max Geyser",
@@ -458,7 +496,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Geyser"
   },
   {
     "name": "Max Steelspike",
@@ -470,7 +509,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Steelspike"
   },
   {
     "name": "Max Lightning",
@@ -482,7 +522,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Lightning"
   },
   {
     "name": "Max Hailstorm",
@@ -494,7 +535,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Hailstorm"
   },
   {
     "name": "Max Darkness",
@@ -506,7 +548,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Darkness"
   },
   {
     "name": "Max Ooze",
@@ -518,7 +561,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Ooze"
   },
   {
     "name": "Max Quake",
@@ -530,7 +574,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Quake"
   },
   {
     "name": "Max Strike",
@@ -542,7 +587,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Strike"
   },
   {
     "name": "Max Guard",
@@ -555,7 +601,8 @@
     "pp": 10,
     "moveClass": "maxMove",
     "priority": 4,
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Guard"
   },
   {
     "name": "Max Flutterby",
@@ -567,7 +614,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Flutterby"
   },
   {
     "name": "Max Airstream",
@@ -579,7 +627,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Airstream"
   },
   {
     "name": "Max Starfall",
@@ -591,7 +640,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Starfall"
   },
   {
     "name": "Max Phantasm",
@@ -603,7 +653,8 @@
     "accuracy": 0,
     "pp": 10,
     "moveClass": "maxMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Max Phantasm"
   },
   {
     "name": "Terrain Pulse",
@@ -616,7 +667,8 @@
     "pp": 10,
     "tags": [
       "pulse"
-    ]
+    ],
+    "nameEn": "Terrain Pulse"
   },
   {
     "name": "Dual Wingbeat",
@@ -629,7 +681,8 @@
     "pp": 10,
     "tags": [],
     "minHits": 2,
-    "maxHits": 2
+    "maxHits": 2,
+    "nameEn": "Dual Wingbeat"
   },
   {
     "name": "Decorate",
@@ -640,7 +693,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Decorate"
   },
   {
     "name": "Dragon Darts",
@@ -653,7 +707,8 @@
     "pp": 10,
     "tags": [],
     "minHits": 2,
-    "maxHits": 2
+    "maxHits": 2,
+    "nameEn": "Dragon Darts"
   },
   {
     "name": "Dragon Energy",
@@ -666,7 +721,8 @@
     "pp": 5,
     "tags": [
       "custom:hp_power_high"
-    ]
+    ],
+    "nameEn": "Dragon Energy"
   },
   {
     "name": "Drum Beating",
@@ -679,7 +735,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Drum Beating"
   },
   {
     "name": "Rising Voltage",
@@ -692,7 +749,8 @@
     "pp": 20,
     "tags": [
       "custom:terrain_double_electric"
-    ]
+    ],
+    "nameEn": "Rising Voltage"
   },
   {
     "name": "Magic Powder",
@@ -703,7 +761,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Magic Powder"
   },
   {
     "name": "Meteor Beam",
@@ -716,7 +775,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Meteor Beam"
   },
   {
     "name": "Eternabeam",
@@ -727,7 +787,8 @@
     "power": 160,
     "accuracy": 90,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Eternabeam"
   },
   {
     "name": "Octolock",
@@ -738,7 +799,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Octolock"
   },
   {
     "name": "Jaw Lock",
@@ -751,7 +813,8 @@
     "pp": 10,
     "tags": [
       "bite"
-    ]
+    ],
+    "nameEn": "Jaw Lock"
   },
   {
     "name": "Misty Explosion",
@@ -764,7 +827,8 @@
     "pp": 5,
     "tags": [
       "custom:terrain_boost_misty"
-    ]
+    ],
+    "nameEn": "Misty Explosion"
   },
   {
     "name": "Body Press",
@@ -777,7 +841,8 @@
     "pp": 10,
     "tags": [
       "custom:use_defense"
-    ]
+    ],
+    "nameEn": "Body Press"
   },
   {
     "name": "No Retreat",
@@ -788,7 +853,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "No Retreat"
   },
   {
     "name": "Stuff Cheeks",
@@ -799,7 +865,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Stuff Cheeks"
   },
   {
     "name": "Corrosive Gas",
@@ -810,7 +877,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 40,
-    "tags": []
+    "tags": [],
+    "nameEn": "Corrosive Gas"
   },
   {
     "name": "Lash Out",
@@ -821,7 +889,8 @@
     "power": 75,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Lash Out"
   },
   {
     "name": "Obstruct",
@@ -833,7 +902,8 @@
     "accuracy": 100,
     "pp": 10,
     "priority": 4,
-    "tags": []
+    "tags": [],
+    "nameEn": "Obstruct"
   },
   {
     "name": "Glacial Lance",
@@ -844,7 +914,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Glacial Lance"
   },
   {
     "name": "Apple Acid",
@@ -857,7 +928,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Apple Acid"
   },
   {
     "name": "False Surrender",
@@ -868,7 +940,8 @@
     "power": 80,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "False Surrender"
   },
   {
     "name": "Life Dew",
@@ -879,7 +952,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Life Dew"
   },
   {
     "name": "Eerie Spell",
@@ -892,7 +966,8 @@
     "pp": 5,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Eerie Spell"
   },
   {
     "name": "Shell Side Arm",
@@ -906,7 +981,8 @@
     "tags": [
       "custom:use_higher_atk",
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Shell Side Arm"
   },
   {
     "name": "Clangorous Soul",
@@ -917,7 +993,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Clangorous Soul"
   },
   {
     "name": "Spirit Break",
@@ -930,7 +1007,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Spirit Break"
   },
   {
     "name": "Surging Strikes",
@@ -946,7 +1024,8 @@
       "punch"
     ],
     "minHits": 1,
-    "maxHits": 3
+    "maxHits": 3,
+    "nameEn": "Surging Strikes"
   },
   {
     "name": "Scale Shot",
@@ -959,7 +1038,8 @@
     "pp": 20,
     "tags": [],
     "minHits": 2,
-    "maxHits": 5
+    "maxHits": 5,
+    "nameEn": "Scale Shot"
   },
   {
     "name": "Meteor Assault",
@@ -970,7 +1050,8 @@
     "power": 150,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Meteor Assault"
   },
   {
     "name": "Thunder Cage",
@@ -983,7 +1064,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Thunder Cage"
   },
   {
     "name": "Fishious Rend",
@@ -996,7 +1078,8 @@
     "pp": 10,
     "tags": [
       "bite"
-    ]
+    ],
+    "nameEn": "Fishious Rend"
   },
   {
     "name": "Astral Barrage",
@@ -1007,7 +1090,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Astral Barrage"
   },
   {
     "name": "Steel Roller",
@@ -1018,7 +1102,8 @@
     "power": 130,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Steel Roller"
   },
   {
     "name": "Wicked Blow",
@@ -1032,7 +1117,8 @@
     "tags": [
       "custom:always_crit",
       "punch"
-    ]
+    ],
+    "nameEn": "Wicked Blow"
   },
   {
     "name": "Freezing Glare",
@@ -1045,7 +1131,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Freezing Glare"
   },
   {
     "name": "Skitter Smack",
@@ -1058,7 +1145,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Skitter Smack"
   },
   {
     "name": "Scorching Sands",
@@ -1071,7 +1159,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Scorching Sands"
   },
   {
     "name": "Aura Wheel",
@@ -1084,7 +1173,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Aura Wheel"
   },
   {
     "name": "Overdrive",
@@ -1097,7 +1187,8 @@
     "pp": 10,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Overdrive"
   },
   {
     "name": "Breaking Swipe",
@@ -1110,7 +1201,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Breaking Swipe"
   },
   {
     "name": "Expanding Force",
@@ -1123,7 +1215,8 @@
     "pp": 10,
     "tags": [
       "custom:terrain_boost_psychic"
-    ]
+    ],
+    "nameEn": "Expanding Force"
   },
   {
     "name": "Strange Steam",
@@ -1136,7 +1229,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Strange Steam"
   },
   {
     "name": "Bolt Beak",
@@ -1147,7 +1241,8 @@
     "power": 85,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Bolt Beak"
   },
   {
     "name": "Jungle Healing",
@@ -1158,7 +1253,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Jungle Healing"
   },
   {
     "name": "Burning Jealousy",
@@ -1171,7 +1267,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Burning Jealousy"
   },
   {
     "name": "Snap Trap",
@@ -1184,7 +1281,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Snap Trap"
   },
   {
     "name": "Thunderous Kick",
@@ -1197,7 +1295,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Thunderous Kick"
   },
   {
     "name": "Steel Beam",
@@ -1208,7 +1307,8 @@
     "power": 140,
     "accuracy": 95,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Steel Beam"
   },
   {
     "name": "Coaching",
@@ -1219,7 +1319,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Coaching"
   },
   {
     "name": "Court Change",
@@ -1230,7 +1331,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Court Change"
   },
   {
     "name": "Flip Turn",
@@ -1241,7 +1343,8 @@
     "power": 60,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Flip Turn"
   },
   {
     "name": "Tar Shot",
@@ -1252,7 +1355,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Tar Shot"
   },
   {
     "name": "Fiery Wrath",
@@ -1265,7 +1369,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Fiery Wrath"
   },
   {
     "name": "Triple Axel",
@@ -1276,9 +1381,13 @@
     "power": 20,
     "accuracy": 90,
     "pp": 10,
-    "tags": ["contact", "custom:escalating_hits"],
+    "tags": [
+      "contact",
+      "custom:escalating_hits"
+    ],
     "minHits": 1,
-    "maxHits": 3
+    "maxHits": 3,
+    "nameEn": "Triple Axel"
   },
   {
     "name": "Poltergeist",
@@ -1291,7 +1400,8 @@
     "pp": 5,
     "tags": [
       "custom:requires_def_item"
-    ]
+    ],
+    "nameEn": "Poltergeist"
   },
   {
     "name": "Pyro Ball",
@@ -1305,6 +1415,7 @@
     "tags": [
       "ball",
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Pyro Ball"
   }
 ]

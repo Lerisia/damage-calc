@@ -2,1886 +2,2263 @@
   {
     "name": "RKS System",
     "nameKo": "AR시스템",
-    "nameJa": "ＡＲシステム"
+    "nameJa": "ＡＲシステム",
+    "nameEn": "RKS System"
   },
   {
     "name": "Aqua Boost",
     "nameKo": "Aqua Boost",
-    "nameJa": "Aqua Boost"
+    "nameJa": "Aqua Boost",
+    "nameEn": "Aqua Boost"
   },
   {
     "name": "Black Hole",
     "nameKo": "Black Hole",
-    "nameJa": "Black Hole"
+    "nameJa": "Black Hole",
+    "nameEn": "Black Hole"
   },
   {
     "name": "Bodyguard",
     "nameKo": "Bodyguard",
-    "nameJa": "Bodyguard"
+    "nameJa": "Bodyguard",
+    "nameEn": "Bodyguard"
   },
   {
     "name": "Bonanza",
     "nameKo": "Bonanza",
-    "nameJa": "Bonanza"
+    "nameJa": "Bonanza",
+    "nameEn": "Bonanza"
   },
   {
     "name": "Calming",
     "nameKo": "Calming",
-    "nameJa": "Calming"
+    "nameJa": "Calming",
+    "nameEn": "Calming"
   },
   {
     "name": "Celebrate",
     "nameKo": "Celebrate",
-    "nameJa": "Celebrate"
+    "nameJa": "Celebrate",
+    "nameEn": "Celebrate"
   },
   {
     "name": "Climber",
     "nameKo": "Climber",
-    "nameJa": "Climber"
+    "nameJa": "Climber",
+    "nameEn": "Climber"
   },
   {
     "name": "Confidence",
     "nameKo": "Confidence",
-    "nameJa": "Confidence"
+    "nameJa": "Confidence",
+    "nameEn": "Confidence"
   },
   {
     "name": "Conqueror",
     "nameKo": "Conqueror",
-    "nameJa": "Conqueror"
+    "nameJa": "Conqueror",
+    "nameEn": "Conqueror"
   },
   {
     "name": "Daze",
     "nameKo": "Daze",
-    "nameJa": "Daze"
+    "nameJa": "Daze",
+    "nameEn": "Daze"
   },
   {
     "name": "Decoy",
     "nameKo": "Decoy",
-    "nameJa": "Decoy"
+    "nameJa": "Decoy",
+    "nameEn": "Decoy"
   },
   {
     "name": "Deep Sleep",
     "nameKo": "Deep Sleep",
-    "nameJa": "Deep Sleep"
+    "nameJa": "Deep Sleep",
+    "nameEn": "Deep Sleep"
   },
   {
     "name": "Disgust",
     "nameKo": "Disgust",
-    "nameJa": "Disgust"
+    "nameJa": "Disgust",
+    "nameEn": "Disgust"
   },
   {
     "name": "Dodge",
     "nameKo": "Dodge",
-    "nameJa": "Dodge"
+    "nameJa": "Dodge",
+    "nameEn": "Dodge"
   },
   {
     "name": "Explode",
     "nameKo": "Explode",
-    "nameJa": "Explode"
+    "nameJa": "Explode",
+    "nameEn": "Explode"
   },
   {
     "name": "Flame Boost",
     "nameKo": "Flame Boost",
-    "nameJa": "Flame Boost"
+    "nameJa": "Flame Boost",
+    "nameEn": "Flame Boost"
   },
   {
     "name": "Fortune",
     "nameKo": "Fortune",
-    "nameJa": "Fortune"
+    "nameJa": "Fortune",
+    "nameEn": "Fortune"
   },
   {
     "name": "Frighten",
     "nameKo": "Frighten",
-    "nameJa": "Frighten"
+    "nameJa": "Frighten",
+    "nameEn": "Frighten"
   },
   {
     "name": "Frostbite",
     "nameKo": "Frostbite",
-    "nameJa": "Frostbite"
+    "nameJa": "Frostbite",
+    "nameEn": "Frostbite"
   },
   {
     "name": "Grass Cloak",
     "nameKo": "Grass Cloak",
-    "nameJa": "Grass Cloak"
+    "nameJa": "Grass Cloak",
+    "nameEn": "Grass Cloak"
   },
   {
     "name": "Gulp",
     "nameKo": "Gulp",
-    "nameJa": "Gulp"
+    "nameJa": "Gulp",
+    "nameEn": "Gulp"
   },
   {
     "name": "Herbivore",
     "nameKo": "Herbivore",
-    "nameJa": "Herbivore"
+    "nameJa": "Herbivore",
+    "nameEn": "Herbivore"
   },
   {
     "name": "Hero",
     "nameKo": "Hero",
-    "nameJa": "Hero"
+    "nameJa": "Hero",
+    "nameEn": "Hero"
   },
   {
     "name": "High-rise",
     "nameKo": "High-rise",
-    "nameJa": "High-rise"
+    "nameJa": "High-rise",
+    "nameEn": "High-rise"
   },
   {
     "name": "Hot Blooded",
     "nameKo": "Hot Blooded",
-    "nameJa": "Hot Blooded"
+    "nameJa": "Hot Blooded",
+    "nameEn": "Hot Blooded"
   },
   {
     "name": "Instinct",
     "nameKo": "Instinct",
-    "nameJa": "Instinct"
+    "nameJa": "Instinct",
+    "nameEn": "Instinct"
   },
   {
     "name": "Interference",
     "nameKo": "Interference",
-    "nameJa": "Interference"
+    "nameJa": "Interference",
+    "nameEn": "Interference"
   },
   {
     "name": "Jagged Edge",
     "nameKo": "Jagged Edge",
-    "nameJa": "Jagged Edge"
+    "nameJa": "Jagged Edge",
+    "nameEn": "Jagged Edge"
   },
   {
     "name": "Last Bastion",
     "nameKo": "Last Bastion",
-    "nameJa": "Last Bastion"
+    "nameJa": "Last Bastion",
+    "nameEn": "Last Bastion"
   },
   {
     "name": "Life Force",
     "nameKo": "Life Force",
-    "nameJa": "Life Force"
+    "nameJa": "Life Force",
+    "nameEn": "Life Force"
   },
   {
     "name": "Lullaby",
     "nameKo": "Lullaby",
-    "nameJa": "Lullaby"
+    "nameJa": "Lullaby",
+    "nameEn": "Lullaby"
   },
   {
     "name": "Lunchbox",
     "nameKo": "Lunchbox",
-    "nameJa": "Lunchbox"
+    "nameJa": "Lunchbox",
+    "nameEn": "Lunchbox"
   },
   {
     "name": "Medic",
     "nameKo": "Medic",
-    "nameJa": "Medic"
+    "nameJa": "Medic",
+    "nameEn": "Medic"
   },
   {
     "name": "Melee",
     "nameKo": "Melee",
-    "nameJa": "Melee"
+    "nameJa": "Melee",
+    "nameEn": "Melee"
   },
   {
     "name": "Mood Maker",
     "nameKo": "Mood Maker",
-    "nameJa": "Mood Maker"
+    "nameJa": "Mood Maker",
+    "nameEn": "Mood Maker"
   },
   {
     "name": "Mountaineer",
     "nameKo": "Mountaineer",
-    "nameJa": "Mountaineer"
+    "nameJa": "Mountaineer",
+    "nameEn": "Mountaineer"
   },
   {
     "name": "Nomad",
     "nameKo": "Nomad",
-    "nameJa": "Nomad"
+    "nameJa": "Nomad",
+    "nameEn": "Nomad"
   },
   {
     "name": "Nurse",
     "nameKo": "Nurse",
-    "nameJa": "Nurse"
+    "nameJa": "Nurse",
+    "nameEn": "Nurse"
   },
   {
     "name": "Omnipotent",
     "nameKo": "Omnipotent",
-    "nameJa": "Omnipotent"
+    "nameJa": "Omnipotent",
+    "nameEn": "Omnipotent"
   },
   {
     "name": "Parry",
     "nameKo": "Parry",
-    "nameJa": "Parry"
+    "nameJa": "Parry",
+    "nameEn": "Parry"
   },
   {
     "name": "Perception",
     "nameKo": "Perception",
-    "nameJa": "Perception"
+    "nameJa": "Perception",
+    "nameEn": "Perception"
   },
   {
     "name": "Power Nap",
     "nameKo": "Power Nap",
-    "nameJa": "Power Nap"
+    "nameJa": "Power Nap",
+    "nameEn": "Power Nap"
   },
   {
     "name": "Pride",
     "nameKo": "Pride",
-    "nameJa": "Pride"
+    "nameJa": "Pride",
+    "nameEn": "Pride"
   },
   {
     "name": "Run Up",
     "nameKo": "Run Up",
-    "nameJa": "Run Up"
+    "nameJa": "Run Up",
+    "nameEn": "Run Up"
   },
   {
     "name": "Sandpit",
     "nameKo": "Sandpit",
-    "nameJa": "Sandpit"
+    "nameJa": "Sandpit",
+    "nameEn": "Sandpit"
   },
   {
     "name": "Sequence",
     "nameKo": "Sequence",
-    "nameJa": "Sequence"
+    "nameJa": "Sequence",
+    "nameEn": "Sequence"
   },
   {
     "name": "Shackle",
     "nameKo": "Shackle",
-    "nameJa": "Shackle"
+    "nameJa": "Shackle",
+    "nameEn": "Shackle"
   },
   {
     "name": "Shadow Dash",
     "nameKo": "Shadow Dash",
-    "nameJa": "Shadow Dash"
+    "nameJa": "Shadow Dash",
+    "nameEn": "Shadow Dash"
   },
   {
     "name": "Share",
     "nameKo": "Share",
-    "nameJa": "Share"
+    "nameJa": "Share",
+    "nameEn": "Share"
   },
   {
     "name": "Shield",
     "nameKo": "Shield",
-    "nameJa": "Shield"
+    "nameJa": "Shield",
+    "nameEn": "Shield"
   },
   {
     "name": "Skater",
     "nameKo": "Skater",
-    "nameJa": "Skater"
+    "nameJa": "Skater",
+    "nameEn": "Skater"
   },
   {
     "name": "Spirit",
     "nameKo": "Spirit",
-    "nameJa": "Spirit"
+    "nameJa": "Spirit",
+    "nameEn": "Spirit"
   },
   {
     "name": "Sponge",
     "nameKo": "Sponge",
-    "nameJa": "Sponge"
+    "nameJa": "Sponge",
+    "nameEn": "Sponge"
   },
   {
     "name": "Sprint",
     "nameKo": "Sprint",
-    "nameJa": "Sprint"
+    "nameJa": "Sprint",
+    "nameEn": "Sprint"
   },
   {
     "name": "Stealth",
     "nameKo": "Stealth",
-    "nameJa": "Stealth"
+    "nameJa": "Stealth",
+    "nameEn": "Stealth"
   },
   {
     "name": "Tenacity",
     "nameKo": "Tenacity",
-    "nameJa": "Tenacity"
+    "nameJa": "Tenacity",
+    "nameEn": "Tenacity"
   },
   {
     "name": "Thrust",
     "nameKo": "Thrust",
-    "nameJa": "Thrust"
+    "nameJa": "Thrust",
+    "nameEn": "Thrust"
   },
   {
     "name": "Vanguard",
     "nameKo": "Vanguard",
-    "nameJa": "Vanguard"
+    "nameJa": "Vanguard",
+    "nameEn": "Vanguard"
   },
   {
     "name": "Warm Blanket",
     "nameKo": "Warm Blanket",
-    "nameJa": "Warm Blanket"
+    "nameJa": "Warm Blanket",
+    "nameEn": "Warm Blanket"
   },
   {
     "name": "Wave Rider",
     "nameKo": "Wave Rider",
-    "nameJa": "Wave Rider"
+    "nameJa": "Wave Rider",
+    "nameEn": "Wave Rider"
   },
   {
     "name": "Drought",
     "nameKo": "가뭄",
-    "nameJa": "ひでり"
+    "nameJa": "ひでり",
+    "nameEn": "Drought"
   },
   {
     "name": "Speed Boost",
     "nameKo": "가속",
-    "nameJa": "かそく"
+    "nameJa": "かそく",
+    "nameEn": "Speed Boost"
   },
   {
     "name": "Lingering Aroma",
     "nameKo": "가시지않는향기",
-    "nameJa": "とれないにおい"
+    "nameJa": "とれないにおい",
+    "nameEn": "Lingering Aroma"
   },
   {
     "name": "Tangled Feet",
     "nameKo": "갈지자걸음",
-    "nameJa": "ちどりあし"
+    "nameJa": "ちどりあし",
+    "nameEn": "Tangled Feet"
   },
   {
     "name": "Supersweet Syrup",
     "nameKo": "감미로운꿀",
-    "nameJa": "Supersweet Syrup"
+    "nameJa": "Supersweet Syrup",
+    "nameEn": "Supersweet Syrup"
   },
   {
     "name": "Steelworker",
     "nameKo": "강철술사",
-    "nameJa": "はがねつかい"
+    "nameJa": "はがねつかい",
+    "nameEn": "Steelworker"
   },
   {
     "name": "Steely Spirit",
     "nameKo": "강철정신",
-    "nameJa": "はがねのせいしん"
+    "nameJa": "はがねのせいしん",
+    "nameEn": "Steely Spirit"
   },
   {
     "name": "Arena Trap",
     "nameKo": "개미지옥",
-    "nameJa": "ありじごく"
+    "nameJa": "ありじごく",
+    "nameEn": "Arena Trap"
   },
   {
     "name": "Dry Skin",
     "nameKo": "건조피부",
-    "nameJa": "かんそうはだ"
+    "nameJa": "かんそうはだ",
+    "nameEn": "Dry Skin"
   },
   {
     "name": "Truant",
     "nameKo": "게으름",
-    "nameJa": "なまけ"
+    "nameJa": "なまけ",
+    "nameEn": "Truant"
   },
   {
     "name": "Protosynthesis",
     "nameKo": "고대활성",
-    "nameJa": "こだいかっせい"
+    "nameJa": "こだいかっせい",
+    "nameEn": "Protosynthesis"
   },
   {
     "name": "Unburden",
     "nameKo": "곡예",
-    "nameJa": "かるわざ"
+    "nameJa": "かるわざ",
+    "nameEn": "Unburden"
   },
   {
     "name": "Symbiosis",
     "nameKo": "공생",
-    "nameJa": "きょうせい"
+    "nameJa": "きょうせい",
+    "nameEn": "Symbiosis"
   },
   {
     "name": "Power of Alchemy",
     "nameKo": "과학의힘",
-    "nameJa": "かがくのちから"
+    "nameJa": "かがくのちから",
+    "nameEn": "Power of Alchemy"
   },
   {
     "name": "Hyper Cutter",
     "nameKo": "괴력집게",
-    "nameJa": "かいりきバサミ"
+    "nameJa": "かいりきバサミ",
+    "nameEn": "Hyper Cutter"
   },
   {
     "name": "Imposter",
     "nameKo": "괴짜",
-    "nameJa": "かわりもの"
+    "nameJa": "かわりもの",
+    "nameEn": "Imposter"
   },
   {
     "name": "Stalwart",
     "nameKo": "굳건한신념",
-    "nameJa": "すじがねいり"
+    "nameJa": "すじがねいり",
+    "nameEn": "Stalwart"
   },
   {
     "name": "Mycelium Might",
     "nameKo": "균사의힘",
-    "nameJa": "きんしのちから"
+    "nameJa": "きんしのちから",
+    "nameEn": "Mycelium Might"
   },
   {
     "name": "Gulp Missile",
     "nameKo": "그대로꿀꺽미사일",
-    "nameJa": "うのミサイル"
+    "nameJa": "うのミサイル",
+    "nameEn": "Gulp Missile"
   },
   {
     "name": "Grassy Surge",
     "nameKo": "그래스메이커",
-    "nameJa": "グラスメイカー"
+    "nameJa": "グラスメイカー",
+    "nameEn": "Grassy Surge"
   },
   {
     "name": "Shadow Tag",
     "nameKo": "그림자밟기",
-    "nameJa": "かげふみ"
+    "nameJa": "かげふみ",
+    "nameEn": "Shadow Tag"
   },
   {
     "name": "Guts",
     "nameKo": "근성",
-    "nameJa": "こんじょう"
+    "nameJa": "こんじょう",
+    "nameEn": "Guts"
   },
   {
     "name": "Torrent",
     "nameKo": "급류",
-    "nameJa": "げきりゅう"
+    "nameJa": "げきりゅう",
+    "nameEn": "Torrent"
   },
   {
     "name": "Curious Medicine",
     "nameKo": "기묘한약",
-    "nameJa": "きみょうなくすり"
+    "nameJa": "きみょうなくすり",
+    "nameEn": "Curious Medicine"
   },
   {
     "name": "Forecast",
     "nameKo": "기분파",
-    "nameJa": "てんきや"
+    "nameJa": "てんきや",
+    "nameEn": "Forecast"
   },
   {
     "name": "Unnerve",
     "nameKo": "긴장감",
-    "nameJa": "きんちょうかん"
+    "nameJa": "きんちょうかん",
+    "nameEn": "Unnerve"
   },
   {
     "name": "Rough Skin",
     "nameKo": "까칠한피부",
-    "nameJa": "さめはだ"
+    "nameJa": "さめはだ",
+    "nameEn": "Rough Skin"
   },
   {
     "name": "Weak Armor",
     "nameKo": "깨어진갑옷",
-    "nameJa": "くだけるよろい"
+    "nameJa": "くだけるよろい",
+    "nameEn": "Weak Armor"
   },
   {
     "name": "Hunger Switch",
     "nameKo": "꼬르륵스위치",
-    "nameJa": "はらぺこスイッチ"
+    "nameJa": "はらぺこスイッチ",
+    "nameEn": "Hunger Switch"
   },
   {
     "name": "Water Compaction",
     "nameKo": "꾸덕꾸덕굳기",
-    "nameJa": "みずがため"
+    "nameJa": "みずがため",
+    "nameEn": "Water Compaction"
   },
   {
     "name": "Honey Gather",
     "nameKo": "꿀모으기",
-    "nameJa": "みつあつめ"
+    "nameJa": "みつあつめ",
+    "nameEn": "Honey Gather"
   },
   {
     "name": "Desolate Land",
     "nameKo": "끝의대지",
-    "nameJa": "おわりのだいち"
+    "nameJa": "おわりのだいち",
+    "nameEn": "Desolate Land"
   },
   {
     "name": "Pickpocket",
     "nameKo": "나쁜손버릇",
-    "nameJa": "わるいてぐせ"
+    "nameJa": "わるいてぐせ",
+    "nameEn": "Pickpocket"
   },
   {
     "name": "Bad Dreams",
     "nameKo": "나이트메어",
-    "nameJa": "ナイトメア"
+    "nameJa": "ナイトメア",
+    "nameEn": "Bad Dreams"
   },
   {
     "name": "Cloud Nine",
     "nameKo": "날씨부정",
-    "nameJa": "ノーてんき"
+    "nameJa": "ノーてんき",
+    "nameEn": "Cloud Nine"
   },
   {
     "name": "Keen Eye",
     "nameKo": "날카로운눈",
-    "nameJa": "するどいめ"
+    "nameJa": "するどいめ",
+    "nameEn": "Keen Eye"
   },
   {
     "name": "Heatproof",
     "nameKo": "내열",
-    "nameJa": "たいねつ"
+    "nameJa": "たいねつ",
+    "nameEn": "Heatproof"
   },
   {
     "name": "Innards Out",
     "nameKo": "내용물분출",
-    "nameJa": "とびだすなかみ"
+    "nameJa": "とびだすなかみ",
+    "nameEn": "Innards Out"
   },
   {
     "name": "Seed Sower",
     "nameKo": "넘치는씨",
-    "nameJa": "こぼれダネ"
+    "nameJa": "こぼれダネ",
+    "nameEn": "Seed Sower"
   },
   {
     "name": "No Guard",
     "nameKo": "노가드",
-    "nameJa": "ノーガード"
+    "nameJa": "ノーガード",
+    "nameEn": "No Guard"
   },
   {
     "name": "Well-Baked Body",
     "nameKo": "노릇노릇바디",
-    "nameJa": "こんがりボディ"
+    "nameJa": "こんがりボディ",
+    "nameEn": "Well-Baked Body"
   },
   {
     "name": "Normalize",
     "nameKo": "노말스킨",
-    "nameJa": "ノーマルスキン"
+    "nameJa": "ノーマルスキン",
+    "nameEn": "Normalize"
   },
   {
     "name": "Snow Cloak",
     "nameKo": "눈숨기",
-    "nameJa": "ゆきがくれ"
+    "nameJa": "ゆきがくれ",
+    "nameEn": "Snow Cloak"
   },
   {
     "name": "Slush Rush",
     "nameKo": "눈치우기",
-    "nameJa": "ゆきかき"
+    "nameJa": "ゆきかき",
+    "nameEn": "Slush Rush"
   },
   {
     "name": "Snow Warning",
     "nameKo": "눈퍼뜨리기",
-    "nameJa": "ゆきふらし"
+    "nameJa": "ゆきふらし",
+    "nameEn": "Snow Warning"
   },
   {
     "name": "Download",
     "nameKo": "다운로드",
-    "nameJa": "ダウンロード"
+    "nameJa": "ダウンロード",
+    "nameEn": "Download"
   },
   {
     "name": "Dark Aura",
     "nameKo": "다크오라",
-    "nameJa": "ダークオーラ"
+    "nameJa": "ダークオーラ",
+    "nameEn": "Dark Aura"
   },
   {
     "name": "Tough Claws",
     "nameKo": "단단한발톱",
-    "nameJa": "かたいツメ"
+    "nameJa": "かたいツメ",
+    "nameEn": "Tough Claws"
   },
   {
     "name": "Simple",
     "nameKo": "단순",
-    "nameJa": "たんじゅん"
+    "nameJa": "たんじゅん",
+    "nameEn": "Simple"
   },
   {
     "name": "Zen Mode",
     "nameKo": "달마모드",
-    "nameJa": "ダルマモード"
+    "nameJa": "ダルマモード",
+    "nameEn": "Zen Mode"
   },
   {
     "name": "Super Luck",
     "nameKo": "대운",
-    "nameJa": "きょううん"
+    "nameJa": "きょううん",
+    "nameEn": "Super Luck"
   },
   {
     "name": "Hospitality",
     "nameKo": "대접",
-    "nameJa": "おもてなし"
+    "nameJa": "おもてなし",
+    "nameEn": "Hospitality"
   },
   {
     "name": "Delta Stream",
     "nameKo": "델타스트림",
-    "nameJa": "デルタストリーム"
+    "nameJa": "デルタストリーム",
+    "nameEn": "Delta Stream"
   },
   {
     "name": "Wimp Out",
     "nameKo": "도망태세",
-    "nameJa": "にげごし"
+    "nameJa": "にげごし",
+    "nameEn": "Wimp Out"
   },
   {
     "name": "Run Away",
     "nameKo": "도주",
-    "nameJa": "にげあし"
+    "nameJa": "にげあし",
+    "nameEn": "Run Away"
   },
   {
     "name": "Poison Point",
     "nameKo": "독가시",
-    "nameJa": "どくのトゲ"
+    "nameJa": "どくのトゲ",
+    "nameEn": "Poison Point"
   },
   {
     "name": "Toxic Chain",
     "nameKo": "독사슬",
-    "nameJa": "どくのくさり"
+    "nameJa": "どくのくさり",
+    "nameEn": "Toxic Chain"
   },
   {
     "name": "Poison Touch",
     "nameKo": "독수",
-    "nameJa": "どくしゅ"
+    "nameJa": "どくしゅ",
+    "nameEn": "Poison Touch"
   },
   {
     "name": "Poison Puppeteer",
     "nameKo": "독조종",
-    "nameJa": "どくくぐつ"
+    "nameJa": "どくくぐつ",
+    "nameEn": "Poison Puppeteer"
   },
   {
     "name": "Toxic Debris",
     "nameKo": "독치장",
-    "nameJa": "どくげしょう"
+    "nameJa": "どくげしょう",
+    "nameEn": "Toxic Debris"
   },
   {
     "name": "Toxic Boost",
     "nameKo": "독폭주",
-    "nameJa": "どくぼうそう"
+    "nameJa": "どくぼうそう",
+    "nameEn": "Toxic Boost"
   },
   {
     "name": "Rock Head",
     "nameKo": "돌머리",
-    "nameJa": "いしあたま"
+    "nameJa": "いしあたま",
+    "nameEn": "Rock Head"
   },
   {
     "name": "Cud Chew",
     "nameKo": "되새김질",
-    "nameJa": "はんすう"
+    "nameJa": "はんすう",
+    "nameEn": "Cud Chew"
   },
   {
     "name": "Thick Fat",
     "nameKo": "두꺼운지방",
-    "nameJa": "あついしぼう"
+    "nameJa": "あついしぼう",
+    "nameEn": "Thick Fat"
   },
   {
     "name": "Oblivious",
     "nameKo": "둔감",
-    "nameJa": "どんかん"
+    "nameJa": "どんかん",
+    "nameEn": "Oblivious"
   },
   {
     "name": "Wandering Spirit",
     "nameKo": "떠도는영혼",
-    "nameJa": "さまようたましい"
+    "nameJa": "さまようたましい",
+    "nameEn": "Wandering Spirit"
   },
   {
     "name": "Light Metal",
     "nameKo": "라이트메탈",
-    "nameJa": "ライトメタル"
+    "nameJa": "ライトメタル",
+    "nameEn": "Light Metal"
   },
   {
     "name": "Shields Down",
     "nameKo": "리밋실드",
-    "nameJa": "リミットシールド"
+    "nameJa": "リミットシールド",
+    "nameEn": "Shields Down"
   },
   {
     "name": "Libero",
     "nameKo": "리베로",
-    "nameJa": "リベロ"
+    "nameJa": "リベロ",
+    "nameEn": "Libero"
   },
   {
     "name": "Receiver",
     "nameKo": "리시버",
-    "nameJa": "レシーバー"
+    "nameJa": "レシーバー",
+    "nameEn": "Receiver"
   },
   {
     "name": "Leaf Guard",
     "nameKo": "리프가드",
-    "nameJa": "リーフガード"
+    "nameJa": "リーフガード",
+    "nameEn": "Leaf Guard"
   },
   {
     "name": "Magma Armor",
     "nameKo": "마그마의무장",
-    "nameJa": "マグマのよろい"
+    "nameJa": "マグマのよろい",
+    "nameEn": "Magma Armor"
   },
   {
     "name": "Minus",
     "nameKo": "마이너스",
-    "nameJa": "マイナス"
+    "nameJa": "マイナス",
+    "nameEn": "Minus"
   },
   {
     "name": "Zero to Hero",
     "nameKo": "마이티체인지",
-    "nameJa": "マイティチェンジ"
+    "nameJa": "マイティチェンジ",
+    "nameEn": "Zero to Hero"
   },
   {
     "name": "Own Tempo",
     "nameKo": "마이페이스",
-    "nameJa": "マイペース"
+    "nameJa": "マイペース",
+    "nameEn": "Own Tempo"
   },
   {
     "name": "Storm Drain",
     "nameKo": "마중물",
-    "nameJa": "よびみず"
+    "nameJa": "よびみず",
+    "nameEn": "Storm Drain"
   },
   {
     "name": "Magician",
     "nameKo": "매지션",
-    "nameJa": "マジシャン"
+    "nameJa": "マジシャン",
+    "nameEn": "Magician"
   },
   {
     "name": "Magic Guard",
     "nameKo": "매직가드",
-    "nameJa": "マジックガード"
+    "nameJa": "マジックガード",
+    "nameEn": "Magic Guard"
   },
   {
     "name": "Magic Bounce",
     "nameKo": "매직미러",
-    "nameJa": "マジックミラー"
+    "nameJa": "マジックミラー",
+    "nameEn": "Magic Bounce"
   },
   {
     "name": "Blaze",
     "nameKo": "맹화",
-    "nameJa": "もうか"
+    "nameJa": "もうか",
+    "nameEn": "Blaze"
   },
   {
     "name": "Gluttony",
     "nameKo": "먹보",
-    "nameJa": "くいしんぼう"
+    "nameJa": "くいしんぼう",
+    "nameEn": "Gluttony"
   },
   {
     "name": "Multiscale",
     "nameKo": "멀티스케일",
-    "nameJa": "マルチスケイル"
+    "nameJa": "マルチスケイル",
+    "nameEn": "Multiscale"
   },
   {
     "name": "Multitype",
     "nameKo": "멀티타입",
-    "nameJa": "マルチタイプ"
+    "nameJa": "マルチタイプ",
+    "nameEn": "Multitype"
   },
   {
     "name": "Mega Golisopod Ability",
     "nameKo": "메가갑주무사 특성 (미공개)",
-    "nameJa": "メガグソクムシャ特性"
+    "nameJa": "メガグソクムシャ特性",
+    "nameEn": "Mega Golisopod Ability"
   },
   {
     "name": "Mega Launcher",
     "nameKo": "메가런처",
-    "nameJa": "メガランチャー"
+    "nameJa": "メガランチャー",
+    "nameEn": "Mega Launcher"
   },
   {
     "name": "Mega Zygarde Ability",
     "nameKo": "메가지가르데 특성 (미공개)",
-    "nameJa": "メガジガルデ特性"
+    "nameJa": "メガジガルデ特性",
+    "nameEn": "Mega Zygarde Ability"
   },
   {
     "name": "Full Metal Body",
     "nameKo": "메탈프로텍트",
-    "nameJa": "メタルプロテクト"
+    "nameJa": "メタルプロテクト",
+    "nameEn": "Full Metal Body"
   },
   {
     "name": "Immunity",
     "nameKo": "면역",
-    "nameJa": "めんえき"
+    "nameJa": "めんえき",
+    "nameEn": "Immunity"
   },
   {
     "name": "Perish Body",
     "nameKo": "멸망의바디",
-    "nameJa": "ほろびのボディ"
+    "nameJa": "ほろびのボディ",
+    "nameEn": "Perish Body"
   },
   {
     "name": "Sand Stream",
     "nameKo": "모래날림",
-    "nameJa": "すなおこし"
+    "nameJa": "すなおこし",
+    "nameEn": "Sand Stream"
   },
   {
     "name": "Sand Spit",
     "nameKo": "모래뿜기",
-    "nameJa": "すなはき"
+    "nameJa": "すなはき",
+    "nameEn": "Sand Spit"
   },
   {
     "name": "Sand Veil",
     "nameKo": "모래숨기",
-    "nameJa": "すながくれ"
+    "nameJa": "すながくれ",
+    "nameEn": "Sand Veil"
   },
   {
     "name": "Sand Force",
     "nameKo": "모래의힘",
-    "nameJa": "すなのちから"
+    "nameJa": "すなのちから",
+    "nameEn": "Sand Force"
   },
   {
     "name": "Sand Rush",
     "nameKo": "모래헤치기",
-    "nameJa": "すなかき"
+    "nameJa": "すなかき",
+    "nameEn": "Sand Rush"
   },
   {
     "name": "Defeatist",
     "nameKo": "무기력",
-    "nameJa": "よわき"
+    "nameJa": "よわき",
+    "nameEn": "Defeatist"
   },
   {
     "name": "Merciless",
     "nameKo": "무도한행동",
-    "nameJa": "ひとでなし"
+    "nameJa": "ひとでなし",
+    "nameEn": "Merciless"
   },
   {
     "name": "Gorilla Tactics",
     "nameKo": "무아지경",
-    "nameJa": "ごりむちゅう"
+    "nameJa": "ごりむちゅう",
+    "nameEn": "Gorilla Tactics"
   },
   {
     "name": "Dancer",
     "nameKo": "무희",
-    "nameJa": "おどりこ"
+    "nameJa": "おどりこ",
+    "nameEn": "Dancer"
   },
   {
     "name": "Gooey",
     "nameKo": "미끈미끈",
-    "nameJa": "ぬめぬめ"
+    "nameJa": "ぬめぬめ",
+    "nameEn": "Gooey"
   },
   {
     "name": "Mummy",
     "nameKo": "미라",
-    "nameJa": "ミイラ"
+    "nameJa": "ミイラ",
+    "nameEn": "Mummy"
   },
   {
     "name": "Wonder Skin",
     "nameKo": "미라클스킨",
-    "nameJa": "ミラクルスキン"
+    "nameJa": "ミラクルスキン",
+    "nameEn": "Wonder Skin"
   },
   {
     "name": "Mirror Armor",
     "nameKo": "미러아머",
-    "nameJa": "ミラーアーマー"
+    "nameJa": "ミラーアーマー",
+    "nameEn": "Mirror Armor"
   },
   {
     "name": "Misty Surge",
     "nameKo": "미스트메이커",
-    "nameJa": "ミストメイカー"
+    "nameJa": "ミストメイカー",
+    "nameEn": "Misty Surge"
   },
   {
     "name": "Wind Rider",
     "nameKo": "바람타기",
-    "nameJa": "かぜのり"
+    "nameJa": "かぜのり",
+    "nameEn": "Wind Rider"
   },
   {
     "name": "Rocky Payload",
     "nameKo": "바위나르기",
-    "nameJa": "いわはこび"
+    "nameJa": "いわはこび",
+    "nameEn": "Rocky Payload"
   },
   {
     "name": "Illuminate",
     "nameKo": "발광",
-    "nameJa": "はっこう"
+    "nameJa": "はっこう",
+    "nameEn": "Illuminate"
   },
   {
     "name": "Berserk",
     "nameKo": "발끈",
-    "nameJa": "ぎゃくじょう"
+    "nameJa": "ぎゃくじょう",
+    "nameEn": "Berserk"
   },
   {
     "name": "Soundproof",
     "nameKo": "방음",
-    "nameJa": "ぼうおん"
+    "nameJa": "ぼうおん",
+    "nameEn": "Soundproof"
   },
   {
     "name": "Overcoat",
     "nameKo": "방진",
-    "nameJa": "ぼうじん"
+    "nameJa": "ぼうじん",
+    "nameEn": "Overcoat"
   },
   {
     "name": "Bulletproof",
     "nameKo": "방탄",
-    "nameJa": "ぼうだん"
+    "nameJa": "ぼうだん",
+    "nameEn": "Bulletproof"
   },
   {
     "name": "Screen Cleaner",
     "nameKo": "배리어프리",
-    "nameJa": "バリアフリー"
+    "nameJa": "バリアフリー",
+    "nameEn": "Screen Cleaner"
   },
   {
     "name": "Scrappy",
     "nameKo": "배짱",
-    "nameJa": "きもったま"
+    "nameJa": "きもったま",
+    "nameEn": "Scrappy"
   },
   {
     "name": "Battery",
     "nameKo": "배터리",
-    "nameJa": "バッテリー"
+    "nameJa": "バッテリー",
+    "nameEn": "Battery"
   },
   {
     "name": "Stance Change",
     "nameKo": "배틀스위치",
-    "nameJa": "バトルスイッチ"
+    "nameJa": "バトルスイッチ",
+    "nameEn": "Stance Change"
   },
   {
     "name": "Chilling Neigh",
     "nameKo": "백의울음",
-    "nameJa": "しろのいななき"
+    "nameJa": "しろのいななき",
+    "nameEn": "Chilling Neigh"
   },
   {
     "name": "Swarm",
     "nameKo": "벌레의알림",
-    "nameJa": "むしのしらせ"
+    "nameJa": "むしのしらせ",
+    "nameEn": "Swarm"
   },
   {
     "name": "Moody",
     "nameKo": "변덕쟁이",
-    "nameJa": "ムラっけ"
+    "nameJa": "ムラっけ",
+    "nameEn": "Moody"
   },
   {
     "name": "Color Change",
     "nameKo": "변색",
-    "nameJa": "へんしょく"
+    "nameJa": "へんしょく",
+    "nameEn": "Color Change"
   },
   {
     "name": "Protean",
     "nameKo": "변환자재",
-    "nameJa": "へんげんじざい"
+    "nameJa": "へんげんじざい",
+    "nameEn": "Protean"
   },
   {
     "name": "Unseen Fist",
     "nameKo": "보이지않는주먹",
-    "nameJa": "ふかしのこぶし"
+    "nameJa": "ふかしのこぶし",
+    "nameEn": "Unseen Fist"
   },
   {
     "name": "Fluffy",
     "nameKo": "복슬복슬",
-    "nameJa": "もふもふ"
+    "nameJa": "もふもふ",
+    "nameEn": "Fluffy"
   },
   {
     "name": "Compound Eyes",
     "nameKo": "복안",
-    "nameJa": "ふくがん"
+    "nameJa": "ふくがん",
+    "nameEn": "Compound Eyes"
   },
   {
     "name": "Cheek Pouch",
     "nameKo": "볼주머니",
-    "nameJa": "ほおぶくろ"
+    "nameJa": "ほおぶくろ",
+    "nameEn": "Cheek Pouch"
   },
   {
     "name": "Ball Fetch",
     "nameKo": "볼줍기",
-    "nameJa": "たまひろい"
+    "nameJa": "たまひろい",
+    "nameEn": "Ball Fetch"
   },
   {
     "name": "Corrosion",
     "nameKo": "부식",
-    "nameJa": "ふしょく"
+    "nameJa": "ふしょく",
+    "nameEn": "Corrosion"
   },
   {
     "name": "Levitate",
     "nameKo": "부유",
-    "nameJa": "ふゆう"
+    "nameJa": "ふゆう",
+    "nameEn": "Levitate"
   },
   {
     "name": "Parental Bond",
     "nameKo": "부자유친",
-    "nameJa": "おやこあい"
+    "nameJa": "おやこあい",
+    "nameEn": "Parental Bond"
   },
   {
     "name": "Big Pecks",
     "nameKo": "부풀린가슴",
-    "nameJa": "はとむね"
+    "nameJa": "はとむね",
+    "nameEn": "Big Pecks"
   },
   {
     "name": "Anger Point",
     "nameKo": "분노의경혈",
-    "nameJa": "いかりのつぼ"
+    "nameJa": "いかりのつぼ",
+    "nameEn": "Anger Point"
   },
   {
     "name": "Anger Shell",
     "nameKo": "분노의껍질",
-    "nameJa": "いかりのこうら"
+    "nameJa": "いかりのこうら",
+    "nameEn": "Anger Shell"
   },
   {
     "name": "Wonder Guard",
     "nameKo": "불가사의부적",
-    "nameJa": "ふしぎなまもり"
+    "nameJa": "ふしぎなまもり",
+    "nameEn": "Wonder Guard"
   },
   {
     "name": "Steadfast",
     "nameKo": "불굴의마음",
-    "nameJa": "ふくつのこころ"
+    "nameJa": "ふくつのこころ",
+    "nameEn": "Steadfast"
   },
   {
     "name": "Dauntless Shield",
     "nameKo": "불굴의방패",
-    "nameJa": "ふくつのたて"
+    "nameJa": "ふくつのたて",
+    "nameEn": "Dauntless Shield"
   },
   {
     "name": "Flame Body",
     "nameKo": "불꽃몸",
-    "nameJa": "ほのおのからだ"
+    "nameJa": "ほのおのからだ",
+    "nameEn": "Flame Body"
   },
   {
     "name": "Insomnia",
     "nameKo": "불면",
-    "nameJa": "ふみん"
+    "nameJa": "ふみん",
+    "nameEn": "Insomnia"
   },
   {
     "name": "Intrepid Sword",
     "nameKo": "불요의검",
-    "nameJa": "ふとうのけん"
+    "nameJa": "ふとうのけん",
+    "nameEn": "Intrepid Sword"
   },
   {
     "name": "Neuroforce",
     "nameKo": "브레인포스",
-    "nameJa": "ブレインフォース"
+    "nameJa": "ブレインフォース",
+    "nameEn": "Neuroforce"
   },
   {
     "name": "Dazzling",
     "nameKo": "비비드바디",
-    "nameJa": "ビビッドボディ"
+    "nameJa": "ビビッドボディ",
+    "nameEn": "Dazzling"
   },
   {
     "name": "Beast Boost",
     "nameKo": "비스트부스트",
-    "nameJa": "ビーストブースト"
+    "nameJa": "ビーストブースト",
+    "nameEn": "Beast Boost"
   },
   {
     "name": "Commander",
     "nameKo": "사령탑",
-    "nameJa": "しれいとう"
+    "nameJa": "しれいとう",
+    "nameEn": "Commander"
   },
   {
     "name": "Psychic Surge",
     "nameKo": "사이코메이커",
-    "nameJa": "サイコメイカー"
+    "nameJa": "サイコメイカー",
+    "nameEn": "Psychic Surge"
   },
   {
     "name": "Tinted Lens",
     "nameKo": "색안경",
-    "nameJa": "いろめがね"
+    "nameJa": "いろめがね",
+    "nameEn": "Tinted Lens"
   },
   {
     "name": "Klutz",
     "nameKo": "서투름",
-    "nameJa": "ぶきよう"
+    "nameJa": "ぶきよう",
+    "nameEn": "Klutz"
   },
   {
     "name": "Surge Surfer",
     "nameKo": "서핑테일",
-    "nameJa": "サーフテール"
+    "nameJa": "サーフテール",
+    "nameEn": "Surge Surfer"
   },
   {
     "name": "Solar Power",
     "nameKo": "선파워",
-    "nameJa": "サンパワー"
+    "nameJa": "サンパワー",
+    "nameEn": "Solar Power"
   },
   {
     "name": "Soul-Heart",
     "nameKo": "소울하트",
-    "nameJa": "ソウルハート"
+    "nameJa": "ソウルハート",
+    "nameEn": "Soul-Heart"
   },
   {
     "name": "Quick Feet",
     "nameKo": "속보",
-    "nameJa": "はやあし"
+    "nameJa": "はやあし",
+    "nameEn": "Quick Feet"
   },
   {
     "name": "Cotton Down",
     "nameKo": "솜털",
-    "nameJa": "わたげ"
+    "nameJa": "わたげ",
+    "nameEn": "Cotton Down"
   },
   {
     "name": "Water Veil",
     "nameKo": "수의베일",
-    "nameJa": "みずのベール"
+    "nameJa": "みずのベール",
+    "nameEn": "Water Veil"
   },
   {
     "name": "Water Bubble",
     "nameKo": "수포",
-    "nameJa": "すいほう"
+    "nameJa": "すいほう",
+    "nameEn": "Water Bubble"
   },
   {
     "name": "Harvest",
     "nameKo": "수확",
-    "nameJa": "しゅうかく"
+    "nameJa": "しゅうかく",
+    "nameEn": "Harvest"
   },
   {
     "name": "Ripen",
     "nameKo": "숙성",
-    "nameJa": "じゅくせい"
+    "nameJa": "じゅくせい",
+    "nameEn": "Ripen"
   },
   {
     "name": "Pure Power",
     "nameKo": "순수한힘",
-    "nameJa": "ヨガパワー"
+    "nameJa": "ヨガパワー",
+    "nameEn": "Pure Power"
   },
   {
     "name": "Sniper",
     "nameKo": "스나이퍼",
-    "nameJa": "スナイパー"
+    "nameJa": "スナイパー",
+    "nameEn": "Sniper"
   },
   {
     "name": "Power Construct",
     "nameKo": "스웜체인지",
-    "nameJa": "スワームチェンジ"
+    "nameJa": "スワームチェンジ",
+    "nameEn": "Power Construct"
   },
   {
     "name": "Sweet Veil",
     "nameKo": "스위트베일",
-    "nameJa": "スイートベール"
+    "nameJa": "スイートベール",
+    "nameEn": "Sweet Veil"
   },
   {
     "name": "Aerilate",
     "nameKo": "스카이스킨",
-    "nameJa": "スカイスキン"
+    "nameJa": "スカイスキン",
+    "nameEn": "Aerilate"
   },
   {
     "name": "Propeller Tail",
     "nameKo": "스크루지느러미",
-    "nameJa": "スクリューおびれ"
+    "nameJa": "スクリューおびれ",
+    "nameEn": "Propeller Tail"
   },
   {
     "name": "Skill Link",
     "nameKo": "스킬링크",
-    "nameJa": "スキルリンク"
+    "nameJa": "スキルリンク",
+    "nameEn": "Skill Link"
   },
   {
     "name": "Steel Skin",
     "nameKo": "스틸스킨",
-    "nameJa": "スチールスキン"
+    "nameJa": "スチールスキン",
+    "nameEn": "Steel Skin"
   },
   {
     "name": "Shadow Shield",
     "nameKo": "스펙터가드",
-    "nameJa": "ファントムガード"
+    "nameJa": "ファントムガード",
+    "nameEn": "Shadow Shield"
   },
   {
     "name": "Slow Start",
     "nameKo": "슬로스타트",
-    "nameJa": "スロースタート"
+    "nameJa": "スロースタート",
+    "nameEn": "Slow Start"
   },
   {
     "name": "Damp",
     "nameKo": "습기",
-    "nameJa": "しめりけ"
+    "nameJa": "しめりけ",
+    "nameEn": "Damp"
   },
   {
     "name": "Competitive",
     "nameKo": "승기",
-    "nameJa": "かちき"
+    "nameJa": "かちき",
+    "nameEn": "Competitive"
   },
   {
     "name": "Victory Star",
     "nameKo": "승리의별",
-    "nameJa": "しょうりのほし"
+    "nameJa": "しょうりのほし",
+    "nameEn": "Victory Star"
   },
   {
     "name": "Stall",
     "nameKo": "시간벌기",
-    "nameJa": "あとだし"
+    "nameJa": "あとだし",
+    "nameEn": "Stall"
   },
   {
     "name": "Primordial Sea",
     "nameKo": "시작의바다",
-    "nameJa": "はじまりのうみ"
+    "nameJa": "はじまりのうみ",
+    "nameEn": "Primordial Sea"
   },
   {
     "name": "Overgrow",
     "nameKo": "심록",
-    "nameJa": "しんりょく"
+    "nameJa": "しんりょく",
+    "nameEn": "Overgrow"
   },
   {
     "name": "Contrary",
     "nameKo": "심술꾸러기",
-    "nameJa": "あまのじゃく"
+    "nameJa": "あまのじゃく",
+    "nameEn": "Contrary"
   },
   {
     "name": "Mind's Eye",
     "nameKo": "심안",
-    "nameJa": "しんがん"
+    "nameJa": "しんがん",
+    "nameEn": "Mind's Eye"
   },
   {
     "name": "Synchronize",
     "nameKo": "싱크로",
-    "nameJa": "シンクロ"
+    "nameJa": "シンクロ",
+    "nameEn": "Synchronize"
   },
   {
     "name": "Swift Swim",
     "nameKo": "쓱쓱",
-    "nameJa": "すいすい"
+    "nameJa": "すいすい",
+    "nameEn": "Swift Swim"
   },
   {
     "name": "Aroma Veil",
     "nameKo": "아로마베일",
-    "nameJa": "アロマベール"
+    "nameJa": "アロマベール",
+    "nameEn": "Aroma Veil"
   },
   {
     "name": "Ice Body",
     "nameKo": "아이스바디",
-    "nameJa": "アイスボディ"
+    "nameJa": "アイスボディ",
+    "nameEn": "Ice Body"
   },
   {
     "name": "Ice Face",
     "nameKo": "아이스페이스",
-    "nameJa": "アイスフェイス"
+    "nameJa": "アイスフェイス",
+    "nameEn": "Ice Face"
   },
   {
     "name": "Stench",
     "nameKo": "악취",
-    "nameJa": "あくしゅう"
+    "nameJa": "あくしゅう",
+    "nameEn": "Stench"
   },
   {
     "name": "Analytic",
     "nameKo": "애널라이즈",
-    "nameJa": "アナライズ"
+    "nameJa": "アナライズ",
+    "nameEn": "Analytic"
   },
   {
     "name": "Schooling",
     "nameKo": "어군",
-    "nameJa": "ぎょぐん"
+    "nameJa": "ぎょぐん",
+    "nameEn": "Schooling"
   },
   {
     "name": "Ice Scales",
     "nameKo": "얼음인분",
-    "nameJa": "こおりのりんぷん"
+    "nameJa": "こおりのりんぷん",
+    "nameEn": "Ice Scales"
   },
   {
     "name": "Air Lock",
     "nameKo": "에어록",
-    "nameJa": "エアロック"
+    "nameJa": "エアロック",
+    "nameEn": "Air Lock"
   },
   {
     "name": "Queenly Majesty",
     "nameKo": "여왕의위엄",
-    "nameJa": "じょおうのいげん"
+    "nameJa": "じょおうのいげん",
+    "nameEn": "Queenly Majesty"
   },
   {
     "name": "Thermal Exchange",
     "nameKo": "열교환",
-    "nameJa": "ねつこうかん"
+    "nameJa": "ねつこうかん",
+    "nameEn": "Thermal Exchange"
   },
   {
     "name": "Flare Boost",
     "nameKo": "열폭주",
-    "nameJa": "ねつぼうそう"
+    "nameJa": "ねつぼうそう",
+    "nameEn": "Flare Boost"
   },
   {
     "name": "Chlorophyll",
     "nameKo": "엽록소",
-    "nameJa": "ようりょくそ"
+    "nameJa": "ようりょくそ",
+    "nameEn": "Chlorophyll"
   },
   {
     "name": "Sharpness",
     "nameKo": "예리함",
-    "nameJa": "きれあじ"
+    "nameJa": "きれあじ",
+    "nameEn": "Sharpness"
   },
   {
     "name": "Forewarn",
     "nameKo": "예지몽",
-    "nameJa": "よちむ"
+    "nameJa": "よちむ",
+    "nameEn": "Forewarn"
   },
   {
     "name": "Defiant",
     "nameKo": "오기",
-    "nameJa": "まけんき"
+    "nameJa": "まけんき",
+    "nameEn": "Defiant"
   },
   {
     "name": "Aura Break",
     "nameKo": "오라브레이크",
-    "nameJa": "オーラブレイク"
+    "nameJa": "オーラブレイク",
+    "nameEn": "Aura Break"
   },
   {
     "name": "Strong Jaw",
     "nameKo": "옹골찬턱",
-    "nameJa": "がんじょうあご"
+    "nameJa": "がんじょうあご",
+    "nameEn": "Strong Jaw"
   },
   {
     "name": "Sturdy",
     "nameKo": "옹골참",
-    "nameJa": "がんじょう"
+    "nameJa": "がんじょう",
+    "nameEn": "Sturdy"
   },
   {
     "name": "Dragon's Maw",
     "nameKo": "용의턱",
-    "nameJa": "りゅうのあぎと"
+    "nameJa": "りゅうのあぎと",
+    "nameEn": "Dragon's Maw"
   },
   {
     "name": "Sheer Force",
     "nameKo": "우격다짐",
-    "nameJa": "ちからずく"
+    "nameJa": "ちからずく",
+    "nameEn": "Sheer Force"
   },
   {
     "name": "Long Reach",
     "nameKo": "원격",
-    "nameJa": "えんかく"
+    "nameJa": "えんかく",
+    "nameEn": "Long Reach"
   },
   {
     "name": "Emergency Exit",
     "nameKo": "위기회피",
-    "nameJa": "ききかいひ"
+    "nameJa": "ききかいひ",
+    "nameEn": "Emergency Exit"
   },
   {
     "name": "Anticipation",
     "nameKo": "위험예지",
-    "nameJa": "きけんよち"
+    "nameJa": "きけんよち",
+    "nameEn": "Anticipation"
   },
   {
     "name": "Intimidate",
     "nameKo": "위협",
-    "nameJa": "いかく"
+    "nameJa": "いかく",
+    "nameEn": "Intimidate"
   },
   {
     "name": "Battle Bond",
     "nameKo": "유대변화",
-    "nameJa": "きずなへんげ"
+    "nameJa": "きずなへんげ",
+    "nameEn": "Battle Bond"
   },
   {
     "name": "Limber",
     "nameKo": "유연",
-    "nameJa": "じゅうなん"
+    "nameJa": "じゅうなん",
+    "nameEn": "Limber"
   },
   {
     "name": "Aftermath",
     "nameKo": "유폭",
-    "nameJa": "ゆうばく"
+    "nameJa": "ゆうばく",
+    "nameEn": "Aftermath"
   },
   {
     "name": "Vital Spirit",
     "nameKo": "의기양양",
-    "nameJa": "やるき"
+    "nameJa": "やるき",
+    "nameEn": "Vital Spirit"
   },
   {
     "name": "Hustle",
     "nameKo": "의욕",
-    "nameJa": "はりきり"
+    "nameJa": "はりきり",
+    "nameEn": "Hustle"
   },
   {
     "name": "Mimicry",
     "nameKo": "의태",
-    "nameJa": "ぎたい"
+    "nameJa": "ぎたい",
+    "nameEn": "Mimicry"
   },
   {
     "name": "Marvel Scale",
     "nameKo": "이상한비늘",
-    "nameJa": "ふしぎなうろこ"
+    "nameJa": "ふしぎなうろこ",
+    "nameEn": "Marvel Scale"
   },
   {
     "name": "Reckless",
     "nameKo": "이판사판",
-    "nameJa": "すてみ"
+    "nameJa": "すてみ",
+    "nameEn": "Reckless"
   },
   {
     "name": "Shield Dust",
     "nameKo": "인분",
-    "nameJa": "りんぷん"
+    "nameJa": "りんぷん",
+    "nameEn": "Shield Dust"
   },
   {
     "name": "Electric Surge",
     "nameKo": "일렉트릭메이커",
-    "nameJa": "エレキメイカー"
+    "nameJa": "エレキメイカー",
+    "nameEn": "Electric Surge"
   },
   {
     "name": "Galvanize",
     "nameKo": "일렉트릭스킨",
-    "nameJa": "エレキスキン"
+    "nameJa": "エレキスキン",
+    "nameEn": "Galvanize"
   },
   {
     "name": "Illusion",
     "nameKo": "일루전",
-    "nameJa": "イリュージョン"
+    "nameJa": "イリュージョン",
+    "nameEn": "Illusion"
   },
   {
     "name": "Early Bird",
     "nameKo": "일찍기상",
-    "nameJa": "はやおき"
+    "nameJa": "はやおき",
+    "nameEn": "Early Bird"
   },
   {
     "name": "Moxie",
     "nameKo": "자기과신",
-    "nameJa": "じしんかじょう"
+    "nameJa": "じしんかじょう",
+    "nameEn": "Moxie"
   },
   {
     "name": "Magnet Pull",
     "nameKo": "자력",
-    "nameJa": "じりょく"
+    "nameJa": "じりょく",
+    "nameEn": "Magnet Pull"
   },
   {
     "name": "Natural Cure",
     "nameKo": "자연회복",
-    "nameJa": "しぜんかいふく"
+    "nameJa": "しぜんかいふく",
+    "nameEn": "Natural Cure"
   },
   {
     "name": "Drizzle",
     "nameKo": "잔비",
-    "nameJa": "あめふらし"
+    "nameJa": "あめふらし",
+    "nameEn": "Drizzle"
   },
   {
     "name": "Stakeout",
     "nameKo": "잠복",
-    "nameJa": "はりこみ"
+    "nameJa": "はりこみ",
+    "nameEn": "Stakeout"
   },
   {
     "name": "Regenerator",
     "nameKo": "재생력",
-    "nameJa": "さいせいりょく"
+    "nameJa": "さいせいりょく",
+    "nameEn": "Regenerator"
   },
   {
     "name": "Sword of Ruin",
     "nameKo": "재앙의검",
-    "nameJa": "わざわいのつるぎ"
+    "nameJa": "わざわいのつるぎ",
+    "nameEn": "Sword of Ruin"
   },
   {
     "name": "Beads of Ruin",
     "nameKo": "재앙의구슬",
-    "nameJa": "わざわいのたま"
+    "nameJa": "わざわいのたま",
+    "nameEn": "Beads of Ruin"
   },
   {
     "name": "Vessel of Ruin",
     "nameKo": "재앙의그릇",
-    "nameJa": "わざわいのうつわ"
+    "nameJa": "わざわいのうつわ",
+    "nameEn": "Vessel of Ruin"
   },
   {
     "name": "Tablets of Ruin",
     "nameKo": "재앙의목간",
-    "nameJa": "わざわいのおふだ"
+    "nameJa": "わざわいのおふだ",
+    "nameEn": "Tablets of Ruin"
   },
   {
     "name": "Water Absorb",
     "nameKo": "저수",
-    "nameJa": "ちょすい"
+    "nameJa": "ちょすい",
+    "nameEn": "Water Absorb"
   },
   {
     "name": "Cursed Body",
     "nameKo": "저주받은바디",
-    "nameJa": "のろわれボディ"
+    "nameJa": "のろわれボディ",
+    "nameEn": "Cursed Body"
   },
   {
     "name": "Adaptability",
     "nameKo": "적응력",
-    "nameJa": "てきおうりょく"
+    "nameJa": "てきおうりょく",
+    "nameEn": "Adaptability"
   },
   {
     "name": "Electromorphosis",
     "nameKo": "전기로바꾸기",
-    "nameJa": "でんきにかえる"
+    "nameJa": "でんきにかえる",
+    "nameEn": "Electromorphosis"
   },
   {
     "name": "Motor Drive",
     "nameKo": "전기엔진",
-    "nameJa": "でんきエンジン"
+    "nameJa": "でんきエンジン",
+    "nameEn": "Motor Drive"
   },
   {
     "name": "Battle Armor",
     "nameKo": "전투무장",
-    "nameJa": "カブトアーマー"
+    "nameJa": "カブトアーマー",
+    "nameEn": "Battle Armor"
   },
   {
     "name": "Comatose",
     "nameKo": "절대안깸",
-    "nameJa": "ぜったいねむり"
+    "nameJa": "ぜったいねむり",
+    "nameEn": "Comatose"
   },
   {
     "name": "Sticky Hold",
     "nameKo": "점착",
-    "nameJa": "ねんちゃく"
+    "nameJa": "ねんちゃく",
+    "nameEn": "Sticky Hold"
   },
   {
     "name": "Inner Focus",
     "nameKo": "정신력",
-    "nameJa": "せいしんりょく"
+    "nameJa": "せいしんりょく",
+    "nameEn": "Inner Focus"
   },
   {
     "name": "Justified",
     "nameKo": "정의의마음",
-    "nameJa": "せいぎのこころ"
+    "nameJa": "せいぎのこころ",
+    "nameEn": "Justified"
   },
   {
     "name": "Static",
     "nameKo": "정전기",
-    "nameJa": "せいでんき"
+    "nameJa": "せいでんき",
+    "nameEn": "Static"
   },
   {
     "name": "Purifying Salt",
     "nameKo": "정화의소금",
-    "nameJa": "きよめのしお"
+    "nameJa": "きよめのしお",
+    "nameEn": "Purifying Salt"
   },
   {
     "name": "Rain Dish",
     "nameKo": "젖은접시",
-    "nameJa": "あめうけざら"
+    "nameJa": "あめうけざら",
+    "nameEn": "Rain Dish"
   },
   {
     "name": "Teraform Zero",
     "nameKo": "제로포밍",
-    "nameJa": "ゼロフォーミング"
+    "nameJa": "ゼロフォーミング",
+    "nameEn": "Teraform Zero"
   },
   {
     "name": "Shell Armor",
     "nameKo": "조가비갑옷",
-    "nameJa": "シェルアーマー"
+    "nameJa": "シェルアーマー",
+    "nameEn": "Shell Armor"
   },
   {
     "name": "Rattled",
     "nameKo": "주눅",
-    "nameJa": "びびり"
+    "nameJa": "びびり",
+    "nameEn": "Rattled"
   },
   {
     "name": "Steam Engine",
     "nameKo": "증기기관",
-    "nameJa": "じょうききかん"
+    "nameJa": "じょうききかん",
+    "nameEn": "Steam Engine"
   },
   {
     "name": "Stamina",
     "nameKo": "지구력",
-    "nameJa": "じきゅうりょく"
+    "nameJa": "じきゅうりょく",
+    "nameEn": "Stamina"
   },
   {
     "name": "Orichalcum Pulse",
     "nameKo": "진홍빛고동",
-    "nameJa": "ひひいろのこどう"
+    "nameJa": "ひひいろのこどう",
+    "nameEn": "Orichalcum Pulse"
   },
   {
     "name": "Gale Wings",
     "nameKo": "질풍날개",
-    "nameJa": "はやてのつばさ"
+    "nameJa": "はやてのつばさ",
+    "nameEn": "Gale Wings"
   },
   {
     "name": "Prankster",
     "nameKo": "짓궂은마음",
-    "nameJa": "いたずらごころ"
+    "nameJa": "いたずらごころ",
+    "nameEn": "Prankster"
   },
   {
     "name": "Unaware",
     "nameKo": "천진",
-    "nameJa": "てんねん"
+    "nameJa": "てんねん",
+    "nameEn": "Unaware"
   },
   {
     "name": "Huge Power",
     "nameKo": "천하장사",
-    "nameJa": "ちからもち"
+    "nameJa": "ちからもち",
+    "nameEn": "Huge Power"
   },
   {
     "name": "Iron Barbs",
     "nameKo": "철가시",
-    "nameJa": "てつのトゲ"
+    "nameJa": "てつのトゲ",
+    "nameEn": "Iron Barbs"
   },
   {
     "name": "Iron Fist",
     "nameKo": "철주먹",
-    "nameJa": "てつのこぶし"
+    "nameJa": "てつのこぶし",
+    "nameEn": "Iron Fist"
   },
   {
     "name": "Embody Aspect",
     "nameKo": "초상투영",
-    "nameJa": "おもかげやどし"
+    "nameJa": "おもかげやどし",
+    "nameEn": "Embody Aspect"
   },
   {
     "name": "Sap Sipper",
     "nameKo": "초식",
-    "nameJa": "そうしょく"
+    "nameJa": "そうしょく",
+    "nameEn": "Sap Sipper"
   },
   {
     "name": "Hydration",
     "nameKo": "촉촉바디",
-    "nameJa": "うるおいボディ"
+    "nameJa": "うるおいボディ",
+    "nameEn": "Hydration"
   },
   {
     "name": "Liquid Voice",
     "nameKo": "촉촉보이스",
-    "nameJa": "うるおいボイス"
+    "nameJa": "うるおいボイス",
+    "nameEn": "Liquid Voice"
   },
   {
     "name": "Supreme Overlord 0",
     "nameKo": "총대장 ×0",
-    "nameJa": "そうだいしょう(0)"
+    "nameJa": "そうだいしょう(0)",
+    "nameEn": "Supreme Overlord 0"
   },
   {
     "name": "Supreme Overlord 1",
     "nameKo": "총대장 ×1",
-    "nameJa": "そうだいしょう(1)"
+    "nameJa": "そうだいしょう(1)",
+    "nameEn": "Supreme Overlord 1"
   },
   {
     "name": "Supreme Overlord 2",
     "nameKo": "총대장 ×2",
-    "nameJa": "そうだいしょう(2)"
+    "nameJa": "そうだいしょう(2)",
+    "nameEn": "Supreme Overlord 2"
   },
   {
     "name": "Supreme Overlord 3",
     "nameKo": "총대장 ×3",
-    "nameJa": "そうだいしょう(3)"
+    "nameJa": "そうだいしょう(3)",
+    "nameEn": "Supreme Overlord 3"
   },
   {
     "name": "Supreme Overlord 4",
     "nameKo": "총대장 ×4",
-    "nameJa": "そうだいしょう(4)"
+    "nameJa": "そうだいしょう(4)",
+    "nameEn": "Supreme Overlord 4"
   },
   {
     "name": "Supreme Overlord 5",
     "nameKo": "총대장 ×5",
-    "nameJa": "そうだいしょう(5)"
+    "nameJa": "そうだいしょう(5)",
+    "nameEn": "Supreme Overlord 5"
   },
   {
     "name": "Volt Absorb",
     "nameKo": "축전",
-    "nameJa": "ちくでん"
+    "nameJa": "ちくでん",
+    "nameEn": "Volt Absorb"
   },
   {
     "name": "Healer",
     "nameKo": "치유의마음",
-    "nameJa": "いやしのこころ"
+    "nameJa": "いやしのこころ",
+    "nameEn": "Healer"
   },
   {
     "name": "Tangling Hair",
     "nameKo": "컬리헤어",
-    "nameJa": "カーリーヘアー"
+    "nameJa": "カーリーヘアー",
+    "nameEn": "Tangling Hair"
   },
   {
     "name": "Quark Drive",
     "nameKo": "쿼크차지",
-    "nameJa": "クォークチャージ"
+    "nameJa": "クォークチャージ",
+    "nameEn": "Quark Drive"
   },
   {
     "name": "Quick Draw",
     "nameKo": "퀵드로",
-    "nameJa": "クイックドロウ"
+    "nameJa": "クイックドロウ",
+    "nameEn": "Quick Draw"
   },
   {
     "name": "Clear Body",
     "nameKo": "클리어바디",
-    "nameJa": "クリアボディ"
+    "nameJa": "クリアボディ",
+    "nameEn": "Clear Body"
   },
   {
     "name": "Flash Fire",
     "nameKo": "타오르는불꽃",
-    "nameJa": "もらいび"
+    "nameJa": "もらいび",
+    "nameEn": "Flash Fire"
   },
   {
     "name": "Disguise",
     "nameKo": "탈",
-    "nameJa": "ばけのかわ"
+    "nameJa": "ばけのかわ",
+    "nameEn": "Disguise"
   },
   {
     "name": "Shed Skin",
     "nameKo": "탈피",
-    "nameJa": "だっぴ"
+    "nameJa": "だっぴ",
+    "nameEn": "Shed Skin"
   },
   {
     "name": "Turboblaze",
     "nameKo": "터보블레이즈",
-    "nameJa": "ターボブレイズ"
+    "nameJa": "ターボブレイズ",
+    "nameEn": "Turboblaze"
   },
   {
     "name": "Teravolt",
     "nameKo": "테라볼티지",
-    "nameJa": "テラボルテージ"
+    "nameJa": "テラボルテージ",
+    "nameEn": "Teravolt"
   },
   {
     "name": "Tera Shell",
     "nameKo": "테라셸",
-    "nameJa": "テラスシェル"
+    "nameJa": "テラスシェル",
+    "nameEn": "Tera Shell"
   },
   {
     "name": "Tera Shift",
     "nameKo": "테라체인지",
-    "nameJa": "テラスチェンジ"
+    "nameJa": "テラスチェンジ",
+    "nameEn": "Tera Shift"
   },
   {
     "name": "Armor Tail",
     "nameKo": "테일아머",
-    "nameJa": "テイルアーマー"
+    "nameJa": "テイルアーマー",
+    "nameEn": "Armor Tail"
   },
   {
     "name": "Technician",
     "nameKo": "테크니션",
-    "nameJa": "テクニシャン"
+    "nameJa": "テクニシャン",
+    "nameEn": "Technician"
   },
   {
     "name": "Telepathy",
     "nameKo": "텔레파시",
-    "nameJa": "テレパシー"
+    "nameJa": "テレパシー",
+    "nameEn": "Telepathy"
   },
   {
     "name": "Frisk",
     "nameKo": "통찰",
-    "nameJa": "おみとおし"
+    "nameJa": "おみとおし",
+    "nameEn": "Frisk"
   },
   {
     "name": "Rivalry",
     "nameKo": "투쟁심",
-    "nameJa": "とうそうしん"
+    "nameJa": "とうそうしん",
+    "nameEn": "Rivalry"
   },
   {
     "name": "Transistor",
     "nameKo": "트랜지스터",
-    "nameJa": "トランジスタ"
+    "nameJa": "トランジスタ",
+    "nameEn": "Transistor"
   },
   {
     "name": "Trace",
     "nameKo": "트레이스",
-    "nameJa": "トレース"
+    "nameJa": "トレース",
+    "nameEn": "Trace"
   },
   {
     "name": "Mold Breaker",
     "nameKo": "틀깨기",
-    "nameJa": "かたやぶり"
+    "nameJa": "かたやぶり",
+    "nameEn": "Mold Breaker"
   },
   {
     "name": "Infiltrator",
     "nameKo": "틈새포착",
-    "nameJa": "すりぬけ"
+    "nameJa": "すりぬけ",
+    "nameEn": "Infiltrator"
   },
   {
     "name": "Guard Dog",
     "nameKo": "파수견",
-    "nameJa": "ばんけん"
+    "nameJa": "ばんけん",
+    "nameEn": "Guard Dog"
   },
   {
     "name": "Pastel Veil",
     "nameKo": "파스텔베일",
-    "nameJa": "パステルベール"
+    "nameJa": "パステルベール",
+    "nameEn": "Pastel Veil"
   },
   {
     "name": "Power Spot",
     "nameKo": "파워스폿",
-    "nameJa": "パワースポット"
+    "nameJa": "パワースポット",
+    "nameEn": "Power Spot"
   },
   {
     "name": "Fur Coat",
     "nameKo": "퍼코트",
-    "nameJa": "ファーコート"
+    "nameJa": "ファーコート",
+    "nameEn": "Fur Coat"
   },
   {
     "name": "Punk Rock",
     "nameKo": "펑크록",
-    "nameJa": "パンクロック"
+    "nameJa": "パンクロック",
+    "nameEn": "Punk Rock"
   },
   {
     "name": "Pixilate",
     "nameKo": "페어리스킨",
-    "nameJa": "フェアリースキン"
+    "nameJa": "フェアリースキン",
+    "nameEn": "Pixilate"
   },
   {
     "name": "Fairy Aura",
     "nameKo": "페어리오라",
-    "nameJa": "フェアリーオーラ"
+    "nameJa": "フェアリーオーラ",
+    "nameEn": "Fairy Aura"
   },
   {
     "name": "Opportunist",
     "nameKo": "편승",
-    "nameJa": "びんじょう"
+    "nameJa": "びんじょう",
+    "nameEn": "Opportunist"
   },
   {
     "name": "Poison Heal",
     "nameKo": "포이즌힐",
-    "nameJa": "ポイズンヒール"
+    "nameJa": "ポイズンヒール",
+    "nameEn": "Poison Heal"
   },
   {
     "name": "Effect Spore",
     "nameKo": "포자",
-    "nameJa": "ほうし"
+    "nameJa": "ほうし",
+    "nameEn": "Effect Spore"
   },
   {
     "name": "Grass Pelt",
     "nameKo": "풀모피",
-    "nameJa": "くさのけがわ"
+    "nameJa": "くさのけがわ",
+    "nameEn": "Grass Pelt"
   },
   {
     "name": "Wind Power",
     "nameKo": "풍력발전",
-    "nameJa": "ふうりょくでんき"
+    "nameJa": "ふうりょくでんき",
+    "nameEn": "Wind Power"
   },
   {
     "name": "Pressure",
     "nameKo": "프레셔",
-    "nameJa": "プレッシャー"
+    "nameJa": "プレッシャー",
+    "nameEn": "Pressure"
   },
   {
     "name": "Friend Guard",
     "nameKo": "프렌드가드",
-    "nameJa": "フレンドガード"
+    "nameJa": "フレンドガード",
+    "nameEn": "Friend Guard"
   },
   {
     "name": "Refrigerate",
     "nameKo": "프리즈스킨",
-    "nameJa": "フリーズスキン"
+    "nameJa": "フリーズスキン",
+    "nameEn": "Refrigerate"
   },
   {
     "name": "Prism Armor",
     "nameKo": "프리즘아머",
-    "nameJa": "プリズムアーマー"
+    "nameJa": "プリズムアーマー",
+    "nameEn": "Prism Armor"
   },
   {
     "name": "Flower Gift",
     "nameKo": "플라워기프트",
-    "nameJa": "フラワーギフト"
+    "nameJa": "フラワーギフト",
+    "nameEn": "Flower Gift"
   },
   {
     "name": "Flower Veil",
     "nameKo": "플라워베일",
-    "nameJa": "フラワーベール"
+    "nameJa": "フラワーベール",
+    "nameEn": "Flower Veil"
   },
   {
     "name": "Plus",
     "nameKo": "플러스",
-    "nameJa": "プラス"
+    "nameJa": "プラス",
+    "nameEn": "Plus"
   },
   {
     "name": "Lightning Rod",
     "nameKo": "피뢰침",
-    "nameJa": "ひらいしん"
+    "nameJa": "ひらいしん",
+    "nameEn": "Lightning Rod"
   },
   {
     "name": "Pickup",
     "nameKo": "픽업",
-    "nameJa": "ものひろい"
+    "nameJa": "ものひろい",
+    "nameEn": "Pickup"
   },
   {
     "name": "Filter",
     "nameKo": "필터",
-    "nameJa": "フィルター"
+    "nameJa": "フィルター",
+    "nameEn": "Filter"
   },
   {
     "name": "Serene Grace",
     "nameKo": "하늘의은총",
-    "nameJa": "てんのめぐみ"
+    "nameJa": "てんのめぐみ",
+    "nameEn": "Serene Grace"
   },
   {
     "name": "Solid Rock",
     "nameKo": "하드록",
-    "nameJa": "ハードロック"
+    "nameJa": "ハードロック",
+    "nameEn": "Solid Rock"
   },
   {
     "name": "Hadron Engine",
     "nameKo": "하드론엔진",
-    "nameJa": "ハドロンエンジン"
+    "nameJa": "ハドロンエンジン",
+    "nameEn": "Hadron Engine"
   },
   {
     "name": "White Smoke",
     "nameKo": "하얀연기",
-    "nameJa": "しろいけむり"
+    "nameJa": "しろいけむり",
+    "nameEn": "White Smoke"
   },
   {
     "name": "Liquid Ooze",
     "nameKo": "해감액",
-    "nameJa": "ヘドロえき"
+    "nameJa": "ヘドロえき",
+    "nameEn": "Liquid Ooze"
   },
   {
     "name": "Cute Charm",
     "nameKo": "헤롱헤롱바디",
-    "nameJa": "メロメロボディ"
+    "nameJa": "メロメロボディ",
+    "nameEn": "Cute Charm"
   },
   {
     "name": "Heavy Metal",
     "nameKo": "헤비메탈",
-    "nameJa": "ヘヴィメタル"
+    "nameJa": "ヘヴィメタル",
+    "nameEn": "Heavy Metal"
   },
   {
     "name": "Costar",
     "nameKo": "협연",
-    "nameJa": "きょうえん"
+    "nameJa": "きょうえん",
+    "nameEn": "Costar"
   },
   {
     "name": "As One",
     "nameKo": "혼연일체",
-    "nameJa": "じんばいったい"
+    "nameJa": "じんばいったい",
+    "nameEn": "As One"
   },
   {
     "name": "As One",
     "nameKo": "혼연일체",
-    "nameJa": "じんばいったい"
+    "nameJa": "じんばいったい",
+    "nameEn": "As One"
   },
   {
     "name": "Neutralizing Gas",
     "nameKo": "화학변화가스",
-    "nameJa": "かがくへんかガス"
+    "nameJa": "かがくへんかガス",
+    "nameEn": "Neutralizing Gas"
   },
   {
     "name": "Good as Gold",
     "nameKo": "황금몸",
-    "nameJa": "おうごんのからだ"
+    "nameJa": "おうごんのからだ",
+    "nameEn": "Good as Gold"
   },
   {
     "name": "Grim Neigh",
     "nameKo": "흑의울음",
-    "nameJa": "くろのいななき"
+    "nameJa": "くろのいななき",
+    "nameEn": "Grim Neigh"
   },
   {
     "name": "Earth Eater",
     "nameKo": "흙먹기",
-    "nameJa": "どしょく"
+    "nameJa": "どしょく",
+    "nameEn": "Earth Eater"
   },
   {
     "name": "Suction Cups",
     "nameKo": "흡반",
-    "nameJa": "きゅうばん"
+    "nameJa": "きゅうばん",
+    "nameEn": "Suction Cups"
   },
   {
     "name": "Triage",
     "nameKo": "힐링시프트",
-    "nameJa": "ヒーリングシフト"
+    "nameJa": "ヒーリングシフト",
+    "nameEn": "Triage"
   },
   {
     "name": "Mega Sol",
     "nameKo": "메가솔라",
-    "nameJa": "メガソーラー"
+    "nameJa": "メガソーラー",
+    "nameEn": "Mega Sol"
   },
   {
     "name": "Dragonize",
     "nameKo": "드래곤스킨",
-    "nameJa": "ドラゴンスキン"
+    "nameJa": "ドラゴンスキン",
+    "nameEn": "Dragonize"
   }
 ]

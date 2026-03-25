@@ -20,7 +20,8 @@
     "height": 0.4,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Victini"
   },
   {
     "dexNumber": 495,
@@ -43,7 +44,8 @@
     "weight": 8.1,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Snivy"
   },
   {
     "dexNumber": 496,
@@ -66,7 +68,8 @@
     "weight": 16.0,
     "height": 0.8,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Servine"
   },
   {
     "dexNumber": 497,
@@ -89,7 +92,8 @@
     "weight": 63.0,
     "height": 3.3,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Serperior"
   },
   {
     "dexNumber": 498,
@@ -112,7 +116,8 @@
     "weight": 9.9,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Tepig"
   },
   {
     "dexNumber": 499,
@@ -136,7 +141,8 @@
     "height": 1.0,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Pignite"
   },
   {
     "dexNumber": 500,
@@ -160,7 +166,8 @@
     "height": 1.6,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Emboar"
   },
   {
     "dexNumber": 501,
@@ -183,7 +190,8 @@
     "weight": 5.9,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Oshawott"
   },
   {
     "dexNumber": 502,
@@ -206,7 +214,8 @@
     "weight": 24.5,
     "height": 0.8,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Dewott"
   },
   {
     "dexNumber": 503,
@@ -229,7 +238,8 @@
     "weight": 94.6,
     "height": 1.5,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Samurott"
   },
   {
     "dexNumber": 504,
@@ -253,7 +263,8 @@
     "weight": 11.6,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Patrat"
   },
   {
     "dexNumber": 505,
@@ -277,7 +288,8 @@
     "weight": 27.0,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Watchog"
   },
   {
     "dexNumber": 506,
@@ -301,7 +313,8 @@
     "weight": 4.1,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Lillipup"
   },
   {
     "dexNumber": 507,
@@ -325,7 +338,8 @@
     "weight": 14.7,
     "height": 0.9,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Herdier"
   },
   {
     "dexNumber": 508,
@@ -349,7 +363,8 @@
     "weight": 61.0,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Stoutland"
   },
   {
     "dexNumber": 509,
@@ -373,7 +388,8 @@
     "weight": 10.1,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Purrloin"
   },
   {
     "dexNumber": 510,
@@ -397,7 +413,8 @@
     "weight": 37.5,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Liepard"
   },
   {
     "dexNumber": 511,
@@ -420,7 +437,8 @@
     "weight": 10.5,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Pansage"
   },
   {
     "dexNumber": 512,
@@ -443,7 +461,8 @@
     "weight": 30.5,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Simisage"
   },
   {
     "dexNumber": 513,
@@ -466,7 +485,8 @@
     "weight": 11.0,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Pansear"
   },
   {
     "dexNumber": 514,
@@ -489,7 +509,8 @@
     "weight": 28.0,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Simisear"
   },
   {
     "dexNumber": 515,
@@ -512,7 +533,8 @@
     "weight": 13.5,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Panpour"
   },
   {
     "dexNumber": 516,
@@ -535,7 +557,8 @@
     "weight": 29.0,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Simipour"
   },
   {
     "dexNumber": 517,
@@ -559,7 +582,8 @@
     "weight": 23.3,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Munna"
   },
   {
     "dexNumber": 518,
@@ -583,7 +607,8 @@
     "weight": 60.5,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Musharna"
   },
   {
     "dexNumber": 519,
@@ -608,7 +633,8 @@
     "height": 0.3,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Pidove"
   },
   {
     "dexNumber": 520,
@@ -633,7 +659,8 @@
     "height": 0.6,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Tranquill"
   },
   {
     "dexNumber": 521,
@@ -658,7 +685,8 @@
     "height": 1.2,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Unfezant"
   },
   {
     "dexNumber": 522,
@@ -682,7 +710,8 @@
     "weight": 29.8,
     "height": 0.8,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Blitzle"
   },
   {
     "dexNumber": 523,
@@ -706,7 +735,8 @@
     "weight": 79.5,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Zebstrika"
   },
   {
     "dexNumber": 524,
@@ -730,7 +760,8 @@
     "weight": 18.0,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Roggenrola"
   },
   {
     "dexNumber": 525,
@@ -754,7 +785,8 @@
     "weight": 102.0,
     "height": 0.9,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Boldore"
   },
   {
     "dexNumber": 526,
@@ -778,7 +810,8 @@
     "weight": 260.0,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Gigalith"
   },
   {
     "dexNumber": 527,
@@ -803,7 +836,8 @@
     "height": 0.4,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Woobat"
   },
   {
     "dexNumber": 528,
@@ -828,7 +862,8 @@
     "height": 0.9,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Swoobat"
   },
   {
     "dexNumber": 529,
@@ -852,7 +887,8 @@
     "weight": 8.5,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Drilbur"
   },
   {
     "dexNumber": 530,
@@ -877,7 +913,8 @@
     "height": 0.7,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Excadrill"
   },
   {
     "dexNumber": 531,
@@ -901,7 +938,8 @@
     "weight": 31.0,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Audino"
   },
   {
     "dexNumber": 532,
@@ -925,7 +963,8 @@
     "weight": 12.5,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 2
+    "genderRate": 2,
+    "nameEn": "Timburr"
   },
   {
     "dexNumber": 533,
@@ -949,7 +988,8 @@
     "weight": 40.0,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": 2
+    "genderRate": 2,
+    "nameEn": "Gurdurr"
   },
   {
     "dexNumber": 534,
@@ -973,7 +1013,8 @@
     "weight": 87.0,
     "height": 1.4,
     "finalEvo": true,
-    "genderRate": 2
+    "genderRate": 2,
+    "nameEn": "Conkeldurr"
   },
   {
     "dexNumber": 535,
@@ -997,7 +1038,8 @@
     "weight": 4.5,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Tympole"
   },
   {
     "dexNumber": 536,
@@ -1022,7 +1064,8 @@
     "height": 0.8,
     "type2": "ground",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Palpitoad"
   },
   {
     "dexNumber": 537,
@@ -1047,7 +1090,8 @@
     "height": 1.5,
     "type2": "ground",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Seismitoad"
   },
   {
     "dexNumber": 538,
@@ -1071,7 +1115,8 @@
     "weight": 55.5,
     "height": 1.3,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Throh"
   },
   {
     "dexNumber": 539,
@@ -1095,7 +1140,8 @@
     "weight": 51.0,
     "height": 1.4,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Sawk"
   },
   {
     "dexNumber": 540,
@@ -1120,7 +1166,8 @@
     "height": 0.3,
     "type2": "grass",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Sewaddle"
   },
   {
     "dexNumber": 541,
@@ -1145,7 +1192,8 @@
     "height": 0.5,
     "type2": "grass",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Swadloon"
   },
   {
     "dexNumber": 542,
@@ -1170,7 +1218,8 @@
     "height": 1.2,
     "type2": "grass",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Leavanny"
   },
   {
     "dexNumber": 543,
@@ -1195,7 +1244,8 @@
     "height": 0.4,
     "type2": "poison",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Venipede"
   },
   {
     "dexNumber": 544,
@@ -1220,7 +1270,8 @@
     "height": 1.2,
     "type2": "poison",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Whirlipede"
   },
   {
     "dexNumber": 545,
@@ -1245,7 +1296,8 @@
     "height": 2.5,
     "type2": "poison",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Scolipede"
   },
   {
     "dexNumber": 546,
@@ -1270,7 +1322,8 @@
     "height": 0.3,
     "type2": "fairy",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Cottonee"
   },
   {
     "dexNumber": 547,
@@ -1295,7 +1348,8 @@
     "height": 0.7,
     "type2": "fairy",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Whimsicott"
   },
   {
     "dexNumber": 548,
@@ -1319,7 +1373,8 @@
     "weight": 6.6,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Petilil"
   },
   {
     "dexNumber": 549,
@@ -1343,7 +1398,8 @@
     "weight": 16.3,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Lilligant"
   },
   {
     "dexNumber": 550,
@@ -1367,7 +1423,8 @@
     "weight": 18.0,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Basculin"
   },
   {
     "dexNumber": 551,
@@ -1392,7 +1449,8 @@
     "height": 0.7,
     "type2": "dark",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Sandile"
   },
   {
     "dexNumber": 552,
@@ -1417,7 +1475,8 @@
     "height": 1.0,
     "type2": "dark",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Krokorok"
   },
   {
     "dexNumber": 553,
@@ -1442,7 +1501,8 @@
     "height": 1.5,
     "type2": "dark",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Krookodile"
   },
   {
     "dexNumber": 554,
@@ -1465,7 +1525,8 @@
     "weight": 37.5,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Darumaka"
   },
   {
     "dexNumber": 555,
@@ -1488,7 +1549,8 @@
     "weight": 92.9,
     "height": 1.3,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Darmanitan"
   },
   {
     "dexNumber": 556,
@@ -1512,7 +1574,8 @@
     "weight": 28.0,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Maractus"
   },
   {
     "dexNumber": 557,
@@ -1537,7 +1600,8 @@
     "height": 0.3,
     "type2": "rock",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Dwebble"
   },
   {
     "dexNumber": 558,
@@ -1562,7 +1626,8 @@
     "height": 1.4,
     "type2": "rock",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Crustle"
   },
   {
     "dexNumber": 559,
@@ -1587,7 +1652,8 @@
     "height": 0.6,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Scraggy"
   },
   {
     "dexNumber": 560,
@@ -1612,7 +1678,8 @@
     "height": 1.1,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Scrafty"
   },
   {
     "dexNumber": 561,
@@ -1637,7 +1704,8 @@
     "height": 1.4,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Sigilyph"
   },
   {
     "dexNumber": 562,
@@ -1659,7 +1727,8 @@
     "weight": 1.5,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Yamask"
   },
   {
     "dexNumber": 563,
@@ -1681,7 +1750,8 @@
     "weight": 76.5,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Cofagrigus"
   },
   {
     "dexNumber": 564,
@@ -1706,7 +1776,8 @@
     "height": 0.7,
     "type2": "rock",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Tirtouga"
   },
   {
     "dexNumber": 565,
@@ -1731,7 +1802,8 @@
     "height": 1.2,
     "type2": "rock",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Carracosta"
   },
   {
     "dexNumber": 566,
@@ -1754,7 +1826,8 @@
     "height": 0.5,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Archen"
   },
   {
     "dexNumber": 567,
@@ -1777,7 +1850,8 @@
     "height": 1.4,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Archeops"
   },
   {
     "dexNumber": 568,
@@ -1801,7 +1875,8 @@
     "weight": 31.0,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Trubbish"
   },
   {
     "dexNumber": 569,
@@ -1826,7 +1901,8 @@
     "height": 1.9,
     "finalEvo": true,
     "genderRate": 4,
-    "canGmax": true
+    "canGmax": true,
+    "nameEn": "Garbodor"
   },
   {
     "dexNumber": 570,
@@ -1848,7 +1924,8 @@
     "weight": 12.5,
     "height": 0.7,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Zorua"
   },
   {
     "dexNumber": 571,
@@ -1870,7 +1947,8 @@
     "weight": 81.1,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Zoroark"
   },
   {
     "dexNumber": 572,
@@ -1894,7 +1972,8 @@
     "weight": 5.8,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Minccino"
   },
   {
     "dexNumber": 573,
@@ -1918,7 +1997,8 @@
     "weight": 7.5,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Cinccino"
   },
   {
     "dexNumber": 574,
@@ -1942,7 +2022,8 @@
     "weight": 5.8,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Gothita"
   },
   {
     "dexNumber": 575,
@@ -1966,7 +2047,8 @@
     "weight": 18.0,
     "height": 0.7,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Gothorita"
   },
   {
     "dexNumber": 576,
@@ -1990,7 +2072,8 @@
     "weight": 44.0,
     "height": 1.5,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Gothitelle"
   },
   {
     "dexNumber": 577,
@@ -2014,7 +2097,8 @@
     "weight": 1.0,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Solosis"
   },
   {
     "dexNumber": 578,
@@ -2038,7 +2122,8 @@
     "weight": 8.0,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Duosion"
   },
   {
     "dexNumber": 579,
@@ -2062,7 +2147,8 @@
     "weight": 20.1,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Reuniclus"
   },
   {
     "dexNumber": 580,
@@ -2087,7 +2173,8 @@
     "height": 0.5,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Ducklett"
   },
   {
     "dexNumber": 581,
@@ -2112,7 +2199,8 @@
     "height": 1.3,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Swanna"
   },
   {
     "dexNumber": 582,
@@ -2136,7 +2224,8 @@
     "weight": 5.7,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Vanillite"
   },
   {
     "dexNumber": 583,
@@ -2160,7 +2249,8 @@
     "weight": 41.0,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Vanillish"
   },
   {
     "dexNumber": 584,
@@ -2184,7 +2274,8 @@
     "weight": 57.5,
     "height": 1.3,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Vanilluxe"
   },
   {
     "dexNumber": 585,
@@ -2209,7 +2300,8 @@
     "height": 0.6,
     "type2": "grass",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Deerling"
   },
   {
     "dexNumber": 586,
@@ -2234,7 +2326,8 @@
     "height": 1.9,
     "type2": "grass",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Sawsbuck"
   },
   {
     "dexNumber": 587,
@@ -2258,7 +2351,8 @@
     "height": 0.4,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Emolga"
   },
   {
     "dexNumber": 588,
@@ -2282,7 +2376,8 @@
     "weight": 5.9,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Karrablast"
   },
   {
     "dexNumber": 589,
@@ -2307,7 +2402,8 @@
     "height": 1.0,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Escavalier"
   },
   {
     "dexNumber": 590,
@@ -2331,7 +2427,8 @@
     "height": 0.2,
     "type2": "poison",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Foongus"
   },
   {
     "dexNumber": 591,
@@ -2355,7 +2452,8 @@
     "height": 0.6,
     "type2": "poison",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Amoonguss"
   },
   {
     "dexNumber": 592,
@@ -2380,7 +2478,8 @@
     "height": 1.2,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Frillish"
   },
   {
     "dexNumber": 593,
@@ -2405,7 +2504,8 @@
     "height": 2.2,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Jellicent"
   },
   {
     "dexNumber": 594,
@@ -2429,7 +2529,8 @@
     "weight": 31.6,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alomomola"
   },
   {
     "dexNumber": 595,
@@ -2454,7 +2555,8 @@
     "height": 0.1,
     "type2": "electric",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Joltik"
   },
   {
     "dexNumber": 596,
@@ -2479,7 +2581,8 @@
     "height": 0.8,
     "type2": "electric",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galvantula"
   },
   {
     "dexNumber": 597,
@@ -2502,7 +2605,8 @@
     "height": 0.6,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Ferroseed"
   },
   {
     "dexNumber": 598,
@@ -2526,7 +2630,8 @@
     "height": 1.0,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Ferrothorn"
   },
   {
     "dexNumber": 599,
@@ -2550,7 +2655,8 @@
     "weight": 21.0,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Klink"
   },
   {
     "dexNumber": 600,
@@ -2574,7 +2680,8 @@
     "weight": 51.0,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Klang"
   },
   {
     "dexNumber": 601,
@@ -2598,7 +2705,8 @@
     "weight": 81.0,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Klinklang"
   },
   {
     "dexNumber": 602,
@@ -2620,7 +2728,8 @@
     "weight": 0.3,
     "height": 0.2,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Tynamo"
   },
   {
     "dexNumber": 603,
@@ -2642,7 +2751,8 @@
     "weight": 22.0,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Eelektrik"
   },
   {
     "dexNumber": 604,
@@ -2664,7 +2774,8 @@
     "weight": 80.5,
     "height": 2.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Eelektross"
   },
   {
     "dexNumber": 605,
@@ -2688,7 +2799,8 @@
     "weight": 9.0,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Elgyem"
   },
   {
     "dexNumber": 606,
@@ -2712,7 +2824,8 @@
     "weight": 34.5,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Beheeyem"
   },
   {
     "dexNumber": 607,
@@ -2737,7 +2850,8 @@
     "height": 0.3,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Litwick"
   },
   {
     "dexNumber": 608,
@@ -2762,7 +2876,8 @@
     "height": 0.6,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Lampent"
   },
   {
     "dexNumber": 609,
@@ -2787,7 +2902,8 @@
     "height": 1.0,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Chandelure"
   },
   {
     "dexNumber": 610,
@@ -2811,7 +2927,8 @@
     "weight": 18.0,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Axew"
   },
   {
     "dexNumber": 611,
@@ -2835,7 +2952,8 @@
     "weight": 36.0,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Fraxure"
   },
   {
     "dexNumber": 612,
@@ -2859,7 +2977,8 @@
     "weight": 105.5,
     "height": 1.8,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Haxorus"
   },
   {
     "dexNumber": 613,
@@ -2883,7 +3002,8 @@
     "weight": 8.5,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Cubchoo"
   },
   {
     "dexNumber": 614,
@@ -2907,7 +3027,8 @@
     "weight": 260.0,
     "height": 2.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Beartic"
   },
   {
     "dexNumber": 615,
@@ -2929,7 +3050,8 @@
     "weight": 148.0,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Cryogonal"
   },
   {
     "dexNumber": 616,
@@ -2953,7 +3075,8 @@
     "weight": 7.7,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Shelmet"
   },
   {
     "dexNumber": 617,
@@ -2977,7 +3100,8 @@
     "weight": 25.3,
     "height": 0.8,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Accelgor"
   },
   {
     "dexNumber": 618,
@@ -3002,7 +3126,8 @@
     "height": 0.7,
     "type2": "electric",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Stunfisk"
   },
   {
     "dexNumber": 619,
@@ -3026,7 +3151,8 @@
     "weight": 20.0,
     "height": 0.9,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Mienfoo"
   },
   {
     "dexNumber": 620,
@@ -3050,7 +3176,8 @@
     "weight": 35.5,
     "height": 1.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Mienshao"
   },
   {
     "dexNumber": 621,
@@ -3074,7 +3201,8 @@
     "weight": 139.0,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Druddigon"
   },
   {
     "dexNumber": 622,
@@ -3099,7 +3227,8 @@
     "height": 1.0,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Golett"
   },
   {
     "dexNumber": 623,
@@ -3124,7 +3253,8 @@
     "height": 2.8,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Golurk"
   },
   {
     "dexNumber": 624,
@@ -3149,7 +3279,8 @@
     "height": 0.5,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Pawniard"
   },
   {
     "dexNumber": 625,
@@ -3174,7 +3305,8 @@
     "height": 1.6,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Bisharp"
   },
   {
     "dexNumber": 626,
@@ -3198,7 +3330,8 @@
     "weight": 94.6,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Bouffalant"
   },
   {
     "dexNumber": 627,
@@ -3223,7 +3356,8 @@
     "height": 0.5,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Rufflet"
   },
   {
     "dexNumber": 628,
@@ -3248,7 +3382,8 @@
     "height": 1.5,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Braviary"
   },
   {
     "dexNumber": 629,
@@ -3273,7 +3408,8 @@
     "height": 0.5,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Vullaby"
   },
   {
     "dexNumber": 630,
@@ -3298,7 +3434,8 @@
     "height": 1.2,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Mandibuzz"
   },
   {
     "dexNumber": 631,
@@ -3322,7 +3459,8 @@
     "weight": 58.0,
     "height": 1.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Heatmor"
   },
   {
     "dexNumber": 632,
@@ -3347,7 +3485,8 @@
     "height": 0.3,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Durant"
   },
   {
     "dexNumber": 633,
@@ -3370,7 +3509,8 @@
     "height": 0.8,
     "type2": "dragon",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Deino"
   },
   {
     "dexNumber": 634,
@@ -3393,7 +3533,8 @@
     "height": 1.4,
     "type2": "dragon",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Zweilous"
   },
   {
     "dexNumber": 635,
@@ -3416,7 +3557,8 @@
     "height": 1.8,
     "type2": "dragon",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Hydreigon"
   },
   {
     "dexNumber": 636,
@@ -3440,7 +3582,8 @@
     "height": 1.1,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Larvesta"
   },
   {
     "dexNumber": 637,
@@ -3464,7 +3607,8 @@
     "height": 1.6,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Volcarona"
   },
   {
     "dexNumber": 638,
@@ -3487,7 +3631,8 @@
     "height": 2.1,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Cobalion"
   },
   {
     "dexNumber": 639,
@@ -3510,7 +3655,8 @@
     "height": 1.9,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Terrakion"
   },
   {
     "dexNumber": 640,
@@ -3533,7 +3679,8 @@
     "height": 2.0,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Virizion"
   },
   {
     "dexNumber": 641,
@@ -3556,7 +3703,8 @@
     "weight": 63.0,
     "height": 1.5,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Tornadus"
   },
   {
     "dexNumber": 642,
@@ -3580,7 +3728,8 @@
     "height": 1.5,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Thundurus"
   },
   {
     "dexNumber": 643,
@@ -3603,7 +3752,8 @@
     "height": 3.2,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Reshiram"
   },
   {
     "dexNumber": 644,
@@ -3626,7 +3776,8 @@
     "height": 2.9,
     "type2": "electric",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Zekrom"
   },
   {
     "dexNumber": 645,
@@ -3650,7 +3801,8 @@
     "height": 1.5,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Landorus"
   },
   {
     "dexNumber": 646,
@@ -3673,7 +3825,8 @@
     "height": 3.0,
     "type2": "ice",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Kyurem"
   },
   {
     "dexNumber": 647,
@@ -3696,7 +3849,8 @@
     "height": 1.4,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Keldeo"
   },
   {
     "dexNumber": 648,
@@ -3719,7 +3873,8 @@
     "height": 0.6,
     "type2": "psychic",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Meloetta"
   },
   {
     "dexNumber": 649,
@@ -3742,6 +3897,7 @@
     "height": 1.5,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Genesect"
   }
 ]

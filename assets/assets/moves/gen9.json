@@ -10,7 +10,8 @@
     "pp": 20,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Aqua Cutter"
   },
   {
     "name": "Aqua Step",
@@ -21,7 +22,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Aqua Step"
   },
   {
     "name": "Armor Cannon",
@@ -32,7 +34,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Armor Cannon"
   },
   {
     "name": "Axe Kick",
@@ -43,7 +46,8 @@
     "power": 120,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Axe Kick"
   },
   {
     "name": "Bitter Blade",
@@ -56,7 +60,8 @@
     "pp": 10,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Bitter Blade"
   },
   {
     "name": "Blazing Torque",
@@ -67,7 +72,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Blazing Torque"
   },
   {
     "name": "Blood Moon",
@@ -78,7 +84,8 @@
     "power": 140,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Blood Moon"
   },
   {
     "name": "Chilling Water",
@@ -89,7 +96,8 @@
     "power": 50,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Chilling Water"
   },
   {
     "name": "Chilly Reception",
@@ -100,7 +108,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Chilly Reception"
   },
   {
     "name": "Collision Course",
@@ -113,7 +122,8 @@
     "pp": 5,
     "tags": [
       "custom:se_boost"
-    ]
+    ],
+    "nameEn": "Collision Course"
   },
   {
     "name": "Combat Torque",
@@ -124,7 +134,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Combat Torque"
   },
   {
     "name": "Comeuppance",
@@ -135,7 +146,8 @@
     "power": 1,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Comeuppance"
   },
   {
     "name": "Doodle",
@@ -146,7 +158,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Doodle"
   },
   {
     "name": "Double Shock",
@@ -157,7 +170,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Double Shock"
   },
   {
     "name": "Electro Drift",
@@ -170,7 +184,8 @@
     "pp": 5,
     "tags": [
       "custom:se_boost"
-    ]
+    ],
+    "nameEn": "Electro Drift"
   },
   {
     "name": "Fillet Away",
@@ -181,7 +196,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Fillet Away"
   },
   {
     "name": "Flower Trick",
@@ -194,7 +210,8 @@
     "pp": 10,
     "tags": [
       "custom:always_crit"
-    ]
+    ],
+    "nameEn": "Flower Trick"
   },
   {
     "name": "Gigaton Hammer",
@@ -205,7 +222,8 @@
     "power": 160,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Gigaton Hammer"
   },
   {
     "name": "Glaive Rush",
@@ -216,7 +234,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Glaive Rush"
   },
   {
     "name": "Hyper Drill",
@@ -227,7 +246,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Hyper Drill"
   },
   {
     "name": "Ice Spinner",
@@ -238,7 +258,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Ice Spinner"
   },
   {
     "name": "Ivy Cudgel",
@@ -249,7 +270,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Ivy Cudgel"
   },
   {
     "name": "Jet Punch",
@@ -263,7 +285,8 @@
     "priority": 1,
     "tags": [
       "punch"
-    ]
+    ],
+    "nameEn": "Jet Punch"
   },
   {
     "name": "Kowtow Cleave",
@@ -276,7 +299,8 @@
     "pp": 10,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Kowtow Cleave"
   },
   {
     "name": "Last Respects",
@@ -287,7 +311,8 @@
     "power": 50,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Last Respects"
   },
   {
     "name": "Lumina Crash",
@@ -298,7 +323,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Lumina Crash"
   },
   {
     "name": "Magical Torque",
@@ -309,7 +335,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Magical Torque"
   },
   {
     "name": "Make It Rain",
@@ -320,7 +347,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Make It Rain"
   },
   {
     "name": "Matcha Gotcha",
@@ -331,7 +359,8 @@
     "power": 80,
     "accuracy": 90,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Matcha Gotcha"
   },
   {
     "name": "Mortal Spin",
@@ -342,7 +371,8 @@
     "power": 30,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Mortal Spin"
   },
   {
     "name": "Noxious Torque",
@@ -353,7 +383,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Noxious Torque"
   },
   {
     "name": "Order Up",
@@ -364,7 +395,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Order Up"
   },
   {
     "name": "Population Bomb",
@@ -379,7 +411,8 @@
       "slice"
     ],
     "minHits": 1,
-    "maxHits": 10
+    "maxHits": 10,
+    "nameEn": "Population Bomb"
   },
   {
     "name": "Pounce",
@@ -390,7 +423,8 @@
     "power": 50,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Pounce"
   },
   {
     "name": "Rage Fist",
@@ -403,7 +437,8 @@
     "pp": 10,
     "tags": [
       "punch"
-    ]
+    ],
+    "nameEn": "Rage Fist"
   },
   {
     "name": "Raging Bull",
@@ -414,7 +449,8 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Raging Bull"
   },
   {
     "name": "Revival Blessing",
@@ -425,7 +461,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 1,
-    "tags": []
+    "tags": [],
+    "nameEn": "Revival Blessing"
   },
   {
     "name": "Ruination",
@@ -436,7 +473,10 @@
     "power": 0,
     "accuracy": 90,
     "pp": 10,
-    "tags": ["custom:fixed_half_hp"]
+    "tags": [
+      "custom:fixed_half_hp"
+    ],
+    "nameEn": "Ruination"
   },
   {
     "name": "Salt Cure",
@@ -447,7 +487,8 @@
     "power": 40,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Salt Cure"
   },
   {
     "name": "Shed Tail",
@@ -458,7 +499,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Shed Tail"
   },
   {
     "name": "Silk Trap",
@@ -470,7 +512,8 @@
     "accuracy": 0,
     "pp": 10,
     "priority": 4,
-    "tags": []
+    "tags": [],
+    "nameEn": "Silk Trap"
   },
   {
     "name": "Snowscape",
@@ -481,7 +524,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Snowscape"
   },
   {
     "name": "Spicy Extract",
@@ -492,7 +536,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Spicy Extract"
   },
   {
     "name": "Spin Out",
@@ -503,7 +548,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Spin Out"
   },
   {
     "name": "Syrup Bomb",
@@ -517,7 +563,8 @@
     "tags": [
       "custom:has_secondary",
       "ball"
-    ]
+    ],
+    "nameEn": "Syrup Bomb"
   },
   {
     "name": "Tera Blast",
@@ -528,7 +575,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Tera Blast"
   },
   {
     "name": "Tidy Up",
@@ -539,7 +587,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Tidy Up"
   },
   {
     "name": "Torch Song",
@@ -552,7 +601,8 @@
     "pp": 10,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Torch Song"
   },
   {
     "name": "Trailblaze",
@@ -563,7 +613,8 @@
     "power": 50,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Trailblaze"
   },
   {
     "name": "Triple Dive",
@@ -576,7 +627,8 @@
     "pp": 10,
     "tags": [],
     "minHits": 1,
-    "maxHits": 3
+    "maxHits": 3,
+    "nameEn": "Triple Dive"
   },
   {
     "name": "Twin Beam",
@@ -589,7 +641,8 @@
     "pp": 10,
     "minHits": 2,
     "maxHits": 2,
-    "tags": []
+    "tags": [],
+    "nameEn": "Twin Beam"
   },
   {
     "name": "Wicked Torque",
@@ -600,7 +653,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Wicked Torque"
   },
   {
     "name": "Upper Hand",
@@ -612,7 +666,8 @@
     "accuracy": 100,
     "pp": 15,
     "priority": 1,
-    "tags": []
+    "tags": [],
+    "nameEn": "Upper Hand"
   },
   {
     "name": "Dragon Cheer",
@@ -623,7 +678,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Dragon Cheer"
   },
   {
     "name": "Alluring Voice",
@@ -636,7 +692,8 @@
     "pp": 10,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Alluring Voice"
   },
   {
     "name": "Fickle Beam",
@@ -647,7 +704,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Fickle Beam"
   },
   {
     "name": "Psychic Noise",
@@ -660,7 +718,8 @@
     "pp": 10,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Psychic Noise"
   },
   {
     "name": "Psyblade",
@@ -673,7 +732,8 @@
     "pp": 15,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Psyblade"
   },
   {
     "name": "Supercell Slam",
@@ -684,7 +744,8 @@
     "power": 100,
     "accuracy": 95,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Supercell Slam"
   },
   {
     "name": "Malignant Chain",
@@ -695,7 +756,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Malignant Chain"
   },
   {
     "name": "Temper Flare",
@@ -706,7 +768,8 @@
     "power": 75,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Temper Flare"
   },
   {
     "name": "Electro Shot",
@@ -717,7 +780,8 @@
     "power": 130,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Electro Shot"
   },
   {
     "name": "Thunderclap",
@@ -729,7 +793,8 @@
     "accuracy": 100,
     "pp": 5,
     "priority": 1,
-    "tags": []
+    "tags": [],
+    "nameEn": "Thunderclap"
   },
   {
     "name": "Tachyon Cutter",
@@ -742,7 +807,8 @@
     "pp": 10,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Tachyon Cutter"
   },
   {
     "name": "Tera Starstorm",
@@ -753,7 +819,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Tera Starstorm"
   },
   {
     "name": "Mighty Cleave",
@@ -766,7 +833,8 @@
     "pp": 5,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Mighty Cleave"
   },
   {
     "name": "Hard Press",
@@ -779,7 +847,8 @@
     "pp": 10,
     "tags": [
       "custom:power_target_hp_100"
-    ]
+    ],
+    "nameEn": "Hard Press"
   },
   {
     "name": "Hydro Steam",
@@ -792,7 +861,8 @@
     "pp": 15,
     "tags": [
       "custom:sun_boost"
-    ]
+    ],
+    "nameEn": "Hydro Steam"
   },
   {
     "name": "Burning Bulwark",
@@ -804,6 +874,7 @@
     "accuracy": 0,
     "pp": 10,
     "priority": 4,
-    "tags": []
+    "tags": [],
+    "nameEn": "Burning Bulwark"
   }
 ]
