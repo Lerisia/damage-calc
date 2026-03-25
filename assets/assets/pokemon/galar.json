@@ -2,7 +2,7 @@
   {
     "dexNumber": 52,
     "formId": 10161,
-    "name": "Galarian Form",
+    "name": "Galarian Meowth",
     "nameKo": "나옹 (가라르의 모습)",
     "nameJa": "ニャース (ガラルのすがた)",
     "type1": "steel",
@@ -22,12 +22,13 @@
     "weight": 7.5,
     "height": 0.4,
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Meowth"
   },
   {
     "dexNumber": 77,
     "formId": 10162,
-    "name": "Galarian Form",
+    "name": "Galarian Ponyta",
     "nameKo": "포니타 (가라르의 모습)",
     "nameJa": "ポニータ (ガラルのすがた)",
     "type1": "psychic",
@@ -47,12 +48,13 @@
     "weight": 24.0,
     "height": 0.8,
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Ponyta"
   },
   {
     "dexNumber": 78,
     "formId": 10163,
-    "name": "Galarian Form",
+    "name": "Galarian Rapidash",
     "nameKo": "날쌩마 (가라르의 모습)",
     "nameJa": "ギャロップ (ガラルのすがた)",
     "type1": "psychic",
@@ -73,12 +75,13 @@
     "height": 1.7,
     "type2": "fairy",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Rapidash"
   },
   {
     "dexNumber": 79,
     "formId": 10164,
-    "name": "Galarian Form",
+    "name": "Galarian Slowpoke",
     "nameKo": "야돈 (가라르의 모습)",
     "nameJa": "ヤドン (ガラルのすがた)",
     "type1": "psychic",
@@ -98,12 +101,13 @@
     "weight": 36.0,
     "height": 1.2,
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Slowpoke"
   },
   {
     "dexNumber": 80,
     "formId": 10165,
-    "name": "Galarian Form",
+    "name": "Galarian Slowbro",
     "nameKo": "야도란 (가라르의 모습)",
     "nameJa": "ヤドラン (ガラルのすがた)",
     "type1": "poison",
@@ -124,12 +128,13 @@
     "height": 1.6,
     "type2": "psychic",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Slowbro"
   },
   {
     "dexNumber": 83,
     "formId": 10166,
-    "name": "Galarian Form",
+    "name": "Galarian Farfetch'd",
     "nameKo": "파오리 (가라르의 모습)",
     "nameJa": "カモネギ (ガラルのすがた)",
     "type1": "fighting",
@@ -148,12 +153,13 @@
     "weight": 42.0,
     "height": 0.8,
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Farfetch'd"
   },
   {
     "dexNumber": 110,
     "formId": 10167,
-    "name": "Galarian Form",
+    "name": "Galarian Weezing",
     "nameKo": "또도가스 (가라르의 모습)",
     "nameJa": "マタドガス (ガラルのすがた)",
     "type1": "poison",
@@ -174,12 +180,13 @@
     "height": 3.0,
     "type2": "fairy",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Weezing"
   },
   {
     "dexNumber": 122,
     "formId": 10168,
-    "name": "Galarian Form",
+    "name": "Galarian Mr. Mime",
     "nameKo": "마임맨 (가라르의 모습)",
     "nameJa": "バリヤード (ガラルのすがた)",
     "type1": "ice",
@@ -200,12 +207,13 @@
     "height": 1.4,
     "type2": "psychic",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Mr. Mime"
   },
   {
     "dexNumber": 144,
     "formId": 10169,
-    "name": "Galarian Form",
+    "name": "Galarian Articuno",
     "nameKo": "프리져 (가라르의 모습)",
     "nameJa": "フリーザー (ガラルのすがた)",
     "type1": "psychic",
@@ -224,12 +232,13 @@
     "height": 1.7,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Galarian Articuno"
   },
   {
     "dexNumber": 145,
     "formId": 10170,
-    "name": "Galarian Form",
+    "name": "Galarian Zapdos",
     "nameKo": "썬더 (가라르의 모습)",
     "nameJa": "サンダー (ガラルのすがた)",
     "type1": "fighting",
@@ -248,12 +257,13 @@
     "height": 1.6,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Galarian Zapdos"
   },
   {
     "dexNumber": 146,
     "formId": 10171,
-    "name": "Galarian Form",
+    "name": "Galarian Moltres",
     "nameKo": "파이어 (가라르의 모습)",
     "nameJa": "ファイヤー (ガラルのすがた)",
     "type1": "dark",
@@ -272,12 +282,13 @@
     "height": 2.0,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Galarian Moltres"
   },
   {
     "dexNumber": 199,
     "formId": 10172,
-    "name": "Galarian Form",
+    "name": "Galarian Slowking",
     "nameKo": "야도킹 (가라르의 모습)",
     "nameJa": "ヤドキング (ガラルのすがた)",
     "type1": "poison",
@@ -298,12 +309,13 @@
     "height": 1.8,
     "type2": "psychic",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Slowking"
   },
   {
     "dexNumber": 222,
     "formId": 10173,
-    "name": "Galarian Form",
+    "name": "Galarian Corsola",
     "nameKo": "코산호 (가라르의 모습)",
     "nameJa": "サニーゴ (ガラルのすがた)",
     "type1": "ghost",
@@ -322,12 +334,13 @@
     "weight": 0.5,
     "height": 0.6,
     "finalEvo": false,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Galarian Corsola"
   },
   {
     "dexNumber": 263,
     "formId": 10174,
-    "name": "Galarian Form",
+    "name": "Galarian Zigzagoon",
     "nameKo": "지그제구리 (가라르의 모습)",
     "nameJa": "ジグザグマ (ガラルのすがた)",
     "type1": "dark",
@@ -348,12 +361,13 @@
     "height": 0.4,
     "type2": "normal",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Zigzagoon"
   },
   {
     "dexNumber": 264,
     "formId": 10175,
-    "name": "Galarian Form",
+    "name": "Galarian Linoone",
     "nameKo": "직구리 (가라르의 모습)",
     "nameJa": "マッスグマ (ガラルのすがた)",
     "type1": "dark",
@@ -374,12 +388,13 @@
     "height": 0.5,
     "type2": "normal",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Linoone"
   },
   {
     "dexNumber": 554,
     "formId": 10176,
-    "name": "Galarian Form",
+    "name": "Galarian Darumaka",
     "nameKo": "달막화 (가라르의 모습)",
     "nameJa": "ダルマッカ (ガラルのすがた)",
     "type1": "ice",
@@ -398,12 +413,13 @@
     "weight": 40.0,
     "height": 0.7,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Darumaka"
   },
   {
     "dexNumber": 555,
     "formId": 10177,
-    "name": "Galarian Form",
+    "name": "Galarian Darmanitan",
     "nameKo": "불비달마 (가라르의 모습)",
     "nameJa": "ヒヒダルマ (ガラルのすがた)",
     "type1": "ice",
@@ -425,13 +441,14 @@
     "genderRate": 4,
     "aliases": [
       "얼비달마"
-    ]
+    ],
+    "nameEn": "Galarian Darmanitan"
   },
   {
     "dexNumber": 555,
     "formId": 10178,
-    "name": "Zen Mode",
-    "nameKo": "불비달마 (달마모드)",
+    "name": "Galarian Darmanitan (Zen Mode)",
+    "nameKo": "불비달마 (가라르의 모습/달마모드)",
     "nameJa": "ヒヒダルマ (ダルマモード)",
     "type1": "ice",
     "baseStats": {
@@ -450,12 +467,13 @@
     "height": 1.7,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Darmanitan (Zen Mode)"
   },
   {
     "dexNumber": 562,
     "formId": 10179,
-    "name": "Galarian Form",
+    "name": "Galarian Yamask",
     "nameKo": "데스마스 (가라르의 모습)",
     "nameJa": "デスマス (ガラルのすがた)",
     "type1": "ground",
@@ -474,12 +492,13 @@
     "height": 0.5,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Yamask"
   },
   {
     "dexNumber": 618,
     "formId": 10180,
-    "name": "Galarian Form",
+    "name": "Galarian Stunfisk",
     "nameKo": "메더 (가라르의 모습)",
     "nameJa": "マッギョ (ガラルのすがた)",
     "type1": "ground",
@@ -498,6 +517,7 @@
     "height": 0.7,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Galarian Stunfisk"
   }
 ]

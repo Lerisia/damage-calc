@@ -2,7 +2,7 @@
   {
     "dexNumber": 128,
     "formId": 10250,
-    "name": "Paldean Form (Combat Breed)",
+    "name": "Paldean Tauros (Combat Breed)",
     "nameKo": "켄타로스 (팔데아의 모습/컴뱃종)",
     "nameJa": "ケンタロス (パルデアのすがた)",
     "type1": "fighting",
@@ -22,12 +22,13 @@
     "weight": 115.0,
     "height": 1.4,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Paldean Tauros (Combat Breed)"
   },
   {
     "dexNumber": 128,
     "formId": 10251,
-    "name": "Paldean Form (Blaze Breed)",
+    "name": "Paldean Tauros (Blaze Breed)",
     "nameKo": "켄타로스 (팔데아의 모습/블레이즈종)",
     "nameJa": "ケンタロス (パルデアのすがた)",
     "type1": "fighting",
@@ -48,12 +49,13 @@
     "height": 1.4,
     "type2": "fire",
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Paldean Tauros (Blaze Breed)"
   },
   {
     "dexNumber": 128,
     "formId": 10252,
-    "name": "Paldean Form (Aqua Breed)",
+    "name": "Paldean Tauros (Aqua Breed)",
     "nameKo": "켄타로스 (팔데아의 모습/워터종)",
     "nameJa": "ケンタロス (パルデアのすがた)",
     "type1": "fighting",
@@ -74,12 +76,13 @@
     "height": 1.4,
     "type2": "water",
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Paldean Tauros (Aqua Breed)"
   },
   {
     "dexNumber": 194,
     "formId": 10253,
-    "name": "Paldean Form",
+    "name": "Paldean Wooper",
     "nameKo": "우파 (팔데아의 모습)",
     "nameJa": "ウパー (パルデアのすがた)",
     "type1": "poison",
@@ -100,6 +103,7 @@
     "height": 0.4,
     "type2": "ground",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Paldean Wooper"
   }
 ]

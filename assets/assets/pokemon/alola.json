@@ -2,7 +2,7 @@
   {
     "dexNumber": 19,
     "formId": 10091,
-    "name": "Alolan Form",
+    "name": "Alolan Rattata",
     "nameKo": "꼬렛 (알로라의 모습)",
     "nameJa": "コラッタ (アローラのすがた)",
     "type1": "dark",
@@ -23,12 +23,13 @@
     "height": 0.3,
     "type2": "normal",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Rattata"
   },
   {
     "dexNumber": 20,
     "formId": 10092,
-    "name": "Alolan Form",
+    "name": "Alolan Raticate",
     "nameKo": "레트라 (알로라의 모습)",
     "nameJa": "ラッタ (アローラのすがた)",
     "type1": "dark",
@@ -49,12 +50,13 @@
     "height": 0.7,
     "type2": "normal",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Raticate"
   },
   {
     "dexNumber": 26,
     "formId": 10100,
-    "name": "Alolan Form",
+    "name": "Alolan Raichu",
     "nameKo": "라이츄 (알로라의 모습)",
     "nameJa": "ライチュウ (アローラのすがた)",
     "type1": "electric",
@@ -73,12 +75,13 @@
     "height": 0.7,
     "type2": "psychic",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Raichu"
   },
   {
     "dexNumber": 27,
     "formId": 10101,
-    "name": "Alolan Form",
+    "name": "Alolan Sandshrew",
     "nameKo": "모래두지 (알로라의 모습)",
     "nameJa": "サンド (アローラのすがた)",
     "type1": "ice",
@@ -98,12 +101,13 @@
     "height": 0.7,
     "type2": "steel",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Sandshrew"
   },
   {
     "dexNumber": 28,
     "formId": 10102,
-    "name": "Alolan Form",
+    "name": "Alolan Sandslash",
     "nameKo": "고지 (알로라의 모습)",
     "nameJa": "サンドパン (アローラのすがた)",
     "type1": "ice",
@@ -123,12 +127,13 @@
     "height": 1.2,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Sandslash"
   },
   {
     "dexNumber": 37,
     "formId": 10103,
-    "name": "Alolan Form",
+    "name": "Alolan Vulpix",
     "nameKo": "식스테일 (알로라의 모습)",
     "nameJa": "ロコン (アローラのすがた)",
     "type1": "ice",
@@ -147,12 +152,13 @@
     "weight": 9.9,
     "height": 0.6,
     "finalEvo": false,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Alolan Vulpix"
   },
   {
     "dexNumber": 38,
     "formId": 10104,
-    "name": "Alolan Form",
+    "name": "Alolan Ninetales",
     "nameKo": "나인테일 (알로라의 모습)",
     "nameJa": "キュウコン (アローラのすがた)",
     "type1": "ice",
@@ -172,12 +178,13 @@
     "height": 1.1,
     "type2": "fairy",
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Alolan Ninetales"
   },
   {
     "dexNumber": 50,
     "formId": 10105,
-    "name": "Alolan Form",
+    "name": "Alolan Diglett",
     "nameKo": "디그다 (알로라의 모습)",
     "nameJa": "ディグダ (アローラのすがた)",
     "type1": "ground",
@@ -198,12 +205,13 @@
     "height": 0.2,
     "type2": "steel",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Diglett"
   },
   {
     "dexNumber": 51,
     "formId": 10106,
-    "name": "Alolan Form",
+    "name": "Alolan Dugtrio",
     "nameKo": "닥트리오 (알로라의 모습)",
     "nameJa": "ダグトリオ (アローラのすがた)",
     "type1": "ground",
@@ -224,12 +232,13 @@
     "height": 0.7,
     "type2": "steel",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Dugtrio"
   },
   {
     "dexNumber": 52,
     "formId": 10107,
-    "name": "Alolan Form",
+    "name": "Alolan Meowth",
     "nameKo": "나옹 (알로라의 모습)",
     "nameJa": "ニャース (アローラのすがた)",
     "type1": "dark",
@@ -249,12 +258,13 @@
     "weight": 4.2,
     "height": 0.4,
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Meowth"
   },
   {
     "dexNumber": 53,
     "formId": 10108,
-    "name": "Alolan Form",
+    "name": "Alolan Persian",
     "nameKo": "페르시온 (알로라의 모습)",
     "nameJa": "ペルシアン (アローラのすがた)",
     "type1": "dark",
@@ -274,12 +284,13 @@
     "weight": 33.0,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Persian"
   },
   {
     "dexNumber": 74,
     "formId": 10109,
-    "name": "Alolan Form",
+    "name": "Alolan Geodude",
     "nameKo": "꼬마돌 (알로라의 모습)",
     "nameJa": "イシツブテ (アローラのすがた)",
     "type1": "rock",
@@ -300,12 +311,13 @@
     "height": 0.4,
     "type2": "electric",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Geodude"
   },
   {
     "dexNumber": 75,
     "formId": 10110,
-    "name": "Alolan Form",
+    "name": "Alolan Graveler",
     "nameKo": "데구리 (알로라의 모습)",
     "nameJa": "ゴローン (アローラのすがた)",
     "type1": "rock",
@@ -326,12 +338,13 @@
     "height": 1.0,
     "type2": "electric",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Graveler"
   },
   {
     "dexNumber": 76,
     "formId": 10111,
-    "name": "Alolan Form",
+    "name": "Alolan Golem",
     "nameKo": "딱구리 (알로라의 모습)",
     "nameJa": "ゴローニャ (アローラのすがた)",
     "type1": "rock",
@@ -352,12 +365,13 @@
     "height": 1.7,
     "type2": "electric",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Golem"
   },
   {
     "dexNumber": 88,
     "formId": 10112,
-    "name": "Alolan Form",
+    "name": "Alolan Grimer",
     "nameKo": "질퍽이 (알로라의 모습)",
     "nameJa": "ベトベター (アローラのすがた)",
     "type1": "poison",
@@ -378,12 +392,13 @@
     "height": 0.7,
     "type2": "dark",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Grimer"
   },
   {
     "dexNumber": 89,
     "formId": 10113,
-    "name": "Alolan Form",
+    "name": "Alolan Muk",
     "nameKo": "질뻐기 (알로라의 모습)",
     "nameJa": "ベトベトン (アローラのすがた)",
     "type1": "poison",
@@ -404,12 +419,13 @@
     "height": 1.0,
     "type2": "dark",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Muk"
   },
   {
     "dexNumber": 103,
     "formId": 10114,
-    "name": "Alolan Form",
+    "name": "Alolan Exeggutor",
     "nameKo": "나시 (알로라의 모습)",
     "nameJa": "ナッシー (アローラのすがた)",
     "type1": "grass",
@@ -429,12 +445,13 @@
     "height": 10.9,
     "type2": "dragon",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Exeggutor"
   },
   {
     "dexNumber": 105,
     "formId": 10115,
-    "name": "Alolan Form",
+    "name": "Alolan Marowak",
     "nameKo": "텅구리 (알로라의 모습)",
     "nameJa": "ガラガラ (アローラのすがた)",
     "type1": "fire",
@@ -455,6 +472,7 @@
     "height": 1.0,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Alolan Marowak"
   }
 ]
