@@ -1372,7 +1372,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('잘못된 파일 형식입니다')),
+          SnackBar(content: Text('파일을 읽을 수 없습니다: $e')),
         );
       }
     }
@@ -1388,8 +1388,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
 
   Future<String?> _pickJsonFile() async {
     final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['json'],
+      type: FileType.any,
       withData: true,
     );
     if (result == null || result.files.isEmpty) return null;
