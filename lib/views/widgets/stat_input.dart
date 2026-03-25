@@ -48,6 +48,14 @@ class _ClampingFormatter extends TextInputFormatter {
         selection: TextSelection.collapsed(offset: '$min'.length),
       );
     }
+    // Remove leading zeros (e.g. "0252" → "252")
+    final normalized = '$parsed';
+    if (normalized != newValue.text) {
+      return TextEditingValue(
+        text: normalized,
+        selection: TextSelection.collapsed(offset: normalized.length),
+      );
+    }
     return newValue;
   }
 }
@@ -159,11 +167,25 @@ class _StatInputState extends State<StatInput> {
 
   Map<String, String> _itemNameMap = {};
 
+  bool _hasFocusedStatField = false;
+
   @override
   void initState() {
     super.initState();
     _loadAbilities();
     _loadItems();
+  }
+
+  @override
+  void didUpdateWidget(covariant StatInput old) {
+    super.didUpdateWidget(old);
+    // Only reset TextFormField when values changed externally
+    // (e.g. from speed tab), NOT during typing (focus is active).
+    if (!_hasFocusedStatField &&
+        (widget.ev != old.ev || widget.iv != old.iv ||
+         widget.rank != old.rank || widget.hpPercent != old.hpPercent)) {
+      _evResetCounter++;
+    }
   }
 
   @override
@@ -743,6 +765,7 @@ class _StatInputState extends State<StatInput> {
           flex: 3,
           child: Focus(
             onFocusChange: (hasFocus) {
+              _hasFocusedStatField = hasFocus;
               if (!hasFocus) widget.onStatEditComplete?.call();
             },
             child: SizedBox(
@@ -853,6 +876,7 @@ class _StatInputState extends State<StatInput> {
   Widget _rankControl(int value, ValueChanged<int> onChanged) {
     return Focus(
       onFocusChange: (hasFocus) {
+        _hasFocusedStatField = hasFocus;
         if (!hasFocus) widget.onStatEditComplete?.call();
       },
       child: SizedBox(
@@ -892,6 +916,7 @@ class _StatInputState extends State<StatInput> {
   Widget _miniInput(int value, int min, int max, ValueChanged<int> onChanged) {
     return Focus(
       onFocusChange: (hasFocus) {
+        _hasFocusedStatField = hasFocus;
         if (!hasFocus) widget.onStatEditComplete?.call();
       },
       child: SizedBox(
