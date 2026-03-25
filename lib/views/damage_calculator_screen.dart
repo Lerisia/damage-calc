@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:screenshot/screenshot.dart';
 import '../data/sample_storage.dart';
 import '../utils/app_strings.dart';
@@ -161,12 +160,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         await saver.saveImage(image, filename);
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('전체 화면이 저장되었습니다'), duration: Duration(seconds: 2)),
+          SnackBar(content: Text(AppStrings.t('msg.fullScreenSaved')), duration: const Duration(seconds: 2)),
         );
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('저장 실패: $e'), duration: const Duration(seconds: 2)),
+          SnackBar(content: Text('${AppStrings.t('msg.saveFailed')}: $e'), duration: const Duration(seconds: 2)),
         );
       }
       return;
@@ -204,12 +203,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       await saver.saveImage(image, filename);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('이미지가 저장되었습니다'), duration: Duration(seconds: 2)),
+        SnackBar(content: Text(AppStrings.t('msg.imageSaved')), duration: const Duration(seconds: 2)),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('저장 실패: $e'), duration: const Duration(seconds: 2)),
+        SnackBar(content: Text('${AppStrings.t('msg.saveFailed')}: $e'), duration: const Duration(seconds: 2)),
       );
     }
   }
@@ -229,11 +228,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('초기화'),
-        content: const Text('양측 설정과 날씨/필드/룸이 모두 초기화됩니다'),
+        title: Text(AppStrings.t('reset.title')),
+        content: Text(AppStrings.t('reset.message')),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('취소')),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('확인')),
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(AppStrings.t('action.cancel'))),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Text(AppStrings.t('action.confirm'))),
         ],
       ),
     );
@@ -254,15 +253,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final name = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('샘플 저장'),
+        title: Text(AppStrings.t('sample.save')),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: controller,
-              decoration: const InputDecoration(
-                labelText: '샘플 이름',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: AppStrings.t('sample.name'),
+                border: const OutlineInputBorder(),
               ),
               autofocus: true,
             ),
@@ -270,17 +269,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  '브라우저 데이터 삭제 시 저장한 샘플이 사라질 수 있습니다.',
+                  AppStrings.t('sample.browserWarning'),
                   style: TextStyle(fontSize: 11, color: Colors.grey[500]),
                 ),
               ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('취소')),
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(AppStrings.t('action.cancel'))),
           TextButton(
             onPressed: () => Navigator.pop(ctx, controller.text),
-            child: const Text('저장'),
+            child: Text(AppStrings.t('action.save')),
           ),
         ],
       ),
@@ -353,7 +352,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             // Weather dropdown
             PopupMenuButton<Weather>(
               initialValue: _weather,
-              tooltip: '날씨',
+              tooltip: AppStrings.t('toolbar.weather'),
               popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -361,7 +360,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _weather == Weather.none
-                        ? Text('날씨', style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
+                        ? Text(AppStrings.t('toolbar.weather'), style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
                         : Text(KoStrings.weatherIcon[_weather]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
@@ -385,7 +384,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             // Terrain dropdown
             PopupMenuButton<Terrain>(
               initialValue: _terrain,
-              tooltip: '필드',
+              tooltip: AppStrings.t('toolbar.terrain'),
               popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -393,7 +392,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _terrain == Terrain.none
-                        ? Text('필드', style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
+                        ? Text(AppStrings.t('toolbar.terrain'), style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
                         : Text(KoStrings.terrainIcon[_terrain]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
@@ -416,14 +415,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ),
             // Room/Gravity toggle popup
             PopupMenuButton<String>(
-              tooltip: '룸/중력',
+              tooltip: '${AppStrings.t('toolbar.room')}/중력',
               popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('룸', style: TextStyle(
+                    Text(AppStrings.t('toolbar.room'), style: TextStyle(
                       fontSize: isWide ? 16 : 14,
                       color: _room.hasAny ? Colors.purple : Colors.grey.shade500,
                       fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
@@ -482,31 +481,31 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               TextButton.icon(
                 onPressed: _swapSides,
                 icon: const Icon(Icons.swap_horiz),
-                label: const Text('공수교대', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                label: Text(AppStrings.t('toolbar.swap'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
               IconButton(
                 icon: const Icon(Icons.swap_horiz),
-                tooltip: '공수전환',
+                tooltip: AppStrings.t('toolbar.swap'),
                 onPressed: _swapSides,
               ),
             if (isWide)
               TextButton.icon(
                 onPressed: _resetBothSides,
                 icon: const Icon(Icons.refresh),
-                label: const Text('초기화', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                label: Text(AppStrings.t('toolbar.reset'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
               IconButton(
                 icon: const Icon(Icons.refresh),
-                tooltip: '전체 초기화',
+                tooltip: AppStrings.t('toolbar.reset'),
                 onPressed: _resetBothSides,
               ),
             if (isWide)
               TextButton.icon(
                 onPressed: _capture,
                 icon: const Icon(Icons.camera_alt_outlined),
-                label: const Text('캡처', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
               _LanguageButton(onChanged: () => setState(() {})),
@@ -537,11 +536,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ? null
             : TabBar(
                 controller: _tabController,
-                tabs: const [
-                  Tab(text: '공격측'),
-                  Tab(text: '방어측'),
-                  Tab(text: '대미지'),
-                  Tab(text: '스피드'),
+                tabs: [
+                  Tab(text: AppStrings.t('tab.attacker')),
+                  Tab(text: AppStrings.t('tab.defender')),
+                  Tab(text: AppStrings.t('tab.damage')),
+                  Tab(text: AppStrings.t('tab.speed')),
                 ],
               ),
       ),
@@ -583,11 +582,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
+              child: _buildPokemonTab(0, AppStrings.t('tab.attacker'), _attacker, _attackerPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
-              child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
+              child: _buildPokemonTab(1, AppStrings.t('tab.defender'), _defender, _defenderPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
@@ -625,11 +624,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
+              child: _buildPokemonTab(0, AppStrings.t('tab.attacker'), _attacker, _attackerPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
-              child: _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
+              child: _buildPokemonTab(1, AppStrings.t('tab.defender'), _defender, _defenderPanelKey),
             ),
             const VerticalDivider(width: 1),
             Expanded(
@@ -647,10 +646,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       length: 2,
       child: Column(
         children: [
-          const TabBar(
+          TabBar(
             tabs: [
-              Tab(text: '대미지'),
-              Tab(text: '스피드'),
+              Tab(text: AppStrings.t('tab.damage')),
+              Tab(text: AppStrings.t('tab.speed')),
             ],
           ),
           Expanded(
@@ -685,8 +684,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             controller: _tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _buildPokemonTab(0, '공격측', _attacker, _attackerPanelKey),
-              _buildPokemonTab(1, '방어측', _defender, _defenderPanelKey),
+              _buildPokemonTab(0, AppStrings.t('tab.attacker'), _attacker, _attackerPanelKey),
+              _buildPokemonTab(1, AppStrings.t('tab.defender'), _defender, _defenderPanelKey),
               _buildDamageCalcTab(),
               SpeedCompareTab(
                 key: _speedTabKey,
@@ -822,7 +821,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           const SizedBox(height: 4),
           Text(
-            'HP $defCurrentHp/$defMaxHp | 물리내구 ${bulk.physical} | 특수내구 ${bulk.special}',
+            'HP $defCurrentHp/$defMaxHp | ${AppStrings.t('section.physBulk')} ${bulk.physical} | ${AppStrings.t('section.specBulk')} ${bulk.special}',
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
@@ -832,11 +831,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _dmgCheck('리플렉터', _defender.reflect, (v) {
+              _dmgCheck(AppStrings.t('damage.reflect'), _defender.reflect, (v) {
                 setState(() => _defender.reflect = v);
               }),
               const SizedBox(width: 16),
-              _dmgCheck('빛의장막', _defender.lightScreen, (v) {
+              _dmgCheck(AppStrings.t('damage.lightScreen'), _defender.lightScreen, (v) {
                 setState(() => _defender.lightScreen = v);
               }),
             ],
@@ -856,7 +855,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     if (move == null) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Text('기술 ${index + 1}: 미설정',
+        child: Text('${AppStrings.t('section.moves')} ${index + 1}: ${AppStrings.t('damage.moveNotSet')}',
             style: TextStyle(fontSize: 16, color: Colors.grey[400])),
       );
     }
@@ -864,8 +863,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final result = _calcDamage(index);
     final effectiveType = result.move.type == PokemonType.typeless
         ? null : result.move.type;
-    final offLabel = result.isPhysical ? '물리' : '특수';
-    final defLabel = result.targetPhysDef ? '물리' : '특수';
+    final offLabel = result.isPhysical ? AppStrings.t('damage.physical') : AppStrings.t('damage.special');
+    final defLabel = result.targetPhysDef ? AppStrings.t('damage.physical') : AppStrings.t('damage.special');
     final offPower = _getOffensivePower(index);
     final defBulk = result.targetPhysDef ? bulk.physical : bulk.special;
 
@@ -874,22 +873,22 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final String effLabel;
     final Color effColor;
     if (eff == 0) {
-      effLabel = '효과 없음 (x0)';
+      effLabel = '${AppStrings.t('eff.immune')} (x0)';
       effColor = Colors.grey;
     } else if (eff >= 4) {
-      effLabel = '효과 매우 좋음 (x${ _fmtEff(eff) })';
+      effLabel = '${AppStrings.t('eff.superEffective4x')} (x${ _fmtEff(eff) })';
       effColor = Colors.red[700]!;
     } else if (eff >= 2) {
-      effLabel = '효과 좋음 (x${ _fmtEff(eff) })';
+      effLabel = '${AppStrings.t('eff.superEffective')} (x${ _fmtEff(eff) })';
       effColor = Colors.red;
     } else if (eff <= 0.25) {
-      effLabel = '효과 매우 별로 (x${ _fmtEff(eff) })';
+      effLabel = '${AppStrings.t('eff.notVeryEffective025')} (x${ _fmtEff(eff) })';
       effColor = Colors.blue[700]!;
     } else if (eff <= 0.5) {
-      effLabel = '효과 별로 (x${ _fmtEff(eff) })';
+      effLabel = '${AppStrings.t('eff.notVeryEffective')} (x${ _fmtEff(eff) })';
       effColor = Colors.blue;
     } else {
-      effLabel = '효과 보통 (x${ _fmtEff(eff) })';
+      effLabel = '${AppStrings.t('eff.neutral')} (x${ _fmtEff(eff) })';
       effColor = Colors.grey;
     }
 
@@ -900,11 +899,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       final info = result.koInfo;
       if (info.hits > 0) {
         if (info.koCount >= info.totalCount) {
-          koText = '확정 ${info.hits}타';
+          koText = '${AppStrings.t('ko.guaranteed')} ${info.hits}${AppStrings.t('ko.hit')}';
           koColor = info.hits <= 2 ? Colors.red : Colors.orange;
         } else {
           final pct = (info.koCount / info.totalCount * 100);
-          koText = '난수 ${info.hits}타 (${pct.toStringAsFixed(1)}%)';
+          koText = '${AppStrings.t('ko.random')} ${info.hits}${AppStrings.t('ko.hit')} (${pct.toStringAsFixed(1)}%)';
           koColor = Colors.orange;
         }
       }
@@ -939,7 +938,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           const SizedBox(height: 6),
           // 결정력 / 내구 info (display only)
           Text(
-            '$offLabel 결정력 ${offPower ?? '-'} → $defLabel 내구 $defBulk',
+            '$offLabel ${AppStrings.t('move.offensive')} ${offPower ?? '-'} → $defLabel ${AppStrings.t('section.bulk')} $defBulk',
             style: TextStyle(fontSize: 15, color: Colors.grey[700]),
           ),
           const SizedBox(height: 8),
@@ -1192,7 +1191,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('저장된 샘플이 없습니다', style: TextStyle(fontSize: 16)),
+            Text(AppStrings.t('sample.empty'), style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 24),
             _importExportButtons(context),
           ],
@@ -1211,7 +1210,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
             if (SampleStorage.isWebStorage)
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-                child: Text('브라우저 데이터 삭제 시 저장된 샘플이 사라질 수 있습니다.',
+                child: Text(AppStrings.t('sample.browserWarning'),
                   style: TextStyle(fontSize: 11, color: Colors.grey[500])),
               ),
             Padding(
@@ -1221,11 +1220,11 @@ class _SampleListSheetState extends State<_SampleListSheet> {
                   Expanded(
                     child: TextField(
                       autofocus: false,
-                      decoration: const InputDecoration(
-                        hintText: '샘플 검색',
-                        prefixIcon: Icon(Icons.search, size: 20),
+                      decoration: InputDecoration(
+                        hintText: AppStrings.t('sample.search'),
+                        prefixIcon: const Icon(Icons.search, size: 20),
                         isDense: true,
-                        contentPadding: EdgeInsets.symmetric(vertical: 8),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 8),
                       ),
                       onChanged: (v) => setState(() => _query = v),
                     ),
@@ -1239,7 +1238,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
             const Divider(height: 1),
             Expanded(
               child: indices.isEmpty
-                  ? Center(child: Text('검색 결과 없음',
+                  ? Center(child: Text(AppStrings.t('search.noResults'),
                       style: TextStyle(color: Colors.grey[400])))
                   : ListView.separated(
                       controller: scrollController,
@@ -1281,14 +1280,14 @@ class _SampleListSheetState extends State<_SampleListSheet> {
       children: [
         IconButton(
           icon: Icon(Icons.file_download, size: 20, color: Colors.grey[700]),
-          tooltip: '내보내기',
+          tooltip: AppStrings.t('action.export'),
           onPressed: () => _exportSamples(context),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
         ),
         IconButton(
           icon: Icon(Icons.file_upload, size: 20, color: Colors.grey[700]),
-          tooltip: '가져오기',
+          tooltip: AppStrings.t('action.import'),
           onPressed: () => _importSamples(context),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
@@ -1300,17 +1299,14 @@ class _SampleListSheetState extends State<_SampleListSheet> {
   Future<void> _exportSamples(BuildContext context) async {
     final jsonStr = await SampleStorage.exportAsJson();
     final bytes = utf8.encode(jsonStr);
-    if (kIsWeb) {
-      // Web: trigger browser download
-      // ignore: avoid_web_libraries_in_flutter
-      await _webDownload(Uint8List.fromList(bytes), 'damage-calc-samples.json');
-    } else {
-      // Mobile: use image saver infrastructure
-      await saver.saveImage(Uint8List.fromList(bytes), 'damage-calc-samples');
-    }
+    await saver.saveFile(
+      Uint8List.fromList(bytes),
+      'damage-calc-samples.json',
+      mimeType: 'application/json',
+    );
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('샘플 데이터를 내보냈습니다')),
+        SnackBar(content: Text(AppStrings.t('sample.exported'))),
       );
     }
   }
@@ -1322,7 +1318,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
       final count = await SampleStorage.importFromJson(jsonStr);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$count개의 샘플을 가져왔습니다')),
+          SnackBar(content: Text('$count${AppStrings.t('sample.importedN')}')),
         );
         Navigator.pop(context);
         widget.onImportComplete?.call();
@@ -1330,17 +1326,9 @@ class _SampleListSheetState extends State<_SampleListSheet> {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('파일을 읽을 수 없습니다: $e')),
+          SnackBar(content: Text('${AppStrings.t('sample.invalidFormat')}: $e')),
         );
       }
-    }
-  }
-
-  Future<void> _webDownload(Uint8List bytes, String filename) async {
-    if (kIsWeb) {
-      // Use dart:html via conditional import is complex;
-      // reuse image_saver_web pattern
-      await saver.saveImage(bytes, filename);
     }
   }
 
@@ -1351,16 +1339,16 @@ class _SampleListSheetState extends State<_SampleListSheet> {
       builder: (ctx) {
         final controller = TextEditingController();
         return AlertDialog(
-          title: const Text('샘플 가져오기'),
+          title: Text(AppStrings.t('action.import')),
           content: SizedBox(
             width: double.maxFinite,
             child: TextField(
               controller: controller,
               maxLines: 8,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '내보낸 데이터를 여기에 붙여넣기',
-                hintStyle: TextStyle(fontSize: 13),
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                hintText: AppStrings.t('sample.pasteJson'),
+                hintStyle: const TextStyle(fontSize: 13),
               ),
               style: const TextStyle(fontSize: 12),
             ),
@@ -1368,14 +1356,14 @@ class _SampleListSheetState extends State<_SampleListSheet> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('취소'),
+              child: Text(AppStrings.t('action.cancel')),
             ),
             TextButton(
               onPressed: () {
                 result = controller.text.trim();
                 Navigator.pop(ctx);
               },
-              child: const Text('가져오기'),
+              child: Text(AppStrings.t('action.import')),
             ),
           ],
         );

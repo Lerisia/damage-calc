@@ -5,3 +5,7 @@ import 'image_saver_stub.dart'
 Future<bool> saveImage(Uint8List bytes, String filename) {
   return impl.saveImage(bytes, filename);
 }
+
+Future<bool> saveFile(Uint8List bytes, String filename, {String mimeType = 'application/octet-stream'}) {
+  return impl.saveFile(bytes, filename, mimeType: mimeType);
+}
