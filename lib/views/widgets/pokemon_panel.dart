@@ -1150,6 +1150,9 @@ class _PowerInputState extends State<_PowerInput> {
           if (parsed != null && parsed > 0) {
             widget.lastDisplayPower[widget.slotIndex] = parsed;
             widget.onPowerChanged(parsed);
+          } else if (text.isEmpty) {
+            widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+            widget.onPowerChanged(widget.displayPower);
           }
         },
       ),
