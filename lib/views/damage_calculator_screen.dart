@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
@@ -1223,8 +1222,6 @@ class _SampleListSheetState extends State<_SampleListSheet> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(AppStrings.t('sample.empty'), style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 24),
-            _importExportButtons(context),
           ],
         ),
       );
@@ -1260,8 +1257,6 @@ class _SampleListSheetState extends State<_SampleListSheet> {
                       onChanged: (v) => setState(() => _query = v),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  _importExportButtons(context),
                 ],
               ),
             ),
@@ -1305,103 +1300,6 @@ class _SampleListSheetState extends State<_SampleListSheet> {
     );
   }
 
-  Widget _importExportButtons(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          icon: Icon(Icons.file_download, size: 20, color: Colors.grey[700]),
-          tooltip: AppStrings.t('action.export'),
-          onPressed: () => _exportSamples(context),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
-        ),
-        IconButton(
-          icon: Icon(Icons.file_upload, size: 20, color: Colors.grey[700]),
-          tooltip: AppStrings.t('action.import'),
-          onPressed: () => _importSamples(context),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
-        ),
-      ],
-    );
-  }
-
-  Future<void> _exportSamples(BuildContext context) async {
-    final jsonStr = await SampleStorage.exportAsJson();
-    final bytes = utf8.encode(jsonStr);
-    await saver.saveFile(
-      Uint8List.fromList(bytes),
-      'damage-calc-samples.json',
-      mimeType: 'application/json',
-    );
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppStrings.t('sample.exported'))),
-      );
-    }
-  }
-
-  Future<void> _importSamples(BuildContext context) async {
-    try {
-      final jsonStr = await _pickJsonFile();
-      if (jsonStr == null) return;
-      final count = await SampleStorage.importFromJson(jsonStr);
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('$count${AppStrings.t('sample.importedN')}')),
-        );
-        Navigator.pop(context);
-        widget.onImportComplete?.call();
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${AppStrings.t('sample.invalidFormat')}: $e')),
-        );
-      }
-    }
-  }
-
-  Future<String?> _pickJsonFile() async {
-    String? result;
-    await showDialog(
-      context: context,
-      builder: (ctx) {
-        final controller = TextEditingController();
-        return AlertDialog(
-          title: Text(AppStrings.t('action.import')),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: TextField(
-              controller: controller,
-              maxLines: 8,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                hintText: AppStrings.t('sample.pasteJson'),
-                hintStyle: const TextStyle(fontSize: 13),
-              ),
-              style: const TextStyle(fontSize: 12),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx),
-              child: Text(AppStrings.t('action.cancel')),
-            ),
-            TextButton(
-              onPressed: () {
-                result = controller.text.trim();
-                Navigator.pop(ctx);
-              },
-              child: Text(AppStrings.t('action.import')),
-            ),
-          ],
-        );
-      },
-    );
-    return result?.isEmpty == true ? null : result;
-  }
 }
 
 /// Compact language toggle button for wide AppBar.
