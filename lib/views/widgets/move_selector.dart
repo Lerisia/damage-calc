@@ -5,6 +5,7 @@ import '../../data/learnsetdex.dart';
 import '../../models/move.dart';
 import '../../utils/korean_search.dart';
 import 'typeahead_helpers.dart';
+import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
 
 class MoveSelector extends StatefulWidget {
@@ -139,7 +140,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         return _sortedOptions(query);
       },
       decoration: InputDecoration(
-        hintText: _selected?.nameKo ?? '기술 이름',
+        hintText: _selected?.nameKo ?? AppStrings.t('search.move'),
         hintStyle: const TextStyle(fontSize: 14),
         isDense: true,
       ),
@@ -181,7 +182,7 @@ class _MoveSelectorState extends State<MoveSelector> {
               ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
               : const TextStyle(fontSize: 14),
           decoration: InputDecoration(
-            hintText: _selected?.nameKo ?? '기술 이름',
+            hintText: _selected?.nameKo ?? AppStrings.t('search.move'),
             hintStyle: const TextStyle(fontSize: 14),
             isDense: true,
           ),

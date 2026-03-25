@@ -6,6 +6,7 @@ import '../../models/battle_pokemon.dart';
 import '../../models/nature.dart';
 import '../../models/status.dart';
 import '../../utils/korean_search.dart';
+import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
 import '../../models/room.dart';
 import '../../models/terrain.dart';
@@ -114,7 +115,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   }
 
   String _itemKo(String? key) {
-    if (key == null || key.isEmpty) return '없음';
+    if (key == null || key.isEmpty) return AppStrings.t('label.none');
     if (_itemNameMap.isEmpty) return '...';
     return _itemNameMap[key] ?? key;
   }
@@ -146,19 +147,19 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     Color resultColor;
     switch (result) {
       case SpeedResult.faster:
-        resultText = '▲ 공격측이 $diff 빠름';
+        resultText = '▲ ${AppStrings.t('tab.attacker')} $diff ${AppStrings.t('speed.faster')}';
         resultColor = Colors.red;
       case SpeedResult.slower:
-        resultText = '▼ 방어측이 $diff 빠름';
+        resultText = '▼ ${AppStrings.t('tab.defender')} $diff ${AppStrings.t('speed.slower')}';
         resultColor = Colors.blue;
       case SpeedResult.tied:
-        resultText = '⚡ 동속 (랜덤)';
+        resultText = '⚡ ${AppStrings.t('speed.tie')}';
         resultColor = Colors.orange;
       case SpeedResult.alwaysFirst:
-        resultText = '▲▲ 공격측 선공 (확정)';
+        resultText = '▲▲ ${AppStrings.t('speed.guaranteedFirst')}';
         resultColor = Colors.red;
       case SpeedResult.alwaysLast:
-        resultText = '▼▼ 방어측 선공 (확정)';
+        resultText = '▼▼ ${AppStrings.t('speed.guaranteedLast')}';
         resultColor = Colors.blue;
     }
 
@@ -172,7 +173,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
             children: [
-              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: '공격측', color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey)),
+              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey)),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
@@ -192,7 +193,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 ),
               ),
               const SizedBox(height: 8),
-              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: '방어측', color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey)),
+              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey)),
             ],
           ),
         ),
@@ -232,16 +233,16 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Text('종족값 $speedBase', style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
+              Text('${AppStrings.t('speed.baseValue')} $speedBase', style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
             ],
           ),
           const SizedBox(height: 8),
           Row(
             children: [
-              Text('실수치 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+              Text('${AppStrings.t('speed.actual')} ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Text('$rawSpeed', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
               Text('  →  ', style: TextStyle(fontSize: 14, color: Colors.grey.shade400)),
-              Text('최종 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+              Text('${AppStrings.t('speed.final')} ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Text('$effSpeed', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color)),
             ],
           ),
@@ -256,7 +257,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           const SizedBox(height: 10),
           Row(
             children: [
-              Text('개체 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+              Text('${AppStrings.t('stat.iv')} ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Expanded(flex: 2, child: _SpeedNumInput(
                 value: state.iv.speed,
                 min: 0, max: 31,
@@ -273,7 +274,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(widget.useSpMode ? 'SP ' : '노력 ',
+                    Text(widget.useSpMode ? 'SP ' : '${AppStrings.t('stat.ev')} ',
                         style: TextStyle(fontSize: 14, color: Colors.grey.shade600,
                             fontWeight: FontWeight.bold)),
                     Icon(Icons.swap_horiz, size: 12, color: Colors.grey.shade600),
@@ -303,7 +304,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 _notify();
               }),
               const SizedBox(width: 8),
-              Text('랭크 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+              Text('${AppStrings.t('stat.rank')} ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
               Expanded(flex: 2, child: _SpeedNumInput(
                 value: state.rank.speed,
                 min: -6, max: 6,
@@ -322,7 +323,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               SizedBox(width: 56, child: _SpeedNumInput(
                 value: state.level,
                 min: 1, max: 100,
-                label: '레벨',
+                label: AppStrings.t('label.level'),
                 onChanged: (val) {
                   setState(() => state.level = val);
                   _notify();
@@ -333,10 +334,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               const SizedBox(width: 8),
               Expanded(flex: 2, child: PopupMenuButton<StatusCondition>(
                 initialValue: state.status,
-                tooltip: '상태이상',
+                tooltip: AppStrings.t('label.status'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 child: InputDecorator(
-                  decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  decoration: InputDecoration(labelText: AppStrings.t('label.status'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
                   child: Text(KoStrings.statusKo[state.status] ?? state.status.name,
                     style: const TextStyle(fontSize: 14)),
                 ),
@@ -353,11 +354,11 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             children: [
               Expanded(flex: 3, child: PopupMenuButton<Nature>(
                 initialValue: state.nature,
-                tooltip: '성격',
+                tooltip: AppStrings.t('label.nature'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 constraints: const BoxConstraints(maxHeight: 300),
                 child: InputDecorator(
-                  decoration: const InputDecoration(labelText: '성격', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
                   child: Text(state.nature.nameKo,
                     style: TextStyle(fontSize: 14, color: state.nature.speedModifier > 1.0 ? Colors.red : state.nature.speedModifier < 1.0 ? Colors.blue : null)),
                 ),
@@ -450,7 +451,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           return sorted.where((a) =>
               _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
         },
-        decoration: const InputDecoration(labelText: '특성', isDense: true),
+        decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
         itemBuilder: (context, ability) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -498,7 +499,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           scored.sort((a, b) => b.$2.compareTo(a.$2));
           return scored.map((e) => e.$1).toList();
         },
-        decoration: const InputDecoration(labelText: '아이템', isDense: true),
+        decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
         itemBuilder: (context, key) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

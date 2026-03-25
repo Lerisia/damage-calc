@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
+import '../../utils/app_strings.dart';
 import '../../utils/korean_search.dart';
 import 'typeahead_helpers.dart';
 
@@ -88,7 +89,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
         return _sortedOptions(query);
       },
       decoration: InputDecoration(
-        hintText: _selected?.nameKo ?? '이름 검색',
+        hintText: _selected?.nameKo ?? AppStrings.t('search.pokemon'),
         isDense: true,
       ),
       itemBuilder: (context, pokemon) {

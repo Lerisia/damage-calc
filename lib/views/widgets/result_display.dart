@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../utils/app_strings.dart';
 
 class ResultDisplay extends StatelessWidget {
   final int? result;
@@ -19,7 +20,7 @@ class ResultDisplay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '결정력',
+            AppStrings.t('move.offensive'),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onPrimaryContainer,
                 ),

@@ -18,6 +18,7 @@ import '../../models/pokemon.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/battle_facade.dart';
 import '../../utils/grounded.dart';
+import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
 import 'move_selector.dart';
 import 'pokemon_selector.dart';
@@ -179,7 +180,7 @@ class PokemonPanelState extends State<PokemonPanel>
               _captureHeader(),
               const SizedBox(height: 4),
           _sectionCard(
-            title: '종',
+            title: AppStrings.t('section.species'),
             child: Row(children: [
             Expanded(child: PokemonSelector(
               key: ValueKey('pokemon_${widget.resetCounter}_${s.pokemonName}'),
@@ -202,7 +203,7 @@ class PokemonPanelState extends State<PokemonPanel>
 
           _sectionCard(
             key: _statsSectionKey,
-            title: '능력치',
+            title: AppStrings.t('section.stats'),
             child: StatInput(
               key: ValueKey('stats_${widget.resetCounter}'),
               level: s.level,
@@ -261,7 +262,7 @@ class PokemonPanelState extends State<PokemonPanel>
           if (widget.isAttacker) ...[
             _sectionCard(
               key: _movesSectionKey,
-              title: '기술',
+              title: AppStrings.t('section.moves'),
               child: Column(
                 children: [
                   _moveHeader(context),
@@ -292,13 +293,13 @@ class PokemonPanelState extends State<PokemonPanel>
     );
 
     return _sectionCard(
-      title: '내구',
+      title: AppStrings.t('section.bulk'),
       child: Row(
         children: [
           Expanded(
             child: Column(
               children: [
-                Text('물리 내구', style: TextStyle(
+                Text(AppStrings.t('section.physBulk'), style: TextStyle(
                   fontSize: 12, color: Colors.blue[400],
                 )),
                 const SizedBox(height: 4),
@@ -313,7 +314,7 @@ class PokemonPanelState extends State<PokemonPanel>
           Expanded(
             child: Column(
               children: [
-                Text('특수 내구', style: TextStyle(
+                Text(AppStrings.t('section.specBulk'), style: TextStyle(
                   fontSize: 12, color: Colors.blue[400],
                 )),
                 const SizedBox(height: 4),
@@ -363,7 +364,7 @@ class PokemonPanelState extends State<PokemonPanel>
           if (widget.onSave != null)
             IconButton(
               icon: const Icon(Icons.save_outlined, size: 26),
-              tooltip: '샘플 저장',
+              tooltip: AppStrings.t('sample.save'),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -372,7 +373,7 @@ class PokemonPanelState extends State<PokemonPanel>
           if (widget.onLoad != null)
             IconButton(
               icon: const Icon(Icons.folder_open_outlined, size: 26),
-              tooltip: '샘플 불러오기',
+              tooltip: AppStrings.t('sample.load'),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -381,7 +382,7 @@ class PokemonPanelState extends State<PokemonPanel>
           if (widget.onReset != null)
             IconButton(
               icon: const Icon(Icons.refresh, size: 26),
-              tooltip: '초기화',
+              tooltip: AppStrings.t('toolbar.reset'),
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -398,12 +399,12 @@ class PokemonPanelState extends State<PokemonPanel>
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Text('기술명', style: style)),
-          SizedBox(width: 40, child: Text('타입', style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 32, child: Text('분류', style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 44, child: Text('위력', style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 28, child: Text('급소', style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 60, child: Text('결정력', style: style, textAlign: TextAlign.right)),
+          Expanded(flex: 3, child: Text(AppStrings.t('move.name'), style: style)),
+          SizedBox(width: 40, child: Text(AppStrings.t('move.type'), style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 32, child: Text(AppStrings.t('move.category'), style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 44, child: Text(AppStrings.t('move.power'), style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 28, child: Text(AppStrings.t('move.critical'), style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 60, child: Text(AppStrings.t('move.offensive'), style: style, textAlign: TextAlign.right)),
         ],
       ),
     );
@@ -552,8 +553,8 @@ class PokemonPanelState extends State<PokemonPanel>
             width: 44,
             child: move != null
                 ? info.isFixedDamage
-                    ? const Text('고정', textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 13, color: Colors.grey))
+                    ? Text(AppStrings.t('move.fixed'), textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 13, color: Colors.grey))
                     : move.isMultiHit
                     ? Text('$displayPower', textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500,
@@ -833,7 +834,7 @@ class PokemonPanelState extends State<PokemonPanel>
     showDialog(
       context: context,
       builder: (ctx) => SimpleDialog(
-        title: const Text('테라스탈 타입'),
+        title: Text(AppStrings.t('label.terastal')),
         children: PokemonType.values.map((t) {
           final ko = KoStrings.typeKo[t];
           if (ko == null) return const SizedBox.shrink();
@@ -857,7 +858,7 @@ class PokemonPanelState extends State<PokemonPanel>
               _notifyParent();
               Navigator.pop(ctx);
             },
-            child: const Text('테라 안함', style: TextStyle(color: Colors.grey)),
+            child: Text(AppStrings.t('label.noTera'), style: const TextStyle(color: Colors.grey)),
           )),
       ),
     );

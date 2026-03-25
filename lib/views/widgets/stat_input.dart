@@ -8,6 +8,7 @@ import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../models/status.dart';
+import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
 import '../../models/room.dart';
 import '../../models/terrain.dart';
@@ -146,16 +147,16 @@ class _StatInputState extends State<StatInput> {
   static String _natureLabelStatic(Nature n) {
     final ko = n.nameKo;
     String buff = '', nerf = '';
-    if (n.attackModifier > 1.0) buff = '공격';
-    if (n.defenseModifier > 1.0) buff = '방어';
-    if (n.spAttackModifier > 1.0) buff = '특공';
-    if (n.spDefenseModifier > 1.0) buff = '특방';
-    if (n.speedModifier > 1.0) buff = '스피드';
-    if (n.attackModifier < 1.0) nerf = '공격';
-    if (n.defenseModifier < 1.0) nerf = '방어';
-    if (n.spAttackModifier < 1.0) nerf = '특공';
-    if (n.spDefenseModifier < 1.0) nerf = '특방';
-    if (n.speedModifier < 1.0) nerf = '스피드';
+    if (n.attackModifier > 1.0) buff = AppStrings.t('stat.attack');
+    if (n.defenseModifier > 1.0) buff = AppStrings.t('stat.defense');
+    if (n.spAttackModifier > 1.0) buff = AppStrings.t('stat.spAttack');
+    if (n.spDefenseModifier > 1.0) buff = AppStrings.t('stat.spDefense');
+    if (n.speedModifier > 1.0) buff = AppStrings.t('stat.speed');
+    if (n.attackModifier < 1.0) nerf = AppStrings.t('stat.attack');
+    if (n.defenseModifier < 1.0) nerf = AppStrings.t('stat.defense');
+    if (n.spAttackModifier < 1.0) nerf = AppStrings.t('stat.spAttack');
+    if (n.spDefenseModifier < 1.0) nerf = AppStrings.t('stat.spDefense');
+    if (n.speedModifier < 1.0) nerf = AppStrings.t('stat.speed');
     if (buff.isEmpty) return '$ko (무보정)';
     return '$ko (+$buff -$nerf)';
   }
@@ -327,9 +328,9 @@ class _StatInputState extends State<StatInput> {
                       key: ValueKey('ability_${widget.selectedAbility}'),
                       child: _abilityAutocomplete(),
                     )
-                  : const InputDecorator(
-                      decoration: InputDecoration(labelText: '특성', isDense: true),
-                      child: Text('-', style: TextStyle(color: Colors.grey)),
+                  : InputDecorator(
+                      decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
+                      child: const Text('-', style: TextStyle(color: Colors.grey)),
                     ),
             ),
             const SizedBox(width: 8),
@@ -337,11 +338,11 @@ class _StatInputState extends State<StatInput> {
               flex: 1,
               child: PopupMenuButton<StatusCondition>(
                 initialValue: widget.status,
-                tooltip: '상태이상',
+                tooltip: AppStrings.t('label.status'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 child: InputDecorator(
-                  decoration: const InputDecoration(
-                    labelText: '상태이상',
+                  decoration: InputDecoration(
+                    labelText: AppStrings.t('label.status'),
                     isDense: true,
                   ),
                   child: Text(
@@ -374,11 +375,11 @@ class _StatInputState extends State<StatInput> {
               flex: 3,
               child: PopupMenuButton<Nature>(
                 initialValue: widget.nature,
-                tooltip: '성격',
+                tooltip: AppStrings.t('label.nature'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 constraints: const BoxConstraints(maxHeight: 300),
                 child: InputDecorator(
-                  decoration: const InputDecoration(labelText: '성격', isDense: true),
+                  decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true),
                   child: Text(
                     _natureLabelStatic(widget.nature),
                     overflow: TextOverflow.ellipsis,
@@ -413,35 +414,35 @@ class _StatInputState extends State<StatInput> {
           widget.onIvChanged(_copyIv(hpVal: newIv));
           widget.onEvChanged(_copyEv(hpVal: newEv));
         }, rankIndex: -1, dynamaxHp: widget.isDynamaxed),
-        _statRow(context, '공격', widget.baseStats.attack, widget.iv.attack,
+        _statRow(context, AppStrings.t('stat.attack'), widget.baseStats.attack, widget.iv.attack,
             widget.ev.attack, actualStats.attack, widget.nature.attackModifier,
             widget.rank.attack, (newIv, newEv, newRank) {
           widget.onIvChanged(_copyIv(atkVal: newIv));
           widget.onEvChanged(_copyEv(atkVal: newEv));
           if (newRank != null) _updateRank(atkVal: newRank);
         }, rankIndex: 0),
-        _statRow(context, '방어', widget.baseStats.defense, widget.iv.defense,
+        _statRow(context, AppStrings.t('stat.defense'), widget.baseStats.defense, widget.iv.defense,
             widget.ev.defense, actualStats.defense, widget.nature.defenseModifier,
             widget.rank.defense, (newIv, newEv, newRank) {
           widget.onIvChanged(_copyIv(defVal: newIv));
           widget.onEvChanged(_copyEv(defVal: newEv));
           if (newRank != null) _updateRank(defVal: newRank);
         }, rankIndex: 1),
-        _statRow(context, '특공', widget.baseStats.spAttack, widget.iv.spAttack,
+        _statRow(context, AppStrings.t('stat.spAttack'), widget.baseStats.spAttack, widget.iv.spAttack,
             widget.ev.spAttack, actualStats.spAttack, widget.nature.spAttackModifier,
             widget.rank.spAttack, (newIv, newEv, newRank) {
           widget.onIvChanged(_copyIv(spaVal: newIv));
           widget.onEvChanged(_copyEv(spaVal: newEv));
           if (newRank != null) _updateRank(spaVal: newRank);
         }, rankIndex: 2),
-        _statRow(context, '특방', widget.baseStats.spDefense, widget.iv.spDefense,
+        _statRow(context, AppStrings.t('stat.spDefense'), widget.baseStats.spDefense, widget.iv.spDefense,
             widget.ev.spDefense, actualStats.spDefense, widget.nature.spDefenseModifier,
             widget.rank.spDefense, (newIv, newEv, newRank) {
           widget.onIvChanged(_copyIv(spdVal: newIv));
           widget.onEvChanged(_copyEv(spdVal: newEv));
           if (newRank != null) _updateRank(spdVal: newRank);
         }, rankIndex: 3),
-        _statRow(context, '스피드', widget.baseStats.speed, widget.iv.speed,
+        _statRow(context, AppStrings.t('stat.speed'), widget.baseStats.speed, widget.iv.speed,
             widget.ev.speed, actualStats.speed, widget.nature.speedModifier,
             widget.rank.speed, (newIv, newEv, newRank) {
           widget.onIvChanged(_copyIv(speVal: newIv));
@@ -472,7 +473,7 @@ class _StatInputState extends State<StatInput> {
         return sorted.where((a) =>
             _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
       },
-      decoration: const InputDecoration(labelText: '특성', isDense: true),
+      decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
       itemBuilder: (context, ability) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -495,7 +496,7 @@ class _StatInputState extends State<StatInput> {
   }
 
   String _itemDisplayName(String? key) {
-    if (key == null || key.isEmpty) return '없음';
+    if (key == null || key.isEmpty) return AppStrings.t('label.none');
     return _itemNameMap[key] ?? key;
   }
 
@@ -529,7 +530,7 @@ class _StatInputState extends State<StatInput> {
           scored.sort((a, b) => b.$2.compareTo(a.$2));
           return scored.map((e) => e.$1).toList();
         },
-        decoration: const InputDecoration(labelText: '아이템', isDense: true),
+        decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
         itemBuilder: (context, key) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -613,19 +614,19 @@ class _StatInputState extends State<StatInput> {
       );
       switch (result) {
         case SpeedResult.alwaysLast:
-          speedText = '확정 후공';
+          speedText = AppStrings.t('speed.guaranteedLast');
           speedColor = Colors.red;
         case SpeedResult.alwaysFirst:
-          speedText = '확정 선공';
+          speedText = AppStrings.t('speed.guaranteedFirst');
           speedColor = Colors.green;
         case SpeedResult.faster:
-          speedText = '상대보다 빠름 ▲';
+          speedText = AppStrings.t('speed.faster');
           speedColor = Colors.green;
         case SpeedResult.slower:
-          speedText = '상대보다 느림 ▼';
+          speedText = AppStrings.t('speed.slower');
           speedColor = Colors.red;
         case SpeedResult.tied:
-          speedText = '동속';
+          speedText = AppStrings.t('speed.tie');
         speedColor = Colors.orange;
       }
     }
@@ -637,7 +638,7 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 2, child: Container()),
           Expanded(flex: 5, child: Text('$baseTotal', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 6, child: Text(
-            usedPoints > maxPoints ? '초과 ${usedPoints - maxPoints}' : '잔여 ${maxPoints - usedPoints}',
+            usedPoints > maxPoints ? '${AppStrings.t('ev.exceeded')} ${usedPoints - maxPoints}' : '${AppStrings.t('ev.remaining')} ${maxPoints - usedPoints}',
             style: style.copyWith(
               color: usedPoints > maxPoints ? Colors.red : null,
             ), textAlign: TextAlign.center)),
@@ -657,8 +658,8 @@ class _StatInputState extends State<StatInput> {
       child: Row(
         children: [
           Expanded(flex: 3, child: Text('', style: style)),
-          Expanded(flex: 2, child: Text('종족', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: isWide ? 2 : 3, child: Text('개체', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 2, child: Text(AppStrings.t('stat.base'), style: style, textAlign: TextAlign.center)),
+          Expanded(flex: isWide ? 2 : 3, child: Text(AppStrings.t('stat.iv'), style: style, textAlign: TextAlign.center)),
           Expanded(flex: isWide ? 7 : 6, child: widget.onSpModeChanged != null
               ? GestureDetector(
                   onTap: () => widget.onSpModeChanged!(!widget.useSpMode),
@@ -675,9 +676,9 @@ class _StatInputState extends State<StatInput> {
                     ],
                   ),
                 )
-              : Text('노력', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 3, child: Text('랭크', style: style, textAlign: TextAlign.center)),
-          Expanded(flex: 3, child: Text('실수치', style: style, textAlign: TextAlign.center)),
+              : Text(AppStrings.t('stat.ev'), style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text(AppStrings.t('stat.rank'), style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 3, child: Text(AppStrings.t('stat.actual'), style: style, textAlign: TextAlign.center)),
         ],
       ),
     );
@@ -1003,8 +1004,8 @@ class _LevelInputState extends State<_LevelInput> {
       textAlign: TextAlign.center,
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.done,
-      decoration: const InputDecoration(
-        labelText: '레벨',
+      decoration: InputDecoration(
+        labelText: AppStrings.t('label.level'),
         isDense: true,
       ),
       onChanged: (text) {
