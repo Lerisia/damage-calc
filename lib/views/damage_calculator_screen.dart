@@ -363,6 +363,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Widget build(BuildContext context) {
     final isWide = _isWideLayout;
     final maxAppBarWidth = MediaQuery.of(context).size.width >= 1400 ? 1920.0 : 1440.0;
+    final isKo = AppStrings.current == AppLanguage.ko;
+    final toolbarFontSize = isWide ? 16.0 : (isKo ? 14.0 : 11.0);
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -386,7 +388,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _weather == Weather.none
-                        ? Text(AppStrings.t('toolbar.weather'), style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
+                        ? Text(AppStrings.t('toolbar.weather'), style: TextStyle(fontSize: toolbarFontSize, color: Colors.grey.shade500))
                         : Text(KoStrings.weatherIcon[_weather]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
@@ -418,7 +420,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _terrain == Terrain.none
-                        ? Text(AppStrings.t('toolbar.terrain'), style: TextStyle(fontSize: isWide ? 16 : 14, color: Colors.grey.shade500))
+                        ? Text(AppStrings.t('toolbar.terrain'), style: TextStyle(fontSize: toolbarFontSize, color: Colors.grey.shade500))
                         : Text(KoStrings.terrainIcon[_terrain]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
                     const Icon(Icons.arrow_drop_down, size: 16),
                   ],
@@ -449,7 +451,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(AppStrings.t('toolbar.room'), style: TextStyle(
-                      fontSize: isWide ? 16 : 14,
+                      fontSize: toolbarFontSize,
                       color: _room.hasAny ? Colors.purple : Colors.grey.shade500,
                       fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
                     )),
