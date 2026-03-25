@@ -14,6 +14,7 @@ import '../../utils/battle_facade.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/speed_tier.dart';
 import 'typeahead_helpers.dart';
+import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../widgets/pokemon_selector.dart';
@@ -29,6 +30,8 @@ class SpeedCompareTab extends StatefulWidget {
   final int resetCounter;
   final Map<String, String> abilityNameMap;
   final Map<String, String> itemNameMap;
+  final bool useSpMode;
+  final ValueChanged<bool>? onSpModeChanged;
 
   const SpeedCompareTab({
     super.key,
@@ -41,6 +44,8 @@ class SpeedCompareTab extends StatefulWidget {
     required this.resetCounter,
     required this.abilityNameMap,
     required this.itemNameMap,
+    this.useSpMode = false,
+    this.onSpModeChanged,
   });
 
   @override
@@ -261,12 +266,29 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Text('노력 ', style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+              GestureDetector(
+                onTap: widget.onSpModeChanged != null
+                    ? () => widget.onSpModeChanged!(!widget.useSpMode)
+                    : null,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(widget.useSpMode ? 'SP ' : '노력 ',
+                        style: TextStyle(fontSize: 14, color: Colors.grey.shade600,
+                            fontWeight: FontWeight.bold)),
+                    Icon(Icons.swap_horiz, size: 12, color: Colors.grey.shade600),
+                  ],
+                ),
+              ),
               Expanded(flex: 3, child: _SpeedNumInput(
-                value: state.ev.speed,
-                min: 0, max: 252,
+                value: widget.useSpMode
+                    ? ChampionsMode.evToSp(state.ev.speed)
+                    : state.ev.speed,
+                min: 0,
+                max: widget.useSpMode ? ChampionsMode.maxPerStat : 252,
                 onChanged: (val) {
-                  setState(() => state.ev = state.ev.copyWith(speed: val));
+                  final ev = widget.useSpMode ? ChampionsMode.spToEv(val) : val;
+                  setState(() => state.ev = state.ev.copyWith(speed: ev));
                   _notify();
                 },
               )),
@@ -275,7 +297,9 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 _notify();
               }),
               _miniButton('max', () {
-                setState(() => state.ev = state.ev.copyWith(speed: 252));
+                final maxEv = widget.useSpMode
+                    ? ChampionsMode.spToEv(ChampionsMode.maxPerStat) : 252;
+                setState(() => state.ev = state.ev.copyWith(speed: maxEv));
                 _notify();
               }),
               const SizedBox(width: 8),
