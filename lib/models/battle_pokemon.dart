@@ -13,6 +13,7 @@ import 'type.dart';
 class BattlePokemonState {
   String pokemonName;
   String pokemonNameKo;
+  int dexNumber;
   bool finalEvo;
   Gender gender;
   int genderRate;
@@ -52,6 +53,7 @@ class BattlePokemonState {
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
     this.pokemonNameKo = '이상해씨',
+    this.dexNumber = 1,
     this.finalEvo = false,
     this.gender = Gender.unset,
     this.genderRate = 4,
@@ -104,6 +106,7 @@ class BattlePokemonState {
   Map<String, dynamic> toJson() => {
     'pokemonName': pokemonName,
     'pokemonNameKo': pokemonNameKo,
+    'dexNumber': dexNumber,
     'finalEvo': finalEvo,
     'gender': gender.name,
     'genderRate': genderRate,
@@ -142,6 +145,7 @@ class BattlePokemonState {
     return BattlePokemonState(
       pokemonName: json['pokemonName'] as String,
       pokemonNameKo: json['pokemonNameKo'] as String,
+      dexNumber: json['dexNumber'] as int? ?? 1,
       finalEvo: json['finalEvo'] as bool? ?? false,
       gender: Gender.values.byName(json['gender'] as String),
       genderRate: json['genderRate'] as int? ?? 4,
@@ -187,6 +191,7 @@ class BattlePokemonState {
   void reset() {
     pokemonName = 'bulbasaur';
     pokemonNameKo = '이상해씨';
+    dexNumber = 1;
     finalEvo = false;
     gender = Gender.unset;
     genderRate = 4;
@@ -231,6 +236,7 @@ class BattlePokemonState {
   void applyPokemon(Pokemon pokemon) {
     pokemonName = pokemon.name;
     pokemonNameKo = pokemon.nameKo;
+    dexNumber = pokemon.dexNumber;
     finalEvo = pokemon.finalEvo;
     canDynamax = pokemon.canDynamax;
     canGmax = pokemon.canGmax;

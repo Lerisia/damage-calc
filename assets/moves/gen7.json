@@ -9,7 +9,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "10,000,000 Volt Thunderbolt"
   },
   {
     "name": "High Horsepower",
@@ -20,7 +21,8 @@
     "power": 95,
     "accuracy": 95,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "High Horsepower"
   },
   {
     "name": "Darkest Lariat",
@@ -34,7 +36,8 @@
     "tags": [
       "contact",
       "custom:ignore_def_rank"
-    ]
+    ],
+    "nameEn": "Darkest Lariat"
   },
   {
     "name": "Spirit Shackle",
@@ -45,7 +48,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Spirit Shackle"
   },
   {
     "name": "Power Trip",
@@ -58,7 +62,8 @@
     "pp": 10,
     "tags": [
       "custom:rank_power"
-    ]
+    ],
+    "nameEn": "Power Trip"
   },
   {
     "name": "Mind Blown",
@@ -69,7 +74,8 @@
     "power": 150,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Mind Blown"
   },
   {
     "name": "Freezy Frost",
@@ -80,7 +86,8 @@
     "power": 100,
     "accuracy": 90,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Freezy Frost"
   },
   {
     "name": "Pollen Puff",
@@ -93,7 +100,8 @@
     "pp": 15,
     "tags": [
       "ball"
-    ]
+    ],
+    "nameEn": "Pollen Puff"
   },
   {
     "name": "Leafage",
@@ -104,7 +112,8 @@
     "power": 40,
     "accuracy": 100,
     "pp": 40,
-    "tags": []
+    "tags": [],
+    "nameEn": "Leafage"
   },
   {
     "name": "Extreme Evoboost",
@@ -116,7 +125,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Extreme Evoboost"
   },
   {
     "name": "Tearful Look",
@@ -127,7 +137,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Tearful Look"
   },
   {
     "name": "Inferno Overdrive",
@@ -139,7 +150,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Inferno Overdrive"
   },
   {
     "name": "Inferno Overdrive",
@@ -151,7 +163,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Inferno Overdrive"
   },
   {
     "name": "Double Iron Bash",
@@ -167,7 +180,8 @@
       "punch"
     ],
     "minHits": 2,
-    "maxHits": 2
+    "maxHits": 2,
+    "nameEn": "Double Iron Bash"
   },
   {
     "name": "Lunge",
@@ -180,7 +194,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Lunge"
   },
   {
     "name": "Toxic Thread",
@@ -191,7 +206,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Toxic Thread"
   },
   {
     "name": "Floaty Fall",
@@ -204,7 +220,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Floaty Fall"
   },
   {
     "name": "Dragon Hammer",
@@ -215,7 +232,8 @@
     "power": 90,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Dragon Hammer"
   },
   {
     "name": "Tectonic Rage",
@@ -227,7 +245,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Tectonic Rage"
   },
   {
     "name": "Tectonic Rage",
@@ -239,7 +258,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Tectonic Rage"
   },
   {
     "name": "Stoked Sparksurfer",
@@ -253,7 +273,8 @@
     "moveClass": "zMove",
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Stoked Sparksurfer"
   },
   {
     "name": "Twinkle Tackle",
@@ -265,7 +286,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Twinkle Tackle"
   },
   {
     "name": "Twinkle Tackle",
@@ -277,7 +299,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Twinkle Tackle"
   },
   {
     "name": "Splintered Stormshards",
@@ -289,7 +312,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Splintered Stormshards"
   },
   {
     "name": "Subzero Slammer",
@@ -301,7 +325,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Subzero Slammer"
   },
   {
     "name": "Subzero Slammer",
@@ -313,7 +338,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Subzero Slammer"
   },
   {
     "name": "First Impression",
@@ -325,7 +351,8 @@
     "accuracy": 100,
     "pp": 10,
     "priority": 2,
-    "tags": []
+    "tags": [],
+    "nameEn": "First Impression"
   },
   {
     "name": "Shattered Psyche",
@@ -337,7 +364,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Shattered Psyche"
   },
   {
     "name": "Shattered Psyche",
@@ -349,7 +377,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Shattered Psyche"
   },
   {
     "name": "Multi-Attack",
@@ -360,7 +389,8 @@
     "power": 120,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Multi-Attack"
   },
   {
     "name": "Sunsteel Strike",
@@ -373,7 +403,8 @@
     "pp": 5,
     "tags": [
       "custom:ignore_ability"
-    ]
+    ],
+    "nameEn": "Sunsteel Strike"
   },
   {
     "name": "Shore Up",
@@ -384,7 +415,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Shore Up"
   },
   {
     "name": "Never-Ending Nightmare",
@@ -396,7 +428,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Never-Ending Nightmare"
   },
   {
     "name": "Never-Ending Nightmare",
@@ -408,7 +441,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Never-Ending Nightmare"
   },
   {
     "name": "Menacing Moonraze Maelstrom",
@@ -420,7 +454,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Menacing Moonraze Maelstrom"
   },
   {
     "name": "Sparkling Aria",
@@ -433,7 +468,8 @@
     "pp": 10,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Sparkling Aria"
   },
   {
     "name": "Oceanic Operetta",
@@ -445,7 +481,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Oceanic Operetta"
   },
   {
     "name": "Sparkly Swirl",
@@ -456,7 +493,8 @@
     "power": 120,
     "accuracy": 85,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Sparkly Swirl"
   },
   {
     "name": "Beak Blast",
@@ -469,7 +507,8 @@
     "pp": 15,
     "tags": [
       "ball"
-    ]
+    ],
+    "nameEn": "Beak Blast"
   },
   {
     "name": "Stomping Tantrum",
@@ -480,7 +519,8 @@
     "power": 75,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Stomping Tantrum"
   },
   {
     "name": "Fire Lash",
@@ -493,7 +533,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Fire Lash"
   },
   {
     "name": "Burn Up",
@@ -504,7 +545,8 @@
     "power": 130,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Burn Up"
   },
   {
     "name": "Clangorous Soulblaze",
@@ -519,7 +561,8 @@
     "tags": [
       "custom:has_secondary",
       "sound"
-    ]
+    ],
+    "nameEn": "Clangorous Soulblaze"
   },
   {
     "name": "Veevee Volley",
@@ -530,7 +573,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Veevee Volley"
   },
   {
     "name": "Black Hole Eclipse",
@@ -542,7 +586,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Black Hole Eclipse"
   },
   {
     "name": "Black Hole Eclipse",
@@ -554,7 +599,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Black Hole Eclipse"
   },
   {
     "name": "Bloom Doom",
@@ -566,7 +612,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Bloom Doom"
   },
   {
     "name": "Bloom Doom",
@@ -578,7 +625,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Bloom Doom"
   },
   {
     "name": "Psychic Fangs",
@@ -591,7 +639,8 @@
     "pp": 10,
     "tags": [
       "bite"
-    ]
+    ],
+    "nameEn": "Psychic Fangs"
   },
   {
     "name": "Psychic Terrain",
@@ -602,7 +651,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Psychic Terrain"
   },
   {
     "name": "Bouncy Bubble",
@@ -613,7 +663,8 @@
     "power": 60,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Bouncy Bubble"
   },
   {
     "name": "Moongeist Beam",
@@ -626,7 +677,8 @@
     "pp": 5,
     "tags": [
       "custom:ignore_ability"
-    ]
+    ],
+    "nameEn": "Moongeist Beam"
   },
   {
     "name": "Shadow Bone",
@@ -639,7 +691,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Shadow Bone"
   },
   {
     "name": "Spectral Thief",
@@ -650,7 +703,8 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Spectral Thief"
   },
   {
     "name": "Sinister Arrow Raid",
@@ -662,7 +716,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Sinister Arrow Raid"
   },
   {
     "name": "Searing Sunraze Smash",
@@ -674,7 +729,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Searing Sunraze Smash"
   },
   {
     "name": "Brutal Swing",
@@ -685,7 +741,8 @@
     "power": 60,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Brutal Swing"
   },
   {
     "name": "Solar Blade",
@@ -699,7 +756,8 @@
     "tags": [
       "slice",
       "custom:solar_halve"
-    ]
+    ],
+    "nameEn": "Solar Blade"
   },
   {
     "name": "Hydro Vortex",
@@ -711,7 +769,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Hydro Vortex"
   },
   {
     "name": "Hydro Vortex",
@@ -723,7 +782,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Hydro Vortex"
   },
   {
     "name": "Smart Strike",
@@ -734,7 +794,8 @@
     "power": 70,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Smart Strike"
   },
   {
     "name": "Clanging Scales",
@@ -748,7 +809,8 @@
     "tags": [
       "custom:has_secondary",
       "sound"
-    ]
+    ],
+    "nameEn": "Clanging Scales"
   },
   {
     "name": "Gigavolt Havoc",
@@ -760,7 +822,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Gigavolt Havoc"
   },
   {
     "name": "Gigavolt Havoc",
@@ -772,7 +835,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Gigavolt Havoc"
   },
   {
     "name": "Spotlight",
@@ -783,7 +847,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Spotlight"
   },
   {
     "name": "Speed Swap",
@@ -794,7 +859,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Speed Swap"
   },
   {
     "name": "Sappy Seed",
@@ -807,7 +873,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Sappy Seed"
   },
   {
     "name": "Baddy Bad",
@@ -818,7 +885,8 @@
     "power": 80,
     "accuracy": 95,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Baddy Bad"
   },
   {
     "name": "Ice Hammer",
@@ -832,7 +900,8 @@
     "tags": [
       "punch",
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Ice Hammer"
   },
   {
     "name": "Liquidation",
@@ -845,7 +914,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Liquidation"
   },
   {
     "name": "Guardian of Alola",
@@ -857,7 +927,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Guardian of Alola"
   },
   {
     "name": "Acid Downpour",
@@ -869,7 +940,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Acid Downpour"
   },
   {
     "name": "Acid Downpour",
@@ -881,7 +953,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Acid Downpour"
   },
   {
     "name": "Accelerock",
@@ -893,7 +966,8 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 2,
-    "tags": []
+    "tags": [],
+    "nameEn": "Accelerock"
   },
   {
     "name": "Anchor Shot",
@@ -904,7 +978,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Anchor Shot"
   },
   {
     "name": "Gear Up",
@@ -915,7 +990,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Gear Up"
   },
   {
     "name": "Devastating Drake",
@@ -927,7 +1003,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Devastating Drake"
   },
   {
     "name": "Devastating Drake",
@@ -939,7 +1016,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Devastating Drake"
   },
   {
     "name": "Laser Focus",
@@ -950,7 +1028,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 30,
-    "tags": []
+    "tags": [],
+    "nameEn": "Laser Focus"
   },
   {
     "name": "Aurora Veil",
@@ -961,7 +1040,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Aurora Veil"
   },
   {
     "name": "Genesis Supernova",
@@ -973,7 +1053,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Genesis Supernova"
   },
   {
     "name": "Breakneck Blitz",
@@ -985,7 +1066,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Breakneck Blitz"
   },
   {
     "name": "Breakneck Blitz",
@@ -997,7 +1079,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Breakneck Blitz"
   },
   {
     "name": "Continental Crush",
@@ -1009,7 +1092,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Continental Crush"
   },
   {
     "name": "Continental Crush",
@@ -1021,7 +1105,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Continental Crush"
   },
   {
     "name": "Sizzly Slide",
@@ -1034,7 +1119,8 @@
     "pp": 20,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Sizzly Slide"
   },
   {
     "name": "Nature’s Madness",
@@ -1045,7 +1131,10 @@
     "power": 0,
     "accuracy": 90,
     "pp": 10,
-    "tags": ["custom:fixed_half_hp"]
+    "tags": [
+      "custom:fixed_half_hp"
+    ],
+    "nameEn": "Nature’s Madness"
   },
   {
     "name": "Revelation Dance",
@@ -1056,7 +1145,8 @@
     "power": 90,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Revelation Dance"
   },
   {
     "name": "All-Out Pummeling",
@@ -1068,7 +1158,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "All-Out Pummeling"
   },
   {
     "name": "All-Out Pummeling",
@@ -1080,7 +1171,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "All-Out Pummeling"
   },
   {
     "name": "Savage Spin-Out",
@@ -1092,7 +1184,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Savage Spin-Out"
   },
   {
     "name": "Savage Spin-Out",
@@ -1104,7 +1197,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Savage Spin-Out"
   },
   {
     "name": "Purify",
@@ -1115,7 +1209,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Purify"
   },
   {
     "name": "Throat Chop",
@@ -1128,7 +1223,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Throat Chop"
   },
   {
     "name": "Instruct",
@@ -1139,7 +1235,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Instruct"
   },
   {
     "name": "Pulverizing Pancake",
@@ -1151,7 +1248,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Pulverizing Pancake"
   },
   {
     "name": "Zing Zap",
@@ -1164,7 +1262,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Zing Zap"
   },
   {
     "name": "Buzzy Buzz",
@@ -1177,7 +1276,8 @@
     "pp": 20,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Buzzy Buzz"
   },
   {
     "name": "Splishy Splash",
@@ -1190,7 +1290,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Splishy Splash"
   },
   {
     "name": "Corkscrew Crash",
@@ -1202,7 +1303,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Corkscrew Crash"
   },
   {
     "name": "Corkscrew Crash",
@@ -1214,7 +1316,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Corkscrew Crash"
   },
   {
     "name": "Soul-Stealing 7-Star Strike",
@@ -1226,7 +1329,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Soul-Stealing 7-Star Strike"
   },
   {
     "name": "Core Enforcer",
@@ -1237,7 +1341,8 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Core Enforcer"
   },
   {
     "name": "Glitzy Glow",
@@ -1248,7 +1353,8 @@
     "power": 80,
     "accuracy": 95,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Glitzy Glow"
   },
   {
     "name": "Baneful Bunker",
@@ -1260,7 +1366,8 @@
     "accuracy": 0,
     "pp": 10,
     "priority": 4,
-    "tags": []
+    "tags": [],
+    "nameEn": "Baneful Bunker"
   },
   {
     "name": "Let’s Snuggle Forever",
@@ -1272,7 +1379,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Let’s Snuggle Forever"
   },
   {
     "name": "Shell Trap",
@@ -1283,7 +1391,8 @@
     "power": 150,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Shell Trap"
   },
   {
     "name": "Trop Kick",
@@ -1296,7 +1405,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Trop Kick"
   },
   {
     "name": "Supersonic Skystrike",
@@ -1308,7 +1418,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Supersonic Skystrike"
   },
   {
     "name": "Supersonic Skystrike",
@@ -1320,7 +1431,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Supersonic Skystrike"
   },
   {
     "name": "Zippy Zap",
@@ -1334,7 +1446,8 @@
     "tags": [
       "custom:always_crit",
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Zippy Zap"
   },
   {
     "name": "Photon Geyser",
@@ -1348,7 +1461,8 @@
     "tags": [
       "custom:use_higher_atk",
       "custom:ignore_ability"
-    ]
+    ],
+    "nameEn": "Photon Geyser"
   },
   {
     "name": "Prismatic Laser",
@@ -1359,7 +1473,8 @@
     "power": 160,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Prismatic Laser"
   },
   {
     "name": "Plasma Fists",
@@ -1372,7 +1487,8 @@
     "pp": 15,
     "tags": [
       "punch"
-    ]
+    ],
+    "nameEn": "Plasma Fists"
   },
   {
     "name": "Floral Healing",
@@ -1383,7 +1499,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Floral Healing"
   },
   {
     "name": "Fleur Cannon",
@@ -1396,7 +1513,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Fleur Cannon"
   },
   {
     "name": "Pika Papow",
@@ -1407,7 +1525,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Pika Papow"
   },
   {
     "name": "Catastropika",
@@ -1419,7 +1538,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Catastropika"
   },
   {
     "name": "Light That Burns the Sky",
@@ -1431,7 +1551,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Light That Burns the Sky"
   },
   {
     "name": "Malicious Moonsault",
@@ -1443,7 +1564,8 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": []
+    "tags": [],
+    "nameEn": "Malicious Moonsault"
   },
   {
     "name": "Strength Sap",
@@ -1454,6 +1576,7 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Strength Sap"
   }
 ]

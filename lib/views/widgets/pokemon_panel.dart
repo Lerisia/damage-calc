@@ -456,6 +456,9 @@ class PokemonPanelState extends State<PokemonPanel>
                       key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
                       initialMoveName: s.moves[index]?.name,
                       displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
+                      pokemonName: s.pokemonName,
+                      pokemonNameKo: s.pokemonNameKo,
+                      dexNumber: s.dexNumber,
                       onTap: null,
                       onSelected: (m) {
                         FocusScope.of(context).unfocus();
@@ -504,22 +507,24 @@ class PokemonPanelState extends State<PokemonPanel>
           if (!isSearching) SizedBox(
             width: 40,
             child: move != null
-                ? PopupMenuButton<PokemonType>(
-                    initialValue: effectiveType,
-                    padding: EdgeInsets.zero,
-                    child: Text(
-                      KoStrings.getTypeKo(effectiveType!),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: s.typeOverrides[index] != null ? Colors.orange : null,
+                ? effectiveType != null
+                  ? PopupMenuButton<PokemonType>(
+                      initialValue: effectiveType,
+                      padding: EdgeInsets.zero,
+                      child: Text(
+                        KoStrings.getTypeKo(effectiveType),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: s.typeOverrides[index] != null ? Colors.orange : null,
+                        ),
                       ),
-                    ),
-                    itemBuilder: (_) => PokemonType.values
-                        .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeKo(t), style: const TextStyle(fontSize: 12))))
-                        .toList(),
-                    onSelected: (t) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); },
-                  )
+                      itemBuilder: (_) => PokemonType.values
+                          .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeKo(t), style: const TextStyle(fontSize: 12))))
+                          .toList(),
+                      onSelected: (t) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); },
+                    )
+                  : Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.grey))
                 : const Text('-', textAlign: TextAlign.center),
           ),
           if (!isSearching) SizedBox(

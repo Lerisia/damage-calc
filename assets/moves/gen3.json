@@ -8,7 +8,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Snatch"
   },
   {
     "name": "Tickle",
@@ -19,7 +20,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Tickle"
   },
   {
     "name": "Facade",
@@ -32,7 +34,8 @@
     "pp": 20,
     "tags": [
       "custom:facade"
-    ]
+    ],
+    "nameEn": "Facade"
   },
   {
     "name": "Fake Tears",
@@ -43,7 +46,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Fake Tears"
   },
   {
     "name": "Icicle Spear",
@@ -56,7 +60,8 @@
     "pp": 30,
     "tags": [],
     "minHits": 2,
-    "maxHits": 5
+    "maxHits": 5,
+    "nameEn": "Icicle Spear"
   },
   {
     "name": "Metal Sound",
@@ -67,7 +72,8 @@
     "power": 0,
     "accuracy": 85,
     "pp": 40,
-    "tags": []
+    "tags": [],
+    "nameEn": "Metal Sound"
   },
   {
     "name": "Bullet Seed",
@@ -82,7 +88,8 @@
       "ball"
     ],
     "minHits": 2,
-    "maxHits": 5
+    "maxHits": 5,
+    "nameEn": "Bullet Seed"
   },
   {
     "name": "Feather Dance",
@@ -93,7 +100,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Feather Dance"
   },
   {
     "name": "Brick Break",
@@ -104,7 +112,8 @@
     "power": 75,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Brick Break"
   },
   {
     "name": "Swallow",
@@ -115,7 +124,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Swallow"
   },
   {
     "name": "Follow Me",
@@ -127,7 +137,8 @@
     "accuracy": 0,
     "pp": 20,
     "priority": 2,
-    "tags": []
+    "tags": [],
+    "nameEn": "Follow Me"
   },
   {
     "name": "Odor Sleuth",
@@ -138,7 +149,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 40,
-    "tags": []
+    "tags": [],
+    "nameEn": "Odor Sleuth"
   },
   {
     "name": "Astonish",
@@ -151,7 +163,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Astonish"
   },
   {
     "name": "Dive",
@@ -162,7 +175,8 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Dive"
   },
   {
     "name": "Will-O-Wisp",
@@ -173,7 +187,8 @@
     "power": 0,
     "accuracy": 85,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Will-O-Wisp"
   },
   {
     "name": "Taunt",
@@ -184,7 +199,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Taunt"
   },
   {
     "name": "Helping Hand",
@@ -196,7 +212,8 @@
     "accuracy": 0,
     "pp": 20,
     "priority": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Helping Hand"
   },
   {
     "name": "Poison Fang",
@@ -210,7 +227,8 @@
     "tags": [
       "custom:has_secondary",
       "bite"
-    ]
+    ],
+    "nameEn": "Poison Fang"
   },
   {
     "name": "Dragon Claw",
@@ -223,7 +241,8 @@
     "pp": 15,
     "tags": [
       "contact"
-    ]
+    ],
+    "nameEn": "Dragon Claw"
   },
   {
     "name": "Bounce",
@@ -237,7 +256,8 @@
     "tags": [
       "custom:has_secondary",
       "custom:disabled_by_gravity"
-    ]
+    ],
+    "nameEn": "Bounce"
   },
   {
     "name": "Luster Purge",
@@ -250,7 +270,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Luster Purge"
   },
   {
     "name": "Rock Blast",
@@ -265,7 +286,8 @@
       "ball"
     ],
     "minHits": 2,
-    "maxHits": 5
+    "maxHits": 5,
+    "nameEn": "Rock Blast"
   },
   {
     "name": "Revenge",
@@ -277,7 +299,8 @@
     "accuracy": 100,
     "pp": 10,
     "priority": -4,
-    "tags": []
+    "tags": [],
+    "nameEn": "Revenge"
   },
   {
     "name": "Recycle",
@@ -288,7 +311,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Recycle"
   },
   {
     "name": "Refresh",
@@ -299,7 +323,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Refresh"
   },
   {
     "name": "Leaf Blade",
@@ -313,7 +338,8 @@
     "tags": [
       "contact",
       "slice"
-    ]
+    ],
+    "nameEn": "Leaf Blade"
   },
   {
     "name": "Magic Coat",
@@ -324,7 +350,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Magic Coat"
   },
   {
     "name": "Mud Shot",
@@ -337,7 +364,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Mud Shot"
   },
   {
     "name": "Howl",
@@ -348,7 +376,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 40,
-    "tags": []
+    "tags": [],
+    "nameEn": "Howl"
   },
   {
     "name": "Magical Leaf",
@@ -359,7 +388,8 @@
     "power": 60,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Magical Leaf"
   },
   {
     "name": "Calm Mind",
@@ -370,7 +400,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Calm Mind"
   },
   {
     "name": "Sand Tomb",
@@ -383,7 +414,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Sand Tomb"
   },
   {
     "name": "Water Sport",
@@ -394,7 +426,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Water Sport"
   },
   {
     "name": "Water Pulse",
@@ -408,7 +441,8 @@
     "tags": [
       "pulse",
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Water Pulse"
   },
   {
     "name": "Mist Ball",
@@ -422,7 +456,8 @@
     "tags": [
       "custom:has_secondary",
       "ball"
-    ]
+    ],
+    "nameEn": "Mist Ball"
   },
   {
     "name": "Needle Arm",
@@ -435,7 +470,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Needle Arm"
   },
   {
     "name": "Tail Glow",
@@ -446,7 +482,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Tail Glow"
   },
   {
     "name": "Bulk Up",
@@ -457,7 +494,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Bulk Up"
   },
   {
     "name": "Camouflage",
@@ -468,7 +506,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Camouflage"
   },
   {
     "name": "Volt Tackle",
@@ -482,7 +521,8 @@
     "tags": [
       "custom:has_secondary",
       "recoil"
-    ]
+    ],
+    "nameEn": "Volt Tackle"
   },
   {
     "name": "Imprison",
@@ -493,7 +533,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Imprison"
   },
   {
     "name": "Flatter",
@@ -504,7 +545,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Flatter"
   },
   {
     "name": "Eruption",
@@ -517,7 +559,8 @@
     "pp": 5,
     "tags": [
       "custom:hp_power_high"
-    ]
+    ],
+    "nameEn": "Eruption"
   },
   {
     "name": "Blaze Kick",
@@ -530,7 +573,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Blaze Kick"
   },
   {
     "name": "Crush Claw",
@@ -543,7 +587,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Crush Claw"
   },
   {
     "name": "Blast Burn",
@@ -554,7 +599,8 @@
     "power": 150,
     "accuracy": 90,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Blast Burn"
   },
   {
     "name": "Block",
@@ -565,7 +611,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Block"
   },
   {
     "name": "Secret Power",
@@ -578,7 +625,8 @@
     "pp": 20,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Secret Power"
   },
   {
     "name": "Stockpile",
@@ -589,7 +637,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Stockpile"
   },
   {
     "name": "Ingrain",
@@ -600,7 +649,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Ingrain"
   },
   {
     "name": "Psycho Boost",
@@ -613,7 +663,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Psycho Boost"
   },
   {
     "name": "Shadow Punch",
@@ -626,7 +677,8 @@
     "pp": 20,
     "tags": [
       "punch"
-    ]
+    ],
+    "nameEn": "Shadow Punch"
   },
   {
     "name": "Uproar",
@@ -639,7 +691,8 @@
     "pp": 10,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Uproar"
   },
   {
     "name": "Fake Out",
@@ -653,7 +706,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "priority": 3
+    "priority": 3,
+    "nameEn": "Fake Out"
   },
   {
     "name": "Arm Thrust",
@@ -666,7 +720,8 @@
     "pp": 20,
     "tags": [],
     "minHits": 2,
-    "maxHits": 5
+    "maxHits": 5,
+    "nameEn": "Arm Thrust"
   },
   {
     "name": "Sky Uppercut",
@@ -679,7 +734,8 @@
     "pp": 15,
     "tags": [
       "punch"
-    ]
+    ],
+    "nameEn": "Sky Uppercut"
   },
   {
     "name": "Skill Swap",
@@ -690,7 +746,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Skill Swap"
   },
   {
     "name": "Signal Beam",
@@ -703,7 +760,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Signal Beam"
   },
   {
     "name": "Extrasensory",
@@ -716,7 +774,8 @@
     "pp": 20,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Extrasensory"
   },
   {
     "name": "Hail",
@@ -727,7 +786,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Hail"
   },
   {
     "name": "Aromatherapy",
@@ -738,7 +798,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Aromatherapy"
   },
   {
     "name": "Ice Ball",
@@ -751,7 +812,8 @@
     "pp": 20,
     "tags": [
       "ball"
-    ]
+    ],
+    "nameEn": "Ice Ball"
   },
   {
     "name": "Rock Tomb",
@@ -764,7 +826,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Rock Tomb"
   },
   {
     "name": "Superpower",
@@ -777,7 +840,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Superpower"
   },
   {
     "name": "Air Cutter",
@@ -790,7 +854,8 @@
     "pp": 25,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Air Cutter"
   },
   {
     "name": "Role Play",
@@ -801,7 +866,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Role Play"
   },
   {
     "name": "Heat Wave",
@@ -814,7 +880,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Heat Wave"
   },
   {
     "name": "Overheat",
@@ -827,7 +894,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Overheat"
   },
   {
     "name": "Dragon Dance",
@@ -838,7 +906,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Dragon Dance"
   },
   {
     "name": "Grudge",
@@ -849,7 +918,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Grudge"
   },
   {
     "name": "Weather Ball",
@@ -862,7 +932,8 @@
     "pp": 10,
     "tags": [
       "ball"
-    ]
+    ],
+    "nameEn": "Weather Ball"
   },
   {
     "name": "Silver Wind",
@@ -875,7 +946,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Silver Wind"
   },
   {
     "name": "Nature Power",
@@ -886,7 +958,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Nature Power"
   },
   {
     "name": "Shock Wave",
@@ -897,7 +970,8 @@
     "power": 60,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Shock Wave"
   },
   {
     "name": "Sheer Cold",
@@ -908,7 +982,10 @@
     "power": 0,
     "accuracy": 30,
     "pp": 5,
-    "tags": ["custom:ohko"]
+    "tags": [
+      "custom:ohko"
+    ],
+    "nameEn": "Sheer Cold"
   },
   {
     "name": "Smelling Salts",
@@ -921,7 +998,8 @@
     "pp": 10,
     "tags": [
       "custom:double_on_paralysis"
-    ]
+    ],
+    "nameEn": "Smelling Salts"
   },
   {
     "name": "Aerial Ace",
@@ -934,7 +1012,8 @@
     "pp": 20,
     "tags": [
       "slice"
-    ]
+    ],
+    "nameEn": "Aerial Ace"
   },
   {
     "name": "Assist",
@@ -945,7 +1024,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Assist"
   },
   {
     "name": "Endeavor",
@@ -956,7 +1036,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Endeavor"
   },
   {
     "name": "Iron Defense",
@@ -967,7 +1048,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Iron Defense"
   },
   {
     "name": "Memento",
@@ -978,7 +1060,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Memento"
   },
   {
     "name": "Charge",
@@ -989,7 +1072,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Charge"
   },
   {
     "name": "Meteor Mash",
@@ -1003,7 +1087,8 @@
     "tags": [
       "punch",
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Meteor Mash"
   },
   {
     "name": "Cosmic Power",
@@ -1014,7 +1099,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Cosmic Power"
   },
   {
     "name": "Muddy Water",
@@ -1027,7 +1113,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Muddy Water"
   },
   {
     "name": "Knock Off",
@@ -1041,7 +1128,8 @@
     "tags": [
       "contact",
       "custom:knock_off"
-    ]
+    ],
+    "nameEn": "Knock Off"
   },
   {
     "name": "Covet",
@@ -1052,7 +1140,8 @@
     "power": 60,
     "accuracy": 100,
     "pp": 25,
-    "tags": []
+    "tags": [],
+    "nameEn": "Covet"
   },
   {
     "name": "Slack Off",
@@ -1063,7 +1152,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Slack Off"
   },
   {
     "name": "Spit Up",
@@ -1074,7 +1164,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Spit Up"
   },
   {
     "name": "Trick",
@@ -1085,7 +1176,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Trick"
   },
   {
     "name": "Torment",
@@ -1096,7 +1188,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Torment"
   },
   {
     "name": "Doom Desire",
@@ -1107,7 +1200,8 @@
     "power": 140,
     "accuracy": 100,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Doom Desire"
   },
   {
     "name": "Poison Tail",
@@ -1120,7 +1214,8 @@
     "pp": 25,
     "tags": [
       "custom:has_secondary"
-    ]
+    ],
+    "nameEn": "Poison Tail"
   },
   {
     "name": "Grass Whistle",
@@ -1131,7 +1226,8 @@
     "power": 0,
     "accuracy": 55,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Grass Whistle"
   },
   {
     "name": "Frenzy Plant",
@@ -1142,7 +1238,8 @@
     "power": 150,
     "accuracy": 90,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Frenzy Plant"
   },
   {
     "name": "Hydro Cannon",
@@ -1153,7 +1250,8 @@
     "power": 150,
     "accuracy": 90,
     "pp": 5,
-    "tags": []
+    "tags": [],
+    "nameEn": "Hydro Cannon"
   },
   {
     "name": "Hyper Voice",
@@ -1166,7 +1264,8 @@
     "pp": 10,
     "tags": [
       "sound"
-    ]
+    ],
+    "nameEn": "Hyper Voice"
   },
   {
     "name": "Yawn",
@@ -1177,7 +1276,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Yawn"
   },
   {
     "name": "Water Spout",
@@ -1190,7 +1290,8 @@
     "pp": 5,
     "tags": [
       "custom:hp_power_high"
-    ]
+    ],
+    "nameEn": "Water Spout"
   },
   {
     "name": "Teeter Dance",
@@ -1201,7 +1302,8 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": []
+    "tags": [],
+    "nameEn": "Teeter Dance"
   },
   {
     "name": "Mud Sport",
@@ -1212,7 +1314,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": []
+    "tags": [],
+    "nameEn": "Mud Sport"
   },
   {
     "name": "Wish",
@@ -1223,7 +1326,8 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": []
+    "tags": [],
+    "nameEn": "Wish"
   },
   {
     "name": "Focus Punch",
@@ -1237,6 +1341,7 @@
     "priority": -3,
     "tags": [
       "punch"
-    ]
+    ],
+    "nameEn": "Focus Punch"
   }
 ]

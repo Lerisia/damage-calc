@@ -174,7 +174,9 @@ class BattleFacade {
     );
     final transformed = transformMove(move, ctx);
 
-    final effectiveType = state.typeOverrides[moveIndex] ?? transformed.move.type;
+    final effectiveType = transformed.move.hasTag(MoveTags.typeless)
+        ? null
+        : (state.typeOverrides[moveIndex] ?? transformed.move.type);
     final effectiveCategory = state.categoryOverrides[moveIndex] ?? transformed.move.category;
     final basePower = transformed.move.power;
     var effectivePower = state.powerOverrides[moveIndex] ?? basePower;

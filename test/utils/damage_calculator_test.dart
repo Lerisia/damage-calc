@@ -1280,4 +1280,54 @@ void main() {
       expect(r.effectiveness, equals(0.5)); // fire vs fire
     });
   });
+
+  group('Struggle (typeless)', () {
+    const struggle = Move(
+      name: 'Struggle', nameKo: '발버둥', nameJa: 'わるあがき',
+      type: PokemonType.normal, category: MoveCategory.physical,
+      power: 50, accuracy: 0, pp: 1, tags: [MoveTags.typeless],
+    );
+
+    test('deals positive damage', () {
+      final result = calc(move: struggle);
+      expect(result.maxDamage, greaterThan(0));
+    });
+
+    test('hits Ghost type (bypasses Normal immunity)', () {
+      final result = calc(
+        move: struggle,
+        defType1: PokemonType.ghost, defType2: null,
+      );
+      expect(result.maxDamage, greaterThan(0));
+      expect(result.effectiveness, equals(1.0));
+    });
+
+    test('neutral effectiveness against all types', () {
+      final result = calc(
+        move: struggle,
+        defType1: PokemonType.rock, defType2: PokemonType.steel,
+      );
+      expect(result.effectiveness, equals(1.0));
+    });
+
+    test('no STAB even with matching type', () {
+      final withStab = calc(
+        move: const Move(
+          name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
+          type: PokemonType.normal, category: MoveCategory.physical,
+          power: 50, accuracy: 100, pp: 35,
+        ),
+        atkType1: PokemonType.normal, atkType2: null,
+        defType1: PokemonType.normal, defType2: null,
+        atkAbility: null, defAbility: null,
+      );
+      final withoutStab = calc(
+        move: struggle,
+        atkType1: PokemonType.normal, atkType2: null,
+        defType1: PokemonType.normal, defType2: null,
+        atkAbility: null, defAbility: null,
+      );
+      expect(withoutStab.maxDamage, lessThan(withStab.maxDamage));
+    });
+  });
 }

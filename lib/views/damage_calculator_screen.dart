@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:screenshot/screenshot.dart';
 import '../data/sample_storage.dart';
 import '../utils/image_saver.dart' as saver;
@@ -252,13 +255,26 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('샘플 저장'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(
-            labelText: '샘플 이름',
-            border: OutlineInputBorder(),
-          ),
-          autofocus: true,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                labelText: '샘플 이름',
+                border: OutlineInputBorder(),
+              ),
+              autofocus: true,
+            ),
+            if (SampleStorage.isWebStorage)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  '브라우저 데이터 삭제 시 저장한 샘플이 사라질 수 있습니다.',
+                  style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+                ),
+              ),
+          ],
         ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('취소')),
@@ -304,6 +320,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           Navigator.pop(ctx);
           _showLoadSheet(side);
         },
+        onImportComplete: () => _showLoadSheet(side),
       ),
     );
   }
@@ -630,6 +647,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 resetCounter: _resetCounter,
                 abilityNameMap: _abilityNameMap,
                 itemNameMap: _itemNameMap,
+                useSpMode: _useSpMode,
+                onSpModeChanged: (v) => setState(() => _useSpMode = v),
               ),
             ),
           ],
@@ -722,6 +741,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 resetCounter: _resetCounter,
                 abilityNameMap: _abilityNameMap,
                 itemNameMap: _itemNameMap,
+                useSpMode: _useSpMode,
+                onSpModeChanged: (v) => setState(() => _useSpMode = v),
               ),
             ],
           ),
@@ -1167,12 +1188,14 @@ class _SampleListSheet extends StatefulWidget {
   final Map<String, String> itemNameMap;
   final ValueChanged<int> onLoad;
   final ValueChanged<int> onDelete;
+  final VoidCallback? onImportComplete;
 
   const _SampleListSheet({
     required this.samples,
     this.itemNameMap = const {},
     required this.onLoad,
     required this.onDelete,
+    this.onImportComplete,
   });
 
   @override
@@ -1202,9 +1225,16 @@ class _SampleListSheetState extends State<_SampleListSheet> {
   @override
   Widget build(BuildContext context) {
     if (widget.samples.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 200,
-        child: Center(child: Text('저장된 샘플이 없습니다')),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('저장된 샘플이 없습니다'),
+            const SizedBox(height: 16),
+            _importExportButtons(context),
+          ],
+        ),
       );
     }
     final indices = _filteredIndices();
@@ -1216,17 +1246,31 @@ class _SampleListSheetState extends State<_SampleListSheet> {
       builder: (ctx, scrollController) {
         return Column(
           children: [
+            if (SampleStorage.isWebStorage)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+                child: Text('브라우저 데이터 삭제 시 저장된 샘플이 사라질 수 있습니다.',
+                  style: TextStyle(fontSize: 11, color: Colors.grey[500])),
+              ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-              child: TextField(
-                autofocus: false,
-                decoration: const InputDecoration(
-                  hintText: '샘플 검색',
-                  prefixIcon: Icon(Icons.search, size: 20),
-                  isDense: true,
-                  contentPadding: EdgeInsets.symmetric(vertical: 8),
-                ),
-                onChanged: (v) => setState(() => _query = v),
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      autofocus: false,
+                      decoration: const InputDecoration(
+                        hintText: '샘플 검색',
+                        prefixIcon: Icon(Icons.search, size: 20),
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 8),
+                      ),
+                      onChanged: (v) => setState(() => _query = v),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  _importExportButtons(context),
+                ],
               ),
             ),
             const SizedBox(height: 4),
@@ -1267,6 +1311,87 @@ class _SampleListSheetState extends State<_SampleListSheet> {
         );
       },
     );
+  }
+
+  Widget _importExportButtons(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: Icon(Icons.file_download, size: 20, color: Colors.grey[700]),
+          tooltip: '내보내기',
+          onPressed: () => _exportSamples(context),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+        ),
+        IconButton(
+          icon: Icon(Icons.file_upload, size: 20, color: Colors.grey[700]),
+          tooltip: '가져오기',
+          onPressed: () => _importSamples(context),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _exportSamples(BuildContext context) async {
+    final jsonStr = await SampleStorage.exportAsJson();
+    final bytes = utf8.encode(jsonStr);
+    if (kIsWeb) {
+      // Web: trigger browser download
+      // ignore: avoid_web_libraries_in_flutter
+      await _webDownload(Uint8List.fromList(bytes), 'damage-calc-samples.json');
+    } else {
+      // Mobile: use image saver infrastructure
+      await saver.saveImage(Uint8List.fromList(bytes), 'damage-calc-samples');
+    }
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('샘플 데이터를 내보냈습니다')),
+      );
+    }
+  }
+
+  Future<void> _importSamples(BuildContext context) async {
+    try {
+      final jsonStr = await _pickJsonFile();
+      if (jsonStr == null) return;
+      final count = await SampleStorage.importFromJson(jsonStr);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('$count개의 샘플을 가져왔습니다')),
+        );
+        Navigator.pop(context);
+        widget.onImportComplete?.call();
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('잘못된 파일 형식입니다')),
+        );
+      }
+    }
+  }
+
+  Future<void> _webDownload(Uint8List bytes, String filename) async {
+    if (kIsWeb) {
+      // Use dart:html via conditional import is complex;
+      // reuse image_saver_web pattern
+      await saver.saveImage(bytes, filename);
+    }
+  }
+
+  Future<String?> _pickJsonFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+      withData: true,
+    );
+    if (result == null || result.files.isEmpty) return null;
+    final bytes = result.files.first.bytes;
+    if (bytes == null) return null;
+    return utf8.decode(bytes);
   }
 }
 

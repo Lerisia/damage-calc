@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../data/movedex.dart';
+import '../../data/learnsetdex.dart';
 import '../../models/move.dart';
 import '../../utils/korean_search.dart';
 import 'typeahead_helpers.dart';
@@ -11,8 +12,12 @@ class MoveSelector extends StatefulWidget {
   final VoidCallback? onTap;
   final String? initialMoveName;
   final String? displayNameOverride;
+  /// Pokemon name for learnset-based move highlighting/sorting.
+  final String? pokemonName;
+  final String? pokemonNameKo;
+  final int? dexNumber;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -21,14 +26,24 @@ class MoveSelector extends StatefulWidget {
 class _MoveSelectorState extends State<MoveSelector> {
   List<Move> _allMoves = [];
   List<SearchEntry<Move>> _searchEntries = [];
+  Set<String> _learnableMoveIds = {};
   Move? _selected;
   final _controller = TextEditingController();
   bool _isFocused = false;
+  String? _lastPokemonName;
 
   @override
   void initState() {
     super.initState();
     _loadMoves();
+  }
+
+  @override
+  void didUpdateWidget(MoveSelector old) {
+    super.didUpdateWidget(old);
+    if (old.pokemonName != widget.pokemonName) {
+      _updateLearnset();
+    }
   }
 
   @override
@@ -53,28 +68,68 @@ class _MoveSelectorState extends State<MoveSelector> {
         }
       }
     });
+    _updateLearnset();
+  }
+
+  Future<void> _updateLearnset() async {
+    if (widget.pokemonName == _lastPokemonName) return;
+    _lastPokemonName = widget.pokemonName;
+    if (widget.pokemonName == null) {
+      setState(() => _learnableMoveIds = {});
+      return;
+    }
+    final moves = await getLearnableMoves(
+      widget.pokemonName!,
+      nameKo: widget.pokemonNameKo,
+      dexNumber: widget.dexNumber,
+    );
+    if (mounted) setState(() => _learnableMoveIds = moves);
+  }
+
+  bool _canLearn(Move move) {
+    if (_learnableMoveIds.isEmpty) return true; // no data → treat all as learnable
+    final moveId = toShowdownMoveId(move.name);
+    // Magnitude variants → check base "magnitude"
+    if (move.name.startsWith('Magnitude ')) return _learnableMoveIds.contains('magnitude');
+    return _learnableMoveIds.contains(moveId);
   }
 
   List<Move> _sortedOptions(String query) {
+    List<Move> results;
     if (query.isEmpty) {
-      return _selected != null
+      results = _selected != null
           ? [_selected!, ..._allMoves.where((m) => m != _selected)]
           : List.of(_allMoves);
+    } else {
+      final qLower = query.toLowerCase();
+      final qRunes = qLower.runes.toList();
+      final scored = <(Move, int)>[];
+      for (final entry in _searchEntries) {
+        final score = scoreEntry(qRunes, qLower, entry);
+        if (score > 0) scored.add((entry.item, score));
+      }
+      scored.sort((a, b) => b.$2.compareTo(a.$2));
+      results = scored.map((e) => e.$1).toList();
+      if (_selected != null && results.contains(_selected)) {
+        results.remove(_selected);
+        results.insert(0, _selected!);
+      }
     }
 
-    final qLower = query.toLowerCase();
-    final qRunes = qLower.runes.toList();
-    final scored = <(Move, int)>[];
-    for (final entry in _searchEntries) {
-      final score = scoreEntry(qRunes, qLower, entry);
-      if (score > 0) scored.add((entry.item, score));
+    // Sort learnable moves first (stable: preserves search score order within each group)
+    if (_learnableMoveIds.isNotEmpty) {
+      final learnable = <Move>[];
+      final notLearnable = <Move>[];
+      for (final m in results) {
+        if (_canLearn(m)) {
+          learnable.add(m);
+        } else {
+          notLearnable.add(m);
+        }
+      }
+      results = [...learnable, ...notLearnable];
     }
-    scored.sort((a, b) => b.$2.compareTo(a.$2));
-    final results = scored.map((e) => e.$1).toList();
-    if (_selected != null && results.contains(_selected)) {
-      results.remove(_selected);
-      results.insert(0, _selected!);
-    }
+
     return results;
   }
 
@@ -136,20 +191,22 @@ class _MoveSelectorState extends State<MoveSelector> {
         );
       },
       itemBuilder: (context, move) {
+        final learnable = _canLearn(move);
+        final nameColor = learnable ? null : Colors.grey;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(
             children: [
               Flexible(
-                child: Text(move.nameKo, style: const TextStyle(fontSize: 14),
+                child: Text(move.nameKo, style: TextStyle(fontSize: 14, color: nameColor),
                     overflow: TextOverflow.ellipsis),
               ),
               const SizedBox(width: 8),
               Text.rich(TextSpan(children: [
                 TextSpan(text: KoStrings.getTypeKo(move.type),
-                    style: TextStyle(fontSize: 12, color: KoStrings.getTypeColor(move.type))),
+                    style: TextStyle(fontSize: 12, color: learnable ? KoStrings.getTypeColor(move.type) : Colors.grey[400])),
                 TextSpan(text: ' ${KoStrings.getCategoryKo(move.category)} ${move.power}',
-                    style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+                    style: TextStyle(fontSize: 12, color: learnable ? Colors.grey[600] : Colors.grey[400])),
               ])),
             ],
           ),

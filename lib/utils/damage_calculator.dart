@@ -630,15 +630,19 @@ class DamageCalculator {
       defType2 = defender.type2;
     }
 
+    // --- Typeless moves (Struggle): skip all type effectiveness and STAB ---
+    final bool isTypeless = effectiveMove.hasTag(MoveTags.typeless);
+
     // --- Type effectiveness (immunities removed from chart, checked below) ---
-    var effectiveness = getCombinedEffectiveness(
+    var effectiveness = isTypeless ? 1.0 : getCombinedEffectiveness(
       moveType, defType1, defType2,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry),
       flyingPress: effectiveMove.hasTag(MoveTags.flyingPress));
 
     // --- Type immunity check ---
     // Each immunity can be overridden by specific mechanics.
-    if (hasTypeImmunity(moveType, defType1, defType2)) {
+    // Typeless moves (Struggle) bypass all type immunities.
+    if (!isTypeless && hasTypeImmunity(moveType, defType1, defType2)) {
       bool immune = true;
 
       // Normal/Fighting → Ghost: overridden by Scrappy / Mind's Eye
@@ -727,9 +731,10 @@ class DamageCalculator {
     }
 
     // --- STAB (with Terastal rules) ---
-    final bool isOriginalStab = effectiveMove.type == atkType1 ||
-        effectiveMove.type == atkType2;
-    final bool isTeraStab = attacker.terastal.active &&
+    // Typeless moves never get STAB.
+    final bool isOriginalStab = !isTypeless && (effectiveMove.type == atkType1 ||
+        effectiveMove.type == atkType2);
+    final bool isTeraStab = !isTypeless && attacker.terastal.active &&
         attacker.terastal.teraType != null &&
         effectiveMove.type == attacker.terastal.teraType;
 

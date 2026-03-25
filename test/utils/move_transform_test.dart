@@ -910,4 +910,19 @@ void main() {
       expect(result.move.nameKo, equals('다이번'));
     });
   });
+
+  group('Struggle (typeless)', () {
+    const struggle = Move(
+      name: 'Struggle', nameKo: '발버둥', nameJa: 'わるあがき',
+      type: PokemonType.normal, category: MoveCategory.physical,
+      power: 50, accuracy: 0, pp: 1, tags: [MoveTags.typeless],
+    );
+
+    test('is not converted to Max Move during Dynamax', () {
+      final result = transformMove(struggle,
+          const MoveContext(dynamax: DynamaxState.dynamax));
+      expect(result.move.name, equals('Struggle'));
+      expect(result.move.power, equals(50));
+    });
+  });
 }

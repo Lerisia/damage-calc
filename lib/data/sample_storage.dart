@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/battle_pokemon.dart';
 
@@ -48,4 +49,32 @@ class SampleStorage {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_key, jsonEncode(list));
   }
+
+  /// Export all samples as a JSON string.
+  static Future<String> exportAsJson() async {
+    final samples = await loadSamples();
+    final list = samples.map((s) => {
+      'name': s.name,
+      'state': s.state.toJson(),
+    }).toList();
+    return jsonEncode(list);
+  }
+
+  /// Import samples from a JSON string, replacing all existing data.
+  static Future<int> importFromJson(String jsonStr) async {
+    final list = jsonDecode(jsonStr) as List;
+    // Validate
+    for (final entry in list) {
+      final map = entry as Map<String, dynamic>;
+      if (!map.containsKey('name') || !map.containsKey('state')) {
+        throw const FormatException('Invalid sample format');
+      }
+    }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_key, jsonStr);
+    return list.length;
+  }
+
+  /// Whether the current platform stores data in browser localStorage.
+  static bool get isWebStorage => kIsWeb;
 }
