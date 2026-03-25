@@ -1,3 +1,4 @@
+import '../utils/app_strings.dart';
 import 'move_tags.dart';
 import 'type.dart';
 
@@ -20,6 +21,7 @@ class Move {
   final String name;
   final String nameKo;
   final String nameJa;
+  final String? nameEn;
   final PokemonType type;
   final MoveCategory category;
   final int power;
@@ -35,6 +37,7 @@ class Move {
     required this.name,
     required this.nameKo,
     required this.nameJa,
+    this.nameEn,
     required this.type,
     required this.category,
     required this.power,
@@ -46,6 +49,8 @@ class Move {
     this.minHits = 1,
     this.maxHits = 1,
   });
+
+  String get localizedName => AppStrings.name(nameKo: nameKo, nameEn: nameEn, nameJa: nameJa, name: name);
 
   /// Whether this is a multi-hit move.
   bool get isMultiHit => maxHits > 1;
@@ -69,6 +74,7 @@ class Move {
     String? name,
     String? nameKo,
     String? nameJa,
+    String? nameEn,
     PokemonType? type,
     MoveCategory? category,
     int? power,
@@ -80,6 +86,7 @@ class Move {
       name: name ?? this.name,
       nameKo: nameKo ?? this.nameKo,
       nameJa: nameJa ?? this.nameJa,
+      nameEn: nameEn ?? this.nameEn,
       type: type ?? this.type,
       category: category ?? this.category,
       power: power ?? this.power,
@@ -97,6 +104,7 @@ class Move {
     'name': name,
     'nameKo': nameKo,
     'nameJa': nameJa,
+    if (nameEn != null) 'nameEn': nameEn,
     'type': type.name,
     'category': category.name,
     'power': power,
@@ -114,6 +122,7 @@ class Move {
       name: json['name'] as String,
       nameKo: json['nameKo'] as String,
       nameJa: json['nameJa'] as String,
+      nameEn: json['nameEn'] as String?,
       type: PokemonType.values.byName(json['type'] as String),
       category: MoveCategory.values.byName(json['category'] as String),
       power: json['power'] as int,

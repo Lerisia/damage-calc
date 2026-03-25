@@ -1,3 +1,5 @@
+import '../utils/app_strings.dart';
+
 /// Pokemon natures that affect stat growth
 ///
 /// Each nature boosts one stat by 1.1x and reduces another by 0.9x.
@@ -31,6 +33,7 @@ enum Nature {
 
   String get nameKo => _nameKo[this]!;
   String get nameJa => _nameJa[this]!;
+  String get localizedName => AppStrings.name(nameKo: nameKo, nameEn: name, nameJa: nameJa);
 
   /// Returns the nature modifier for each stat: 1.1, 0.9, or 1.0
   double get attackModifier => _modifiers[this]![0];

@@ -16,6 +16,21 @@ class AppStrings {
   // Shorthand
   static String t(String key) => get(key);
 
+  /// Returns the localized name from a data object with nameKo/nameEn/nameJa fields.
+  /// Falls back: current lang → English → Korean → name.
+  static String name({
+    required String nameKo,
+    String? nameEn,
+    String? nameJa,
+    String? name,
+  }) {
+    return switch (_current) {
+      AppLanguage.ko => nameKo,
+      AppLanguage.en => nameEn ?? name ?? nameKo,
+      AppLanguage.ja => nameJa ?? nameKo,
+    };
+  }
+
   static const Map<String, Map<AppLanguage, String>> _strings = {
     // === App ===
     'app.title': {
@@ -567,6 +582,65 @@ class AppStrings {
       AppLanguage.ko: '마비 상태',
       AppLanguage.en: 'Paralyzed',
       AppLanguage.ja: 'まひ状態',
+    },
+
+    // === Status conditions ===
+    'status.none': {
+      AppLanguage.ko: '없음',
+      AppLanguage.en: 'None',
+      AppLanguage.ja: 'なし',
+    },
+    'status.burn': {
+      AppLanguage.ko: '화상',
+      AppLanguage.en: 'Burn',
+      AppLanguage.ja: 'やけど',
+    },
+    'status.poison': {
+      AppLanguage.ko: '독',
+      AppLanguage.en: 'Poison',
+      AppLanguage.ja: 'どく',
+    },
+    'status.badlyPoisoned': {
+      AppLanguage.ko: '맹독',
+      AppLanguage.en: 'Toxic',
+      AppLanguage.ja: 'もうどく',
+    },
+    'status.paralysis': {
+      AppLanguage.ko: '마비',
+      AppLanguage.en: 'Paralysis',
+      AppLanguage.ja: 'まひ',
+    },
+    'status.sleep': {
+      AppLanguage.ko: '잠듦',
+      AppLanguage.en: 'Sleep',
+      AppLanguage.ja: 'ねむり',
+    },
+    'status.freeze': {
+      AppLanguage.ko: '얼음',
+      AppLanguage.en: 'Freeze',
+      AppLanguage.ja: 'こおり',
+    },
+
+    // === Speed tier descriptions ===
+    'speed.maxSpeed': {
+      AppLanguage.ko: '최속',
+      AppLanguage.en: 'Max',
+      AppLanguage.ja: '最速',
+    },
+    'speed.neutralSpeed': {
+      AppLanguage.ko: '준속',
+      AppLanguage.en: 'Neutral',
+      AppLanguage.ja: '準速',
+    },
+    'speed.outspeeds': {
+      AppLanguage.ko: '추월',
+      AppLanguage.en: 'outspeeds',
+      AppLanguage.ja: '抜き',
+    },
+    'speed.sameTier': {
+      AppLanguage.ko: '동속',
+      AppLanguage.en: 'ties',
+      AppLanguage.ja: '同速',
     },
   };
 }

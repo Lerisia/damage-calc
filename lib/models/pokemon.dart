@@ -1,3 +1,4 @@
+import '../utils/app_strings.dart';
 import 'type.dart';
 import 'stats.dart';
 
@@ -7,6 +8,7 @@ class Pokemon {
   final String name;
   final String nameKo;
   final String nameJa;
+  final String? nameEn;
   final PokemonType type1;
   final PokemonType? type2;
   final Stats baseStats;
@@ -26,6 +28,7 @@ class Pokemon {
     required this.name,
     required this.nameKo,
     required this.nameJa,
+    this.nameEn,
     required this.type1,
     this.type2,
     required this.baseStats,
@@ -48,6 +51,7 @@ class Pokemon {
       name: json['name'] as String,
       nameKo: json['nameKo'] as String,
       nameJa: json['nameJa'] as String,
+      nameEn: json['nameEn'] as String?,
       type1: PokemonType.values.byName(json['type1'] as String),
       type2: json['type2'] != null
           ? PokemonType.values.byName(json['type2'] as String)
@@ -67,6 +71,8 @@ class Pokemon {
           : const [],
     );
   }
+
+  String get localizedName => AppStrings.name(nameKo: nameKo, nameEn: nameEn, nameJa: nameJa, name: name);
 
   @override
   bool operator ==(Object other) =>

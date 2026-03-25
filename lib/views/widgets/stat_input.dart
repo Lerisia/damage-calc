@@ -145,7 +145,7 @@ class _StatInputState extends State<StatInput> {
   final _itemFocusNode = FocusNode();
 
   static String _natureLabelStatic(Nature n) {
-    final ko = n.nameKo;
+    final ko = n.localizedName;
     String buff = '', nerf = '';
     if (n.attackModifier > 1.0) buff = AppStrings.t('stat.attack');
     if (n.defenseModifier > 1.0) buff = AppStrings.t('stat.defense');
@@ -204,10 +204,12 @@ class _StatInputState extends State<StatInput> {
   }
 
   static Map<String, String>? _abilityCache;
+  static AppLanguage? _abilityCacheLang;
   static Map<String, String>? _itemCache;
+  static AppLanguage? _itemCacheLang;
 
   Future<void> _loadAbilities() async {
-    if (_abilityCache != null) {
+    if (_abilityCache != null && _abilityCacheLang == AppStrings.current) {
       setState(() {
         _abilityNameMap = _abilityCache!;
         _rebuildSortedAbilities();
@@ -218,9 +220,10 @@ class _StatInputState extends State<StatInput> {
       final dex = await loadAbilitydex();
       final map = <String, String>{};
       for (final entry in dex.entries) {
-        map[entry.key] = entry.value.nameKo;
+        map[entry.key] = entry.value.localizedName;
       }
       _abilityCache = map;
+      _abilityCacheLang = AppStrings.current;
       setState(() {
         _abilityNameMap = map;
         _rebuildSortedAbilities();
@@ -229,7 +232,7 @@ class _StatInputState extends State<StatInput> {
   }
 
   Future<void> _loadItems() async {
-    if (_itemCache != null) {
+    if (_itemCache != null && _itemCacheLang == AppStrings.current) {
       setState(() { _itemNameMap = _itemCache!; });
       return;
     }
@@ -238,10 +241,11 @@ class _StatInputState extends State<StatInput> {
       final map = <String, String>{};
       for (final entry in dex.entries) {
         if (entry.value.battle) {
-          map[entry.key] = entry.value.nameKo;
+          map[entry.key] = entry.value.localizedName;
         }
       }
       _itemCache = map;
+      _itemCacheLang = AppStrings.current;
       setState(() {
         _itemNameMap = map;
       });
@@ -346,7 +350,7 @@ class _StatInputState extends State<StatInput> {
                     isDense: true,
                   ),
                   child: Text(
-                    '${KoStrings.statusIcon[widget.status]!} ${KoStrings.statusKo[widget.status]!}',
+                    '${KoStrings.statusIcon[widget.status]!} ${widget.status.localizedName}',
                     style: const TextStyle(fontSize: 15),
                   ),
                 ),
@@ -357,7 +361,7 @@ class _StatInputState extends State<StatInput> {
                           children: [
                             Text(KoStrings.statusIcon[st]!, style: const TextStyle(fontSize: 18)),
                             const SizedBox(width: 8),
-                            Text(KoStrings.statusKo[st]!),
+                            Text(st.localizedName),
                           ],
                         )))
                     .toList(),

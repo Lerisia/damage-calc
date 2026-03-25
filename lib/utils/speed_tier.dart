@@ -1,3 +1,4 @@
+import 'app_strings.dart';
 import 'stat_calculator.dart';
 import '../models/nature.dart';
 import '../models/stats.dart';
@@ -86,17 +87,21 @@ class SpeedTierTable {
 
     // Pick the most informative description
     final parts = <String>[];
+    final maxLabel = AppStrings.t('speed.maxSpeed');
+    final neutralLabel = AppStrings.t('speed.neutralSpeed');
+    final outspeeds = AppStrings.t('speed.outspeeds');
+    final ties = AppStrings.t('speed.sameTier');
 
     if (maxTie != null) {
-      parts.add('최속${maxTie}족 동속');
+      parts.add('$maxLabel$maxTie $ties');
     } else if (maxTier != null) {
-      parts.add('최속${maxTier}족 추월');
+      parts.add('$maxLabel$maxTier $outspeeds');
     }
 
     if (neutralTie != null && neutralTie != maxTie) {
-      parts.add('준속${neutralTie}족 동속');
+      parts.add('$neutralLabel$neutralTie $ties');
     } else if (neutralTier != null && neutralTier != maxTier) {
-      parts.add('준속${neutralTier}족 추월');
+      parts.add('$neutralLabel$neutralTier $outspeeds');
     }
 
     return parts.join(' / ');

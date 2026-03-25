@@ -42,13 +42,13 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     final visible = all.where((p) => !p.hidden).toList();
     setState(() {
       _allPokemon = visible;
-      _searchEntries = visible.map((p) => SearchEntry(p, p.nameKo, p.name, aliases: p.aliases)).toList();
+      _searchEntries = visible.map((p) => SearchEntry(p, p.nameKo, p.name, nameJa: p.nameJa, aliases: p.aliases)).toList();
       if (_selected == null && all.isNotEmpty) {
         _selected = all.firstWhere(
           (p) => p.name == widget.initialPokemonName,
           orElse: () => all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first),
         );
-        _controller.text = _selected?.nameKo ?? '';
+        _controller.text = _selected?.localizedName ?? '';
       }
     });
   }
@@ -70,7 +70,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     scored.sort((a, b) {
       final cmp = b.$2.compareTo(a.$2);
       if (cmp != 0) return cmp;
-      return a.$1.nameKo.compareTo(b.$1.nameKo);
+      return a.$1.localizedName.compareTo(b.$1.localizedName);
     });
     final results = scored.map((e) => e.$1).toList();
     if (_selected != null && results.contains(_selected)) {
@@ -85,23 +85,23 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     return buildTypeAhead<Pokemon>(
       controller: _controller,
       suggestionsCallback: (query) {
-        if (query == _selected?.nameKo) return _sortedOptions('');
+        if (query == _selected?.localizedName) return _sortedOptions('');
         return _sortedOptions(query);
       },
       decoration: InputDecoration(
-        hintText: _selected?.nameKo ?? AppStrings.t('search.pokemon'),
+        hintText: _selected?.localizedName ?? AppStrings.t('search.pokemon'),
         isDense: true,
       ),
       itemBuilder: (context, pokemon) {
         return ListTile(
           dense: true,
           visualDensity: VisualDensity.compact,
-          title: Text(pokemon.nameKo, style: const TextStyle(fontSize: 14)),
+          title: Text(pokemon.localizedName, style: const TextStyle(fontSize: 14)),
         );
       },
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
-        _controller.text = pokemon.nameKo;
+        _controller.text = pokemon.localizedName;
         widget.onSelected(pokemon);
       },
       onSubmittedPick: (text) {

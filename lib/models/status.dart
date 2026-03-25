@@ -1,3 +1,5 @@
+import '../utils/app_strings.dart';
+
 /// Pokemon status conditions
 enum StatusCondition {
   none,
@@ -6,5 +8,7 @@ enum StatusCondition {
   badlyPoisoned,
   paralysis,
   sleep,
-  freeze,
+  freeze;
+
+  String get localizedName => AppStrings.t('status.$name');
 }

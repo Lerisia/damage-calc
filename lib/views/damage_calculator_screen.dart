@@ -924,7 +924,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           Row(
             children: [
               Flexible(
-                child: Text(result.move.nameKo, style: const TextStyle(
+                child: Text(result.move.localizedName, style: const TextStyle(
                   fontSize: 18, fontWeight: FontWeight.bold,
                 )),
               ),
@@ -1253,7 +1253,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
                             : null;
                         final parts = [
                           'Lv.${state.level}',
-                          state.nature.nameKo,
+                          state.nature.localizedName,
                           if (itemKo != null) itemKo,
                         ];
                         return ListTile(

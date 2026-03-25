@@ -432,7 +432,7 @@ class PokemonPanelState extends State<PokemonPanel>
     );
     final effectiveType = info.effectiveType ?? move?.type;
     final effectiveCategory = info.effectiveCategory ?? move?.category;
-    final displayName = info.displayName ?? move?.nameKo;
+    final displayName = info.displayName ?? move?.localizedName;
     // Power already includes multi-hit total from transformMove
     final displayPower = info.effectivePower;
     final result = info.offensivePower;
@@ -456,7 +456,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     child: MoveSelector(
                       key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}_${s.pokemonName}'),
                       initialMoveName: s.moves[index]?.name,
-                      displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
+                      displayNameOverride: (displayName != null && displayName != move?.localizedName) ? displayName : null,
                       pokemonName: s.pokemonName,
                       pokemonNameKo: s.pokemonNameKo,
                       dexNumber: s.dexNumber,

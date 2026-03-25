@@ -7,7 +7,6 @@ import '../../models/nature.dart';
 import '../../models/status.dart';
 import '../../utils/korean_search.dart';
 import '../../utils/app_strings.dart';
-import '../../utils/localization.dart';
 import '../../models/room.dart';
 import '../../models/terrain.dart';
 import '../../models/weather.dart';
@@ -338,11 +337,11 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 child: InputDecorator(
                   decoration: InputDecoration(labelText: AppStrings.t('label.status'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
-                  child: Text(KoStrings.statusKo[state.status] ?? state.status.name,
+                  child: Text(state.status.localizedName,
                     style: const TextStyle(fontSize: 14)),
                 ),
                 itemBuilder: (_) => StatusCondition.values.map((st) =>
-                  PopupMenuItem(value: st, child: Text(KoStrings.statusKo[st] ?? st.name)),
+                  PopupMenuItem(value: st, child: Text(st.localizedName)),
                 ).toList(),
                 onSelected: (v) { setState(() => state.status = v); _notify(); },
               )),
@@ -359,13 +358,13 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 constraints: const BoxConstraints(maxHeight: 300),
                 child: InputDecorator(
                   decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
-                  child: Text(state.nature.nameKo,
+                  child: Text(state.nature.localizedName,
                     style: TextStyle(fontSize: 14, color: state.nature.speedModifier > 1.0 ? Colors.red : state.nature.speedModifier < 1.0 ? Colors.blue : null)),
                 ),
                 itemBuilder: (_) => sortedNatures.map((n) {
                   final isBuff = n.speedModifier > 1.0;
                   final isNerf = n.speedModifier < 1.0;
-                  return PopupMenuItem(value: n, child: Text(n.nameKo,
+                  return PopupMenuItem(value: n, child: Text(n.localizedName,
                     style: TextStyle(color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
                 }).toList(),
                 onSelected: (v) { setState(() => state.nature = v); _notify(); },

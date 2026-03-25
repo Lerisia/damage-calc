@@ -59,12 +59,12 @@ class _MoveSelectorState extends State<MoveSelector> {
         m.moveClass != MoveClass.normal);
     setState(() {
       _allMoves = all;
-      _searchEntries = all.map((m) => SearchEntry(m, m.nameKo, m.name)).toList();
+      _searchEntries = all.map((m) => SearchEntry(m, m.nameKo, m.name, nameJa: m.nameJa)).toList();
       if (_selected == null && widget.initialMoveName != null) {
         final match = all.where((m) => m.name == widget.initialMoveName);
         if (match.isNotEmpty) {
           _selected = match.first;
-          _controller.text = widget.displayNameOverride ?? _selected!.nameKo;
+          _controller.text = widget.displayNameOverride ?? _selected!.localizedName;
         }
       }
     });
@@ -136,11 +136,11 @@ class _MoveSelectorState extends State<MoveSelector> {
     return buildTypeAhead<Move>(
       controller: _controller,
       suggestionsCallback: (query) {
-        if (_selected != null && query == _selected!.nameKo) return _sortedOptions('');
+        if (_selected != null && query == _selected!.localizedName) return _sortedOptions('');
         return _sortedOptions(query);
       },
       decoration: InputDecoration(
-        hintText: _selected?.nameKo ?? AppStrings.t('search.move'),
+        hintText: _selected?.localizedName ?? AppStrings.t('search.move'),
         hintStyle: const TextStyle(fontSize: 14),
         isDense: true,
       ),
@@ -154,7 +154,7 @@ class _MoveSelectorState extends State<MoveSelector> {
           } else {
             _isFocused = false;
             if (controller.text.isEmpty && _selected != null) {
-              controller.text = widget.displayNameOverride ?? _selected!.nameKo;
+              controller.text = widget.displayNameOverride ?? _selected!.localizedName;
             }
             if (widget.displayNameOverride != null && _selected != null) {
               controller.text = widget.displayNameOverride!;
@@ -174,7 +174,7 @@ class _MoveSelectorState extends State<MoveSelector> {
               final pick = results.first;
               setState(() => _selected = pick);
               widget.onSelected(pick);
-              controller.text = pick.nameKo;
+              controller.text = pick.localizedName;
               focusNode.unfocus();
             }
           },
@@ -182,7 +182,7 @@ class _MoveSelectorState extends State<MoveSelector> {
               ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
               : const TextStyle(fontSize: 14),
           decoration: InputDecoration(
-            hintText: _selected?.nameKo ?? AppStrings.t('search.move'),
+            hintText: _selected?.localizedName ?? AppStrings.t('search.move'),
             hintStyle: const TextStyle(fontSize: 14),
             isDense: true,
           ),
@@ -196,7 +196,7 @@ class _MoveSelectorState extends State<MoveSelector> {
           child: Row(
             children: [
               Flexible(
-                child: Text(move.nameKo, style: TextStyle(fontSize: 14, color: nameColor),
+                child: Text(move.localizedName, style: TextStyle(fontSize: 14, color: nameColor),
                     overflow: TextOverflow.ellipsis),
               ),
               const SizedBox(width: 8),
@@ -212,7 +212,7 @@ class _MoveSelectorState extends State<MoveSelector> {
       },
       onSelected: (move) {
         setState(() => _selected = move);
-        _controller.text = move.nameKo;
+        _controller.text = move.localizedName;
         widget.onSelected(move);
       },
       maxHeight: 200,

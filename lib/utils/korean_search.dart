@@ -13,13 +13,15 @@ class SearchEntry<T> {
   final T item;
   final String koLower;
   final String enLower;
+  final String jaLower;
   final List<int> koRunes;
   final List<int> chosungIndices; // 초성 index per syllable
   final List<String> aliasesLower; // 별명 (lowercase)
 
-  SearchEntry(this.item, String nameKo, String nameEn, {List<String> aliases = const []})
+  SearchEntry(this.item, String nameKo, String nameEn, {String nameJa = '', List<String> aliases = const []})
       : koLower = nameKo.toLowerCase(),
         enLower = nameEn.toLowerCase(),
+        jaLower = nameJa.toLowerCase(),
         koRunes = nameKo.toLowerCase().runes.toList(),
         chosungIndices = nameKo.runes.map((c) =>
             _isSyllable(c) ? (c - 0xAC00) ~/ 588 : -1).toList(),
@@ -52,7 +54,14 @@ int scoreEntry(List<int> qRunes, String qLower, SearchEntry entry) {
     if (alias.contains(qLower)) return 55;
   }
 
-  // 7. English fallback
+  // 7. Japanese match
+  if (entry.jaLower.isNotEmpty) {
+    if (qLower == entry.jaLower) return 95;
+    if (entry.jaLower.startsWith(qLower)) return 70;
+    if (entry.jaLower.contains(qLower)) return 40;
+  }
+
+  // 8. English fallback
   if (entry.enLower.contains(qLower)) return 20;
 
   return 0;
