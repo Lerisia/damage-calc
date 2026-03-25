@@ -568,6 +568,9 @@ class PokemonPanelState extends State<PokemonPanel>
                         slotIndex: index,
                         onPowerChanged: (parsed) {
                           setState(() { s.powerOverrides[index] = parsed; });
+                        },
+                        onPowerCleared: () {
+                          setState(() { s.powerOverrides[index] = null; });
                           _notifyParent();
                         },
                       )
@@ -1067,6 +1070,7 @@ class _PowerInput extends StatefulWidget {
   final List<int?> lastDisplayPower;
   final int slotIndex;
   final ValueChanged<int> onPowerChanged;
+  final VoidCallback? onPowerCleared;
 
   const _PowerInput({
     super.key,
@@ -1075,6 +1079,7 @@ class _PowerInput extends StatefulWidget {
     required this.lastDisplayPower,
     required this.slotIndex,
     required this.onPowerChanged,
+    this.onPowerCleared,
   });
 
   @override
@@ -1101,10 +1106,8 @@ class _PowerInputState extends State<_PowerInput> {
       final text = widget.controller.text;
       final parsed = int.tryParse(text);
       if (parsed == null || parsed <= 0 || text.isEmpty) {
-        // Reset to original power and clear override
-        widget.controller.text = '${widget.displayPower}';
-        widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
-        widget.onPowerChanged(widget.displayPower);
+        // Clear override → display power reverts to move's base power
+        widget.onPowerCleared?.call();
       }
     }
   }
@@ -1151,8 +1154,7 @@ class _PowerInputState extends State<_PowerInput> {
             widget.lastDisplayPower[widget.slotIndex] = parsed;
             widget.onPowerChanged(parsed);
           } else if (text.isEmpty) {
-            widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
-            widget.onPowerChanged(widget.displayPower);
+            widget.onPowerCleared?.call();
           }
         },
       ),
