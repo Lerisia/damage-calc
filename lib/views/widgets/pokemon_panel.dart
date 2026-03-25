@@ -1108,6 +1108,13 @@ class _PowerInputState extends State<_PowerInput> {
       if (parsed == null || parsed <= 0 || text.isEmpty) {
         // Clear override → display power reverts to move's base power
         widget.onPowerCleared?.call();
+        // Update controller text after parent rebuilds with new displayPower
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            widget.controller.text = '${widget.displayPower}';
+            widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+          }
+        });
       }
     }
   }
