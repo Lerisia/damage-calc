@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Jua&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Background: red top, white bottom -->
+  <rect x="0" y="0" width="1024" height="250" fill="#E53935"/>
+  <rect x="0" y="250" width="1024" height="250" fill="#FFFFFF"/>
+
+  <!-- App icon (left side, centered vertically) -->
+  <g transform="translate(180, 100) scale(0.586)">
+    <!-- Black border -->
+    <rect x="0" y="0" width="512" height="512" fill="#000000"/>
+    <!-- Red top half -->
+    <rect x="32" y="32" width="448" height="224" fill="#E53935"/>
+    <!-- White bottom half -->
+    <rect x="32" y="256" width="448" height="224" fill="#FFFFFF"/>
+    <!-- Plus -->
+    <rect x="78" y="126" width="120" height="36" rx="6" fill="#FFFFFF"/>
+    <rect x="120" y="84" width="36" height="120" rx="6" fill="#FFFFFF"/>
+    <!-- Minus -->
+    <rect x="314" y="126" width="120" height="36" rx="6" fill="#FFFFFF"/>
+    <!-- Multiply -->
+    <g transform="translate(138, 368) rotate(45)">
+      <rect x="-60" y="-18" width="120" height="36" rx="6" fill="#E53935"/>
+    </g>
+    <g transform="translate(138, 368) rotate(-45)">
+      <rect x="-60" y="-18" width="120" height="36" rx="6" fill="#E53935"/>
+    </g>
+    <!-- Divide -->
+    <rect x="314" y="350" width="120" height="36" rx="6" fill="#E53935"/>
+    <circle cx="374" cy="318" r="22" fill="#E53935"/>
+    <circle cx="374" cy="418" r="22" fill="#E53935"/>
+  </g>
+
+  <!-- App title in Jua font -->
+  <text x="560" y="270" font-family="'Jua', sans-serif" font-size="72" font-weight="normal" fill="#333333" text-anchor="start">결정력 계산기</text>
+</svg>
