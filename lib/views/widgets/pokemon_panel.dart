@@ -535,7 +535,7 @@ class PokemonPanelState extends State<PokemonPanel>
                     initialValue: effectiveCategory,
                     padding: EdgeInsets.zero,
                     child: Text(
-                      KoStrings.getCategoryKo(effectiveCategory!),
+                      KoStrings.getCategoryName(effectiveCategory!),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
@@ -543,7 +543,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       ),
                     ),
                     itemBuilder: (_) => [MoveCategory.physical, MoveCategory.special]
-                        .map((c) => PopupMenuItem(value: c, child: Text(KoStrings.getCategoryKo(c), style: const TextStyle(fontSize: 12))))
+                        .map((c) => PopupMenuItem(value: c, child: Text(KoStrings.getCategoryName(c), style: const TextStyle(fontSize: 12))))
                         .toList(),
                     onSelected: (c) { setState(() { s.categoryOverrides[index] = c; }); _notifyParent(); },
                   )

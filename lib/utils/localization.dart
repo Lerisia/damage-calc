@@ -95,6 +95,26 @@ class KoStrings {
     MoveCategory.status: '변화',
   };
 
+  static const Map<MoveCategory, String> categoryEn = {
+    MoveCategory.physical: 'Physical',
+    MoveCategory.special: 'Special',
+    MoveCategory.status: 'Status',
+  };
+
+  static const Map<MoveCategory, String> categoryJa = {
+    MoveCategory.physical: '物理',
+    MoveCategory.special: '特殊',
+    MoveCategory.status: '変化',
+  };
+
+  static String getCategoryName(MoveCategory c) {
+    return switch (AppStrings.current) {
+      AppLanguage.ko => categoryKo[c] ?? c.name,
+      AppLanguage.en => categoryEn[c] ?? c.name,
+      AppLanguage.ja => categoryJa[c] ?? c.name,
+    };
+  }
+
   static const Map<Weather, String> weatherKo = {
     Weather.none: '없음',
     Weather.sun: '쾌청',

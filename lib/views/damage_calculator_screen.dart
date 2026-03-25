@@ -22,6 +22,8 @@ import '../models/weather.dart';
 import '../utils/localization.dart';
 import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/weather_effects.dart' show abilityWeatherMap;
+import '../data/abilitydex.dart';
+import '../data/itemdex.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/speed_compare_tab.dart';
 
@@ -59,9 +61,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   bool _useSpMode = false;
 
 
-  // Name maps (provided by _AppLoader, already loaded)
-  Map<String, String> get _abilityNameMap => widget.abilityNameMap;
-  Map<String, String> get _itemNameMap => widget.itemNameMap;
+  // Name maps – loaded locally so they refresh on language change
+  Map<String, String> _abilityNameMap = {};
+  Map<String, String> _itemNameMap = {};
 
   // Ability → Weather/Terrain auto-set (from weather_effects / terrain_effects)
 
@@ -132,6 +134,32 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         setState(() {});
       }
     });
+    _loadAbilities();
+    _loadItems();
+  }
+
+  Future<void> _loadAbilities() async {
+    try {
+      final dex = await loadAbilitydex();
+      final map = <String, String>{};
+      for (final entry in dex.entries) {
+        map[entry.key] = entry.value.localizedName;
+      }
+      if (mounted) setState(() => _abilityNameMap = map);
+    } catch (_) {}
+  }
+
+  Future<void> _loadItems() async {
+    try {
+      final dex = await loadItemdex();
+      final map = <String, String>{};
+      for (final entry in dex.entries) {
+        if (entry.value.battle) {
+          map[entry.key] = entry.value.localizedName;
+        }
+      }
+      if (mounted) setState(() => _itemNameMap = map);
+    } catch (_) {}
   }
 
   @override
@@ -327,7 +355,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void _showAboutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => const _AboutDialog(),
+      builder: (_) => _AboutDialog(
+        onLanguageChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); },
+      ),
     );
   }
 
@@ -506,10 +536,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
-              _LanguageButton(onChanged: () => setState(() { _resetCounter++; })),
+              _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
             if (isWide) ...[
               const Spacer(),
-              _LanguageButton(onChanged: () => setState(() { _resetCounter++; })),
+              _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: () => _showAboutDialog(context),
@@ -1433,8 +1463,20 @@ class _LanguageButton extends StatelessWidget {
 }
 
 /// About dialog.
-class _AboutDialog extends StatelessWidget {
-  const _AboutDialog();
+class _AboutDialog extends StatefulWidget {
+  final VoidCallback onLanguageChanged;
+  const _AboutDialog({required this.onLanguageChanged});
+
+  @override
+  State<_AboutDialog> createState() => _AboutDialogState();
+}
+
+class _AboutDialogState extends State<_AboutDialog> {
+  static const _langLabels = {
+    AppLanguage.ko: '한국어',
+    AppLanguage.en: 'English',
+    AppLanguage.ja: '日本語',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -1445,6 +1487,27 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              const Text('Language: ', style: TextStyle(fontSize: 13, color: Colors.grey)),
+              for (final lang in AppLanguage.values)
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: ChoiceChip(
+                    label: Text(_langLabels[lang]!, style: const TextStyle(fontSize: 12)),
+                    selected: AppStrings.current == lang,
+                    onSelected: (_) {
+                      AppStrings.setLanguage(lang);
+                      setState(() {});
+                      widget.onLanguageChanged();
+                    },
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 12),
           const Text('v0.3.0-beta'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
