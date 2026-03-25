@@ -223,6 +223,11 @@ class AppStrings {
       AppLanguage.en: 'No Tera',
       AppLanguage.ja: 'テラなし',
     },
+    'label.terastalShort': {
+      AppLanguage.ko: '테라',
+      AppLanguage.en: 'Tera',
+      AppLanguage.ja: 'テラ',
+    },
 
     // === Toolbar ===
     'toolbar.weather': {
@@ -641,6 +646,35 @@ class AppStrings {
       AppLanguage.ko: '동속',
       AppLanguage.en: 'ties',
       AppLanguage.ja: '同速',
+    },
+
+    // === Nature ===
+    'nature.neutral': {
+      AppLanguage.ko: '무보정',
+      AppLanguage.en: 'Neutral',
+      AppLanguage.ja: '無補正',
+    },
+
+    // === About Dialog ===
+    'about.description': {
+      AppLanguage.ko: '실전 배틀 유저를 위한 결정력 계산기',
+      AppLanguage.en: 'A damage calculator for competitive battle players.',
+      AppLanguage.ja: '実戦バトルプレイヤーのためのダメージ計算機',
+    },
+    'about.subtitle': {
+      AppLanguage.ko: '실전 배틀 유저가 만든 무료 프로젝트입니다.',
+      AppLanguage.en: 'A free project made by a competitive battle player.',
+      AppLanguage.ja: '対戦プレイヤーが作った無料プロジェクトです。',
+    },
+    'about.beta': {
+      AppLanguage.ko: '문의 및 버그 리포트는 GitHub Issues로 부탁드립니다.',
+      AppLanguage.en: 'Bug reports and suggestions are welcome via GitHub Issues.',
+      AppLanguage.ja: 'バグ報告やご要望はGitHub Issuesまでお願いします。',
+    },
+    'about.disclaimer': {
+      AppLanguage.ko: '본 앱은 Nintendo, Game Freak, The Pokémon Company와\n관련이 없는 비공식 팬메이드 앱입니다.\n관련 데이터의 저작권은 원저작자에게 있습니다.',
+      AppLanguage.en: 'This is an unofficial fan-made project not affiliated with\nNintendo, Game Freak, or The Pokémon Company.\nAll related data belongs to their respective owners.',
+      AppLanguage.ja: '本アプリは任天堂、ゲームフリーク、\n株式会社ポケモンとは無関係の非公式ファンメイドアプリです。\n関連データの著作権は各権利者に帰属します。',
     },
   };
 }

@@ -249,7 +249,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   Future<void> _showSaveDialog(BattlePokemonState state) async {
-    final controller = TextEditingController(text: state.pokemonNameKo);
+    final controller = TextEditingController(text: state.localizedPokemonName);
     final name = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -327,9 +327,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void _showAboutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => _AboutDialog(
-        onLanguageChanged: () => setState(() {}),
-      ),
+      builder: (_) => const _AboutDialog(),
     );
   }
 
@@ -375,7 +373,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                             Text(KoStrings.weatherIcon[w]!, style: const TextStyle(fontSize: 18)),
                             const SizedBox(width: 8),
                           ],
-                          Text(KoStrings.weatherKo[w]!),
+                          Text(KoStrings.getWeatherName(w)),
                         ],
                       )))
                   .toList(),
@@ -407,7 +405,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                             Text(KoStrings.terrainIcon[t]!, style: const TextStyle(fontSize: 18)),
                             const SizedBox(width: 8),
                           ],
-                          Text(KoStrings.terrainKo[t]!),
+                          Text(KoStrings.getTerrainName(t)),
                         ],
                       )))
                   .toList(),
@@ -415,7 +413,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ),
             // Room/Gravity toggle popup
             PopupMenuButton<String>(
-              tooltip: '${AppStrings.t('toolbar.room')}/중력',
+              tooltip: '${AppStrings.t('toolbar.room')}/${KoStrings.gravityName}',
               popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -434,19 +432,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               itemBuilder: (_) => [
                 CheckedPopupMenuItem(
                   value: 'trickRoom', checked: _room.trickRoom,
-                  child: const Text('🔄 트릭룸'),
+                  child: Text('🔄 ${KoStrings.getRoomName(Room.trickRoom)}'),
                 ),
                 CheckedPopupMenuItem(
                   value: 'magicRoom', checked: _room.magicRoom,
-                  child: const Text('✨ 매직룸'),
+                  child: Text('✨ ${KoStrings.getRoomName(Room.magicRoom)}'),
                 ),
                 CheckedPopupMenuItem(
                   value: 'wonderRoom', checked: _room.wonderRoom,
-                  child: const Text('❓ 원더룸'),
+                  child: Text('❓ ${KoStrings.getRoomName(Room.wonderRoom)}'),
                 ),
                 CheckedPopupMenuItem(
                   value: 'gravity', checked: _room.gravity,
-                  child: const Text('🌀 중력'),
+                  child: Text('🌀 ${KoStrings.gravityName}'),
                 ),
               ],
               onSelected: (v) => setState(() {
@@ -508,10 +506,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
-              _LanguageButton(onChanged: () => setState(() {})),
+              _LanguageButton(onChanged: () => setState(() { _resetCounter++; })),
             if (isWide) ...[
               const Spacer(),
-              _LanguageButton(onChanged: () => setState(() {})),
+              _LanguageButton(onChanged: () => setState(() { _resetCounter++; })),
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: () => _showAboutDialog(context),
@@ -805,7 +803,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
-              '${_attacker.pokemonNameKo}${_dynamaxLabel(_attacker)} → ${_defender.pokemonNameKo}${_dynamaxLabel(_defender)}',
+              '${_attacker.localizedPokemonName}${_dynamaxLabel(_attacker)} → ${_defender.localizedPokemonName}${_dynamaxLabel(_defender)}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -929,7 +927,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 )),
               ),
               const SizedBox(width: 8),
-              Text(effectiveType != null ? KoStrings.getTypeKo(effectiveType) : '-',
+              Text(effectiveType != null ? KoStrings.getTypeName(effectiveType) : '-',
                   style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
               Text(effLabel, style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
@@ -989,19 +987,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         state.terastal.teraType != PokemonType.stellar) {
       final t = state.terastal.teraType!;
       return Text.rich(TextSpan(children: [
-        TextSpan(text: KoStrings.getTypeKo(t),
+        TextSpan(text: KoStrings.getTypeName(t),
           style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(t), fontWeight: FontWeight.bold)),
-        TextSpan(text: ' (테라)', style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+        TextSpan(text: ' (${AppStrings.t('label.terastalShort')})', style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
       ]));
     }
     // Normal: type1/type2
     final parts = <InlineSpan>[
-      TextSpan(text: KoStrings.getTypeKo(state.type1),
+      TextSpan(text: KoStrings.getTypeName(state.type1),
         style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type1), fontWeight: FontWeight.bold)),
     ];
     if (state.type2 != null) {
       parts.add(TextSpan(text: '/', style: TextStyle(fontSize: 13, color: Colors.grey.shade400)));
-      parts.add(TextSpan(text: KoStrings.getTypeKo(state.type2!),
+      parts.add(TextSpan(text: KoStrings.getTypeName(state.type2!),
         style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type2!), fontWeight: FontWeight.bold)));
     }
     return Text.rich(TextSpan(children: parts));
@@ -1016,7 +1014,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         borderRadius: BorderRadius.circular(3),
       ),
       child: Text(
-        KoStrings.getTypeKo(type),
+        KoStrings.getTypeName(type),
         style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
@@ -1258,7 +1256,7 @@ class _SampleListSheetState extends State<_SampleListSheet> {
                         ];
                         return ListTile(
                           title: Text(sample.name),
-                          subtitle: Text('${state.pokemonNameKo} | ${parts.join(' ')}'),
+                          subtitle: Text('${state.localizedPokemonName} | ${parts.join(' ')}'),
                           trailing: IconButton(
                             icon: const Icon(Icons.delete_outline, size: 20),
                             onPressed: () => widget.onDelete(idx),
@@ -1434,16 +1432,10 @@ class _LanguageButton extends StatelessWidget {
   }
 }
 
-/// About dialog with language selector.
-class _AboutDialog extends StatefulWidget {
-  final VoidCallback onLanguageChanged;
-  const _AboutDialog({required this.onLanguageChanged});
+/// About dialog.
+class _AboutDialog extends StatelessWidget {
+  const _AboutDialog();
 
-  @override
-  State<_AboutDialog> createState() => _AboutDialogState();
-}
-
-class _AboutDialogState extends State<_AboutDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -1453,44 +1445,11 @@ class _AboutDialogState extends State<_AboutDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Language selector
-          Row(
-            children: [
-              const Text('Language: ', style: TextStyle(fontSize: 13, color: Colors.grey)),
-              for (final lang in AppLanguage.values)
-                Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: ChoiceChip(
-                    label: Text(
-                      switch (lang) {
-                        AppLanguage.ko => '한국어',
-                        AppLanguage.en => 'English',
-                        AppLanguage.ja => '日本語',
-                      },
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    selected: AppStrings.current == lang,
-                    onSelected: (_) {
-                      AppStrings.setLanguage(lang);
-                      setState(() {});
-                      widget.onLanguageChanged();
-                    },
-                    visualDensity: VisualDensity.compact,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 12),
           const Text('v0.3.0-beta'),
           const SizedBox(height: 8),
-          const Text('A damage calculator for competitive battle players.'),
+          Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
-          const Text(
-            'A free project made by a competitive battle player.\n'
-            'Android / iOS apps coming soon!',
-            style: TextStyle(fontSize: 13),
-          ),
+          Text(AppStrings.t('about.subtitle'), style: const TextStyle(fontSize: 13)),
           const SizedBox(height: 12),
           const Text('By  Elyss'),
           const SelectableText('Web  damage-calc.com'),
@@ -1498,16 +1457,14 @@ class _AboutDialogState extends State<_AboutDialog> {
           const SizedBox(height: 16),
           const Divider(),
           const SizedBox(height: 8),
-          const Text(
-            'This is a beta version. Bug reports and suggestions\nare welcome via GitHub Issues.',
-            style: TextStyle(fontSize: 12, color: Colors.orange),
+          Text(
+            AppStrings.t('about.beta'),
+            style: const TextStyle(fontSize: 12, color: Colors.orange),
           ),
           const SizedBox(height: 12),
-          const Text(
-            'This is an unofficial fan-made project not affiliated with '
-            'Nintendo, Game Freak, or The Pokémon Company.\n'
-            'All related data belongs to their respective owners.',
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+          Text(
+            AppStrings.t('about.disclaimer'),
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],
       ),
