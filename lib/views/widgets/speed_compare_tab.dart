@@ -307,16 +307,19 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               const SizedBox(width: 8),
               Expanded(flex: 3, child: _abilityAutocomplete(state)),
               const SizedBox(width: 8),
-              Expanded(flex: 2, child: DropdownButtonFormField<StatusCondition>(
-                value: state.status,
-                isDense: true,
-                isExpanded: true,
-                decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                items: StatusCondition.values.map((st) {
-                  return DropdownMenuItem(value: st, child: Text(
-                    KoStrings.statusKo[st] ?? st.name));
-                }).toList(),
-                onChanged: (v) { if (v != null) { setState(() => state.status = v); _notify(); } },
+              Expanded(flex: 2, child: PopupMenuButton<StatusCondition>(
+                initialValue: state.status,
+                tooltip: '상태이상',
+                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                child: InputDecorator(
+                  decoration: const InputDecoration(labelText: '상태이상', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  child: Text(KoStrings.statusKo[state.status] ?? state.status.name,
+                    style: const TextStyle(fontSize: 14)),
+                ),
+                itemBuilder: (_) => StatusCondition.values.map((st) =>
+                  PopupMenuItem(value: st, child: Text(KoStrings.statusKo[st] ?? st.name)),
+                ).toList(),
+                onSelected: (v) { setState(() => state.status = v); _notify(); },
               )),
             ],
           ),
@@ -324,18 +327,23 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           Row(
             key: itemRowKey,
             children: [
-              Expanded(flex: 3, child: DropdownButtonFormField<Nature>(
-                value: state.nature,
-                isDense: true,
-                isExpanded: true,
-                decoration: const InputDecoration(labelText: '성격', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
-                items: sortedNatures.map((n) {
+              Expanded(flex: 3, child: PopupMenuButton<Nature>(
+                initialValue: state.nature,
+                tooltip: '성격',
+                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                constraints: const BoxConstraints(maxHeight: 300),
+                child: InputDecorator(
+                  decoration: const InputDecoration(labelText: '성격', isDense: true, contentPadding: EdgeInsets.symmetric(vertical: 4)),
+                  child: Text(state.nature.nameKo,
+                    style: TextStyle(fontSize: 14, color: state.nature.speedModifier > 1.0 ? Colors.red : state.nature.speedModifier < 1.0 ? Colors.blue : null)),
+                ),
+                itemBuilder: (_) => sortedNatures.map((n) {
                   final isBuff = n.speedModifier > 1.0;
                   final isNerf = n.speedModifier < 1.0;
-                  return DropdownMenuItem(value: n, child: Text(n.nameKo,
+                  return PopupMenuItem(value: n, child: Text(n.nameKo,
                     style: TextStyle(color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
                 }).toList(),
-                onChanged: (v) { if (v != null) { setState(() => state.nature = v); _notify(); } },
+                onSelected: (v) { setState(() => state.nature = v); _notify(); },
               )),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: _itemAutocomplete(state)),

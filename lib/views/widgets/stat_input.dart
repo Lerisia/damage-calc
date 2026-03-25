@@ -143,17 +143,6 @@ class _StatInputState extends State<StatInput> {
   final _abilityFocusNode = FocusNode();
   final _itemFocusNode = FocusNode();
 
-  static final List<DropdownMenuItem<Nature>> _natureDropdownItems = sortedNatures
-      .map((n) => DropdownMenuItem(
-            value: n,
-            child: Text(
-              _natureLabelStatic(n),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ))
-      .toList();
-
   static String _natureLabelStatic(Nature n) {
     final ko = n.nameKo;
     String buff = '', nerf = '';
