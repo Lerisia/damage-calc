@@ -62,7 +62,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         m.moveClass != MoveClass.normal);
     setState(() {
       _allMoves = all;
-      _searchEntries = all.map((m) => SearchEntry(m, m.nameKo, m.name, nameJa: m.nameJa)).toList();
+      _searchEntries = all.map((m) => SearchEntry(m, m.nameKo, m.name, nameJa: m.nameJa, aliases: m.aliases)).toList();
       if (_selected == null && widget.initialMoveName != null) {
         final match = all.where((m) => m.name == widget.initialMoveName);
         if (match.isNotEmpty) {

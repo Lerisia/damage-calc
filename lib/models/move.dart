@@ -32,6 +32,7 @@ class Move {
   final int priority;
   final int minHits;
   final int maxHits;
+  final List<String> aliases;
 
   const Move({
     required this.name,
@@ -48,6 +49,7 @@ class Move {
     this.priority = 0,
     this.minHits = 1,
     this.maxHits = 1,
+    this.aliases = const [],
   });
 
   String get localizedName => AppStrings.name(nameKo: nameKo, nameEn: nameEn, nameJa: nameJa, name: name);
@@ -97,6 +99,7 @@ class Move {
       priority: priority ?? this.priority,
       minHits: this.minHits,
       maxHits: this.maxHits,
+      aliases: this.aliases,
     );
   }
 
@@ -115,6 +118,7 @@ class Move {
     'priority': priority,
     if (minHits != 1) 'minHits': minHits,
     if (maxHits != 1) 'maxHits': maxHits,
+    if (aliases.isNotEmpty) 'aliases': aliases,
   };
 
   factory Move.fromJson(Map<String, dynamic> json) {
@@ -137,6 +141,9 @@ class Move {
       priority: json['priority'] as int? ?? 0,
       minHits: json['minHits'] as int? ?? 1,
       maxHits: json['maxHits'] as int? ?? 1,
+      aliases: json['aliases'] != null
+          ? List<String>.from(json['aliases'] as List)
+          : const [],
     );
   }
 }

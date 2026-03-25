@@ -550,7 +550,7 @@
   },
   {
     "name": "Double Kick",
-    "nameKo": "두번치기",
+    "nameKo": "두번차기",
     "nameJa": "にどげり",
     "type": "fighting",
     "category": "physical",
@@ -560,7 +560,10 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Double Kick"
+    "nameEn": "Double Kick",
+    "aliases": [
+      "두번치기"
+    ]
   },
   {
     "name": "Mirror Move",
@@ -590,7 +593,7 @@
   },
   {
     "name": "Skull Bash",
-    "nameKo": "로케트박치기",
+    "nameKo": "로켓박치기",
     "nameJa": "ロケットずつき",
     "type": "normal",
     "category": "physical",
@@ -600,7 +603,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Skull Bash"
+    "nameEn": "Skull Bash",
+    "aliases": [
+      "로케트박치기"
+    ]
   },
   {
     "name": "Reflect",
@@ -1754,7 +1760,7 @@
   },
   {
     "name": "Crabhammer",
-    "nameKo": "찝게햄머",
+    "nameKo": "집게해머",
     "nameJa": "クラブハンマー",
     "type": "water",
     "category": "physical",
@@ -1762,7 +1768,10 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [],
-    "nameEn": "Crabhammer"
+    "nameEn": "Crabhammer",
+    "aliases": [
+      "찝게햄머"
+    ]
   },
   {
     "name": "Vise Grip",

@@ -1,7 +1,7 @@
 [
   {
     "name": "Guard Swap",
-    "nameKo": "가드스웹",
+    "nameKo": "가드스왑",
     "nameJa": "ガードスワップ",
     "type": "psychic",
     "category": "status",
@@ -9,7 +9,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Guard Swap"
+    "nameEn": "Guard Swap",
+    "aliases": [
+      "가드스웹"
+    ]
   },
   {
     "name": "Acupressure",
@@ -270,7 +273,7 @@
   },
   {
     "name": "Last Resort",
-    "nameKo": "뒀다쓰기",
+    "nameKo": "비장의무기",
     "nameJa": "とっておき",
     "type": "normal",
     "category": "physical",
@@ -278,7 +281,10 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Last Resort"
+    "nameEn": "Last Resort",
+    "aliases": [
+      "뒀다쓰기"
+    ]
   },
   {
     "name": "Dragon Rush",
@@ -310,7 +316,7 @@
   },
   {
     "name": "Rock Climb",
-    "nameKo": "락클라임",
+    "nameKo": "록클라임",
     "nameJa": "ロッククライム",
     "type": "normal",
     "category": "physical",
@@ -320,7 +326,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Rock Climb"
+    "nameEn": "Rock Climb",
+    "aliases": [
+      "락클라임"
+    ]
   },
   {
     "name": "Flash Cannon",
@@ -443,7 +452,7 @@
   },
   {
     "name": "Mirror Shot",
-    "nameKo": "미러숏",
+    "nameKo": "미러샷",
     "nameJa": "ミラーショット",
     "type": "steel",
     "category": "special",
@@ -453,7 +462,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Mirror Shot"
+    "nameEn": "Mirror Shot",
+    "aliases": [
+      "미러숏"
+    ]
   },
   {
     "name": "Switcheroo",
@@ -524,7 +536,7 @@
   },
   {
     "name": "Bug Bite",
-    "nameKo": "벌레먹음",
+    "nameKo": "벌레먹기",
     "nameJa": "むしくい",
     "type": "bug",
     "category": "physical",
@@ -532,7 +544,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Bug Bite"
+    "nameEn": "Bug Bite",
+    "aliases": [
+      "벌레먹음"
+    ]
   },
   {
     "name": "Bug Buzz",
@@ -674,7 +689,7 @@
   },
   {
     "name": "Shadow Claw",
-    "nameKo": "섀도크루",
+    "nameKo": "섀도클로",
     "nameJa": "シャドークロー",
     "type": "ghost",
     "category": "physical",
@@ -684,7 +699,10 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Shadow Claw"
+    "nameEn": "Shadow Claw",
+    "aliases": [
+      "섀도크루"
+    ]
   },
   {
     "name": "Me First",
@@ -1343,7 +1361,7 @@
   },
   {
     "name": "Power Swap",
-    "nameKo": "파워스웹",
+    "nameKo": "파워스왑",
     "nameJa": "パワースワップ",
     "type": "psychic",
     "category": "status",
@@ -1351,7 +1369,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Power Swap"
+    "nameEn": "Power Swap",
+    "aliases": [
+      "파워스웹"
+    ]
   },
   {
     "name": "Power Gem",
@@ -1435,7 +1456,7 @@
   },
   {
     "name": "Heart Swap",
-    "nameKo": "하트스웹",
+    "nameKo": "하트스왑",
     "nameJa": "ハートスワップ",
     "type": "psychic",
     "category": "status",
@@ -1443,7 +1464,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Heart Swap"
+    "nameEn": "Heart Swap",
+    "aliases": [
+      "하트스웹"
+    ]
   },
   {
     "name": "Punishment",

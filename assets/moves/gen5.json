@@ -757,7 +757,7 @@
   },
   {
     "name": "Glaciate",
-    "nameKo": "얼다세계",
+    "nameKo": "얼어붙은세계",
     "nameJa": "こごえるせかい",
     "type": "ice",
     "category": "special",
@@ -767,7 +767,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Glaciate"
+    "nameEn": "Glaciate",
+    "aliases": [
+      "얼다세계"
+    ]
   },
   {
     "name": "Frost Breath",
@@ -899,7 +902,7 @@
   },
   {
     "name": "Horn Leech",
-    "nameKo": "우드호른",
+    "nameKo": "우드혼",
     "nameJa": "ウッドホーン",
     "type": "grass",
     "category": "physical",
@@ -907,7 +910,10 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Horn Leech"
+    "nameEn": "Horn Leech",
+    "aliases": [
+      "우드호른"
+    ]
   },
   {
     "name": "Wonder Room",
@@ -1076,7 +1082,7 @@
   },
   {
     "name": "Quick Guard",
-    "nameKo": "퍼스트가드",
+    "nameKo": "패스트가드",
     "nameJa": "ファストガード",
     "type": "fighting",
     "category": "status",
@@ -1085,7 +1091,10 @@
     "pp": 15,
     "priority": 3,
     "tags": [],
-    "nameEn": "Quick Guard"
+    "nameEn": "Quick Guard",
+    "aliases": [
+      "퍼스트가드"
+    ]
   },
   {
     "name": "Hurricane",
