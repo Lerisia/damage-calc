@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:screenshot/screenshot.dart';
 import '../data/sample_storage.dart';
+import '../utils/app_strings.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
 import '../utils/damage_calculator.dart';
@@ -327,48 +328,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void _showAboutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('결정력 계산기', style: TextStyle(fontWeight: FontWeight.bold)),
-        content: const Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('v0.2.0-beta'),
-            SizedBox(height: 8),
-            Text('포켓몬스터 실전 배틀 유저를 위한 결정력 계산기'),
-            SizedBox(height: 8),
-            Text(
-              '실전 배틀 유저가 취미로 만든 무료 프로젝트입니다.\n'
-              'Android / iOS 앱 출시 예정!',
-              style: TextStyle(fontSize: 13),
-            ),
-            SizedBox(height: 12),
-            Text('제작  Elyss'),
-            SelectableText('웹사이트  damage-calc.com'),
-            SelectableText('GitHub  github.com/Lerisia/damage-calc'),
-            SizedBox(height: 16),
-            Divider(),
-            SizedBox(height: 8),
-            Text(
-              '현재 베타 버전입니다. 버그나 개선 의견은\n'
-              'GitHub Issue로 부탁드립니다.',
-              style: TextStyle(fontSize: 12, color: Colors.orange),
-            ),
-            SizedBox(height: 12),
-            Text(
-              '본 앱은 Nintendo, Game Freak, The Pokémon Company와 '
-              '관련이 없는 비공식 팬메이드 프로젝트입니다.\n'
-              '포켓몬스터 관련 데이터의 저작권은 원저작자에게 있습니다.',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('닫기'),
-          ),
-        ],
+      builder: (_) => _AboutDialog(
+        onLanguageChanged: () => setState(() {}),
       ),
     );
   }
@@ -505,7 +466,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '결정력 계산기',
+                    AppStrings.t('app.title'),
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -548,17 +509,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 label: const Text('캡처', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               )
             else
-              IconButton(
-                icon: const Icon(Icons.camera_alt_outlined),
-                tooltip: '캡처',
-                onPressed: _capture,
-              ),
+              _LanguageButton(onChanged: () => setState(() {})),
             if (isWide) ...[
               const Spacer(),
+              _LanguageButton(onChanged: () => setState(() {})),
+              const SizedBox(width: 8),
               GestureDetector(
                 onTap: () => _showAboutDialog(context),
                 child: Text(
-                  '결정력 계산기',
+                  AppStrings.t('app.title'),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -1423,6 +1382,154 @@ class _SampleListSheetState extends State<_SampleListSheet> {
       },
     );
     return result?.isEmpty == true ? null : result;
+  }
+}
+
+/// Compact language toggle button for wide AppBar.
+class _LanguageButton extends StatelessWidget {
+  final VoidCallback onChanged;
+  const _LanguageButton({required this.onChanged});
+
+  static const _langLabels = {
+    AppLanguage.ko: '한국어',
+    AppLanguage.en: 'English',
+    AppLanguage.ja: '日本語',
+  };
+
+  static const _langCodes = {
+    AppLanguage.ko: 'KO',
+    AppLanguage.en: 'EN',
+    AppLanguage.ja: 'JA',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<AppLanguage>(
+      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+      onSelected: (lang) {
+        AppStrings.setLanguage(lang);
+        onChanged();
+      },
+      itemBuilder: (_) => AppLanguage.values.map((lang) =>
+        PopupMenuItem(
+          value: lang,
+          child: Row(
+            children: [
+              SizedBox(width: 28, child: Text(_langCodes[lang]!,
+                style: TextStyle(
+                  fontWeight: AppStrings.current == lang ? FontWeight.bold : FontWeight.normal,
+                  color: AppStrings.current == lang ? Theme.of(context).colorScheme.primary : null,
+                ),
+              )),
+              Text(_langLabels[lang]!,
+                style: TextStyle(
+                  fontWeight: AppStrings.current == lang ? FontWeight.bold : FontWeight.normal,
+                  color: AppStrings.current == lang ? Theme.of(context).colorScheme.primary : null,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ).toList(),
+      padding: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        child: Text(_langCodes[AppStrings.current]!,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// About dialog with language selector.
+class _AboutDialog extends StatefulWidget {
+  final VoidCallback onLanguageChanged;
+  const _AboutDialog({required this.onLanguageChanged});
+
+  @override
+  State<_AboutDialog> createState() => _AboutDialogState();
+}
+
+class _AboutDialogState extends State<_AboutDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(AppStrings.t('app.title'),
+        style: const TextStyle(fontWeight: FontWeight.bold)),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Language selector
+          Row(
+            children: [
+              const Text('Language: ', style: TextStyle(fontSize: 13, color: Colors.grey)),
+              for (final lang in AppLanguage.values)
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: ChoiceChip(
+                    label: Text(
+                      switch (lang) {
+                        AppLanguage.ko => '한국어',
+                        AppLanguage.en => 'English',
+                        AppLanguage.ja => '日本語',
+                      },
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    selected: AppStrings.current == lang,
+                    onSelected: (_) {
+                      AppStrings.setLanguage(lang);
+                      setState(() {});
+                      widget.onLanguageChanged();
+                    },
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          const Text('v0.3.0-beta'),
+          const SizedBox(height: 8),
+          const Text('A damage calculator for competitive battle players.'),
+          const SizedBox(height: 8),
+          const Text(
+            'A free project made by a competitive battle player.\n'
+            'Android / iOS apps coming soon!',
+            style: TextStyle(fontSize: 13),
+          ),
+          const SizedBox(height: 12),
+          const Text('By  Elyss'),
+          const SelectableText('Web  damage-calc.com'),
+          const SelectableText('GitHub  github.com/Lerisia/damage-calc'),
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 8),
+          const Text(
+            'This is a beta version. Bug reports and suggestions\nare welcome via GitHub Issues.',
+            style: TextStyle(fontSize: 12, color: Colors.orange),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'This is an unofficial fan-made project not affiliated with '
+            'Nintendo, Game Freak, or The Pokémon Company.\n'
+            'All related data belongs to their respective owners.',
+            style: TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppStrings.t('action.close')),
+        ),
+      ],
+    );
   }
 }
 

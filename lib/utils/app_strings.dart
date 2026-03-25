@@ -21,7 +21,7 @@ class AppStrings {
     'app.title': {
       AppLanguage.ko: '결정력 계산기',
       AppLanguage.en: 'Damage Calculator',
-      AppLanguage.ja: '決定力計算機',
+      AppLanguage.ja: 'ダメージ計算機',
     },
 
     // === Tabs ===
@@ -102,7 +102,7 @@ class AppStrings {
     'stat.speed': {
       AppLanguage.ko: '스피드',
       AppLanguage.en: 'Spe',
-      AppLanguage.ja: '素早',
+      AppLanguage.ja: 'すばやさ',
     },
     'stat.base': {
       AppLanguage.ko: '종족',
@@ -126,7 +126,7 @@ class AppStrings {
     },
     'stat.actual': {
       AppLanguage.ko: '실수치',
-      AppLanguage.en: 'Actual',
+      AppLanguage.en: 'Stat',
       AppLanguage.ja: '実数値',
     },
 
@@ -148,7 +148,7 @@ class AppStrings {
     },
     'move.power': {
       AppLanguage.ko: '위력',
-      AppLanguage.en: 'Pow',
+      AppLanguage.en: 'BP',
       AppLanguage.ja: '威力',
     },
     'move.critical': {
@@ -158,8 +158,8 @@ class AppStrings {
     },
     'move.offensive': {
       AppLanguage.ko: '결정력',
-      AppLanguage.en: 'Power',
-      AppLanguage.ja: '決定力',
+      AppLanguage.en: 'Dmg',
+      AppLanguage.ja: '火力',
     },
     'move.fixed': {
       AppLanguage.ko: '고정',
@@ -427,6 +427,7 @@ class AppStrings {
     },
 
     // === KO ===
+    // Format: ko="확정 1타", en="guaranteed OHKO", ja="確定1発"
     'ko.guaranteed': {
       AppLanguage.ko: '확정',
       AppLanguage.en: 'guaranteed',
@@ -434,13 +435,18 @@ class AppStrings {
     },
     'ko.random': {
       AppLanguage.ko: '난수',
-      AppLanguage.en: 'random',
+      AppLanguage.en: 'possible',
       AppLanguage.ja: '乱数',
     },
     'ko.hit': {
       AppLanguage.ko: '타',
       AppLanguage.en: 'HKO',
       AppLanguage.ja: '発',
+    },
+    'ko.ohko': {
+      AppLanguage.ko: '1타',
+      AppLanguage.en: 'OHKO',
+      AppLanguage.ja: '1発',
     },
 
     // === EV ===
