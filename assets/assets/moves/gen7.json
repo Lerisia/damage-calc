@@ -787,7 +787,7 @@
   },
   {
     "name": "Smart Strike",
-    "nameKo": "스마트호른",
+    "nameKo": "스마트혼",
     "nameJa": "スマートホーン",
     "type": "steel",
     "category": "physical",
@@ -795,7 +795,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Smart Strike"
+    "nameEn": "Smart Strike",
+    "aliases": [
+      "스마트호른"
+    ]
   },
   {
     "name": "Clanging Scales",
@@ -852,7 +855,7 @@
   },
   {
     "name": "Speed Swap",
-    "nameKo": "스피드스웹",
+    "nameKo": "스피드스왑",
     "nameJa": "スピードスワップ",
     "type": "psychic",
     "category": "status",
@@ -860,7 +863,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Speed Swap"
+    "nameEn": "Speed Swap",
+    "aliases": [
+      "스피드스웹"
+    ]
   },
   {
     "name": "Sappy Seed",
@@ -971,7 +977,7 @@
   },
   {
     "name": "Anchor Shot",
-    "nameKo": "앵커숏",
+    "nameKo": "앵커샷",
     "nameJa": "アンカーショット",
     "type": "steel",
     "category": "physical",
@@ -979,7 +985,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Anchor Shot"
+    "nameEn": "Anchor Shot",
+    "aliases": [
+      "앵커숏"
+    ]
   },
   {
     "name": "Gear Up",

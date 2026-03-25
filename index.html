@@ -53,11 +53,18 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
 
   <title>결정력 계산기 - 실전 배틀 대미지 계산</title>
+  <script>
+    (function() {
+      var lang = (navigator.language || '').substring(0, 2);
+      var titles = { ja: 'ダメージ計算機 - 実戦バトルダメージ計算', en: 'Damage Calculator - Competitive Battle' };
+      if (titles[lang]) document.title = titles[lang];
+    })();
+  </script>
   <!-- manifest.json removed: no PWA needed -->
 </head>
 <body>
   <!--
-    You can customize the "flutter_bootstrap.js?v=1774428732" script.
+    You can customize the "flutter_bootstrap.js?v=1774434143" script.
     This is useful to provide a custom configuration to the Flutter loader
     or to give the user feedback during the initialization process.
 
@@ -75,6 +82,6 @@
       });
     }
   </script>
-  <script src="flutter_bootstrap.js?v=1774428732" async></script>
+  <script src="flutter_bootstrap.js?v=1774434143" async></script>
 </body>
 </html>

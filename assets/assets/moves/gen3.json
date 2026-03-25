@@ -1,7 +1,7 @@
 [
   {
     "name": "Snatch",
-    "nameKo": "가로챔",
+    "nameKo": "가로채기",
     "nameJa": "よこどり",
     "type": "dark",
     "category": "status",
@@ -9,7 +9,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Snatch"
+    "nameEn": "Snatch",
+    "aliases": [
+      "가로챔"
+    ]
   },
   {
     "name": "Tickle",
@@ -77,7 +80,7 @@
   },
   {
     "name": "Bullet Seed",
-    "nameKo": "기관총",
+    "nameKo": "씨기관총",
     "nameJa": "タネマシンガン",
     "type": "grass",
     "category": "physical",
@@ -89,7 +92,10 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Bullet Seed"
+    "nameEn": "Bullet Seed",
+    "aliases": [
+      "기관총"
+    ]
   },
   {
     "name": "Feather Dance",
@@ -105,7 +111,7 @@
   },
   {
     "name": "Brick Break",
-    "nameKo": "깨트리다",
+    "nameKo": "깨트리기",
     "nameJa": "かわらわり",
     "type": "fighting",
     "category": "physical",
@@ -113,7 +119,10 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Brick Break"
+    "nameEn": "Brick Break",
+    "aliases": [
+      "깨트리다"
+    ]
   },
   {
     "name": "Swallow",
@@ -217,7 +226,7 @@
   },
   {
     "name": "Poison Fang",
-    "nameKo": "독엄니",
+    "nameKo": "맹독엄니",
     "nameJa": "どくどくのキバ",
     "type": "poison",
     "category": "physical",
@@ -228,11 +237,14 @@
       "custom:has_secondary",
       "bite"
     ],
-    "nameEn": "Poison Fang"
+    "nameEn": "Poison Fang",
+    "aliases": [
+      "독엄니"
+    ]
   },
   {
     "name": "Dragon Claw",
-    "nameKo": "드래곤크루",
+    "nameKo": "드래곤클로",
     "nameJa": "ドラゴンクロー",
     "type": "dragon",
     "category": "physical",
@@ -242,11 +254,14 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Dragon Claw"
+    "nameEn": "Dragon Claw",
+    "aliases": [
+      "드래곤크루"
+    ]
   },
   {
     "name": "Bounce",
-    "nameKo": "뛰어오르다",
+    "nameKo": "뛰어오르기",
     "nameJa": "とびはねる",
     "type": "flying",
     "category": "physical",
@@ -257,11 +272,14 @@
       "custom:has_secondary",
       "custom:disabled_by_gravity"
     ],
-    "nameEn": "Bounce"
+    "nameEn": "Bounce",
+    "aliases": [
+      "뛰어오르다"
+    ]
   },
   {
     "name": "Luster Purge",
-    "nameKo": "라스트버지",
+    "nameKo": "러스터퍼지",
     "nameJa": "ラスターパージ",
     "type": "psychic",
     "category": "special",
@@ -271,11 +289,14 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Luster Purge"
+    "nameEn": "Luster Purge",
+    "aliases": [
+      "라스트버지"
+    ]
   },
   {
     "name": "Rock Blast",
-    "nameKo": "락블레스트",
+    "nameKo": "록블라스트",
     "nameJa": "ロックブラスト",
     "type": "rock",
     "category": "physical",
@@ -287,7 +308,10 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Rock Blast"
+    "nameEn": "Rock Blast",
+    "aliases": [
+      "락블레스트"
+    ]
   },
   {
     "name": "Revenge",
@@ -316,7 +340,7 @@
   },
   {
     "name": "Refresh",
-    "nameKo": "리프레쉬",
+    "nameKo": "리프레시",
     "nameJa": "リフレッシュ",
     "type": "normal",
     "category": "status",
@@ -324,7 +348,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Refresh"
+    "nameEn": "Refresh",
+    "aliases": [
+      "리프레쉬"
+    ]
   },
   {
     "name": "Leaf Blade",
@@ -355,7 +382,7 @@
   },
   {
     "name": "Mud Shot",
-    "nameKo": "머드숏",
+    "nameKo": "머드샷",
     "nameJa": "マッドショット",
     "type": "ground",
     "category": "special",
@@ -365,11 +392,14 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Mud Shot"
+    "nameEn": "Mud Shot",
+    "aliases": [
+      "머드숏"
+    ]
   },
   {
     "name": "Howl",
-    "nameKo": "멀리짖음",
+    "nameKo": "멀리짖기",
     "nameJa": "とおぼえ",
     "type": "normal",
     "category": "status",
@@ -377,11 +407,14 @@
     "accuracy": 0,
     "pp": 40,
     "tags": [],
-    "nameEn": "Howl"
+    "nameEn": "Howl",
+    "aliases": [
+      "멀리짖음"
+    ]
   },
   {
     "name": "Magical Leaf",
-    "nameKo": "메지컬리프",
+    "nameKo": "매지컬리프",
     "nameJa": "マジカルリーフ",
     "type": "grass",
     "category": "special",
@@ -389,7 +422,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Magical Leaf"
+    "nameEn": "Magical Leaf",
+    "aliases": [
+      "메지컬리프"
+    ]
   },
   {
     "name": "Calm Mind",
@@ -564,7 +600,7 @@
   },
   {
     "name": "Blaze Kick",
-    "nameKo": "브레이즈킥",
+    "nameKo": "블레이즈킥",
     "nameJa": "ブレイズキック",
     "type": "fire",
     "category": "physical",
@@ -574,11 +610,14 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Blaze Kick"
+    "nameEn": "Blaze Kick",
+    "aliases": [
+      "브레이즈킥"
+    ]
   },
   {
     "name": "Crush Claw",
-    "nameKo": "브레이크크루",
+    "nameKo": "브레이크클로",
     "nameJa": "ブレイククロー",
     "type": "normal",
     "category": "physical",
@@ -588,11 +627,14 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Crush Claw"
+    "nameEn": "Crush Claw",
+    "aliases": [
+      "브레이크크루"
+    ]
   },
   {
     "name": "Blast Burn",
-    "nameKo": "블러스트번",
+    "nameKo": "블라스트번",
     "nameJa": "ブラストバーン",
     "type": "fire",
     "category": "special",
@@ -600,7 +642,10 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [],
-    "nameEn": "Blast Burn"
+    "nameEn": "Blast Burn",
+    "aliases": [
+      "블러스트번"
+    ]
   },
   {
     "name": "Block",
@@ -696,7 +741,7 @@
   },
   {
     "name": "Fake Out",
-    "nameKo": "속이다",
+    "nameKo": "속이기",
     "nameJa": "ねこだまし",
     "type": "normal",
     "category": "physical",
@@ -707,7 +752,10 @@
       "custom:has_secondary"
     ],
     "priority": 3,
-    "nameEn": "Fake Out"
+    "nameEn": "Fake Out",
+    "aliases": [
+      "속이다"
+    ]
   },
   {
     "name": "Arm Thrust",
@@ -725,7 +773,7 @@
   },
   {
     "name": "Sky Uppercut",
-    "nameKo": "스카이업퍼",
+    "nameKo": "스카이어퍼",
     "nameJa": "スカイアッパー",
     "type": "fighting",
     "category": "physical",
@@ -735,11 +783,14 @@
     "tags": [
       "punch"
     ],
-    "nameEn": "Sky Uppercut"
+    "nameEn": "Sky Uppercut",
+    "aliases": [
+      "스카이업퍼"
+    ]
   },
   {
     "name": "Skill Swap",
-    "nameKo": "스킬스웹",
+    "nameKo": "스킬스왑",
     "nameJa": "スキルスワップ",
     "type": "psychic",
     "category": "status",
@@ -747,7 +798,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Skill Swap"
+    "nameEn": "Skill Swap",
+    "aliases": [
+      "스킬스웹"
+    ]
   },
   {
     "name": "Signal Beam",
@@ -845,7 +899,7 @@
   },
   {
     "name": "Air Cutter",
-    "nameKo": "에어컷터",
+    "nameKo": "에어커터",
     "nameJa": "エアカッター",
     "type": "flying",
     "category": "special",
@@ -855,7 +909,10 @@
     "tags": [
       "slice"
     ],
-    "nameEn": "Air Cutter"
+    "nameEn": "Air Cutter",
+    "aliases": [
+      "에어컷터"
+    ]
   },
   {
     "name": "Role Play",
@@ -1133,7 +1190,7 @@
   },
   {
     "name": "Covet",
-    "nameKo": "탐내다",
+    "nameKo": "탐내기",
     "nameJa": "ほしがる",
     "type": "normal",
     "category": "physical",
@@ -1141,11 +1198,14 @@
     "accuracy": 100,
     "pp": 25,
     "tags": [],
-    "nameEn": "Covet"
+    "nameEn": "Covet",
+    "aliases": [
+      "탐내다"
+    ]
   },
   {
     "name": "Slack Off",
-    "nameKo": "태만함",
+    "nameKo": "게으름피우기",
     "nameJa": "なまける",
     "type": "normal",
     "category": "status",
@@ -1153,7 +1213,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Slack Off"
+    "nameEn": "Slack Off",
+    "aliases": [
+      "태만함"
+    ]
   },
   {
     "name": "Spit Up",
@@ -1291,7 +1354,10 @@
     "tags": [
       "custom:hp_power_high"
     ],
-    "nameEn": "Water Spout"
+    "nameEn": "Water Spout",
+    "aliases": [
+      "바지락조개"
+    ]
   },
   {
     "name": "Teeter Dance",

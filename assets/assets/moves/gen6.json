@@ -115,7 +115,7 @@
   },
   {
     "name": "Hyperspace Fury",
-    "nameKo": "다른차원러시",
+    "nameKo": "이차원러시",
     "nameJa": "いじげんラッシュ",
     "type": "dark",
     "category": "physical",
@@ -125,11 +125,14 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Hyperspace Fury"
+    "nameEn": "Hyperspace Fury",
+    "aliases": [
+      "다른차원러시"
+    ]
   },
   {
     "name": "Hyperspace Hole",
-    "nameKo": "다른차원홀",
+    "nameKo": "이차원홀",
     "nameJa": "いじげんホール",
     "type": "psychic",
     "category": "special",
@@ -137,7 +140,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Hyperspace Hole"
+    "nameEn": "Hyperspace Hole",
+    "aliases": [
+      "다른차원홀"
+    ]
   },
   {
     "name": "Diamond Storm",

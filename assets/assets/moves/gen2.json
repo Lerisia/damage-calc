@@ -168,7 +168,7 @@
   },
   {
     "name": "Moonlight",
-    "nameKo": "달의불빛",
+    "nameKo": "달빛",
     "nameJa": "つきのひかり",
     "type": "fairy",
     "category": "status",
@@ -176,7 +176,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Moonlight"
+    "nameEn": "Moonlight",
+    "aliases": [
+      "달의불빛"
+    ]
   },
   {
     "name": "Sweet Scent",
@@ -368,7 +371,7 @@
   },
   {
     "name": "Megahorn",
-    "nameKo": "메가폰",
+    "nameKo": "메가혼",
     "nameJa": "メガホーン",
     "type": "bug",
     "category": "physical",
@@ -376,11 +379,14 @@
     "accuracy": 85,
     "pp": 10,
     "tags": [],
-    "nameEn": "Megahorn"
+    "nameEn": "Megahorn",
+    "aliases": [
+      "메가폰"
+    ]
   },
   {
     "name": "Metal Claw",
-    "nameKo": "메탈크로우",
+    "nameKo": "메탈클로",
     "nameJa": "メタルクロー",
     "type": "steel",
     "category": "physical",
@@ -390,7 +396,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Metal Claw"
+    "nameEn": "Metal Claw",
+    "aliases": [
+      "메탈크로우"
+    ]
   },
   {
     "name": "Perish Song",
@@ -499,7 +508,7 @@
   },
   {
     "name": "Baton Pass",
-    "nameKo": "바톤터치",
+    "nameKo": "배턴터치",
     "nameJa": "バトンタッチ",
     "type": "normal",
     "category": "status",
@@ -507,7 +516,10 @@
     "accuracy": 0,
     "pp": 40,
     "tags": [],
-    "nameEn": "Baton Pass"
+    "nameEn": "Baton Pass",
+    "aliases": [
+      "바톤터치"
+    ]
   },
   {
     "name": "Vital Throw",
@@ -562,7 +574,7 @@
   },
   {
     "name": "Bone Rush",
-    "nameKo": "본러쉬",
+    "nameKo": "본러시",
     "nameJa": "ボーンラッシュ",
     "type": "ground",
     "category": "physical",
@@ -572,7 +584,10 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Bone Rush"
+    "nameEn": "Bone Rush",
+    "aliases": [
+      "본러쉬"
+    ]
   },
   {
     "name": "Rain Dance",
@@ -766,7 +781,7 @@
   },
   {
     "name": "Encore",
-    "nameKo": "앵콜",
+    "nameKo": "앙코르",
     "nameJa": "アンコール",
     "type": "normal",
     "category": "status",
@@ -774,11 +789,14 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Encore"
+    "nameEn": "Encore",
+    "aliases": [
+      "앵콜"
+    ]
   },
   {
     "name": "Icy Wind",
-    "nameKo": "얼다바람",
+    "nameKo": "얼어붙은바람",
     "nameJa": "こごえるかぜ",
     "type": "ice",
     "category": "special",
@@ -788,7 +806,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Icy Wind"
+    "nameEn": "Icy Wind",
+    "aliases": [
+      "얼다바람"
+    ]
   },
   {
     "name": "Aeroblast",
@@ -1154,7 +1175,7 @@
   },
   {
     "name": "Flame Wheel",
-    "nameKo": "화염자동차",
+    "nameKo": "화염바퀴",
     "nameJa": "かえんぐるま",
     "type": "fire",
     "category": "physical",
@@ -1164,7 +1185,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Flame Wheel"
+    "nameEn": "Flame Wheel",
+    "aliases": [
+      "화염자동차"
+    ]
   },
   {
     "name": "Frustration",

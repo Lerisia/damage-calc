@@ -1348,7 +1348,7 @@
   },
   {
     "name": "Tar Shot",
-    "nameKo": "타르숏",
+    "nameKo": "타르샷",
     "nameJa": "タールショット",
     "type": "rock",
     "category": "status",
@@ -1356,7 +1356,10 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Tar Shot"
+    "nameEn": "Tar Shot",
+    "aliases": [
+      "타르숏"
+    ]
   },
   {
     "name": "Fiery Wrath",
