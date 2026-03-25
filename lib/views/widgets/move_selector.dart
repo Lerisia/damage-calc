@@ -178,7 +178,7 @@ class _MoveSelectorState extends State<MoveSelector> {
           controller: controller,
           focusNode: focusNode,
           textInputAction: TextInputAction.done,
-          maxLength: 20,
+          maxLength: 30,
           buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
           onSubmitted: (_) {
             final results = _sortedOptions(controller.text);

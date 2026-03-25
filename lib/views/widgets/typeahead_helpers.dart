@@ -82,7 +82,7 @@ TypeAheadField<T> buildTypeAhead<T>({
         controller: controller,
         focusNode: focusNode,
         textInputAction: TextInputAction.done,
-        maxLength: 20,
+        maxLength: 30,
         buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
         decoration: decoration,
         onSubmitted: onSubmittedPick != null ? (text) {
