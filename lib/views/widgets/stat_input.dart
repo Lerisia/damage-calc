@@ -135,10 +135,6 @@ class _StatInputState extends State<StatInput> {
   List<String> _cachedSortedAbilities = [];
   List<String> _lastPokemonAbilities = [];
   int _evResetCounter = 0;
-  Stats? _prevEv;
-  Stats? _prevIv;
-  Rank? _prevRank;
-  int? _prevHpPercent;
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
   final _abilityFocusNode = FocusNode();
@@ -164,28 +160,10 @@ class _StatInputState extends State<StatInput> {
   Map<String, String> _itemNameMap = {};
 
   @override
-  @override
   void initState() {
     super.initState();
-    _prevEv = widget.ev;
-    _prevIv = widget.iv;
-    _prevRank = widget.rank;
-    _prevHpPercent = widget.hpPercent;
     _loadAbilities();
     _loadItems();
-  }
-
-  @override
-  void didUpdateWidget(covariant StatInput old) {
-    super.didUpdateWidget(old);
-    if (widget.ev != _prevEv || widget.iv != _prevIv ||
-        widget.rank != _prevRank || widget.hpPercent != _prevHpPercent) {
-      _prevEv = widget.ev;
-      _prevIv = widget.iv;
-      _prevRank = widget.rank;
-      _prevHpPercent = widget.hpPercent;
-      _evResetCounter++;
-    }
   }
 
   @override
@@ -770,7 +748,7 @@ class _StatInputState extends State<StatInput> {
             child: SizedBox(
               height: 28,
               child: TextFormField(
-                key: ValueKey('ev_${sp ? "sp" : "ev"}_$_evResetCounter'),
+                key: ValueKey('ev_$_evResetCounter'),
                 initialValue: '$displayValue',
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
