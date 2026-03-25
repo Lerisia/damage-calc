@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 export 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import '../../utils/app_strings.dart';
 
 void selectAllOnTap(TextEditingController controller) {
   // Delay is required: TypeAheadField's focus handler re-engages IME
@@ -47,9 +48,9 @@ TypeAheadField<T> buildTypeAhead<T>({
     hideOnSelect: true,
     retainOnLoading: false,
     hideOnEmpty: hideOnEmpty,
-    emptyBuilder: hideOnEmpty ? null : (context) => const Padding(
-      padding: EdgeInsets.all(12),
-      child: Text('검색 결과 없음', style: TextStyle(color: Colors.grey)),
+    emptyBuilder: hideOnEmpty ? null : (context) => Padding(
+      padding: const EdgeInsets.all(12),
+      child: Text(AppStrings.t('search.noResults'), style: const TextStyle(color: Colors.grey)),
     ),
     // Don't pass constraints — the package wraps it with a buggy Align
     // that sends the dropdown to the top of the screen on autoFlip.

@@ -453,7 +453,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 children: [
                   Expanded(
                     child: MoveSelector(
-                      key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}'),
+                      key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}_${s.pokemonName}'),
                       initialMoveName: s.moves[index]?.name,
                       displayNameOverride: (displayName != null && displayName != move?.nameKo) ? displayName : null,
                       pokemonName: s.pokemonName,
