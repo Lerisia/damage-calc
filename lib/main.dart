@@ -12,7 +12,7 @@ void main() {
   runApp(const DamageCalcApp());
 }
 
-const _fontFallback = ['NotoSansKR', 'sans-serif'];
+const _fontFallback = ['MPLUSRounded1c', 'NotoSansKR', 'sans-serif'];
 
 ThemeData _buildTheme(Brightness brightness) {
   final base = ThemeData(
