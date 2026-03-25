@@ -1026,6 +1026,10 @@ class _LevelInputState extends State<_LevelInput> {
       textAlign: TextAlign.center,
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        _ClampingFormatter(min: 1, max: 100),
+      ],
       decoration: InputDecoration(
         labelText: AppStrings.t('label.level'),
         isDense: true,

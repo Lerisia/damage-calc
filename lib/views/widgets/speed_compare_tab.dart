@@ -430,6 +430,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     final pokemonSet = state.pokemonAbilities.toSet();
     final rest = _abilityNameMap.keys
         .where((a) => !pokemonSet.contains(a) && !pokemon.contains(a))
+        .where((a) { final ko = _abilityKo(a); return ko.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3); })
         .toList();
     rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
     return [...pokemon, ...rest];

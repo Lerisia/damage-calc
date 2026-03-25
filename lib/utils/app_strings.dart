@@ -624,6 +624,61 @@ class AppStrings {
       AppLanguage.en: 'Paralyzed',
       AppLanguage.ja: 'まひ状態',
     },
+    'note.brine': {
+      AppLanguage.ko: 'HP 절반 이하',
+      AppLanguage.en: 'HP ≤ 50%',
+      AppLanguage.ja: 'HP半分以下',
+    },
+    'note.boltBeak': {
+      AppLanguage.ko: '선공',
+      AppLanguage.en: 'Moves first',
+      AppLanguage.ja: '先制',
+    },
+    'note.payback': {
+      AppLanguage.ko: '후공',
+      AppLanguage.en: 'Moves last',
+      AppLanguage.ja: '後攻',
+    },
+    'note.abilityImmune': {
+      AppLanguage.ko: '특성에 의해 무효',
+      AppLanguage.en: 'Nullified by ability',
+      AppLanguage.ja: '特性により無効',
+    },
+    'note.weatherNegate': {
+      AppLanguage.ko: '날씨 무효',
+      AppLanguage.en: 'Weather negated',
+      AppLanguage.ja: '天候無効',
+    },
+    'note.terrainNegate': {
+      AppLanguage.ko: '필드 무효',
+      AppLanguage.en: 'Terrain negated',
+      AppLanguage.ja: 'フィールド無効',
+    },
+    'note.groundImmune': {
+      AppLanguage.ko: '비접지 상태로 땅 기술 무효',
+      AppLanguage.en: 'Ungrounded: Ground immune',
+      AppLanguage.ja: '非接地: じめん技無効',
+    },
+    'note.typeImmune': {
+      AppLanguage.ko: '타입 상성에 의해 무효',
+      AppLanguage.en: 'Type immunity',
+      AppLanguage.ja: 'タイプ相性により無効',
+    },
+    'note.strongWinds': {
+      AppLanguage.ko: '난기류: 비행 약점 무효화',
+      AppLanguage.en: 'Strong Winds: Flying weakness negated',
+      AppLanguage.ja: '乱気流: ひこう弱点無効',
+    },
+    'note.harshSunWater': {
+      AppLanguage.ko: '강한 햇살: 물 기술 무효',
+      AppLanguage.en: 'Harsh Sun: Water nullified',
+      AppLanguage.ja: '強い日差し: みず技無効',
+    },
+    'note.heavyRainFire': {
+      AppLanguage.ko: '강한 비: 불꽃 기술 무효',
+      AppLanguage.en: 'Heavy Rain: Fire nullified',
+      AppLanguage.ja: '大雨: ほのお技無効',
+    },
 
     // === Status conditions ===
     'status.none': {

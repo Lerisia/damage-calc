@@ -1105,7 +1105,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       case 'ability':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
         if (parts.length >= 3) {
-          if (parts[2] == 'immune') return '$name 특성에 의해 무효';
+          if (parts[2] == 'immune') return '$name ${AppStrings.t('note.abilityImmune')}';
           final detail = parts[2];
           // If detail starts with '-', join without space (e.g. 페어리오라-오라브레이크)
           if (detail.startsWith('-')) return '$name$detail';
@@ -1117,54 +1117,57 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         if (parts.length >= 3) return '$name ${parts[2]}';
         return name;
       case 'screen':
-        const screenKo = {
-          'reflect': '리플렉터 ×0.5',
-          'light_screen': '빛의장막 ×0.5',
-          'bypass_crit': '급소: 벽 무시',
-          'bypass_infiltrator': '침투: 벽 무시',
+        final screenKeys = {
+          'reflect': 'note.reflect',
+          'light_screen': 'note.lightScreen',
+          'bypass_crit': 'note.critBypass',
+          'bypass_infiltrator': 'note.infiltrator',
         };
-        return screenKo[parts[1]] ?? note;
+        final key = screenKeys[parts[1]];
+        return key != null ? AppStrings.t(key) : note;
       case 'move':
-        const moveKo = {
-          'knock_off': '아이템 소지',
-          'hex': '상태이상',
-          'venoshock': '독 상태',
-          'brine': 'HP 절반 이하',
-          'collision': '효과 좋음',
-          'solar_halve': '비/모래/눈',
-          'grav_apple': '중력',
-          'wake_up_slap': '수면 상태',
-          'smelling_salts': '마비 상태',
-          'barb_barrage': '독 상태',
-          'bolt_beak': '선공',
-          'payback': '후공',
+        final moveKeys = {
+          'knock_off': 'note.knockOff',
+          'hex': 'note.hex',
+          'venoshock': 'note.venoshock',
+          'brine': 'note.brine',
+          'collision': 'note.collision',
+          'solar_halve': 'note.solarHalve',
+          'grav_apple': 'note.gravity',
+          'wake_up_slap': 'note.sleep',
+          'smelling_salts': 'note.paralysis',
+          'barb_barrage': 'note.venoshock',
+          'bolt_beak': 'note.boltBeak',
+          'payback': 'note.payback',
         };
         final key = parts[1];
-        final label = moveKo[key] ?? key;
+        final noteKey = moveKeys[key];
+        final label = noteKey != null ? AppStrings.t(noteKey) : key;
         if (parts.length >= 3) return '$label ${parts[2]}';
         return label;
       case 'weather_negate':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
-        return '$name: 날씨 무효';
+        return '$name: ${AppStrings.t('note.weatherNegate')}';
       case 'terrain_negate':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
-        return '$name: 필드 무효';
+        return '$name: ${AppStrings.t('note.terrainNegate')}';
       case 'moldbreaker':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
         return name;
       case 'unaware':
         return _abilityNameMap['Unaware'] ?? 'Unaware';
       case 'weather':
-        const weatherKo = {
-          'strong_winds': '난기류: 비행 약점 무효화',
-          'harsh_sun_water': '강한 햇살: 물 기술 무효',
-          'heavy_rain_fire': '강한 비: 불꽃 기술 무효',
+        final weatherKeys = {
+          'strong_winds': 'note.strongWinds',
+          'harsh_sun_water': 'note.harshSunWater',
+          'heavy_rain_fire': 'note.heavyRainFire',
         };
-        return weatherKo[parts[1]] ?? note;
+        final wKey = weatherKeys[parts[1]];
+        return wKey != null ? AppStrings.t(wKey) : note;
       case 'ground':
-        return '비접지 상태로 땅 기술 무효';
+        return AppStrings.t('note.groundImmune');
       case 'type':
-        return '타입 상성에 의해 무효';
+        return AppStrings.t('note.typeImmune');
       default:
         return note;
     }
