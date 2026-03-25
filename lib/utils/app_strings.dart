@@ -3,13 +3,32 @@
 ///
 /// No trademarked terms (Pokemon, etc.) are used.
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 enum AppLanguage { ko, en, ja }
 
 class AppStrings {
+  static const _prefKey = 'app_language';
   static AppLanguage _current = AppLanguage.ko;
 
   static AppLanguage get current => _current;
-  static void setLanguage(AppLanguage lang) => _current = lang;
+
+  static void setLanguage(AppLanguage lang) {
+    _current = lang;
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setString(_prefKey, lang.name);
+    });
+  }
+
+  /// Load saved language preference. Call once at startup.
+  static Future<void> loadSavedLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getString(_prefKey);
+    if (saved != null) {
+      _current = AppLanguage.values.where((l) => l.name == saved).firstOrNull
+          ?? AppLanguage.ko;
+    }
+  }
 
   static String get(String key) => (_strings[key]?[_current]) ?? key;
 

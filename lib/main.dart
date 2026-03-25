@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'utils/app_strings.dart';
 import 'data/abilitydex.dart';
 import 'data/itemdex.dart';
 import 'models/ability.dart';
@@ -80,6 +81,7 @@ class _AppLoaderState extends State<_AppLoader> {
   }
 
   Future<void> _preload() async {
+    await AppStrings.loadSavedLanguage();
     final results = await Future.wait([
       loadPokedex(),
       loadAllMoves(),
