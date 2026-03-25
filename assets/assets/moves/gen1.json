@@ -828,14 +828,12 @@
     "name": "Struggle",
     "nameKo": "발버둥",
     "nameJa": "わるあがき",
-    "type": "normal",
+    "type": "typeless",
     "category": "physical",
     "power": 50,
     "accuracy": 0,
     "pp": 1,
-    "tags": [
-      "custom:typeless"
-    ],
+    "tags": [],
     "nameEn": "Struggle"
   },
   {
