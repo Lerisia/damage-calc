@@ -355,9 +355,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void _showAboutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => _AboutDialog(
-        onLanguageChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); },
-      ),
+      builder: (_) => const _AboutDialog(),
     );
   }
 
@@ -1463,20 +1461,8 @@ class _LanguageButton extends StatelessWidget {
 }
 
 /// About dialog.
-class _AboutDialog extends StatefulWidget {
-  final VoidCallback onLanguageChanged;
-  const _AboutDialog({required this.onLanguageChanged});
-
-  @override
-  State<_AboutDialog> createState() => _AboutDialogState();
-}
-
-class _AboutDialogState extends State<_AboutDialog> {
-  static const _langLabels = {
-    AppLanguage.ko: '한국어',
-    AppLanguage.en: 'English',
-    AppLanguage.ja: '日本語',
-  };
+class _AboutDialog extends StatelessWidget {
+  const _AboutDialog();
 
   @override
   Widget build(BuildContext context) {
@@ -1487,27 +1473,6 @@ class _AboutDialogState extends State<_AboutDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Text('Language: ', style: TextStyle(fontSize: 13, color: Colors.grey)),
-              for (final lang in AppLanguage.values)
-                Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: ChoiceChip(
-                    label: Text(_langLabels[lang]!, style: const TextStyle(fontSize: 12)),
-                    selected: AppStrings.current == lang,
-                    onSelected: (_) {
-                      AppStrings.setLanguage(lang);
-                      setState(() {});
-                      widget.onLanguageChanged();
-                    },
-                    visualDensity: VisualDensity.compact,
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 12),
           const Text('v0.3.0-beta'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
