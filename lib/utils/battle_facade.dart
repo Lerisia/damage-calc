@@ -192,7 +192,7 @@ class BattleFacade {
         effectivePower > 0 && effectivePower < 60) {
       effectivePower = 60;
     }
-    final displayName = transformed.move.nameKo;
+    final displayName = transformed.move.localizedName;
 
     // 결정력
     final offensivePower = _calcOffensivePower(
