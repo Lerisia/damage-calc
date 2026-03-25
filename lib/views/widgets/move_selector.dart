@@ -25,6 +25,9 @@ class MoveSelector extends StatefulWidget {
 }
 
 class _MoveSelectorState extends State<MoveSelector> {
+  static List<Move>? _movesCache;
+  static Map<String, Set<String>> _learnsetCache = {};
+
   List<Move> _allMoves = [];
   List<SearchEntry<Move>> _searchEntries = [];
   Set<String> _learnableMoveIds = {};
@@ -76,11 +79,18 @@ class _MoveSelectorState extends State<MoveSelector> {
       setState(() => _learnableMoveIds = {});
       return;
     }
+    // Use cache if available for instant display
+    final cacheKey = widget.pokemonName!;
+    if (_learnsetCache.containsKey(cacheKey)) {
+      setState(() => _learnableMoveIds = _learnsetCache[cacheKey]!);
+      return;
+    }
     final moves = await getLearnableMoves(
       widget.pokemonName!,
       nameKo: widget.pokemonNameKo,
       dexNumber: widget.dexNumber,
     );
+    _learnsetCache[cacheKey] = moves;
     if (mounted) setState(() => _learnableMoveIds = moves);
   }
 
