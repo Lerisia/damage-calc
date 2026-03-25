@@ -554,20 +554,30 @@ class _SpeedNumInput extends StatefulWidget {
 
 class _SpeedNumInputState extends State<_SpeedNumInput> {
   late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: '${widget.value}');
+    _focusNode = FocusNode()..addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus) {
+      // Normalize display on blur: strip leading zeros, show current value
+      _controller.text = '${widget.value}';
+    }
   }
 
   @override
   void didUpdateWidget(_SpeedNumInput old) {
     super.didUpdateWidget(old);
     // Update text when value changes externally (button press, pokemon change)
-    // but not while the user is typing (empty text = user clearing field)
+    // but not while the user is typing (empty text or focused = user editing)
+    if (_focusNode.hasFocus) return;
     final text = _controller.text;
-    if (text.isEmpty) return; // User is clearing, don't override
+    if (text.isEmpty) return;
     final currentParsed = int.tryParse(text);
     if (currentParsed != widget.value) {
       _controller.text = '${widget.value}';
@@ -576,6 +586,8 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
 
   @override
   void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -586,6 +598,7 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
       height: widget.label != null ? null : 32,
       child: TextFormField(
         controller: _controller,
+        focusNode: _focusNode,
         keyboardType: widget.signed
             ? TextInputType.text
             : TextInputType.number,
