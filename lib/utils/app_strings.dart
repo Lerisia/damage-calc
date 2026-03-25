@@ -648,6 +648,18 @@ class AppStrings {
       AppLanguage.ja: '同速',
     },
 
+    // === Dynamax ===
+    'label.dynamax': {
+      AppLanguage.ko: '다이맥스',
+      AppLanguage.en: 'Dynamax',
+      AppLanguage.ja: 'ダイマックス',
+    },
+    'label.gigantamax': {
+      AppLanguage.ko: '거다이맥스',
+      AppLanguage.en: 'Gigantamax',
+      AppLanguage.ja: 'キョダイマックス',
+    },
+
     // === Nature ===
     'nature.neutral': {
       AppLanguage.ko: '무보정',

@@ -201,7 +201,7 @@ class _MoveSelectorState extends State<MoveSelector> {
               ),
               const SizedBox(width: 8),
               Text.rich(TextSpan(children: [
-                TextSpan(text: KoStrings.getTypeKo(move.type),
+                TextSpan(text: KoStrings.getTypeName(move.type),
                     style: TextStyle(fontSize: 12, color: learnable ? KoStrings.getTypeColor(move.type) : Colors.grey[400])),
                 TextSpan(text: ' ${KoStrings.getCategoryKo(move.category)} ${move.power}',
                     style: TextStyle(fontSize: 12, color: learnable ? Colors.grey[600] : Colors.grey[400])),

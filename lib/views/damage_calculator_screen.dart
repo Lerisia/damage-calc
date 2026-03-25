@@ -1049,9 +1049,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   String _dynamaxLabel(BattlePokemonState state) {
     switch (state.dynamax) {
       case DynamaxState.dynamax:
-        return ' (다이맥스)';
+        return ' (${AppStrings.t("label.dynamax")})';
       case DynamaxState.gigantamax:
-        return ' (거다이맥스)';
+        return ' (${AppStrings.t("label.gigantamax")})';
       default:
         return '';
     }

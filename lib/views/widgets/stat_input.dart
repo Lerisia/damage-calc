@@ -157,7 +157,7 @@ class _StatInputState extends State<StatInput> {
     if (n.spAttackModifier < 1.0) nerf = AppStrings.t('stat.spAttack');
     if (n.spDefenseModifier < 1.0) nerf = AppStrings.t('stat.spDefense');
     if (n.speedModifier < 1.0) nerf = AppStrings.t('stat.speed');
-    if (buff.isEmpty) return '$ko (무보정)';
+    if (buff.isEmpty) return '$ko (${AppStrings.t("nature.neutral")})';
     return '$ko (+$buff -$nerf)';
   }
 

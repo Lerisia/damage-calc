@@ -5,8 +5,9 @@ import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
+import 'app_strings.dart';
 
-/// Centralized Korean localization strings used across the app.
+/// Centralized localization strings used across the app.
 class KoStrings {
   KoStrings._();
 
@@ -32,6 +33,61 @@ class KoStrings {
     PokemonType.stellar: '스텔라',
     PokemonType.typeless: '-',
   };
+
+  static const Map<PokemonType, String> typeEn = {
+    PokemonType.normal: 'Normal',
+    PokemonType.fire: 'Fire',
+    PokemonType.water: 'Water',
+    PokemonType.electric: 'Electric',
+    PokemonType.grass: 'Grass',
+    PokemonType.ice: 'Ice',
+    PokemonType.fighting: 'Fighting',
+    PokemonType.poison: 'Poison',
+    PokemonType.ground: 'Ground',
+    PokemonType.flying: 'Flying',
+    PokemonType.psychic: 'Psychic',
+    PokemonType.bug: 'Bug',
+    PokemonType.rock: 'Rock',
+    PokemonType.ghost: 'Ghost',
+    PokemonType.dragon: 'Dragon',
+    PokemonType.dark: 'Dark',
+    PokemonType.steel: 'Steel',
+    PokemonType.fairy: 'Fairy',
+    PokemonType.stellar: 'Stellar',
+    PokemonType.typeless: '-',
+  };
+
+  static const Map<PokemonType, String> typeJa = {
+    PokemonType.normal: 'ノーマル',
+    PokemonType.fire: 'ほのお',
+    PokemonType.water: 'みず',
+    PokemonType.electric: 'でんき',
+    PokemonType.grass: 'くさ',
+    PokemonType.ice: 'こおり',
+    PokemonType.fighting: 'かくとう',
+    PokemonType.poison: 'どく',
+    PokemonType.ground: 'じめん',
+    PokemonType.flying: 'ひこう',
+    PokemonType.psychic: 'エスパー',
+    PokemonType.bug: 'むし',
+    PokemonType.rock: 'いわ',
+    PokemonType.ghost: 'ゴースト',
+    PokemonType.dragon: 'ドラゴン',
+    PokemonType.dark: 'あく',
+    PokemonType.steel: 'はがね',
+    PokemonType.fairy: 'フェアリー',
+    PokemonType.stellar: 'ステラ',
+    PokemonType.typeless: '-',
+  };
+
+  /// Returns localized type name based on current app language.
+  static String getTypeName(PokemonType t) {
+    return switch (AppStrings.current) {
+      AppLanguage.ko => typeKo[t] ?? t.name,
+      AppLanguage.en => typeEn[t] ?? t.name,
+      AppLanguage.ja => typeJa[t] ?? t.name,
+    };
+  }
 
   static const Map<MoveCategory, String> categoryKo = {
     MoveCategory.physical: '물리',
@@ -73,6 +129,44 @@ class KoStrings {
     Weather.strongWinds: '🌪️난기류',
   };
 
+  static const Map<Weather, String> weatherEn = {
+    Weather.none: 'None',
+    Weather.sun: 'Sun',
+    Weather.rain: 'Rain',
+    Weather.sandstorm: 'Sandstorm',
+    Weather.snow: 'Snow',
+    Weather.harshSun: 'Harsh Sun',
+    Weather.heavyRain: 'Heavy Rain',
+    Weather.strongWinds: 'Strong Winds',
+  };
+
+  static const Map<Weather, String> weatherJa = {
+    Weather.none: 'なし',
+    Weather.sun: 'はれ',
+    Weather.rain: 'あめ',
+    Weather.sandstorm: 'すなあらし',
+    Weather.snow: 'ゆき',
+    Weather.harshSun: 'おおひでり',
+    Weather.heavyRain: 'おおあめ',
+    Weather.strongWinds: 'らんきりゅう',
+  };
+
+  /// Returns localized weather name based on current app language.
+  static String getWeatherName(Weather w) {
+    return switch (AppStrings.current) {
+      AppLanguage.ko => weatherKo[w] ?? w.name,
+      AppLanguage.en => weatherEn[w] ?? w.name,
+      AppLanguage.ja => weatherJa[w] ?? w.name,
+    };
+  }
+
+  /// Returns localized weather name with icon prefix based on current app language.
+  static String getWeatherNameWithIcon(Weather w) {
+    if (w == Weather.none) return '';
+    final icon = weatherIcon[w] ?? '';
+    return '$icon${getWeatherName(w)}';
+  }
+
   static const Map<Terrain, String> terrainKo = {
     Terrain.none: '없음',
     Terrain.electric: '일렉트릭필드',
@@ -98,6 +192,38 @@ class KoStrings {
     Terrain.misty: '🌫️미스트필드',
   };
 
+  static const Map<Terrain, String> terrainEn = {
+    Terrain.none: 'None',
+    Terrain.electric: 'Electric Terrain',
+    Terrain.grassy: 'Grassy Terrain',
+    Terrain.psychic: 'Psychic Terrain',
+    Terrain.misty: 'Misty Terrain',
+  };
+
+  static const Map<Terrain, String> terrainJa = {
+    Terrain.none: 'なし',
+    Terrain.electric: 'エレキフィールド',
+    Terrain.grassy: 'グラスフィールド',
+    Terrain.psychic: 'サイコフィールド',
+    Terrain.misty: 'ミストフィールド',
+  };
+
+  /// Returns localized terrain name based on current app language.
+  static String getTerrainName(Terrain t) {
+    return switch (AppStrings.current) {
+      AppLanguage.ko => terrainKo[t] ?? t.name,
+      AppLanguage.en => terrainEn[t] ?? t.name,
+      AppLanguage.ja => terrainJa[t] ?? t.name,
+    };
+  }
+
+  /// Returns localized terrain name with icon prefix based on current app language.
+  static String getTerrainNameWithIcon(Terrain t) {
+    if (t == Terrain.none) return '';
+    final icon = terrainIcon[t] ?? '';
+    return '$icon${getTerrainName(t)}';
+  }
+
   static const Map<Room, String> roomKo = {
     Room.none: '없음',
     Room.trickRoom: '트릭룸',
@@ -120,6 +246,38 @@ class KoStrings {
     Room.wonderRoom: '❓원더룸',
   };
 
+  static const Map<Room, String> roomEn = {
+    Room.none: 'None',
+    Room.trickRoom: 'Trick Room',
+    Room.magicRoom: 'Magic Room',
+    Room.wonderRoom: 'Wonder Room',
+  };
+
+  static const Map<Room, String> roomJa = {
+    Room.none: 'なし',
+    Room.trickRoom: 'トリックルーム',
+    Room.magicRoom: 'マジックルーム',
+    Room.wonderRoom: 'ワンダールーム',
+  };
+
+  /// Returns localized room name based on current app language.
+  static String getRoomName(Room r) {
+    return switch (AppStrings.current) {
+      AppLanguage.ko => roomKo[r] ?? r.name,
+      AppLanguage.en => roomEn[r] ?? r.name,
+      AppLanguage.ja => roomJa[r] ?? r.name,
+    };
+  }
+
+  /// Gravity localized name.
+  static String get gravityName {
+    return switch (AppStrings.current) {
+      AppLanguage.ko => '중력',
+      AppLanguage.en => 'Gravity',
+      AppLanguage.ja => 'じゅうりょく',
+    };
+  }
+
   static const Map<StatusCondition, String> statusKo = {
     StatusCondition.none: '없음',
     StatusCondition.burn: '화상',
@@ -141,6 +299,7 @@ class KoStrings {
   };
 
   /// Helper to get a type's Korean name with fallback.
+  @Deprecated('Use getTypeName instead')
   static String getTypeKo(PokemonType t) => typeKo[t] ?? t.name;
 
   /// Helper to get a category's Korean name.

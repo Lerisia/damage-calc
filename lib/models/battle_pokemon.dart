@@ -1,3 +1,4 @@
+import '../utils/app_strings.dart';
 import 'dynamax.dart';
 import 'gender.dart';
 import 'pokemon.dart';
@@ -13,7 +14,13 @@ import 'type.dart';
 class BattlePokemonState {
   String pokemonName;
   String pokemonNameKo;
+  String pokemonNameJa;
+  String? pokemonNameEn;
   int dexNumber;
+
+  String get localizedPokemonName => AppStrings.name(
+    nameKo: pokemonNameKo, nameEn: pokemonNameEn, nameJa: pokemonNameJa, name: pokemonName);
+
   bool finalEvo;
   Gender gender;
   int genderRate;
@@ -53,6 +60,8 @@ class BattlePokemonState {
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
     this.pokemonNameKo = '이상해씨',
+    this.pokemonNameJa = 'フシギダネ',
+    this.pokemonNameEn,
     this.dexNumber = 1,
     this.finalEvo = false,
     this.gender = Gender.unset,
@@ -106,6 +115,8 @@ class BattlePokemonState {
   Map<String, dynamic> toJson() => {
     'pokemonName': pokemonName,
     'pokemonNameKo': pokemonNameKo,
+    'pokemonNameJa': pokemonNameJa,
+    'pokemonNameEn': pokemonNameEn,
     'dexNumber': dexNumber,
     'finalEvo': finalEvo,
     'gender': gender.name,
@@ -145,6 +156,8 @@ class BattlePokemonState {
     return BattlePokemonState(
       pokemonName: json['pokemonName'] as String,
       pokemonNameKo: json['pokemonNameKo'] as String,
+      pokemonNameJa: json['pokemonNameJa'] as String? ?? '',
+      pokemonNameEn: json['pokemonNameEn'] as String?,
       dexNumber: json['dexNumber'] as int? ?? 1,
       finalEvo: json['finalEvo'] as bool? ?? false,
       gender: Gender.values.byName(json['gender'] as String),
@@ -191,6 +204,8 @@ class BattlePokemonState {
   void reset() {
     pokemonName = 'bulbasaur';
     pokemonNameKo = '이상해씨';
+    pokemonNameJa = 'フシギダネ';
+    pokemonNameEn = null;
     dexNumber = 1;
     finalEvo = false;
     gender = Gender.unset;
@@ -236,6 +251,8 @@ class BattlePokemonState {
   void applyPokemon(Pokemon pokemon) {
     pokemonName = pokemon.name;
     pokemonNameKo = pokemon.nameKo;
+    pokemonNameJa = pokemon.nameJa;
+    pokemonNameEn = pokemon.nameEn;
     dexNumber = pokemon.dexNumber;
     finalEvo = pokemon.finalEvo;
     canDynamax = pokemon.canDynamax;

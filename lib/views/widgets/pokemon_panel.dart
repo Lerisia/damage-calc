@@ -333,12 +333,12 @@ class PokemonPanelState extends State<PokemonPanel>
   Widget _captureHeader() {
     final label = widget.label;
     final conditions = <String>[];
-    if (widget.weather != Weather.none) conditions.add(KoStrings.weatherKoWithIcon[widget.weather]!);
-    if (widget.terrain != Terrain.none) conditions.add(KoStrings.terrainKoWithIcon[widget.terrain]!);
-    if (widget.room.trickRoom) conditions.add('🔄트릭룸');
-    if (widget.room.magicRoom) conditions.add('✨매직룸');
-    if (widget.room.wonderRoom) conditions.add('❓원더룸');
-    if (widget.room.gravity) conditions.add('🌀중력');
+    if (widget.weather != Weather.none) conditions.add(KoStrings.getWeatherNameWithIcon(widget.weather));
+    if (widget.terrain != Terrain.none) conditions.add(KoStrings.getTerrainNameWithIcon(widget.terrain));
+    if (widget.room.trickRoom) conditions.add('🔄${KoStrings.getRoomName(Room.trickRoom)}');
+    if (widget.room.magicRoom) conditions.add('✨${KoStrings.getRoomName(Room.magicRoom)}');
+    if (widget.room.wonderRoom) conditions.add('❓${KoStrings.getRoomName(Room.wonderRoom)}');
+    if (widget.room.gravity) conditions.add('🌀${KoStrings.gravityName}');
 
     if (label.isEmpty && conditions.isEmpty && widget.onSave == null) return const SizedBox.shrink();
 
@@ -513,7 +513,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       initialValue: effectiveType,
                       padding: EdgeInsets.zero,
                       child: Text(
-                        KoStrings.getTypeKo(effectiveType),
+                        KoStrings.getTypeName(effectiveType),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 12,
@@ -521,7 +521,7 @@ class PokemonPanelState extends State<PokemonPanel>
                         ),
                       ),
                       itemBuilder: (_) => PokemonType.values
-                          .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeKo(t), style: const TextStyle(fontSize: 12))))
+                          .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeName(t), style: const TextStyle(fontSize: 12))))
                           .toList(),
                       onSelected: (t) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); },
                     )
@@ -658,7 +658,7 @@ class PokemonPanelState extends State<PokemonPanel>
         border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
       ),
       child: Text(
-        KoStrings.getTypeKo(type),
+        KoStrings.getTypeName(type),
         style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
@@ -761,6 +761,8 @@ class PokemonPanelState extends State<PokemonPanel>
     setState(() {
       s.pokemonName = target.name;
       s.pokemonNameKo = target.nameKo;
+      s.pokemonNameJa = target.nameJa;
+      s.pokemonNameEn = target.nameEn;
       s.type1 = target.type1;
       s.type2 = target.type2;
       s.weight = target.weight;
@@ -836,8 +838,8 @@ class PokemonPanelState extends State<PokemonPanel>
       builder: (ctx) => SimpleDialog(
         title: Text(AppStrings.t('label.terastal')),
         children: PokemonType.values.map((t) {
-          final ko = KoStrings.typeKo[t];
-          if (ko == null) return const SizedBox.shrink();
+          final name = KoStrings.typeEn[t]; // use typeEn to check if valid type
+          if (name == null) return const SizedBox.shrink();
           return SimpleDialogOption(
             onPressed: () {
               setState(() {
@@ -847,7 +849,7 @@ class PokemonPanelState extends State<PokemonPanel>
               _notifyParent();
               Navigator.pop(ctx);
             },
-            child: Text(ko),
+            child: Text(KoStrings.getTypeName(t)),
           );
         }).toList()
           ..insert(0, SimpleDialogOption(
