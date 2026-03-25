@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'data/abilitydex.dart';
 import 'data/itemdex.dart';
+import 'models/item.dart';
 import 'data/movedex.dart';
 import 'data/pokedex.dart';
 import 'views/damage_calculator_screen.dart';
@@ -92,10 +93,12 @@ class _AppLoaderState extends State<_AppLoader> {
       aMap[e.name as String] = e.nameKo as String;
     }
 
-    final items = results[3] as Map<String, dynamic>;
+    final items = results[3] as Map<String, Item>;
     final iMap = <String, String>{};
     for (final e in items.values) {
-      iMap[e.name as String] = e.nameKo as String;
+      if (e.battle) {
+        iMap[e.name] = e.nameKo;
+      }
     }
 
     if (mounted) {

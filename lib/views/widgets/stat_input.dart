@@ -133,6 +133,10 @@ class _StatInputState extends State<StatInput> {
   List<String> _cachedSortedAbilities = [];
   List<String> _lastPokemonAbilities = [];
   int _evResetCounter = 0;
+  Stats? _prevEv;
+  Stats? _prevIv;
+  Rank? _prevRank;
+  int? _prevHpPercent;
   Timer? _debounceTimer;
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
@@ -173,8 +177,25 @@ class _StatInputState extends State<StatInput> {
   @override
   void initState() {
     super.initState();
+    _prevEv = widget.ev;
+    _prevIv = widget.iv;
+    _prevRank = widget.rank;
+    _prevHpPercent = widget.hpPercent;
     _loadAbilities();
     _loadItems();
+  }
+
+  @override
+  void didUpdateWidget(covariant StatInput old) {
+    super.didUpdateWidget(old);
+    if (widget.ev != _prevEv || widget.iv != _prevIv ||
+        widget.rank != _prevRank || widget.hpPercent != _prevHpPercent) {
+      _prevEv = widget.ev;
+      _prevIv = widget.iv;
+      _prevRank = widget.rank;
+      _prevHpPercent = widget.hpPercent;
+      _evResetCounter++;
+    }
   }
 
   @override
@@ -362,13 +383,31 @@ class _StatInputState extends State<StatInput> {
           children: [
             Expanded(
               flex: 3,
-              child: DropdownButtonFormField<Nature>(
-                value: widget.nature,
-                isExpanded: true,
-                menuMaxHeight: 300,
-                decoration: const InputDecoration(labelText: '성격', isDense: true),
-                items: _natureDropdownItems,
-                onChanged: (v) => widget.onNatureChanged(v!),
+              child: PopupMenuButton<Nature>(
+                initialValue: widget.nature,
+                tooltip: '성격',
+                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                constraints: const BoxConstraints(maxHeight: 300),
+                child: InputDecorator(
+                  decoration: const InputDecoration(labelText: '성격', isDense: true),
+                  child: Text(
+                    _natureLabelStatic(widget.nature),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                ),
+                itemBuilder: (_) => sortedNatures
+                    .map((n) => PopupMenuItem(
+                          value: n,
+                          child: Text(
+                            _natureLabelStatic(n),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ))
+                    .toList(),
+                onSelected: (v) => widget.onNatureChanged(v),
               ),
             ),
             const SizedBox(width: 8),
