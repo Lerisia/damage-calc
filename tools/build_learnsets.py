@@ -99,6 +99,8 @@ def parse_ts_object(ts_text: str) -> dict:
 
 def _normalize_id(name: str) -> str:
     """Convert a Pokemon display name to Showdown ID."""
+    # First decode any TS unicode escapes like \u2019
+    name = re.sub(r'\\u([0-9a-fA-F]{4})', lambda m: chr(int(m.group(1), 16)), name)
     return re.sub(r'[^a-z0-9]', '', name.lower())
 
 
