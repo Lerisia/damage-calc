@@ -9,6 +9,7 @@
     "accuracy": 95,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "V-create"
@@ -62,7 +63,9 @@
     "power": 50,
     "accuracy": 85,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Gear Grind"
@@ -139,6 +142,7 @@
     "accuracy": 85,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Bolt Strike"
@@ -153,6 +157,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Flame Charge"
@@ -178,7 +183,9 @@
     "power": 40,
     "accuracy": 90,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Dual Chop"
@@ -219,7 +226,9 @@
     "accuracy": 90,
     "pp": 10,
     "priority": -6,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Dragon Tail"
   },
   {
@@ -231,7 +240,9 @@
     "power": 80,
     "accuracy": 95,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Drill Run"
   },
   {
@@ -285,6 +296,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Low Sweep"
@@ -386,7 +398,9 @@
     "accuracy": 90,
     "pp": 10,
     "priority": -6,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Circle Throw"
   },
   {
@@ -587,6 +601,7 @@
     "accuracy": 95,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary",
       "slice"
     ],
@@ -602,6 +617,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:use_opponent_atk"
     ],
     "nameEn": "Foul Play"
@@ -639,7 +655,9 @@
     "power": 25,
     "accuracy": 85,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Tail Slap"
@@ -693,6 +711,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "recoil"
     ],
     "nameEn": "Head Charge"
@@ -722,6 +741,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:double_no_item"
     ],
     "nameEn": "Acrobatics"
@@ -797,6 +817,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:always_crit"
     ],
     "nameEn": "Storm Throw"
@@ -909,7 +930,9 @@
     "power": 75,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Horn Leech",
     "aliases": [
       "우드호른"
@@ -936,7 +959,9 @@
     "power": 70,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Retaliate"
   },
   {
@@ -1106,7 +1131,8 @@
     "accuracy": 70,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "wind"
     ],
     "nameEn": "Hurricane"
   },
@@ -1159,7 +1185,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Sky Drop"
   },
   {
@@ -1172,6 +1200,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Steamroller"
@@ -1186,6 +1215,7 @@
     "accuracy": 100,
     "pp": 25,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Heart Stamp"

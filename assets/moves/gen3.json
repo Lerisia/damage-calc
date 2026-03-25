@@ -36,6 +36,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:facade"
     ],
     "nameEn": "Facade"
@@ -75,7 +76,9 @@
     "power": 0,
     "accuracy": 85,
     "pp": 40,
-    "tags": [],
+    "tags": [
+      "sound"
+    ],
     "nameEn": "Metal Sound"
   },
   {
@@ -118,7 +121,9 @@
     "power": 75,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Brick Break",
     "aliases": [
       "깨트리다"
@@ -171,6 +176,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Astonish"
@@ -184,7 +190,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Dive"
   },
   {
@@ -234,6 +242,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary",
       "bite"
     ],
@@ -270,7 +279,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary",
-      "custom:disabled_by_gravity"
+      "custom:disabled_by_gravity",
+      "contact"
     ],
     "nameEn": "Bounce",
     "aliases": [
@@ -323,7 +333,9 @@
     "accuracy": 100,
     "pp": 10,
     "priority": -4,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Revenge"
   },
   {
@@ -406,7 +418,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 40,
-    "tags": [],
+    "tags": [
+      "sound"
+    ],
     "nameEn": "Howl",
     "aliases": [
       "멀리짖음"
@@ -505,6 +519,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Needle Arm"
@@ -555,6 +570,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary",
       "recoil"
     ],
@@ -608,6 +624,7 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Blaze Kick",
@@ -625,6 +642,7 @@
     "accuracy": 95,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Crush Claw",
@@ -721,6 +739,7 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Shadow Punch"
@@ -749,6 +768,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "priority": 3,
@@ -766,7 +786,9 @@
     "power": 15,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Arm Thrust"
@@ -781,6 +803,7 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Sky Uppercut",
@@ -865,6 +888,7 @@
     "accuracy": 90,
     "pp": 20,
     "tags": [
+      "contact",
       "ball"
     ],
     "nameEn": "Ice Ball"
@@ -893,6 +917,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Superpower"
@@ -907,7 +932,8 @@
     "accuracy": 95,
     "pp": 25,
     "tags": [
-      "slice"
+      "slice",
+      "wind"
     ],
     "nameEn": "Air Cutter",
     "aliases": [
@@ -936,7 +962,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "wind"
     ],
     "nameEn": "Heat Wave"
   },
@@ -1054,6 +1081,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:double_on_paralysis"
     ],
     "nameEn": "Smelling Salts"
@@ -1068,6 +1096,7 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Aerial Ace"
@@ -1093,7 +1122,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Endeavor"
   },
   {
@@ -1142,6 +1173,7 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
+      "contact",
       "punch",
       "custom:has_secondary"
     ],
@@ -1197,7 +1229,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 25,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Covet",
     "aliases": [
       "탐내다"
@@ -1276,6 +1310,7 @@
     "accuracy": 100,
     "pp": 25,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Poison Tail"
@@ -1289,7 +1324,9 @@
     "power": 0,
     "accuracy": 55,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "sound"
+    ],
     "nameEn": "Grass Whistle"
   },
   {
@@ -1406,7 +1443,8 @@
     "pp": 20,
     "priority": -3,
     "tags": [
-      "punch"
+      "punch",
+      "contact"
     ],
     "nameEn": "Focus Punch"
   }

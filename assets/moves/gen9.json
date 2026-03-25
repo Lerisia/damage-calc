@@ -22,7 +22,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Aqua Step"
   },
   {
@@ -46,7 +48,9 @@
     "power": 120,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Axe Kick"
   },
   {
@@ -59,6 +63,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Bitter Blade"
@@ -121,6 +126,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:se_boost"
     ],
     "nameEn": "Collision Course"
@@ -146,7 +152,9 @@
     "power": 1,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Comeuppance"
   },
   {
@@ -170,7 +178,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Double Shock"
   },
   {
@@ -183,6 +193,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:se_boost"
     ],
     "nameEn": "Electro Drift"
@@ -234,7 +245,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Glaive Rush"
   },
   {
@@ -246,7 +259,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Hyper Drill"
   },
   {
@@ -258,7 +273,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Ice Spinner"
   },
   {
@@ -284,6 +301,7 @@
     "pp": 15,
     "priority": 1,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Jet Punch"
@@ -298,6 +316,7 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Kowtow Cleave"
@@ -371,7 +390,9 @@
     "power": 30,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Mortal Spin"
   },
   {
@@ -408,6 +429,7 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
+      "contact",
       "slice"
     ],
     "minHits": 1,
@@ -423,7 +445,9 @@
     "power": 50,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Pounce"
   },
   {
@@ -436,6 +460,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Rage Fist"
@@ -449,7 +474,9 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Raging Bull"
   },
   {
@@ -548,7 +575,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Spin Out"
   },
   {
@@ -613,7 +642,9 @@
     "power": 50,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Trailblaze"
   },
   {
@@ -625,7 +656,9 @@
     "power": 30,
     "accuracy": 95,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "minHits": 1,
     "maxHits": 3,
     "nameEn": "Triple Dive"
@@ -666,7 +699,9 @@
     "accuracy": 100,
     "pp": 15,
     "priority": 1,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Upper Hand"
   },
   {
@@ -731,6 +766,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Psyblade"
@@ -744,7 +780,9 @@
     "power": 100,
     "accuracy": 95,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Supercell Slam"
   },
   {
@@ -768,7 +806,9 @@
     "power": 75,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Temper Flare"
   },
   {
@@ -832,6 +872,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Mighty Cleave"
@@ -846,6 +887,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:power_target_hp_100"
     ],
     "nameEn": "Hard Press"

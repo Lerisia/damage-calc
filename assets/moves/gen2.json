@@ -9,6 +9,7 @@
     "accuracy": 90,
     "pp": 25,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Steel Wing"
@@ -59,6 +60,7 @@
     "accuracy": 100,
     "pp": 40,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Rapid Spin"
@@ -84,7 +86,9 @@
     "power": 30,
     "accuracy": 90,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Rollout"
   },
   {
@@ -109,6 +113,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:hp_power_low"
     ],
     "nameEn": "Reversal"
@@ -135,6 +140,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "bite",
       "custom:has_secondary"
     ],
@@ -217,7 +223,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 25,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Thief"
   },
   {
@@ -229,7 +237,9 @@
     "power": 40,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Pursuit"
   },
   {
@@ -266,6 +276,7 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
+      "contact",
       "punch"
     ],
     "priority": 1,
@@ -378,7 +389,9 @@
     "power": 120,
     "accuracy": 85,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Megahorn",
     "aliases": [
       "메가폰"
@@ -394,6 +407,7 @@
     "accuracy": 95,
     "pp": 35,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Metal Claw",
@@ -410,7 +424,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "sound"
+    ],
     "nameEn": "Perish Song"
   },
   {
@@ -422,7 +438,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "wind"
+    ],
     "nameEn": "Sandstorm"
   },
   {
@@ -488,6 +506,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:hp_power_low"
     ],
     "nameEn": "Flail"
@@ -502,6 +521,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Rock Smash"
@@ -531,7 +551,9 @@
     "accuracy": 0,
     "pp": 10,
     "priority": -1,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Vital Throw"
   },
   {
@@ -651,7 +673,9 @@
     "power": 60,
     "accuracy": 0,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Feint Attack"
   },
   {
@@ -676,6 +700,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Spark"
@@ -702,7 +727,9 @@
     "accuracy": 100,
     "pp": 5,
     "priority": 2,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Extreme Speed"
   },
   {
@@ -715,6 +742,7 @@
     "accuracy": 75,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Iron Tail"
@@ -804,7 +832,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "wind"
     ],
     "nameEn": "Icy Wind",
     "aliases": [
@@ -820,7 +849,9 @@
     "power": 100,
     "accuracy": 95,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "wind"
+    ],
     "nameEn": "Aeroblast"
   },
   {
@@ -832,7 +863,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Outrage"
   },
   {
@@ -845,6 +878,7 @@
     "accuracy": 95,
     "pp": 20,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Fury Cutter"
@@ -925,7 +959,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Return"
   },
   {
@@ -1038,7 +1074,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "sound"
+    ],
     "nameEn": "Heal Bell"
   },
   {
@@ -1050,7 +1088,9 @@
     "power": 40,
     "accuracy": 100,
     "pp": 40,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "False Swipe"
   },
   {
@@ -1089,7 +1129,9 @@
     "power": 100,
     "accuracy": 80,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Cross Chop"
   },
   {
@@ -1144,6 +1186,7 @@
     "accuracy": 50,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:has_secondary",
       "punch"
     ],
@@ -1183,6 +1226,7 @@
     "accuracy": 100,
     "pp": 25,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Flame Wheel",
@@ -1199,7 +1243,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Frustration"
   },
   {
@@ -1212,7 +1258,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "wind"
     ],
     "nameEn": "Twister"
   }

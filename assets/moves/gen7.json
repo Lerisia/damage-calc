@@ -21,7 +21,9 @@
     "power": 95,
     "accuracy": 95,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "High Horsepower"
   },
   {
@@ -61,6 +63,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:rank_power"
     ],
     "nameEn": "Power Trip"
@@ -176,6 +179,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:has_secondary",
       "punch"
     ],
@@ -193,6 +197,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Lunge"
@@ -219,6 +224,7 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Floaty Fall"
@@ -232,7 +238,9 @@
     "power": 90,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Dragon Hammer"
   },
   {
@@ -351,7 +359,9 @@
     "accuracy": 100,
     "pp": 10,
     "priority": 2,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "First Impression"
   },
   {
@@ -389,7 +399,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Multi-Attack"
   },
   {
@@ -402,6 +414,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:ignore_ability"
     ],
     "nameEn": "Sunsteel Strike"
@@ -519,7 +532,9 @@
     "power": 75,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Stomping Tantrum"
   },
   {
@@ -532,6 +547,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Fire Lash"
@@ -573,7 +589,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Veevee Volley"
   },
   {
@@ -638,6 +656,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "bite"
     ],
     "nameEn": "Psychic Fangs"
@@ -703,7 +722,9 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Spectral Thief"
   },
   {
@@ -729,7 +750,9 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Searing Sunraze Smash"
   },
   {
@@ -741,7 +764,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Brutal Swing"
   },
   {
@@ -754,6 +779,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "slice",
       "custom:solar_halve"
     ],
@@ -794,7 +820,9 @@
     "power": 70,
     "accuracy": 0,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Smart Strike",
     "aliases": [
       "스마트호른"
@@ -904,6 +932,7 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
+      "contact",
       "punch",
       "custom:has_secondary"
     ],
@@ -919,6 +948,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Liquidation"
@@ -972,7 +1002,9 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 2,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Accelerock"
   },
   {
@@ -984,7 +1016,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Anchor Shot",
     "aliases": [
       "앵커숏"
@@ -1127,6 +1161,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Sizzly Slide"
@@ -1231,6 +1266,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Throat Chop"
@@ -1257,7 +1293,9 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Pulverizing Pancake"
   },
   {
@@ -1270,6 +1308,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Zing Zap"
@@ -1338,7 +1377,9 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Soul-Stealing 7-Star Strike"
   },
   {
@@ -1388,7 +1429,9 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Let’s Snuggle Forever"
   },
   {
@@ -1413,6 +1456,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Trop Kick"
@@ -1453,6 +1497,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:always_crit",
       "custom:has_secondary"
     ],
@@ -1495,6 +1540,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Plasma Fists"
@@ -1547,7 +1593,9 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Catastropika"
   },
   {
@@ -1573,7 +1621,9 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Malicious Moonsault"
   },
   {

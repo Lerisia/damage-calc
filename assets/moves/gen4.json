@@ -97,7 +97,9 @@
     "power": 150,
     "accuracy": 90,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Giga Impact"
   },
   {
@@ -110,7 +112,9 @@
     "accuracy": 100,
     "pp": 5,
     "priority": 1,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Sucker Punch"
   },
   {
@@ -138,6 +142,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "slice"
     ],
     "nameEn": "Night Slash"
@@ -188,7 +193,9 @@
     "accuracy": 100,
     "pp": 10,
     "priority": -4,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Avalanche"
   },
   {
@@ -226,7 +233,9 @@
     "power": 35,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Double Hit"
@@ -267,6 +276,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Poison Jab"
@@ -280,7 +290,9 @@
     "power": 140,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Last Resort",
     "aliases": [
       "뒀다쓰기"
@@ -296,6 +308,7 @@
     "accuracy": 75,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Dragon Rush"
@@ -310,6 +323,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Drain Punch"
@@ -324,6 +338,7 @@
     "accuracy": 85,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Rock Climb",
@@ -408,7 +423,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Trump Card"
   },
   {
@@ -434,6 +451,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:power_target_hp_120"
     ],
     "nameEn": "Crush Grip"
@@ -489,6 +507,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Force Palm"
@@ -529,6 +548,7 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
+      "contact",
       "bite",
       "custom:has_secondary"
     ],
@@ -543,7 +563,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Bug Bite",
     "aliases": [
       "벌레먹음"
@@ -573,7 +595,9 @@
     "power": 50,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Payback"
   },
   {
@@ -600,6 +624,7 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
+      "contact",
       "bite",
       "custom:has_secondary"
     ],
@@ -616,6 +641,7 @@
     "pp": 30,
     "priority": 1,
     "tags": [
+      "contact",
       "punch"
     ],
     "nameEn": "Bullet Punch"
@@ -645,6 +671,7 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [
+      "contact",
       "custom:has_secondary"
     ],
     "nameEn": "Zen Headbutt"
@@ -684,7 +711,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Shadow Force"
   },
   {
@@ -754,7 +783,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "wind"
+    ],
     "nameEn": "Tailwind"
   },
   {
@@ -790,7 +821,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Assurance"
   },
   {
@@ -897,7 +930,9 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 1,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Aqua Jet"
   },
   {
@@ -909,7 +944,9 @@
     "power": 90,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Aqua Tail"
   },
   {
@@ -963,6 +1000,7 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
+      "contact",
       "punch",
       "custom:has_secondary"
     ],
@@ -978,7 +1016,9 @@
     "accuracy": 100,
     "pp": 30,
     "priority": 1,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Shadow Sneak"
   },
   {
@@ -991,6 +1031,7 @@
     "accuracy": 80,
     "pp": 5,
     "tags": [
+      "contact",
       "recoil"
     ],
     "nameEn": "Head Smash"
@@ -1018,6 +1059,7 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
+      "contact",
       "bite",
       "custom:has_secondary"
     ],
@@ -1091,6 +1133,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
+      "contact",
       "recoil"
     ],
     "nameEn": "Wood Hammer"
@@ -1116,7 +1159,9 @@
     "power": 70,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "U-turn"
   },
   {
@@ -1184,6 +1229,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
+      "contact",
       "custom:double_on_sleep"
     ],
     "nameEn": "Wake-Up Slap"
@@ -1234,6 +1280,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
+      "contact",
       "custom:power_target_hp_120"
     ],
     "nameEn": "Wring Out"
@@ -1275,7 +1322,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Pluck"
   },
   {
@@ -1326,6 +1375,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "slice",
       "custom:has_secondary"
     ],
@@ -1407,7 +1457,9 @@
     "power": 120,
     "accuracy": 85,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Power Whip"
   },
   {
@@ -1433,6 +1485,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
+      "contact",
       "custom:weight_based",
       "custom:weight_target"
     ],
@@ -1478,7 +1531,9 @@
     "power": 0,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "contact"
+    ],
     "nameEn": "Punishment"
   },
   {
