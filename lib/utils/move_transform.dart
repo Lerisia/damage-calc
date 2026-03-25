@@ -558,27 +558,9 @@ Move _applyTerrainPowerBoost(Move move, Terrain terrain, {
     return move.copyWith(power: (move.power * 1.5).floor());
   }
 
-  // General terrain power modifiers (same as getTerrainModifier)
-  double mod = 1.0;
-  switch (terrain) {
-    case Terrain.electric:
-      if (attackerGrounded && move.type == PokemonType.electric) mod = 1.3;
-    case Terrain.grassy:
-      if (defenderGrounded && move.hasTag(MoveTags.grassyHalve)) {
-        mod = 0.5;
-      } else if (attackerGrounded && move.type == PokemonType.grass) {
-        mod = 1.3;
-      }
-    case Terrain.psychic:
-      if (attackerGrounded && move.type == PokemonType.psychic) mod = 1.3;
-    case Terrain.misty:
-      if (defenderGrounded && move.type == PokemonType.dragon) mod = 0.5;
-    default:
-      break;
-  }
-  if (mod != 1.0) {
-    return move.copyWith(power: (move.power * mod).floor());
-  }
+  // General terrain power modifiers (1.3x boost, 0.5x reduction) are NOT
+  // applied here — they don't change the move's base power, only affect
+  // damage calculation. Applied in offensive_calculator and damage_calculator.
   return move;
 }
 

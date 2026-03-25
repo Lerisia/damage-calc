@@ -426,18 +426,16 @@ void main() {
         type: PokemonType.dragon, category: MoveCategory.special,
         power: 85, accuracy: 100, pp: 10,
       );
-      // SpA = 85, power = 85, misty 0.5x -> floor(85 * floor(85*0.5)) = floor(85*42) = 3570
+      // SpA = 85, power = 85, misty 0.5x -> floor(85*85*0.5) = 3612
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: Nature.hardy, level: 50,
-        transformed: _transform(dragonPulse, const MoveContext(
-          terrain: Terrain.misty, defenderGrounded: true,
-        )),
+        transformed: _transform(dragonPulse),
         type1: PokemonType.grass, type2: PokemonType.poison,
         terrain: Terrain.misty,
         grounded: true,
       );
-      expect(result, equals(3570));
+      expect(result, equals(3612));
     });
   });
 

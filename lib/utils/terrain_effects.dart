@@ -1,5 +1,7 @@
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/terrain.dart';
+import '../models/type.dart';
 
 /// Maps abilities that auto-set terrain when sent out.
 const abilityTerrainMap = <String, Terrain>{
@@ -28,13 +30,24 @@ Terrain effectiveTerrain(Terrain terrain, {String? abilityA, String? abilityB}) 
 /// Returns the power modifier for the given [terrain] and [move].
 ///
 /// [attackerGrounded]: Electric/Grassy/Psychic boosts apply when attacker is grounded.
-/// [defenderGrounded]: Misty Terrain Dragon 0.5x applies when defender is grounded.
-/// Terrain power modifiers are now applied in transformMove for unified display.
-/// This function always returns 1.0.
+/// [defenderGrounded]: Misty/Grassy reductions apply when defender is grounded.
 double getTerrainModifier(Terrain terrain, {
   required Move move,
   bool attackerGrounded = true,
   bool defenderGrounded = true,
 }) {
+  switch (terrain) {
+    case Terrain.electric:
+      if (attackerGrounded && move.type == PokemonType.electric) return 1.3;
+    case Terrain.grassy:
+      if (defenderGrounded && move.hasTag(MoveTags.grassyHalve)) return 0.5;
+      if (attackerGrounded && move.type == PokemonType.grass) return 1.3;
+    case Terrain.psychic:
+      if (attackerGrounded && move.type == PokemonType.psychic) return 1.3;
+    case Terrain.misty:
+      if (defenderGrounded && move.type == PokemonType.dragon) return 0.5;
+    default:
+      break;
+  }
   return 1.0;
 }
