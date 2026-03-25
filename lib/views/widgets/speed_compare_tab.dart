@@ -565,8 +565,10 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
   void didUpdateWidget(_SpeedNumInput old) {
     super.didUpdateWidget(old);
     // Update text when value changes externally (button press, pokemon change)
-    // but not while the user is typing (controller text would differ)
-    final currentParsed = int.tryParse(_controller.text);
+    // but not while the user is typing (empty text = user clearing field)
+    final text = _controller.text;
+    if (text.isEmpty) return; // User is clearing, don't override
+    final currentParsed = int.tryParse(text);
     if (currentParsed != widget.value) {
       _controller.text = '${widget.value}';
     }
@@ -599,8 +601,6 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
           final parsed = int.tryParse(text);
           if (parsed != null) {
             widget.onChanged(parsed.clamp(widget.min, widget.max));
-          } else if (text.isEmpty) {
-            widget.onChanged(widget.min);
           }
         },
       ),

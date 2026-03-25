@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as _math;
 import 'dart:typed_data';
 
@@ -90,8 +91,18 @@ class PokemonPanelState extends State<PokemonPanel>
   final List<TextEditingController> _powerControllers =
       List.generate(4, (_) => TextEditingController());
   final List<int?> _lastDisplayPower = List.filled(4, null);
+  Timer? _notifyTimer;
 
   BattlePokemonState get s => widget.state;
+
+  /// Debounced version of _notifyParent for text input fields.
+  /// Prevents full widget tree rebuild on every keystroke.
+  void _debouncedNotify() {
+    _notifyTimer?.cancel();
+    _notifyTimer = Timer(const Duration(milliseconds: 150), () {
+      _notifyParent();
+    });
+  }
 
   void scrollToTop() {
     if (_scrollController.hasClients) {
@@ -101,6 +112,7 @@ class PokemonPanelState extends State<PokemonPanel>
 
   @override
   void dispose() {
+    _notifyTimer?.cancel();
     _scrollController.dispose();
     for (final c in _powerControllers) {
       c.dispose();
@@ -219,11 +231,11 @@ class PokemonPanelState extends State<PokemonPanel>
               status: s.status,
               onLevelChanged: (v) => setState(() { s.level = v; _notifyParent(); }),
               onNatureChanged: (v) => setState(() { s.nature = v; _notifyParent(); }),
-              onIvChanged: (v) => setState(() { s.iv = v; _notifyParent(); }),
-              onEvChanged: (v) => setState(() { s.ev = v; _notifyParent(); }),
+              onIvChanged: (v) => setState(() { s.iv = v; _debouncedNotify(); }),
+              onEvChanged: (v) => setState(() { s.ev = v; _debouncedNotify(); }),
               onAbilityChanged: (v) => setState(() { s.selectedAbility = v; _notifyParent(); }),
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notifyParent(); }),
-              onRankChanged: (v) => setState(() { s.rank = v; _notifyParent(); }),
+              onRankChanged: (v) => setState(() { s.rank = v; _debouncedNotify(); }),
               opponentSpeed: widget.opponentSpeed,
               opponentAlwaysLast: widget.opponentAlwaysLast,
               isDynamaxed: s.dynamax != DynamaxState.none,
