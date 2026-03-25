@@ -589,7 +589,7 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
         keyboardType: widget.signed
             ? TextInputType.text
             : TextInputType.number,
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.next,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(

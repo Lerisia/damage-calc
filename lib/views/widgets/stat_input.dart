@@ -775,7 +775,7 @@ class _StatInputState extends State<StatInput> {
               initialValue: '$displayValue',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: maxDisplay),
@@ -835,7 +835,7 @@ class _StatInputState extends State<StatInput> {
               initialValue: '${widget.hpPercent}',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: 100),
@@ -882,7 +882,7 @@ class _StatInputState extends State<StatInput> {
         initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.next,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^-?[0-6]?$')),
         ],
@@ -917,7 +917,7 @@ class _StatInputState extends State<StatInput> {
         initialValue: '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.next,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
           _ClampingFormatter(min: min, max: max),
@@ -1005,7 +1005,7 @@ class _LevelInputState extends State<_LevelInput> {
       focusNode: _focusNode,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.done,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         labelText: AppStrings.t('label.level'),
         isDense: true,
