@@ -48,14 +48,6 @@ class _ClampingFormatter extends TextInputFormatter {
         selection: TextSelection.collapsed(offset: '$min'.length),
       );
     }
-    // Remove leading zeros (e.g. "0252" → "252")
-    final normalized = '$parsed';
-    if (normalized != newValue.text) {
-      return TextEditingValue(
-        text: normalized,
-        selection: TextSelection.collapsed(offset: normalized.length),
-      );
-    }
     return newValue;
   }
 }
@@ -766,7 +758,10 @@ class _StatInputState extends State<StatInput> {
           child: Focus(
             onFocusChange: (hasFocus) {
               _hasFocusedStatField = hasFocus;
-              if (!hasFocus) widget.onStatEditComplete?.call();
+              if (!hasFocus) {
+                setState(() => _evResetCounter++); // normalize display
+                widget.onStatEditComplete?.call();
+              }
             },
             child: SizedBox(
               height: 28,
@@ -877,7 +872,10 @@ class _StatInputState extends State<StatInput> {
     return Focus(
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
-        if (!hasFocus) widget.onStatEditComplete?.call();
+        if (!hasFocus) {
+          setState(() => _evResetCounter++);
+          widget.onStatEditComplete?.call();
+        }
       },
       child: SizedBox(
         height: 32,
@@ -917,7 +915,10 @@ class _StatInputState extends State<StatInput> {
     return Focus(
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
-        if (!hasFocus) widget.onStatEditComplete?.call();
+        if (!hasFocus) {
+          setState(() => _evResetCounter++);
+          widget.onStatEditComplete?.call();
+        }
       },
       child: SizedBox(
         height: 32,
