@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../data/abilitydex.dart';
@@ -106,12 +105,14 @@ class StatInput extends StatefulWidget {
     this.tailwind = false,
     this.onItemTap,
     this.onAbilityTap,
+    this.onStatEditComplete,
     this.useSpMode = false,
     this.onSpModeChanged,
   });
 
   final VoidCallback? onItemTap;
   final VoidCallback? onAbilityTap;
+  final VoidCallback? onStatEditComplete;
 
   /// Whether to display EV in SP (Stat Point) mode for Champions.
   final bool useSpMode;
@@ -138,7 +139,6 @@ class _StatInputState extends State<StatInput> {
   Stats? _prevIv;
   Rank? _prevRank;
   int? _prevHpPercent;
-  Timer? _debounceTimer;
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
   final _abilityFocusNode = FocusNode();
@@ -190,7 +190,6 @@ class _StatInputState extends State<StatInput> {
 
   @override
   void dispose() {
-    _debounceTimer?.cancel();
     _abilityController.dispose();
     _itemController.dispose();
     _abilityFocusNode.dispose();
@@ -198,10 +197,6 @@ class _StatInputState extends State<StatInput> {
     super.dispose();
   }
 
-  void _debounce(VoidCallback fn) {
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 150), fn);
-  }
 
   static Map<String, String>? _abilityCache;
   static AppLanguage? _abilityCacheLang;
@@ -768,35 +763,38 @@ class _StatInputState extends State<StatInput> {
           ),
         Expanded(
           flex: 3,
-          child: SizedBox(
-            height: 28,
-            child: TextFormField(
-              key: ValueKey('ev_${sp ? "sp" : "ev"}_$_evResetCounter'),
-              initialValue: '$displayValue',
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.next,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                _ClampingFormatter(min: 0, max: maxDisplay),
-              ],
-              style: const TextStyle(fontSize: 14),
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-              ),
-              onChanged: (text) {
-                final parsed = int.tryParse(text);
-                if (parsed != null) {
-                  _debounce(() {
+          child: Focus(
+            onFocusChange: (hasFocus) {
+              if (!hasFocus) widget.onStatEditComplete?.call();
+            },
+            child: SizedBox(
+              height: 28,
+              child: TextFormField(
+                key: ValueKey('ev_${sp ? "sp" : "ev"}_$_evResetCounter'),
+                initialValue: '$displayValue',
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  _ClampingFormatter(min: 0, max: maxDisplay),
+                ],
+                style: const TextStyle(fontSize: 14),
+                decoration: const InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                ),
+                onChanged: (text) {
+                  final parsed = int.tryParse(text);
+                  if (parsed != null) {
                     if (sp) {
                       onChanged(ChampionsMode.spToEv(parsed.clamp(0, maxDisplay)));
                     } else {
                       onChanged(parsed.clamp(0, 252));
                     }
-                  });
-                }
-              },
+                  }
+                },
+              ),
             ),
           ),
         ),
@@ -875,9 +873,13 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _rankControl(int value, ValueChanged<int> onChanged) {
-    return SizedBox(
-      height: 32,
-      child: TextFormField(
+    return Focus(
+      onFocusChange: (hasFocus) {
+        if (!hasFocus) widget.onStatEditComplete?.call();
+      },
+      child: SizedBox(
+        height: 32,
+        child: TextFormField(
         key: ValueKey('rank_${value}_$_evResetCounter'),
         initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
@@ -900,39 +902,43 @@ class _StatInputState extends State<StatInput> {
           final parsed = int.tryParse(text);
           if (parsed != null) {
             final clamped = parsed.clamp(-6, 6);
-            _debounce(() {
-              setState(() => _evResetCounter++);
-              onChanged(clamped);
-            });
+            setState(() => _evResetCounter++);
+            onChanged(clamped);
           }
         },
+      ),
       ),
     );
   }
 
   Widget _miniInput(int value, int min, int max, ValueChanged<int> onChanged) {
-    return SizedBox(
-      height: 32,
-      child: TextFormField(
-        initialValue: '$value',
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.number,
-        textInputAction: TextInputAction.next,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          _ClampingFormatter(min: min, max: max),
-        ],
-        style: const TextStyle(fontSize: 14),
-        decoration: const InputDecoration(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+    return Focus(
+      onFocusChange: (hasFocus) {
+        if (!hasFocus) widget.onStatEditComplete?.call();
+      },
+      child: SizedBox(
+        height: 32,
+        child: TextFormField(
+          initialValue: '$value',
+          textAlign: TextAlign.center,
+          keyboardType: TextInputType.number,
+          textInputAction: TextInputAction.next,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            _ClampingFormatter(min: min, max: max),
+          ],
+          style: const TextStyle(fontSize: 14),
+          decoration: const InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          ),
+          onChanged: (text) {
+            final parsed = int.tryParse(text);
+            if (parsed != null) {
+              onChanged(parsed);
+            }
+          },
         ),
-        onChanged: (text) {
-          final parsed = int.tryParse(text);
-          if (parsed != null) {
-            _debounce(() => onChanged(parsed));
-          }
-        },
       ),
     );
   }
