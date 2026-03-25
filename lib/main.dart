@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'data/abilitydex.dart';
 import 'data/itemdex.dart';
+import 'models/ability.dart';
 import 'models/item.dart';
 import 'data/movedex.dart';
 import 'data/pokedex.dart';
@@ -87,17 +88,19 @@ class _AppLoaderState extends State<_AppLoader> {
     ]);
 
     // Build name maps from loaded data
-    final abilities = results[2] as Map<String, dynamic>;
+    final abilities = results[2] as Map<String, Ability>;
     final aMap = <String, String>{};
     for (final e in abilities.values) {
-      aMap[e.name as String] = e.nameKo as String;
+      // Skip dummy abilities (nameKo has no Korean characters)
+      if (!e.nameKo.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3)) continue;
+      aMap[e.name] = e.localizedName;
     }
 
     final items = results[3] as Map<String, Item>;
     final iMap = <String, String>{};
     for (final e in items.values) {
       if (e.battle) {
-        iMap[e.name] = e.nameKo;
+        iMap[e.name] = e.localizedName;
       }
     }
 

@@ -220,6 +220,9 @@ class _StatInputState extends State<StatInput> {
       final dex = await loadAbilitydex();
       final map = <String, String>{};
       for (final entry in dex.entries) {
+        // Skip dummy abilities (nameKo has no Korean characters)
+        // Skip dummy abilities (nameKo has no Korean characters)
+        if (!entry.value.nameKo.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3)) continue;
         map[entry.key] = entry.value.localizedName;
       }
       _abilityCache = map;
@@ -256,9 +259,6 @@ class _StatInputState extends State<StatInput> {
     return _abilityNameMap[englishName] ?? englishName;
   }
 
-  static bool _hasKorean(String s) =>
-      s.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3);
-
   /// Expands abilities that have numbered variants (e.g. Supreme Overlord → 0~5).
   static List<String> _expandAbilities(List<String> abilities, Map<String, String> nameMap) {
     final expanded = <String>[];
@@ -276,9 +276,7 @@ class _StatInputState extends State<StatInput> {
   }
 
   void _rebuildSortedAbilities() {
-    final all = _abilityNameMap.keys
-        .where((a) => _hasKorean(_abilityKo(a)))
-        .toList();
+    final all = _abilityNameMap.keys.toList();
     final pokemon = _expandAbilities(widget.pokemonAbilities, _abilityNameMap);
     final rest = all.where((a) => !pokemon.contains(a)).toList();
     rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
