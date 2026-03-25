@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:screenshot/screenshot.dart';
@@ -1387,14 +1386,43 @@ class _SampleListSheetState extends State<_SampleListSheet> {
   }
 
   Future<String?> _pickJsonFile() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      withData: true,
+    String? result;
+    await showDialog(
+      context: context,
+      builder: (ctx) {
+        final controller = TextEditingController();
+        return AlertDialog(
+          title: const Text('샘플 가져오기'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: TextField(
+              controller: controller,
+              maxLines: 8,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: '내보낸 데이터를 여기에 붙여넣기',
+                hintStyle: TextStyle(fontSize: 13),
+              ),
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('취소'),
+            ),
+            TextButton(
+              onPressed: () {
+                result = controller.text.trim();
+                Navigator.pop(ctx);
+              },
+              child: const Text('가져오기'),
+            ),
+          ],
+        );
+      },
     );
-    if (result == null || result.files.isEmpty) return null;
-    final bytes = result.files.first.bytes;
-    if (bytes == null) return null;
-    return utf8.decode(bytes);
+    return result?.isEmpty == true ? null : result;
   }
 }
 
