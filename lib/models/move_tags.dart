@@ -74,7 +74,4 @@ class MoveTags {
 
   // Move disabled by Gravity
   static const String disabledByGravity = 'custom:disabled_by_gravity';
-
-  // Typeless move (Struggle): no STAB, no type effectiveness
-  static const String typeless = 'custom:typeless';
 }

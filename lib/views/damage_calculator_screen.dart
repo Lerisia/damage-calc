@@ -904,7 +904,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
 
     final result = _calcDamage(index);
-    final effectiveType = result.move.type;
+    final effectiveType = result.move.type == PokemonType.typeless
+        ? null : result.move.type;
     final offLabel = result.isPhysical ? '물리' : '특수';
     final defLabel = result.targetPhysDef ? '물리' : '특수';
     final offPower = _getOffensivePower(index);
@@ -951,7 +952,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       }
     }
 
-    final typeColor = KoStrings.getTypeColor(effectiveType);
+    final typeColor = effectiveType != null
+        ? KoStrings.getTypeColor(effectiveType)
+        : Colors.grey;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -969,7 +972,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 )),
               ),
               const SizedBox(width: 8),
-              Text(KoStrings.getTypeKo(effectiveType),
+              Text(effectiveType != null ? KoStrings.getTypeKo(effectiveType) : '-',
                   style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
               Text(effLabel, style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
@@ -1226,12 +1229,13 @@ class _SampleListSheetState extends State<_SampleListSheet> {
   Widget build(BuildContext context) {
     if (widget.samples.isEmpty) {
       return SizedBox(
-        height: 200,
+        height: 300,
+        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('저장된 샘플이 없습니다'),
-            const SizedBox(height: 16),
+            const Text('저장된 샘플이 없습니다', style: TextStyle(fontSize: 16)),
+            const SizedBox(height: 24),
             _importExportButtons(context),
           ],
         ),

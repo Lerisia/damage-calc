@@ -914,8 +914,8 @@ void main() {
   group('Struggle (typeless)', () {
     const struggle = Move(
       name: 'Struggle', nameKo: '발버둥', nameJa: 'わるあがき',
-      type: PokemonType.normal, category: MoveCategory.physical,
-      power: 50, accuracy: 0, pp: 1, tags: [MoveTags.typeless],
+      type: PokemonType.typeless, category: MoveCategory.physical,
+      power: 50, accuracy: 0, pp: 1,
     );
 
     test('is not converted to Max Move during Dynamax', () {

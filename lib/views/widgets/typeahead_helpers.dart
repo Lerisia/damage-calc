@@ -47,6 +47,10 @@ TypeAheadField<T> buildTypeAhead<T>({
     hideOnSelect: true,
     retainOnLoading: false,
     hideOnEmpty: hideOnEmpty,
+    emptyBuilder: hideOnEmpty ? null : (context) => const Padding(
+      padding: EdgeInsets.all(12),
+      child: Text('검색 결과 없음', style: TextStyle(color: Colors.grey)),
+    ),
     // Don't pass constraints — the package wraps it with a buggy Align
     // that sends the dropdown to the top of the screen on autoFlip.
     // Instead, apply maxHeight via decorationBuilder.

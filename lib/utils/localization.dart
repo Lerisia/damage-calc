@@ -30,6 +30,7 @@ class KoStrings {
     PokemonType.steel: '강철',
     PokemonType.fairy: '페어리',
     PokemonType.stellar: '스텔라',
+    PokemonType.typeless: '-',
   };
 
   static const Map<MoveCategory, String> categoryKo = {

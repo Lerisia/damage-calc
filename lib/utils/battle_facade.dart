@@ -174,7 +174,7 @@ class BattleFacade {
     );
     final transformed = transformMove(move, ctx);
 
-    final effectiveType = transformed.move.hasTag(MoveTags.typeless)
+    final effectiveType = transformed.move.type == PokemonType.typeless
         ? null
         : (state.typeOverrides[moveIndex] ?? transformed.move.type);
     final effectiveCategory = state.categoryOverrides[moveIndex] ?? transformed.move.category;

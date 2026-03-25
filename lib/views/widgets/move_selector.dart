@@ -30,7 +30,6 @@ class _MoveSelectorState extends State<MoveSelector> {
   Move? _selected;
   final _controller = TextEditingController();
   bool _isFocused = false;
-  String? _lastPokemonName;
 
   @override
   void initState() {
@@ -72,8 +71,6 @@ class _MoveSelectorState extends State<MoveSelector> {
   }
 
   Future<void> _updateLearnset() async {
-    if (widget.pokemonName == _lastPokemonName) return;
-    _lastPokemonName = widget.pokemonName;
     if (widget.pokemonName == null) {
       setState(() => _learnableMoveIds = {});
       return;

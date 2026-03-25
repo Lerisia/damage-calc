@@ -263,7 +263,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
 
   // 7. Dynamax transform (after all other power changes)
   // Struggle cannot be converted to a Max Move.
-  if (context.dynamax != DynamaxState.none && !move.hasTag(MoveTags.typeless)) {
+  if (context.dynamax != DynamaxState.none && move.type != PokemonType.typeless) {
     move = _applyDynamax(move, context.dynamax, context.pokemonName);
   }
 

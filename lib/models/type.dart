@@ -1,4 +1,4 @@
-/// All 18 Pokemon types + Stellar (for Terastal)
+/// All 18 Pokemon types + Stellar (for Terastal) + Typeless (for Struggle)
 enum PokemonType {
   normal,
   fire,
@@ -19,4 +19,5 @@ enum PokemonType {
   steel,
   fairy,
   stellar,
+  typeless,
 }
