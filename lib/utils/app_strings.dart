@@ -3,6 +3,7 @@
 ///
 /// No trademarked terms (Pokemon, etc.) are used.
 
+import 'dart:ui' as ui;
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum AppLanguage { ko, en, ja }
@@ -20,13 +21,29 @@ class AppStrings {
     });
   }
 
-  /// Load saved language preference. Call once at startup.
+  /// Load saved language preference, or detect from system locale.
+  /// Call once at startup.
   static Future<void> loadSavedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
     final saved = prefs.getString(_prefKey);
     if (saved != null) {
       _current = AppLanguage.values.where((l) => l.name == saved).firstOrNull
           ?? AppLanguage.ko;
+    } else {
+      _current = _detectSystemLanguage();
+    }
+  }
+
+  /// Detect language from system locale.
+  static AppLanguage _detectSystemLanguage() {
+    final locale = ui.PlatformDispatcher.instance.locale;
+    switch (locale.languageCode) {
+      case 'ja':
+        return AppLanguage.ja;
+      case 'en':
+        return AppLanguage.en;
+      default:
+        return AppLanguage.ko;
     }
   }
 

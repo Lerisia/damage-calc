@@ -5,7 +5,13 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>ko</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>ko</string>
+		<string>en</string>
+		<string>ja</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>결정력 계산기</string>
 	<key>CFBundleExecutable</key>

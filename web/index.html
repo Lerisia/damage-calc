@@ -53,6 +53,13 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
 
   <title>결정력 계산기 - 실전 배틀 대미지 계산</title>
+  <script>
+    (function() {
+      var lang = (navigator.language || '').substring(0, 2);
+      var titles = { ja: 'ダメージ計算機 - 実戦バトルダメージ計算', en: 'Damage Calculator - Competitive Battle' };
+      if (titles[lang]) document.title = titles[lang];
+    })();
+  </script>
   <!-- manifest.json removed: no PWA needed -->
 </head>
 <body>
