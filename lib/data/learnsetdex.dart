@@ -105,8 +105,8 @@ String? _detectRegion(String name, String? nameKo) {
 }
 
 bool _isRegionalFormName(String name) {
-  return name == 'Alolan Form' || name == 'Galarian Form' ||
-         name == 'Hisuian Form' || name.startsWith('Paldean Form');
+  return name.startsWith('Alolan ') || name.startsWith('Galarian ') ||
+         name.startsWith('Hisuian ') || name.startsWith('Paldean ');
 }
 
 /// Extract base form ID from Mega/alternate form names.
@@ -121,6 +121,22 @@ String? _baseFormId(String name) {
     }
     return _normalize(base);
   }
+  // "Deoxys (Attack Forme)" → "deoxys"
+  if (name.contains(' (')) {
+    return _normalize(name.split(' (')[0]);
+  }
+  // Prefixed forms: "Heat Rotom" → "rotom", "Black Kyurem" → "kyurem", etc.
+  const prefixed = {
+    'Heat Rotom': 'rotom', 'Wash Rotom': 'rotom', 'Frost Rotom': 'rotom',
+    'Fan Rotom': 'rotom', 'Mow Rotom': 'rotom',
+    'Black Kyurem': 'kyurem', 'White Kyurem': 'kyurem',
+    'Primal Kyogre': 'kyogre', 'Primal Groudon': 'groudon',
+    'Ultra Necrozma': 'necrozma',
+    'Dusk Mane Necrozma': 'necrozma', 'Dawn Wings Necrozma': 'necrozma',
+    'Ice Rider Calyrex': 'calyrex', 'Shadow Rider Calyrex': 'calyrex',
+    'Hoopa Unbound': 'hoopa',
+  };
+  if (prefixed.containsKey(name)) return prefixed[name];
   if (name.contains('-')) {
     return _normalize(name.split('-')[0]);
   }

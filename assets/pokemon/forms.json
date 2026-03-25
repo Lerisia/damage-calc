@@ -2,7 +2,7 @@
   {
     "dexNumber": 386,
     "formId": 10001,
-    "name": "deoxys-attack",
+    "name": "Deoxys (Attack Forme)",
     "nameKo": "테오키스 (어택폼)",
     "nameJa": "デオキシス",
     "type1": "psychic",
@@ -21,12 +21,13 @@
     "weight": 60.8,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Deoxys (Attack Forme)"
   },
   {
     "dexNumber": 386,
     "formId": 10002,
-    "name": "deoxys-defense",
+    "name": "Deoxys (Defense Forme)",
     "nameKo": "테오키스 (디펜스폼)",
     "nameJa": "デオキシス",
     "type1": "psychic",
@@ -45,12 +46,13 @@
     "weight": 60.8,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Deoxys (Defense Forme)"
   },
   {
     "dexNumber": 386,
     "formId": 10003,
-    "name": "deoxys-speed",
+    "name": "Deoxys (Speed Forme)",
     "nameKo": "테오키스 (스피드폼)",
     "nameJa": "デオキシス",
     "type1": "psychic",
@@ -69,12 +71,13 @@
     "weight": 60.8,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Deoxys (Speed Forme)"
   },
   {
     "dexNumber": 413,
     "formId": 10004,
-    "name": "wormadam-sandy",
+    "name": "Wormadam (Sandy Cloak)",
     "nameKo": "도롱마담 (모래땅도롱)",
     "nameJa": "ミノマダム",
     "type1": "bug",
@@ -94,12 +97,13 @@
     "weight": 6.5,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Wormadam (Sandy Cloak)"
   },
   {
     "dexNumber": 413,
     "formId": 10005,
-    "name": "wormadam-trash",
+    "name": "Wormadam (Trash Cloak)",
     "nameKo": "도롱마담 (슈레도롱)",
     "nameJa": "ミノマダム",
     "type1": "bug",
@@ -119,12 +123,13 @@
     "weight": 6.5,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Wormadam (Trash Cloak)"
   },
   {
     "dexNumber": 492,
     "formId": 10006,
-    "name": "shaymin-sky",
+    "name": "Shaymin (Sky Forme)",
     "nameKo": "쉐이미 (스카이폼)",
     "nameJa": "シェイミ",
     "type1": "grass",
@@ -143,12 +148,13 @@
     "weight": 5.2,
     "height": 0.4,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Shaymin (Sky Forme)"
   },
   {
     "dexNumber": 487,
     "formId": 10007,
-    "name": "giratina-origin",
+    "name": "Giratina (Origin Forme)",
     "nameKo": "기라티나 (오리진폼)",
     "nameJa": "ギラティナ",
     "type1": "ghost",
@@ -168,12 +174,13 @@
     "height": 6.9,
     "finalEvo": true,
     "requiredItem": "griseous-core",
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Giratina (Origin Forme)"
   },
   {
     "dexNumber": 479,
     "formId": 10008,
-    "name": "rotom-heat",
+    "name": "Heat Rotom",
     "nameKo": "히트로토무",
     "nameJa": "ロトム",
     "type1": "electric",
@@ -195,12 +202,13 @@
     "genderRate": -1,
     "aliases": [
       "불로토무"
-    ]
+    ],
+    "nameEn": "Heat Rotom"
   },
   {
     "dexNumber": 479,
     "formId": 10009,
-    "name": "rotom-wash",
+    "name": "Wash Rotom",
     "nameKo": "워시로토무",
     "nameJa": "ロトム",
     "type1": "electric",
@@ -222,12 +230,13 @@
     "genderRate": -1,
     "aliases": [
       "물로토무"
-    ]
+    ],
+    "nameEn": "Wash Rotom"
   },
   {
     "dexNumber": 479,
     "formId": 10010,
-    "name": "rotom-frost",
+    "name": "Frost Rotom",
     "nameKo": "프로스트로토무",
     "nameJa": "ロトム",
     "type1": "electric",
@@ -246,12 +255,13 @@
     "weight": 0.3,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Frost Rotom"
   },
   {
     "dexNumber": 479,
     "formId": 10011,
-    "name": "rotom-fan",
+    "name": "Fan Rotom",
     "nameKo": "스핀로토무",
     "nameJa": "ロトム",
     "type1": "electric",
@@ -270,12 +280,13 @@
     "weight": 0.3,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Fan Rotom"
   },
   {
     "dexNumber": 479,
     "formId": 10012,
-    "name": "rotom-mow",
+    "name": "Mow Rotom",
     "nameKo": "커트로토무",
     "nameJa": "ロトム",
     "type1": "electric",
@@ -297,12 +308,13 @@
     "genderRate": -1,
     "aliases": [
       "풀로토무"
-    ]
+    ],
+    "nameEn": "Mow Rotom"
   },
   {
     "dexNumber": 555,
     "formId": 10017,
-    "name": "darmanitan-zen",
+    "name": "Darmanitan (Zen Mode)",
     "nameKo": "불비달마 (달마모드)",
     "nameJa": "ヒヒダルマ",
     "type1": "fire",
@@ -322,12 +334,13 @@
     "weight": 92.9,
     "height": 1.3,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Darmanitan (Zen Mode)"
   },
   {
     "dexNumber": 648,
     "formId": 10018,
-    "name": "meloetta-pirouette",
+    "name": "Meloetta (Pirouette Forme)",
     "nameKo": "메로엣타 (스텝폼)",
     "nameJa": "メロエッタ",
     "type1": "normal",
@@ -346,12 +359,13 @@
     "weight": 6.5,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Meloetta (Pirouette Forme)"
   },
   {
     "dexNumber": 641,
     "formId": 10019,
-    "name": "tornadus-therian",
+    "name": "Tornadus (Therian Forme)",
     "nameKo": "토네로스 (영물폼)",
     "nameJa": "トルネロス",
     "type1": "flying",
@@ -370,12 +384,13 @@
     "weight": 63.0,
     "height": 1.4,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Tornadus (Therian Forme)"
   },
   {
     "dexNumber": 642,
     "formId": 10020,
-    "name": "thundurus-therian",
+    "name": "Thundurus (Therian Forme)",
     "nameKo": "볼트로스 (영물폼)",
     "nameJa": "ボルトロス",
     "type1": "electric",
@@ -394,12 +409,13 @@
     "weight": 61.0,
     "height": 3.0,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Thundurus (Therian Forme)"
   },
   {
     "dexNumber": 645,
     "formId": 10021,
-    "name": "landorus-therian",
+    "name": "Landorus (Therian Forme)",
     "nameKo": "랜드로스 (영물폼)",
     "nameJa": "ランドロス",
     "type1": "ground",
@@ -418,12 +434,13 @@
     "weight": 68.0,
     "height": 1.3,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Landorus (Therian Forme)"
   },
   {
     "dexNumber": 646,
     "formId": 10022,
-    "name": "kyurem-black",
+    "name": "Black Kyurem",
     "nameKo": "블랙큐레무",
     "nameJa": "キュレム",
     "type1": "dragon",
@@ -442,12 +459,13 @@
     "weight": 325.0,
     "height": 3.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Black Kyurem"
   },
   {
     "dexNumber": 646,
     "formId": 10023,
-    "name": "kyurem-white",
+    "name": "White Kyurem",
     "nameKo": "화이트큐레무",
     "nameJa": "キュレム",
     "type1": "dragon",
@@ -466,12 +484,13 @@
     "weight": 325.0,
     "height": 3.6,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "White Kyurem"
   },
   {
     "dexNumber": 678,
     "formId": 10025,
-    "name": "meowstic-female",
+    "name": "Meowstic (Female)",
     "nameKo": "냐오닉스 (암컷)",
     "nameJa": "ニャオニクス",
     "type1": "psychic",
@@ -492,12 +511,13 @@
     "weight": 8.5,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Meowstic (Female)"
   },
   {
     "dexNumber": 681,
     "formId": 10026,
-    "name": "aegislash-blade",
+    "name": "Aegislash (Blade Forme)",
     "nameKo": "킬가르도 (블레이드폼)",
     "nameJa": "ギルガルド",
     "type1": "steel",
@@ -516,12 +536,13 @@
     "weight": 53.0,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Aegislash (Blade Forme)"
   },
   {
     "dexNumber": 710,
     "formId": 10027,
-    "name": "pumpkaboo-small",
+    "name": "Pumpkaboo (Small Size)",
     "nameKo": "호바귀 (소사이즈)",
     "nameJa": "バケッチャ",
     "type1": "ghost",
@@ -542,12 +563,13 @@
     "weight": 3.5,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Pumpkaboo (Small Size)"
   },
   {
     "dexNumber": 710,
     "formId": 10028,
-    "name": "pumpkaboo-large",
+    "name": "Pumpkaboo (Large Size)",
     "nameKo": "호바귀 (대사이즈)",
     "nameJa": "バケッチャ",
     "type1": "ghost",
@@ -568,12 +590,13 @@
     "weight": 7.5,
     "height": 0.5,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Pumpkaboo (Large Size)"
   },
   {
     "dexNumber": 710,
     "formId": 10029,
-    "name": "pumpkaboo-super",
+    "name": "Pumpkaboo (Super Size)",
     "nameKo": "호바귀 (특대사이즈)",
     "nameJa": "バケッチャ",
     "type1": "ghost",
@@ -594,12 +617,13 @@
     "weight": 15.0,
     "height": 0.8,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Pumpkaboo (Super Size)"
   },
   {
     "dexNumber": 711,
     "formId": 10030,
-    "name": "gourgeist-small",
+    "name": "Gourgeist (Small Size)",
     "nameKo": "펌킨인 (소사이즈)",
     "nameJa": "パンプジン",
     "type1": "ghost",
@@ -620,12 +644,13 @@
     "weight": 9.5,
     "height": 0.7,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Gourgeist (Small Size)"
   },
   {
     "dexNumber": 711,
     "formId": 10031,
-    "name": "gourgeist-large",
+    "name": "Gourgeist (Large Size)",
     "nameKo": "펌킨인 (대사이즈)",
     "nameJa": "パンプジン",
     "type1": "ghost",
@@ -646,12 +671,13 @@
     "weight": 14.0,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Gourgeist (Large Size)"
   },
   {
     "dexNumber": 711,
     "formId": 10032,
-    "name": "gourgeist-super",
+    "name": "Gourgeist (Super Size)",
     "nameKo": "펌킨인 (특대사이즈)",
     "nameJa": "パンプジン",
     "type1": "ghost",
@@ -672,12 +698,13 @@
     "weight": 39.0,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Gourgeist (Super Size)"
   },
   {
     "dexNumber": 382,
     "formId": 10077,
-    "name": "kyogre-primal",
+    "name": "Primal Kyogre",
     "nameKo": "원시가이오가",
     "nameJa": "カイオーガ",
     "type1": "water",
@@ -698,12 +725,13 @@
     "finalEvo": true,
     "requiredItem": "blue-orb",
     "genderRate": -1,
-    "canDynamax": false
+    "canDynamax": false,
+    "nameEn": "Primal Kyogre"
   },
   {
     "dexNumber": 383,
     "formId": 10078,
-    "name": "groudon-primal",
+    "name": "Primal Groudon",
     "nameKo": "원시그란돈",
     "nameJa": "グラードン",
     "type1": "ground",
@@ -724,12 +752,13 @@
     "finalEvo": true,
     "requiredItem": "red-orb",
     "genderRate": -1,
-    "canDynamax": false
+    "canDynamax": false,
+    "nameEn": "Primal Groudon"
   },
   {
     "dexNumber": 720,
     "formId": 10086,
-    "name": "hoopa-unbound",
+    "name": "Hoopa Unbound",
     "nameKo": "굴레를 벗어난 후파",
     "nameJa": "フーパ",
     "type1": "psychic",
@@ -748,12 +777,13 @@
     "weight": 490.0,
     "height": 6.5,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Hoopa Unbound"
   },
   {
     "dexNumber": 718,
     "formId": 10120,
-    "name": "zygarde-complete",
+    "name": "Zygarde (Complete Forme)",
     "nameKo": "지가르데 (퍼펙트폼)",
     "nameJa": "ジガルデ",
     "type1": "dragon",
@@ -772,12 +802,13 @@
     "weight": 610.0,
     "height": 4.5,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Zygarde (Complete Forme)"
   },
   {
     "dexNumber": 741,
     "formId": 10123,
-    "name": "oricorio-pom-pom",
+    "name": "Oricorio (Pom-Pom Style)",
     "nameKo": "춤추새 (파칙파칙스타일)",
     "nameJa": "オドリドリ",
     "type1": "electric",
@@ -796,12 +827,13 @@
     "weight": 3.4,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Oricorio (Pom-Pom Style)"
   },
   {
     "dexNumber": 741,
     "formId": 10124,
-    "name": "oricorio-pau",
+    "name": "Oricorio (Pa'u Style)",
     "nameKo": "춤추새 (훌라훌라스타일)",
     "nameJa": "オドリドリ",
     "type1": "psychic",
@@ -820,12 +852,13 @@
     "weight": 3.4,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Oricorio (Pa'u Style)"
   },
   {
     "dexNumber": 741,
     "formId": 10125,
-    "name": "oricorio-sensu",
+    "name": "Oricorio (Sensu Style)",
     "nameKo": "춤추새 (하늘하늘스타일)",
     "nameJa": "オドリドリ",
     "type1": "ghost",
@@ -844,12 +877,13 @@
     "weight": 3.4,
     "height": 0.6,
     "finalEvo": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "nameEn": "Oricorio (Sensu Style)"
   },
   {
     "dexNumber": 745,
     "formId": 10126,
-    "name": "lycanroc-midnight",
+    "name": "Lycanroc (Midnight Form)",
     "nameKo": "루가루암 (한밤중의 모습)",
     "nameJa": "ルガルガン",
     "type1": "rock",
@@ -870,12 +904,13 @@
     "weight": 25.0,
     "height": 1.1,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Lycanroc (Midnight Form)"
   },
   {
     "dexNumber": 746,
     "formId": 10127,
-    "name": "wishiwashi-school",
+    "name": "Wishiwashi (School Form)",
     "nameKo": "약어리 (군집의 모습)",
     "nameJa": "ヨワシ",
     "type1": "water",
@@ -894,12 +929,13 @@
     "weight": 78.6,
     "height": 8.2,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Wishiwashi (School Form)"
   },
   {
     "dexNumber": 745,
     "formId": 10152,
-    "name": "lycanroc-dusk",
+    "name": "Lycanroc (Dusk Form)",
     "nameKo": "루가루암 (황혼의 모습)",
     "nameJa": "ルガルガン",
     "type1": "rock",
@@ -918,12 +954,13 @@
     "weight": 25.0,
     "height": 0.8,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Lycanroc (Dusk Form)"
   },
   {
     "dexNumber": 800,
     "formId": 10155,
-    "name": "necrozma-dusk",
+    "name": "Dusk Mane Necrozma",
     "nameKo": "네크로즈마 (황혼의 갈기)",
     "nameJa": "ネクロズマ",
     "type1": "psychic",
@@ -942,12 +979,13 @@
     "weight": 460.0,
     "height": 3.8,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Dusk Mane Necrozma"
   },
   {
     "dexNumber": 800,
     "formId": 10156,
-    "name": "necrozma-dawn",
+    "name": "Dawn Wings Necrozma",
     "nameKo": "네크로즈마 (새벽의 날개)",
     "nameJa": "ネクロズマ",
     "type1": "psychic",
@@ -966,12 +1004,13 @@
     "weight": 350.0,
     "height": 4.2,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Dawn Wings Necrozma"
   },
   {
     "dexNumber": 800,
     "formId": 10157,
-    "name": "necrozma-ultra",
+    "name": "Ultra Necrozma",
     "nameKo": "울트라네크로즈마",
     "nameJa": "ネクロズマ",
     "type1": "psychic",
@@ -990,12 +1029,13 @@
     "weight": 230.0,
     "height": 7.5,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Ultra Necrozma"
   },
   {
     "dexNumber": 718,
     "formId": 10181,
-    "name": "zygarde-10",
+    "name": "Zygarde (10% Forme)",
     "nameKo": "지가르데 (10%폼)",
     "nameJa": "ジガルデ",
     "type1": "dragon",
@@ -1014,12 +1054,13 @@
     "weight": 33.5,
     "height": 1.2,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Zygarde (10% Forme)"
   },
   {
     "dexNumber": 849,
     "formId": 10184,
-    "name": "toxtricity-low-key",
+    "name": "Toxtricity (Low Key Form)",
     "nameKo": "스트린더 (로우한 모습)",
     "nameJa": "ストリンダー",
     "type1": "electric",
@@ -1040,12 +1081,13 @@
     "weight": 40.0,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Toxtricity (Low Key Form)"
   },
   {
     "dexNumber": 875,
     "formId": 10185,
-    "name": "eiscue-noice",
+    "name": "Eiscue (Noice Face)",
     "nameKo": "빙큐보 (나이스페이스)",
     "nameJa": "コオリッポ",
     "type1": "ice",
@@ -1064,12 +1106,13 @@
     "weight": 89.0,
     "height": 1.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Eiscue (Noice Face)"
   },
   {
     "dexNumber": 876,
     "formId": 10186,
-    "name": "indeedee-female",
+    "name": "Indeedee (Female)",
     "nameKo": "에써르 (암컷)",
     "nameJa": "イエッサン",
     "type1": "psychic",
@@ -1090,12 +1133,13 @@
     "weight": 28.0,
     "height": 0.9,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Indeedee (Female)"
   },
   {
     "dexNumber": 888,
     "formId": 10188,
-    "name": "zacian-crowned",
+    "name": "Zacian (Crowned Sword)",
     "nameKo": "자시안 (검왕)",
     "nameJa": "ザシアン",
     "type1": "fairy",
@@ -1116,12 +1160,13 @@
     "finalEvo": true,
     "requiredItem": "rusted-sword",
     "genderRate": -1,
-    "canDynamax": false
+    "canDynamax": false,
+    "nameEn": "Zacian (Crowned Sword)"
   },
   {
     "dexNumber": 889,
     "formId": 10189,
-    "name": "zamazenta-crowned",
+    "name": "Zamazenta (Crowned Shield)",
     "nameKo": "자마젠타 (방패왕)",
     "nameJa": "ザマゼンタ",
     "type1": "fighting",
@@ -1142,12 +1187,13 @@
     "finalEvo": true,
     "requiredItem": "rusted-shield",
     "genderRate": -1,
-    "canDynamax": false
+    "canDynamax": false,
+    "nameEn": "Zamazenta (Crowned Shield)"
   },
   {
     "dexNumber": 892,
     "formId": 10191,
-    "name": "urshifu-rapid-strike",
+    "name": "Urshifu (Rapid Strike Style)",
     "nameKo": "우라오스 (연격의 태세)",
     "nameJa": "ウーラオス",
     "type1": "fighting",
@@ -1170,12 +1216,13 @@
     "canGmax": true,
     "aliases": [
       "물라오스"
-    ]
+    ],
+    "nameEn": "Urshifu (Rapid Strike Style)"
   },
   {
     "dexNumber": 898,
     "formId": 10193,
-    "name": "calyrex-ice",
+    "name": "Ice Rider Calyrex",
     "nameKo": "백마버드렉스",
     "nameJa": "バドレックス",
     "type1": "psychic",
@@ -1194,12 +1241,13 @@
     "weight": 809.1,
     "height": 2.4,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Ice Rider Calyrex"
   },
   {
     "dexNumber": 898,
     "formId": 10194,
-    "name": "calyrex-shadow",
+    "name": "Shadow Rider Calyrex",
     "nameKo": "흑마버드렉스",
     "nameJa": "バドレックス",
     "type1": "psychic",
@@ -1218,12 +1266,13 @@
     "weight": 53.6,
     "height": 2.4,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Shadow Rider Calyrex"
   },
   {
     "dexNumber": 902,
     "formId": 10248,
-    "name": "basculegion-female",
+    "name": "Basculegion (Female)",
     "nameKo": "대쓰여너 (암컷)",
     "nameJa": "イダイトウ",
     "type1": "water",
@@ -1244,12 +1293,13 @@
     "weight": 110.0,
     "height": 3.0,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Basculegion (Female)"
   },
   {
     "dexNumber": 905,
     "formId": 10249,
-    "name": "enamorus-therian",
+    "name": "Enamorus (Therian Forme)",
     "nameKo": "러브로스 (영물폼)",
     "nameJa": "ラブトロス",
     "type1": "fairy",
@@ -1268,12 +1318,13 @@
     "weight": 48.0,
     "height": 1.6,
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Enamorus (Therian Forme)"
   },
   {
     "dexNumber": 916,
     "formId": 10254,
-    "name": "oinkologne-female",
+    "name": "Oinkologne (Female)",
     "nameKo": "퍼퓨돈 (암컷)",
     "nameJa": "パフュートン",
     "type1": "normal",
@@ -1294,12 +1345,13 @@
     "weight": 120.0,
     "height": 1.0,
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Oinkologne (Female)"
   },
   {
     "dexNumber": 964,
     "formId": 10256,
-    "name": "palafin-hero",
+    "name": "Palafin (Hero Form)",
     "nameKo": "돌핀맨 (마이티폼)",
     "nameJa": "イルカマン",
     "type1": "water",
@@ -1318,12 +1370,13 @@
     "weight": 97.4,
     "height": 1.8,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Palafin (Hero Form)"
   },
   {
     "dexNumber": 901,
     "formId": 10272,
-    "name": "ursaluna-bloodmoon",
+    "name": "Ursaluna (Blood Moon)",
     "nameKo": "다투곰 (붉은 달)",
     "nameJa": "ガチグマ",
     "type1": "ground",
@@ -1342,12 +1395,13 @@
     "weight": 290.0,
     "height": 2.4,
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Ursaluna (Blood Moon)"
   },
   {
     "dexNumber": 1017,
     "formId": 10273,
-    "name": "ogerpon-wellspring-mask",
+    "name": "Ogerpon (Wellspring Mask)",
     "nameKo": "오거폰 (우물의 가면)",
     "nameJa": "オーガポン",
     "type1": "grass",
@@ -1369,12 +1423,13 @@
     "genderRate": -1,
     "aliases": [
       "물거폰"
-    ]
+    ],
+    "nameEn": "Ogerpon (Wellspring Mask)"
   },
   {
     "dexNumber": 1017,
     "formId": 10274,
-    "name": "ogerpon-hearthflame-mask",
+    "name": "Ogerpon (Hearthflame Mask)",
     "nameKo": "오거폰 (화덕의 가면)",
     "nameJa": "オーガポン",
     "type1": "grass",
@@ -1396,12 +1451,13 @@
     "genderRate": -1,
     "aliases": [
       "불거폰"
-    ]
+    ],
+    "nameEn": "Ogerpon (Hearthflame Mask)"
   },
   {
     "dexNumber": 1017,
     "formId": 10275,
-    "name": "ogerpon-cornerstone-mask",
+    "name": "Ogerpon (Cornerstone Mask)",
     "nameKo": "오거폰 (주춧돌의 가면)",
     "nameJa": "オーガポン",
     "type1": "grass",
@@ -1423,12 +1479,13 @@
     "genderRate": -1,
     "aliases": [
       "돌거폰"
-    ]
+    ],
+    "nameEn": "Ogerpon (Cornerstone Mask)"
   },
   {
     "dexNumber": 1024,
     "formId": 10276,
-    "name": "terapagos-terastal",
+    "name": "Terapagos (Terastal Form)",
     "nameKo": "테라파고스 (테라스탈폼)",
     "nameJa": "テラパゴス",
     "type1": "normal",
@@ -1447,12 +1504,13 @@
     "weight": 16.0,
     "height": 0.3,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Terapagos (Terastal Form)"
   },
   {
     "dexNumber": 1024,
     "formId": 10277,
-    "name": "terapagos-stellar",
+    "name": "Terapagos (Stellar Form)",
     "nameKo": "테라파고스 (스텔라폼)",
     "nameJa": "テラパゴス",
     "type1": "normal",
@@ -1471,12 +1529,13 @@
     "weight": 77.0,
     "height": 1.7,
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Terapagos (Stellar Form)"
   },
   {
     "dexNumber": 483,
     "formId": 10245,
-    "name": "dialga-origin",
+    "name": "Dialga (Origin Forme)",
     "nameKo": "디아루가 (오리진폼)",
     "nameJa": "ディアルガ",
     "type1": "steel",
@@ -1497,12 +1556,13 @@
     "height": 7.0,
     "finalEvo": true,
     "requiredItem": "adamant-crystal",
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Dialga (Origin Forme)"
   },
   {
     "dexNumber": 484,
     "formId": 10246,
-    "name": "palkia-origin",
+    "name": "Palkia (Origin Forme)",
     "nameKo": "펄기아 (오리진폼)",
     "nameJa": "パルキア",
     "type1": "water",
@@ -1523,6 +1583,7 @@
     "height": 6.3,
     "finalEvo": true,
     "requiredItem": "lustrous-globe",
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Palkia (Origin Forme)"
   }
 ]

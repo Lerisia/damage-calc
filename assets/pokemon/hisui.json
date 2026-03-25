@@ -2,7 +2,7 @@
   {
     "dexNumber": 58,
     "formId": 10229,
-    "name": "Hisuian Form",
+    "name": "Hisuian Growlithe",
     "nameKo": "가디 (히스이의 모습)",
     "nameJa": "ガーディ (ヒスイのすがた)",
     "type1": "fire",
@@ -23,12 +23,13 @@
     "height": 0.8,
     "type2": "rock",
     "finalEvo": false,
-    "genderRate": 2
+    "genderRate": 2,
+    "nameEn": "Hisuian Growlithe"
   },
   {
     "dexNumber": 59,
     "formId": 10230,
-    "name": "Hisuian Form",
+    "name": "Hisuian Arcanine",
     "nameKo": "윈디 (히스이의 모습)",
     "nameJa": "ウインディ (ヒスイのすがた)",
     "type1": "fire",
@@ -49,12 +50,13 @@
     "height": 2.0,
     "type2": "rock",
     "finalEvo": true,
-    "genderRate": 2
+    "genderRate": 2,
+    "nameEn": "Hisuian Arcanine"
   },
   {
     "dexNumber": 100,
     "formId": 10231,
-    "name": "Hisuian Form",
+    "name": "Hisuian Voltorb",
     "nameKo": "찌리리공 (히스이의 모습)",
     "nameJa": "ビリリダマ (ヒスイのすがた)",
     "type1": "electric",
@@ -75,12 +77,13 @@
     "height": 0.5,
     "type2": "grass",
     "finalEvo": false,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Hisuian Voltorb"
   },
   {
     "dexNumber": 101,
     "formId": 10232,
-    "name": "Hisuian Form",
+    "name": "Hisuian Electrode",
     "nameKo": "붐볼 (히스이의 모습)",
     "nameJa": "マルマイン (ヒスイのすがた)",
     "type1": "electric",
@@ -101,12 +104,13 @@
     "height": 1.2,
     "type2": "grass",
     "finalEvo": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "nameEn": "Hisuian Electrode"
   },
   {
     "dexNumber": 157,
     "formId": 10233,
-    "name": "Hisuian Form",
+    "name": "Hisuian Typhlosion",
     "nameKo": "블레이범 (히스이의 모습)",
     "nameJa": "バクフーン (ヒスイのすがた)",
     "type1": "fire",
@@ -126,12 +130,13 @@
     "height": 1.6,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Hisuian Typhlosion"
   },
   {
     "dexNumber": 211,
     "formId": 10234,
-    "name": "Hisuian Form",
+    "name": "Hisuian Qwilfish",
     "nameKo": "침바루 (히스이의 모습)",
     "nameJa": "ハリーセン (ヒスイのすがた)",
     "type1": "dark",
@@ -152,12 +157,13 @@
     "height": 0.5,
     "type2": "poison",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Hisuian Qwilfish"
   },
   {
     "dexNumber": 215,
     "formId": 10235,
-    "name": "Hisuian Form",
+    "name": "Hisuian Sneasel",
     "nameKo": "포푸니 (히스이의 모습)",
     "nameJa": "ニューラ (ヒスイのすがた)",
     "type1": "fighting",
@@ -178,12 +184,13 @@
     "height": 0.9,
     "type2": "poison",
     "finalEvo": false,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Hisuian Sneasel"
   },
   {
     "dexNumber": 503,
     "formId": 10236,
-    "name": "Hisuian Form",
+    "name": "Hisuian Samurott",
     "nameKo": "대검귀 (히스이의 모습)",
     "nameJa": "ダイケンキ (ヒスイのすがた)",
     "type1": "water",
@@ -203,12 +210,13 @@
     "height": 1.5,
     "type2": "dark",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Hisuian Samurott"
   },
   {
     "dexNumber": 549,
     "formId": 10237,
-    "name": "Hisuian Form",
+    "name": "Hisuian Lilligant",
     "nameKo": "드레디어 (히스이의 모습)",
     "nameJa": "ドレディア (ヒスイのすがた)",
     "type1": "grass",
@@ -229,12 +237,13 @@
     "height": 1.2,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "nameEn": "Hisuian Lilligant"
   },
   {
     "dexNumber": 570,
     "formId": 10238,
-    "name": "Hisuian Form",
+    "name": "Hisuian Zorua",
     "nameKo": "조로아 (히스이의 모습)",
     "nameJa": "ゾロア (ヒスイのすがた)",
     "type1": "normal",
@@ -253,12 +262,13 @@
     "height": 0.7,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Hisuian Zorua"
   },
   {
     "dexNumber": 571,
     "formId": 10239,
-    "name": "Hisuian Form",
+    "name": "Hisuian Zoroark",
     "nameKo": "조로아크 (히스이의 모습)",
     "nameJa": "ゾロアーク (ヒスイのすがた)",
     "type1": "normal",
@@ -277,12 +287,13 @@
     "height": 1.6,
     "type2": "ghost",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Hisuian Zoroark"
   },
   {
     "dexNumber": 628,
     "formId": 10240,
-    "name": "Hisuian Form",
+    "name": "Hisuian Braviary",
     "nameKo": "워글 (히스이의 모습)",
     "nameJa": "ウォーグル (ヒスイのすがた)",
     "type1": "psychic",
@@ -303,12 +314,13 @@
     "height": 1.7,
     "type2": "flying",
     "finalEvo": true,
-    "genderRate": 0
+    "genderRate": 0,
+    "nameEn": "Hisuian Braviary"
   },
   {
     "dexNumber": 705,
     "formId": 10241,
-    "name": "Hisuian Form",
+    "name": "Hisuian Sliggoo",
     "nameKo": "미끄네일 (히스이의 모습)",
     "nameJa": "ヌメイル (ヒスイのすがた)",
     "type1": "steel",
@@ -329,12 +341,13 @@
     "height": 0.7,
     "type2": "dragon",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Hisuian Sliggoo"
   },
   {
     "dexNumber": 706,
     "formId": 10242,
-    "name": "Hisuian Form",
+    "name": "Hisuian Goodra",
     "nameKo": "미끄래곤 (히스이의 모습)",
     "nameJa": "ヌメルゴン (ヒスイのすがた)",
     "type1": "steel",
@@ -358,12 +371,13 @@
     "genderRate": 4,
     "aliases": [
       "히끄래곤"
-    ]
+    ],
+    "nameEn": "Hisuian Goodra"
   },
   {
     "dexNumber": 713,
     "formId": 10243,
-    "name": "Hisuian Form",
+    "name": "Hisuian Avalugg",
     "nameKo": "크레베이스 (히스이의 모습)",
     "nameJa": "クレベース (ヒスイのすがた)",
     "type1": "ice",
@@ -384,12 +398,13 @@
     "height": 1.4,
     "type2": "rock",
     "finalEvo": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "nameEn": "Hisuian Avalugg"
   },
   {
     "dexNumber": 724,
     "formId": 10244,
-    "name": "Hisuian Form",
+    "name": "Hisuian Decidueye",
     "nameKo": "모크나이퍼 (히스이의 모습)",
     "nameJa": "ジュナイパー (ヒスイのすがた)",
     "type1": "grass",
@@ -409,6 +424,7 @@
     "height": 1.6,
     "type2": "fighting",
     "finalEvo": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "nameEn": "Hisuian Decidueye"
   }
 ]
