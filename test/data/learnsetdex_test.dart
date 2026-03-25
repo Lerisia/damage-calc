@@ -108,6 +108,11 @@ void main() {
       expect(moves.contains('roost'), isFalse);
     });
 
+    test('Cinderace has High Jump Kick (inherited from Scorbunny egg move)', () async {
+      final moves = await getLearnableMoves('Cinderace');
+      expect(moves.contains('highjumpkick'), isTrue);
+    });
+
     test('Beedrill has Fell Stinger (gen 7, Let\'s Go excluded)', () async {
       final moves = await getLearnableMoves('Beedrill');
       expect(moves.contains('fellstinger'), isTrue);

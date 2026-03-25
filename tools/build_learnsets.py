@@ -97,38 +97,41 @@ def parse_ts_object(ts_text: str) -> dict:
     return result
 
 
+def _normalize_id(name: str) -> str:
+    """Convert a Pokemon display name to Showdown ID."""
+    return re.sub(r'[^a-z0-9]', '', name.lower())
+
+
 def parse_pokedex(ts_text: str) -> dict:
     """Parse Showdown's pokedex.ts for evolution chains."""
-    evos = {}  # pokemon -> [evo1, evo2, ...]
-    prevos = {}  # pokemon -> prevo
+    prevos = {}  # pokemon_id -> prevo_id
+    evos = {}  # pokemon_id -> [evo_id, ...]
 
-    for line in ts_text.split("\n"):
-        line = line.strip()
-        # Match: evos: ["Ivysaur"],
-        m = re.match(r'^evos:\s*\[(.+?)\],?$', line)
-        if m:
-            pass  # We'll use a different approach
-
-    # Simpler: extract prevo fields
     current = None
+
     for line in ts_text.split("\n"):
-        line = line.strip()
-        m = re.match(r'^(\w+):\s*\{', line)
-        if m:
-            current = m.group(1)
-            continue
-        if current:
-            m = re.match(r'^prevo:\s*"(\w+)"', line)
+        stripped = line.strip()
+
+        # Pokemon entry start: "\tpokemonid: {"  (one tab indent)
+        if line.startswith('\t') and not line.startswith('\t\t') and '{' in stripped:
+            m = re.match(r'^(\w+):\s*\{', stripped)
             if m:
-                prevos[current] = m.group(1)
-            m = re.match(r'^evos:\s*\[(.+?)\]', line)
+                current = m.group(1)
+                continue
+
+        # Inside a pokemon entry (two+ tabs indent)
+        if current and line.startswith('\t\t'):
+            m = re.match(r'^prevo:\s*"(.+?)"', stripped)
             if m:
-                evo_names = re.findall(r'"(\w+)"', m.group(1))
-                # Convert to lowercase IDs
-                evo_ids = [e.lower().replace(" ", "").replace("-", "").replace(".", "")
-                           .replace("'", "").replace(":", "").replace("%", "") for e in evo_names]
-                evos[current] = evo_ids
-        if line in ("}", "},"):
+                prevos[current] = _normalize_id(m.group(1))
+
+            m = re.match(r'^evos:\s*\[(.+?)\]', stripped)
+            if m:
+                evo_names = re.findall(r'"([^"]+)"', m.group(1))
+                evos[current] = [_normalize_id(e) for e in evo_names]
+
+        # Pokemon entry end: "\t},"
+        if line.startswith('\t') and not line.startswith('\t\t') and stripped in ('},', '}'):
             current = None
 
     return prevos, evos
