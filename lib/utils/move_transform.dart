@@ -137,7 +137,7 @@ class TransformedMove {
 TransformedMove transformMove(Move move, MoveContext context) {
   // 1. Type-changing transforms first
   move = _applyWeather(move, context.weather);
-  move = _applyTerrain(move, context.terrain);
+  move = _applyTerrain(move, context.terrain, context.attackerGrounded);
 
   // 1.5. Tera Blast: type/category changes when terastallized
   // Must happen BEFORE skins so Normal Tera Blast can be converted by -ate abilities
@@ -361,8 +361,8 @@ Move _applyWeather(Move move, Weather weather) {
 }
 
 /// Terrain Pulse: changes type and power based on terrain.
-Move _applyTerrain(Move move, Terrain terrain) {
-  if (move.name != 'Terrain Pulse' || terrain == Terrain.none) {
+Move _applyTerrain(Move move, Terrain terrain, bool attackerGrounded) {
+  if (move.name != 'Terrain Pulse' || terrain == Terrain.none || !attackerGrounded) {
     return move;
   }
 
@@ -547,14 +547,20 @@ Move _applyTerrainPowerBoost(Move move, Terrain terrain, {
   bool attackerGrounded = true,
   bool defenderGrounded = true,
 }) {
-  // Move-specific terrain boosts (Rising Voltage, Expanding Force, Misty Explosion)
-  if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric) {
+  // Move-specific terrain boosts — each has its own grounding requirement
+  // Rising Voltage: TARGET must be grounded on Electric Terrain
+  if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric
+      && defenderGrounded) {
     return move.copyWith(power: move.power * 2);
   }
-  if (move.hasTag(MoveTags.terrainBoostPsychic) && terrain == Terrain.psychic) {
+  // Expanding Force: USER must be grounded on Psychic Terrain
+  if (move.hasTag(MoveTags.terrainBoostPsychic) && terrain == Terrain.psychic
+      && attackerGrounded) {
     return move.copyWith(power: (move.power * 1.5).floor());
   }
-  if (move.hasTag(MoveTags.terrainBoostMisty) && terrain == Terrain.misty) {
+  // Misty Explosion: USER must be grounded on Misty Terrain
+  if (move.hasTag(MoveTags.terrainBoostMisty) && terrain == Terrain.misty
+      && attackerGrounded) {
     return move.copyWith(power: (move.power * 1.5).floor());
   }
 
@@ -833,4 +839,4 @@ PokemonType? _memoryType(String itemName) {
 
 // Legacy wrappers for backward compatibility with tests
 Move applyWeatherToMove(Move move, Weather weather) => _applyWeather(move, weather);
-Move applyTerrainToMove(Move move, Terrain terrain) => _applyTerrain(move, terrain);
+Move applyTerrainToMove(Move move, Terrain terrain, {bool attackerGrounded = true}) => _applyTerrain(move, terrain, attackerGrounded);
