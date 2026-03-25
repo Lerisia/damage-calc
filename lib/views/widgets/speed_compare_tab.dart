@@ -614,6 +614,8 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
           final parsed = int.tryParse(text);
           if (parsed != null) {
             widget.onChanged(parsed.clamp(widget.min, widget.max));
+          } else if (text.isEmpty) {
+            widget.onChanged(widget.min);
           }
         },
       ),

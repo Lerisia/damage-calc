@@ -788,6 +788,8 @@ class _StatInputState extends State<StatInput> {
                     } else {
                       onChanged(parsed.clamp(0, 252));
                     }
+                  } else if (text.isEmpty) {
+                    onChanged(0);
                   }
                 },
               ),
@@ -845,6 +847,8 @@ class _StatInputState extends State<StatInput> {
                 final parsed = int.tryParse(text);
                 if (parsed != null) {
                   widget.onHpPercentChanged(parsed.clamp(0, 100));
+                } else if (text.isEmpty) {
+                  widget.onHpPercentChanged(100);
                 }
               },
             ),
@@ -898,7 +902,11 @@ class _StatInputState extends State<StatInput> {
           contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
         ),
         onChanged: (text) {
-          if (text.isEmpty || text == '-') return;
+          if (text == '-') return;
+          if (text.isEmpty) {
+            onChanged(0);
+            return;
+          }
           final parsed = int.tryParse(text);
           if (parsed != null) {
             final clamped = parsed.clamp(-6, 6);
@@ -940,6 +948,8 @@ class _StatInputState extends State<StatInput> {
             final parsed = int.tryParse(text);
             if (parsed != null) {
               onChanged(parsed);
+            } else if (text.isEmpty) {
+              onChanged(min);
             }
           },
         ),
@@ -1024,6 +1034,8 @@ class _LevelInputState extends State<_LevelInput> {
         final parsed = int.tryParse(text);
         if (parsed != null) {
           widget.onChanged(parsed.clamp(1, 100));
+        } else if (text.isEmpty) {
+          widget.onChanged(50);
         }
       },
     );
