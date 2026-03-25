@@ -501,6 +501,10 @@ class DamageCalculator {
           )
         : defCalculated;
 
+    // Dynamax doubles HP
+    final int defMaxHp = defender.dynamax != DynamaxState.none
+        ? defActual.hp * 2 : defActual.hp;
+
     // Psyshock/Psystrike/Secret Sword: special move targeting physical Defense
     final bool targetPhysDef = isPhysical || effectiveMove.hasTag(MoveTags.targetPhysDef);
     int D = targetPhysDef ? defActual.defense : defActual.spDefense;
@@ -562,7 +566,7 @@ class DamageCalculator {
         effectiveMove.hasTag(MoveTags.weightBased)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: 0.0,
+        defenderHp: defMaxHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: ['다이맥스 상대에게 무게 기반 기술 무효'],
       );
@@ -572,7 +576,7 @@ class DamageCalculator {
     if (defAbilityName != null && isAbilityTypeImmune(defAbilityName, moveType)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: 0.0,
+        defenderHp: defMaxHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: ['ability:$defAbilityName:immune'],
       );
@@ -581,7 +585,7 @@ class DamageCalculator {
     if (defAbilityName != null && isAbilityMoveImmune(defAbilityName, effectiveMove)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: 0.0,
+        defenderHp: defMaxHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: ['ability:$defAbilityName:immune'],
       );
@@ -592,7 +596,7 @@ class DamageCalculator {
     if (!moldBreaks && effectiveMove.priority > 0 && isPriorityImmune(defAbilityName)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: 0.0,
+        defenderHp: defMaxHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: ['ability:$defAbilityName:선공기 무효'],
       );
@@ -608,7 +612,7 @@ class DamageCalculator {
       if (defGroundedForTerrain) {
         return DamageResult(
           baseDamage: 0, minDamage: 0, maxDamage: 0,
-          defenderHp: defActual.hp, effectiveness: 0.0,
+          defenderHp: defMaxHp, effectiveness: 0.0,
           isPhysical: isPhysical, move: effectiveMove,
           modifierNotes: ['사이코필드: 선공기 무효'],
         );
@@ -673,7 +677,7 @@ class DamageCalculator {
       if (immune) {
         return DamageResult(
           baseDamage: 0, minDamage: 0, maxDamage: 0,
-          defenderHp: defActual.hp, effectiveness: 0.0,
+          defenderHp: defMaxHp, effectiveness: 0.0,
           isPhysical: isPhysical, move: effectiveMove,
           modifierNotes: [...notes, 'type:immune'],
         );
@@ -720,7 +724,7 @@ class DamageCalculator {
     if (isWonderGuardImmune(defAbilityName, effectiveness)) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: effectiveness,
+        defenderHp: defMaxHp, effectiveness: effectiveness,
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: ['ability:Wonder Guard:immune'],
       );
@@ -757,7 +761,7 @@ class DamageCalculator {
           ? 'weather:harsh_sun_water' : 'weather:heavy_rain_fire';
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: 0.0,
+        defenderHp: defMaxHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: [...notes, reason],
       );
@@ -845,7 +849,7 @@ class DamageCalculator {
     if (effectiveMove.hasTag(MoveTags.requiresDefItem) && defender.selectedItem == null) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
-        defenderHp: defActual.hp, effectiveness: 0.0,
+        defenderHp: defMaxHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: effectiveMove,
         modifierNotes: ['상대 아이템 없음: 실패'],
       );
@@ -1083,13 +1087,13 @@ class DamageCalculator {
     }
 
     // Use current HP (based on hpPercent) for KO calculations
-    final int currentHp = (defActual.hp * defender.hpPercent / 100).floor();
+    final int currentHp = (defMaxHp * defender.hpPercent / 100).floor();
 
     return DamageResult(
       baseDamage: baseDamage,
       minDamage: minDamage,
       maxDamage: maxDamage,
-      defenderHp: currentHp > 0 ? currentHp : defActual.hp,
+      defenderHp: currentHp > 0 ? currentHp : defMaxHp,
       effectiveness: effectiveness,
       isPhysical: isPhysical,
       targetPhysDef: targetPhysDef,
