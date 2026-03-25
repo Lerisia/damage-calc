@@ -103,9 +103,14 @@ void main() {
       expect(formMoves, equals(baseMoves));
     });
 
-    test('Scizor does not have Roost', () async {
+    test('Scizor does not have Roost (removed in gen 9)', () async {
       final moves = await getLearnableMoves('Scizor');
       expect(moves.contains('roost'), isFalse);
+    });
+
+    test('Beedrill has Fell Stinger (gen 7, Let\'s Go excluded)', () async {
+      final moves = await getLearnableMoves('Beedrill');
+      expect(moves.contains('fellstinger'), isTrue);
     });
 
     test('Pikachu has Thunderbolt', () async {
