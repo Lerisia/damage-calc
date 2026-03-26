@@ -784,7 +784,11 @@ class _StatInputState extends State<StatInput> {
             onFocusChange: (hasFocus) {
               _hasFocusedStatField = hasFocus;
               if (!hasFocus) {
-                widget.onStatEditComplete?.call();
+                Future.delayed(const Duration(milliseconds: 50), () {
+                  if (!_hasFocusedStatField && mounted) {
+                    widget.onStatEditComplete?.call();
+                  }
+                });
               }
             },
             child: SizedBox(
