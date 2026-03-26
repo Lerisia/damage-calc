@@ -168,12 +168,15 @@ TransformedMove transformMove(Move move, MoveContext context) {
 
   // 2.5. Ivy Cudgel: type changes based on Ogerpon form
   if (move.name == 'Ivy Cudgel' && context.pokemonName != null) {
-    const ogerponType = {
-      'ogerpon-wellspring-mask': PokemonType.water,
-      'ogerpon-hearthflame-mask': PokemonType.fire,
-      'ogerpon-cornerstone-mask': PokemonType.rock,
-    };
-    final t = ogerponType[context.pokemonName!.toLowerCase()];
+    final n = context.pokemonName!.toLowerCase();
+    PokemonType? t;
+    if (n.contains('wellspring')) {
+      t = PokemonType.water;
+    } else if (n.contains('hearthflame')) {
+      t = PokemonType.fire;
+    } else if (n.contains('cornerstone')) {
+      t = PokemonType.rock;
+    }
     if (t != null) move = move.copyWith(type: t);
   }
 
