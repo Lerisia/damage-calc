@@ -359,31 +359,34 @@ class PokemonPanelState extends State<PokemonPanel>
             ]),
           )),
           if (widget.onSave != null)
-            IconButton(
-              icon: const Icon(Icons.save_outlined, size: 26),
-              tooltip: AppStrings.t('sample.save'),
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            TextButton(
               onPressed: widget.onSave,
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(AppStrings.t('sample.save'), style: const TextStyle(fontSize: 13)),
             ),
           if (widget.onLoad != null)
-            IconButton(
-              icon: const Icon(Icons.folder_open_outlined, size: 26),
-              tooltip: AppStrings.t('sample.load'),
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            TextButton(
               onPressed: widget.onLoad,
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(AppStrings.t('sample.load'), style: const TextStyle(fontSize: 13)),
             ),
           if (widget.onReset != null)
-            IconButton(
-              icon: const Icon(Icons.refresh, size: 26),
-              tooltip: AppStrings.t('toolbar.reset'),
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            TextButton(
               onPressed: widget.onReset,
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(AppStrings.t('toolbar.reset'), style: const TextStyle(fontSize: 13)),
             ),
         ],
       ),

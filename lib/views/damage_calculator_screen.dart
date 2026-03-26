@@ -367,13 +367,35 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     return labels[AppStrings.current]!;
   }
 
-  void _cycleLanguage() {
-    final values = AppLanguage.values;
-    final next = values[(AppStrings.current.index + 1) % values.length];
-    AppStrings.setLanguage(next);
-    _loadAbilities();
-    _loadItems();
-    setState(() { _resetCounter++; });
+  void _showLanguageDialog() {
+    const langLabels = {
+      AppLanguage.ko: '🇰🇷 한국어',
+      AppLanguage.en: '🇺🇸 English',
+      AppLanguage.ja: '🇯🇵 日本語',
+    };
+    showDialog(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        title: Text(AppStrings.t('toolbar.battleConditions').isEmpty ? 'Language' : '🌐'),
+        children: AppLanguage.values.map((lang) => SimpleDialogOption(
+          onPressed: () {
+            AppStrings.setLanguage(lang);
+            _loadAbilities();
+            _loadItems();
+            setState(() { _resetCounter++; });
+            Navigator.pop(ctx);
+          },
+          child: Text(
+            langLabels[lang]!,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: AppStrings.current == lang ? FontWeight.bold : FontWeight.normal,
+              color: AppStrings.current == lang ? Theme.of(ctx).colorScheme.primary : null,
+            ),
+          ),
+        )).toList(),
+      ),
+    );
   }
 
   void _showBattleConditionsDialog() {
@@ -392,16 +414,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 Text(AppStrings.t('toolbar.weather'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 Wrap(
                   spacing: 4,
-                  children: Weather.values.map((w) {
+                  children: Weather.values.where((w) => w != Weather.none).map((w) {
                     final selected = _weather == w;
-                    final label = w == Weather.none
-                        ? AppStrings.t('status.none')
-                        : '${KoStrings.weatherIcon[w]!} ${KoStrings.getWeatherName(w)}';
+                    final label = '${KoStrings.weatherIcon[w]!} ${KoStrings.getWeatherName(w)}';
                     return ChoiceChip(
                       label: Text(label, style: const TextStyle(fontSize: 13)),
                       selected: selected,
                       onSelected: (_) {
-                        setState(() => _weather = w);
+                        setState(() => _weather = selected ? Weather.none : w);
                         setDialogState(() {});
                         _onPanelChanged();
                       },
@@ -414,16 +434,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 Text(AppStrings.t('toolbar.terrain'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 Wrap(
                   spacing: 4,
-                  children: Terrain.values.map((t) {
+                  children: Terrain.values.where((t) => t != Terrain.none).map((t) {
                     final selected = _terrain == t;
-                    final label = t == Terrain.none
-                        ? AppStrings.t('status.none')
-                        : '${KoStrings.terrainIcon[t]!} ${KoStrings.getTerrainName(t)}';
+                    final label = '${KoStrings.terrainIcon[t]!} ${KoStrings.getTerrainName(t)}';
                     return ChoiceChip(
                       label: Text(label, style: const TextStyle(fontSize: 13)),
                       selected: selected,
                       onSelected: (_) {
-                        setState(() => _terrain = t);
+                        setState(() => _terrain = selected ? Terrain.none : t);
                         setDialogState(() {});
                         _onPanelChanged();
                       },
@@ -708,10 +726,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 onPressed: _swapSides,
                 child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
               ),
-              IconButton(
-                icon: const Icon(Icons.refresh),
-                tooltip: AppStrings.t('toolbar.reset'),
+              TextButton(
                 onPressed: _resetBothSides,
+                child: Text(AppStrings.t('toolbar.reset'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
               ),
               PopupMenuButton<String>(
                 icon: const Icon(Icons.more_vert),
@@ -738,7 +755,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 onSelected: (v) {
                   switch (v) {
                     case 'language':
-                      _cycleLanguage();
+                      _showLanguageDialog();
                     case 'about':
                       _showAboutDialog(context);
                   }
