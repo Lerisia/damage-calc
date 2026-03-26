@@ -479,7 +479,6 @@ class PokemonPanelState extends State<PokemonPanel>
                     PopupMenuButton<int>(
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      position: PopupMenuPosition.under,
                       popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 2),
