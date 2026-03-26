@@ -189,10 +189,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         resultText = '⚡ ${AppStrings.t('speed.tie')}';
         resultColor = Colors.orange;
       case SpeedResult.alwaysFirst:
-        resultText = '▲ ${AppStrings.t('speed.guaranteedFirst')}';
+        resultText = '▲ ${AppStrings.t('speed.atkGuaranteedFirst')}';
         resultColor = Colors.red;
       case SpeedResult.alwaysLast:
-        resultText = '▼ ${AppStrings.t('speed.guaranteedLast')}';
+        resultText = '▼ ${AppStrings.t('speed.defGuaranteedFirst')}';
         resultColor = Colors.blue;
     }
 
