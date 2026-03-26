@@ -461,6 +461,11 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           final key = 'Supreme Overlord $i';
           if (_abilityNameMap.containsKey(key)) pokemon.add(key);
         }
+      } else if (a == 'Rivalry') {
+        for (final suffix in ['Same', 'Opposite', 'None']) {
+          final key = 'Rivalry $suffix';
+          if (_abilityNameMap.containsKey(key)) pokemon.add(key);
+        }
       } else if (_abilityNameMap.containsKey(a)) {
         pokemon.add(a);
       }
