@@ -2038,6 +2038,9 @@
     "type2": "fairy",
     "finalEvo": true,
     "genderRate": -1,
+    "aliases": [
+      "날치머"
+    ],
     "nameEn": "Flutter Mane"
   },
   {
@@ -2062,6 +2065,9 @@
     "type2": "fighting",
     "finalEvo": true,
     "genderRate": -1,
+    "aliases": [
+      "땅기날"
+    ],
     "nameEn": "Slither Wing"
   },
   {
@@ -2206,6 +2212,9 @@
     "type2": "poison",
     "finalEvo": true,
     "genderRate": -1,
+    "aliases": [
+      "무독나"
+    ],
     "nameEn": "Iron Moth"
   },
   {
@@ -2472,6 +2481,9 @@
     "type2": "dark",
     "finalEvo": true,
     "genderRate": -1,
+    "aliases": [
+      "고치달"
+    ],
     "nameEn": "Roaring Moon"
   },
   {
@@ -2568,6 +2580,9 @@
     "type2": "dragon",
     "finalEvo": true,
     "genderRate": -1,
+    "aliases": [
+      "굽치물"
+    ],
     "nameEn": "Walking Wake"
   },
   {
