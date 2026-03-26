@@ -3514,5 +3514,19 @@
     "nameJa": "いしずえのめん",
     "nameEn": "Cornerstone Mask",
     "battle": true
+  },
+  {
+    "name": "griseous-orb",
+    "nameKo": "백금옥",
+    "nameJa": "はっきんだま",
+    "nameEn": "Griseous Orb",
+    "battle": true
+  },
+  {
+    "name": "leek",
+    "nameKo": "대파",
+    "nameJa": "ながねぎ",
+    "nameEn": "Leek",
+    "battle": true
   }
 ]

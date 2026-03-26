@@ -216,6 +216,20 @@ ItemEffect getItemEffect(
         return const ItemEffect(powerModifier: kTypeBoostPower);
       }
       return _defaultEffect;
+    case 'adamant-crystal':
+      // Dialga Origin: 1.2x Dragon/Steel
+      if (name.contains('dialga') &&
+          (move.type == PokemonType.dragon || move.type == PokemonType.steel)) {
+        return const ItemEffect(powerModifier: kLegendaryItemPower);
+      }
+      return _defaultEffect;
+    case 'lustrous-globe':
+      // Palkia Origin: 1.2x Dragon/Water
+      if (name.contains('palkia') &&
+          (move.type == PokemonType.dragon || move.type == PokemonType.water)) {
+        return const ItemEffect(powerModifier: kLegendaryItemPower);
+      }
+      return _defaultEffect;
   }
 
   return _defaultEffect;
@@ -255,6 +269,11 @@ DefensiveItemEffect getDefensiveItemEffect(String itemName, {
     case 'deep-sea-scale':
       if (pokemonName != null && pokemonName.toLowerCase().contains('clamperl')) {
         return const DefensiveItemEffect(spdModifier: 2.0);
+      }
+      return _defaultDefensiveItemEffect;
+    case 'metal-powder':
+      if (pokemonName != null && pokemonName.toLowerCase().contains('ditto')) {
+        return const DefensiveItemEffect(defModifier: 2.0);
       }
       return _defaultDefensiveItemEffect;
     default:
@@ -316,10 +335,15 @@ const _defaultSpeedItemEffect = SpeedItemEffect();
 /// - Iron Ball: speed x0.5
 /// - Power items: speed x0.5
 /// - Full Incense / Lagging Tail: always move last
-SpeedItemEffect getSpeedItemEffect(String itemName) {
+SpeedItemEffect getSpeedItemEffect(String itemName, {String? pokemonName}) {
   switch (itemName) {
     case 'choice-scarf':
       return const SpeedItemEffect(speedModifier: kChoiceScarfSpeed);
+    case 'quick-powder':
+      if (pokemonName != null && pokemonName.toLowerCase().contains('ditto')) {
+        return const SpeedItemEffect(speedModifier: 2.0);
+      }
+      return _defaultSpeedItemEffect;
     case 'iron-ball':
       return const SpeedItemEffect(speedModifier: kHeavyItemSpeedPenalty);
     case 'power-weight':

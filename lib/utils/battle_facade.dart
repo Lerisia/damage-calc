@@ -115,6 +115,7 @@ class BattleFacade {
       baseSpeed: stats.speed,
       ability: state.selectedAbility,
       item: state.selectedItem,
+      pokemonName: state.pokemonName,
       status: state.status,
       weather: effWeather,
       terrain: effTerrain,

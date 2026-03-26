@@ -20,6 +20,7 @@ int calcEffectiveSpeed({
   required int baseSpeed,
   String? ability,
   String? item,
+  String? pokemonName,
   StatusCondition status = StatusCondition.none,
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
@@ -37,7 +38,7 @@ int calcEffectiveSpeed({
   // Item modifier (Klutz negates item effects; Choice Scarf nullified during Dynamax)
   if (item != null && ability != 'Klutz') {
     if (!(isDynamaxed && item == 'choice-scarf')) {
-      speed *= getSpeedItemEffect(item).speedModifier;
+      speed *= getSpeedItemEffect(item, pokemonName: pokemonName).speedModifier;
     }
   }
 
@@ -68,10 +69,11 @@ bool isAlwaysLast(BattlePokemonState state) {
 bool checkAlwaysLast({
   String? item,
   String? ability,
+  String? pokemonName,
   bool isDynamaxed = false,
 }) {
   if (item == null) return false;
   if (isDynamaxed) return false;
   if (ability == 'Klutz') return false;
-  return getSpeedItemEffect(item).alwaysLast;
+  return getSpeedItemEffect(item, pokemonName: pokemonName).alwaysLast;
 }
