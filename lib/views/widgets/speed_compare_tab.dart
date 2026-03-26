@@ -2,7 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
+import '../../data/abilitydex.dart';
+import '../../data/itemdex.dart';
+import '../../models/ability.dart';
 import '../../models/battle_pokemon.dart';
+import '../../models/item.dart';
 import '../../models/nature.dart';
 import '../../models/status.dart';
 import '../../utils/korean_search.dart';
@@ -108,6 +112,20 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
 
   Map<String, String> get _abilityNameMap => widget.abilityNameMap;
   Map<String, String> get _itemNameMap => widget.itemNameMap;
+  Map<String, Ability> _abilityDataMap = {};
+  Map<String, Item> _itemDataMap = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final abilities = await loadAbilitydex();
+    final items = await loadItemdex();
+    if (mounted) setState(() { _abilityDataMap = abilities; _itemDataMap = items; });
+  }
 
   int _calcEffectiveSpeed(BattlePokemonState s) {
     return BattleFacade.calcSpeed(
@@ -469,8 +487,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         suggestionsCallback: (query) {
           if (query.isEmpty || query == initialText) return sorted;
           final q = query.toLowerCase();
-          return sorted.where((a) =>
-              _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
+          return sorted.where((a) {
+            final data = _abilityDataMap[a];
+            if (data == null) return _abilityKo(a).contains(q) || a.toLowerCase().contains(q);
+            return data.nameKo.toLowerCase().contains(q) ||
+                   (data.nameEn ?? '').toLowerCase().contains(q) ||
+                   data.nameJa.contains(query) ||
+                   a.toLowerCase().contains(q);
+          }).toList();
         },
         decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
         itemBuilder: (context, ability) {
@@ -487,8 +511,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         onSubmittedPick: (text) {
           if (text.isEmpty) return null;
           final q = text.toLowerCase();
-          final matches = sorted.where((a) =>
-              _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
+          final matches = sorted.where((a) {
+            final data = _abilityDataMap[a];
+            if (data == null) return _abilityKo(a).contains(q) || a.toLowerCase().contains(q);
+            return data.nameKo.toLowerCase().contains(q) ||
+                   (data.nameEn ?? '').toLowerCase().contains(q) ||
+                   data.nameJa.contains(text) ||
+                   a.toLowerCase().contains(q);
+          }).toList();
           return matches.isNotEmpty ? matches.first : null;
         },
       ),
@@ -511,11 +541,19 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         suggestionsCallback: (text) {
           if (text.isEmpty || text == initialText) return allItems;
           final scored = <(String, int)>[];
+          final query = text.toLowerCase();
           for (final key in allItems) {
+            final item = _itemDataMap[key];
             final ko = _itemKo(key.isEmpty ? null : key);
-            final s = koreanMatchScore(text, ko);
-            final e = key.isNotEmpty && key.toLowerCase().contains(text.toLowerCase()) ? 20 : 0;
-            final best = s > e ? s : e;
+            int best = koreanMatchScore(text, ko);
+            if (item != null) {
+              final enScore = (item.nameEn ?? '').toLowerCase().contains(query) ? 20 : 0;
+              final jaScore = item.nameJa.contains(text) ? 20 : 0;
+              final keyScore = key.toLowerCase().contains(query) ? 15 : 0;
+              best = [best, enScore, jaScore, keyScore].reduce((a, b) => a > b ? a : b);
+            } else if (key.isNotEmpty && key.toLowerCase().contains(query)) {
+              best = best > 20 ? best : 20;
+            }
             if (best > 0) scored.add((key, best));
           }
           scored.sort((a, b) => b.$2.compareTo(a.$2));

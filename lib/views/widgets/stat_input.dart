@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../data/abilitydex.dart';
 import '../../data/itemdex.dart';
+import '../../models/ability.dart';
 import '../../models/item.dart';
 import '../../utils/korean_search.dart';
 import '../../models/nature.dart';
@@ -133,6 +134,7 @@ class StatInput extends StatefulWidget {
 
 class _StatInputState extends State<StatInput> {
   Map<String, String> _abilityNameMap = {};
+  Map<String, Ability> _abilityDataMap = {};
   List<String> _cachedSortedAbilities = [];
   List<String> _lastPokemonAbilities = [];
   int _evResetCounter = 0;
@@ -223,6 +225,7 @@ class _StatInputState extends State<StatInput> {
       _abilityCacheLang = AppStrings.current;
       setState(() {
         _abilityNameMap = map;
+        _abilityDataMap = dex;
         _rebuildSortedAbilities();
       });
     } catch (_) {}
@@ -468,8 +471,14 @@ class _StatInputState extends State<StatInput> {
       suggestionsCallback: (query) {
         if (query.isEmpty || query == initialText) return sorted;
         final q = query.toLowerCase();
-        return sorted.where((a) =>
-            _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
+        return sorted.where((a) {
+          final data = _abilityDataMap[a];
+          if (data == null) return _abilityKo(a).contains(q) || a.toLowerCase().contains(q);
+          return data.nameKo.toLowerCase().contains(q) ||
+                 (data.nameEn ?? '').toLowerCase().contains(q) ||
+                 data.nameJa.contains(query) ||
+                 a.toLowerCase().contains(q);
+        }).toList();
       },
       decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
       itemBuilder: (context, ability) {
@@ -486,8 +495,14 @@ class _StatInputState extends State<StatInput> {
       onSubmittedPick: (text) {
         if (text.isEmpty) return null;
         final q = text.toLowerCase();
-        final matches = sorted.where((a) =>
-            _abilityKo(a).contains(q) || a.toLowerCase().contains(q)).toList();
+        final matches = sorted.where((a) {
+          final data = _abilityDataMap[a];
+          if (data == null) return _abilityKo(a).contains(q) || a.toLowerCase().contains(q);
+          return data.nameKo.toLowerCase().contains(q) ||
+                 (data.nameEn ?? '').toLowerCase().contains(q) ||
+                 data.nameJa.contains(text) ||
+                 a.toLowerCase().contains(q);
+        }).toList();
         return matches.isNotEmpty ? matches.first : null;
       },
     );
