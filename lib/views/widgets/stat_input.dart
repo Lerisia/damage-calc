@@ -905,7 +905,7 @@ class _StatInputState extends State<StatInput> {
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
         if (!hasFocus) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          Future.delayed(const Duration(milliseconds: 50), () {
             if (!_hasFocusedStatField && mounted) {
               setState(() => _evResetCounter++);
               widget.onStatEditComplete?.call();
@@ -916,7 +916,7 @@ class _StatInputState extends State<StatInput> {
       child: SizedBox(
         height: 32,
         child: TextFormField(
-        key: ValueKey('rank_${value}_$_evResetCounter'),
+        key: ValueKey('rank_$_evResetCounter'),
         initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.text,
