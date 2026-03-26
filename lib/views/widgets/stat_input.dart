@@ -935,7 +935,6 @@ class _StatInputState extends State<StatInput> {
           final parsed = int.tryParse(text);
           if (parsed != null) {
             final clamped = parsed.clamp(-6, 6);
-            setState(() => _evResetCounter++);
             onChanged(clamped);
           }
         },
