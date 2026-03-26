@@ -920,7 +920,7 @@ class _StatInputState extends State<StatInput> {
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^-?[0-6]?$')),
+          FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]?$')),
         ],
         style: TextStyle(
           fontSize: 14,
