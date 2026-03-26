@@ -784,8 +784,13 @@ class _StatInputState extends State<StatInput> {
             onFocusChange: (hasFocus) {
               _hasFocusedStatField = hasFocus;
               if (!hasFocus) {
-                setState(() => _evResetCounter++); // normalize display
-                widget.onStatEditComplete?.call();
+                // Delay to allow focus transfer to another stat field
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (!_hasFocusedStatField && mounted) {
+                    setState(() => _evResetCounter++); // normalize display
+                    widget.onStatEditComplete?.call();
+                  }
+                });
               }
             },
             child: SizedBox(
@@ -902,8 +907,12 @@ class _StatInputState extends State<StatInput> {
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
         if (!hasFocus) {
-          setState(() => _evResetCounter++);
-          widget.onStatEditComplete?.call();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!_hasFocusedStatField && mounted) {
+              setState(() => _evResetCounter++);
+              widget.onStatEditComplete?.call();
+            }
+          });
         }
       },
       child: SizedBox(
