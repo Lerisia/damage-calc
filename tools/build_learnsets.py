@@ -104,12 +104,18 @@ def _normalize_id(name: str) -> str:
     return re.sub(r'[^a-z0-9]', '', name.lower())
 
 
-def parse_pokedex(ts_text: str) -> dict:
-    """Parse Showdown's pokedex.ts for evolution chains."""
+REGIONAL_FORMES = {'Alola', 'Galar', 'Hisui', 'Paldea'}
+
+
+def parse_pokedex(ts_text: str) -> tuple:
+    """Parse Showdown's pokedex.ts for evolution chains and form relationships."""
     prevos = {}  # pokemon_id -> prevo_id
     evos = {}  # pokemon_id -> [evo_id, ...]
+    form_bases = {}  # form_id -> base_id (for non-regional form changes only)
 
     current = None
+    current_base = None
+    current_forme = None
 
     for line in ts_text.split("\n"):
         stripped = line.strip()
@@ -119,6 +125,8 @@ def parse_pokedex(ts_text: str) -> dict:
             m = re.match(r'^(\w+):\s*\{', stripped)
             if m:
                 current = m.group(1)
+                current_base = None
+                current_forme = None
                 continue
 
         # Inside a pokemon entry (two+ tabs indent)
@@ -132,11 +140,24 @@ def parse_pokedex(ts_text: str) -> dict:
                 evo_names = re.findall(r'"([^"]+)"', m.group(1))
                 evos[current] = [_normalize_id(e) for e in evo_names]
 
+            m = re.match(r'^baseSpecies:\s*"(.+?)"', stripped)
+            if m:
+                current_base = _normalize_id(m.group(1))
+
+            m = re.match(r'^forme:\s*"(.+?)"', stripped)
+            if m:
+                current_forme = m.group(1)
+
         # Pokemon entry end: "\t},"
         if line.startswith('\t') and not line.startswith('\t\t') and stripped in ('},', '}'):
+            # Record form change (non-regional only)
+            if current and current_base and current_forme not in REGIONAL_FORMES:
+                form_bases[current] = current_base
             current = None
+            current_base = None
+            current_forme = None
 
-    return prevos, evos
+    return prevos, evos, form_bases
 
 
 def parse_code(code: str):
@@ -250,7 +271,7 @@ def build_learnsets():
     print(f"  Found {len(raw_learnsets)} Pokemon", file=sys.stderr)
 
     print("Parsing pokedex for evolution chains...", file=sys.stderr)
-    prevos, evos = parse_pokedex(pokedex_ts)
+    prevos, evos, form_bases = parse_pokedex(pokedex_ts)
 
     # Build regional form mapping
     regional_map = {}  # "dexNumber_region" -> showdownId
@@ -277,6 +298,14 @@ def build_learnsets():
 
         # Get moves for this Pokemon in its target gen
         own_moves = get_learnable_moves(raw_learnsets, pokemon_id, target_gen)
+
+        # Form changes inherit base form's moves (e.g., Rotom-Heat inherits Rotom)
+        if pokemon_id in form_bases:
+            base_id = form_bases[pokemon_id]
+            base_gen = get_pokemon_latest_gen(raw_learnsets, base_id)
+            if base_gen > 0:
+                base_moves = get_learnable_moves(raw_learnsets, base_id, min(base_gen, target_gen) or target_gen)
+                own_moves |= base_moves
 
         # Inherit pre-evolution moves
         prevo_chain = get_full_prevo_chain(prevos, pokemon_id)
