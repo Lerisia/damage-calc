@@ -371,6 +371,7 @@ class _StatInputState extends State<StatInput> {
                 tooltip: AppStrings.t('label.nature'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 constraints: const BoxConstraints(maxHeight: 300),
+                onOpened: () => FocusScope.of(context).unfocus(),
                 child: InputDecorator(
                   decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true),
                   child: Text(
