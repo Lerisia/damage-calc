@@ -418,6 +418,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     final selected = _weather == w;
                     final label = '${KoStrings.weatherIcon[w]!} ${KoStrings.getWeatherName(w)}';
                     return ChoiceChip(
+                      showCheckmark: false,
                       label: Text(label, style: const TextStyle(fontSize: 13)),
                       selected: selected,
                       onSelected: (_) {
@@ -438,6 +439,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     final selected = _terrain == t;
                     final label = '${KoStrings.terrainIcon[t]!} ${KoStrings.getTerrainName(t)}';
                     return ChoiceChip(
+                      showCheckmark: false,
                       label: Text(label, style: const TextStyle(fontSize: 13)),
                       selected: selected,
                       onSelected: (_) {
@@ -456,6 +458,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   spacing: 4,
                   children: [
                     FilterChip(
+                      showCheckmark: false,
                       label: Text('🔄 ${KoStrings.getRoomName(Room.trickRoom)}', style: const TextStyle(fontSize: 13)),
                       selected: _room.trickRoom,
                       onSelected: (v) {
@@ -466,6 +469,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       visualDensity: VisualDensity.compact,
                     ),
                     FilterChip(
+                      showCheckmark: false,
                       label: Text('✨ ${KoStrings.getRoomName(Room.magicRoom)}', style: const TextStyle(fontSize: 13)),
                       selected: _room.magicRoom,
                       onSelected: (v) {
@@ -476,6 +480,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       visualDensity: VisualDensity.compact,
                     ),
                     FilterChip(
+                      showCheckmark: false,
                       label: Text('❓ ${KoStrings.getRoomName(Room.wonderRoom)}', style: const TextStyle(fontSize: 13)),
                       selected: _room.wonderRoom,
                       onSelected: (v) {
@@ -486,6 +491,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       visualDensity: VisualDensity.compact,
                     ),
                     FilterChip(
+                      showCheckmark: false,
                       label: Text('🌀 ${KoStrings.gravityName}', style: const TextStyle(fontSize: 13)),
                       selected: _room.gravity,
                       onSelected: (v) {
