@@ -23,10 +23,7 @@
     "height": 1.4,
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Paldean Tauros (Combat Breed)",
-    "aliases": [
-      "zpsxkfhtm (vkfepdkdml ahtmq/zjaqotwhd)"
-    ]
+    "nameEn": "Paldean Tauros (Combat Breed)"
   },
   {
     "dexNumber": 128,
@@ -53,10 +50,7 @@
     "type2": "fire",
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Paldean Tauros (Blaze Breed)",
-    "aliases": [
-      "zpsxkfhtm (vkfepdkdml ahtmq/qmffpdlwmwhd)"
-    ]
+    "nameEn": "Paldean Tauros (Blaze Breed)"
   },
   {
     "dexNumber": 128,
@@ -83,10 +77,7 @@
     "type2": "water",
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Paldean Tauros (Aqua Breed)",
-    "aliases": [
-      "zpsxkfhtm (vkfepdkdml ahtmq/dnjxjwhd)"
-    ]
+    "nameEn": "Paldean Tauros (Aqua Breed)"
   },
   {
     "dexNumber": 194,
@@ -113,9 +104,6 @@
     "type2": "ground",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Paldean Wooper",
-    "aliases": [
-      "dnvk (vkfepdkdml ahtmq)"
-    ]
+    "nameEn": "Paldean Wooper"
   }
 ]

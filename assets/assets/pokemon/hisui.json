@@ -24,10 +24,7 @@
     "type2": "rock",
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Hisuian Growlithe",
-    "aliases": [
-      "rkel (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Growlithe"
   },
   {
     "dexNumber": 59,
@@ -54,10 +51,7 @@
     "type2": "rock",
     "finalEvo": true,
     "genderRate": 2,
-    "nameEn": "Hisuian Arcanine",
-    "aliases": [
-      "dnlsel (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Arcanine"
   },
   {
     "dexNumber": 100,
@@ -84,10 +78,7 @@
     "type2": "grass",
     "finalEvo": false,
     "genderRate": -1,
-    "nameEn": "Hisuian Voltorb",
-    "aliases": [
-      "Wlflflrhd (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Voltorb"
   },
   {
     "dexNumber": 101,
@@ -114,10 +105,7 @@
     "type2": "grass",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Hisuian Electrode",
-    "aliases": [
-      "qnaqhf (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Electrode"
   },
   {
     "dexNumber": 157,
@@ -143,10 +131,7 @@
     "type2": "ghost",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Hisuian Typhlosion",
-    "aliases": [
-      "qmffpdlqja (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Typhlosion"
   },
   {
     "dexNumber": 211,
@@ -173,10 +158,7 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Hisuian Qwilfish",
-    "aliases": [
-      "claqkfn (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Qwilfish"
   },
   {
     "dexNumber": 215,
@@ -203,10 +185,7 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Hisuian Sneasel",
-    "aliases": [
-      "vhvnsl (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Sneasel"
   },
   {
     "dexNumber": 503,
@@ -232,10 +211,7 @@
     "type2": "dark",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Hisuian Samurott",
-    "aliases": [
-      "eorjarnl (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Samurott"
   },
   {
     "dexNumber": 549,
@@ -262,10 +238,7 @@
     "type2": "fighting",
     "finalEvo": true,
     "genderRate": 8,
-    "nameEn": "Hisuian Lilligant",
-    "aliases": [
-      "emfpeldj (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Lilligant"
   },
   {
     "dexNumber": 570,
@@ -290,10 +263,7 @@
     "type2": "ghost",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Hisuian Zorua",
-    "aliases": [
-      "whfhdk (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Zorua"
   },
   {
     "dexNumber": 571,
@@ -318,10 +288,7 @@
     "type2": "ghost",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Hisuian Zoroark",
-    "aliases": [
-      "whfhdkzm (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Zoroark"
   },
   {
     "dexNumber": 628,
@@ -348,10 +315,7 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Hisuian Braviary",
-    "aliases": [
-      "dnjrmf (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Braviary"
   },
   {
     "dexNumber": 705,
@@ -378,10 +342,7 @@
     "type2": "dragon",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Hisuian Sliggoo",
-    "aliases": [
-      "alRmspdlf (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Sliggoo"
   },
   {
     "dexNumber": 706,
@@ -409,9 +370,7 @@
     "finalEvo": true,
     "genderRate": 4,
     "aliases": [
-      "히끄래곤",
-      "glRmforhs",
-      "alRmforhs (gltmdldml ahtmq)"
+      "히끄래곤"
     ],
     "nameEn": "Hisuian Goodra"
   },
@@ -440,10 +399,7 @@
     "type2": "rock",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Hisuian Avalugg",
-    "aliases": [
-      "zmfpqpdltm (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Avalugg"
   },
   {
     "dexNumber": 724,
@@ -469,9 +425,6 @@
     "type2": "fighting",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Hisuian Decidueye",
-    "aliases": [
-      "ahzmskdlvj (gltmdldml ahtmq)"
-    ]
+    "nameEn": "Hisuian Decidueye"
   }
 ]

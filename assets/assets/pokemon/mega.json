@@ -24,10 +24,7 @@
     "requiredItem": "venusaurite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Venusaur",
-    "aliases": [
-      "aprkdltkdgoRhc"
-    ]
+    "nameEn": "Mega Venusaur"
   },
   {
     "dexNumber": 6,
@@ -55,9 +52,7 @@
     "genderRate": 1,
     "canDynamax": false,
     "aliases": [
-      "엑자몽",
-      "dprwkahd",
-      "aprkflwkahdX"
+      "엑자몽"
     ],
     "nameEn": "Mega Charizard X"
   },
@@ -87,9 +82,7 @@
     "genderRate": 1,
     "canDynamax": false,
     "aliases": [
-      "와자몽",
-      "dhkwkahd",
-      "aprkflwkahdY"
+      "와자몽"
     ],
     "nameEn": "Mega Charizard Y"
   },
@@ -117,10 +110,7 @@
     "requiredItem": "blastoisinite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Blastoise",
-    "aliases": [
-      "aprkrjqnrdhkd"
-    ]
+    "nameEn": "Mega Blastoise"
   },
   {
     "dexNumber": 65,
@@ -146,10 +136,7 @@
     "requiredItem": "alakazite",
     "genderRate": 2,
     "canDynamax": false,
-    "nameEn": "Mega Alakazam",
-    "aliases": [
-      "aprkgnels"
-    ]
+    "nameEn": "Mega Alakazam"
   },
   {
     "dexNumber": 94,
@@ -176,10 +163,7 @@
     "requiredItem": "gengarite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Gengar",
-    "aliases": [
-      "aprkvosxja"
-    ]
+    "nameEn": "Mega Gengar"
   },
   {
     "dexNumber": 115,
@@ -205,10 +189,7 @@
     "requiredItem": "kangaskhanite",
     "genderRate": 8,
     "canDynamax": false,
-    "nameEn": "Mega Kangaskhan",
-    "aliases": [
-      "aprkzodzk"
-    ]
+    "nameEn": "Mega Kangaskhan"
   },
   {
     "dexNumber": 127,
@@ -235,10 +216,7 @@
     "requiredItem": "pinsirite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Pinsir",
-    "aliases": [
-      "aprkQmtkdlwj"
-    ]
+    "nameEn": "Mega Pinsir"
   },
   {
     "dexNumber": 130,
@@ -265,10 +243,7 @@
     "requiredItem": "gyaradosite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Gyarados",
-    "aliases": [
-      "aprkrifkehtm"
-    ]
+    "nameEn": "Mega Gyarados"
   },
   {
     "dexNumber": 142,
@@ -295,10 +270,7 @@
     "requiredItem": "aerodactylite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Aerodactyl",
-    "aliases": [
-      "aprkvmxpfk"
-    ]
+    "nameEn": "Mega Aerodactyl"
   },
   {
     "dexNumber": 150,
@@ -325,10 +297,7 @@
     "requiredItem": "mewtwonite-x",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Mewtwo X",
-    "aliases": [
-      "aprkabcmX"
-    ]
+    "nameEn": "Mega Mewtwo X"
   },
   {
     "dexNumber": 150,
@@ -354,10 +323,7 @@
     "requiredItem": "mewtwonite-y",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Mewtwo Y",
-    "aliases": [
-      "aprkabcmY"
-    ]
+    "nameEn": "Mega Mewtwo Y"
   },
   {
     "dexNumber": 181,
@@ -384,10 +350,7 @@
     "requiredItem": "ampharosite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Ampharos",
-    "aliases": [
-      "aprkwjsfyd"
-    ]
+    "nameEn": "Mega Ampharos"
   },
   {
     "dexNumber": 212,
@@ -414,10 +377,7 @@
     "requiredItem": "scizorite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Scizor",
-    "aliases": [
-      "aprkgkttka"
-    ]
+    "nameEn": "Mega Scizor"
   },
   {
     "dexNumber": 214,
@@ -444,10 +404,7 @@
     "requiredItem": "heracronite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Heracross",
-    "aliases": [
-      "aprkgpfkzmfhtm"
-    ]
+    "nameEn": "Mega Heracross"
   },
   {
     "dexNumber": 229,
@@ -474,10 +431,7 @@
     "requiredItem": "houndoominite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Houndoom",
-    "aliases": [
-      "aprkgpfrk"
-    ]
+    "nameEn": "Mega Houndoom"
   },
   {
     "dexNumber": 248,
@@ -504,10 +458,7 @@
     "requiredItem": "tyranitarite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Tyranitar",
-    "aliases": [
-      "aprkakrlfktm"
-    ]
+    "nameEn": "Mega Tyranitar"
   },
   {
     "dexNumber": 257,
@@ -534,10 +485,7 @@
     "requiredItem": "blazikenite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Blaziken",
-    "aliases": [
-      "aprkqjsclzh"
-    ]
+    "nameEn": "Mega Blaziken"
   },
   {
     "dexNumber": 282,
@@ -564,10 +512,7 @@
     "requiredItem": "gardevoirite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Gardevoir",
-    "aliases": [
-      "aprkrkeldks"
-    ]
+    "nameEn": "Mega Gardevoir"
   },
   {
     "dexNumber": 303,
@@ -594,10 +539,7 @@
     "requiredItem": "mawilite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Mawile",
-    "aliases": [
-      "aprkdlqclxm"
-    ]
+    "nameEn": "Mega Mawile"
   },
   {
     "dexNumber": 306,
@@ -623,10 +565,7 @@
     "requiredItem": "aggronite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Aggron",
-    "aliases": [
-      "aprkqhtmfhfk"
-    ]
+    "nameEn": "Mega Aggron"
   },
   {
     "dexNumber": 308,
@@ -653,10 +592,7 @@
     "requiredItem": "medichamite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Medicham",
-    "aliases": [
-      "aprkdyrkfoa"
-    ]
+    "nameEn": "Mega Medicham"
   },
   {
     "dexNumber": 310,
@@ -682,10 +618,7 @@
     "requiredItem": "manectite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Manectric",
-    "aliases": [
-      "aprkTjsejqhfxm"
-    ]
+    "nameEn": "Mega Manectric"
   },
   {
     "dexNumber": 354,
@@ -711,10 +644,7 @@
     "requiredItem": "banettite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Banette",
-    "aliases": [
-      "aprkekzmvpt"
-    ]
+    "nameEn": "Mega Banette"
   },
   {
     "dexNumber": 359,
@@ -740,10 +670,7 @@
     "requiredItem": "absolite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Absol",
-    "aliases": [
-      "aprkdoqthf"
-    ]
+    "nameEn": "Mega Absol"
   },
   {
     "dexNumber": 445,
@@ -770,10 +697,7 @@
     "requiredItem": "garchompite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Garchomp",
-    "aliases": [
-      "aprkgkszkfldktm"
-    ]
+    "nameEn": "Mega Garchomp"
   },
   {
     "dexNumber": 448,
@@ -800,10 +724,7 @@
     "requiredItem": "lucarionite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Lucario",
-    "aliases": [
-      "aprkfnzkfldh"
-    ]
+    "nameEn": "Mega Lucario"
   },
   {
     "dexNumber": 460,
@@ -830,10 +751,7 @@
     "requiredItem": "abomasite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Abomasnow",
-    "aliases": [
-      "aprksnstjfdhkd"
-    ]
+    "nameEn": "Mega Abomasnow"
   },
   {
     "dexNumber": 380,
@@ -860,10 +778,7 @@
     "requiredItem": "latiasite",
     "genderRate": 8,
     "canDynamax": false,
-    "nameEn": "Mega Latias",
-    "aliases": [
-      "aprkfkxldktm"
-    ]
+    "nameEn": "Mega Latias"
   },
   {
     "dexNumber": 381,
@@ -890,10 +805,7 @@
     "requiredItem": "latiosite",
     "genderRate": 0,
     "canDynamax": false,
-    "nameEn": "Mega Latios",
-    "aliases": [
-      "aprkfkxldhtm"
-    ]
+    "nameEn": "Mega Latios"
   },
   {
     "dexNumber": 260,
@@ -920,10 +832,7 @@
     "requiredItem": "swampertite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Swampert",
-    "aliases": [
-      "aprkeoWkddl"
-    ]
+    "nameEn": "Mega Swampert"
   },
   {
     "dexNumber": 254,
@@ -950,10 +859,7 @@
     "requiredItem": "sceptilite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Sceptile",
-    "aliases": [
-      "aprkskanzld"
-    ]
+    "nameEn": "Mega Sceptile"
   },
   {
     "dexNumber": 302,
@@ -980,10 +886,7 @@
     "requiredItem": "sablenite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Sableye",
-    "aliases": [
-      "aprkRkaRkal"
-    ]
+    "nameEn": "Mega Sableye"
   },
   {
     "dexNumber": 334,
@@ -1010,10 +913,7 @@
     "requiredItem": "altarianite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Altaria",
-    "aliases": [
-      "aprkvkqlzhfl"
-    ]
+    "nameEn": "Mega Altaria"
   },
   {
     "dexNumber": 475,
@@ -1040,10 +940,7 @@
     "requiredItem": "galladite",
     "genderRate": 0,
     "canDynamax": false,
-    "nameEn": "Mega Gallade",
-    "aliases": [
-      "aprkdpffpdlem"
-    ]
+    "nameEn": "Mega Gallade"
   },
   {
     "dexNumber": 531,
@@ -1070,10 +967,7 @@
     "requiredItem": "audinite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Audino",
-    "aliases": [
-      "aprkekqnsl"
-    ]
+    "nameEn": "Mega Audino"
   },
   {
     "dexNumber": 319,
@@ -1100,10 +994,7 @@
     "requiredItem": "sharpedonite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Sharpedo",
-    "aliases": [
-      "aprktizmsldk"
-    ]
+    "nameEn": "Mega Sharpedo"
   },
   {
     "dexNumber": 80,
@@ -1130,10 +1021,7 @@
     "requiredItem": "slowbronite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Slowbro",
-    "aliases": [
-      "aprkdiehfks"
-    ]
+    "nameEn": "Mega Slowbro"
   },
   {
     "dexNumber": 208,
@@ -1160,10 +1048,7 @@
     "requiredItem": "steelixite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Steelix",
-    "aliases": [
-      "aprkrkdcjfxhs"
-    ]
+    "nameEn": "Mega Steelix"
   },
   {
     "dexNumber": 18,
@@ -1190,10 +1075,7 @@
     "requiredItem": "pidgeotite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Pidgeot",
-    "aliases": [
-      "aprkvlwysxn"
-    ]
+    "nameEn": "Mega Pidgeot"
   },
   {
     "dexNumber": 362,
@@ -1219,10 +1101,7 @@
     "requiredItem": "glalitite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Glalie",
-    "aliases": [
-      "aprkdjfdmarnltls"
-    ]
+    "nameEn": "Mega Glalie"
   },
   {
     "dexNumber": 719,
@@ -1249,10 +1128,7 @@
     "requiredItem": "diancite",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Diancie",
-    "aliases": [
-      "aprkeldkstl"
-    ]
+    "nameEn": "Mega Diancie"
   },
   {
     "dexNumber": 376,
@@ -1279,10 +1155,7 @@
     "requiredItem": "metagrossite",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Metagross",
-    "aliases": [
-      "aprkapxkrmfhtm"
-    ]
+    "nameEn": "Mega Metagross"
   },
   {
     "dexNumber": 384,
@@ -1308,10 +1181,7 @@
     "finalEvo": true,
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Rayquaza",
-    "aliases": [
-      "aprkfpznwi"
-    ]
+    "nameEn": "Mega Rayquaza"
   },
   {
     "dexNumber": 323,
@@ -1338,10 +1208,7 @@
     "requiredItem": "cameruptite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Camerupt",
-    "aliases": [
-      "aprkvhrxk"
-    ]
+    "nameEn": "Mega Camerupt"
   },
   {
     "dexNumber": 428,
@@ -1368,10 +1235,7 @@
     "requiredItem": "lopunnite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Lopunny",
-    "aliases": [
-      "aprkdldjfhq"
-    ]
+    "nameEn": "Mega Lopunny"
   },
   {
     "dexNumber": 373,
@@ -1398,10 +1262,7 @@
     "requiredItem": "salamencite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Salamence",
-    "aliases": [
-      "aprkqhaksek"
-    ]
+    "nameEn": "Mega Salamence"
   },
   {
     "dexNumber": 15,
@@ -1428,10 +1289,7 @@
     "requiredItem": "beedrillite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Beedrill",
-    "aliases": [
-      "aprkehrclaqnd"
-    ]
+    "nameEn": "Mega Beedrill"
   },
   {
     "name": "Mega Clefable",
@@ -1456,10 +1314,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "clefablite",
-    "nameEn": "Mega Clefable",
-    "aliases": [
-      "aprkvlrtl"
-    ]
+    "nameEn": "Mega Clefable"
   },
   {
     "name": "Mega Victreebel",
@@ -1484,10 +1339,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "victreebelite",
-    "nameEn": "Mega Victreebel",
-    "aliases": [
-      "aprkdncmqhxm"
-    ]
+    "nameEn": "Mega Victreebel"
   },
   {
     "name": "Mega Starmie",
@@ -1512,10 +1364,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "starminite",
-    "nameEn": "Mega Starmie",
-    "aliases": [
-      "aprkdkzntmxk"
-    ]
+    "nameEn": "Mega Starmie"
   },
   {
     "name": "Mega Dragonite",
@@ -1540,10 +1389,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "dragoninite",
-    "nameEn": "Mega Dragonite",
-    "aliases": [
-      "aprkakdsksyd"
-    ]
+    "nameEn": "Mega Dragonite"
   },
   {
     "name": "Mega Meganium",
@@ -1568,10 +1414,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "meganiumite",
-    "nameEn": "Mega Meganium",
-    "aliases": [
-      "aprkaprksldna"
-    ]
+    "nameEn": "Mega Meganium"
   },
   {
     "name": "Mega Feraligatr",
@@ -1596,10 +1439,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "feraligite",
-    "nameEn": "Mega Feraligatr",
-    "aliases": [
-      "aprkwkdzmfhekdlf"
-    ]
+    "nameEn": "Mega Feraligatr"
   },
   {
     "name": "Mega Skarmory",
@@ -1624,10 +1464,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "skarmorite",
-    "nameEn": "Mega Skarmory",
-    "aliases": [
-      "aprkanwkdwh"
-    ]
+    "nameEn": "Mega Skarmory"
   },
   {
     "name": "Mega Froslass",
@@ -1652,10 +1489,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "froslassite",
-    "nameEn": "Mega Froslass",
-    "aliases": [
-      "aprksnsdudk"
-    ]
+    "nameEn": "Mega Froslass"
   },
   {
     "name": "Mega Emboar",
@@ -1680,10 +1514,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "emboarite",
-    "nameEn": "Mega Emboar",
-    "aliases": [
-      "aprkduaandhkd"
-    ]
+    "nameEn": "Mega Emboar"
   },
   {
     "name": "Mega Excadrill",
@@ -1708,10 +1539,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "excadrite",
-    "nameEn": "Mega Excadrill",
-    "aliases": [
-      "aprkahfemfb"
-    ]
+    "nameEn": "Mega Excadrill"
   },
   {
     "name": "Mega Scolipede",
@@ -1736,10 +1564,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "scolipite",
-    "nameEn": "Mega Scolipede",
-    "aliases": [
-      "aprkvpsemfk"
-    ]
+    "nameEn": "Mega Scolipede"
   },
   {
     "name": "Mega Scrafty",
@@ -1764,10 +1589,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "scraftinite",
-    "nameEn": "Mega Scrafty",
-    "aliases": [
-      "aprkrhsdbfrjsl"
-    ]
+    "nameEn": "Mega Scrafty"
   },
   {
     "name": "Mega Eelektross",
@@ -1791,10 +1613,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "eelektrossite",
-    "nameEn": "Mega Eelektross",
-    "aliases": [
-      "aprkwjflejvm"
-    ]
+    "nameEn": "Mega Eelektross"
   },
   {
     "name": "Mega Chandelure",
@@ -1819,10 +1638,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "chandelurite",
-    "nameEn": "Mega Chandelure",
-    "aliases": [
-      "aprktidepffk"
-    ]
+    "nameEn": "Mega Chandelure"
   },
   {
     "name": "Mega Chesnaught",
@@ -1847,10 +1663,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "chesnaughtite",
-    "nameEn": "Mega Chesnaught",
-    "aliases": [
-      "aprkqmflrkfhs"
-    ]
+    "nameEn": "Mega Chesnaught"
   },
   {
     "name": "Mega Delphox",
@@ -1875,10 +1688,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "delphoxite",
-    "nameEn": "Mega Delphox",
-    "aliases": [
-      "aprkakvhrtl"
-    ]
+    "nameEn": "Mega Delphox"
   },
   {
     "name": "Mega Greninja",
@@ -1903,10 +1713,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "greninjite",
-    "nameEn": "Mega Greninja",
-    "aliases": [
-      "aprkrornfslswk"
-    ]
+    "nameEn": "Mega Greninja"
   },
   {
     "name": "Mega Pyroar",
@@ -1931,10 +1738,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "pyroarite",
-    "nameEn": "Mega Pyroar",
-    "aliases": [
-      "aprkghkduafpdh"
-    ]
+    "nameEn": "Mega Pyroar"
   },
   {
     "name": "Mega Floette",
@@ -1958,10 +1762,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "floettite",
-    "nameEn": "Mega Floette",
-    "aliases": [
-      "aprkvmffkdptxp"
-    ]
+    "nameEn": "Mega Floette"
   },
   {
     "name": "Mega Malamar",
@@ -1986,10 +1787,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "malamarite",
-    "nameEn": "Mega Malamar",
-    "aliases": [
-      "aprkzkffkakspfh"
-    ]
+    "nameEn": "Mega Malamar"
   },
   {
     "name": "Mega Barbaracle",
@@ -2014,10 +1812,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "barbaracite",
-    "nameEn": "Mega Barbaracle",
-    "aliases": [
-      "aprkrjqnrthseptm"
-    ]
+    "nameEn": "Mega Barbaracle"
   },
   {
     "name": "Mega Dragalge",
@@ -2042,10 +1837,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "dragalgite",
-    "nameEn": "Mega Dragalge",
-    "aliases": [
-      "aprkemfozka"
-    ]
+    "nameEn": "Mega Dragalge"
   },
   {
     "name": "Mega Hawlucha",
@@ -2070,10 +1862,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "hawluchanite",
-    "nameEn": "Mega Hawlucha",
-    "aliases": [
-      "aprkfnckqnf"
-    ]
+    "nameEn": "Mega Hawlucha"
   },
   {
     "name": "Mega Zygarde",
@@ -2098,10 +1887,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "zygardite",
-    "nameEn": "Mega Zygarde",
-    "aliases": [
-      "aprkwlrkfmep"
-    ]
+    "nameEn": "Mega Zygarde"
   },
   {
     "name": "Mega Drampa",
@@ -2126,10 +1912,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "drampanite",
-    "nameEn": "Mega Drampa",
-    "aliases": [
-      "aprkgkfqlfhd"
-    ]
+    "nameEn": "Mega Drampa"
   },
   {
     "name": "Mega Falinks",
@@ -2153,10 +1936,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "falinksite",
-    "nameEn": "Mega Falinks",
-    "aliases": [
-      "aprkeodufm"
-    ]
+    "nameEn": "Mega Falinks"
   },
   {
     "name": "Mega Raichu X",
@@ -2180,10 +1960,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "raichunite-x",
-    "nameEn": "Mega Raichu X",
-    "aliases": [
-      "aprkfkdlcbX"
-    ]
+    "nameEn": "Mega Raichu X"
   },
   {
     "name": "Mega Raichu Y",
@@ -2207,10 +1984,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "raichunite-y",
-    "nameEn": "Mega Raichu Y",
-    "aliases": [
-      "aprkfkdlcbY"
-    ]
+    "nameEn": "Mega Raichu Y"
   },
   {
     "name": "Mega Chimecho",
@@ -2235,10 +2009,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "chimechite",
-    "nameEn": "Mega Chimecho",
-    "aliases": [
-      "aprkclfjd"
-    ]
+    "nameEn": "Mega Chimecho"
   },
   {
     "name": "Mega Absol Z",
@@ -2263,10 +2034,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "absolite-z",
-    "nameEn": "Mega Absol Z",
-    "aliases": [
-      "aprkdoqthfZ"
-    ]
+    "nameEn": "Mega Absol Z"
   },
   {
     "name": "Mega Staraptor",
@@ -2291,10 +2059,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "staraptite",
-    "nameEn": "Mega Staraptor",
-    "aliases": [
-      "aprkWlfmghzm"
-    ]
+    "nameEn": "Mega Staraptor"
   },
   {
     "name": "Mega Garchomp Z",
@@ -2318,10 +2083,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "garchompite-z",
-    "nameEn": "Mega Garchomp Z",
-    "aliases": [
-      "aprkgkszkfldktmZ"
-    ]
+    "nameEn": "Mega Garchomp Z"
   },
   {
     "name": "Mega Lucario Z",
@@ -2346,10 +2108,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "lucarionite-z",
-    "nameEn": "Mega Lucario Z",
-    "aliases": [
-      "aprkfnzkfldhZ"
-    ]
+    "nameEn": "Mega Lucario Z"
   },
   {
     "name": "Mega Heatran",
@@ -2374,10 +2133,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "heatranite",
-    "nameEn": "Mega Heatran",
-    "aliases": [
-      "aprkglemfjs"
-    ]
+    "nameEn": "Mega Heatran"
   },
   {
     "name": "Mega Darkrai",
@@ -2401,10 +2157,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "darkranite",
-    "nameEn": "Mega Darkrai",
-    "aliases": [
-      "aprkekzmfkdl"
-    ]
+    "nameEn": "Mega Darkrai"
   },
   {
     "name": "Mega Golurk",
@@ -2429,10 +2182,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "golurkite",
-    "nameEn": "Mega Golurk",
-    "aliases": [
-      "aprkrhffnrm"
-    ]
+    "nameEn": "Mega Golurk"
   },
   {
     "name": "Mega Meowstic",
@@ -2456,10 +2206,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "meowsticite",
-    "nameEn": "Mega Meowstic",
-    "aliases": [
-      "aprksidhslrtm"
-    ]
+    "nameEn": "Mega Meowstic"
   },
   {
     "name": "Mega Crabominable",
@@ -2484,10 +2231,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "crabominite",
-    "nameEn": "Mega Crabominable",
-    "aliases": [
-      "aprkahekseksrp"
-    ]
+    "nameEn": "Mega Crabominable"
   },
   {
     "name": "Mega Golisopod",
@@ -2512,10 +2256,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "golisopite",
-    "nameEn": "Mega Golisopod",
-    "aliases": [
-      "aprkrkqwnantk"
-    ]
+    "nameEn": "Mega Golisopod"
   },
   {
     "name": "Mega Magearna",
@@ -2540,10 +2281,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "magearnite",
-    "nameEn": "Mega Magearna",
-    "aliases": [
-      "aprkakrldksk"
-    ]
+    "nameEn": "Mega Magearna"
   },
   {
     "name": "Mega Zeraora",
@@ -2567,10 +2305,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "zeraorite",
-    "nameEn": "Mega Zeraora",
-    "aliases": [
-      "aprkwpfkdhfk"
-    ]
+    "nameEn": "Mega Zeraora"
   },
   {
     "name": "Mega Scovillain",
@@ -2595,10 +2330,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "scovillainite",
-    "nameEn": "Mega Scovillain",
-    "aliases": [
-      "aprktmzhqlffjs"
-    ]
+    "nameEn": "Mega Scovillain"
   },
   {
     "name": "Mega Glimmora",
@@ -2623,10 +2355,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "glimmoranite",
-    "nameEn": "Mega Glimmora",
-    "aliases": [
-      "aprkzlffkvmffhfm"
-    ]
+    "nameEn": "Mega Glimmora"
   },
   {
     "name": "Mega Tatsugiri",
@@ -2651,10 +2380,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "tatsugirinite",
-    "nameEn": "Mega Tatsugiri",
-    "aliases": [
-      "aprkTkfldyd"
-    ]
+    "nameEn": "Mega Tatsugiri"
   },
   {
     "name": "Mega Baxcalibur",
@@ -2679,9 +2405,6 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "baxcalibrite",
-    "nameEn": "Mega Baxcalibur",
-    "aliases": [
-      "aprkemslffpdlqm"
-    ]
+    "nameEn": "Mega Baxcalibur"
   }
 ]
