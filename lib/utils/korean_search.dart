@@ -67,6 +67,24 @@ int scoreEntry(List<int> qRunes, String qLower, SearchEntry entry) {
   return 0;
 }
 
+/// Simple tri-language search with Korean chosung support.
+/// Use this for any search field that needs KO/EN/JA matching.
+/// Returns score > 0 if matched, 0 if not.
+int triLanguageScore(String query, {
+  required String nameKo,
+  String nameEn = '',
+  String nameJa = '',
+  String internalKey = '',
+}) {
+  final entry = SearchEntry(null, nameKo, nameEn, nameJa: nameJa);
+  final qLower = query.toLowerCase();
+  final qRunes = qLower.runes.toList();
+  final score = scoreEntry(qRunes, qLower, entry);
+  if (score > 0) return score;
+  if (internalKey.isNotEmpty && internalKey.toLowerCase().contains(qLower)) return 15;
+  return 0;
+}
+
 const _chosung = [
   'ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ',
   'ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ',

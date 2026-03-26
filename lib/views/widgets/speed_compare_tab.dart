@@ -486,14 +486,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         focusNode: focusNode,
         suggestionsCallback: (query) {
           if (query.isEmpty || query == initialText) return sorted;
-          final q = query.toLowerCase();
           return sorted.where((a) {
             final data = _abilityDataMap[a];
-            if (data == null) return _abilityKo(a).contains(q) || a.toLowerCase().contains(q);
-            return data.nameKo.toLowerCase().contains(q) ||
-                   (data.nameEn ?? '').toLowerCase().contains(q) ||
-                   data.nameJa.contains(query) ||
-                   a.toLowerCase().contains(q);
+            return triLanguageScore(query,
+              nameKo: data?.nameKo ?? _abilityKo(a),
+              nameEn: data?.nameEn ?? a,
+              nameJa: data?.nameJa ?? '',
+              internalKey: a,
+            ) > 0;
           }).toList();
         },
         decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
@@ -511,14 +511,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         },
         onSubmittedPick: (text) {
           if (text.isEmpty) return null;
-          final q = text.toLowerCase();
           final matches = sorted.where((a) {
             final data = _abilityDataMap[a];
-            if (data == null) return _abilityKo(a).contains(q) || a.toLowerCase().contains(q);
-            return data.nameKo.toLowerCase().contains(q) ||
-                   (data.nameEn ?? '').toLowerCase().contains(q) ||
-                   data.nameJa.contains(text) ||
-                   a.toLowerCase().contains(q);
+            return triLanguageScore(text,
+              nameKo: data?.nameKo ?? _abilityKo(a),
+              nameEn: data?.nameEn ?? a,
+              nameJa: data?.nameJa ?? '',
+              internalKey: a,
+            ) > 0;
           }).toList();
           return matches.isNotEmpty ? matches.first : null;
         },
@@ -541,14 +541,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         focusNode: focusNode,
         suggestionsCallback: (text) {
           if (text.isEmpty || text == initialText) return allItems;
-          final q = text.toLowerCase();
           return allItems.where((key) {
             final data = _itemDataMap[key];
-            if (data == null) return _itemKo(key.isEmpty ? null : key).toLowerCase().contains(q) || key.toLowerCase().contains(q);
-            return data.nameKo.toLowerCase().contains(q) ||
-                   (data.nameEn ?? '').toLowerCase().contains(q) ||
-                   data.nameJa.contains(text) ||
-                   key.toLowerCase().contains(q);
+            return triLanguageScore(text,
+              nameKo: data?.nameKo ?? _itemKo(key.isEmpty ? null : key),
+              nameEn: data?.nameEn ?? '',
+              nameJa: data?.nameJa ?? '',
+              internalKey: key,
+            ) > 0;
           }).toList();
         },
         decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
