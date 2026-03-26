@@ -175,7 +175,8 @@ class _StatInputState extends State<StatInput> {
     // (e.g. from speed tab), NOT during typing (focus is active).
     if (!_hasFocusedStatField &&
         (widget.ev != old.ev || widget.iv != old.iv ||
-         widget.rank != old.rank || widget.hpPercent != old.hpPercent)) {
+         widget.rank != old.rank || widget.hpPercent != old.hpPercent ||
+         widget.useSpMode != old.useSpMode)) {
       _evResetCounter++;
     }
   }
