@@ -785,9 +785,9 @@ class AppStrings {
       AppLanguage.ja: '実戦バトルプレイヤーのためのダメージ計算機',
     },
     'about.subtitle': {
-      AppLanguage.ko: '실전 배틀 유저가 만든 무료 프로젝트입니다.',
-      AppLanguage.en: 'A free project made by a competitive battle player.',
-      AppLanguage.ja: '対戦プレイヤーが作った無料プロジェクトです。',
+      AppLanguage.ko: '취미로 제작한 무료 어플리케이션입니다.',
+      AppLanguage.en: 'A free application made as a hobby project.',
+      AppLanguage.ja: '趣味で制作した無料アプリです。',
     },
     'about.beta': {
       AppLanguage.ko: '문의 및 버그 리포트는 GitHub Issues로 부탁드립니다.',
@@ -795,9 +795,9 @@ class AppStrings {
       AppLanguage.ja: 'バグ報告やご要望はGitHub Issuesまでお願いします。',
     },
     'about.disclaimer': {
-      AppLanguage.ko: '본 앱은 Nintendo, Game Freak, The Pokémon Company와\n관련이 없는 비공식 팬메이드 앱입니다.\n관련 데이터의 저작권은 원저작자에게 있습니다.',
-      AppLanguage.en: 'This is an unofficial fan-made project not affiliated with\nNintendo, Game Freak, or The Pokémon Company.\nAll related data belongs to their respective owners.',
-      AppLanguage.ja: '本アプリは任天堂、ゲームフリーク、\n株式会社ポケモンとは無関係の非公式ファンメイドアプリです。\n関連データの著作権は各権利者に帰属します。',
+      AppLanguage.ko: '본 앱은 Nintendo, Game Freak, The Pokémon Company와 관련이 없는 비공식 팬메이드 앱입니다.\n관련 데이터의 저작권은 원저작자에게 있습니다.',
+      AppLanguage.en: 'This is an unofficial fan-made project not affiliated with Nintendo, Game Freak, or The Pokémon Company.\nAll related data belongs to their respective owners.',
+      AppLanguage.ja: '本アプリは任天堂、ゲームフリーク、株式会社ポケモンとは無関係の非公式ファンメイドアプリです。\n関連データの著作権は各権利者に帰属します。',
     },
   };
 }
