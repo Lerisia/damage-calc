@@ -329,15 +329,8 @@ class PokemonPanelState extends State<PokemonPanel>
 
   Widget _captureHeader() {
     final label = widget.label;
-    final conditions = <String>[];
-    if (widget.weather != Weather.none) conditions.add(KoStrings.getWeatherNameWithIcon(widget.weather));
-    if (widget.terrain != Terrain.none) conditions.add(KoStrings.getTerrainNameWithIcon(widget.terrain));
-    if (widget.room.trickRoom) conditions.add('🔄${KoStrings.getRoomName(Room.trickRoom)}');
-    if (widget.room.magicRoom) conditions.add('✨${KoStrings.getRoomName(Room.magicRoom)}');
-    if (widget.room.wonderRoom) conditions.add('❓${KoStrings.getRoomName(Room.wonderRoom)}');
-    if (widget.room.gravity) conditions.add('🌀${KoStrings.gravityName}');
 
-    if (label.isEmpty && conditions.isEmpty && widget.onSave == null) return const SizedBox.shrink();
+    if (label.isEmpty && widget.onSave == null) return const SizedBox.shrink();
 
     final labelColor = widget.isAttacker ? Colors.red[400] : Colors.blue[400];
 
@@ -345,19 +338,13 @@ class PokemonPanelState extends State<PokemonPanel>
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
       child: Row(
         children: [
-          Expanded(child: Text.rich(
-            TextSpan(children: [
-              if (label.isNotEmpty) TextSpan(
-                text: label,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: labelColor),
-              ),
-              if (label.isNotEmpty && conditions.isNotEmpty) const TextSpan(text: ' '),
-              if (conditions.isNotEmpty) TextSpan(
-                text: conditions.join(' | '),
-                style: TextStyle(fontSize: 12, color: labelColor?.withValues(alpha: 0.7)),
-              ),
-            ]),
-          )),
+          if (label.isNotEmpty)
+            Expanded(child: Text(
+              label,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: labelColor),
+            ))
+          else
+            const Expanded(child: SizedBox()),
           if (widget.onSave != null)
             TextButton(
               onPressed: widget.onSave,
