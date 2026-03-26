@@ -134,7 +134,7 @@ class StatInput extends StatefulWidget {
 
 class _StatInputState extends State<StatInput> {
   Map<String, String> _abilityNameMap = {};
-  Map<String, Ability> _abilityDataMap = {};
+  static Map<String, Ability> _abilityDataMap = {};
   List<String> _cachedSortedAbilities = [];
   List<String> _lastPokemonAbilities = [];
   int _evResetCounter = 0;
@@ -161,7 +161,7 @@ class _StatInputState extends State<StatInput> {
   }
 
   Map<String, String> _itemNameMap = {};
-  Map<String, Item> _itemDataMap = {};
+  static Map<String, Item> _itemDataMap = {};
 
   bool _hasFocusedStatField = false;
 
