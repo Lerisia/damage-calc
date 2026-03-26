@@ -667,8 +667,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Widget build(BuildContext context) {
     final isWide = _isWideLayout;
     final maxAppBarWidth = MediaQuery.of(context).size.width >= 1400 ? 1920.0 : 1440.0;
-    final isKo = AppStrings.current == AppLanguage.ko;
-    final toolbarFontSize = isWide ? 16.0 : (isKo ? 14.0 : 11.0);
+    final toolbarFontSize = isWide ? 16.0 : 14.0;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
