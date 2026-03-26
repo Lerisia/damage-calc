@@ -173,12 +173,16 @@ class _StatInputState extends State<StatInput> {
   @override
   void didUpdateWidget(covariant StatInput old) {
     super.didUpdateWidget(old);
+    // SP/EV toggle always resets display regardless of focus
+    if (widget.useSpMode != old.useSpMode) {
+      _hasFocusedStatField = false;
+      _evResetCounter++;
+    }
     // Only reset TextFormField when values changed externally
     // (e.g. from speed tab), NOT during typing (focus is active).
-    if (!_hasFocusedStatField &&
+    else if (!_hasFocusedStatField &&
         (widget.ev != old.ev || widget.iv != old.iv ||
-         widget.rank != old.rank || widget.hpPercent != old.hpPercent ||
-         widget.useSpMode != old.useSpMode)) {
+         widget.rank != old.rank || widget.hpPercent != old.hpPercent)) {
       _evResetCounter++;
     }
   }
