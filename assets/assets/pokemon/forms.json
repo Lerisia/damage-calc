@@ -1424,7 +1424,8 @@
     "aliases": [
       "물거폰"
     ],
-    "nameEn": "Ogerpon (Wellspring Mask)"
+    "nameEn": "Ogerpon (Wellspring Mask)",
+    "requiredItem": "wellspring-mask"
   },
   {
     "dexNumber": 1017,
@@ -1452,7 +1453,8 @@
     "aliases": [
       "불거폰"
     ],
-    "nameEn": "Ogerpon (Hearthflame Mask)"
+    "nameEn": "Ogerpon (Hearthflame Mask)",
+    "requiredItem": "hearthflame-mask"
   },
   {
     "dexNumber": 1017,
@@ -1480,7 +1482,8 @@
     "aliases": [
       "돌거폰"
     ],
-    "nameEn": "Ogerpon (Cornerstone Mask)"
+    "nameEn": "Ogerpon (Cornerstone Mask)",
+    "requiredItem": "cornerstone-mask"
   },
   {
     "dexNumber": 1024,

@@ -3493,5 +3493,40 @@
     "nameJa": "ジガルデナイト",
     "battle": true,
     "nameEn": "Zygardite"
+  },
+  {
+    "name": "wellspring-mask",
+    "nameKo": "우물의가면",
+    "nameJa": "いどのめん",
+    "nameEn": "Wellspring Mask",
+    "battle": true
+  },
+  {
+    "name": "hearthflame-mask",
+    "nameKo": "화덕의가면",
+    "nameJa": "かまどのめん",
+    "nameEn": "Hearthflame Mask",
+    "battle": true
+  },
+  {
+    "name": "cornerstone-mask",
+    "nameKo": "주춧돌의가면",
+    "nameJa": "いしずえのめん",
+    "nameEn": "Cornerstone Mask",
+    "battle": true
+  },
+  {
+    "name": "griseous-orb",
+    "nameKo": "백금옥",
+    "nameJa": "はっきんだま",
+    "nameEn": "Griseous Orb",
+    "battle": true
+  },
+  {
+    "name": "leek",
+    "nameKo": "대파",
+    "nameJa": "ながねぎ",
+    "nameEn": "Leek",
+    "battle": true
   }
 ]
