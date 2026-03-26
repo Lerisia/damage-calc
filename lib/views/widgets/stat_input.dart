@@ -785,9 +785,9 @@ class _StatInputState extends State<StatInput> {
               _hasFocusedStatField = hasFocus;
               if (!hasFocus) {
                 // Delay to allow focus transfer to another stat field
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                Future.delayed(const Duration(milliseconds: 50), () {
                   if (!_hasFocusedStatField && mounted) {
-                    setState(() => _evResetCounter++); // normalize display
+                    setState(() => _evResetCounter++);
                     widget.onStatEditComplete?.call();
                   }
                 });
