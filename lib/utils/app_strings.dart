@@ -180,6 +180,11 @@ class AppStrings {
       AppLanguage.en: 'Stat',
       AppLanguage.ja: '実数値',
     },
+    'stat.total': {
+      AppLanguage.ko: '합계',
+      AppLanguage.en: 'Total',
+      AppLanguage.ja: '合計',
+    },
 
     // === Move table headers ===
     'move.name': {

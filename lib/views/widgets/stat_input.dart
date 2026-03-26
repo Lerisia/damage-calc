@@ -655,8 +655,7 @@ class _StatInputState extends State<StatInput> {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          Expanded(flex: 2, child: Container()),
-          Expanded(flex: 5, child: Text('$baseTotal', style: style, textAlign: TextAlign.center)),
+          Expanded(flex: 7, child: Text('${AppStrings.t('stat.total')} $baseTotal', style: style, textAlign: TextAlign.center)),
           Expanded(flex: 6, child: Text(
             usedPoints > maxPoints ? '${AppStrings.t('ev.exceeded')} ${usedPoints - maxPoints}' : '${AppStrings.t('ev.remaining')} ${maxPoints - usedPoints}',
             style: style.copyWith(
