@@ -307,9 +307,9 @@ class AppStrings {
       AppLanguage.ja: '攻守入替',
     },
     'toolbar.reset': {
-      AppLanguage.ko: '초기화',
-      AppLanguage.en: 'Reset',
-      AppLanguage.ja: 'リセット',
+      AppLanguage.ko: '전체 초기화',
+      AppLanguage.en: 'Reset All',
+      AppLanguage.ja: '全リセット',
     },
     'toolbar.capture': {
       AppLanguage.ko: '캡처',
@@ -347,6 +347,12 @@ class AppStrings {
       AppLanguage.ko: '가져오기',
       AppLanguage.en: 'Import',
       AppLanguage.ja: 'インポート',
+    },
+
+    'action.reset': {
+      AppLanguage.ko: '초기화',
+      AppLanguage.en: 'Reset',
+      AppLanguage.ja: 'リセット',
     },
 
     // === Sample ===
@@ -578,14 +584,14 @@ class AppStrings {
 
     // === Reset dialog ===
     'reset.title': {
-      AppLanguage.ko: '초기화',
-      AppLanguage.en: 'Reset',
-      AppLanguage.ja: 'リセット',
+      AppLanguage.ko: '전체 초기화',
+      AppLanguage.en: 'Reset All',
+      AppLanguage.ja: '全リセット',
     },
     'reset.message': {
-      AppLanguage.ko: '양측 설정과 날씨/필드/룸이 모두 초기화됩니다',
-      AppLanguage.en: 'All settings including weather, terrain, and room will be reset',
-      AppLanguage.ja: '両側の設定と天候/フィールド/ルームがすべてリセットされます',
+      AppLanguage.ko: '공격측, 방어측과 배틀환경이 모두 초기화됩니다.',
+      AppLanguage.en: 'Attacker, defender, and field conditions will all be reset.',
+      AppLanguage.ja: '攻撃側・防御側・場の状態がすべてリセットされます。',
     },
 
     // === Snackbar messages ===

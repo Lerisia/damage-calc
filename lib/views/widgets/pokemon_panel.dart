@@ -373,7 +373,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: Text(AppStrings.t('toolbar.reset'), style: const TextStyle(fontSize: 13)),
+              child: Text(AppStrings.t('action.reset'), style: const TextStyle(fontSize: 13)),
             ),
         ],
       ),
