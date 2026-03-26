@@ -212,6 +212,8 @@ bool _isUnremovableItem(String itemName) {
   // Arceus Plates
   if (itemName.endsWith('-plate')) return true;
   // Primal orbs, Griseous, Rusted items, Origin forme items
+  // Ogerpon masks
+  if (itemName.endsWith('-mask')) return true;
   const fixedItems = {
     'blue-orb', 'red-orb', 'rusted-sword', 'rusted-shield',
     'griseous-core', 'griseous-orb', 'adamant-crystal', 'lustrous-globe',

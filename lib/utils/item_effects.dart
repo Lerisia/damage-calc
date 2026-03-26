@@ -201,6 +201,21 @@ ItemEffect getItemEffect(
         return const ItemEffect(powerModifier: kLegendaryItemPower);
       }
       return _defaultEffect;
+    case 'wellspring-mask':
+      if (name.contains('ogerpon') && name.contains('wellspring')) {
+        return const ItemEffect(powerModifier: kTypeBoostPower);
+      }
+      return _defaultEffect;
+    case 'hearthflame-mask':
+      if (name.contains('ogerpon') && name.contains('hearthflame')) {
+        return const ItemEffect(powerModifier: kTypeBoostPower);
+      }
+      return _defaultEffect;
+    case 'cornerstone-mask':
+      if (name.contains('ogerpon') && name.contains('cornerstone')) {
+        return const ItemEffect(powerModifier: kTypeBoostPower);
+      }
+      return _defaultEffect;
   }
 
   return _defaultEffect;
