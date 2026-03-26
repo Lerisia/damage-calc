@@ -191,8 +191,6 @@ class PokemonPanelState extends State<PokemonPanel>
             const SizedBox(width: 4),
             ..._effectiveTypeBadges(),
             const SizedBox(width: 4),
-            _genderIcon(),
-            const SizedBox(width: 4),
             _dynamaxIcon(),
             const SizedBox(width: 4),
             _terastalIcon(),
@@ -681,53 +679,6 @@ class PokemonPanelState extends State<PokemonPanel>
       child: Text(
         KoStrings.getTypeName(type),
         style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  Widget _genderIcon() {
-    final g = s.gender;
-    final rate = s.genderRate;
-    final bool locked = rate == -1 || rate == 0 || rate == 8;
-
-    String label;
-    Color color;
-    switch (g) {
-      case Gender.male:
-        label = '♂'; color = Colors.blue;
-      case Gender.female:
-        label = '♀'; color = Colors.pink;
-      case Gender.genderless:
-        label = '-'; color = Colors.grey.shade500;
-      case Gender.unset:
-        label = '⚥'; color = Colors.purple.shade300;
-    }
-
-    return GestureDetector(
-      onTap: locked ? null : () {
-        setState(() {
-          switch (s.gender) {
-            case Gender.unset:
-              s.gender = Gender.male;
-            case Gender.male:
-              s.gender = Gender.female;
-            case Gender.female:
-              s.gender = Gender.unset;
-            default:
-              break;
-          }
-        });
-        _notifyParent();
-      },
-      child: SizedBox(
-        width: 24,
-        height: 24,
-        child: Center(
-          child: FittedBox(
-            fit: BoxFit.contain,
-            child: Text(label, style: TextStyle(fontSize: 22, color: color, fontWeight: FontWeight.bold)),
-          ),
-        ),
       ),
     );
   }
