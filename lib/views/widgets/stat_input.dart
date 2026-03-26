@@ -4,7 +4,6 @@ import '../../data/abilitydex.dart';
 import '../../data/itemdex.dart';
 import '../../models/ability.dart';
 import '../../models/item.dart';
-import '../../utils/korean_search.dart';
 import '../../models/nature.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
@@ -535,24 +534,15 @@ class _StatInputState extends State<StatInput> {
         focusNode: _itemFocusNode,
         suggestionsCallback: (text) {
           if (text.isEmpty || text == initialText) return allItems;
-          final scored = <(String, int)>[];
-          final query = text.toLowerCase();
-          for (final key in allItems) {
-            final item = _itemDataMap[key];
-            final ko = _itemDisplayName(key.isEmpty ? null : key);
-            int best = koreanMatchScore(text, ko);
-            if (item != null) {
-              final enScore = (item.nameEn ?? '').toLowerCase().contains(query) ? 20 : 0;
-              final jaScore = item.nameJa.contains(text) ? 20 : 0;
-              final keyScore = key.toLowerCase().contains(query) ? 15 : 0;
-              best = [best, enScore, jaScore, keyScore].reduce((a, b) => a > b ? a : b);
-            } else if (key.isNotEmpty && key.toLowerCase().contains(query)) {
-              best = best > 20 ? best : 20;
-            }
-            if (best > 0) scored.add((key, best));
-          }
-          scored.sort((a, b) => b.$2.compareTo(a.$2));
-          return scored.map((e) => e.$1).toList();
+          final q = text.toLowerCase();
+          return allItems.where((key) {
+            final data = _itemDataMap[key];
+            if (data == null) return _itemDisplayName(key.isEmpty ? null : key).toLowerCase().contains(q) || key.toLowerCase().contains(q);
+            return data.nameKo.toLowerCase().contains(q) ||
+                   (data.nameEn ?? '').toLowerCase().contains(q) ||
+                   data.nameJa.contains(text) ||
+                   key.toLowerCase().contains(q);
+          }).toList();
         },
         decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
         itemBuilder: (context, key) {
@@ -568,24 +558,16 @@ class _StatInputState extends State<StatInput> {
         },
         onSubmittedPick: (text) {
           if (text.isEmpty) return null;
-          final scored = <(String, int)>[];
-          final query = text.toLowerCase();
-          for (final key in allItems) {
-            final item = _itemDataMap[key];
-            final ko = _itemDisplayName(key.isEmpty ? null : key);
-            int best = koreanMatchScore(text, ko);
-            if (item != null) {
-              final enScore = (item.nameEn ?? '').toLowerCase().contains(query) ? 20 : 0;
-              final jaScore = item.nameJa.contains(text) ? 20 : 0;
-              final keyScore = key.toLowerCase().contains(query) ? 15 : 0;
-              best = [best, enScore, jaScore, keyScore].reduce((a, b) => a > b ? a : b);
-            } else if (key.isNotEmpty && key.toLowerCase().contains(query)) {
-              best = best > 20 ? best : 20;
-            }
-            if (best > 0) scored.add((key, best));
-          }
-          scored.sort((a, b) => b.$2.compareTo(a.$2));
-          return scored.isNotEmpty ? scored.first.$1 : null;
+          final q = text.toLowerCase();
+          final matches = allItems.where((key) {
+            final data = _itemDataMap[key];
+            if (data == null) return _itemDisplayName(key.isEmpty ? null : key).toLowerCase().contains(q) || key.toLowerCase().contains(q);
+            return data.nameKo.toLowerCase().contains(q) ||
+                   (data.nameEn ?? '').toLowerCase().contains(q) ||
+                   data.nameJa.contains(text) ||
+                   key.toLowerCase().contains(q);
+          }).toList();
+          return matches.isNotEmpty ? matches.first : null;
         },
       ),
     );
