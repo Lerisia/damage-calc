@@ -131,7 +131,7 @@ class _AppLoaderState extends State<_AppLoader> {
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            Text('로딩 중...',
+            Text('Loading...',
               style: TextStyle(color: Colors.grey[600], fontSize: 14)),
           ],
         ),
