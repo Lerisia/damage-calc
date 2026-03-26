@@ -957,8 +957,12 @@ class _StatInputState extends State<StatInput> {
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
         if (!hasFocus) {
-          setState(() => _evResetCounter++);
-          widget.onStatEditComplete?.call();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!_hasFocusedStatField && mounted) {
+              setState(() => _evResetCounter++);
+              widget.onStatEditComplete?.call();
+            }
+          });
         }
       },
       child: SizedBox(
