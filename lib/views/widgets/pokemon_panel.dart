@@ -167,6 +167,7 @@ class PokemonPanelState extends State<PokemonPanel>
     _updateCachedSpeed();
     return SingleChildScrollView(
       controller: _scrollController,
+      clipBehavior: Clip.none,
       padding: const EdgeInsets.fromLTRB(4, 2, 4, 200),
       child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
