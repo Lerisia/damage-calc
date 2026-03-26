@@ -527,7 +527,8 @@ class DamageCalculator {
     // Defender ability/item defensive modifiers
     if (effectiveDefAbility != null) {
       final defAbility = getDefensiveAbilityEffect(
-        effectiveDefAbility, status: defender.status, weather: weather, terrain: terrain);
+        effectiveDefAbility, status: defender.status, weather: weather, terrain: terrain,
+        heldItem: defender.selectedItem, actualStats: defActual);
       D = (D * (targetPhysDef ? defAbility.defModifier : defAbility.spdModifier)).floor();
     }
     if (defender.selectedItem != null) {

@@ -417,6 +417,8 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
   StatusCondition status = StatusCondition.none,
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
+  String? heldItem,
+  Stats? actualStats,
 }) {
   switch (abilityName) {
     case 'Fur Coat':
@@ -435,6 +437,18 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
       return terrain == Terrain.grassy
           ? const DefensiveAbilityEffect(defModifier: 1.5)
           : _defaultDefensiveEffect;
+    case 'Protosynthesis':
+      if ((weather == Weather.sun || weather == Weather.harshSun || heldItem == 'booster-energy') && actualStats != null) {
+        final boost = _boostHighestStat(actualStats);
+        return DefensiveAbilityEffect(defModifier: boost.defense, spdModifier: boost.spDefense);
+      }
+      return _defaultDefensiveEffect;
+    case 'Quark Drive':
+      if ((terrain == Terrain.electric || heldItem == 'booster-energy') && actualStats != null) {
+        final boost = _boostHighestStat(actualStats);
+        return DefensiveAbilityEffect(defModifier: boost.defense, spdModifier: boost.spDefense);
+      }
+      return _defaultDefensiveEffect;
     default:
       return _defaultDefensiveEffect;
   }

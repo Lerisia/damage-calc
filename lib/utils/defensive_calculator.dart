@@ -63,7 +63,8 @@ class DefensiveCalculator {
 
     // Ability (modifies the stat itself)
     if (ability != null) {
-      final abilityEffect = getDefensiveAbilityEffect(ability, status: status, weather: weather, terrain: terrain);
+      final abilityEffect = getDefensiveAbilityEffect(ability, status: status, weather: weather, terrain: terrain,
+        heldItem: item, actualStats: actualStats);
       defStatMod *= abilityEffect.defModifier;
       spdStatMod *= abilityEffect.spdModifier;
     }
