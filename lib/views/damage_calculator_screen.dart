@@ -1314,9 +1314,9 @@ class _LanguageButton extends StatelessWidget {
   };
 
   static const _langCodes = {
-    AppLanguage.ko: 'KO',
-    AppLanguage.en: 'EN',
-    AppLanguage.ja: 'JA',
+    AppLanguage.ko: '🇰🇷',
+    AppLanguage.en: '🇺🇸',
+    AppLanguage.ja: '🇯🇵',
   };
 
   @override
@@ -1332,12 +1332,7 @@ class _LanguageButton extends StatelessWidget {
           value: lang,
           child: Row(
             children: [
-              SizedBox(width: 28, child: Text(_langCodes[lang]!,
-                style: TextStyle(
-                  fontWeight: AppStrings.current == lang ? FontWeight.bold : FontWeight.normal,
-                  color: AppStrings.current == lang ? Theme.of(context).colorScheme.primary : null,
-                ),
-              )),
+              Text('${_langCodes[lang]!} ', style: const TextStyle(fontSize: 16)),
               Text(_langLabels[lang]!,
                 style: TextStyle(
                   fontWeight: AppStrings.current == lang ? FontWeight.bold : FontWeight.normal,
@@ -1352,10 +1347,8 @@ class _LanguageButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         child: Text(_langCodes[AppStrings.current]!,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+          style: const TextStyle(
+            fontSize: 18,
           ),
         ),
       ),
