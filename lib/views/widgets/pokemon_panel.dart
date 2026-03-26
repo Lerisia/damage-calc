@@ -168,9 +168,7 @@ class PokemonPanelState extends State<PokemonPanel>
     return SingleChildScrollView(
       controller: _scrollController,
       padding: const EdgeInsets.fromLTRB(4, 2, 4, 200),
-      child: Screenshot(
-        controller: _screenshotController,
-        child: Container(
+      child: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
@@ -281,7 +279,7 @@ class PokemonPanelState extends State<PokemonPanel>
           ],
         ],
       ),
-    )),
+    ),
     );
   }
 
