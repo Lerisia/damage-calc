@@ -74,6 +74,11 @@ class AppStrings {
       AppLanguage.en: 'Damage Calculator',
       AppLanguage.ja: 'ダメージ計算機',
     },
+    'app.about': {
+      AppLanguage.ko: '앱 소개',
+      AppLanguage.en: 'About',
+      AppLanguage.ja: 'アプリについて',
+    },
 
     // === Tabs ===
     'tab.attacker': {
@@ -286,10 +291,20 @@ class AppStrings {
       AppLanguage.en: 'Room',
       AppLanguage.ja: 'ルーム',
     },
+    'toolbar.battleConditions': {
+      AppLanguage.ko: '배틀환경',
+      AppLanguage.en: 'Field',
+      AppLanguage.ja: '場の状態',
+    },
+    'toolbar.conditionsReset': {
+      AppLanguage.ko: '초기화',
+      AppLanguage.en: 'Reset',
+      AppLanguage.ja: 'リセット',
+    },
     'toolbar.swap': {
-      AppLanguage.ko: '공수교대',
+      AppLanguage.ko: '공수전환',
       AppLanguage.en: 'Swap',
-      AppLanguage.ja: '攻守交代',
+      AppLanguage.ja: '攻守入替',
     },
     'toolbar.reset': {
       AppLanguage.ko: '초기화',

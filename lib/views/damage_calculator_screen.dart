@@ -358,6 +358,293 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
+  String _languageLabel() {
+    const labels = {
+      AppLanguage.ko: '🇰🇷 한국어',
+      AppLanguage.en: '🇺🇸 English',
+      AppLanguage.ja: '🇯🇵 日本語',
+    };
+    return labels[AppStrings.current]!;
+  }
+
+  void _cycleLanguage() {
+    final values = AppLanguage.values;
+    final next = values[(AppStrings.current.index + 1) % values.length];
+    AppStrings.setLanguage(next);
+    _loadAbilities();
+    _loadItems();
+    setState(() { _resetCounter++; });
+  }
+
+  void _showBattleConditionsDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) {
+          return AlertDialog(
+            title: Text(AppStrings.t('toolbar.battleConditions')),
+            contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Weather (radio - single select)
+                Text(AppStrings.t('toolbar.weather'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Wrap(
+                  spacing: 4,
+                  children: Weather.values.map((w) {
+                    final selected = _weather == w;
+                    final label = w == Weather.none
+                        ? AppStrings.t('status.none')
+                        : '${KoStrings.weatherIcon[w]!} ${KoStrings.getWeatherName(w)}';
+                    return ChoiceChip(
+                      label: Text(label, style: const TextStyle(fontSize: 13)),
+                      selected: selected,
+                      onSelected: (_) {
+                        setState(() => _weather = w);
+                        setDialogState(() {});
+                        _onPanelChanged();
+                      },
+                      visualDensity: VisualDensity.compact,
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 12),
+                // Terrain (radio - single select)
+                Text(AppStrings.t('toolbar.terrain'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Wrap(
+                  spacing: 4,
+                  children: Terrain.values.map((t) {
+                    final selected = _terrain == t;
+                    final label = t == Terrain.none
+                        ? AppStrings.t('status.none')
+                        : '${KoStrings.terrainIcon[t]!} ${KoStrings.getTerrainName(t)}';
+                    return ChoiceChip(
+                      label: Text(label, style: const TextStyle(fontSize: 13)),
+                      selected: selected,
+                      onSelected: (_) {
+                        setState(() => _terrain = t);
+                        setDialogState(() {});
+                        _onPanelChanged();
+                      },
+                      visualDensity: VisualDensity.compact,
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 12),
+                // Room + Gravity (checkboxes - multi select)
+                Text(AppStrings.t('toolbar.room'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Wrap(
+                  spacing: 4,
+                  children: [
+                    FilterChip(
+                      label: Text('🔄 ${KoStrings.getRoomName(Room.trickRoom)}', style: const TextStyle(fontSize: 13)),
+                      selected: _room.trickRoom,
+                      onSelected: (v) {
+                        setState(() => _room = _room.copyWith(trickRoom: v));
+                        setDialogState(() {});
+                        _onPanelChanged();
+                      },
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    FilterChip(
+                      label: Text('✨ ${KoStrings.getRoomName(Room.magicRoom)}', style: const TextStyle(fontSize: 13)),
+                      selected: _room.magicRoom,
+                      onSelected: (v) {
+                        setState(() => _room = _room.copyWith(magicRoom: v));
+                        setDialogState(() {});
+                        _onPanelChanged();
+                      },
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    FilterChip(
+                      label: Text('❓ ${KoStrings.getRoomName(Room.wonderRoom)}', style: const TextStyle(fontSize: 13)),
+                      selected: _room.wonderRoom,
+                      onSelected: (v) {
+                        setState(() => _room = _room.copyWith(wonderRoom: v));
+                        setDialogState(() {});
+                        _onPanelChanged();
+                      },
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    FilterChip(
+                      label: Text('🌀 ${KoStrings.gravityName}', style: const TextStyle(fontSize: 13)),
+                      selected: _room.gravity,
+                      onSelected: (v) {
+                        setState(() => _room = _room.copyWith(gravity: v));
+                        setDialogState(() {});
+                        _onPanelChanged();
+                      },
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _weather = Weather.none;
+                    _terrain = Terrain.none;
+                    _room = const RoomConditions();
+                  });
+                  setDialogState(() {});
+                  _onPanelChanged();
+                },
+                child: Text(AppStrings.t('toolbar.conditionsReset')),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(AppStrings.t('action.close')),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  /// Mobile: battle conditions button showing active icons, or text when none set.
+  Widget _battleConditionsButton() {
+    final icons = <String>[];
+    if (_weather != Weather.none) icons.add(KoStrings.weatherIcon[_weather]!);
+    if (_terrain != Terrain.none) icons.add(KoStrings.terrainIcon[_terrain]!);
+    if (_room.trickRoom) icons.add('🔄');
+    if (_room.magicRoom) icons.add('✨');
+    if (_room.wonderRoom) icons.add('❓');
+    if (_room.gravity) icons.add('🌀');
+
+    return GestureDetector(
+      onTap: _showBattleConditionsDialog,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: icons.isEmpty
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(AppStrings.t('toolbar.battleConditions'),
+                      style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
+                  const Icon(Icons.arrow_drop_down, size: 16),
+                ],
+              )
+            : Text(icons.join(' '), style: const TextStyle(fontSize: 20)),
+      ),
+    );
+  }
+
+  /// Wide layout: individual weather dropdown (extracted from old inline code)
+  Widget _weatherDropdown(double fontSize) {
+    return PopupMenuButton<Weather>(
+      initialValue: _weather,
+      tooltip: AppStrings.t('toolbar.weather'),
+      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _weather == Weather.none
+                ? Text(AppStrings.t('toolbar.weather'), style: TextStyle(fontSize: fontSize, color: Colors.grey.shade500))
+                : Text(KoStrings.weatherIcon[_weather]!, style: const TextStyle(fontSize: 24)),
+            const Icon(Icons.arrow_drop_down, size: 16),
+          ],
+        ),
+      ),
+      itemBuilder: (_) => Weather.values
+          .map((w) => PopupMenuItem(
+              value: w,
+              child: Row(children: [
+                if (w != Weather.none) ...[
+                  Text(KoStrings.weatherIcon[w]!, style: const TextStyle(fontSize: 18)),
+                  const SizedBox(width: 8),
+                ],
+                Text(KoStrings.getWeatherName(w)),
+              ])))
+          .toList(),
+      onSelected: (v) => setState(() => _weather = v),
+    );
+  }
+
+  Widget _terrainDropdown(double fontSize) {
+    return PopupMenuButton<Terrain>(
+      initialValue: _terrain,
+      tooltip: AppStrings.t('toolbar.terrain'),
+      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _terrain == Terrain.none
+                ? Text(AppStrings.t('toolbar.terrain'), style: TextStyle(fontSize: fontSize, color: Colors.grey.shade500))
+                : Text(KoStrings.terrainIcon[_terrain]!, style: const TextStyle(fontSize: 24)),
+            const Icon(Icons.arrow_drop_down, size: 16),
+          ],
+        ),
+      ),
+      itemBuilder: (_) => Terrain.values
+          .map((t) => PopupMenuItem(
+              value: t,
+              child: Row(children: [
+                if (t != Terrain.none) ...[
+                  Text(KoStrings.terrainIcon[t]!, style: const TextStyle(fontSize: 18)),
+                  const SizedBox(width: 8),
+                ],
+                Text(KoStrings.getTerrainName(t)),
+              ])))
+          .toList(),
+      onSelected: (v) => setState(() => _terrain = v),
+    );
+  }
+
+  Widget _roomDropdown(double fontSize) {
+    return PopupMenuButton<String>(
+      tooltip: '${AppStrings.t('toolbar.room')}',
+      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(AppStrings.t('toolbar.room'), style: TextStyle(
+              fontSize: fontSize,
+              color: _room.hasAny ? Colors.purple : Colors.grey.shade500,
+              fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
+            )),
+            const Icon(Icons.arrow_drop_down, size: 16),
+          ],
+        ),
+      ),
+      itemBuilder: (_) => [
+        CheckedPopupMenuItem(
+          value: 'trickRoom', checked: _room.trickRoom,
+          child: Text('🔄 ${KoStrings.getRoomName(Room.trickRoom)}'),
+        ),
+        CheckedPopupMenuItem(
+          value: 'magicRoom', checked: _room.magicRoom,
+          child: Text('✨ ${KoStrings.getRoomName(Room.magicRoom)}'),
+        ),
+        CheckedPopupMenuItem(
+          value: 'wonderRoom', checked: _room.wonderRoom,
+          child: Text('❓ ${KoStrings.getRoomName(Room.wonderRoom)}'),
+        ),
+        CheckedPopupMenuItem(
+          value: 'gravity', checked: _room.gravity,
+          child: Text('🌀 ${KoStrings.gravityName}'),
+        ),
+      ],
+      onSelected: (v) => setState(() {
+        switch (v) {
+          case 'trickRoom': _room = _room.copyWith(trickRoom: !_room.trickRoom);
+          case 'magicRoom': _room = _room.copyWith(magicRoom: !_room.magicRoom);
+          case 'wonderRoom': _room = _room.copyWith(wonderRoom: !_room.wonderRoom);
+          case 'gravity': _room = _room.copyWith(gravity: !_room.gravity);
+        }
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isWide = _isWideLayout;
@@ -376,167 +663,27 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             padding: EdgeInsets.symmetric(horizontal: isWide ? 12 : 0),
             child: Row(
           children: [
-            // Weather dropdown
-            PopupMenuButton<Weather>(
-              initialValue: _weather,
-              tooltip: AppStrings.t('toolbar.weather'),
-              popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _weather == Weather.none
-                        ? Text(AppStrings.t('toolbar.weather'), style: TextStyle(fontSize: toolbarFontSize, color: Colors.grey.shade500))
-                        : Text(KoStrings.weatherIcon[_weather]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
-                    const Icon(Icons.arrow_drop_down, size: 16),
-                  ],
-                ),
-              ),
-              itemBuilder: (_) => Weather.values
-                  .map((w) => PopupMenuItem(
-                      value: w,
-                      child: Row(
-                        children: [
-                          if (w != Weather.none) ...[
-                            Text(KoStrings.weatherIcon[w]!, style: const TextStyle(fontSize: 18)),
-                            const SizedBox(width: 8),
-                          ],
-                          Text(KoStrings.getWeatherName(w)),
-                        ],
-                      )))
-                  .toList(),
-              onSelected: (v) => setState(() => _weather = v),
-            ),
-            // Terrain dropdown
-            PopupMenuButton<Terrain>(
-              initialValue: _terrain,
-              tooltip: AppStrings.t('toolbar.terrain'),
-              popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _terrain == Terrain.none
-                        ? Text(AppStrings.t('toolbar.terrain'), style: TextStyle(fontSize: toolbarFontSize, color: Colors.grey.shade500))
-                        : Text(KoStrings.terrainIcon[_terrain]!, style: TextStyle(fontSize: isWide ? 24 : 20)),
-                    const Icon(Icons.arrow_drop_down, size: 16),
-                  ],
-                ),
-              ),
-              itemBuilder: (_) => Terrain.values
-                  .map((t) => PopupMenuItem(
-                      value: t,
-                      child: Row(
-                        children: [
-                          if (t != Terrain.none) ...[
-                            Text(KoStrings.terrainIcon[t]!, style: const TextStyle(fontSize: 18)),
-                            const SizedBox(width: 8),
-                          ],
-                          Text(KoStrings.getTerrainName(t)),
-                        ],
-                      )))
-                  .toList(),
-              onSelected: (v) => setState(() => _terrain = v),
-            ),
-            // Room/Gravity toggle popup
-            PopupMenuButton<String>(
-              tooltip: '${AppStrings.t('toolbar.room')}/${KoStrings.gravityName}',
-              popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(AppStrings.t('toolbar.room'), style: TextStyle(
-                      fontSize: toolbarFontSize,
-                      color: _room.hasAny ? Colors.purple : Colors.grey.shade500,
-                      fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
-                    )),
-                    const Icon(Icons.arrow_drop_down, size: 16),
-                  ],
-                ),
-              ),
-              itemBuilder: (_) => [
-                CheckedPopupMenuItem(
-                  value: 'trickRoom', checked: _room.trickRoom,
-                  child: Text('🔄 ${KoStrings.getRoomName(Room.trickRoom)}'),
-                ),
-                CheckedPopupMenuItem(
-                  value: 'magicRoom', checked: _room.magicRoom,
-                  child: Text('✨ ${KoStrings.getRoomName(Room.magicRoom)}'),
-                ),
-                CheckedPopupMenuItem(
-                  value: 'wonderRoom', checked: _room.wonderRoom,
-                  child: Text('❓ ${KoStrings.getRoomName(Room.wonderRoom)}'),
-                ),
-                CheckedPopupMenuItem(
-                  value: 'gravity', checked: _room.gravity,
-                  child: Text('🌀 ${KoStrings.gravityName}'),
-                ),
-              ],
-              onSelected: (v) => setState(() {
-                switch (v) {
-                  case 'trickRoom': _room = _room.copyWith(trickRoom: !_room.trickRoom);
-                  case 'magicRoom': _room = _room.copyWith(magicRoom: !_room.magicRoom);
-                  case 'wonderRoom': _room = _room.copyWith(wonderRoom: !_room.wonderRoom);
-                  case 'gravity': _room = _room.copyWith(gravity: !_room.gravity);
-                }
-              }),
-            ),
-            if (isWide) const Spacer() else Expanded(
-              child: GestureDetector(
-                onTap: () => _showAboutDialog(context),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    AppStrings.t('app.title'),
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.5,
-                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            if (isWide)
+            if (isWide) ...[
+              // Wide: keep separate dropdowns
+              _weatherDropdown(toolbarFontSize),
+              _terrainDropdown(toolbarFontSize),
+              _roomDropdown(toolbarFontSize),
+              const Spacer(),
               TextButton.icon(
                 onPressed: _swapSides,
                 icon: const Icon(Icons.swap_horiz),
                 label: Text(AppStrings.t('toolbar.swap'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              )
-            else
-              IconButton(
-                icon: const Icon(Icons.swap_horiz),
-                tooltip: AppStrings.t('toolbar.swap'),
-                onPressed: _swapSides,
               ),
-            if (isWide)
               TextButton.icon(
                 onPressed: _resetBothSides,
                 icon: const Icon(Icons.refresh),
                 label: Text(AppStrings.t('toolbar.reset'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              )
-            else
-              IconButton(
-                icon: const Icon(Icons.refresh),
-                tooltip: AppStrings.t('toolbar.reset'),
-                onPressed: _resetBothSides,
               ),
-            if (isWide)
               TextButton.icon(
                 onPressed: _capture,
                 icon: const Icon(Icons.camera_alt_outlined),
                 label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              )
-            else
-              _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
-            if (isWide) ...[
+              ),
               const Spacer(),
               _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
               const SizedBox(width: 8),
@@ -553,6 +700,50 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ),
               ),
               const SizedBox(width: 12),
+            ] else ...[
+              // Mobile: battle conditions button + active icons
+              _battleConditionsButton(),
+              const Spacer(),
+              TextButton(
+                onPressed: _swapSides,
+                child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
+              ),
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                tooltip: AppStrings.t('toolbar.reset'),
+                onPressed: _resetBothSides,
+              ),
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.more_vert),
+                tooltip: '',
+                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: 'language',
+                    child: Row(children: [
+                      const Icon(Icons.language, size: 20),
+                      const SizedBox(width: 8),
+                      Text(_languageLabel()),
+                    ]),
+                  ),
+                  PopupMenuItem(
+                    value: 'about',
+                    child: Row(children: [
+                      const Icon(Icons.info_outline, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t('app.about')),
+                    ]),
+                  ),
+                ],
+                onSelected: (v) {
+                  switch (v) {
+                    case 'language':
+                      _cycleLanguage();
+                    case 'about':
+                      _showAboutDialog(context);
+                  }
+                },
+              ),
             ],
           ],
         ),
