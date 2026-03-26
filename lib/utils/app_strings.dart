@@ -417,29 +417,29 @@ class AppStrings {
       AppLanguage.en: 'Final',
       AppLanguage.ja: '最終',
     },
-    'speed.faster': {
-      AppLanguage.ko: '상대보다 빠름 ▲',
-      AppLanguage.en: 'Faster ▲',
-      AppLanguage.ja: '相手より速い ▲',
+    'speed.atkFasterBy': {
+      AppLanguage.ko: '공격측이 수비측보다 {n} 빠름',
+      AppLanguage.en: 'Attacker faster by {n}',
+      AppLanguage.ja: '攻撃側が防御側より{n}速い',
     },
-    'speed.slower': {
-      AppLanguage.ko: '상대보다 느림 ▼',
-      AppLanguage.en: 'Slower ▼',
-      AppLanguage.ja: '相手より遅い ▼',
+    'speed.defFasterBy': {
+      AppLanguage.ko: '수비측이 공격측보다 {n} 빠름',
+      AppLanguage.en: 'Defender faster by {n}',
+      AppLanguage.ja: '防御側が攻撃側より{n}速い',
     },
     'speed.tie': {
       AppLanguage.ko: '동속',
-      AppLanguage.en: 'Speed Tie',
+      AppLanguage.en: 'Speed tie',
       AppLanguage.ja: '同速',
     },
     'speed.guaranteedFirst': {
       AppLanguage.ko: '확정 선공',
-      AppLanguage.en: 'Guaranteed First',
-      AppLanguage.ja: '確定先攻',
+      AppLanguage.en: 'Always moves first',
+      AppLanguage.ja: '確定先制',
     },
     'speed.guaranteedLast': {
       AppLanguage.ko: '확정 후공',
-      AppLanguage.en: 'Guaranteed Last',
+      AppLanguage.en: 'Always moves last',
       AppLanguage.ja: '確定後攻',
     },
 

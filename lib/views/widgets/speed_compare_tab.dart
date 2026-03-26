@@ -180,19 +180,19 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     Color resultColor;
     switch (result) {
       case SpeedResult.faster:
-        resultText = '▲ ${AppStrings.t('tab.attacker')} $diff ${AppStrings.t('speed.faster')}';
+        resultText = '▲ ${AppStrings.t('speed.atkFasterBy').replaceAll('{n}', '$diff')}';
         resultColor = Colors.red;
       case SpeedResult.slower:
-        resultText = '▼ ${AppStrings.t('tab.defender')} $diff ${AppStrings.t('speed.slower')}';
+        resultText = '▼ ${AppStrings.t('speed.defFasterBy').replaceAll('{n}', '$diff')}';
         resultColor = Colors.blue;
       case SpeedResult.tied:
         resultText = '⚡ ${AppStrings.t('speed.tie')}';
         resultColor = Colors.orange;
       case SpeedResult.alwaysFirst:
-        resultText = '▲▲ ${AppStrings.t('speed.guaranteedFirst')}';
+        resultText = '▲ ${AppStrings.t('speed.guaranteedFirst')}';
         resultColor = Colors.red;
       case SpeedResult.alwaysLast:
-        resultText = '▼▼ ${AppStrings.t('speed.guaranteedLast')}';
+        resultText = '▼ ${AppStrings.t('speed.guaranteedLast')}';
         resultColor = Colors.blue;
     }
 
