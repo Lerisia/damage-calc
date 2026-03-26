@@ -65,6 +65,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   final _atkItemRowKey = GlobalKey();
   final _defAbilityRowKey = GlobalKey();
   final _defItemRowKey = GlobalKey();
+  final _atkAbilityController = TextEditingController();
+  final _atkItemController = TextEditingController();
+  final _defAbilityController = TextEditingController();
+  final _defItemController = TextEditingController();
+  final _atkAbilityFocus = FocusNode();
+  final _atkItemFocus = FocusNode();
+  final _defAbilityFocus = FocusNode();
+  final _defItemFocus = FocusNode();
 
   void scrollToTop() {
     if (_scrollController.hasClients) {
@@ -75,6 +83,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   @override
   void dispose() {
     _scrollController.dispose();
+    _atkAbilityController.dispose();
+    _atkItemController.dispose();
+    _defAbilityController.dispose();
+    _defItemController.dispose();
+    _atkAbilityFocus.dispose();
+    _atkItemFocus.dispose();
+    _defAbilityFocus.dispose();
+    _defItemFocus.dispose();
     super.dispose();
   }
 
@@ -172,7 +188,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
             children: [
-              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey)),
+              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, itemController: _atkItemController, abilityFocus: _atkAbilityFocus, itemFocus: _atkItemFocus)),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
@@ -192,7 +208,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 ),
               ),
               const SizedBox(height: 8),
-              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey)),
+              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, itemController: _defItemController, abilityFocus: _defAbilityFocus, itemFocus: _defItemFocus)),
             ],
           ),
         ),
@@ -207,6 +223,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     required int effSpeed,
     required GlobalKey abilityRowKey,
     required GlobalKey itemRowKey,
+    required TextEditingController abilityController,
+    required TextEditingController itemController,
+    required FocusNode abilityFocus,
+    required FocusNode itemFocus,
   }) {
     final rawSpeed = StatCalculator.calculate(
       baseStats: state.baseStats, iv: state.iv, ev: state.ev,
@@ -329,7 +349,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 3, child: _abilityAutocomplete(state)),
+              Expanded(flex: 3, child: _abilityAutocomplete(state, abilityController, abilityFocus)),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: PopupMenuButton<StatusCondition>(
                 initialValue: state.status,
@@ -370,7 +390,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 onSelected: (v) { setState(() => state.nature = v); _notify(); },
               )),
               const SizedBox(width: 8),
-              Expanded(flex: 2, child: _itemAutocomplete(state)),
+              Expanded(flex: 2, child: _itemAutocomplete(state, itemController, itemFocus)),
             ],
           ),
           // 순풍 - hidden for simplicity
@@ -436,15 +456,16 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     return [...pokemon, ...rest];
   }
 
-  Widget _abilityAutocomplete(BattlePokemonState state) {
+  Widget _abilityAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
     final sorted = _sortedAbilities(state);
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
-    final controller = TextEditingController(text: initialText);
+    if (!focusNode.hasFocus) controller.text = initialText;
 
     return KeyedSubtree(
       key: ValueKey('speed_ability_${state.selectedAbility}_${state.pokemonName}'),
       child: buildTypeAhead<String>(
         controller: controller,
+        focusNode: focusNode,
         suggestionsCallback: (query) {
           if (query.isEmpty || query == initialText) return sorted;
           final q = query.toLowerCase();
@@ -474,18 +495,19 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
-  Widget _itemAutocomplete(BattlePokemonState state) {
+  Widget _itemAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
     final allKeys = ['', ..._itemNameMap.keys];
     final allItems = state.selectedItem != null
         ? [state.selectedItem!, ...allKeys.where((k) => k != state.selectedItem)]
         : allKeys;
     final initialText = _itemKo(state.selectedItem);
-    final controller = TextEditingController(text: initialText);
+    if (!focusNode.hasFocus) controller.text = initialText;
 
     return KeyedSubtree(
       key: ValueKey('speed_item_${state.selectedItem}'),
       child: buildTypeAhead<String>(
         controller: controller,
+        focusNode: focusNode,
         suggestionsCallback: (text) {
           if (text.isEmpty || text == initialText) return allItems;
           final scored = <(String, int)>[];
