@@ -206,8 +206,10 @@ class _StatInputState extends State<StatInput> {
 
   Future<void> _loadAbilities() async {
     if (_abilityCache != null && _abilityCacheLang == AppStrings.current) {
+      final dex = await loadAbilitydex();
       setState(() {
         _abilityNameMap = _abilityCache!;
+        _abilityDataMap = dex;
         _rebuildSortedAbilities();
       });
       return;
@@ -233,7 +235,8 @@ class _StatInputState extends State<StatInput> {
 
   Future<void> _loadItems() async {
     if (_itemCache != null && _itemCacheLang == AppStrings.current) {
-      setState(() { _itemNameMap = _itemCache!; });
+      final dex = await loadItemdex();
+      setState(() { _itemNameMap = _itemCache!; _itemDataMap = dex; });
       return;
     }
     try {
