@@ -505,6 +505,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         },
         onSelected: (v) {
           controller.text = _abilityKo(v);
+          focusNode.unfocus();
           setState(() => state.selectedAbility = v);
           _notify();
         },
@@ -568,6 +569,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         },
         onSelected: (v) {
           controller.text = _itemKo(v.isEmpty ? null : v);
+          focusNode.unfocus();
           setState(() => state.selectedItem = v.isEmpty ? null : v);
           _notify();
         },
