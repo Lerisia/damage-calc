@@ -42,18 +42,25 @@ Future<Set<String>> getLearnableMoves(String name, {
   final learnsets = await loadLearnsets();
   final id = toShowdownPokemonId(name, nameKo: nameKo, dexNumber: dexNumber);
 
-  // Direct match
-  final moves = learnsets[id];
-  if (moves != null) return moves.toSet();
+  // Collect form-specific moves
+  final result = <String>{};
+  final formMoves = learnsets[id];
+  if (formMoves != null) result.addAll(formMoves);
 
-  // Base form fallback (Mega, alternate forms)
+  // Merge with base form moves (form may only have exclusive moves)
   final baseId = _baseFormId(name);
   if (baseId != null && baseId != id) {
     final baseMoves = learnsets[baseId];
+    if (baseMoves != null) result.addAll(baseMoves);
+  }
+
+  // If no form-specific entry, try base ID directly
+  if (result.isEmpty) {
+    final baseMoves = learnsets[_normalize(name)];
     if (baseMoves != null) return baseMoves.toSet();
   }
 
-  return {};
+  return result;
 }
 
 /// Resolve the Showdown ID for any Pokemon name format.
@@ -125,18 +132,18 @@ String? _baseFormId(String name) {
   if (name.contains(' (')) {
     return _normalize(name.split(' (')[0]);
   }
-  // Prefixed forms: "Heat Rotom" → "rotom", "Black Kyurem" → "kyurem", etc.
-  const prefixed = {
-    'Heat Rotom': 'rotom', 'Wash Rotom': 'rotom', 'Frost Rotom': 'rotom',
-    'Fan Rotom': 'rotom', 'Mow Rotom': 'rotom',
-    'Black Kyurem': 'kyurem', 'White Kyurem': 'kyurem',
-    'Primal Kyogre': 'kyogre', 'Primal Groudon': 'groudon',
-    'Ultra Necrozma': 'necrozma',
-    'Dusk Mane Necrozma': 'necrozma', 'Dawn Wings Necrozma': 'necrozma',
-    'Ice Rider Calyrex': 'calyrex', 'Shadow Rider Calyrex': 'calyrex',
-    'Hoopa Unbound': 'hoopa',
+  // Prefixed forms: map to Showdown form-specific ID first, base form as fallback
+  const prefixedForm = {
+    'Heat Rotom': 'rotomheat', 'Wash Rotom': 'rotomwash',
+    'Frost Rotom': 'rotomfrost', 'Fan Rotom': 'rotomfan', 'Mow Rotom': 'rotommow',
+    'Black Kyurem': 'kyuremblack', 'White Kyurem': 'kyuremwhite',
+    'Primal Kyogre': 'kyogreprimal', 'Primal Groudon': 'groudonprimal',
+    'Ultra Necrozma': 'necrozmaultra',
+    'Dusk Mane Necrozma': 'necrozmaduskmane', 'Dawn Wings Necrozma': 'necrozmadawnwings',
+    'Ice Rider Calyrex': 'calyrexice', 'Shadow Rider Calyrex': 'calyrexshadow',
+    'Hoopa Unbound': 'hoopaunbound',
   };
-  if (prefixed.containsKey(name)) return prefixed[name];
+  if (prefixedForm.containsKey(name)) return prefixedForm[name];
   if (name.contains('-')) {
     return _normalize(name.split('-')[0]);
   }
