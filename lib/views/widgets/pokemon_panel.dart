@@ -476,10 +476,19 @@ class PokemonPanelState extends State<PokemonPanel>
                     ),
                   ),
                   if (!isSearching && move != null && move.isMultiHit && s.dynamax == DynamaxState.none)
-                    PopupMenuButton<int>(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                    Builder(builder: (ctx) => GestureDetector(
+                      onTap: () async {
+                        final RenderBox button = ctx.findRenderObject()! as RenderBox;
+                        final RenderBox overlay = Navigator.of(ctx, rootNavigator: true).overlay!.context.findRenderObject()! as RenderBox;
+                        final position = RelativeRect.fromRect(
+                          Rect.fromPoints(button.localToGlobal(Offset.zero, ancestor: overlay), button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay)),
+                          Offset.zero & overlay.size,
+                        );
+                        final h = await showMenu<int>(context: ctx, position: position, useRootNavigator: true, popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)), items: [
+                          for (int h = move.minHits; h <= move.maxHits; h++) PopupMenuItem(value: h, height: 32, child: Text('×$h', style: const TextStyle(fontSize: 13))),
+                        ]);
+                        if (h != null) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); }
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 2),
                         child: Text(
@@ -490,16 +499,7 @@ class PokemonPanelState extends State<PokemonPanel>
                           ),
                         ),
                       ),
-                      itemBuilder: (_) => [
-                        for (int h = move.minHits; h <= move.maxHits; h++)
-                          PopupMenuItem(
-                            value: h,
-                            height: 32,
-                            child: Text('×$h', style: const TextStyle(fontSize: 13)),
-                          ),
-                      ],
-                      onSelected: (h) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); },
-                    ),
+                    )),
                 ],
               ),
             ),
@@ -508,10 +508,19 @@ class PokemonPanelState extends State<PokemonPanel>
             width: 40,
             child: move != null
                 ? effectiveType != null
-                  ? PopupMenuButton<PokemonType>(
-                      initialValue: effectiveType,
-                      padding: EdgeInsets.zero,
-                      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                  ? Builder(builder: (ctx) => GestureDetector(
+                      onTap: () async {
+                        final RenderBox button = ctx.findRenderObject()! as RenderBox;
+                        final RenderBox overlay = Navigator.of(ctx, rootNavigator: true).overlay!.context.findRenderObject()! as RenderBox;
+                        final position = RelativeRect.fromRect(
+                          Rect.fromPoints(button.localToGlobal(Offset.zero, ancestor: overlay), button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay)),
+                          Offset.zero & overlay.size,
+                        );
+                        final t = await showMenu<PokemonType>(context: ctx, position: position, useRootNavigator: true, popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)), initialValue: effectiveType, items: PokemonType.values
+                            .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeName(t), style: const TextStyle(fontSize: 12))))
+                            .toList());
+                        if (t != null) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); }
+                      },
                       child: Text(
                         KoStrings.getTypeName(effectiveType),
                         textAlign: TextAlign.center,
@@ -520,21 +529,26 @@ class PokemonPanelState extends State<PokemonPanel>
                           color: s.typeOverrides[index] != null ? Colors.orange : null,
                         ),
                       ),
-                      itemBuilder: (_) => PokemonType.values
-                          .map((t) => PopupMenuItem(value: t, child: Text(KoStrings.getTypeName(t), style: const TextStyle(fontSize: 12))))
-                          .toList(),
-                      onSelected: (t) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); },
-                    )
+                    ))
                   : Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.grey))
                 : const Text('-', textAlign: TextAlign.center),
           ),
           if (!isSearching) SizedBox(
             width: 32,
             child: move != null
-                ? PopupMenuButton<MoveCategory>(
-                    initialValue: effectiveCategory,
-                    padding: EdgeInsets.zero,
-                    popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+                ? Builder(builder: (ctx) => GestureDetector(
+                    onTap: () async {
+                      final RenderBox button = ctx.findRenderObject()! as RenderBox;
+                      final RenderBox overlay = Navigator.of(ctx, rootNavigator: true).overlay!.context.findRenderObject()! as RenderBox;
+                      final position = RelativeRect.fromRect(
+                        Rect.fromPoints(button.localToGlobal(Offset.zero, ancestor: overlay), button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay)),
+                        Offset.zero & overlay.size,
+                      );
+                      final c = await showMenu<MoveCategory>(context: ctx, position: position, useRootNavigator: true, popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)), initialValue: effectiveCategory, items: [MoveCategory.physical, MoveCategory.special]
+                          .map((c) => PopupMenuItem(value: c, child: Text(KoStrings.getCategoryName(c), style: const TextStyle(fontSize: 12))))
+                          .toList());
+                      if (c != null) { setState(() { s.categoryOverrides[index] = c; }); _notifyParent(); }
+                    },
                     child: Text(
                       KoStrings.getCategoryName(effectiveCategory!),
                       textAlign: TextAlign.center,
@@ -543,11 +557,7 @@ class PokemonPanelState extends State<PokemonPanel>
                         color: s.categoryOverrides[index] != null ? Colors.orange : null,
                       ),
                     ),
-                    itemBuilder: (_) => [MoveCategory.physical, MoveCategory.special]
-                        .map((c) => PopupMenuItem(value: c, child: Text(KoStrings.getCategoryName(c), style: const TextStyle(fontSize: 12))))
-                        .toList(),
-                    onSelected: (c) { setState(() { s.categoryOverrides[index] = c; }); _notifyParent(); },
-                  )
+                  ))
                 : const Text('-', textAlign: TextAlign.center),
           ),
           if (!isSearching) SizedBox(
