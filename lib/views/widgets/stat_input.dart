@@ -798,7 +798,7 @@ class _StatInputState extends State<StatInput> {
                 initialValue: '$displayValue',
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.none,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   _ClampingFormatter(min: 0, max: maxDisplay),
@@ -859,7 +859,7 @@ class _StatInputState extends State<StatInput> {
               initialValue: '${widget.hpPercent}',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.none,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: 100),
@@ -969,7 +969,7 @@ class _StatInputState extends State<StatInput> {
           initialValue: '$value',
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
-          textInputAction: TextInputAction.next,
+          textInputAction: TextInputAction.none,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             _ClampingFormatter(min: min, max: max),
