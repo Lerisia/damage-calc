@@ -22,7 +22,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Bulbasaur"
+    "nameEn": "Bulbasaur",
+    "aliases": [
+      "dltkdgoTl"
+    ]
   },
   {
     "dexNumber": 2,
@@ -47,7 +50,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Ivysaur"
+    "nameEn": "Ivysaur",
+    "aliases": [
+      "dltkdgovnf"
+    ]
   },
   {
     "dexNumber": 3,
@@ -73,7 +79,10 @@
     "finalEvo": true,
     "genderRate": 1,
     "canGmax": true,
-    "nameEn": "Venusaur"
+    "nameEn": "Venusaur",
+    "aliases": [
+      "dltkdgoRhc"
+    ]
   },
   {
     "dexNumber": 4,
@@ -97,7 +106,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Charmander"
+    "nameEn": "Charmander",
+    "aliases": [
+      "vkdlfl"
+    ]
   },
   {
     "dexNumber": 5,
@@ -121,7 +133,10 @@
     "height": 1.1,
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Charmeleon"
+    "nameEn": "Charmeleon",
+    "aliases": [
+      "flwkem"
+    ]
   },
   {
     "dexNumber": 6,
@@ -147,7 +162,10 @@
     "finalEvo": true,
     "genderRate": 1,
     "canGmax": true,
-    "nameEn": "Charizard"
+    "nameEn": "Charizard",
+    "aliases": [
+      "flwkahd"
+    ]
   },
   {
     "dexNumber": 7,
@@ -171,7 +189,10 @@
     "height": 0.5,
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Squirtle"
+    "nameEn": "Squirtle",
+    "aliases": [
+      "Rhqnrl"
+    ]
   },
   {
     "dexNumber": 8,
@@ -195,7 +216,10 @@
     "height": 1.0,
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Wartortle"
+    "nameEn": "Wartortle",
+    "aliases": [
+      "djslqnrl"
+    ]
   },
   {
     "dexNumber": 9,
@@ -220,7 +244,10 @@
     "finalEvo": true,
     "genderRate": 1,
     "canGmax": true,
-    "nameEn": "Blastoise"
+    "nameEn": "Blastoise",
+    "aliases": [
+      "rjqnrdhkd"
+    ]
   },
   {
     "dexNumber": 10,
@@ -244,7 +271,10 @@
     "height": 0.3,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Caterpie"
+    "nameEn": "Caterpie",
+    "aliases": [
+      "zoxjvl"
+    ]
   },
   {
     "dexNumber": 11,
@@ -267,7 +297,10 @@
     "height": 0.7,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Metapod"
+    "nameEn": "Metapod",
+    "aliases": [
+      "ekseprl"
+    ]
   },
   {
     "dexNumber": 12,
@@ -293,7 +326,10 @@
     "finalEvo": true,
     "genderRate": 4,
     "canGmax": true,
-    "nameEn": "Butterfree"
+    "nameEn": "Butterfree",
+    "aliases": [
+      "qjxjvmf"
+    ]
   },
   {
     "dexNumber": 13,
@@ -318,7 +354,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Weedle"
+    "nameEn": "Weedle",
+    "aliases": [
+      "Qnfcnddl"
+    ]
   },
   {
     "dexNumber": 14,
@@ -342,7 +381,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Kakuna"
+    "nameEn": "Kakuna",
+    "aliases": [
+      "Ekrcnddl"
+    ]
   },
   {
     "dexNumber": 15,
@@ -367,7 +409,10 @@
     "type2": "poison",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Beedrill"
+    "nameEn": "Beedrill",
+    "aliases": [
+      "ehrclaqnd"
+    ]
   },
   {
     "dexNumber": 16,
@@ -393,7 +438,10 @@
     "type2": "flying",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Pidgey"
+    "nameEn": "Pidgey",
+    "aliases": [
+      "rnrn"
+    ]
   },
   {
     "dexNumber": 17,
@@ -419,7 +467,10 @@
     "type2": "flying",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Pidgeotto"
+    "nameEn": "Pidgeotto",
+    "aliases": [
+      "vlwys"
+    ]
   },
   {
     "dexNumber": 18,
@@ -445,7 +496,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Pidgeot"
+    "nameEn": "Pidgeot",
+    "aliases": [
+      "vlwysxn"
+    ]
   },
   {
     "dexNumber": 19,
@@ -470,7 +524,10 @@
     "height": 0.3,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Rattata"
+    "nameEn": "Rattata",
+    "aliases": [
+      "Rhfpt"
+    ]
   },
   {
     "dexNumber": 20,
@@ -495,7 +552,10 @@
     "height": 0.7,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Raticate"
+    "nameEn": "Raticate",
+    "aliases": [
+      "fpxmfk"
+    ]
   },
   {
     "dexNumber": 21,
@@ -520,7 +580,10 @@
     "type2": "flying",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Spearow"
+    "nameEn": "Spearow",
+    "aliases": [
+      "Roqlcka"
+    ]
   },
   {
     "dexNumber": 22,
@@ -545,7 +608,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Fearow"
+    "nameEn": "Fearow",
+    "aliases": [
+      "Roqlemflfwh"
+    ]
   },
   {
     "dexNumber": 23,
@@ -570,7 +636,10 @@
     "height": 2.0,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Ekans"
+    "nameEn": "Ekans",
+    "aliases": [
+      "dkqh"
+    ]
   },
   {
     "dexNumber": 24,
@@ -595,7 +664,10 @@
     "height": 3.5,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Arbok"
+    "nameEn": "Arbok",
+    "aliases": [
+      "dkqhzm"
+    ]
   },
   {
     "dexNumber": 25,
@@ -620,7 +692,10 @@
     "finalEvo": false,
     "genderRate": 4,
     "canGmax": true,
-    "nameEn": "Pikachu"
+    "nameEn": "Pikachu",
+    "aliases": [
+      "vlzkcb"
+    ]
   },
   {
     "dexNumber": 26,
@@ -644,7 +719,10 @@
     "height": 0.8,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Raichu"
+    "nameEn": "Raichu",
+    "aliases": [
+      "fkdlcb"
+    ]
   },
   {
     "dexNumber": 27,
@@ -668,7 +746,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Sandshrew"
+    "nameEn": "Sandshrew",
+    "aliases": [
+      "ahfoenwl"
+    ]
   },
   {
     "dexNumber": 28,
@@ -692,7 +773,10 @@
     "height": 1.0,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Sandslash"
+    "nameEn": "Sandslash",
+    "aliases": [
+      "rhwl"
+    ]
   },
   {
     "dexNumber": 29,
@@ -717,7 +801,10 @@
     "height": 0.4,
     "finalEvo": false,
     "genderRate": 8,
-    "nameEn": "Nidoran♀"
+    "nameEn": "Nidoran♀",
+    "aliases": [
+      "slemfjs♀"
+    ]
   },
   {
     "dexNumber": 30,
@@ -742,7 +829,10 @@
     "height": 0.8,
     "finalEvo": false,
     "genderRate": 8,
-    "nameEn": "Nidorina"
+    "nameEn": "Nidorina",
+    "aliases": [
+      "slemflsk"
+    ]
   },
   {
     "dexNumber": 31,
@@ -768,7 +858,10 @@
     "type2": "ground",
     "finalEvo": true,
     "genderRate": 8,
-    "nameEn": "Nidoqueen"
+    "nameEn": "Nidoqueen",
+    "aliases": [
+      "slemznls"
+    ]
   },
   {
     "dexNumber": 32,
@@ -793,7 +886,10 @@
     "height": 0.5,
     "finalEvo": false,
     "genderRate": 0,
-    "nameEn": "Nidoran♂"
+    "nameEn": "Nidoran♂",
+    "aliases": [
+      "slemfjs♂"
+    ]
   },
   {
     "dexNumber": 33,
@@ -818,7 +914,10 @@
     "height": 0.9,
     "finalEvo": false,
     "genderRate": 0,
-    "nameEn": "Nidorino"
+    "nameEn": "Nidorino",
+    "aliases": [
+      "slemflsh"
+    ]
   },
   {
     "dexNumber": 34,
@@ -844,7 +943,10 @@
     "type2": "ground",
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Nidoking"
+    "nameEn": "Nidoking",
+    "aliases": [
+      "slemzld"
+    ]
   },
   {
     "dexNumber": 35,
@@ -869,7 +971,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 6,
-    "nameEn": "Clefairy"
+    "nameEn": "Clefairy",
+    "aliases": [
+      "QlQl"
+    ]
   },
   {
     "dexNumber": 36,
@@ -894,7 +999,10 @@
     "height": 1.3,
     "finalEvo": true,
     "genderRate": 6,
-    "nameEn": "Clefable"
+    "nameEn": "Clefable",
+    "aliases": [
+      "vlrtl"
+    ]
   },
   {
     "dexNumber": 37,
@@ -918,7 +1026,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 6,
-    "nameEn": "Vulpix"
+    "nameEn": "Vulpix",
+    "aliases": [
+      "tlrtmxpdlf"
+    ]
   },
   {
     "dexNumber": 38,
@@ -942,7 +1053,10 @@
     "height": 1.1,
     "finalEvo": true,
     "genderRate": 6,
-    "nameEn": "Ninetales"
+    "nameEn": "Ninetales",
+    "aliases": [
+      "skdlsxpdlf"
+    ]
   },
   {
     "dexNumber": 39,
@@ -968,7 +1082,10 @@
     "type2": "fairy",
     "finalEvo": false,
     "genderRate": 6,
-    "nameEn": "Jigglypuff"
+    "nameEn": "Jigglypuff",
+    "aliases": [
+      "vnfls"
+    ]
   },
   {
     "dexNumber": 40,
@@ -994,7 +1111,10 @@
     "type2": "fairy",
     "finalEvo": true,
     "genderRate": 6,
-    "nameEn": "Wigglytuff"
+    "nameEn": "Wigglytuff",
+    "aliases": [
+      "vnzmfls"
+    ]
   },
   {
     "dexNumber": 41,
@@ -1019,7 +1139,10 @@
     "type2": "flying",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Zubat"
+    "nameEn": "Zubat",
+    "aliases": [
+      "wnqot"
+    ]
   },
   {
     "dexNumber": 42,
@@ -1044,7 +1167,10 @@
     "type2": "flying",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Golbat"
+    "nameEn": "Golbat",
+    "aliases": [
+      "rhfqot"
+    ]
   },
   {
     "dexNumber": 43,
@@ -1069,7 +1195,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Oddish"
+    "nameEn": "Oddish",
+    "aliases": [
+      "Enqjrcy"
+    ]
   },
   {
     "dexNumber": 44,
@@ -1094,7 +1223,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Gloom"
+    "nameEn": "Gloom",
+    "aliases": [
+      "soatoRh"
+    ]
   },
   {
     "dexNumber": 45,
@@ -1119,7 +1251,10 @@
     "type2": "poison",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Vileplume"
+    "nameEn": "Vileplume",
+    "aliases": [
+      "fkvmffptldk"
+    ]
   },
   {
     "dexNumber": 46,
@@ -1145,7 +1280,10 @@
     "type2": "grass",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Paras"
+    "nameEn": "Paras",
+    "aliases": [
+      "vkfktm"
+    ]
   },
   {
     "dexNumber": 47,
@@ -1171,7 +1309,10 @@
     "type2": "grass",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Parasect"
+    "nameEn": "Parasect",
+    "aliases": [
+      "vkfktprxm"
+    ]
   },
   {
     "dexNumber": 48,
@@ -1197,7 +1338,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Venonat"
+    "nameEn": "Venonat",
+    "aliases": [
+      "zhsvkd"
+    ]
   },
   {
     "dexNumber": 49,
@@ -1223,7 +1367,10 @@
     "type2": "poison",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Venomoth"
+    "nameEn": "Venomoth",
+    "aliases": [
+      "ehskfl"
+    ]
   },
   {
     "dexNumber": 50,
@@ -1248,7 +1395,10 @@
     "height": 0.2,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Diglett"
+    "nameEn": "Diglett",
+    "aliases": [
+      "elrmek"
+    ]
   },
   {
     "dexNumber": 51,
@@ -1273,7 +1423,10 @@
     "height": 0.7,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Dugtrio"
+    "nameEn": "Dugtrio",
+    "aliases": [
+      "ekrxmfldh"
+    ]
   },
   {
     "dexNumber": 52,
@@ -1299,7 +1452,10 @@
     "finalEvo": false,
     "genderRate": 4,
     "canGmax": true,
-    "nameEn": "Meowth"
+    "nameEn": "Meowth",
+    "aliases": [
+      "skdhd"
+    ]
   },
   {
     "dexNumber": 53,
@@ -1324,7 +1480,10 @@
     "height": 1.0,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Persian"
+    "nameEn": "Persian",
+    "aliases": [
+      "vpfmtldhs"
+    ]
   },
   {
     "dexNumber": 54,
@@ -1349,7 +1508,10 @@
     "height": 0.8,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Psyduck"
+    "nameEn": "Psyduck",
+    "aliases": [
+      "rhfkvkejr"
+    ]
   },
   {
     "dexNumber": 55,
@@ -1374,7 +1536,10 @@
     "height": 1.7,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Golduck"
+    "nameEn": "Golduck",
+    "aliases": [
+      "rhfejr"
+    ]
   },
   {
     "dexNumber": 56,
@@ -1399,7 +1564,10 @@
     "height": 0.5,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Mankey"
+    "nameEn": "Mankey",
+    "aliases": [
+      "akdzl"
+    ]
   },
   {
     "dexNumber": 57,
@@ -1424,7 +1592,10 @@
     "height": 1.0,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Primeape"
+    "nameEn": "Primeape",
+    "aliases": [
+      "tjddnjstnd"
+    ]
   },
   {
     "dexNumber": 58,
@@ -1449,7 +1620,10 @@
     "height": 0.7,
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Growlithe"
+    "nameEn": "Growlithe",
+    "aliases": [
+      "rkel"
+    ]
   },
   {
     "dexNumber": 59,
@@ -1474,7 +1648,10 @@
     "height": 1.9,
     "finalEvo": true,
     "genderRate": 2,
-    "nameEn": "Arcanine"
+    "nameEn": "Arcanine",
+    "aliases": [
+      "dnlsel"
+    ]
   },
   {
     "dexNumber": 60,
@@ -1499,7 +1676,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Poliwag"
+    "nameEn": "Poliwag",
+    "aliases": [
+      "qkfcoddl"
+    ]
   },
   {
     "dexNumber": 61,
@@ -1524,7 +1704,10 @@
     "height": 1.0,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Poliwhirl"
+    "nameEn": "Poliwhirl",
+    "aliases": [
+      "tbfbrcoddl"
+    ]
   },
   {
     "dexNumber": 62,
@@ -1550,7 +1733,10 @@
     "type2": "fighting",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Poliwrath"
+    "nameEn": "Poliwrath",
+    "aliases": [
+      "rkdcoddl"
+    ]
   },
   {
     "dexNumber": 63,
@@ -1575,7 +1761,10 @@
     "height": 0.9,
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Abra"
+    "nameEn": "Abra",
+    "aliases": [
+      "zodltl"
+    ]
   },
   {
     "dexNumber": 64,
@@ -1600,7 +1789,10 @@
     "height": 1.3,
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Kadabra"
+    "nameEn": "Kadabra",
+    "aliases": [
+      "dbsrpffk"
+    ]
   },
   {
     "dexNumber": 65,
@@ -1625,7 +1817,10 @@
     "height": 1.5,
     "finalEvo": true,
     "genderRate": 2,
-    "nameEn": "Alakazam"
+    "nameEn": "Alakazam",
+    "aliases": [
+      "gnels"
+    ]
   },
   {
     "dexNumber": 66,
@@ -1650,7 +1845,10 @@
     "height": 0.8,
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Machop"
+    "nameEn": "Machop",
+    "aliases": [
+      "dkfxhdahs"
+    ]
   },
   {
     "dexNumber": 67,
@@ -1675,7 +1873,10 @@
     "height": 1.5,
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Machoke"
+    "nameEn": "Machoke",
+    "aliases": [
+      "rmsdbrahs"
+    ]
   },
   {
     "dexNumber": 68,
@@ -1701,7 +1902,10 @@
     "finalEvo": true,
     "genderRate": 2,
     "canGmax": true,
-    "nameEn": "Machamp"
+    "nameEn": "Machamp",
+    "aliases": [
+      "rhlfurahs"
+    ]
   },
   {
     "dexNumber": 69,
@@ -1726,7 +1930,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Bellsprout"
+    "nameEn": "Bellsprout",
+    "aliases": [
+      "ahekvl"
+    ]
   },
   {
     "dexNumber": 70,
@@ -1751,7 +1958,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Weepinbell"
+    "nameEn": "Weepinbell",
+    "aliases": [
+      "dncmehd"
+    ]
   },
   {
     "dexNumber": 71,
@@ -1776,7 +1986,10 @@
     "type2": "poison",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Victreebel"
+    "nameEn": "Victreebel",
+    "aliases": [
+      "dncmqhxm"
+    ]
   },
   {
     "dexNumber": 72,
@@ -1802,7 +2015,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Tentacool"
+    "nameEn": "Tentacool",
+    "aliases": [
+      "dhkdsnsgo"
+    ]
   },
   {
     "dexNumber": 73,
@@ -1828,7 +2044,10 @@
     "type2": "poison",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Tentacruel"
+    "nameEn": "Tentacruel",
+    "aliases": [
+      "ehrvkfl"
+    ]
   },
   {
     "dexNumber": 74,
@@ -1854,7 +2073,10 @@
     "type2": "ground",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Geodude"
+    "nameEn": "Geodude",
+    "aliases": [
+      "Rhakehf"
+    ]
   },
   {
     "dexNumber": 75,
@@ -1880,7 +2102,10 @@
     "type2": "ground",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Graveler"
+    "nameEn": "Graveler",
+    "aliases": [
+      "eprnfl"
+    ]
   },
   {
     "dexNumber": 76,
@@ -1906,7 +2131,10 @@
     "type2": "ground",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Golem"
+    "nameEn": "Golem",
+    "aliases": [
+      "Ekrrnfl"
+    ]
   },
   {
     "dexNumber": 77,
@@ -1931,7 +2159,10 @@
     "height": 1.0,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Ponyta"
+    "nameEn": "Ponyta",
+    "aliases": [
+      "vhslxk"
+    ]
   },
   {
     "dexNumber": 78,
@@ -1956,7 +2187,10 @@
     "height": 1.7,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Rapidash"
+    "nameEn": "Rapidash",
+    "aliases": [
+      "skfTodak"
+    ]
   },
   {
     "dexNumber": 79,
@@ -1982,7 +2216,10 @@
     "type2": "psychic",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Slowpoke"
+    "nameEn": "Slowpoke",
+    "aliases": [
+      "diehs"
+    ]
   },
   {
     "dexNumber": 80,
@@ -2008,7 +2245,10 @@
     "type2": "psychic",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Slowbro"
+    "nameEn": "Slowbro",
+    "aliases": [
+      "diehfks"
+    ]
   },
   {
     "dexNumber": 81,
@@ -2034,7 +2274,10 @@
     "type2": "steel",
     "finalEvo": false,
     "genderRate": -1,
-    "nameEn": "Magnemite"
+    "nameEn": "Magnemite",
+    "aliases": [
+      "zhdlf"
+    ]
   },
   {
     "dexNumber": 82,
@@ -2060,7 +2303,10 @@
     "type2": "steel",
     "finalEvo": false,
     "genderRate": -1,
-    "nameEn": "Magneton"
+    "nameEn": "Magneton",
+    "aliases": [
+      "fpdjzhdlf"
+    ]
   },
   {
     "dexNumber": 83,
@@ -2086,7 +2332,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Farfetch'd"
+    "nameEn": "Farfetch'd",
+    "aliases": [
+      "vkdhfl"
+    ]
   },
   {
     "dexNumber": 84,
@@ -2112,7 +2361,10 @@
     "type2": "flying",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Doduo"
+    "nameEn": "Doduo",
+    "aliases": [
+      "enen"
+    ]
   },
   {
     "dexNumber": 85,
@@ -2138,7 +2390,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Dodrio"
+    "nameEn": "Dodrio",
+    "aliases": [
+      "enxmfldh"
+    ]
   },
   {
     "dexNumber": 86,
@@ -2163,7 +2418,10 @@
     "height": 1.1,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Seel"
+    "nameEn": "Seel",
+    "aliases": [
+      "wbwb"
+    ]
   },
   {
     "dexNumber": 87,
@@ -2189,7 +2447,10 @@
     "type2": "ice",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Dewgong"
+    "nameEn": "Dewgong",
+    "aliases": [
+      "wbfprhs"
+    ]
   },
   {
     "dexNumber": 88,
@@ -2214,7 +2475,10 @@
     "height": 0.9,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Grimer"
+    "nameEn": "Grimer",
+    "aliases": [
+      "wlfvjrdl"
+    ]
   },
   {
     "dexNumber": 89,
@@ -2239,7 +2503,10 @@
     "height": 1.2,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Muk"
+    "nameEn": "Muk",
+    "aliases": [
+      "wlfQjrl"
+    ]
   },
   {
     "dexNumber": 90,
@@ -2264,7 +2531,10 @@
     "height": 0.3,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Shellder"
+    "nameEn": "Shellder",
+    "aliases": [
+      "tpffj"
+    ]
   },
   {
     "dexNumber": 91,
@@ -2290,7 +2560,10 @@
     "type2": "ice",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Cloyster"
+    "nameEn": "Cloyster",
+    "aliases": [
+      "vkfmtpf"
+    ]
   },
   {
     "dexNumber": 92,
@@ -2314,7 +2587,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Gastly"
+    "nameEn": "Gastly",
+    "aliases": [
+      "rhdhtm"
+    ]
   },
   {
     "dexNumber": 93,
@@ -2338,7 +2614,10 @@
     "type2": "poison",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Haunter"
+    "nameEn": "Haunter",
+    "aliases": [
+      "rhdntmxm"
+    ]
   },
   {
     "dexNumber": 94,
@@ -2363,7 +2642,10 @@
     "finalEvo": true,
     "genderRate": 4,
     "canGmax": true,
-    "nameEn": "Gengar"
+    "nameEn": "Gengar",
+    "aliases": [
+      "vosxja"
+    ]
   },
   {
     "dexNumber": 95,
@@ -2389,7 +2671,10 @@
     "type2": "ground",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Onix"
+    "nameEn": "Onix",
+    "aliases": [
+      "fhdtmxhs"
+    ]
   },
   {
     "dexNumber": 96,
@@ -2414,7 +2699,10 @@
     "height": 1.0,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Drowzee"
+    "nameEn": "Drowzee",
+    "aliases": [
+      "tmfflvm"
+    ]
   },
   {
     "dexNumber": 97,
@@ -2439,7 +2727,10 @@
     "height": 1.6,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Hypno"
+    "nameEn": "Hypno",
+    "aliases": [
+      "tmfflvj"
+    ]
   },
   {
     "dexNumber": 98,
@@ -2464,7 +2755,10 @@
     "height": 0.4,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Krabby"
+    "nameEn": "Krabby",
+    "aliases": [
+      "zmfoq"
+    ]
   },
   {
     "dexNumber": 99,
@@ -2490,7 +2784,10 @@
     "finalEvo": true,
     "genderRate": 4,
     "canGmax": true,
-    "nameEn": "Kingler"
+    "nameEn": "Kingler",
+    "aliases": [
+      "zldzmfoq"
+    ]
   },
   {
     "dexNumber": 100,
@@ -2515,7 +2812,10 @@
     "height": 0.5,
     "finalEvo": false,
     "genderRate": -1,
-    "nameEn": "Voltorb"
+    "nameEn": "Voltorb",
+    "aliases": [
+      "Wlflflrhd"
+    ]
   },
   {
     "dexNumber": 101,
@@ -2540,7 +2840,10 @@
     "height": 1.2,
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Electrode"
+    "nameEn": "Electrode",
+    "aliases": [
+      "qnaqhf"
+    ]
   },
   {
     "dexNumber": 102,
@@ -2565,7 +2868,10 @@
     "type2": "psychic",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Exeggcute"
+    "nameEn": "Exeggcute",
+    "aliases": [
+      "dkfkfl"
+    ]
   },
   {
     "dexNumber": 103,
@@ -2590,7 +2896,10 @@
     "type2": "psychic",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Exeggutor"
+    "nameEn": "Exeggutor",
+    "aliases": [
+      "sktl"
+    ]
   },
   {
     "dexNumber": 104,
@@ -2615,7 +2924,10 @@
     "height": 0.4,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Cubone"
+    "nameEn": "Cubone",
+    "aliases": [
+      "xkdrnfl"
+    ]
   },
   {
     "dexNumber": 105,
@@ -2640,7 +2952,10 @@
     "height": 1.0,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Marowak"
+    "nameEn": "Marowak",
+    "aliases": [
+      "xjdrnfl"
+    ]
   },
   {
     "dexNumber": 106,
@@ -2665,7 +2980,10 @@
     "height": 1.5,
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Hitmonlee"
+    "nameEn": "Hitmonlee",
+    "aliases": [
+      "tlfkthahs"
+    ]
   },
   {
     "dexNumber": 107,
@@ -2690,7 +3008,10 @@
     "height": 1.4,
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Hitmonchan"
+    "nameEn": "Hitmonchan",
+    "aliases": [
+      "ghdtnahs"
+    ]
   },
   {
     "dexNumber": 108,
@@ -2715,7 +3036,10 @@
     "height": 1.2,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Lickitung"
+    "nameEn": "Lickitung",
+    "aliases": [
+      "sofnal"
+    ]
   },
   {
     "dexNumber": 109,
@@ -2740,7 +3064,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Koffing"
+    "nameEn": "Koffing",
+    "aliases": [
+      "Ehrktm"
+    ]
   },
   {
     "dexNumber": 110,
@@ -2765,7 +3092,10 @@
     "height": 1.2,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Weezing"
+    "nameEn": "Weezing",
+    "aliases": [
+      "Ehehrktm"
+    ]
   },
   {
     "dexNumber": 111,
@@ -2791,7 +3121,10 @@
     "type2": "rock",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Rhyhorn"
+    "nameEn": "Rhyhorn",
+    "aliases": [
+      "Qnfzksh"
+    ]
   },
   {
     "dexNumber": 112,
@@ -2817,7 +3150,10 @@
     "type2": "rock",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Rhydon"
+    "nameEn": "Rhydon",
+    "aliases": [
+      "zhQnfl"
+    ]
   },
   {
     "dexNumber": 113,
@@ -2842,7 +3178,10 @@
     "height": 1.1,
     "finalEvo": false,
     "genderRate": 8,
-    "nameEn": "Chansey"
+    "nameEn": "Chansey",
+    "aliases": [
+      "fjrzl"
+    ]
   },
   {
     "dexNumber": 114,
@@ -2867,7 +3206,10 @@
     "height": 1.0,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Tangela"
+    "nameEn": "Tangela",
+    "aliases": [
+      "ejdznfl"
+    ]
   },
   {
     "dexNumber": 115,
@@ -2892,7 +3234,10 @@
     "height": 2.2,
     "finalEvo": true,
     "genderRate": 8,
-    "nameEn": "Kangaskhan"
+    "nameEn": "Kangaskhan",
+    "aliases": [
+      "zodzk"
+    ]
   },
   {
     "dexNumber": 116,
@@ -2917,7 +3262,10 @@
     "height": 0.4,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Horsea"
+    "nameEn": "Horsea",
+    "aliases": [
+      "Themfk"
+    ]
   },
   {
     "dexNumber": 117,
@@ -2942,7 +3290,10 @@
     "height": 1.2,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Seadra"
+    "nameEn": "Seadra",
+    "aliases": [
+      "tlemfk"
+    ]
   },
   {
     "dexNumber": 118,
@@ -2967,7 +3318,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Goldeen"
+    "nameEn": "Goldeen",
+    "aliases": [
+      "zhscl"
+    ]
   },
   {
     "dexNumber": 119,
@@ -2992,7 +3346,10 @@
     "height": 1.3,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Seaking"
+    "nameEn": "Seaking",
+    "aliases": [
+      "dhkdzhscl"
+    ]
   },
   {
     "dexNumber": 120,
@@ -3017,7 +3374,10 @@
     "height": 0.8,
     "finalEvo": false,
     "genderRate": -1,
-    "nameEn": "Staryu"
+    "nameEn": "Staryu",
+    "aliases": [
+      "qufrktkfl"
+    ]
   },
   {
     "dexNumber": 121,
@@ -3043,7 +3403,10 @@
     "type2": "psychic",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Starmie"
+    "nameEn": "Starmie",
+    "aliases": [
+      "dkzntmxk"
+    ]
   },
   {
     "dexNumber": 122,
@@ -3069,7 +3432,10 @@
     "type2": "fairy",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Mr. Mime"
+    "nameEn": "Mr. Mime",
+    "aliases": [
+      "akdlaaos"
+    ]
   },
   {
     "dexNumber": 123,
@@ -3095,7 +3461,10 @@
     "type2": "flying",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Scyther"
+    "nameEn": "Scyther",
+    "aliases": [
+      "tmfkzm"
+    ]
   },
   {
     "dexNumber": 124,
@@ -3121,7 +3490,10 @@
     "type2": "psychic",
     "finalEvo": true,
     "genderRate": 8,
-    "nameEn": "Jynx"
+    "nameEn": "Jynx",
+    "aliases": [
+      "fnwnfk"
+    ]
   },
   {
     "dexNumber": 125,
@@ -3145,7 +3517,10 @@
     "height": 1.1,
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Electabuzz"
+    "nameEn": "Electabuzz",
+    "aliases": [
+      "dpfpqm"
+    ]
   },
   {
     "dexNumber": 126,
@@ -3169,7 +3544,10 @@
     "height": 1.3,
     "finalEvo": false,
     "genderRate": 2,
-    "nameEn": "Magmar"
+    "nameEn": "Magmar",
+    "aliases": [
+      "akrmak"
+    ]
   },
   {
     "dexNumber": 127,
@@ -3194,7 +3572,10 @@
     "height": 1.5,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Pinsir"
+    "nameEn": "Pinsir",
+    "aliases": [
+      "Qmtkdlwj"
+    ]
   },
   {
     "dexNumber": 128,
@@ -3219,7 +3600,10 @@
     "height": 1.4,
     "finalEvo": true,
     "genderRate": 0,
-    "nameEn": "Tauros"
+    "nameEn": "Tauros",
+    "aliases": [
+      "zpsxkfhtm"
+    ]
   },
   {
     "dexNumber": 129,
@@ -3243,7 +3627,10 @@
     "height": 0.9,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Magikarp"
+    "nameEn": "Magikarp",
+    "aliases": [
+      "dlddjzld"
+    ]
   },
   {
     "dexNumber": 130,
@@ -3268,7 +3655,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Gyarados"
+    "nameEn": "Gyarados",
+    "aliases": [
+      "rifkehtm"
+    ]
   },
   {
     "dexNumber": 131,
@@ -3295,7 +3685,10 @@
     "finalEvo": true,
     "genderRate": 4,
     "canGmax": true,
-    "nameEn": "Lapras"
+    "nameEn": "Lapras",
+    "aliases": [
+      "fkvmfktm"
+    ]
   },
   {
     "dexNumber": 132,
@@ -3319,7 +3712,10 @@
     "height": 0.3,
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Ditto"
+    "nameEn": "Ditto",
+    "aliases": [
+      "apxkahd"
+    ]
   },
   {
     "dexNumber": 133,
@@ -3345,7 +3741,10 @@
     "finalEvo": false,
     "genderRate": 1,
     "canGmax": true,
-    "nameEn": "Eevee"
+    "nameEn": "Eevee",
+    "aliases": [
+      "dlqmdl"
+    ]
   },
   {
     "dexNumber": 134,
@@ -3369,7 +3768,10 @@
     "height": 1.0,
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Vaporeon"
+    "nameEn": "Vaporeon",
+    "aliases": [
+      "tialem"
+    ]
   },
   {
     "dexNumber": 135,
@@ -3393,7 +3795,10 @@
     "height": 0.8,
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Jolteon"
+    "nameEn": "Jolteon",
+    "aliases": [
+      "wbvlTjsej"
+    ]
   },
   {
     "dexNumber": 136,
@@ -3417,7 +3822,10 @@
     "height": 0.9,
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Flareon"
+    "nameEn": "Flareon",
+    "aliases": [
+      "qntmxj"
+    ]
   },
   {
     "dexNumber": 137,
@@ -3442,7 +3850,10 @@
     "height": 0.8,
     "finalEvo": false,
     "genderRate": -1,
-    "nameEn": "Porygon"
+    "nameEn": "Porygon",
+    "aliases": [
+      "vhfflrhs"
+    ]
   },
   {
     "dexNumber": 138,
@@ -3468,7 +3879,10 @@
     "type2": "water",
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Omanyte"
+    "nameEn": "Omanyte",
+    "aliases": [
+      "dkaskdlxm"
+    ]
   },
   {
     "dexNumber": 139,
@@ -3494,7 +3908,10 @@
     "type2": "water",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Omastar"
+    "nameEn": "Omastar",
+    "aliases": [
+      "dkatmxk"
+    ]
   },
   {
     "dexNumber": 140,
@@ -3520,7 +3937,10 @@
     "type2": "water",
     "finalEvo": false,
     "genderRate": 1,
-    "nameEn": "Kabuto"
+    "nameEn": "Kabuto",
+    "aliases": [
+      "xnrn"
+    ]
   },
   {
     "dexNumber": 141,
@@ -3546,7 +3966,10 @@
     "type2": "water",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Kabutops"
+    "nameEn": "Kabutops",
+    "aliases": [
+      "xnrnvntm"
+    ]
   },
   {
     "dexNumber": 142,
@@ -3572,7 +3995,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 1,
-    "nameEn": "Aerodactyl"
+    "nameEn": "Aerodactyl",
+    "aliases": [
+      "vmxpfk"
+    ]
   },
   {
     "dexNumber": 143,
@@ -3598,7 +4024,10 @@
     "finalEvo": true,
     "genderRate": 1,
     "canGmax": true,
-    "nameEn": "Snorlax"
+    "nameEn": "Snorlax",
+    "aliases": [
+      "wkaaksqh"
+    ]
   },
   {
     "dexNumber": 144,
@@ -3623,7 +4052,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Articuno"
+    "nameEn": "Articuno",
+    "aliases": [
+      "vmflwu"
+    ]
   },
   {
     "dexNumber": 145,
@@ -3648,7 +4080,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Zapdos"
+    "nameEn": "Zapdos",
+    "aliases": [
+      "Tjsej"
+    ]
   },
   {
     "dexNumber": 146,
@@ -3673,7 +4108,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Moltres"
+    "nameEn": "Moltres",
+    "aliases": [
+      "vkdldj"
+    ]
   },
   {
     "dexNumber": 147,
@@ -3697,7 +4135,10 @@
     "height": 1.8,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Dratini"
+    "nameEn": "Dratini",
+    "aliases": [
+      "alsyd"
+    ]
   },
   {
     "dexNumber": 148,
@@ -3721,7 +4162,10 @@
     "height": 4.0,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Dragonair"
+    "nameEn": "Dragonair",
+    "aliases": [
+      "tlssyd"
+    ]
   },
   {
     "dexNumber": 149,
@@ -3746,7 +4190,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Dragonite"
+    "nameEn": "Dragonite",
+    "aliases": [
+      "akdsksyd"
+    ]
   },
   {
     "dexNumber": 150,
@@ -3770,7 +4217,10 @@
     "height": 2.0,
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Mewtwo"
+    "nameEn": "Mewtwo",
+    "aliases": [
+      "abcm"
+    ]
   },
   {
     "dexNumber": 151,
@@ -3793,6 +4243,9 @@
     "height": 0.4,
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Mew"
+    "nameEn": "Mew",
+    "aliases": [
+      "ab"
+    ]
   }
 ]

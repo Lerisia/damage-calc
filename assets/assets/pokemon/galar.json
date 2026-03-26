@@ -23,7 +23,10 @@
     "height": 0.4,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Galarian Meowth"
+    "nameEn": "Galarian Meowth",
+    "aliases": [
+      "skdhd (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 77,
@@ -49,7 +52,10 @@
     "height": 0.8,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Galarian Ponyta"
+    "nameEn": "Galarian Ponyta",
+    "aliases": [
+      "vhslxk (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 78,
@@ -76,7 +82,10 @@
     "type2": "fairy",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Rapidash"
+    "nameEn": "Galarian Rapidash",
+    "aliases": [
+      "skfTodak (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 79,
@@ -102,7 +111,10 @@
     "height": 1.2,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Galarian Slowpoke"
+    "nameEn": "Galarian Slowpoke",
+    "aliases": [
+      "diehs (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 80,
@@ -129,7 +141,10 @@
     "type2": "psychic",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Slowbro"
+    "nameEn": "Galarian Slowbro",
+    "aliases": [
+      "diehfks (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 83,
@@ -154,7 +169,10 @@
     "height": 0.8,
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Galarian Farfetch'd"
+    "nameEn": "Galarian Farfetch'd",
+    "aliases": [
+      "vkdhfl (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 110,
@@ -181,7 +199,10 @@
     "type2": "fairy",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Weezing"
+    "nameEn": "Galarian Weezing",
+    "aliases": [
+      "Ehehrktm (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 122,
@@ -208,7 +229,10 @@
     "type2": "psychic",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Galarian Mr. Mime"
+    "nameEn": "Galarian Mr. Mime",
+    "aliases": [
+      "akdlaaos (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 144,
@@ -233,7 +257,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Galarian Articuno"
+    "nameEn": "Galarian Articuno",
+    "aliases": [
+      "vmflwu (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 145,
@@ -258,7 +285,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Galarian Zapdos"
+    "nameEn": "Galarian Zapdos",
+    "aliases": [
+      "Tjsej (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 146,
@@ -283,7 +313,10 @@
     "type2": "flying",
     "finalEvo": true,
     "genderRate": -1,
-    "nameEn": "Galarian Moltres"
+    "nameEn": "Galarian Moltres",
+    "aliases": [
+      "vkdldj (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 199,
@@ -310,7 +343,10 @@
     "type2": "psychic",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Slowking"
+    "nameEn": "Galarian Slowking",
+    "aliases": [
+      "diehzld (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 222,
@@ -335,7 +371,10 @@
     "height": 0.6,
     "finalEvo": false,
     "genderRate": 6,
-    "nameEn": "Galarian Corsola"
+    "nameEn": "Galarian Corsola",
+    "aliases": [
+      "zhtksgh (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 263,
@@ -362,7 +401,10 @@
     "type2": "normal",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Galarian Zigzagoon"
+    "nameEn": "Galarian Zigzagoon",
+    "aliases": [
+      "wlrmwprnfl (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 264,
@@ -389,7 +431,10 @@
     "type2": "normal",
     "finalEvo": false,
     "genderRate": 4,
-    "nameEn": "Galarian Linoone"
+    "nameEn": "Galarian Linoone",
+    "aliases": [
+      "wlrrnfl (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 554,
@@ -414,7 +459,10 @@
     "height": 0.7,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Darumaka"
+    "nameEn": "Galarian Darumaka",
+    "aliases": [
+      "ekfakrghk (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 555,
@@ -440,7 +488,9 @@
     "finalEvo": true,
     "genderRate": 4,
     "aliases": [
-      "얼비달마"
+      "얼비달마",
+      "djfqlekfak",
+      "qnfqlekfak (rkfkfmdml ahtmq)"
     ],
     "nameEn": "Galarian Darmanitan"
   },
@@ -468,7 +518,10 @@
     "type2": "fire",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Darmanitan (Zen Mode)"
+    "nameEn": "Galarian Darmanitan (Zen Mode)",
+    "aliases": [
+      "qnfqlekfak (rkfkfmdml ahtmq/ekfakahem)"
+    ]
   },
   {
     "dexNumber": 562,
@@ -493,7 +546,10 @@
     "type2": "ghost",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Yamask"
+    "nameEn": "Galarian Yamask",
+    "aliases": [
+      "eptmaktm (rkfkfmdml ahtmq)"
+    ]
   },
   {
     "dexNumber": 618,
@@ -518,6 +574,9 @@
     "type2": "steel",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Galarian Stunfisk"
+    "nameEn": "Galarian Stunfisk",
+    "aliases": [
+      "apej (rkfkfmdml ahtmq)"
+    ]
   }
 ]
