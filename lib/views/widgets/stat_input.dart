@@ -784,7 +784,7 @@ class _StatInputState extends State<StatInput> {
             onFocusChange: (hasFocus) {
               _hasFocusedStatField = hasFocus;
               if (!hasFocus) {
-                setState(() => _evResetCounter++);
+                setState(() => _evResetCounter++); // normalize display
                 widget.onStatEditComplete?.call();
               }
             },
@@ -795,7 +795,7 @@ class _StatInputState extends State<StatInput> {
                 initialValue: '$displayValue',
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
+                textInputAction: TextInputAction.next,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   _ClampingFormatter(min: 0, max: maxDisplay),
@@ -856,7 +856,7 @@ class _StatInputState extends State<StatInput> {
               initialValue: '${widget.hpPercent}',
               textAlign: TextAlign.center,
               keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 _ClampingFormatter(min: 0, max: 100),
@@ -902,18 +902,14 @@ class _StatInputState extends State<StatInput> {
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
         if (!hasFocus) {
-          Future.delayed(const Duration(milliseconds: 50), () {
-            if (!_hasFocusedStatField && mounted) {
-              setState(() => _evResetCounter++);
-              widget.onStatEditComplete?.call();
-            }
-          });
+          setState(() => _evResetCounter++);
+          widget.onStatEditComplete?.call();
         }
       },
       child: SizedBox(
         height: 32,
         child: TextFormField(
-        key: ValueKey('rank_$_evResetCounter'),
+        key: ValueKey('rank_${value}_$_evResetCounter'),
         initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.text,
@@ -939,6 +935,7 @@ class _StatInputState extends State<StatInput> {
           final parsed = int.tryParse(text);
           if (parsed != null) {
             final clamped = parsed.clamp(-6, 6);
+            setState(() => _evResetCounter++);
             onChanged(clamped);
           }
         },
@@ -952,12 +949,8 @@ class _StatInputState extends State<StatInput> {
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
         if (!hasFocus) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (!_hasFocusedStatField && mounted) {
-              setState(() => _evResetCounter++);
-              widget.onStatEditComplete?.call();
-            }
-          });
+          setState(() => _evResetCounter++);
+          widget.onStatEditComplete?.call();
         }
       },
       child: SizedBox(
@@ -966,7 +959,7 @@ class _StatInputState extends State<StatInput> {
           initialValue: '$value',
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
-          textInputAction: TextInputAction.done,
+          textInputAction: TextInputAction.next,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             _ClampingFormatter(min: min, max: max),
