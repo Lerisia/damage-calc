@@ -512,6 +512,7 @@ class PokemonPanelState extends State<PokemonPanel>
                   ? PopupMenuButton<PokemonType>(
                       initialValue: effectiveType,
                       padding: EdgeInsets.zero,
+                      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                       child: Text(
                         KoStrings.getTypeName(effectiveType),
                         textAlign: TextAlign.center,
@@ -534,6 +535,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 ? PopupMenuButton<MoveCategory>(
                     initialValue: effectiveCategory,
                     padding: EdgeInsets.zero,
+                    popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                     child: Text(
                       KoStrings.getCategoryName(effectiveCategory!),
                       textAlign: TextAlign.center,
