@@ -2260,5 +2260,23 @@
     "nameKo": "드래곤스킨",
     "nameJa": "ドラゴンスキン",
     "nameEn": "Dragonize"
+  },
+  {
+    "name": "Rivalry Same",
+    "nameKo": "투쟁심 (동성)",
+    "nameJa": "とうそうしん (同性)",
+    "nameEn": "Rivalry (Same)"
+  },
+  {
+    "name": "Rivalry Opposite",
+    "nameKo": "투쟁심 (이성)",
+    "nameJa": "とうそうしん (異性)",
+    "nameEn": "Rivalry (Opposite)"
+  },
+  {
+    "name": "Rivalry None",
+    "nameKo": "투쟁심 (무성)",
+    "nameJa": "とうそうしん (無性)",
+    "nameEn": "Rivalry (Genderless)"
   }
 ]

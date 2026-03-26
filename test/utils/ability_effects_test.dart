@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:damage_calc/models/gender.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/stats.dart';
@@ -356,18 +355,21 @@ void main() {
     });
   });
 
-  group('Rivalry', () {
-    test('same gender boosts by 1.25x', () {
-      expect(getAbilityEffect('Rivalry', move: physicalNormal, myGender: Gender.male, opponentGender: Gender.male).powerModifier, equals(1.25));
+  group('Rivalry variants', () {
+    test('Rivalry Same boosts by 1.25x', () {
+      expect(getAbilityEffect('Rivalry Same', move: physicalNormal).powerModifier, equals(1.25));
     });
 
-    test('different gender reduces to 0.75x', () {
-      expect(getAbilityEffect('Rivalry', move: physicalNormal, myGender: Gender.male, opponentGender: Gender.female).powerModifier, equals(0.75));
+    test('Rivalry Opposite reduces to 0.75x', () {
+      expect(getAbilityEffect('Rivalry Opposite', move: physicalNormal).powerModifier, equals(0.75));
     });
 
-    test('no effect when either is genderless or unset', () {
-      expect(getAbilityEffect('Rivalry', move: physicalNormal, myGender: Gender.genderless, opponentGender: Gender.male).powerModifier, equals(1.0));
-      expect(getAbilityEffect('Rivalry', move: physicalNormal, myGender: Gender.male, opponentGender: Gender.unset).powerModifier, equals(1.0));
+    test('Rivalry None has no effect', () {
+      expect(getAbilityEffect('Rivalry None', move: physicalNormal).powerModifier, equals(1.0));
+    });
+
+    test('Rivalry base has no effect', () {
+      expect(getAbilityEffect('Rivalry', move: physicalNormal).powerModifier, equals(1.0));
     });
   });
 

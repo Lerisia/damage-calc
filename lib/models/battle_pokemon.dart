@@ -276,7 +276,9 @@ class BattlePokemonState {
     pokemonAbilities = pokemon.abilities;
     final firstAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
     selectedAbility = firstAbility == 'Supreme Overlord'
-        ? 'Supreme Overlord 0' : firstAbility;
+        ? 'Supreme Overlord 0'
+        : firstAbility == 'Rivalry'
+        ? 'Rivalry Same' : firstAbility;
     if (pokemon.requiredItem != null) {
       selectedItem = pokemon.requiredItem;
     }

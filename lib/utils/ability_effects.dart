@@ -327,17 +327,13 @@ AbilityEffect getAbilityEffect(String abilityName, {
       }
       return _defaultEffect;
 
-    // --- Gender conditional ---
+    // --- Rivalry variants ---
+    case 'Rivalry Same':
+      return const AbilityEffect(powerModifier: kRivalrySameGender);
+    case 'Rivalry Opposite':
+      return const AbilityEffect(powerModifier: kRivalryOppositeGender);
+    case 'Rivalry None':
     case 'Rivalry':
-      final hasGender = myGender == Gender.male || myGender == Gender.female;
-      final oppHasGender = opponentGender == Gender.male || opponentGender == Gender.female;
-      if (hasGender && oppHasGender) {
-        if (myGender == opponentGender) {
-          return const AbilityEffect(powerModifier: kRivalrySameGender);
-        } else {
-          return const AbilityEffect(powerModifier: kRivalryOppositeGender);
-        }
-      }
       return _defaultEffect;
 
     // --- Speed stat modifiers ---
