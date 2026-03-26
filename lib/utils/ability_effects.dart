@@ -532,9 +532,11 @@ double getSpeedAbilityModifier(String abilityName, {
   Terrain terrain = Terrain.none,
   StatusCondition status = StatusCondition.none,
   String? heldItem,
+  Stats? actualStats,
 }) {
   return getAbilityEffect(abilityName,
     weather: weather, terrain: terrain, status: status, heldItem: heldItem,
+    actualStats: actualStats,
   ).statModifiers.speed;
 }
 

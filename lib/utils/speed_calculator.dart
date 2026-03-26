@@ -1,5 +1,6 @@
 import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
+import '../models/stats.dart';
 import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
@@ -21,6 +22,7 @@ int calcEffectiveSpeed({
   String? ability,
   String? item,
   String? pokemonName,
+  Stats? actualStats,
   StatusCondition status = StatusCondition.none,
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
@@ -32,7 +34,8 @@ int calcEffectiveSpeed({
   // Ability modifier
   if (ability != null) {
     speed *= getSpeedAbilityModifier(ability,
-        weather: weather, terrain: terrain, status: status, heldItem: item);
+        weather: weather, terrain: terrain, status: status, heldItem: item,
+        actualStats: actualStats);
   }
 
   // Item modifier (Klutz negates item effects; Choice Scarf nullified during Dynamax)
