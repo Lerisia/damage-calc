@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/sample_storage.dart';
 import '../utils/app_strings.dart';
 import '../utils/image_saver.dart' as saver;
@@ -135,6 +136,22 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     });
     _loadAbilities();
     _loadItems();
+    _loadSpMode();
+  }
+
+  static const _spModeKey = 'use_sp_mode';
+
+  Future<void> _loadSpMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getBool(_spModeKey) ?? false;
+    if (mounted && saved != _useSpMode) setState(() => _useSpMode = saved);
+  }
+
+  void _setSpMode(bool v) {
+    setState(() => _useSpMode = v);
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(_spModeKey, v);
+    });
   }
 
   Future<void> _loadAbilities() async {
@@ -845,7 +862,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 abilityNameMap: _abilityNameMap,
                 itemNameMap: _itemNameMap,
                 useSpMode: _useSpMode,
-                onSpModeChanged: (v) => setState(() => _useSpMode = v),
+                onSpModeChanged: _setSpMode,
               ),
             ),
           ],
@@ -939,7 +956,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 abilityNameMap: _abilityNameMap,
                 itemNameMap: _itemNameMap,
                 useSpMode: _useSpMode,
-                onSpModeChanged: (v) => setState(() => _useSpMode = v),
+                onSpModeChanged: _setSpMode,
               ),
             ],
           ),
@@ -980,7 +997,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ? _defender.hpPercent
                 : _attacker.hpPercent,
             useSpMode: _useSpMode,
-            onSpModeChanged: (v) => setState(() => _useSpMode = v),
+            onSpModeChanged: _setSpMode,
           );
   }
 
