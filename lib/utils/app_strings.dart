@@ -21,6 +21,9 @@ class AppStrings {
     });
   }
 
+  /// Test-only: set language without touching SharedPreferences.
+  static void setLanguageForTest(AppLanguage lang) => _current = lang;
+
   /// Load saved language preference, or detect from system locale.
   /// Call once at startup.
   static Future<void> loadSavedLanguage() async {

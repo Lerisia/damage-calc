@@ -87,24 +87,39 @@ class SpeedTierTable {
 
     // Pick the most informative description
     final parts = <String>[];
-    final maxLabel = AppStrings.t('speed.maxSpeed');
-    final neutralLabel = AppStrings.t('speed.neutralSpeed');
-    final outspeeds = AppStrings.t('speed.outspeeds');
-    final ties = AppStrings.t('speed.sameTier');
 
     if (maxTie != null) {
-      parts.add('$maxLabel$maxTie $ties');
+      parts.add(_formatTier('speed.maxSpeed', maxTie, 'speed.sameTier'));
     } else if (maxTier != null) {
-      parts.add('$maxLabel$maxTier $outspeeds');
+      parts.add(_formatTier('speed.maxSpeed', maxTier, 'speed.outspeeds'));
     }
 
     if (neutralTie != null && neutralTie != maxTie) {
-      parts.add('$neutralLabel$neutralTie $ties');
+      parts.add(_formatTier('speed.neutralSpeed', neutralTie, 'speed.sameTier'));
     } else if (neutralTier != null && neutralTier != maxTier) {
-      parts.add('$neutralLabel$neutralTier $outspeeds');
+      parts.add(_formatTier('speed.neutralSpeed', neutralTier, 'speed.outspeeds'));
     }
 
     return parts.join(' / ');
+  }
+  /// Format a speed tier phrase respecting language word order.
+  /// ko/ja: "최속130족 추월" / "最速130族抜き"
+  /// en:    "Outspeeds +Spe base 130" / "Ties +Spe base 130"
+  static String _formatTier(String speedKey, int base, String relKey) {
+    final lang = AppStrings.current;
+    final speedLabel = AppStrings.t(speedKey);
+    final relLabel = AppStrings.t(relKey);
+
+    if (lang == AppLanguage.en) {
+      final natureLabel = speedKey == 'speed.maxSpeed' ? '+Spe' : 'Neutral';
+      // Capitalize relation: "Outspeeds" / "Ties"
+      final rel = relLabel[0].toUpperCase() + relLabel.substring(1);
+      return '$rel $natureLabel base $base';
+    }
+
+    // ko: "최속130족 추월", ja: "最速130族抜き"
+    final suffix = lang == AppLanguage.ja ? '族' : '족';
+    return '$speedLabel$base$suffix $relLabel';
   }
 }
 
