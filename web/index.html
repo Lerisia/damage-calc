@@ -66,8 +66,29 @@
     });
   </script>
 
-  <!-- Favicon -->
+  <!-- Favicon (multiple sizes for Google search results) -->
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/Icon-512.png">
   <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <!-- Structured data for Google Search (logo + site info) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "결정력 계산기",
+    "alternateName": ["Damage Calculator", "ダメージ計算機"],
+    "url": "https://damage-calc.com/",
+    "description": "포켓몬스터 실전 배틀 결정력 계산기",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web, iOS, Android",
+    "image": "https://damage-calc.com/icons/Icon-512.png",
+    "author": {
+      "@type": "Person",
+      "name": "Elyss"
+    }
+  }
+  </script>
 
   <title>결정력 계산기 - 실전 배틀 대미지 계산</title>
   <script>
