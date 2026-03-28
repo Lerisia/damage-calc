@@ -770,7 +770,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   // Fixed damage moves that don't coexist with Dynamax -> Max Guard
   if (move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
     return move.copyWith(
-      name: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
+      name: 'Max Guard', nameEn: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
       type: PokemonType.normal, power: 0,
       moveClass: MoveClass.maxMove,
       tags: const [],
@@ -785,7 +785,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
     final maxNameKo = _maxMoveNamesKo[move.type] ?? '다이어택';
     final maxNameJa = _maxMoveNamesJa[move.type] ?? 'ダイアタック';
     return move.copyWith(
-      name: maxName, nameKo: maxNameKo, nameJa: maxNameJa,
+      name: maxName, nameEn: maxName, nameKo: maxNameKo, nameJa: maxNameJa,
       power: maxPower,
       moveClass: MoveClass.maxMove,
       tags: const [],
@@ -795,7 +795,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   // Status moves -> Max Guard (no offensive calc needed, but return something)
   if (move.category == MoveCategory.status) {
     return move.copyWith(
-      name: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
+      name: 'Max Guard', nameEn: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
       type: PokemonType.normal, power: 0,
       moveClass: MoveClass.maxMove,
       tags: const [], // Dynamax moves lose all original tags
@@ -813,7 +813,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
     if (gmaxMove != null && type == gmaxMove.type) {
       final gmaxPower = gmaxMove.fixedPower ?? maxPower;
       return move.copyWith(
-        name: gmaxMove.name, nameKo: gmaxMove.nameKo, nameJa: gmaxMove.nameJa,
+        name: gmaxMove.name, nameEn: gmaxMove.name, nameKo: gmaxMove.nameKo, nameJa: gmaxMove.nameJa,
         power: gmaxPower,
         moveClass: MoveClass.maxMove,
         tags: const [], // Dynamax moves lose all original tags
@@ -826,7 +826,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   final maxNameKo = _maxMoveNamesKo[type] ?? '다이어택';
   final maxNameJa = _maxMoveNamesJa[type] ?? 'ダイアタック';
   return move.copyWith(
-    name: maxName, nameKo: maxNameKo, nameJa: maxNameJa,
+    name: maxName, nameEn: maxName, nameKo: maxNameKo, nameJa: maxNameJa,
     power: maxPower,
     moveClass: MoveClass.maxMove,
     tags: const [], // Dynamax moves lose all original tags
