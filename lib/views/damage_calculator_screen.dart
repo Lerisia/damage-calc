@@ -355,6 +355,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               _defender = loaded;
             }
             _resetCounter++;
+            _syncWeatherTerrain();
           });
           Navigator.pop(ctx);
         },
