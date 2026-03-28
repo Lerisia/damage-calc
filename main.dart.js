@@ -9170,7 +9170,7 @@ if(B.b.m(s,"custom:power_target_hp_120")||B.b.m(s,"custom:power_target_hp_100"))
 if(a.at>1)return 130
 return null},
 aYR(a,b,c){var s,r,q,p,o,n,m,l,k,j="Max Guard",i="Max Strike",h=a.z
-if(B.b.m(h,"custom:fixed_20")||B.b.m(h,"custom:fixed_40"))return a.WO(B.f4,j,"\u30c0\u30a4\u30a6\u30a9\u30fc\u30eb","\ub2e4\uc774\uc6d4",0,B.aZ,B.ah)
+if(B.b.m(h,"custom:fixed_20")||B.b.m(h,"custom:fixed_40"))return a.WO(B.f4,j,j,"\u30c0\u30a4\u30a6\u30a9\u30fc\u30eb","\ub2e4\uc774\uc6d4",0,B.aZ,B.ah)
 if(B.b.m(h,"custom:fixed_level")){s=a.a==="Night Shade"?100:75
 h=a.e
 r=B.xn.h(0,h)
@@ -9178,7 +9178,7 @@ if(r==null)r=i
 q=B.xp.h(0,h)
 if(q==null)q="\ub2e4\uc774\uc5b4\ud0dd"
 p=B.xo.h(0,h)
-return a.Il(B.f4,r,p==null?"\u30c0\u30a4\u30a2\u30bf\u30c3\u30af":p,q,s,B.aZ)}if(a.f===B.db)return a.WO(B.f4,j,"\u30c0\u30a4\u30a6\u30a9\u30fc\u30eb","\ub2e4\uc774\uc6d4",0,B.aZ,B.ah)
+return a.Il(B.f4,r,r,p==null?"\u30c0\u30a4\u30a2\u30bf\u30c3\u30af":p,q,s,B.aZ)}if(a.f===B.db)return a.WO(B.f4,j,j,"\u30c0\u30a4\u30a6\u30a9\u30fc\u30eb","\ub2e4\uc774\uc6d4",0,B.aZ,B.ah)
 o=a.e
 n=A.aZL(a)
 s=n==null?A.b_w(a.r,o):n
@@ -9187,12 +9187,12 @@ if(m!=null&&o===m.d){l=m.e
 if(l==null)l=s
 h=m.a
 k=m.b
-return a.Il(B.f4,h,m.c,k,l,B.aZ)}}r=B.xn.h(0,o)
+return a.Il(B.f4,h,h,m.c,k,l,B.aZ)}}r=B.xn.h(0,o)
 if(r==null)r=i
 q=B.xp.h(0,o)
 if(q==null)q="\ub2e4\uc774\uc5b4\ud0dd"
 p=B.xo.h(0,o)
-return a.Il(B.f4,r,p==null?"\u30c0\u30a4\u30a2\u30bf\u30c3\u30af":p,q,s,B.aZ)},
+return a.Il(B.f4,r,r,p==null?"\u30c0\u30a4\u30a2\u30bf\u30c3\u30af":p,q,s,B.aZ)},
 b_x(a){var s,r,q
 if(!B.d.jM(a,"-memory"))return null
 s=B.d.aw(a,0,a.length-7)
@@ -44057,8 +44057,8 @@ $1$type(a){return this.F(this,A.D("call","$1$type",0,[a],["type"],0))},
 $1$tags(a){return this.F(this,A.D("call","$1$tags",0,[a],["tags"],0))},
 $1$power(a){return this.F(this,A.D("call","$1$power",0,[a],["power"],0))},
 $2$power$tags(a,b){return this.F(this,A.D("call","$2$power$tags",0,[a,b],["power","tags"],0))},
-$7$moveClass$name$nameJa$nameKo$power$tags$type(a,b,c,d,e,f,g){return this.F(this,A.D("call","$7$moveClass$name$nameJa$nameKo$power$tags$type",0,[a,b,c,d,e,f,g],["moveClass","name","nameJa","nameKo","power","tags","type"],0))},
-$6$moveClass$name$nameJa$nameKo$power$tags(a,b,c,d,e,f){return this.F(this,A.D("call","$6$moveClass$name$nameJa$nameKo$power$tags",0,[a,b,c,d,e,f],["moveClass","name","nameJa","nameKo","power","tags"],0))},
+$8$moveClass$name$nameEn$nameJa$nameKo$power$tags$type(a,b,c,d,e,f,g,h){return this.F(this,A.D("call","$8$moveClass$name$nameEn$nameJa$nameKo$power$tags$type",0,[a,b,c,d,e,f,g,h],["moveClass","name","nameEn","nameJa","nameKo","power","tags","type"],0))},
+$7$moveClass$name$nameEn$nameJa$nameKo$power$tags(a,b,c,d,e,f,g){return this.F(this,A.D("call","$7$moveClass$name$nameEn$nameJa$nameKo$power$tags",0,[a,b,c,d,e,f,g],["moveClass","name","nameEn","nameJa","nameKo","power","tags"],0))},
 $2$power$type(a,b){return this.F(this,A.D("call","$2$power$type",0,[a,b],["power","type"],0))},
 $2$category$power(a,b){return this.F(this,A.D("call","$2$category$power",0,[a,b],["category","power"],0))},
 $4$berryModHit$defAbilityDmgHit$effectivenessHit(a,b,c,d){return this.F(this,A.D("call","$4$berryModHit$defAbilityDmgHit$effectivenessHit",0,[a,b,c,d],["berryModHit","defAbilityDmgHit","effectivenessHit"],0))},
@@ -46674,26 +46674,26 @@ geF(){var s=this
 return A.ix(s.a,s.d,s.c,s.b)},
 awh(a){if(B.b.m(this.z,"custom:escalating_hits"))return B.f.cN(this.r*a*(a+1),2)
 return this.r*a},
-kD(a,b,c,d,e,f,g,h){var s=this,r=c==null?s.a:c,q=e==null?s.b:e,p=d==null?s.c:d,o=h==null?s.e:h,n=a==null?s.f:a,m=f==null?s.r:f,l=b==null?s.y:b,k=g==null?s.z:g
-return new A.bG(r,q,p,s.d,o,n,m,s.w,s.x,l,k,s.Q,s.as,s.at,s.ax)},
+kD(a,b,c,d,e,f,g,h,i){var s=this,r=c==null?s.a:c,q=f==null?s.b:f,p=e==null?s.c:e,o=d==null?s.d:d,n=i==null?s.e:i,m=a==null?s.f:a,l=g==null?s.r:g,k=b==null?s.y:b,j=h==null?s.z:h
+return new A.bG(r,q,p,o,n,m,l,s.w,s.x,k,j,s.Q,s.as,s.at,s.ax)},
 WM(a,b,c){var s=null
-return this.kD(a,s,s,s,s,b,s,c)},
+return this.kD(a,s,s,s,s,s,b,s,c)},
 WJ(a,b){var s=null
-return this.kD(a,s,s,s,s,s,s,b)},
+return this.kD(a,s,s,s,s,s,s,s,b)},
 jF(a){var s=null
-return this.kD(s,s,s,s,s,s,s,a)},
+return this.kD(s,s,s,s,s,s,s,s,a)},
 aoC(a){var s=null
-return this.kD(s,s,s,s,s,s,a,s)},
+return this.kD(s,s,s,s,s,s,s,a,s)},
 eD(a){var s=null
-return this.kD(s,s,s,s,s,a,s,s)},
+return this.kD(s,s,s,s,s,s,a,s,s)},
 aoS(a,b){var s=null
-return this.kD(s,s,s,s,s,a,b,s)},
-WO(a,b,c,d,e,f,g){return this.kD(null,a,b,c,d,e,f,g)},
-Il(a,b,c,d,e,f){return this.kD(null,a,b,c,d,e,f,null)},
+return this.kD(s,s,s,s,s,s,a,b,s)},
+WO(a,b,c,d,e,f,g,h){return this.kD(null,a,b,c,d,e,f,g,h)},
+Il(a,b,c,d,e,f,g){return this.kD(null,a,b,c,d,e,f,g,null)},
 Ik(a,b){var s=null
-return this.kD(s,s,s,s,s,a,s,b)},
+return this.kD(s,s,s,s,s,s,a,s,b)},
 aoH(a,b){var s=null
-return this.kD(a,s,s,s,s,b,s,s)},
+return this.kD(a,s,s,s,s,s,b,s,s)},
 e3(){var s,r=this,q=A.v(t.N,t.z)
 q.n(0,"name",r.a)
 q.n(0,"nameKo",r.b)
