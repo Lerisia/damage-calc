@@ -41,12 +41,12 @@ class AppStrings {
   static AppLanguage _detectSystemLanguage() {
     final locale = ui.PlatformDispatcher.instance.locale;
     switch (locale.languageCode) {
+      case 'ko':
+        return AppLanguage.ko;
       case 'ja':
         return AppLanguage.ja;
-      case 'en':
-        return AppLanguage.en;
       default:
-        return AppLanguage.ko;
+        return AppLanguage.en;
     }
   }
 
