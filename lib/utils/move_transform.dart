@@ -771,7 +771,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   if (move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
     return move.copyWith(
       name: 'Max Guard', nameEn: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
-      type: PokemonType.normal, power: 0,
+      type: PokemonType.normal, power: 0, priority: 0,
       moveClass: MoveClass.maxMove,
       tags: const [],
     );
@@ -786,7 +786,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
     final maxNameJa = _maxMoveNamesJa[move.type] ?? 'ダイアタック';
     return move.copyWith(
       name: maxName, nameEn: maxName, nameKo: maxNameKo, nameJa: maxNameJa,
-      power: maxPower,
+      power: maxPower, priority: 0,
       moveClass: MoveClass.maxMove,
       tags: const [],
     );
@@ -796,9 +796,9 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   if (move.category == MoveCategory.status) {
     return move.copyWith(
       name: 'Max Guard', nameEn: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
-      type: PokemonType.normal, power: 0,
+      type: PokemonType.normal, power: 0, priority: 0,
       moveClass: MoveClass.maxMove,
-      tags: const [], priority: 0, // Dynamax moves lose all original tags and priority
+      tags: const [],
     );
   }
 
@@ -814,9 +814,9 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
       final gmaxPower = gmaxMove.fixedPower ?? maxPower;
       return move.copyWith(
         name: gmaxMove.name, nameEn: gmaxMove.name, nameKo: gmaxMove.nameKo, nameJa: gmaxMove.nameJa,
-        power: gmaxPower,
+        power: gmaxPower, priority: 0,
         moveClass: MoveClass.maxMove,
-        tags: const [], // Dynamax moves lose all original tags
+        tags: const [],
       );
     }
   }
@@ -827,9 +827,9 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
   final maxNameJa = _maxMoveNamesJa[type] ?? 'ダイアタック';
   return move.copyWith(
     name: maxName, nameEn: maxName, nameKo: maxNameKo, nameJa: maxNameJa,
-    power: maxPower,
+    power: maxPower, priority: 0,
     moveClass: MoveClass.maxMove,
-    tags: const [], // Dynamax moves lose all original tags
+    tags: const [],
   );
 }
 
