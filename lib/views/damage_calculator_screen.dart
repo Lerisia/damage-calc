@@ -76,20 +76,31 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
   }
 
+  String? _prevAtkAbility;
+  String? _prevDefAbility;
+
   void _syncWeatherTerrain() {
-    final defAbility = _defender.selectedAbility;
     final atkAbility = _attacker.selectedAbility;
+    final defAbility = _defender.selectedAbility;
 
-    final atkWeather = atkAbility != null ? abilityWeatherMap[atkAbility] : null;
-    final defWeather = defAbility != null ? abilityWeatherMap[defAbility] : null;
-    if (atkWeather != null || defWeather != null) {
-      _weather = atkWeather ?? defWeather!;
+    final atkChanged = atkAbility != _prevAtkAbility;
+    final defChanged = defAbility != _prevDefAbility;
+    _prevAtkAbility = atkAbility;
+    _prevDefAbility = defAbility;
+
+    if (!atkChanged && !defChanged) return;
+
+    if (atkChanged && atkAbility != null) {
+      final w = abilityWeatherMap[atkAbility];
+      if (w != null) _weather = w;
+      final t = abilityTerrainMap[atkAbility];
+      if (t != null) _terrain = t;
     }
-
-    final atkTerrain = atkAbility != null ? abilityTerrainMap[atkAbility] : null;
-    final defTerrain = defAbility != null ? abilityTerrainMap[defAbility] : null;
-    if (atkTerrain != null || defTerrain != null) {
-      _terrain = atkTerrain ?? defTerrain!;
+    if (defChanged && defAbility != null) {
+      final w = abilityWeatherMap[defAbility];
+      if (w != null) _weather = w;
+      final t = abilityTerrainMap[defAbility];
+      if (t != null) _terrain = t;
     }
   }
 
