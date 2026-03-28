@@ -768,6 +768,7 @@ class _StatInputState extends State<StatInput> {
           child: _flexButton('0', () {
             setState(() => _evResetCounter++);
             onChanged(0);
+            widget.onStatEditComplete?.call();
           }),
         ),
         if (isWide)
@@ -781,6 +782,7 @@ class _StatInputState extends State<StatInput> {
               } else {
                 onChanged((value - step).clamp(0, 252));
               }
+              widget.onStatEditComplete?.call();
             }),
           ),
         Expanded(
@@ -837,6 +839,7 @@ class _StatInputState extends State<StatInput> {
               } else {
                 onChanged((value + step).clamp(0, 252));
               }
+              widget.onStatEditComplete?.call();
             }),
           ),
         Expanded(
@@ -844,6 +847,7 @@ class _StatInputState extends State<StatInput> {
           child: _flexButton('max', () {
             setState(() => _evResetCounter++);
             onChanged(sp ? ChampionsMode.spToEv(maxDisplay) : 252);
+            widget.onStatEditComplete?.call();
           }),
         ),
       ],
