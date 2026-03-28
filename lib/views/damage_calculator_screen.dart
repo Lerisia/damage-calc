@@ -441,7 +441,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (_) {
                         setState(() => _weather = selected ? Weather.none : w);
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     );
@@ -462,7 +461,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (_) {
                         setState(() => _terrain = selected ? Terrain.none : t);
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     );
@@ -481,7 +479,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(trickRoom: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -492,7 +489,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(magicRoom: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -503,7 +499,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(wonderRoom: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -514,7 +509,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(gravity: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -531,7 +525,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     _room = const RoomConditions();
                   });
                   setDialogState(() {});
-                  _onPanelChanged();
                 },
                 child: Text(AppStrings.t('toolbar.conditionsReset')),
               ),
