@@ -798,7 +798,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
       name: 'Max Guard', nameEn: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
       type: PokemonType.normal, power: 0,
       moveClass: MoveClass.maxMove,
-      tags: const [], // Dynamax moves lose all original tags
+      tags: const [], priority: 0, // Dynamax moves lose all original tags and priority
     );
   }
 
