@@ -508,24 +508,24 @@ class AppStrings {
       AppLanguage.ja: '効果なし',
     },
     'eff.superEffective4x': {
-      AppLanguage.ko: '효과 매우 좋음',
-      AppLanguage.en: 'Super Effective',
-      AppLanguage.ja: '効果ばつぐん',
+      AppLanguage.ko: '효과 매우 굉장함',
+      AppLanguage.en: 'Extremely Effective',
+      AppLanguage.ja: '効果はちょうバツグン',
     },
     'eff.superEffective': {
-      AppLanguage.ko: '효과 좋음',
+      AppLanguage.ko: '효과 굉장함',
       AppLanguage.en: 'Super Effective',
-      AppLanguage.ja: '効果ばつぐん',
+      AppLanguage.ja: '効果はバツグン',
     },
     'eff.notVeryEffective025': {
       AppLanguage.ko: '효과 매우 별로',
-      AppLanguage.en: 'Not Very Effective',
-      AppLanguage.ja: '効果いまひとつ',
+      AppLanguage.en: 'Mostly Ineffective',
+      AppLanguage.ja: '効果はかなりいまひとつ',
     },
     'eff.notVeryEffective': {
       AppLanguage.ko: '효과 별로',
       AppLanguage.en: 'Not Very Effective',
-      AppLanguage.ja: '効果いまひとつ',
+      AppLanguage.ja: '効果はいまひとつ',
     },
     'eff.neutral': {
       AppLanguage.ko: '효과 보통',
@@ -651,7 +651,7 @@ class AppStrings {
       AppLanguage.ja: 'どく状態',
     },
     'note.collision': {
-      AppLanguage.ko: '효과 좋음',
+      AppLanguage.ko: '효과 굉장함',
       AppLanguage.en: 'Super effective',
       AppLanguage.ja: '効果ばつぐん',
     },
