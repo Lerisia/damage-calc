@@ -8780,20 +8780,26 @@ i8=s.jg(h5,B.p1)
 i7=s.jg(h5,B.l7)}i9=B.c.bS(d0*j6.k3/100)
 s=i9>0?i9:d0
 return new A.dU(h1,i8,i7,s,j3.d,b2,d1,r,e2,h5,i1)},
-aS6(a,b,c,d){var s,r,q,p=b.Q,o=b.ch,n=b.CW,m=b.ay,l=A.fY(p,n,o,b.ax,m,B.cP)
-p=b.fy!==B.aE
-s=l.a
-if(p)s*=2
+aS6(a,b,c,d){var s,r,q,p,o,n=b.Q,m=b.ch,l=b.CW,k=b.ay,j=A.fY(n,l,m,b.ax,k,B.cP)
+n=b.fy!==B.aE
+s=j.a
+if(n)s*=2
 r=d.f===B.bk
-o=new A.a46(s,r,d)
-if(p)return o.$1(A.b(["\ub2e4\uc774\ub9e5\uc2a4 \uc0c1\ub300\uc5d0\uac8c \uc77c\uaca9\uae30 \ubb34\ud6a8"],t.s))
-if(A.aNs(d.e,b.x,b.y))return o.$1(A.b(["type:immune"],t.s))
-if(B.b.m(d.z,"custom:ohko_ice_immune"))p=b.x===B.aj||b.y===B.aj
-else p=!1
-if(p)return o.$1(A.b(["\uc5bc\uc74c \ud0c0\uc785\uc5d0\uac8c \uc808\ub300\uc601\ub3c4 \ubb34\ud6a8"],t.s))
-if(c==="Sturdy")return o.$1(A.b(["ability:Sturdy:\uc77c\uaca9\uae30 \ubb34\ud6a8"],t.s))
-q=B.f.bJ(B.c.cP(s*b.k3/100),1,s)
-return new A.dU(q,q,q,s,1,r,!1,d,A.b(["\uc77c\uaca9\uae30: \uc0c1\ub300 HP \uc804\ub7c9"],t.s),B.bi,null)},
+m=new A.a46(s,r,d)
+if(n)return m.$1(A.b(["\ub2e4\uc774\ub9e5\uc2a4 \uc0c1\ub300\uc5d0\uac8c \uc77c\uaca9\uae30 \ubb34\ud6a8"],t.s))
+n=b.go
+l=n.a
+if(l&&n.b!=null){k=n.b
+k.toString
+q=k}else q=b.x
+p=l&&n.b!=null?null:b.y
+if(A.aNs(d.e,q,p))return m.$1(A.b(["type:immune"],t.s))
+if(B.b.m(d.z,"custom:ohko_ice_immune"))n=q===B.aj||p===B.aj
+else n=!1
+if(n)return m.$1(A.b(["\uc5bc\uc74c \ud0c0\uc785\uc5d0\uac8c \uc808\ub300\uc601\ub3c4 \ubb34\ud6a8"],t.s))
+if(c==="Sturdy")return m.$1(A.b(["ability:Sturdy:\uc77c\uaca9\uae30 \ubb34\ud6a8"],t.s))
+o=B.f.bJ(B.c.cP(s*b.k3/100),1,s)
+return new A.dU(o,o,o,s,1,r,!1,d,A.b(["\uc77c\uaca9\uae30: \uc0c1\ub300 HP \uc804\ub7c9"],t.s),B.bi,null)},
 aS5(a,b,c,d,e,f){var s,r,q=b.Q,p=b.ch,o=b.CW,n=b.ay,m=A.fY(q,o,p,b.ax,n,B.cP).a,l=b.fy!==B.aE?m*2:m,k=d.f===B.bk
 q=d.e
 if(A.aBq(q,b.x,b.y,!1,!1)===0)return new A.dU(0,0,0,l,0,k,!1,d,A.b(["type:immune"],t.s),B.bi,null)
