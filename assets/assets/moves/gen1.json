@@ -278,7 +278,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "custom:requires_def_sleep"
+    ],
     "nameEn": "Dream Eater"
   },
   {
