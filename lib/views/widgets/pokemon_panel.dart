@@ -704,6 +704,7 @@ class PokemonPanelState extends State<PokemonPanel>
             case DynamaxState.none:
               s.dynamax = DynamaxState.dynamax;
               s.terastal = const TerastalState();
+              s.zMoves = [false, false, false, false];
               break;
             case DynamaxState.dynamax:
               if (s.canGmax) {
@@ -800,6 +801,7 @@ class PokemonPanelState extends State<PokemonPanel>
       setState(() {
         s.terastal = TerastalState(active: true, teraType: PokemonType.stellar);
         s.dynamax = DynamaxState.none;
+        s.zMoves = [false, false, false, false];
       });
       _switchTerapagosForm('terapagos-stellar');
       return;
@@ -826,6 +828,7 @@ class PokemonPanelState extends State<PokemonPanel>
               setState(() {
                 s.terastal = TerastalState(active: true, teraType: t);
                 s.dynamax = DynamaxState.none;
+                s.zMoves = [false, false, false, false];
               });
               _notifyParent();
               Navigator.pop(ctx);

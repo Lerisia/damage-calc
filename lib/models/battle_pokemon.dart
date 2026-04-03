@@ -273,6 +273,9 @@ class BattlePokemonState {
     isMega = pokemon.isMega;
     dynamax = DynamaxState.none;
     terastal = const TerastalState();
+    if (isMega) {
+      zMoves = [false, false, false, false];
+    }
     genderRate = pokemon.genderRate;
     if (pokemon.genderRate == -1) {
       gender = Gender.genderless;
