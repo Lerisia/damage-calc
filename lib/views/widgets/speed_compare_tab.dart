@@ -71,12 +71,16 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   final _defItemRowKey = GlobalKey();
   final _atkAbilityController = TextEditingController();
   final _atkItemController = TextEditingController();
+  final _atkNatureController = TextEditingController();
   final _defAbilityController = TextEditingController();
   final _defItemController = TextEditingController();
+  final _defNatureController = TextEditingController();
   final _atkAbilityFocus = FocusNode();
   final _atkItemFocus = FocusNode();
+  final _atkNatureFocus = FocusNode();
   final _defAbilityFocus = FocusNode();
   final _defItemFocus = FocusNode();
+  final _defNatureFocus = FocusNode();
 
   void scrollToTop() {
     if (_scrollController.hasClients) {
@@ -89,10 +93,13 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     _scrollController.dispose();
     _atkAbilityController.dispose();
     _atkItemController.dispose();
+    _atkNatureController.dispose();
     _defAbilityController.dispose();
     _defItemController.dispose();
+    _defNatureController.dispose();
     _atkAbilityFocus.dispose();
     _atkItemFocus.dispose();
+    _atkNatureFocus.dispose();
     _defAbilityFocus.dispose();
     _defItemFocus.dispose();
     super.dispose();
@@ -206,7 +213,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
             children: [
-              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, itemController: _atkItemController, abilityFocus: _atkAbilityFocus, itemFocus: _atkItemFocus)),
+              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, itemController: _atkItemController, natureController: _atkNatureController, abilityFocus: _atkAbilityFocus, itemFocus: _atkItemFocus, natureFocus: _atkNatureFocus)),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
@@ -226,7 +233,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 ),
               ),
               const SizedBox(height: 8),
-              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, itemController: _defItemController, abilityFocus: _defAbilityFocus, itemFocus: _defItemFocus)),
+              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, itemController: _defItemController, natureController: _defNatureController, abilityFocus: _defAbilityFocus, itemFocus: _defItemFocus, natureFocus: _defNatureFocus)),
             ],
           ),
         ),
@@ -243,8 +250,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     required GlobalKey itemRowKey,
     required TextEditingController abilityController,
     required TextEditingController itemController,
+    required TextEditingController natureController,
     required FocusNode abilityFocus,
     required FocusNode itemFocus,
+    required FocusNode natureFocus,
   }) {
     final rawSpeed = StatCalculator.calculate(
       baseStats: state.baseStats, iv: state.iv, ev: state.ev,
@@ -252,7 +261,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     ).speed;
     final speedBase = state.baseStats.speed;
 
-    return Container(
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: color,
+          brightness: Theme.of(context).brightness,
+        ),
+      ),
+      child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       color: color.withValues(alpha: 0.04),
       child: Column(
@@ -389,24 +405,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           Row(
             key: itemRowKey,
             children: [
-              Expanded(flex: 3, child: PopupMenuButton<Nature>(
-                initialValue: state.nature,
-                tooltip: AppStrings.t('label.nature'),
-                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                constraints: const BoxConstraints(maxHeight: 300),
-                child: InputDecorator(
-                  decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
-                  child: Text(state.nature.localizedName,
-                    style: TextStyle(fontSize: 14, color: state.nature.speedModifier > 1.0 ? Colors.red : state.nature.speedModifier < 1.0 ? Colors.blue : null)),
-                ),
-                itemBuilder: (_) => sortedNatures.map((n) {
-                  final isBuff = n.speedModifier > 1.0;
-                  final isNerf = n.speedModifier < 1.0;
-                  return PopupMenuItem(value: n, child: Text(n.localizedName,
-                    style: TextStyle(color: isBuff ? Colors.red : isNerf ? Colors.blue : null)));
-                }).toList(),
-                onSelected: (v) { setState(() => state.nature = v); _notify(); },
-              )),
+              Expanded(flex: 3, child: _natureAutocomplete(state, natureController, natureFocus)),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: _itemAutocomplete(state, itemController, itemFocus)),
             ],
@@ -428,7 +427,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           //     ])))]),
         ],
       ),
-    );
+    ));
   }
 
   Widget _miniButton(String label, VoidCallback onPressed) {
@@ -477,6 +476,65 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         .toList();
     rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
     return [...pokemon, ...rest];
+  }
+
+  String _speedNatureLabel(Nature n) {
+    final ko = n.localizedName;
+    final isBuff = n.speedModifier > 1.0;
+    final isNerf = n.speedModifier < 1.0;
+    if (isBuff) return '$ko (↑${AppStrings.t('stat.speed')})';
+    if (isNerf) return '$ko (↓${AppStrings.t('stat.speed')})';
+    return ko;
+  }
+
+  Widget _natureAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
+    final initialText = _speedNatureLabel(state.nature);
+    if (!focusNode.hasFocus) controller.text = initialText;
+
+    List<Nature> sorted = [...sortedNatures];
+    sorted.remove(state.nature);
+    sorted.insert(0, state.nature);
+
+    return buildTypeAhead<Nature>(
+      controller: controller,
+      focusNode: focusNode,
+      maxHeight: 250,
+      suggestionsCallback: (query) {
+        if (query.isEmpty || query == initialText) return sorted;
+        final qLower = query.toLowerCase();
+        return sorted.where((n) {
+          return n.nameKo.toLowerCase().contains(qLower) ||
+              n.name.toLowerCase().contains(qLower) ||
+              n.nameJa.toLowerCase().contains(qLower);
+        }).toList();
+      },
+      decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
+      itemBuilder: (context, nature) {
+        final isBuff = nature.speedModifier > 1.0;
+        final isNerf = nature.speedModifier < 1.0;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(_speedNatureLabel(nature),
+              style: TextStyle(fontSize: 14,
+                  color: isBuff ? Colors.red : isNerf ? Colors.blue : null)),
+        );
+      },
+      onSelected: (v) {
+        controller.text = _speedNatureLabel(v);
+        focusNode.unfocus();
+        setState(() => state.nature = v);
+        _notify();
+      },
+      onSubmittedPick: (text) {
+        if (text.isEmpty) return null;
+        final tLower = text.toLowerCase();
+        final match = sorted.where((n) =>
+            n.nameKo.toLowerCase().contains(tLower) ||
+            n.name.toLowerCase().contains(tLower) ||
+            n.nameJa.toLowerCase().contains(tLower)).toList();
+        return match.isNotEmpty ? match.first : null;
+      },
+    );
   }
 
   Widget _abilityAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {

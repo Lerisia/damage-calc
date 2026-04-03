@@ -200,7 +200,14 @@ class PokemonPanelState extends State<PokemonPanel>
           _sectionCard(
             key: _statsSectionKey,
             title: AppStrings.t('section.stats'),
-            child: StatInput(
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: widget.isAttacker ? Colors.red : Colors.blue,
+                  brightness: Theme.of(context).brightness,
+                ),
+              ),
+              child: StatInput(
               key: ValueKey('stats_${widget.resetCounter}'),
               level: s.level,
               nature: s.nature,
@@ -235,7 +242,7 @@ class PokemonPanelState extends State<PokemonPanel>
               useSpMode: widget.useSpMode,
               onSpModeChanged: widget.onSpModeChanged,
             ),
-          ),
+          )),
           const SizedBox(height: 12),
 
           // 기타 보정 (순풍/충전) - hidden for simplicity

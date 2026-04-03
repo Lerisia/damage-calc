@@ -140,8 +140,10 @@ class _StatInputState extends State<StatInput> {
   int _evResetCounter = 0;
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
+  final _natureController = TextEditingController();
   final _abilityFocusNode = FocusNode();
   final _itemFocusNode = FocusNode();
+  final _natureFocusNode = FocusNode();
 
   static String _natureLabelStatic(Nature n) {
     final ko = n.localizedName;
@@ -193,8 +195,10 @@ class _StatInputState extends State<StatInput> {
   void dispose() {
     _abilityController.dispose();
     _itemController.dispose();
+    _natureController.dispose();
     _abilityFocusNode.dispose();
     _itemFocusNode.dispose();
+    _natureFocusNode.dispose();
     super.dispose();
   }
 
@@ -381,33 +385,7 @@ class _StatInputState extends State<StatInput> {
           children: [
             Expanded(
               flex: 3,
-              child: PopupMenuButton<Nature>(
-                initialValue: widget.nature,
-                tooltip: AppStrings.t('label.nature'),
-                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                constraints: const BoxConstraints(maxHeight: 300),
-                onOpened: () => FocusScope.of(context).unfocus(),
-                child: InputDecorator(
-                  decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true),
-                  child: Text(
-                    _natureLabelStatic(widget.nature),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: const TextStyle(fontSize: 15),
-                  ),
-                ),
-                itemBuilder: (_) => sortedNatures
-                    .map((n) => PopupMenuItem(
-                          value: n,
-                          child: Text(
-                            _natureLabelStatic(n),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ))
-                    .toList(),
-                onSelected: (v) => widget.onNatureChanged(v),
-              ),
+              child: _natureAutocomplete(),
             ),
             const SizedBox(width: 8),
             Expanded(flex: 2, child: _itemAutocomplete()),
@@ -461,6 +439,61 @@ class _StatInputState extends State<StatInput> {
         const Divider(height: 1),
         _summaryRow(context, _effectiveSpeed(actualStats.speed)),
       ],
+    );
+  }
+
+  Widget _natureAutocomplete() {
+    final initialText = _natureLabelStatic(widget.nature);
+    if (!_natureFocusNode.hasFocus) {
+      _natureController.text = initialText;
+    }
+
+    // Selected nature first, then sorted order (preserving priority)
+    List<Nature> sorted = [...sortedNatures];
+    sorted.remove(widget.nature);
+    sorted.insert(0, widget.nature);
+
+    return buildTypeAhead<Nature>(
+      controller: _natureController,
+      focusNode: _natureFocusNode,
+      maxHeight: 250,
+      suggestionsCallback: (query) {
+        if (query.isEmpty || query == initialText) return sorted;
+        final qLower = query.toLowerCase();
+        return sorted.where((n) {
+          final label = _natureLabelStatic(n).toLowerCase();
+          final ko = n.nameKo.toLowerCase();
+          final en = n.name.toLowerCase();
+          final ja = n.nameJa.toLowerCase();
+          return label.contains(qLower) || ko.contains(qLower) ||
+              en.contains(qLower) || ja.contains(qLower);
+        }).toList();
+      },
+      decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true),
+      itemBuilder: (context, nature) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(_natureLabelStatic(nature),
+              overflow: TextOverflow.ellipsis, maxLines: 1,
+              style: const TextStyle(fontSize: 14)),
+        );
+      },
+      onSelected: (v) {
+        _natureController.text = _natureLabelStatic(v);
+        _natureFocusNode.unfocus();
+        widget.onNatureChanged(v);
+      },
+      onSubmittedPick: (text) {
+        if (text.isEmpty) return null;
+        final tLower = text.toLowerCase();
+        final match = sorted.where((n) {
+          final ko = n.nameKo.toLowerCase();
+          final en = n.name.toLowerCase();
+          final ja = n.nameJa.toLowerCase();
+          return ko.contains(tLower) || en.contains(tLower) || ja.contains(tLower);
+        }).toList();
+        return match.isNotEmpty ? match.first : null;
+      },
     );
   }
 
@@ -768,6 +801,7 @@ class _StatInputState extends State<StatInput> {
           child: _flexButton('0', () {
             setState(() => _evResetCounter++);
             onChanged(0);
+            widget.onStatEditComplete?.call();
           }),
         ),
         if (isWide)
@@ -781,6 +815,7 @@ class _StatInputState extends State<StatInput> {
               } else {
                 onChanged((value - step).clamp(0, 252));
               }
+              widget.onStatEditComplete?.call();
             }),
           ),
         Expanded(
@@ -837,6 +872,7 @@ class _StatInputState extends State<StatInput> {
               } else {
                 onChanged((value + step).clamp(0, 252));
               }
+              widget.onStatEditComplete?.call();
             }),
           ),
         Expanded(
@@ -844,6 +880,7 @@ class _StatInputState extends State<StatInput> {
           child: _flexButton('max', () {
             setState(() => _evResetCounter++);
             onChanged(sp ? ChampionsMode.spToEv(maxDisplay) : 252);
+            widget.onStatEditComplete?.call();
           }),
         ),
       ],

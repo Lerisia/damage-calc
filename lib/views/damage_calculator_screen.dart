@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/sample_storage.dart';
 import '../utils/app_strings.dart';
 import '../utils/image_saver.dart' as saver;
@@ -75,20 +76,31 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
   }
 
+  String? _prevAtkAbility;
+  String? _prevDefAbility;
+
   void _syncWeatherTerrain() {
-    final defAbility = _defender.selectedAbility;
     final atkAbility = _attacker.selectedAbility;
+    final defAbility = _defender.selectedAbility;
 
-    final atkWeather = atkAbility != null ? abilityWeatherMap[atkAbility] : null;
-    final defWeather = defAbility != null ? abilityWeatherMap[defAbility] : null;
-    if (atkWeather != null || defWeather != null) {
-      _weather = atkWeather ?? defWeather!;
+    final atkChanged = atkAbility != _prevAtkAbility;
+    final defChanged = defAbility != _prevDefAbility;
+    _prevAtkAbility = atkAbility;
+    _prevDefAbility = defAbility;
+
+    if (!atkChanged && !defChanged) return;
+
+    if (atkChanged && atkAbility != null) {
+      final w = abilityWeatherMap[atkAbility];
+      if (w != null) _weather = w;
+      final t = abilityTerrainMap[atkAbility];
+      if (t != null) _terrain = t;
     }
-
-    final atkTerrain = atkAbility != null ? abilityTerrainMap[atkAbility] : null;
-    final defTerrain = defAbility != null ? abilityTerrainMap[defAbility] : null;
-    if (atkTerrain != null || defTerrain != null) {
-      _terrain = atkTerrain ?? defTerrain!;
+    if (defChanged && defAbility != null) {
+      final w = abilityWeatherMap[defAbility];
+      if (w != null) _weather = w;
+      final t = abilityTerrainMap[defAbility];
+      if (t != null) _terrain = t;
     }
   }
 
@@ -135,6 +147,22 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     });
     _loadAbilities();
     _loadItems();
+    _loadSpMode();
+  }
+
+  static const _spModeKey = 'use_sp_mode';
+
+  Future<void> _loadSpMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getBool(_spModeKey) ?? false;
+    if (mounted && saved != _useSpMode) setState(() => _useSpMode = saved);
+  }
+
+  void _setSpMode(bool v) {
+    setState(() => _useSpMode = v);
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(_spModeKey, v);
+    });
   }
 
   Future<void> _loadAbilities() async {
@@ -338,6 +366,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               _defender = loaded;
             }
             _resetCounter++;
+            _syncWeatherTerrain();
           });
           Navigator.pop(ctx);
         },
@@ -424,7 +453,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (_) {
                         setState(() => _weather = selected ? Weather.none : w);
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     );
@@ -445,7 +473,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (_) {
                         setState(() => _terrain = selected ? Terrain.none : t);
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     );
@@ -464,7 +491,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(trickRoom: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -475,7 +501,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(magicRoom: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -486,7 +511,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(wonderRoom: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -497,7 +521,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(gravity: v));
                         setDialogState(() {});
-                        _onPanelChanged();
                       },
                       visualDensity: VisualDensity.compact,
                     ),
@@ -514,7 +537,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     _room = const RoomConditions();
                   });
                   setDialogState(() {});
-                  _onPanelChanged();
                 },
                 child: Text(AppStrings.t('toolbar.conditionsReset')),
               ),
@@ -785,7 +807,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ),
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
         child: LayoutBuilder(
         builder: (context, constraints) {
@@ -845,7 +867,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 abilityNameMap: _abilityNameMap,
                 itemNameMap: _itemNameMap,
                 useSpMode: _useSpMode,
-                onSpModeChanged: (v) => setState(() => _useSpMode = v),
+                onSpModeChanged: _setSpMode,
               ),
             ),
           ],
@@ -939,7 +961,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 abilityNameMap: _abilityNameMap,
                 itemNameMap: _itemNameMap,
                 useSpMode: _useSpMode,
-                onSpModeChanged: (v) => setState(() => _useSpMode = v),
+                onSpModeChanged: _setSpMode,
               ),
             ],
           ),
@@ -980,7 +1002,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ? _defender.hpPercent
                 : _attacker.hpPercent,
             useSpMode: _useSpMode,
-            onSpModeChanged: (v) => setState(() => _useSpMode = v),
+            onSpModeChanged: _setSpMode,
           );
   }
 
@@ -1582,7 +1604,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v0.3.0-beta'),
+          const Text('v0.6.0-beta'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
