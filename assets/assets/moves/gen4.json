@@ -48,7 +48,8 @@
     "accuracy": 95,
     "pp": 5,
     "tags": [],
-    "nameEn": "Spacial Rend"
+    "nameEn": "Spacial Rend",
+    "zPower": 180
   },
   {
     "name": "Attack Order",
@@ -60,7 +61,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Attack Order"
+    "nameEn": "Attack Order",
+    "zPower": 175
   },
   {
     "name": "Ominous Wind",
@@ -74,7 +76,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Ominous Wind"
+    "nameEn": "Ominous Wind",
+    "zPower": 120
   },
   {
     "name": "Embargo",
@@ -100,7 +103,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Giga Impact"
+    "nameEn": "Giga Impact",
+    "zPower": 200
   },
   {
     "name": "Sucker Punch",
@@ -115,7 +119,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Sucker Punch"
+    "nameEn": "Sucker Punch",
+    "zPower": 140
   },
   {
     "name": "Focus Blast",
@@ -130,7 +135,8 @@
       "custom:has_secondary",
       "ball"
     ],
-    "nameEn": "Focus Blast"
+    "nameEn": "Focus Blast",
+    "zPower": 190
   },
   {
     "name": "Night Slash",
@@ -145,7 +151,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Night Slash"
+    "nameEn": "Night Slash",
+    "zPower": 140
   },
   {
     "name": "Nasty Plot",
@@ -181,7 +188,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Fling"
+    "nameEn": "Fling",
+    "zPower": 100
   },
   {
     "name": "Avalanche",
@@ -196,7 +204,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Avalanche"
+    "nameEn": "Avalanche",
+    "zPower": 120
   },
   {
     "name": "Dark Void",
@@ -222,7 +231,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Earth Power"
+    "nameEn": "Earth Power",
+    "zPower": 175
   },
   {
     "name": "Double Hit",
@@ -238,7 +248,8 @@
     ],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Double Hit"
+    "nameEn": "Double Hit",
+    "zPower": 140
   },
   {
     "name": "Gunk Shot",
@@ -252,7 +263,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Gunk Shot"
+    "nameEn": "Gunk Shot",
+    "zPower": 190
   },
   {
     "name": "Toxic Spikes",
@@ -279,7 +291,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Poison Jab"
+    "nameEn": "Poison Jab",
+    "zPower": 160
   },
   {
     "name": "Last Resort",
@@ -296,7 +309,8 @@
     "nameEn": "Last Resort",
     "aliases": [
       "뒀다쓰기"
-    ]
+    ],
+    "zPower": 200
   },
   {
     "name": "Dragon Rush",
@@ -311,7 +325,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Dragon Rush"
+    "nameEn": "Dragon Rush",
+    "zPower": 180
   },
   {
     "name": "Drain Punch",
@@ -326,7 +341,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Drain Punch"
+    "nameEn": "Drain Punch",
+    "zPower": 140
   },
   {
     "name": "Rock Climb",
@@ -344,7 +360,8 @@
     "nameEn": "Rock Climb",
     "aliases": [
       "락클라임"
-    ]
+    ],
+    "zPower": 175
   },
   {
     "name": "Flash Cannon",
@@ -358,7 +375,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Flash Cannon"
+    "nameEn": "Flash Cannon",
+    "zPower": 160
   },
   {
     "name": "Rock Polish",
@@ -384,7 +402,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Leaf Storm"
+    "nameEn": "Leaf Storm",
+    "zPower": 195
   },
   {
     "name": "Magnet Bomb",
@@ -398,7 +417,8 @@
     "tags": [
       "ball"
     ],
-    "nameEn": "Magnet Bomb"
+    "nameEn": "Magnet Bomb",
+    "zPower": 120
   },
   {
     "name": "Magma Storm",
@@ -412,7 +432,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Magma Storm"
+    "nameEn": "Magma Storm",
+    "zPower": 180
   },
   {
     "name": "Trump Card",
@@ -426,7 +447,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Trump Card"
+    "nameEn": "Trump Card",
+    "zPower": 160
   },
   {
     "name": "Metal Burst",
@@ -439,7 +461,8 @@
     "pp": 10,
     "priority": -5,
     "tags": [],
-    "nameEn": "Metal Burst"
+    "nameEn": "Metal Burst",
+    "zPower": 100
   },
   {
     "name": "Crush Grip",
@@ -454,7 +477,8 @@
       "contact",
       "custom:power_target_hp_120"
     ],
-    "nameEn": "Crush Grip"
+    "nameEn": "Crush Grip",
+    "zPower": 190
   },
   {
     "name": "Miracle Eye",
@@ -483,7 +507,8 @@
     "nameEn": "Mirror Shot",
     "aliases": [
       "미러숏"
-    ]
+    ],
+    "zPower": 120
   },
   {
     "name": "Switcheroo",
@@ -510,7 +535,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Force Palm"
+    "nameEn": "Force Palm",
+    "zPower": 120
   },
   {
     "name": "Defend Order",
@@ -536,7 +562,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Discharge"
+    "nameEn": "Discharge",
+    "zPower": 160
   },
   {
     "name": "Thunder Fang",
@@ -552,7 +579,8 @@
       "bite",
       "custom:has_secondary"
     ],
-    "nameEn": "Thunder Fang"
+    "nameEn": "Thunder Fang",
+    "zPower": 120
   },
   {
     "name": "Bug Bite",
@@ -569,7 +597,8 @@
     "nameEn": "Bug Bite",
     "aliases": [
       "벌레먹음"
-    ]
+    ],
+    "zPower": 120
   },
   {
     "name": "Bug Buzz",
@@ -584,7 +613,8 @@
       "sound",
       "custom:has_secondary"
     ],
-    "nameEn": "Bug Buzz"
+    "nameEn": "Bug Buzz",
+    "zPower": 175
   },
   {
     "name": "Payback",
@@ -598,7 +628,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Payback"
+    "nameEn": "Payback",
+    "zPower": 100
   },
   {
     "name": "Lava Plume",
@@ -612,7 +643,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Lava Plume"
+    "nameEn": "Lava Plume",
+    "zPower": 160
   },
   {
     "name": "Fire Fang",
@@ -628,7 +660,8 @@
       "bite",
       "custom:has_secondary"
     ],
-    "nameEn": "Fire Fang"
+    "nameEn": "Fire Fang",
+    "zPower": 120
   },
   {
     "name": "Bullet Punch",
@@ -644,7 +677,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Bullet Punch"
+    "nameEn": "Bullet Punch",
+    "zPower": 100
   },
   {
     "name": "Brave Bird",
@@ -659,7 +693,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Brave Bird"
+    "nameEn": "Brave Bird",
+    "zPower": 190
   },
   {
     "name": "Zen Headbutt",
@@ -674,7 +709,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Zen Headbutt"
+    "nameEn": "Zen Headbutt",
+    "zPower": 160
   },
   {
     "name": "Psycho Shift",
@@ -700,7 +736,8 @@
     "tags": [
       "slice"
     ],
-    "nameEn": "Psycho Cut"
+    "nameEn": "Psycho Cut",
+    "zPower": 140
   },
   {
     "name": "Shadow Force",
@@ -714,7 +751,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Shadow Force"
+    "nameEn": "Shadow Force",
+    "zPower": 190
   },
   {
     "name": "Shadow Claw",
@@ -731,7 +769,8 @@
     "nameEn": "Shadow Claw",
     "aliases": [
       "섀도크루"
-    ]
+    ],
+    "zPower": 140
   },
   {
     "name": "Me First",
@@ -757,7 +796,8 @@
     "tags": [
       "custom:double_on_half_hp"
     ],
-    "nameEn": "Brine"
+    "nameEn": "Brine",
+    "zPower": 120
   },
   {
     "name": "Chatter",
@@ -772,7 +812,8 @@
       "custom:has_secondary",
       "sound"
     ],
-    "nameEn": "Chatter"
+    "nameEn": "Chatter",
+    "zPower": 120
   },
   {
     "name": "Tailwind",
@@ -810,7 +851,8 @@
     "accuracy": 80,
     "pp": 5,
     "tags": [],
-    "nameEn": "Stone Edge"
+    "nameEn": "Stone Edge",
+    "zPower": 180
   },
   {
     "name": "Assurance",
@@ -824,7 +866,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Assurance"
+    "nameEn": "Assurance",
+    "zPower": 120
   },
   {
     "name": "Roar of Time",
@@ -836,7 +879,8 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [],
-    "nameEn": "Roar of Time"
+    "nameEn": "Roar of Time",
+    "zPower": 200
   },
   {
     "name": "Seed Flare",
@@ -850,7 +894,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Seed Flare"
+    "nameEn": "Seed Flare",
+    "zPower": 190
   },
   {
     "name": "X-Scissor",
@@ -865,7 +910,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "X-Scissor"
+    "nameEn": "X-Scissor",
+    "zPower": 160
   },
   {
     "name": "Judgment",
@@ -877,7 +923,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Judgment"
+    "nameEn": "Judgment",
+    "zPower": 180
   },
   {
     "name": "Seed Bomb",
@@ -891,7 +938,8 @@
     "tags": [
       "ball"
     ],
-    "nameEn": "Seed Bomb"
+    "nameEn": "Seed Bomb",
+    "zPower": 160
   },
   {
     "name": "Iron Head",
@@ -906,7 +954,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Iron Head"
+    "nameEn": "Iron Head",
+    "zPower": 160
   },
   {
     "name": "Aqua Ring",
@@ -933,7 +982,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Aqua Jet"
+    "nameEn": "Aqua Jet",
+    "zPower": 100
   },
   {
     "name": "Aqua Tail",
@@ -947,7 +997,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Aqua Tail"
+    "nameEn": "Aqua Tail",
+    "zPower": 175
   },
   {
     "name": "Dark Pulse",
@@ -962,7 +1013,8 @@
       "pulse",
       "custom:has_secondary"
     ],
-    "nameEn": "Dark Pulse"
+    "nameEn": "Dark Pulse",
+    "zPower": 160
   },
   {
     "name": "Defog",
@@ -988,7 +1040,8 @@
     "tags": [
       "ball"
     ],
-    "nameEn": "Rock Wrecker"
+    "nameEn": "Rock Wrecker",
+    "zPower": 200
   },
   {
     "name": "Hammer Arm",
@@ -1004,7 +1057,8 @@
       "punch",
       "custom:has_secondary"
     ],
-    "nameEn": "Hammer Arm"
+    "nameEn": "Hammer Arm",
+    "zPower": 180
   },
   {
     "name": "Shadow Sneak",
@@ -1019,7 +1073,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Shadow Sneak"
+    "nameEn": "Shadow Sneak",
+    "zPower": 100
   },
   {
     "name": "Head Smash",
@@ -1034,7 +1089,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Head Smash"
+    "nameEn": "Head Smash",
+    "zPower": 200
   },
   {
     "name": "Ice Shard",
@@ -1047,7 +1103,8 @@
     "pp": 30,
     "priority": 1,
     "tags": [],
-    "nameEn": "Ice Shard"
+    "nameEn": "Ice Shard",
+    "zPower": 100
   },
   {
     "name": "Ice Fang",
@@ -1063,7 +1120,8 @@
       "bite",
       "custom:has_secondary"
     ],
-    "nameEn": "Ice Fang"
+    "nameEn": "Ice Fang",
+    "zPower": 120
   },
   {
     "name": "Energy Ball",
@@ -1078,7 +1136,8 @@
       "ball",
       "custom:has_secondary"
     ],
-    "nameEn": "Energy Ball"
+    "nameEn": "Energy Ball",
+    "zPower": 175
   },
   {
     "name": "Air Slash",
@@ -1093,7 +1152,8 @@
       "slice",
       "custom:has_secondary"
     ],
-    "nameEn": "Air Slash"
+    "nameEn": "Air Slash",
+    "zPower": 140
   },
   {
     "name": "Draco Meteor",
@@ -1107,7 +1167,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Draco Meteor"
+    "nameEn": "Draco Meteor",
+    "zPower": 195
   },
   {
     "name": "Dragon Pulse",
@@ -1121,7 +1182,8 @@
     "tags": [
       "pulse"
     ],
-    "nameEn": "Dragon Pulse"
+    "nameEn": "Dragon Pulse",
+    "zPower": 160
   },
   {
     "name": "Wood Hammer",
@@ -1136,7 +1198,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Wood Hammer"
+    "nameEn": "Wood Hammer",
+    "zPower": 190
   },
   {
     "name": "Gastro Acid",
@@ -1162,7 +1225,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "U-turn"
+    "nameEn": "U-turn",
+    "zPower": 140
   },
   {
     "name": "Captivate",
@@ -1189,7 +1253,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Close Combat"
+    "nameEn": "Close Combat",
+    "zPower": 190
   },
   {
     "name": "Natural Gift",
@@ -1201,7 +1266,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Natural Gift"
+    "nameEn": "Natural Gift",
+    "zPower": 160
   },
   {
     "name": "Gyro Ball",
@@ -1217,7 +1283,8 @@
       "ball",
       "custom:gyro_speed"
     ],
-    "nameEn": "Gyro Ball"
+    "nameEn": "Gyro Ball",
+    "zPower": 160
   },
   {
     "name": "Wake-Up Slap",
@@ -1232,7 +1299,8 @@
       "contact",
       "custom:double_on_sleep"
     ],
-    "nameEn": "Wake-Up Slap"
+    "nameEn": "Wake-Up Slap",
+    "zPower": 140
   },
   {
     "name": "Magnet Rise",
@@ -1283,7 +1351,8 @@
       "contact",
       "custom:power_target_hp_120"
     ],
-    "nameEn": "Wring Out"
+    "nameEn": "Wring Out",
+    "zPower": 190
   },
   {
     "name": "Vacuum Wave",
@@ -1296,7 +1365,8 @@
     "pp": 30,
     "priority": 1,
     "tags": [],
-    "nameEn": "Vacuum Wave"
+    "nameEn": "Vacuum Wave",
+    "zPower": 100
   },
   {
     "name": "Mud Bomb",
@@ -1311,7 +1381,8 @@
       "custom:has_secondary",
       "ball"
     ],
-    "nameEn": "Mud Bomb"
+    "nameEn": "Mud Bomb",
+    "zPower": 120
   },
   {
     "name": "Pluck",
@@ -1325,7 +1396,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Pluck"
+    "nameEn": "Pluck",
+    "zPower": 120
   },
   {
     "name": "Charge Beam",
@@ -1339,7 +1411,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Charge Beam"
+    "nameEn": "Charge Beam",
+    "zPower": 100
   },
   {
     "name": "Lunar Dance",
@@ -1379,7 +1452,8 @@
       "slice",
       "custom:has_secondary"
     ],
-    "nameEn": "Cross Poison"
+    "nameEn": "Cross Poison",
+    "zPower": 140
   },
   {
     "name": "Trick Room",
@@ -1407,7 +1481,8 @@
       "pulse",
       "ball"
     ],
-    "nameEn": "Aura Sphere"
+    "nameEn": "Aura Sphere",
+    "zPower": 160
   },
   {
     "name": "Power Swap",
@@ -1434,7 +1509,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Power Gem"
+    "nameEn": "Power Gem",
+    "zPower": 160
   },
   {
     "name": "Power Trick",
@@ -1460,7 +1536,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Power Whip"
+    "nameEn": "Power Whip",
+    "zPower": 190
   },
   {
     "name": "Feint",
@@ -1473,7 +1550,8 @@
     "pp": 10,
     "priority": 2,
     "tags": [],
-    "nameEn": "Feint"
+    "nameEn": "Feint",
+    "zPower": 100
   },
   {
     "name": "Grass Knot",
@@ -1489,7 +1567,8 @@
       "custom:weight_based",
       "custom:weight_target"
     ],
-    "nameEn": "Grass Knot"
+    "nameEn": "Grass Knot",
+    "zPower": 160
   },
   {
     "name": "Flare Blitz",
@@ -1505,7 +1584,8 @@
       "custom:has_secondary",
       "recoil"
     ],
-    "nameEn": "Flare Blitz"
+    "nameEn": "Flare Blitz",
+    "zPower": 190
   },
   {
     "name": "Heart Swap",
@@ -1534,7 +1614,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Punishment"
+    "nameEn": "Punishment",
+    "zPower": 160
   },
   {
     "name": "Heal Block",

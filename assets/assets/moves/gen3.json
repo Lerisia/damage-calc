@@ -39,7 +39,8 @@
       "contact",
       "custom:facade"
     ],
-    "nameEn": "Facade"
+    "nameEn": "Facade",
+    "zPower": 140
   },
   {
     "name": "Fake Tears",
@@ -65,7 +66,8 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Icicle Spear"
+    "nameEn": "Icicle Spear",
+    "zPower": 140
   },
   {
     "name": "Metal Sound",
@@ -98,7 +100,8 @@
     "nameEn": "Bullet Seed",
     "aliases": [
       "기관총"
-    ]
+    ],
+    "zPower": 140
   },
   {
     "name": "Feather Dance",
@@ -127,7 +130,8 @@
     "nameEn": "Brick Break",
     "aliases": [
       "깨트리다"
-    ]
+    ],
+    "zPower": 140
   },
   {
     "name": "Swallow",
@@ -179,7 +183,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Astonish"
+    "nameEn": "Astonish",
+    "zPower": 100
   },
   {
     "name": "Dive",
@@ -193,7 +198,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Dive"
+    "nameEn": "Dive",
+    "zPower": 160
   },
   {
     "name": "Will-O-Wisp",
@@ -249,7 +255,8 @@
     "nameEn": "Poison Fang",
     "aliases": [
       "독엄니"
-    ]
+    ],
+    "zPower": 100
   },
   {
     "name": "Dragon Claw",
@@ -266,7 +273,8 @@
     "nameEn": "Dragon Claw",
     "aliases": [
       "드래곤크루"
-    ]
+    ],
+    "zPower": 160
   },
   {
     "name": "Bounce",
@@ -285,7 +293,8 @@
     "nameEn": "Bounce",
     "aliases": [
       "뛰어오르다"
-    ]
+    ],
+    "zPower": 160
   },
   {
     "name": "Luster Purge",
@@ -302,7 +311,8 @@
     "nameEn": "Luster Purge",
     "aliases": [
       "라스트버지"
-    ]
+    ],
+    "zPower": 175
   },
   {
     "name": "Rock Blast",
@@ -321,7 +331,8 @@
     "nameEn": "Rock Blast",
     "aliases": [
       "락블레스트"
-    ]
+    ],
+    "zPower": 140
   },
   {
     "name": "Revenge",
@@ -336,7 +347,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Revenge"
+    "nameEn": "Revenge",
+    "zPower": 120
   },
   {
     "name": "Recycle",
@@ -378,7 +390,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Leaf Blade"
+    "nameEn": "Leaf Blade",
+    "zPower": 175
   },
   {
     "name": "Magic Coat",
@@ -407,7 +420,8 @@
     "nameEn": "Mud Shot",
     "aliases": [
       "머드숏"
-    ]
+    ],
+    "zPower": 100
   },
   {
     "name": "Howl",
@@ -439,7 +453,8 @@
     "nameEn": "Magical Leaf",
     "aliases": [
       "메지컬리프"
-    ]
+    ],
+    "zPower": 120
   },
   {
     "name": "Calm Mind",
@@ -465,7 +480,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Sand Tomb"
+    "nameEn": "Sand Tomb",
+    "zPower": 100
   },
   {
     "name": "Water Sport",
@@ -492,7 +508,8 @@
       "pulse",
       "custom:has_secondary"
     ],
-    "nameEn": "Water Pulse"
+    "nameEn": "Water Pulse",
+    "zPower": 120
   },
   {
     "name": "Mist Ball",
@@ -507,7 +524,8 @@
       "custom:has_secondary",
       "ball"
     ],
-    "nameEn": "Mist Ball"
+    "nameEn": "Mist Ball",
+    "zPower": 175
   },
   {
     "name": "Needle Arm",
@@ -522,7 +540,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Needle Arm"
+    "nameEn": "Needle Arm",
+    "zPower": 120
   },
   {
     "name": "Tail Glow",
@@ -574,7 +593,8 @@
       "custom:has_secondary",
       "recoil"
     ],
-    "nameEn": "Volt Tackle"
+    "nameEn": "Volt Tackle",
+    "zPower": 190
   },
   {
     "name": "Imprison",
@@ -612,7 +632,8 @@
     "tags": [
       "custom:hp_power_high"
     ],
-    "nameEn": "Eruption"
+    "nameEn": "Eruption",
+    "zPower": 200
   },
   {
     "name": "Blaze Kick",
@@ -630,7 +651,8 @@
     "nameEn": "Blaze Kick",
     "aliases": [
       "브레이즈킥"
-    ]
+    ],
+    "zPower": 160
   },
   {
     "name": "Crush Claw",
@@ -648,7 +670,8 @@
     "nameEn": "Crush Claw",
     "aliases": [
       "브레이크크루"
-    ]
+    ],
+    "zPower": 140
   },
   {
     "name": "Blast Burn",
@@ -663,7 +686,8 @@
     "nameEn": "Blast Burn",
     "aliases": [
       "블러스트번"
-    ]
+    ],
+    "zPower": 200
   },
   {
     "name": "Block",
@@ -689,7 +713,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Secret Power"
+    "nameEn": "Secret Power",
+    "zPower": 140
   },
   {
     "name": "Stockpile",
@@ -727,7 +752,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Psycho Boost"
+    "nameEn": "Psycho Boost",
+    "zPower": 200
   },
   {
     "name": "Shadow Punch",
@@ -742,7 +768,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Shadow Punch"
+    "nameEn": "Shadow Punch",
+    "zPower": 120
   },
   {
     "name": "Uproar",
@@ -756,7 +783,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Uproar"
+    "nameEn": "Uproar",
+    "zPower": 175
   },
   {
     "name": "Fake Out",
@@ -775,7 +803,8 @@
     "nameEn": "Fake Out",
     "aliases": [
       "속이다"
-    ]
+    ],
+    "zPower": 100
   },
   {
     "name": "Arm Thrust",
@@ -791,7 +820,8 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Arm Thrust"
+    "nameEn": "Arm Thrust",
+    "zPower": 100
   },
   {
     "name": "Sky Uppercut",
@@ -809,7 +839,8 @@
     "nameEn": "Sky Uppercut",
     "aliases": [
       "스카이업퍼"
-    ]
+    ],
+    "zPower": 160
   },
   {
     "name": "Skill Swap",
@@ -838,7 +869,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Signal Beam"
+    "nameEn": "Signal Beam",
+    "zPower": 140
   },
   {
     "name": "Extrasensory",
@@ -852,7 +884,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Extrasensory"
+    "nameEn": "Extrasensory",
+    "zPower": 160
   },
   {
     "name": "Hail",
@@ -891,7 +924,8 @@
       "contact",
       "ball"
     ],
-    "nameEn": "Ice Ball"
+    "nameEn": "Ice Ball",
+    "zPower": 100
   },
   {
     "name": "Rock Tomb",
@@ -905,7 +939,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Rock Tomb"
+    "nameEn": "Rock Tomb",
+    "zPower": 120
   },
   {
     "name": "Superpower",
@@ -920,7 +955,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Superpower"
+    "nameEn": "Superpower",
+    "zPower": 190
   },
   {
     "name": "Air Cutter",
@@ -938,7 +974,8 @@
     "nameEn": "Air Cutter",
     "aliases": [
       "에어컷터"
-    ]
+    ],
+    "zPower": 120
   },
   {
     "name": "Role Play",
@@ -965,7 +1002,8 @@
       "custom:has_secondary",
       "wind"
     ],
-    "nameEn": "Heat Wave"
+    "nameEn": "Heat Wave",
+    "zPower": 175
   },
   {
     "name": "Overheat",
@@ -979,7 +1017,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Overheat"
+    "nameEn": "Overheat",
+    "zPower": 195
   },
   {
     "name": "Dragon Dance",
@@ -1017,7 +1056,8 @@
     "tags": [
       "ball"
     ],
-    "nameEn": "Weather Ball"
+    "nameEn": "Weather Ball",
+    "zPower": 160
   },
   {
     "name": "Silver Wind",
@@ -1031,7 +1071,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Silver Wind"
+    "nameEn": "Silver Wind",
+    "zPower": 120
   },
   {
     "name": "Nature Power",
@@ -1055,7 +1096,8 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Shock Wave"
+    "nameEn": "Shock Wave",
+    "zPower": 120
   },
   {
     "name": "Sheer Cold",
@@ -1070,7 +1112,8 @@
       "custom:ohko",
       "custom:ohko_ice_immune"
     ],
-    "nameEn": "Sheer Cold"
+    "nameEn": "Sheer Cold",
+    "zPower": 180
   },
   {
     "name": "Smelling Salts",
@@ -1085,7 +1128,8 @@
       "contact",
       "custom:double_on_paralysis"
     ],
-    "nameEn": "Smelling Salts"
+    "nameEn": "Smelling Salts",
+    "zPower": 140
   },
   {
     "name": "Aerial Ace",
@@ -1100,7 +1144,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Aerial Ace"
+    "nameEn": "Aerial Ace",
+    "zPower": 120
   },
   {
     "name": "Assist",
@@ -1126,7 +1171,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Endeavor"
+    "nameEn": "Endeavor",
+    "zPower": 160
   },
   {
     "name": "Iron Defense",
@@ -1178,7 +1224,8 @@
       "punch",
       "custom:has_secondary"
     ],
-    "nameEn": "Meteor Mash"
+    "nameEn": "Meteor Mash",
+    "zPower": 175
   },
   {
     "name": "Cosmic Power",
@@ -1204,7 +1251,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Muddy Water"
+    "nameEn": "Muddy Water",
+    "zPower": 175
   },
   {
     "name": "Knock Off",
@@ -1219,7 +1267,8 @@
       "contact",
       "custom:knock_off"
     ],
-    "nameEn": "Knock Off"
+    "nameEn": "Knock Off",
+    "zPower": 120
   },
   {
     "name": "Covet",
@@ -1236,7 +1285,8 @@
     "nameEn": "Covet",
     "aliases": [
       "탐내다"
-    ]
+    ],
+    "zPower": 120
   },
   {
     "name": "Slack Off",
@@ -1263,7 +1313,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Spit Up"
+    "nameEn": "Spit Up",
+    "zPower": 100
   },
   {
     "name": "Trick",
@@ -1299,7 +1350,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Doom Desire"
+    "nameEn": "Doom Desire",
+    "zPower": 200
   },
   {
     "name": "Poison Tail",
@@ -1314,7 +1366,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Poison Tail"
+    "nameEn": "Poison Tail",
+    "zPower": 100
   },
   {
     "name": "Grass Whistle",
@@ -1340,7 +1393,8 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [],
-    "nameEn": "Frenzy Plant"
+    "nameEn": "Frenzy Plant",
+    "zPower": 200
   },
   {
     "name": "Hydro Cannon",
@@ -1352,7 +1406,8 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [],
-    "nameEn": "Hydro Cannon"
+    "nameEn": "Hydro Cannon",
+    "zPower": 200
   },
   {
     "name": "Hyper Voice",
@@ -1366,7 +1421,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Hyper Voice"
+    "nameEn": "Hyper Voice",
+    "zPower": 175
   },
   {
     "name": "Yawn",
@@ -1395,7 +1451,8 @@
     "nameEn": "Water Spout",
     "aliases": [
       "바지락조개"
-    ]
+    ],
+    "zPower": 200
   },
   {
     "name": "Teeter Dance",
@@ -1447,6 +1504,7 @@
       "punch",
       "contact"
     ],
-    "nameEn": "Focus Punch"
+    "nameEn": "Focus Punch",
+    "zPower": 200
   }
 ]

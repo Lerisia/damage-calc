@@ -11,7 +11,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Phantom Force"
+    "nameEn": "Phantom Force",
+    "zPower": 175
   },
   {
     "name": "Eerie Impulse",
@@ -35,7 +36,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Land’s Wrath"
+    "nameEn": "Land’s Wrath",
+    "zPower": 185
   },
   {
     "name": "Grassy Terrain",
@@ -63,7 +65,8 @@
       "punch",
       "custom:has_secondary"
     ],
-    "nameEn": "Power-Up Punch"
+    "nameEn": "Power-Up Punch",
+    "zPower": 100
   },
   {
     "name": "Origin Pulse",
@@ -77,7 +80,8 @@
     "tags": [
       "pulse"
     ],
-    "nameEn": "Origin Pulse"
+    "nameEn": "Origin Pulse",
+    "zPower": 185
   },
   {
     "name": "Petal Blizzard",
@@ -91,7 +95,8 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Petal Blizzard"
+    "nameEn": "Petal Blizzard",
+    "zPower": 175
   },
   {
     "name": "Sticky Web",
@@ -133,7 +138,8 @@
     "nameEn": "Hyperspace Fury",
     "aliases": [
       "다른차원러시"
-    ]
+    ],
+    "zPower": 180
   },
   {
     "name": "Hyperspace Hole",
@@ -148,7 +154,8 @@
     "nameEn": "Hyperspace Hole",
     "aliases": [
       "다른차원홀"
-    ]
+    ],
+    "zPower": 160
   },
   {
     "name": "Diamond Storm",
@@ -162,7 +169,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Diamond Storm"
+    "nameEn": "Diamond Storm",
+    "zPower": 180
   },
   {
     "name": "Precipice Blades",
@@ -174,7 +182,8 @@
     "accuracy": 85,
     "pp": 10,
     "tags": [],
-    "nameEn": "Precipice Blades"
+    "nameEn": "Precipice Blades",
+    "zPower": 190
   },
   {
     "name": "Oblivion Wing",
@@ -186,7 +195,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Oblivion Wing"
+    "nameEn": "Oblivion Wing",
+    "zPower": 160
   },
   {
     "name": "Topsy-Turvy",
@@ -212,7 +222,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Draining Kiss"
+    "nameEn": "Draining Kiss",
+    "zPower": 100
   },
   {
     "name": "Mat Block",
@@ -239,7 +250,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Fell Stinger"
+    "nameEn": "Fell Stinger",
+    "zPower": 100
   },
   {
     "name": "Parting Shot",
@@ -265,7 +277,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Dazzling Gleam"
+    "nameEn": "Dazzling Gleam",
+    "zPower": 160
   },
   {
     "name": "Mystical Fire",
@@ -279,7 +292,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Mystical Fire"
+    "nameEn": "Mystical Fire",
+    "zPower": 140
   },
   {
     "name": "Moonblast",
@@ -293,7 +307,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Moonblast"
+    "nameEn": "Moonblast",
+    "zPower": 175
   },
   {
     "name": "Water Shuriken",
@@ -308,7 +323,8 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Water Shuriken"
+    "nameEn": "Water Shuriken",
+    "zPower": 100
   },
   {
     "name": "Misty Terrain",
@@ -347,7 +363,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Nuzzle"
+    "nameEn": "Nuzzle",
+    "zPower": 100
   },
   {
     "name": "Noble Roar",
@@ -404,7 +421,8 @@
       "custom:has_secondary",
       "custom:thousand_arrows"
     ],
-    "nameEn": "Thousand Arrows"
+    "nameEn": "Thousand Arrows",
+    "zPower": 180
   },
   {
     "name": "Thousand Waves",
@@ -416,7 +434,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Thousand Waves"
+    "nameEn": "Thousand Waves",
+    "zPower": 175
   },
   {
     "name": "Hold Hands",
@@ -466,7 +485,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Steam Eruption"
+    "nameEn": "Steam Eruption",
+    "zPower": 185
   },
   {
     "name": "Aromatic Mist",
@@ -493,7 +513,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Infestation"
+    "nameEn": "Infestation",
+    "zPower": 100
   },
   {
     "name": "Fairy Wind",
@@ -507,7 +528,8 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Fairy Wind"
+    "nameEn": "Fairy Wind",
+    "zPower": 100
   },
   {
     "name": "Rototiller",
@@ -557,7 +579,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Hold Back"
+    "nameEn": "Hold Back",
+    "zPower": 100
   },
   {
     "name": "Geomancy",
@@ -583,7 +606,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Disarming Voice"
+    "nameEn": "Disarming Voice",
+    "zPower": 100
   },
   {
     "name": "Baby-Doll Eyes",
@@ -623,7 +647,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Play Rough"
+    "nameEn": "Play Rough",
+    "zPower": 175
   },
   {
     "name": "Play Nice",
@@ -673,7 +698,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [],
-    "nameEn": "Belch"
+    "nameEn": "Belch",
+    "zPower": 190
   },
   {
     "name": "Parabolic Charge",
@@ -685,7 +711,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Parabolic Charge"
+    "nameEn": "Parabolic Charge",
+    "zPower": 120
   },
   {
     "name": "Light of Ruin",
@@ -697,7 +724,8 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [],
-    "nameEn": "Light of Ruin"
+    "nameEn": "Light of Ruin",
+    "zPower": 200
   },
   {
     "name": "Fairy Lock",
@@ -723,7 +751,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Boomburst"
+    "nameEn": "Boomburst",
+    "zPower": 200
   },
   {
     "name": "Freeze-Dry",
@@ -738,7 +767,8 @@
       "custom:has_secondary",
       "custom:freeze_dry"
     ],
-    "nameEn": "Freeze-Dry"
+    "nameEn": "Freeze-Dry",
+    "zPower": 140
   },
   {
     "name": "Ion Deluge",
@@ -778,7 +808,8 @@
       "custom:flying_press",
       "custom:disabled_by_gravity"
     ],
-    "nameEn": "Flying Press"
+    "nameEn": "Flying Press",
+    "zPower": 170
   },
   {
     "name": "Happy Hour",
@@ -817,6 +848,7 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Dragon Ascent"
+    "nameEn": "Dragon Ascent",
+    "zPower": 190
   }
 ]
