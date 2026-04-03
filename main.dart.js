@@ -47024,6 +47024,8 @@ a.as=p.x
 a.z=p.y
 r=p.CW
 a.k3=r
+a.k1=p.ax
+a.k2=p.ay
 if(r){a.fx=A.b([!1,!1,!1,!1],t.HZ)
 a.id=B.dB}}}},
 tD(){var s=0,r=A.Q(t.H),q=this,p,o,n,m
