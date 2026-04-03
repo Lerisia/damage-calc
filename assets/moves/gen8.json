@@ -11,7 +11,8 @@
     "tags": [
       "custom:double_on_poison"
     ],
-    "nameEn": "Barb Barrage"
+    "nameEn": "Barb Barrage",
+    "zPower": 120
   },
   {
     "name": "Bitter Malice",
@@ -23,7 +24,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Bitter Malice"
+    "nameEn": "Bitter Malice",
+    "zPower": 140
   },
   {
     "name": "Bleakwind Storm",
@@ -37,7 +39,8 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Bleakwind Storm"
+    "nameEn": "Bleakwind Storm",
+    "zPower": 180
   },
   {
     "name": "Ceaseless Edge",
@@ -52,7 +55,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Ceaseless Edge"
+    "nameEn": "Ceaseless Edge",
+    "zPower": 120
   },
   {
     "name": "Chloroblast",
@@ -66,7 +70,8 @@
     "tags": [
       "recoil"
     ],
-    "nameEn": "Chloroblast"
+    "nameEn": "Chloroblast",
+    "zPower": 200
   },
   {
     "name": "Dire Claw",
@@ -80,7 +85,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Dire Claw"
+    "nameEn": "Dire Claw",
+    "zPower": 160
   },
   {
     "name": "Esper Wing",
@@ -92,7 +98,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Esper Wing"
+    "nameEn": "Esper Wing",
+    "zPower": 160
   },
   {
     "name": "Grav Apple",
@@ -107,7 +114,8 @@
       "custom:has_secondary",
       "custom:gravity_boost"
     ],
-    "nameEn": "Grav Apple"
+    "nameEn": "Grav Apple",
+    "zPower": 160
   },
   {
     "name": "Headlong Rush",
@@ -122,7 +130,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Headlong Rush"
+    "nameEn": "Headlong Rush",
+    "zPower": 190
   },
   {
     "name": "Infernal Parade",
@@ -134,7 +143,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Infernal Parade"
+    "nameEn": "Infernal Parade",
+    "zPower": 120
   },
   {
     "name": "Lunar Blessing",
@@ -158,7 +168,8 @@
     "accuracy": 85,
     "pp": 10,
     "tags": [],
-    "nameEn": "Mountain Gale"
+    "nameEn": "Mountain Gale",
+    "zPower": 180
   },
   {
     "name": "Mystical Power",
@@ -170,7 +181,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [],
-    "nameEn": "Mystical Power"
+    "nameEn": "Mystical Power",
+    "zPower": 140
   },
   {
     "name": "Power Shift",
@@ -196,7 +208,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Psyshield Bash"
+    "nameEn": "Psyshield Bash",
+    "zPower": 140
   },
   {
     "name": "Raging Fury",
@@ -208,7 +221,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Raging Fury"
+    "nameEn": "Raging Fury",
+    "zPower": 190
   },
   {
     "name": "Sandsear Storm",
@@ -222,7 +236,8 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Sandsear Storm"
+    "nameEn": "Sandsear Storm",
+    "zPower": 180
   },
   {
     "name": "Shelter",
@@ -248,7 +263,8 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Springtide Storm"
+    "nameEn": "Springtide Storm",
+    "zPower": 180
   },
   {
     "name": "Stone Axe",
@@ -263,7 +279,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Stone Axe"
+    "nameEn": "Stone Axe",
+    "zPower": 120
   },
   {
     "name": "Take Heart",
@@ -287,7 +304,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Triple Arrows"
+    "nameEn": "Triple Arrows",
+    "zPower": 175
   },
   {
     "name": "Victory Dance",
@@ -314,7 +332,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Wave Crash"
+    "nameEn": "Wave Crash",
+    "zPower": 190
   },
   {
     "name": "Wildbolt Storm",
@@ -328,7 +347,8 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Wildbolt Storm"
+    "nameEn": "Wildbolt Storm",
+    "zPower": 180
   },
   {
     "name": "Branch Poke",
@@ -342,7 +362,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Branch Poke"
+    "nameEn": "Branch Poke",
+    "zPower": 100
   },
   {
     "name": "Behemoth Blade",
@@ -358,7 +379,8 @@
       "custom:double_dynamax",
       "slice"
     ],
-    "nameEn": "Behemoth Blade"
+    "nameEn": "Behemoth Blade",
+    "zPower": 180
   },
   {
     "name": "Behemoth Bash",
@@ -373,7 +395,8 @@
       "contact",
       "custom:double_dynamax"
     ],
-    "nameEn": "Behemoth Bash"
+    "nameEn": "Behemoth Bash",
+    "zPower": 180
   },
   {
     "name": "Grassy Glide",
@@ -388,7 +411,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Grassy Glide"
+    "nameEn": "Grassy Glide",
+    "zPower": 100
   },
   {
     "name": "Snipe Shot",
@@ -400,7 +424,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Snipe Shot"
+    "nameEn": "Snipe Shot",
+    "zPower": 160
   },
   {
     "name": "Teatime",
@@ -478,7 +503,8 @@
     "tags": [
       "custom:double_dynamax"
     ],
-    "nameEn": "Dynamax Cannon"
+    "nameEn": "Dynamax Cannon",
+    "zPower": 180
   },
   {
     "name": "Max Flare",
@@ -688,7 +714,8 @@
     "tags": [
       "pulse"
     ],
-    "nameEn": "Terrain Pulse"
+    "nameEn": "Terrain Pulse",
+    "zPower": 100
   },
   {
     "name": "Dual Wingbeat",
@@ -704,7 +731,8 @@
     ],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Dual Wingbeat"
+    "nameEn": "Dual Wingbeat",
+    "zPower": 160
   },
   {
     "name": "Decorate",
@@ -730,7 +758,8 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Dragon Darts"
+    "nameEn": "Dragon Darts",
+    "zPower": 180
   },
   {
     "name": "Dragon Energy",
@@ -744,7 +773,8 @@
     "tags": [
       "custom:hp_power_high"
     ],
-    "nameEn": "Dragon Energy"
+    "nameEn": "Dragon Energy",
+    "zPower": 200
   },
   {
     "name": "Drum Beating",
@@ -758,7 +788,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Drum Beating"
+    "nameEn": "Drum Beating",
+    "zPower": 160
   },
   {
     "name": "Rising Voltage",
@@ -772,7 +803,8 @@
     "tags": [
       "custom:terrain_double_electric"
     ],
-    "nameEn": "Rising Voltage"
+    "nameEn": "Rising Voltage",
+    "zPower": 140
   },
   {
     "name": "Magic Powder",
@@ -800,7 +832,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Meteor Beam"
+    "nameEn": "Meteor Beam",
+    "zPower": 190
   },
   {
     "name": "Eternabeam",
@@ -812,7 +845,8 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [],
-    "nameEn": "Eternabeam"
+    "nameEn": "Eternabeam",
+    "zPower": 200
   },
   {
     "name": "Octolock",
@@ -839,7 +873,8 @@
       "contact",
       "bite"
     ],
-    "nameEn": "Jaw Lock"
+    "nameEn": "Jaw Lock",
+    "zPower": 160
   },
   {
     "name": "Misty Explosion",
@@ -853,7 +888,8 @@
     "tags": [
       "custom:terrain_boost_misty"
     ],
-    "nameEn": "Misty Explosion"
+    "nameEn": "Misty Explosion",
+    "zPower": 180
   },
   {
     "name": "Body Press",
@@ -868,7 +904,8 @@
       "contact",
       "custom:use_defense"
     ],
-    "nameEn": "Body Press"
+    "nameEn": "Body Press",
+    "zPower": 160
   },
   {
     "name": "No Retreat",
@@ -918,7 +955,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Lash Out"
+    "nameEn": "Lash Out",
+    "zPower": 140
   },
   {
     "name": "Obstruct",
@@ -943,7 +981,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Glacial Lance"
+    "nameEn": "Glacial Lance",
+    "zPower": 190
   },
   {
     "name": "Apple Acid",
@@ -957,7 +996,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Apple Acid"
+    "nameEn": "Apple Acid",
+    "zPower": 160
   },
   {
     "name": "False Surrender",
@@ -971,7 +1011,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "False Surrender"
+    "nameEn": "False Surrender",
+    "zPower": 160
   },
   {
     "name": "Life Dew",
@@ -997,7 +1038,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Eerie Spell"
+    "nameEn": "Eerie Spell",
+    "zPower": 160
   },
   {
     "name": "Shell Side Arm",
@@ -1012,7 +1054,8 @@
       "custom:use_higher_atk",
       "custom:has_secondary"
     ],
-    "nameEn": "Shell Side Arm"
+    "nameEn": "Shell Side Arm",
+    "zPower": 175
   },
   {
     "name": "Clangorous Soul",
@@ -1041,7 +1084,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Spirit Break"
+    "nameEn": "Spirit Break",
+    "zPower": 140
   },
   {
     "name": "Surging Strikes",
@@ -1059,7 +1103,8 @@
     ],
     "minHits": 1,
     "maxHits": 3,
-    "nameEn": "Surging Strikes"
+    "nameEn": "Surging Strikes",
+    "zPower": 140
   },
   {
     "name": "Scale Shot",
@@ -1073,7 +1118,8 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Scale Shot"
+    "nameEn": "Scale Shot",
+    "zPower": 140
   },
   {
     "name": "Meteor Assault",
@@ -1085,7 +1131,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Meteor Assault"
+    "nameEn": "Meteor Assault",
+    "zPower": 200
   },
   {
     "name": "Thunder Cage",
@@ -1099,7 +1146,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Thunder Cage"
+    "nameEn": "Thunder Cage",
+    "zPower": 160
   },
   {
     "name": "Fishious Rend",
@@ -1114,7 +1162,8 @@
       "contact",
       "bite"
     ],
-    "nameEn": "Fishious Rend"
+    "nameEn": "Fishious Rend",
+    "zPower": 160
   },
   {
     "name": "Astral Barrage",
@@ -1126,7 +1175,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Astral Barrage"
+    "nameEn": "Astral Barrage",
+    "zPower": 190
   },
   {
     "name": "Steel Roller",
@@ -1140,7 +1190,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Steel Roller"
+    "nameEn": "Steel Roller",
+    "zPower": 195
   },
   {
     "name": "Wicked Blow",
@@ -1156,7 +1207,8 @@
       "custom:always_crit",
       "punch"
     ],
-    "nameEn": "Wicked Blow"
+    "nameEn": "Wicked Blow",
+    "zPower": 140
   },
   {
     "name": "Freezing Glare",
@@ -1170,7 +1222,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Freezing Glare"
+    "nameEn": "Freezing Glare",
+    "zPower": 175
   },
   {
     "name": "Skitter Smack",
@@ -1185,7 +1238,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Skitter Smack"
+    "nameEn": "Skitter Smack",
+    "zPower": 140
   },
   {
     "name": "Scorching Sands",
@@ -1199,7 +1253,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Scorching Sands"
+    "nameEn": "Scorching Sands",
+    "zPower": 140
   },
   {
     "name": "Aura Wheel",
@@ -1213,7 +1268,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Aura Wheel"
+    "nameEn": "Aura Wheel",
+    "zPower": 185
   },
   {
     "name": "Overdrive",
@@ -1227,7 +1283,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Overdrive"
+    "nameEn": "Overdrive",
+    "zPower": 160
   },
   {
     "name": "Breaking Swipe",
@@ -1242,7 +1299,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Breaking Swipe"
+    "nameEn": "Breaking Swipe",
+    "zPower": 120
   },
   {
     "name": "Expanding Force",
@@ -1256,7 +1314,8 @@
     "tags": [
       "custom:terrain_boost_psychic"
     ],
-    "nameEn": "Expanding Force"
+    "nameEn": "Expanding Force",
+    "zPower": 160
   },
   {
     "name": "Strange Steam",
@@ -1270,7 +1329,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Strange Steam"
+    "nameEn": "Strange Steam",
+    "zPower": 175
   },
   {
     "name": "Bolt Beak",
@@ -1284,7 +1344,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Bolt Beak"
+    "nameEn": "Bolt Beak",
+    "zPower": 160
   },
   {
     "name": "Jungle Healing",
@@ -1310,7 +1371,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Burning Jealousy"
+    "nameEn": "Burning Jealousy",
+    "zPower": 140
   },
   {
     "name": "Snap Trap",
@@ -1325,7 +1387,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Snap Trap"
+    "nameEn": "Snap Trap",
+    "zPower": 100
   },
   {
     "name": "Thunderous Kick",
@@ -1340,7 +1403,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Thunderous Kick"
+    "nameEn": "Thunderous Kick",
+    "zPower": 175
   },
   {
     "name": "Steel Beam",
@@ -1352,7 +1416,8 @@
     "accuracy": 95,
     "pp": 5,
     "tags": [],
-    "nameEn": "Steel Beam"
+    "nameEn": "Steel Beam",
+    "zPower": 200
   },
   {
     "name": "Coaching",
@@ -1390,7 +1455,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Flip Turn"
+    "nameEn": "Flip Turn",
+    "zPower": 120
   },
   {
     "name": "Tar Shot",
@@ -1419,7 +1485,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Fiery Wrath"
+    "nameEn": "Fiery Wrath",
+    "zPower": 175
   },
   {
     "name": "Triple Axel",
@@ -1436,7 +1503,8 @@
     ],
     "minHits": 1,
     "maxHits": 3,
-    "nameEn": "Triple Axel"
+    "nameEn": "Triple Axel",
+    "zPower": 190
   },
   {
     "name": "Poltergeist",
@@ -1450,7 +1518,8 @@
     "tags": [
       "custom:requires_def_item"
     ],
-    "nameEn": "Poltergeist"
+    "nameEn": "Poltergeist",
+    "zPower": 185
   },
   {
     "name": "Pyro Ball",
@@ -1465,6 +1534,7 @@
       "ball",
       "custom:has_secondary"
     ],
-    "nameEn": "Pyro Ball"
+    "nameEn": "Pyro Ball",
+    "zPower": 190
   }
 ]

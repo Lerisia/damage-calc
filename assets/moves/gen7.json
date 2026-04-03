@@ -24,7 +24,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "High Horsepower"
+    "nameEn": "High Horsepower",
+    "zPower": 175
   },
   {
     "name": "Darkest Lariat",
@@ -39,7 +40,8 @@
       "contact",
       "custom:ignore_def_rank"
     ],
-    "nameEn": "Darkest Lariat"
+    "nameEn": "Darkest Lariat",
+    "zPower": 160
   },
   {
     "name": "Spirit Shackle",
@@ -51,7 +53,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Spirit Shackle"
+    "nameEn": "Spirit Shackle",
+    "zPower": 160
   },
   {
     "name": "Power Trip",
@@ -66,7 +69,8 @@
       "contact",
       "custom:rank_power"
     ],
-    "nameEn": "Power Trip"
+    "nameEn": "Power Trip",
+    "zPower": 160
   },
   {
     "name": "Mind Blown",
@@ -78,7 +82,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Mind Blown"
+    "nameEn": "Mind Blown",
+    "zPower": 200
   },
   {
     "name": "Freezy Frost",
@@ -90,7 +95,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [],
-    "nameEn": "Freezy Frost"
+    "nameEn": "Freezy Frost",
+    "zPower": 180
   },
   {
     "name": "Pollen Puff",
@@ -104,7 +110,8 @@
     "tags": [
       "ball"
     ],
-    "nameEn": "Pollen Puff"
+    "nameEn": "Pollen Puff",
+    "zPower": 175
   },
   {
     "name": "Leafage",
@@ -116,7 +123,8 @@
     "accuracy": 100,
     "pp": 40,
     "tags": [],
-    "nameEn": "Leafage"
+    "nameEn": "Leafage",
+    "zPower": 100
   },
   {
     "name": "Extreme Evoboost",
@@ -185,7 +193,8 @@
     ],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Double Iron Bash"
+    "nameEn": "Double Iron Bash",
+    "zPower": 180
   },
   {
     "name": "Lunge",
@@ -200,7 +209,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Lunge"
+    "nameEn": "Lunge",
+    "zPower": 160
   },
   {
     "name": "Toxic Thread",
@@ -227,7 +237,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Floaty Fall"
+    "nameEn": "Floaty Fall",
+    "zPower": 175
   },
   {
     "name": "Dragon Hammer",
@@ -241,7 +252,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Dragon Hammer"
+    "nameEn": "Dragon Hammer",
+    "zPower": 175
   },
   {
     "name": "Tectonic Rage",
@@ -362,7 +374,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "First Impression"
+    "nameEn": "First Impression",
+    "zPower": 175
   },
   {
     "name": "Shattered Psyche",
@@ -402,7 +415,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Multi-Attack"
+    "nameEn": "Multi-Attack",
+    "zPower": 185
   },
   {
     "name": "Sunsteel Strike",
@@ -417,7 +431,8 @@
       "contact",
       "custom:ignore_ability"
     ],
-    "nameEn": "Sunsteel Strike"
+    "nameEn": "Sunsteel Strike",
+    "zPower": 180
   },
   {
     "name": "Shore Up",
@@ -482,7 +497,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Sparkling Aria"
+    "nameEn": "Sparkling Aria",
+    "zPower": 175
   },
   {
     "name": "Oceanic Operetta",
@@ -507,7 +523,8 @@
     "accuracy": 85,
     "pp": 5,
     "tags": [],
-    "nameEn": "Sparkly Swirl"
+    "nameEn": "Sparkly Swirl",
+    "zPower": 190
   },
   {
     "name": "Beak Blast",
@@ -521,7 +538,8 @@
     "tags": [
       "ball"
     ],
-    "nameEn": "Beak Blast"
+    "nameEn": "Beak Blast",
+    "zPower": 180
   },
   {
     "name": "Stomping Tantrum",
@@ -535,7 +553,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Stomping Tantrum"
+    "nameEn": "Stomping Tantrum",
+    "zPower": 140
   },
   {
     "name": "Fire Lash",
@@ -550,7 +569,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Fire Lash"
+    "nameEn": "Fire Lash",
+    "zPower": 160
   },
   {
     "name": "Burn Up",
@@ -562,7 +582,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Burn Up"
+    "nameEn": "Burn Up",
+    "zPower": 195
   },
   {
     "name": "Clangorous Soulblaze",
@@ -592,7 +613,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Veevee Volley"
+    "nameEn": "Veevee Volley",
+    "zPower": 160
   },
   {
     "name": "Black Hole Eclipse",
@@ -659,7 +681,8 @@
       "contact",
       "bite"
     ],
-    "nameEn": "Psychic Fangs"
+    "nameEn": "Psychic Fangs",
+    "zPower": 160
   },
   {
     "name": "Psychic Terrain",
@@ -683,7 +706,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Bouncy Bubble"
+    "nameEn": "Bouncy Bubble",
+    "zPower": 120
   },
   {
     "name": "Moongeist Beam",
@@ -697,7 +721,8 @@
     "tags": [
       "custom:ignore_ability"
     ],
-    "nameEn": "Moongeist Beam"
+    "nameEn": "Moongeist Beam",
+    "zPower": 180
   },
   {
     "name": "Shadow Bone",
@@ -711,7 +736,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Shadow Bone"
+    "nameEn": "Shadow Bone",
+    "zPower": 160
   },
   {
     "name": "Spectral Thief",
@@ -725,7 +751,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Spectral Thief"
+    "nameEn": "Spectral Thief",
+    "zPower": 175
   },
   {
     "name": "Sinister Arrow Raid",
@@ -767,7 +794,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Brutal Swing"
+    "nameEn": "Brutal Swing",
+    "zPower": 120
   },
   {
     "name": "Solar Blade",
@@ -783,7 +811,8 @@
       "slice",
       "custom:solar_halve"
     ],
-    "nameEn": "Solar Blade"
+    "nameEn": "Solar Blade",
+    "zPower": 190
   },
   {
     "name": "Hydro Vortex",
@@ -826,7 +855,8 @@
     "nameEn": "Smart Strike",
     "aliases": [
       "스마트호른"
-    ]
+    ],
+    "zPower": 140
   },
   {
     "name": "Clanging Scales",
@@ -841,7 +871,8 @@
       "custom:has_secondary",
       "sound"
     ],
-    "nameEn": "Clanging Scales"
+    "nameEn": "Clanging Scales",
+    "zPower": 185
   },
   {
     "name": "Gigavolt Havoc",
@@ -908,7 +939,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Sappy Seed"
+    "nameEn": "Sappy Seed",
+    "zPower": 180
   },
   {
     "name": "Baddy Bad",
@@ -920,7 +952,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [],
-    "nameEn": "Baddy Bad"
+    "nameEn": "Baddy Bad",
+    "zPower": 160
   },
   {
     "name": "Ice Hammer",
@@ -936,7 +969,8 @@
       "punch",
       "custom:has_secondary"
     ],
-    "nameEn": "Ice Hammer"
+    "nameEn": "Ice Hammer",
+    "zPower": 180
   },
   {
     "name": "Liquidation",
@@ -951,7 +985,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Liquidation"
+    "nameEn": "Liquidation",
+    "zPower": 160
   },
   {
     "name": "Guardian of Alola",
@@ -1005,7 +1040,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Accelerock"
+    "nameEn": "Accelerock",
+    "zPower": 100
   },
   {
     "name": "Anchor Shot",
@@ -1022,7 +1058,8 @@
     "nameEn": "Anchor Shot",
     "aliases": [
       "앵커숏"
-    ]
+    ],
+    "zPower": 160
   },
   {
     "name": "Gear Up",
@@ -1164,7 +1201,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Sizzly Slide"
+    "nameEn": "Sizzly Slide",
+    "zPower": 120
   },
   {
     "name": "Nature’s Madness",
@@ -1190,7 +1228,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Revelation Dance"
+    "nameEn": "Revelation Dance",
+    "zPower": 175
   },
   {
     "name": "All-Out Pummeling",
@@ -1269,7 +1308,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Throat Chop"
+    "nameEn": "Throat Chop",
+    "zPower": 160
   },
   {
     "name": "Instruct",
@@ -1311,7 +1351,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Zing Zap"
+    "nameEn": "Zing Zap",
+    "zPower": 160
   },
   {
     "name": "Buzzy Buzz",
@@ -1325,7 +1366,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Buzzy Buzz"
+    "nameEn": "Buzzy Buzz",
+    "zPower": 120
   },
   {
     "name": "Splishy Splash",
@@ -1339,7 +1381,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Splishy Splash"
+    "nameEn": "Splishy Splash",
+    "zPower": 175
   },
   {
     "name": "Corkscrew Crash",
@@ -1392,7 +1435,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Core Enforcer"
+    "nameEn": "Core Enforcer",
+    "zPower": 140
   },
   {
     "name": "Glitzy Glow",
@@ -1404,7 +1448,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [],
-    "nameEn": "Glitzy Glow"
+    "nameEn": "Glitzy Glow",
+    "zPower": 160
   },
   {
     "name": "Baneful Bunker",
@@ -1432,7 +1477,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Let’s Snuggle Forever"
+    "nameEn": "Let’s Snuggle Forever",
+    "zPower": 200
   },
   {
     "name": "Shell Trap",
@@ -1444,7 +1490,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Shell Trap"
+    "nameEn": "Shell Trap",
+    "zPower": 200
   },
   {
     "name": "Trop Kick",
@@ -1459,7 +1506,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Trop Kick"
+    "nameEn": "Trop Kick",
+    "zPower": 140
   },
   {
     "name": "Supersonic Skystrike",
@@ -1501,7 +1549,8 @@
       "custom:always_crit",
       "custom:has_secondary"
     ],
-    "nameEn": "Zippy Zap"
+    "nameEn": "Zippy Zap",
+    "zPower": 160
   },
   {
     "name": "Photon Geyser",
@@ -1516,7 +1565,8 @@
       "custom:use_higher_atk",
       "custom:ignore_ability"
     ],
-    "nameEn": "Photon Geyser"
+    "nameEn": "Photon Geyser",
+    "zPower": 180
   },
   {
     "name": "Prismatic Laser",
@@ -1528,7 +1578,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Prismatic Laser"
+    "nameEn": "Prismatic Laser",
+    "zPower": 200
   },
   {
     "name": "Plasma Fists",
@@ -1543,7 +1594,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Plasma Fists"
+    "nameEn": "Plasma Fists",
+    "zPower": 180
   },
   {
     "name": "Floral Healing",
@@ -1569,7 +1621,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Fleur Cannon"
+    "nameEn": "Fleur Cannon",
+    "zPower": 195
   },
   {
     "name": "Pika Papow",
@@ -1581,7 +1634,8 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Pika Papow"
+    "nameEn": "Pika Papow",
+    "zPower": 160
   },
   {
     "name": "Catastropika",

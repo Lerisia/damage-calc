@@ -97,7 +97,15 @@ class MoveContext {
     this.heldItem,
     this.hitCount,
     this.opponentHpPercent,
+    this.zMove = false,
+    this.isMega = false,
   });
+
+  /// Whether this move should be converted to a Z-Move.
+  final bool zMove;
+
+  /// Whether the attacker is a Mega Evolution.
+  final bool isMega;
 }
 
 /// Result of move transformation: the modified move + which stat to use
@@ -264,10 +272,17 @@ TransformedMove transformMove(Move move, MoveContext context) {
     );
   }
 
-  // 7. Dynamax transform (after all other power changes)
-  // Struggle cannot be converted to a Max Move.
+  // 7. Dynamax first, then Z-Move check.
+  // Z-Move is blocked by Mega/Dynamax/Terastal (3 safety layers):
+  //   Layer 1: UI disables Z checkbox when any of these are active
+  //   Layer 2: Logic check below skips Z if Mega/Dynamax/Terastal
+  //   Layer 3: Dynamax runs first, so even if Z is on, Dynamax takes priority
   if (context.dynamax != DynamaxState.none && move.type != PokemonType.typeless) {
     move = _applyDynamax(move, context.dynamax, context.pokemonName);
+  } else if (context.zMove && move.type != PokemonType.typeless &&
+      context.dynamax == DynamaxState.none && !context.terastallized &&
+      !context.isMega) {
+    move = _applyZMove(move, context.pokemonName);
   }
 
   // 7. Stat selection
@@ -863,6 +878,192 @@ PokemonType? _memoryType(String itemName) {
   }
   return null;
 }
+
+// ====== Z-Move transformation ======
+
+/// Converts a move into its Z-Move form.
+/// Status moves are not converted (return as-is).
+Move _applyZMove(Move move, String? pokemonName) {
+  // Status moves cannot become Z-attacks
+  if (move.category == MoveCategory.status) return move;
+
+  // Check for exclusive Z-Move (pokemon + base move match)
+  if (pokemonName != null) {
+    final key = pokemonName.toLowerCase();
+    final exclusive = _exclusiveZMoves[key];
+    if (exclusive != null && move.name == exclusive.baseMove) {
+      return move.copyWith(
+        name: exclusive.name,
+        nameKo: exclusive.nameKo,
+        nameJa: exclusive.nameJa,
+        nameEn: exclusive.name,
+        power: exclusive.power,
+        tags: exclusive.tags,
+        priority: 0,
+      );
+    }
+  }
+
+  // Generic Z-Move: use zPower field or 100 as fallback
+  final zPower = move.zPower ?? 100;
+  final zName = _zMoveNames[move.type] ?? 'Breakneck Blitz';
+  final zNameKo = _zMoveNamesKo[move.type] ?? '울트라대시어택';
+  final zNameJa = _zMoveNamesJa[move.type] ?? 'ウルトラダッシュアタック';
+
+  return move.copyWith(
+    name: zName,
+    nameKo: zNameKo,
+    nameJa: zNameJa,
+    nameEn: zName,
+    power: zPower,
+    tags: const [],
+    priority: 0,
+  );
+}
+
+/// Generic Z-Move names by type (English)
+const Map<PokemonType, String> _zMoveNames = {
+  PokemonType.normal: 'Breakneck Blitz',
+  PokemonType.fighting: 'All-Out Pummeling',
+  PokemonType.flying: 'Supersonic Skystrike',
+  PokemonType.poison: 'Acid Downpour',
+  PokemonType.ground: 'Tectonic Rage',
+  PokemonType.rock: 'Continental Crush',
+  PokemonType.bug: 'Savage Spin-Out',
+  PokemonType.ghost: 'Never-Ending Nightmare',
+  PokemonType.steel: 'Corkscrew Crash',
+  PokemonType.fire: 'Inferno Overdrive',
+  PokemonType.water: 'Hydro Vortex',
+  PokemonType.grass: 'Bloom Doom',
+  PokemonType.electric: 'Gigavolt Havoc',
+  PokemonType.psychic: 'Shattered Psyche',
+  PokemonType.ice: 'Subzero Slammer',
+  PokemonType.dragon: 'Devastating Drake',
+  PokemonType.dark: 'Black Hole Eclipse',
+  PokemonType.fairy: 'Twinkle Tackle',
+};
+
+/// Generic Z-Move names (Korean)
+const Map<PokemonType, String> _zMoveNamesKo = {
+  PokemonType.normal: '울트라대시어택',
+  PokemonType.fighting: '전력무쌍격',
+  PokemonType.flying: '파이널다이브클래시',
+  PokemonType.poison: '애시드포이즌딜리트',
+  PokemonType.ground: '라이징랜드오버',
+  PokemonType.rock: '월드즈엔드폴',
+  PokemonType.bug: '절대포획포위망',
+  PokemonType.ghost: '무한어둠에의유도',
+  PokemonType.steel: '초절나선연격',
+  PokemonType.fire: '다이나믹풀플레임',
+  PokemonType.water: '슈퍼아쿠아토네이도',
+  PokemonType.grass: '블룸샤인엑스트라',
+  PokemonType.electric: '스파킹기가볼트',
+  PokemonType.psychic: '맥시멈사이브레이커',
+  PokemonType.ice: '레이징지오프리즈',
+  PokemonType.dragon: '얼티메이트드래곤번',
+  PokemonType.dark: '블랙홀이클립스',
+  PokemonType.fairy: '라블리스타임팩트',
+};
+
+/// Generic Z-Move names (Japanese)
+const Map<PokemonType, String> _zMoveNamesJa = {
+  PokemonType.normal: 'ウルトラダッシュアタック',
+  PokemonType.fighting: 'ぜんりょくむそうげきれつけん',
+  PokemonType.flying: 'ファイナルダイブクラッシュ',
+  PokemonType.poison: 'アシッドポイズンデリート',
+  PokemonType.ground: 'ライジングランドオーバー',
+  PokemonType.rock: 'ワールズエンドフォール',
+  PokemonType.bug: 'ぜったいほしょくかいてんざん',
+  PokemonType.ghost: 'むげんあんやへのいざない',
+  PokemonType.steel: 'ちょうぜつらせんれんげき',
+  PokemonType.fire: 'ダイナミックフルフレイム',
+  PokemonType.water: 'スーパーアクアトルネード',
+  PokemonType.grass: 'ブルームシャインエクストラ',
+  PokemonType.electric: 'スパーキングギガボルト',
+  PokemonType.psychic: 'マキシマムサイブレイカー',
+  PokemonType.ice: 'レイジングジオフリーズ',
+  PokemonType.dragon: 'アルティメットドラゴンバーン',
+  PokemonType.dark: 'ブラックホールイクリプス',
+  PokemonType.fairy: 'ラブリースターインパクト',
+};
+
+/// Exclusive Z-Move data
+class _ExclusiveZMove {
+  final String baseMove;  // Original move name required
+  final String name;      // Z-Move English name
+  final String nameKo;
+  final String nameJa;
+  final int power;
+  final List<String> tags;
+
+  const _ExclusiveZMove(this.baseMove, this.name, this.nameKo, this.nameJa, this.power,
+      [this.tags = const []]);
+}
+
+/// Exclusive Z-Move mapping: pokemonName (lowercase) → exclusive Z data
+const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
+  'pikachu': _ExclusiveZMove(
+    'Volt Tackle', 'Catastropika', '전력질주초전자포', 'ひっさつのピカチュート', 210),
+  // Pikachu with cap uses Pikashunium Z + Thunderbolt
+  'pikachu-original': _ExclusiveZMove(
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+  'pikachu-hoenn': _ExclusiveZMove(
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+  'pikachu-sinnoh': _ExclusiveZMove(
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+  'pikachu-unova': _ExclusiveZMove(
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+  'pikachu-kalos': _ExclusiveZMove(
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+  'pikachu-alola': _ExclusiveZMove(
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+  'pikachu-partner': _ExclusiveZMove(
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+  'raichu-alola': _ExclusiveZMove(
+    'Thunderbolt', 'Stoked Sparksurfer', '라이트닝서프라이드', 'ライトニングサーフライド', 175),
+  'eevee': _ExclusiveZMove(
+    'Last Resort', 'Extreme Evoboost', '나인에볼부스트', 'ナインエボルブースト', 0), // Status Z
+  'snorlax': _ExclusiveZMove(
+    'Giga Impact', 'Pulverizing Pancake', '혼신의풀파워풀바디어택', 'ほんきをだすこうげき', 210),
+  'mew': _ExclusiveZMove(
+    'Psychic', 'Genesis Supernova', '오리진슈퍼노바', 'オリジンズスーパーノヴァ', 185),
+  'decidueye': _ExclusiveZMove(
+    'Spirit Shackle', 'Sinister Arrow Raid', '그림자화살비', 'シャドーアローズストライク', 180),
+  'incineroar': _ExclusiveZMove(
+    'Darkest Lariat', 'Malicious Moonsault', '하이퍼다크크러셔', 'ハイパーダーククラッシャー', 180),
+  'primarina': _ExclusiveZMove(
+    'Sparkling Aria', 'Oceanic Operetta', '대해원의교향곡', 'わだつみのシンフォニア', 195),
+  'lycanroc': _ExclusiveZMove(
+    'Stone Edge', 'Splintered Stormshards', '래디컬에지스톰', 'ラジアルエッジストーム', 190),
+  'lycanroc-midnight': _ExclusiveZMove(
+    'Stone Edge', 'Splintered Stormshards', '래디컬에지스톰', 'ラジアルエッジストーム', 190),
+  'lycanroc-dusk': _ExclusiveZMove(
+    'Stone Edge', 'Splintered Stormshards', '래디컬에지스톰', 'ラジアルエッジストーム', 190),
+  'mimikyu': _ExclusiveZMove(
+    'Play Rough', "Let's Snuggle Forever", '포옹은그만', 'ぽかぼかフレンドタイム', 190),
+  'kommo-o': _ExclusiveZMove(
+    'Clanging Scales', 'Clangorous Soulblaze', '울려라절규바늘', 'ブレイジングソウルビート', 185),
+  'tapu-koko': _ExclusiveZMove(
+    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]), // 75% HP
+  'tapu-lele': _ExclusiveZMove(
+    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+  'tapu-bulu': _ExclusiveZMove(
+    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+  'tapu-fini': _ExclusiveZMove(
+    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+  'solgaleo': _ExclusiveZMove(
+    'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200),
+  'necrozma-dusk-mane': _ExclusiveZMove(
+    'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200),
+  'lunala': _ExclusiveZMove(
+    'Moongeist Beam', 'Menacing Moonraze Maelstrom', '문라이트블래스터', 'ムーンライトブラスター', 200),
+  'necrozma-dawn-wings': _ExclusiveZMove(
+    'Moongeist Beam', 'Menacing Moonraze Maelstrom', '문라이트블래스터', 'ムーンライトブラスター', 200),
+  'necrozma-ultra': _ExclusiveZMove(
+    'Photon Geyser', 'Light That Burns the Sky', '하늘을태우는빛', 'てんこがすめつぼうのひかり', 200),
+  'marshadow': _ExclusiveZMove(
+    'Spectral Thief', 'Soul-Stealing 7-Star Strike', '칠성탈혼쿠니우치', 'しちせいだっこんたい', 195),
+};
 
 // Legacy wrappers for backward compatibility with tests
 Move applyWeatherToMove(Move move, Weather weather) => _applyWeather(move, weather);

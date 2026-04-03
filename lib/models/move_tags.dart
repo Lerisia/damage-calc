@@ -75,6 +75,9 @@ class MoveTags {
   // Move disabled by Gravity
   static const String disabledByGravity = 'custom:disabled_by_gravity';
 
+  // Fixed damage: 75% of target's current HP (Guardian of Alola)
+  static const String fixedThreeQuarterHp = 'custom:fixed_three_quarter_hp';
+
   // Move requires defender to be asleep (Dream Eater)
   static const String requiresDefSleep = 'custom:requires_def_sleep';
 

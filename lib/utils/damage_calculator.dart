@@ -367,6 +367,7 @@ class DamageCalculator {
 
     // --- Fixed damage moves (checked after transform so Dynamax → Max Guard passes) ---
     if (effectiveMove.hasTag(MoveTags.fixedLevel) || effectiveMove.hasTag(MoveTags.fixedHalfHp) ||
+        effectiveMove.hasTag(MoveTags.fixedThreeQuarterHp) ||
         effectiveMove.hasTag(MoveTags.fixed20) || effectiveMove.hasTag(MoveTags.fixed40)) {
       return _calcFixedDamage(
         attacker: attacker, defender: defender, move: effectiveMove,
@@ -1252,6 +1253,11 @@ class DamageCalculator {
       fixedDamage = 20;
     } else if (move.hasTag(MoveTags.fixed40)) {
       fixedDamage = 40;
+    } else if (move.hasTag(MoveTags.fixedThreeQuarterHp)) {
+      // fixedThreeQuarterHp: 75% of defender's current HP (Guardian of Alola)
+      final baseHp = defStats.hp;
+      final currentBaseHp = (baseHp * defender.hpPercent / 100).ceil().clamp(1, baseHp);
+      fixedDamage = (currentBaseHp * 3 / 4).ceil().clamp(1, defHp);
     } else {
       // fixedHalfHp: half of defender's current HP (based on non-Dynamax HP)
       final baseHp = defStats.hp;

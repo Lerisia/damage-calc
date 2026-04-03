@@ -33,6 +33,7 @@ class Move {
   final int minHits;
   final int maxHits;
   final List<String> aliases;
+  final int? zPower;
 
   const Move({
     required this.name,
@@ -50,6 +51,7 @@ class Move {
     this.minHits = 1,
     this.maxHits = 1,
     this.aliases = const [],
+    this.zPower,
   });
 
   String get localizedName => AppStrings.name(nameKo: nameKo, nameEn: nameEn, nameJa: nameJa, name: name);
@@ -100,6 +102,7 @@ class Move {
       minHits: this.minHits,
       maxHits: this.maxHits,
       aliases: this.aliases,
+      zPower: this.zPower,
     );
   }
 
@@ -119,6 +122,7 @@ class Move {
     if (minHits != 1) 'minHits': minHits,
     if (maxHits != 1) 'maxHits': maxHits,
     if (aliases.isNotEmpty) 'aliases': aliases,
+    if (zPower != null) 'zPower': zPower,
   };
 
   factory Move.fromJson(Map<String, dynamic> json) {
@@ -144,6 +148,7 @@ class Move {
       aliases: json['aliases'] != null
           ? List<String>.from(json['aliases'] as List)
           : const [],
+      zPower: json['zPower'] as int?,
     );
   }
 }

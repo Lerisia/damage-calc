@@ -11,7 +11,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Thunderbolt"
+    "nameEn": "Thunderbolt",
+    "zPower": 175
   },
   {
     "name": "Recover",
@@ -37,7 +38,8 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Spike Cannon"
+    "nameEn": "Spike Cannon",
+    "zPower": 100
   },
   {
     "name": "Guillotine",
@@ -52,7 +54,8 @@
       "contact",
       "custom:ohko"
     ],
-    "nameEn": "Guillotine"
+    "nameEn": "Guillotine",
+    "zPower": 180
   },
   {
     "name": "Sharpen",
@@ -78,7 +81,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Bubble"
+    "nameEn": "Bubble",
+    "zPower": 100
   },
   {
     "name": "Bubble Beam",
@@ -92,7 +96,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Bubble Beam"
+    "nameEn": "Bubble Beam",
+    "zPower": 120
   },
   {
     "name": "Agility",
@@ -116,7 +121,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Pay Day"
+    "nameEn": "Pay Day",
+    "zPower": 100
   },
   {
     "name": "Fly",
@@ -131,7 +137,8 @@
       "custom:disabled_by_gravity",
       "contact"
     ],
-    "nameEn": "Fly"
+    "nameEn": "Fly",
+    "zPower": 175
   },
   {
     "name": "Strength",
@@ -145,7 +152,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Strength"
+    "nameEn": "Strength",
+    "zPower": 160
   },
   {
     "name": "Dig",
@@ -159,7 +167,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Dig"
+    "nameEn": "Dig",
+    "zPower": 160
   },
   {
     "name": "Barrage",
@@ -175,7 +184,8 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Barrage"
+    "nameEn": "Barrage",
+    "zPower": 100
   },
   {
     "name": "Double Team",
@@ -214,7 +224,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Wrap"
+    "nameEn": "Wrap",
+    "zPower": 100
   },
   {
     "name": "Clamp",
@@ -229,7 +240,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Clamp"
+    "nameEn": "Clamp",
+    "zPower": 100
   },
   {
     "name": "Withdraw",
@@ -267,7 +279,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Petal Dance"
+    "nameEn": "Petal Dance",
+    "zPower": 190
   },
   {
     "name": "Dream Eater",
@@ -281,7 +294,8 @@
     "tags": [
       "custom:requires_def_sleep"
     ],
-    "nameEn": "Dream Eater"
+    "nameEn": "Dream Eater",
+    "zPower": 180
   },
   {
     "name": "Night Shade",
@@ -295,7 +309,8 @@
     "tags": [
       "custom:fixed_level"
     ],
-    "nameEn": "Night Shade"
+    "nameEn": "Night Shade",
+    "zPower": 100
   },
   {
     "name": "Thrash",
@@ -309,7 +324,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Thrash"
+    "nameEn": "Thrash",
+    "zPower": 190
   },
   {
     "name": "Wing Attack",
@@ -323,7 +339,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Wing Attack"
+    "nameEn": "Wing Attack",
+    "zPower": 120
   },
   {
     "name": "Whirlwind",
@@ -352,7 +369,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Ice Beam"
+    "nameEn": "Ice Beam",
+    "zPower": 175
   },
   {
     "name": "Ice Punch",
@@ -368,7 +386,8 @@
       "punch",
       "custom:has_secondary"
     ],
-    "nameEn": "Ice Punch"
+    "nameEn": "Ice Punch",
+    "zPower": 140
   },
   {
     "name": "Sing",
@@ -409,7 +428,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Body Slam"
+    "nameEn": "Body Slam",
+    "zPower": 160
   },
   {
     "name": "Blizzard",
@@ -424,7 +444,8 @@
       "custom:has_secondary",
       "wind"
     ],
-    "nameEn": "Blizzard"
+    "nameEn": "Blizzard",
+    "zPower": 185
   },
   {
     "name": "Harden",
@@ -460,7 +481,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Explosion"
+    "nameEn": "Explosion",
+    "zPower": 200
   },
   {
     "name": "Twineedle",
@@ -476,7 +498,8 @@
     ],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Twineedle"
+    "nameEn": "Twineedle",
+    "zPower": 100
   },
   {
     "name": "Vine Whip",
@@ -490,7 +513,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Vine Whip"
+    "nameEn": "Vine Whip",
+    "zPower": 100
   },
   {
     "name": "Poison Powder",
@@ -530,7 +554,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Poison Sting"
+    "nameEn": "Poison Sting",
+    "zPower": 100
   },
   {
     "name": "Rock Throw",
@@ -542,7 +567,8 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [],
-    "nameEn": "Rock Throw"
+    "nameEn": "Rock Throw",
+    "zPower": 100
   },
   {
     "name": "Rolling Kick",
@@ -557,7 +583,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Rolling Kick"
+    "nameEn": "Rolling Kick",
+    "zPower": 120
   },
   {
     "name": "Take Down",
@@ -572,7 +599,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Take Down"
+    "nameEn": "Take Down",
+    "zPower": 175
   },
   {
     "name": "Double Kick",
@@ -591,7 +619,8 @@
     "nameEn": "Double Kick",
     "aliases": [
       "두번치기"
-    ]
+    ],
+    "zPower": 100
   },
   {
     "name": "Mirror Move",
@@ -617,7 +646,8 @@
     "tags": [
       "custom:ohko"
     ],
-    "nameEn": "Fissure"
+    "nameEn": "Fissure",
+    "zPower": 180
   },
   {
     "name": "Skull Bash",
@@ -635,7 +665,8 @@
     "nameEn": "Skull Bash",
     "aliases": [
       "로케트박치기"
-    ]
+    ],
+    "zPower": 195
   },
   {
     "name": "Reflect",
@@ -663,7 +694,8 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Fury Attack"
+    "nameEn": "Fury Attack",
+    "zPower": 100
   },
   {
     "name": "Fury Swipes",
@@ -679,7 +711,8 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Fury Swipes"
+    "nameEn": "Fury Swipes",
+    "zPower": 100
   },
   {
     "name": "Pound",
@@ -693,7 +726,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Pound"
+    "nameEn": "Pound",
+    "zPower": 100
   },
   {
     "name": "Amnesia",
@@ -729,7 +763,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Mega Drain"
+    "nameEn": "Mega Drain",
+    "zPower": 120
   },
   {
     "name": "Mega Kick",
@@ -743,7 +778,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Mega Kick"
+    "nameEn": "Mega Kick",
+    "zPower": 190
   },
   {
     "name": "Mega Punch",
@@ -758,7 +794,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Mega Punch"
+    "nameEn": "Mega Punch",
+    "zPower": 160
   },
   {
     "name": "Sand Attack",
@@ -784,7 +821,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Tackle"
+    "nameEn": "Tackle",
+    "zPower": 100
   },
   {
     "name": "High Jump Kick",
@@ -800,7 +838,8 @@
       "recoil",
       "custom:disabled_by_gravity"
     ],
-    "nameEn": "High Jump Kick"
+    "nameEn": "High Jump Kick",
+    "zPower": 195
   },
   {
     "name": "Bite",
@@ -816,7 +855,8 @@
       "bite",
       "custom:has_secondary"
     ],
-    "nameEn": "Bite"
+    "nameEn": "Bite",
+    "zPower": 120
   },
   {
     "name": "Water Gun",
@@ -828,7 +868,8 @@
     "accuracy": 100,
     "pp": 25,
     "tags": [],
-    "nameEn": "Water Gun"
+    "nameEn": "Water Gun",
+    "zPower": 100
   },
   {
     "name": "Pin Missile",
@@ -842,7 +883,8 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Pin Missile"
+    "nameEn": "Pin Missile",
+    "zPower": 140
   },
   {
     "name": "Gust",
@@ -856,7 +898,8 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Gust"
+    "nameEn": "Gust",
+    "zPower": 100
   },
   {
     "name": "Headbutt",
@@ -871,7 +914,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Headbutt"
+    "nameEn": "Headbutt",
+    "zPower": 140
   },
   {
     "name": "Struggle",
@@ -885,7 +929,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Struggle"
+    "nameEn": "Struggle",
+    "zPower": 100
   },
   {
     "name": "Barrier",
@@ -937,7 +982,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Thunder"
+    "nameEn": "Thunder",
+    "zPower": 185
   },
   {
     "name": "Thunder Punch",
@@ -953,7 +999,8 @@
       "punch",
       "custom:has_secondary"
     ],
-    "nameEn": "Thunder Punch"
+    "nameEn": "Thunder Punch",
+    "zPower": 140
   },
   {
     "name": "Slash",
@@ -968,7 +1015,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Slash"
+    "nameEn": "Slash",
+    "zPower": 140
   },
   {
     "name": "Transform",
@@ -994,7 +1042,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Rage"
+    "nameEn": "Rage",
+    "zPower": 100
   },
   {
     "name": "Super Fang",
@@ -1009,7 +1058,8 @@
       "contact",
       "custom:fixed_half_hp"
     ],
-    "nameEn": "Super Fang"
+    "nameEn": "Super Fang",
+    "zPower": 100
   },
   {
     "name": "Ember",
@@ -1023,7 +1073,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Ember"
+    "nameEn": "Ember",
+    "zPower": 100
   },
   {
     "name": "Fire Punch",
@@ -1039,7 +1090,8 @@
       "punch",
       "custom:has_secondary"
     ],
-    "nameEn": "Fire Punch"
+    "nameEn": "Fire Punch",
+    "zPower": 140
   },
   {
     "name": "Fire Blast",
@@ -1053,7 +1105,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Fire Blast"
+    "nameEn": "Fire Blast",
+    "zPower": 185
   },
   {
     "name": "Sky Attack",
@@ -1067,7 +1120,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Sky Attack"
+    "nameEn": "Sky Attack",
+    "zPower": 200
   },
   {
     "name": "Light Screen",
@@ -1093,7 +1147,8 @@
     "tags": [],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Bonemerang"
+    "nameEn": "Bonemerang",
+    "zPower": 100
   },
   {
     "name": "Bone Club",
@@ -1107,7 +1162,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Bone Club"
+    "nameEn": "Bone Club",
+    "zPower": 120
   },
   {
     "name": "Horn Drill",
@@ -1122,7 +1178,8 @@
       "contact",
       "custom:ohko"
     ],
-    "nameEn": "Horn Drill"
+    "nameEn": "Horn Drill",
+    "zPower": 180
   },
   {
     "name": "Horn Attack",
@@ -1136,7 +1193,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Horn Attack"
+    "nameEn": "Horn Attack",
+    "zPower": 120
   },
   {
     "name": "Disable",
@@ -1160,7 +1218,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Psywave"
+    "nameEn": "Psywave",
+    "zPower": 100
   },
   {
     "name": "Psychic",
@@ -1174,7 +1233,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Psychic"
+    "nameEn": "Psychic",
+    "zPower": 175
   },
   {
     "name": "Growth",
@@ -1200,7 +1260,8 @@
     "tags": [
       "custom:fixed_20"
     ],
-    "nameEn": "Sonic Boom"
+    "nameEn": "Sonic Boom",
+    "zPower": 100
   },
   {
     "name": "Metronome",
@@ -1226,7 +1287,8 @@
     "tags": [
       "custom:solar_halve"
     ],
-    "nameEn": "Solar Beam"
+    "nameEn": "Solar Beam",
+    "zPower": 190
   },
   {
     "name": "Sleep Powder",
@@ -1279,7 +1341,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Smog"
+    "nameEn": "Smog",
+    "zPower": 100
   },
   {
     "name": "Rock Slide",
@@ -1293,7 +1356,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Rock Slide"
+    "nameEn": "Rock Slide",
+    "zPower": 140
   },
   {
     "name": "Swift",
@@ -1305,7 +1369,8 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Swift"
+    "nameEn": "Swift",
+    "zPower": 120
   },
   {
     "name": "String Shot",
@@ -1371,7 +1436,8 @@
       "custom:weight_based",
       "custom:weight_target"
     ],
-    "nameEn": "Low Kick"
+    "nameEn": "Low Kick",
+    "zPower": 160
   },
   {
     "name": "Soft-Boiled",
@@ -1397,7 +1463,8 @@
     "tags": [
       "ball"
     ],
-    "nameEn": "Egg Bomb"
+    "nameEn": "Egg Bomb",
+    "zPower": 180
   },
   {
     "name": "Smokescreen",
@@ -1425,7 +1492,8 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Double Slap"
+    "nameEn": "Double Slap",
+    "zPower": 100
   },
   {
     "name": "Comet Punch",
@@ -1442,7 +1510,8 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Comet Punch"
+    "nameEn": "Comet Punch",
+    "zPower": 100
   },
   {
     "name": "Confusion",
@@ -1456,7 +1525,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Confusion"
+    "nameEn": "Confusion",
+    "zPower": 100
   },
   {
     "name": "Aurora Beam",
@@ -1470,7 +1540,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Aurora Beam"
+    "nameEn": "Aurora Beam",
+    "zPower": 120
   },
   {
     "name": "Sludge",
@@ -1484,7 +1555,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Sludge"
+    "nameEn": "Sludge",
+    "zPower": 120
   },
   {
     "name": "Meditate",
@@ -1510,7 +1582,8 @@
     "tags": [
       "custom:fixed_40"
     ],
-    "nameEn": "Dragon Rage"
+    "nameEn": "Dragon Rage",
+    "zPower": 100
   },
   {
     "name": "Acid",
@@ -1524,7 +1597,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Acid"
+    "nameEn": "Acid",
+    "zPower": 100
   },
   {
     "name": "Roar",
@@ -1592,7 +1666,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Double-Edge"
+    "nameEn": "Double-Edge",
+    "zPower": 190
   },
   {
     "name": "Razor Leaf",
@@ -1606,7 +1681,8 @@
     "tags": [
       "slice"
     ],
-    "nameEn": "Razor Leaf"
+    "nameEn": "Razor Leaf",
+    "zPower": 100
   },
   {
     "name": "Self-Destruct",
@@ -1618,7 +1694,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Self-Destruct"
+    "nameEn": "Self-Destruct",
+    "zPower": 200
   },
   {
     "name": "Minimize",
@@ -1658,7 +1735,8 @@
       "custom:has_secondary",
       "punch"
     ],
-    "nameEn": "Dizzy Punch"
+    "nameEn": "Dizzy Punch",
+    "zPower": 140
   },
   {
     "name": "Stun Spore",
@@ -1687,7 +1765,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Quick Attack"
+    "nameEn": "Quick Attack",
+    "zPower": 100
   },
   {
     "name": "Thunder Shock",
@@ -1701,7 +1780,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Thunder Shock"
+    "nameEn": "Thunder Shock",
+    "zPower": 100
   },
   {
     "name": "Thunder Wave",
@@ -1729,7 +1809,8 @@
       "recoil",
       "custom:disabled_by_gravity"
     ],
-    "nameEn": "Jump Kick"
+    "nameEn": "Jump Kick",
+    "zPower": 180
   },
   {
     "name": "Bind",
@@ -1744,7 +1825,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Bind"
+    "nameEn": "Bind",
+    "zPower": 100
   },
   {
     "name": "Seismic Toss",
@@ -1759,7 +1841,8 @@
       "contact",
       "custom:fixed_level"
     ],
-    "nameEn": "Seismic Toss"
+    "nameEn": "Seismic Toss",
+    "zPower": 100
   },
   {
     "name": "Submission",
@@ -1774,7 +1857,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Submission"
+    "nameEn": "Submission",
+    "zPower": 160
   },
   {
     "name": "Earthquake",
@@ -1788,7 +1872,8 @@
     "tags": [
       "custom:grassy_halve"
     ],
-    "nameEn": "Earthquake"
+    "nameEn": "Earthquake",
+    "zPower": 180
   },
   {
     "name": "Stomp",
@@ -1803,7 +1888,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Stomp"
+    "nameEn": "Stomp",
+    "zPower": 120
   },
   {
     "name": "Leer",
@@ -1829,7 +1915,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Peck"
+    "nameEn": "Peck",
+    "zPower": 100
   },
   {
     "name": "Crabhammer",
@@ -1846,7 +1933,8 @@
     "nameEn": "Crabhammer",
     "aliases": [
       "찝게햄머"
-    ]
+    ],
+    "zPower": 180
   },
   {
     "name": "Vise Grip",
@@ -1860,7 +1948,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Vise Grip"
+    "nameEn": "Vise Grip",
+    "zPower": 100
   },
   {
     "name": "Bide",
@@ -1875,7 +1964,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Bide"
+    "nameEn": "Bide",
+    "zPower": 100
   },
   {
     "name": "Supersonic",
@@ -1916,7 +2006,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Counter"
+    "nameEn": "Counter",
+    "zPower": 100
   },
   {
     "name": "Razor Wind",
@@ -1928,7 +2019,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Razor Wind"
+    "nameEn": "Razor Wind",
+    "zPower": 160
   },
   {
     "name": "Swords Dance",
@@ -1954,7 +2046,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Karate Chop"
+    "nameEn": "Karate Chop",
+    "zPower": 100
   },
   {
     "name": "Conversion",
@@ -1994,7 +2087,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Tri Attack"
+    "nameEn": "Tri Attack",
+    "zPower": 160
   },
   {
     "name": "Hyper Beam",
@@ -2006,7 +2100,8 @@
     "accuracy": 90,
     "pp": 5,
     "tags": [],
-    "nameEn": "Hyper Beam"
+    "nameEn": "Hyper Beam",
+    "zPower": 200
   },
   {
     "name": "Surf",
@@ -2018,7 +2113,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Surf"
+    "nameEn": "Surf",
+    "zPower": 175
   },
   {
     "name": "Waterfall",
@@ -2033,7 +2129,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Waterfall"
+    "nameEn": "Waterfall",
+    "zPower": 160
   },
   {
     "name": "Cut",
@@ -2048,7 +2145,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Cut"
+    "nameEn": "Cut",
+    "zPower": 100
   },
   {
     "name": "Flash",
@@ -2076,7 +2174,8 @@
       "custom:has_secondary",
       "bite"
     ],
-    "nameEn": "Hyper Fang"
+    "nameEn": "Hyper Fang",
+    "zPower": 160
   },
   {
     "name": "Hydro Pump",
@@ -2088,7 +2187,8 @@
     "accuracy": 80,
     "pp": 5,
     "tags": [],
-    "nameEn": "Hydro Pump"
+    "nameEn": "Hydro Pump",
+    "zPower": 185
   },
   {
     "name": "Scratch",
@@ -2102,7 +2202,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Scratch"
+    "nameEn": "Scratch",
+    "zPower": 100
   },
   {
     "name": "Lick",
@@ -2117,7 +2218,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Lick"
+    "nameEn": "Lick",
+    "zPower": 100
   },
   {
     "name": "Flamethrower",
@@ -2131,7 +2233,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Flamethrower"
+    "nameEn": "Flamethrower",
+    "zPower": 175
   },
   {
     "name": "Psybeam",
@@ -2145,7 +2248,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Psybeam"
+    "nameEn": "Psybeam",
+    "zPower": 120
   },
   {
     "name": "Fire Spin",
@@ -2159,7 +2263,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Fire Spin"
+    "nameEn": "Fire Spin",
+    "zPower": 100
   },
   {
     "name": "Drill Peck",
@@ -2173,7 +2278,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Drill Peck"
+    "nameEn": "Drill Peck",
+    "zPower": 160
   },
   {
     "name": "Constrict",
@@ -2188,7 +2294,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Constrict"
+    "nameEn": "Constrict",
+    "zPower": 100
   },
   {
     "name": "Mimic",
@@ -2224,7 +2331,8 @@
     "accuracy": 100,
     "pp": 25,
     "tags": [],
-    "nameEn": "Absorb"
+    "nameEn": "Absorb",
+    "zPower": 100
   },
   {
     "name": "Leech Life",
@@ -2238,7 +2346,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Leech Life"
+    "nameEn": "Leech Life",
+    "zPower": 160
   },
   {
     "name": "Mist",
@@ -2264,6 +2373,7 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Slam"
+    "nameEn": "Slam",
+    "zPower": 160
   }
 ]

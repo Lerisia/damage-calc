@@ -1880,4 +1880,174 @@ void main() {
       expect(result.move.power, equals(50));
     });
   });
+
+  // ====== Z-Move transformation ======
+
+  group('Z-Move generic', () {
+    const thunderbolt = Move(
+      name: 'Thunderbolt', nameKo: '10만볼트', nameJa: '10まんボルト',
+      type: PokemonType.electric, category: MoveCategory.special,
+      power: 90, accuracy: 100, pp: 15, zPower: 175,
+    );
+
+    const tackle40z = Move(
+      name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
+      type: PokemonType.normal, category: MoveCategory.physical,
+      power: 40, accuracy: 100, pp: 35, zPower: 100,
+    );
+
+    test('converts to correct Z-Move name and power', () {
+      final result = transformMove(thunderbolt, const MoveContext(zMove: true));
+      expect(result.move.name, equals('Gigavolt Havoc'));
+      expect(result.move.nameKo, equals('스파킹기가볼트'));
+      expect(result.move.power, equals(175));
+    });
+
+    test('Z-Move has priority 0', () {
+      final priorityMove = Move(
+        name: 'Quick Attack', nameKo: '전광석화', nameJa: 'でんこうせっか',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 40, accuracy: 100, pp: 30, priority: 1, zPower: 100,
+      );
+      final result = transformMove(priorityMove, const MoveContext(zMove: true));
+      expect(result.move.priority, equals(0));
+    });
+
+    test('Z-Move loses all tags', () {
+      final contactMove = Move(
+        name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 40, accuracy: 100, pp: 35,
+        tags: [MoveTags.contact], zPower: 100,
+      );
+      final result = transformMove(contactMove, const MoveContext(zMove: true));
+      expect(result.move.tags, isEmpty);
+    });
+
+    test('status move is NOT converted to Z-attack', () {
+      const statusMove = Move(
+        name: 'Thunder Wave', nameKo: '전자파', nameJa: 'でんじは',
+        type: PokemonType.electric, category: MoveCategory.status,
+        power: 0, accuracy: 90, pp: 20,
+      );
+      final result = transformMove(statusMove, const MoveContext(zMove: true));
+      expect(result.move.name, equals('Thunder Wave'));
+    });
+
+    test('uses zPower field from move data', () {
+      final result = transformMove(tackle40z, const MoveContext(zMove: true));
+      expect(result.move.power, equals(100));
+      expect(result.move.name, equals('Breakneck Blitz'));
+    });
+
+    test('type-specific Z-Move names (Korean)', () {
+      const fireMove = Move(
+        name: 'Flamethrower', nameKo: '화염방사', nameJa: 'かえんほうしゃ',
+        type: PokemonType.fire, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 15, zPower: 175,
+      );
+      final result = transformMove(fireMove, const MoveContext(zMove: true));
+      expect(result.move.nameKo, equals('다이나믹풀플레임'));
+    });
+  });
+
+  group('Z-Move exclusive', () {
+    const voltTackle = Move(
+      name: 'Volt Tackle', nameKo: '볼트태클', nameJa: 'ボルテッカー',
+      type: PokemonType.electric, category: MoveCategory.physical,
+      power: 120, accuracy: 100, pp: 15, zPower: 190,
+      tags: [MoveTags.contact, MoveTags.recoil],
+    );
+
+    const spiritShackle = Move(
+      name: 'Spirit Shackle', nameKo: '그림자꿰매기', nameJa: 'かげぬい',
+      type: PokemonType.ghost, category: MoveCategory.physical,
+      power: 80, accuracy: 100, pp: 10, zPower: 160,
+    );
+
+    test('Pikachu + Volt Tackle → Catastropika', () {
+      final result = transformMove(voltTackle,
+          const MoveContext(zMove: true, pokemonName: 'Pikachu'));
+      expect(result.move.name, equals('Catastropika'));
+      expect(result.move.power, equals(210));
+      expect(result.move.tags, isEmpty);
+      expect(result.move.priority, equals(0));
+    });
+
+    test('Pikachu + non-Volt Tackle → generic Z-Move', () {
+      const tbolt = Move(
+        name: 'Thunderbolt', nameKo: '10만볼트', nameJa: '10まんボルト',
+        type: PokemonType.electric, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 15, zPower: 175,
+      );
+      final result = transformMove(tbolt,
+          const MoveContext(zMove: true, pokemonName: 'Pikachu'));
+      expect(result.move.name, equals('Gigavolt Havoc'));
+      expect(result.move.power, equals(175));
+    });
+
+    test('Decidueye + Spirit Shackle → Sinister Arrow Raid', () {
+      final result = transformMove(spiritShackle,
+          const MoveContext(zMove: true, pokemonName: 'Decidueye'));
+      expect(result.move.name, equals('Sinister Arrow Raid'));
+      expect(result.move.power, equals(180));
+    });
+
+    test('Non-Decidueye + Spirit Shackle → generic Z-Move', () {
+      final result = transformMove(spiritShackle,
+          const MoveContext(zMove: true, pokemonName: 'Gengar'));
+      expect(result.move.name, equals('Never-Ending Nightmare'));
+      expect(result.move.power, equals(160));
+    });
+
+    test('Marshadow + Spectral Thief → Soul-Stealing 7-Star Strike', () {
+      const spectralThief = Move(
+        name: 'Spectral Thief', nameKo: '그림자훔치기', nameJa: 'シャドースチール',
+        type: PokemonType.ghost, category: MoveCategory.physical,
+        power: 90, accuracy: 100, pp: 10, zPower: 175,
+      );
+      final result = transformMove(spectralThief,
+          const MoveContext(zMove: true, pokemonName: 'Marshadow'));
+      expect(result.move.name, equals('Soul-Stealing 7-Star Strike'));
+      expect(result.move.power, equals(195));
+    });
+  });
+
+  group('Z-Move blocked by other gimmicks', () {
+    const tackle = Move(
+      name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
+      type: PokemonType.normal, category: MoveCategory.physical,
+      power: 40, accuracy: 100, pp: 35, zPower: 100,
+    );
+
+    test('Z-Move blocked when Dynamaxed', () {
+      final result = transformMove(tackle, const MoveContext(
+        zMove: true, dynamax: DynamaxState.dynamax,
+      ));
+      // Dynamax takes priority → Max Strike
+      expect(result.move.name, contains('Max'));
+    });
+
+    test('Z-Move blocked when Terastallized', () {
+      final result = transformMove(tackle, const MoveContext(
+        zMove: true, terastallized: true,
+      ));
+      // Tera blocks Z → original move unchanged
+      expect(result.move.name, equals('Tackle'));
+    });
+
+    test('Z-Move blocked when Mega Evolved', () {
+      final result = transformMove(tackle, const MoveContext(
+        zMove: true, isMega: true,
+      ));
+      // Mega blocks Z → original move unchanged
+      expect(result.move.name, equals('Tackle'));
+    });
+
+    test('Z-Move works when no gimmick active', () {
+      final result = transformMove(tackle, const MoveContext(zMove: true));
+      expect(result.move.name, equals('Breakneck Blitz'));
+      expect(result.move.power, equals(100));
+    });
+  });
 }

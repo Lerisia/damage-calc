@@ -11,7 +11,8 @@
     "tags": [
       "slice"
     ],
-    "nameEn": "Aqua Cutter"
+    "nameEn": "Aqua Cutter",
+    "zPower": 140
   },
   {
     "name": "Aqua Step",
@@ -25,7 +26,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Aqua Step"
+    "nameEn": "Aqua Step",
+    "zPower": 160
   },
   {
     "name": "Armor Cannon",
@@ -37,7 +39,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Armor Cannon"
+    "nameEn": "Armor Cannon",
+    "zPower": 190
   },
   {
     "name": "Axe Kick",
@@ -51,7 +54,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Axe Kick"
+    "nameEn": "Axe Kick",
+    "zPower": 190
   },
   {
     "name": "Bitter Blade",
@@ -66,7 +70,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Bitter Blade"
+    "nameEn": "Bitter Blade",
+    "zPower": 175
   },
   {
     "name": "Blazing Torque",
@@ -78,7 +83,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Blazing Torque"
+    "nameEn": "Blazing Torque",
+    "zPower": 160
   },
   {
     "name": "Blood Moon",
@@ -90,7 +96,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Blood Moon"
+    "nameEn": "Blood Moon",
+    "zPower": 200
   },
   {
     "name": "Chilling Water",
@@ -102,7 +109,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Chilling Water"
+    "nameEn": "Chilling Water",
+    "zPower": 100
   },
   {
     "name": "Chilly Reception",
@@ -129,7 +137,8 @@
       "contact",
       "custom:se_boost"
     ],
-    "nameEn": "Collision Course"
+    "nameEn": "Collision Course",
+    "zPower": 180
   },
   {
     "name": "Combat Torque",
@@ -141,7 +150,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Combat Torque"
+    "nameEn": "Combat Torque",
+    "zPower": 180
   },
   {
     "name": "Comeuppance",
@@ -155,7 +165,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Comeuppance"
+    "nameEn": "Comeuppance",
+    "zPower": 100
   },
   {
     "name": "Doodle",
@@ -181,7 +192,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Double Shock"
+    "nameEn": "Double Shock",
+    "zPower": 190
   },
   {
     "name": "Electro Drift",
@@ -196,7 +208,8 @@
       "contact",
       "custom:se_boost"
     ],
-    "nameEn": "Electro Drift"
+    "nameEn": "Electro Drift",
+    "zPower": 180
   },
   {
     "name": "Fillet Away",
@@ -222,7 +235,8 @@
     "tags": [
       "custom:always_crit"
     ],
-    "nameEn": "Flower Trick"
+    "nameEn": "Flower Trick",
+    "zPower": 140
   },
   {
     "name": "Gigaton Hammer",
@@ -234,7 +248,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Gigaton Hammer"
+    "nameEn": "Gigaton Hammer",
+    "zPower": 200
   },
   {
     "name": "Glaive Rush",
@@ -248,7 +263,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Glaive Rush"
+    "nameEn": "Glaive Rush",
+    "zPower": 190
   },
   {
     "name": "Hyper Drill",
@@ -262,7 +278,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Hyper Drill"
+    "nameEn": "Hyper Drill",
+    "zPower": 180
   },
   {
     "name": "Ice Spinner",
@@ -276,7 +293,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Ice Spinner"
+    "nameEn": "Ice Spinner",
+    "zPower": 160
   },
   {
     "name": "Ivy Cudgel",
@@ -288,7 +306,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Ivy Cudgel"
+    "nameEn": "Ivy Cudgel",
+    "zPower": 180
   },
   {
     "name": "Jet Punch",
@@ -304,7 +323,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Jet Punch"
+    "nameEn": "Jet Punch",
+    "zPower": 120
   },
   {
     "name": "Kowtow Cleave",
@@ -319,7 +339,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Kowtow Cleave"
+    "nameEn": "Kowtow Cleave",
+    "zPower": 160
   },
   {
     "name": "Last Respects",
@@ -331,7 +352,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Last Respects"
+    "nameEn": "Last Respects",
+    "zPower": 100
   },
   {
     "name": "Lumina Crash",
@@ -343,7 +365,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Lumina Crash"
+    "nameEn": "Lumina Crash",
+    "zPower": 160
   },
   {
     "name": "Magical Torque",
@@ -355,7 +378,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Magical Torque"
+    "nameEn": "Magical Torque",
+    "zPower": 180
   },
   {
     "name": "Make It Rain",
@@ -367,7 +391,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Make It Rain"
+    "nameEn": "Make It Rain",
+    "zPower": 190
   },
   {
     "name": "Matcha Gotcha",
@@ -379,7 +404,8 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [],
-    "nameEn": "Matcha Gotcha"
+    "nameEn": "Matcha Gotcha",
+    "zPower": 160
   },
   {
     "name": "Mortal Spin",
@@ -393,7 +419,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Mortal Spin"
+    "nameEn": "Mortal Spin",
+    "zPower": 100
   },
   {
     "name": "Noxious Torque",
@@ -405,7 +432,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Noxious Torque"
+    "nameEn": "Noxious Torque",
+    "zPower": 180
   },
   {
     "name": "Order Up",
@@ -417,7 +445,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Order Up"
+    "nameEn": "Order Up",
+    "zPower": 160
   },
   {
     "name": "Population Bomb",
@@ -434,7 +463,8 @@
     ],
     "minHits": 1,
     "maxHits": 10,
-    "nameEn": "Population Bomb"
+    "nameEn": "Population Bomb",
+    "zPower": 200
   },
   {
     "name": "Pounce",
@@ -448,7 +478,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Pounce"
+    "nameEn": "Pounce",
+    "zPower": 100
   },
   {
     "name": "Rage Fist",
@@ -463,7 +494,8 @@
       "contact",
       "punch"
     ],
-    "nameEn": "Rage Fist"
+    "nameEn": "Rage Fist",
+    "zPower": 100
   },
   {
     "name": "Raging Bull",
@@ -477,7 +509,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Raging Bull"
+    "nameEn": "Raging Bull",
+    "zPower": 175
   },
   {
     "name": "Revival Blessing",
@@ -503,7 +536,8 @@
     "tags": [
       "custom:fixed_half_hp"
     ],
-    "nameEn": "Ruination"
+    "nameEn": "Ruination",
+    "zPower": 100
   },
   {
     "name": "Salt Cure",
@@ -515,7 +549,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Salt Cure"
+    "nameEn": "Salt Cure",
+    "zPower": 100
   },
   {
     "name": "Shed Tail",
@@ -578,7 +613,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Spin Out"
+    "nameEn": "Spin Out",
+    "zPower": 180
   },
   {
     "name": "Syrup Bomb",
@@ -593,7 +629,8 @@
       "custom:has_secondary",
       "ball"
     ],
-    "nameEn": "Syrup Bomb"
+    "nameEn": "Syrup Bomb",
+    "zPower": 120
   },
   {
     "name": "Tera Blast",
@@ -605,7 +642,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Tera Blast"
+    "nameEn": "Tera Blast",
+    "zPower": 160
   },
   {
     "name": "Tidy Up",
@@ -631,7 +669,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Torch Song"
+    "nameEn": "Torch Song",
+    "zPower": 160
   },
   {
     "name": "Trailblaze",
@@ -645,7 +684,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Trailblaze"
+    "nameEn": "Trailblaze",
+    "zPower": 100
   },
   {
     "name": "Triple Dive",
@@ -661,7 +701,8 @@
     ],
     "minHits": 1,
     "maxHits": 3,
-    "nameEn": "Triple Dive"
+    "nameEn": "Triple Dive",
+    "zPower": 175
   },
   {
     "name": "Twin Beam",
@@ -675,7 +716,8 @@
     "minHits": 2,
     "maxHits": 2,
     "tags": [],
-    "nameEn": "Twin Beam"
+    "nameEn": "Twin Beam",
+    "zPower": 160
   },
   {
     "name": "Wicked Torque",
@@ -687,7 +729,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Wicked Torque"
+    "nameEn": "Wicked Torque",
+    "zPower": 160
   },
   {
     "name": "Upper Hand",
@@ -702,7 +745,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Upper Hand"
+    "nameEn": "Upper Hand",
+    "zPower": 120
   },
   {
     "name": "Dragon Cheer",
@@ -728,7 +772,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Alluring Voice"
+    "nameEn": "Alluring Voice",
+    "zPower": 160
   },
   {
     "name": "Fickle Beam",
@@ -740,7 +785,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Fickle Beam"
+    "nameEn": "Fickle Beam",
+    "zPower": 160
   },
   {
     "name": "Psychic Noise",
@@ -754,7 +800,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Psychic Noise"
+    "nameEn": "Psychic Noise",
+    "zPower": 140
   },
   {
     "name": "Psyblade",
@@ -769,7 +816,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Psyblade"
+    "nameEn": "Psyblade",
+    "zPower": 160
   },
   {
     "name": "Supercell Slam",
@@ -783,7 +831,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Supercell Slam"
+    "nameEn": "Supercell Slam",
+    "zPower": 180
   },
   {
     "name": "Malignant Chain",
@@ -795,7 +844,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Malignant Chain"
+    "nameEn": "Malignant Chain",
+    "zPower": 180
   },
   {
     "name": "Temper Flare",
@@ -809,7 +859,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Temper Flare"
+    "nameEn": "Temper Flare",
+    "zPower": 140
   },
   {
     "name": "Electro Shot",
@@ -821,7 +872,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Electro Shot"
+    "nameEn": "Electro Shot",
+    "zPower": 195
   },
   {
     "name": "Thunderclap",
@@ -834,7 +886,8 @@
     "pp": 5,
     "priority": 1,
     "tags": [],
-    "nameEn": "Thunderclap"
+    "nameEn": "Thunderclap",
+    "zPower": 140
   },
   {
     "name": "Tachyon Cutter",
@@ -848,7 +901,8 @@
     "tags": [
       "slice"
     ],
-    "nameEn": "Tachyon Cutter"
+    "nameEn": "Tachyon Cutter",
+    "zPower": 180
   },
   {
     "name": "Tera Starstorm",
@@ -860,7 +914,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Tera Starstorm"
+    "nameEn": "Tera Starstorm",
+    "zPower": 190
   },
   {
     "name": "Mighty Cleave",
@@ -875,7 +930,8 @@
       "contact",
       "slice"
     ],
-    "nameEn": "Mighty Cleave"
+    "nameEn": "Mighty Cleave",
+    "zPower": 175
   },
   {
     "name": "Hard Press",
@@ -890,7 +946,8 @@
       "contact",
       "custom:power_target_hp_100"
     ],
-    "nameEn": "Hard Press"
+    "nameEn": "Hard Press",
+    "zPower": 190
   },
   {
     "name": "Hydro Steam",
@@ -904,7 +961,8 @@
     "tags": [
       "custom:sun_boost"
     ],
-    "nameEn": "Hydro Steam"
+    "nameEn": "Hydro Steam",
+    "zPower": 160
   },
   {
     "name": "Burning Bulwark",

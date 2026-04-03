@@ -12,7 +12,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "V-create"
+    "nameEn": "V-create",
+    "zPower": 220
   },
   {
     "name": "Guard Split",
@@ -38,7 +39,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Icicle Crash"
+    "nameEn": "Icicle Crash",
+    "zPower": 160
   },
   {
     "name": "Leaf Tornado",
@@ -52,7 +54,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Leaf Tornado"
+    "nameEn": "Leaf Tornado",
+    "zPower": 120
   },
   {
     "name": "Gear Grind",
@@ -68,7 +71,8 @@
     ],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Gear Grind"
+    "nameEn": "Gear Grind",
+    "zPower": 180
   },
   {
     "name": "Shift Gear",
@@ -130,7 +134,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Night Daze"
+    "nameEn": "Night Daze",
+    "zPower": 160
   },
   {
     "name": "Bolt Strike",
@@ -145,7 +150,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Bolt Strike"
+    "nameEn": "Bolt Strike",
+    "zPower": 195
   },
   {
     "name": "Flame Charge",
@@ -160,7 +166,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Flame Charge"
+    "nameEn": "Flame Charge",
+    "zPower": 100
   },
   {
     "name": "After You",
@@ -188,7 +195,8 @@
     ],
     "minHits": 2,
     "maxHits": 2,
-    "nameEn": "Dual Chop"
+    "nameEn": "Dual Chop",
+    "zPower": 100
   },
   {
     "name": "Round",
@@ -202,7 +210,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Round"
+    "nameEn": "Round",
+    "zPower": 120
   },
   {
     "name": "Entrainment",
@@ -229,7 +238,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Dragon Tail"
+    "nameEn": "Dragon Tail",
+    "zPower": 120
   },
   {
     "name": "Drill Run",
@@ -243,7 +253,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Drill Run"
+    "nameEn": "Drill Run",
+    "zPower": 160
   },
   {
     "name": "Bulldoze",
@@ -258,7 +269,8 @@
       "custom:has_secondary",
       "custom:grassy_halve"
     ],
-    "nameEn": "Bulldoze"
+    "nameEn": "Bulldoze",
+    "zPower": 120
   },
   {
     "name": "Smack Down",
@@ -272,7 +284,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Smack Down"
+    "nameEn": "Smack Down",
+    "zPower": 100
   },
   {
     "name": "Coil",
@@ -299,7 +312,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Low Sweep"
+    "nameEn": "Low Sweep",
+    "zPower": 120
   },
   {
     "name": "Magic Room",
@@ -323,7 +337,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Final Gambit"
+    "nameEn": "Final Gambit",
+    "zPower": 180
   },
   {
     "name": "Soak",
@@ -347,7 +362,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Water Pledge"
+    "nameEn": "Water Pledge",
+    "zPower": 160
   },
   {
     "name": "Reflect Type",
@@ -386,7 +402,8 @@
       "custom:has_secondary",
       "sound"
     ],
-    "nameEn": "Snarl"
+    "nameEn": "Snarl",
+    "zPower": 100
   },
   {
     "name": "Circle Throw",
@@ -401,7 +418,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Circle Throw"
+    "nameEn": "Circle Throw",
+    "zPower": 120
   },
   {
     "name": "Struggle Bug",
@@ -415,7 +433,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Struggle Bug"
+    "nameEn": "Struggle Bug",
+    "zPower": 100
   },
   {
     "name": "Venoshock",
@@ -429,7 +448,8 @@
     "tags": [
       "custom:double_on_poison"
     ],
-    "nameEn": "Venoshock"
+    "nameEn": "Venoshock",
+    "zPower": 120
   },
   {
     "name": "Hex",
@@ -443,7 +463,8 @@
     "tags": [
       "custom:double_on_status"
     ],
-    "nameEn": "Hex"
+    "nameEn": "Hex",
+    "zPower": 160
   },
   {
     "name": "Volt Switch",
@@ -455,7 +476,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Volt Switch"
+    "nameEn": "Volt Switch",
+    "zPower": 140
   },
   {
     "name": "Rage Powder",
@@ -494,7 +516,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Fire Pledge"
+    "nameEn": "Fire Pledge",
+    "zPower": 160
   },
   {
     "name": "Fiery Dance",
@@ -508,7 +531,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Fiery Dance"
+    "nameEn": "Fiery Dance",
+    "zPower": 160
   },
   {
     "name": "Flame Burst",
@@ -520,7 +544,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Flame Burst"
+    "nameEn": "Flame Burst",
+    "zPower": 140
   },
   {
     "name": "Incinerate",
@@ -532,7 +557,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Incinerate"
+    "nameEn": "Incinerate",
+    "zPower": 120
   },
   {
     "name": "Ally Switch",
@@ -559,7 +585,8 @@
     "tags": [
       "custom:target_phys_def"
     ],
-    "nameEn": "Psystrike"
+    "nameEn": "Psystrike",
+    "zPower": 180
   },
   {
     "name": "Psyshock",
@@ -573,7 +600,8 @@
     "tags": [
       "custom:target_phys_def"
     ],
-    "nameEn": "Psyshock"
+    "nameEn": "Psyshock",
+    "zPower": 160
   },
   {
     "name": "Sacred Sword",
@@ -589,7 +617,8 @@
       "slice",
       "custom:ignore_def_rank"
     ],
-    "nameEn": "Sacred Sword"
+    "nameEn": "Sacred Sword",
+    "zPower": 175
   },
   {
     "name": "Razor Shell",
@@ -605,7 +634,8 @@
       "custom:has_secondary",
       "slice"
     ],
-    "nameEn": "Razor Shell"
+    "nameEn": "Razor Shell",
+    "zPower": 140
   },
   {
     "name": "Foul Play",
@@ -620,7 +650,8 @@
       "contact",
       "custom:use_opponent_atk"
     ],
-    "nameEn": "Foul Play"
+    "nameEn": "Foul Play",
+    "zPower": 175
   },
   {
     "name": "Hone Claws",
@@ -660,7 +691,8 @@
     ],
     "minHits": 2,
     "maxHits": 5,
-    "nameEn": "Tail Slap"
+    "nameEn": "Tail Slap",
+    "zPower": 140
   },
   {
     "name": "Secret Sword",
@@ -675,7 +707,8 @@
       "slice",
       "custom:target_phys_def"
     ],
-    "nameEn": "Secret Sword"
+    "nameEn": "Secret Sword",
+    "zPower": 160
   },
   {
     "name": "Simple Beam",
@@ -699,7 +732,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Synchronoise"
+    "nameEn": "Synchronoise",
+    "zPower": 190
   },
   {
     "name": "Head Charge",
@@ -714,7 +748,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Head Charge"
+    "nameEn": "Head Charge",
+    "zPower": 190
   },
   {
     "name": "Acid Spray",
@@ -729,7 +764,8 @@
       "custom:has_secondary",
       "ball"
     ],
-    "nameEn": "Acid Spray"
+    "nameEn": "Acid Spray",
+    "zPower": 100
   },
   {
     "name": "Acrobatics",
@@ -744,7 +780,8 @@
       "contact",
       "custom:double_no_item"
     ],
-    "nameEn": "Acrobatics"
+    "nameEn": "Acrobatics",
+    "zPower": 100
   },
   {
     "name": "Chip Away",
@@ -759,7 +796,8 @@
       "contact",
       "custom:ignore_def_rank"
     ],
-    "nameEn": "Chip Away"
+    "nameEn": "Chip Away",
+    "zPower": 140
   },
   {
     "name": "Stored Power",
@@ -773,7 +811,8 @@
     "tags": [
       "custom:rank_power"
     ],
-    "nameEn": "Stored Power"
+    "nameEn": "Stored Power",
+    "zPower": 160
   },
   {
     "name": "Glaciate",
@@ -790,7 +829,8 @@
     "nameEn": "Glaciate",
     "aliases": [
       "얼다세계"
-    ]
+    ],
+    "zPower": 120
   },
   {
     "name": "Frost Breath",
@@ -805,7 +845,8 @@
       "custom:always_crit",
       "custom:has_secondary"
     ],
-    "nameEn": "Frost Breath"
+    "nameEn": "Frost Breath",
+    "zPower": 120
   },
   {
     "name": "Storm Throw",
@@ -820,7 +861,8 @@
       "contact",
       "custom:always_crit"
     ],
-    "nameEn": "Storm Throw"
+    "nameEn": "Storm Throw",
+    "zPower": 120
   },
   {
     "name": "Echoed Voice",
@@ -834,7 +876,8 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Echoed Voice"
+    "nameEn": "Echoed Voice",
+    "zPower": 100
   },
   {
     "name": "Inferno",
@@ -848,7 +891,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Inferno"
+    "nameEn": "Inferno",
+    "zPower": 180
   },
   {
     "name": "Scald",
@@ -862,7 +906,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Scald"
+    "nameEn": "Scald",
+    "zPower": 160
   },
   {
     "name": "Relic Song",
@@ -877,7 +922,8 @@
       "custom:has_secondary",
       "sound"
     ],
-    "nameEn": "Relic Song"
+    "nameEn": "Relic Song",
+    "zPower": 140
   },
   {
     "name": "Sludge Wave",
@@ -891,7 +937,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Sludge Wave"
+    "nameEn": "Sludge Wave",
+    "zPower": 175
   },
   {
     "name": "Wide Guard",
@@ -919,7 +966,8 @@
       "contact",
       "recoil"
     ],
-    "nameEn": "Wild Charge"
+    "nameEn": "Wild Charge",
+    "zPower": 175
   },
   {
     "name": "Horn Leech",
@@ -936,7 +984,8 @@
     "nameEn": "Horn Leech",
     "aliases": [
       "우드호른"
-    ]
+    ],
+    "zPower": 140
   },
   {
     "name": "Wonder Room",
@@ -962,7 +1011,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Retaliate"
+    "nameEn": "Retaliate",
+    "zPower": 140
   },
   {
     "name": "Electroweb",
@@ -976,7 +1026,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Electroweb"
+    "nameEn": "Electroweb",
+    "zPower": 100
   },
   {
     "name": "Electro Ball",
@@ -991,7 +1042,8 @@
       "ball",
       "custom:electro_speed"
     ],
-    "nameEn": "Electro Ball"
+    "nameEn": "Electro Ball",
+    "zPower": 160
   },
   {
     "name": "Heal Pulse",
@@ -1031,7 +1083,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Ice Burn"
+    "nameEn": "Ice Burn",
+    "zPower": 200
   },
   {
     "name": "Fusion Bolt",
@@ -1043,7 +1096,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Fusion Bolt"
+    "nameEn": "Fusion Bolt",
+    "zPower": 180
   },
   {
     "name": "Fusion Flare",
@@ -1055,7 +1109,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Fusion Flare"
+    "nameEn": "Fusion Flare",
+    "zPower": 180
   },
   {
     "name": "Clear Smog",
@@ -1067,7 +1122,8 @@
     "accuracy": 0,
     "pp": 15,
     "tags": [],
-    "nameEn": "Clear Smog"
+    "nameEn": "Clear Smog",
+    "zPower": 100
   },
   {
     "name": "Techno Blast",
@@ -1079,7 +1135,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [],
-    "nameEn": "Techno Blast"
+    "nameEn": "Techno Blast",
+    "zPower": 190
   },
   {
     "name": "Telekinesis",
@@ -1134,7 +1191,8 @@
       "custom:has_secondary",
       "wind"
     ],
-    "nameEn": "Hurricane"
+    "nameEn": "Hurricane",
+    "zPower": 185
   },
   {
     "name": "Blue Flare",
@@ -1148,7 +1206,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Blue Flare"
+    "nameEn": "Blue Flare",
+    "zPower": 195
   },
   {
     "name": "Grass Pledge",
@@ -1160,7 +1219,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Grass Pledge"
+    "nameEn": "Grass Pledge",
+    "zPower": 160
   },
   {
     "name": "Freeze Shock",
@@ -1174,7 +1234,8 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Freeze Shock"
+    "nameEn": "Freeze Shock",
+    "zPower": 200
   },
   {
     "name": "Sky Drop",
@@ -1188,7 +1249,8 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Sky Drop"
+    "nameEn": "Sky Drop",
+    "zPower": 120
   },
   {
     "name": "Steamroller",
@@ -1203,7 +1265,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Steamroller"
+    "nameEn": "Steamroller",
+    "zPower": 120
   },
   {
     "name": "Heart Stamp",
@@ -1218,7 +1281,8 @@
       "contact",
       "custom:has_secondary"
     ],
-    "nameEn": "Heart Stamp"
+    "nameEn": "Heart Stamp",
+    "zPower": 120
   },
   {
     "name": "Heavy Slam",
@@ -1234,7 +1298,8 @@
       "custom:weight_based",
       "custom:weight_ratio"
     ],
-    "nameEn": "Heavy Slam"
+    "nameEn": "Heavy Slam",
+    "zPower": 160
   },
   {
     "name": "Searing Shot",
@@ -1249,7 +1314,8 @@
       "custom:has_secondary",
       "ball"
     ],
-    "nameEn": "Searing Shot"
+    "nameEn": "Searing Shot",
+    "zPower": 180
   },
   {
     "name": "Heat Crash",
@@ -1265,6 +1331,7 @@
       "custom:weight_based",
       "custom:weight_ratio"
     ],
-    "nameEn": "Heat Crash"
+    "nameEn": "Heat Crash",
+    "zPower": 160
   }
 ]
