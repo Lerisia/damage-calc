@@ -720,8 +720,8 @@ const Map<String, _GmaxMove> _gmaxMoves = {
   'rillaboom': _GmaxMove('G-Max Drum Solo', '거다이난타', 'キョダイコランダ', PokemonType.grass, 160),
   'cinderace': _GmaxMove('G-Max Fireball', '거다이화염구', 'キョダイカキュウ', PokemonType.fire, 160),
   'inteleon': _GmaxMove('G-Max Hydrosnipe', '거다이저격', 'キョダイソゲキ', PokemonType.water, 160),
-  'urshifu-single-strike': _GmaxMove('G-Max One Blow', '거다이일격', 'キョダイイチゲキ', PokemonType.dark),
-  'urshifu-rapid-strike': _GmaxMove('G-Max Rapid Flow', '거다이연격', 'キョダイレンゲキ', PokemonType.water),
+  'urshifu': _GmaxMove('G-Max One Blow', '거다이일격', 'キョダイイチゲキ', PokemonType.dark),
+  'urshifu (rapid strike style)': _GmaxMove('G-Max Rapid Flow', '거다이연격', 'キョダイレンゲキ', PokemonType.water),
 };
 
 /// Standard Max Move power conversion table.
@@ -789,6 +789,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
       type: PokemonType.normal, power: 0, priority: 0,
       moveClass: MoveClass.maxMove,
       tags: const [],
+      minHits: 1, maxHits: 1,
     );
   }
 
@@ -804,6 +805,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
       power: maxPower, priority: 0,
       moveClass: MoveClass.maxMove,
       tags: const [],
+      minHits: 1, maxHits: 1,
     );
   }
 
@@ -814,6 +816,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
       type: PokemonType.normal, power: 0, priority: 0,
       moveClass: MoveClass.maxMove,
       tags: const [],
+      minHits: 1, maxHits: 1,
     );
   }
 
@@ -900,6 +903,7 @@ Move _applyZMove(Move move, String? pokemonName) {
         power: exclusive.power,
         tags: exclusive.tags,
         priority: 0,
+        minHits: 1, maxHits: 1,
       );
     }
   }
@@ -918,6 +922,7 @@ Move _applyZMove(Move move, String? pokemonName) {
     power: zPower,
     tags: const [],
     priority: 0,
+    minHits: 1, maxHits: 1,
   );
 }
 

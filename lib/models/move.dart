@@ -85,6 +85,8 @@ class Move {
     MoveClass? moveClass,
     List<String>? tags,
     int? priority,
+    int? minHits,
+    int? maxHits,
   }) {
     return Move(
       name: name ?? this.name,
@@ -99,8 +101,8 @@ class Move {
       moveClass: moveClass ?? this.moveClass,
       tags: tags ?? this.tags,
       priority: priority ?? this.priority,
-      minHits: this.minHits,
-      maxHits: this.maxHits,
+      minHits: minHits ?? this.minHits,
+      maxHits: maxHits ?? this.maxHits,
       aliases: this.aliases,
       zPower: this.zPower,
     );
