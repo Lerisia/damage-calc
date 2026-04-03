@@ -1063,8 +1063,8 @@
   },
   {
     "name": "mirror-herb",
-    "nameKo": "미러허브",
-    "nameJa": "ミラーハーブ",
+    "nameKo": "흉내허브",
+    "nameJa": "ものまねハーブ",
     "battle": true,
     "nameEn": "Mirror Herb"
   },
@@ -2535,7 +2535,7 @@
   },
   {
     "name": "punching-glove",
-    "nameKo": "펀칭글로브",
+    "nameKo": "펀치글러브",
     "nameJa": "パンチグローブ",
     "battle": true,
     "nameEn": "Punching Glove"
