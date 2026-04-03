@@ -1146,7 +1146,8 @@ class _PowerInputState extends State<_PowerInput> {
   }
 }
 
-/// Lightning-bolt Z logo for Z-Move column header.
+/// Angular Z logo inspired by Z-Move crystal mark.
+/// Sharp pointed Z with top stroke extending right and bottom stroke extending left.
 class _ZLogoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -1157,15 +1158,22 @@ class _ZLogoPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // Lightning-bolt Z shape
+    // Angular Z: top bar pointed right, diagonal, bottom bar pointed left
     final path = Path()
-      ..moveTo(w * 0.15, 0)         // top-left
-      ..lineTo(w, 0)                 // top-right
-      ..lineTo(w * 0.42, h * 0.45)  // middle-right
-      ..lineTo(w * 0.85, h * 0.45)  // jog right
-      ..lineTo(0, h)                 // bottom-left
-      ..lineTo(w * 0.58, h * 0.55)  // middle-left
-      ..lineTo(w * 0.15, h * 0.55)  // jog left
+      // Top bar (left edge to right point)
+      ..moveTo(0, 0)
+      ..lineTo(w, 0)
+      ..lineTo(w, h * 0.18)
+      // Diagonal down-left
+      ..lineTo(w * 0.28, h * 0.82)
+      // Bottom bar (extends left with point)
+      ..lineTo(w, h * 0.82)
+      ..lineTo(w, h)
+      ..lineTo(0, h)
+      ..lineTo(0, h * 0.82)
+      // Diagonal up-right
+      ..lineTo(w * 0.72, h * 0.18)
+      ..lineTo(0, h * 0.18)
       ..close();
 
     canvas.drawPath(path, paint);
