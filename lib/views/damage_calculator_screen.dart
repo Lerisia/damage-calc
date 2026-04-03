@@ -4,7 +4,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../data/movedex.dart';
+import '../data/pokedex.dart';
 import '../data/sample_storage.dart';
+import '../models/move.dart';
+import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
@@ -79,6 +83,48 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   String? _prevAtkAbility;
   String? _prevDefAbility;
 
+  /// Repair loaded preset data with latest movedex/pokedex/itemdex data.
+  /// Presets saved in older versions may be missing fields (zPower, tags, etc.)
+  /// or have outdated values (power, type, base stats from patches).
+  void _repairPresetData(BattlePokemonState state) {
+    // Repair moves
+    if (_moveCache != null) {
+      for (int i = 0; i < state.moves.length; i++) {
+        final saved = state.moves[i];
+        if (saved == null) continue;
+        final canonical = _moveCache![saved.name];
+        if (canonical != null) {
+          state.moves[i] = canonical;
+        }
+      }
+    }
+
+    // Repair Pokemon data (base stats, types, abilities)
+    if (_pokemonCache != null && state.pokemonName != null) {
+      final canonical = _pokemonCache![state.pokemonName!];
+      if (canonical != null) {
+        state.baseStats = canonical.baseStats;
+        state.type1 = canonical.type1;
+        state.type2 = canonical.type2;
+        state.pokemonAbilities = canonical.abilities;
+        state.weight = canonical.weight;
+      }
+    }
+  }
+
+  Map<String, Move>? _moveCache;
+  Map<String, Pokemon>? _pokemonCache;
+
+  Future<void> _ensureDataCaches() async {
+    if (_moveCache == null) {
+      _moveCache = await loadMovedex();
+    }
+    if (_pokemonCache == null) {
+      final pokedex = await loadPokedex();
+      _pokemonCache = {for (final p in pokedex) p.name: p};
+    }
+  }
+
   void _syncWeatherTerrain() {
     final atkAbility = _attacker.selectedAbility;
     final defAbility = _defender.selectedAbility;
@@ -148,6 +194,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadAbilities();
     _loadItems();
     _loadSpMode();
+    _ensureDataCaches();
   }
 
   static const _spModeKey = 'use_sp_mode';
@@ -360,6 +407,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         onLoad: (index) {
           setState(() {
             final loaded = samples[index].state;
+            _repairPresetData(loaded);
             if (side == 0) {
               _attacker = loaded;
             } else {
