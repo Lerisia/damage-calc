@@ -223,6 +223,7 @@ class BattleFacade {
     // Fixed damage is determined by the TRANSFORMED move, not the original
     final isFixed = transformed.move.hasTag(MoveTags.fixedLevel) ||
         transformed.move.hasTag(MoveTags.fixedHalfHp) ||
+        transformed.move.hasTag(MoveTags.fixedThreeQuarterHp) ||
         transformed.move.hasTag(MoveTags.fixed20) ||
         transformed.move.hasTag(MoveTags.fixed40) ||
         transformed.move.hasTag(MoveTags.ohko);
