@@ -40,11 +40,13 @@ class BattlePokemonState {
   List<int?> powerOverrides;
   List<int?> hitOverrides;
   List<bool> criticals;
+  List<bool> zMoves;
   String? selectedItem;
   DynamaxState dynamax;
   TerastalState terastal;
   bool canDynamax;
   bool canGmax;
+  bool isMega;
   Rank rank;
   int hpPercent;
   StatusCondition status;
@@ -82,11 +84,13 @@ class BattlePokemonState {
     List<int?>? powerOverrides,
     List<int?>? hitOverrides,
     List<bool>? criticals,
+    List<bool>? zMoves,
     this.selectedItem,
     this.dynamax = DynamaxState.none,
     this.terastal = const TerastalState(),
     this.canDynamax = true,
     this.canGmax = false,
+    this.isMega = false,
     this.rank = const Rank(),
     this.hpPercent = 100,
     this.status = StatusCondition.none,
@@ -110,7 +114,8 @@ class BattlePokemonState {
         categoryOverrides = categoryOverrides ?? [null, null, null, null],
         powerOverrides = powerOverrides ?? [null, null, null, null],
         hitOverrides = hitOverrides ?? [null, null, null, null],
-        criticals = criticals ?? [false, false, false, false];
+        criticals = criticals ?? [false, false, false, false],
+        zMoves = zMoves ?? [false, false, false, false];
 
   Map<String, dynamic> toJson() => {
     'pokemonName': pokemonName,
@@ -137,11 +142,13 @@ class BattlePokemonState {
     'powerOverrides': powerOverrides,
     'hitOverrides': hitOverrides,
     'criticals': criticals,
+    'zMoves': zMoves,
     'selectedItem': selectedItem,
     'dynamax': dynamax.name,
     'terastal': terastal.toJson(),
     'canDynamax': canDynamax,
     'canGmax': canGmax,
+    'isMega': isMega,
     'rank': rank.toJson(),
     'hpPercent': hpPercent,
     'status': status.name,
@@ -185,11 +192,15 @@ class BattlePokemonState {
           ? List<int?>.from(json['hitOverrides'] as List)
           : null,
       criticals: List<bool>.from(json['criticals'] as List),
+      zMoves: json['zMoves'] != null
+          ? List<bool>.from(json['zMoves'] as List)
+          : null,
       selectedItem: json['selectedItem'] as String?,
       dynamax: DynamaxState.values.byName(json['dynamax'] as String),
       terastal: TerastalState.fromJson(json['terastal'] as Map<String, dynamic>),
       canDynamax: json['canDynamax'] as bool? ?? true,
       canGmax: json['canGmax'] as bool? ?? false,
+      isMega: json['isMega'] as bool? ?? false,
       rank: Rank.fromJson(json['rank'] as Map<String, dynamic>),
       hpPercent: json['hpPercent'] as int? ?? 100,
       status: StatusCondition.values.byName(json['status'] as String),
@@ -232,11 +243,13 @@ class BattlePokemonState {
     powerOverrides = [null, null, null, null];
     hitOverrides = [null, null, null, null];
     criticals = [false, false, false, false];
+    zMoves = [false, false, false, false];
     selectedItem = null;
     dynamax = DynamaxState.none;
     terastal = const TerastalState();
     canDynamax = true;
     canGmax = false;
+    isMega = false;
     rank = const Rank();
     hpPercent = 100;
     status = StatusCondition.none;
@@ -257,6 +270,7 @@ class BattlePokemonState {
     finalEvo = pokemon.finalEvo;
     canDynamax = pokemon.canDynamax;
     canGmax = pokemon.canGmax;
+    isMega = pokemon.isMega;
     dynamax = DynamaxState.none;
     terastal = const TerastalState();
     genderRate = pokemon.genderRate;

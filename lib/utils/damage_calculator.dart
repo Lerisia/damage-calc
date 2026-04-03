@@ -323,6 +323,8 @@ class DamageCalculator {
       gravity: room.gravity,
       attackerGrounded: atkGroundedEarly,
       defenderGrounded: defGroundedEarly,
+      zMove: attacker.zMoves[moveIndex],
+      isMega: attacker.isMega,
     );
     final transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;

@@ -21,6 +21,7 @@ class Pokemon {
   final bool canDynamax;
   final bool canGmax;
   final bool hidden; // 검색 목록에서 숨김 (e.g. 테라파고스 노말폼)
+  final bool isMega; // 메가진화 폼
   final List<String> aliases; // 별명 (e.g. 불거폰, 랜드)
 
   const Pokemon({
@@ -41,6 +42,7 @@ class Pokemon {
     this.canDynamax = true,
     this.canGmax = false,
     this.hidden = false,
+    this.isMega = false,
     this.aliases = const [],
   });
 
@@ -66,6 +68,7 @@ class Pokemon {
       canDynamax: json['canDynamax'] as bool? ?? true,
       canGmax: json['canGmax'] as bool? ?? false,
       hidden: json['hidden'] as bool? ?? false,
+      isMega: json['isMega'] as bool? ?? false,
       aliases: json['aliases'] != null
           ? List<String>.from(json['aliases'] as List)
           : const [],

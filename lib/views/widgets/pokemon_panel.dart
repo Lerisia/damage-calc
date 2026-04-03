@@ -398,6 +398,7 @@ class PokemonPanelState extends State<PokemonPanel>
           SizedBox(width: 32, child: Text(AppStrings.t('move.category'), style: style, textAlign: TextAlign.center)),
           SizedBox(width: 44, child: Text(AppStrings.t('move.power'), style: style, textAlign: TextAlign.center)),
           SizedBox(width: 28, child: Text(AppStrings.t('move.critical'), style: style, textAlign: TextAlign.center)),
+          SizedBox(width: 28, child: Center(child: SizedBox(width: 14, height: 14, child: CustomPaint(painter: _ZLogoPainter())))),
           SizedBox(width: 60, child: Text(AppStrings.t('move.offensive'), style: style, textAlign: TextAlign.right)),
         ],
       ),
@@ -598,6 +599,17 @@ class PokemonPanelState extends State<PokemonPanel>
             ),
           ),
           if (!isSearching) SizedBox(
+            width: 28,
+            child: Checkbox(
+              value: s.zMoves[index],
+              onChanged: (_isMega || s.dynamax != DynamaxState.none || s.terastal.active)
+                  ? null
+                  : (v) { setState(() { s.zMoves[index] = v ?? false; }); _notifyParent(); },
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              visualDensity: VisualDensity.compact,
+            ),
+          ),
+          if (!isSearching) SizedBox(
             width: 60,
             child: Text(
               result != null
@@ -718,7 +730,7 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   /// Whether this Pokemon is a mega evolution (can't terastal)
-  bool get _isMega => s.pokemonName.toLowerCase().startsWith('mega ');
+  bool get _isMega => s.isMega;
 
   bool get _isTerapagosTerastal => s.pokemonName == 'terapagos-terastal';
   bool get _isTerapagosStellar => s.pokemonName == 'terapagos-stellar';
@@ -1132,4 +1144,33 @@ class _PowerInputState extends State<_PowerInput> {
       ),
     );
   }
+}
+
+/// Lightning-bolt Z logo for Z-Move column header.
+class _ZLogoPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.fill;
+
+    final w = size.width;
+    final h = size.height;
+
+    // Lightning-bolt Z shape
+    final path = Path()
+      ..moveTo(w * 0.15, 0)         // top-left
+      ..lineTo(w, 0)                 // top-right
+      ..lineTo(w * 0.42, h * 0.45)  // middle-right
+      ..lineTo(w * 0.85, h * 0.45)  // jog right
+      ..lineTo(0, h)                 // bottom-left
+      ..lineTo(w * 0.58, h * 0.55)  // middle-left
+      ..lineTo(w * 0.15, h * 0.55)  // jog left
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

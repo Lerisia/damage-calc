@@ -173,6 +173,8 @@ class BattleFacade {
       gravity: room.gravity,
       attackerGrounded: attackerGrounded,
       defenderGrounded: defenderGrounded,
+      zMove: state.zMoves[moveIndex],
+      isMega: state.isMega,
     );
     final transformed = transformMove(move, ctx);
 
@@ -215,6 +217,7 @@ class BattleFacade {
       hitCount: hits,
       attackerGrounded: attackerGrounded,
       defenderGrounded: defenderGrounded,
+      zMove: state.zMoves[moveIndex],
     );
 
     // Fixed damage is determined by the TRANSFORMED move, not the original
@@ -275,6 +278,7 @@ class BattleFacade {
       opponentWeight: opponentWeight,
       opponentHpPercent: opponentHpPercent,
       hitCount: hits,
+      zMove: state.zMoves[moveIndex],
     );
   }
 
@@ -297,6 +301,7 @@ class BattleFacade {
     int? hitCount,
     bool attackerGrounded = true,
     bool defenderGrounded = true,
+    bool zMove = false,
   }) {
     if (move == null) return null;
 
@@ -334,6 +339,8 @@ class BattleFacade {
       gravity: room.gravity,
       attackerGrounded: attackerGrounded,
       defenderGrounded: defenderGrounded,
+      zMove: zMove,
+      isMega: state.isMega,
     );
     final transformed = transformMove(move, ctx);
 
@@ -504,6 +511,8 @@ class BattleFacade {
     bool gravity = false,
     bool attackerGrounded = true,
     bool defenderGrounded = true,
+    bool zMove = false,
+    bool isMega = false,
   }) {
     // Tera Blast needs rank-applied stats for category comparison
     final rankedStats = state.rank != const Rank()
@@ -542,6 +551,8 @@ class BattleFacade {
       gravity: gravity,
       attackerGrounded: attackerGrounded,
       defenderGrounded: defenderGrounded,
+      zMove: zMove,
+      isMega: isMega,
     );
   }
 

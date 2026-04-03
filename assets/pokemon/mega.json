@@ -24,7 +24,8 @@
     "requiredItem": "venusaurite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Venusaur"
+    "nameEn": "Mega Venusaur",
+    "isMega": true
   },
   {
     "dexNumber": 6,
@@ -54,7 +55,8 @@
     "aliases": [
       "엑자몽"
     ],
-    "nameEn": "Mega Charizard X"
+    "nameEn": "Mega Charizard X",
+    "isMega": true
   },
   {
     "dexNumber": 6,
@@ -84,7 +86,8 @@
     "aliases": [
       "와자몽"
     ],
-    "nameEn": "Mega Charizard Y"
+    "nameEn": "Mega Charizard Y",
+    "isMega": true
   },
   {
     "dexNumber": 9,
@@ -110,7 +113,8 @@
     "requiredItem": "blastoisinite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Blastoise"
+    "nameEn": "Mega Blastoise",
+    "isMega": true
   },
   {
     "dexNumber": 65,
@@ -136,7 +140,8 @@
     "requiredItem": "alakazite",
     "genderRate": 2,
     "canDynamax": false,
-    "nameEn": "Mega Alakazam"
+    "nameEn": "Mega Alakazam",
+    "isMega": true
   },
   {
     "dexNumber": 94,
@@ -163,7 +168,8 @@
     "requiredItem": "gengarite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Gengar"
+    "nameEn": "Mega Gengar",
+    "isMega": true
   },
   {
     "dexNumber": 115,
@@ -189,7 +195,8 @@
     "requiredItem": "kangaskhanite",
     "genderRate": 8,
     "canDynamax": false,
-    "nameEn": "Mega Kangaskhan"
+    "nameEn": "Mega Kangaskhan",
+    "isMega": true
   },
   {
     "dexNumber": 127,
@@ -216,7 +223,8 @@
     "requiredItem": "pinsirite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Pinsir"
+    "nameEn": "Mega Pinsir",
+    "isMega": true
   },
   {
     "dexNumber": 130,
@@ -243,7 +251,8 @@
     "requiredItem": "gyaradosite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Gyarados"
+    "nameEn": "Mega Gyarados",
+    "isMega": true
   },
   {
     "dexNumber": 142,
@@ -270,7 +279,8 @@
     "requiredItem": "aerodactylite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Aerodactyl"
+    "nameEn": "Mega Aerodactyl",
+    "isMega": true
   },
   {
     "dexNumber": 150,
@@ -297,7 +307,8 @@
     "requiredItem": "mewtwonite-x",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Mewtwo X"
+    "nameEn": "Mega Mewtwo X",
+    "isMega": true
   },
   {
     "dexNumber": 150,
@@ -323,7 +334,8 @@
     "requiredItem": "mewtwonite-y",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Mewtwo Y"
+    "nameEn": "Mega Mewtwo Y",
+    "isMega": true
   },
   {
     "dexNumber": 181,
@@ -350,7 +362,8 @@
     "requiredItem": "ampharosite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Ampharos"
+    "nameEn": "Mega Ampharos",
+    "isMega": true
   },
   {
     "dexNumber": 212,
@@ -377,7 +390,8 @@
     "requiredItem": "scizorite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Scizor"
+    "nameEn": "Mega Scizor",
+    "isMega": true
   },
   {
     "dexNumber": 214,
@@ -404,7 +418,8 @@
     "requiredItem": "heracronite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Heracross"
+    "nameEn": "Mega Heracross",
+    "isMega": true
   },
   {
     "dexNumber": 229,
@@ -431,7 +446,8 @@
     "requiredItem": "houndoominite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Houndoom"
+    "nameEn": "Mega Houndoom",
+    "isMega": true
   },
   {
     "dexNumber": 248,
@@ -458,7 +474,8 @@
     "requiredItem": "tyranitarite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Tyranitar"
+    "nameEn": "Mega Tyranitar",
+    "isMega": true
   },
   {
     "dexNumber": 257,
@@ -485,7 +502,8 @@
     "requiredItem": "blazikenite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Blaziken"
+    "nameEn": "Mega Blaziken",
+    "isMega": true
   },
   {
     "dexNumber": 282,
@@ -512,7 +530,8 @@
     "requiredItem": "gardevoirite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Gardevoir"
+    "nameEn": "Mega Gardevoir",
+    "isMega": true
   },
   {
     "dexNumber": 303,
@@ -539,7 +558,8 @@
     "requiredItem": "mawilite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Mawile"
+    "nameEn": "Mega Mawile",
+    "isMega": true
   },
   {
     "dexNumber": 306,
@@ -565,7 +585,8 @@
     "requiredItem": "aggronite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Aggron"
+    "nameEn": "Mega Aggron",
+    "isMega": true
   },
   {
     "dexNumber": 308,
@@ -592,7 +613,8 @@
     "requiredItem": "medichamite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Medicham"
+    "nameEn": "Mega Medicham",
+    "isMega": true
   },
   {
     "dexNumber": 310,
@@ -618,7 +640,8 @@
     "requiredItem": "manectite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Manectric"
+    "nameEn": "Mega Manectric",
+    "isMega": true
   },
   {
     "dexNumber": 354,
@@ -644,7 +667,8 @@
     "requiredItem": "banettite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Banette"
+    "nameEn": "Mega Banette",
+    "isMega": true
   },
   {
     "dexNumber": 359,
@@ -670,7 +694,8 @@
     "requiredItem": "absolite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Absol"
+    "nameEn": "Mega Absol",
+    "isMega": true
   },
   {
     "dexNumber": 445,
@@ -697,7 +722,8 @@
     "requiredItem": "garchompite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Garchomp"
+    "nameEn": "Mega Garchomp",
+    "isMega": true
   },
   {
     "dexNumber": 448,
@@ -724,7 +750,8 @@
     "requiredItem": "lucarionite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Lucario"
+    "nameEn": "Mega Lucario",
+    "isMega": true
   },
   {
     "dexNumber": 460,
@@ -751,7 +778,8 @@
     "requiredItem": "abomasite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Abomasnow"
+    "nameEn": "Mega Abomasnow",
+    "isMega": true
   },
   {
     "dexNumber": 380,
@@ -778,7 +806,8 @@
     "requiredItem": "latiasite",
     "genderRate": 8,
     "canDynamax": false,
-    "nameEn": "Mega Latias"
+    "nameEn": "Mega Latias",
+    "isMega": true
   },
   {
     "dexNumber": 381,
@@ -805,7 +834,8 @@
     "requiredItem": "latiosite",
     "genderRate": 0,
     "canDynamax": false,
-    "nameEn": "Mega Latios"
+    "nameEn": "Mega Latios",
+    "isMega": true
   },
   {
     "dexNumber": 260,
@@ -832,7 +862,8 @@
     "requiredItem": "swampertite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Swampert"
+    "nameEn": "Mega Swampert",
+    "isMega": true
   },
   {
     "dexNumber": 254,
@@ -859,7 +890,8 @@
     "requiredItem": "sceptilite",
     "genderRate": 1,
     "canDynamax": false,
-    "nameEn": "Mega Sceptile"
+    "nameEn": "Mega Sceptile",
+    "isMega": true
   },
   {
     "dexNumber": 302,
@@ -886,7 +918,8 @@
     "requiredItem": "sablenite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Sableye"
+    "nameEn": "Mega Sableye",
+    "isMega": true
   },
   {
     "dexNumber": 334,
@@ -913,7 +946,8 @@
     "requiredItem": "altarianite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Altaria"
+    "nameEn": "Mega Altaria",
+    "isMega": true
   },
   {
     "dexNumber": 475,
@@ -940,7 +974,8 @@
     "requiredItem": "galladite",
     "genderRate": 0,
     "canDynamax": false,
-    "nameEn": "Mega Gallade"
+    "nameEn": "Mega Gallade",
+    "isMega": true
   },
   {
     "dexNumber": 531,
@@ -967,7 +1002,8 @@
     "requiredItem": "audinite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Audino"
+    "nameEn": "Mega Audino",
+    "isMega": true
   },
   {
     "dexNumber": 319,
@@ -994,7 +1030,8 @@
     "requiredItem": "sharpedonite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Sharpedo"
+    "nameEn": "Mega Sharpedo",
+    "isMega": true
   },
   {
     "dexNumber": 80,
@@ -1021,7 +1058,8 @@
     "requiredItem": "slowbronite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Slowbro"
+    "nameEn": "Mega Slowbro",
+    "isMega": true
   },
   {
     "dexNumber": 208,
@@ -1048,7 +1086,8 @@
     "requiredItem": "steelixite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Steelix"
+    "nameEn": "Mega Steelix",
+    "isMega": true
   },
   {
     "dexNumber": 18,
@@ -1075,7 +1114,8 @@
     "requiredItem": "pidgeotite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Pidgeot"
+    "nameEn": "Mega Pidgeot",
+    "isMega": true
   },
   {
     "dexNumber": 362,
@@ -1101,7 +1141,8 @@
     "requiredItem": "glalitite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Glalie"
+    "nameEn": "Mega Glalie",
+    "isMega": true
   },
   {
     "dexNumber": 719,
@@ -1128,7 +1169,8 @@
     "requiredItem": "diancite",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Diancie"
+    "nameEn": "Mega Diancie",
+    "isMega": true
   },
   {
     "dexNumber": 376,
@@ -1155,7 +1197,8 @@
     "requiredItem": "metagrossite",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Metagross"
+    "nameEn": "Mega Metagross",
+    "isMega": true
   },
   {
     "dexNumber": 384,
@@ -1181,7 +1224,8 @@
     "finalEvo": true,
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Mega Rayquaza"
+    "nameEn": "Mega Rayquaza",
+    "isMega": true
   },
   {
     "dexNumber": 323,
@@ -1208,7 +1252,8 @@
     "requiredItem": "cameruptite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Camerupt"
+    "nameEn": "Mega Camerupt",
+    "isMega": true
   },
   {
     "dexNumber": 428,
@@ -1235,7 +1280,8 @@
     "requiredItem": "lopunnite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Lopunny"
+    "nameEn": "Mega Lopunny",
+    "isMega": true
   },
   {
     "dexNumber": 373,
@@ -1262,7 +1308,8 @@
     "requiredItem": "salamencite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Salamence"
+    "nameEn": "Mega Salamence",
+    "isMega": true
   },
   {
     "dexNumber": 15,
@@ -1289,7 +1336,8 @@
     "requiredItem": "beedrillite",
     "genderRate": 4,
     "canDynamax": false,
-    "nameEn": "Mega Beedrill"
+    "nameEn": "Mega Beedrill",
+    "isMega": true
   },
   {
     "name": "Mega Clefable",
@@ -1314,7 +1362,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "clefablite",
-    "nameEn": "Mega Clefable"
+    "nameEn": "Mega Clefable",
+    "isMega": true
   },
   {
     "name": "Mega Victreebel",
@@ -1339,7 +1388,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "victreebelite",
-    "nameEn": "Mega Victreebel"
+    "nameEn": "Mega Victreebel",
+    "isMega": true
   },
   {
     "name": "Mega Starmie",
@@ -1364,7 +1414,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "starminite",
-    "nameEn": "Mega Starmie"
+    "nameEn": "Mega Starmie",
+    "isMega": true
   },
   {
     "name": "Mega Dragonite",
@@ -1389,7 +1440,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "dragoninite",
-    "nameEn": "Mega Dragonite"
+    "nameEn": "Mega Dragonite",
+    "isMega": true
   },
   {
     "name": "Mega Meganium",
@@ -1414,7 +1466,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "meganiumite",
-    "nameEn": "Mega Meganium"
+    "nameEn": "Mega Meganium",
+    "isMega": true
   },
   {
     "name": "Mega Feraligatr",
@@ -1439,7 +1492,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "feraligite",
-    "nameEn": "Mega Feraligatr"
+    "nameEn": "Mega Feraligatr",
+    "isMega": true
   },
   {
     "name": "Mega Skarmory",
@@ -1464,7 +1518,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "skarmorite",
-    "nameEn": "Mega Skarmory"
+    "nameEn": "Mega Skarmory",
+    "isMega": true
   },
   {
     "name": "Mega Froslass",
@@ -1489,7 +1544,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "froslassite",
-    "nameEn": "Mega Froslass"
+    "nameEn": "Mega Froslass",
+    "isMega": true
   },
   {
     "name": "Mega Emboar",
@@ -1514,7 +1570,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "emboarite",
-    "nameEn": "Mega Emboar"
+    "nameEn": "Mega Emboar",
+    "isMega": true
   },
   {
     "name": "Mega Excadrill",
@@ -1539,7 +1596,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "excadrite",
-    "nameEn": "Mega Excadrill"
+    "nameEn": "Mega Excadrill",
+    "isMega": true
   },
   {
     "name": "Mega Scolipede",
@@ -1564,7 +1622,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "scolipite",
-    "nameEn": "Mega Scolipede"
+    "nameEn": "Mega Scolipede",
+    "isMega": true
   },
   {
     "name": "Mega Scrafty",
@@ -1589,7 +1648,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "scraftinite",
-    "nameEn": "Mega Scrafty"
+    "nameEn": "Mega Scrafty",
+    "isMega": true
   },
   {
     "name": "Mega Eelektross",
@@ -1613,7 +1673,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "eelektrossite",
-    "nameEn": "Mega Eelektross"
+    "nameEn": "Mega Eelektross",
+    "isMega": true
   },
   {
     "name": "Mega Chandelure",
@@ -1638,7 +1699,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "chandelurite",
-    "nameEn": "Mega Chandelure"
+    "nameEn": "Mega Chandelure",
+    "isMega": true
   },
   {
     "name": "Mega Chesnaught",
@@ -1663,7 +1725,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "chesnaughtite",
-    "nameEn": "Mega Chesnaught"
+    "nameEn": "Mega Chesnaught",
+    "isMega": true
   },
   {
     "name": "Mega Delphox",
@@ -1688,7 +1751,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "delphoxite",
-    "nameEn": "Mega Delphox"
+    "nameEn": "Mega Delphox",
+    "isMega": true
   },
   {
     "name": "Mega Greninja",
@@ -1713,7 +1777,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "greninjite",
-    "nameEn": "Mega Greninja"
+    "nameEn": "Mega Greninja",
+    "isMega": true
   },
   {
     "name": "Mega Pyroar",
@@ -1738,7 +1803,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "pyroarite",
-    "nameEn": "Mega Pyroar"
+    "nameEn": "Mega Pyroar",
+    "isMega": true
   },
   {
     "name": "Mega Floette",
@@ -1762,7 +1828,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "floettite",
-    "nameEn": "Mega Floette"
+    "nameEn": "Mega Floette",
+    "isMega": true
   },
   {
     "name": "Mega Malamar",
@@ -1787,7 +1854,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "malamarite",
-    "nameEn": "Mega Malamar"
+    "nameEn": "Mega Malamar",
+    "isMega": true
   },
   {
     "name": "Mega Barbaracle",
@@ -1812,7 +1880,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "barbaracite",
-    "nameEn": "Mega Barbaracle"
+    "nameEn": "Mega Barbaracle",
+    "isMega": true
   },
   {
     "name": "Mega Dragalge",
@@ -1837,7 +1906,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "dragalgite",
-    "nameEn": "Mega Dragalge"
+    "nameEn": "Mega Dragalge",
+    "isMega": true
   },
   {
     "name": "Mega Hawlucha",
@@ -1862,7 +1932,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "hawluchanite",
-    "nameEn": "Mega Hawlucha"
+    "nameEn": "Mega Hawlucha",
+    "isMega": true
   },
   {
     "name": "Mega Zygarde",
@@ -1887,7 +1958,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "zygardite",
-    "nameEn": "Mega Zygarde"
+    "nameEn": "Mega Zygarde",
+    "isMega": true
   },
   {
     "name": "Mega Drampa",
@@ -1912,7 +1984,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "drampanite",
-    "nameEn": "Mega Drampa"
+    "nameEn": "Mega Drampa",
+    "isMega": true
   },
   {
     "name": "Mega Falinks",
@@ -1936,7 +2009,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "falinksite",
-    "nameEn": "Mega Falinks"
+    "nameEn": "Mega Falinks",
+    "isMega": true
   },
   {
     "name": "Mega Raichu X",
@@ -1960,7 +2034,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "raichunite-x",
-    "nameEn": "Mega Raichu X"
+    "nameEn": "Mega Raichu X",
+    "isMega": true
   },
   {
     "name": "Mega Raichu Y",
@@ -1984,7 +2059,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "raichunite-y",
-    "nameEn": "Mega Raichu Y"
+    "nameEn": "Mega Raichu Y",
+    "isMega": true
   },
   {
     "name": "Mega Chimecho",
@@ -2009,7 +2085,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "chimechite",
-    "nameEn": "Mega Chimecho"
+    "nameEn": "Mega Chimecho",
+    "isMega": true
   },
   {
     "name": "Mega Absol Z",
@@ -2034,7 +2111,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "absolite-z",
-    "nameEn": "Mega Absol Z"
+    "nameEn": "Mega Absol Z",
+    "isMega": true
   },
   {
     "name": "Mega Staraptor",
@@ -2059,7 +2137,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "staraptite",
-    "nameEn": "Mega Staraptor"
+    "nameEn": "Mega Staraptor",
+    "isMega": true
   },
   {
     "name": "Mega Garchomp Z",
@@ -2083,7 +2162,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "garchompite-z",
-    "nameEn": "Mega Garchomp Z"
+    "nameEn": "Mega Garchomp Z",
+    "isMega": true
   },
   {
     "name": "Mega Lucario Z",
@@ -2108,7 +2188,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "lucarionite-z",
-    "nameEn": "Mega Lucario Z"
+    "nameEn": "Mega Lucario Z",
+    "isMega": true
   },
   {
     "name": "Mega Heatran",
@@ -2133,7 +2214,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "heatranite",
-    "nameEn": "Mega Heatran"
+    "nameEn": "Mega Heatran",
+    "isMega": true
   },
   {
     "name": "Mega Darkrai",
@@ -2157,7 +2239,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "darkranite",
-    "nameEn": "Mega Darkrai"
+    "nameEn": "Mega Darkrai",
+    "isMega": true
   },
   {
     "name": "Mega Golurk",
@@ -2182,7 +2265,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "golurkite",
-    "nameEn": "Mega Golurk"
+    "nameEn": "Mega Golurk",
+    "isMega": true
   },
   {
     "name": "Mega Meowstic",
@@ -2206,7 +2290,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "meowsticite",
-    "nameEn": "Mega Meowstic"
+    "nameEn": "Mega Meowstic",
+    "isMega": true
   },
   {
     "name": "Mega Crabominable",
@@ -2231,7 +2316,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "crabominite",
-    "nameEn": "Mega Crabominable"
+    "nameEn": "Mega Crabominable",
+    "isMega": true
   },
   {
     "name": "Mega Golisopod",
@@ -2256,7 +2342,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "golisopite",
-    "nameEn": "Mega Golisopod"
+    "nameEn": "Mega Golisopod",
+    "isMega": true
   },
   {
     "name": "Mega Magearna",
@@ -2281,7 +2368,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "magearnite",
-    "nameEn": "Mega Magearna"
+    "nameEn": "Mega Magearna",
+    "isMega": true
   },
   {
     "name": "Mega Zeraora",
@@ -2305,7 +2393,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "zeraorite",
-    "nameEn": "Mega Zeraora"
+    "nameEn": "Mega Zeraora",
+    "isMega": true
   },
   {
     "name": "Mega Scovillain",
@@ -2330,7 +2419,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "scovillainite",
-    "nameEn": "Mega Scovillain"
+    "nameEn": "Mega Scovillain",
+    "isMega": true
   },
   {
     "name": "Mega Glimmora",
@@ -2355,7 +2445,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "glimmoranite",
-    "nameEn": "Mega Glimmora"
+    "nameEn": "Mega Glimmora",
+    "isMega": true
   },
   {
     "name": "Mega Tatsugiri",
@@ -2380,7 +2471,8 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "tatsugirinite",
-    "nameEn": "Mega Tatsugiri"
+    "nameEn": "Mega Tatsugiri",
+    "isMega": true
   },
   {
     "name": "Mega Baxcalibur",
@@ -2405,6 +2497,7 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "baxcalibrite",
-    "nameEn": "Mega Baxcalibur"
+    "nameEn": "Mega Baxcalibur",
+    "isMega": true
   }
 ]
