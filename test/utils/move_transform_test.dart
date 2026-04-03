@@ -1921,7 +1921,8 @@ void main() {
         tags: [MoveTags.contact], zPower: 100,
       );
       final result = transformMove(contactMove, const MoveContext(zMove: true));
-      expect(result.move.tags, isEmpty);
+      expect(result.move.tags, equals([MoveTags.zContact]));
+      expect(result.move.hasTag(MoveTags.contact), isFalse);
     });
 
     test('status move is NOT converted to Z-attack', () {
@@ -1970,7 +1971,8 @@ void main() {
           const MoveContext(zMove: true, pokemonName: 'Pikachu'));
       expect(result.move.name, equals('Catastropika'));
       expect(result.move.power, equals(210));
-      expect(result.move.tags, isEmpty);
+      expect(result.move.hasTag(MoveTags.zContact), isTrue);
+      expect(result.move.hasTag(MoveTags.contact), isFalse);
       expect(result.move.priority, equals(0));
     });
 

@@ -229,9 +229,12 @@ TransformedMove transformMove(Move move, MoveContext context) {
 
   // 2.6. (Tera Blast moved to step 1.5)
 
-  // 2.7. Long Reach: remove contact tag
-  if (context.ability == 'Long Reach' && move.hasTag(MoveTags.contact)) {
-    move = move.copyWith(tags: move.tags.where((t) => t != MoveTags.contact).toList());
+  // 2.7. Contact removal: Long Reach (ability) or Punching Glove (item, punch only)
+  if (move.hasTag(MoveTags.contact)) {
+    if (context.ability == 'Long Reach' ||
+        (context.heldItem == 'punching-glove' && move.hasTag(MoveTags.punch))) {
+      move = move.copyWith(tags: move.tags.where((t) => t != MoveTags.contact).toList());
+    }
   }
 
   // 3. Conditional power changes
@@ -888,9 +891,14 @@ PokemonType? _memoryType(String itemName) {
 
 /// Converts a move into its Z-Move form.
 /// Status moves are not converted (return as-is).
+/// If the original move was a contact move, the Z-Move gets a zContact tag
+/// (receives contact-based boosts like Tough Claws, but not penalties).
 Move _applyZMove(Move move, String? pokemonName) {
   // Status moves cannot become Z-attacks
   if (move.category == MoveCategory.status) return move;
+
+  // Contact already removed by Punching Glove / Long Reach in step 2.7
+  final wasContact = move.hasTag(MoveTags.contact);
 
   // Check for exclusive Z-Move (pokemon + base move match)
   if (pokemonName != null) {
@@ -903,7 +911,7 @@ Move _applyZMove(Move move, String? pokemonName) {
         nameJa: exclusive.nameJa,
         nameEn: exclusive.name,
         power: exclusive.power,
-        tags: exclusive.tags,
+        tags: [...exclusive.tags, if (wasContact) MoveTags.zContact],
         priority: 0,
         minHits: 1, maxHits: 1,
       );
@@ -922,7 +930,7 @@ Move _applyZMove(Move move, String? pokemonName) {
     nameJa: zNameJa,
     nameEn: zName,
     power: zPower,
-    tags: const [],
+    tags: [if (wasContact) MoveTags.zContact],
     priority: 0,
     minHits: 1, maxHits: 1,
   );
