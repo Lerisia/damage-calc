@@ -65,6 +65,9 @@ class MoveSlotInfo {
   /// Whether the move deals fixed damage (bypasses normal formula).
   final bool isFixedDamage;
 
+  /// Whether the transformed move is still multi-hit.
+  final bool isMultiHit;
+
   /// 결정력 result, null when no move is set.
   final int? offensivePower;
 
@@ -75,6 +78,7 @@ class MoveSlotInfo {
     this.basePower = 0,
     this.effectivePower = 0,
     this.isFixedDamage = false,
+    this.isMultiHit = false,
     this.offensivePower,
   });
 }
@@ -235,6 +239,7 @@ class BattleFacade {
       basePower: basePower,
       effectivePower: effectivePower,
       isFixedDamage: isFixed,
+      isMultiHit: transformed.move.isMultiHit,
       offensivePower: offensivePower,
     );
   }

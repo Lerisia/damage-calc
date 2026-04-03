@@ -471,7 +471,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       },
                     ),
                   ),
-                  if (!isSearching && move != null && move.isMultiHit && s.dynamax == DynamaxState.none)
+                  if (!isSearching && move != null && info.isMultiHit)
                     GestureDetector(
                       onTap: () async {
                         final h = await showDialog<int>(

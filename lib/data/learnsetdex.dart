@@ -128,7 +128,28 @@ String? _baseFormId(String name) {
     }
     return _normalize(base);
   }
-  // "Deoxys (Attack Forme)" → "deoxys"
+  // Parenthesized forms with distinct Showdown learnsets
+  const parenthesizedForms = {
+    'Urshifu (Rapid Strike Style)': 'urshifurapidstrike',
+    'Lycanroc (Midnight Form)': 'lycanrocmidnight',
+    'Lycanroc (Dusk Form)': 'lycanrocdusk',
+    'Indeedee (Female)': 'indeedeef',
+    'Meowstic (Female)': 'meowsticf',
+    'Basculegion (Female)': 'basculegionf',
+    'Oinkologne (Female)': 'oinkolognef',
+    'Toxtricity (Low Key Form)': 'toxtricitylowkey',
+    'Wormadam (Sandy Cloak)': 'wormadamsandy',
+    'Wormadam (Trash Cloak)': 'wormadamtrash',
+    'Shaymin (Sky Forme)': 'shayminsky',
+    'Giratina (Origin Forme)': 'giratinaorigin',
+    'Tornadus (Therian Forme)': 'tornadustherian',
+    'Thundurus (Therian Forme)': 'thundurustherian',
+    'Landorus (Therian Forme)': 'landorustherian',
+    'Enamorus (Therian Forme)': 'enamorustherian',
+  };
+  if (parenthesizedForms.containsKey(name)) return parenthesizedForms[name];
+
+  // "Deoxys (Attack Forme)" → "deoxys" (base form fallback)
   if (name.contains(' (')) {
     return _normalize(name.split(' (')[0]);
   }
