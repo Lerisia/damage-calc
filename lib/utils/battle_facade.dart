@@ -307,7 +307,7 @@ class BattleFacade {
     );
 
     // Neutralizing Gas: suppress own ability for 결정력
-    final effectiveAbilityForCalc = state.selectedAbility == 'Neutralizing Gas'
+    final effectiveAbilityForCalc = hasNeutralizingGas(state.selectedAbility, null)
         ? null : state.selectedAbility;
 
     // Cloud Nine / Air Lock / Teraform Zero negates weather/terrain
@@ -419,7 +419,7 @@ class BattleFacade {
         gravity: room.gravity,
       ),
       status: state.status,
-      hasGuts: effectiveAbilityForCalc == 'Guts',
+      hasGuts: negatesBurn(effectiveAbilityForCalc),
       stabOverride: abilityEffect.stabOverride,
       criticalOverride: abilityEffect.criticalOverride,
       forceStab: abilityEffect.forceStab,

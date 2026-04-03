@@ -142,31 +142,18 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(powerModifier: kMinorPowerBoost)
           : _defaultEffect;
 
-    // --- Tag-based power modifiers ---
+    // --- Tag-based power modifiers (table-driven) ---
     case 'Tough Claws':
-      return move != null && move.hasTag(MoveTags.contact)
-          ? const AbilityEffect(powerModifier: kMediumPowerBoost)
-          : _defaultEffect;
     case 'Iron Fist':
-      return move != null && move.hasTag(MoveTags.punch)
-          ? const AbilityEffect(powerModifier: kMinorPowerBoost)
-          : _defaultEffect;
     case 'Reckless':
-      return move != null && move.hasTag(MoveTags.recoil)
-          ? const AbilityEffect(powerModifier: kMinorPowerBoost)
-          : _defaultEffect;
     case 'Strong Jaw':
-      return move != null && move.hasTag(MoveTags.bite)
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
     case 'Mega Launcher':
-      return move != null && move.hasTag(MoveTags.pulse)
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
     case 'Sharpness':
-      return move != null && move.hasTag(MoveTags.slice)
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
+      final tagBoost = _tagPowerBoosts[abilityName];
+      if (tagBoost != null && move != null && move.hasTag(tagBoost.$1)) {
+        return AbilityEffect(powerModifier: tagBoost.$2);
+      }
+      return _defaultEffect;
     case 'Technician':
       final techPower = originalBasePower ?? move?.power ?? 0;
       return move != null && techPower <= kTechnicianMaxPower
@@ -188,24 +175,17 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(weatherOverride: Weather.sun)
           : _defaultEffect;
 
-    // --- Type-based power modifiers ---
+    // --- Type-based power modifiers (table-driven) ---
     case 'Steelworker':
     case 'Steely Spirit':
-      return move != null && move.type == PokemonType.steel
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
     case 'Transistor':
-      return move != null && move.type == PokemonType.electric
-          ? const AbilityEffect(powerModifier: kMediumPowerBoost)
-          : _defaultEffect;
     case "Dragon's Maw":
-      return move != null && move.type == PokemonType.dragon
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
     case 'Rocky Payload':
-      return move != null && move.type == PokemonType.rock
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
+      final typeBoost = _typePowerBoosts[abilityName];
+      if (typeBoost != null && move != null && move.type == typeBoost.$1) {
+        return AbilityEffect(powerModifier: typeBoost.$2);
+      }
+      return _defaultEffect;
 
     // --- Weather/Terrain stat modifiers ---
     case 'Solar Power':
@@ -250,21 +230,14 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? AbilityEffect(statModifiers: _boostHighestStat(actualStats))
           : _defaultEffect;
 
-    // --- HP conditional ---
+    // --- HP conditional pinch abilities (table-driven) ---
     case 'Blaze':
-      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.fire)
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
     case 'Overgrow':
-      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.grass)
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
     case 'Torrent':
-      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.water)
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
-          : _defaultEffect;
     case 'Swarm':
-      return (hpPercent <= kPinchHpThreshold && move != null && move.type == PokemonType.bug)
+      final pinchType = _pinchAbilityTypes[abilityName];
+      return (pinchType != null && hpPercent <= kPinchHpThreshold &&
+              move != null && move.type == pinchType)
           ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
 
@@ -1033,6 +1006,35 @@ bool isSturdyOhkoImmune(String? defenderAbility) =>
 
 /// Returns true if [ability] nullifies the held item.
 bool isKlutz(String? ability) => ability == 'Klutz';
+
+// ====== Ability power boost lookup tables ======
+
+/// Tag-based power boosts: ability → (required tag, multiplier)
+const _tagPowerBoosts = <String, (String, double)>{
+  'Tough Claws': (MoveTags.contact, kMediumPowerBoost),
+  'Iron Fist': (MoveTags.punch, kMinorPowerBoost),
+  'Reckless': (MoveTags.recoil, kMinorPowerBoost),
+  'Strong Jaw': (MoveTags.bite, kMajorPowerBoost),
+  'Mega Launcher': (MoveTags.pulse, kMajorPowerBoost),
+  'Sharpness': (MoveTags.slice, kMajorPowerBoost),
+};
+
+/// Type-based power boosts: ability → (required type, multiplier)
+const _typePowerBoosts = <String, (PokemonType, double)>{
+  'Steelworker': (PokemonType.steel, kMajorPowerBoost),
+  'Steely Spirit': (PokemonType.steel, kMajorPowerBoost),
+  'Transistor': (PokemonType.electric, kMediumPowerBoost),
+  "Dragon's Maw": (PokemonType.dragon, kMajorPowerBoost),
+  'Rocky Payload': (PokemonType.rock, kMajorPowerBoost),
+};
+
+/// Pinch abilities: ability → type that gets boosted at ≤33% HP
+const _pinchAbilityTypes = <String, PokemonType>{
+  'Blaze': PokemonType.fire,
+  'Overgrow': PokemonType.grass,
+  'Torrent': PokemonType.water,
+  'Swarm': PokemonType.bug,
+};
 
 // ====== Weight modifiers (헤비메탈/라이트메탈) ======
 

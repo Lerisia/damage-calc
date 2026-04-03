@@ -14,7 +14,7 @@ const double kLifeOrbPower = 5324.0 / 4096.0;
 
 /// Muscle Band (physical) / Wise Glasses (special) / Punching Glove (punch):
 /// 1.1x power for matching moves.
-const double kMinorPowerBoost = 1.1;
+const double kItemMinorPowerBoost = 1.1;
 
 /// Normal Gem: 1.3x power for a single Normal-type move.
 const double kNormalGemPower = 1.3;
@@ -126,15 +126,15 @@ ItemEffect getItemEffect(
       return const ItemEffect(powerModifier: kLifeOrbPower);
     case 'muscle-band':
       return move.category == MoveCategory.physical
-          ? const ItemEffect(powerModifier: kMinorPowerBoost)
+          ? const ItemEffect(powerModifier: kItemMinorPowerBoost)
           : _defaultEffect;
     case 'wise-glasses':
       return move.category == MoveCategory.special
-          ? const ItemEffect(powerModifier: kMinorPowerBoost)
+          ? const ItemEffect(powerModifier: kItemMinorPowerBoost)
           : _defaultEffect;
     case 'punching-glove':
       return move.hasTag(MoveTags.punch)
-          ? const ItemEffect(powerModifier: kMinorPowerBoost)
+          ? const ItemEffect(powerModifier: kItemMinorPowerBoost)
           : _defaultEffect;
     case 'normal-gem':
       return move.type == PokemonType.normal
