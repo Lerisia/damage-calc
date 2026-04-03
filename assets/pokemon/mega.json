@@ -1306,7 +1306,7 @@
       "speed": 70
     },
     "abilities": [
-      "Prankster"
+      "Magic Bounce"
     ],
     "weight": 40.0,
     "height": 1.3,
@@ -1531,7 +1531,7 @@
       "speed": 103
     },
     "abilities": [
-      "Mold Breaker"
+      "Piercing Drill"
     ],
     "weight": 40.4,
     "height": 0.7,
@@ -1655,7 +1655,7 @@
       "speed": 44
     },
     "abilities": [
-      "Battle Armor"
+      "Bulletproof"
     ],
     "weight": 90.0,
     "height": 1.6,
@@ -1680,7 +1680,7 @@
       "speed": 134
     },
     "abilities": [
-      "Prankster"
+      "Levitate"
     ],
     "weight": 39.0,
     "height": 1.5,
@@ -1904,7 +1904,7 @@
       "speed": 36
     },
     "abilities": [
-      "Defiant"
+      "Drizzle"
     ],
     "weight": 185.0,
     "height": 3.0,
@@ -1976,7 +1976,7 @@
       "speed": 130
     },
     "abilities": [
-      "Lightning Rod"
+      "Electric Surge"
     ],
     "weight": 30.0,
     "height": 0.8,
@@ -2051,7 +2051,7 @@
       "speed": 110
     },
     "abilities": [
-      "Intimidate"
+      "Contrary"
     ],
     "weight": 24.9,
     "height": 1.2,
@@ -2223,7 +2223,7 @@
       "speed": 33
     },
     "abilities": [
-      "Iron Fist"
+      "Defiant"
     ],
     "weight": 180.0,
     "height": 1.7,
@@ -2248,7 +2248,7 @@
       "speed": 40
     },
     "abilities": [
-      "Mega Golisopod Ability"
+      "Tough Claws"
     ],
     "weight": 108.0,
     "height": 2.0,
@@ -2297,7 +2297,7 @@
       "speed": 153
     },
     "abilities": [
-      "Volt Absorb"
+      "Speed Boost"
     ],
     "weight": 44.5,
     "height": 1.5,
@@ -2322,7 +2322,7 @@
       "speed": 75
     },
     "abilities": [
-      "Moody"
+      "Spicy Spray"
     ],
     "weight": 15.0,
     "height": 0.9,
@@ -2347,7 +2347,7 @@
       "speed": 101
     },
     "abilities": [
-      "Toxic Debris"
+      "Levitate"
     ],
     "weight": 45.0,
     "height": 1.0,
