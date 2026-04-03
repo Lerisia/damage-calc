@@ -18,6 +18,7 @@ import '../utils/speed_calculator.dart';
 import '../utils/stat_calculator.dart';
 import '../models/type.dart';
 import '../models/battle_pokemon.dart';
+import '../models/terastal.dart';
 import '../models/dynamax.dart';
 import '../models/stats.dart';
 import '../models/room.dart';
@@ -108,6 +109,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         state.type2 = canonical.type2;
         state.pokemonAbilities = canonical.abilities;
         state.weight = canonical.weight;
+        state.isMega = canonical.isMega;
+        state.canDynamax = canonical.canDynamax;
+        state.canGmax = canonical.canGmax;
+        if (state.isMega) {
+          state.zMoves = [false, false, false, false];
+          state.terastal = const TerastalState();
+        }
       }
     }
   }
