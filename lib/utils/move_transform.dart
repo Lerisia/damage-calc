@@ -1045,13 +1045,13 @@ const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'kommo-o': _ExclusiveZMove(
     'Clanging Scales', 'Clangorous Soulblaze', '브레이징소울비트', 'ブレイジングソウルビート', 185),
   'tapu koko': _ExclusiveZMove(
-    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+    "Nature\u2019s Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
   'tapu lele': _ExclusiveZMove(
-    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+    "Nature\u2019s Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
   'tapu bulu': _ExclusiveZMove(
-    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+    "Nature\u2019s Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
   'tapu fini': _ExclusiveZMove(
-    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+    "Nature\u2019s Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
   'solgaleo': _ExclusiveZMove(
     'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200),
   'necrozma-dusk-mane': _ExclusiveZMove(
