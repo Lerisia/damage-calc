@@ -835,6 +835,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
         power: gmaxPower, priority: 0,
         moveClass: MoveClass.maxMove,
         tags: const [],
+        minHits: 1, maxHits: 1,
       );
     }
   }
@@ -848,6 +849,7 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
     power: maxPower, priority: 0,
     moveClass: MoveClass.maxMove,
     tags: const [],
+    minHits: 1, maxHits: 1,
   );
 }
 
