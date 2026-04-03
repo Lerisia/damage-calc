@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -20,7 +20,7 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="포켓몬스터 실전 배틀 결정력 계산기. 대미지, 스피드 비교, 테라스탈/다이맥스/메가진화 지원. 포켓몬스터 챔피언스 대응.">
-  <meta name="keywords" content="포켓몬, 결정력 계산기, 대미지 계산기, 실전 배틀, VGC, 포켓몬스터 챔피언스, 레전드 ZA, 메가진화, 테라스탈, damage calculator">
+  <meta name="keywords" content="포켓몬, 결정력 계산기, 대미지 계산기, 실전 배틀, VGC, 포켓몬스터 챔피언스, 레전드 ZA, 메가진화, 테라스탈, damage calculator, competitive battle, ダメージ計算機, 火力計算, メガシンカ, テラスタル">
   <meta name="author" content="Elyss">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://damage-calc.com/">
@@ -32,6 +32,18 @@
   <meta property="og:url" content="https://damage-calc.com/">
   <meta property="og:image" content="https://damage-calc.com/og-image.png">
   <meta property="og:locale" content="ko_KR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+
+  <!-- hreflang for international SEO -->
+  <link rel="alternate" hreflang="ko" href="https://damage-calc.com/">
+  <link rel="alternate" hreflang="en" href="https://damage-calc.com/">
+  <link rel="alternate" hreflang="ja" href="https://damage-calc.com/">
+  <link rel="alternate" hreflang="x-default" href="https://damage-calc.com/">
+
+  <!-- English meta for international search -->
+  <meta name="description" lang="en" content="Competitive battle damage calculator. Damage, speed comparison, Terastal/Dynamax/Mega Evolution support.">
+  <meta name="description" lang="ja" content="対戦プレイヤーのためのダメージ計算機。ダメージ、スピード比較、テラスタル/ダイマックス/メガシンカ対応。">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
@@ -102,7 +114,7 @@
 </head>
 <body>
   <!--
-    You can customize the "flutter_bootstrap.js" script.
+    You can customize the "flutter_bootstrap.js?v=1775241685" script.
     This is useful to provide a custom configuration to the Flutter loader
     or to give the user feedback during the initialization process.
 
@@ -120,6 +132,6 @@
       });
     }
   </script>
-  <script src="flutter_bootstrap.js" async></script>
+  <script src="flutter_bootstrap.js?v=1775241685" async></script>
 </body>
 </html>
