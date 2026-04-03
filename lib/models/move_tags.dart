@@ -74,4 +74,13 @@ class MoveTags {
 
   // Move disabled by Gravity
   static const String disabledByGravity = 'custom:disabled_by_gravity';
+
+  // Move requires defender to be asleep (Dream Eater)
+  static const String requiresDefSleep = 'custom:requires_def_sleep';
+
+  // OHKO move that Ice-types are immune to (Sheer Cold)
+  static const String ohkoIceImmune = 'custom:ohko_ice_immune';
+
+  // Wind-related moves
+  static const String wind = 'wind';
 }

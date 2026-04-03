@@ -1067,7 +1067,8 @@
     "accuracy": 30,
     "pp": 5,
     "tags": [
-      "custom:ohko"
+      "custom:ohko",
+      "custom:ohko_ice_immune"
     ],
     "nameEn": "Sheer Cold"
   },

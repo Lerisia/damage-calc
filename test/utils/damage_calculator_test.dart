@@ -540,6 +540,7 @@ void main() {
       name: 'Dream Eater', nameKo: '꿈먹기', nameJa: 'ゆめくい',
       type: PokemonType.psychic, category: MoveCategory.special,
       power: 100, accuracy: 100, pp: 15,
+      tags: [MoveTags.requiresDefSleep],
     );
 
     test('fails when target is not asleep', () {
@@ -1144,7 +1145,7 @@ void main() {
       const sheerCold = Move(
         name: 'Sheer Cold', nameKo: '절대영도', nameJa: 'ぜったいれいど',
         type: PokemonType.ice, category: MoveCategory.special,
-        power: 0, accuracy: 30, pp: 5, tags: [MoveTags.ohko],
+        power: 0, accuracy: 30, pp: 5, tags: [MoveTags.ohko, MoveTags.ohkoIceImmune],
       );
       final r = calc(
         move: sheerCold,

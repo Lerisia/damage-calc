@@ -340,7 +340,7 @@ class DamageCalculator {
     }
 
     // --- Dream Eater: fails if target is not asleep ---
-    if (effectiveMove.name == 'Dream Eater' &&
+    if (effectiveMove.hasTag(MoveTags.requiresDefSleep) &&
         defender.status != StatusCondition.sleep) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,
@@ -351,11 +351,17 @@ class DamageCalculator {
       );
     }
 
+    // --- Mold Breaker check (needed early for OHKO/fixed damage) ---
+    final bool earlyMoldBreaks = shouldIgnoreAbility(atkAbilityRaw, defAbilityRaw) ||
+        (effectiveMove.hasTag(MoveTags.ignoreAbility) &&
+         defAbilityRaw != null && ignorableAbilities.contains(defAbilityRaw));
+    final String? earlyDefAbility = earlyMoldBreaks ? null : defAbilityRaw;
+
     // --- OHKO moves ---
     if (effectiveMove.hasTag(MoveTags.ohko)) {
       return _calcOhkoDamage(
         attacker: attacker, defender: defender, move: effectiveMove,
-        defenderAbility: defAbilityRaw,
+        defenderAbility: earlyDefAbility, room: room,
       );
     }
 
@@ -365,7 +371,7 @@ class DamageCalculator {
       return _calcFixedDamage(
         attacker: attacker, defender: defender, move: effectiveMove,
         weather: weather, room: room,
-        defenderAbility: defAbilityRaw,
+        defenderAbility: earlyDefAbility,
       );
     }
 
@@ -512,10 +518,9 @@ class DamageCalculator {
     int D = targetPhysDef ? defActual.defense : defActual.spDefense;
 
     // Mold Breaker or ability-ignoring moves: ignore defender's ignorable abilities
-    final bool moldBreaks = shouldIgnoreAbility(effectiveAbility, defAbilityRaw) ||
-        (effectiveMove.hasTag(MoveTags.ignoreAbility) &&
-         defAbilityRaw != null && ignorableAbilities.contains(defAbilityRaw));
-    final String? effectiveDefAbility = moldBreaks ? null : defAbilityRaw;
+    // (reuse early check computed before OHKO/fixed damage branches)
+    final bool moldBreaks = earlyMoldBreaks;
+    final String? effectiveDefAbility = earlyDefAbility;
 
     // Shell Armor / Battle Armor: negate critical hit
     String? critNegateNote;
@@ -643,9 +648,30 @@ class DamageCalculator {
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry),
       flyingPress: effectiveMove.hasTag(MoveTags.flyingPress));
 
+    // --- Ground immunity: ungrounded targets (Flying, Levitate, Air Balloon) ---
+    // Thousand Arrows bypasses this. Mold Breaker ignores Levitate.
+    if (moveType == PokemonType.ground) {
+      final defIsGrounded = isGrounded(
+        type1: defType1, type2: defType2,
+        ability: moldBreaks ? null : defAbilityName,
+        item: defender.selectedItem,
+        gravity: room.gravity,
+      );
+      if (!defIsGrounded && !effectiveMove.hasTag(MoveTags.thousandArrows)) {
+        return DamageResult(
+          baseDamage: 0, minDamage: 0, maxDamage: 0,
+          defenderHp: defMaxHp, effectiveness: 0.0,
+          isPhysical: isPhysical, move: effectiveMove,
+          modifierNotes: [...notes, 'ground:ungrounded'],
+        );
+      }
+    }
+
     // --- Type immunity check ---
     // Each immunity can be overridden by specific mechanics.
-    if (hasTypeImmunity(moveType, defType1, defType2)) {
+    // Note: Ground→Flying is handled above via isGrounded.
+    if (hasTypeImmunity(moveType, defType1, defType2) &&
+        moveType != PokemonType.ground) {
       bool immune = true;
 
       // Normal/Fighting → Ghost: overridden by Scrappy / Mind's Eye
@@ -654,19 +680,6 @@ class DamageCalculator {
           canHitGhost(effectiveAbility)) {
         immune = false;
         notes.add('ability:$effectiveAbility:고스트에게 적중');
-      }
-
-      // Ground → Flying: overridden by grounding or Thousand Arrows
-      if (moveType == PokemonType.ground &&
-          (defType1 == PokemonType.flying || defType2 == PokemonType.flying)) {
-        final defIsGrounded = isGrounded(
-          type1: defType1, type2: defType2,
-          ability: defAbilityName, item: defender.selectedItem,
-          gravity: room.gravity,
-        );
-        if (defIsGrounded || effectiveMove.hasTag(MoveTags.thousandArrows)) {
-          immune = false;
-        }
       }
 
       // Poison → Steel: overridden by Corrosion
@@ -1116,6 +1129,7 @@ class DamageCalculator {
     required BattlePokemonState defender,
     required Move move,
     String? defenderAbility,
+    required RoomConditions room,
   }) {
     final defStats = StatCalculator.calculate(
       baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
@@ -1137,20 +1151,40 @@ class DamageCalculator {
       return immune(['다이맥스 상대에게 일격기 무효']);
     }
 
-    // Type immunity (Normal→Ghost, Ground→Flying, etc.)
-    if (hasTypeImmunity(move.type, defender.type1, defender.type2)) {
+    // Resolve defender's effective types (Terastal overrides)
+    final defEffType1 = (defender.terastal.active && defender.terastal.teraType != null)
+        ? defender.terastal.teraType! : defender.type1;
+    final PokemonType? defEffType2 = (defender.terastal.active && defender.terastal.teraType != null)
+        ? null : defender.type2;
+
+    // Ground OHKO (Fissure): ungrounded targets are immune
+    if (move.type == PokemonType.ground) {
+      final defIsGrounded = isGrounded(
+        type1: defEffType1, type2: defEffType2,
+        ability: defenderAbility,
+        item: defender.selectedItem,
+        gravity: room.gravity,
+      );
+      if (!defIsGrounded) {
+        return immune(['ground:ungrounded']);
+      }
+    }
+
+    // Type immunity (Normal→Ghost, etc.) — Ground→Flying handled above
+    if (hasTypeImmunity(move.type, defEffType1, defEffType2) &&
+        move.type != PokemonType.ground) {
       return immune(['type:immune']);
     }
 
     // Sheer Cold: Ice-type targets are immune (Gen 7+)
-    if (move.name == 'Sheer Cold' &&
-        (defender.type1 == PokemonType.ice ||
-         defender.type2 == PokemonType.ice)) {
+    if (move.hasTag(MoveTags.ohkoIceImmune) &&
+        (defEffType1 == PokemonType.ice ||
+         defEffType2 == PokemonType.ice)) {
       return immune(['얼음 타입에게 절대영도 무효']);
     }
 
     // Sturdy: immune to OHKO moves
-    if (defenderAbility == 'Sturdy') {
+    if (isSturdyOhkoImmune(defenderAbility)) {
       return immune(['ability:Sturdy:일격기 무효']);
     }
 
