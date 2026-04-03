@@ -21,6 +21,9 @@ class AppStrings {
     });
   }
 
+  /// Test-only: set language without touching SharedPreferences.
+  static void setLanguageForTest(AppLanguage lang) => _current = lang;
+
   /// Load saved language preference, or detect from system locale.
   /// Call once at startup.
   static Future<void> loadSavedLanguage() async {
@@ -38,12 +41,12 @@ class AppStrings {
   static AppLanguage _detectSystemLanguage() {
     final locale = ui.PlatformDispatcher.instance.locale;
     switch (locale.languageCode) {
+      case 'ko':
+        return AppLanguage.ko;
       case 'ja':
         return AppLanguage.ja;
-      case 'en':
-        return AppLanguage.en;
       default:
-        return AppLanguage.ko;
+        return AppLanguage.en;
     }
   }
 
@@ -505,24 +508,24 @@ class AppStrings {
       AppLanguage.ja: '効果なし',
     },
     'eff.superEffective4x': {
-      AppLanguage.ko: '효과 매우 좋음',
-      AppLanguage.en: 'Super Effective',
-      AppLanguage.ja: '効果ばつぐん',
+      AppLanguage.ko: '효과 매우 굉장함',
+      AppLanguage.en: 'Extremely Effective',
+      AppLanguage.ja: '効果はちょうバツグン',
     },
     'eff.superEffective': {
-      AppLanguage.ko: '효과 좋음',
+      AppLanguage.ko: '효과 굉장함',
       AppLanguage.en: 'Super Effective',
-      AppLanguage.ja: '効果ばつぐん',
+      AppLanguage.ja: '効果はバツグン',
     },
     'eff.notVeryEffective025': {
       AppLanguage.ko: '효과 매우 별로',
-      AppLanguage.en: 'Not Very Effective',
-      AppLanguage.ja: '効果いまひとつ',
+      AppLanguage.en: 'Mostly Ineffective',
+      AppLanguage.ja: '効果はかなりいまひとつ',
     },
     'eff.notVeryEffective': {
       AppLanguage.ko: '효과 별로',
       AppLanguage.en: 'Not Very Effective',
-      AppLanguage.ja: '効果いまひとつ',
+      AppLanguage.ja: '効果はいまひとつ',
     },
     'eff.neutral': {
       AppLanguage.ko: '효과 보통',
@@ -648,7 +651,7 @@ class AppStrings {
       AppLanguage.ja: 'どく状態',
     },
     'note.collision': {
-      AppLanguage.ko: '효과 좋음',
+      AppLanguage.ko: '효과 굉장함',
       AppLanguage.en: 'Super effective',
       AppLanguage.ja: '効果ばつぐん',
     },
@@ -703,7 +706,7 @@ class AppStrings {
       AppLanguage.ja: 'フィールド無効',
     },
     'note.groundImmune': {
-      AppLanguage.ko: '비접지 상태로 땅 기술 무효',
+      AppLanguage.ko: '비접지: 땅 타입 기술 무효',
       AppLanguage.en: 'Ungrounded: Ground immune',
       AppLanguage.ja: '非接地: じめん技無効',
     },
