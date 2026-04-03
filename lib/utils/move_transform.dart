@@ -943,18 +943,18 @@ const Map<PokemonType, String> _zMoveNames = {
   PokemonType.fairy: 'Twinkle Tackle',
 };
 
-/// Generic Z-Move names (Korean)
+/// Generic Z-Move names (Korean) — from gen7.json official data
 const Map<PokemonType, String> _zMoveNamesKo = {
   PokemonType.normal: '울트라대시어택',
-  PokemonType.fighting: '전력무쌍격',
+  PokemonType.fighting: '전력무쌍격렬권',
   PokemonType.flying: '파이널다이브클래시',
   PokemonType.poison: '애시드포이즌딜리트',
   PokemonType.ground: '라이징랜드오버',
-  PokemonType.rock: '월드즈엔드폴',
-  PokemonType.bug: '절대포획포위망',
-  PokemonType.ghost: '무한어둠에의유도',
-  PokemonType.steel: '초절나선연격',
-  PokemonType.fire: '다이나믹풀플레임',
+  PokemonType.rock: '월즈엔드폴',
+  PokemonType.bug: '절대포식회전참',
+  PokemonType.ghost: '무한암야로의유인',
+  PokemonType.steel: '초월나선연격',
+  PokemonType.fire: '다이내믹풀플레임',
   PokemonType.water: '슈퍼아쿠아토네이도',
   PokemonType.grass: '블룸샤인엑스트라',
   PokemonType.electric: '스파킹기가볼트',
@@ -962,7 +962,7 @@ const Map<PokemonType, String> _zMoveNamesKo = {
   PokemonType.ice: '레이징지오프리즈',
   PokemonType.dragon: '얼티메이트드래곤번',
   PokemonType.dark: '블랙홀이클립스',
-  PokemonType.fairy: '라블리스타임팩트',
+  PokemonType.fairy: '러블리스타임팩트',
 };
 
 /// Generic Z-Move names (Japanese)
@@ -1001,55 +1001,56 @@ class _ExclusiveZMove {
 }
 
 /// Exclusive Z-Move mapping: pokemonName (lowercase) → exclusive Z data
+/// Names from gen7.json official translations.
 const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'pikachu': _ExclusiveZMove(
-    'Volt Tackle', 'Catastropika', '전력질주초전자포', 'ひっさつのピカチュート', 210),
+    'Volt Tackle', 'Catastropika', '필살피카슛', 'ひっさつのピカチュート', 210),
   // Pikachu with cap uses Pikashunium Z + Thunderbolt
   'pikachu-original': _ExclusiveZMove(
-    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
   'pikachu-hoenn': _ExclusiveZMove(
-    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
   'pikachu-sinnoh': _ExclusiveZMove(
-    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
   'pikachu-unova': _ExclusiveZMove(
-    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
   'pikachu-kalos': _ExclusiveZMove(
-    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
   'pikachu-alola': _ExclusiveZMove(
-    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
   'pikachu-partner': _ExclusiveZMove(
-    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '1000まんボルト', 195),
+    'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
   'raichu-alola': _ExclusiveZMove(
     'Thunderbolt', 'Stoked Sparksurfer', '라이트닝서프라이드', 'ライトニングサーフライド', 175),
   'eevee': _ExclusiveZMove(
-    'Last Resort', 'Extreme Evoboost', '나인에볼부스트', 'ナインエボルブースト', 0), // Status Z
+    'Last Resort', 'Extreme Evoboost', '나인이볼부스트', 'ナインエボルブースト', 0), // Status Z
   'snorlax': _ExclusiveZMove(
-    'Giga Impact', 'Pulverizing Pancake', '혼신의풀파워풀바디어택', 'ほんきをだすこうげき', 210),
+    'Giga Impact', 'Pulverizing Pancake', '진심의공격', 'ほんきをだす　こうげき', 210),
   'mew': _ExclusiveZMove(
-    'Psychic', 'Genesis Supernova', '오리진슈퍼노바', 'オリジンズスーパーノヴァ', 185),
+    'Psychic', 'Genesis Supernova', '오리진즈슈퍼노바', 'オリジンズスーパーノヴァ', 185),
   'decidueye': _ExclusiveZMove(
-    'Spirit Shackle', 'Sinister Arrow Raid', '그림자화살비', 'シャドーアローズストライク', 180),
+    'Spirit Shackle', 'Sinister Arrow Raid', '섀도애로우즈스트라이크', 'シャドーアローズストライク', 180),
   'incineroar': _ExclusiveZMove(
     'Darkest Lariat', 'Malicious Moonsault', '하이퍼다크크러셔', 'ハイパーダーククラッシャー', 180),
   'primarina': _ExclusiveZMove(
-    'Sparkling Aria', 'Oceanic Operetta', '대해원의교향곡', 'わだつみのシンフォニア', 195),
+    'Sparkling Aria', 'Oceanic Operetta', '바다의심포니', 'わだつみのシンフォニア', 195),
   'lycanroc': _ExclusiveZMove(
-    'Stone Edge', 'Splintered Stormshards', '래디컬에지스톰', 'ラジアルエッジストーム', 190),
+    'Stone Edge', 'Splintered Stormshards', '레이디얼에지스톰', 'ラジアルエッジストーム', 190),
   'lycanroc-midnight': _ExclusiveZMove(
-    'Stone Edge', 'Splintered Stormshards', '래디컬에지스톰', 'ラジアルエッジストーム', 190),
+    'Stone Edge', 'Splintered Stormshards', '레이디얼에지스톰', 'ラジアルエッジストーム', 190),
   'lycanroc-dusk': _ExclusiveZMove(
-    'Stone Edge', 'Splintered Stormshards', '래디컬에지스톰', 'ラジアルエッジストーム', 190),
+    'Stone Edge', 'Splintered Stormshards', '레이디얼에지스톰', 'ラジアルエッジストーム', 190),
   'mimikyu': _ExclusiveZMove(
-    'Play Rough', "Let's Snuggle Forever", '포옹은그만', 'ぽかぼかフレンドタイム', 190),
+    'Play Rough', "Let's Snuggle Forever", '투닥투닥프렌드타임', 'ぽかぼかフレンドタイム', 190),
   'kommo-o': _ExclusiveZMove(
-    'Clanging Scales', 'Clangorous Soulblaze', '울려라절규바늘', 'ブレイジングソウルビート', 185),
-  'tapu-koko': _ExclusiveZMove(
-    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]), // 75% HP
-  'tapu-lele': _ExclusiveZMove(
+    'Clanging Scales', 'Clangorous Soulblaze', '브레이징소울비트', 'ブレイジングソウルビート', 185),
+  'tapu koko': _ExclusiveZMove(
     "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
-  'tapu-bulu': _ExclusiveZMove(
+  'tapu lele': _ExclusiveZMove(
     "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
-  'tapu-fini': _ExclusiveZMove(
+  'tapu bulu': _ExclusiveZMove(
+    "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
+  'tapu fini': _ExclusiveZMove(
     "Nature's Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
   'solgaleo': _ExclusiveZMove(
     'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200),
@@ -1060,9 +1061,9 @@ const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'necrozma-dawn-wings': _ExclusiveZMove(
     'Moongeist Beam', 'Menacing Moonraze Maelstrom', '문라이트블래스터', 'ムーンライトブラスター', 200),
   'necrozma-ultra': _ExclusiveZMove(
-    'Photon Geyser', 'Light That Burns the Sky', '하늘을태우는빛', 'てんこがすめつぼうのひかり', 200),
+    'Photon Geyser', 'Light That Burns the Sky', '하늘을태우는멸망의빛', 'てんこがすめつぼうのひかり', 200),
   'marshadow': _ExclusiveZMove(
-    'Spectral Thief', 'Soul-Stealing 7-Star Strike', '칠성탈혼쿠니우치', 'しちせいだっこんたい', 195),
+    'Spectral Thief', 'Soul-Stealing 7-Star Strike', '칠성탈혼퇴', 'しちせいだっこんたい', 195),
 };
 
 // Legacy wrappers for backward compatibility with tests

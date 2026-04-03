@@ -1947,7 +1947,7 @@ void main() {
         power: 90, accuracy: 100, pp: 15, zPower: 175,
       );
       final result = transformMove(fireMove, const MoveContext(zMove: true));
-      expect(result.move.nameKo, equals('다이나믹풀플레임'));
+      expect(result.move.nameKo, equals('다이내믹풀플레임'));
     });
   });
 
