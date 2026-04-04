@@ -78,11 +78,6 @@ class MoveTags {
   // Fixed damage: 75% of target's current HP (Guardian of Alola)
   static const String fixedThreeQuarterHp = 'custom:fixed_three_quarter_hp';
 
-  // Z-contact: Z-Move derived from a contact move.
-  // Receives contact-based offensive boosts (Tough Claws, etc.)
-  // but does NOT trigger contact-based penalties (Rocky Helmet, etc.)
-  static const String zContact = 'custom:z_contact';
-
   // Move requires defender to be asleep (Dream Eater)
   static const String requiresDefSleep = 'custom:requires_def_sleep';
 

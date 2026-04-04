@@ -144,8 +144,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Tough Claws: contact OR Z-contact ---
     case 'Tough Claws':
-      return move != null &&
-          (move.hasTag(MoveTags.contact) || move.hasTag(MoveTags.zContact))
+      return move != null && move.hasTag(MoveTags.contact)
           ? const AbilityEffect(powerModifier: kMediumPowerBoost)
           : _defaultEffect;
 
@@ -1017,7 +1016,7 @@ bool isKlutz(String? ability) => ability == 'Klutz';
 
 /// Tag-based power boosts: ability → (required tag, multiplier)
 const _tagPowerBoosts = <String, (String, double)>{
-  // Tough Claws handled separately (contact OR zContact)
+  // Tough Claws handled separately (contact tag check)
   'Iron Fist': (MoveTags.punch, kMinorPowerBoost),
   'Reckless': (MoveTags.recoil, kMinorPowerBoost),
   'Strong Jaw': (MoveTags.bite, kMajorPowerBoost),

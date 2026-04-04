@@ -891,14 +891,10 @@ PokemonType? _memoryType(String itemName) {
 
 /// Converts a move into its Z-Move form.
 /// Status moves are not converted (return as-is).
-/// If the original move was a contact move, the Z-Move gets a zContact tag
-/// (receives contact-based boosts like Tough Claws, but not penalties).
+/// All Z-Moves are non-contact (Tough Claws does not apply).
 Move _applyZMove(Move move, String? pokemonName) {
   // Status moves cannot become Z-attacks
   if (move.category == MoveCategory.status) return move;
-
-  // Contact already removed by Punching Glove / Long Reach in step 2.7
-  final wasContact = move.hasTag(MoveTags.contact);
 
   // Check for exclusive Z-Move (pokemon + base move match)
   if (pokemonName != null) {
@@ -911,7 +907,7 @@ Move _applyZMove(Move move, String? pokemonName) {
         nameJa: exclusive.nameJa,
         nameEn: exclusive.name,
         power: exclusive.power,
-        tags: [...exclusive.tags, if (wasContact) MoveTags.zContact],
+        tags: [...exclusive.tags],
         priority: 0,
         minHits: 1, maxHits: 1,
       );
@@ -930,7 +926,7 @@ Move _applyZMove(Move move, String? pokemonName) {
     nameJa: zNameJa,
     nameEn: zName,
     power: zPower,
-    tags: [if (wasContact) MoveTags.zContact],
+    tags: const [],
     priority: 0,
     minHits: 1, maxHits: 1,
   );
@@ -1019,7 +1015,7 @@ class _ExclusiveZMove {
 /// Names from gen7.json official translations.
 const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'pikachu': _ExclusiveZMove(
-    'Volt Tackle', 'Catastropika', '필살피카슛', 'ひっさつのピカチュート', 210),
+    'Volt Tackle', 'Catastropika', '필살피카슛', 'ひっさつのピカチュート', 210, [MoveTags.contact]),
   // Pikachu with cap uses Pikashunium Z + Thunderbolt
   'pikachu-original': _ExclusiveZMove(
     'Thunderbolt', '10,000,000 Volt Thunderbolt', '1000만볼트', '１０００まんボルト', 195),
@@ -1040,13 +1036,13 @@ const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'eevee': _ExclusiveZMove(
     'Last Resort', 'Extreme Evoboost', '나인이볼부스트', 'ナインエボルブースト', 0), // Status Z
   'snorlax': _ExclusiveZMove(
-    'Giga Impact', 'Pulverizing Pancake', '진심의공격', 'ほんきをだす　こうげき', 210),
+    'Giga Impact', 'Pulverizing Pancake', '진심의공격', 'ほんきをだす　こうげき', 210, [MoveTags.contact]),
   'mew': _ExclusiveZMove(
     'Psychic', 'Genesis Supernova', '오리진즈슈퍼노바', 'オリジンズスーパーノヴァ', 185),
   'decidueye': _ExclusiveZMove(
     'Spirit Shackle', 'Sinister Arrow Raid', '섀도애로우즈스트라이크', 'シャドーアローズストライク', 180),
   'incineroar': _ExclusiveZMove(
-    'Darkest Lariat', 'Malicious Moonsault', '하이퍼다크크러셔', 'ハイパーダーククラッシャー', 180),
+    'Darkest Lariat', 'Malicious Moonsault', '하이퍼다크크러셔', 'ハイパーダーククラッシャー', 180, [MoveTags.contact]),
   'primarina': _ExclusiveZMove(
     'Sparkling Aria', 'Oceanic Operetta', '바다의심포니', 'わだつみのシンフォニア', 195),
   'lycanroc': _ExclusiveZMove(
@@ -1056,7 +1052,7 @@ const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'lycanroc-dusk': _ExclusiveZMove(
     'Stone Edge', 'Splintered Stormshards', '레이디얼에지스톰', 'ラジアルエッジストーム', 190),
   'mimikyu': _ExclusiveZMove(
-    'Play Rough', "Let's Snuggle Forever", '투닥투닥프렌드타임', 'ぽかぼかフレンドタイム', 190),
+    'Play Rough', "Let's Snuggle Forever", '투닥투닥프렌드타임', 'ぽかぼかフレンドタイム', 190, [MoveTags.contact]),
   'kommo-o': _ExclusiveZMove(
     'Clanging Scales', 'Clangorous Soulblaze', '브레이징소울비트', 'ブレイジングソウルビート', 185),
   'tapu koko': _ExclusiveZMove(
@@ -1068,9 +1064,9 @@ const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'tapu fini': _ExclusiveZMove(
     "Nature\u2019s Madness", 'Guardian of Alola', '알로라의수호자', 'ガーディアン・デ・アローラ', 0, [MoveTags.fixedThreeQuarterHp]),
   'solgaleo': _ExclusiveZMove(
-    'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200),
+    'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200, [MoveTags.contact]),
   'necrozma-dusk-mane': _ExclusiveZMove(
-    'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200),
+    'Sunsteel Strike', 'Searing Sunraze Smash', '선샤인스매셔', 'サンシャインスマッシャー', 200, [MoveTags.contact]),
   'lunala': _ExclusiveZMove(
     'Moongeist Beam', 'Menacing Moonraze Maelstrom', '문라이트블래스터', 'ムーンライトブラスター', 200),
   'necrozma-dawn-wings': _ExclusiveZMove(
@@ -1078,7 +1074,7 @@ const Map<String, _ExclusiveZMove> _exclusiveZMoves = {
   'necrozma-ultra': _ExclusiveZMove(
     'Photon Geyser', 'Light That Burns the Sky', '하늘을태우는멸망의빛', 'てんこがすめつぼうのひかり', 200),
   'marshadow': _ExclusiveZMove(
-    'Spectral Thief', 'Soul-Stealing 7-Star Strike', '칠성탈혼퇴', 'しちせいだっこんたい', 195),
+    'Spectral Thief', 'Soul-Stealing 7-Star Strike', '칠성탈혼퇴', 'しちせいだっこんたい', 195, [MoveTags.contact]),
 };
 
 // Legacy wrappers for backward compatibility with tests
