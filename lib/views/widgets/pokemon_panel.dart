@@ -83,6 +83,7 @@ class PokemonPanelState extends State<PokemonPanel>
   final _screenshotController = ScreenshotController();
   int? _focusedMoveIndex;
   final List<GlobalKey> _moveRowKeys = List.generate(4, (_) => GlobalKey());
+  bool _secondaryExpanded = false;
 
   // Power input controllers — one per move slot.
   // Using controllers instead of initialValue + key avoids rebuilding
@@ -263,6 +264,7 @@ class PokemonPanelState extends State<PokemonPanel>
           //   ),
           // ),
 
+          // Primary section: moves for attacker, bulk for defender
           if (widget.isAttacker) ...[
             _sectionCard(
               key: _movesSectionKey,
@@ -282,6 +284,28 @@ class PokemonPanelState extends State<PokemonPanel>
           ] else ...[
             _bulkDisplay(),
           ],
+          const SizedBox(height: 4),
+          // Secondary section (collapsible): bulk for attacker, moves for defender
+          _collapsibleSection(
+            title: widget.isAttacker
+                ? AppStrings.t('section.bulk')
+                : AppStrings.t('section.moves'),
+            expanded: _secondaryExpanded,
+            onToggle: () => setState(() => _secondaryExpanded = !_secondaryExpanded),
+            child: widget.isAttacker
+                ? _bulkContent()
+                : Column(
+                    children: [
+                      _moveHeader(context),
+                      const Divider(height: 1),
+                      const SizedBox(height: 2),
+                      for (int i = 0; i < 4; i++) ...[
+                        if (i > 0) const SizedBox(height: 2),
+                        _moveSlot(i),
+                      ],
+                    ],
+                  ),
+          ),
         ],
       ),
     ),
@@ -289,46 +313,97 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   Widget _bulkDisplay() {
+    return _sectionCard(
+      title: AppStrings.t('section.bulk'),
+      child: _bulkContent(),
+    );
+  }
+
+  Widget _bulkContent() {
     final bulk = BattleFacade.calcBulk(
       state: s,
       weather: widget.weather,
       terrain: widget.terrain,
       room: widget.room,
     );
+    final accentColor = widget.isAttacker ? Colors.red : Colors.blue;
 
-    return _sectionCard(
-      title: AppStrings.t('section.bulk'),
-      child: Row(
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              Text(AppStrings.t('section.physBulk'), style: TextStyle(
+                fontSize: 12, color: accentColor[400],
+              )),
+              const SizedBox(height: 4),
+              Text('${bulk.physical}', style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold,
+                color: accentColor[700],
+              )),
+            ],
+          ),
+        ),
+        Container(width: 1, height: 40, color: accentColor.withValues(alpha: 0.2)),
+        Expanded(
+          child: Column(
+            children: [
+              Text(AppStrings.t('section.specBulk'), style: TextStyle(
+                fontSize: 12, color: accentColor[400],
+              )),
+              const SizedBox(height: 4),
+              Text('${bulk.special}', style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold,
+                color: accentColor[700],
+              )),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _collapsibleSection({
+    required String title,
+    required bool expanded,
+    required VoidCallback onToggle,
+    required Widget child,
+  }) {
+    final accentColor = widget.isAttacker ? Colors.red : Colors.blue;
+    final cardColor = Color.lerp(Theme.of(context).cardColor, accentColor, 0.06);
+    final titleColor = widget.isAttacker ? Colors.red[700] : Colors.blue[700];
+    final isWide = MediaQuery.of(context).size.width >= 600;
+    final hPad = isWide ? 10.0 : 8.0;
+    final vPad = isWide ? 8.0 : 6.0;
+
+    return Container(
+      color: cardColor,
+      padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
+          GestureDetector(
+            onTap: onToggle,
+            behavior: HitTestBehavior.opaque,
+            child: Row(
               children: [
-                Text(AppStrings.t('section.physBulk'), style: TextStyle(
-                  fontSize: 12, color: Colors.blue[400],
-                )),
-                const SizedBox(height: 4),
-                Text('${bulk.physical}', style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold,
-                  color: Colors.blue[700],
-                )),
+                Expanded(
+                  child: Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: titleColor,
+                  )),
+                ),
+                Icon(
+                  expanded ? Icons.expand_less : Icons.expand_more,
+                  size: 20,
+                  color: titleColor,
+                ),
               ],
             ),
           ),
-          Container(width: 1, height: 40, color: Colors.blue.withValues(alpha: 0.2)),
-          Expanded(
-            child: Column(
-              children: [
-                Text(AppStrings.t('section.specBulk'), style: TextStyle(
-                  fontSize: 12, color: Colors.blue[400],
-                )),
-                const SizedBox(height: 4),
-                Text('${bulk.special}', style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold,
-                  color: Colors.blue[700],
-                )),
-              ],
-            ),
-          ),
+          if (expanded) ...[
+            SizedBox(height: isWide ? 8.0 : 6.0),
+            child,
+          ],
         ],
       ),
     );
