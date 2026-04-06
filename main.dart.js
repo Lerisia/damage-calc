@@ -8370,7 +8370,7 @@ if(p.a){p=p.b
 q=p!==B.bC&&p!=null&&m===p&&!q&&r.Q<=0&&g>0&&g<60}else q=!1
 if(q)g=60
 f=r.geF()
-e=A.aH2(a,k,!0,o,a7.fr[b],c,a0,a1,a2,null,a4,a5,h,a6,a7,a8,a7.cy[b],a9,a7.fx[b])
+e=A.aH2(a,k,!0,o,a7.fr[b],c,a0,a1,a2,a3,a4,a5,h,a6,a7,a8,a7.cy[b],a9,a7.fx[b])
 q=r.z
 d=B.b.m(q,"custom:fixed_level")||B.b.m(q,"custom:fixed_half_hp")||B.b.m(q,"custom:fixed_three_quarter_hp")||B.b.m(q,"custom:fixed_20")||B.b.m(q,"custom:fixed_40")||B.b.m(q,"custom:ohko")
 return new A.O_(f,m,j,g,d,r.at>1,e)},
@@ -9175,9 +9175,7 @@ else if(c>=50)r=80
 else if(c>=25)r=60
 else r=c>=10?40:20
 return a.eD(r)}return a},
-aZ8(a,b){var s
-if(b==null)return a
-s=a.z
+aZ8(a,b){var s=a.z
 if(B.b.m(s,"custom:power_target_hp_120"))return a.eD(B.f.bz(B.c.bS(120*b/100),1,120))
 if(B.b.m(s,"custom:power_target_hp_100"))return a.eD(B.f.bz(B.c.bS(100*b/100),1,100))
 return a},
