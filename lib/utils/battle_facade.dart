@@ -221,6 +221,7 @@ class BattleFacade {
       hitCount: hits,
       attackerGrounded: attackerGrounded,
       defenderGrounded: defenderGrounded,
+      opponentHpPercent: opponentHpPercent,
       zMove: state.zMoves[moveIndex],
     );
 
