@@ -102,6 +102,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     _atkNatureFocus.dispose();
     _defAbilityFocus.dispose();
     _defItemFocus.dispose();
+    _defNatureFocus.dispose();
     super.dispose();
   }
 

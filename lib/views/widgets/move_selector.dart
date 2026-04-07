@@ -156,31 +156,14 @@ class _MoveSelectorState extends State<MoveSelector> {
       ),
       onTap: widget.onTap,
       builder: (context, controller, focusNode) {
-        focusNode.addListener(() {
-          if (focusNode.hasFocus) {
-            _isFocused = true;
-            controller.clear();
-            widget.onTap?.call();
-          } else {
-            _isFocused = false;
-            if (controller.text.isEmpty && _selected != null) {
-              controller.text = widget.displayNameOverride ?? _selected!.localizedName;
-            }
-            if (widget.displayNameOverride != null && _selected != null) {
-              controller.text = widget.displayNameOverride!;
-            }
-          }
-        });
-        if (!_isFocused && widget.displayNameOverride != null && _selected != null) {
-          controller.text = widget.displayNameOverride!;
-        }
-        return TextField(
+        return _MoveTextField(
           controller: controller,
           focusNode: focusNode,
-          textInputAction: TextInputAction.done,
-          maxLength: 30,
-          buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
-          onSubmitted: (_) {
+          displayNameOverride: widget.displayNameOverride,
+          selected: _selected,
+          onTap: widget.onTap,
+          onFocusChanged: (hasFocus) => _isFocused = hasFocus,
+          onSubmitted: () {
             final results = _sortedOptions(controller.text);
             if (results.isNotEmpty) {
               final pick = results.first;
@@ -190,14 +173,6 @@ class _MoveSelectorState extends State<MoveSelector> {
               focusNode.unfocus();
             }
           },
-          style: widget.displayNameOverride != null
-              ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
-              : const TextStyle(fontSize: 14),
-          decoration: InputDecoration(
-            hintText: _selected?.localizedName ?? AppStrings.t('search.move'),
-            hintStyle: const TextStyle(fontSize: 14),
-            isDense: true,
-          ),
         );
       },
       itemBuilder: (context, move) {
@@ -228,6 +203,101 @@ class _MoveSelectorState extends State<MoveSelector> {
         widget.onSelected(move);
       },
       maxHeight: 200,
+    );
+  }
+}
+
+class _MoveTextField extends StatefulWidget {
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final String? displayNameOverride;
+  final Move? selected;
+  final VoidCallback? onTap;
+  final ValueChanged<bool> onFocusChanged;
+  final VoidCallback onSubmitted;
+
+  const _MoveTextField({
+    required this.controller,
+    required this.focusNode,
+    this.displayNameOverride,
+    this.selected,
+    this.onTap,
+    required this.onFocusChanged,
+    required this.onSubmitted,
+  });
+
+  @override
+  State<_MoveTextField> createState() => _MoveTextFieldState();
+}
+
+class _MoveTextFieldState extends State<_MoveTextField> {
+  bool _listenerAdded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _addListener();
+  }
+
+  @override
+  void didUpdateWidget(_MoveTextField old) {
+    super.didUpdateWidget(old);
+    if (old.focusNode != widget.focusNode) {
+      old.focusNode.removeListener(_onFocusChange);
+      _listenerAdded = false;
+      _addListener();
+    }
+    if (!widget.focusNode.hasFocus && widget.displayNameOverride != null && widget.selected != null) {
+      widget.controller.text = widget.displayNameOverride!;
+    }
+  }
+
+  void _addListener() {
+    if (!_listenerAdded) {
+      widget.focusNode.addListener(_onFocusChange);
+      _listenerAdded = true;
+    }
+  }
+
+  void _onFocusChange() {
+    if (widget.focusNode.hasFocus) {
+      widget.onFocusChanged(true);
+      widget.controller.clear();
+      widget.onTap?.call();
+    } else {
+      widget.onFocusChanged(false);
+      if (widget.controller.text.isEmpty && widget.selected != null) {
+        widget.controller.text = widget.displayNameOverride ?? widget.selected!.localizedName;
+      }
+      if (widget.displayNameOverride != null && widget.selected != null) {
+        widget.controller.text = widget.displayNameOverride!;
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.focusNode.removeListener(_onFocusChange);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      textInputAction: TextInputAction.done,
+      maxLength: 30,
+      buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
+      onSubmitted: (_) => widget.onSubmitted(),
+      style: widget.displayNameOverride != null
+          ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
+          : const TextStyle(fontSize: 14),
+      decoration: InputDecoration(
+        hintText: widget.selected?.localizedName ?? AppStrings.t('search.move'),
+        hintStyle: const TextStyle(fontSize: 14),
+        isDense: true,
+      ),
     );
   }
 }
