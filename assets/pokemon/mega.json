@@ -1399,7 +1399,7 @@
     "type2": "psychic",
     "baseStats": {
       "hp": 60,
-      "attack": 140,
+      "attack": 100,
       "defense": 105,
       "spAttack": 130,
       "spDefense": 105,
