@@ -577,7 +577,8 @@ class BattleFacade {
       case OffensiveStat.higherAttack:
         return math.max(modifiers.attack, modifiers.spAttack);
       case OffensiveStat.opponentAttack:
-        return 1.0;
+        // Foul Play: user's own Attack modifiers (Huge Power, etc.) still apply
+        return modifiers.attack;
     }
   }
 

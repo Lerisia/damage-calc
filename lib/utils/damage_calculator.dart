@@ -466,7 +466,9 @@ class DamageCalculator {
           abilityEffect.statModifiers.spAttack,
         );
       case OffensiveStat.opponentAttack:
-        abilityStatMod = 1.0;
+        // Foul Play: user's own Attack modifiers (Huge Power, Pure Power, etc.)
+        // still apply to the opponent's Attack stat
+        abilityStatMod = abilityEffect.statModifiers.attack;
     }
 
     // Foul Play uses opponent's raw stat, but user's own item/ability modifiers still apply
