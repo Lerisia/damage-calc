@@ -779,6 +779,11 @@ class AppStrings {
       AppLanguage.en: 'Neutral',
       AppLanguage.ja: '準速',
     },
+    'speed.unboostedSpeed': {
+      AppLanguage.ko: '무보정',
+      AppLanguage.en: 'Uninvested',
+      AppLanguage.ja: '無振',
+    },
     'speed.outspeeds': {
       AppLanguage.ko: '추월',
       AppLanguage.en: 'outspeeds',
