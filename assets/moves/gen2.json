@@ -626,7 +626,7 @@
     "nameJa": "ボーンラッシュ",
     "type": "ground",
     "category": "physical",
-    "power": 25,
+    "power": 30,
     "accuracy": 90,
     "pp": 10,
     "tags": [],
