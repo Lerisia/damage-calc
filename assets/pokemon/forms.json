@@ -1592,5 +1592,32 @@
     "requiredItem": "lustrous-globe",
     "genderRate": -1,
     "nameEn": "Palkia (Origin Forme)"
+  },
+  {
+    "dexNumber": 670,
+    "formId": 10061,
+    "name": "Floette (Eternal Flower)",
+    "nameKo": "플라엣테 (영원의 꽃)",
+    "nameJa": "フラエッテ (永遠の花)",
+    "type1": "fairy",
+    "type2": null,
+    "baseStats": {
+      "hp": 74,
+      "attack": 65,
+      "defense": 67,
+      "spAttack": 125,
+      "spDefense": 128,
+      "speed": 92
+    },
+    "abilities": [
+      "Flower Veil"
+    ],
+    "weight": 0.9,
+    "height": 0.2,
+    "finalEvo": true,
+    "canDynamax": false,
+    "canGmax": false,
+    "genderRate": 8,
+    "nameEn": "Floette (Eternal Flower)"
   }
 ]
