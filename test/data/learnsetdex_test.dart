@@ -103,9 +103,10 @@ void main() {
       expect(formMoves, equals(baseMoves));
     });
 
-    test('Scizor does not have Roost (removed in gen 9)', () async {
+    test('Scizor has Roost in Champions', () async {
+      // Champions restored Roost to Scizor's learnset (not available in Gen 9 SV).
       final moves = await getLearnableMoves('Scizor');
-      expect(moves.contains('roost'), isFalse);
+      expect(moves.contains('roost'), isTrue);
     });
 
     test('Cinderace has High Jump Kick (inherited from Scorbunny egg move)', () async {
