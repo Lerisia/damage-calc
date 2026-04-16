@@ -1147,11 +1147,13 @@ class DamageCalculator {
           // 16 aligned pairs: hit 2 at random roll i uses power from remaining HP
           // after hit 1's damage at roll i. This is a simplification vs the true
           // 16×16 independent random rolls, but gives a sensible per-hit display.
+          // If hit 1 KOs the target, hit 2 does not execute (0 damage).
           final secondHitRolls = List<int>.generate(
               RandomFactor.maxRoll - RandomFactor.minRoll + 1, (idx) {
             final int randomRoll = RandomFactor.minRoll + idx;
             final int hit1Dmg = firstHitRolls[idx];
-            final int remainingHp = (initialCurrentHp - hit1Dmg).clamp(0, defMaxHp);
+            if (hit1Dmg >= initialCurrentHp) return 0;
+            final int remainingHp = initialCurrentHp - hit1Dmg;
             final int hit2BasePower = (maxPower * remainingHp / defMaxHp).floor().clamp(1, maxPower);
             final int hit2PbPower = (hit2BasePower * kParentalBondSecondHit).floor().clamp(1, 999);
             final int hit2PowerMod = (hit2PbPower * movePowerMod).floor().clamp(1, 9999);
@@ -1364,25 +1366,31 @@ class DamageCalculator {
     // Disguise: intercepts damage formula, replaces fixed damage with 1/8 max HP.
     // (Reaches here only if Mold Breaker didn't bypass it, since earlyDefAbility is null then.)
     // Parental Bond + Disguise: only the first hit is absorbed; 2nd hit deals full
-    // fixed damage against the busted form.
+    // fixed damage against the busted form, based on HP remaining after hit 1.
     if (defenderAbility == 'Disguise Disguised') {
+      final int currentBaseHpForDisguise =
+          (defStats.hp * defender.hpPercent / 100).ceil().clamp(1, defStats.hp);
       final disguiseDamage = (defHp / 8).floor().clamp(1, defHp);
       final bool pbFixed = move.hasTag(MoveTags.parentalBondFixed);
-      // Recompute the fixed-damage value for the 2nd hit (against Busted form).
+      // Hit 2 uses remaining CURRENT HP (not max HP). If hit 1 KOs, hit 2 = 0.
       final int secondHit;
-      if (pbFixed) {
+      if (!pbFixed) {
+        secondHit = 0;
+      } else if (disguiseDamage >= currentBaseHpForDisguise) {
+        secondHit = 0;
+      } else {
+        final int remainingCurrent = currentBaseHpForDisguise - disguiseDamage;
         if (move.hasTag(MoveTags.fixedLevel)) {
           secondHit = attacker.level.clamp(1, 100);
+        } else if (move.hasTag(MoveTags.fixed20)) {
+          secondHit = 20;
+        } else if (move.hasTag(MoveTags.fixed40)) {
+          secondHit = 40;
         } else if (move.hasTag(MoveTags.fixedThreeQuarterHp)) {
-          final remaining = (defHp - disguiseDamage).clamp(1, defHp);
-          secondHit = (remaining * 3 / 4).ceil().clamp(1, defHp);
+          secondHit = (remainingCurrent * 3 / 4).ceil().clamp(1, defHp);
         } else {
-          // fixedHalfHp
-          final remaining = (defHp - disguiseDamage).clamp(1, defHp);
-          secondHit = (remaining / 2).ceil().clamp(1, defHp);
+          secondHit = (remainingCurrent / 2).ceil().clamp(1, defHp);
         }
-      } else {
-        secondHit = 0;
       }
       final total = pbFixed ? disguiseDamage + secondHit : disguiseDamage;
       final List<List<int>>? perHit = pbFixed
@@ -1428,10 +1436,16 @@ class DamageCalculator {
     }
 
     // Parental Bond on fixed-damage moves: hit 2 recalculates against remaining HP.
+    // If hit 1 KOs the target, hit 2 does not execute (0 damage).
     final bool pbFixed = move.hasTag(MoveTags.parentalBondFixed);
-    final int secondHitFixed = pbFixed
-        ? computeFixed((currentBaseHp - fixedDamage).clamp(1, baseHp))
-        : 0;
+    final int secondHitFixed;
+    if (!pbFixed) {
+      secondHitFixed = 0;
+    } else if (fixedDamage >= currentBaseHp) {
+      secondHitFixed = 0;
+    } else {
+      secondHitFixed = computeFixed(currentBaseHp - fixedDamage);
+    }
     final int totalFixed = pbFixed ? fixedDamage + secondHitFixed : fixedDamage;
     final List<List<int>>? pbPerHit = pbFixed
         ? [List.filled(16, fixedDamage), List.filled(16, secondHitFixed)]
