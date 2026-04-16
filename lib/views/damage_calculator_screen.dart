@@ -1409,6 +1409,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           return '$name $detail';
         }
         return name;
+      case 'disguise':
+        final name = _abilityNameMap[parts[1]] ?? parts[1];
+        return '$name: ${AppStrings.t('note.disguiseDamage')}';
       case 'item':
         final name = _itemNameMap[parts[1]] ?? parts[1];
         if (parts.length >= 3) return '$name ${parts[2]}';

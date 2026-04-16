@@ -1127,7 +1127,7 @@ class DamageCalculator {
 
     // Add Disguise note when active
     if (disguiseActive) {
-      notes.add('ability:$defAbilityName:탈이 깨짐 (최대 HP의 1/8 대미지)');
+      notes.add('disguise:$defAbilityName');
     }
 
     return DamageResult(

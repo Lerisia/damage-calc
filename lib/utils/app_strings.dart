@@ -705,6 +705,11 @@ class AppStrings {
       AppLanguage.en: 'Terrain negated',
       AppLanguage.ja: 'フィールド無効',
     },
+    'note.disguiseDamage': {
+      AppLanguage.ko: '최대 HP의 1/8 대미지',
+      AppLanguage.en: '1/8 max HP damage',
+      AppLanguage.ja: '最大HPの1/8ダメージ',
+    },
     'note.groundImmune': {
       AppLanguage.ko: '비접지: 땅 타입 기술 무효',
       AppLanguage.en: 'Ungrounded: Ground immune',
