@@ -193,6 +193,66 @@ void main() {
       expect(info.effectivePower, greaterThan(0));
     });
 
+    test('Shell Side Arm: category flips to physical vs low-Def defender', () {
+      final state = BattlePokemonState();
+      state.moves[0] = const Move(
+        name: 'Shell Side Arm', nameKo: '셸암즈', nameJa: 'シェルアームズ',
+        type: PokemonType.poison, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 10,
+        tags: [MoveTags.shellSideArm],
+      );
+      // Defender: Def 50, SpD 200 → physical side wins
+      final info = BattleFacade.getMoveSlotInfo(
+        state: state,
+        moveIndex: 0,
+        weather: Weather.none,
+        terrain: Terrain.none,
+        room: const RoomConditions(),
+        opponentDefense: 50,
+        opponentSpDefense: 200,
+      );
+      expect(info.effectiveCategory, equals(MoveCategory.physical));
+    });
+
+    test('Shell Side Arm: category stays special vs low-SpD defender', () {
+      final state = BattlePokemonState();
+      state.moves[0] = const Move(
+        name: 'Shell Side Arm', nameKo: '셸암즈', nameJa: 'シェルアームズ',
+        type: PokemonType.poison, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 10,
+        tags: [MoveTags.shellSideArm],
+      );
+      // Defender: Def 200, SpD 50 → special side wins
+      final info = BattleFacade.getMoveSlotInfo(
+        state: state,
+        moveIndex: 0,
+        weather: Weather.none,
+        terrain: Terrain.none,
+        room: const RoomConditions(),
+        opponentDefense: 200,
+        opponentSpDefense: 50,
+      );
+      expect(info.effectiveCategory, equals(MoveCategory.special));
+    });
+
+    test('Shell Side Arm: no defender stats → stays at base special', () {
+      final state = BattlePokemonState();
+      state.moves[0] = const Move(
+        name: 'Shell Side Arm', nameKo: '셸암즈', nameJa: 'シェルアームズ',
+        type: PokemonType.poison, category: MoveCategory.special,
+        power: 90, accuracy: 100, pp: 10,
+        tags: [MoveTags.shellSideArm],
+      );
+      final info = BattleFacade.getMoveSlotInfo(
+        state: state,
+        moveIndex: 0,
+        weather: Weather.none,
+        terrain: Terrain.none,
+        room: const RoomConditions(),
+      );
+      expect(info.effectiveCategory, equals(MoveCategory.special));
+    });
+
     test('fixed damage move detected', () {
       final state = BattlePokemonState();
       const nightShade = Move(

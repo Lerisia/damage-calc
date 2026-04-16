@@ -151,6 +151,8 @@ class BattleFacade {
     required RoomConditions room,
     int? opponentSpeed,
     int? opponentAttack,
+    int? opponentDefense,
+    int? opponentSpDefense,
     Gender opponentGender = Gender.unset,
     int? myEffectiveSpeed,
     double? opponentWeight,
@@ -193,7 +195,21 @@ class BattleFacade {
     final effectiveType = transformed.move.type == PokemonType.typeless
         ? null
         : (state.typeOverrides[moveIndex] ?? transformed.move.type);
-    final effectiveCategory = state.categoryOverrides[moveIndex] ?? transformed.move.category;
+
+    // Shell Side Arm: pick physical/special by A×SpD vs C×Def when defender
+    // defense stats are known. Uses rank-adjusted stats per game rule.
+    // User category override still wins.
+    MoveCategory resolvedCategory = transformed.move.category;
+    if (transformed.move.hasTag(MoveTags.shellSideArm) &&
+        opponentDefense != null && opponentSpDefense != null) {
+      final atkRanked = StatCalculator.calculate(
+        baseStats: state.baseStats, iv: state.iv, ev: state.ev,
+        nature: state.nature, level: state.level, rank: state.rank);
+      final usePhysical =
+          atkRanked.attack * opponentSpDefense! > atkRanked.spAttack * opponentDefense!;
+      resolvedCategory = usePhysical ? MoveCategory.physical : MoveCategory.special;
+    }
+    final effectiveCategory = state.categoryOverrides[moveIndex] ?? resolvedCategory;
     final basePower = transformed.move.power;
     var effectivePower = state.powerOverrides[moveIndex] ?? basePower;
 

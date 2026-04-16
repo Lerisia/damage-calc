@@ -37,6 +37,8 @@ class PokemonPanel extends StatefulWidget {
   final int? opponentSpeed;
   final bool opponentAlwaysLast;
   final int? opponentAttack;
+  final int? opponentDefense;
+  final int? opponentSpDefense;
   final Gender? opponentGender;
   final double? opponentWeight;
   final int? opponentHpPercent;
@@ -59,6 +61,8 @@ class PokemonPanel extends StatefulWidget {
     this.opponentSpeed,
     this.opponentAlwaysLast = false,
     this.opponentAttack,
+    this.opponentDefense,
+    this.opponentSpDefense,
     this.opponentWeight,
     this.opponentHpPercent,
     this.opponentGender,
@@ -415,6 +419,8 @@ class PokemonPanelState extends State<PokemonPanel>
       room: widget.room,
       opponentSpeed: widget.opponentSpeed,
       opponentAttack: widget.opponentAttack,
+      opponentDefense: widget.opponentDefense,
+      opponentSpDefense: widget.opponentSpDefense,
       opponentGender: widget.opponentGender ?? Gender.unset,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: widget.opponentWeight,

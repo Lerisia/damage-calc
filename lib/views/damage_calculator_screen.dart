@@ -1124,6 +1124,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentAttack: isAttacker
                 ? _calcStats(_defender).attack
                 : _calcStats(_attacker).attack,
+            opponentDefense: isAttacker
+                ? _calcStats(_defender).defense
+                : _calcStats(_attacker).defense,
+            opponentSpDefense: isAttacker
+                ? _calcStats(_defender).spDefense
+                : _calcStats(_attacker).spDefense,
             opponentGender: isAttacker ? _defender.gender : _attacker.gender,
             opponentWeight: isAttacker
                 ? BattleFacade.effectiveWeight(_defender)
