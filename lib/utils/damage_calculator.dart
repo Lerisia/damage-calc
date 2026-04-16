@@ -1065,52 +1065,63 @@ class DamageCalculator {
           defender.hpPercent >= 100 && effectiveness < 1.0;
       final bool hasBerry = berryMod != 1.0;
 
-      // On-hit stat change effects (applied to defense for hits 2+)
-      // Track cumulative defense stages: positive = more defense (less damage)
-      // +1 = ×1.5, +2 = ×2.0, -1 = ×0.66 (2/3), etc.
-      //
-      // Note: defense stages compound across hits in-game, but we simplify to
-      // a single "rank at hit 2+" approximation. Multi-proc items (e.g. Weak
-      // Armor every hit) would need per-hit compounding; low priority for now.
-      int defStages = 0;
+      // On-hit stat-change effects on defender, split into:
+      //   - oneTimeDefChange: consumed after first trigger (berries)
+      //   - perHitDefChange:  activates on every qualifying hit (abilities)
+      // Gen 7+ rule: per-hit abilities (Stamina, Weak Armor, Water Compaction)
+      // compound stage-by-stage across multi-hit moves. Berries only flip once.
+      int oneTimeDefChange = 0;
+      int perHitDefChange = 0;
       final List<String> statChangeNotes = [];
 
-      // Kee Berry (+1 Def, physical only, one-time use)
+      // One-time: Kee Berry (+1 Def vs physical)
       if (defender.selectedItem == 'kee-berry' && isPhysical) {
-        defStages += 1;
+        oneTimeDefChange += 1;
         statChangeNotes.add('berryDefBoost:kee-berry');
       }
-      // Maranga Berry (+1 SpDef, special only, one-time use)
-      // Affects SpDef, but since we use D generically (which is already
-      // SpDef for special moves), same +1 stage treatment.
+      // One-time: Maranga Berry (+1 SpDef vs special — treated as +Def since D is SpDef here)
       if (defender.selectedItem == 'maranga-berry' && !isPhysical) {
-        defStages += 1;
+        oneTimeDefChange += 1;
         statChangeNotes.add('berryDefBoost:maranga-berry');
       }
-      // On-hit stat change abilities: activate AFTER damage, not suppressed by Mold Breaker.
+      // Per-hit ability: Stamina (+1 Def on any damaging hit).
+      // Not suppressed by Mold Breaker (activates after damage).
       if (defAbilityName == 'Stamina') {
-        defStages += 1;
+        perHitDefChange += 1;
         statChangeNotes.add('abilityDefChange:Stamina:+1');
       }
+      // Per-hit ability: Water Compaction (+2 Def on water hits)
       if (defAbilityName == 'Water Compaction' && moveType == PokemonType.water) {
-        defStages += 2;
+        perHitDefChange += 2;
         statChangeNotes.add('abilityDefChange:Water Compaction:+2');
       }
+      // Per-hit ability: Weak Armor (-1 Def on physical hits)
       if (defAbilityName == 'Weak Armor' && isPhysical) {
-        defStages -= 1;
+        perHitDefChange -= 1;
         statChangeNotes.add('abilityDefChange:Weak Armor:-1');
       }
       notes.addAll(statChangeNotes);
 
-      // Compute D multiplier from stages: +1→3/2, +2→4/2, -1→2/3, -2→2/4
-      int dForSubHits = D;
-      if (defStages > 0) {
-        dForSubHits = (D * (2 + defStages) ~/ 2);
-      } else if (defStages < 0) {
-        dForSubHits = (D * 2 ~/ (2 - defStages));
+      // Convert stage count to a defense value. +1→×1.5, +2→×2.0, -1→×2/3...
+      int dAtStage(int stage) {
+        final clamped = stage.clamp(-6, 6);
+        if (clamped > 0) return (D * (2 + clamped) ~/ 2);
+        if (clamped < 0) return (D * 2 ~/ (2 - clamped));
+        return D;
       }
-      final bool defChanged = defStages != 0;
-      // Subsequent-hit baseDmg with adjusted D
+
+      // Stages that apply BEFORE hit i (0-indexed). Hit 0: no triggers yet.
+      // Hit i (≥1): all per-hit triggers from prior i hits, plus at most one
+      // berry trigger (if hit 1 qualified, subsequent hits see the -1 berry).
+      int stagesBeforeHit(int i) {
+        if (i == 0) return 0;
+        return oneTimeDefChange + perHitDefChange * i;
+      }
+
+      // Defense used for subsequent hits in simple cases (only one-time change,
+      // no per-hit accumulation) — kept for the berry-only fast path.
+      final int dForSubHits = dAtStage(oneTimeDefChange + perHitDefChange);
+      final bool defChanged = (oneTimeDefChange != 0) || (perHitDefChange != 0);
       final int subBaseDmg = defChanged
           ? ((2 * level ~/ 5 + 2) * power * A ~/ dForSubHits) ~/ 50 + 2
           : baseDmg;
@@ -1125,7 +1136,7 @@ class DamageCalculator {
         final singleHitPower = effectiveMove.power;
         perHitAllRolls = List.generate(hitCount, (i) {
           final hitPower = (singleHitPower * (i + 1) * movePowerMod).floor();
-          final dForHit = (i == 0) ? D : dForSubHits;
+          final dForHit = dAtStage(stagesBeforeHit(i));
           final hitBaseDmg = ((2 * level ~/ 5 + 2) * hitPower * A ~/ dForHit) ~/ 50 + 2;
           if (i == 0) return allRolls(hitBaseDmg);
           return allRolls(hitBaseDmg,
@@ -1173,11 +1184,26 @@ class DamageCalculator {
         }
       } else {
         final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
-        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive || defChanged)
-            ? allRolls(subBaseDmg,
-                effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry)
-            : singleHitRolls;
-        perHitAllRolls = [firstHitRolls, ...List.filled(hitCount - 1, subHitRolls)];
+        if (perHitDefChange != 0) {
+          // Per-hit ability compounds (Stamina / Water Compaction / Weak Armor):
+          // each hit uses defense stages from all prior triggers.
+          final hits = <List<int>>[firstHitRolls];
+          for (int i = 1; i < hitCount; i++) {
+            final dForHit = dAtStage(stagesBeforeHit(i));
+            final hitBaseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ dForHit) ~/ 50 + 2;
+            hits.add(allRolls(hitBaseDmg,
+                effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry));
+          }
+          perHitAllRolls = hits;
+        } else {
+          // One-time effects only (Multiscale, Tera Shell, berry, Disguise, Kee/Maranga):
+          // hits 2+ share a single subHitRolls.
+          final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive || defChanged)
+              ? allRolls(subBaseDmg,
+                  effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry)
+              : singleHitRolls;
+          perHitAllRolls = [firstHitRolls, ...List.filled(hitCount - 1, subHitRolls)];
+        }
       }
     }
 

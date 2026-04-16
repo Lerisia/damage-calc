@@ -1336,6 +1336,59 @@ void main() {
       expect(rWith.perHitAllRolls![0], equals(rNo.perHitAllRolls![0]));
       expect(rWith.perHitAllRolls![1].first, greaterThan(rNo.perHitAllRolls![1].first));
     });
+
+    test('Stamina: defense stacks per hit (each hit deals less damage)', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+        minHits: 5, maxHits: 5,
+      );
+      final r = calc(move: bulletSeed,
+          defType1: PokemonType.normal, defType2: null,
+          defAbility: 'Stamina');
+      // Hit damage monotonically non-increasing; at least h5 << h1 (integer
+      // rounding at small values can cause adjacent ties).
+      final h1 = r.perHitAllRolls![0].first;
+      final h2 = r.perHitAllRolls![1].first;
+      final h3 = r.perHitAllRolls![2].first;
+      final h5 = r.perHitAllRolls![4].first;
+      expect(h2, lessThan(h1));
+      expect(h3, lessThan(h2));
+      expect(h5, lessThan(h3));
+    });
+
+    test('Weak Armor: defense drops per hit (each hit deals more damage)', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+        minHits: 5, maxHits: 5,
+      );
+      final r = calc(move: bulletSeed,
+          defType1: PokemonType.normal, defType2: null,
+          defAbility: 'Weak Armor');
+      final h1 = r.perHitAllRolls![0].first;
+      final h2 = r.perHitAllRolls![1].first;
+      final h3 = r.perHitAllRolls![2].first;
+      expect(h2, greaterThan(h1));
+      expect(h3, greaterThan(h2));
+    });
+
+    test('Kee Berry: one-time boost, hits 2-5 identical', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+        minHits: 5, maxHits: 5,
+      );
+      final r = calc(move: bulletSeed,
+          defType1: PokemonType.normal, defType2: null,
+          defAbility: 'Overgrow', defItem: 'kee-berry');
+      expect(r.perHitAllRolls![1], equals(r.perHitAllRolls![2]));
+      expect(r.perHitAllRolls![2], equals(r.perHitAllRolls![3]));
+      expect(r.perHitAllRolls![3], equals(r.perHitAllRolls![4]));
+    });
   });
 
   // ---------------------------------------------------------------
