@@ -91,4 +91,8 @@ class MoveTags {
   static const String parentalBond = 'custom:parental_bond';
   // Parental Bond on fixed-damage moves: 2nd hit does full damage (no 0.25x).
   static const String parentalBondFixed = 'custom:parental_bond_fixed';
+
+  // Shell Side Arm: physical / special chosen by comparing A*SpD vs C*Def
+  // using modified stats (rank stages applied).
+  static const String shellSideArm = 'custom:shell_side_arm';
 }

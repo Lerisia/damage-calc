@@ -326,8 +326,32 @@ class DamageCalculator {
       zMove: attacker.zMoves[moveIndex],
       isMega: attacker.isMega,
     );
-    final transformed = transformMove(effectiveMove, moveCtx);
+    var transformed = transformMove(effectiveMove, moveCtx);
     effectiveMove = transformed.move;
+
+    // --- Shell Side Arm: choose physical vs special based on damage output ---
+    // Compare A×SpD vs C×Def using rank-adjusted actual stats. The higher ratio
+    // (A/D vs C/SpD, cross-multiplied to avoid floats) wins. Ability-based stat
+    // mods like Huge Power are NOT considered for the decision per game rules.
+    if (effectiveMove.hasTag(MoveTags.shellSideArm)) {
+      final atkForSSA = StatCalculator.calculate(
+        baseStats: attacker.baseStats, iv: attacker.iv, ev: attacker.ev,
+        nature: attacker.nature, level: attacker.level, rank: attacker.rank,
+      );
+      final defForSSA = StatCalculator.calculate(
+        baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
+        nature: defender.nature, level: defender.level, rank: defender.rank,
+      );
+      final usePhysical = atkForSSA.attack * defForSSA.spDefense >
+          atkForSSA.spAttack * defForSSA.defense;
+      effectiveMove = effectiveMove.copyWith(
+        category: usePhysical ? MoveCategory.physical : MoveCategory.special,
+      );
+      transformed = TransformedMove(
+        effectiveMove,
+        usePhysical ? OffensiveStat.attack : OffensiveStat.spAttack,
+      );
+    }
 
     // --- Gravity: certain moves are disabled (checked AFTER transform,
     //     so Dynamax moves are not affected) ---

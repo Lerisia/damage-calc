@@ -4,6 +4,7 @@ import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/rank.dart';
+import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/weather.dart';
 import 'package:damage_calc/models/terrain.dart';
@@ -1443,6 +1444,96 @@ void main() {
   // ---------------------------------------------------------------
   // Parental Bond (Mega Kangaskhan)
   // ---------------------------------------------------------------
+  group('Shell Side Arm', () {
+    const shellSideArm = Move(
+      name: 'Shell Side Arm', nameKo: '셸암즈', nameJa: 'シェルアームズ',
+      type: PokemonType.poison, category: MoveCategory.special,
+      power: 90, accuracy: 100, pp: 10,
+      tags: [MoveTags.shellSideArm],
+    );
+
+    test('picks physical when A × SpD > C × Def', () {
+      // Attacker: high Atk, low SpA
+      final atk = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 200, defense: 100,
+            spAttack: 50, spDefense: 100, speed: 100),
+        moves: [shellSideArm, null, null, null],
+      );
+      // Defender: low Def, high SpD
+      final def = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 100, defense: 50,
+            spAttack: 100, spDefense: 200, speed: 100),
+        type1: PokemonType.normal, type2: null,
+      );
+      final r = DamageCalculator.calculate(
+        attacker: atk, defender: def, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(r.isPhysical, isTrue);
+      expect(r.targetPhysDef, isTrue);
+    });
+
+    test('picks special when A × SpD < C × Def', () {
+      // Attacker: low Atk, high SpA
+      final atk = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 50, defense: 100,
+            spAttack: 200, spDefense: 100, speed: 100),
+        moves: [shellSideArm, null, null, null],
+      );
+      // Defender: high Def, low SpD
+      final def = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 100, defense: 200,
+            spAttack: 100, spDefense: 50, speed: 100),
+        type1: PokemonType.normal, type2: null,
+      );
+      final r = DamageCalculator.calculate(
+        attacker: atk, defender: def, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(r.isPhysical, isFalse);
+      expect(r.targetPhysDef, isFalse);
+    });
+
+    test('defender SpD matters — not just attacker Atk vs SpA', () {
+      // Both attacker stats equal, but defender has tiny SpD → special wins
+      final atk = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 100, defense: 100,
+            spAttack: 100, spDefense: 100, speed: 100),
+        moves: [shellSideArm, null, null, null],
+      );
+      final def = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 100, defense: 200,
+            spAttack: 100, spDefense: 10, speed: 100),
+        type1: PokemonType.normal, type2: null,
+      );
+      final r = DamageCalculator.calculate(
+        attacker: atk, defender: def, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(r.isPhysical, isFalse);
+    });
+
+    test('rank stages influence the decision', () {
+      // Balanced base stats, but attacker has +6 Attack rank
+      final atk = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 100, defense: 100,
+            spAttack: 100, spDefense: 100, speed: 100),
+        moves: [shellSideArm, null, null, null],
+        rank: const Rank(attack: 6),
+      );
+      final def = BattlePokemonState(
+        baseStats: const Stats(hp: 100, attack: 100, defense: 100,
+            spAttack: 100, spDefense: 100, speed: 100),
+        type1: PokemonType.normal, type2: null,
+      );
+      final r = DamageCalculator.calculate(
+        attacker: atk, defender: def, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(r.isPhysical, isTrue);
+    });
+  });
+
   group('Parental Bond', () {
     test('normal move becomes 2-hit with 2nd hit at 0.25x power', () {
       final rNo = calc(move: tackle);
