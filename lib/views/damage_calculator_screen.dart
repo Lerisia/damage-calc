@@ -63,7 +63,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
   RoomConditions _room = const RoomConditions();
-  bool _useSpMode = false;
+  bool _useSpMode = true;
 
 
   // Name maps – loaded locally so they refresh on language change
@@ -206,10 +206,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   static const _spModeKey = 'use_sp_mode';
+  static const _spModeMigrationKey = 'sp_mode_migrated_to_default_v1';
 
   Future<void> _loadSpMode() async {
     final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getBool(_spModeKey) ?? false;
+    // One-time migration: force existing users to SP mode after Champions release
+    final migrated = prefs.getBool(_spModeMigrationKey) ?? false;
+    if (!migrated) {
+      await prefs.setBool(_spModeKey, true);
+      await prefs.setBool(_spModeMigrationKey, true);
+    }
+    final saved = prefs.getBool(_spModeKey) ?? true;
     if (mounted && saved != _useSpMode) setState(() => _useSpMode = saved);
   }
 

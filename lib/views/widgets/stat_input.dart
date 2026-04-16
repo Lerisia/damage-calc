@@ -713,20 +713,31 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 2, child: Text(AppStrings.t('stat.base'), style: style, textAlign: TextAlign.center)),
           Expanded(flex: isWide ? 2 : 3, child: Text(AppStrings.t('stat.iv'), style: style, textAlign: TextAlign.center)),
           Expanded(flex: isWide ? 7 : 6, child: widget.onSpModeChanged != null
-              ? GestureDetector(
-                  onTap: () => widget.onSpModeChanged!(!widget.useSpMode),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.useSpMode ? 'SP' : 'EV',
-                        style: style?.copyWith(fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: widget.useSpMode ? () => widget.onSpModeChanged!(false) : null,
+                      child: Text(
+                        AppStrings.t('stat.ev'),
+                        style: style?.copyWith(
+                          fontWeight: widget.useSpMode ? FontWeight.normal : FontWeight.bold,
+                          color: widget.useSpMode ? Colors.grey : null,
+                        ),
                       ),
-                      const SizedBox(width: 2),
-                      Icon(Icons.swap_horiz, size: 14, color: Colors.grey),
-                    ],
-                  ),
+                    ),
+                    Text(' | ', style: style?.copyWith(color: Colors.grey)),
+                    GestureDetector(
+                      onTap: widget.useSpMode ? null : () => widget.onSpModeChanged!(true),
+                      child: Text(
+                        'SP',
+                        style: style?.copyWith(
+                          fontWeight: widget.useSpMode ? FontWeight.bold : FontWeight.normal,
+                          color: widget.useSpMode ? null : Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               : Text(AppStrings.t('stat.ev'), style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text(AppStrings.t('stat.rank'), style: style, textAlign: TextAlign.center)),
