@@ -226,7 +226,7 @@ class PokemonPanelState extends State<PokemonPanel>
               onEvChanged: (v) => setState(() { s.ev = v; }),
               onAbilityChanged: (v) => setState(() { s.selectedAbility = v; _notifyParent(); }),
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notifyParent(); }),
-              onRankChanged: (v) => setState(() { s.rank = v; }),
+              onRankChanged: (v) => setState(() { s.rank = v; _notifyParent(); }),
               onStatEditComplete: _notifyParent,
               opponentSpeed: widget.opponentSpeed,
               opponentAlwaysLast: widget.opponentAlwaysLast,
