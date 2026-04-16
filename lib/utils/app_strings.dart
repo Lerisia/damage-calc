@@ -409,6 +409,21 @@ class AppStrings {
       AppLanguage.en: 'Paste exported JSON data.',
       AppLanguage.ja: 'エクスポートしたJSONデータを貼り付けてください。',
     },
+    'sample.duplicateTitle': {
+      AppLanguage.ko: '이름 중복',
+      AppLanguage.en: 'Duplicate name',
+      AppLanguage.ja: '名前の重複',
+    },
+    'sample.duplicateMessage': {
+      AppLanguage.ko: '같은 이름의 샘플이 이미 있습니다. 덮어쓰시겠어요?',
+      AppLanguage.en: 'A preset with the same name already exists. Overwrite?',
+      AppLanguage.ja: '同じ名前のプリセットが既にあります。上書きしますか？',
+    },
+    'action.overwrite': {
+      AppLanguage.ko: '덮어쓰기',
+      AppLanguage.en: 'Overwrite',
+      AppLanguage.ja: '上書き',
+    },
 
     // === Speed tab ===
     'speed.baseValue': {

@@ -65,6 +65,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   RoomConditions _room = const RoomConditions();
   bool _useSpMode = true;
 
+  // Name of the sample currently loaded on each side (used to prefill the
+  // save dialog so users can update presets in place). Cleared when the
+  // Pokémon species changes or the side is reset.
+  String? _attackerLoadedName;
+  String? _defenderLoadedName;
+  String? _prevAtkPokemon;
+  String? _prevDefPokemon;
+
 
   // Name maps – loaded locally so they refresh on language change
   Map<String, String> _abilityNameMap = {};
@@ -76,6 +84,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void _onPanelChanged() {
     if (mounted) {
       setState(() {
+        // Clear any loaded-sample memory on species change — a different
+        // Pokémon implies a new preset rather than an edit of the current one.
+        if (_prevAtkPokemon != _attacker.pokemonName) {
+          if (_prevAtkPokemon != null) _attackerLoadedName = null;
+          _prevAtkPokemon = _attacker.pokemonName;
+        }
+        if (_prevDefPokemon != _defender.pokemonName) {
+          if (_prevDefPokemon != null) _defenderLoadedName = null;
+          _prevDefPokemon = _defender.pokemonName;
+        }
         _syncWeatherTerrain();
       });
     }
@@ -335,8 +353,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       _resetCounter++;
       if (side == 0) {
         _attacker.reset();
+        _attackerLoadedName = null;
+        _prevAtkPokemon = null;
       } else {
         _defender.reset();
+        _defenderLoadedName = null;
+        _prevDefPokemon = null;
       }
     });
   }
@@ -358,6 +380,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         _resetCounter++;
         _attacker.reset();
         _defender.reset();
+        _attackerLoadedName = null;
+        _defenderLoadedName = null;
+        _prevAtkPokemon = null;
+        _prevDefPokemon = null;
         _weather = Weather.none;
         _terrain = Terrain.none;
         _room = const RoomConditions();
@@ -365,8 +391,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
   }
 
-  Future<void> _showSaveDialog(BattlePokemonState state) async {
-    final controller = TextEditingController(text: state.localizedPokemonName);
+  Future<void> _showSaveDialog(int side, BattlePokemonState state) async {
+    final loadedName = side == 0 ? _attackerLoadedName : _defenderLoadedName;
+    final controller = TextEditingController(
+      text: loadedName ?? state.localizedPokemonName,
+    );
     final name = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -376,6 +405,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           children: [
             TextField(
               controller: controller,
+              maxLength: 50,
               decoration: InputDecoration(
                 labelText: AppStrings.t('sample.name'),
                 border: const OutlineInputBorder(),
@@ -401,13 +431,45 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ],
       ),
     );
-    if (name != null && name.isNotEmpty) {
-      await SampleStorage.saveSample(name, state);
+    if (name == null || name.isEmpty) return;
+
+    final exists = await SampleStorage.sampleExists(name);
+    if (exists) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('"$name" 저장 완료'), duration: const Duration(seconds: 2)),
+      final overwrite = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(AppStrings.t('sample.duplicateTitle')),
+          content: Text(AppStrings.t('sample.duplicateMessage')),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(AppStrings.t('action.cancel')),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(AppStrings.t('action.overwrite')),
+            ),
+          ],
+        ),
       );
+      if (overwrite != true) return;
+      await SampleStorage.overwriteSample(name, state);
+    } else {
+      await SampleStorage.saveSample(name, state);
     }
+
+    if (!mounted) return;
+    setState(() {
+      if (side == 0) {
+        _attackerLoadedName = name;
+      } else {
+        _defenderLoadedName = name;
+      }
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('"$name" 저장 완료'), duration: const Duration(seconds: 2)),
+    );
   }
 
   Future<void> _showLoadSheet(int side) async {
@@ -423,10 +485,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           setState(() {
             final loaded = samples[index].state;
             _repairPresetData(loaded);
+            final loadedName = samples[index].name;
             if (side == 0) {
               _attacker = loaded;
+              _attackerLoadedName = loadedName;
+              _prevAtkPokemon = loaded.pokemonName;
             } else {
               _defender = loaded;
+              _defenderLoadedName = loadedName;
+              _prevDefPokemon = loaded.pokemonName;
             }
             _resetCounter++;
             _syncWeatherTerrain();
@@ -1043,7 +1110,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             room: _room,
             label: label,
             onChanged: _onPanelChanged,
-            onSave: () => _showSaveDialog(state),
+            onSave: () => _showSaveDialog(side, state),
             onLoad: () => _showLoadSheet(side),
             onReset: () => _resetSide(side),
             resetCounter: _resetCounter,

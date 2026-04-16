@@ -38,6 +38,31 @@ class SampleStorage {
     await prefs.setString(_key, jsonEncode(list));
   }
 
+  /// Returns true if a sample with the given [name] already exists.
+  static Future<bool> sampleExists(String name) async {
+    final samples = await loadSamples();
+    return samples.any((s) => s.name == name);
+  }
+
+  /// Replaces any existing samples with [name], then appends the new entry.
+  /// If no existing sample matches, behaves like [saveSample].
+  static Future<void> overwriteSample(String name, BattlePokemonState state) async {
+    final samples = await loadSamples();
+    final list = samples
+        .where((s) => s.name != name)
+        .map((s) => {
+              'name': s.name,
+              'state': s.state.toJson(),
+            })
+        .toList();
+    list.add({
+      'name': name,
+      'state': state.toJson(),
+    });
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_key, jsonEncode(list));
+  }
+
   static Future<void> deleteSample(int index) async {
     final samples = await loadSamples();
     if (index < 0 || index >= samples.length) return;
