@@ -8494,74 +8494,74 @@ if(B.d.jO(a,"-plate"))return!0
 if(B.d.jO(a,"-mask"))return!0
 if(B.WE.m(0,a))return!0
 return!1},
-aSr(l4,l5,l6,l7,l8,l9,m0,m1,m2,m3){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,e0,e1,e2,e3,e4,e5,e6,e7,e8,e9,f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,g0,g1,g2,g3,g4,g5,g6,g7,g8,g9,h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,i0,i1,i2,i3,i4,i5,i6,i7,i8,i9,j0,j1,j2,j3,j4,j5,j6,j7,j8,j9,k0,k1,k2,k3,k4,k5,k6,k7,k8,k9=null,l0="Neutralizing Gas",l1="custom:double_on_poison",l2={},l3=l4.cx[l6]
-if(l3==null)return B.lB
-s=l4.cy[l6]
-r=l3.WX(l4.db[l6],l4.dx[l6],s)
+aSr(l6,l7,l8,l9,m0,m1,m2,m3,m4,m5){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,d0,d1,d2,d3,d4,d5,d6,d7,d8,d9,e0,e1,e2,e3,e4,e5,e6,e7,e8,e9,f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,g0,g1,g2,g3,g4,g5,g6,g7,g8,g9,h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,i0,i1,i2,i3,i4,i5,i6,i7,i8,i9,j0,j1,j2,j3,j4,j5,j6,j7,j8,j9,k0,k1,k2,k3,k4,k5,k6,k7,k8,k9,l0,l1=null,l2="Neutralizing Gas",l3="custom:double_on_poison",l4={},l5=l6.cx[l8]
+if(l5==null)return B.lB
+s=l6.cy[l8]
+r=l5.WX(l6.db[l8],l6.dx[l8],s)
 if(r.f===B.cx)return B.lB
-q=l4.at
-p=l5.at
-o=q===l0||p===l0
-if(o)q=k9
-if(o)p=k9
+q=l6.at
+p=l7.at
+o=q===l2||p===l2
+if(o)q=l1
+if(o)p=l1
 s=t.s
 n=A.b([],s)
-m=A.b14(m3,q,p)
-if(m!==m3){if(q!=null&&B.fo.m(0,q))l=q
+m=A.b14(m5,q,p)
+if(m!==m5){if(q!=null&&B.fo.m(0,q))l=q
 else{p.toString
-l=p}n.push("weather_negate:"+l)}k=A.b13(m2,q,p)
-if(k!==m2){if(q!=null&&B.fn.m(0,q))l=q
+l=p}n.push("weather_negate:"+l)}k=A.b13(m4,q,p)
+if(k!==m4){if(q!=null&&B.fn.m(0,q))l=q
 else{p.toString
 l=p}n.push("terrain_negate:"+l)}j=A.aFD(m,q)
 if(j!==m)n.push("ability:"+A.n(q)+":\ucf8c\uccad \uc801\uc6a9")
-i=l4.go!==B.aG
-h=l4.Q
-g=l4.ch
-f=l4.CW
-e=l4.ay
-d=A.fx(h,f,g,l4.ax,e,l4.k4)
-e=l4.x
-g=l4.y
-f=l4.fy
-h=m1.d
+i=l6.go!==B.aG
+h=l6.Q
+g=l6.ch
+f=l6.CW
+e=l6.ay
+d=A.fx(h,f,g,l6.ax,e,l6.k4)
+e=l6.x
+g=l6.y
+f=l6.fy
+h=m3.d
 c=A.oT(q,h,f,e,g)
-g=l5.x
-b=l5.y
-a=A.oT(p,h,l5.fy,g,b)
-b=l4.k4
-g=l4.ok
-a0=l4.p1
-a1=l4.go
-a2=l4.a
-a3=l4.id
-a4=A.yU(l4)
-a5=A.yU(l5)
-a6=l5.ok
-a7=l4.fx[l6]
-a8=A.aG3(r,A.aJp(q,d.b,d.d,c,a,a1,h,f!=null,f,k9,g,l4.k3,l7,a4,a6,m0,a5,a2,b,a0,a3.b,a3.a,k,e,j,a7))
+g=l7.x
+b=l7.y
+a=A.oT(p,h,l7.fy,g,b)
+b=l6.k4
+g=l6.ok
+a0=l6.p1
+a1=l6.go
+a2=l6.a
+a3=l6.id
+a4=A.yU(l6)
+a5=A.yU(l7)
+a6=l7.ok
+a7=l6.fx[l8]
+a8=A.aG3(r,A.aJp(q,d.b,d.d,c,a,a1,h,f!=null,f,l1,g,l6.k3,l9,a4,a6,m2,a5,a2,b,a0,a3.b,a3.a,k,e,j,a7))
 r=a8.a
-if(h&&B.b.m(r.z,"custom:disabled_by_gravity"))return new A.ds(0,0,0,1,0,r.f===B.bl,!1,r,A.b(["\uc911\ub825: \uc0ac\uc6a9 \ubd88\uac00"],s),B.aW,k9)
+if(h&&B.b.m(r.z,"custom:disabled_by_gravity"))return new A.ds(0,0,0,1,0,r.f===B.bl,!1,r,A.b(["\uc911\ub825: \uc0ac\uc6a9 \ubd88\uac00"],s),B.aW,l1)
 g=r.z
-if(B.b.m(g,"custom:requires_def_sleep")&&l5.p1!==B.ij)return new A.ds(0,0,0,1,0,!1,!1,r,A.b(["\uafc8\uba39\uae30: \uc0c1\ub300\uac00 \uc7a0\ub4e6 \uc0c1\ud0dc\uac00 \uc544\ub2c8\uba74 \uc2e4\ud328"],s),B.aW,k9)
+if(B.b.m(g,"custom:requires_def_sleep")&&l7.p1!==B.ij)return new A.ds(0,0,0,1,0,!1,!1,r,A.b(["\uafc8\uba39\uae30: \uc0c1\ub300\uac00 \uc7a0\ub4e6 \uc0c1\ud0dc\uac00 \uc544\ub2c8\uba74 \uc2e4\ud328"],s),B.aW,l1)
 if(!A.aO8(q,p))a9=B.b.m(g,"custom:ignore_ability")&&p!=null&&B.Ce.m(0,p)
 else a9=!0
-b0=a9?k9:p
-if(B.b.m(g,"custom:ohko"))return A.aSq(l4,l5,b0,r,m1)
-if(B.b.m(g,"custom:fixed_level")||B.b.m(g,"custom:fixed_half_hp")||B.b.m(g,"custom:fixed_three_quarter_hp")||B.b.m(g,"custom:fixed_20")||B.b.m(g,"custom:fixed_40"))return A.aSp(l4,l5,b0,r,m1,m)
+b0=a9?l1:p
+if(B.b.m(g,"custom:ohko"))return A.aSq(l6,l7,b0,r,m3)
+if(B.b.m(g,"custom:fixed_level")||B.b.m(g,"custom:fixed_half_hp")||B.b.m(g,"custom:fixed_three_quarter_hp")||B.b.m(g,"custom:fixed_20")||B.b.m(g,"custom:fixed_40"))return A.aSp(l6,l7,b0,r,m3,m)
 b1=r.r
 if(b1===0)return B.lB
-f=l4.a
-b2=A.aBI(q,l4.fy,f,k,m)
+f=l6.a
+b2=A.aBI(q,l6.fy,f,k,m)
 f=b2==null
-b3=f?k9:b2.a
-if(b3==null)b3=l4.x
-b4=!f?b2.b:l4.y
-f=l5.a
-b5=A.aBI(p,l5.fy,f,k,m)
+b3=f?l1:b2.a
+if(b3==null)b3=l6.x
+b4=!f?b2.b:l6.y
+f=l7.a
+b5=A.aBI(p,l7.fy,f,k,m)
 b6=r.f===B.bl
-b7=l4.fr[l6]
+b7=l6.fr[l8]
 b8=a8.b
-b9=l4.k4
+b9=l6.k4
 f=p==="Unaware"
 if(f&&!A.aO8(q,p))b9=A.nH(0,b9.b,0,b9.d,b9.e)
 if(b7){e=b8===B.n_||b8===B.hU
@@ -8572,24 +8572,24 @@ if(b8===B.n1)b=Math.max(0,b)
 a0=b8===B.n0||b8===B.hU
 a1=b9.c
 a0=a0?Math.max(0,a1):a1
-b9=A.nH(e,b,a0,b9.d,b9.e)}e=l4.Q
-b=l4.ch
-a0=l4.CW
-a1=l4.ay
-c0=a8.a_L(A.fx(e,a0,b,l4.ax,a1,b9),l8)
-c1=A.aO4(q,i,l4.fy)
-c2=c1!=null?A.aNG(c1,r,l4.a):B.aR
+b9=A.nH(e,b,a0,b9.d,b9.e)}e=l6.Q
+b=l6.ch
+a0=l6.CW
+a1=l6.ay
+c0=a8.a_L(A.fx(e,a0,b,l6.ax,a1,b9),m0)
+c1=A.aO4(q,i,l6.fy)
+c2=c1!=null?A.aNG(c1,r,l6.a):B.aR
 c3=A.aO3(q,i)
 e=c3!=null
-if(e){b=i?k9:l3.r
-a0=l4.ok
-a1=l4.p1
-a2=l4.r
-a3=l4.Q
-a4=l4.ch
-a5=l4.CW
-a6=l4.ay
-c4=A.aFI(c3,A.fx(a3,a5,a4,l4.ax,a6,B.cy),c1,a0,r,a2,l9,m0,b,a1,k,m)}else c4=B.V
+if(e){b=i?l1:l5.r
+a0=l6.ok
+a1=l6.p1
+a2=l6.r
+a3=l6.Q
+a4=l6.ch
+a5=l6.CW
+a6=l6.ay
+c4=A.aFI(c3,A.fx(a3,a5,a4,l6.ax,a6,B.cy),c1,a0,r,a2,m1,m2,b,a1,k,m)}else c4=B.V
 switch(b8.a){case 0:c5=c4.a.a
 break
 case 1:c5=c4.a.c
@@ -8601,11 +8601,11 @@ c5=Math.max(b.a,b.c)
 break
 case 4:c5=c4.a.a
 break
-default:c5=k9}c6=c2.b*c4.b
-l2.a=c6
-if(l4.p2&&r.e===B.a_)l2.a=c6*2
+default:c5=l1}c6=c2.b*c4.b
+l4.a=c6
+if(l6.p2&&r.e===B.a_)l4.a=c6*2
 c7=B.c.bn(c0*(c2.a*c5))
-l2.b=c7
+l4.b=c7
 c8=A.b([],s)
 if(p!=null){c9=0.75
 if(b6&&p==="Tablets of Ruin")c8.push("ability:Tablets of Ruin:\uacf5\uaca9 \xd70.75")
@@ -8616,75 +8616,75 @@ if(b6&&c3==="Sword of Ruin")c8.push("ability:Sword of Ruin:\ubc29\uc5b4 \xd70.75
 else if(!b6&&c3==="Beads of Ruin")c8.push("ability:Beads of Ruin:\ud2b9\ubc29 \xd70.75")
 else d0=1}else d0=1
 c7=B.c.bn(c7*c9)
-l2.b=c7
-b9=l5.k4
+l4.b=c7
+b9=l7.k4
 e=B.b.m(g,"custom:ignore_def_rank")
 b=c3==="Unaware"
 if(b)b9=A.nH(b9.a,0,b9.c,0,b9.e)
 if(e)b9=A.nH(b9.a,0,b9.c,0,b9.e)
 if(b7)b9=A.nH(b9.a,Math.min(0,b9.b),b9.c,Math.min(0,b9.d),b9.e)
-e=l5.Q
-a0=l5.ch
-a1=l5.CW
-a2=l5.ay
-d1=A.fx(e,a1,a0,l5.ax,a2,b9)
-d2=m1.c?new A.fy(d1.a,d1.b,d1.e,d1.d,d1.c,d1.f):d1
+e=l7.Q
+a0=l7.ch
+a1=l7.CW
+a2=l7.ay
+d1=A.fx(e,a1,a0,l7.ax,a2,b9)
+d2=m3.c?new A.fy(d1.a,d1.b,d1.e,d1.d,d1.c,d1.f):d1
 d3=d2.a
-if(l5.go!==B.aG)d3*=2
+if(l7.go!==B.aG)d3*=2
 e=!b6
 d4=!e||B.b.m(g,"custom:target_phys_def")
 d5=d4?d2.c:d2.e
-l2.c=d5
+l4.c=d5
 if(b7&&b0!=null&&B.Wp.m(0,b0)){d6="ability:"+b0+":\uae09\uc18c\uc5d0 \ub9de\uc9c0 \uc54a\uc74c"
-b7=!1}else d6=k9
+b7=!1}else d6=l1
 a0=b0!=null
-if(a0){a1=l5.p1
-d7=A.aNC(b0,d2,l5.fy,a1,k,m)
+if(a0){a1=l7.p1
+d7=A.aNC(b0,d2,l7.fy,a1,k,m)
 d5=B.c.bn(d5*(d4?d7.a:d7.b))
-l2.c=d5
+l4.c=d5
 a1=d5}else a1=d5
-a2=l5.fy
-if(a2!=null){d8=A.aND(a2,l5.f,l5.a)
-a1=l2.c=B.c.bn(a1*(d4?d8.a:d8.b))}a2=b5==null
-d9=a2?k9:b5.a
-if(d9==null)d9=l5.x
+a2=l7.fy
+if(a2!=null){d8=A.aND(a2,l7.f,l7.a)
+a1=l4.c=B.c.bn(a1*(d4?d8.a:d8.b))}a2=b5==null
+d9=a2?l1:b5.a
+if(d9==null)d9=l7.x
 a2=!a2
-e0=a2?b5.b:l5.y
+e0=a2?b5.b:l7.y
 e1=A.aNL(m,d9,e0)
 d5=B.c.bn(a1*(d4?e1.a:e1.b))
-l2.c=d5
-d5=l2.c=B.c.bn(d5*d0)
+l4.c=d5
+d5=l4.c=B.c.bn(d5*d0)
 e2=r.e
 e3=A.b([],s)
 if(o)e3.push("ability:Neutralizing Gas:\ud2b9\uc131 \ubb34\ud6a8\ud654")
 B.b.R(e3,n)
 if(d6!=null)e3.push(d6)
-if(a9)e3.push("moldbreaker:"+A.n(l4.at))
+if(a9)e3.push("moldbreaker:"+A.n(l6.at))
 if(f&&!a9)e3.push("unaware:defender")
 if(b)e3.push("unaware:attacker")
 B.b.R(e3,c8)
-if(l5.go!==B.aG&&B.b.m(g,"custom:weight_based"))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["\ub2e4\uc774\ub9e5\uc2a4 \uc0c1\ub300\uc5d0\uac8c \ubb34\uac8c \uae30\ubc18 \uae30\uc220 \ubb34\ud6a8"],s),B.aW,k9)
-if(a0&&B.xt.h(0,b0)===e2)return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["ability:"+b0+":immune"],s),B.aW,k9)
-if(a0&&A.b1D(b0,r))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["ability:"+b0+":immune"],s),B.aW,k9)
+if(l7.go!==B.aG&&B.b.m(g,"custom:weight_based"))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["\ub2e4\uc774\ub9e5\uc2a4 \uc0c1\ub300\uc5d0\uac8c \ubb34\uac8c \uae30\ubc18 \uae30\uc220 \ubb34\ud6a8"],s),B.aW,l1)
+if(a0&&B.xt.h(0,b0)===e2)return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["ability:"+b0+":immune"],s),B.aW,l1)
+if(a0&&A.b1D(b0,r))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["ability:"+b0+":immune"],s),B.aW,l1)
 f=!a9
-if(f&&r.Q>0&&a0&&B.WD.m(0,b0))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["ability:"+b0+":\uc120\uacf5\uae30 \ubb34\ud6a8"],s),B.aW,k9)
+if(f&&r.Q>0&&a0&&B.WD.m(0,b0))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["ability:"+b0+":\uc120\uacf5\uae30 \ubb34\ud6a8"],s),B.aW,l1)
 b=r.Q
-if(b>0&&k===B.dC)if(A.oT(b0,h,l5.fy,d9,e0))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["\uc0ac\uc774\ucf54\ud544\ub4dc: \uc120\uacf5\uae30 \ubb34\ud6a8"],s),B.aW,k9)
-a1=l5.id
+if(b>0&&k===B.dC)if(A.oT(b0,h,l7.fy,d9,e0))return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["\uc0ac\uc774\ucf54\ud544\ub4dc: \uc120\uacf5\uae30 \ubb34\ud6a8"],s),B.aW,l1)
+a1=l7.id
 if(a1.a){a3=a1.b
 a3=a3!=null&&a3!==B.bC}else a3=!1
 if(a3){a1=a1.b
 a1.toString
-e4=k9
+e4=l1
 e5=a1}else if(a2){e5=b5.a
-e4=b5.b}else{e5=l5.x
-e4=l5.y}a1=B.b.m(g,"custom:freeze_dry")
-e6=l2.d=A.aBK(e2,e5,e4,B.b.m(g,"custom:flying_press"),a1)
+e4=b5.b}else{e5=l7.x
+e4=l7.y}a1=B.b.m(g,"custom:freeze_dry")
+e6=l4.d=A.aBK(e2,e5,e4,B.b.m(g,"custom:flying_press"),a1)
 a1=e2===B.ap
-if(a1){a2=a9?k9:b0
-if(!A.oT(a2,h,l5.fy,e5,e4)&&!B.b.m(g,"custom:thousand_arrows")){s=A.S(e3,t.N)
+if(a1){a2=a9?l1:b0
+if(!A.oT(a2,h,l7.fy,e5,e4)&&!B.b.m(g,"custom:thousand_arrows")){s=A.S(e3,t.N)
 s.push("ground:ungrounded")
-return new A.ds(0,0,0,d3,0,b6,!1,r,s,B.aW,k9)}}if(A.aNN(e2,e5,e4)&&!a1){a1=!1
+return new A.ds(0,0,0,d3,0,b6,!1,r,s,B.aW,l1)}}if(A.aNN(e2,e5,e4)&&!a1){a1=!1
 if(e2===B.a9||e2===B.ao)if(e5===B.am||e4===B.am)a1=c3==="Scrappy"||c3==="Mind's Eye"
 if(a1)e3.push("ability:"+A.n(c3)+":\uace0\uc2a4\ud2b8\uc5d0\uac8c \uc801\uc911")
 e7=!a1
@@ -8693,107 +8693,107 @@ else a1=!1
 if(a1){e3.push("ability:Corrosion:\uac15\ucca0\uc5d0\uac8c \uc801\uc911")
 e7=!1}if(e7){s=A.S(e3,t.N)
 s.push("type:immune")
-return new A.ds(0,0,0,d3,0,b6,!1,r,s,B.aW,k9)}}a1=!1
+return new A.ds(0,0,0,d3,0,b6,!1,r,s,B.aW,l1)}}a1=!1
 if(m===B.es)if(e5===B.a5||e4===B.a5)if(e6>1)a1=e2===B.ab||e2===B.a_||e2===B.a1
-if(a1){if(e5===B.a5)e8=e4!=null?A.aBK(e2,e4,k9,!1,!1):1
-else e8=A.aBK(e2,e5,k9,!1,!1)
-l2.d=e8
+if(a1){if(e5===B.a5)e8=e4!=null?A.aBK(e2,e4,l1,!1,!1):1
+else e8=A.aBK(e2,e5,l1,!1,!1)
+l4.d=e8
 e3.push("weather:strong_winds")
 a1=e8}else a1=e6
-if(e2===B.bC&&l5.id.a){l2.d=2
+if(e2===B.bC&&l7.id.a){l4.d=2
 e3.push("\uc2a4\ud154\ub77c: \ud14c\ub77c\uc2a4\ud0c8 \uc0c1\ub300 \ud6a8\uacfc \uc88b\uc74c")
 e9=2}else e9=a1
-f0=A.b0m(b0,l5.ok,e9)
-if(f0!==e9){l2.d=f0
+f0=A.b0m(b0,l7.ok,e9)
+if(f0!==e9){l4.d=f0
 e3.push("ability:Tera Shell:\xd70.5")
 a1=f0}else a1=e9
-if(b0==="Wonder Guard"&&a1<=1)return new A.ds(0,0,0,d3,a1,b6,!1,r,A.b(["ability:Wonder Guard:immune"],s),B.aW,k9)
+if(b0==="Wonder Guard"&&a1<=1)return new A.ds(0,0,0,d3,a1,b6,!1,r,A.b(["ability:Wonder Guard:immune"],s),B.aW,l1)
 f1=e2===b3||e2===b4
-a2=l4.id
+a2=l6.id
 a3=a2.a
 if(a3){a4=a2.b
 f2=a4!=null&&e2===a4}else f2=!1
-l2.e=1
+l4.e=1
 if(a3&&a2.b!=null){a2=a2.b
 a2.toString
-if(a2===B.bC)l2.e=f1?2:1.2
-else if(f2&&f1)l2.e=c4.c!=null?2.25:2
+if(a2===B.bC)l4.e=f1?2:1.2
+else if(f2&&f1)l4.e=c4.c!=null?2.25:2
 else if(f2){f3=c4.c
-l2.e=f3==null?1.5:f3}else if(f1)l2.e=1.5}else{if(c4.e||f1){a2=c4.c
+l4.e=f3==null?1.5:f3}else if(f1)l4.e=1.5}else{if(c4.e||f1){a2=c4.c
 f3=a2==null?1.5:a2}else f3=1
-l2.e=f3}f4=A.aNM(j,r)
+l4.e=f3}f4=A.aNM(j,r)
 if(f4===0){f5=m===B.bE?"weather:harsh_sun_water":"weather:heavy_rain_fire"
 s=A.S(e3,t.N)
 s.push(f5)
-return new A.ds(0,0,0,d3,0,b6,!1,r,s,B.aW,k9)}f6=A.aNK(k,A.oT(q,h,l4.fy,b3,b4),A.oT(b0,h,l5.fy,d9,e0),r)
-f7=l4.p1===B.fp&&b6&&q!=="Guts"?0.5:1
+return new A.ds(0,0,0,d3,0,b6,!1,r,s,B.aW,l1)}f6=A.aNK(k,A.oT(q,h,l6.fy,b3,b4),A.oT(b0,h,l7.fy,d9,e0),r)
+f7=l6.p1===B.fp&&b6&&q!=="Guts"?0.5:1
 if(b7){h=c4.d
 f8=h==null?1.5:h}else f8=1
-l2.f=1
-if(a0){f9=l2.f=A.b1k(b0,r)
+l4.f=1
+if(a0){f9=l4.f=A.b1k(b0,r)
 if(f9!==1)e3.push("ability:"+b0+":\xd7"+A.n(f9))}g0=a1>1
 g1=A.b1n(c3,a1)
 h=g1.b
 if(h!=null)e3.push(h)
-g2=A.b1j(b0,l5.ok,a1,a9)
+g2=A.b1j(b0,l7.ok,a1,a9)
 h=g2.b
 if(h!=null)e3.push(h)
-l2.r=1
-if(c1==="expert-belt"&&g0){l2.r=1.2
+l4.r=1
+if(c1==="expert-belt"&&g0){l4.r=1.2
 e3.push("item:expert-belt:\xd71.2")}g3=b7||c3==="Infiltrator"
-l2.w=1
-if(!g3){if(b6&&l5.p4){l2.w=0.5
-e3.push("screen:reflect")}else if(e&&l5.R8){l2.w=0.5
-e3.push("screen:light_screen")}}else if(l5.p4||l5.R8){if(b7)e3.push("screen:bypass_crit")
-if(c3==="Infiltrator")e3.push("screen:bypass_infiltrator")}l2.x=1
-h=l5.fy
-if(h!=null){g4=l2.x=A.b1o(h,e2,a1)
-if(g4!==1)e3.push("item:"+A.n(l5.fy)+":\xd7"+A.n(g4))}if(B.b.m(g,"custom:requires_def_item")&&l5.fy==null)return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["\uc0c1\ub300 \uc544\uc774\ud15c \uc5c6\uc74c: \uc2e4\ud328"],s),B.aW,k9)
-l2.y=1
+l4.w=1
+if(!g3){if(b6&&l7.p4){l4.w=0.5
+e3.push("screen:reflect")}else if(e&&l7.R8){l4.w=0.5
+e3.push("screen:light_screen")}}else if(l7.p4||l7.R8){if(b7)e3.push("screen:bypass_crit")
+if(c3==="Infiltrator")e3.push("screen:bypass_infiltrator")}l4.x=1
+h=l7.fy
+if(h!=null){g4=l4.x=A.b1o(h,e2,a1)
+if(g4!==1)e3.push("item:"+A.n(l7.fy)+":\xd7"+A.n(g4))}if(B.b.m(g,"custom:requires_def_item")&&l7.fy==null)return new A.ds(0,0,0,d3,0,b6,!1,r,A.b(["\uc0c1\ub300 \uc544\uc774\ud15c \uc5c6\uc74c: \uc2e4\ud328"],s),B.aW,l1)
+l4.y=1
 h=1
-if(B.b.m(g,"custom:knock_off")&&l5.fy!=null){a0=l5.fy
+if(B.b.m(g,"custom:knock_off")&&l7.fy!=null){a0=l7.fy
 a0.toString
-if(!A.b_H(a0)){l2.y=1.5
+if(!A.b_H(a0)){l4.y=1.5
 e3.push("move:knock_off:\xd71.5")
-h=1.5}}if(B.b.m(g,"custom:double_on_status")&&l5.p1!==B.cT){g5=h*2
-l2.y=g5
+h=1.5}}if(B.b.m(g,"custom:double_on_status")&&l7.p1!==B.cT){g5=h*2
+l4.y=g5
 e3.push("move:hex:\xd72")
-h=g5}if(B.b.m(g,l1)){a0=l5.p1
+h=g5}if(B.b.m(g,l3)){a0=l7.p1
 a0=a0===B.fq||a0===B.fr}else a0=!1
 if(a0){g5=h*2
-l2.y=g5
+l4.y=g5
 e3.push("move:venoshock:\xd72")
-h=g5}if(B.b.m(g,"custom:double_on_half_hp")&&l5.ok<=50){g5=h*2
-l2.y=g5
+h=g5}if(B.b.m(g,"custom:double_on_half_hp")&&l7.ok<=50){g5=h*2
+l4.y=g5
 e3.push("move:brine:\xd72")
-h=g5}if(B.b.m(g,"custom:double_dynamax")&&l5.go!==B.aG){g5=h*2
-l2.y=g5
+h=g5}if(B.b.m(g,"custom:double_dynamax")&&l7.go!==B.aG){g5=h*2
+l4.y=g5
 e3.push("\ub2e4\uc774\ub9e5\uc2a4 \uc0c1\ub300 \xd72")
-h=g5}if(B.b.m(g,"custom:double_on_sleep")&&l5.p1===B.ij){g5=h*2
-l2.y=g5
+h=g5}if(B.b.m(g,"custom:double_on_sleep")&&l7.p1===B.ij){g5=h*2
+l4.y=g5
 e3.push("move:wake_up_slap:\xd72")
-h=g5}if(B.b.m(g,"custom:double_on_paralysis")&&l5.p1===B.ii){g5=h*2
-l2.y=g5
+h=g5}if(B.b.m(g,"custom:double_on_paralysis")&&l7.p1===B.ii){g5=h*2
+l4.y=g5
 e3.push("move:smelling_salts:\xd72")
-h=g5}if(B.b.m(g,l1)){a0=l5.p1
+h=g5}if(B.b.m(g,l3)){a0=l7.p1
 a0=a0===B.fq||a0===B.fr}else a0=!1
-if(a0){h=l2.y=h*2
-e3.push("move:barb_barrage:\xd72")}g6=f2&&l4.id.b!==B.bC&&r.at<=1&&b<=0&&b1<60&&b1>0?60:b1
-g7=B.e.b1(l4.ax,1,100)
+if(a0){h=l4.y=h*2
+e3.push("move:barb_barrage:\xd72")}g6=f2&&l6.id.b!==B.bC&&r.at<=1&&b<=0&&b1<60&&b1>0?60:b1
+g7=B.e.b1(l6.ax,1,100)
 g8=B.c.bn(g6*h)
-h=d5===0?l2.c=1:d5
+h=d5===0?l4.c=1:d5
 b=B.e.cf(2*g7,5)+2
 a0=b*g8
 g9=B.e.cf(B.e.i9(a0*c7,h),50)+2
 h0=A.b1h(q,p,e2)
 h=h0.b
 if(h!=null)e3.push(h)
-l2.z=1
-if(g0&&B.b.m(g,"custom:se_boost")){l2.z=1.333251953125
-e3.push("move:collision:\xd71.33")}h1=new A.a4g(l2,g2,f4,f8,f7,f6,g1,h0)
+l4.z=1
+if(g0&&B.b.m(g,"custom:se_boost")){l4.z=1.333251953125
+e3.push("move:collision:\xd71.33")}h1=new A.a4g(l4,g2,f4,f8,f7,f6,g1,h0)
 h2=h1.$2(g9,100)
 h=r.at
-if(h>1){a1=l4.dy[l6]
+if(h>1){a1=l6.dy[l8]
 h3=a1==null?h:a1}else h3=1
 h4=B.b.m(g,"custom:escalating_hits")
 h5=new A.a4f(h1)
@@ -8804,15 +8804,15 @@ h8=h7?B.e.b1(B.c.bn(d3/8),1,d3):0
 h9=h7?A.by(16,h8,!1,t.S):h6
 if(h3>1){i0={}
 i1=!1
-if(g2.a<1)if(l5.ok>=100){h=b0==="Multiscale"||b0==="Shadow Shield"
-i1=h}i2=b0==="Tera Shell"&&l5.ok>=100&&l2.d<1
-h=l2.x===1
+if(g2.a<1)if(l7.ok>=100){h=b0==="Multiscale"||b0==="Shadow Shield"
+i1=h}i2=b0==="Tera Shell"&&l7.ok>=100&&l4.d<1
+h=l4.x===1
 i0.a=i0.b=0
 i3=A.b([],s)
-if(l5.fy==="kee-berry"&&b6){i0.b=1
+if(l7.fy==="kee-berry"&&b6){i0.b=1
 i3.push("berryDefBoost:kee-berry")
 s=1}else s=0
-if(l5.fy==="maranga-berry"&&e){s=i0.b=s+1
+if(l7.fy==="maranga-berry"&&e){s=i0.b=s+1
 i3.push("berryDefBoost:maranga-berry")}if(b0==="Stamina"){i0.a=1
 i3.push("abilityDefChange:Stamina:+1")
 f=1}else f=0
@@ -8821,41 +8821,43 @@ i0.a=i4
 i3.push("abilityDefChange:Water Compaction:+2")
 f=i4}if(b0==="Weak Armor"&&b6){f=i0.a=f-1
 i3.push("abilityDefChange:Weak Armor:-1")}B.b.R(e3,i3)
-i5=new A.a4j(l2)
-i6=new A.a4k(i0)
-i7=i5.$1(s+f)
-i8=i0.b!==0||i0.a!==0
-i9=i8?B.e.cf(B.e.i9(a0*l2.b,i7),50)+2:g9
+i5=new A.a4j(l4)
+i6=h7&&s!==0?2:1
+i7=new A.a4k(i0,i6)
+i8=f===0&&i6===1
+i9=i5.$1(s+f)
+j0=i0.b!==0||i0.a!==0
+j1=j0?B.e.cf(B.e.i9(a0*l4.b,i9),50)+2:g9
 e9=i2?e9:-1
-j0=i1?1:-1
-j1=!h?1:-1
-j2=B.b.m(g,"custom:parental_bond")
-if(h4)j3=A.NH(h3,new A.a4h(l2,b1,i5,i6,g7,h5,e9,j0,j1),!0,t.Cm)
-else if(j2){j4=h7?h9:h6
-j5=B.b.m(g,"custom:power_target_hp_120")
-j6=B.b.m(g,"custom:power_target_hp_100")
-if(j5||j6){j7=j5?120:100
-j3=A.b([j4,A.NH(16,new A.a4i(l2,j4,B.e.b1(B.c.bn(d3*l5.ok/100),1,d3),d3,j7,g7,i7,h1,e9,j0,j1),!0,t.S)],t.Zb)}else j3=A.b([j4,h5.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.e.cf(B.e.i9(b*B.e.b1(B.c.bn(B.e.b1(B.c.bn(b1*0.25),1,999)*l2.y),1,9999)*l2.b,i7),50)+2,j1,j0,e9)],t.Zb)}else{j4=h7?h9:h6
-if(i0.a!==0){j8=A.b([j4],t.Zb)
-for(j9=1;j9<h3;++j9){k0=i5.$1(i6.$1(j9))
-j8.push(h5.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.e.cf(B.e.i9(a0*l2.b,k0),50)+2,j1,j0,e9))}j3=j8}else{k1=i1||i2||!h||h7||i8?h5.$4$berryModHit$defAbilityDmgHit$effectivenessHit(i9,j1,j0,e9):h6
-s=A.b([j4],t.Zb)
-B.b.R(s,A.by(h3-1,k1,!1,t.Cm))
-j3=s}}}else j3=k9
-s=j3==null
-if(!s){for(h=j3.length,k2=0,k3=0,k4=0;k4<j3.length;j3.length===h||(0,A.C)(j3),++k4){k5=j3[k4]
-g=J.cf(k5)
-k2+=g.ji(k5,B.p2)
-k3+=g.ji(k5,B.la)}k6=k3
-k7=k2}else if(h7){k6=h8
-k7=k6}else{h=J.cf(h6)
-k7=h.ji(h6,B.p2)
-k6=h.ji(h6,B.la)}k8=B.c.bn(d3*l5.ok/100)
+j2=i1?1:-1
+j3=!h?1:-1
+j4=B.b.m(g,"custom:parental_bond")
+if(h4)j5=A.NH(h3,new A.a4h(l4,b1,i5,i7,g7,h5,e9,j2,j3),!0,t.Cm)
+else if(j4){j6=h7?h9:h6
+j7=B.b.m(g,"custom:power_target_hp_120")
+j8=B.b.m(g,"custom:power_target_hp_100")
+if(j7||j8){j9=j7?120:100
+j5=A.b([j6,A.NH(16,new A.a4i(l4,j6,B.e.b1(B.c.bn(d3*l7.ok/100),1,d3),d3,j9,g7,i9,h1,e9,j2,j3),!0,t.S)],t.Zb)}else j5=A.b([j6,h5.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.e.cf(B.e.i9(b*B.e.b1(B.c.bn(B.e.b1(B.c.bn(b1*0.25),1,999)*l4.y),1,9999)*l4.b,i9),50)+2,j3,j2,e9)],t.Zb)}else{j6=h7?h9:h6
+if(!i8){k0=A.b([j6],t.Zb)
+for(k1=1;k1<h3;++k1){k2=i5.$1(i7.$1(k1))
+k0.push(h5.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.e.cf(B.e.i9(a0*l4.b,k2),50)+2,j3,j2,e9))}j5=k0}else{k3=i1||i2||!h||h7||j0?h5.$4$berryModHit$defAbilityDmgHit$effectivenessHit(j1,j3,j2,e9):h6
+s=A.b([j6],t.Zb)
+B.b.R(s,A.by(h3-1,k3,!1,t.Cm))
+j5=s}}}else j5=l1
+s=j5==null
+if(!s){for(h=j5.length,k4=0,k5=0,k6=0;k6<j5.length;j5.length===h||(0,A.C)(j5),++k6){k7=j5[k6]
+g=J.cf(k7)
+k4+=g.ji(k7,B.p2)
+k5+=g.ji(k7,B.la)}k8=k5
+k9=k4}else if(h7){k8=h8
+k9=k8}else{h=J.cf(h6)
+k9=h.ji(h6,B.p2)
+k8=h.ji(h6,B.la)}l0=B.c.bn(d3*l7.ok/100)
 if(h7)e3.push("disguise:"+A.n(b0))
 h=h7&&s?h8:h2
-g=k8>0?k8:d3
-f=l2.d
-return new A.ds(h,k7,k6,g,f,b6,d4,r,e3,h7&&s?h9:h6,j3)},
+g=l0>0?l0:d3
+f=l4.d
+return new A.ds(h,k9,k8,g,f,b6,d4,r,e3,h7&&s?h9:h6,j5)},
 aSq(a,b,c,d,e){var s,r,q,p,o,n,m=b.Q,l=b.ch,k=b.CW,j=b.ay,i=A.fx(m,k,l,b.ax,j,B.cy)
 m=b.go!==B.aG
 s=i.a
@@ -8931,7 +8933,8 @@ _.r=g
 _.w=h},
 a4f:function a4f(a){this.a=a},
 a4j:function a4j(a){this.a=a},
-a4k:function a4k(a){this.a=a},
+a4k:function a4k(a,b){this.a=a
+this.b=b},
 a4h:function a4h(a,b,c,d,e,f,g,h,i){var _=this
 _.a=a
 _.b=b
@@ -47029,8 +47032,8 @@ $S:37}
 A.a4k.prototype={
 $1(a){var s
 if(a===0)return 0
-s=this.a
-return s.b+s.a*a},
+s=a>=this.b?this.a.b:0
+return s+this.a.a*a},
 $S:37}
 A.a4h.prototype={
 $1(a){var s=this,r=s.a,q=B.c.bn(s.b*(a+1)*r.y),p=s.c.$1(s.d.$1(a)),o=B.e.cf(B.e.i9((B.e.cf(2*s.e,5)+2)*q*r.b,p),50)+2
