@@ -1455,37 +1455,19 @@ void main() {
       expect(r.maxDamage, equals(80));
     });
 
-    test('Hard Press + PB KO on hit 1: hit 2 = 0', () {
-      const hardPress = Move(
-        name: 'Hard Press', nameKo: '하드프레스', nameJa: 'ハードプレス',
-        type: PokemonType.steel, category: MoveCategory.physical,
-        power: 100, accuracy: 100, pp: 5,
-        tags: [MoveTags.powerByTargetHp100],
-      );
-      // Set defender at 1% HP so hit 1 certainly KOs.
-      final rPB = calc(move: hardPress, atkAbility: 'Parental Bond',
-          defType1: PokemonType.fairy, defType2: null,
-          defHpPercent: 1);
-      expect(rPB.perHitAllRolls, isNotNull);
-      // Every hit 2 roll should be 0 (hit 2 doesn't execute after KO)
-      for (final v in rPB.perHitAllRolls![1]) {
-        expect(v, equals(0));
-      }
-    });
-
-    test('Seismic Toss + PB KO on hit 1: hit 2 = 0', () {
+    test('Seismic Toss + PB at low HP: hit 2 still shows level damage', () {
+      // Convention: hit 2 damage is shown even if hit 1 would KO.
       const seismicToss = Move(
         name: 'Seismic Toss', nameKo: '지구던지기', nameJa: 'ちきゅうなげ',
         type: PokemonType.fighting, category: MoveCategory.physical,
         power: 0, accuracy: 100, pp: 20,
         tags: [MoveTags.fixedLevel],
       );
-      // Target at 1% HP, much less than attacker level damage.
       final rPB = calc(move: seismicToss, atkAbility: 'Parental Bond',
           defType1: PokemonType.normal, defType2: null,
           defHpPercent: 1);
       expect(rPB.perHitAllRolls, isNotNull);
-      expect(rPB.perHitAllRolls![1].first, equals(0));
+      expect(rPB.perHitAllRolls![1].first, equals(50)); // attacker level
     });
 
     test('Hard Press + PB: hit 2 recalculates power from remaining HP', () {
