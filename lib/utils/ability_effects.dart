@@ -705,9 +705,20 @@ Rank getEffectiveDefensiveRank({
     );
   }
 
-  // Sacred Sword / Chip Away / Darkest Lariat: ignore positive defense ranks
-  // Critical hit: also clamp positive defense ranks to 0
-  if (ignoreDefRank || isCritical) {
+  // Sacred Sword / Chip Away / Darkest Lariat: ignore ALL defense rank changes
+  // (both positive and negative)
+  if (ignoreDefRank) {
+    r = Rank(
+      attack: r.attack,
+      defense: 0,
+      spAttack: r.spAttack,
+      spDefense: 0,
+      speed: r.speed,
+    );
+  }
+
+  // Critical hit: only clamp POSITIVE defense ranks to 0 (negative still counted)
+  if (isCritical) {
     r = Rank(
       attack: r.attack,
       defense: math.min(0, r.defense),
