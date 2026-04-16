@@ -1114,6 +1114,128 @@ void main() {
       expect(info.hits, greaterThan(0));
       expect(r.koLabel, isNotEmpty);
     });
+
+    test('Kee Berry: physical multi-hit gets Defense ↑ from hit 2', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+        minHits: 2, maxHits: 5,
+      );
+      final atk = BattlePokemonState(
+        moves: [bulletSeed, null, null, null],
+      );
+      final defWithBerry = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedItem: 'kee-berry',
+      );
+      final defNoBerry = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defWithBerry, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNoBerry, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      // First hit: same damage (berry not yet activated)
+      expect(rWith.perHitAllRolls![0], equals(rNo.perHitAllRolls![0]));
+      // Subsequent hits: less damage due to Defense boost
+      expect(rWith.perHitAllRolls![1].first, lessThan(rNo.perHitAllRolls![1].first));
+      // Total max damage with berry should be less
+      expect(rWith.maxDamage, lessThan(rNo.maxDamage));
+    });
+
+    test('Kee Berry: special move does NOT trigger Kee Berry', () {
+      const waterShuriken = Move(
+        name: 'Water Shuriken', nameKo: '물수리검', nameJa: 'みずしゅりけん',
+        type: PokemonType.water, category: MoveCategory.special,
+        power: 15, accuracy: 100, pp: 20,
+        minHits: 2, maxHits: 5,
+      );
+      final atk = BattlePokemonState(
+        moves: [waterShuriken, null, null, null],
+      );
+      final defWithKee = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedItem: 'kee-berry',
+      );
+      final defNoBerry = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defWithKee, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNoBerry, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(rWith.maxDamage, equals(rNo.maxDamage));
+    });
+
+    test('Maranga Berry: special multi-hit gets Sp.Def ↑ from hit 2', () {
+      const waterShuriken = Move(
+        name: 'Water Shuriken', nameKo: '물수리검', nameJa: 'みずしゅりけん',
+        type: PokemonType.water, category: MoveCategory.special,
+        power: 15, accuracy: 100, pp: 20,
+        minHits: 2, maxHits: 5,
+      );
+      final atk = BattlePokemonState(
+        moves: [waterShuriken, null, null, null],
+      );
+      final defWithMaranga = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedItem: 'maranga-berry',
+      );
+      final defNoBerry = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defWithMaranga, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNoBerry, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(rWith.perHitAllRolls![0], equals(rNo.perHitAllRolls![0]));
+      expect(rWith.perHitAllRolls![1].first, lessThan(rNo.perHitAllRolls![1].first));
+      expect(rWith.maxDamage, lessThan(rNo.maxDamage));
+    });
+
+    test('Kee Berry: escalating move (Triple Axel) also boosted', () {
+      const tripleAxel = Move(
+        name: 'Triple Axel', nameKo: '트리플악셀', nameJa: 'トリプルアクセル',
+        type: PokemonType.ice, category: MoveCategory.physical,
+        power: 20, accuracy: 90, pp: 10,
+        minHits: 1, maxHits: 3,
+        tags: [MoveTags.escalatingHits],
+      );
+      final atk = BattlePokemonState(
+        moves: [tripleAxel, null, null, null],
+      );
+      final defWithBerry = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedItem: 'kee-berry',
+      );
+      final defNoBerry = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defWithBerry, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNoBerry, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      // 1st hit unchanged, 2nd and 3rd reduced
+      expect(rWith.perHitAllRolls![0], equals(rNo.perHitAllRolls![0]));
+      expect(rWith.maxDamage, lessThan(rNo.maxDamage));
+    });
   });
 
   // ---------------------------------------------------------------
