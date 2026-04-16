@@ -720,6 +720,21 @@ class AppStrings {
       AppLanguage.en: 'Sp.Def ↑ after 1st hit',
       AppLanguage.ja: '連続技2発目以降 特防↑',
     },
+    'note.defUp1': {
+      AppLanguage.ko: '연속기 2타 이후 방어↑',
+      AppLanguage.en: 'Defense ↑ after 1st hit',
+      AppLanguage.ja: '連続技2発目以降 防御↑',
+    },
+    'note.defUp2': {
+      AppLanguage.ko: '연속기 2타 이후 방어↑↑',
+      AppLanguage.en: 'Defense ↑↑ after 1st hit',
+      AppLanguage.ja: '連続技2発目以降 防御↑↑',
+    },
+    'note.defDown1': {
+      AppLanguage.ko: '연속기 2타 이후 방어↓',
+      AppLanguage.en: 'Defense ↓ after 1st hit',
+      AppLanguage.ja: '連続技2発目以降 防御↓',
+    },
     'note.groundImmune': {
       AppLanguage.ko: '비접지: 땅 타입 기술 무효',
       AppLanguage.en: 'Ungrounded: Ground immune',

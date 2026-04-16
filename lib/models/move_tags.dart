@@ -86,4 +86,9 @@ class MoveTags {
 
   // Wind-related moves
   static const String wind = 'wind';
+
+  // Parental Bond (Mega Kangaskhan): move becomes 2-hit, 2nd hit at 0.25x power.
+  static const String parentalBond = 'custom:parental_bond';
+  // Parental Bond on fixed-damage moves: 2nd hit does full damage (no 0.25x).
+  static const String parentalBondFixed = 'custom:parental_bond_fixed';
 }

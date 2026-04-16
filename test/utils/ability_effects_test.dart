@@ -445,44 +445,111 @@ void main() {
     });
   });
 
-  group('Parental Bond', () {
-    test('boosts single-target move by 1.25x (Gen 7+)', () {
-      final effect = getAbilityEffect('Parental Bond', move: physicalNormal);
-      expect(effect.powerModifier, equals(1.25));
+  group('Parental Bond eligibility', () {
+    test('eligible: simple physical move', () {
+      expect(isParentalBondEligible(physicalNormal), isTrue);
     });
 
-    test('boosts special move by 1.25x (Gen 7+)', () {
-      final effect = getAbilityEffect('Parental Bond', move: specialFire);
-      expect(effect.powerModifier, equals(1.25));
+    test('eligible: simple special move', () {
+      expect(isParentalBondEligible(specialFire), isTrue);
     });
 
-    test('does not boost multi-hit move (Bullet Seed)', () {
+    test('ineligible: already multi-hit (Bullet Seed)', () {
       const bulletSeed = Move(
         name: 'Bullet Seed', nameKo: '불릿시드', nameJa: 'タネマシンガン',
         type: PokemonType.grass, category: MoveCategory.physical,
-        power: 25, accuracy: 100, pp: 30,
+        power: 25, accuracy: 100, pp: 30, minHits: 2, maxHits: 5,
       );
-      final effect = getAbilityEffect('Parental Bond', move: bulletSeed);
-      expect(effect.powerModifier, equals(1.0));
+      expect(isParentalBondEligible(bulletSeed), isFalse);
     });
 
-    test('does not boost multi-hit move (Icicle Spear)', () {
-      const icicleSpear = Move(
-        name: 'Icicle Spear', nameKo: '고드름침', nameJa: 'つららばり',
-        type: PokemonType.ice, category: MoveCategory.physical,
-        power: 25, accuracy: 100, pp: 30,
+    test('ineligible: charge-turn move (Solar Beam)', () {
+      const solarBeam = Move(
+        name: 'Solar Beam', nameKo: '솔라빔', nameJa: 'ソーラービーム',
+        type: PokemonType.grass, category: MoveCategory.special,
+        power: 120, accuracy: 100, pp: 10,
       );
-      final effect = getAbilityEffect('Parental Bond', move: icicleSpear);
-      expect(effect.powerModifier, equals(1.0));
+      expect(isParentalBondEligible(solarBeam), isFalse);
     });
 
-    test('does not boost Surging Strikes', () {
-      const surgingStrikes = Move(
-        name: 'Surging Strikes', nameKo: '수류연타', nameJa: 'すいりゅうれんだ',
-        type: PokemonType.water, category: MoveCategory.physical,
-        power: 25, accuracy: 100, pp: 5,
+    test('ineligible: charge-turn move (Fly)', () {
+      const fly = Move(
+        name: 'Fly', nameKo: '공중날기', nameJa: 'そらをとぶ',
+        type: PokemonType.flying, category: MoveCategory.physical,
+        power: 90, accuracy: 95, pp: 15,
       );
-      final effect = getAbilityEffect('Parental Bond', move: surgingStrikes);
+      expect(isParentalBondEligible(fly), isFalse);
+    });
+
+    test('ineligible: self-destruct (Explosion)', () {
+      const explosion = Move(
+        name: 'Explosion', nameKo: '대폭발', nameJa: 'だいばくはつ',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 250, accuracy: 100, pp: 5,
+      );
+      expect(isParentalBondEligible(explosion), isFalse);
+    });
+
+    test('ineligible: Fling', () {
+      const fling = Move(
+        name: 'Fling', nameKo: '투척', nameJa: 'なげつける',
+        type: PokemonType.dark, category: MoveCategory.physical,
+        power: 30, accuracy: 100, pp: 10,
+      );
+      expect(isParentalBondEligible(fling), isFalse);
+    });
+
+    test('ineligible: status move', () {
+      const growl = Move(
+        name: 'Growl', nameKo: '울음소리', nameJa: 'なきごえ',
+        type: PokemonType.normal, category: MoveCategory.status,
+        power: 0, accuracy: 100, pp: 40,
+      );
+      expect(isParentalBondEligible(growl), isFalse);
+    });
+
+    test('ineligible: OHKO move', () {
+      const fissure = Move(
+        name: 'Fissure', nameKo: '땅가르기', nameJa: 'じわれ',
+        type: PokemonType.ground, category: MoveCategory.physical,
+        power: 0, accuracy: 30, pp: 5,
+        tags: [MoveTags.ohko],
+      );
+      expect(isParentalBondEligible(fissure), isFalse);
+    });
+
+    test('eligible: recharge move (Hyper Beam) still double-hits', () {
+      const hyperBeam = Move(
+        name: 'Hyper Beam', nameKo: '파괴광선', nameJa: 'はかいこうせん',
+        type: PokemonType.normal, category: MoveCategory.special,
+        power: 150, accuracy: 90, pp: 5,
+      );
+      expect(isParentalBondEligible(hyperBeam), isTrue);
+    });
+
+    test('fixed-damage classification: Seismic Toss full-power 2nd hit', () {
+      const seismicToss = Move(
+        name: 'Seismic Toss', nameKo: '지구던지기', nameJa: 'ちきゅうなげ',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 0, accuracy: 100, pp: 20,
+        tags: [MoveTags.fixedLevel],
+      );
+      expect(isParentalBondEligible(seismicToss), isTrue);
+      expect(isParentalBondFixedFullPower(seismicToss), isTrue);
+    });
+
+    test('fixed-damage classification: Super Fang', () {
+      const superFang = Move(
+        name: 'Super Fang', nameKo: '엄청난이빨', nameJa: 'いかりのまえば',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 0, accuracy: 90, pp: 10,
+        tags: [MoveTags.fixedHalfHp],
+      );
+      expect(isParentalBondFixedFullPower(superFang), isTrue);
+    });
+
+    test('ability effect no longer applies power modifier', () {
+      final effect = getAbilityEffect('Parental Bond', move: physicalNormal);
       expect(effect.powerModifier, equals(1.0));
     });
   });

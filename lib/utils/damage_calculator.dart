@@ -1065,47 +1065,84 @@ class DamageCalculator {
           defender.hpPercent >= 100 && effectiveness < 1.0;
       final bool hasBerry = berryMod != 1.0;
 
-      // Kee Berry / Maranga Berry: defense/spdef +1 stage after first hit
-      // (1.5x to D, applied via recalculated baseDmg for hits 2+)
-      final bool keeTriggers = defender.selectedItem == 'kee-berry' && isPhysical;
-      final bool marangaTriggers = defender.selectedItem == 'maranga-berry' && !isPhysical;
-      final bool berryStatBoost = keeTriggers || marangaTriggers;
-      if (keeTriggers) notes.add('berryDefBoost:kee-berry');
-      if (marangaTriggers) notes.add('berryDefBoost:maranga-berry');
+      // On-hit stat change effects (applied to defense for hits 2+)
+      // Track cumulative defense stages: positive = more defense (less damage)
+      // +1 = ×1.5, +2 = ×2.0, -1 = ×0.66 (2/3), etc.
+      //
+      // Note: defense stages compound across hits in-game, but we simplify to
+      // a single "rank at hit 2+" approximation. Multi-proc items (e.g. Weak
+      // Armor every hit) would need per-hit compounding; low priority for now.
+      int defStages = 0;
+      final List<String> statChangeNotes = [];
 
-      // Subsequent-hit baseDmg with D × 1.5 (rank +1)
-      final int subBaseDmg = berryStatBoost
-          ? ((2 * level ~/ 5 + 2) * power * A ~/ (D * 3 ~/ 2)) ~/ 50 + 2
-          : baseDmg;
-
-      // Other stat-changing on-hit effects: not simulated, warn user
-      if (defAbilityName == 'Weak Armor' && isPhysical) {
-        notes.add('warning:연속기 깨어진갑옷 방어↓ 미반영');
-      } else if (defAbilityName == 'Stamina' && isPhysical) {
-        notes.add('warning:연속기 지구력 방어↑ 미반영');
-      } else if (defAbilityName == 'Water Compaction' &&
-          isPhysical && moveType == PokemonType.water) {
-        notes.add('warning:연속기 아쿠아코트 방어↑↑ 미반영');
+      // Kee Berry (+1 Def, physical only, one-time use)
+      if (defender.selectedItem == 'kee-berry' && isPhysical) {
+        defStages += 1;
+        statChangeNotes.add('berryDefBoost:kee-berry');
       }
+      // Maranga Berry (+1 SpDef, special only, one-time use)
+      // Affects SpDef, but since we use D generically (which is already
+      // SpDef for special moves), same +1 stage treatment.
+      if (defender.selectedItem == 'maranga-berry' && !isPhysical) {
+        defStages += 1;
+        statChangeNotes.add('berryDefBoost:maranga-berry');
+      }
+      // On-hit stat change abilities: activate AFTER damage, not suppressed by Mold Breaker.
+      if (defAbilityName == 'Stamina') {
+        defStages += 1;
+        statChangeNotes.add('abilityDefChange:Stamina:+1');
+      }
+      if (defAbilityName == 'Water Compaction' && moveType == PokemonType.water) {
+        defStages += 2;
+        statChangeNotes.add('abilityDefChange:Water Compaction:+2');
+      }
+      if (defAbilityName == 'Weak Armor' && isPhysical) {
+        defStages -= 1;
+        statChangeNotes.add('abilityDefChange:Weak Armor:-1');
+      }
+      notes.addAll(statChangeNotes);
+
+      // Compute D multiplier from stages: +1→3/2, +2→4/2, -1→2/3, -2→2/4
+      int dForSubHits = D;
+      if (defStages > 0) {
+        dForSubHits = (D * (2 + defStages) ~/ 2);
+      } else if (defStages < 0) {
+        dForSubHits = (D * 2 ~/ (2 - defStages));
+      }
+      final bool defChanged = defStages != 0;
+      // Subsequent-hit baseDmg with adjusted D
+      final int subBaseDmg = defChanged
+          ? ((2 * level ~/ 5 + 2) * power * A ~/ dForSubHits) ~/ 50 + 2
+          : baseDmg;
 
       final double subEff = hasTeraShell ? preTeraShellEffectiveness : -1;
       final double subDef = hasMultiscale ? 1.0 : -1;
       final double subBerry = hasBerry ? 1.0 : -1;
 
+      final bool isParentalBond = effectiveMove.hasTag(MoveTags.parentalBond);
+
       if (isEscalating) {
         final singleHitPower = effectiveMove.power;
         perHitAllRolls = List.generate(hitCount, (i) {
           final hitPower = (singleHitPower * (i + 1) * movePowerMod).floor();
-          // Apply Kee/Maranga Berry stat boost from hit 2+
-          final dForHit = (i == 0 || !berryStatBoost) ? D : (D * 3 ~/ 2);
+          final dForHit = (i == 0) ? D : dForSubHits;
           final hitBaseDmg = ((2 * level ~/ 5 + 2) * hitPower * A ~/ dForHit) ~/ 50 + 2;
           if (i == 0) return allRolls(hitBaseDmg);
           return allRolls(hitBaseDmg,
             effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
         });
+      } else if (isParentalBond) {
+        // Parental Bond: hit 1 full, hit 2 at 0.25× power.
+        final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
+        final int pbPower = (effectiveMove.power * kParentalBondSecondHit).floor().clamp(1, 999);
+        final int pbPowerMod = (pbPower * movePowerMod).floor().clamp(1, 9999);
+        final int pbBaseDmg = ((2 * level ~/ 5 + 2) * pbPowerMod * A ~/ dForSubHits) ~/ 50 + 2;
+        final secondHitRolls = allRolls(pbBaseDmg,
+            effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
+        perHitAllRolls = [firstHitRolls, secondHitRolls];
       } else {
         final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
-        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive || berryStatBoost)
+        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive || defChanged)
             ? allRolls(subBaseDmg,
                 effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry)
             : singleHitRolls;
@@ -1304,10 +1341,18 @@ class DamageCalculator {
       notes.add('다이맥스: 비다이맥스 HP 기준 50%');
     }
 
+    // Parental Bond on fixed-damage moves: both hits deal full damage = 2x total.
+    final bool pbFixed = move.hasTag(MoveTags.parentalBondFixed);
+    final int totalFixed = pbFixed ? fixedDamage * 2 : fixedDamage;
+    final List<List<int>>? pbPerHit = pbFixed
+        ? [List.filled(16, fixedDamage), List.filled(16, fixedDamage)]
+        : null;
+
     return DamageResult(
-      baseDamage: fixedDamage,
-      minDamage: fixedDamage,
-      maxDamage: fixedDamage,
+      baseDamage: totalFixed,
+      minDamage: totalFixed,
+      maxDamage: totalFixed,
+      perHitAllRolls: pbPerHit,
       defenderHp: defHp,
       effectiveness: 1.0,
       isPhysical: isPhysical,

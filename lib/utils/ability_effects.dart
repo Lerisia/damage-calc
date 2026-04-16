@@ -24,8 +24,7 @@ const double kDoublePower = 2.0;
 const double kMajorPowerBoost = 1.5;
 const double kMediumPowerBoost = 1.3;
 const double kMinorPowerBoost = 1.2;
-const double kParentalBondMultiplier = 1.25; // Gen 7+: second hit = 25%
-const double kParentalBondFixed = 2.0; // Fixed damage moves: full damage both hits
+const double kParentalBondSecondHit = 0.25; // Gen 7+: 2nd hit power multiplier
 const double kRivalrySameGender = 1.25;
 const double kRivalryOppositeGender = 0.75;
 
@@ -261,13 +260,9 @@ AbilityEffect getAbilityEffect(String abilityName, {
           : _defaultEffect;
 
     // --- Parental Bond (Mega Kangaskhan) ---
+    // Handled in move_transform via `parentalBond`/`parentalBondFixed` tags.
     case 'Parental Bond':
-      if (move != null && _isMultiHit(move)) return _defaultEffect;
-      // Fixed damage moves (Seismic Toss, Night Shade, etc.): both hits full damage = x2
-      if (move != null && (move.hasTag(MoveTags.fixedLevel) || move.hasTag(MoveTags.fixedHalfHp))) {
-        return const AbilityEffect(powerModifier: kParentalBondFixed);
-      }
-      return const AbilityEffect(powerModifier: kParentalBondMultiplier);
+      return _defaultEffect;
 
     // --- Critical override ---
     case 'Sniper':
@@ -524,6 +519,55 @@ const multiHitMoves = {
 };
 
 bool _isMultiHit(Move move) => multiHitMoves.contains(move.name);
+
+// ====== Parental Bond (Mega Kangaskhan) ======
+
+/// Charge-turn moves — strike only once with Parental Bond.
+/// (Recharge moves like Hyper Beam DO strike twice — not listed here.)
+const Set<String> _parentalBondChargeMoves = {
+  'Fly', 'Dig', 'Dive', 'Bounce',
+  'Shadow Force', 'Phantom Force',
+  'Solar Beam', 'Solar Blade',
+  'Sky Attack', 'Skull Bash', 'Razor Wind',
+  'Ice Burn', 'Freeze Shock',
+  'Geomancy', 'Meteor Beam', 'Electro Shot',
+};
+
+/// Other moves that are excluded from Parental Bond.
+const Set<String> _parentalBondOtherExclusions = {
+  // Self-KO / explosion
+  'Self-Destruct', 'Explosion', 'Mind Blown', 'Misty Explosion',
+  // Locked-in / special
+  'Fling', 'Final Gambit', 'Uproar', 'Rollout', 'Ice Ball', 'Endeavor', 'Present',
+};
+
+/// Returns true if Parental Bond should transform this move into a 2-hit move.
+///
+/// Exclusions per Bulbapedia:
+/// - Already multi-hit moves
+/// - Status moves
+/// - Z-Moves, Max Moves (Gigantamax/Dynamax moves)
+/// - OHKO moves
+/// - Charge-turn moves (Fly, Solar Beam, etc.)
+/// - Self-destruct moves
+/// - Named exceptions (Fling, Uproar, Rollout, etc.)
+bool isParentalBondEligible(Move move) {
+  if (move.category == MoveCategory.status) return false;
+  if (move.isMultiHit || _isMultiHit(move)) return false;
+  if (move.moveClass != MoveClass.normal) return false; // Z/Max moves
+  if (move.hasTag(MoveTags.ohko)) return false;
+  if (_parentalBondChargeMoves.contains(move.name)) return false;
+  if (_parentalBondOtherExclusions.contains(move.name)) return false;
+  return true;
+}
+
+/// Returns true if Parental Bond's 2nd hit should deal full damage (rather than 0.25×).
+/// Fixed-damage moves (Seismic Toss, Night Shade, Super Fang, Nature's Madness) hit twice at full value.
+bool isParentalBondFixedFullPower(Move move) {
+  return move.hasTag(MoveTags.fixedLevel) ||
+      move.hasTag(MoveTags.fixedHalfHp) ||
+      move.hasTag(MoveTags.fixedThreeQuarterHp);
+}
 
 AbilityStatModifiers _boostHighestStat(Stats stats) {
   // Compare attack, defense, spAttack, spDefense, speed (not HP)

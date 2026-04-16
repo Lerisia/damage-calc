@@ -1236,6 +1236,193 @@ void main() {
       expect(rWith.perHitAllRolls![0], equals(rNo.perHitAllRolls![0]));
       expect(rWith.maxDamage, lessThan(rNo.maxDamage));
     });
+
+    test('Stamina: any multi-hit move reduces damage after hit 1', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+        minHits: 2, maxHits: 5,
+      );
+      final atk = BattlePokemonState(
+        moves: [bulletSeed, null, null, null],
+      );
+      final defStamina = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Stamina',
+      );
+      final defNoAbility = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Overgrow',
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defStamina, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNoAbility, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(rWith.perHitAllRolls![0], equals(rNo.perHitAllRolls![0]));
+      expect(rWith.perHitAllRolls![1].first, lessThan(rNo.perHitAllRolls![1].first));
+    });
+
+
+    test('Water Compaction: water multi-hit reduces damage more (+2 Def)', () {
+      const waterShuriken = Move(
+        name: 'Water Shuriken', nameKo: '물수리검', nameJa: 'みずしゅりけん',
+        type: PokemonType.water, category: MoveCategory.special,
+        power: 15, accuracy: 100, pp: 20,
+        minHits: 2, maxHits: 5,
+      );
+      // Water Shuriken is special, so +Def doesn't help.
+      // Use a physical water multi-hit like Surging Strikes instead.
+      const surgingStrikes = Move(
+        name: 'Surging Strikes', nameKo: '물의파동연격', nameJa: 'すいりゅうれんだ',
+        type: PokemonType.water, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 5,
+        minHits: 3, maxHits: 3,
+      );
+      final atk = BattlePokemonState(
+        moves: [surgingStrikes, null, null, null],
+      );
+      final defWC = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Water Compaction',
+      );
+      final defNo = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Overgrow',
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defWC, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNo, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(rWith.maxDamage, lessThan(rNo.maxDamage));
+      // Silence unused warning
+      expect(waterShuriken.name, isNotEmpty);
+    });
+
+    test('Weak Armor: physical multi-hit deals MORE damage after hit 1', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+        minHits: 2, maxHits: 5,
+      );
+      final atk = BattlePokemonState(
+        moves: [bulletSeed, null, null, null],
+      );
+      final defWA = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Weak Armor',
+      );
+      final defNo = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Overgrow',
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defWA, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNo, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      expect(rWith.perHitAllRolls![0], equals(rNo.perHitAllRolls![0]));
+      expect(rWith.perHitAllRolls![1].first, greaterThan(rNo.perHitAllRolls![1].first));
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // Parental Bond (Mega Kangaskhan)
+  // ---------------------------------------------------------------
+  group('Parental Bond', () {
+    test('normal move becomes 2-hit with 2nd hit at 0.25x power', () {
+      final rNo = calc(move: tackle);
+      final rPB = calc(move: tackle, atkAbility: 'Parental Bond');
+
+      // 2-hit multi-hit result
+      expect(rPB.perHitAllRolls, isNotNull);
+      expect(rPB.perHitAllRolls!.length, equals(2));
+
+      // Hit 1 matches no-ability damage
+      expect(rPB.perHitAllRolls![0], equals(rNo.allRolls));
+
+      // Hit 2 < Hit 1 (0.25x power)
+      final hit1Max = rPB.perHitAllRolls![0].reduce((a, b) => a > b ? a : b);
+      final hit2Max = rPB.perHitAllRolls![1].reduce((a, b) => a > b ? a : b);
+      expect(hit2Max, lessThan(hit1Max));
+    });
+
+    test('Seismic Toss hits twice at full damage', () {
+      const seismicToss = Move(
+        name: 'Seismic Toss', nameKo: '지구던지기', nameJa: 'ちきゅうなげ',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 0, accuracy: 100, pp: 20,
+        tags: [MoveTags.fixedLevel],
+      );
+      final rNo = calc(move: seismicToss, defType1: PokemonType.normal, defType2: null);
+      final rPB = calc(move: seismicToss, atkAbility: 'Parental Bond',
+          defType1: PokemonType.normal, defType2: null);
+
+      expect(rPB.maxDamage, equals(rNo.maxDamage * 2));
+      expect(rPB.perHitAllRolls, isNotNull);
+      expect(rPB.perHitAllRolls!.length, equals(2));
+      expect(rPB.perHitAllRolls![0].first, equals(rNo.maxDamage));
+      expect(rPB.perHitAllRolls![1].first, equals(rNo.maxDamage));
+    });
+
+    test('Bullet Seed unaffected by Parental Bond (already multi-hit)', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30, minHits: 2, maxHits: 5,
+      );
+      final rNo = calc(move: bulletSeed);
+      final rPB = calc(move: bulletSeed, atkAbility: 'Parental Bond');
+      expect(rPB.maxDamage, equals(rNo.maxDamage));
+      // Still 5-hit, not 2
+      expect(rPB.perHitAllRolls!.length, equals(5));
+    });
+
+    test('Solar Beam (charge move) excluded: no double hit', () {
+      const solarBeam = Move(
+        name: 'Solar Beam', nameKo: '솔라빔', nameJa: 'ソーラービーム',
+        type: PokemonType.grass, category: MoveCategory.special,
+        power: 120, accuracy: 100, pp: 10,
+      );
+      final rPB = calc(move: solarBeam, atkAbility: 'Parental Bond');
+      // Single-hit; no perHitAllRolls
+      expect(rPB.perHitAllRolls, isNull);
+    });
+
+    test('Explosion (self-destruct) excluded: no double hit', () {
+      const explosion = Move(
+        name: 'Explosion', nameKo: '대폭발', nameJa: 'だいばくはつ',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 250, accuracy: 100, pp: 5,
+      );
+      final rPB = calc(move: explosion, atkAbility: 'Parental Bond',
+          defType1: PokemonType.fire, defType2: null);
+      expect(rPB.perHitAllRolls, isNull);
+    });
+
+    test('Hyper Beam (recharge) still double-hits', () {
+      const hyperBeam = Move(
+        name: 'Hyper Beam', nameKo: '파괴광선', nameJa: 'はかいこうせん',
+        type: PokemonType.normal, category: MoveCategory.special,
+        power: 150, accuracy: 90, pp: 5,
+      );
+      final rPB = calc(move: hyperBeam, atkAbility: 'Parental Bond',
+          defType1: PokemonType.fire, defType2: null);
+      expect(rPB.perHitAllRolls, isNotNull);
+      expect(rPB.perHitAllRolls!.length, equals(2));
+    });
   });
 
   // ---------------------------------------------------------------

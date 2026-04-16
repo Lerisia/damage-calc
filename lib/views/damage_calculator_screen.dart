@@ -1416,6 +1416,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         final itemName = _itemNameMap[parts[1]] ?? parts[1];
         final key = parts[1] == 'kee-berry' ? 'note.keeBerryBoost' : 'note.marangaBerryBoost';
         return '$itemName: ${AppStrings.t(key)}';
+      case 'abilityDefChange':
+        final abilityName = _abilityNameMap[parts[1]] ?? parts[1];
+        final change = parts.length >= 3 ? parts[2] : '+1';
+        final noteKey = switch (change) {
+          '+2' => 'note.defUp2',
+          '-1' => 'note.defDown1',
+          _ => 'note.defUp1',
+        };
+        return '$abilityName: ${AppStrings.t(noteKey)}';
       case 'item':
         final name = _itemNameMap[parts[1]] ?? parts[1];
         if (parts.length >= 3) return '$name ${parts[2]}';

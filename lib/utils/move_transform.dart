@@ -9,6 +9,7 @@ import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
+import 'ability_effects.dart' show isParentalBondEligible, isParentalBondFixedFullPower;
 
 /// Which stat the move should use for offense
 enum OffensiveStat {
@@ -272,6 +273,18 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = move.copyWith(
       power: move.totalPower(hits),
       tags: move.tags.where((t) => t != MoveTags.escalatingHits).toList(),
+    );
+  }
+
+  // 6.5. Parental Bond (Mega Kangaskhan): single-hit moves become 2-hit.
+  // Eligibility & fixed-damage classification live in ability_effects.
+  if (context.ability == 'Parental Bond' && isParentalBondEligible(move)) {
+    final extraTag = isParentalBondFixedFullPower(move)
+        ? MoveTags.parentalBondFixed
+        : MoveTags.parentalBond;
+    move = move.copyWith(
+      minHits: 2, maxHits: 2,
+      tags: [...move.tags, extraTag],
     );
   }
 
