@@ -382,7 +382,9 @@
     },
     "abilities": [
       "Swarm",
-      "Rivalry"
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite"
     ],
     "weight": 28.4,
     "height": 1.0,

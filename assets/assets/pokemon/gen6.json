@@ -434,7 +434,9 @@
       "speed": 72
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Unnerve",
       "Moxie"
     ],
@@ -460,7 +462,9 @@
       "speed": 106
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Unnerve",
       "Moxie"
     ],

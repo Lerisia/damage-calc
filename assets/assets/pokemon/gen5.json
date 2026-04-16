@@ -627,7 +627,9 @@
     "abilities": [
       "Big Pecks",
       "Super Luck",
-      "Rivalry"
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite"
     ],
     "weight": 2.1,
     "height": 0.3,
@@ -653,7 +655,9 @@
     "abilities": [
       "Big Pecks",
       "Super Luck",
-      "Rivalry"
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite"
     ],
     "weight": 15.0,
     "height": 0.6,
@@ -679,7 +683,9 @@
     "abilities": [
       "Big Pecks",
       "Super Luck",
-      "Rivalry"
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite"
     ],
     "weight": 29.0,
     "height": 1.2,
@@ -2920,7 +2926,9 @@
       "speed": 57
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Mold Breaker",
       "Unnerve"
     ],
@@ -2945,7 +2953,9 @@
       "speed": 67
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Mold Breaker",
       "Unnerve"
     ],
@@ -2970,7 +2980,9 @@
       "speed": 97
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Mold Breaker",
       "Unnerve"
     ],

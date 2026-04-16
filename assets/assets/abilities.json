@@ -1944,10 +1944,16 @@
     "nameEn": "Flash Fire"
   },
   {
-    "name": "Disguise",
-    "nameKo": "탈",
-    "nameJa": "ばけのかわ",
-    "nameEn": "Disguise"
+    "name": "Disguise Busted",
+    "nameKo": "탈 (들킨 모습)",
+    "nameJa": "ばけのかわ (ばれたすがた)",
+    "nameEn": "Disguise (Busted)"
+  },
+  {
+    "name": "Disguise Disguised",
+    "nameKo": "탈 (둔갑한 모습)",
+    "nameJa": "ばけのかわ (ばけたすがた)",
+    "nameEn": "Disguise (Disguised)"
   },
   {
     "name": "Shed Skin",
@@ -2002,12 +2008,6 @@
     "nameKo": "통찰",
     "nameJa": "おみとおし",
     "nameEn": "Frisk"
-  },
-  {
-    "name": "Rivalry",
-    "nameKo": "투쟁심",
-    "nameJa": "とうそうしん",
-    "nameEn": "Rivalry"
   },
   {
     "name": "Transistor",

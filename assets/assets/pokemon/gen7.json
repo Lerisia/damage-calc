@@ -1403,7 +1403,8 @@
       "speed": 96
     },
     "abilities": [
-      "Disguise"
+      "Disguise Disguised",
+      "Disguise Busted"
     ],
     "weight": 0.7,
     "height": 0.2,

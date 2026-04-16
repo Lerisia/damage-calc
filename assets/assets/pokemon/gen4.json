@@ -408,7 +408,9 @@
       "speed": 45
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Intimidate",
       "Guts"
     ],
@@ -433,7 +435,9 @@
       "speed": 60
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Intimidate",
       "Guts"
     ],
@@ -458,7 +462,9 @@
       "speed": 70
     },
     "abilities": [
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Intimidate",
       "Guts"
     ],

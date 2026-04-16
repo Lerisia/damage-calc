@@ -710,7 +710,9 @@
     },
     "abilities": [
       "Poison Point",
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Hustle"
     ],
     "weight": 7.0,
@@ -735,7 +737,9 @@
     },
     "abilities": [
       "Poison Point",
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Hustle"
     ],
     "weight": 20.0,
@@ -760,7 +764,9 @@
     },
     "abilities": [
       "Poison Point",
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Sheer Force"
     ],
     "weight": 60.0,
@@ -786,7 +792,9 @@
     },
     "abilities": [
       "Poison Point",
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Hustle"
     ],
     "weight": 9.0,
@@ -811,7 +819,9 @@
     },
     "abilities": [
       "Poison Point",
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Hustle"
     ],
     "weight": 19.5,
@@ -836,7 +846,9 @@
     },
     "abilities": [
       "Poison Point",
-      "Rivalry",
+      "Rivalry None",
+      "Rivalry Same",
+      "Rivalry Opposite",
       "Sheer Force"
     ],
     "weight": 62.0,
