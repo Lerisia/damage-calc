@@ -8842,10 +8842,10 @@ if(l7.fy==="kee-berry"&&b6){i0.b=1
 i3.push("berryDefBoost:kee-berry")
 s=1}else s=0
 if(l7.fy==="maranga-berry"&&e){s=i0.b=s+1
-i3.push("berryDefBoost:maranga-berry")}if(b0==="Stamina"){i0.a=1
+i3.push("berryDefBoost:maranga-berry")}if(b0==="Stamina"&&d4){i0.a=1
 i3.push("abilityDefChange:Stamina:+1")
 f=1}else f=0
-if(b0==="Water Compaction"&&e2===B.I){i4=f+2
+if(b0==="Water Compaction"&&e2===B.I&&d4){i4=f+2
 i0.a=i4
 i3.push("abilityDefChange:Water Compaction:+2")
 f=i4}if(b0==="Weak Armor"&&b6){f=i0.a=f-1
