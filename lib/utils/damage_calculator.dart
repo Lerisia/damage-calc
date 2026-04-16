@@ -1043,6 +1043,17 @@ class DamageCalculator {
     // Single-hit: 16 possible damage values
     final singleHitRolls = allRolls(baseDmg);
 
+    // Disguise (Disguised form): first hit deals exactly 1/8 max HP damage
+    // (Ice Face works the same way). Mold Breaker bypasses this.
+    final bool disguiseActive = !moldBreaks &&
+        (defAbilityName == 'Disguise Disguised' || defAbilityName == 'Ice Face');
+    final int disguiseDamage = disguiseActive
+        ? (defMaxHp / 8).floor().clamp(1, defMaxHp)
+        : 0;
+    final List<int> disguiseRolls = disguiseActive
+        ? List.filled(16, disguiseDamage)
+        : singleHitRolls;
+
     // Multi-hit per-hit rolls (each hit has 16 possible values)
     List<List<int>>? perHitAllRolls;
     if (hitCount > 1) {
@@ -1083,11 +1094,11 @@ class DamageCalculator {
             effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
         });
       } else {
-        final firstHitRolls = singleHitRolls;
-        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry)
+        final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
+        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive)
             ? allRolls(baseDmg,
                 effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry)
-            : firstHitRolls;
+            : singleHitRolls;
         perHitAllRolls = [firstHitRolls, ...List.filled(hitCount - 1, subHitRolls)];
       }
     }
@@ -1102,6 +1113,10 @@ class DamageCalculator {
       }
       minDamage = minSum;
       maxDamage = maxSum;
+    } else if (disguiseActive) {
+      // Single-hit against Disguise: damage is fixed at 1/8 max HP
+      minDamage = disguiseDamage;
+      maxDamage = disguiseDamage;
     } else {
       minDamage = singleHitRolls.reduce(math.min);
       maxDamage = singleHitRolls.reduce(math.max);
@@ -1110,8 +1125,13 @@ class DamageCalculator {
     // Use current HP (based on hpPercent) for KO calculations
     final int currentHp = (defMaxHp * defender.hpPercent / 100).floor();
 
+    // Add Disguise note when active
+    if (disguiseActive) {
+      notes.add('ability:$defAbilityName:탈이 깨짐 (최대 HP의 1/8 대미지)');
+    }
+
     return DamageResult(
-      baseDamage: baseDamage,
+      baseDamage: disguiseActive && perHitAllRolls == null ? disguiseDamage : baseDamage,
       minDamage: minDamage,
       maxDamage: maxDamage,
       defenderHp: currentHp > 0 ? currentHp : defMaxHp,
@@ -1120,7 +1140,7 @@ class DamageCalculator {
       targetPhysDef: targetPhysDef,
       move: effectiveMove,
       modifierNotes: notes,
-      allRolls: singleHitRolls,
+      allRolls: disguiseActive && perHitAllRolls == null ? disguiseRolls : singleHitRolls,
       perHitAllRolls: perHitAllRolls,
     );
   }

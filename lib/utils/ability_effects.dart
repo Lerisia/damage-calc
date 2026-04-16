@@ -626,7 +626,7 @@ const Set<String> ignorableAbilities = {
   // Full Metal Body: NOT ignorable (legendary exclusive, see above)
   'Hyper Cutter', 'Big Pecks',
   // Damage nullification
-  'Tera Shell', 'Ice Face', 'Disguise',
+  'Tera Shell', 'Ice Face', 'Disguise Disguised', 'Disguise Busted',
   // Other
   'Sturdy', 'Unaware', 'Wonder Skin',
   'Shield Dust', 'Damp',
