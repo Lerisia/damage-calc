@@ -1134,12 +1134,41 @@ class DamageCalculator {
       } else if (isParentalBond) {
         // Parental Bond: hit 1 full, hit 2 at 0.25× power.
         final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
-        final int pbPower = (effectiveMove.power * kParentalBondSecondHit).floor().clamp(1, 999);
-        final int pbPowerMod = (pbPower * movePowerMod).floor().clamp(1, 9999);
-        final int pbBaseDmg = ((2 * level ~/ 5 + 2) * pbPowerMod * A ~/ dForSubHits) ~/ 50 + 2;
-        final secondHitRolls = allRolls(pbBaseDmg,
-            effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
-        perHitAllRolls = [firstHitRolls, secondHitRolls];
+
+        // Target-HP-dependent power moves (Hard Press=100, Crush Grip/Wring Out=120):
+        // Hit 2 recalculates power from remaining HP after hit 1.
+        final bool hpDependent120 = effectiveMove.hasTag(MoveTags.powerByTargetHp120);
+        final bool hpDependent100 = effectiveMove.hasTag(MoveTags.powerByTargetHp100);
+
+        if (hpDependent120 || hpDependent100) {
+          final int maxPower = hpDependent120 ? 120 : 100;
+          final int initialCurrentHp =
+              (defMaxHp * defender.hpPercent / 100).floor().clamp(1, defMaxHp);
+          // 16 aligned pairs: hit 2 at random roll i uses power from remaining HP
+          // after hit 1's damage at roll i. This is a simplification vs the true
+          // 16×16 independent random rolls, but gives a sensible per-hit display.
+          final secondHitRolls = List<int>.generate(
+              RandomFactor.maxRoll - RandomFactor.minRoll + 1, (idx) {
+            final int randomRoll = RandomFactor.minRoll + idx;
+            final int hit1Dmg = firstHitRolls[idx];
+            final int remainingHp = (initialCurrentHp - hit1Dmg).clamp(0, defMaxHp);
+            final int hit2BasePower = (maxPower * remainingHp / defMaxHp).floor().clamp(1, maxPower);
+            final int hit2PbPower = (hit2BasePower * kParentalBondSecondHit).floor().clamp(1, 999);
+            final int hit2PowerMod = (hit2PbPower * movePowerMod).floor().clamp(1, 9999);
+            final int hit2BaseDmg =
+                ((2 * level ~/ 5 + 2) * hit2PowerMod * A ~/ dForSubHits) ~/ 50 + 2;
+            return applyModifiers(hit2BaseDmg, randomRoll,
+                effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
+          });
+          perHitAllRolls = [firstHitRolls, secondHitRolls];
+        } else {
+          final int pbPower = (effectiveMove.power * kParentalBondSecondHit).floor().clamp(1, 999);
+          final int pbPowerMod = (pbPower * movePowerMod).floor().clamp(1, 9999);
+          final int pbBaseDmg = ((2 * level ~/ 5 + 2) * pbPowerMod * A ~/ dForSubHits) ~/ 50 + 2;
+          final secondHitRolls = allRolls(pbBaseDmg,
+              effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
+          perHitAllRolls = [firstHitRolls, secondHitRolls];
+        }
       } else {
         final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
         final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive || defChanged)

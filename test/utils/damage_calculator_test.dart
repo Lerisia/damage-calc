@@ -1455,6 +1455,31 @@ void main() {
       expect(r.maxDamage, equals(80));
     });
 
+    test('Hard Press + PB: hit 2 recalculates power from remaining HP', () {
+      const hardPress = Move(
+        name: 'Hard Press', nameKo: '하드프레스', nameJa: 'ハードプレス',
+        type: PokemonType.steel, category: MoveCategory.physical,
+        power: 100, accuracy: 100, pp: 5,
+        tags: [MoveTags.powerByTargetHp100],
+      );
+      final rPB = calc(move: hardPress, atkAbility: 'Parental Bond',
+          defType1: PokemonType.fairy, defType2: null);
+
+      expect(rPB.perHitAllRolls, isNotNull);
+      expect(rPB.perHitAllRolls!.length, equals(2));
+
+      // Hit 2 at roll 100% should be smaller than naive 0.25x (because remaining
+      // HP < 100% means less than max 100 power).
+      final hit1Max = rPB.perHitAllRolls![0].reduce((a, b) => a > b ? a : b);
+      expect(hit1Max, greaterThan(0));
+
+      // Hit 2's power varies by hit 1's damage, so hit 2 should be lower than
+      // if we used naive constant 0.25x of max power. Rough sanity check: hit 2
+      // damage < hit 1 damage.
+      final hit2Max = rPB.perHitAllRolls![1].reduce((a, b) => a > b ? a : b);
+      expect(hit2Max, lessThan(hit1Max));
+    });
+
     test('Hyper Beam (recharge) still double-hits', () {
       const hyperBeam = Move(
         name: 'Hyper Beam', nameKo: '파괴광선', nameJa: 'はかいこうせん',
