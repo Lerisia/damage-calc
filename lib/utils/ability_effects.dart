@@ -566,7 +566,9 @@ bool isParentalBondEligible(Move move) {
 bool isParentalBondFixedFullPower(Move move) {
   return move.hasTag(MoveTags.fixedLevel) ||
       move.hasTag(MoveTags.fixedHalfHp) ||
-      move.hasTag(MoveTags.fixedThreeQuarterHp);
+      move.hasTag(MoveTags.fixedThreeQuarterHp) ||
+      move.hasTag(MoveTags.fixed20) ||
+      move.hasTag(MoveTags.fixed40);
 }
 
 AbilityStatModifiers _boostHighestStat(Stats stats) {

@@ -1412,6 +1412,49 @@ void main() {
       expect(rPB.perHitAllRolls, isNull);
     });
 
+    test('Super Fang + PB: hit 2 recalculates from remaining HP', () {
+      const superFang = Move(
+        name: 'Super Fang', nameKo: '엄청난이빨', nameJa: 'いかりのまえば',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 0, accuracy: 90, pp: 10,
+        tags: [MoveTags.fixedHalfHp],
+      );
+      final r = calc(move: superFang, atkAbility: 'Parental Bond',
+          defType1: PokemonType.fairy, defType2: null);
+      expect(r.perHitAllRolls, isNotNull);
+      expect(r.perHitAllRolls!.length, equals(2));
+      final hit1 = r.perHitAllRolls![0].first;
+      final hit2 = r.perHitAllRolls![1].first;
+      // Hit 2 must be smaller than Hit 1 (half of remaining, not half of full)
+      expect(hit2, lessThan(hit1));
+      // Total ≈ 75% of max HP (not 100%)
+      expect(r.maxDamage, lessThan(r.defenderHp));
+    });
+
+    test('Sonic Boom + PB: 20 + 20 = 40', () {
+      const sonicBoom = Move(
+        name: 'Sonic Boom', nameKo: '음파', nameJa: 'ソニックブーム',
+        type: PokemonType.normal, category: MoveCategory.special,
+        power: 0, accuracy: 90, pp: 20,
+        tags: [MoveTags.fixed20],
+      );
+      final r = calc(move: sonicBoom, atkAbility: 'Parental Bond',
+          defType1: PokemonType.fairy, defType2: null);
+      expect(r.maxDamage, equals(40));
+    });
+
+    test('Dragon Rage + PB: 40 + 40 = 80', () {
+      const dragonRage = Move(
+        name: 'Dragon Rage', nameKo: '용의분노', nameJa: 'りゅうのいかり',
+        type: PokemonType.dragon, category: MoveCategory.special,
+        power: 0, accuracy: 100, pp: 10,
+        tags: [MoveTags.fixed40],
+      );
+      final r = calc(move: dragonRage, atkAbility: 'Parental Bond',
+          defType1: PokemonType.fairy, defType2: null);
+      expect(r.maxDamage, equals(80));
+    });
+
     test('Hyper Beam (recharge) still double-hits', () {
       const hyperBeam = Move(
         name: 'Hyper Beam', nameKo: '파괴광선', nameJa: 'はかいこうせん',

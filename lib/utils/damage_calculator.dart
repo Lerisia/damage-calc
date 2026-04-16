@@ -1372,36 +1372,40 @@ class DamageCalculator {
       );
     }
 
-    // Calculate fixed damage
-    final int fixedDamage;
-    if (move.hasTag(MoveTags.fixedLevel)) {
-      fixedDamage = attacker.level.clamp(1, 100);
-    } else if (move.hasTag(MoveTags.fixed20)) {
-      fixedDamage = 20;
-    } else if (move.hasTag(MoveTags.fixed40)) {
-      fixedDamage = 40;
-    } else if (move.hasTag(MoveTags.fixedThreeQuarterHp)) {
-      // fixedThreeQuarterHp: 75% of defender's current HP (Guardian of Alola)
-      final baseHp = defStats.hp;
-      final currentBaseHp = (baseHp * defender.hpPercent / 100).ceil().clamp(1, baseHp);
-      fixedDamage = (currentBaseHp * 3 / 4).ceil().clamp(1, defHp);
-    } else {
-      // fixedHalfHp: half of defender's current HP (based on non-Dynamax HP)
-      final baseHp = defStats.hp;
-      final currentBaseHp = (baseHp * defender.hpPercent / 100).ceil().clamp(1, baseHp);
-      fixedDamage = (currentBaseHp / 2).ceil().clamp(1, defHp);
+    // Compute fixed damage for a given remaining-HP (in base stats scale).
+    // For HP-independent variants (fixedLevel/fixed20/fixed40) remainingBaseHp is unused.
+    int computeFixed(int remainingBaseHp) {
+      if (move.hasTag(MoveTags.fixedLevel)) {
+        return attacker.level.clamp(1, 100);
+      } else if (move.hasTag(MoveTags.fixed20)) {
+        return 20;
+      } else if (move.hasTag(MoveTags.fixed40)) {
+        return 40;
+      } else if (move.hasTag(MoveTags.fixedThreeQuarterHp)) {
+        return (remainingBaseHp * 3 / 4).ceil().clamp(1, defHp);
+      } else {
+        // fixedHalfHp
+        return (remainingBaseHp / 2).ceil().clamp(1, defHp);
+      }
     }
+
+    final int baseHp = defStats.hp;
+    final int currentBaseHp = (baseHp * defender.hpPercent / 100).ceil().clamp(1, baseHp);
+    final int fixedDamage = computeFixed(currentBaseHp);
 
     final notes = <String>[];
     if (move.hasTag(MoveTags.fixedHalfHp) && defender.dynamax != DynamaxState.none) {
       notes.add('다이맥스: 비다이맥스 HP 기준 50%');
     }
 
-    // Parental Bond on fixed-damage moves: both hits deal full damage = 2x total.
+    // Parental Bond on fixed-damage moves: hit 2 recalculates against remaining HP.
     final bool pbFixed = move.hasTag(MoveTags.parentalBondFixed);
-    final int totalFixed = pbFixed ? fixedDamage * 2 : fixedDamage;
+    final int secondHitFixed = pbFixed
+        ? computeFixed((currentBaseHp - fixedDamage).clamp(1, baseHp))
+        : 0;
+    final int totalFixed = pbFixed ? fixedDamage + secondHitFixed : fixedDamage;
     final List<List<int>>? pbPerHit = pbFixed
-        ? [List.filled(16, fixedDamage), List.filled(16, fixedDamage)]
+        ? [List.filled(16, fixedDamage), List.filled(16, secondHitFixed)]
         : null;
 
     return DamageResult(

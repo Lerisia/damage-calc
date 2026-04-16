@@ -473,25 +473,27 @@ class PokemonPanelState extends State<PokemonPanel>
                   ),
                   if (!isSearching && move != null && info.isMultiHit)
                     GestureDetector(
-                      onTap: () async {
-                        final h = await showDialog<int>(
-                          context: context,
-                          builder: (ctx) => SimpleDialog(
-                            children: [
-                              for (int h = move.minHits; h <= move.maxHits; h++)
-                                SimpleDialogOption(
-                                  onPressed: () => Navigator.pop(ctx, h),
-                                  child: Text('×$h', style: const TextStyle(fontSize: 14)),
+                      onTap: info.minHits == info.maxHits
+                          ? null
+                          : () async {
+                              final h = await showDialog<int>(
+                                context: context,
+                                builder: (ctx) => SimpleDialog(
+                                  children: [
+                                    for (int h = info.minHits; h <= info.maxHits; h++)
+                                      SimpleDialogOption(
+                                        onPressed: () => Navigator.pop(ctx, h),
+                                        child: Text('×$h', style: const TextStyle(fontSize: 14)),
+                                      ),
+                                  ],
                                 ),
-                            ],
-                          ),
-                        );
-                        if (h != null) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); }
-                      },
+                              );
+                              if (h != null) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); }
+                            },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 2),
                         child: Text(
-                          '×${s.hitOverrides[index] ?? move.maxHits}',
+                          '×${s.hitOverrides[index] ?? info.maxHits}',
                           style: TextStyle(
                             fontSize: 11,
                             color: s.hitOverrides[index] != null ? Colors.orange : Colors.grey[600],

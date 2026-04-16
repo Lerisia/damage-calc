@@ -68,6 +68,12 @@ class MoveSlotInfo {
   /// Whether the transformed move is still multi-hit.
   final bool isMultiHit;
 
+  /// Minimum hit count of the transformed move.
+  final int minHits;
+
+  /// Maximum hit count of the transformed move.
+  final int maxHits;
+
   /// 결정력 result, null when no move is set.
   final int? offensivePower;
 
@@ -79,6 +85,8 @@ class MoveSlotInfo {
     this.effectivePower = 0,
     this.isFixedDamage = false,
     this.isMultiHit = false,
+    this.minHits = 1,
+    this.maxHits = 1,
     this.offensivePower,
   });
 }
@@ -241,6 +249,8 @@ class BattleFacade {
       effectivePower: effectivePower,
       isFixedDamage: isFixed,
       isMultiHit: transformed.move.isMultiHit,
+      minHits: transformed.move.minHits,
+      maxHits: transformed.move.maxHits,
       offensivePower: offensivePower,
     );
   }

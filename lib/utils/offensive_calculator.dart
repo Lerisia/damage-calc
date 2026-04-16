@@ -4,6 +4,7 @@ import '../models/stats.dart';
 import '../models/status.dart';
 import '../models/nature.dart';
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/rank.dart';
 import '../models/type.dart';
 import '../models/terrain.dart';
@@ -132,6 +133,10 @@ class OffensiveCalculator {
             ? kBurnDamageReduction
             : 1.0;
 
+    // Parental Bond for 결정력: single-value approximation of 2-hit (1x + 0.25x).
+    // Damage calculator handles the actual per-hit split separately.
+    final double parentalBondMod = move.hasTag(MoveTags.parentalBond) ? 1.25 : 1.0;
+
     final double raw = modifiedStat *
         effectivePower *
         stabMult *
@@ -139,7 +144,8 @@ class OffensiveCalculator {
         weatherMod *
         terrainMod *
         burnMod *
-        powerModifier;
+        powerModifier *
+        parentalBondMod;
 
     return raw.floor();
   }
