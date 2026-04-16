@@ -700,11 +700,11 @@ class _StatInputState extends State<StatInput> {
   Widget _modeLabel(String text, bool active) {
     final baseStyle = Theme.of(context).textTheme.bodySmall;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: active
           ? BoxDecoration(
               color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(3),
             )
           : null,
       child: Text(
@@ -735,7 +735,7 @@ class _StatInputState extends State<StatInput> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _modeLabel(AppStrings.t('stat.ev'), !widget.useSpMode),
+                      _modeLabel('EV', !widget.useSpMode),
                       Text(' ↔ ', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey)),
                       _modeLabel('SP', widget.useSpMode),
                     ],
