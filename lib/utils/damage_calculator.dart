@@ -1260,6 +1260,22 @@ class DamageCalculator {
       return immune(['ability:Sturdy:일격기 무효']);
     }
 
+    // Disguise: intercepts damage formula, deals exactly 1/8 max HP instead.
+    // (Reaches here only if Mold Breaker didn't bypass it, since earlyDefAbility is null then.)
+    if (defenderAbility == 'Disguise Disguised') {
+      final disguiseDamage = (defHp / 8).floor().clamp(1, defHp);
+      return DamageResult(
+        baseDamage: disguiseDamage,
+        minDamage: disguiseDamage,
+        maxDamage: disguiseDamage,
+        defenderHp: defHp,
+        effectiveness: 1.0,
+        isPhysical: isPhysical,
+        move: move,
+        modifierNotes: ['disguise:$defenderAbility'],
+      );
+    }
+
     // OHKO: damage = defender's current HP
     final currentHp = (defHp * defender.hpPercent / 100).ceil().clamp(1, defHp);
     return DamageResult(
@@ -1313,6 +1329,46 @@ class DamageCalculator {
         defenderHp: defHp, effectiveness: 0.0,
         isPhysical: isPhysical, move: move,
         modifierNotes: ['ability:$defenderAbility:immune'],
+      );
+    }
+
+    // Disguise: intercepts damage formula, replaces fixed damage with 1/8 max HP.
+    // (Reaches here only if Mold Breaker didn't bypass it, since earlyDefAbility is null then.)
+    // Parental Bond + Disguise: only the first hit is absorbed; 2nd hit deals full
+    // fixed damage against the busted form.
+    if (defenderAbility == 'Disguise Disguised') {
+      final disguiseDamage = (defHp / 8).floor().clamp(1, defHp);
+      final bool pbFixed = move.hasTag(MoveTags.parentalBondFixed);
+      // Recompute the fixed-damage value for the 2nd hit (against Busted form).
+      final int secondHit;
+      if (pbFixed) {
+        if (move.hasTag(MoveTags.fixedLevel)) {
+          secondHit = attacker.level.clamp(1, 100);
+        } else if (move.hasTag(MoveTags.fixedThreeQuarterHp)) {
+          final remaining = (defHp - disguiseDamage).clamp(1, defHp);
+          secondHit = (remaining * 3 / 4).ceil().clamp(1, defHp);
+        } else {
+          // fixedHalfHp
+          final remaining = (defHp - disguiseDamage).clamp(1, defHp);
+          secondHit = (remaining / 2).ceil().clamp(1, defHp);
+        }
+      } else {
+        secondHit = 0;
+      }
+      final total = pbFixed ? disguiseDamage + secondHit : disguiseDamage;
+      final List<List<int>>? perHit = pbFixed
+          ? [List.filled(16, disguiseDamage), List.filled(16, secondHit)]
+          : null;
+      return DamageResult(
+        baseDamage: total,
+        minDamage: total,
+        maxDamage: total,
+        perHitAllRolls: perHit,
+        defenderHp: defHp,
+        effectiveness: 1.0,
+        isPhysical: isPhysical,
+        move: move,
+        modifierNotes: ['disguise:$defenderAbility'],
       );
     }
 

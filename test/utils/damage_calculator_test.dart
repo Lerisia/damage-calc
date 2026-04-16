@@ -1426,6 +1426,97 @@ void main() {
   });
 
   // ---------------------------------------------------------------
+  // Disguise vs fixed-damage / OHKO moves
+  // ---------------------------------------------------------------
+  group('Disguise vs fixed-damage', () {
+    // Mimikyu's typical HP total (~130-140 depending on EV/IV/nature).
+    // With the default calc() setup, Disguise damage = maxHp / 8.
+
+    test('Seismic Toss vs Disguise: 1/8 max HP, not attacker level', () {
+      const seismicToss = Move(
+        name: 'Seismic Toss', nameKo: '지구던지기', nameJa: 'ちきゅうなげ',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 0, accuracy: 100, pp: 20,
+        tags: [MoveTags.fixedLevel],
+      );
+      final rPlain = calc(move: seismicToss, defAbility: 'Overgrow',
+          defType1: PokemonType.normal, defType2: null);
+      final rDisguise = calc(move: seismicToss, defAbility: 'Disguise Disguised',
+          defType1: PokemonType.ghost, defType2: PokemonType.fairy);
+      expect(rDisguise.maxDamage, equals((rDisguise.defenderHp / 8).floor()));
+      expect(rDisguise.maxDamage, isNot(equals(rPlain.maxDamage)));
+    });
+
+    test('Super Fang vs Disguise: 1/8 max HP, not 50% current HP', () {
+      const superFang = Move(
+        name: 'Super Fang', nameKo: '엄청난이빨', nameJa: 'いかりのまえば',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 0, accuracy: 90, pp: 10,
+        tags: [MoveTags.fixedHalfHp],
+      );
+      // Normal vs Ghost/Fairy = 0, skip to a non-immune typing
+      final r = calc(move: superFang, defAbility: 'Disguise Disguised',
+          defType1: PokemonType.fairy, defType2: null);
+      expect(r.maxDamage, equals((r.defenderHp / 8).floor()));
+    });
+
+    test('Nature\'s Madness vs Disguise: 1/8 max HP', () {
+      const naturesMadness = Move(
+        name: "Nature's Madness", nameKo: '자연의분노', nameJa: 'しぜんのいかり',
+        type: PokemonType.fairy, category: MoveCategory.special,
+        power: 0, accuracy: 90, pp: 10,
+        tags: [MoveTags.fixedHalfHp],
+      );
+      final r = calc(move: naturesMadness, defAbility: 'Disguise Disguised',
+          defType1: PokemonType.ghost, defType2: PokemonType.fairy);
+      expect(r.maxDamage, equals((r.defenderHp / 8).floor()));
+    });
+
+    test('OHKO (Fissure) vs Disguise: 1/8 max HP, not full HP', () {
+      const fissure = Move(
+        name: 'Fissure', nameKo: '지각변동', nameJa: 'じわれ',
+        type: PokemonType.ground, category: MoveCategory.physical,
+        power: 0, accuracy: 30, pp: 5, tags: [MoveTags.ohko],
+      );
+      final r = calc(move: fissure, defAbility: 'Disguise Disguised',
+          defType1: PokemonType.fairy, defType2: null);
+      expect(r.maxDamage, equals((r.defenderHp / 8).floor()));
+    });
+
+    test('Mold Breaker bypasses Disguise for Seismic Toss', () {
+      const seismicToss = Move(
+        name: 'Seismic Toss', nameKo: '지구던지기', nameJa: 'ちきゅうなげ',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 0, accuracy: 100, pp: 20,
+        tags: [MoveTags.fixedLevel],
+      );
+      final rMold = calc(move: seismicToss, atkAbility: 'Mold Breaker',
+          defAbility: 'Disguise Disguised',
+          defType1: PokemonType.ghost, defType2: PokemonType.fairy);
+      // Seismic Toss deals level damage (50 at default level)
+      expect(rMold.maxDamage, equals(50));
+    });
+
+    test('Parental Bond + Seismic Toss vs Disguise: hit 1 busts disguise, hit 2 full', () {
+      const seismicToss = Move(
+        name: 'Seismic Toss', nameKo: '지구던지기', nameJa: 'ちきゅうなげ',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 0, accuracy: 100, pp: 20,
+        tags: [MoveTags.fixedLevel],
+      );
+      final r = calc(move: seismicToss, atkAbility: 'Parental Bond',
+          defAbility: 'Disguise Disguised',
+          defType1: PokemonType.ghost, defType2: PokemonType.fairy);
+      expect(r.perHitAllRolls, isNotNull);
+      expect(r.perHitAllRolls!.length, equals(2));
+      final hit1 = r.perHitAllRolls![0].first;
+      final hit2 = r.perHitAllRolls![1].first;
+      expect(hit1, equals((r.defenderHp / 8).floor())); // disguise break
+      expect(hit2, equals(50)); // attacker level
+    });
+  });
+
+  // ---------------------------------------------------------------
   // OHKO vs Dynamax
   // ---------------------------------------------------------------
 
