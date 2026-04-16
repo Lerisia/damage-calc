@@ -698,6 +698,7 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _modeLabel(String text, bool active) {
+    final baseStyle = Theme.of(context).textTheme.bodySmall;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
       decoration: active
@@ -708,8 +709,7 @@ class _StatInputState extends State<StatInput> {
           : null,
       child: Text(
         text,
-        style: TextStyle(
-          fontSize: 14,
+        style: baseStyle?.copyWith(
           fontWeight: active ? FontWeight.bold : FontWeight.normal,
           color: active
               ? Theme.of(context).colorScheme.primary
@@ -736,7 +736,7 @@ class _StatInputState extends State<StatInput> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _modeLabel(AppStrings.t('stat.ev'), !widget.useSpMode),
-                      Text(' ↔ ', style: style?.copyWith(color: Colors.grey)),
+                      Text(' ↔ ', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey)),
                       _modeLabel('SP', widget.useSpMode),
                     ],
                   ),
