@@ -273,11 +273,6 @@ class _StatInputState extends State<StatInput> {
           final key = 'Supreme Overlord $i';
           if (nameMap.containsKey(key)) expanded.add(key);
         }
-      } else if (a == 'Rivalry') {
-        for (final suffix in ['Same', 'Opposite', 'None']) {
-          final key = 'Rivalry $suffix';
-          if (nameMap.containsKey(key)) expanded.add(key);
-        }
       } else {
         expanded.add(a);
       }

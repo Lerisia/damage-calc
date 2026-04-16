@@ -311,7 +311,6 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Rivalry Opposite':
       return const AbilityEffect(powerModifier: kRivalryOppositeGender);
     case 'Rivalry None':
-    case 'Rivalry':
       return _defaultEffect;
 
     // --- Speed stat modifiers ---
