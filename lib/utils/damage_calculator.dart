@@ -1110,16 +1110,23 @@ class DamageCalculator {
         return D;
       }
 
+      // Gen 9 rule: if Disguise absorbs hit 0, Kee/Maranga berry does NOT trigger
+      // on that hit. Berry activation shifts to after hit 1 (the first post-bust hit).
+      // Normal case: berry activates after hit 0, so stages apply from hit 1 onward.
+      final int berryActivationIdx = (disguiseActive && oneTimeDefChange != 0) ? 2 : 1;
+
       // Stages that apply BEFORE hit i (0-indexed). Hit 0: no triggers yet.
-      // Hit i (≥1): all per-hit triggers from prior i hits, plus at most one
-      // berry trigger (if hit 1 qualified, subsequent hits see the -1 berry).
+      // Per-hit abilities accumulate from every prior qualifying hit. Berry
+      // contribution is gated on berryActivationIdx (Gen 9 Disguise rule).
       int stagesBeforeHit(int i) {
         if (i == 0) return 0;
-        return oneTimeDefChange + perHitDefChange * i;
+        final int berry = (i >= berryActivationIdx) ? oneTimeDefChange : 0;
+        return berry + perHitDefChange * i;
       }
 
-      // Defense used for subsequent hits in simple cases (only one-time change,
-      // no per-hit accumulation) — kept for the berry-only fast path.
+      // Fast path: all hits 2+ share the same stages. Applies when no per-hit
+      // accumulation AND berry trigger is at idx=1 (or no berry).
+      final bool canUseFastPath = perHitDefChange == 0 && berryActivationIdx == 1;
       final int dForSubHits = dAtStage(oneTimeDefChange + perHitDefChange);
       final bool defChanged = (oneTimeDefChange != 0) || (perHitDefChange != 0);
       final int subBaseDmg = defChanged
@@ -1184,9 +1191,9 @@ class DamageCalculator {
         }
       } else {
         final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
-        if (perHitDefChange != 0) {
-          // Per-hit ability compounds (Stamina / Water Compaction / Weak Armor):
-          // each hit uses defense stages from all prior triggers.
+        if (!canUseFastPath) {
+          // Per-hit stage changes (abilities) or Gen 9 Disguise-delayed berry:
+          // each hit gets its own damage rolls based on stagesBeforeHit(i).
           final hits = <List<int>>[firstHitRolls];
           for (int i = 1; i < hitCount; i++) {
             final dForHit = dAtStage(stagesBeforeHit(i));
@@ -1196,8 +1203,8 @@ class DamageCalculator {
           }
           perHitAllRolls = hits;
         } else {
-          // One-time effects only (Multiscale, Tera Shell, berry, Disguise, Kee/Maranga):
-          // hits 2+ share a single subHitRolls.
+          // Fast path: hits 2+ share a single subHitRolls (Multiscale, Tera
+          // Shell, resist berry, Kee/Maranga berry without Disguise).
           final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive || defChanged)
               ? allRolls(subBaseDmg,
                   effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry)

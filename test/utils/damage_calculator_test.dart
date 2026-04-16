@@ -1375,6 +1375,27 @@ void main() {
       expect(h3, greaterThan(h2));
     });
 
+    test('Gen 9: Disguise absorbs hit 1, Kee Berry delayed until after hit 2', () {
+      const bulletSeed = Move(
+        name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 25, accuracy: 100, pp: 30,
+        minHits: 5, maxHits: 5,
+      );
+      final r = calc(move: bulletSeed,
+          defType1: PokemonType.ghost, defType2: PokemonType.fairy,
+          defAbility: 'Disguise Disguised', defItem: 'kee-berry');
+      // Hit 1: disguise absorbs (1/8 HP)
+      // Hit 2: berry not yet active → full damage (same as no-berry case)
+      // Hits 3-5: berry active → reduced damage
+      final h2 = r.perHitAllRolls![1].first;
+      final h3 = r.perHitAllRolls![2].first;
+      expect(h3, lessThan(h2));
+      // Hits 3, 4, 5 all identical (berry consumed, boost persists)
+      expect(r.perHitAllRolls![2], equals(r.perHitAllRolls![3]));
+      expect(r.perHitAllRolls![3], equals(r.perHitAllRolls![4]));
+    });
+
     test('Kee Berry: one-time boost, hits 2-5 identical', () {
       const bulletSeed = Move(
         name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',
