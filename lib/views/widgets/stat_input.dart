@@ -697,6 +697,28 @@ class _StatInputState extends State<StatInput> {
     );
   }
 
+  Widget _modeLabel(String text, bool active) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+      decoration: active
+          ? BoxDecoration(
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(4),
+            )
+          : null,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: active ? FontWeight.bold : FontWeight.normal,
+          color: active
+              ? Theme.of(context).colorScheme.primary
+              : Colors.grey,
+        ),
+      ),
+    );
+  }
+
   Widget _statHeader(BuildContext context) {
     final style = Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey);
     final isWide = MediaQuery.of(context).size.width >= 600;
@@ -708,31 +730,16 @@ class _StatInputState extends State<StatInput> {
           Expanded(flex: 2, child: Text(AppStrings.t('stat.base'), style: style, textAlign: TextAlign.center)),
           Expanded(flex: isWide ? 2 : 3, child: Text(AppStrings.t('stat.iv'), style: style, textAlign: TextAlign.center)),
           Expanded(flex: isWide ? 7 : 6, child: widget.onSpModeChanged != null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: widget.useSpMode ? () => widget.onSpModeChanged!(false) : null,
-                      child: Text(
-                        AppStrings.t('stat.ev'),
-                        style: style?.copyWith(
-                          fontWeight: widget.useSpMode ? FontWeight.normal : FontWeight.bold,
-                          color: widget.useSpMode ? Colors.grey : null,
-                        ),
-                      ),
-                    ),
-                    Text(' | ', style: style?.copyWith(color: Colors.grey)),
-                    GestureDetector(
-                      onTap: widget.useSpMode ? null : () => widget.onSpModeChanged!(true),
-                      child: Text(
-                        'SP',
-                        style: style?.copyWith(
-                          fontWeight: widget.useSpMode ? FontWeight.bold : FontWeight.normal,
-                          color: widget.useSpMode ? null : Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
+              ? InkWell(
+                  onTap: () => widget.onSpModeChanged!(!widget.useSpMode),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _modeLabel(AppStrings.t('stat.ev'), !widget.useSpMode),
+                      Text(' ↔ ', style: style?.copyWith(color: Colors.grey)),
+                      _modeLabel('SP', widget.useSpMode),
+                    ],
+                  ),
                 )
               : Text(AppStrings.t('stat.ev'), style: style, textAlign: TextAlign.center)),
           Expanded(flex: 3, child: Text(AppStrings.t('stat.rank'), style: style, textAlign: TextAlign.center)),
