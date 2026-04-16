@@ -1065,12 +1065,20 @@ class DamageCalculator {
           defender.hpPercent >= 100 && effectiveness < 1.0;
       final bool hasBerry = berryMod != 1.0;
 
-      // Stat-changing items/abilities on hit: not simulated, warn user
-      if (defender.selectedItem == 'kee-berry' && isPhysical) {
-        notes.add('warning:연속기 악키열매 방어↑ 미반영');
-      } else if (defender.selectedItem == 'maranga-berry' && !isPhysical) {
-        notes.add('warning:연속기 타라프열매 특방↑ 미반영');
-      }
+      // Kee Berry / Maranga Berry: defense/spdef +1 stage after first hit
+      // (1.5x to D, applied via recalculated baseDmg for hits 2+)
+      final bool keeTriggers = defender.selectedItem == 'kee-berry' && isPhysical;
+      final bool marangaTriggers = defender.selectedItem == 'maranga-berry' && !isPhysical;
+      final bool berryStatBoost = keeTriggers || marangaTriggers;
+      if (keeTriggers) notes.add('berryDefBoost:kee-berry');
+      if (marangaTriggers) notes.add('berryDefBoost:maranga-berry');
+
+      // Subsequent-hit baseDmg with D × 1.5 (rank +1)
+      final int subBaseDmg = berryStatBoost
+          ? ((2 * level ~/ 5 + 2) * power * A ~/ (D * 3 ~/ 2)) ~/ 50 + 2
+          : baseDmg;
+
+      // Other stat-changing on-hit effects: not simulated, warn user
       if (defAbilityName == 'Weak Armor' && isPhysical) {
         notes.add('warning:연속기 깨어진갑옷 방어↓ 미반영');
       } else if (defAbilityName == 'Stamina' && isPhysical) {
@@ -1088,15 +1096,17 @@ class DamageCalculator {
         final singleHitPower = effectiveMove.power;
         perHitAllRolls = List.generate(hitCount, (i) {
           final hitPower = (singleHitPower * (i + 1) * movePowerMod).floor();
-          final hitBaseDmg = ((2 * level ~/ 5 + 2) * hitPower * A ~/ D) ~/ 50 + 2;
+          // Apply Kee/Maranga Berry stat boost from hit 2+
+          final dForHit = (i == 0 || !berryStatBoost) ? D : (D * 3 ~/ 2);
+          final hitBaseDmg = ((2 * level ~/ 5 + 2) * hitPower * A ~/ dForHit) ~/ 50 + 2;
           if (i == 0) return allRolls(hitBaseDmg);
           return allRolls(hitBaseDmg,
             effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry);
         });
       } else {
         final firstHitRolls = disguiseActive ? disguiseRolls : singleHitRolls;
-        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive)
-            ? allRolls(baseDmg,
+        final subHitRolls = (hasMultiscale || hasTeraShell || hasBerry || disguiseActive || berryStatBoost)
+            ? allRolls(subBaseDmg,
                 effectivenessHit: subEff, defAbilityDmgHit: subDef, berryModHit: subBerry)
             : singleHitRolls;
         perHitAllRolls = [firstHitRolls, ...List.filled(hitCount - 1, subHitRolls)];

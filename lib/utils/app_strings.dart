@@ -710,6 +710,16 @@ class AppStrings {
       AppLanguage.en: '1/8 max HP damage',
       AppLanguage.ja: '最大HPの1/8ダメージ',
     },
+    'note.keeBerryBoost': {
+      AppLanguage.ko: '연속기 2타 이후 방어↑',
+      AppLanguage.en: 'Defense ↑ after 1st hit',
+      AppLanguage.ja: '連続技2発目以降 防御↑',
+    },
+    'note.marangaBerryBoost': {
+      AppLanguage.ko: '연속기 2타 이후 특방↑',
+      AppLanguage.en: 'Sp.Def ↑ after 1st hit',
+      AppLanguage.ja: '連続技2発目以降 特防↑',
+    },
     'note.groundImmune': {
       AppLanguage.ko: '비접지: 땅 타입 기술 무효',
       AppLanguage.en: 'Ungrounded: Ground immune',
