@@ -1307,6 +1307,34 @@ void main() {
       expect(waterShuriken.name, isNotEmpty);
     });
 
+    test('Water Compaction: SPECIAL water multi-hit does NOT benefit (boost affects Def only)', () {
+      const waterShuriken = Move(
+        name: 'Water Shuriken', nameKo: '물수리검', nameJa: 'みずしゅりけん',
+        type: PokemonType.water, category: MoveCategory.special,
+        power: 15, accuracy: 100, pp: 20,
+        minHits: 3, maxHits: 3,
+      );
+      final atk = BattlePokemonState(moves: [waterShuriken, null, null, null]);
+      final defWC = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Water Compaction',
+      );
+      final defNo = BattlePokemonState(
+        type1: PokemonType.normal, type2: null,
+        selectedAbility: 'Overgrow',
+      );
+      final rWith = DamageCalculator.calculate(
+        attacker: atk, defender: defWC, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      final rNo = DamageCalculator.calculate(
+        attacker: atk, defender: defNo, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none, room: const RoomConditions(),
+      );
+      // Special water moves bypass Water Compaction since the buff is on Defense
+      expect(rWith.maxDamage, equals(rNo.maxDamage));
+    });
+
     test('Weak Armor: physical multi-hit deals MORE damage after hit 1', () {
       const bulletSeed = Move(
         name: 'Bullet Seed', nameKo: '씨기관총', nameJa: 'タネマシンガン',

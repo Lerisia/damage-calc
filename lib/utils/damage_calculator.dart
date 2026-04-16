@@ -1085,17 +1085,21 @@ class DamageCalculator {
         statChangeNotes.add('berryDefBoost:maranga-berry');
       }
       // Per-hit ability: Stamina (+1 Def on any damaging hit).
-      // Not suppressed by Mold Breaker (activates after damage).
-      if (defAbilityName == 'Stamina') {
+      // Not suppressed by Mold Breaker (activates after damage). Only affects
+      // subsequent damage when the move targets physical Defense.
+      if (defAbilityName == 'Stamina' && targetPhysDef) {
         perHitDefChange += 1;
         statChangeNotes.add('abilityDefChange:Stamina:+1');
       }
-      // Per-hit ability: Water Compaction (+2 Def on water hits)
-      if (defAbilityName == 'Water Compaction' && moveType == PokemonType.water) {
+      // Per-hit ability: Water Compaction (+2 Def on water hits). Only
+      // affects subsequent damage when the move targets physical Defense.
+      if (defAbilityName == 'Water Compaction' &&
+          moveType == PokemonType.water && targetPhysDef) {
         perHitDefChange += 2;
         statChangeNotes.add('abilityDefChange:Water Compaction:+2');
       }
-      // Per-hit ability: Weak Armor (-1 Def on physical hits)
+      // Per-hit ability: Weak Armor (-1 Def on physical hits).
+      // Physical implies targetPhysDef, so no extra gate needed.
       if (defAbilityName == 'Weak Armor' && isPhysical) {
         perHitDefChange -= 1;
         statChangeNotes.add('abilityDefChange:Weak Armor:-1');
