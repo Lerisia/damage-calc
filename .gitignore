@@ -37,3 +37,4 @@ scripts/
 
 # Coverage
 coverage/
+__pycache__/
