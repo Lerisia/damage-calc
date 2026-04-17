@@ -959,6 +959,10 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _rankControl(int value, ValueChanged<int> onChanged) {
+    // Keying on _evResetCounter (but NOT on value) keeps the same widget
+    // alive while the user types, so the keyboard doesn't collapse on
+    // every keystroke. External resets (sample load, reset button) bump
+    // the counter, which reseeds the display with a signed value.
     return Focus(
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
@@ -970,13 +974,13 @@ class _StatInputState extends State<StatInput> {
       child: SizedBox(
         height: 32,
         child: TextFormField(
-        key: ValueKey('rank_${value}_$_evResetCounter'),
+        key: ValueKey('rank_$_evResetCounter'),
         initialValue: value > 0 ? '+$value' : '$value',
         textAlign: TextAlign.center,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]?$')),
+          FilteringTextInputFormatter.allow(RegExp(r'^[+-]?[0-9]?$')),
         ],
         style: TextStyle(
           fontSize: 14,
@@ -988,16 +992,16 @@ class _StatInputState extends State<StatInput> {
           contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
         ),
         onChanged: (text) {
-          if (text == '-') return;
+          // Don't commit incomplete inputs like '-' or '+' — wait for digits
+          // (or focus loss, which reseeds from the committed value).
           if (text.isEmpty) {
             onChanged(0);
             return;
           }
-          final parsed = int.tryParse(text);
+          if (text == '-' || text == '+') return;
+          final parsed = int.tryParse(text.replaceAll('+', ''));
           if (parsed != null) {
-            final clamped = parsed.clamp(-6, 6);
-            setState(() => _evResetCounter++);
-            onChanged(clamped);
+            onChanged(parsed.clamp(-6, 6));
           }
         },
       ),
