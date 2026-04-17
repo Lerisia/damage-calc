@@ -88,14 +88,14 @@ class AppStrings {
       AppLanguage.ja: 'テーマ',
     },
     'app.themeLight': {
-      AppLanguage.ko: '라이트',
-      AppLanguage.en: 'Light',
-      AppLanguage.ja: 'ライト',
+      AppLanguage.ko: '라이트 모드',
+      AppLanguage.en: 'Light mode',
+      AppLanguage.ja: 'ライトモード',
     },
     'app.themeDark': {
-      AppLanguage.ko: '다크',
-      AppLanguage.en: 'Dark',
-      AppLanguage.ja: 'ダーク',
+      AppLanguage.ko: '다크 모드',
+      AppLanguage.en: 'Dark mode',
+      AppLanguage.ja: 'ダークモード',
     },
 
     // === Tabs ===
