@@ -24,9 +24,13 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: Jua
+    - family: Pretendard
       fonts:
-        - asset: assets/fonts/Jua-Regular.ttf
+        - asset: assets/fonts/Pretendard-Regular.otf
+        - asset: assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: assets/fonts/Pretendard-Bold.otf
+          weight: 700
     - family: NotoSansKR
       fonts:
         - asset: assets/fonts/NotoSansKR-Fallback.ttf

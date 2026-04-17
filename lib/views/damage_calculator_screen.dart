@@ -408,7 +408,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               maxLength: 50,
               decoration: InputDecoration(
                 labelText: AppStrings.t('sample.name'),
-                border: const OutlineInputBorder(),
               ),
               autofocus: true,
             ),

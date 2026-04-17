@@ -12,20 +12,134 @@ void main() {
   runApp(const DamageCalcApp());
 }
 
+// Pretendard covers Korean + Latin. MPLUSRounded1c handles Japanese glyphs
+// (hiragana/katakana/JP kanji) that Pretendard lacks. NotoSansKR catches any
+// remaining Korean glyphs. System sans-serif is the final fallback.
 const _fontFallback = ['MPLUSRounded1c', 'NotoSansKR', 'sans-serif'];
 
+// Neutral palette — Linear/Raycast style. Data-tool aesthetic: tight borders,
+// flat surfaces, grayscale dominant. Red/blue only surface in attacker /
+// defender panels as thin accent strokes, not background tints.
+class AppColors {
+  AppColors._();
+  // Zinc scale (shadcn defaults) — tuned for utility tool density.
+  static const zinc50 = Color(0xFFFAFAFA);
+  static const zinc100 = Color(0xFFF4F4F5);
+  static const zinc200 = Color(0xFFE4E4E7);
+  static const zinc300 = Color(0xFFD4D4D8);
+  static const zinc400 = Color(0xFFA1A1AA);
+  static const zinc500 = Color(0xFF71717A);
+  static const zinc600 = Color(0xFF52525B);
+  static const zinc700 = Color(0xFF3F3F46);
+  static const zinc800 = Color(0xFF27272A);
+  static const zinc900 = Color(0xFF18181B);
+  static const zinc950 = Color(0xFF09090B);
+  // Domain accents — attacker red / defender blue (Tailwind 500 / 400).
+  static const attackerLight = Color(0xFFEF4444);
+  static const attackerDark = Color(0xFFF87171);
+  static const defenderLight = Color(0xFF3B82F6);
+  static const defenderDark = Color(0xFF60A5FA);
+}
+
 ThemeData _buildTheme(Brightness brightness) {
+  final isDark = brightness == Brightness.dark;
+  final bg = isDark ? AppColors.zinc950 : AppColors.zinc50;
+  final surface = isDark ? AppColors.zinc900 : Colors.white;
+  final border = isDark ? AppColors.zinc800 : AppColors.zinc200;
+  final textPrimary = isDark ? AppColors.zinc50 : AppColors.zinc900;
+  final textSecondary = isDark ? AppColors.zinc400 : AppColors.zinc600;
+
+  final scheme = ColorScheme(
+    brightness: brightness,
+    primary: textPrimary,
+    onPrimary: surface,
+    secondary: textSecondary,
+    onSecondary: surface,
+    error: isDark ? AppColors.attackerDark : AppColors.attackerLight,
+    onError: Colors.white,
+    surface: surface,
+    onSurface: textPrimary,
+    surfaceContainerHighest: isDark ? AppColors.zinc800 : AppColors.zinc100,
+    outline: border,
+    outlineVariant: isDark ? AppColors.zinc700 : AppColors.zinc300,
+    surfaceTint: Colors.transparent,
+  );
+
   final base = ThemeData(
-    colorSchemeSeed: Colors.red,
+    colorScheme: scheme,
     brightness: brightness,
     useMaterial3: true,
-    fontFamily: 'Jua',
+    fontFamily: 'Pretendard',
+    scaffoldBackgroundColor: bg,
+    canvasColor: bg,
+    dividerColor: border,
+    cardTheme: CardThemeData(
+      color: surface,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: border, width: 1),
+      ),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: bg,
+      foregroundColor: textPrimary,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      shape: Border(bottom: BorderSide(color: border, width: 1)),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      // Linear-style: subtle filled background signals "editable" without
+      // any rectangle outline. Focus bumps the fill one shade darker so
+      // focus stays obvious without a ring.
+      filled: true,
+      isDense: true,
+      fillColor: isDark ? AppColors.zinc800 : AppColors.zinc100,
+      hoverColor: isDark ? AppColors.zinc700 : AppColors.zinc200,
+      focusColor: isDark ? AppColors.zinc700 : AppColors.zinc200,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      labelStyle: TextStyle(color: textSecondary, fontSize: 12),
+      floatingLabelStyle: TextStyle(color: textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
+      hintStyle: TextStyle(color: textSecondary.withValues(alpha: 0.7)),
+    ),
+    dividerTheme: DividerThemeData(color: border, thickness: 1, space: 1),
+    chipTheme: ChipThemeData(
+      backgroundColor: isDark ? AppColors.zinc800 : AppColors.zinc100,
+      labelStyle: TextStyle(color: textPrimary, fontWeight: FontWeight.w500),
+      side: BorderSide(color: border),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    ),
+    tabBarTheme: TabBarThemeData(
+      labelColor: textPrimary,
+      unselectedLabelColor: textSecondary,
+      indicatorColor: textPrimary,
+      dividerColor: border,
+      labelStyle: const TextStyle(fontWeight: FontWeight.w600),
+    ),
+    textTheme: const TextTheme().apply(
+      bodyColor: textPrimary,
+      displayColor: textPrimary,
+    ),
   );
-  // Apply fontFamilyFallback to all text styles so missing Jua glyphs
-  // (e.g. rare syllables during Korean IME composition) fall back to
-  // NotoSansKR instead of showing □.
   return base.copyWith(
-    textTheme: base.textTheme.apply(fontFamilyFallback: _fontFallback),
+    textTheme: base.textTheme.apply(
+      fontFamilyFallback: _fontFallback,
+      bodyColor: textPrimary,
+      displayColor: textPrimary,
+    ),
   );
 }
 
@@ -48,7 +162,7 @@ class DamageCalcApp extends StatelessWidget {
         final defaultStyle = DefaultTextStyle.of(context).style;
         return DefaultTextStyle(
           style: defaultStyle.copyWith(
-            fontFamily: 'Jua',
+            fontFamily: 'Pretendard',
             fontFamilyFallback: _fontFallback,
           ),
           child: mediaChild,

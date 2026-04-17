@@ -219,11 +219,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                color: resultColor.withValues(alpha: 0.1),
                 child: Column(
                   children: [
                     Text(resultText, style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold, color: resultColor,
+                      fontSize: 16, fontWeight: FontWeight.w600, color: resultColor,
                     )),
                     if (widget.room.trickRoom)
                       Padding(
@@ -262,16 +261,8 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     ).speed;
     final speedBase = state.baseStats.speed;
 
-    return Theme(
-      data: Theme.of(context).copyWith(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: color,
-          brightness: Theme.of(context).brightness,
-        ),
-      ),
-      child: Container(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      color: color.withValues(alpha: 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -428,7 +419,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           //     ])))]),
         ],
       ),
-    ));
+    );
   }
 
   Widget _miniButton(String label, VoidCallback onPressed) {

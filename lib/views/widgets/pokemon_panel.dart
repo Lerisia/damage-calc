@@ -204,14 +204,7 @@ class PokemonPanelState extends State<PokemonPanel>
           _sectionCard(
             key: _statsSectionKey,
             title: AppStrings.t('section.stats'),
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.fromSeed(
-                  seedColor: widget.isAttacker ? Colors.red : Colors.blue,
-                  brightness: Theme.of(context).brightness,
-                ),
-              ),
-              child: StatInput(
+            child: StatInput(
               key: ValueKey('stats_${widget.resetCounter}'),
               level: s.level,
               nature: s.nature,
@@ -246,7 +239,7 @@ class PokemonPanelState extends State<PokemonPanel>
               useSpMode: widget.useSpMode,
               onSpModeChanged: widget.onSpModeChanged,
             ),
-          )),
+          ),
           const SizedBox(height: 12),
 
           // 기타 보정 (순풍/충전) - hidden for simplicity
@@ -859,41 +852,29 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   Widget _sectionCard({Key? key, required String title, required Widget child}) {
-    final accentColor = widget.isAttacker ? Colors.red : Colors.blue;
-    final cardColor = Color.lerp(Theme.of(context).cardColor, accentColor, 0.06);
-    final titleColor = widget.isAttacker ? Colors.red[700] : Colors.blue[700];
-    final isWide = MediaQuery.of(context).size.width >= 600;
+    // Borderless, flat, separated by whitespace. Title uses the attacker/
+    // defender accent color so users always know which side they're editing.
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accent = widget.isAttacker
+        ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
+        : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
 
-    if (isWide) {
-      return Container(
-        key: key,
-        color: cardColor,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        margin: const EdgeInsets.symmetric(vertical: 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              color: titleColor,
-            )),
-            const SizedBox(height: 8),
-            child,
-          ],
-        ),
-      );
-    }
-
-    return Container(
+    return Padding(
       key: key,
-      color: cardColor,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            color: titleColor,
-          )),
-          const SizedBox(height: 6),
+          Text(
+            title,
+            style: TextStyle(
+              color: accent,
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.1,
+            ),
+          ),
+          const SizedBox(height: 8),
           child,
         ],
       ),
