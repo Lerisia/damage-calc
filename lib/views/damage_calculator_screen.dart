@@ -1331,7 +1331,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         : Colors.grey;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final baseBg = Theme.of(context).scaffoldBackgroundColor;
-    final cardBg = Color.lerp(baseBg, typeColor, isDark ? 0.18 : 0.13);
+    final cardBg = Color.lerp(baseBg, typeColor, isDark ? 0.18 : 0.09);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
