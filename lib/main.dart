@@ -98,13 +98,13 @@ ThemeData _buildTheme(Brightness brightness) {
       isDense: true,
       border: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: isDark ? AppColors.zinc700 : AppColors.zinc300,
+          color: isDark ? AppColors.zinc500 : AppColors.zinc400,
           width: 1,
         ),
       ),
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(
-          color: isDark ? AppColors.zinc700 : AppColors.zinc300,
+          color: isDark ? AppColors.zinc500 : AppColors.zinc400,
           width: 1,
         ),
       ),
