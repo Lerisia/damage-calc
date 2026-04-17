@@ -725,6 +725,11 @@ class AppStrings {
       AppLanguage.en: 'Nullified by ability',
       AppLanguage.ja: '特性により無効',
     },
+    'note.gravityDisabled': {
+      AppLanguage.ko: '중력: 사용 불가',
+      AppLanguage.en: 'Gravity: unusable',
+      AppLanguage.ja: 'じゅうりょく: 使用不可',
+    },
     'note.weatherNegate': {
       AppLanguage.ko: '날씨 무효',
       AppLanguage.en: 'Weather negated',

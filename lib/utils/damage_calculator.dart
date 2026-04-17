@@ -361,7 +361,7 @@ class DamageCalculator {
         defenderHp: 1, effectiveness: 0.0,
         isPhysical: effectiveMove.category == MoveCategory.physical,
         move: effectiveMove,
-        modifierNotes: ['중력: 사용 불가'],
+        modifierNotes: ['gravity:disabled'],
       );
     }
 

@@ -1497,6 +1497,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     if (parts.length < 2) return note;
 
     switch (parts[0]) {
+      case 'gravity':
+        if (parts.length >= 2 && parts[1] == 'disabled') {
+          return AppStrings.t('note.gravityDisabled');
+        }
+        return note;
       case 'ability':
         final name = _abilityNameMap[parts[1]] ?? parts[1];
         if (parts.length >= 3) {
