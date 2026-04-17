@@ -7931,7 +7931,7 @@ s.ch$!==$&&A.ar()
 s.ch$=i
 j=i}s.a12(new A.EX(p,B.HW,o,j,h))
 s.Ma()},
-aME(a){var s=A.wu(a,null,B.bK,"Jua",!0)
+aME(a){var s=A.wu(a,null,B.bK,"Pretendard",!0)
 return s.Io(s.ok.an1(B.ri))},
 LJ:function LJ(a){this.a=a},
 a4e:function a4e(){},
@@ -46784,7 +46784,7 @@ $2(a,b){var s,r=null,q=A.bt(a,r,t.w).w.In(B.a5g)
 b.toString
 s=A.qm(b,q)
 q=a.aj(t.yS)
-return A.hh(s,r,r,B.cf,!0,(q==null?B.j6:q).w.ap2("Jua",B.ri),r,r,B.aU)},
+return A.hh(s,r,r,B.cf,!0,(q==null?B.j6:q).w.ap2("Pretendard",B.ri),r,r,B.aU)},
 $S:298}
 A.Fb.prototype={
 a8(){var s=t.N
