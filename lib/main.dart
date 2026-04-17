@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'utils/app_strings.dart';
+import 'utils/theme_controller.dart';
 import 'data/abilitydex.dart';
 import 'data/itemdex.dart';
 import 'models/ability.dart';
@@ -148,30 +149,33 @@ class DamageCalcApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '결정력 계산기',
-      builder: (context, child) {
-        final mediaChild = MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: const TextScaler.linear(1.1),
-          ),
-          child: child!,
-        );
-        // Wrap with DefaultTextStyle to guarantee fontFamilyFallback
-        // reaches every widget, including TextField composing text.
-        final defaultStyle = DefaultTextStyle.of(context).style;
-        return DefaultTextStyle(
-          style: defaultStyle.copyWith(
-            fontFamily: 'Pretendard',
-            fontFamilyFallback: _fontFallback,
-          ),
-          child: mediaChild,
-        );
-      },
-      theme: _buildTheme(Brightness.light),
-      darkTheme: _buildTheme(Brightness.dark),
-      themeMode: ThemeMode.system,
-      home: const _AppLoader(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: ThemeController.instance.mode,
+      builder: (context, themeMode, _) => MaterialApp(
+        title: '결정력 계산기',
+        builder: (context, child) {
+          final mediaChild = MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: const TextScaler.linear(1.1),
+            ),
+            child: child!,
+          );
+          // Wrap with DefaultTextStyle to guarantee fontFamilyFallback
+          // reaches every widget, including TextField composing text.
+          final defaultStyle = DefaultTextStyle.of(context).style;
+          return DefaultTextStyle(
+            style: defaultStyle.copyWith(
+              fontFamily: 'Pretendard',
+              fontFamilyFallback: _fontFallback,
+            ),
+            child: mediaChild,
+          );
+        },
+        theme: _buildTheme(Brightness.light),
+        darkTheme: _buildTheme(Brightness.dark),
+        themeMode: themeMode,
+        home: const _AppLoader(),
+      ),
     );
   }
 }
@@ -195,7 +199,10 @@ class _AppLoaderState extends State<_AppLoader> {
   }
 
   Future<void> _preload() async {
-    await AppStrings.loadSavedLanguage();
+    await Future.wait([
+      AppStrings.loadSavedLanguage(),
+      ThemeController.instance.load(),
+    ]);
     final results = await Future.wait([
       loadPokedex(),
       loadAllMoves(),

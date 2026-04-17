@@ -82,6 +82,21 @@ class AppStrings {
       AppLanguage.en: 'About',
       AppLanguage.ja: 'アプリについて',
     },
+    'app.theme': {
+      AppLanguage.ko: '테마',
+      AppLanguage.en: 'Theme',
+      AppLanguage.ja: 'テーマ',
+    },
+    'app.themeLight': {
+      AppLanguage.ko: '라이트',
+      AppLanguage.en: 'Light',
+      AppLanguage.ja: 'ライト',
+    },
+    'app.themeDark': {
+      AppLanguage.ko: '다크',
+      AppLanguage.en: 'Dark',
+      AppLanguage.ja: 'ダーク',
+    },
 
     // === Tabs ===
     'tab.attacker': {

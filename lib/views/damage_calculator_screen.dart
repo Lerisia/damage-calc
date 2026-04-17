@@ -10,6 +10,7 @@ import '../data/sample_storage.dart';
 import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
+import '../utils/theme_controller.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
 import '../utils/damage_calculator.dart';
@@ -860,6 +861,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ),
               const Spacer(),
               _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
+              const SizedBox(width: 4),
+              const _ThemeToggleButton(),
               const SizedBox(width: 8),
               GestureDetector(
                 onTap: () => _showAboutDialog(context),
@@ -900,6 +903,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ]),
                   ),
                   PopupMenuItem(
+                    value: 'theme',
+                    child: Row(children: [
+                      Icon(
+                        ThemeController.instance.isDark
+                            ? Icons.light_mode_outlined
+                            : Icons.dark_mode_outlined,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(ThemeController.instance.isDark
+                          ? AppStrings.t('app.themeLight')
+                          : AppStrings.t('app.themeDark')),
+                    ]),
+                  ),
+                  PopupMenuItem(
                     value: 'about',
                     child: Row(children: [
                       const Icon(Icons.info_outline, size: 20),
@@ -912,6 +930,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   switch (v) {
                     case 'language':
                       _showLanguageDialog();
+                    case 'theme':
+                      ThemeController.instance.toggle();
                     case 'about':
                       _showAboutDialog(context);
                   }
@@ -1738,6 +1758,34 @@ class _LanguageButton extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Theme toggle for wide AppBar. Shows a sun icon in dark mode, moon in light.
+class _ThemeToggleButton extends StatelessWidget {
+  const _ThemeToggleButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: ThemeController.instance.mode,
+      builder: (context, mode, _) {
+        final isDark = mode == ThemeMode.dark;
+        return IconButton(
+          onPressed: () => ThemeController.instance.toggle(),
+          icon: Icon(
+            isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+            size: 20,
+          ),
+          tooltip: isDark
+              ? AppStrings.t('app.themeLight')
+              : AppStrings.t('app.themeDark'),
+          padding: const EdgeInsets.all(6),
+          constraints: const BoxConstraints(),
+          visualDensity: VisualDensity.compact,
+        );
+      },
     );
   }
 }
