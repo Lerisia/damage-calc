@@ -1329,11 +1329,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final typeColor = effectiveType != null
         ? KoStrings.getTypeColor(effectiveType)
         : Colors.grey;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseBg = Theme.of(context).scaffoldBackgroundColor;
+    final cardBg = Color.lerp(baseBg, typeColor, isDark ? 0.18 : 0.13);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-      margin: const EdgeInsets.symmetric(vertical: 2),
-      color: Color.lerp(Colors.white, typeColor, 0.06),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 3),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

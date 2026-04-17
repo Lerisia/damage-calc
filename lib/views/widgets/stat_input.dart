@@ -110,7 +110,11 @@ class StatInput extends StatefulWidget {
     this.onStatEditComplete,
     this.useSpMode = false,
     this.onSpModeChanged,
+    this.isAttacker = true,
   });
+
+  /// Side identity — drives accent color for toggles like EV↔SP.
+  final bool isAttacker;
 
   final VoidCallback? onItemTap;
   final VoidCallback? onAbilityTap;
@@ -699,21 +703,23 @@ class _StatInputState extends State<StatInput> {
 
   Widget _modeLabel(String text, bool active) {
     final baseStyle = Theme.of(context).textTheme.bodySmall;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accent = widget.isAttacker
+        ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
+        : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: active
           ? BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
+              color: accent.withValues(alpha: 0.14),
               borderRadius: BorderRadius.circular(3),
             )
           : null,
       child: Text(
         text,
         style: baseStyle?.copyWith(
-          fontWeight: active ? FontWeight.bold : FontWeight.normal,
-          color: active
-              ? Theme.of(context).colorScheme.primary
-              : Colors.grey,
+          fontWeight: active ? FontWeight.w700 : FontWeight.normal,
+          color: active ? accent : Colors.grey,
         ),
       ),
     );

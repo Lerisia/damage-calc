@@ -236,6 +236,7 @@ class PokemonPanelState extends State<PokemonPanel>
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
               onItemTap: null,
               onAbilityTap: null,
+              isAttacker: widget.isAttacker,
               useSpMode: widget.useSpMode,
               onSpModeChanged: widget.onSpModeChanged,
             ),

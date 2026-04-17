@@ -91,27 +91,27 @@ ThemeData _buildTheme(Brightness brightness) {
       shape: Border(bottom: BorderSide(color: border, width: 1)),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      // Linear-style: subtle filled background signals "editable" without
-      // any rectangle outline. Focus bumps the fill one shade darker so
-      // focus stays obvious without a ring.
-      filled: true,
+      // No fill, no rectangle. A single hairline underneath at rest, bumping
+      // to a stronger primary-colored line on focus. Subtle but signals
+      // "editable" without a gray box.
+      filled: false,
       isDense: true,
-      fillColor: isDark ? AppColors.zinc800 : AppColors.zinc100,
-      hoverColor: isDark ? AppColors.zinc700 : AppColors.zinc200,
-      focusColor: isDark ? AppColors.zinc700 : AppColors.zinc200,
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(6),
+      border: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: isDark ? AppColors.zinc700 : AppColors.zinc300,
+          width: 1,
+        ),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(6),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: isDark ? AppColors.zinc700 : AppColors.zinc300,
+          width: 1,
+        ),
       ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(6),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: textPrimary, width: 1.4),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
       labelStyle: TextStyle(color: textSecondary, fontSize: 12),
       floatingLabelStyle: TextStyle(color: textPrimary, fontSize: 12, fontWeight: FontWeight.w500),
       hintStyle: TextStyle(color: textSecondary.withValues(alpha: 0.7)),
@@ -135,13 +135,25 @@ ThemeData _buildTheme(Brightness brightness) {
       displayColor: textPrimary,
     ),
   );
-  return base.copyWith(
-    textTheme: base.textTheme.apply(
-      fontFamilyFallback: _fontFallback,
-      bodyColor: textPrimary,
-      displayColor: textPrimary,
-    ),
+  // Medium (500) is the default body weight — Regular feels too thin on
+  // Windows Chrome / Android renderings. SemiBold (600) for titles/labels.
+  final base2 = base.textTheme.apply(
+    fontFamilyFallback: _fontFallback,
+    bodyColor: textPrimary,
+    displayColor: textPrimary,
   );
+  final tt = base2.copyWith(
+    bodyLarge: base2.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+    bodyMedium: base2.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+    bodySmall: base2.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+    labelLarge: base2.labelLarge?.copyWith(fontWeight: FontWeight.w500),
+    labelMedium: base2.labelMedium?.copyWith(fontWeight: FontWeight.w500),
+    labelSmall: base2.labelSmall?.copyWith(fontWeight: FontWeight.w500),
+    titleLarge: base2.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+    titleMedium: base2.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+    titleSmall: base2.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+  );
+  return base.copyWith(textTheme: tt);
 }
 
 class DamageCalcApp extends StatelessWidget {
