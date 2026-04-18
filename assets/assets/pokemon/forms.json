@@ -1618,6 +1618,9 @@
     "canDynamax": false,
     "canGmax": false,
     "genderRate": 8,
+    "aliases": [
+      "영꽃"
+    ],
     "nameEn": "Floette (Eternal Flower)"
   }
 ]
