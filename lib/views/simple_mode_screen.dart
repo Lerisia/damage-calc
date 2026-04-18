@@ -911,6 +911,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onSpChanged();
     }
 
+    // Single flip button replaces the old 0/MAX pair — shows the
+    // destination value, so tapping always moves the SP there. From
+    // anywhere → 32, from 32 → 0.
+    final isMaxed = (int.tryParse(spCtl.text) ?? 0) == ChampionsMode.maxPerStat;
+    final flipLabel = isMaxed ? '0' : '${ChampionsMode.maxPerStat}';
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -939,10 +945,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           ),
         ),
         const SizedBox(width: 2),
-        _miniBtn('0', () => setSp('0')),
-        const SizedBox(width: 2),
-        _miniBtn('${ChampionsMode.maxPerStat}',
-            () => setSp('${ChampionsMode.maxPerStat}')),
+        _miniBtn(flipLabel, () => setSp(flipLabel)),
         if (canNature && stat != _NatureStat.hp) ...[
           const SizedBox(width: 2),
           _natureCycleChip(stat, attacker: attacker),
