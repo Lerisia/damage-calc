@@ -12,7 +12,10 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
+import 'aura_effects.dart';
+import 'ruin_effects.dart';
 import 'battle_facade.dart' show resolveEffectiveItem, resolveEffectiveAbility, BattleFacade;
+import 'doubles_effects.dart';
 import 'grounded.dart';
 import 'item_effects.dart';
 import 'move_transform.dart';
@@ -37,8 +40,6 @@ const double kScreenReduction = 0.5;
 const double kExpertBeltBoost = 1.2;
 const double kTeraShellReduction = 0.5;
 const double kChargePowerBoost = 2.0;
-/// Doubles spread moves lose 25% damage per target when they hit multiple.
-const double kSpreadMultiplier = 0.75;
 
 /// Move-specific power multipliers
 const double kKnockOffBoost = 1.5;
@@ -233,6 +234,8 @@ class DamageCalculator {
     required Weather weather,
     required Terrain terrain,
     required RoomConditions room,
+    AuraToggles auras = AuraToggles.inactive,
+    RuinToggles ruins = RuinToggles.inactive,
     int? opponentAttack,
     int? opponentSpeed,
     int? myEffectiveSpeed,
@@ -510,10 +513,25 @@ class DamageCalculator {
     int A = (rawA * statMod).floor();
 
     // --- Ruin abilities (not affected by Mold Breaker) ---
-    final ruin = getRuinModifiers(
+    // Ruin needs to know which defensive stat is actually used (Def vs
+    // SpD) — Psyshock / Secret Sword are special moves but still target
+    // Def, so Sword of Ruin should apply even though the move is Special.
+    final bool targetPhysDef =
+        isPhysical || effectiveMove.hasTag(MoveTags.targetPhysDef);
+    final ruinState = computeRuinState(
       attackerAbility: effectiveAbility,
       defenderAbility: defAbilityRaw,
-      isPhysical: isPhysical,
+      allyTabletsOfRuin: ruins.tabletsOfRuin,
+      allySwordOfRuin: ruins.swordOfRuin,
+      allyVesselOfRuin: ruins.vesselOfRuin,
+      allyBeadsOfRuin: ruins.beadsOfRuin,
+    );
+    final ruin = getRuinEffect(
+      attackerAbility: effectiveAbility,
+      defenderAbility: defAbilityRaw,
+      category: effectiveMove.category,
+      targetPhysDef: targetPhysDef,
+      state: ruinState,
     );
     A = (A * ruin.atkMod).floor();
 
@@ -545,8 +563,8 @@ class DamageCalculator {
     final int defMaxHp = defender.dynamax != DynamaxState.none
         ? defActual.hp * 2 : defActual.hp;
 
-    // Psyshock/Psystrike/Secret Sword: special move targeting physical Defense
-    final bool targetPhysDef = isPhysical || effectiveMove.hasTag(MoveTags.targetPhysDef);
+    // Psyshock/Psystrike/Secret Sword: special move targeting physical
+    // Defense. `targetPhysDef` is already computed above for Ruin.
     int D = targetPhysDef ? defActual.defense : defActual.spDefense;
 
     // Mold Breaker or ability-ignoring moves: ignore defender's ignorable abilities
@@ -925,11 +943,16 @@ class DamageCalculator {
       movePowerMod *= kDoubleMovePower;
       notes.add('move:brine:×$kDoubleMovePower');
     }
-    // Doubles: spread moves hitting 2 targets take a 0.75× multiplier.
-    if (attacker.spreadTargets && effectiveMove.hasTag(MoveTags.spread)) {
-      movePowerMod *= kSpreadMultiplier;
-      notes.add('move:spread:×$kSpreadMultiplier');
-    }
+    // Doubles-only modifiers (spread, helping hand, ally abilities, ...)
+    final doublesMods = computeDoublesModifiers(
+      attacker: attacker,
+      move: effectiveMove,
+      isDoubles: true,
+      weather: atkWeather,
+    );
+    movePowerMod *= doublesMods.powerMod;
+    A = (A * doublesMods.attackMod).floor();
+    notes.addAll(doublesMods.notes);
 
     // Dynamax Cannon / Behemoth Blade / Behemoth Bash: x2 vs Dynamaxed target
     if (effectiveMove.hasTag(MoveTags.doubleDynamax) &&
@@ -987,12 +1010,19 @@ class DamageCalculator {
     final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;
 
     // --- Aura abilities (Fairy Aura / Dark Aura / Aura Break) ---
-    final aura = getAuraModifier(
-      moveType: moveType,
+    final auraState = computeAuraState(
       attackerAbility: atkAbilityRaw,
       defenderAbility: defAbilityRaw,
+      allyFairyAura: auras.fairyAura,
+      allyDarkAura: auras.darkAura,
+      allyAuraBreak: auras.auraBreak,
     );
-    if (aura.note != null) notes.add(aura.note!);
+    final aura = getAuraEffect(
+      moveType: moveType,
+      attackerAbility: atkAbilityRaw,
+      state: auraState,
+    );
+    notes.addAll(aura.notes);
 
     // --- Collision Course / Electro Drift: x1.3333 on super effective ---
     double collisionMod = 1.0;

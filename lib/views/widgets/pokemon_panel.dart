@@ -16,8 +16,9 @@ import '../../models/move_tags.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
+import '../../utils/aura_effects.dart';
 import '../../utils/battle_facade.dart';
-import '../../utils/doubles_controller.dart';
+import '../../utils/ruin_effects.dart';
 import '../../utils/grounded.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
@@ -31,6 +32,8 @@ class PokemonPanel extends StatefulWidget {
   final Weather weather;
   final Terrain terrain;
   final RoomConditions room;
+  final AuraToggles auras;
+  final RuinToggles ruins;
   final String label;
   final VoidCallback onChanged;
   final int resetCounter;
@@ -44,6 +47,11 @@ class PokemonPanel extends StatefulWidget {
   final double? opponentWeight;
   final int? opponentHpPercent;
   final String? opponentItem;
+  final String? opponentAbility;
+  /// Shared expansion state for the Doubles-only options section, synced
+  /// across attacker/defender panels.
+  final bool doublesExpanded;
+  final VoidCallback? onDoublesExpandToggle;
   final VoidCallback? onSave;
   final VoidCallback? onLoad;
   final VoidCallback? onReset;
@@ -56,6 +64,8 @@ class PokemonPanel extends StatefulWidget {
     required this.weather,
     required this.terrain,
     this.room = const RoomConditions(),
+    this.auras = const AuraToggles(),
+    this.ruins = const RuinToggles(),
     this.label = '',
     required this.onChanged,
     required this.resetCounter,
@@ -68,6 +78,9 @@ class PokemonPanel extends StatefulWidget {
     this.opponentWeight,
     this.opponentHpPercent,
     this.opponentItem,
+    this.opponentAbility,
+    this.doublesExpanded = false,
+    this.onDoublesExpandToggle,
     this.opponentGender,
     this.onSave,
     this.onLoad,
@@ -158,12 +171,15 @@ class PokemonPanelState extends State<PokemonPanel>
       weather: widget.weather,
       terrain: widget.terrain,
       room: widget.room,
+      auras: widget.auras,
+      ruins: widget.ruins,
       opponentSpeed: widget.opponentSpeed,
       opponentAttack: widget.opponentAttack,
       opponentGender: widget.opponentGender ?? Gender.unset,
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: widget.opponentWeight,
       opponentHpPercent: widget.opponentHpPercent,
+      opponentAbility: widget.opponentAbility,
     );
     return singleHit;
   }
@@ -280,10 +296,10 @@ class PokemonPanelState extends State<PokemonPanel>
                 ],
               ),
             ),
-            _doublesSection(),
           ] else ...[
             _bulkDisplay(),
           ],
+          _doublesSection(),
         ],
       ),
     ),
@@ -296,6 +312,8 @@ class PokemonPanelState extends State<PokemonPanel>
       weather: widget.weather,
       terrain: widget.terrain,
       room: widget.room,
+      ruins: widget.ruins,
+      opponentAbility: widget.opponentAbility,
     );
 
     return _sectionCard(
@@ -415,6 +433,8 @@ class PokemonPanelState extends State<PokemonPanel>
       weather: widget.weather,
       terrain: widget.terrain,
       room: widget.room,
+      auras: widget.auras,
+      ruins: widget.ruins,
       opponentSpeed: widget.opponentSpeed,
       opponentAttack: widget.opponentAttack,
       opponentDefense: widget.opponentDefense,
@@ -424,6 +444,7 @@ class PokemonPanelState extends State<PokemonPanel>
       opponentWeight: widget.opponentWeight,
       opponentHpPercent: widget.opponentHpPercent,
       opponentItem: widget.opponentItem,
+      opponentAbility: widget.opponentAbility,
       attackerGrounded: isGrounded(
         type1: s.type1, type2: s.type2,
         ability: s.selectedAbility, item: s.selectedItem,
@@ -857,32 +878,51 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  /// Doubles-only attacker scenario toggles. Gated on the global Doubles
-  /// flag — hidden entirely in Singles so the panel stays uncluttered.
+  /// Doubles-only attacker scenario toggles. Always shown (collapsed by
+  /// default) — singles users simply leave it closed.
   Widget _doublesSection() {
-    return ValueListenableBuilder<bool>(
-      valueListenable: DoublesController.instance.isDoubles,
-      builder: (_, isDoubles, __) {
-        if (!isDoubles) return const SizedBox.shrink();
-        return _sectionCard(
-          title: AppStrings.t('section.doubles'),
-          child: Wrap(
-            spacing: 12,
-            runSpacing: 4,
-            children: [
-              _doublesCheck(AppStrings.t('damage.spread'), s.spreadTargets, (v) {
-                setState(() { s.spreadTargets = v; _notifyParent(); });
-              }),
-            ],
-          ),
-        );
-      },
+    return _collapsibleSectionCard(
+      title: AppStrings.t('section.doubles'),
+      expanded: widget.doublesExpanded,
+      onToggle: () => widget.onDoublesExpandToggle?.call(),
+      child: Wrap(
+        spacing: 12,
+        runSpacing: 4,
+        children: [
+          _doublesCheck(AppStrings.t('damage.spread'), s.spreadTargets, (v) {
+            setState(() { s.spreadTargets = v; _notifyParent(); });
+          }),
+          _doublesCheck(AppStrings.t('damage.helpingHand'), s.helpingHand, (v) {
+            setState(() { s.helpingHand = v; _notifyParent(); });
+          }),
+          _doublesCheck(AppStrings.t('damage.allyPowerSpot'), s.allyPowerSpot, (v) {
+            setState(() { s.allyPowerSpot = v; _notifyParent(); });
+          }),
+          _doublesCheck(AppStrings.t('damage.allyBattery'), s.allyBattery, (v) {
+            setState(() { s.allyBattery = v; _notifyParent(); });
+          }),
+          _doublesCheck(AppStrings.t('damage.allyFlowerGift'), s.allyFlowerGift, (v) {
+            setState(() { s.allyFlowerGift = v; _notifyParent(); });
+          }),
+          _doublesCheck(AppStrings.t('damage.allyPlusMinus'), s.allyPlusMinus, (v) {
+            setState(() { s.allyPlusMinus = v; _notifyParent(); });
+          }),
+        ],
+      ),
     );
   }
 
-  Widget _doublesCheck(String label, bool value, ValueChanged<bool> onChanged) {
+  /// True when a field-state ability (Aura / Aura Break / Ruin) is
+  /// already active via either side's selected ability — the checkbox
+  /// should be locked ON so the user never sees a contradictory "off".
+  bool _abilityForced(String ability) =>
+      s.selectedAbility == ability || widget.opponentAbility == ability;
+
+  Widget _doublesCheck(String label, bool value, ValueChanged<bool> onChanged,
+      {bool forced = false}) {
+    final effectiveValue = forced || value;
     return InkWell(
-      onTap: () => onChanged(!value),
+      onTap: forced ? null : () => onChanged(!value),
       borderRadius: BorderRadius.circular(4),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -892,8 +932,8 @@ class PokemonPanelState extends State<PokemonPanel>
             SizedBox(
               width: 20, height: 20,
               child: Checkbox(
-                value: value,
-                onChanged: (v) => onChanged(v ?? false),
+                value: effectiveValue,
+                onChanged: forced ? null : (v) => onChanged(v ?? false),
                 visualDensity: VisualDensity.compact,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
@@ -902,6 +942,62 @@ class PokemonPanelState extends State<PokemonPanel>
             Text(label, style: const TextStyle(fontSize: 13)),
           ],
         ),
+      ),
+    );
+  }
+
+  /// Variant of [_sectionCard] with a tappable title that expands or
+  /// collapses [child]. Used for the Doubles-only options so it stays
+  /// hidden by default.
+  Widget _collapsibleSectionCard({
+    Key? key,
+    required String title,
+    required bool expanded,
+    required VoidCallback onToggle,
+    required Widget child,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accent = widget.isAttacker
+        ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
+        : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
+
+    return Padding(
+      key: key,
+      padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: onToggle,
+            borderRadius: BorderRadius.circular(4),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: accent,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.1,
+                    ),
+                  ),
+                  Icon(
+                    expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                    size: 18,
+                    color: accent,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (expanded) ...[
+            const SizedBox(height: 8),
+            child,
+          ],
+        ],
       ),
     );
   }

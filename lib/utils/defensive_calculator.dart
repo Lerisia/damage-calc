@@ -1,3 +1,4 @@
+import '../models/move.dart' show MoveCategory;
 import '../models/room.dart';
 import '../models/stats.dart';
 import '../models/nature.dart';
@@ -8,6 +9,7 @@ import '../models/terrain.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
 import 'item_effects.dart';
+import 'ruin_effects.dart';
 import 'stat_calculator.dart';
 import 'weather_effects.dart';
 
@@ -35,6 +37,8 @@ class DefensiveCalculator {
     Terrain terrain = Terrain.none,
     RoomConditions room = const RoomConditions(),
     bool isDynamaxed = false,
+    RuinState ruinState = RuinState.inactive,
+    bool allyFlowerGift = false,
   }) {
     final calculatedStats = StatCalculator.calculate(
       baseStats: baseStats,
@@ -76,9 +80,30 @@ class DefensiveCalculator {
       spdStatMod *= itemEffect.spdModifier;
     }
 
+    // Flower Gift (ally Cherrim, in Sun): Sp.Def × 1.5.
+    final bool isSun = weather == Weather.sun || weather == Weather.harshSun;
+    if (allyFlowerGift && isSun) {
+      spdStatMod *= 1.5;
+    }
+
     // Calculate bulk: HP * modified stat
-    final int effectiveDef = (actualStats.defense * defStatMod).floor();
-    final int effectiveSpd = (actualStats.spDefense * spdStatMod).floor();
+    int effectiveDef = (actualStats.defense * defStatMod).floor();
+    int effectiveSpd = (actualStats.spDefense * spdStatMod).floor();
+
+    // Ruin field effect on defensive stats (self-exempt handled inside).
+    // Only `defMod` matters here — `atkMod`/category are unused on the
+    // defensive side, so we pass a stub category.
+    final ruinPhys = getRuinEffect(
+      attackerAbility: null, defenderAbility: ability,
+      category: MoveCategory.physical, targetPhysDef: true, state: ruinState,
+    );
+    final ruinSpec = getRuinEffect(
+      attackerAbility: null, defenderAbility: ability,
+      category: MoveCategory.special, targetPhysDef: false, state: ruinState,
+    );
+    effectiveDef = (effectiveDef * ruinPhys.defMod).floor();
+    effectiveSpd = (effectiveSpd * ruinSpec.defMod).floor();
+
     final int effectiveHp = isDynamaxed ? actualStats.hp * 2 : actualStats.hp;
 
     final phys = effectiveHp * effectiveDef / _correctionFactor;

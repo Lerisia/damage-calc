@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'aura_effects.dart' show kAuraBoost;
 import '../models/gender.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
@@ -829,49 +830,6 @@ Rank getEffectiveDefensiveRank({
   return (multiplier: 1.0, note: null);
 }
 
-// ====== Ruins (재앙) ======
-
-/// Returns stat multipliers from Ruin abilities.
-///
-/// Ruin abilities reduce the opponent's corresponding stat by 25% (x0.75):
-/// - Tablets of Ruin (defender has): attacker's Attack x0.75
-/// - Vessel of Ruin (defender has): attacker's Sp.Atk x0.75
-/// - Sword of Ruin (attacker has): defender's Defense x0.75
-/// - Beads of Ruin (attacker has): defender's Sp.Def x0.75
-({double atkMod, double defMod, List<String> notes}) getRuinModifiers({
-  required String? attackerAbility,
-  required String? defenderAbility,
-  required bool isPhysical,
-}) {
-  double atkMod = 1.0;
-  double defMod = 1.0;
-  final notes = <String>[];
-
-  // Defender's Ruin abilities reduce attacker's offensive stat
-  if (defenderAbility != null) {
-    if (isPhysical && defenderAbility == 'Tablets of Ruin') {
-      atkMod *= 0.75;
-      notes.add('ability:Tablets of Ruin:공격 ×0.75');
-    } else if (!isPhysical && defenderAbility == 'Vessel of Ruin') {
-      atkMod *= 0.75;
-      notes.add('ability:Vessel of Ruin:특공 ×0.75');
-    }
-  }
-
-  // Attacker's Ruin abilities reduce defender's defensive stat
-  if (attackerAbility != null) {
-    if (isPhysical && attackerAbility == 'Sword of Ruin') {
-      defMod *= 0.75;
-      notes.add('ability:Sword of Ruin:방어 ×0.75');
-    } else if (!isPhysical && attackerAbility == 'Beads of Ruin') {
-      defMod *= 0.75;
-      notes.add('ability:Beads of Ruin:특방 ×0.75');
-    }
-  }
-
-  return (atkMod: atkMod, defMod: defMod, notes: notes);
-}
-
 // ====== Ability-based type changes ======
 
 /// Returns the effective types for a Pokemon considering ability-based
@@ -945,64 +903,6 @@ Rank getEffectiveDefensiveRank({
   }
 
   return null;
-}
-
-// ====== Aura abilities ======
-
-/// Aura boost/nerf value
-const double kAuraBoost = 4 / 3; // ~1.3333
-const double kAuraNerfed = 3 / 4; // 0.75
-
-/// Returns the damage modifier from aura interaction in damage calculation.
-///
-/// 결정력 already includes attacker's own aura (x1.33).
-/// This handles the defender's side only:
-///
-/// - Attacker has no aura → defender's aura applies (x1.33)
-/// - Attacker has same aura as defender → skip (already in 결정력)
-/// - Attacker has aura, defender has different aura → apply defender's aura
-/// - Attacker has aura, defender has Aura Break → reverse attacker's aura
-///   (결정력 had x1.33, correct to x0.75 → multiply by 0.75/1.33)
-({double multiplier, String? note}) getAuraModifier({
-  required PokemonType moveType,
-  required String? attackerAbility,
-  required String? defenderAbility,
-}) {
-  final bool atkHasMatchingAura =
-      (attackerAbility == 'Fairy Aura' && moveType == PokemonType.fairy) ||
-      (attackerAbility == 'Dark Aura' && moveType == PokemonType.dark);
-
-  final bool defHasMatchingAura =
-      (defenderAbility == 'Fairy Aura' && moveType == PokemonType.fairy) ||
-      (defenderAbility == 'Dark Aura' && moveType == PokemonType.dark);
-
-  final bool defHasAuraBreak = defenderAbility == 'Aura Break';
-
-  // Case 1: Attacker has no aura → apply defender's aura
-  if (!atkHasMatchingAura) {
-    if (defHasMatchingAura) {
-      return (multiplier: kAuraBoost, note: 'ability:$defenderAbility:×1.33');
-    }
-    return (multiplier: 1.0, note: null);
-  }
-
-  // Case 2: Attacker has aura
-  if (defHasMatchingAura) {
-    // Same aura → already in 결정력, skip
-    return (multiplier: 1.0, note: null);
-  }
-
-  if (defHasAuraBreak) {
-    // Aura Break reverses: 결정력 had x1.33, should be x0.75
-    // Correction = 0.75 / 1.33 = kAuraNerfed / kAuraBoost
-    return (
-      multiplier: kAuraNerfed / kAuraBoost,
-      note: 'ability:Aura Break:×0.75',
-    );
-  }
-
-  // Defender has unrelated ability → no additional modifier
-  return (multiplier: 1.0, note: null);
 }
 
 // ====== Priority immunity (여왕의위엄/비비드바디/아머테일) ======

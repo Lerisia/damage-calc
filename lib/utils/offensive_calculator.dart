@@ -9,9 +9,11 @@ import '../models/rank.dart';
 import '../models/type.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
+import 'aura_effects.dart';
 import 'damage_calculator.dart' show kStandardStab, kCriticalMultiplier,
     kStellarStabMatching, kStellarStabNonMatching, kTeraMinPower, kBurnDamageReduction;
 import 'move_transform.dart';
+import 'ruin_effects.dart';
 import 'stat_calculator.dart';
 import 'terrain_effects.dart';
 import 'weather_effects.dart';
@@ -57,7 +59,13 @@ class OffensiveCalculator {
     int? opponentAttack,
     bool terastallized = false,
     PokemonType? teraType,
-    bool spreadTargets = false,
+    double doublesPowerMod = 1.0,
+    double doublesAttackMod = 1.0,
+    AuraState auraState = AuraState.inactive,
+    RuinState ruinState = RuinState.inactive,
+    String? attackerAbility,
+    String? defenderAbility,
+    bool targetPhysDef = false,
   }) {
     final move = transformed.move;
 
@@ -91,7 +99,17 @@ class OffensiveCalculator {
     );
 
     final int rawStat = transformed.resolveStat(actualStats, opponentAttack: opponentAttack);
-    final int modifiedStat = (rawStat * statModifier).floor();
+    int modifiedStat = (rawStat * statModifier).floor();
+
+    // Ruin field effect on the attacker stat (self-exempt handled inside).
+    final ruin = getRuinEffect(
+      attackerAbility: attackerAbility,
+      defenderAbility: defenderAbility,
+      category: move.category,
+      targetPhysDef: targetPhysDef,
+      state: ruinState,
+    );
+    modifiedStat = (modifiedStat * ruin.atkMod).floor();
 
     // Protean/Libero: force STAB on all moves, but NOT during Terastal
     final bool isOriginalStab = (forceStab && !terastallized) || move.type == type1 || move.type == type2;
@@ -137,11 +155,16 @@ class OffensiveCalculator {
     // Parental Bond for 결정력: single-value approximation of 2-hit (1x + 0.25x).
     // Damage calculator handles the actual per-hit split separately.
     final double parentalBondMod = move.hasTag(MoveTags.parentalBond) ? 1.25 : 1.0;
-    // Doubles spread reduction — mirrors damage_calculator's kSpreadMultiplier.
-    final double spreadMod =
-        (spreadTargets && move.hasTag(MoveTags.spread)) ? 0.75 : 1.0;
+
+    // Aura field effect (delta on top of attacker's own aura, already in stat).
+    final aura = getAuraEffect(
+      moveType: move.type,
+      attackerAbility: attackerAbility,
+      state: auraState,
+    );
 
     final double raw = modifiedStat *
+        doublesAttackMod *
         effectivePower *
         stabMult *
         (isCritical ? (criticalOverride ?? kCriticalMultiplier) : 1.0) *
@@ -150,7 +173,8 @@ class OffensiveCalculator {
         burnMod *
         powerModifier *
         parentalBondMod *
-        spreadMod;
+        doublesPowerMod *
+        aura.multiplier;
 
     return raw.floor();
   }

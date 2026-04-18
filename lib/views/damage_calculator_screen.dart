@@ -10,10 +10,11 @@ import '../data/sample_storage.dart';
 import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
-import '../utils/doubles_controller.dart';
 import '../utils/theme_controller.dart';
 import '../utils/image_saver.dart' as saver;
+import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
+import '../utils/ruin_effects.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/korean_search.dart';
 import '../utils/speed_calculator.dart';
@@ -65,7 +66,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Weather _weather = Weather.none;
   Terrain _terrain = Terrain.none;
   RoomConditions _room = const RoomConditions();
+  AuraToggles _auras = const AuraToggles();
+  RuinToggles _ruins = const RuinToggles();
   bool _useSpMode = true;
+  /// Shared expansion state for the per-side "Doubles-only options"
+  /// section — when the user expands one panel, the other also shows.
+  bool _doublesExpanded = false;
 
   // Name of the sample currently loaded on each side (used to prefill the
   // save dialog so users can update presets in place). Cleared when the
@@ -159,11 +165,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
     final atkChanged = atkAbility != _prevAtkAbility;
     final defChanged = defAbility != _prevDefAbility;
+    final prevAtk = _prevAtkAbility;
+    final prevDef = _prevDefAbility;
     _prevAtkAbility = atkAbility;
     _prevDefAbility = defAbility;
 
     if (!atkChanged && !defChanged) return;
 
+    // Auto-set: a new ability appears that maps to weather/terrain.
     if (atkChanged && atkAbility != null) {
       final w = abilityWeatherMap[atkAbility];
       if (w != null) _weather = w;
@@ -175,6 +184,29 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       if (w != null) _weather = w;
       final t = abilityTerrainMap[defAbility];
       if (t != null) _terrain = t;
+    }
+
+    // Auto-clear by transition: an ability that *was* justifying the
+    // current weather/terrain got removed, and no replacement justifies
+    // it anymore. Purely user-set values (where no prev ability sourced
+    // it) stay put.
+    if (_weather != Weather.none) {
+      final prevHadSource =
+          (prevAtk != null && abilityWeatherMap[prevAtk] == _weather) ||
+          (prevDef != null && abilityWeatherMap[prevDef] == _weather);
+      final nowHasSource =
+          (atkAbility != null && abilityWeatherMap[atkAbility] == _weather) ||
+          (defAbility != null && abilityWeatherMap[defAbility] == _weather);
+      if (prevHadSource && !nowHasSource) _weather = Weather.none;
+    }
+    if (_terrain != Terrain.none) {
+      final prevHadSource =
+          (prevAtk != null && abilityTerrainMap[prevAtk] == _terrain) ||
+          (prevDef != null && abilityTerrainMap[prevDef] == _terrain);
+      final nowHasSource =
+          (atkAbility != null && abilityTerrainMap[atkAbility] == _terrain) ||
+          (defAbility != null && abilityTerrainMap[defAbility] == _terrain);
+      if (prevHadSource && !nowHasSource) _terrain = Terrain.none;
     }
   }
 
@@ -365,37 +397,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     });
   }
 
-  /// Switch singles/doubles — wipes the per-side state so stale rank,
-  /// EV, move-hit, spread-hit, etc. don't leak across formats.
-  Future<void> _switchBattleFormat(bool toDoubles) async {
-    if (DoublesController.instance.isDoubles.value == toDoubles) return;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(AppStrings.t('battle.formatSwitchTitle')),
-        content: Text(AppStrings.t('battle.formatSwitchMessage')),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(AppStrings.t('action.cancel'))),
-          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Text(AppStrings.t('action.confirm'))),
-        ],
-      ),
-    );
-    if (confirmed != true) return;
-    await DoublesController.instance.setDoubles(toDoubles);
-    if (!mounted) return;
-    setState(() {
-      _resetCounter++;
-      _attacker.reset();
-      _defender.reset();
-      _attackerLoadedName = null;
-      _defenderLoadedName = null;
-      _prevAtkPokemon = null;
-      _prevDefPokemon = null;
-      _weather = Weather.none;
-      _terrain = Terrain.none;
-      _room = const RoomConditions();
-    });
-  }
+  // Singles/doubles toggle was removed — doubles features are always
+  // available via the collapsed per-side "Doubles-only options" section.
 
   Future<void> _resetBothSides() async {
     final confirmed = await showDialog<bool>(
@@ -421,6 +424,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         _weather = Weather.none;
         _terrain = Terrain.none;
         _room = const RoomConditions();
+        _auras = const AuraToggles();
+        _ruins = const RuinToggles();
       });
     }
   }
@@ -590,6 +595,27 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
+  /// Chip for a field-state ability (aura/ruin) in the battle conditions
+  /// dialog. Auto-locked to ON when either the attacker or defender has
+  /// the ability — its field-state is then inevitable and user-toggling
+  /// would be misleading.
+  Widget _envFieldChip({
+    required String label,
+    required String ability,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    final forced = _attacker.selectedAbility == ability ||
+        _defender.selectedAbility == ability;
+    return FilterChip(
+      showCheckmark: false,
+      label: Text(label, style: const TextStyle(fontSize: 13)),
+      selected: forced || value,
+      onSelected: forced ? null : onChanged,
+      visualDensity: VisualDensity.compact,
+    );
+  }
+
   void _showBattleConditionsDialog() {
     showDialog(
       context: context,
@@ -602,46 +628,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Battle format (exclusive singles/doubles — can't be unchecked)
-                Text(AppStrings.t('battle.format'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                ValueListenableBuilder<bool>(
-                  valueListenable: DoublesController.instance.isDoubles,
-                  builder: (_, isDoubles, __) => Wrap(
-                    spacing: 4,
-                    children: [
-                      ChoiceChip(
-                        showCheckmark: false,
-                        label: Text(AppStrings.t('battle.singles'), style: const TextStyle(fontSize: 13)),
-                        selected: !isDoubles,
-                        onSelected: (_) async {
-                          if (!isDoubles) return;
-                          await _switchBattleFormat(false);
-                          setDialogState(() {});
-                        },
-                        visualDensity: VisualDensity.compact,
-                      ),
-                      ChoiceChip(
-                        showCheckmark: false,
-                        label: Text(AppStrings.t('battle.doubles'), style: const TextStyle(fontSize: 13)),
-                        selected: isDoubles,
-                        onSelected: (_) async {
-                          if (isDoubles) return;
-                          await _switchBattleFormat(true);
-                          setDialogState(() {});
-                        },
-                        visualDensity: VisualDensity.compact,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 12),
                 // Weather (radio - single select)
                 Text(AppStrings.t('toolbar.weather'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 Wrap(
                   spacing: 4,
                   children: Weather.values.where((w) => w != Weather.none).map((w) {
                     final selected = _weather == w;
-                    final label = '${KoStrings.weatherIcon[w]!} ${KoStrings.getWeatherName(w)}';
+                    final label = KoStrings.getWeatherName(w);
                     return ChoiceChip(
                       showCheckmark: false,
                       label: Text(label, style: const TextStyle(fontSize: 13)),
@@ -661,7 +654,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   spacing: 4,
                   children: Terrain.values.where((t) => t != Terrain.none).map((t) {
                     final selected = _terrain == t;
-                    final label = '${KoStrings.terrainIcon[t]!} ${KoStrings.getTerrainName(t)}';
+                    final label = KoStrings.getTerrainName(t);
                     return ChoiceChip(
                       showCheckmark: false,
                       label: Text(label, style: const TextStyle(fontSize: 13)),
@@ -682,7 +675,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   children: [
                     FilterChip(
                       showCheckmark: false,
-                      label: Text('🔄 ${KoStrings.getRoomName(Room.trickRoom)}', style: const TextStyle(fontSize: 13)),
+                      label: Text(KoStrings.getRoomName(Room.trickRoom), style: const TextStyle(fontSize: 13)),
                       selected: _room.trickRoom,
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(trickRoom: v));
@@ -692,7 +685,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ),
                     FilterChip(
                       showCheckmark: false,
-                      label: Text('✨ ${KoStrings.getRoomName(Room.magicRoom)}', style: const TextStyle(fontSize: 13)),
+                      label: Text(KoStrings.getRoomName(Room.magicRoom), style: const TextStyle(fontSize: 13)),
                       selected: _room.magicRoom,
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(magicRoom: v));
@@ -702,7 +695,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ),
                     FilterChip(
                       showCheckmark: false,
-                      label: Text('❓ ${KoStrings.getRoomName(Room.wonderRoom)}', style: const TextStyle(fontSize: 13)),
+                      label: Text(KoStrings.getRoomName(Room.wonderRoom), style: const TextStyle(fontSize: 13)),
                       selected: _room.wonderRoom,
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(wonderRoom: v));
@@ -712,13 +705,92 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ),
                     FilterChip(
                       showCheckmark: false,
-                      label: Text('🌀 ${KoStrings.gravityName}', style: const TextStyle(fontSize: 13)),
+                      label: Text(KoStrings.gravityName, style: const TextStyle(fontSize: 13)),
                       selected: _room.gravity,
                       onSelected: (v) {
                         setState(() => _room = _room.copyWith(gravity: v));
                         setDialogState(() {});
                       },
                       visualDensity: VisualDensity.compact,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                // Aura — forced ON when either side's ability matches
+                Text(AppStrings.t('section.aura'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Wrap(
+                  spacing: 4,
+                  children: [
+                    _envFieldChip(
+                      label: AppStrings.t('damage.allyFairyAura'),
+                      ability: 'Fairy Aura',
+                      value: _auras.fairyAura,
+                      onChanged: (v) {
+                        setState(() => _auras = _auras.copyWith(fairyAura: v));
+                        setDialogState(() {});
+                      },
+                    ),
+                    _envFieldChip(
+                      label: AppStrings.t('damage.allyDarkAura'),
+                      ability: 'Dark Aura',
+                      value: _auras.darkAura,
+                      onChanged: (v) {
+                        setState(() => _auras = _auras.copyWith(darkAura: v));
+                        setDialogState(() {});
+                      },
+                    ),
+                    _envFieldChip(
+                      label: AppStrings.t('damage.allyAuraBreak'),
+                      ability: 'Aura Break',
+                      value: _auras.auraBreak,
+                      onChanged: (v) {
+                        setState(() => _auras = _auras.copyWith(auraBreak: v));
+                        setDialogState(() {});
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                // Ruin — dex order: Tablets → Sword → Vessel → Beads
+                Text(AppStrings.t('section.ruin'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Wrap(
+                  spacing: 4,
+                  children: [
+                    _envFieldChip(
+                      label: AppStrings.t('damage.allyTabletsOfRuin'),
+                      ability: 'Tablets of Ruin',
+                      value: _ruins.tabletsOfRuin,
+                      onChanged: (v) {
+                        setState(() => _ruins = _ruins.copyWith(tabletsOfRuin: v));
+                        setDialogState(() {});
+                      },
+                    ),
+                    _envFieldChip(
+                      label: AppStrings.t('damage.allySwordOfRuin'),
+                      ability: 'Sword of Ruin',
+                      value: _ruins.swordOfRuin,
+                      onChanged: (v) {
+                        setState(() => _ruins = _ruins.copyWith(swordOfRuin: v));
+                        setDialogState(() {});
+                      },
+                    ),
+                    _envFieldChip(
+                      label: AppStrings.t('damage.allyVesselOfRuin'),
+                      ability: 'Vessel of Ruin',
+                      value: _ruins.vesselOfRuin,
+                      onChanged: (v) {
+                        setState(() => _ruins = _ruins.copyWith(vesselOfRuin: v));
+                        setDialogState(() {});
+                      },
+                    ),
+                    _envFieldChip(
+                      label: AppStrings.t('damage.allyBeadsOfRuin'),
+                      ability: 'Beads of Ruin',
+                      value: _ruins.beadsOfRuin,
+                      onChanged: (v) {
+                        setState(() => _ruins = _ruins.copyWith(beadsOfRuin: v));
+                        setDialogState(() {});
+                      },
                     ),
                   ],
                 ),
@@ -747,95 +819,75 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  /// Mobile: battle conditions button showing active icons, or text when none set.
-  Widget _battleConditionsButton() {
-    final icons = <String>[];
-    if (_weather != Weather.none) icons.add(KoStrings.weatherIcon[_weather]!);
-    if (_terrain != Terrain.none) icons.add(KoStrings.terrainIcon[_terrain]!);
-    if (_room.trickRoom) icons.add('🔄');
-    if (_room.magicRoom) icons.add('✨');
-    if (_room.wonderRoom) icons.add('❓');
-    if (_room.gravity) icons.add('🌀');
+  /// Abilities that force a field-state (aura/ruin) ON regardless of the
+  /// user's toggle. If either Pokemon has one, the field is active.
+  static const _auraRuinAbilities = {
+    'Fairy Aura', 'Dark Aura', 'Aura Break',
+    'Tablets of Ruin', 'Sword of Ruin', 'Vessel of Ruin', 'Beads of Ruin',
+  };
 
-    return ValueListenableBuilder<bool>(
-      valueListenable: DoublesController.instance.isDoubles,
-      builder: (context, isDoubles, _) {
-        final formatLabel = AppStrings.t(
-          isDoubles ? 'battle.doubles' : 'battle.singles',
-        );
-        return GestureDetector(
-          onTap: _showBattleConditionsDialog,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                    children: [
-                      TextSpan(text: AppStrings.t('toolbar.battleConditions')),
-                      TextSpan(
-                        text: ' ($formatLabel)',
-                        style: TextStyle(color: Colors.grey.shade500),
-                      ),
-                    ],
-                  ),
-                ),
-                if (icons.isNotEmpty) ...[
-                  const SizedBox(width: 6),
-                  Text(icons.join(' '), style: const TextStyle(fontSize: 18)),
-                ],
-                const Icon(Icons.arrow_drop_down, size: 16),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+  /// Names of every currently-active battle condition, in display order:
+  /// weather → terrain → rooms → auras → ruins. Ability-forced entries
+  /// (e.g. Chien-Pao for Sword of Ruin) are included.
+  List<String> get _activeConditionNames {
+    final names = <String>[];
+    if (_weather != Weather.none) names.add(KoStrings.getWeatherName(_weather));
+    if (_terrain != Terrain.none) names.add(KoStrings.getTerrainName(_terrain));
+    if (_room.trickRoom) names.add(KoStrings.getRoomName(Room.trickRoom));
+    if (_room.magicRoom) names.add(KoStrings.getRoomName(Room.magicRoom));
+    if (_room.wonderRoom) names.add(KoStrings.getRoomName(Room.wonderRoom));
+    if (_room.gravity) names.add(KoStrings.gravityName);
+    if (_auras.fairyAura || _abilityPresent('Fairy Aura')) names.add(AppStrings.t('damage.allyFairyAura'));
+    if (_auras.darkAura || _abilityPresent('Dark Aura')) names.add(AppStrings.t('damage.allyDarkAura'));
+    if (_auras.auraBreak || _abilityPresent('Aura Break')) names.add(AppStrings.t('damage.allyAuraBreak'));
+    if (_ruins.tabletsOfRuin || _abilityPresent('Tablets of Ruin')) names.add(AppStrings.t('damage.allyTabletsOfRuin'));
+    if (_ruins.swordOfRuin || _abilityPresent('Sword of Ruin')) names.add(AppStrings.t('damage.allySwordOfRuin'));
+    if (_ruins.vesselOfRuin || _abilityPresent('Vessel of Ruin')) names.add(AppStrings.t('damage.allyVesselOfRuin'));
+    if (_ruins.beadsOfRuin || _abilityPresent('Beads of Ruin')) names.add(AppStrings.t('damage.allyBeadsOfRuin'));
+    return names;
   }
 
-  /// Wide layout: individual weather dropdown (extracted from old inline code)
-  Widget _formatDropdown(double fontSize) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: DoublesController.instance.isDoubles,
-      builder: (_, isDoubles, __) {
-        final label = AppStrings.t(isDoubles ? 'battle.doubles' : 'battle.singles');
-        return PopupMenuButton<bool>(
-          initialValue: isDoubles,
-          tooltip: AppStrings.t('battle.format'),
-          popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+  bool get _hasActiveConditions => _activeConditionNames.isNotEmpty;
+
+  /// Mobile: battle conditions button. When no condition is active,
+  /// shows the "배틀환경" label; as soon as something is on, replaces
+  /// the label with a comma-separated list of active condition names.
+  Widget _battleConditionsButton() {
+    final names = _activeConditionNames;
+    final active = names.isNotEmpty;
+    final activeColor = Theme.of(context).colorScheme.primary;
+    final inactiveColor = Theme.of(context).colorScheme.onSurface;
+    final label = active
+        ? names.join(' · ')
+        : AppStrings.t('toolbar.battleConditions');
+    return GestureDetector(
+      onTap: _showBattleConditionsDialog,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: active ? activeColor : inactiveColor,
+                  fontWeight: active ? FontWeight.bold : FontWeight.normal,
                 ),
-                const Icon(Icons.arrow_drop_down, size: 16),
-              ],
+              ),
             ),
-          ),
-          itemBuilder: (_) => [
-            PopupMenuItem(value: false, child: Text(AppStrings.t('battle.singles'))),
-            PopupMenuItem(value: true, child: Text(AppStrings.t('battle.doubles'))),
+            const Icon(Icons.arrow_drop_down, size: 16),
           ],
-          onSelected: _switchBattleFormat,
-        );
-      },
+        ),
+      ),
     );
   }
 
   Widget _weatherDropdown(double fontSize) {
+    final active = _weather != Weather.none;
     return PopupMenuButton<Weather>(
       initialValue: _weather,
       tooltip: AppStrings.t('toolbar.weather'),
@@ -845,9 +897,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _weather == Weather.none
-                ? Text(AppStrings.t('toolbar.weather'), style: TextStyle(fontSize: fontSize, color: Colors.grey.shade500))
-                : Text(KoStrings.weatherIcon[_weather]!, style: const TextStyle(fontSize: 24)),
+            Text(
+              active
+                  ? KoStrings.getWeatherName(_weather)
+                  : AppStrings.t('toolbar.weather'),
+              style: TextStyle(
+                fontSize: fontSize,
+                color: active
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey.shade500,
+                fontWeight: active ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
             const Icon(Icons.arrow_drop_down, size: 16),
           ],
         ),
@@ -855,19 +916,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       itemBuilder: (_) => Weather.values
           .map((w) => PopupMenuItem(
               value: w,
-              child: Row(children: [
-                if (w != Weather.none) ...[
-                  Text(KoStrings.weatherIcon[w]!, style: const TextStyle(fontSize: 18)),
-                  const SizedBox(width: 8),
-                ],
-                Text(KoStrings.getWeatherName(w)),
-              ])))
+              child: Text(KoStrings.getWeatherName(w))))
           .toList(),
       onSelected: (v) => setState(() => _weather = v),
     );
   }
 
   Widget _terrainDropdown(double fontSize) {
+    final active = _terrain != Terrain.none;
     return PopupMenuButton<Terrain>(
       initialValue: _terrain,
       tooltip: AppStrings.t('toolbar.terrain'),
@@ -877,9 +933,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _terrain == Terrain.none
-                ? Text(AppStrings.t('toolbar.terrain'), style: TextStyle(fontSize: fontSize, color: Colors.grey.shade500))
-                : Text(KoStrings.terrainIcon[_terrain]!, style: const TextStyle(fontSize: 24)),
+            Text(
+              active
+                  ? KoStrings.getTerrainName(_terrain)
+                  : AppStrings.t('toolbar.terrain'),
+              style: TextStyle(
+                fontSize: fontSize,
+                color: active
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey.shade500,
+                fontWeight: active ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
             const Icon(Icons.arrow_drop_down, size: 16),
           ],
         ),
@@ -887,13 +952,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       itemBuilder: (_) => Terrain.values
           .map((t) => PopupMenuItem(
               value: t,
-              child: Row(children: [
-                if (t != Terrain.none) ...[
-                  Text(KoStrings.terrainIcon[t]!, style: const TextStyle(fontSize: 18)),
-                  const SizedBox(width: 8),
-                ],
-                Text(KoStrings.getTerrainName(t)),
-              ])))
+              child: Text(KoStrings.getTerrainName(t))))
           .toList(),
       onSelected: (v) => setState(() => _terrain = v),
     );
@@ -910,7 +969,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           children: [
             Text(AppStrings.t('toolbar.room'), style: TextStyle(
               fontSize: fontSize,
-              color: _room.hasAny ? Colors.purple : Colors.grey.shade500,
+              color: _room.hasAny
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey.shade500,
               fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
             )),
             const Icon(Icons.arrow_drop_down, size: 16),
@@ -918,31 +979,190 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ),
       ),
       itemBuilder: (_) => [
-        CheckedPopupMenuItem(
-          value: 'trickRoom', checked: _room.trickRoom,
-          child: Text('🔄 ${KoStrings.getRoomName(Room.trickRoom)}'),
+        _stickyCheckItem(
+          label: KoStrings.getRoomName(Room.trickRoom),
+          getValue: () => _room.trickRoom,
+          onToggle: () => setState(() => _room = _room.copyWith(trickRoom: !_room.trickRoom)),
         ),
-        CheckedPopupMenuItem(
-          value: 'magicRoom', checked: _room.magicRoom,
-          child: Text('✨ ${KoStrings.getRoomName(Room.magicRoom)}'),
+        _stickyCheckItem(
+          label: KoStrings.getRoomName(Room.magicRoom),
+          getValue: () => _room.magicRoom,
+          onToggle: () => setState(() => _room = _room.copyWith(magicRoom: !_room.magicRoom)),
         ),
-        CheckedPopupMenuItem(
-          value: 'wonderRoom', checked: _room.wonderRoom,
-          child: Text('❓ ${KoStrings.getRoomName(Room.wonderRoom)}'),
+        _stickyCheckItem(
+          label: KoStrings.getRoomName(Room.wonderRoom),
+          getValue: () => _room.wonderRoom,
+          onToggle: () => setState(() => _room = _room.copyWith(wonderRoom: !_room.wonderRoom)),
         ),
-        CheckedPopupMenuItem(
-          value: 'gravity', checked: _room.gravity,
-          child: Text('🌀 ${KoStrings.gravityName}'),
+        _stickyCheckItem(
+          label: KoStrings.gravityName,
+          getValue: () => _room.gravity,
+          onToggle: () => setState(() => _room = _room.copyWith(gravity: !_room.gravity)),
         ),
       ],
-      onSelected: (v) => setState(() {
-        switch (v) {
-          case 'trickRoom': _room = _room.copyWith(trickRoom: !_room.trickRoom);
-          case 'magicRoom': _room = _room.copyWith(magicRoom: !_room.magicRoom);
-          case 'wonderRoom': _room = _room.copyWith(wonderRoom: !_room.wonderRoom);
-          case 'gravity': _room = _room.copyWith(gravity: !_room.gravity);
-        }
-      }),
+    );
+  }
+
+  /// True when either side's selected ability matches [ability] — the
+  /// corresponding field-state toggle should be locked ON.
+  bool _abilityPresent(String ability) =>
+      _attacker.selectedAbility == ability ||
+      _defender.selectedAbility == ability;
+
+  /// Checkbox menu entry that DOESN'T close the parent popup on tap —
+  /// wraps the body in a non-interactive PopupMenuItem (so Flutter's
+  /// built-in close-on-select doesn't fire) and uses a StatefulBuilder
+  /// to reflect live state changes inside the still-open popup.
+  PopupMenuEntry<String> _stickyCheckItem({
+    required String label,
+    required bool Function() getValue,
+    required VoidCallback onToggle,
+    bool enabled = true,
+  }) {
+    // Force text color to normal onSurface — [PopupMenuItem] with
+    // `enabled: false` otherwise dims every child via DefaultTextStyle.
+    final scheme = Theme.of(context).colorScheme;
+    return PopupMenuItem<String>(
+      enabled: false,
+      padding: EdgeInsets.zero,
+      child: StatefulBuilder(
+        builder: (ctx, setLocal) {
+          final value = getValue();
+          return InkWell(
+            onTap: enabled ? () { onToggle(); setLocal(() {}); } : null,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 24, height: 24,
+                    child: Checkbox(
+                      value: value,
+                      onChanged: enabled
+                          ? (_) { onToggle(); setLocal(() {}); }
+                          : null,
+                      visualDensity: VisualDensity.compact,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: enabled
+                          ? scheme.onSurface
+                          : scheme.onSurface.withValues(alpha: 0.4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _auraDropdown(double fontSize) {
+    final fairyForced = _abilityPresent('Fairy Aura');
+    final darkForced = _abilityPresent('Dark Aura');
+    final breakForced = _abilityPresent('Aura Break');
+    final anyActive = fairyForced || darkForced || breakForced ||
+        _auras.hasAny;
+    return PopupMenuButton<String>(
+      tooltip: AppStrings.t('section.aura'),
+      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(AppStrings.t('section.aura'), style: TextStyle(
+              fontSize: fontSize,
+              color: anyActive
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey.shade500,
+              fontWeight: anyActive ? FontWeight.bold : FontWeight.normal,
+            )),
+            const Icon(Icons.arrow_drop_down, size: 16),
+          ],
+        ),
+      ),
+      itemBuilder: (_) => [
+        _stickyCheckItem(
+          label: AppStrings.t('damage.allyFairyAura'),
+          getValue: () => fairyForced || _auras.fairyAura,
+          onToggle: () => setState(() => _auras = _auras.copyWith(fairyAura: !_auras.fairyAura)),
+          enabled: !fairyForced,
+        ),
+        _stickyCheckItem(
+          label: AppStrings.t('damage.allyDarkAura'),
+          getValue: () => darkForced || _auras.darkAura,
+          onToggle: () => setState(() => _auras = _auras.copyWith(darkAura: !_auras.darkAura)),
+          enabled: !darkForced,
+        ),
+        _stickyCheckItem(
+          label: AppStrings.t('damage.allyAuraBreak'),
+          getValue: () => breakForced || _auras.auraBreak,
+          onToggle: () => setState(() => _auras = _auras.copyWith(auraBreak: !_auras.auraBreak)),
+          enabled: !breakForced,
+        ),
+      ],
+    );
+  }
+
+  Widget _ruinDropdown(double fontSize) {
+    final tabletsForced = _abilityPresent('Tablets of Ruin');
+    final swordForced = _abilityPresent('Sword of Ruin');
+    final vesselForced = _abilityPresent('Vessel of Ruin');
+    final beadsForced = _abilityPresent('Beads of Ruin');
+    final anyActive = tabletsForced || swordForced || vesselForced ||
+        beadsForced || _ruins.hasAny;
+    return PopupMenuButton<String>(
+      tooltip: AppStrings.t('section.ruin'),
+      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(AppStrings.t('section.ruin'), style: TextStyle(
+              fontSize: fontSize,
+              color: anyActive
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey.shade500,
+              fontWeight: anyActive ? FontWeight.bold : FontWeight.normal,
+            )),
+            const Icon(Icons.arrow_drop_down, size: 16),
+          ],
+        ),
+      ),
+      itemBuilder: (_) => [
+        _stickyCheckItem(
+          label: AppStrings.t('damage.allyTabletsOfRuin'),
+          getValue: () => tabletsForced || _ruins.tabletsOfRuin,
+          onToggle: () => setState(() => _ruins = _ruins.copyWith(tabletsOfRuin: !_ruins.tabletsOfRuin)),
+          enabled: !tabletsForced,
+        ),
+        _stickyCheckItem(
+          label: AppStrings.t('damage.allySwordOfRuin'),
+          getValue: () => swordForced || _ruins.swordOfRuin,
+          onToggle: () => setState(() => _ruins = _ruins.copyWith(swordOfRuin: !_ruins.swordOfRuin)),
+          enabled: !swordForced,
+        ),
+        _stickyCheckItem(
+          label: AppStrings.t('damage.allyVesselOfRuin'),
+          getValue: () => vesselForced || _ruins.vesselOfRuin,
+          onToggle: () => setState(() => _ruins = _ruins.copyWith(vesselOfRuin: !_ruins.vesselOfRuin)),
+          enabled: !vesselForced,
+        ),
+        _stickyCheckItem(
+          label: AppStrings.t('damage.allyBeadsOfRuin'),
+          getValue: () => beadsForced || _ruins.beadsOfRuin,
+          onToggle: () => setState(() => _ruins = _ruins.copyWith(beadsOfRuin: !_ruins.beadsOfRuin)),
+          enabled: !beadsForced,
+        ),
+      ],
     );
   }
 
@@ -965,10 +1185,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           children: [
             if (isWide) ...[
               // Wide: keep separate dropdowns
-              _formatDropdown(toolbarFontSize),
               _weatherDropdown(toolbarFontSize),
               _terrainDropdown(toolbarFontSize),
               _roomDropdown(toolbarFontSize),
+              _auraDropdown(toolbarFontSize),
+              _ruinDropdown(toolbarFontSize),
               const Spacer(),
               TextButton.icon(
                 onPressed: _swapSides,
@@ -1004,9 +1225,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ),
               const SizedBox(width: 12),
             ] else ...[
-              // Mobile: battle conditions button + active icons
-              _battleConditionsButton(),
-              const Spacer(),
+              // Mobile: battle conditions fills the left-hand gap up to
+              // the swap/reset/menu cluster. Expanded + align-left lets
+              // the label use its natural width and only ellipsis when
+              // it would actually collide with the right-side buttons.
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: _battleConditionsButton(),
+                ),
+              ),
               TextButton(
                 onPressed: _swapSides,
                 child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
@@ -1253,6 +1481,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             weather: _weather,
             terrain: _terrain,
             room: _room,
+            auras: _auras,
+            ruins: _ruins,
             label: label,
             onChanged: _onPanelChanged,
             onSave: () => _showSaveDialog(side, state),
@@ -1285,6 +1515,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentItem: isAttacker
                 ? _defender.selectedItem
                 : _attacker.selectedItem,
+            opponentAbility: isAttacker
+                ? _defender.selectedAbility
+                : _attacker.selectedAbility,
+            doublesExpanded: _doublesExpanded,
+            onDoublesExpandToggle: () =>
+                setState(() => _doublesExpanded = !_doublesExpanded),
             useSpMode: _useSpMode,
             onSpModeChanged: _setSpMode,
           );
@@ -1299,12 +1535,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       weather: _weather,
       terrain: _terrain,
       room: _room,
+      auras: _auras,
+      ruins: _ruins,
       opponentSpeed: _calcEffectiveSpeed(_defender),
       opponentAttack: _calcStats(_defender).attack,
       opponentGender: _defender.gender,
       opponentWeight: BattleFacade.effectiveWeight(_defender),
       opponentHpPercent: _defender.hpPercent,
       opponentItem: _defender.selectedItem,
+      opponentAbility: _defender.selectedAbility,
     );
   }
 
@@ -1315,6 +1554,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       weather: _weather,
       terrain: _terrain,
       room: _room,
+      ruins: _ruins,
+      opponentAbility: _attacker.selectedAbility,
     );
   }
 
@@ -1326,6 +1567,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       weather: _weather,
       terrain: _terrain,
       room: _room,
+      auras: _auras,
+      ruins: _ruins,
       opponentAttack: _calcStats(_defender).attack,
       opponentSpeed: _calcEffectiveSpeed(_defender),
       myEffectiveSpeed: _calcEffectiveSpeed(_attacker),
@@ -1686,6 +1929,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           'bolt_beak': 'note.boltBeak',
           'payback': 'note.payback',
           'spread': 'note.spread',
+          'helpingHand': 'note.helpingHand',
+          'powerSpot': 'note.powerSpot',
+          'battery': 'note.battery',
+          'flowerGift': 'note.flowerGift',
+          'plusMinus': 'note.plusMinus',
         };
         final key = parts[1];
         final noteKey = moveKeys[key];
@@ -1945,7 +2193,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.1.1'),
+          const Text('v1.2.0'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

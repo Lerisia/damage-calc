@@ -12,11 +12,14 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
+import 'aura_effects.dart';
+import 'doubles_effects.dart';
 import 'grounded.dart';
 import 'item_effects.dart';
 import 'move_transform.dart';
 import 'offensive_calculator.dart';
 import 'defensive_calculator.dart';
+import 'ruin_effects.dart';
 import 'speed_calculator.dart';
 import 'stat_calculator.dart';
 import 'terrain_effects.dart';
@@ -149,6 +152,8 @@ class BattleFacade {
     required Weather weather,
     required Terrain terrain,
     required RoomConditions room,
+    AuraToggles auras = AuraToggles.inactive,
+    RuinToggles ruins = RuinToggles.inactive,
     int? opponentSpeed,
     int? opponentAttack,
     int? opponentDefense,
@@ -158,6 +163,7 @@ class BattleFacade {
     double? opponentWeight,
     int? opponentHpPercent,
     String? opponentItem,
+    String? opponentAbility,
     bool attackerGrounded = true,
     bool defenderGrounded = true,
   }) {
@@ -249,6 +255,9 @@ class BattleFacade {
       defenderGrounded: defenderGrounded,
       opponentHpPercent: opponentHpPercent,
       opponentItem: opponentItem,
+      opponentAbility: opponentAbility,
+      auras: auras,
+      ruins: ruins,
       zMove: state.zMoves[moveIndex],
     );
 
@@ -287,6 +296,8 @@ class BattleFacade {
     required Weather weather,
     required Terrain terrain,
     required RoomConditions room,
+    AuraToggles auras = AuraToggles.inactive,
+    RuinToggles ruins = RuinToggles.inactive,
     int? opponentSpeed,
     int? opponentAttack,
     Gender opponentGender = Gender.unset,
@@ -294,6 +305,7 @@ class BattleFacade {
     double? opponentWeight,
     int? opponentHpPercent,
     String? opponentItem,
+    String? opponentAbility,
   }) {
     final move = state.moves[moveIndex];
     final hits = move != null && move.isMultiHit
@@ -308,6 +320,8 @@ class BattleFacade {
       weather: weather,
       terrain: terrain,
       room: room,
+      auras: auras,
+      ruins: ruins,
       opponentSpeed: opponentSpeed,
       opponentAttack: opponentAttack,
       opponentGender: opponentGender,
@@ -315,6 +329,7 @@ class BattleFacade {
       opponentWeight: opponentWeight,
       opponentHpPercent: opponentHpPercent,
       opponentItem: opponentItem,
+      opponentAbility: opponentAbility,
       hitCount: hits,
       zMove: state.zMoves[moveIndex],
     );
@@ -330,6 +345,8 @@ class BattleFacade {
     required Weather weather,
     required Terrain terrain,
     required RoomConditions room,
+    AuraToggles auras = AuraToggles.inactive,
+    RuinToggles ruins = RuinToggles.inactive,
     int? opponentSpeed,
     int? opponentAttack,
     Gender opponentGender = Gender.unset,
@@ -337,6 +354,7 @@ class BattleFacade {
     double? opponentWeight,
     int? opponentHpPercent,
     String? opponentItem,
+    String? opponentAbility,
     int? hitCount,
     bool attackerGrounded = true,
     bool defenderGrounded = true,
@@ -442,6 +460,34 @@ class BattleFacade {
     final effectiveType1 = abilityTypeOverride?.type1 ?? state.type1;
     final effectiveType2 = abilityTypeOverride != null ? abilityTypeOverride.type2 : state.type2;
 
+    // Doubles-only modifiers (spread, helping hand, ally abilities, ...)
+    final doublesMods = computeDoublesModifiers(
+      attacker: state,
+      move: transformed.move,
+      isDoubles: true,
+      weather: atkWeather,
+    );
+
+    // Field-state ability effects (auras + ruins). The toggles live on
+    // RoomConditions; attacker/defender abilities also count as sources.
+    final auraState = computeAuraState(
+      attackerAbility: effectiveAbilityForCalc,
+      defenderAbility: opponentAbility,
+      allyFairyAura: auras.fairyAura,
+      allyDarkAura: auras.darkAura,
+      allyAuraBreak: auras.auraBreak,
+    );
+    final ruinState = computeRuinState(
+      attackerAbility: effectiveAbilityForCalc,
+      defenderAbility: opponentAbility,
+      allyTabletsOfRuin: ruins.tabletsOfRuin,
+      allySwordOfRuin: ruins.swordOfRuin,
+      allyVesselOfRuin: ruins.vesselOfRuin,
+      allyBeadsOfRuin: ruins.beadsOfRuin,
+    );
+    final bool targetPhysDef = transformed.move.category == MoveCategory.physical ||
+        transformed.move.hasTag(MoveTags.targetPhysDef);
+
     // 5. Final calculation
     return OffensiveCalculator.calculate(
       baseStats: state.baseStats,
@@ -473,7 +519,13 @@ class BattleFacade {
       opponentAttack: opponentAttack,
       terastallized: state.terastal.active,
       teraType: state.terastal.teraType,
-      spreadTargets: state.spreadTargets,
+      doublesPowerMod: doublesMods.powerMod,
+      doublesAttackMod: doublesMods.attackMod,
+      auraState: auraState,
+      ruinState: ruinState,
+      attackerAbility: effectiveAbilityForCalc,
+      defenderAbility: opponentAbility,
+      targetPhysDef: targetPhysDef,
     );
   }
 
@@ -487,12 +539,24 @@ class BattleFacade {
     required Weather weather,
     Terrain terrain = Terrain.none,
     required RoomConditions room,
+    RuinToggles ruins = RuinToggles.inactive,
+    String? opponentAbility,
   }) {
     // Cloud Nine / Air Lock / Teraform Zero negates weather/terrain
     final effWeather = isWeatherNegating(state.selectedAbility)
         ? Weather.none : weather;
     final effTerrain = isTerrainNegating(state.selectedAbility)
         ? Terrain.none : terrain;
+    // Ruin field state — [state] is the defender here, so pass its
+    // ability as the defenderAbility so self-exempt applies correctly.
+    final ruinState = computeRuinState(
+      attackerAbility: opponentAbility,
+      defenderAbility: state.selectedAbility,
+      allyTabletsOfRuin: ruins.tabletsOfRuin,
+      allySwordOfRuin: ruins.swordOfRuin,
+      allyVesselOfRuin: ruins.vesselOfRuin,
+      allyBeadsOfRuin: ruins.beadsOfRuin,
+    );
     return DefensiveCalculator.calculate(
       baseStats: state.baseStats,
       iv: state.iv,
@@ -511,6 +575,8 @@ class BattleFacade {
       terrain: effTerrain,
       room: room,
       isDynamaxed: state.dynamax != DynamaxState.none,
+      ruinState: ruinState,
+      allyFlowerGift: state.allyFlowerGift,
     );
   }
 

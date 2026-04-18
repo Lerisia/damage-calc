@@ -227,7 +227,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                     if (widget.room.trickRoom)
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
-                        child: Text('🔄 트릭룸 적용 중', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+                        child: Text('트릭룸 적용 중', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
                       ),
                   ],
                 ),

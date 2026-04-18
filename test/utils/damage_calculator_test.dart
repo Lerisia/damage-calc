@@ -1875,6 +1875,76 @@ void main() {
   });
 
   // ---------------------------------------------------------------
+  // Ruin abilities — self-exempt rule
+  // ---------------------------------------------------------------
+
+  group('Ruin abilities', () {
+    test('Tablets of Ruin on defender reduces attacker Attack', () {
+      final normal = calc(move: tackle);
+      final ruined = calc(move: tackle, defAbility: 'Tablets of Ruin');
+      expect(ruined.maxDamage, lessThan(normal.maxDamage));
+    });
+
+    test('Vessel of Ruin on defender reduces attacker Sp.Atk', () {
+      final normal = calc(move: sludgeBomb);
+      final ruined = calc(move: sludgeBomb, defAbility: 'Vessel of Ruin');
+      expect(ruined.maxDamage, lessThan(normal.maxDamage));
+    });
+
+    test('Sword of Ruin on attacker reduces defender Defense', () {
+      final normal = calc(move: tackle);
+      final ruined = calc(move: tackle, atkAbility: 'Sword of Ruin');
+      expect(ruined.maxDamage, greaterThan(normal.maxDamage));
+    });
+
+    test('Beads of Ruin on attacker reduces defender Sp.Def', () {
+      final normal = calc(move: sludgeBomb);
+      final ruined = calc(move: sludgeBomb, atkAbility: 'Beads of Ruin');
+      expect(ruined.maxDamage, greaterThan(normal.maxDamage));
+    });
+
+    test('self-exempt: both Chien-Pao (Sword of Ruin) → Def NOT reduced', () {
+      final normal = calc(move: tackle);
+      final mirror = calc(
+        move: tackle,
+        atkAbility: 'Sword of Ruin',
+        defAbility: 'Sword of Ruin',
+      );
+      expect(mirror.maxDamage, equals(normal.maxDamage));
+    });
+
+    test('self-exempt: both Chi-Yu (Beads of Ruin) → SpD NOT reduced', () {
+      final normal = calc(move: sludgeBomb);
+      final mirror = calc(
+        move: sludgeBomb,
+        atkAbility: 'Beads of Ruin',
+        defAbility: 'Beads of Ruin',
+      );
+      expect(mirror.maxDamage, equals(normal.maxDamage));
+    });
+
+    test('self-exempt: both Wo-Chien (Tablets of Ruin) → Attack NOT reduced', () {
+      final normal = calc(move: tackle);
+      final mirror = calc(
+        move: tackle,
+        atkAbility: 'Tablets of Ruin',
+        defAbility: 'Tablets of Ruin',
+      );
+      expect(mirror.maxDamage, equals(normal.maxDamage));
+    });
+
+    test('self-exempt: both Ting-Lu (Vessel of Ruin) → SpA NOT reduced', () {
+      final normal = calc(move: sludgeBomb);
+      final mirror = calc(
+        move: sludgeBomb,
+        atkAbility: 'Vessel of Ruin',
+        defAbility: 'Vessel of Ruin',
+      );
+      expect(mirror.maxDamage, equals(normal.maxDamage));
+    });
+  });
+
+  // ---------------------------------------------------------------
   // Unaware notes
   // ---------------------------------------------------------------
 

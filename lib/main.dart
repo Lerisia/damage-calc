@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'utils/app_strings.dart';
-import 'utils/doubles_controller.dart';
 import 'utils/theme_controller.dart';
 import 'data/abilitydex.dart';
 import 'data/itemdex.dart';
@@ -215,7 +214,6 @@ class _AppLoaderState extends State<_AppLoader> {
     await Future.wait([
       AppStrings.loadSavedLanguage(),
       ThemeController.instance.load(),
-      DoublesController.instance.load(),
     ]);
     final results = await Future.wait([
       loadPokedex(),

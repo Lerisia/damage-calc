@@ -162,9 +162,19 @@ class AppStrings {
       AppLanguage.ja: 'わざ',
     },
     'section.doubles': {
-      AppLanguage.ko: '더블 옵션',
-      AppLanguage.en: 'Doubles options',
-      AppLanguage.ja: 'ダブルオプション',
+      AppLanguage.ko: '더블 전용 옵션',
+      AppLanguage.en: 'Doubles-only options',
+      AppLanguage.ja: 'ダブル専用オプション',
+    },
+    'section.aura': {
+      AppLanguage.ko: '오라',
+      AppLanguage.en: 'Aura',
+      AppLanguage.ja: 'オーラ',
+    },
+    'section.ruin': {
+      AppLanguage.ko: '재앙',
+      AppLanguage.en: 'Ruin',
+      AppLanguage.ja: 'わざわい',
     },
     'section.bulk': {
       AppLanguage.ko: '내구',
@@ -550,6 +560,66 @@ class AppStrings {
       AppLanguage.en: '2 targets',
       AppLanguage.ja: '複数対象',
     },
+    'damage.helpingHand': {
+      AppLanguage.ko: '도우미',
+      AppLanguage.en: 'Helping Hand',
+      AppLanguage.ja: 'てだすけ',
+    },
+    'damage.allyPowerSpot': {
+      AppLanguage.ko: '파워스폿',
+      AppLanguage.en: 'Power Spot',
+      AppLanguage.ja: 'パワースポット',
+    },
+    'damage.allyBattery': {
+      AppLanguage.ko: '배터리',
+      AppLanguage.en: 'Battery',
+      AppLanguage.ja: 'バッテリー',
+    },
+    'damage.allyFlowerGift': {
+      AppLanguage.ko: '플라워기프트',
+      AppLanguage.en: 'Flower Gift',
+      AppLanguage.ja: 'フラワーギフト',
+    },
+    'damage.allyPlusMinus': {
+      AppLanguage.ko: '플러스/마이너스',
+      AppLanguage.en: 'Plus/Minus',
+      AppLanguage.ja: 'プラス・マイナス',
+    },
+    'damage.allyAuraBreak': {
+      AppLanguage.ko: '오라브레이크',
+      AppLanguage.en: 'Aura Break',
+      AppLanguage.ja: 'オーラブレイク',
+    },
+    'damage.allyTabletsOfRuin': {
+      AppLanguage.ko: '재앙의목간',
+      AppLanguage.en: 'Tablets of Ruin',
+      AppLanguage.ja: 'わざわいのおふだ',
+    },
+    'damage.allySwordOfRuin': {
+      AppLanguage.ko: '재앙의검',
+      AppLanguage.en: 'Sword of Ruin',
+      AppLanguage.ja: 'わざわいのつるぎ',
+    },
+    'damage.allyVesselOfRuin': {
+      AppLanguage.ko: '재앙의그릇',
+      AppLanguage.en: 'Vessel of Ruin',
+      AppLanguage.ja: 'わざわいのうつわ',
+    },
+    'damage.allyBeadsOfRuin': {
+      AppLanguage.ko: '재앙의구슬',
+      AppLanguage.en: 'Beads of Ruin',
+      AppLanguage.ja: 'わざわいのたま',
+    },
+    'damage.allyFairyAura': {
+      AppLanguage.ko: '페어리오라',
+      AppLanguage.en: 'Fairy Aura',
+      AppLanguage.ja: 'フェアリーオーラ',
+    },
+    'damage.allyDarkAura': {
+      AppLanguage.ko: '다크오라',
+      AppLanguage.en: 'Dark Aura',
+      AppLanguage.ja: 'ダークオーラ',
+    },
     'damage.physical': {
       AppLanguage.ko: '물리',
       AppLanguage.en: 'Physical',
@@ -759,6 +829,31 @@ class AppStrings {
       AppLanguage.ko: '분산',
       AppLanguage.en: 'Spread',
       AppLanguage.ja: '複数対象',
+    },
+    'note.helpingHand': {
+      AppLanguage.ko: '도우미',
+      AppLanguage.en: 'Helping Hand',
+      AppLanguage.ja: 'てだすけ',
+    },
+    'note.powerSpot': {
+      AppLanguage.ko: '파워스폿',
+      AppLanguage.en: 'Power Spot',
+      AppLanguage.ja: 'パワースポット',
+    },
+    'note.battery': {
+      AppLanguage.ko: '배터리',
+      AppLanguage.en: 'Battery',
+      AppLanguage.ja: 'バッテリー',
+    },
+    'note.flowerGift': {
+      AppLanguage.ko: '플라워기프트',
+      AppLanguage.en: 'Flower Gift',
+      AppLanguage.ja: 'フラワーギフト',
+    },
+    'note.plusMinus': {
+      AppLanguage.ko: '플러스/마이너스',
+      AppLanguage.en: 'Plus/Minus',
+      AppLanguage.ja: 'プラス・マイナス',
     },
     'note.abilityImmune': {
       AppLanguage.ko: '특성에 의해 무효',
