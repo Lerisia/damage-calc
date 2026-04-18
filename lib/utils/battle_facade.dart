@@ -473,6 +473,7 @@ class BattleFacade {
       opponentAttack: opponentAttack,
       terastallized: state.terastal.active,
       teraType: state.terastal.teraType,
+      spreadTargets: state.spreadTargets,
     );
   }
 

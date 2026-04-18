@@ -17,6 +17,7 @@ import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/battle_facade.dart';
+import '../../utils/doubles_controller.dart';
 import '../../utils/grounded.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
@@ -279,6 +280,7 @@ class PokemonPanelState extends State<PokemonPanel>
                 ],
               ),
             ),
+            _doublesSection(),
           ] else ...[
             _bulkDisplay(),
           ],
@@ -851,6 +853,55 @@ class PokemonPanelState extends State<PokemonPanel>
             },
             child: Text(AppStrings.t('label.noTera'), style: const TextStyle(color: Colors.grey)),
           )),
+      ),
+    );
+  }
+
+  /// Doubles-only attacker scenario toggles. Gated on the global Doubles
+  /// flag — hidden entirely in Singles so the panel stays uncluttered.
+  Widget _doublesSection() {
+    return ValueListenableBuilder<bool>(
+      valueListenable: DoublesController.instance.isDoubles,
+      builder: (_, isDoubles, __) {
+        if (!isDoubles) return const SizedBox.shrink();
+        return _sectionCard(
+          title: AppStrings.t('section.doubles'),
+          child: Wrap(
+            spacing: 12,
+            runSpacing: 4,
+            children: [
+              _doublesCheck(AppStrings.t('damage.spread'), s.spreadTargets, (v) {
+                setState(() { s.spreadTargets = v; _notifyParent(); });
+              }),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _doublesCheck(String label, bool value, ValueChanged<bool> onChanged) {
+    return InkWell(
+      onTap: () => onChanged(!value),
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 20, height: 20,
+              child: Checkbox(
+                value: value,
+                onChanged: (v) => onChanged(v ?? false),
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(label, style: const TextStyle(fontSize: 13)),
+          ],
+        ),
       ),
     );
   }

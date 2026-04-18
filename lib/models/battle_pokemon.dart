@@ -58,6 +58,21 @@ class BattlePokemonState {
   bool reflect;
   bool lightScreen;
   bool auroraVeil;
+  // ===== Doubles-only scenario flags (ignored in Singles) =====
+  /// Attacker's spread move is hitting 2 targets → 0.75× per-target reduction.
+  bool spreadTargets;
+  /// Ally used Helping Hand this turn → attacker's moves × 1.5.
+  bool helpingHand;
+  /// Ally has Power Spot → attacker's moves × 1.3.
+  bool allyPowerSpot;
+  /// Ally has Battery → attacker's special moves × 1.3.
+  bool allyBattery;
+  /// Ally has Friend Guard → attacker takes 0.75× incoming (defender side).
+  bool allyFriendGuard;
+  /// Ally has Flower Gift → in Sun, attacker Attack × 1.5, ally SpDef × 1.5.
+  bool allyFlowerGift;
+  /// Ally has Plus or Minus → attacker with Plus/Minus has SpA × 1.5.
+  bool allyPlusMinus;
 
   BattlePokemonState({
     this.pokemonName = 'bulbasaur',
@@ -99,6 +114,13 @@ class BattlePokemonState {
     this.reflect = false,
     this.lightScreen = false,
     this.auroraVeil = false,
+    this.spreadTargets = false,
+    this.helpingHand = false,
+    this.allyPowerSpot = false,
+    this.allyBattery = false,
+    this.allyFriendGuard = false,
+    this.allyFlowerGift = false,
+    this.allyPlusMinus = false,
   })  : baseStats = baseStats ?? const Stats(
             hp: 45, attack: 49, defense: 49,
             spAttack: 65, spDefense: 65, speed: 45),
@@ -157,6 +179,13 @@ class BattlePokemonState {
     'reflect': reflect,
     'lightScreen': lightScreen,
     'auroraVeil': auroraVeil,
+    'spreadTargets': spreadTargets,
+    'helpingHand': helpingHand,
+    'allyPowerSpot': allyPowerSpot,
+    'allyBattery': allyBattery,
+    'allyFriendGuard': allyFriendGuard,
+    'allyFlowerGift': allyFlowerGift,
+    'allyPlusMinus': allyPlusMinus,
   };
 
   factory BattlePokemonState.fromJson(Map<String, dynamic> json) {
@@ -209,6 +238,13 @@ class BattlePokemonState {
       reflect: json['reflect'] as bool? ?? false,
       lightScreen: json['lightScreen'] as bool? ?? false,
       auroraVeil: json['auroraVeil'] as bool? ?? false,
+      spreadTargets: json['spreadTargets'] as bool? ?? false,
+      helpingHand: json['helpingHand'] as bool? ?? false,
+      allyPowerSpot: json['allyPowerSpot'] as bool? ?? false,
+      allyBattery: json['allyBattery'] as bool? ?? false,
+      allyFriendGuard: json['allyFriendGuard'] as bool? ?? false,
+      allyFlowerGift: json['allyFlowerGift'] as bool? ?? false,
+      allyPlusMinus: json['allyPlusMinus'] as bool? ?? false,
     );
   }
 
@@ -258,6 +294,13 @@ class BattlePokemonState {
     reflect = false;
     lightScreen = false;
     auroraVeil = false;
+    spreadTargets = false;
+    helpingHand = false;
+    allyPowerSpot = false;
+    allyBattery = false;
+    allyFriendGuard = false;
+    allyFlowerGift = false;
+    allyPlusMinus = false;
   }
 
   /// Apply a Pokemon species selection, updating all relevant fields.

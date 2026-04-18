@@ -108,9 +108,9 @@ class AppStrings {
       AppLanguage.ja: 'バトル形式の切替',
     },
     'battle.formatSwitchMessage': {
-      AppLanguage.ko: '현재 입력한 정보가 모두 초기화됩니다. 계속하시겠습니까?',
+      AppLanguage.ko: '입력한 정보가 모두 초기화됩니다. 계속하시겠습니까?',
       AppLanguage.en: 'All entered data will be reset. Continue?',
-      AppLanguage.ja: '現在の入力内容がすべてリセットされます。続けますか？',
+      AppLanguage.ja: '入力した内容がすべてリセットされます。続けますか？',
     },
     'app.themeLight': {
       AppLanguage.ko: '라이트 모드',
@@ -160,6 +160,11 @@ class AppStrings {
       AppLanguage.ko: '기술',
       AppLanguage.en: 'Moves',
       AppLanguage.ja: 'わざ',
+    },
+    'section.doubles': {
+      AppLanguage.ko: '더블 옵션',
+      AppLanguage.en: 'Doubles options',
+      AppLanguage.ja: 'ダブルオプション',
     },
     'section.bulk': {
       AppLanguage.ko: '내구',
@@ -540,6 +545,11 @@ class AppStrings {
       AppLanguage.en: 'Light Screen',
       AppLanguage.ja: 'ひかりのかべ',
     },
+    'damage.spread': {
+      AppLanguage.ko: '분산',
+      AppLanguage.en: '2 targets',
+      AppLanguage.ja: '複数対象',
+    },
     'damage.physical': {
       AppLanguage.ko: '물리',
       AppLanguage.en: 'Physical',
@@ -744,6 +754,11 @@ class AppStrings {
       AppLanguage.ko: '후공',
       AppLanguage.en: 'Moves last',
       AppLanguage.ja: '後攻',
+    },
+    'note.spread': {
+      AppLanguage.ko: '분산 (×0.75)',
+      AppLanguage.en: 'Spread (×0.75)',
+      AppLanguage.ja: '複数対象 (×0.75)',
     },
     'note.abilityImmune': {
       AppLanguage.ko: '특성에 의해 무효',

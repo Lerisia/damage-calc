@@ -1685,6 +1685,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           'barb_barrage': 'note.venoshock',
           'bolt_beak': 'note.boltBeak',
           'payback': 'note.payback',
+          'spread': 'note.spread',
         };
         final key = parts[1];
         final noteKey = moveKeys[key];

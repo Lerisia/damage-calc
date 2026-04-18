@@ -57,6 +57,7 @@ class OffensiveCalculator {
     int? opponentAttack,
     bool terastallized = false,
     PokemonType? teraType,
+    bool spreadTargets = false,
   }) {
     final move = transformed.move;
 
@@ -136,6 +137,9 @@ class OffensiveCalculator {
     // Parental Bond for 결정력: single-value approximation of 2-hit (1x + 0.25x).
     // Damage calculator handles the actual per-hit split separately.
     final double parentalBondMod = move.hasTag(MoveTags.parentalBond) ? 1.25 : 1.0;
+    // Doubles spread reduction — mirrors damage_calculator's kSpreadMultiplier.
+    final double spreadMod =
+        (spreadTargets && move.hasTag(MoveTags.spread)) ? 0.75 : 1.0;
 
     final double raw = modifiedStat *
         effectivePower *
@@ -145,7 +149,8 @@ class OffensiveCalculator {
         terrainMod *
         burnMod *
         powerModifier *
-        parentalBondMod;
+        parentalBondMod *
+        spreadMod;
 
     return raw.floor();
   }

@@ -37,6 +37,8 @@ const double kScreenReduction = 0.5;
 const double kExpertBeltBoost = 1.2;
 const double kTeraShellReduction = 0.5;
 const double kChargePowerBoost = 2.0;
+/// Doubles spread moves lose 25% damage per target when they hit multiple.
+const double kSpreadMultiplier = 0.75;
 
 /// Move-specific power multipliers
 const double kKnockOffBoost = 1.5;
@@ -922,6 +924,11 @@ class DamageCalculator {
     if (effectiveMove.hasTag(MoveTags.doubleOnHalfHp) && defender.hpPercent <= 50) {
       movePowerMod *= kDoubleMovePower;
       notes.add('move:brine:×$kDoubleMovePower');
+    }
+    // Doubles: spread moves hitting 2 targets take a 0.75× multiplier.
+    if (attacker.spreadTargets && effectiveMove.hasTag(MoveTags.spread)) {
+      movePowerMod *= kSpreadMultiplier;
+      notes.add('move:spread:×$kSpreadMultiplier');
     }
 
     // Dynamax Cannon / Behemoth Blade / Behemoth Bash: x2 vs Dynamaxed target
