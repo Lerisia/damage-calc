@@ -365,6 +365,38 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     });
   }
 
+  /// Switch singles/doubles — wipes the per-side state so stale rank,
+  /// EV, move-hit, spread-hit, etc. don't leak across formats.
+  Future<void> _switchBattleFormat(bool toDoubles) async {
+    if (DoublesController.instance.isDoubles.value == toDoubles) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('battle.formatSwitchTitle')),
+        content: Text(AppStrings.t('battle.formatSwitchMessage')),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(AppStrings.t('action.cancel'))),
+          TextButton(onPressed: () => Navigator.pop(ctx, true), child: Text(AppStrings.t('action.confirm'))),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    await DoublesController.instance.setDoubles(toDoubles);
+    if (!mounted) return;
+    setState(() {
+      _resetCounter++;
+      _attacker.reset();
+      _defender.reset();
+      _attackerLoadedName = null;
+      _defenderLoadedName = null;
+      _prevAtkPokemon = null;
+      _prevDefPokemon = null;
+      _weather = Weather.none;
+      _terrain = Terrain.none;
+      _room = const RoomConditions();
+    });
+  }
+
   Future<void> _resetBothSides() async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -581,12 +613,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                         showCheckmark: false,
                         label: Text(AppStrings.t('battle.singles'), style: const TextStyle(fontSize: 13)),
                         selected: !isDoubles,
-                        onSelected: (_) {
-                          // Exclusive: tapping does nothing if already selected.
-                          if (isDoubles) {
-                            DoublesController.instance.setDoubles(false);
-                            setDialogState(() {});
-                          }
+                        onSelected: (_) async {
+                          if (!isDoubles) return;
+                          await _switchBattleFormat(false);
+                          setDialogState(() {});
                         },
                         visualDensity: VisualDensity.compact,
                       ),
@@ -594,11 +624,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                         showCheckmark: false,
                         label: Text(AppStrings.t('battle.doubles'), style: const TextStyle(fontSize: 13)),
                         selected: isDoubles,
-                        onSelected: (_) {
-                          if (!isDoubles) {
-                            DoublesController.instance.setDoubles(true);
-                            setDialogState(() {});
-                          }
+                        onSelected: (_) async {
+                          if (isDoubles) return;
+                          await _switchBattleFormat(true);
+                          setDialogState(() {});
                         },
                         visualDensity: VisualDensity.compact,
                       ),
@@ -728,21 +757,44 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     if (_room.wonderRoom) icons.add('❓');
     if (_room.gravity) icons.add('🌀');
 
-    return GestureDetector(
-      onTap: _showBattleConditionsDialog,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: icons.isEmpty
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(AppStrings.t('toolbar.battleConditions'),
-                      style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
-                  const Icon(Icons.arrow_drop_down, size: 16),
+    return ValueListenableBuilder<bool>(
+      valueListenable: DoublesController.instance.isDoubles,
+      builder: (context, isDoubles, _) {
+        final formatLabel = AppStrings.t(
+          isDoubles ? 'battle.doubles' : 'battle.singles',
+        );
+        return GestureDetector(
+          onTap: _showBattleConditionsDialog,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    children: [
+                      TextSpan(text: AppStrings.t('toolbar.battleConditions')),
+                      TextSpan(
+                        text: ' ($formatLabel)',
+                        style: TextStyle(color: Colors.grey.shade500),
+                      ),
+                    ],
+                  ),
+                ),
+                if (icons.isNotEmpty) ...[
+                  const SizedBox(width: 6),
+                  Text(icons.join(' '), style: const TextStyle(fontSize: 18)),
                 ],
-              )
-            : Text(icons.join(' '), style: const TextStyle(fontSize: 20)),
-      ),
+                const Icon(Icons.arrow_drop_down, size: 16),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -777,7 +829,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             PopupMenuItem(value: false, child: Text(AppStrings.t('battle.singles'))),
             PopupMenuItem(value: true, child: Text(AppStrings.t('battle.doubles'))),
           ],
-          onSelected: (v) => DoublesController.instance.setDoubles(v),
+          onSelected: _switchBattleFormat,
         );
       },
     );

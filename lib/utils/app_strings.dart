@@ -102,6 +102,16 @@ class AppStrings {
       AppLanguage.en: 'Doubles',
       AppLanguage.ja: 'ダブル',
     },
+    'battle.formatSwitchTitle': {
+      AppLanguage.ko: '배틀 형식 전환',
+      AppLanguage.en: 'Switch battle format',
+      AppLanguage.ja: 'バトル形式の切替',
+    },
+    'battle.formatSwitchMessage': {
+      AppLanguage.ko: '현재 입력한 정보가 모두 초기화됩니다. 계속하시겠습니까?',
+      AppLanguage.en: 'All entered data will be reset. Continue?',
+      AppLanguage.ja: '現在の入力内容がすべてリセットされます。続けますか？',
+    },
     'app.themeLight': {
       AppLanguage.ko: '라이트 모드',
       AppLanguage.en: 'Light mode',
