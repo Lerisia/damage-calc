@@ -48275,7 +48275,7 @@ n=l.gBU()
 l=r.Q3(l)
 j=r.f
 k=t.p
-k=A.b([A.MV(B.av,A.U(n+l+" \u2192 "+j.gBU()+r.Q3(j),q,q,q,q,B.ou,q,q),B.hs),B.kJ,A.bl(A.b([r.PX(r.e),B.a3U,r.PX(r.f)],k),B.q,q,B.dJ,B.u,0),B.h_,A.U("HP "+o+"/"+p+" | "+A.x("section.physBulk")+" "+i.a+" | "+A.x("section.specBulk")+" "+i.b,q,q,q,q,A.ax(q,q,B.aX,q,q,q,q,q,q,q,q,14,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),B.ab,q),B.cP,A.bl(A.b([r.PW(A.x("damage.reflect"),r.f.p4,new A.aqp(r)),B.Zq,r.PW(A.x("damage.lightScreen"),r.f.R8,new A.aqq(r))],k),B.q,q,B.dJ,B.u,0),B.cP],k)
+k=A.b([A.MV(B.av,A.U(n+l+" \u2192 "+j.gBU()+r.Q3(j),q,q,q,q,B.ou,q,q),B.hs),B.kJ,A.bl(A.b([r.PX(r.e),B.a3V,r.PX(r.f)],k),B.q,q,B.dJ,B.u,0),B.h_,A.U("HP "+o+"/"+p+" | "+A.x("section.physBulk")+" "+i.a+" | "+A.x("section.specBulk")+" "+i.b,q,q,q,q,A.ax(q,q,B.aX,q,q,q,q,q,q,q,q,14,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),B.ab,q),B.cP,A.bl(A.b([r.PW(A.x("damage.reflect"),r.f.p4,new A.aqp(r)),B.Zq,r.PW(A.x("damage.lightScreen"),r.f.R8,new A.aqq(r))],k),B.q,q,B.dJ,B.u,0),B.cP],k)
 for(s=0;s<4;++s)k.push(r.a8u(s,i))
 return A.DM(new A.o4(A.dE(q,A.cW(k,B.dj,B.o,B.u),B.z,m.fx,q,q,q,B.ju,q),r.y,q),q,B.P,B.JO,q,B.aG)},
 a8u(b4,b5){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9=this,b0=null,b1="damage.physical",b2="damage.special",b3=a9.e
@@ -49236,7 +49236,7 @@ A.aCi.prototype={
 $0(){return $.yH().wP(0)},
 $S:0}
 A.x5.prototype={
-J(a){var s=null,r=A.U(A.x("app.title"),s,s,s,s,B.kQ,s,s),q=t.p,p=A.cW(A.b([B.a3X,B.bu,A.U(A.x("about.description"),s,s,s,s,s,s,s),B.bu,A.U(A.x("about.subtitle"),s,s,s,s,B.bN,s,s),B.cP,B.a3V,B.Xq,B.Xr,B.Dp,B.IV,B.bu,A.U(A.x("about.beta"),s,s,s,s,B.a22,s,s),B.cP,A.U(A.x("about.disclaimer"),s,s,s,s,B.DU,s,s)],q),B.b7,B.o,B.aD)
+J(a){var s=null,r=A.U(A.x("app.title"),s,s,s,s,B.kQ,s,s),q=t.p,p=A.cW(A.b([B.a3U,B.bu,A.U(A.x("about.description"),s,s,s,s,s,s,s),B.bu,A.U(A.x("about.subtitle"),s,s,s,s,B.bN,s,s),B.cP,B.a3W,B.Xq,B.Xr,B.Dp,B.IV,B.bu,A.U(A.x("about.beta"),s,s,s,s,B.a22,s,s),B.cP,A.U(A.x("about.disclaimer"),s,s,s,s,B.DU,s,s)],q),B.b7,B.o,B.aD)
 return A.yR(A.b([A.fH(A.U(A.x("action.close"),s,s,s,s,s,s,s),new A.anJ(a),s)],q),p,s,r)}}
 A.anJ.prototype={
 $0(){A.df(this.a,!1).eA(null)
@@ -50362,7 +50362,7 @@ h.push(A.bC(e,j,32))}if(i){if(g!=null)if(q.f)f=A.U(A.x("move.fixed"),j,j,j,j,B.a
 else if(g.at>1)f=A.U(""+m,j,j,j,j,A.ax(j,j,B.cY,j,j,j,j,j,j,j,j,13,j,j,B.a0,j,j,!0,j,j,j,j,j,j,j,j),B.ab,j)
 else{e=g.a
 a1=new A.Hj(m,k.y[a8],k.z,a8,new A.af5(k,a8),new A.af6(k,a8),new A.cf("power_"+f+"_"+e,a1))
-f=a1}else f=B.a3W
+f=a1}else f=B.a3X
 h.push(A.bC(f,j,44))}if(i)h.push(A.bC(A.u_(B.cM,new A.af7(k,a8),k.a.c.fr[a8],B.bE),j,28))
 if(i){f=k.a.c
 e=f.fx[a8]
@@ -106108,11 +106108,11 @@ B.a2s=new A.q(!0,B.af,null,".AppleSystemUIFont",null,null,null,null,null,null,nu
 B.a2N=new A.q(!0,B.p,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.l,null,null,null,"blackRedwoodCity labelMedium",null,null,null,null)
 B.a_Q=new A.q(!0,B.p,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.l,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.a3T=new A.e9(B.a1E,B.a0y,B.a1F,B.a28,B.a0e,B.a0m,B.a0U,B.a21,B.a16,B.a2v,B.a_J,B.a00,B.a2s,B.a2N,B.a_Q)
-B.a3U=new A.h8("  \u2192  ",null,B.DU,null,null,null,null,null,null,null)
-B.a3V=new A.h8("By  Elyss",null,null,null,null,null,null,null,null,null)
+B.a3U=new A.h8("v1.3.0",null,null,null,null,null,null,null,null,null)
+B.a3V=new A.h8("  \u2192  ",null,B.DU,null,null,null,null,null,null,null)
+B.a3W=new A.h8("By  Elyss",null,null,null,null,null,null,null,null,null)
 B.E_=new A.h8("-",null,null,B.ab,null,null,null,null,null,null)
-B.a3W=new A.h8("-",null,B.bN,B.ab,null,null,null,null,null,null)
-B.a3X=new A.h8("v1.2.0",null,null,null,null,null,null,null,null,null)
+B.a3X=new A.h8("-",null,B.bN,B.ab,null,null,null,null,null,null)
 B.a3Y=new A.h8("-",null,B.ow,null,null,null,null,null,null,null)
 B.a3Z=new A.kT(0,"system")
 B.ox=new A.kT(1,"light")
