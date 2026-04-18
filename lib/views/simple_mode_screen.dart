@@ -621,22 +621,25 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             Expanded(child: _itemField(attacker: true)),
           ]),
           const SizedBox(height: 8),
-          // Offensive stat (Atk↔SpA auto) on its own row so the rank
-          // chip has room to sit at the end.
-          _statGroup(
-            label: offLabel,
-            stat: offStat,
-            spCtl: offCtl,
-            onSpChanged: _syncAtkEvs,
-            attacker: true,
-          ),
-          const SizedBox(height: 6),
-          _statGroup(
-            label: AppStrings.t('stat.speedShort'),
-            stat: _NatureStat.spe,
-            spCtl: _atkSpeSpCtl,
-            onSpChanged: _syncAtkEvs,
-            attacker: true,
+          // Offensive stat (Atk↔SpA auto) + Speed share one row.
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _statGroup(
+                label: offLabel,
+                stat: offStat,
+                spCtl: offCtl,
+                onSpChanged: _syncAtkEvs,
+                attacker: true,
+              ),
+              _statGroup(
+                label: AppStrings.t('stat.speedShort'),
+                stat: _NatureStat.spe,
+                spCtl: _atkSpeSpCtl,
+                onSpChanged: _syncAtkEvs,
+                attacker: true,
+              ),
+            ],
           ),
           const SizedBox(height: 10),
           // Move | Critical | × multiplier
@@ -792,8 +795,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             Expanded(child: _itemField(attacker: false)),
           ]),
           const SizedBox(height: 8),
-          // HP on its own row — label+SP+0/32 on the left, residual HP
-          // % control fills the right since HP has no nature or rank.
+          // HP on its own row — label+SP+flip on the left, residual HP
+          // slider fills the right since HP has no nature or rank.
           Row(
             children: [
               _statGroup(
@@ -809,20 +812,25 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             ],
           ),
           const SizedBox(height: 6),
-          _statGroup(
-            label: defLabel,
-            stat: defStat,
-            spCtl: defCtl,
-            onSpChanged: _syncDefEvs,
-            attacker: false,
-          ),
-          const SizedBox(height: 6),
-          _statGroup(
-            label: AppStrings.t('stat.speedShort'),
-            stat: _NatureStat.spe,
-            spCtl: _defSpeSpCtl,
-            onSpChanged: _syncDefEvs,
-            attacker: false,
+          // Def/SpD (auto by move) + Speed share one row.
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _statGroup(
+                label: defLabel,
+                stat: defStat,
+                spCtl: defCtl,
+                onSpChanged: _syncDefEvs,
+                attacker: false,
+              ),
+              _statGroup(
+                label: AppStrings.t('stat.speedShort'),
+                stat: _NatureStat.spe,
+                spCtl: _defSpeSpCtl,
+                onSpChanged: _syncDefEvs,
+                attacker: false,
+              ),
+            ],
           ),
         ],
       ),
