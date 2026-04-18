@@ -142,14 +142,17 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   // time so switching language reflects in the UI without re-loading.
   Map<String, Ability> _abilityDex = {};
   Map<String, Item> _itemDex = {};
-  // Legacy alias maps derived on render for the damage panel (which
-  // still takes plain string maps).
-  Map<String, String> get _abilityNames =>
-      {for (final e in _abilityDex.entries) e.key: e.value.localizedName};
-  Map<String, String> get _itemNames => {
-    for (final e in _itemDex.entries)
-      if (e.value.battle) e.key: e.value.localizedName,
-  };
+  // Pre-localized name maps + cached sorted ability lists per side.
+  // Rebuilt only when the dex loads, the species changes, or the
+  // parent bumps resetCounter (which it does on language change).
+  // Must not be getters — the panel rebuilds many times per keystroke
+  // and recomputing a 382/528-entry map inside a sort comparator
+  // stalls the UI thread.
+  Map<String, String> _abilityNames = const {};
+  Map<String, String> _itemNames = const {};
+  List<String> _itemKeys = const [];
+  List<String> _atkSortedAbilities = const [];
+  List<String> _defSortedAbilities = const [];
   final _atkAbilityCtl = TextEditingController();
   final _atkItemCtl = TextEditingController();
   final _defAbilityCtl = TextEditingController();
@@ -174,9 +177,50 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void didUpdateWidget(SimpleModeView old) {
     super.didUpdateWidget(old);
     // Re-sync local controllers whenever the parent tells us state was
-    // reset (via the resetCounter bump).
+    // reset (via the resetCounter bump). The parent also bumps this
+    // counter on language change, so this is when we refresh the
+    // localized ability/item name caches too.
     if (old.resetCounter != widget.resetCounter) {
+      _rebuildNameMaps();
+      _rebuildSortedAbilitiesFor(attacker: true);
+      _rebuildSortedAbilitiesFor(attacker: false);
       _hydrateFromState();
+    }
+  }
+
+  void _rebuildNameMaps() {
+    _abilityNames = {
+      for (final e in _abilityDex.entries) e.key: e.value.localizedName,
+    };
+    _itemNames = {
+      for (final e in _itemDex.entries)
+        if (e.value.battle) e.key: e.value.localizedName,
+    };
+    _itemKeys = _itemNames.keys.toList();
+  }
+
+  void _rebuildSortedAbilitiesFor({required bool attacker}) {
+    final state = attacker ? _atk : _def;
+    final own = <String>[];
+    for (final a in state.pokemonAbilities) {
+      if (a == 'Supreme Overlord') {
+        for (int i = 0; i <= 5; i++) {
+          final key = 'Supreme Overlord $i';
+          if (_abilityNames.containsKey(key)) own.add(key);
+        }
+      } else {
+        own.add(a);
+      }
+    }
+    final rest = _abilityNames.keys
+        .where((a) => !own.contains(a))
+        .toList()
+      ..sort((a, b) => (_abilityNames[a] ?? a).compareTo(_abilityNames[b] ?? b));
+    final combined = [...own, ...rest];
+    if (attacker) {
+      _atkSortedAbilities = combined;
+    } else {
+      _defSortedAbilities = combined;
     }
   }
 
@@ -234,6 +278,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     setState(() {
       _abilityDex = abilities;
       _itemDex = items;
+      _rebuildNameMaps();
+      _rebuildSortedAbilitiesFor(attacker: true);
+      _rebuildSortedAbilitiesFor(attacker: false);
       // Re-hydrate once the dex is ready so the typeahead text fields
       // display localized names instead of internal keys.
       _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
@@ -248,27 +295,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _abilityDex[key]?.localizedName ?? key;
   }
 
-  /// Abilities sorted to match Normal Mode: the current Pokemon's own
-  /// abilities come first (including Supreme Overlord's 0–5 variants),
-  /// then every other ability alphabetically by localized name.
-  List<String> _sortedAbilitiesFor(BattlePokemonState state) {
-    final own = <String>[];
-    for (final a in state.pokemonAbilities) {
-      if (a == 'Supreme Overlord') {
-        for (int i = 0; i <= 5; i++) {
-          final key = 'Supreme Overlord $i';
-          if (_abilityNames.containsKey(key)) own.add(key);
-        }
-      } else {
-        own.add(a);
-      }
-    }
-    final rest = _abilityNames.keys
-        .where((a) => !own.contains(a))
-        .toList()
-      ..sort((a, b) => (_abilityNames[a] ?? a).compareTo(_abilityNames[b] ?? b));
-    return [...own, ...rest];
-  }
 
   @override
   void dispose() {
@@ -302,6 +328,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       // Simple Mode: item always defaults to 없음 on species change
       // unless the new species literally requires one (e.g. Giratina-O).
       _atk.selectedItem = p.requiredItem;
+      _rebuildSortedAbilitiesFor(attacker: true);
       _atkAbilityCtl.text = _abilityNames[_atk.selectedAbility ?? ''] ?? '';
       _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
     });
@@ -312,6 +339,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     setState(() {
       _def.applyPokemon(p);
       _def.selectedItem = p.requiredItem;
+      _rebuildSortedAbilitiesFor(attacker: false);
       _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
       _defItemCtl.text = _itemDisplayText(_def.selectedItem);
     });
@@ -883,12 +911,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   Widget _abilityField({required bool attacker}) {
-    final state = attacker ? _atk : _def;
     final controller = attacker ? _atkAbilityCtl : _defAbilityCtl;
     final focus = attacker ? _atkAbilityFocus : _defAbilityFocus;
     // Pokemon's own abilities float to the top, full catalog below —
-    // same ordering Normal Mode uses.
-    final sorted = _sortedAbilitiesFor(state);
+    // same ordering Normal Mode uses. Precomputed cache; rebuilt only
+    // on species/language change.
+    final sorted = attacker ? _atkSortedAbilities : _defSortedAbilities;
 
     return buildTypeAhead<String>(
       controller: controller,
@@ -933,7 +961,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   Widget _itemField({required bool attacker}) {
     final controller = attacker ? _atkItemCtl : _defItemCtl;
     final focus = attacker ? _atkItemFocus : _defItemFocus;
-    final allItems = _itemNames.keys.toList();
+    final allItems = _itemKeys;
 
     return buildTypeAhead<String>(
       controller: controller,
