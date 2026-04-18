@@ -100,6 +100,23 @@ Nature _natureFromUpDown(_NatureStat? up, _NatureStat? down) {
   return table[(up, down)] ?? Nature.hardy;
 }
 
+/// Clamps the defender's remaining-HP input to 0-100 live.
+class _HpPercentFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue old, TextEditingValue newV) {
+    if (newV.text.isEmpty) return newV;
+    if (!RegExp(r'^\d+$').hasMatch(newV.text)) return old;
+    final parsed = int.parse(newV.text);
+    if (parsed > 100) {
+      return const TextEditingValue(
+        text: '100',
+        selection: TextSelection.collapsed(offset: 3),
+      );
+    }
+    return newV;
+  }
+}
+
 /// Accepts only 0-based integers up to [ChampionsMode.maxPerStat] (32).
 /// Clamps down on the fly, so typing '65' becomes '32' without having
 /// to wait for the onChanged handler to back-correct.
@@ -137,6 +154,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   final _defDefSpCtl = TextEditingController(text: '0');
   final _defSpdSpCtl = TextEditingController(text: '0');
   final _defSpeSpCtl = TextEditingController(text: '0');
+  // Remaining HP % for the defender (0–100). Exposed as a small text
+  // field in the HP row so the user can simulate residual HP.
+  final _defHpPctCtl = TextEditingController(text: '100');
 
   final _multCtl = TextEditingController(text: '1.0');
 
@@ -239,6 +259,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
     _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
     _defItemCtl.text = _itemDisplayText(_def.selectedItem);
+    _defHpPctCtl.text = '${_def.hpPercent}';
   }
 
   /// Reverse-map Nature → _NatureStat for the up slot.
@@ -278,6 +299,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
+                      _defHpPctCtl,
                       _multCtl, _atkAbilityCtl, _atkItemCtl,
                       _defAbilityCtl, _defItemCtl]) {
       c.dispose();
@@ -439,6 +461,126 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     widget.onChanged();
   }
 
+  /// Read current rank stage for [s] on the given side. HP is
+  /// rankless — always returns 0.
+  int _rankStage(BattlePokemonState state, _NatureStat s) {
+    switch (s) {
+      case _NatureStat.atk: return state.rank.attack;
+      case _NatureStat.def: return state.rank.defense;
+      case _NatureStat.spa: return state.rank.spAttack;
+      case _NatureStat.spd: return state.rank.spDefense;
+      case _NatureStat.spe: return state.rank.speed;
+      case _NatureStat.hp: return 0;
+    }
+  }
+
+  void _setRank(BattlePokemonState state, _NatureStat s, int value) {
+    setState(() {
+      switch (s) {
+        case _NatureStat.atk:
+          state.rank = state.rank.copyWith(attack: value); break;
+        case _NatureStat.def:
+          state.rank = state.rank.copyWith(defense: value); break;
+        case _NatureStat.spa:
+          state.rank = state.rank.copyWith(spAttack: value); break;
+        case _NatureStat.spd:
+          state.rank = state.rank.copyWith(spDefense: value); break;
+        case _NatureStat.spe:
+          state.rank = state.rank.copyWith(speed: value); break;
+        case _NatureStat.hp:
+          break;
+      }
+    });
+    widget.onChanged();
+  }
+
+  /// Compact rank chip: colorless "±" when at 0, colored `+N` / `-N`
+  /// otherwise. Taps open a ±6 picker popup.
+  Widget _rankChip(_NatureStat stat, {required bool attacker}) {
+    final state = attacker ? _atk : _def;
+    final value = _rankStage(state, stat);
+    final label = value == 0 ? '±' : (value > 0 ? '+$value' : '$value');
+    final Color color = value > 0
+        ? Colors.red
+        : value < 0
+            ? Colors.blue
+            : Colors.grey;
+    final active = value != 0;
+    return InkWell(
+      onTap: () => _showRankPicker(state, stat),
+      borderRadius: BorderRadius.circular(4),
+      child: Container(
+        width: 30, height: 28,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: active ? color.withValues(alpha: 0.18) : null,
+          border: Border.all(
+            color: active ? color : Colors.grey.withValues(alpha: 0.4),
+          ),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12, fontWeight: FontWeight.w700, color: color,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showRankPicker(BattlePokemonState state, _NatureStat stat) {
+    final current = _rankStage(state, stat);
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Wrap(
+            spacing: 6, runSpacing: 6,
+            children: [
+              for (int v = 6; v >= -6; v--)
+                InkWell(
+                  onTap: () {
+                    _setRank(state, stat, v);
+                    Navigator.pop(ctx);
+                  },
+                  child: Container(
+                    width: 44, height: 36,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: v == current
+                          ? (v > 0 ? Colors.red : v < 0 ? Colors.blue : Colors.grey)
+                              .withValues(alpha: 0.25)
+                          : null,
+                      border: Border.all(
+                        color: v == current
+                            ? (v > 0 ? Colors.red : v < 0 ? Colors.blue : Colors.grey)
+                            : Colors.grey.withValues(alpha: 0.4),
+                      ),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      v > 0 ? '+$v' : '$v',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: v > 0
+                            ? Colors.red
+                            : v < 0
+                                ? Colors.blue
+                                : Colors.grey.shade700,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -501,25 +643,22 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             Expanded(child: _itemField(attacker: true)),
           ]),
           const SizedBox(height: 8),
-          // Offensive stat (Atk↔SpA auto) + Speed on one compact row.
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _statGroup(
-                label: offLabel,
-                stat: offStat,
-                spCtl: offCtl,
-                onSpChanged: _syncAtkEvs,
-                attacker: true,
-              ),
-              _statGroup(
-                label: AppStrings.t('stat.speedShort'),
-                stat: _NatureStat.spe,
-                spCtl: _atkSpeSpCtl,
-                onSpChanged: _syncAtkEvs,
-                attacker: true,
-              ),
-            ],
+          // Offensive stat (Atk↔SpA auto) on its own row so the rank
+          // chip has room to sit at the end.
+          _statGroup(
+            label: offLabel,
+            stat: offStat,
+            spCtl: offCtl,
+            onSpChanged: _syncAtkEvs,
+            attacker: true,
+          ),
+          const SizedBox(height: 6),
+          _statGroup(
+            label: AppStrings.t('stat.speedShort'),
+            stat: _NatureStat.spe,
+            spCtl: _atkSpeSpCtl,
+            onSpChanged: _syncAtkEvs,
+            attacker: true,
           ),
           const SizedBox(height: 10),
           // Move | Critical | × multiplier
@@ -675,9 +814,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             Expanded(child: _itemField(attacker: false)),
           ]),
           const SizedBox(height: 8),
-          // HP + Def/SpD (auto by move) on one row.
+          // HP on its own row — label+SP+0/32 on the left, residual HP
+          // % control fills the right since HP has no nature or rank.
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _statGroup(
                 label: AppStrings.t('stat.hp'),
@@ -687,72 +826,60 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                 attacker: false,
                 canNature: false,
               ),
-              _statGroup(
-                label: defLabel,
-                stat: defStat,
-                spCtl: defCtl,
-                onSpChanged: _syncDefEvs,
-                attacker: false,
-              ),
+              const SizedBox(width: 10),
+              Expanded(child: _hpPercentField()),
             ],
           ),
           const SizedBox(height: 6),
-          // Speed + single reflect/light-screen toggle on the same row.
-          // Both screens are a flat 0.5x, so we just bind them together.
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _statGroup(
-                label: AppStrings.t('stat.speedShort'),
-                stat: _NatureStat.spe,
-                spCtl: _defSpeSpCtl,
-                onSpChanged: _syncDefEvs,
-                attacker: false,
-              ),
-              _screenCheck(
-                label: AppStrings.t('simple.screens'),
-                value: _def.reflect && _def.lightScreen,
-                onChanged: (v) {
-                  setState(() {
-                    _def.reflect = v;
-                    _def.lightScreen = v;
-                  });
-                  widget.onChanged();
-                },
-              ),
-            ],
+          _statGroup(
+            label: defLabel,
+            stat: defStat,
+            spCtl: defCtl,
+            onSpChanged: _syncDefEvs,
+            attacker: false,
+          ),
+          const SizedBox(height: 6),
+          _statGroup(
+            label: AppStrings.t('stat.speedShort'),
+            stat: _NatureStat.spe,
+            spCtl: _defSpeSpCtl,
+            onSpChanged: _syncDefEvs,
+            attacker: false,
           ),
         ],
       ),
     );
   }
 
-  Widget _screenCheck({
-    required String label,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return InkWell(
-      onTap: () => onChanged(!value),
-      borderRadius: BorderRadius.circular(4),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 22, height: 22,
-              child: Checkbox(
-                value: value,
-                onChanged: (v) => onChanged(v ?? false),
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-            const SizedBox(width: 6),
-            Text(label, style: const TextStyle(fontSize: 13)),
-          ],
+  Widget _hpPercentField() {
+    return SizedBox(
+      height: 30,
+      child: TextField(
+        controller: _defHpPctCtl,
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          _HpPercentFormatter(),
+        ],
+        style: const TextStyle(fontSize: 14),
+        decoration: const InputDecoration(
+          isDense: true,
+          isCollapsed: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+          suffixText: '%',
+          suffixStyle: TextStyle(fontSize: 11),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+          ),
         ),
+        onChanged: (text) {
+          final parsed = int.tryParse(text);
+          setState(() {
+            _def.hpPercent = (parsed ?? 100).clamp(0, 100);
+          });
+          widget.onChanged();
+        },
       ),
     );
   }
@@ -831,6 +958,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         if (canNature && stat != _NatureStat.hp) ...[
           const SizedBox(width: 2),
           _natureCycleChip(stat, attacker: attacker),
+        ],
+        if (stat != _NatureStat.hp) ...[
+          const SizedBox(width: 2),
+          _rankChip(stat, attacker: attacker),
         ],
       ],
     );
