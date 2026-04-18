@@ -756,9 +756,9 @@ class AppStrings {
       AppLanguage.ja: '後攻',
     },
     'note.spread': {
-      AppLanguage.ko: '분산 (×0.75)',
-      AppLanguage.en: 'Spread (×0.75)',
-      AppLanguage.ja: '複数対象 (×0.75)',
+      AppLanguage.ko: '분산',
+      AppLanguage.en: 'Spread',
+      AppLanguage.ja: '複数対象',
     },
     'note.abilityImmune': {
       AppLanguage.ko: '특성에 의해 무효',
