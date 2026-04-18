@@ -102,6 +102,12 @@ class _PokemonSelectorState extends State<PokemonSelector> {
       onSelected: (pokemon) {
         setState(() => _selected = pokemon);
         _controller.text = pokemon.localizedName;
+        // Move caret to the end so the field doesn't stay in a
+        // "select all" state after picking.
+        _controller.selection = TextSelection.collapsed(offset: _controller.text.length);
+        // Dismiss the on-screen keyboard — users expect mobile to
+        // collapse the keyboard after a typeahead pick.
+        FocusManager.instance.primaryFocus?.unfocus();
         widget.onSelected(pokemon);
       },
       onSubmittedPick: (text) {

@@ -218,6 +218,121 @@ class AppStrings {
       AppLanguage.en: 'Spe',
       AppLanguage.ja: 'すばやさ',
     },
+    'stat.hp': {
+      AppLanguage.ko: 'HP',
+      AppLanguage.en: 'HP',
+      AppLanguage.ja: 'HP',
+    },
+    'stat.speedShort': {
+      AppLanguage.ko: '스핏',
+      AppLanguage.en: 'Spe',
+      AppLanguage.ja: 'すば',
+    },
+    'simple.screens': {
+      AppLanguage.ko: '벽',
+      AppLanguage.en: 'Screens',
+      AppLanguage.ja: '壁',
+    },
+    'simple.natureNeutral': {
+      AppLanguage.ko: '무',
+      AppLanguage.en: '–',
+      AppLanguage.ja: '無',
+    },
+    'simple.announceTitle': {
+      AppLanguage.ko: '간단 모드가 기본이 되었습니다',
+      AppLanguage.en: 'Simple Mode is now the default',
+      AppLanguage.ja: 'かんたんモードが既定になりました',
+    },
+    'simple.announceBody': {
+      AppLanguage.ko: '기본 모드는 오른쪽 상단 메뉴(⋮)에서 전환할 수 있습니다.',
+      AppLanguage.en: 'Switch back to Normal Mode from the top-right menu (⋮).',
+      AppLanguage.ja: '通常モードは右上のメニュー(⋮)から切り替えられます。',
+    },
+    'simple.title': {
+      AppLanguage.ko: '간단 모드',
+      AppLanguage.en: 'Simple Mode',
+      AppLanguage.ja: 'かんたんモード',
+    },
+    'simple.menu': {
+      AppLanguage.ko: '간단 모드',
+      AppLanguage.en: 'Simple Mode',
+      AppLanguage.ja: 'かんたんモード',
+    },
+    'simple.backToNormal': {
+      AppLanguage.ko: '기본 모드',
+      AppLanguage.en: 'Normal Mode',
+      AppLanguage.ja: '通常モード',
+    },
+    'simple.natureUp': {
+      AppLanguage.ko: '성격 ↑',
+      AppLanguage.en: 'Nature ↑',
+      AppLanguage.ja: '性格 ↑',
+    },
+    'simple.natureDown': {
+      AppLanguage.ko: '성격 ↓',
+      AppLanguage.en: 'Nature ↓',
+      AppLanguage.ja: '性格 ↓',
+    },
+    'simple.multiplier': {
+      AppLanguage.ko: '추가 배수',
+      AppLanguage.en: 'Extra multiplier',
+      AppLanguage.ja: '追加倍率',
+    },
+    'simple.noMove': {
+      AppLanguage.ko: '기술을 선택하세요',
+      AppLanguage.en: 'Pick a move',
+      AppLanguage.ja: '技を選択',
+    },
+    'simple.atkFirst': {
+      AppLanguage.ko: '공격자 선공',
+      AppLanguage.en: 'Attacker moves first',
+      AppLanguage.ja: '攻撃側が先攻',
+    },
+    'simple.defFirst': {
+      AppLanguage.ko: '방어자 선공',
+      AppLanguage.en: 'Defender moves first',
+      AppLanguage.ja: '防御側が先攻',
+    },
+    'simple.atkFasterBy': {
+      AppLanguage.ko: '공격측이 방어측보다 {n} 빠름',
+      AppLanguage.en: 'Attacker is {n} faster than defender',
+      AppLanguage.ja: '攻撃側が防御側より {n} 速い',
+    },
+    'simple.defFasterBy': {
+      AppLanguage.ko: '방어측이 공격측보다 {n} 빠름',
+      AppLanguage.en: 'Defender is {n} faster than attacker',
+      AppLanguage.ja: '防御側が攻撃側より {n} 速い',
+    },
+    'simple.tiedSpeed': {
+      AppLanguage.ko: '스피드 동률',
+      AppLanguage.en: 'Speed tie',
+      AppLanguage.ja: 'すばやさ同値',
+    },
+    'simple.priorityFirst': {
+      AppLanguage.ko: '선공 기술',
+      AppLanguage.en: 'Priority move (first)',
+      AppLanguage.ja: '先制技',
+    },
+    'simple.priorityLast': {
+      AppLanguage.ko: '후공 기술',
+      AppLanguage.en: 'Priority move (last)',
+      AppLanguage.ja: '後攻技',
+    },
+    'simple.ohko': {
+      AppLanguage.ko: '1타 확정',
+      AppLanguage.en: 'Guaranteed OHKO',
+      AppLanguage.ja: '1発確定',
+    },
+    'simple.nhkoConfirmed': {
+      AppLanguage.ko: '{n}타 확정',
+      AppLanguage.en: 'Guaranteed {n}HKO',
+      AppLanguage.ja: '{n}発確定',
+    },
+    'simple.nhkoRange': {
+      AppLanguage.ko: '{min}~{max}타',
+      AppLanguage.en: '{min}-{max}HKO',
+      AppLanguage.ja: '{min}~{max}発',
+    },
     'stat.base': {
       AppLanguage.ko: '종족',
       AppLanguage.en: 'Base',

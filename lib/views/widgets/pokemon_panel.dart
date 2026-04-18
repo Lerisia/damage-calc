@@ -752,7 +752,7 @@ class PokemonPanelState extends State<PokemonPanel>
         width: 26,
         height: 26,
         child: CustomPaint(
-          painter: _DynamaxPainter(state: s.dynamax, isGmax: s.dynamax == DynamaxState.gigantamax),
+          painter: DynamaxPainter(state: s.dynamax, isGmax: s.dynamax == DynamaxState.gigantamax),
         ),
       ),
     );
@@ -814,7 +814,7 @@ class PokemonPanelState extends State<PokemonPanel>
         width: 26,
         height: 26,
         child: CustomPaint(
-          painter: _TerastalPainter(
+          painter: TerastalPainter(
             active: isActive,
             typeColor: isActive ? _typeColor(teraType) : Colors.grey.shade400,
           ),
@@ -1036,10 +1036,10 @@ class PokemonPanelState extends State<PokemonPanel>
 
 /// Dynamax icon: circle with radiating energy cross.
 /// Inactive: grey outline + faint arrow. Active: red/orange filled.
-class _DynamaxPainter extends CustomPainter {
+class DynamaxPainter extends CustomPainter {
   final DynamaxState state;
   final bool isGmax;
-  _DynamaxPainter({required this.state, required this.isGmax});
+  DynamaxPainter({required this.state, required this.isGmax});
 
   /// Build the Dynamax X silhouette inspired by the original logo.
   /// Features: narrow upper prongs, center horn, thick lower prongs.
@@ -1133,15 +1133,15 @@ class _DynamaxPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _DynamaxPainter old) => old.state != state || old.isGmax != isGmax;
+  bool shouldRepaint(covariant DynamaxPainter old) => old.state != state || old.isGmax != isGmax;
 }
 
 /// Terastal icon: hexagonal crystal with pointed vertices (star-hexagon).
 /// Inactive: grey outline. Active: filled with type color + facet lines.
-class _TerastalPainter extends CustomPainter {
+class TerastalPainter extends CustomPainter {
   final bool active;
   final Color typeColor;
-  _TerastalPainter({required this.active, required this.typeColor});
+  TerastalPainter({required this.active, required this.typeColor});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1178,7 +1178,7 @@ class _TerastalPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _TerastalPainter old) => old.active != active || old.typeColor != typeColor;
+  bool shouldRepaint(covariant TerastalPainter old) => old.active != active || old.typeColor != typeColor;
 }
 
 /// Stateful widget for power input that safely handles controller updates.

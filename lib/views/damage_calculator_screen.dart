@@ -15,6 +15,8 @@ import '../utils/image_saver.dart' as saver;
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
 import '../utils/ruin_effects.dart';
+import '../utils/simple_mode_controller.dart';
+import 'simple_mode_screen.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/korean_search.dart';
 import '../utils/speed_calculator.dart';
@@ -72,6 +74,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// Shared expansion state for the per-side "Doubles-only options"
   /// section — when the user expands one panel, the other also shows.
   bool _doublesExpanded = false;
+
+  /// When true, the normal tabs are replaced with the compact Simple
+  /// Mode view. Each mode owns its own per-side state and both stay
+  /// mounted (IndexedStack), so toggling back and forth preserves
+  /// inputs within a session. Battle environment is shared via the
+  /// top toolbar. Persisted across launches via [SimpleModeController].
+  bool _simpleMode = SimpleModeController.instance.isSimple.value;
 
   // Name of the sample currently loaded on each side (used to prefill the
   // save dialog so users can update presets in place). Cleared when the
@@ -255,6 +264,30 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadItems();
     _loadSpMode();
     _ensureDataCaches();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowSimpleModeAnnouncement());
+  }
+
+  /// One-shot "Simple Mode is now the default" dialog for existing
+  /// installs — shown after first frame so we're not fighting the
+  /// splash. Tracked via SimpleModeController's persistent flag so it
+  /// never fires twice on the same device.
+  Future<void> _maybeShowSimpleModeAnnouncement() async {
+    if (await SimpleModeController.instance.announcementShown()) return;
+    if (!mounted) return;
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('simple.announceTitle')),
+        content: Text(AppStrings.t('simple.announceBody')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.confirm')),
+          ),
+        ],
+      ),
+    );
+    await SimpleModeController.instance.markAnnouncementShown();
   }
 
   static const _spModeKey = 'use_sp_mode';
@@ -399,6 +432,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   // Singles/doubles toggle was removed — doubles features are always
   // available via the collapsed per-side "Doubles-only options" section.
+
+  /// Flip between Simple and Normal mode. Each mode's state is
+  /// independent and persisted in its own widget subtree (via
+  /// IndexedStack), so switching back and forth is lossless within a
+  /// session — no data migration needed.
+  void _toggleSimpleMode() {
+    final next = !_simpleMode;
+    setState(() => _simpleMode = next);
+    SimpleModeController.instance.setSimple(next);
+  }
 
   Future<void> _resetBothSides() async {
     final confirmed = await showDialog<bool>(
@@ -1191,11 +1234,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               _auraDropdown(toolbarFontSize),
               _ruinDropdown(toolbarFontSize),
               const Spacer(),
-              TextButton.icon(
-                onPressed: _swapSides,
-                icon: const Icon(Icons.swap_horiz),
-                label: Text(AppStrings.t('toolbar.swap'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              ),
+              if (!_simpleMode)
+                TextButton.icon(
+                  onPressed: _swapSides,
+                  icon: const Icon(Icons.swap_horiz),
+                  label: Text(AppStrings.t('toolbar.swap'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                ),
               TextButton.icon(
                 onPressed: _resetBothSides,
                 icon: const Icon(Icons.refresh),
@@ -1207,6 +1251,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               ),
               const Spacer(),
+              IconButton(
+                tooltip: AppStrings.t(_simpleMode ? 'simple.backToNormal' : 'simple.menu'),
+                icon: Icon(_simpleMode ? Icons.dashboard_outlined : Icons.bolt_outlined),
+                onPressed: _toggleSimpleMode,
+              ),
+              const SizedBox(width: 4),
               _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
               const SizedBox(width: 4),
               const _ThemeToggleButton(),
@@ -1235,10 +1285,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   child: _battleConditionsButton(),
                 ),
               ),
-              TextButton(
-                onPressed: _swapSides,
-                child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
-              ),
+              // Swap doesn't make sense in Simple Mode (there's no
+              // per-role configuration to swap), so it's hidden there.
+              if (!_simpleMode)
+                TextButton(
+                  onPressed: _swapSides,
+                  child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
+                ),
               TextButton(
                 onPressed: _resetBothSides,
                 child: Text(AppStrings.t('toolbar.reset'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
@@ -1248,6 +1301,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 tooltip: '',
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: 'simple',
+                    child: Row(children: [
+                      Icon(_simpleMode ? Icons.dashboard_outlined : Icons.bolt_outlined, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t(_simpleMode ? 'simple.backToNormal' : 'simple.menu')),
+                    ]),
+                  ),
                   PopupMenuItem(
                     value: 'language',
                     child: Row(children: [
@@ -1282,6 +1343,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ],
                 onSelected: (v) {
                   switch (v) {
+                    case 'simple':
+                      _toggleSimpleMode();
                     case 'language':
                       _showLanguageDialog();
                     case 'theme':
@@ -1297,7 +1360,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           ),
         ),
-        bottom: isWide
+        bottom: (isWide || _simpleMode)
             ? null
             : TabBar(
                 controller: _tabController,
@@ -1309,7 +1372,23 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ],
               ),
       ),
-      body: GestureDetector(
+      // Both mode bodies stay mounted via IndexedStack so each mode's
+      // inputs persist across toggles within a single app session.
+      body: IndexedStack(
+        index: _simpleMode ? 0 : 1,
+        children: [
+          SimpleModeView(
+            attacker: _attacker,
+            defender: _defender,
+            weather: _weather,
+            terrain: _terrain,
+            room: _room,
+            auras: _auras,
+            ruins: _ruins,
+            resetCounter: _resetCounter,
+            onChanged: _onPanelChanged,
+          ),
+          GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
         child: LayoutBuilder(
@@ -1334,6 +1413,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           return _buildNarrowLayout();
         },
       )),
+        ],
+      ),
     );
   }
 

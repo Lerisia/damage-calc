@@ -200,6 +200,8 @@ class _MoveSelectorState extends State<MoveSelector> {
       onSelected: (move) {
         setState(() => _selected = move);
         _controller.text = move.localizedName;
+        _controller.selection = TextSelection.collapsed(offset: _controller.text.length);
+        FocusManager.instance.primaryFocus?.unfocus();
         widget.onSelected(move);
       },
       maxHeight: 200,
