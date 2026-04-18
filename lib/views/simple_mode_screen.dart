@@ -100,23 +100,6 @@ Nature _natureFromUpDown(_NatureStat? up, _NatureStat? down) {
   return table[(up, down)] ?? Nature.hardy;
 }
 
-/// Clamps the defender's remaining-HP input to 0-100 live.
-class _HpPercentFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue old, TextEditingValue newV) {
-    if (newV.text.isEmpty) return newV;
-    if (!RegExp(r'^\d+$').hasMatch(newV.text)) return old;
-    final parsed = int.parse(newV.text);
-    if (parsed > 100) {
-      return const TextEditingValue(
-        text: '100',
-        selection: TextSelection.collapsed(offset: 3),
-      );
-    }
-    return newV;
-  }
-}
-
 /// Accepts only 0-based integers up to [ChampionsMode.maxPerStat] (32).
 /// Clamps down on the fly, so typing '65' becomes '32' without having
 /// to wait for the onChanged handler to back-correct.
@@ -154,9 +137,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   final _defDefSpCtl = TextEditingController(text: '0');
   final _defSpdSpCtl = TextEditingController(text: '0');
   final _defSpeSpCtl = TextEditingController(text: '0');
-  // Remaining HP % for the defender (0–100). Exposed as a small text
-  // field in the HP row so the user can simulate residual HP.
-  final _defHpPctCtl = TextEditingController(text: '100');
 
   final _multCtl = TextEditingController(text: '1.0');
 
@@ -259,7 +239,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
     _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
     _defItemCtl.text = _itemDisplayText(_def.selectedItem);
-    _defHpPctCtl.text = '${_def.hpPercent}';
   }
 
   /// Reverse-map Nature → _NatureStat for the up slot.
@@ -299,7 +278,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
-                      _defHpPctCtl,
                       _multCtl, _atkAbilityCtl, _atkItemCtl,
                       _defAbilityCtl, _defItemCtl]) {
       c.dispose();
@@ -852,35 +830,45 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   Widget _hpPercentField() {
-    return SizedBox(
-      height: 30,
-      child: TextField(
-        controller: _defHpPctCtl,
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          _HpPercentFormatter(),
-        ],
-        style: const TextStyle(fontSize: 14),
-        decoration: const InputDecoration(
-          isDense: true,
-          isCollapsed: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-          suffixText: '%',
-          suffixStyle: TextStyle(fontSize: 11),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
+    final pct = _def.hpPercent;
+    // Tint the slider green → orange → red as HP drops, to match
+    // what players see in-game at a glance.
+    final Color color = pct >= 50
+        ? Colors.green
+        : pct >= 20
+            ? Colors.orange
+            : Colors.red;
+    return Row(
+      children: [
+        Expanded(
+          child: SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: 6,
+              overlayShape: SliderComponentShape.noOverlay,
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+              activeTrackColor: color,
+              inactiveTrackColor: color.withValues(alpha: 0.25),
+              thumbColor: color,
+            ),
+            child: Slider(
+              value: pct.toDouble(),
+              min: 0, max: 100, divisions: 100,
+              onChanged: (v) {
+                setState(() => _def.hpPercent = v.round());
+                widget.onChanged();
+              },
+            ),
           ),
         ),
-        onChanged: (text) {
-          final parsed = int.tryParse(text);
-          setState(() {
-            _def.hpPercent = (parsed ?? 100).clamp(0, 100);
-          });
-          widget.onChanged();
-        },
-      ),
+        SizedBox(
+          width: 38,
+          child: Text(
+            '$pct%',
+            textAlign: TextAlign.right,
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
     );
   }
 
