@@ -1372,23 +1372,25 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ],
               ),
       ),
-      // Both mode bodies stay mounted via IndexedStack so each mode's
-      // inputs persist across toggles within a single app session.
-      body: IndexedStack(
-        index: _simpleMode ? 0 : 1,
-        children: [
-          SimpleModeView(
-            attacker: _attacker,
-            defender: _defender,
-            weather: _weather,
-            terrain: _terrain,
-            room: _room,
-            auras: _auras,
-            ruins: _ruins,
-            resetCounter: _resetCounter,
-            onChanged: _onPanelChanged,
-          ),
-          GestureDetector(
+      // Only the active mode's subtree is mounted — IndexedStack kept
+      // both laid out, which on iOS made the keyboard animation feel
+      // sluggish because every viewInsets change re-laid out both
+      // normal and simple subtrees. State still persists because the
+      // attacker/defender BattlePokemonState live on this parent and
+      // Simple Mode re-hydrates its controllers from them on init.
+      body: _simpleMode
+          ? SimpleModeView(
+              attacker: _attacker,
+              defender: _defender,
+              weather: _weather,
+              terrain: _terrain,
+              room: _room,
+              auras: _auras,
+              ruins: _ruins,
+              resetCounter: _resetCounter,
+              onChanged: _onPanelChanged,
+            )
+          : GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
         child: LayoutBuilder(
@@ -1413,8 +1415,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           return _buildNarrowLayout();
         },
       )),
-        ],
-      ),
     );
   }
 
