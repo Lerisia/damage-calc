@@ -747,6 +747,42 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   /// Wide layout: individual weather dropdown (extracted from old inline code)
+  Widget _formatDropdown(double fontSize) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: DoublesController.instance.isDoubles,
+      builder: (_, isDoubles, __) {
+        final label = AppStrings.t(isDoubles ? 'battle.doubles' : 'battle.singles');
+        return PopupMenuButton<bool>(
+          initialValue: isDoubles,
+          tooltip: AppStrings.t('battle.format'),
+          popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                const Icon(Icons.arrow_drop_down, size: 16),
+              ],
+            ),
+          ),
+          itemBuilder: (_) => [
+            PopupMenuItem(value: false, child: Text(AppStrings.t('battle.singles'))),
+            PopupMenuItem(value: true, child: Text(AppStrings.t('battle.doubles'))),
+          ],
+          onSelected: (v) => DoublesController.instance.setDoubles(v),
+        );
+      },
+    );
+  }
+
   Widget _weatherDropdown(double fontSize) {
     return PopupMenuButton<Weather>(
       initialValue: _weather,
@@ -877,6 +913,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           children: [
             if (isWide) ...[
               // Wide: keep separate dropdowns
+              _formatDropdown(toolbarFontSize),
               _weatherDropdown(toolbarFontSize),
               _terrainDropdown(toolbarFontSize),
               _roomDropdown(toolbarFontSize),
