@@ -396,7 +396,7 @@ class PokemonPanelState extends State<PokemonPanel>
           SizedBox(width: 32, child: Text(AppStrings.t('move.category'), style: style, textAlign: TextAlign.center)),
           SizedBox(width: 44, child: Text(AppStrings.t('move.power'), style: style, textAlign: TextAlign.center)),
           SizedBox(width: 28, child: Text(AppStrings.t('move.critical'), style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 28, child: Center(child: SizedBox(width: 14, height: 14, child: CustomPaint(painter: _ZLogoPainter())))),
+          SizedBox(width: 28, child: Center(child: SizedBox(width: 14, height: 14, child: CustomPaint(painter: _ZLogoPainter(color: Theme.of(context).colorScheme.onSurface))))),
           SizedBox(width: 60, child: Text(AppStrings.t('move.offensive'), style: style, textAlign: TextAlign.right)),
         ],
       ),
@@ -1142,10 +1142,13 @@ class _PowerInputState extends State<_PowerInput> {
 /// Angular Z logo inspired by Z-Move crystal mark.
 /// Sharp pointed Z with top stroke extending right and bottom stroke extending left.
 class _ZLogoPainter extends CustomPainter {
+  _ZLogoPainter({required this.color});
+  final Color color;
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black
+      ..color = color
       ..style = PaintingStyle.fill;
 
     final w = size.width;
