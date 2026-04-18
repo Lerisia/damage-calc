@@ -87,6 +87,21 @@ class AppStrings {
       AppLanguage.en: 'Theme',
       AppLanguage.ja: 'テーマ',
     },
+    'battle.format': {
+      AppLanguage.ko: '배틀 형식',
+      AppLanguage.en: 'Battle format',
+      AppLanguage.ja: 'バトル形式',
+    },
+    'battle.singles': {
+      AppLanguage.ko: '싱글',
+      AppLanguage.en: 'Singles',
+      AppLanguage.ja: 'シングル',
+    },
+    'battle.doubles': {
+      AppLanguage.ko: '더블',
+      AppLanguage.en: 'Doubles',
+      AppLanguage.ja: 'ダブル',
+    },
     'app.themeLight': {
       AppLanguage.ko: '라이트 모드',
       AppLanguage.en: 'Light mode',

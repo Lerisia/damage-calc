@@ -10,6 +10,7 @@ import '../data/sample_storage.dart';
 import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
+import '../utils/doubles_controller.dart';
 import '../utils/theme_controller.dart';
 import '../utils/image_saver.dart' as saver;
 import '../utils/battle_facade.dart';
@@ -569,6 +570,42 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Battle format (exclusive singles/doubles — can't be unchecked)
+                Text(AppStrings.t('battle.format'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                ValueListenableBuilder<bool>(
+                  valueListenable: DoublesController.instance.isDoubles,
+                  builder: (_, isDoubles, __) => Wrap(
+                    spacing: 4,
+                    children: [
+                      ChoiceChip(
+                        showCheckmark: false,
+                        label: Text(AppStrings.t('battle.singles'), style: const TextStyle(fontSize: 13)),
+                        selected: !isDoubles,
+                        onSelected: (_) {
+                          // Exclusive: tapping does nothing if already selected.
+                          if (isDoubles) {
+                            DoublesController.instance.setDoubles(false);
+                            setDialogState(() {});
+                          }
+                        },
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      ChoiceChip(
+                        showCheckmark: false,
+                        label: Text(AppStrings.t('battle.doubles'), style: const TextStyle(fontSize: 13)),
+                        selected: isDoubles,
+                        onSelected: (_) {
+                          if (!isDoubles) {
+                            DoublesController.instance.setDoubles(true);
+                            setDialogState(() {});
+                          }
+                        },
+                        visualDensity: VisualDensity.compact,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
                 // Weather (radio - single select)
                 Text(AppStrings.t('toolbar.weather'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 Wrap(
