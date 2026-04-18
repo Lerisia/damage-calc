@@ -9951,7 +9951,8 @@ _.c=_.a=null},
 auL:function auL(a){this.a=a},
 auN:function auN(a){this.a=a},
 auM:function auM(a){this.a=a},
-a0h:function a0h(a){this.a=a},
+a0h:function a0h(a,b){this.b=a
+this.a=b},
 Xq:function Xq(){},
 vp:function vp(a,b,c){this.c=a
 this.d=b
@@ -48728,7 +48729,7 @@ r=b3.a
 if(r.y){r=A.T("section.moves")
 q=A.W(b5).ok.Q
 b0=q==null?b4:q.bK(B.bl)
-q=A.b([new A.aW(B.eQ,A.bS(A.b([A.bz(A.Y(A.T("move.name"),b4,b4,b4,b4,b0,b4,b4),3),A.bW(A.Y(A.T("move.type"),b4,b4,b4,b4,b0,B.ad,b4),b4,40),A.bW(A.Y(A.T("move.category"),b4,b4,b4,b4,b0,B.ad,b4),b4,32),A.bW(A.Y(A.T("move.power"),b4,b4,b4,b4,b0,B.ad,b4),b4,44),A.bW(A.Y(A.T("move.critical"),b4,b4,b4,b4,b0,B.ad,b4),b4,28),A.bW(A.f7(A.bW(A.hf(b4,b4,b4,new A.a0h(b4),B.C),14,14),b4,b4),b4,28),A.bW(A.Y(A.T("move.offensive"),b4,b4,b4,b4,b0,B.dF,b4),b4,60)],m),B.x,b4,B.u,B.B,0),b4),B.hb,B.nW],m)
+q=A.b([new A.aW(B.eQ,A.bS(A.b([A.bz(A.Y(A.T("move.name"),b4,b4,b4,b4,b0,b4,b4),3),A.bW(A.Y(A.T("move.type"),b4,b4,b4,b4,b0,B.ad,b4),b4,40),A.bW(A.Y(A.T("move.category"),b4,b4,b4,b4,b0,B.ad,b4),b4,32),A.bW(A.Y(A.T("move.power"),b4,b4,b4,b4,b0,B.ad,b4),b4,44),A.bW(A.Y(A.T("move.critical"),b4,b4,b4,b4,b0,B.ad,b4),b4,28),A.bW(A.f7(A.bW(A.hf(b4,b4,b4,new A.a0h(A.W(b5).ax.k3,b4),B.C),14,14),b4,b4),b4,28),A.bW(A.Y(A.T("move.offensive"),b4,b4,b4,b4,b0,B.dF,b4),b4,60)],m),B.x,b4,B.u,B.B,0),b4),B.hb,B.nW],m)
 for(b1=0;b1<4;++b1){o=A.b([],m)
 if(b1>0)o.push(B.nW)
 o.push(b3.afZ(b1))
@@ -49324,7 +49325,7 @@ s.aur(r)}else if(a.length===0)this.a.a.w.$0()},
 $S:11}
 A.a0h.prototype={
 aE(a,b){var s,r,q,p,o=$.a6(),n=A.aR()
-n.r=B.o.gt(0)
+n.r=this.b.gt(0)
 n.b=B.bb
 s=b.a
 r=b.b
