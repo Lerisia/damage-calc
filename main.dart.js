@@ -49391,7 +49391,7 @@ $3(a,b,c){var s,r
 if(!b)return B.aJ
 s=this.a
 r=A.N("section.doubles")
-return s.GL(A.wT(A.b([s.lj(A.N("damage.spread"),s.a.c.rx,new A.aek(s)),s.lj(A.N("damage.helpingHand"),s.a.c.ry,new A.ael(s)),s.lj(A.N("damage.allyPowerSpot"),s.a.c.to,new A.aem(s)),s.lj(A.N("damage.allyBattery"),s.a.c.x1,new A.aen(s)),s.lj(A.N("damage.allyFlowerGift"),s.a.c.xr,new A.aeo(s)),s.lj(A.N("damage.allyPlusMinus"),s.a.c.y1,new A.aep(s)),s.lj(A.N("damage.allyAuraBreak"),s.a.c.N,new A.aeq(s)),s.lj(A.N("damage.allyFairyAura"),s.a.c.y2,new A.aer(s)),s.lj(A.N("damage.allyDarkAura"),s.a.c.M,new A.aes(s))],t.p),4,12),r)},
+return s.GL(A.wT(A.b([s.lj(A.N("damage.spread"),s.a.c.rx,new A.aek(s)),s.lj(A.N("damage.helpingHand"),s.a.c.ry,new A.ael(s)),s.lj(A.N("damage.allyPowerSpot"),s.a.c.to,new A.aem(s)),s.lj(A.N("damage.allyBattery"),s.a.c.x1,new A.aen(s)),s.lj(A.N("damage.allyFlowerGift"),s.a.c.xr,new A.aeo(s)),s.lj(A.N("damage.allyPlusMinus"),s.a.c.y1,new A.aep(s)),s.lj(A.N("damage.allyFairyAura"),s.a.c.y2,new A.aeq(s)),s.lj(A.N("damage.allyDarkAura"),s.a.c.M,new A.aer(s)),s.lj(A.N("damage.allyAuraBreak"),s.a.c.N,new A.aes(s))],t.p),4,12),r)},
 $S:526}
 A.aek.prototype={
 $1(a){var s=this.a
@@ -49453,7 +49453,7 @@ s.L(new A.aed(s,a))},
 $S:5}
 A.aed.prototype={
 $0(){var s=this.a.a
-s.c.N=this.b
+s.c.y2=this.b
 s.c2()},
 $S:0}
 A.aer.prototype={
@@ -49462,7 +49462,7 @@ s.L(new A.aec(s,a))},
 $S:5}
 A.aec.prototype={
 $0(){var s=this.a.a
-s.c.y2=this.b
+s.c.M=this.b
 s.c2()},
 $S:0}
 A.aes.prototype={
@@ -49471,7 +49471,7 @@ s.L(new A.aeb(s,a))},
 $S:5}
 A.aeb.prototype={
 $0(){var s=this.a.a
-s.c.M=this.b
+s.c.N=this.b
 s.c2()},
 $S:0}
 A.aea.prototype={
