@@ -78,7 +78,8 @@
     "accuracy": 85,
     "pp": 10,
     "tags": [
-      "pulse"
+      "pulse",
+      "custom:spread"
     ],
     "nameEn": "Origin Pulse",
     "zPower": 185
@@ -93,7 +94,9 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "wind"
+      "wind",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Petal Blizzard",
     "zPower": 175
@@ -167,7 +170,8 @@
     "accuracy": 95,
     "pp": 5,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Diamond Storm",
     "zPower": 180
@@ -181,7 +185,9 @@
     "power": 120,
     "accuracy": 85,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Precipice Blades",
     "zPower": 190
   },
@@ -276,7 +282,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Dazzling Gleam",
     "zPower": 160
   },
@@ -419,7 +427,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary",
-      "custom:thousand_arrows"
+      "custom:thousand_arrows",
+      "custom:spread"
     ],
     "nameEn": "Thousand Arrows",
     "zPower": 180
@@ -433,7 +442,9 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Thousand Waves",
     "zPower": 175
   },
@@ -604,7 +615,8 @@
     "accuracy": 0,
     "pp": 15,
     "tags": [
-      "sound"
+      "sound",
+      "custom:spread"
     ],
     "nameEn": "Disarming Voice",
     "zPower": 100
@@ -710,7 +722,10 @@
     "power": 65,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "custom:spread",
+      "custom:spread_hits_ally"
+    ],
     "nameEn": "Parabolic Charge",
     "zPower": 120
   },
@@ -749,7 +764,9 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Boomburst",
     "zPower": 200

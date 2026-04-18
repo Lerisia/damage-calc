@@ -81,7 +81,10 @@
     "power": 150,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:spread",
+      "custom:spread_hits_ally"
+    ],
     "nameEn": "Mind Blown",
     "zPower": 200
   },
@@ -495,7 +498,9 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Sparkling Aria",
     "zPower": 175
@@ -792,7 +797,9 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "contact"
+      "contact",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Brutal Swing",
     "zPower": 120
@@ -869,7 +876,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary",
-      "sound"
+      "sound",
+      "custom:spread"
     ],
     "nameEn": "Clanging Scales",
     "zPower": 185
@@ -1379,7 +1387,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Splishy Splash",
     "zPower": 175
@@ -1434,7 +1443,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Core Enforcer",
     "zPower": 140
   },
@@ -1489,7 +1500,9 @@
     "power": 150,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Shell Trap",
     "zPower": 200
   },

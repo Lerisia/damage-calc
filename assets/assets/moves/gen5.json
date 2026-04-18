@@ -267,7 +267,9 @@
     "pp": 20,
     "tags": [
       "custom:has_secondary",
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Bulldoze",
     "zPower": 120
@@ -400,7 +402,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary",
-      "sound"
+      "sound",
+      "custom:spread"
     ],
     "nameEn": "Snarl",
     "zPower": 100
@@ -431,7 +434,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Struggle Bug",
     "zPower": 100
@@ -556,7 +560,9 @@
     "power": 60,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Incinerate",
     "zPower": 120
   },
@@ -731,7 +737,10 @@
     "power": 120,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:spread",
+      "custom:spread_hits_ally"
+    ],
     "nameEn": "Synchronoise",
     "zPower": 190
   },
@@ -824,7 +833,8 @@
     "accuracy": 95,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Glaciate",
     "aliases": [
@@ -920,7 +930,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary",
-      "sound"
+      "sound",
+      "custom:spread"
     ],
     "nameEn": "Relic Song",
     "zPower": 140
@@ -935,7 +946,9 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Sludge Wave",
     "zPower": 175
@@ -1024,7 +1037,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Electroweb",
     "zPower": 100
@@ -1312,7 +1326,9 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary",
-      "ball"
+      "ball",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Searing Shot",
     "zPower": 180

@@ -390,7 +390,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Make It Rain",
     "zPower": 190
   },
@@ -403,7 +405,9 @@
     "power": 80,
     "accuracy": 90,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Matcha Gotcha",
     "zPower": 160
   },
@@ -417,7 +421,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "contact"
+      "contact",
+      "custom:spread"
     ],
     "nameEn": "Mortal Spin",
     "zPower": 100

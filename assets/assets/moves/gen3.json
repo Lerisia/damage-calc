@@ -631,7 +631,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:hp_power_high"
+      "custom:hp_power_high",
+      "custom:spread"
     ],
     "nameEn": "Eruption",
     "zPower": 200
@@ -970,7 +971,8 @@
     "pp": 25,
     "tags": [
       "slice",
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Air Cutter",
     "aliases": [
@@ -1001,7 +1003,8 @@
     "pp": 10,
     "tags": [
       "custom:has_secondary",
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Heat Wave",
     "zPower": 175
@@ -1250,7 +1253,8 @@
     "accuracy": 85,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Muddy Water",
     "zPower": 175
@@ -1420,7 +1424,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:spread"
     ],
     "nameEn": "Hyper Voice",
     "zPower": 175
@@ -1447,7 +1452,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:hp_power_high"
+      "custom:hp_power_high",
+      "custom:spread"
     ],
     "nameEn": "Water Spout",
     "aliases": [
