@@ -1156,6 +1156,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentHpPercent: isAttacker
                 ? _defender.hpPercent
                 : _attacker.hpPercent,
+            opponentItem: isAttacker
+                ? _defender.selectedItem
+                : _attacker.selectedItem,
             useSpMode: _useSpMode,
             onSpModeChanged: _setSpMode,
           );
@@ -1175,6 +1178,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       opponentGender: _defender.gender,
       opponentWeight: BattleFacade.effectiveWeight(_defender),
       opponentHpPercent: _defender.hpPercent,
+      opponentItem: _defender.selectedItem,
     );
   }
 

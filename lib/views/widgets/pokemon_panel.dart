@@ -42,6 +42,7 @@ class PokemonPanel extends StatefulWidget {
   final Gender? opponentGender;
   final double? opponentWeight;
   final int? opponentHpPercent;
+  final String? opponentItem;
   final VoidCallback? onSave;
   final VoidCallback? onLoad;
   final VoidCallback? onReset;
@@ -65,6 +66,7 @@ class PokemonPanel extends StatefulWidget {
     this.opponentSpDefense,
     this.opponentWeight,
     this.opponentHpPercent,
+    this.opponentItem,
     this.opponentGender,
     this.onSave,
     this.onLoad,
@@ -419,6 +421,7 @@ class PokemonPanelState extends State<PokemonPanel>
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: widget.opponentWeight,
       opponentHpPercent: widget.opponentHpPercent,
+      opponentItem: widget.opponentItem,
       attackerGrounded: isGrounded(
         type1: s.type1, type2: s.type2,
         ability: s.selectedAbility, item: s.selectedItem,

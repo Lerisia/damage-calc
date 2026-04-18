@@ -10,6 +10,7 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart' show isParentalBondEligible, isParentalBondFixedFullPower;
+import 'damage_calculator.dart' show isUnremovableItem, kKnockOffBoost;
 
 /// Which stat the move should use for offense
 enum OffensiveStat {
@@ -61,6 +62,9 @@ class MoveContext {
   /// User's held item name (for Judgment, Multi-Attack).
   final String? heldItem;
 
+  /// Opponent's held item name (for Knock Off power boost).
+  final String? opponentItem;
+
   /// Hit count for multi-hit moves (user override or maxHits).
   final int? hitCount;
 
@@ -96,6 +100,7 @@ class MoveContext {
     this.opponentWeight,
     this.userType1,
     this.heldItem,
+    this.opponentItem,
     this.hitCount,
     this.opponentHpPercent,
     this.zMove = false,
@@ -246,6 +251,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
   move = _applyTurnOrderPower(move, context.mySpeed, context.opponentSpeed);
   move = _applyWeightPower(move, context.myWeight, context.opponentWeight);
   move = _applyTargetHpPower(move, context.opponentHpPercent);
+  move = _applyKnockOff(move, context.opponentItem);
 
   // 4. Field-based power boosts
   move = _applyTerrainPowerBoost(move, context.terrain,
@@ -554,6 +560,14 @@ Move _applyWeightPower(Move move, double? myWeight, double? opponentWeight) {
   }
 
   return move;
+}
+
+/// Knock Off: 1.5× power when the target holds a removable item.
+Move _applyKnockOff(Move move, String? opponentItem) {
+  if (!move.hasTag(MoveTags.knockOff)) return move;
+  if (opponentItem == null) return move;
+  if (isUnremovableItem(opponentItem)) return move;
+  return move.copyWith(power: (move.power * kKnockOffBoost).floor());
 }
 
 /// Target-HP-based power: Crush Grip / Wring Out (120×), Hard Press (100×)

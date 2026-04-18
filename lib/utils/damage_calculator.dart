@@ -200,7 +200,7 @@ class DamageResult {
 /// Takes [BattlePokemonState] for both sides and battle conditions.
 
 /// Items that can't be removed by Knock Off (no power boost).
-bool _isUnremovableItem(String itemName) {
+bool isUnremovableItem(String itemName) {
   // Z-Crystals
   if (itemName.endsWith('--held')) return true;
   // Mega stones
@@ -315,6 +315,7 @@ class DamageCalculator {
       myWeight: BattleFacade.effectiveWeight(attacker),
       opponentWeight: BattleFacade.effectiveWeight(defender),
       opponentHpPercent: defender.hpPercent,
+      opponentItem: defender.selectedItem,
       userType1: attacker.type1,
       heldItem: attacker.selectedItem,
       hitCount: null, // multi-hit handled after damage calc for per-hit random
@@ -903,13 +904,11 @@ class DamageCalculator {
     // --- Move-specific power modifiers based on defender state ---
     double movePowerMod = 1.0;
 
-    if (effectiveMove.hasTag(MoveTags.knockOff) && defender.selectedItem != null) {
-      final defItem = defender.selectedItem!;
-      final bool isFixedItem = _isUnremovableItem(defItem);
-      if (!isFixedItem) {
-        movePowerMod = kKnockOffBoost;
-        notes.add('move:knock_off:×$kKnockOffBoost');
-      }
+    // Knock Off power boost is applied via move_transform (so the display
+    // shows the boosted power). Here we only emit the note.
+    if (effectiveMove.hasTag(MoveTags.knockOff) && defender.selectedItem != null &&
+        !isUnremovableItem(defender.selectedItem!)) {
+      notes.add('move:knock_off:×$kKnockOffBoost');
     }
     if (effectiveMove.hasTag(MoveTags.doubleOnStatus) && defender.status != StatusCondition.none) {
       movePowerMod *= kDoubleMovePower;

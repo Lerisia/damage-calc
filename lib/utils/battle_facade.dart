@@ -157,6 +157,7 @@ class BattleFacade {
     int? myEffectiveSpeed,
     double? opponentWeight,
     int? opponentHpPercent,
+    String? opponentItem,
     bool attackerGrounded = true,
     bool defenderGrounded = true,
   }) {
@@ -183,6 +184,7 @@ class BattleFacade {
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
       opponentHpPercent: opponentHpPercent,
+      opponentItem: opponentItem,
       hitCount: hits,
       gravity: room.gravity,
       attackerGrounded: attackerGrounded,
@@ -246,6 +248,7 @@ class BattleFacade {
       attackerGrounded: attackerGrounded,
       defenderGrounded: defenderGrounded,
       opponentHpPercent: opponentHpPercent,
+      opponentItem: opponentItem,
       zMove: state.zMoves[moveIndex],
     );
 
@@ -290,6 +293,7 @@ class BattleFacade {
     int? myEffectiveSpeed,
     double? opponentWeight,
     int? opponentHpPercent,
+    String? opponentItem,
   }) {
     final move = state.moves[moveIndex];
     final hits = move != null && move.isMultiHit
@@ -310,6 +314,7 @@ class BattleFacade {
       myEffectiveSpeed: myEffectiveSpeed,
       opponentWeight: opponentWeight,
       opponentHpPercent: opponentHpPercent,
+      opponentItem: opponentItem,
       hitCount: hits,
       zMove: state.zMoves[moveIndex],
     );
@@ -331,6 +336,7 @@ class BattleFacade {
     int? myEffectiveSpeed,
     double? opponentWeight,
     int? opponentHpPercent,
+    String? opponentItem,
     int? hitCount,
     bool attackerGrounded = true,
     bool defenderGrounded = true,
@@ -368,6 +374,7 @@ class BattleFacade {
       opponentSpeed: opponentSpeed,
       opponentWeight: opponentWeight,
       opponentHpPercent: opponentHpPercent,
+      opponentItem: opponentItem,
       hitCount: hitCount,
       gravity: room.gravity,
       attackerGrounded: attackerGrounded,
@@ -540,6 +547,7 @@ class BattleFacade {
     int? opponentSpeed,
     double? opponentWeight,
     int? opponentHpPercent,
+    String? opponentItem,
     int? hitCount,
     bool gravity = false,
     bool attackerGrounded = true,
@@ -578,6 +586,7 @@ class BattleFacade {
       myWeight: effectiveWeight(state),
       opponentWeight: opponentWeight,
       opponentHpPercent: opponentHpPercent,
+      opponentItem: opponentItem,
       userType1: state.type1,
       heldItem: state.selectedItem,
       hitCount: hitCount,
