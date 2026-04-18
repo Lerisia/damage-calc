@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../data/abilitydex.dart';
-import '../data/itemdex.dart';
-import '../models/ability.dart';
-import '../models/item.dart';
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
 import '../models/nature.dart';
@@ -45,6 +41,10 @@ class SimpleModeView extends StatefulWidget {
   final RuinToggles ruins;
   final int resetCounter;
   final VoidCallback onChanged;
+  /// Localized ability/item name maps, owned and cached by the parent
+  /// screen. Simple Mode reuses them as-is — no separate dex load.
+  final Map<String, String> abilityNameMap;
+  final Map<String, String> itemNameMap;
 
   const SimpleModeView({
     super.key,
@@ -57,6 +57,8 @@ class SimpleModeView extends StatefulWidget {
     required this.ruins,
     required this.resetCounter,
     required this.onChanged,
+    required this.abilityNameMap,
+    required this.itemNameMap,
   });
 
   @override
@@ -138,18 +140,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   final _multCtl = TextEditingController(text: '1.0');
 
-  // Cache the raw dex objects — we call `.localizedName` at render
-  // time so switching language reflects in the UI without re-loading.
-  Map<String, Ability> _abilityDex = {};
-  Map<String, Item> _itemDex = {};
-  // Pre-localized name maps + cached sorted ability lists per side.
-  // Rebuilt only when the dex loads, the species changes, or the
-  // parent bumps resetCounter (which it does on language change).
-  // Must not be getters — the panel rebuilds many times per keystroke
-  // and recomputing a 382/528-entry map inside a sort comparator
-  // stalls the UI thread.
-  Map<String, String> _abilityNames = const {};
-  Map<String, String> _itemNames = const {};
+  // Parent-owned localized name maps (shared with Normal Mode — one
+  // copy per screen, not per panel). Access via these getters instead
+  // of re-reading the dex. Typeahead base lists and sorted ability
+  // lists are cached separately and invalidated only on species/
+  // language change.
+  Map<String, String> get _abilityNames => widget.abilityNameMap;
+  Map<String, String> get _itemNames => widget.itemNameMap;
   List<String> _itemKeys = const [];
   List<String> _atkSortedAbilities = const [];
   List<String> _defSortedAbilities = const [];
@@ -169,34 +166,34 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   @override
   void initState() {
     super.initState();
+    _itemKeys = _itemNames.keys.toList();
+    _rebuildSortedAbilitiesFor(attacker: true);
+    _rebuildSortedAbilitiesFor(attacker: false);
     _hydrateFromState();
-    _loadLookups();
   }
 
   @override
   void didUpdateWidget(SimpleModeView old) {
     super.didUpdateWidget(old);
-    // Re-sync local controllers whenever the parent tells us state was
-    // reset (via the resetCounter bump). The parent also bumps this
-    // counter on language change, so this is when we refresh the
-    // localized ability/item name caches too.
+    // Parent may have swapped in a new name map (first async load, or
+    // language change). Re-derive the derived caches in that case.
+    final mapsChanged = old.abilityNameMap != widget.abilityNameMap ||
+        old.itemNameMap != widget.itemNameMap;
+    if (mapsChanged) {
+      _itemKeys = _itemNames.keys.toList();
+      _rebuildSortedAbilitiesFor(attacker: true);
+      _rebuildSortedAbilitiesFor(attacker: false);
+      _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
+      _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
+      _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
+      _defItemCtl.text = _itemDisplayText(_def.selectedItem);
+    }
+    // Reset/language bump also re-hydrates per-side controllers.
     if (old.resetCounter != widget.resetCounter) {
-      _rebuildNameMaps();
       _rebuildSortedAbilitiesFor(attacker: true);
       _rebuildSortedAbilitiesFor(attacker: false);
       _hydrateFromState();
     }
-  }
-
-  void _rebuildNameMaps() {
-    _abilityNames = {
-      for (final e in _abilityDex.entries) e.key: e.value.localizedName,
-    };
-    _itemNames = {
-      for (final e in _itemDex.entries)
-        if (e.value.battle) e.key: e.value.localizedName,
-    };
-    _itemKeys = _itemNames.keys.toList();
   }
 
   void _rebuildSortedAbilitiesFor({required bool attacker}) {
@@ -268,31 +265,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// so the empty state reads as "없음" rather than a blank field.
   String _itemDisplayText(String? key) {
     if (key == null || key.isEmpty) return AppStrings.t('label.none');
-    return _itemDex[key]?.localizedName ?? key;
-  }
-
-  Future<void> _loadLookups() async {
-    final abilities = await loadAbilitydex();
-    final items = await loadItemdex();
-    if (!mounted) return;
-    setState(() {
-      _abilityDex = abilities;
-      _itemDex = items;
-      _rebuildNameMaps();
-      _rebuildSortedAbilitiesFor(attacker: true);
-      _rebuildSortedAbilitiesFor(attacker: false);
-      // Re-hydrate once the dex is ready so the typeahead text fields
-      // display localized names instead of internal keys.
-      _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
-      _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
-      _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
-      _defItemCtl.text = _itemDisplayText(_def.selectedItem);
-    });
+    return _itemNames[key] ?? key;
   }
 
   String _abilityLabel(String? key) {
     if (key == null || key.isEmpty) return '';
-    return _abilityDex[key]?.localizedName ?? key;
+    return _abilityNames[key] ?? key;
   }
 
 

@@ -1389,6 +1389,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ruins: _ruins,
               resetCounter: _resetCounter,
               onChanged: _onPanelChanged,
+              abilityNameMap: _abilityNameMap,
+              itemNameMap: _itemNameMap,
             )
           : GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
