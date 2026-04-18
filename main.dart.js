@@ -44483,10 +44483,6 @@ $2$viewInsets$viewPadding(a,b){return this.E(this,A.B("call","$2$viewInsets$view
 $3$color$defaultColor$disabledColor(a,b,c){return this.E(this,A.B("call","$3$color$defaultColor$disabledColor",0,[a,b,c],["color","defaultColor","disabledColor"],0))},
 $3$backgroundColor$color$defaultColor(a,b,c){return this.E(this,A.B("call","$3$backgroundColor$color$defaultColor",0,[a,b,c],["backgroundColor","color","defaultColor"],0))},
 $3$color$defaultColor$selectedColor(a,b,c){return this.E(this,A.B("call","$3$color$defaultColor$selectedColor",0,[a,b,c],["color","defaultColor","selectedColor"],0))},
-$1$gravity(a){return this.E(this,A.B("call","$1$gravity",0,[a],["gravity"],0))},
-$1$wonderRoom(a){return this.E(this,A.B("call","$1$wonderRoom",0,[a],["wonderRoom"],0))},
-$1$magicRoom(a){return this.E(this,A.B("call","$1$magicRoom",0,[a],["magicRoom"],0))},
-$1$trickRoom(a){return this.E(this,A.B("call","$1$trickRoom",0,[a],["trickRoom"],0))},
 $1$beadsOfRuin(a){return this.E(this,A.B("call","$1$beadsOfRuin",0,[a],["beadsOfRuin"],0))},
 $1$vesselOfRuin(a){return this.E(this,A.B("call","$1$vesselOfRuin",0,[a],["vesselOfRuin"],0))},
 $1$swordOfRuin(a){return this.E(this,A.B("call","$1$swordOfRuin",0,[a],["swordOfRuin"],0))},
@@ -44494,6 +44490,10 @@ $1$tabletsOfRuin(a){return this.E(this,A.B("call","$1$tabletsOfRuin",0,[a],["tab
 $1$auraBreak(a){return this.E(this,A.B("call","$1$auraBreak",0,[a],["auraBreak"],0))},
 $1$darkAura(a){return this.E(this,A.B("call","$1$darkAura",0,[a],["darkAura"],0))},
 $1$fairyAura(a){return this.E(this,A.B("call","$1$fairyAura",0,[a],["fairyAura"],0))},
+$1$gravity(a){return this.E(this,A.B("call","$1$gravity",0,[a],["gravity"],0))},
+$1$wonderRoom(a){return this.E(this,A.B("call","$1$wonderRoom",0,[a],["wonderRoom"],0))},
+$1$magicRoom(a){return this.E(this,A.B("call","$1$magicRoom",0,[a],["magicRoom"],0))},
+$1$trickRoom(a){return this.E(this,A.B("call","$1$trickRoom",0,[a],["trickRoom"],0))},
 $1$includeChildren(a){return this.E(this,A.B("call","$1$includeChildren",0,[a],["includeChildren"],0))},
 $1$scrollbars(a){return this.E(this,A.B("call","$1$scrollbars",0,[a],["scrollbars"],0))},
 $2$initialRestore(a,b){return this.E(this,A.B("call","$2$initialRestore",0,[a,b],["initialRestore"],0))},
@@ -48281,25 +48281,21 @@ A.arA.prototype={
 $1(a){return new A.o7(new A.arz(this.a),null)},
 $S:368}
 A.arz.prototype={
-$2(a,b){var s,r,q,p,o,n,m,l,k,j,i,h,g=null,f=A.Y(A.I("toolbar.battleConditions"),g,g,g,g,g,g,g),e=A.Y(A.I("toolbar.weather"),g,g,g,g,B.dG,g,g),d=this.a,c=t.t4
-c=A.T(new A.dM(new A.ai(B.rD,new A.ari(),t.ep),new A.arj(d,b),c),c.i("m.E"))
-c=A.rO(c,0,4)
-s=A.Y(A.I("toolbar.terrain"),g,g,g,g,B.dG,g,g)
+$2(a,b){var s,r,q,p,o,n,m,l,k=null,j=A.Y(A.I("toolbar.battleConditions"),k,k,k,k,k,k,k),i=A.Y(A.I("toolbar.weather"),k,k,k,k,B.dG,k,k),h=this.a,g=t.t4
+g=A.T(new A.dM(new A.ai(B.rD,new A.ari(),t.ep),new A.arj(h,b),g),g.i("m.E"))
+g=A.rO(g,0,4)
+s=A.Y(A.I("toolbar.terrain"),k,k,k,k,B.dG,k,k)
 r=t.Zz
-r=A.T(new A.dM(new A.ai(B.rH,new A.ark(),t.Bg),new A.arr(d,b),r),r.i("m.E"))
+r=A.T(new A.dM(new A.ai(B.rH,new A.ark(),t.Bg),new A.arr(h,b),r),r.i("m.E"))
 r=A.rO(r,0,4)
-q=A.Y(A.I("section.aura"),g,g,g,g,B.dG,g,g)
-p=t.p
-o=A.rO(A.b([d.o4("Fairy Aura",A.I("damage.allyFairyAura"),new A.ars(d,b),d.ay.a),d.o4("Dark Aura",A.I("damage.allyDarkAura"),new A.art(d,b),d.ay.b),d.o4("Aura Break",A.I("damage.allyAuraBreak"),new A.aru(d,b),d.ay.c)],p),0,4)
-n=A.Y(A.I("section.ruin"),g,g,g,g,B.dG,g,g)
-m=A.rO(A.b([d.o4("Tablets of Ruin",A.I("damage.allyTabletsOfRuin"),new A.arv(d,b),d.ch.a),d.o4("Sword of Ruin",A.I("damage.allySwordOfRuin"),new A.arw(d,b),d.ch.b),d.o4("Vessel of Ruin",A.I("damage.allyVesselOfRuin"),new A.arx(d,b),d.ch.c),d.o4("Beads of Ruin",A.I("damage.allyBeadsOfRuin"),new A.ary(d,b),d.ch.d)],p),0,4)
-l=A.Y(A.I("toolbar.room"),g,g,g,g,B.dG,g,g)
-k=A.MA(A.Y(A.nh(B.fm),g,g,g,g,B.c3,g,g),new A.arl(d,b),d.ax.a,!1,B.bS)
-j=A.MA(A.Y(A.nh(B.fn),g,g,g,g,B.c3,g,g),new A.arm(d,b),d.ax.b,!1,B.bS)
-i=A.Y(A.nh(B.fo),g,g,g,g,B.c3,g,g)
-h=d.ax
-h=A.dz(A.b([e,c,B.cC,s,r,B.cC,q,o,B.cC,n,m,B.cC,l,A.rO(A.b([k,j,A.MA(i,new A.arn(d,b),h.c,!1,B.bS),A.MA(A.Y(A.aFi(),g,g,g,g,B.c3,g,g),new A.aro(d,b),h.d,!1,B.bS)],p),0,4)],p),B.bz,B.r,B.aO)
-return A.Ku(A.b([A.h0(A.Y(A.I("toolbar.conditionsReset"),g,g,g,g,g,g,g),new A.arp(d,b),g),A.h0(A.Y(A.I("action.close"),g,g,g,g,g,g,g),new A.arq(a),g)],p),h,B.Ji,f)},
+q=A.Y(A.I("toolbar.room"),k,k,k,k,B.dG,k,k)
+p=A.MA(A.Y(A.nh(B.fm),k,k,k,k,B.c3,k,k),new A.ars(h,b),h.ax.a,!1,B.bS)
+o=A.MA(A.Y(A.nh(B.fn),k,k,k,k,B.c3,k,k),new A.art(h,b),h.ax.b,!1,B.bS)
+n=A.Y(A.nh(B.fo),k,k,k,k,B.c3,k,k)
+m=h.ax
+l=t.p
+m=A.dz(A.b([i,g,B.cC,s,r,B.cC,q,A.rO(A.b([p,o,A.MA(n,new A.aru(h,b),m.c,!1,B.bS),A.MA(A.Y(A.aFi(),k,k,k,k,B.c3,k,k),new A.arv(h,b),m.d,!1,B.bS)],l),0,4),B.cC,A.Y(A.I("section.aura"),k,k,k,k,B.dG,k,k),A.rO(A.b([h.o4("Fairy Aura",A.I("damage.allyFairyAura"),new A.arw(h,b),h.ay.a),h.o4("Dark Aura",A.I("damage.allyDarkAura"),new A.arx(h,b),h.ay.b),h.o4("Aura Break",A.I("damage.allyAuraBreak"),new A.ary(h,b),h.ay.c)],l),0,4),B.cC,A.Y(A.I("section.ruin"),k,k,k,k,B.dG,k,k),A.rO(A.b([h.o4("Tablets of Ruin",A.I("damage.allyTabletsOfRuin"),new A.arl(h,b),h.ch.a),h.o4("Sword of Ruin",A.I("damage.allySwordOfRuin"),new A.arm(h,b),h.ch.b),h.o4("Vessel of Ruin",A.I("damage.allyVesselOfRuin"),new A.arn(h,b),h.ch.c),h.o4("Beads of Ruin",A.I("damage.allyBeadsOfRuin"),new A.aro(h,b),h.ch.d)],l),0,4)],l),B.bz,B.r,B.aO)
+return A.Ku(A.b([A.h0(A.Y(A.I("toolbar.conditionsReset"),k,k,k,k,k,k,k),new A.arp(h,b),k),A.h0(A.Y(A.I("action.close"),k,k,k,k,k,k,k),new A.arq(a),k)],l),m,B.Ji,j)},
 $S:353}
 A.ari.prototype={
 $1(a){return a!==B.bo},
@@ -48346,7 +48342,7 @@ this.b.$1(new A.ar8())},
 $S:3}
 A.ar7.prototype={
 $0(){var s=this.a
-return s.ay=s.ay.WP(this.b)},
+return s.ax=s.ax.X0(this.b)},
 $S:0}
 A.ar8.prototype={
 $0(){},
@@ -48358,7 +48354,7 @@ this.b.$1(new A.ar6())},
 $S:3}
 A.ar4.prototype={
 $0(){var s=this.a
-return s.ay=s.ay.WO(this.b)},
+return s.ax=s.ax.WV(this.b)},
 $S:0}
 A.ar6.prototype={
 $0(){},
@@ -48370,7 +48366,7 @@ this.b.$1(new A.ar3())},
 $S:3}
 A.ar2.prototype={
 $0(){var s=this.a
-return s.ay=s.ay.WM(this.b)},
+return s.ax=s.ax.X2(this.b)},
 $S:0}
 A.ar3.prototype={
 $0(){},
@@ -48382,7 +48378,7 @@ this.b.$1(new A.ar1())},
 $S:3}
 A.ar0.prototype={
 $0(){var s=this.a
-return s.ch=s.ch.X_(this.b)},
+return s.ax=s.ax.WQ(this.b)},
 $S:0}
 A.ar1.prototype={
 $0(){},
@@ -48394,7 +48390,7 @@ this.b.$1(new A.ar_())},
 $S:3}
 A.aqZ.prototype={
 $0(){var s=this.a
-return s.ch=s.ch.WZ(this.b)},
+return s.ay=s.ay.WP(this.b)},
 $S:0}
 A.ar_.prototype={
 $0(){},
@@ -48406,7 +48402,7 @@ this.b.$1(new A.aqY())},
 $S:3}
 A.aqX.prototype={
 $0(){var s=this.a
-return s.ch=s.ch.X1(this.b)},
+return s.ay=s.ay.WO(this.b)},
 $S:0}
 A.aqY.prototype={
 $0(){},
@@ -48418,7 +48414,7 @@ this.b.$1(new A.aqW())},
 $S:3}
 A.arh.prototype={
 $0(){var s=this.a
-return s.ch=s.ch.WN(this.b)},
+return s.ay=s.ay.WM(this.b)},
 $S:0}
 A.aqW.prototype={
 $0(){},
@@ -48430,7 +48426,7 @@ this.b.$1(new A.arg())},
 $S:3}
 A.arf.prototype={
 $0(){var s=this.a
-return s.ax=s.ax.X0(this.b)},
+return s.ch=s.ch.X_(this.b)},
 $S:0}
 A.arg.prototype={
 $0(){},
@@ -48442,7 +48438,7 @@ this.b.$1(new A.are())},
 $S:3}
 A.ard.prototype={
 $0(){var s=this.a
-return s.ax=s.ax.WV(this.b)},
+return s.ch=s.ch.WZ(this.b)},
 $S:0}
 A.are.prototype={
 $0(){},
@@ -48454,7 +48450,7 @@ this.b.$1(new A.arc())},
 $S:3}
 A.arb.prototype={
 $0(){var s=this.a
-return s.ax=s.ax.X2(this.b)},
+return s.ch=s.ch.X1(this.b)},
 $S:0}
 A.arc.prototype={
 $0(){},
@@ -48466,7 +48462,7 @@ this.b.$1(new A.ar5())},
 $S:3}
 A.aqV.prototype={
 $0(){var s=this.a
-return s.ax=s.ax.WQ(this.b)},
+return s.ch=s.ch.WN(this.b)},
 $S:0}
 A.ar5.prototype={
 $0(){},
