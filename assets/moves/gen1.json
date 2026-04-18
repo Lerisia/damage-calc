@@ -79,7 +79,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Bubble",
     "zPower": 100
@@ -442,7 +443,8 @@
     "pp": 5,
     "tags": [
       "custom:has_secondary",
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Blizzard",
     "zPower": 185
@@ -480,7 +482,10 @@
     "power": 250,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:spread",
+      "custom:spread_hits_ally"
+    ],
     "nameEn": "Explosion",
     "zPower": 200
   },
@@ -1354,7 +1359,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Rock Slide",
     "zPower": 140
@@ -1368,7 +1374,9 @@
     "power": 60,
     "accuracy": 0,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Swift",
     "zPower": 120
   },
@@ -1595,7 +1603,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Acid",
     "zPower": 100
@@ -1679,7 +1688,8 @@
     "accuracy": 95,
     "pp": 25,
     "tags": [
-      "slice"
+      "slice",
+      "custom:spread"
     ],
     "nameEn": "Razor Leaf",
     "zPower": 100
@@ -1693,7 +1703,10 @@
     "power": 200,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:spread",
+      "custom:spread_hits_ally"
+    ],
     "nameEn": "Self-Destruct",
     "zPower": 200
   },
@@ -1870,7 +1883,9 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Earthquake",
     "zPower": 180
@@ -2018,7 +2033,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Razor Wind",
     "zPower": 160
   },
@@ -2112,7 +2129,10 @@
     "power": 90,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "custom:spread",
+      "custom:spread_hits_ally"
+    ],
     "nameEn": "Surf",
     "zPower": 175
   },

@@ -560,7 +560,9 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Discharge",
     "zPower": 160
@@ -641,7 +643,9 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Lava Plume",
     "zPower": 160

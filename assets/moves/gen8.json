@@ -37,7 +37,8 @@
     "accuracy": 80,
     "pp": 10,
     "tags": [
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Bleakwind Storm",
     "zPower": 180
@@ -234,7 +235,8 @@
     "accuracy": 80,
     "pp": 10,
     "tags": [
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Sandsear Storm",
     "zPower": 180
@@ -261,7 +263,8 @@
     "accuracy": 80,
     "pp": 5,
     "tags": [
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Springtide Storm",
     "zPower": 180
@@ -345,7 +348,8 @@
     "accuracy": 80,
     "pp": 10,
     "tags": [
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Wildbolt Storm",
     "zPower": 180
@@ -771,7 +775,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:hp_power_high"
+      "custom:hp_power_high",
+      "custom:spread"
     ],
     "nameEn": "Dragon Energy",
     "zPower": 200
@@ -886,7 +891,9 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:terrain_boost_misty"
+      "custom:terrain_boost_misty",
+      "custom:spread",
+      "custom:spread_hits_ally"
     ],
     "nameEn": "Misty Explosion",
     "zPower": 180
@@ -980,7 +987,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Glacial Lance",
     "zPower": 190
   },
@@ -1174,7 +1183,9 @@
     "power": 120,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:spread"
+    ],
     "nameEn": "Astral Barrage",
     "zPower": 190
   },
@@ -1281,7 +1292,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:spread"
     ],
     "nameEn": "Overdrive",
     "zPower": 160
@@ -1297,7 +1309,8 @@
     "pp": 15,
     "tags": [
       "contact",
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Breaking Swipe",
     "zPower": 120
@@ -1369,7 +1382,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Burning Jealousy",
     "zPower": 140
@@ -1483,7 +1497,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Fiery Wrath",
     "zPower": 175

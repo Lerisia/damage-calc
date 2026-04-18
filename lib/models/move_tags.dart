@@ -95,4 +95,12 @@ class MoveTags {
   // Shell Side Arm: physical / special chosen by comparing A*SpD vs C*Def
   // using modified stats (rank stages applied).
   static const String shellSideArm = 'custom:shell_side_arm';
+
+  // Spread: move hits multiple adjacent targets in Doubles. When the user
+  // indicates 2-target hit, damage is multiplied by 0.75. Covers both
+  // foes-only (Rock Slide, Heat Wave) and all-adjacent (Earthquake, Surf).
+  static const String spread = 'custom:spread';
+  // Hits the ally too when allAdjacent — used by Earthquake/Surf/etc. Only
+  // meaningful when a full ally slot exists; set but otherwise inert for now.
+  static const String spreadHitsAlly = 'custom:spread_hits_ally';
 }

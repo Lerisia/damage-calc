@@ -174,7 +174,8 @@
     "accuracy": 100,
     "pp": 25,
     "tags": [
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "custom:spread"
     ],
     "nameEn": "Powder Snow",
     "zPower": 100
@@ -866,7 +867,8 @@
     "pp": 15,
     "tags": [
       "custom:has_secondary",
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Icy Wind",
     "aliases": [
@@ -1312,7 +1314,8 @@
     "pp": 20,
     "tags": [
       "custom:has_secondary",
-      "wind"
+      "wind",
+      "custom:spread"
     ],
     "nameEn": "Twister",
     "zPower": 100
