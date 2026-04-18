@@ -48886,7 +48886,7 @@ A.aBb.prototype={
 $0(){return $.ys().wE(0)},
 $S:0}
 A.wR.prototype={
-I(a){var s=null,r=A.Y(A.I("app.title"),s,s,s,s,B.kz,s,s),q=t.p,p=A.dz(A.b([B.a2L,B.ci,A.Y(A.I("about.description"),s,s,s,s,s,s,s),B.ci,A.Y(A.I("about.subtitle"),s,s,s,s,B.c3,s,s),B.cC,B.a2K,B.Wf,B.Wg,B.D5,B.IA,B.ci,A.Y(A.I("about.beta"),s,s,s,s,B.a0Q,s,s),B.cC,A.Y(A.I("about.disclaimer"),s,s,s,s,B.DC,s,s)],q),B.bz,B.r,B.aO)
+I(a){var s=null,r=A.Y(A.I("app.title"),s,s,s,s,B.kz,s,s),q=t.p,p=A.dz(A.b([B.a2M,B.ci,A.Y(A.I("about.description"),s,s,s,s,s,s,s),B.ci,A.Y(A.I("about.subtitle"),s,s,s,s,B.c3,s,s),B.cC,B.a2K,B.Wf,B.Wg,B.D5,B.IA,B.ci,A.Y(A.I("about.beta"),s,s,s,s,B.a0Q,s,s),B.cC,A.Y(A.I("about.disclaimer"),s,s,s,s,B.DC,s,s)],q),B.bz,B.r,B.aO)
 return A.Ku(A.b([A.h0(A.Y(A.I("action.close"),s,s,s,s,s,s,s),new A.ann(a),s)],q),p,s,r)}}
 A.ann.prototype={
 $0(){A.du(this.a,!1).eQ(null)
@@ -49273,7 +49273,7 @@ h.push(A.bT(e,j,32))}if(i){if(g!=null)if(q.f)f=A.Y(A.I("move.fixed"),j,j,j,j,B.a
 else if(g.at>1)f=A.Y(""+m,j,j,j,j,A.aN(j,j,B.d3,j,j,j,j,j,j,j,j,13,j,j,B.a0,j,j,!0,j,j,j,j,j,j,j,j),B.ae,j)
 else{e=g.a
 a1=new A.H3(m,k.y[a8],k.z,a8,new A.aeM(k,a8),new A.aeN(k,a8),new A.co("power_"+f+"_"+e,a1))
-f=a1}else f=B.a2M
+f=a1}else f=B.a2L
 h.push(A.bT(f,j,44))}if(i)h.push(A.bT(A.Lc(B.dc,new A.aeO(k,a8),k.a.c.fr[a8],B.bS),j,28))
 if(i){f=k.a.c
 e=f.fx[a8]
@@ -104779,9 +104779,9 @@ B.ZF=new A.q(!0,B.o,null,".AppleSystemUIFont",null,null,null,null,null,null,null
 B.a2I=new A.e1(B.a0r,B.a_n,B.a0s,B.a0W,B.a_3,B.a_b,B.a_H,B.a0P,B.a_U,B.a1i,B.Zy,B.ZQ,B.a1f,B.a1A,B.ZF)
 B.a2J=new A.hH("  \u2192  ",null,B.DC,null,null,null,null,null,null,null)
 B.a2K=new A.hH("By  Elyss",null,null,null,null,null,null,null,null,null)
-B.a2L=new A.hH("v1.1.1",null,null,null,null,null,null,null,null,null)
 B.DG=new A.hH("-",null,null,B.ae,null,null,null,null,null,null)
-B.a2M=new A.hH("-",null,B.c3,B.ae,null,null,null,null,null,null)
+B.a2L=new A.hH("-",null,B.c3,B.ae,null,null,null,null,null,null)
+B.a2M=new A.hH("v1.2.0",null,null,null,null,null,null,null,null,null)
 B.a2N=new A.hH("-",null,B.oe,null,null,null,null,null,null,null)
 B.a2O=new A.kK(0,"system")
 B.of=new A.kK(1,"light")
