@@ -547,8 +547,9 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
             isDense: true,
           ),
-          child: Text(label,
-              style: TextStyle(fontSize: 14, color: textColor)),
+          // Match the default body-size font the item typeahead uses
+          // so nature + item underlines line up on the same row.
+          child: Text(label, style: TextStyle(color: textColor)),
         ),
       );
     }

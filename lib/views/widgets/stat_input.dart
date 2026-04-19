@@ -506,8 +506,10 @@ class _StatInputState extends State<StatInput> {
               isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
           isDense: true,
         ),
-        child: Text(label,
-            style: TextStyle(fontSize: 14, color: textColor)),
+        // Match the font size the item/ability TypeAheads inherit
+        // from the theme (the default body size, ~15) so the two
+        // widgets' baselines and underlines line up on the same row.
+        child: Text(label, style: TextStyle(color: textColor)),
       ),
     );
   }
