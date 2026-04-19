@@ -441,6 +441,28 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final next = !_simpleMode;
     setState(() => _simpleMode = next);
     SimpleModeController.instance.setSimple(next);
+    // First time the user enters Extended Mode, hand them a pointer
+    // back to Simple Mode so they can find the toggle again.
+    if (!next) _maybeShowExtendedModeAnnouncement();
+  }
+
+  Future<void> _maybeShowExtendedModeAnnouncement() async {
+    if (await SimpleModeController.instance.extendedAnnouncementShown()) return;
+    if (!mounted) return;
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('simple.extendedAnnounceTitle')),
+        content: Text(AppStrings.t('simple.extendedAnnounceBody')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.confirm')),
+          ),
+        ],
+      ),
+    );
+    await SimpleModeController.instance.markExtendedAnnouncementShown();
   }
 
   Future<void> _resetBothSides() async {

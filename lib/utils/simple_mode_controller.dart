@@ -9,6 +9,7 @@ class SimpleModeController {
 
   static const _prefsKey = 'simpleMode';
   static const _announcementKey = 'simpleModeAnnouncementShown';
+  static const _extendedAnnouncementKey = 'extendedModeAnnouncementShown';
 
   /// Starts in Simple Mode for first-time users (and anyone who
   /// hasn't explicitly toggled Normal Mode before).
@@ -29,6 +30,18 @@ class SimpleModeController {
   Future<void> markAnnouncementShown() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_announcementKey, true);
+  }
+
+  /// Whether the "You can return to Simple Mode via the menu"
+  /// extended-mode onboarding dialog has been shown on this device.
+  Future<bool> extendedAnnouncementShown() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_extendedAnnouncementKey) ?? false;
+  }
+
+  Future<void> markExtendedAnnouncementShown() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_extendedAnnouncementKey, true);
   }
 
   Future<void> setSimple(bool v) async {

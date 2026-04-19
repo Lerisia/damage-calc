@@ -248,6 +248,16 @@ class AppStrings {
       AppLanguage.en: 'Switch to Extended Mode from the top-right menu (⋮).',
       AppLanguage.ja: '拡張モードは右上のメニュー(⋮)から切り替えられます。',
     },
+    'simple.extendedAnnounceTitle': {
+      AppLanguage.ko: '확장 모드',
+      AppLanguage.en: 'Extended Mode',
+      AppLanguage.ja: '拡張モード',
+    },
+    'simple.extendedAnnounceBody': {
+      AppLanguage.ko: '언제든 오른쪽 상단 메뉴(⋮)에서 간단 모드로 돌아갈 수 있습니다.',
+      AppLanguage.en: 'You can return to Simple Mode any time from the top-right menu (⋮).',
+      AppLanguage.ja: 'いつでも右上のメニュー(⋮)からかんたんモードに戻れます。',
+    },
     'simple.title': {
       AppLanguage.ko: '간단 모드',
       AppLanguage.en: 'Simple Mode',
