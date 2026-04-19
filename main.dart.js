@@ -51790,7 +51790,7 @@ $2(a,b){var s,r,q=null,p="nature.buffLabel",o="nature.nerfLabel",n=b?B.b1:B.ba,m
 m=A.v(b?p:o)
 s=this.a
 r=A.eX(q,q,q,q,q,q,q,q,!0,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,!0,q,q,A.v(b?p:o),!0,!0,!1,q,q,q,q,q,q,q,q,q,q,q,q,q,q)
-return A.kO(A.Bn(q,A.T(k,q,q,q,q,A.av(q,q,l,q,q,q,q,q,q,q,q,q,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),q,q),r,!1,!1,!1,!1,q,q),q,j,new A.ald(s,n),new A.ale(s,this.b,b),B.bB,new A.fy(q,B.am,q),m,t.o1)},
+return A.kO(A.Bn(q,A.T(k,q,q,q,q,A.av(q,q,l,q,q,q,q,q,q,q,q,16,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),q,q),r,!1,!1,!1,!1,q,q),q,j,new A.ald(s,n),new A.ale(s,this.b,b),B.bB,new A.fy(q,B.am,q),m,t.o1)},
 $S:559}
 A.ald.prototype={
 $1(a){var s,r,q,p,o,n,m,l=null,k=A.b([A.kP(A.T(A.v("nature.none"),l,l,l,l,B.En,l,l),!0,l,B.F2,t.o1)],t.Iz)
@@ -52141,7 +52141,7 @@ return A.d_(A.b([b,B.bO,c,B.cP,a,B.hw,s,a0,q,p,o,n,B.hw,g.an4(a2,A.aQM(l,f,m,d.p
 SR(a,b){var s,r=null,q="nature.buffLabel",p="nature.nerfLabel",o=b?B.b1:B.ba,n=a==null,m=n?A.v("nature.none"):this.V6(a),l=n?B.Y:o,k=n?B.F3:A.aQt(a)
 n=A.v(b?q:p)
 s=A.eX(r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,!0,r,r,A.v(b?q:p),!0,!0,!1,r,r,r,r,r,r,r,r,r,r,r,r,r,r)
-return A.kO(A.Bn(r,A.T(m,r,r,r,r,A.av(r,r,l,r,r,r,r,r,r,r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r),s,!1,!1,!1,!1,r,r),r,k,new A.aB_(this,o),new A.aB0(this,b),B.bB,new A.fy(r,B.am,r),n,t.Tg)},
+return A.kO(A.Bn(r,A.T(m,r,r,r,r,A.av(r,r,l,r,r,r,r,r,r,r,r,16,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r),s,!1,!1,!1,!1,r,r),r,k,new A.aB_(this,o),new A.aB0(this,b),B.bB,new A.fy(r,B.am,r),n,t.Tg)},
 V6(a){switch(a.a){case 0:return A.v("stat.attack")
 case 1:return A.v("stat.defense")
 case 2:return A.v("stat.spAttack")
