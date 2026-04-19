@@ -489,7 +489,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           labelText: AppStrings.t(
               isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
           isDense: true,
-          contentPadding: const EdgeInsets.symmetric(vertical: 4),
         ),
         style: TextStyle(fontSize: 14, color: tint),
         items: [
