@@ -54,6 +54,34 @@ class _ClampingFormatter extends TextInputFormatter {
   }
 }
 
+/// Non-nullable enum used purely as the [PopupMenuButton] value type
+/// for nature pickers. [PopupMenuButton.onSelected] swallows null
+/// selections (routing them to [onCanceled]), so we can't use
+/// `PopupMenuButton<NatureStat?>` directly — we'd never learn when
+/// the user picked "None".
+enum _NaturePick { none, atk, def, spa, spd, spe }
+
+_NaturePick _pickFromStat(NatureStat s) {
+  switch (s) {
+    case NatureStat.atk: return _NaturePick.atk;
+    case NatureStat.def: return _NaturePick.def;
+    case NatureStat.spa: return _NaturePick.spa;
+    case NatureStat.spd: return _NaturePick.spd;
+    case NatureStat.spe: return _NaturePick.spe;
+  }
+}
+
+NatureStat? _statFromPick(_NaturePick p) {
+  switch (p) {
+    case _NaturePick.none: return null;
+    case _NaturePick.atk: return NatureStat.atk;
+    case _NaturePick.def: return NatureStat.def;
+    case _NaturePick.spa: return NatureStat.spa;
+    case _NaturePick.spd: return NatureStat.spd;
+    case _NaturePick.spe: return NatureStat.spe;
+  }
+}
+
 class StatInput extends StatefulWidget {
   final int level;
   final NatureProfile nature;
@@ -441,28 +469,36 @@ class _StatInputState extends State<StatInput> {
         ? AppStrings.t('nature.none')
         : _statLabel(value);
     final textColor = value == null ? Colors.grey : tint;
-    return PopupMenuButton<NatureStat?>(
-      initialValue: value,
+    // PopupMenuButton.onSelected is NOT called when the selected
+    // value is null — Flutter routes that to onCanceled instead. So
+    // we use a non-nullable [_NaturePick] enum here and translate
+    // _NaturePick.none back into a real null when emitting the new
+    // [NatureProfile]. Without this workaround, users can't pick
+    // 'None' after they've chosen a stat.
+    final pickValue = value == null ? _NaturePick.none : _pickFromStat(value);
+    return PopupMenuButton<_NaturePick>(
+      initialValue: pickValue,
       tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
       popUpAnimationStyle:
           AnimationStyle(duration: const Duration(milliseconds: 100)),
       itemBuilder: (_) => [
-        PopupMenuItem<NatureStat?>(
-          value: null,
+        PopupMenuItem<_NaturePick>(
+          value: _NaturePick.none,
           child: Text(AppStrings.t('nature.none'),
               style: const TextStyle(fontSize: 14, color: Colors.grey)),
         ),
         for (final s in NatureStat.values)
-          PopupMenuItem<NatureStat?>(
-            value: s,
+          PopupMenuItem<_NaturePick>(
+            value: _pickFromStat(s),
             child: Text(_statLabel(s),
                 style: TextStyle(fontSize: 14, color: tint)),
           ),
       ],
       onSelected: (v) {
+        final stat = _statFromPick(v);
         widget.onNatureChanged(isUp
-            ? widget.nature.copyWith(up: v, clearUp: v == null)
-            : widget.nature.copyWith(down: v, clearDown: v == null));
+            ? widget.nature.copyWith(up: stat, clearUp: stat == null)
+            : widget.nature.copyWith(down: stat, clearDown: stat == null));
       },
       child: InputDecorator(
         decoration: InputDecoration(

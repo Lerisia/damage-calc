@@ -23,6 +23,32 @@ import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../widgets/pokemon_selector.dart';
 
+/// See equivalent enum in stat_input.dart for the rationale — Flutter's
+/// [PopupMenuButton.onSelected] silently skips null-valued selections,
+/// so nature pickers need a non-nullable wrapper enum.
+enum _NaturePick { none, atk, def, spa, spd, spe }
+
+_NaturePick _pickFromStat(NatureStat s) {
+  switch (s) {
+    case NatureStat.atk: return _NaturePick.atk;
+    case NatureStat.def: return _NaturePick.def;
+    case NatureStat.spa: return _NaturePick.spa;
+    case NatureStat.spd: return _NaturePick.spd;
+    case NatureStat.spe: return _NaturePick.spe;
+  }
+}
+
+NatureStat? _statFromPick(_NaturePick p) {
+  switch (p) {
+    case _NaturePick.none: return null;
+    case _NaturePick.atk: return NatureStat.atk;
+    case _NaturePick.def: return NatureStat.def;
+    case _NaturePick.spa: return NatureStat.spa;
+    case _NaturePick.spd: return NatureStat.spd;
+    case _NaturePick.spe: return NatureStat.spe;
+  }
+}
+
 /// Self-contained speed comparison tab with keep-alive.
 class SpeedCompareTab extends StatefulWidget {
   final BattlePokemonState attacker;
@@ -486,30 +512,32 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
       final label = value == null
           ? AppStrings.t('nature.none')
           : _natureStatLabel(value);
-      return PopupMenuButton<NatureStat?>(
-        initialValue: value,
+      final pickValue = value == null ? _NaturePick.none : _pickFromStat(value);
+      return PopupMenuButton<_NaturePick>(
+        initialValue: pickValue,
         tooltip: AppStrings.t(
             isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
         popUpAnimationStyle:
             AnimationStyle(duration: const Duration(milliseconds: 100)),
         itemBuilder: (_) => [
-          PopupMenuItem<NatureStat?>(
-            value: null,
+          PopupMenuItem<_NaturePick>(
+            value: _NaturePick.none,
             child: Text(AppStrings.t('nature.none'),
                 style: const TextStyle(fontSize: 14, color: Colors.grey)),
           ),
           for (final s in NatureStat.values)
-            PopupMenuItem<NatureStat?>(
-              value: s,
+            PopupMenuItem<_NaturePick>(
+              value: _pickFromStat(s),
               child: Text(_natureStatLabel(s),
                   style: TextStyle(fontSize: 14, color: tint)),
             ),
         ],
         onSelected: (v) {
+          final stat = _statFromPick(v);
           setState(() {
             state.nature = isUp
-                ? state.nature.copyWith(up: v, clearUp: v == null)
-                : state.nature.copyWith(down: v, clearDown: v == null);
+                ? state.nature.copyWith(up: stat, clearUp: stat == null)
+                : state.nature.copyWith(down: stat, clearDown: stat == null);
           });
           _notify();
         },
