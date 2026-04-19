@@ -312,25 +312,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _NatureDir.neutral;
   }
 
-  /// "Opposite" stat for the defender side. For the two defensive
-  /// stats we pick the *lower* of the Pokemon's base Atk / base SpA
-  /// to drop — dropping the weaker unused offensive stat is almost
-  /// always the intended choice (a 120-base SpA mon wants Impish, a
-  /// 120-base Atk mon wants Bold), which lines up with the common
-  /// 장난꾸러기 / 차분 defaults in play without hard-coding.
-  NatureStat _oppositeStat(NatureStat s) {
-    switch (s) {
-      case NatureStat.atk: return NatureStat.spa;
-      case NatureStat.spa: return NatureStat.atk;
-      case NatureStat.def:
-      case NatureStat.spd:
-        return _def.baseStats.attack <= _def.baseStats.spAttack
-            ? NatureStat.atk
-            : NatureStat.spa;
-      case NatureStat.spe: return NatureStat.atk;
-    }
-  }
-
   /// Whether the attacker is currently treated as a special attacker
   /// for UI purposes. When a move is picked the move's category is
   /// authoritative; otherwise we pick the higher of base Atk / base
@@ -349,33 +330,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _atk.baseStats.spAttack > _atk.baseStats.attack;
   }
 
-  /// Attacker-side "opposite" stat for nature pairing. Offensive
-  /// stats (Atk/SpA) pair with each other; defensive stats do the
-  /// same. Spe↑ pairs with whichever offensive stat is *not* the
-  /// currently-picked move's category — captured at tap time, so a
-  /// later move swap doesn't silently rewrite the nature. With no
-  /// move picked we fall back to base Atk vs SpA. Huge Power / Pure
-  /// Power / Tough Claws always force the pair to SpA (physical).
-  NatureStat _atkOpposite(NatureStat s) {
-    switch (s) {
-      case NatureStat.atk: return NatureStat.spa;
-      case NatureStat.spa: return NatureStat.atk;
-      case NatureStat.spe:
-        final a = _atk.selectedAbility;
-        if (a == 'Huge Power' || a == 'Pure Power' || a == 'Tough Claws') {
-          return NatureStat.spa;
-        }
-        final cat = _atk.moves[0]?.category;
-        if (cat == MoveCategory.special) return NatureStat.atk;
-        if (cat == MoveCategory.physical) return NatureStat.spa;
-        return _atk.baseStats.attack >= _atk.baseStats.spAttack
-            ? NatureStat.spa
-            : NatureStat.atk;
-      case NatureStat.def: return NatureStat.spd;
-      case NatureStat.spd: return NatureStat.def;
-    }
-  }
-
   /// Toggle a stat's nature chip between neutral and ↑ (no ↓ state in
   /// Simple Mode). Going up auto-fills the ↓ slot with the opposite so
   /// the applied Nature is a real one; going back to neutral clears
@@ -384,19 +338,17 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final current = _natureDir(s, attacker: attacker);
     setState(() {
       final state = attacker ? _atk : _def;
-      // Both ↑ and ↓ taps clear the nature back to neutral; only a
-      // neutral tap authors a new ↑ (with auto-paired ↓ on the
-      // opposite stat). Users can't author a ↓ directly here, but
-      // since ↓s naturally appear as the paired side of a ↑, they
-      // need a way to undo them — a single tap collapses either
-      // direction back to neutral.
-      if (current != _NatureDir.neutral) {
-        state.nature = NatureProfile.neutral;
+      // Each chip now only touches its own stat — no auto-pairing.
+      // Neutral → ↑ on this stat. ↑ → neutral. ↓ (which can only
+      // appear if loaded from Extended Mode) → neutral. Every other
+      // stat's slot is preserved.
+      if (current == _NatureDir.up) {
+        state.nature = state.nature.copyWith(clearUp: true);
+      } else if (current == _NatureDir.down) {
+        state.nature = state.nature.copyWith(clearDown: true);
       } else {
-        state.nature = NatureProfile(
-          up: s,
-          down: attacker ? _atkOpposite(s) : _oppositeStat(s),
-        );
+        // Neutral tap — set this stat as ↑, leave ↓ slot alone.
+        state.nature = state.nature.copyWith(up: s);
       }
     });
     widget.onChanged();
