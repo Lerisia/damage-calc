@@ -382,12 +382,32 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     }
   }
 
+  /// Whether the attacker is currently treated as a special attacker
+  /// for UI purposes. When a move is picked the move's category is
+  /// authoritative; otherwise we pick the higher of base Atk / base
+  /// SpA, with ability overrides for physical-forcing abilities
+  /// (Huge Power / Pure Power / Tough Claws) pushing the default
+  /// back to physical regardless of base stats.
+  bool get _effectiveIsSpecial {
+    final move = _atk.moves[0];
+    if (move != null) return move.category == MoveCategory.special;
+    final ability = _atk.selectedAbility;
+    if (ability == 'Huge Power' ||
+        ability == 'Pure Power' ||
+        ability == 'Tough Claws') {
+      return false;
+    }
+    return _atk.baseStats.spAttack > _atk.baseStats.attack;
+  }
+
   /// Context-aware opposite for the attacker side — the ↓ slot
   /// depends on the move's category so "Atk ↑" turns into Adamant
   /// (Atk↑ Spa↓) against physical and "Spe ↑" turns into Jolly vs
-  /// physical but Timid vs special.
+  /// physical but Timid vs special. When no move is picked we fall
+  /// back to [_effectiveIsSpecial] so the guess matches what the UI
+  /// is currently showing.
   _NatureStat _atkOpposite(_NatureStat s) {
-    final physical = _atk.moves[0]?.category == MoveCategory.physical;
+    final physical = !_effectiveIsSpecial;
     switch (s) {
       case _NatureStat.atk: return _NatureStat.spa;
       case _NatureStat.spa: return _NatureStat.atk;
@@ -606,7 +626,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444);
     final move = _atk.moves[0];
-    final isSpecial = move?.category == MoveCategory.special;
+    final isSpecial = _effectiveIsSpecial;
     final offStat = isSpecial ? _NatureStat.spa : _NatureStat.atk;
     final offLabel = AppStrings.t(
       isSpecial ? 'stat.spAttack' : 'stat.attack',
@@ -867,10 +887,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   Widget _defenderCard() {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6);
-    final move = _atk.moves[0];
     // Attacker's move category drives which defensive stat is visible —
-    // same auto-switch as on the attacker side. Default to physical.
-    final isSpecial = move?.category == MoveCategory.special;
+    // same auto-switch as on the attacker side. When no move is picked
+    // yet, falls back to the attacker's base-stat / ability heuristic
+    // so both sides agree on Atk-vs-SpA.
+    final isSpecial = _effectiveIsSpecial;
     final defStat = isSpecial ? _NatureStat.spd : _NatureStat.def;
     final defLabel = AppStrings.t(isSpecial ? 'stat.spDefense' : 'stat.defense');
     final defCtl = isSpecial ? _defSpdSpCtl : _defDefSpCtl;
