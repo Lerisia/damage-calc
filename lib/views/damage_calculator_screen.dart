@@ -1307,38 +1307,31 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   child: _battleConditionsButton(),
                 ),
               ),
-              // Swap doesn't make sense in Simple Mode. In its place
-              // we show a prominent "Extended Mode" button so users
-              // who open the app and are surprised by the slim layout
-              // can get back to the full calculator without hunting
-              // through the overflow menu.
-              if (!_simpleMode)
-                TextButton(
-                  onPressed: _swapSides,
-                  child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
-                )
-              else
-                TextButton(
-                  onPressed: _toggleSimpleMode,
-                  child: Text(AppStrings.t('simple.backToNormal'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
-                ),
+              // Swap + Reset are available in both modes. The mode
+              // toggle gets its own dedicated slot right before the
+              // overflow menu so users don't have to dig for it.
+              TextButton(
+                onPressed: _swapSides,
+                child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
+              ),
               TextButton(
                 onPressed: _resetBothSides,
                 child: Text(AppStrings.t('toolbar.reset'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
+              ),
+              TextButton(
+                onPressed: _toggleSimpleMode,
+                child: Text(
+                  AppStrings.t(_simpleMode
+                      ? 'simple.shortExtended'
+                      : 'simple.shortSimple'),
+                  style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600),
+                ),
               ),
               PopupMenuButton<String>(
                 icon: const Icon(Icons.more_vert),
                 tooltip: '',
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: 'simple',
-                    child: Row(children: [
-                      Icon(_simpleMode ? Icons.dashboard_outlined : Icons.bolt_outlined, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t(_simpleMode ? 'simple.backToNormal' : 'simple.menu')),
-                    ]),
-                  ),
                   PopupMenuItem(
                     value: 'language',
                     child: Row(children: [
@@ -1373,8 +1366,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ],
                 onSelected: (v) {
                   switch (v) {
-                    case 'simple':
-                      _toggleSimpleMode();
                     case 'language':
                       _showLanguageDialog();
                     case 'theme':

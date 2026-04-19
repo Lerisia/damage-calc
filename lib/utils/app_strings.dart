@@ -244,9 +244,9 @@ class AppStrings {
       AppLanguage.ja: 'かんたんモードが既定になりました',
     },
     'simple.announceBody': {
-      AppLanguage.ko: '확장 모드는 오른쪽 상단 메뉴(⋮)에서 전환할 수 있습니다.',
-      AppLanguage.en: 'Switch to Extended Mode from the top-right menu (⋮).',
-      AppLanguage.ja: '拡張モードは右上のメニュー(⋮)から切り替えられます。',
+      AppLanguage.ko: '확장 모드는 오른쪽 상단 \'확장\' 버튼으로 전환할 수 있습니다.',
+      AppLanguage.en: 'Switch to Extended Mode anytime with the \'Ext.\' button at the top.',
+      AppLanguage.ja: '拡張モードは右上の「拡張」ボタンで切り替えられます。',
     },
     'simple.extendedAnnounceTitle': {
       AppLanguage.ko: '확장 모드',
@@ -254,9 +254,19 @@ class AppStrings {
       AppLanguage.ja: '拡張モード',
     },
     'simple.extendedAnnounceBody': {
-      AppLanguage.ko: '언제든 오른쪽 상단 메뉴(⋮)에서 간단 모드로 돌아갈 수 있습니다.',
-      AppLanguage.en: 'You can return to Simple Mode any time from the top-right menu (⋮).',
-      AppLanguage.ja: 'いつでも右上のメニュー(⋮)からかんたんモードに戻れます。',
+      AppLanguage.ko: '언제든 오른쪽 상단 \'간단\' 버튼으로 간단 모드로 돌아갈 수 있습니다.',
+      AppLanguage.en: 'You can return to Simple Mode anytime with the \'Simple\' button at the top.',
+      AppLanguage.ja: 'いつでも右上の「簡単」ボタンでかんたんモードに戻れます。',
+    },
+    'simple.shortExtended': {
+      AppLanguage.ko: '확장',
+      AppLanguage.en: 'Ext.',
+      AppLanguage.ja: '拡張',
+    },
+    'simple.shortSimple': {
+      AppLanguage.ko: '간단',
+      AppLanguage.en: 'Simple',
+      AppLanguage.ja: '簡単',
     },
     'simple.title': {
       AppLanguage.ko: '간단 모드',
