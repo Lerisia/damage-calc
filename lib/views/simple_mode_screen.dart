@@ -45,6 +45,12 @@ class SimpleModeView extends StatefulWidget {
   /// screen. Simple Mode reuses them as-is — no separate dex load.
   final Map<String, String> abilityNameMap;
   final Map<String, String> itemNameMap;
+  /// Per-side "save current loadout" / "load saved loadout" hooks —
+  /// routed to the parent's [sample_storage]-backed flow so Simple
+  /// Mode and Extended Mode share the same saved-sample list.
+  /// side: 0 = attacker, 1 = defender.
+  final ValueChanged<int> onSaveSide;
+  final ValueChanged<int> onLoadSide;
 
   const SimpleModeView({
     super.key,
@@ -59,6 +65,8 @@ class SimpleModeView extends StatefulWidget {
     required this.onChanged,
     required this.abilityNameMap,
     required this.itemNameMap,
+    required this.onSaveSide,
+    required this.onLoadSide,
   });
 
   @override
@@ -636,6 +644,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _card(
       accent: accent,
       title: AppStrings.t('tab.attacker'),
+      saveLoadSide: 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -899,6 +908,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _card(
       accent: accent,
       title: AppStrings.t('tab.defender'),
+      saveLoadSide: 1,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1008,7 +1018,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   // Shared components
   // ────────────────────────────────────────────────────────────────────────
 
-  Widget _card({required Color accent, required String title, required Widget child}) {
+  Widget _card({
+    required Color accent,
+    required String title,
+    required Widget child,
+    int? saveLoadSide,
+  }) {
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
       decoration: BoxDecoration(
@@ -1018,11 +1033,38 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: TextStyle(color: accent, fontWeight: FontWeight.w700)),
+          Row(
+            children: [
+              Text(title, style: TextStyle(color: accent, fontWeight: FontWeight.w700)),
+              if (saveLoadSide != null) ...[
+                const Spacer(),
+                _titleActionBtn(
+                  AppStrings.t('sample.save'),
+                  () => widget.onSaveSide(saveLoadSide),
+                ),
+                _titleActionBtn(
+                  AppStrings.t('sample.load'),
+                  () => widget.onLoadSide(saveLoadSide),
+                ),
+              ],
+            ],
+          ),
           const SizedBox(height: 2),
           child,
         ],
       ),
+    );
+  }
+
+  Widget _titleActionBtn(String label, VoidCallback onTap) {
+    return TextButton(
+      onPressed: onTap,
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: Text(label, style: const TextStyle(fontSize: 13)),
     );
   }
 

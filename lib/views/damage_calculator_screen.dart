@@ -1421,6 +1421,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               onChanged: _onPanelChanged,
               abilityNameMap: _abilityNameMap,
               itemNameMap: _itemNameMap,
+              onSaveSide: (side) => _showSaveDialog(
+                side, side == 0 ? _attacker : _defender),
+              onLoadSide: (side) => _showLoadSheet(side),
             )
           : GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
