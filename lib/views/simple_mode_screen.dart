@@ -361,12 +361,15 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   /// Current direction of the nature chip for [s] on the given side.
-  /// In Simple Mode only the ↑ slot is user-visible — the ↓ slot is
-  /// auto-assigned to the opposite stat, but that stat's chip still
-  /// reads as neutral so the "only one ↑" mental model stays clean.
+  /// Simple Mode's *editing* flow only ever creates ↑ (the opposite
+  /// ↓ is auto-paired on the other stat), but we still surface a
+  /// loaded ↓ so samples imported from Extended Mode (e.g. Modest
+  /// where the Atk chip is really ↓) are rendered faithfully.
   _NatureDir _natureDir(_NatureStat s, {required bool attacker}) {
     final up = attacker ? _atkNatUp : _defNatUp;
+    final down = attacker ? _atkNatDown : _defNatDown;
     if (up == s) return _NatureDir.up;
+    if (down == s) return _NatureDir.down;
     return _NatureDir.neutral;
   }
 
@@ -449,8 +452,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// the applied Nature is a real one; going back to neutral clears
   /// both slots.
   void _cycleNature(_NatureStat s, {required bool attacker}) {
+    final current = _natureDir(s, attacker: attacker);
+    // ↓ is display-only in Simple Mode — users can't author a ↓
+    // directly here (Extended Mode handles that case). Tapping a ↓
+    // chip is a no-op so the edit flow stays 2-state (neutral ↔ ↑)
+    // even when the underlying nature happens to contain a ↓.
+    if (current == _NatureDir.down) return;
     setState(() {
-      final current = _natureDir(s, attacker: attacker);
       if (attacker) {
         if (current == _NatureDir.up) {
           _atkNatUp = null;
