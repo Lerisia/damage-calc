@@ -495,7 +495,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: () => _showRankPicker(state, stat),
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 34, height: 32,
+        width: 30, height: 28,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: active ? color.withValues(alpha: 0.18) : null,
@@ -507,7 +507,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w700, color: color,
+            fontSize: 12, fontWeight: FontWeight.w700, color: color,
           ),
         ),
       ),
@@ -627,28 +627,34 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             const SizedBox(width: 8),
             Expanded(child: _itemField(attacker: true)),
           ]),
-          const SizedBox(height: 8),
-          // Offensive stat (Atk↔SpA auto) + Speed share one row.
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _statGroup(
-                label: offLabel,
-                stat: offStat,
-                spCtl: offCtl,
-                onSpChanged: _syncAtkEvs,
-                attacker: true,
-              ),
-              _statGroup(
-                label: AppStrings.t('stat.speedShort'),
-                stat: _NatureStat.spe,
-                spCtl: _atkSpeSpCtl,
-                onSpChanged: _syncAtkEvs,
-                attacker: true,
-              ),
-            ],
+          const SizedBox(height: 14),
+          // Offensive stat (Atk↔SpA auto) + Speed share one row. Extra
+          // vertical padding around the row enlarges the vertical tap
+          // zone around each mini-button without growing the row
+          // horizontally.
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _statGroup(
+                  label: offLabel,
+                  stat: offStat,
+                  spCtl: offCtl,
+                  onSpChanged: _syncAtkEvs,
+                  attacker: true,
+                ),
+                _statGroup(
+                  label: AppStrings.t('stat.speedShort'),
+                  stat: _NatureStat.spe,
+                  spCtl: _atkSpeSpCtl,
+                  onSpChanged: _syncAtkEvs,
+                  attacker: true,
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 14),
           // Move | Critical | × multiplier
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -801,43 +807,49 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             const SizedBox(width: 8),
             Expanded(child: _itemField(attacker: false)),
           ]),
-          const SizedBox(height: 8),
+          const SizedBox(height: 14),
           // HP on its own row — label+SP+flip on the left, residual HP
           // slider fills the right since HP has no nature or rank.
-          Row(
-            children: [
-              _statGroup(
-                label: AppStrings.t('stat.hp'),
-                stat: _NatureStat.hp,
-                spCtl: _defHpSpCtl,
-                onSpChanged: _syncDefEvs,
-                attacker: false,
-                canNature: false,
-              ),
-              const SizedBox(width: 10),
-              Expanded(child: _hpPercentField()),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              children: [
+                _statGroup(
+                  label: AppStrings.t('stat.hp'),
+                  stat: _NatureStat.hp,
+                  spCtl: _defHpSpCtl,
+                  onSpChanged: _syncDefEvs,
+                  attacker: false,
+                  canNature: false,
+                ),
+                const SizedBox(width: 10),
+                Expanded(child: _hpPercentField()),
+              ],
+            ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 10),
           // Def/SpD (auto by move) + Speed share one row.
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _statGroup(
-                label: defLabel,
-                stat: defStat,
-                spCtl: defCtl,
-                onSpChanged: _syncDefEvs,
-                attacker: false,
-              ),
-              _statGroup(
-                label: AppStrings.t('stat.speedShort'),
-                stat: _NatureStat.spe,
-                spCtl: _defSpeSpCtl,
-                onSpChanged: _syncDefEvs,
-                attacker: false,
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _statGroup(
+                  label: defLabel,
+                  stat: defStat,
+                  spCtl: defCtl,
+                  onSpChanged: _syncDefEvs,
+                  attacker: false,
+                ),
+                _statGroup(
+                  label: AppStrings.t('stat.speedShort'),
+                  stat: _NatureStat.spe,
+                  spCtl: _defSpeSpCtl,
+                  onSpChanged: _syncDefEvs,
+                  attacker: false,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -938,10 +950,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
         const SizedBox(width: 4),
         SizedBox(
-          width: 44, height: 32,
+          width: 40, height: 30,
           child: TextField(
             controller: spCtl,
             keyboardType: TextInputType.number,
@@ -950,7 +962,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               FilteringTextInputFormatter.digitsOnly,
               _SpRangeFormatter(),
             ],
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 14),
             decoration: const InputDecoration(
               isDense: true,
               isCollapsed: true,
@@ -983,7 +995,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 32, height: 32,
+        width: 28, height: 28,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
@@ -992,7 +1004,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w700,
+            fontSize: 12, fontWeight: FontWeight.w700,
             color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
           ),
         ),
@@ -1012,7 +1024,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: () => _cycleNature(stat, attacker: attacker),
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 32, height: 32,
+        width: 28, height: 28,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isActive ? color.withValues(alpha: 0.18) : null,
@@ -1024,7 +1036,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 15, fontWeight: FontWeight.w700, color: color,
+            fontSize: 14, fontWeight: FontWeight.w700, color: color,
           ),
         ),
       ),
