@@ -411,31 +411,28 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _atk.baseStats.spAttack > _atk.baseStats.attack;
   }
 
-  /// True when this Pokemon is a physical attacker by base-stat
-  /// intent — independent of the currently selected move. Ties and
-  /// Huge Power / Pure Power / Tough Claws are resolved in favor of
-  /// physical: those abilities make Attack the de-facto offensive
-  /// stat even on mons with equal or higher base SpA.
-  bool get _atkPhysicalFocusByBase {
-    final a = _atk.selectedAbility;
-    if (a == 'Huge Power' || a == 'Pure Power' || a == 'Tough Claws') return true;
-    return _atk.baseStats.attack >= _atk.baseStats.spAttack;
-  }
-
   /// Attacker-side "opposite" stat for nature pairing. Offensive
   /// stats (Atk/SpA) pair with each other; defensive stats do the
-  /// same. Spe↑ intentionally pairs with the *lower* of base Atk /
-  /// base SpA (via [_atkPhysicalFocusByBase]) rather than tracking
-  /// the current move's category — users expect the 'Spe↑' choice
-  /// to lock in a nature like Jolly/Timid that matches the mon's
-  /// base-stat identity, not to flicker between them every time the
-  /// move slot is re-picked.
+  /// same. Spe↑ pairs with whichever offensive stat is *not* the
+  /// currently-picked move's category — captured at tap time, so a
+  /// later move swap doesn't silently rewrite the nature. With no
+  /// move picked we fall back to base Atk vs SpA. Huge Power / Pure
+  /// Power / Tough Claws always force the pair to SpA (physical).
   _NatureStat _atkOpposite(_NatureStat s) {
     switch (s) {
       case _NatureStat.atk: return _NatureStat.spa;
       case _NatureStat.spa: return _NatureStat.atk;
       case _NatureStat.spe:
-        return _atkPhysicalFocusByBase ? _NatureStat.spa : _NatureStat.atk;
+        final a = _atk.selectedAbility;
+        if (a == 'Huge Power' || a == 'Pure Power' || a == 'Tough Claws') {
+          return _NatureStat.spa;
+        }
+        final cat = _atk.moves[0]?.category;
+        if (cat == MoveCategory.special) return _NatureStat.atk;
+        if (cat == MoveCategory.physical) return _NatureStat.spa;
+        return _atk.baseStats.attack >= _atk.baseStats.spAttack
+            ? _NatureStat.spa
+            : _NatureStat.atk;
       case _NatureStat.def: return _NatureStat.spd;
       case _NatureStat.spd: return _NatureStat.def;
       case _NatureStat.hp: return _NatureStat.spa;
