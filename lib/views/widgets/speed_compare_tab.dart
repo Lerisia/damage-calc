@@ -465,43 +465,74 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     return [...pokemon, ...rest];
   }
 
-  /// Speed-tab's nature picker — only ↑ / neutral / ↓ on Speed is
-  /// interesting here, so we keep this as a single-cycle 3-state
-  /// toggle: Spe↑ → neutral → Spe↓ → ... The other stats stay as
-  /// whatever they were (so e.g. loading Bold keeps Def↑ Atk↓ and
-  /// only toggles the Speed slot of the profile).
+  /// Same two-dropdown nature picker used in Extended Mode — ↑ slot
+  /// and ↓ slot, each with a 'none' option plus the five battle
+  /// stats. Kept consistent across tabs so the user sees one way to
+  /// edit natures app-wide.
   Widget _natureAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
-    final profile = state.nature;
-    final isBuff = profile.up == NatureStat.spe;
-    final isNerf = profile.down == NatureStat.spe;
-    final label = isBuff
-        ? '↑${AppStrings.t('stat.speed')}'
-        : isNerf
-            ? '↓${AppStrings.t('stat.speed')}'
-            : AppStrings.t('nature.neutral');
-    final color = isBuff ? Colors.red : isNerf ? Colors.blue : null;
-    return InkWell(
-      onTap: () {
-        final next = isBuff
-            ? profile.copyWith(up: null, clearUp: true)
-            : isNerf
-                ? profile.copyWith(down: null, clearDown: true)
-                : profile.copyWith(up: NatureStat.spe);
-        setState(() => state.nature = next);
-        _notify();
-        // Suppress unused-parameter warnings for controller/focus.
-        controller.text = label;
-        focusNode.unfocus();
-      },
-      child: InputDecorator(
+    // controller / focusNode kept in the signature for compat with
+    // the row layout (and so callers don't have to special-case this
+    // widget); they're unused now that the picker is a pair of
+    // dropdowns rather than a typeahead.
+    controller.text = '';
+    focusNode.canRequestFocus = false;
+    return _natureDropdownsFor(state);
+  }
+
+  Widget _natureDropdownsFor(BattlePokemonState state) {
+    Widget pick(NatureStat? value, bool isUp) {
+      final tint = isUp ? Colors.red : Colors.blue;
+      return DropdownButtonFormField<NatureStat?>(
+        value: value,
+        isDense: true,
         decoration: InputDecoration(
-          labelText: AppStrings.t('label.nature'),
+          labelText: AppStrings.t(
+              isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 4),
         ),
-        child: Text(label, style: TextStyle(fontSize: 14, color: color)),
-      ),
+        style: TextStyle(fontSize: 14, color: tint),
+        items: [
+          DropdownMenuItem<NatureStat?>(
+            value: null,
+            child: Text(AppStrings.t('nature.none'),
+                style: const TextStyle(fontSize: 14, color: Colors.grey)),
+          ),
+          for (final s in NatureStat.values)
+            DropdownMenuItem<NatureStat?>(
+              value: s,
+              child: Text(_natureStatLabel(s),
+                  style: TextStyle(fontSize: 14, color: tint)),
+            ),
+        ],
+        onChanged: (v) {
+          setState(() {
+            state.nature = isUp
+                ? state.nature.copyWith(up: v, clearUp: v == null)
+                : state.nature.copyWith(down: v, clearDown: v == null);
+          });
+          _notify();
+        },
+      );
+    }
+
+    return Row(
+      children: [
+        Expanded(child: pick(state.nature.up, true)),
+        const SizedBox(width: 6),
+        Expanded(child: pick(state.nature.down, false)),
+      ],
     );
+  }
+
+  String _natureStatLabel(NatureStat s) {
+    switch (s) {
+      case NatureStat.atk: return AppStrings.t('stat.attack');
+      case NatureStat.def: return AppStrings.t('stat.defense');
+      case NatureStat.spa: return AppStrings.t('stat.spAttack');
+      case NatureStat.spd: return AppStrings.t('stat.spDefense');
+      case NatureStat.spe: return AppStrings.t('stat.speed');
+    }
   }
 
   Widget _abilityAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
