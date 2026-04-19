@@ -628,34 +628,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             Expanded(child: _itemField(attacker: true)),
           ]),
           const SizedBox(height: 14),
-          // Offensive stat (Atk↔SpA auto) + Speed share one row. Extra
-          // vertical padding around the row enlarges the vertical tap
-          // zone around each mini-button without growing the row
-          // horizontally.
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _statGroup(
-                  label: offLabel,
-                  stat: offStat,
-                  spCtl: offCtl,
-                  onSpChanged: _syncAtkEvs,
-                  attacker: true,
-                ),
-                _statGroup(
-                  label: AppStrings.t('stat.speedShort'),
-                  stat: _NatureStat.spe,
-                  spCtl: _atkSpeSpCtl,
-                  onSpChanged: _syncAtkEvs,
-                  attacker: true,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
-          // Move | Critical | × multiplier
+          // Move | Critical | × multiplier — sits above the stat row
+          // so picking a special move (which flips the offensive stat
+          // slot from Atk to SpA) doesn't blow away the user's
+          // just-entered SP after the fact.
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -669,6 +645,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                   onSelected: (m) {
                     setState(() {
                       _atk.moves[0] = m;
+                      // Drop any stale hit-count override so the new
+                      // move starts at its own default (or collapses
+                      // out entirely if it isn't multi-hit).
+                      _atk.hitOverrides[0] = null;
                       _adjustAtkNatureForMove();
                     });
                     widget.onChanged();
@@ -676,6 +656,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                 ),
               ),
               const SizedBox(width: 6),
+              _hitCountChip(),
               _criticalCheck(),
               const SizedBox(width: 6),
               SizedBox(width: 70, child: _multiplierField()),
@@ -713,6 +694,33 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                   ))
                 : const SizedBox.shrink(),
           ),
+          const SizedBox(height: 10),
+          // Offensive stat (Atk↔SpA auto) + Speed share one row. Extra
+          // vertical padding around the row enlarges the vertical tap
+          // zone around each mini-button without growing the row
+          // horizontally.
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _statGroup(
+                  label: offLabel,
+                  stat: offStat,
+                  spCtl: offCtl,
+                  onSpChanged: _syncAtkEvs,
+                  attacker: true,
+                ),
+                _statGroup(
+                  label: AppStrings.t('stat.speedShort'),
+                  stat: _NatureStat.spe,
+                  spCtl: _atkSpeSpCtl,
+                  onSpChanged: _syncAtkEvs,
+                  attacker: true,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -742,6 +750,79 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       child: Text(label, style: TextStyle(
         fontSize: 13, fontWeight: FontWeight.w600, color: color,
       )),
+    );
+  }
+
+  /// Multi-hit picker chip — only rendered when the selected move is
+  /// multi-hit (e.g. Bullet Seed 2–5). Shows the current hit count
+  /// (defaulting to the move's max) and taps open a compact picker
+  /// over the [minHits, maxHits] range. The choice is stored on
+  /// [BattlePokemonState.hitOverrides] so it stays in sync with
+  /// Extended Mode.
+  Widget _hitCountChip() {
+    final move = _atk.moves[0];
+    if (move == null || !move.isMultiHit) return const SizedBox.shrink();
+    final current = _atk.hitOverrides[0] ?? move.maxHits;
+    return Padding(
+      padding: const EdgeInsets.only(right: 4),
+      child: InkWell(
+        onTap: () => _showHitCountPicker(move),
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            '×$current',
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showHitCountPicker(Move move) {
+    final current = _atk.hitOverrides[0] ?? move.maxHits;
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Wrap(
+            spacing: 6, runSpacing: 6,
+            children: [
+              for (int n = move.minHits; n <= move.maxHits; n++)
+                InkWell(
+                  onTap: () {
+                    setState(() => _atk.hitOverrides[0] = n);
+                    widget.onChanged();
+                    Navigator.pop(ctx);
+                  },
+                  child: Container(
+                    width: 44, height: 36,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: n == current
+                          ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.18)
+                          : null,
+                      border: Border.all(
+                        color: n == current
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.grey.withValues(alpha: 0.4),
+                      ),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text('×$n',
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w700)),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
