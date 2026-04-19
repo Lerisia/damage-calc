@@ -869,10 +869,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           ),
         ),
         SizedBox(
-          width: 38,
+          width: 44,
           child: Text(
             '$pct%',
             textAlign: TextAlign.right,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.visible,
             style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
           ),
         ),
@@ -967,11 +970,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   Widget _miniBtn(String label, VoidCallback onTap) {
+    // Fixed width sized for the widest label we ever show ("32") so
+    // toggling 0 ↔ 32 doesn't shove neighbouring widgets sideways.
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+        width: 28, height: 28,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
           borderRadius: BorderRadius.circular(4),
