@@ -420,50 +420,59 @@ class _StatInputState extends State<StatInput> {
     );
   }
 
-  /// Two small dropdowns — one for the ↑ stat, one for the ↓ stat,
-  /// each with a "none" option at the top. Replaces the old single
-  /// 25-option nature picker so users can express any combination
-  /// (Atk↑ with no ↓, same-stat ↑↓, etc.). Changes emit a fresh
-  /// [NatureProfile] through [onNatureChanged].
+  /// Two compact nature pickers — ↑ slot and ↓ slot, each rendered
+  /// as a [PopupMenuButton] rather than [DropdownButtonFormField]
+  /// so the popup animation is snappy (100 ms) instead of Flutter's
+  /// default 300 ms drawer feel, which matters when you're tapping
+  /// through damage checks mid-battle.
   Widget _natureDropdowns() {
-    Widget pick(NatureStat? value, bool isUp) {
-      final tint = isUp ? Colors.red : Colors.blue;
-      return DropdownButtonFormField<NatureStat?>(
-        value: value,
-        isDense: true,
+    return Row(
+      children: [
+        Expanded(child: _naturePicker(widget.nature.up, true)),
+        const SizedBox(width: 6),
+        Expanded(child: _naturePicker(widget.nature.down, false)),
+      ],
+    );
+  }
+
+  Widget _naturePicker(NatureStat? value, bool isUp) {
+    final tint = isUp ? Colors.red : Colors.blue;
+    final label = value == null
+        ? AppStrings.t('nature.none')
+        : _statLabel(value);
+    final textColor = value == null ? Colors.grey : tint;
+    return PopupMenuButton<NatureStat?>(
+      initialValue: value,
+      tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
+      popUpAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 100)),
+      itemBuilder: (_) => [
+        PopupMenuItem<NatureStat?>(
+          value: null,
+          child: Text(AppStrings.t('nature.none'),
+              style: const TextStyle(fontSize: 14, color: Colors.grey)),
+        ),
+        for (final s in NatureStat.values)
+          PopupMenuItem<NatureStat?>(
+            value: s,
+            child: Text(_statLabel(s),
+                style: TextStyle(fontSize: 14, color: tint)),
+          ),
+      ],
+      onSelected: (v) {
+        widget.onNatureChanged(isUp
+            ? widget.nature.copyWith(up: v, clearUp: v == null)
+            : widget.nature.copyWith(down: v, clearDown: v == null));
+      },
+      child: InputDecorator(
         decoration: InputDecoration(
           labelText: AppStrings.t(
               isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
           isDense: true,
         ),
-        style: TextStyle(fontSize: 14, color: tint),
-        items: [
-          DropdownMenuItem<NatureStat?>(
-            value: null,
-            child: Text(AppStrings.t('nature.none'),
-                style: const TextStyle(fontSize: 14, color: Colors.grey)),
-          ),
-          for (final s in NatureStat.values)
-            DropdownMenuItem<NatureStat?>(
-              value: s,
-              child: Text(_statLabel(s),
-                  style: TextStyle(fontSize: 14, color: tint)),
-            ),
-        ],
-        onChanged: (v) {
-          widget.onNatureChanged(isUp
-              ? widget.nature.copyWith(up: v, clearUp: v == null)
-              : widget.nature.copyWith(down: v, clearDown: v == null));
-        },
-      );
-    }
-
-    return Row(
-      children: [
-        Expanded(child: pick(widget.nature.up, true)),
-        const SizedBox(width: 6),
-        Expanded(child: pick(widget.nature.down, false)),
-      ],
+        child: Text(label,
+            style: TextStyle(fontSize: 14, color: textColor)),
+      ),
     );
   }
 

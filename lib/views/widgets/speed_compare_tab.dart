@@ -482,29 +482,30 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   Widget _natureDropdownsFor(BattlePokemonState state) {
     Widget pick(NatureStat? value, bool isUp) {
       final tint = isUp ? Colors.red : Colors.blue;
-      return DropdownButtonFormField<NatureStat?>(
-        value: value,
-        isDense: true,
-        decoration: InputDecoration(
-          labelText: AppStrings.t(
-              isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-          isDense: true,
-        ),
-        style: TextStyle(fontSize: 14, color: tint),
-        items: [
-          DropdownMenuItem<NatureStat?>(
+      final textColor = value == null ? Colors.grey : tint;
+      final label = value == null
+          ? AppStrings.t('nature.none')
+          : _natureStatLabel(value);
+      return PopupMenuButton<NatureStat?>(
+        initialValue: value,
+        tooltip: AppStrings.t(
+            isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
+        popUpAnimationStyle:
+            AnimationStyle(duration: const Duration(milliseconds: 100)),
+        itemBuilder: (_) => [
+          PopupMenuItem<NatureStat?>(
             value: null,
             child: Text(AppStrings.t('nature.none'),
                 style: const TextStyle(fontSize: 14, color: Colors.grey)),
           ),
           for (final s in NatureStat.values)
-            DropdownMenuItem<NatureStat?>(
+            PopupMenuItem<NatureStat?>(
               value: s,
               child: Text(_natureStatLabel(s),
                   style: TextStyle(fontSize: 14, color: tint)),
             ),
         ],
-        onChanged: (v) {
+        onSelected: (v) {
           setState(() {
             state.nature = isUp
                 ? state.nature.copyWith(up: v, clearUp: v == null)
@@ -512,6 +513,15 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           });
           _notify();
         },
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: AppStrings.t(
+                isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
+            isDense: true,
+          ),
+          child: Text(label,
+              style: TextStyle(fontSize: 14, color: textColor)),
+        ),
       );
     }
 
