@@ -1273,10 +1273,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               ),
               const Spacer(),
-              IconButton(
-                tooltip: AppStrings.t(_simpleMode ? 'simple.backToNormal' : 'simple.menu'),
-                icon: Icon(_simpleMode ? Icons.dashboard_outlined : Icons.bolt_outlined),
+              TextButton(
                 onPressed: _toggleSimpleMode,
+                child: Text(
+                  AppStrings.t(_simpleMode
+                      ? 'simple.shortExtended'
+                      : 'simple.shortSimple'),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                ),
               ),
               const SizedBox(width: 4),
               _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
