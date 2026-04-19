@@ -495,7 +495,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: () => _showRankPicker(state, stat),
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 30, height: 28,
+        width: 34, height: 32,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: active ? color.withValues(alpha: 0.18) : null,
@@ -507,7 +507,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 12, fontWeight: FontWeight.w700, color: color,
+            fontSize: 14, fontWeight: FontWeight.w700, color: color,
           ),
         ),
       ),
@@ -938,10 +938,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+        Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
         const SizedBox(width: 4),
         SizedBox(
-          width: 40, height: 30,
+          width: 44, height: 32,
           child: TextField(
             controller: spCtl,
             keyboardType: TextInputType.number,
@@ -950,7 +950,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               FilteringTextInputFormatter.digitsOnly,
               _SpRangeFormatter(),
             ],
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 15),
             decoration: const InputDecoration(
               isDense: true,
               isCollapsed: true,
@@ -983,7 +983,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 28, height: 28,
+        width: 32, height: 32,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
@@ -992,7 +992,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 12, fontWeight: FontWeight.w700,
+            fontSize: 14, fontWeight: FontWeight.w700,
             color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
           ),
         ),
@@ -1012,7 +1012,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: () => _cycleNature(stat, attacker: attacker),
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 28, height: 28,
+        width: 32, height: 32,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isActive ? color.withValues(alpha: 0.18) : null,
@@ -1024,7 +1024,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w700, color: color,
+            fontSize: 15, fontWeight: FontWeight.w700, color: color,
           ),
         ),
       ),
