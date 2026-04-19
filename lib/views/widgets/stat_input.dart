@@ -5,7 +5,7 @@ import '../../data/itemdex.dart';
 import '../../utils/korean_search.dart';
 import '../../models/ability.dart';
 import '../../models/item.dart';
-import '../../models/nature.dart';
+import '../../models/nature_profile.dart';
 import '../../models/rank.dart';
 import '../../models/stats.dart';
 import '../../models/status.dart';
@@ -56,7 +56,7 @@ class _ClampingFormatter extends TextInputFormatter {
 
 class StatInput extends StatefulWidget {
   final int level;
-  final Nature nature;
+  final NatureProfile nature;
   final Stats iv;
   final Stats ev;
   final Stats baseStats;
@@ -67,7 +67,7 @@ class StatInput extends StatefulWidget {
   final int hpPercent;
   final StatusCondition status;
   final ValueChanged<int> onLevelChanged;
-  final ValueChanged<Nature> onNatureChanged;
+  final ValueChanged<NatureProfile> onNatureChanged;
   final ValueChanged<Stats> onIvChanged;
   final ValueChanged<Stats> onEvChanged;
   final ValueChanged<String> onAbilityChanged;
@@ -144,27 +144,8 @@ class _StatInputState extends State<StatInput> {
   int _evResetCounter = 0;
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
-  final _natureController = TextEditingController();
   final _abilityFocusNode = FocusNode();
   final _itemFocusNode = FocusNode();
-  final _natureFocusNode = FocusNode();
-
-  static String _natureLabelStatic(Nature n) {
-    final ko = n.localizedName;
-    String buff = '', nerf = '';
-    if (n.attackModifier > 1.0) buff = AppStrings.t('stat.attack');
-    if (n.defenseModifier > 1.0) buff = AppStrings.t('stat.defense');
-    if (n.spAttackModifier > 1.0) buff = AppStrings.t('stat.spAttack');
-    if (n.spDefenseModifier > 1.0) buff = AppStrings.t('stat.spDefense');
-    if (n.speedModifier > 1.0) buff = AppStrings.t('stat.speed');
-    if (n.attackModifier < 1.0) nerf = AppStrings.t('stat.attack');
-    if (n.defenseModifier < 1.0) nerf = AppStrings.t('stat.defense');
-    if (n.spAttackModifier < 1.0) nerf = AppStrings.t('stat.spAttack');
-    if (n.spDefenseModifier < 1.0) nerf = AppStrings.t('stat.spDefense');
-    if (n.speedModifier < 1.0) nerf = AppStrings.t('stat.speed');
-    if (buff.isEmpty) return '$ko (${AppStrings.t("nature.neutral")})';
-    return '$ko (+$buff -$nerf)';
-  }
 
   Map<String, String> _itemNameMap = {};
   static Map<String, Item> _itemDataMap = {};
@@ -199,10 +180,8 @@ class _StatInputState extends State<StatInput> {
   void dispose() {
     _abilityController.dispose();
     _itemController.dispose();
-    _natureController.dispose();
     _abilityFocusNode.dispose();
     _itemFocusNode.dispose();
-    _natureFocusNode.dispose();
     super.dispose();
   }
 
@@ -379,12 +358,12 @@ class _StatInputState extends State<StatInput> {
         ),
         const SizedBox(height: 8),
 
-        // Nature + Item (searchable)
+        // Nature (two dropdowns: ↑ / ↓) + Item.
         Row(
           children: [
             Expanded(
               flex: 3,
-              child: _natureAutocomplete(),
+              child: _natureDropdowns(),
             ),
             const SizedBox(width: 8),
             Expanded(flex: 2, child: _itemAutocomplete()),
@@ -441,59 +420,61 @@ class _StatInputState extends State<StatInput> {
     );
   }
 
-  Widget _natureAutocomplete() {
-    final initialText = _natureLabelStatic(widget.nature);
-    if (!_natureFocusNode.hasFocus) {
-      _natureController.text = initialText;
+  /// Two small dropdowns — one for the ↑ stat, one for the ↓ stat,
+  /// each with a "none" option at the top. Replaces the old single
+  /// 25-option nature picker so users can express any combination
+  /// (Atk↑ with no ↓, same-stat ↑↓, etc.). Changes emit a fresh
+  /// [NatureProfile] through [onNatureChanged].
+  Widget _natureDropdowns() {
+    Widget pick(NatureStat? value, bool isUp) {
+      final tint = isUp ? Colors.red : Colors.blue;
+      return DropdownButtonFormField<NatureStat?>(
+        value: value,
+        isDense: true,
+        decoration: InputDecoration(
+          labelText: AppStrings.t(
+              isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
+          isDense: true,
+        ),
+        style: TextStyle(fontSize: 14, color: tint),
+        items: [
+          DropdownMenuItem<NatureStat?>(
+            value: null,
+            child: Text(AppStrings.t('nature.none'),
+                style: const TextStyle(fontSize: 14, color: Colors.grey)),
+          ),
+          for (final s in NatureStat.values)
+            DropdownMenuItem<NatureStat?>(
+              value: s,
+              child: Text(_statLabel(s),
+                  style: TextStyle(fontSize: 14, color: tint)),
+            ),
+        ],
+        onChanged: (v) {
+          widget.onNatureChanged(isUp
+              ? widget.nature.copyWith(up: v, clearUp: v == null)
+              : widget.nature.copyWith(down: v, clearDown: v == null));
+        },
+      );
     }
 
-    // Selected nature first, then sorted order (preserving priority)
-    List<Nature> sorted = [...sortedNatures];
-    sorted.remove(widget.nature);
-    sorted.insert(0, widget.nature);
-
-    return buildTypeAhead<Nature>(
-      controller: _natureController,
-      focusNode: _natureFocusNode,
-      maxHeight: 250,
-      suggestionsCallback: (query) {
-        if (query.isEmpty || query == initialText) return sorted;
-        final qLower = query.toLowerCase();
-        return sorted.where((n) {
-          final label = _natureLabelStatic(n).toLowerCase();
-          final ko = n.nameKo.toLowerCase();
-          final en = n.name.toLowerCase();
-          final ja = n.nameJa.toLowerCase();
-          return label.contains(qLower) || ko.contains(qLower) ||
-              en.contains(qLower) || ja.contains(qLower);
-        }).toList();
-      },
-      decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true),
-      itemBuilder: (context, nature) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(_natureLabelStatic(nature),
-              overflow: TextOverflow.ellipsis, maxLines: 1,
-              style: const TextStyle(fontSize: 14)),
-        );
-      },
-      onSelected: (v) {
-        _natureController.text = _natureLabelStatic(v);
-        _natureFocusNode.unfocus();
-        widget.onNatureChanged(v);
-      },
-      onSubmittedPick: (text) {
-        if (text.isEmpty) return null;
-        final tLower = text.toLowerCase();
-        final match = sorted.where((n) {
-          final ko = n.nameKo.toLowerCase();
-          final en = n.name.toLowerCase();
-          final ja = n.nameJa.toLowerCase();
-          return ko.contains(tLower) || en.contains(tLower) || ja.contains(tLower);
-        }).toList();
-        return match.isNotEmpty ? match.first : null;
-      },
+    return Row(
+      children: [
+        Expanded(child: pick(widget.nature.up, true)),
+        const SizedBox(width: 6),
+        Expanded(child: pick(widget.nature.down, false)),
+      ],
     );
+  }
+
+  String _statLabel(NatureStat s) {
+    switch (s) {
+      case NatureStat.atk: return AppStrings.t('stat.attack');
+      case NatureStat.def: return AppStrings.t('stat.defense');
+      case NatureStat.spa: return AppStrings.t('stat.spAttack');
+      case NatureStat.spd: return AppStrings.t('stat.spDefense');
+      case NatureStat.spe: return AppStrings.t('stat.speed');
+    }
   }
 
   Widget _abilityAutocomplete() {

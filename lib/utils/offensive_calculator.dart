@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import '../models/stats.dart';
 import '../models/status.dart';
-import '../models/nature.dart';
+import '../models/nature_profile.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
 import '../models/rank.dart';
@@ -38,7 +38,7 @@ class OffensiveCalculator {
     required Stats baseStats,
     required Stats iv,
     required Stats ev,
-    required Nature nature,
+    required NatureProfile nature,
     required int level,
     required TransformedMove transformed,
     required PokemonType type1,

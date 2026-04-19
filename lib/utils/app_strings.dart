@@ -1143,6 +1143,21 @@ class AppStrings {
     },
 
     // === Nature ===
+    'nature.none': {
+      AppLanguage.ko: '없음',
+      AppLanguage.en: '—',
+      AppLanguage.ja: 'なし',
+    },
+    'nature.buffLabel': {
+      AppLanguage.ko: '상승',
+      AppLanguage.en: '↑',
+      AppLanguage.ja: '上昇',
+    },
+    'nature.nerfLabel': {
+      AppLanguage.ko: '하락',
+      AppLanguage.en: '↓',
+      AppLanguage.ja: '下降',
+    },
     'nature.neutral': {
       AppLanguage.ko: '무보정',
       AppLanguage.en: 'Neutral',

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
-import '../models/nature.dart';
+import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
 import '../models/room.dart';
 import '../models/stats.dart';
@@ -73,40 +73,8 @@ class SimpleModeView extends StatefulWidget {
   State<SimpleModeView> createState() => _SimpleModeViewState();
 }
 
-/// Axes natures can up/down.
-enum _NatureStat { atk, def, spa, spd, spe, hp }
-
 /// Tri-state a nature chip can hold on a stat.
 enum _NatureDir { neutral, up, down }
-
-Nature _natureFromUpDown(_NatureStat? up, _NatureStat? down) {
-  if (up == null || down == null || up == down) return Nature.hardy;
-  // HP can't be natured — fall back to neutral if someone passes it in.
-  if (up == _NatureStat.hp || down == _NatureStat.hp) return Nature.hardy;
-  const table = {
-    (_NatureStat.atk, _NatureStat.def): Nature.lonely,
-    (_NatureStat.atk, _NatureStat.spe): Nature.brave,
-    (_NatureStat.atk, _NatureStat.spa): Nature.adamant,
-    (_NatureStat.atk, _NatureStat.spd): Nature.naughty,
-    (_NatureStat.def, _NatureStat.atk): Nature.bold,
-    (_NatureStat.def, _NatureStat.spe): Nature.relaxed,
-    (_NatureStat.def, _NatureStat.spa): Nature.impish,
-    (_NatureStat.def, _NatureStat.spd): Nature.lax,
-    (_NatureStat.spe, _NatureStat.atk): Nature.timid,
-    (_NatureStat.spe, _NatureStat.def): Nature.hasty,
-    (_NatureStat.spe, _NatureStat.spa): Nature.jolly,
-    (_NatureStat.spe, _NatureStat.spd): Nature.naive,
-    (_NatureStat.spa, _NatureStat.atk): Nature.modest,
-    (_NatureStat.spa, _NatureStat.def): Nature.mild,
-    (_NatureStat.spa, _NatureStat.spe): Nature.quiet,
-    (_NatureStat.spa, _NatureStat.spd): Nature.rash,
-    (_NatureStat.spd, _NatureStat.atk): Nature.calm,
-    (_NatureStat.spd, _NatureStat.def): Nature.gentle,
-    (_NatureStat.spd, _NatureStat.spe): Nature.sassy,
-    (_NatureStat.spd, _NatureStat.spa): Nature.careful,
-  };
-  return table[(up, down)] ?? Nature.hardy;
-}
 
 /// Accepts only 0-based integers up to [ChampionsMode.maxPerStat] (32).
 /// Clamps down on the fly, so typing '65' becomes '32' without having
@@ -166,10 +134,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   final _atkItemFocus = FocusNode();
   final _defAbilityFocus = FocusNode();
   final _defItemFocus = FocusNode();
-
-  // Nature chip state per side.
-  _NatureStat? _atkNatUp, _atkNatDown;
-  _NatureStat? _defNatUp, _defNatDown;
 
   @override
   void initState() {
@@ -239,33 +203,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     _defDefSpCtl.text = '${ChampionsMode.evToSp(_def.ev.defense)}';
     _defSpdSpCtl.text = '${ChampionsMode.evToSp(_def.ev.spDefense)}';
     _defSpeSpCtl.text = '${ChampionsMode.evToSp(_def.ev.speed)}';
-    _atkNatUp = _natureUpStat(_atk.nature);
-    _atkNatDown = _natureDownStat(_atk.nature);
-    _defNatUp = _natureUpStat(_def.nature);
-    _defNatDown = _natureDownStat(_def.nature);
     _atkAbilityCtl.text = _abilityNames[_atk.selectedAbility ?? ''] ?? '';
     _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
     _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
     _defItemCtl.text = _itemDisplayText(_def.selectedItem);
-  }
-
-  /// Reverse-map Nature → _NatureStat for the up slot.
-  _NatureStat? _natureUpStat(Nature n) {
-    if (n.attackModifier > 1.01) return _NatureStat.atk;
-    if (n.defenseModifier > 1.01) return _NatureStat.def;
-    if (n.spAttackModifier > 1.01) return _NatureStat.spa;
-    if (n.spDefenseModifier > 1.01) return _NatureStat.spd;
-    if (n.speedModifier > 1.01) return _NatureStat.spe;
-    return null;
-  }
-
-  _NatureStat? _natureDownStat(Nature n) {
-    if (n.attackModifier < 0.99) return _NatureStat.atk;
-    if (n.defenseModifier < 0.99) return _NatureStat.def;
-    if (n.spAttackModifier < 0.99) return _NatureStat.spa;
-    if (n.spDefenseModifier < 0.99) return _NatureStat.spd;
-    if (n.speedModifier < 0.99) return _NatureStat.spe;
-    return null;
   }
 
   /// Display text for an item key — "없음" for null/empty, localized
@@ -361,15 +302,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   /// Current direction of the nature chip for [s] on the given side.
-  /// Simple Mode's *editing* flow only ever creates ↑ (the opposite
-  /// ↓ is auto-paired on the other stat), but we still surface a
-  /// loaded ↓ so samples imported from Extended Mode (e.g. Modest
-  /// where the Atk chip is really ↓) are rendered faithfully.
-  _NatureDir _natureDir(_NatureStat s, {required bool attacker}) {
-    final up = attacker ? _atkNatUp : _defNatUp;
-    final down = attacker ? _atkNatDown : _defNatDown;
-    if (up == s) return _NatureDir.up;
-    if (down == s) return _NatureDir.down;
+  /// Reads directly from the shared [NatureProfile] on state so we
+  /// never drift from the canonical value (and so ↓s loaded from
+  /// Extended Mode render faithfully).
+  _NatureDir _natureDir(NatureStat s, {required bool attacker}) {
+    final profile = (attacker ? _atk : _def).nature;
+    if (profile.up == s) return _NatureDir.up;
+    if (profile.down == s) return _NatureDir.down;
     return _NatureDir.neutral;
   }
 
@@ -379,17 +318,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// always the intended choice (a 120-base SpA mon wants Impish, a
   /// 120-base Atk mon wants Bold), which lines up with the common
   /// 장난꾸러기 / 차분 defaults in play without hard-coding.
-  _NatureStat _oppositeStat(_NatureStat s) {
+  NatureStat _oppositeStat(NatureStat s) {
     switch (s) {
-      case _NatureStat.atk: return _NatureStat.spa;
-      case _NatureStat.spa: return _NatureStat.atk;
-      case _NatureStat.def:
-      case _NatureStat.spd:
+      case NatureStat.atk: return NatureStat.spa;
+      case NatureStat.spa: return NatureStat.atk;
+      case NatureStat.def:
+      case NatureStat.spd:
         return _def.baseStats.attack <= _def.baseStats.spAttack
-            ? _NatureStat.atk
-            : _NatureStat.spa;
-      case _NatureStat.spe: return _NatureStat.atk;
-      case _NatureStat.hp: return _NatureStat.atk; // unused, HP can't be natured
+            ? NatureStat.atk
+            : NatureStat.spa;
+      case NatureStat.spe: return NatureStat.atk;
     }
   }
 
@@ -418,24 +356,23 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// later move swap doesn't silently rewrite the nature. With no
   /// move picked we fall back to base Atk vs SpA. Huge Power / Pure
   /// Power / Tough Claws always force the pair to SpA (physical).
-  _NatureStat _atkOpposite(_NatureStat s) {
+  NatureStat _atkOpposite(NatureStat s) {
     switch (s) {
-      case _NatureStat.atk: return _NatureStat.spa;
-      case _NatureStat.spa: return _NatureStat.atk;
-      case _NatureStat.spe:
+      case NatureStat.atk: return NatureStat.spa;
+      case NatureStat.spa: return NatureStat.atk;
+      case NatureStat.spe:
         final a = _atk.selectedAbility;
         if (a == 'Huge Power' || a == 'Pure Power' || a == 'Tough Claws') {
-          return _NatureStat.spa;
+          return NatureStat.spa;
         }
         final cat = _atk.moves[0]?.category;
-        if (cat == MoveCategory.special) return _NatureStat.atk;
-        if (cat == MoveCategory.physical) return _NatureStat.spa;
+        if (cat == MoveCategory.special) return NatureStat.atk;
+        if (cat == MoveCategory.physical) return NatureStat.spa;
         return _atk.baseStats.attack >= _atk.baseStats.spAttack
-            ? _NatureStat.spa
-            : _NatureStat.atk;
-      case _NatureStat.def: return _NatureStat.spd;
-      case _NatureStat.spd: return _NatureStat.def;
-      case _NatureStat.hp: return _NatureStat.spa;
+            ? NatureStat.spa
+            : NatureStat.atk;
+      case NatureStat.def: return NatureStat.spd;
+      case NatureStat.spd: return NatureStat.def;
     }
   }
 
@@ -443,33 +380,23 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// Simple Mode). Going up auto-fills the ↓ slot with the opposite so
   /// the applied Nature is a real one; going back to neutral clears
   /// both slots.
-  void _cycleNature(_NatureStat s, {required bool attacker}) {
+  void _cycleNature(NatureStat s, {required bool attacker}) {
     final current = _natureDir(s, attacker: attacker);
     setState(() {
-      if (attacker) {
-        // Both ↑ and ↓ taps clear the nature back to neutral; only a
-        // neutral tap authors a new ↑ (with auto-paired ↓ on the
-        // opposite stat). Users can't author a ↓ directly here, but
-        // since ↓s naturally appear as the paired side of a ↑, they
-        // need a way to undo them — a single tap collapses either
-        // direction back to neutral.
-        if (current != _NatureDir.neutral) {
-          _atkNatUp = null;
-          _atkNatDown = null;
-        } else {
-          _atkNatUp = s;
-          _atkNatDown = _atkOpposite(s);
-        }
-        _atk.nature = _natureFromUpDown(_atkNatUp, _atkNatDown);
+      final state = attacker ? _atk : _def;
+      // Both ↑ and ↓ taps clear the nature back to neutral; only a
+      // neutral tap authors a new ↑ (with auto-paired ↓ on the
+      // opposite stat). Users can't author a ↓ directly here, but
+      // since ↓s naturally appear as the paired side of a ↑, they
+      // need a way to undo them — a single tap collapses either
+      // direction back to neutral.
+      if (current != _NatureDir.neutral) {
+        state.nature = NatureProfile.neutral;
       } else {
-        if (current != _NatureDir.neutral) {
-          _defNatUp = null;
-          _defNatDown = null;
-        } else {
-          _defNatUp = s;
-          _defNatDown = _oppositeStat(s);
-        }
-        _def.nature = _natureFromUpDown(_defNatUp, _defNatDown);
+        state.nature = NatureProfile(
+          up: s,
+          down: attacker ? _atkOpposite(s) : _oppositeStat(s),
+        );
       }
     });
     widget.onChanged();
@@ -477,32 +404,29 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   /// Read current rank stage for [s] on the given side. HP is
   /// rankless — always returns 0.
-  int _rankStage(BattlePokemonState state, _NatureStat s) {
+  int _rankStage(BattlePokemonState state, NatureStat s) {
     switch (s) {
-      case _NatureStat.atk: return state.rank.attack;
-      case _NatureStat.def: return state.rank.defense;
-      case _NatureStat.spa: return state.rank.spAttack;
-      case _NatureStat.spd: return state.rank.spDefense;
-      case _NatureStat.spe: return state.rank.speed;
-      case _NatureStat.hp: return 0;
+      case NatureStat.atk: return state.rank.attack;
+      case NatureStat.def: return state.rank.defense;
+      case NatureStat.spa: return state.rank.spAttack;
+      case NatureStat.spd: return state.rank.spDefense;
+      case NatureStat.spe: return state.rank.speed;
     }
   }
 
-  void _setRank(BattlePokemonState state, _NatureStat s, int value) {
+  void _setRank(BattlePokemonState state, NatureStat s, int value) {
     setState(() {
       switch (s) {
-        case _NatureStat.atk:
+        case NatureStat.atk:
           state.rank = state.rank.copyWith(attack: value); break;
-        case _NatureStat.def:
+        case NatureStat.def:
           state.rank = state.rank.copyWith(defense: value); break;
-        case _NatureStat.spa:
+        case NatureStat.spa:
           state.rank = state.rank.copyWith(spAttack: value); break;
-        case _NatureStat.spd:
+        case NatureStat.spd:
           state.rank = state.rank.copyWith(spDefense: value); break;
-        case _NatureStat.spe:
+        case NatureStat.spe:
           state.rank = state.rank.copyWith(speed: value); break;
-        case _NatureStat.hp:
-          break;
       }
     });
     widget.onChanged();
@@ -510,7 +434,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   /// Compact rank chip: colorless "±" when at 0, colored `+N` / `-N`
   /// otherwise. Taps open a ±6 picker popup.
-  Widget _rankChip(_NatureStat stat, {required bool attacker}) {
+  Widget _rankChip(NatureStat stat, {required bool attacker}) {
     final state = attacker ? _atk : _def;
     final value = _rankStage(state, stat);
     final label = value == 0 ? '±' : (value > 0 ? '+$value' : '$value');
@@ -543,7 +467,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  void _showRankPicker(BattlePokemonState state, _NatureStat stat) {
+  void _showRankPicker(BattlePokemonState state, NatureStat stat) {
     final current = _rankStage(state, stat);
     showDialog(
       context: context,
@@ -636,7 +560,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final accent = isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444);
     final move = _atk.moves[0];
     final isSpecial = _effectiveIsSpecial;
-    final offStat = isSpecial ? _NatureStat.spa : _NatureStat.atk;
+    final offStat = isSpecial ? NatureStat.spa : NatureStat.atk;
     final offLabel = AppStrings.t(
       isSpecial ? 'stat.spAttack' : 'stat.attack',
     );
@@ -742,7 +666,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                 ),
                 _statGroup(
                   label: AppStrings.t('stat.speedShort'),
-                  stat: _NatureStat.spe,
+                  stat: NatureStat.spe,
                   spCtl: _atkSpeSpCtl,
                   onSpChanged: _syncAtkEvs,
                   attacker: true,
@@ -901,7 +825,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // yet, falls back to the attacker's base-stat / ability heuristic
     // so both sides agree on Atk-vs-SpA.
     final isSpecial = _effectiveIsSpecial;
-    final defStat = isSpecial ? _NatureStat.spd : _NatureStat.def;
+    final defStat = isSpecial ? NatureStat.spd : NatureStat.def;
     final defLabel = AppStrings.t(isSpecial ? 'stat.spDefense' : 'stat.defense');
     final defCtl = isSpecial ? _defSpdSpCtl : _defDefSpCtl;
 
@@ -928,7 +852,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               children: [
                 _statGroup(
                   label: AppStrings.t('stat.hp'),
-                  stat: _NatureStat.hp,
+                  stat: null,
                   spCtl: _defHpSpCtl,
                   onSpChanged: _syncDefEvs,
                   attacker: false,
@@ -955,7 +879,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                 ),
                 _statGroup(
                   label: AppStrings.t('stat.speedShort'),
-                  stat: _NatureStat.spe,
+                  stat: NatureStat.spe,
                   spCtl: _defSpeSpCtl,
                   onSpChanged: _syncDefEvs,
                   attacker: false,
@@ -1073,7 +997,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// [무/↑/↓]. HP is natureless so [canNature] hides the cycle chip.
   Widget _statGroup({
     required String label,
-    required _NatureStat stat,
+    required NatureStat? stat,
     required TextEditingController spCtl,
     required VoidCallback onSpChanged,
     required bool attacker,
@@ -1120,11 +1044,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         ),
         const SizedBox(width: 2),
         _miniBtn(flipLabel, () => setSp(flipLabel)),
-        if (canNature && stat != _NatureStat.hp) ...[
+        if (canNature && stat != null) ...[
           const SizedBox(width: 2),
           _natureCycleChip(stat, attacker: attacker),
         ],
-        if (stat != _NatureStat.hp) ...[
+        if (stat != null) ...[
           const SizedBox(width: 2),
           _rankChip(stat, attacker: attacker),
         ],
@@ -1156,7 +1080,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  Widget _natureCycleChip(_NatureStat stat, {required bool attacker}) {
+  Widget _natureCycleChip(NatureStat stat, {required bool attacker}) {
     final dir = _natureDir(stat, attacker: attacker);
     final (label, color) = switch (dir) {
       _NatureDir.neutral => (AppStrings.t('simple.natureNeutral'), Colors.grey),

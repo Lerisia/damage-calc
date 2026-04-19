@@ -1,7 +1,7 @@
 import '../models/move.dart' show MoveCategory;
 import '../models/room.dart';
 import '../models/stats.dart';
-import '../models/nature.dart';
+import '../models/nature_profile.dart';
 import '../models/rank.dart';
 import '../models/type.dart';
 import '../models/status.dart';
@@ -23,7 +23,7 @@ class DefensiveCalculator {
     required Stats baseStats,
     required Stats iv,
     required Stats ev,
-    required Nature nature,
+    required NatureProfile nature,
     required int level,
     required PokemonType type1,
     PokemonType? type2,

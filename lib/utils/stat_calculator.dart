@@ -1,6 +1,6 @@
 import '../models/rank.dart';
 import '../models/stats.dart';
-import '../models/nature.dart';
+import '../models/nature_profile.dart';
 
 /// Calculates actual stats from base stats, IVs, EVs, nature, level, and rank.
 ///
@@ -10,7 +10,7 @@ class StatCalculator {
     required Stats baseStats,
     required Stats iv,
     required Stats ev,
-    required Nature nature,
+    required NatureProfile nature,
     required int level,
     Rank rank = const Rank(),
   }) {

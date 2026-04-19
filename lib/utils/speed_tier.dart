@@ -1,6 +1,6 @@
 import 'app_strings.dart';
 import 'stat_calculator.dart';
-import '../models/nature.dart';
+import '../models/nature_profile.dart';
 import '../models/stats.dart';
 
 /// Precomputed speed tier table for a given level.
@@ -33,19 +33,19 @@ class SpeedTierTable {
 
       final maxSpd = StatCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: maxEv,
-        nature: Nature.jolly, // +Speed
+        nature: const NatureProfile(up: NatureStat.spe, down: NatureStat.atk),
         level: level,
       ).speed;
 
       final neutralSpd = StatCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: maxEv,
-        nature: Nature.hardy, // neutral
+        nature: NatureProfile.neutral,
         level: level,
       ).speed;
 
       final unboostedSpd = StatCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, // neutral, no investment
+        nature: NatureProfile.neutral,
         level: level,
       ).speed;
 

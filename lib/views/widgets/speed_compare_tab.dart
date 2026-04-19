@@ -7,7 +7,7 @@ import '../../data/itemdex.dart';
 import '../../models/ability.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/item.dart';
-import '../../models/nature.dart';
+import '../../models/nature_profile.dart';
 import '../../models/status.dart';
 import '../../utils/korean_search.dart';
 import '../../utils/app_strings.dart';
@@ -465,62 +465,42 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     return [...pokemon, ...rest];
   }
 
-  String _speedNatureLabel(Nature n) {
-    final ko = n.localizedName;
-    final isBuff = n.speedModifier > 1.0;
-    final isNerf = n.speedModifier < 1.0;
-    if (isBuff) return '$ko (↑${AppStrings.t('stat.speed')})';
-    if (isNerf) return '$ko (↓${AppStrings.t('stat.speed')})';
-    return ko;
-  }
-
+  /// Speed-tab's nature picker — only ↑ / neutral / ↓ on Speed is
+  /// interesting here, so we keep this as a single-cycle 3-state
+  /// toggle: Spe↑ → neutral → Spe↓ → ... The other stats stay as
+  /// whatever they were (so e.g. loading Bold keeps Def↑ Atk↓ and
+  /// only toggles the Speed slot of the profile).
   Widget _natureAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
-    final initialText = _speedNatureLabel(state.nature);
-    if (!focusNode.hasFocus) controller.text = initialText;
-
-    List<Nature> sorted = [...sortedNatures];
-    sorted.remove(state.nature);
-    sorted.insert(0, state.nature);
-
-    return buildTypeAhead<Nature>(
-      controller: controller,
-      focusNode: focusNode,
-      maxHeight: 250,
-      suggestionsCallback: (query) {
-        if (query.isEmpty || query == initialText) return sorted;
-        final qLower = query.toLowerCase();
-        return sorted.where((n) {
-          return n.nameKo.toLowerCase().contains(qLower) ||
-              n.name.toLowerCase().contains(qLower) ||
-              n.nameJa.toLowerCase().contains(qLower);
-        }).toList();
-      },
-      decoration: InputDecoration(labelText: AppStrings.t('label.nature'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
-      itemBuilder: (context, nature) {
-        final isBuff = nature.speedModifier > 1.0;
-        final isNerf = nature.speedModifier < 1.0;
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(_speedNatureLabel(nature),
-              style: TextStyle(fontSize: 14,
-                  color: isBuff ? Colors.red : isNerf ? Colors.blue : null)),
-        );
-      },
-      onSelected: (v) {
-        controller.text = _speedNatureLabel(v);
-        focusNode.unfocus();
-        setState(() => state.nature = v);
+    final profile = state.nature;
+    final isBuff = profile.up == NatureStat.spe;
+    final isNerf = profile.down == NatureStat.spe;
+    final label = isBuff
+        ? '↑${AppStrings.t('stat.speed')}'
+        : isNerf
+            ? '↓${AppStrings.t('stat.speed')}'
+            : AppStrings.t('nature.neutral');
+    final color = isBuff ? Colors.red : isNerf ? Colors.blue : null;
+    return InkWell(
+      onTap: () {
+        final next = isBuff
+            ? profile.copyWith(up: null, clearUp: true)
+            : isNerf
+                ? profile.copyWith(down: null, clearDown: true)
+                : profile.copyWith(up: NatureStat.spe);
+        setState(() => state.nature = next);
         _notify();
+        // Suppress unused-parameter warnings for controller/focus.
+        controller.text = label;
+        focusNode.unfocus();
       },
-      onSubmittedPick: (text) {
-        if (text.isEmpty) return null;
-        final tLower = text.toLowerCase();
-        final match = sorted.where((n) =>
-            n.nameKo.toLowerCase().contains(tLower) ||
-            n.name.toLowerCase().contains(tLower) ||
-            n.nameJa.toLowerCase().contains(tLower)).toList();
-        return match.isNotEmpty ? match.first : null;
-      },
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: AppStrings.t('label.nature'),
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 4),
+        ),
+        child: Text(label, style: TextStyle(fontSize: 14, color: color)),
+      ),
     );
   }
 

@@ -4,7 +4,7 @@ import 'gender.dart';
 import 'pokemon.dart';
 import 'terastal.dart';
 import 'move.dart';
-import 'nature.dart';
+import 'nature_profile.dart';
 import 'rank.dart';
 import 'stats.dart';
 import 'status.dart';
@@ -31,7 +31,7 @@ class BattlePokemonState {
   List<String> pokemonAbilities;
   String? selectedAbility;
   int level;
-  Nature nature;
+  NatureProfile nature;
   Stats iv;
   Stats ev;
   List<Move?> moves;
@@ -90,7 +90,7 @@ class BattlePokemonState {
     List<String>? pokemonAbilities,
     this.selectedAbility = 'Overgrow',
     this.level = 50,
-    this.nature = Nature.hardy,
+    this.nature = NatureProfile.neutral,
     Stats? iv,
     Stats? ev,
     List<Move?>? moves,
@@ -155,7 +155,7 @@ class BattlePokemonState {
     'pokemonAbilities': pokemonAbilities,
     'selectedAbility': selectedAbility,
     'level': level,
-    'nature': nature.name,
+    'nature': nature.toJson(),
     'iv': iv.toJson(),
     'ev': ev.toJson(),
     'moves': moves.map((m) => m?.toJson()).toList(),
@@ -207,7 +207,7 @@ class BattlePokemonState {
       pokemonAbilities: List<String>.from(json['pokemonAbilities'] as List),
       selectedAbility: json['selectedAbility'] as String?,
       level: json['level'] as int? ?? 50,
-      nature: Nature.values.byName(json['nature'] as String),
+      nature: NatureProfile.fromAny(json['nature']),
       iv: Stats.fromJson(json['iv'] as Map<String, dynamic>),
       ev: Stats.fromJson(json['ev'] as Map<String, dynamic>),
       moves: (json['moves'] as List).map((m) =>
@@ -266,7 +266,7 @@ class BattlePokemonState {
     pokemonAbilities = ['Overgrow', 'Chlorophyll'];
     selectedAbility = 'Overgrow';
     level = 50;
-    nature = Nature.hardy;
+    nature = NatureProfile.neutral;
     iv = const Stats(
         hp: 31, attack: 31, defense: 31,
         spAttack: 31, spDefense: 31, speed: 31);
