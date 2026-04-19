@@ -362,14 +362,21 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _NatureDir.neutral;
   }
 
-  /// Canonical "opposite" stat for the defender side — static because
-  /// defender has no offensive-move context.
+  /// "Opposite" stat for the defender side. For the two defensive
+  /// stats we pick the *lower* of the Pokemon's base Atk / base SpA
+  /// to drop — dropping the weaker unused offensive stat is almost
+  /// always the intended choice (a 120-base SpA mon wants Impish, a
+  /// 120-base Atk mon wants Bold), which lines up with the common
+  /// 장난꾸러기 / 차분 defaults in play without hard-coding.
   _NatureStat _oppositeStat(_NatureStat s) {
     switch (s) {
       case _NatureStat.atk: return _NatureStat.spa;
       case _NatureStat.spa: return _NatureStat.atk;
-      case _NatureStat.def: return _NatureStat.spd;
-      case _NatureStat.spd: return _NatureStat.def;
+      case _NatureStat.def:
+      case _NatureStat.spd:
+        return _def.baseStats.attack <= _def.baseStats.spAttack
+            ? _NatureStat.atk
+            : _NatureStat.spa;
       case _NatureStat.spe: return _NatureStat.atk;
       case _NatureStat.hp: return _NatureStat.atk; // unused, HP can't be natured
     }
