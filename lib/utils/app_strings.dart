@@ -244,9 +244,9 @@ class AppStrings {
       AppLanguage.ja: 'かんたんモードが既定になりました',
     },
     'simple.announceBody': {
-      AppLanguage.ko: '기본 모드는 오른쪽 상단 메뉴(⋮)에서 전환할 수 있습니다.',
-      AppLanguage.en: 'Switch back to Normal Mode from the top-right menu (⋮).',
-      AppLanguage.ja: '通常モードは右上のメニュー(⋮)から切り替えられます。',
+      AppLanguage.ko: '확장 모드는 오른쪽 상단 메뉴(⋮)에서 전환할 수 있습니다.',
+      AppLanguage.en: 'Switch to Extended Mode from the top-right menu (⋮).',
+      AppLanguage.ja: '拡張モードは右上のメニュー(⋮)から切り替えられます。',
     },
     'simple.title': {
       AppLanguage.ko: '간단 모드',
@@ -259,9 +259,9 @@ class AppStrings {
       AppLanguage.ja: 'かんたんモード',
     },
     'simple.backToNormal': {
-      AppLanguage.ko: '기본 모드',
-      AppLanguage.en: 'Normal Mode',
-      AppLanguage.ja: '通常モード',
+      AppLanguage.ko: '확장 모드',
+      AppLanguage.en: 'Extended Mode',
+      AppLanguage.ja: '拡張モード',
     },
     'simple.natureUp': {
       AppLanguage.ko: '성격 ↑',

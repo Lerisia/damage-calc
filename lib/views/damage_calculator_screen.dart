@@ -1285,12 +1285,20 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   child: _battleConditionsButton(),
                 ),
               ),
-              // Swap doesn't make sense in Simple Mode (there's no
-              // per-role configuration to swap), so it's hidden there.
+              // Swap doesn't make sense in Simple Mode. In its place
+              // we show a prominent "Extended Mode" button so users
+              // who open the app and are surprised by the slim layout
+              // can get back to the full calculator without hunting
+              // through the overflow menu.
               if (!_simpleMode)
                 TextButton(
                   onPressed: _swapSides,
                   child: Text(AppStrings.t('toolbar.swap'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
+                )
+              else
+                TextButton(
+                  onPressed: _toggleSimpleMode,
+                  child: Text(AppStrings.t('simple.backToNormal'), style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600)),
                 ),
               TextButton(
                 onPressed: _resetBothSides,
