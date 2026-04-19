@@ -506,10 +506,12 @@ class _StatInputState extends State<StatInput> {
               isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
           isDense: true,
         ),
-        // Match the font size the item/ability TypeAheads inherit
-        // from the theme (the default body size, ~15) so the two
-        // widgets' baselines and underlines line up on the same row.
-        child: Text(label, style: TextStyle(color: textColor)),
+        // Match the item typeahead's rendered body size (Material
+        // default bodyLarge ~ 16) so baselines align. The theme-
+        // inherited size was coming out smaller here because
+        // InputDecorator's fallback style is bodyMedium, not
+        // bodyLarge like TextField.
+        child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
       ),
     );
   }
