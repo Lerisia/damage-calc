@@ -51791,7 +51791,7 @@ $2(a,b){var s,r,q=null,p="nature.buffLabel",o="nature.nerfLabel",n=b?B.b1:B.ba,m
 m=A.v(b?p:o)
 s=this.a
 r=A.eX(q,q,q,q,q,q,q,q,!0,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,q,!0,q,q,A.v(b?p:o),!0,!0,!1,q,q,q,q,q,q,q,q,q,q,q,q,q,q)
-return A.kO(A.Bo(q,A.T(k,q,q,q,q,A.av(q,q,l,q,q,q,q,q,q,q,q,14,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),q,q),r,!1,!1,!1,!1,q,q),q,j,new A.ald(s,n),new A.ale(s,this.b,b),B.bB,new A.fy(q,B.am,q),m,t.o1)},
+return A.kO(A.Bo(q,A.T(k,q,q,q,q,A.av(q,q,l,q,q,q,q,q,q,q,q,q,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),q,q),r,!1,!1,!1,!1,q,q),q,j,new A.ald(s,n),new A.ale(s,this.b,b),B.bB,new A.fy(q,B.am,q),m,t.o1)},
 $S:559}
 A.ald.prototype={
 $1(a){var s,r,q,p,o,n,m,l=null,k=A.b([A.kP(A.T(A.v("nature.none"),l,l,l,l,B.En,l,l),!0,l,B.F2,t.o1)],t.Iz)
@@ -52142,7 +52142,7 @@ return A.d_(A.b([b,B.bO,c,B.cP,a,B.hw,s,a0,q,p,o,n,B.hw,g.an4(a2,A.aQM(l,f,m,d.p
 SR(a,b){var s,r=null,q="nature.buffLabel",p="nature.nerfLabel",o=b?B.b1:B.ba,n=a==null,m=n?A.v("nature.none"):this.V6(a),l=n?B.Y:o,k=n?B.F3:A.aQt(a)
 n=A.v(b?q:p)
 s=A.eX(r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,!0,r,r,A.v(b?q:p),!0,!0,!1,r,r,r,r,r,r,r,r,r,r,r,r,r,r)
-return A.kO(A.Bo(r,A.T(m,r,r,r,r,A.av(r,r,l,r,r,r,r,r,r,r,r,14,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r),s,!1,!1,!1,!1,r,r),r,k,new A.aB_(this,o),new A.aB0(this,b),B.bB,new A.fy(r,B.am,r),n,t.Tg)},
+return A.kO(A.Bo(r,A.T(m,r,r,r,r,A.av(r,r,l,r,r,r,r,r,r,r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r),s,!1,!1,!1,!1,r,r),r,k,new A.aB_(this,o),new A.aB0(this,b),B.bB,new A.fy(r,B.am,r),n,t.Tg)},
 V6(a){switch(a.a){case 0:return A.v("stat.attack")
 case 1:return A.v("stat.defense")
 case 2:return A.v("stat.spAttack")
@@ -107447,7 +107447,7 @@ B.a2H=new A.p(!0,B.ah,null,".AppleSystemUIFont",null,null,null,null,null,null,nu
 B.a31=new A.p(!0,B.p,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.l,null,null,null,"blackRedwoodCity labelMedium",null,null,null,null)
 B.a04=new A.p(!0,B.p,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.l,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.a47=new A.e9(B.a1T,B.a0O,B.a1U,B.a2n,B.a0t,B.a0C,B.a18,B.a2g,B.a1l,B.a2K,B.a_Y,B.a0f,B.a2H,B.a31,B.a04)
-B.a48=new A.hb("v1.3.4",null,null,null,null,null,null,null,null,null)
+B.a48=new A.hb("v1.3.5",null,null,null,null,null,null,null,null,null)
 B.a49=new A.hb("  \u2192  ",null,B.Eo,null,null,null,null,null,null,null)
 B.a4a=new A.hb("By  Elyss",null,null,null,null,null,null,null,null,null)
 B.Eu=new A.hb("-",null,null,B.ad,null,null,null,null,null,null)
