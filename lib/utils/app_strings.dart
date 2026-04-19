@@ -1149,14 +1149,14 @@ class AppStrings {
       AppLanguage.ja: 'なし',
     },
     'nature.buffLabel': {
-      AppLanguage.ko: '상승',
-      AppLanguage.en: '↑',
-      AppLanguage.ja: '上昇',
+      AppLanguage.ko: '성격 ↑',
+      AppLanguage.en: 'Nature ↑',
+      AppLanguage.ja: '性格 ↑',
     },
     'nature.nerfLabel': {
-      AppLanguage.ko: '하락',
-      AppLanguage.en: '↓',
-      AppLanguage.ja: '下降',
+      AppLanguage.ko: '성격 ↓',
+      AppLanguage.en: 'Nature ↓',
+      AppLanguage.ja: '性格 ↓',
     },
     'nature.neutral': {
       AppLanguage.ko: '무보정',
