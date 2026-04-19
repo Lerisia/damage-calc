@@ -411,40 +411,35 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _atk.baseStats.spAttack > _atk.baseStats.attack;
   }
 
-  /// Context-aware opposite for the attacker side — the ↓ slot
-  /// depends on the move's category so "Atk ↑" turns into Adamant
-  /// (Atk↑ Spa↓) against physical and "Spe ↑" turns into Jolly vs
-  /// physical but Timid vs special. When no move is picked we fall
-  /// back to [_effectiveIsSpecial] so the guess matches what the UI
-  /// is currently showing.
+  /// True when this Pokemon is a physical attacker by base-stat
+  /// intent — independent of the currently selected move. Ties and
+  /// Huge Power / Pure Power / Tough Claws are resolved in favor of
+  /// physical: those abilities make Attack the de-facto offensive
+  /// stat even on mons with equal or higher base SpA.
+  bool get _atkPhysicalFocusByBase {
+    final a = _atk.selectedAbility;
+    if (a == 'Huge Power' || a == 'Pure Power' || a == 'Tough Claws') return true;
+    return _atk.baseStats.attack >= _atk.baseStats.spAttack;
+  }
+
+  /// Attacker-side "opposite" stat for nature pairing. Offensive
+  /// stats (Atk/SpA) pair with each other; defensive stats do the
+  /// same. Spe↑ intentionally pairs with the *lower* of base Atk /
+  /// base SpA (via [_atkPhysicalFocusByBase]) rather than tracking
+  /// the current move's category — users expect the 'Spe↑' choice
+  /// to lock in a nature like Jolly/Timid that matches the mon's
+  /// base-stat identity, not to flicker between them every time the
+  /// move slot is re-picked.
   _NatureStat _atkOpposite(_NatureStat s) {
-    final physical = !_effectiveIsSpecial;
     switch (s) {
       case _NatureStat.atk: return _NatureStat.spa;
       case _NatureStat.spa: return _NatureStat.atk;
-      case _NatureStat.spe: return physical ? _NatureStat.spa : _NatureStat.atk;
+      case _NatureStat.spe:
+        return _atkPhysicalFocusByBase ? _NatureStat.spa : _NatureStat.atk;
       case _NatureStat.def: return _NatureStat.spd;
       case _NatureStat.spd: return _NatureStat.def;
       case _NatureStat.hp: return _NatureStat.spa;
     }
-  }
-
-  /// Re-resolve the attacker's nature when the move changes. An ↑ on
-  /// an offensive stat flips to match the new category (Modest ↔
-  /// Adamant), and ↑ on Speed keeps the stat but swaps ↓ (Timid ↔
-  /// Jolly). No-op when the user hasn't set a nature.
-  void _adjustAtkNatureForMove() {
-    if (_atkNatUp == null) return;
-    final cat = _atk.moves[0]?.category;
-    if (cat == null || cat == MoveCategory.status) return;
-    final physical = cat == MoveCategory.physical;
-    if (_atkNatUp == _NatureStat.atk || _atkNatUp == _NatureStat.spa) {
-      _atkNatUp = physical ? _NatureStat.atk : _NatureStat.spa;
-      _atkNatDown = physical ? _NatureStat.spa : _NatureStat.atk;
-    } else if (_atkNatUp == _NatureStat.spe) {
-      _atkNatDown = physical ? _NatureStat.spa : _NatureStat.atk;
-    }
-    _atk.nature = _natureFromUpDown(_atkNatUp, _atkNatDown);
   }
 
   /// Toggle a stat's nature chip between neutral and ↑ (no ↓ state in
@@ -453,14 +448,15 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// both slots.
   void _cycleNature(_NatureStat s, {required bool attacker}) {
     final current = _natureDir(s, attacker: attacker);
-    // ↓ is display-only in Simple Mode — users can't author a ↓
-    // directly here (Extended Mode handles that case). Tapping a ↓
-    // chip is a no-op so the edit flow stays 2-state (neutral ↔ ↑)
-    // even when the underlying nature happens to contain a ↓.
-    if (current == _NatureDir.down) return;
     setState(() {
       if (attacker) {
-        if (current == _NatureDir.up) {
+        // Both ↑ and ↓ taps clear the nature back to neutral; only a
+        // neutral tap authors a new ↑ (with auto-paired ↓ on the
+        // opposite stat). Users can't author a ↓ directly here, but
+        // since ↓s naturally appear as the paired side of a ↑, they
+        // need a way to undo them — a single tap collapses either
+        // direction back to neutral.
+        if (current != _NatureDir.neutral) {
           _atkNatUp = null;
           _atkNatDown = null;
         } else {
@@ -469,7 +465,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         }
         _atk.nature = _natureFromUpDown(_atkNatUp, _atkNatDown);
       } else {
-        if (current == _NatureDir.up) {
+        if (current != _NatureDir.neutral) {
           _defNatUp = null;
           _defNatDown = null;
         } else {
@@ -686,7 +682,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                       // move starts at its own default (or collapses
                       // out entirely if it isn't multi-hit).
                       _atk.hitOverrides[0] = null;
-                      _adjustAtkNatureForMove();
                     });
                     widget.onChanged();
                   },
