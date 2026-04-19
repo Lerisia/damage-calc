@@ -1279,8 +1279,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   AppStrings.t(_simpleMode
                       ? 'simple.shortExtended'
                       : 'simple.shortSimple'),
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
               ),
               const SizedBox(width: 4),
