@@ -165,13 +165,22 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     }
     // Reset/language bump also re-hydrates per-side controllers.
     if (old.resetCounter != widget.resetCounter) {
-      // Clear any focused TypeAhead before we overwrite its controller
-      // text, otherwise the programmatic text change reads as an edit
-      // and the suggestions dropdown re-opens (e.g. on swap).
-      FocusManager.instance.primaryFocus?.unfocus();
+      // Clear every typeahead focus explicitly (not just the primary
+      // focus — the defender-side field's focus wasn't getting caught
+      // otherwise). Then push the actual text reassignment to the
+      // next frame so the suggestion controllers inside flutter_type-
+      // ahead have time to react to the blur before the controller
+      // notifies them of a text change — otherwise the blur + text-
+      // change fire in the same tick and the dropdown stays open.
+      _atkAbilityFocus.unfocus();
+      _defAbilityFocus.unfocus();
+      _atkItemFocus.unfocus();
+      _defItemFocus.unfocus();
       _rebuildSortedAbilitiesFor(attacker: true);
       _rebuildSortedAbilitiesFor(attacker: false);
-      _hydrateFromState();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _hydrateFromState();
+      });
     }
   }
 
