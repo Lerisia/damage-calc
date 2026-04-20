@@ -263,6 +263,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadAbilities();
     _loadItems();
     _loadSpMode();
+    _loadDoublesExpanded();
     _ensureDataCaches();
     WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowSimpleModeAnnouncement());
   }
@@ -309,6 +310,23 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     setState(() => _useSpMode = v);
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool(_spModeKey, v);
+    });
+  }
+
+  static const _doublesExpandedKey = 'doubles_expanded';
+
+  Future<void> _loadDoublesExpanded() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getBool(_doublesExpandedKey) ?? false;
+    if (mounted && saved != _doublesExpanded) {
+      setState(() => _doublesExpanded = saved);
+    }
+  }
+
+  void _setDoublesExpanded(bool v) {
+    setState(() => _doublesExpanded = v);
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(_doublesExpandedKey, v);
     });
   }
 
@@ -1643,7 +1661,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 : _attacker.selectedAbility,
             doublesExpanded: _doublesExpanded,
             onDoublesExpandToggle: () =>
-                setState(() => _doublesExpanded = !_doublesExpanded),
+                _setDoublesExpanded(!_doublesExpanded),
             useSpMode: _useSpMode,
             onSpModeChanged: _setSpMode,
           );
