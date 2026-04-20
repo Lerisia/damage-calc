@@ -48565,66 +48565,61 @@ if(i){r=q.c
 r.toString
 r=A.V(r).ax.b}else r=B.cF
 return A.kO(new A.aD(B.cl,A.bg(A.b([A.T(s,p,p,p,p,A.av(p,p,r,p,p,p,p,p,p,p,p,a,p,p,i?B.K:B.u,p,p,!0,p,p,p,p,p,p,p,p),p,p),B.fb],t.p),B.q,p,B.o,B.aD,0),p),p,p,new A.arG(q,m,l,k,j),p,B.bB,new A.fy(p,B.am,p),n,t.N)},
-J(a2){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e=this,d=null,c="toolbar.swap",b="toolbar.reset",a="simple.shortExtended",a0="simple.shortSimple",a1=e.c
-a1.toString
+J(a7){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0=this,a1=null,a2="toolbar.swap",a3="toolbar.reset",a4="simple.shortExtended",a5="simple.shortSimple",a6=a0.c
+a6.toString
 s=t.w
-r=A.bp(a1,d,s).w.a.a>=1050
-q=A.bp(a2,d,s).w.a.a>=1400?1920:1440
+r=A.bp(a6,a1,s).w.a.a>=1050
+q=A.bp(a7,a1,s).w.a.a>=1400?1920:1440
 p=r?16:14
-a1=r?q:1/0
+a6=r?q:1/0
 s=r?12:0
 o=t.p
 n=A.b([],o)
-if(r){m=A.b([e.aoZ(p),e.ank(p),e.alg(p),e.a9c(p),e.alr(p),B.om],o)
-if(!e.cy)m.push(A.aHY(B.L5,A.T(A.v(c),d,d,d,d,B.oA,d,d),e.gVh()))
-m.push(A.aHY(B.L0,A.T(A.v(b),d,d,d,d,B.oA,d,d),e.gTY()))
-m.push(A.aHY(B.L3,A.T(A.v("toolbar.capture"),d,d,d,d,B.oA,d,d),e.ga9O()))
-m.push(B.om)
-m.push(A.eB(A.T(A.v(e.cy?a:a0),d,d,d,d,A.av(d,d,A.V(a2).ax.k3,d,d,d,d,d,d,d,d,16,d,d,B.c8,d,d,!0,d,d,d,d,d,d,d,d),d,d),e.gVH(),d))
-m.push(B.cu)
-m.push(new A.Wn(new A.at2(e),d))
-m.push(B.cu)
-m.push(B.a88)
-m.push(B.b1)
-m.push(A.fh(d,A.T(A.v("app.title"),d,d,d,d,A.av(d,d,A.V(a2).ax.k3.dn(0.4),d,d,d,d,d,d,d,d,14,d,d,B.c8,d,d,!0,d,1.5,d,d,d,d,d,d),d,d),B.N,!1,d,d,d,d,d,d,d,d,d,d,d,d,d,d,new A.at3(e,a2),d,d,d,d,d,d))
-m.push(B.kL)
-B.b.P(n,m)}else{l=A.b([],t.s)
-m=e.as
-if(m!==B.bu)l.push(A.aa7(m))
-m=e.at
-if(m!==B.bk)l.push(A.aa6(m))
-if(e.ax.a)l.push(A.ny(B.fx))
-if(e.ax.b)l.push(A.ny(B.fy))
-if(e.ax.c)l.push(A.ny(B.fz))
-if(e.ax.d)l.push(A.aHg())
-if(e.ay.a||e.e.at==="Fairy Aura"||e.f.at==="Fairy Aura")l.push(A.v("damage.allyFairyAura"))
-if(e.ay.b||e.e.at==="Dark Aura"||e.f.at==="Dark Aura")l.push(A.v("damage.allyDarkAura"))
-if(e.ay.c||e.e.at==="Aura Break"||e.f.at==="Aura Break")l.push(A.v("damage.allyAuraBreak"))
-if(e.ch.a||e.e.at==="Tablets of Ruin"||e.f.at==="Tablets of Ruin")l.push(A.v("damage.allyTabletsOfRuin"))
-if(e.ch.b||e.e.at==="Sword of Ruin"||e.f.at==="Sword of Ruin")l.push(A.v("damage.allySwordOfRuin"))
-if(e.ch.c||e.e.at==="Vessel of Ruin"||e.f.at==="Vessel of Ruin")l.push(A.v("damage.allyVesselOfRuin"))
-if(e.ch.d||e.e.at==="Beads of Ruin"||e.f.at==="Beads of Ruin")l.push(A.v("damage.allyBeadsOfRuin"))
-k=l.length!==0
-m=e.c
+if(r){m=a0.aoZ(p)
+l=a0.ank(p)
+k=a0.alg(p)
+j=a0.a9c(p)
+i=a0.alr(p)
+h=A.aHY(B.L5,A.T(A.v(a2),a1,a1,a1,a1,B.oA,a1,a1),a0.gVh())
+g=A.aHY(B.L0,A.T(A.v(a3),a1,a1,a1,a1,B.oA,a1,a1),a0.gTY())
+f=A.aHY(B.L3,A.T(A.v("toolbar.capture"),a1,a1,a1,a1,B.oA,a1,a1),a0.ga9O())
+B.b.P(n,A.b([m,l,k,j,i,B.om,h,g,f,B.om,A.eB(A.T(A.v(a0.cy?a4:a5),a1,a1,a1,a1,A.av(a1,a1,A.V(a7).ax.k3,a1,a1,a1,a1,a1,a1,a1,a1,16,a1,a1,B.c8,a1,a1,!0,a1,a1,a1,a1,a1,a1,a1,a1),a1,a1),a0.gVH(),a1),B.cu,new A.Wn(new A.at2(a0),a1),B.cu,B.a88,B.b1,A.fh(a1,A.T(A.v("app.title"),a1,a1,a1,a1,A.av(a1,a1,A.V(a7).ax.k3.dn(0.4),a1,a1,a1,a1,a1,a1,a1,a1,14,a1,a1,B.c8,a1,a1,!0,a1,1.5,a1,a1,a1,a1,a1,a1),a1,a1),B.N,!1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,new A.at3(a0,a7),a1,a1,a1,a1,a1,a1),B.kL],o))}else{e=A.b([],t.s)
+m=a0.as
+if(m!==B.bu)e.push(A.aa7(m))
+m=a0.at
+if(m!==B.bk)e.push(A.aa6(m))
+if(a0.ax.a)e.push(A.ny(B.fx))
+if(a0.ax.b)e.push(A.ny(B.fy))
+if(a0.ax.c)e.push(A.ny(B.fz))
+if(a0.ax.d)e.push(A.aHg())
+if(a0.ay.a||a0.e.at==="Fairy Aura"||a0.f.at==="Fairy Aura")e.push(A.v("damage.allyFairyAura"))
+if(a0.ay.b||a0.e.at==="Dark Aura"||a0.f.at==="Dark Aura")e.push(A.v("damage.allyDarkAura"))
+if(a0.ay.c||a0.e.at==="Aura Break"||a0.f.at==="Aura Break")e.push(A.v("damage.allyAuraBreak"))
+if(a0.ch.a||a0.e.at==="Tablets of Ruin"||a0.f.at==="Tablets of Ruin")e.push(A.v("damage.allyTabletsOfRuin"))
+if(a0.ch.b||a0.e.at==="Sword of Ruin"||a0.f.at==="Sword of Ruin")e.push(A.v("damage.allySwordOfRuin"))
+if(a0.ch.c||a0.e.at==="Vessel of Ruin"||a0.f.at==="Vessel of Ruin")e.push(A.v("damage.allyVesselOfRuin"))
+if(a0.ch.d||a0.e.at==="Beads of Ruin"||a0.f.at==="Beads of Ruin")e.push(A.v("damage.allyBeadsOfRuin"))
+d=e.length!==0
+m=a0.c
 m.toString
-j=A.V(m).ax.b
-m=e.c
+c=A.V(m).ax.b
+m=a0.c
 m.toString
-i=A.V(m).ax.k3
-h=k?B.b.bU(l," \xb7 "):A.v("toolbar.battleConditions")
-m=k?j:i
-m=A.bf(new A.ed(B.dX,d,d,A.fh(d,new A.aD(B.cl,A.bg(A.b([new A.hx(1,B.cZ,A.T(h,1,B.bl,d,d,A.av(d,d,m,d,d,d,d,d,d,d,d,14,d,d,k?B.K:B.u,d,d,!0,d,d,d,d,d,d,d,d),d,d),d),B.fb],o),B.q,d,B.o,B.aD,0),d),B.N,!1,d,d,d,d,d,d,d,d,d,d,d,d,d,d,e.gamw(),d,d,d,d,d,d),d),1)
-g=A.eB(A.T(A.v(c),d,d,d,d,A.av(d,d,d,d,d,d,d,d,d,d,d,p,d,d,B.c8,d,d,!0,d,d,d,d,d,d,d,d),d,d),e.gVh(),d)
-f=A.eB(A.T(A.v(b),d,d,d,d,A.av(d,d,d,d,d,d,d,d,d,d,d,p,d,d,B.c8,d,d,!0,d,d,d,d,d,d,d,d),d,d),e.gTY(),d)
-B.b.P(n,A.b([m,g,f,A.eB(A.T(A.v(e.cy?a:a0),d,d,d,d,A.av(d,d,d,d,d,d,d,d,d,d,d,p,d,d,B.c8,d,d,!0,d,d,d,d,d,d,d,d),d,d),e.gVH(),d),A.kO(d,B.L8,d,new A.at4(e),new A.at5(e,a2),B.bB,new A.fy(d,B.am,d),"",t.N)],o))}a1=A.eV(new A.dr(new A.ac(0,a1,0,1/0),new A.aD(new A.ai(s,0,s,0),A.bg(n,B.q,d,B.o,B.t,0),d),d),d,d)
-if(r||e.cy)s=d
-else{s=e.d
+b=A.V(m).ax.k3
+a=d?B.b.bU(e," \xb7 "):A.v("toolbar.battleConditions")
+m=d?c:b
+m=A.bf(new A.ed(B.dX,a1,a1,A.fh(a1,new A.aD(B.cl,A.bg(A.b([new A.hx(1,B.cZ,A.T(a,1,B.bl,a1,a1,A.av(a1,a1,m,a1,a1,a1,a1,a1,a1,a1,a1,14,a1,a1,d?B.K:B.u,a1,a1,!0,a1,a1,a1,a1,a1,a1,a1,a1),a1,a1),a1),B.fb],o),B.q,a1,B.o,B.aD,0),a1),B.N,!1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a0.gamw(),a1,a1,a1,a1,a1,a1),a1),1)
+l=A.eB(A.T(A.v(a2),a1,a1,a1,a1,A.av(a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,p,a1,a1,B.c8,a1,a1,!0,a1,a1,a1,a1,a1,a1,a1,a1),a1,a1),a0.gVh(),a1)
+k=A.eB(A.T(A.v(a3),a1,a1,a1,a1,A.av(a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,p,a1,a1,B.c8,a1,a1,!0,a1,a1,a1,a1,a1,a1,a1,a1),a1,a1),a0.gTY(),a1)
+B.b.P(n,A.b([m,l,k,A.eB(A.T(A.v(a0.cy?a4:a5),a1,a1,a1,a1,A.av(a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,p,a1,a1,B.c8,a1,a1,!0,a1,a1,a1,a1,a1,a1,a1,a1),a1,a1),a0.gVH(),a1),A.kO(a1,B.L8,a1,new A.at4(a0),new A.at5(a0,a7),B.bB,new A.fy(a1,B.am,a1),"",t.N)],o))}a6=A.eV(new A.dr(new A.ac(0,a6,0,1/0),new A.aD(new A.ai(s,0,s,0),A.bg(n,B.q,a1,B.o,B.t,0),a1),a1),a1,a1)
+if(r||a0.cy)s=a1
+else{s=a0.d
 s===$&&A.a()
 o=A.aOf(s,A.b([A.Ev(A.v("tab.attacker")),A.Ev(A.v("tab.defender")),A.Ev(A.v("tab.damage")),A.Ev(A.v("tab.speed"))],o))
-s=o}o=s==null?d:s.gpP().b
+s=o}o=s==null?a1:s.gpP().b
 n=o==null?0:o
-m=e.cy?new A.DU(e.e,e.f,e.as,e.at,e.ax,e.ay,e.ch,e.x,e.guV(),e.fx,e.fy,new A.at6(e),new A.at7(e),new A.at8(e),d):A.fh(B.cn,A.aHh(new A.at9(e)),B.N,!1,d,d,d,d,d,d,d,d,d,d,d,d,d,d,new A.ata(),d,d,d,d,d,d)
-return A.aNJ(new A.zd(!1,a1,B.NR,s,0,new A.Y6(d,o,1/0,56+n),d),m)},
+m=a0.cy?new A.DU(a0.e,a0.f,a0.as,a0.at,a0.ax,a0.ay,a0.ch,a0.x,a0.guV(),a0.fx,a0.fy,new A.at6(a0),new A.at7(a0),new A.at8(a0),a1):A.fh(B.cn,A.aHh(new A.at9(a0)),B.N,!1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,a1,new A.ata(),a1,a1,a1,a1,a1,a1)
+return A.aNJ(new A.zd(!1,a6,B.NR,s,0,new A.Y6(a1,o,1/0,56+n),a1),m)},
 qw(a,a0,a1,a2){var s=this,r=a===0,q=s.as,p=s.at,o=s.ax,n=s.ay,m=s.ch,l=s.x,k=r?s.uh(s.f):s.uh(s.e),j=r?A.aFt(s.f):A.aFt(s.e),i=r?s.lp(s.f).b:s.lp(s.e).b,h=r?s.lp(s.f).c:s.lp(s.e).c,g=r?s.lp(s.f).e:s.lp(s.e).e,f=r?s.f.r:s.e.r,e=r?A.pq(s.f):A.pq(s.e),d=r?s.f.ok:s.e.ok,c=r?s.f.fy:s.e.fy,b=r?s.f.at:s.e.at
 return new A.Cx(a1,q,p,o,n,m,a0,s.guV(),l,r,k,j,i,h,g,f,e,d,c,b,s.cx,new A.aqY(s),new A.aqZ(s,a,a1),new A.ar_(s,a),new A.ar0(s,a),s.CW,s.gHQ(),a2)},
 F8(){var s,r=this,q=null,p=r.lp(r.f).a,o=B.c.b9(p*r.f.ok/100),n=r.f,m=r.as,l=r.at,k=r.ax,j=r.ch,i=A.aGp(r.e.at,k,j,n,l,m)
