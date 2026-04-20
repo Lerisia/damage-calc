@@ -21,361 +21,421 @@
     "name": "Aqua Boost",
     "nameKo": "Aqua Boost",
     "nameJa": "Aqua Boost",
-    "nameEn": "Aqua Boost"
+    "nameEn": "Aqua Boost",
+    "nonMainline": true
   },
   {
     "name": "Black Hole",
     "nameKo": "Black Hole",
     "nameJa": "Black Hole",
-    "nameEn": "Black Hole"
+    "nameEn": "Black Hole",
+    "nonMainline": true
   },
   {
     "name": "Bodyguard",
     "nameKo": "Bodyguard",
     "nameJa": "Bodyguard",
-    "nameEn": "Bodyguard"
+    "nameEn": "Bodyguard",
+    "nonMainline": true
   },
   {
     "name": "Bonanza",
     "nameKo": "Bonanza",
     "nameJa": "Bonanza",
-    "nameEn": "Bonanza"
+    "nameEn": "Bonanza",
+    "nonMainline": true
   },
   {
     "name": "Calming",
     "nameKo": "Calming",
     "nameJa": "Calming",
-    "nameEn": "Calming"
+    "nameEn": "Calming",
+    "nonMainline": true
   },
   {
     "name": "Celebrate",
     "nameKo": "Celebrate",
     "nameJa": "Celebrate",
-    "nameEn": "Celebrate"
+    "nameEn": "Celebrate",
+    "nonMainline": true
   },
   {
     "name": "Climber",
     "nameKo": "Climber",
     "nameJa": "Climber",
-    "nameEn": "Climber"
+    "nameEn": "Climber",
+    "nonMainline": true
   },
   {
     "name": "Confidence",
     "nameKo": "Confidence",
     "nameJa": "Confidence",
-    "nameEn": "Confidence"
+    "nameEn": "Confidence",
+    "nonMainline": true
   },
   {
     "name": "Conqueror",
     "nameKo": "Conqueror",
     "nameJa": "Conqueror",
-    "nameEn": "Conqueror"
+    "nameEn": "Conqueror",
+    "nonMainline": true
   },
   {
     "name": "Daze",
     "nameKo": "Daze",
     "nameJa": "Daze",
-    "nameEn": "Daze"
+    "nameEn": "Daze",
+    "nonMainline": true
   },
   {
     "name": "Decoy",
     "nameKo": "Decoy",
     "nameJa": "Decoy",
-    "nameEn": "Decoy"
+    "nameEn": "Decoy",
+    "nonMainline": true
   },
   {
     "name": "Deep Sleep",
     "nameKo": "Deep Sleep",
     "nameJa": "Deep Sleep",
-    "nameEn": "Deep Sleep"
+    "nameEn": "Deep Sleep",
+    "nonMainline": true
   },
   {
     "name": "Disgust",
     "nameKo": "Disgust",
     "nameJa": "Disgust",
-    "nameEn": "Disgust"
+    "nameEn": "Disgust",
+    "nonMainline": true
   },
   {
     "name": "Dodge",
     "nameKo": "Dodge",
     "nameJa": "Dodge",
-    "nameEn": "Dodge"
+    "nameEn": "Dodge",
+    "nonMainline": true
   },
   {
     "name": "Explode",
     "nameKo": "Explode",
     "nameJa": "Explode",
-    "nameEn": "Explode"
+    "nameEn": "Explode",
+    "nonMainline": true
   },
   {
     "name": "Flame Boost",
     "nameKo": "Flame Boost",
     "nameJa": "Flame Boost",
-    "nameEn": "Flame Boost"
+    "nameEn": "Flame Boost",
+    "nonMainline": true
   },
   {
     "name": "Fortune",
     "nameKo": "Fortune",
     "nameJa": "Fortune",
-    "nameEn": "Fortune"
+    "nameEn": "Fortune",
+    "nonMainline": true
   },
   {
     "name": "Frighten",
     "nameKo": "Frighten",
     "nameJa": "Frighten",
-    "nameEn": "Frighten"
+    "nameEn": "Frighten",
+    "nonMainline": true
   },
   {
     "name": "Frostbite",
     "nameKo": "Frostbite",
     "nameJa": "Frostbite",
-    "nameEn": "Frostbite"
+    "nameEn": "Frostbite",
+    "nonMainline": true
   },
   {
     "name": "Grass Cloak",
     "nameKo": "Grass Cloak",
     "nameJa": "Grass Cloak",
-    "nameEn": "Grass Cloak"
+    "nameEn": "Grass Cloak",
+    "nonMainline": true
   },
   {
     "name": "Gulp",
     "nameKo": "Gulp",
     "nameJa": "Gulp",
-    "nameEn": "Gulp"
+    "nameEn": "Gulp",
+    "nonMainline": true
   },
   {
     "name": "Herbivore",
     "nameKo": "Herbivore",
     "nameJa": "Herbivore",
-    "nameEn": "Herbivore"
+    "nameEn": "Herbivore",
+    "nonMainline": true
   },
   {
     "name": "Hero",
     "nameKo": "Hero",
     "nameJa": "Hero",
-    "nameEn": "Hero"
+    "nameEn": "Hero",
+    "nonMainline": true
   },
   {
     "name": "High-rise",
     "nameKo": "High-rise",
     "nameJa": "High-rise",
-    "nameEn": "High-rise"
+    "nameEn": "High-rise",
+    "nonMainline": true
   },
   {
     "name": "Hot Blooded",
     "nameKo": "Hot Blooded",
     "nameJa": "Hot Blooded",
-    "nameEn": "Hot Blooded"
+    "nameEn": "Hot Blooded",
+    "nonMainline": true
   },
   {
     "name": "Instinct",
     "nameKo": "Instinct",
     "nameJa": "Instinct",
-    "nameEn": "Instinct"
+    "nameEn": "Instinct",
+    "nonMainline": true
   },
   {
     "name": "Interference",
     "nameKo": "Interference",
     "nameJa": "Interference",
-    "nameEn": "Interference"
+    "nameEn": "Interference",
+    "nonMainline": true
   },
   {
     "name": "Jagged Edge",
     "nameKo": "Jagged Edge",
     "nameJa": "Jagged Edge",
-    "nameEn": "Jagged Edge"
+    "nameEn": "Jagged Edge",
+    "nonMainline": true
   },
   {
     "name": "Last Bastion",
     "nameKo": "Last Bastion",
     "nameJa": "Last Bastion",
-    "nameEn": "Last Bastion"
+    "nameEn": "Last Bastion",
+    "nonMainline": true
   },
   {
     "name": "Life Force",
     "nameKo": "Life Force",
     "nameJa": "Life Force",
-    "nameEn": "Life Force"
+    "nameEn": "Life Force",
+    "nonMainline": true
   },
   {
     "name": "Lullaby",
     "nameKo": "Lullaby",
     "nameJa": "Lullaby",
-    "nameEn": "Lullaby"
+    "nameEn": "Lullaby",
+    "nonMainline": true
   },
   {
     "name": "Lunchbox",
     "nameKo": "Lunchbox",
     "nameJa": "Lunchbox",
-    "nameEn": "Lunchbox"
+    "nameEn": "Lunchbox",
+    "nonMainline": true
   },
   {
     "name": "Medic",
     "nameKo": "Medic",
     "nameJa": "Medic",
-    "nameEn": "Medic"
+    "nameEn": "Medic",
+    "nonMainline": true
   },
   {
     "name": "Melee",
     "nameKo": "Melee",
     "nameJa": "Melee",
-    "nameEn": "Melee"
+    "nameEn": "Melee",
+    "nonMainline": true
   },
   {
     "name": "Mood Maker",
     "nameKo": "Mood Maker",
     "nameJa": "Mood Maker",
-    "nameEn": "Mood Maker"
+    "nameEn": "Mood Maker",
+    "nonMainline": true
   },
   {
     "name": "Mountaineer",
     "nameKo": "Mountaineer",
     "nameJa": "Mountaineer",
-    "nameEn": "Mountaineer"
+    "nameEn": "Mountaineer",
+    "nonMainline": true
   },
   {
     "name": "Nomad",
     "nameKo": "Nomad",
     "nameJa": "Nomad",
-    "nameEn": "Nomad"
+    "nameEn": "Nomad",
+    "nonMainline": true
   },
   {
     "name": "Nurse",
     "nameKo": "Nurse",
     "nameJa": "Nurse",
-    "nameEn": "Nurse"
+    "nameEn": "Nurse",
+    "nonMainline": true
   },
   {
     "name": "Omnipotent",
     "nameKo": "Omnipotent",
     "nameJa": "Omnipotent",
-    "nameEn": "Omnipotent"
+    "nameEn": "Omnipotent",
+    "nonMainline": true
   },
   {
     "name": "Parry",
     "nameKo": "Parry",
     "nameJa": "Parry",
-    "nameEn": "Parry"
+    "nameEn": "Parry",
+    "nonMainline": true
   },
   {
     "name": "Perception",
     "nameKo": "Perception",
     "nameJa": "Perception",
-    "nameEn": "Perception"
+    "nameEn": "Perception",
+    "nonMainline": true
   },
   {
     "name": "Power Nap",
     "nameKo": "Power Nap",
     "nameJa": "Power Nap",
-    "nameEn": "Power Nap"
+    "nameEn": "Power Nap",
+    "nonMainline": true
   },
   {
     "name": "Pride",
     "nameKo": "Pride",
     "nameJa": "Pride",
-    "nameEn": "Pride"
+    "nameEn": "Pride",
+    "nonMainline": true
   },
   {
     "name": "Run Up",
     "nameKo": "Run Up",
     "nameJa": "Run Up",
-    "nameEn": "Run Up"
+    "nameEn": "Run Up",
+    "nonMainline": true
   },
   {
     "name": "Sandpit",
     "nameKo": "Sandpit",
     "nameJa": "Sandpit",
-    "nameEn": "Sandpit"
+    "nameEn": "Sandpit",
+    "nonMainline": true
   },
   {
     "name": "Sequence",
     "nameKo": "Sequence",
     "nameJa": "Sequence",
-    "nameEn": "Sequence"
+    "nameEn": "Sequence",
+    "nonMainline": true
   },
   {
     "name": "Shackle",
     "nameKo": "Shackle",
     "nameJa": "Shackle",
-    "nameEn": "Shackle"
+    "nameEn": "Shackle",
+    "nonMainline": true
   },
   {
     "name": "Shadow Dash",
     "nameKo": "Shadow Dash",
     "nameJa": "Shadow Dash",
-    "nameEn": "Shadow Dash"
+    "nameEn": "Shadow Dash",
+    "nonMainline": true
   },
   {
     "name": "Share",
     "nameKo": "Share",
     "nameJa": "Share",
-    "nameEn": "Share"
+    "nameEn": "Share",
+    "nonMainline": true
   },
   {
     "name": "Shield",
     "nameKo": "Shield",
     "nameJa": "Shield",
-    "nameEn": "Shield"
+    "nameEn": "Shield",
+    "nonMainline": true
   },
   {
     "name": "Skater",
     "nameKo": "Skater",
     "nameJa": "Skater",
-    "nameEn": "Skater"
+    "nameEn": "Skater",
+    "nonMainline": true
   },
   {
     "name": "Spirit",
     "nameKo": "Spirit",
     "nameJa": "Spirit",
-    "nameEn": "Spirit"
+    "nameEn": "Spirit",
+    "nonMainline": true
   },
   {
     "name": "Sponge",
     "nameKo": "Sponge",
     "nameJa": "Sponge",
-    "nameEn": "Sponge"
+    "nameEn": "Sponge",
+    "nonMainline": true
   },
   {
     "name": "Sprint",
     "nameKo": "Sprint",
     "nameJa": "Sprint",
-    "nameEn": "Sprint"
+    "nameEn": "Sprint",
+    "nonMainline": true
   },
   {
     "name": "Stealth",
     "nameKo": "Stealth",
     "nameJa": "Stealth",
-    "nameEn": "Stealth"
+    "nameEn": "Stealth",
+    "nonMainline": true
   },
   {
     "name": "Tenacity",
     "nameKo": "Tenacity",
     "nameJa": "Tenacity",
-    "nameEn": "Tenacity"
+    "nameEn": "Tenacity",
+    "nonMainline": true
   },
   {
     "name": "Thrust",
     "nameKo": "Thrust",
     "nameJa": "Thrust",
-    "nameEn": "Thrust"
+    "nameEn": "Thrust",
+    "nonMainline": true
   },
   {
     "name": "Vanguard",
     "nameKo": "Vanguard",
     "nameJa": "Vanguard",
-    "nameEn": "Vanguard"
+    "nameEn": "Vanguard",
+    "nonMainline": true
   },
   {
     "name": "Warm Blanket",
     "nameKo": "Warm Blanket",
     "nameJa": "Warm Blanket",
-    "nameEn": "Warm Blanket"
+    "nameEn": "Warm Blanket",
+    "nonMainline": true
   },
   {
     "name": "Wave Rider",
     "nameKo": "Wave Rider",
     "nameJa": "Wave Rider",
-    "nameEn": "Wave Rider"
+    "nameEn": "Wave Rider",
+    "nonMainline": true
   },
   {
     "name": "Drought",
