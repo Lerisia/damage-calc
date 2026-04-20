@@ -184,7 +184,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       _rebuildSortedAbilitiesFor(attacker: true);
       _rebuildSortedAbilitiesFor(attacker: false);
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _hydrateFromState();
+        if (!mounted) return;
+        _hydrateFromState();
+        // Belt-and-suspenders: after hydrate, force-drop any focus
+        // that might have snuck back in (TypeAhead's internal
+        // controllers occasionally re-focus during the remount).
+        FocusManager.instance.primaryFocus?.unfocus(
+            disposition: UnfocusDisposition.scope);
       });
     }
   }
@@ -1101,7 +1107,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // on species/language change.
     final sorted = attacker ? _atkSortedAbilities : _defSortedAbilities;
 
-    return buildTypeAhead<String>(
+    // Key ties TypeAhead instance to resetCounter so any swap/reset
+    // tears down the widget (dropping its internal SuggestionsController
+    // state) and rebuilds it fresh — no leftover "dropdown open"
+    // state across the transition.
+    return KeyedSubtree(
+      key: ValueKey('atk_${attacker}_ability_${widget.resetCounter}'),
+      child: buildTypeAhead<String>(
       controller: controller,
       focusNode: focus,
       suggestionsCallback: (query) {
@@ -1138,6 +1150,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         });
         widget.onChanged();
       },
+    ),
     );
   }
 
@@ -1146,7 +1159,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final focus = attacker ? _atkItemFocus : _defItemFocus;
     final allItems = _itemKeys;
 
-    return buildTypeAhead<String>(
+    return KeyedSubtree(
+      key: ValueKey('atk_${attacker}_item_${widget.resetCounter}'),
+      child: buildTypeAhead<String>(
       controller: controller,
       focusNode: focus,
       suggestionsCallback: (query) {
@@ -1184,6 +1199,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         });
         widget.onChanged();
       },
+    ),
     );
   }
 
