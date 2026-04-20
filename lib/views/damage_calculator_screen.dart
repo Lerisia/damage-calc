@@ -687,9 +687,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) {
           return AlertDialog(
-            title: Text(AppStrings.t('toolbar.battleConditions')),
-            contentPadding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-            content: Column(
+            // Redundant header dropped — the button the user tapped
+            // already said "배틀환경"; repeating it inside wastes
+            // vertical space on short screens.
+            contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+            content: SingleChildScrollView(
+              // Scroll when the chip list is taller than the viewport
+              // leaves room for it (small phones / landscape). Without
+              // this the column just overflows off the bottom of the
+              // dialog.
+              child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -860,6 +867,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   ],
                 ),
               ],
+              ),
             ),
             actions: [
               TextButton(

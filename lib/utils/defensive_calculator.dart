@@ -39,6 +39,7 @@ class DefensiveCalculator {
     bool isDynamaxed = false,
     RuinState ruinState = RuinState.inactive,
     bool allyFlowerGift = false,
+    bool allyFriendGuard = false,
   }) {
     final calculatedStats = StatCalculator.calculate(
       baseStats: baseStats,
@@ -106,8 +107,12 @@ class DefensiveCalculator {
 
     final int effectiveHp = isDynamaxed ? actualStats.hp * 2 : actualStats.hp;
 
-    final phys = effectiveHp * effectiveDef / _correctionFactor;
-    final spec = effectiveHp * effectiveSpd / _correctionFactor;
+    // Friend Guard (ally's ability) — incoming damage × 0.75, so the
+    // effective bulk (damage the mon can eat) scales by 1/0.75.
+    final double friendGuardBulkMod = allyFriendGuard ? 1.0 / 0.75 : 1.0;
+
+    final phys = effectiveHp * effectiveDef / _correctionFactor * friendGuardBulkMod;
+    final spec = effectiveHp * effectiveSpd / _correctionFactor * friendGuardBulkMod;
     return (
       physical: phys.isFinite ? phys.floor() : 0,
       special: spec.isFinite ? spec.floor() : 0,

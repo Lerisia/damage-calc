@@ -577,6 +577,7 @@ class BattleFacade {
       isDynamaxed: state.dynamax != DynamaxState.none,
       ruinState: ruinState,
       allyFlowerGift: state.allyFlowerGift,
+      allyFriendGuard: state.allyFriendGuard,
     );
   }
 
