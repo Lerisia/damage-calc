@@ -478,59 +478,61 @@ class _StatInputState extends State<StatInput> {
     // either not appearing or rendering behind other widgets after
     // scrolling. Computing the anchor rectangle ourselves against
     // the root overlay puts it in the right place every time.
-    return InkWell(
-      key: ValueKey('nature_${isUp ? 'up' : 'down'}_${value?.name ?? 'none'}'),
-      onTap: () async {
-        final RenderBox button = context.findRenderObject() as RenderBox;
-        final overlayBox = Overlay.of(context, rootOverlay: true)
-            .context
-            .findRenderObject()! as RenderBox;
-        final RelativeRect position = RelativeRect.fromRect(
-          Rect.fromPoints(
-            button.localToGlobal(
-                button.size.bottomLeft(Offset.zero),
-                ancestor: overlayBox),
-            button.localToGlobal(
-                button.size.bottomRight(Offset.zero),
-                ancestor: overlayBox),
+    // Use the tap's global position as the menu anchor instead of
+    // findRenderObject on a closure context — the latter resolves to
+    // the enclosing StatInput's render box, not the picker's, so
+    // the menu opened at a fixed wrong spot.
+    return Builder(
+      builder: (btnCtx) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTapUp: (details) => _openNaturePicker(
+            btnCtx, details.globalPosition, isUp, tint),
+        child: InputDecorator(
+          decoration: InputDecoration(
+            labelText: AppStrings.t(
+                isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
+            isDense: true,
           ),
-          Offset.zero & overlayBox.size,
-        );
-        final picked = await showMenu<_NaturePick>(
-          context: context,
-          position: position,
-          useRootNavigator: true,
-          popUpAnimationStyle:
-              AnimationStyle(duration: const Duration(milliseconds: 100)),
-          items: [
-            PopupMenuItem<_NaturePick>(
-              value: _NaturePick.none,
-              child: Text(AppStrings.t('nature.none'),
-                  style: const TextStyle(fontSize: 14, color: Colors.grey)),
-            ),
-            for (final s in NatureStat.values)
-              PopupMenuItem<_NaturePick>(
-                value: _pickFromStat(s),
-                child: Text(_statLabel(s),
-                    style: TextStyle(fontSize: 14, color: tint)),
-              ),
-          ],
-        );
-        if (picked == null) return;
-        final stat = _statFromPick(picked);
-        widget.onNatureChanged(isUp
-            ? widget.nature.copyWith(up: stat, clearUp: stat == null)
-            : widget.nature.copyWith(down: stat, clearDown: stat == null));
-      },
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: AppStrings.t(
-              isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-          isDense: true,
+          child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
         ),
-        child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
       ),
     );
+  }
+
+  Future<void> _openNaturePicker(
+      BuildContext ctx, Offset tapGlobal, bool isUp, Color tint) async {
+    final overlayBox = Overlay.of(ctx, rootOverlay: true)
+        .context
+        .findRenderObject()! as RenderBox;
+    final position = RelativeRect.fromRect(
+      tapGlobal & const Size(1, 1),
+      Offset.zero & overlayBox.size,
+    );
+    final picked = await showMenu<_NaturePick>(
+      context: ctx,
+      position: position,
+      useRootNavigator: true,
+      popUpAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 100)),
+      items: [
+        PopupMenuItem<_NaturePick>(
+          value: _NaturePick.none,
+          child: Text(AppStrings.t('nature.none'),
+              style: const TextStyle(fontSize: 14, color: Colors.grey)),
+        ),
+        for (final s in NatureStat.values)
+          PopupMenuItem<_NaturePick>(
+            value: _pickFromStat(s),
+            child: Text(_statLabel(s),
+                style: TextStyle(fontSize: 14, color: tint)),
+          ),
+      ],
+    );
+    if (picked == null) return;
+    final stat = _statFromPick(picked);
+    widget.onNatureChanged(isUp
+        ? widget.nature.copyWith(up: stat, clearUp: stat == null)
+        : widget.nature.copyWith(down: stat, clearDown: stat == null));
   }
 
   String _statLabel(NatureStat s) {
