@@ -345,7 +345,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(widget.useSpMode ? 'SP ' : '${AppStrings.t('stat.ev')} ',
+                    Text(widget.useSpMode ? 'SP ' : 'EV ',
                         style: TextStyle(fontSize: 14, color: Colors.grey.shade600,
                             fontWeight: FontWeight.bold)),
                     Icon(Icons.swap_horiz, size: 12, color: Colors.grey.shade600),
