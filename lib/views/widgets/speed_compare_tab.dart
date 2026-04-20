@@ -391,16 +391,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           Row(
             key: abilityRowKey,
             children: [
-              SizedBox(width: 56, child: _SpeedNumInput(
-                value: state.level,
-                min: 1, max: 100,
-                label: AppStrings.t('label.level'),
-                onChanged: (val) {
-                  setState(() => state.level = val);
-                  _notify();
-                },
-              )),
-              const SizedBox(width: 8),
+              // Level input dropped — in practice every speed compare
+              // uses Lv50. The main-screen StatInput still has it for
+              // the rare non-50 battle. Space freed by removing it is
+              // used for the Tailwind toggle at the end of this row.
               Expanded(flex: 3, child: _abilityAutocomplete(state, abilityController, abilityFocus)),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: PopupMenuButton<StatusCondition>(
@@ -408,15 +402,17 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 tooltip: AppStrings.t('label.status'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 child: InputDecorator(
-                  decoration: InputDecoration(labelText: AppStrings.t('label.status'), isDense: true, contentPadding: const EdgeInsets.symmetric(vertical: 4)),
+                  decoration: InputDecoration(labelText: AppStrings.t('label.status'), isDense: true),
                   child: Text(state.status.localizedName,
-                    style: const TextStyle(fontSize: 14)),
+                    style: const TextStyle(fontSize: 16)),
                 ),
                 itemBuilder: (_) => StatusCondition.values.map((st) =>
                   PopupMenuItem(value: st, child: Text(st.localizedName)),
                 ).toList(),
                 onSelected: (v) { setState(() => state.status = v); _notify(); },
               )),
+              const SizedBox(width: 6),
+              _tailwindCheck(state),
             ],
           ),
           const SizedBox(height: 8),
@@ -503,6 +499,42 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     controller.text = '';
     focusNode.canRequestFocus = false;
     return _natureDropdownsFor(state);
+  }
+
+  /// Compact Tailwind toggle shown on the ability/status row. Clicking
+  /// flips [state.tailwind], which is already wired into the speed
+  /// calculator via [BattleFacade.calcSpeed].
+  Widget _tailwindCheck(BattlePokemonState state) {
+    return InkWell(
+      onTap: () {
+        setState(() => state.tailwind = !state.tailwind);
+        _notify();
+      },
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 22, height: 22,
+              child: Checkbox(
+                value: state.tailwind,
+                onChanged: (v) {
+                  setState(() => state.tailwind = v ?? false);
+                  _notify();
+                },
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(AppStrings.t('damage.tailwind'),
+                style: const TextStyle(fontSize: 13)),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _natureDropdownsFor(BattlePokemonState state) {
