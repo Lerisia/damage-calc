@@ -45,12 +45,14 @@ class SimpleModeView extends StatefulWidget {
   /// screen. Simple Mode reuses them as-is — no separate dex load.
   final Map<String, String> abilityNameMap;
   final Map<String, String> itemNameMap;
-  /// Per-side "save current loadout" / "load saved loadout" hooks —
-  /// routed to the parent's [sample_storage]-backed flow so Simple
-  /// Mode and Extended Mode share the same saved-sample list.
+  /// Per-side "save current loadout" / "load saved loadout" / "reset"
+  /// hooks — routed to the parent's [sample_storage]-backed flow so
+  /// Simple Mode and Extended Mode share the same saved-sample list
+  /// and the same reset behavior.
   /// side: 0 = attacker, 1 = defender.
   final ValueChanged<int> onSaveSide;
   final ValueChanged<int> onLoadSide;
+  final ValueChanged<int> onResetSide;
 
   const SimpleModeView({
     super.key,
@@ -67,6 +69,7 @@ class SimpleModeView extends StatefulWidget {
     required this.itemNameMap,
     required this.onSaveSide,
     required this.onLoadSide,
+    required this.onResetSide,
   });
 
   @override
@@ -921,6 +924,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                 _titleActionBtn(
                   AppStrings.t('sample.load'),
                   () => widget.onLoadSide(saveLoadSide),
+                ),
+                _titleActionBtn(
+                  AppStrings.t('action.reset'),
+                  () => widget.onResetSide(saveLoadSide),
                 ),
               ],
             ],

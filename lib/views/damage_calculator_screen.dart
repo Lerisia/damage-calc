@@ -1449,6 +1449,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               onSaveSide: (side) => _showSaveDialog(
                 side, side == 0 ? _attacker : _defender),
               onLoadSide: (side) => _showLoadSheet(side),
+              onResetSide: (side) => _resetSide(side),
             )
           : GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -2334,7 +2335,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.3.7'),
+          const Text('v1.3.8'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
