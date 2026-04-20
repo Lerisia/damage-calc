@@ -720,6 +720,16 @@ class AppStrings {
       AppLanguage.en: 'Plus/Minus',
       AppLanguage.ja: 'プラス・マイナス',
     },
+    'damage.allyFriendGuard': {
+      AppLanguage.ko: '프렌드가드',
+      AppLanguage.en: 'Friend Guard',
+      AppLanguage.ja: 'フレンドガード',
+    },
+    'damage.tailwind': {
+      AppLanguage.ko: '순풍',
+      AppLanguage.en: 'Tailwind',
+      AppLanguage.ja: 'おいかぜ',
+    },
     'damage.allyAuraBreak': {
       AppLanguage.ko: '오라브레이크',
       AppLanguage.en: 'Aura Break',
@@ -989,6 +999,11 @@ class AppStrings {
       AppLanguage.ko: '플러스/마이너스',
       AppLanguage.en: 'Plus/Minus',
       AppLanguage.ja: 'プラス・マイナス',
+    },
+    'note.friendGuard': {
+      AppLanguage.ko: '프렌드가드',
+      AppLanguage.en: 'Friend Guard',
+      AppLanguage.ja: 'フレンドガード',
     },
     'note.abilityImmune': {
       AppLanguage.ko: '특성에 의해 무효',

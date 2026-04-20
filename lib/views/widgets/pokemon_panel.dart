@@ -907,6 +907,12 @@ class PokemonPanelState extends State<PokemonPanel>
           _doublesCheck(AppStrings.t('damage.allyPlusMinus'), s.allyPlusMinus, (v) {
             setState(() { s.allyPlusMinus = v; _notifyParent(); });
           }),
+          _doublesCheck(AppStrings.t('damage.allyFriendGuard'), s.allyFriendGuard, (v) {
+            setState(() { s.allyFriendGuard = v; _notifyParent(); });
+          }),
+          _doublesCheck(AppStrings.t('damage.tailwind'), s.tailwind, (v) {
+            setState(() { s.tailwind = v; _notifyParent(); });
+          }),
         ],
       ),
     );

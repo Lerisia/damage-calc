@@ -65,6 +65,25 @@ const double kPlusMinusSpAttackMultiplier = 1.5;
 /// Abilities that activate the Plus/Minus synergy (Gen 6+).
 const Set<String> kPlusMinusAbilities = {'Plus', 'Minus'};
 
+/// Damage-taken multiplier from the ally's Friend Guard ability.
+const double kFriendGuardMultiplier = 0.75;
+
+/// Compute defender-side doubles multipliers (Friend Guard, etc.).
+/// Applied on incoming damage to this side.
+DoublesModifiers computeDefenderDoublesModifiers({
+  required BattlePokemonState defender,
+  required bool isDoubles,
+}) {
+  if (!isDoubles) return DoublesModifiers.identity;
+  double powerMod = 1.0;
+  final notes = <String>[];
+  if (defender.allyFriendGuard) {
+    powerMod *= kFriendGuardMultiplier;
+    notes.add('move:friendGuard:×$kFriendGuardMultiplier');
+  }
+  return DoublesModifiers(powerMod: powerMod, notes: notes);
+}
+
 /// Compute the combined Doubles modifiers for [attacker] using [move].
 ///
 /// [isDoubles] is the global Doubles-mode flag. When false this returns

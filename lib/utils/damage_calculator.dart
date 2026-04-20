@@ -954,6 +954,14 @@ class DamageCalculator {
     A = (A * doublesMods.attackMod).floor();
     notes.addAll(doublesMods.notes);
 
+    // Defender-side doubles (Friend Guard reduces damage taken by 25%).
+    final defenderDoubles = computeDefenderDoublesModifiers(
+      defender: defender,
+      isDoubles: true,
+    );
+    movePowerMod *= defenderDoubles.powerMod;
+    notes.addAll(defenderDoubles.notes);
+
     // Dynamax Cannon / Behemoth Blade / Behemoth Bash: x2 vs Dynamaxed target
     if (effectiveMove.hasTag(MoveTags.doubleDynamax) &&
         defender.dynamax != DynamaxState.none) {

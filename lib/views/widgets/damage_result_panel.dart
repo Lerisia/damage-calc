@@ -318,6 +318,7 @@ class DamageResultPanel extends StatelessWidget {
           'battery': 'note.battery',
           'flowerGift': 'note.flowerGift',
           'plusMinus': 'note.plusMinus',
+          'friendGuard': 'note.friendGuard',
         };
         final key = parts[1];
         final noteKey = moveKeys[key];
