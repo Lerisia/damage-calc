@@ -165,6 +165,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     }
     // Reset/language bump also re-hydrates per-side controllers.
     if (old.resetCounter != widget.resetCounter) {
+      // Clear any focused TypeAhead before we overwrite its controller
+      // text, otherwise the programmatic text change reads as an edit
+      // and the suggestions dropdown re-opens (e.g. on swap).
+      FocusManager.instance.primaryFocus?.unfocus();
       _rebuildSortedAbilitiesFor(attacker: true);
       _rebuildSortedAbilitiesFor(attacker: false);
       _hydrateFromState();
