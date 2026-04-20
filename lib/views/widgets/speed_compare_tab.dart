@@ -401,7 +401,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 initialValue: state.status,
                 tooltip: AppStrings.t('label.status'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                useRootNavigator: true,
                 child: InputDecorator(
                   decoration: InputDecoration(labelText: AppStrings.t('label.status'), isDense: true),
                   child: Text(state.status.localizedName,
@@ -555,7 +554,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
         popUpAnimationStyle:
             AnimationStyle(duration: const Duration(milliseconds: 100)),
-        useRootNavigator: true,
         itemBuilder: (_) => [
           PopupMenuItem<_NaturePick>(
             value: _NaturePick.none,

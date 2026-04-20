@@ -361,7 +361,6 @@ class _StatInputState extends State<StatInput> {
                 initialValue: widget.status,
                 tooltip: AppStrings.t('label.status'),
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                useRootNavigator: true,
                 child: InputDecorator(
                   decoration: InputDecoration(
                     labelText: AppStrings.t('label.status'),
@@ -485,11 +484,6 @@ class _StatInputState extends State<StatInput> {
       tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
       popUpAnimationStyle:
           AnimationStyle(duration: const Duration(milliseconds: 100)),
-      // Render via the root navigator so the menu overlay isn't
-      // clipped by the scroll view that contains StatInput — on
-      // iPhone, scrolling the panel previously made the menu
-      // appear behind other widgets.
-      useRootNavigator: true,
       itemBuilder: (_) => [
         PopupMenuItem<_NaturePick>(
           value: _NaturePick.none,
