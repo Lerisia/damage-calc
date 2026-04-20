@@ -1282,12 +1282,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               _auraDropdown(toolbarFontSize),
               _ruinDropdown(toolbarFontSize),
               const Spacer(),
-              if (!_simpleMode)
-                TextButton.icon(
-                  onPressed: _swapSides,
-                  icon: const Icon(Icons.swap_horiz),
-                  label: Text(AppStrings.t('toolbar.swap'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                ),
+              TextButton.icon(
+                onPressed: _swapSides,
+                icon: const Icon(Icons.swap_horiz),
+                label: Text(AppStrings.t('toolbar.swap'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+              ),
               TextButton.icon(
                 onPressed: _resetBothSides,
                 icon: const Icon(Icons.refresh),
