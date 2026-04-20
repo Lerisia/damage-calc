@@ -547,43 +547,17 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
       final label = value == null
           ? AppStrings.t('nature.none')
           : _natureStatLabel(value);
-      final pickValue = value == null ? _NaturePick.none : _pickFromStat(value);
-      return PopupMenuButton<_NaturePick>(
-        initialValue: pickValue,
-        tooltip: AppStrings.t(
-            isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-        popUpAnimationStyle:
-            AnimationStyle(duration: const Duration(milliseconds: 100)),
-        itemBuilder: (_) => [
-          PopupMenuItem<_NaturePick>(
-            value: _NaturePick.none,
-            child: Text(AppStrings.t('nature.none'),
-                style: const TextStyle(fontSize: 14, color: Colors.grey)),
-          ),
-          for (final s in NatureStat.values)
-            PopupMenuItem<_NaturePick>(
-              value: _pickFromStat(s),
-              child: Text(_natureStatLabel(s),
-                  style: TextStyle(fontSize: 14, color: tint)),
-            ),
-        ],
-        onSelected: (v) {
-          final stat = _statFromPick(v);
-          setState(() {
-            state.nature = isUp
-                ? state.nature.copyWith(up: stat, clearUp: stat == null)
-                : state.nature.copyWith(down: stat, clearDown: stat == null);
-          });
-          _notify();
-        },
+      // Bottom-sheet picker — matches stat_input.dart, sidesteps the
+      // iOS PopupMenu z-order bug.
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _openNatureSheet(state, isUp, tint, value),
         child: InputDecorator(
           decoration: InputDecoration(
             labelText: AppStrings.t(
                 isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
             isDense: true,
           ),
-          // fontSize 16 to match TextField's bodyLarge default used
-          // by the item typeahead on the same row.
           child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
         ),
       );
@@ -595,6 +569,70 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         const SizedBox(width: 6),
         Expanded(child: pick(state.nature.down, false)),
       ],
+    );
+  }
+
+  Future<void> _openNatureSheet(
+      BattlePokemonState state, bool isUp, Color tint, NatureStat? current) async {
+    final picked = await showModalBottomSheet<_NaturePick>(
+      context: context,
+      useRootNavigator: true,
+      sheetAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 150)),
+      showDragHandle: false,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _natureSheetOption(
+              ctx,
+              label: AppStrings.t('nature.none'),
+              color: Colors.grey,
+              value: _NaturePick.none,
+              selected: current == null,
+            ),
+            for (final s in NatureStat.values)
+              _natureSheetOption(
+                ctx,
+                label: _natureStatLabel(s),
+                color: tint,
+                value: _pickFromStat(s),
+                selected: current == s,
+              ),
+          ],
+        ),
+      ),
+    );
+    if (picked == null) return;
+    final stat = _statFromPick(picked);
+    setState(() {
+      state.nature = isUp
+          ? state.nature.copyWith(up: stat, clearUp: stat == null)
+          : state.nature.copyWith(down: stat, clearDown: stat == null);
+    });
+    _notify();
+  }
+
+  Widget _natureSheetOption(
+    BuildContext ctx, {
+    required String label,
+    required Color color,
+    required _NaturePick value,
+    required bool selected,
+  }) {
+    return ListTile(
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      leading: Icon(
+        selected ? Icons.check : null,
+        size: 18, color: color,
+      ),
+      title: Text(label,
+          style: TextStyle(
+              fontSize: 16,
+              color: color,
+              fontWeight: selected ? FontWeight.w700 : FontWeight.w500)),
+      onTap: () => Navigator.pop(ctx, value),
     );
   }
 

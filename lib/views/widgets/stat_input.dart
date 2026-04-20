@@ -472,50 +472,83 @@ class _StatInputState extends State<StatInput> {
         ? AppStrings.t('nature.none')
         : _statLabel(value);
     final textColor = value == null ? Colors.grey : tint;
-    // PopupMenuButton.onSelected is NOT called when the selected
-    // value is null — Flutter routes that to onCanceled instead. So
-    // we use a non-nullable [_NaturePick] enum here and translate
-    // _NaturePick.none back into a real null when emitting the new
-    // [NatureProfile]. Without this workaround, users can't pick
-    // 'None' after they've chosen a stat.
-    final pickValue = value == null ? _NaturePick.none : _pickFromStat(value);
-    return PopupMenuButton<_NaturePick>(
-      initialValue: pickValue,
-      tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
-      itemBuilder: (_) => [
-        PopupMenuItem<_NaturePick>(
-          value: _NaturePick.none,
-          child: Text(AppStrings.t('nature.none'),
-              style: const TextStyle(fontSize: 14, color: Colors.grey)),
-        ),
-        for (final s in NatureStat.values)
-          PopupMenuItem<_NaturePick>(
-            value: _pickFromStat(s),
-            child: Text(_statLabel(s),
-                style: TextStyle(fontSize: 14, color: tint)),
-          ),
-      ],
-      onSelected: (v) {
-        final stat = _statFromPick(v);
-        widget.onNatureChanged(isUp
-            ? widget.nature.copyWith(up: stat, clearUp: stat == null)
-            : widget.nature.copyWith(down: stat, clearDown: stat == null));
-      },
+    // Modal bottom sheet instead of PopupMenu — PopupMenu had a
+    // known iOS rendering bug where the menu got drawn behind other
+    // widgets when this picker was in the second row of StatInput
+    // inside a SingleChildScrollView. Bottom sheets use a different
+    // route path and don't hit that bug.
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => _openNatureSheet(isUp, tint, value),
       child: InputDecorator(
         decoration: InputDecoration(
           labelText: AppStrings.t(
               isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
           isDense: true,
         ),
-        // Match the item typeahead's rendered body size (Material
-        // default bodyLarge ~ 16) so baselines align. The theme-
-        // inherited size was coming out smaller here because
-        // InputDecorator's fallback style is bodyMedium, not
-        // bodyLarge like TextField.
         child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
       ),
+    );
+  }
+
+  Future<void> _openNatureSheet(
+      bool isUp, Color tint, NatureStat? current) async {
+    final picked = await showModalBottomSheet<_NaturePick>(
+      context: context,
+      useRootNavigator: true,
+      sheetAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 150)),
+      showDragHandle: false,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _natureSheetOption(
+              ctx,
+              label: AppStrings.t('nature.none'),
+              color: Colors.grey,
+              value: _NaturePick.none,
+              selected: current == null,
+            ),
+            for (final s in NatureStat.values)
+              _natureSheetOption(
+                ctx,
+                label: _statLabel(s),
+                color: tint,
+                value: _pickFromStat(s),
+                selected: current == s,
+              ),
+          ],
+        ),
+      ),
+    );
+    if (picked == null) return;
+    final stat = _statFromPick(picked);
+    widget.onNatureChanged(isUp
+        ? widget.nature.copyWith(up: stat, clearUp: stat == null)
+        : widget.nature.copyWith(down: stat, clearDown: stat == null));
+  }
+
+  Widget _natureSheetOption(
+    BuildContext ctx, {
+    required String label,
+    required Color color,
+    required _NaturePick value,
+    required bool selected,
+  }) {
+    return ListTile(
+      dense: true,
+      visualDensity: VisualDensity.compact,
+      leading: Icon(
+        selected ? Icons.check : null,
+        size: 18, color: color,
+      ),
+      title: Text(label,
+          style: TextStyle(
+              fontSize: 16,
+              color: color,
+              fontWeight: selected ? FontWeight.w700 : FontWeight.w500)),
+      onTap: () => Navigator.pop(ctx, value),
     );
   }
 
