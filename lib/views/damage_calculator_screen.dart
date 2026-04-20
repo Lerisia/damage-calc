@@ -94,6 +94,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   // Name maps – loaded locally so they refresh on language change
   Map<String, String> _abilityNameMap = {};
   Map<String, String> _itemNameMap = {};
+  // Subset of abilities the picker is allowed to show (i.e. not
+  // nonMainline). Both maps stay full so lookups by key still resolve,
+  // but the typeahead's suggestion list is filtered through this set
+  // so users don't stumble into Colosseum-only abilities mid-battle.
+  Set<String> _pickableAbilities = {};
 
   // Ability → Weather/Terrain auto-set (from weather_effects / terrain_effects)
 
@@ -334,10 +339,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     try {
       final dex = await loadAbilitydex();
       final map = <String, String>{};
+      final pickable = <String>{};
       for (final entry in dex.entries) {
         map[entry.key] = entry.value.localizedName;
+        if (!entry.value.nonMainline) pickable.add(entry.key);
       }
-      if (mounted) setState(() => _abilityNameMap = map);
+      if (mounted) setState(() {
+        _abilityNameMap = map;
+        _pickableAbilities = pickable;
+      });
     } catch (_) {}
   }
 
@@ -1444,6 +1454,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               resetCounter: _resetCounter,
               onChanged: _onPanelChanged,
               abilityNameMap: _abilityNameMap,
+              pickableAbilities: _pickableAbilities,
               itemNameMap: _itemNameMap,
               onSaveSide: (side) => _showSaveDialog(
                 side, side == 0 ? _attacker : _defender),

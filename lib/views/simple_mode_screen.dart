@@ -45,6 +45,11 @@ class SimpleModeView extends StatefulWidget {
   /// screen. Simple Mode reuses them as-is — no separate dex load.
   final Map<String, String> abilityNameMap;
   final Map<String, String> itemNameMap;
+  /// Set of ability keys allowed in the picker (i.e. mainline only).
+  /// Owned by the parent so Simple and Extended share the same
+  /// filter; the full [abilityNameMap] still contains every ability
+  /// for key→name lookups.
+  final Set<String> pickableAbilities;
   /// Per-side "save current loadout" / "load saved loadout" / "reset"
   /// hooks — routed to the parent's [sample_storage]-backed flow so
   /// Simple Mode and Extended Mode share the same saved-sample list
@@ -67,6 +72,7 @@ class SimpleModeView extends StatefulWidget {
     required this.onChanged,
     required this.abilityNameMap,
     required this.itemNameMap,
+    required this.pickableAbilities,
     required this.onSaveSide,
     required this.onLoadSide,
     required this.onResetSide,
@@ -197,8 +203,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         own.add(a);
       }
     }
+    // Pokemon's own abilities are always shown (they're legit
+    // gameplay abilities). The rest-of-world list is filtered to
+    // mainline-only so the Colosseum/spin-off placeholders don't
+    // pollute the typeahead.
+    final pickable = widget.pickableAbilities;
     final rest = _abilityNames.keys
-        .where((a) => !own.contains(a))
+        .where((a) => !own.contains(a) && pickable.contains(a))
         .toList()
       ..sort((a, b) => (_abilityNames[a] ?? a).compareTo(_abilityNames[b] ?? b));
     final combined = [...own, ...rest];

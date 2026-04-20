@@ -228,8 +228,9 @@ class _AppLoaderState extends State<_AppLoader> {
     final abilities = results[2] as Map<String, Ability>;
     final aMap = <String, String>{};
     for (final e in abilities.values) {
-      // Skip dummy abilities (nameKo has no Korean characters)
-      if (!e.nameKo.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3)) continue;
+      // Skip non-mainline (spin-off) abilities — ability picker only
+      // wants the ones real players actually encounter.
+      if (e.nonMainline) continue;
       aMap[e.name] = e.localizedName;
     }
 

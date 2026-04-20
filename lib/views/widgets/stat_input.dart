@@ -233,9 +233,12 @@ class _StatInputState extends State<StatInput> {
       final dex = await loadAbilitydex();
       final map = <String, String>{};
       for (final entry in dex.entries) {
-        // Skip dummy abilities (nameKo has no Korean characters)
-        // Skip dummy abilities (nameKo has no Korean characters)
-        if (!entry.value.nameKo.runes.any((c) => c >= 0xAC00 && c <= 0xD7A3)) continue;
+        // Skip non-mainline (spin-off / Colosseum) abilities — their
+        // names would otherwise show up in the picker and confuse
+        // users. The explicit flag replaces the old "nameKo has no
+        // Hangul" heuristic, which was ambiguous and produced edge
+        // cases.
+        if (entry.value.nonMainline) continue;
         map[entry.key] = entry.value.localizedName;
       }
       _abilityCache = map;
