@@ -473,38 +473,51 @@ class _StatInputState extends State<StatInput> {
         ? AppStrings.t('nature.none')
         : _statLabel(value);
     final textColor = value == null ? Colors.grey : tint;
-    // PopupMenuButton.onSelected is NOT called when the selected
-    // value is null — Flutter routes that to onCanceled instead. So
-    // we use a non-nullable [_NaturePick] enum here and translate
-    // _NaturePick.none back into a real null when emitting the new
-    // [NatureProfile]. Without this workaround, users can't pick
-    // 'None' after they've chosen a stat.
-    final pickValue = value == null ? _NaturePick.none : _pickFromStat(value);
-    return PopupMenuButton<_NaturePick>(
-      initialValue: pickValue,
-      tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
-      // Render via the root navigator so the menu overlay isn't
-      // clipped by the scroll view that contains StatInput — on
-      // iPhone, scrolling the panel previously made the menu
-      // appear behind other widgets.
-      useRootNavigator: true,
-      itemBuilder: (_) => [
-        PopupMenuItem<_NaturePick>(
-          value: _NaturePick.none,
-          child: Text(AppStrings.t('nature.none'),
-              style: const TextStyle(fontSize: 14, color: Colors.grey)),
-        ),
-        for (final s in NatureStat.values)
-          PopupMenuItem<_NaturePick>(
-            value: _pickFromStat(s),
-            child: Text(_statLabel(s),
-                style: TextStyle(fontSize: 14, color: tint)),
+    // Call showMenu manually rather than via PopupMenuButton — on
+    // iOS the PopupMenuButton inside a SingleChildScrollView was
+    // either not appearing or rendering behind other widgets after
+    // scrolling. Computing the anchor rectangle ourselves against
+    // the root overlay puts it in the right place every time.
+    return InkWell(
+      key: ValueKey('nature_${isUp ? 'up' : 'down'}_${value?.name ?? 'none'}'),
+      onTap: () async {
+        final RenderBox button = context.findRenderObject() as RenderBox;
+        final overlayBox = Overlay.of(context, rootOverlay: true)
+            .context
+            .findRenderObject()! as RenderBox;
+        final RelativeRect position = RelativeRect.fromRect(
+          Rect.fromPoints(
+            button.localToGlobal(
+                button.size.bottomLeft(Offset.zero),
+                ancestor: overlayBox),
+            button.localToGlobal(
+                button.size.bottomRight(Offset.zero),
+                ancestor: overlayBox),
           ),
-      ],
-      onSelected: (v) {
-        final stat = _statFromPick(v);
+          Offset.zero & overlayBox.size,
+        );
+        final picked = await showMenu<_NaturePick>(
+          context: context,
+          position: position,
+          useRootNavigator: true,
+          popUpAnimationStyle:
+              AnimationStyle(duration: const Duration(milliseconds: 100)),
+          items: [
+            PopupMenuItem<_NaturePick>(
+              value: _NaturePick.none,
+              child: Text(AppStrings.t('nature.none'),
+                  style: const TextStyle(fontSize: 14, color: Colors.grey)),
+            ),
+            for (final s in NatureStat.values)
+              PopupMenuItem<_NaturePick>(
+                value: _pickFromStat(s),
+                child: Text(_statLabel(s),
+                    style: TextStyle(fontSize: 14, color: tint)),
+              ),
+          ],
+        );
+        if (picked == null) return;
+        final stat = _statFromPick(picked);
         widget.onNatureChanged(isUp
             ? widget.nature.copyWith(up: stat, clearUp: stat == null)
             : widget.nature.copyWith(down: stat, clearDown: stat == null));
@@ -515,11 +528,6 @@ class _StatInputState extends State<StatInput> {
               isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
           isDense: true,
         ),
-        // Match the item typeahead's rendered body size (Material
-        // default bodyLarge ~ 16) so baselines align. The theme-
-        // inherited size was coming out smaller here because
-        // InputDecorator's fallback style is bodyMedium, not
-        // bodyLarge like TextField.
         child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
       ),
     );
