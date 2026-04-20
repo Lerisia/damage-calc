@@ -1543,6 +1543,13 @@
     "nameEn": "Silk Scarf"
   },
   {
+    "name": "fairy-feather",
+    "nameKo": "요정의깃털",
+    "nameJa": "ようせいのはね",
+    "battle": true,
+    "nameEn": "Fairy Feather"
+  },
+  {
     "name": "deep-sea-scale",
     "nameKo": "심해의비늘",
     "nameJa": "しんかいのウロコ",
