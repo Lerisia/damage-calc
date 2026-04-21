@@ -103,6 +103,17 @@ Weather effectiveOffensiveWeather(Weather weather, {String? ability}) {
   return weather;
 }
 
+/// Weather as seen by the defender during this attacker's move. Mega
+/// Sol additionally negates every weather-based defensive buff on the
+/// defender (e.g. Sandstorm → Rock-type SpD × 1.5, Snow → Ice-type
+/// Def × 1.5) when it is the one attacking — its description reads
+/// "weather effects are negated during the user's attack".
+Weather effectiveDefensiveWeatherForAttack(Weather weather,
+    {String? attackerAbility}) {
+  if (attackerAbility == 'Mega Sol') return Weather.none;
+  return weather;
+}
+
 /// Returns the offensive effect of [abilityName] given the [move] being used.
 ///
 /// [originalBasePower] is the move's base power before any transformation

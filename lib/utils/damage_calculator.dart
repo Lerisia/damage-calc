@@ -595,8 +595,12 @@ class DamageCalculator {
     // Use ability-overridden types if applicable
     final defEffType1 = defTypeOverride?.type1 ?? defender.type1;
     final defEffType2 = defTypeOverride != null ? defTypeOverride.type2 : defender.type2;
+    // Mega Sol on the attacker negates defender-side weather buffs
+    // during its own attacks (in addition to applying Sun offensively).
+    final weatherForDef = effectiveDefensiveWeatherForAttack(
+        weather, attackerAbility: atkAbilityRaw);
     final weatherDef = getWeatherDefensiveModifier(
-      weather, type1: defEffType1, type2: defEffType2);
+      weatherForDef, type1: defEffType1, type2: defEffType2);
     D = (D * (targetPhysDef ? weatherDef.defMod : weatherDef.spdMod)).floor();
 
     // Apply Ruin defensive modifier
