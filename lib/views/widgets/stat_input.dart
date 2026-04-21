@@ -931,7 +931,41 @@ class _StatInputState extends State<StatInput> {
           flex: 2,
           child: _flexButton('max', () {
             setState(() => _evResetCounter++);
-            onChanged(sp ? ChampionsMode.spToEv(maxDisplay) : 252);
+            // Budget-aware max:
+            //   - budget ≥ per-stat max → give full max (normal)
+            //   - 0 < budget < per-stat max → fill just what fits (no overflow)
+            //   - budget ≤ 0 → give full max anyway (override; user's "really do it" click)
+            // The second rule is what makes a follow-up click assign the
+            // full value once the first click has drained the remainder.
+            final ev = widget.ev;
+            final int newEv;
+            if (sp) {
+              final currentStatSp = ChampionsMode.evToSp(value);
+              final otherSp =
+                  ChampionsMode.totalSpFromEv(ev) - currentStatSp;
+              final budget = ChampionsMode.maxTotalSp - otherSp;
+              final int spToAllocate;
+              if (budget >= maxDisplay) {
+                spToAllocate = maxDisplay;
+              } else if (budget > 0) {
+                spToAllocate = budget;
+              } else {
+                spToAllocate = maxDisplay;
+              }
+              newEv = ChampionsMode.spToEv(spToAllocate);
+            } else {
+              final totalEv = ev.hp + ev.attack + ev.defense +
+                  ev.spAttack + ev.spDefense + ev.speed;
+              final budget = 510 - (totalEv - value);
+              if (budget >= 252) {
+                newEv = 252;
+              } else if (budget > 0) {
+                newEv = budget;
+              } else {
+                newEv = 252;
+              }
+            }
+            onChanged(newEv);
             widget.onStatEditComplete?.call();
           }),
         ),
