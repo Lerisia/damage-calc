@@ -75,7 +75,7 @@ class BattlePokemonState {
   bool allyPlusMinus;
 
   BattlePokemonState({
-    this.pokemonName = 'bulbasaur',
+    this.pokemonName = 'Bulbasaur',
     this.pokemonNameKo = '이상해씨',
     this.pokemonNameJa = 'フシギダネ',
     this.pokemonNameEn,
@@ -249,7 +249,7 @@ class BattlePokemonState {
   }
 
   void reset() {
-    pokemonName = 'bulbasaur';
+    pokemonName = 'Bulbasaur';
     pokemonNameKo = '이상해씨';
     pokemonNameJa = 'フシギダネ';
     pokemonNameEn = null;
