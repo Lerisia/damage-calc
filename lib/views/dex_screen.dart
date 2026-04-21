@@ -100,6 +100,21 @@ class _DexScreenState extends State<DexScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Wide viewports: show Main + Moves side by side so users don't
+    // need to swap tabs. Threshold chosen to roughly match the calc's
+    // wide layout switch (1050) — anything narrower is phone/tablet
+    // portrait where the tab UI works better.
+    final wide = MediaQuery.of(context).size.width >= 1050;
+    final mainTab = _MainTab(
+      pokemon: _selected,
+      abilityDex: _abilityDex,
+    );
+    final movesTab = _MovesTab(
+      pokemon: _selected,
+      learnable: _learnable,
+      moveDex: _moveDex,
+      loading: _loadingMoves,
+    );
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -121,12 +136,14 @@ class _DexScreenState extends State<DexScreen> {
               onSelected: _onSelect,
             ),
           ),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: AppStrings.t('dex.tabMain')),
-              Tab(text: AppStrings.t('dex.tabMoves')),
-            ],
-          ),
+          bottom: wide
+              ? null
+              : TabBar(
+                  tabs: [
+                    Tab(text: AppStrings.t('dex.tabMain')),
+                    Tab(text: AppStrings.t('dex.tabMoves')),
+                  ],
+                ),
         ),
         body: GestureDetector(
           // Tap outside the typeahead → blur it. Without this the
@@ -137,19 +154,20 @@ class _DexScreenState extends State<DexScreen> {
           child: Column(
           children: [
             Expanded(
-              child: TabBarView(
+              child: wide
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(child: mainTab),
+                        const VerticalDivider(width: 1),
+                        Expanded(child: movesTab),
+                      ],
+                    )
+                  : TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  _MainTab(
-                    pokemon: _selected,
-                    abilityDex: _abilityDex,
-                  ),
-                  _MovesTab(
-                    pokemon: _selected,
-                    learnable: _learnable,
-                    moveDex: _moveDex,
-                    loading: _loadingMoves,
-                  ),
+                  mainTab,
+                  movesTab,
                 ],
               ),
             ),

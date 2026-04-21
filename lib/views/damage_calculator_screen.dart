@@ -1338,6 +1338,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 icon: const Icon(Icons.camera_alt_outlined),
                 label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               ),
+              TextButton.icon(
+                onPressed: () => _openDex(),
+                icon: const Icon(Icons.menu_book_outlined),
+                label: Text(AppStrings.t('dex.title'),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600)),
+              ),
               const Spacer(),
               TextButton(
                 onPressed: _toggleSimpleMode,
