@@ -341,16 +341,16 @@ class _Header extends StatelessWidget {
       style: FilledButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: color,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         minimumSize: Size.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(5),
         ),
       ),
       child: Text(label,
           style:
-              const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+              const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
     );
   }
 

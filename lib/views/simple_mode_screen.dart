@@ -675,13 +675,30 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final defSpeed = BattleFacade.calcSpeed(
       state: _def, weather: widget.weather, terrain: widget.terrain, room: widget.room);
     final diff = (atkSpeed - defSpeed).abs();
+    // Mirror match: fall back to 공격측/방어측 so the line isn't
+    // ambiguous. Otherwise show the actual species names.
+    final mirror = _atk.pokemonName == _def.pokemonName;
+    String namedFasterBy(BattlePokemonState faster, BattlePokemonState slower) {
+      final a = faster.localizedPokemonName;
+      final b = slower.localizedPokemonName;
+      return AppStrings.t('simple.namedFasterBy')
+          .replaceAll('{a}', a)
+          .replaceAll('{p}', AppStrings.koSubjectParticle(a))
+          .replaceAll('{b}', b)
+          .replaceAll('{n}', '$diff');
+    }
+
     final String label;
     final Color color;
     if (atkSpeed > defSpeed) {
-      label = AppStrings.t('simple.atkFasterBy').replaceAll('{n}', '$diff');
+      label = mirror
+          ? AppStrings.t('simple.atkFasterBy').replaceAll('{n}', '$diff')
+          : namedFasterBy(_atk, _def);
       color = Colors.red;
     } else if (atkSpeed < defSpeed) {
-      label = AppStrings.t('simple.defFasterBy').replaceAll('{n}', '$diff');
+      label = mirror
+          ? AppStrings.t('simple.defFasterBy').replaceAll('{n}', '$diff')
+          : namedFasterBy(_def, _atk);
       color = Colors.blue;
     } else {
       label = AppStrings.t('simple.tiedSpeed');

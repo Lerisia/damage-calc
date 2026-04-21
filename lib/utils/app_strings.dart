@@ -70,6 +70,18 @@ class AppStrings {
     };
   }
 
+  /// Returns the correct Korean subject particle (이/가) for [name]
+  /// based on the last Hangul syllable's jongseong (받침). Names that
+  /// don't end in a Hangul syllable (e.g. English/Japanese names shown
+  /// untranslated) default to "가".
+  static String koSubjectParticle(String name) {
+    if (name.isEmpty) return '가';
+    final last = name.runes.last;
+    // Hangul syllable block U+AC00 ~ U+D7A3.
+    if (last < 0xAC00 || last > 0xD7A3) return '가';
+    return ((last - 0xAC00) % 28) == 0 ? '가' : '이';
+  }
+
   /// Like [name] but returns null when the corresponding field is null
   /// (no language fallback). Used for optional fields like ability /
   /// move descriptions where we'd rather show nothing than the wrong
@@ -426,6 +438,14 @@ class AppStrings {
       AppLanguage.en: 'Defender is {n} faster than attacker',
       AppLanguage.ja: '防御側が攻撃側より {n} 速い',
     },
+    // Named variant used when the two sides aren't a mirror match.
+    // {a} = faster pokemon, {b} = slower pokemon, {n} = speed diff.
+    // {p} is the Korean particle (이/가), inserted at the call site.
+    'simple.namedFasterBy': {
+      AppLanguage.ko: '{a}{p} {b}보다 {n} 빠름',
+      AppLanguage.en: '{a} is {n} faster than {b}',
+      AppLanguage.ja: '{a}が{b}より {n} 速い',
+    },
     'simple.tiedSpeed': {
       AppLanguage.ko: '스피드 동률',
       AppLanguage.en: 'Speed tie',
@@ -748,6 +768,14 @@ class AppStrings {
       AppLanguage.ko: '방어측이 공격측보다 {n} 빠름',
       AppLanguage.en: 'Defender faster by {n}',
       AppLanguage.ja: '防御側が攻撃側より{n}速い',
+    },
+    // Named variant used when the two sides aren't a mirror match.
+    // {a} = faster pokemon, {b} = slower pokemon, {n} = speed diff.
+    // {p} is the Korean particle (이/가), inserted at the call site.
+    'speed.namedFasterBy': {
+      AppLanguage.ko: '{a}{p} {b}보다 {n} 빠름',
+      AppLanguage.en: '{a} is {n} faster than {b}',
+      AppLanguage.ja: '{a}が{b}より{n}速い',
     },
     'speed.tie': {
       AppLanguage.ko: '동속',

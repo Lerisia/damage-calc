@@ -210,14 +210,31 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     );
     final diff = (atkEffSpeed - defEffSpeed).abs();
 
+    // Mirror match: fall back to 공격측/방어측 so the line isn't
+    // ambiguous. Otherwise show the actual species names.
+    final mirror = atk.pokemonName == def.pokemonName;
+    String namedFasterBy(BattlePokemonState faster, BattlePokemonState slower) {
+      final a = faster.localizedPokemonName;
+      final b = slower.localizedPokemonName;
+      return AppStrings.t('speed.namedFasterBy')
+          .replaceAll('{a}', a)
+          .replaceAll('{p}', AppStrings.koSubjectParticle(a))
+          .replaceAll('{b}', b)
+          .replaceAll('{n}', '$diff');
+    }
+
     String resultText;
     Color resultColor;
     switch (result) {
       case SpeedResult.faster:
-        resultText = '▲ ${AppStrings.t('speed.atkFasterBy').replaceAll('{n}', '$diff')}';
+        resultText = mirror
+            ? '▲ ${AppStrings.t('speed.atkFasterBy').replaceAll('{n}', '$diff')}'
+            : '▲ ${namedFasterBy(atk, def)}';
         resultColor = Colors.red;
       case SpeedResult.slower:
-        resultText = '▼ ${AppStrings.t('speed.defFasterBy').replaceAll('{n}', '$diff')}';
+        resultText = mirror
+            ? '▼ ${AppStrings.t('speed.defFasterBy').replaceAll('{n}', '$diff')}'
+            : '▼ ${namedFasterBy(def, atk)}';
         resultColor = Colors.blue;
       case SpeedResult.tied:
         resultText = '⚡ ${AppStrings.t('speed.tie')}';
