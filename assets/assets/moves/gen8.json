@@ -12,7 +12,8 @@
       "custom:double_on_poison"
     ],
     "nameEn": "Barb Barrage",
-    "zPower": 120
+    "zPower": 120,
+    "descEn": "The user launches countless toxic barbs to inflict damage. This may also poison the target. This move’s power is doubled if the target is already poisoned."
   },
   {
     "name": "Bitter Malice",
@@ -25,7 +26,8 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Bitter Malice",
-    "zPower": 140
+    "zPower": 140,
+    "descEn": "The user attacks the target with spine-chilling resentment. This also lowers the target’s Attack stat."
   },
   {
     "name": "Bleakwind Storm",
@@ -41,7 +43,8 @@
       "custom:spread"
     ],
     "nameEn": "Bleakwind Storm",
-    "zPower": 180
+    "zPower": 180,
+    "descEn": "The user attacks with savagely cold winds that cause both body and spirit to tremble. This may also lower the Speed stats of opposing Pokémon."
   },
   {
     "name": "Ceaseless Edge",
@@ -57,7 +60,8 @@
       "slice"
     ],
     "nameEn": "Ceaseless Edge",
-    "zPower": 120
+    "zPower": 120,
+    "descEn": "The user slashes its shell blade at the target. Shell splinters left behind by this attack remain scattered under the target as spikes."
   },
   {
     "name": "Chloroblast",
@@ -72,7 +76,8 @@
       "recoil"
     ],
     "nameEn": "Chloroblast",
-    "zPower": 200
+    "zPower": 200,
+    "descEn": "The user launches its amassed chlorophyll to inflict damage on the target. This also damages the user."
   },
   {
     "name": "Dire Claw",
@@ -87,7 +92,8 @@
       "contact"
     ],
     "nameEn": "Dire Claw",
-    "zPower": 160
+    "zPower": 160,
+    "descEn": "The user lashes out at the target with ruinous claws. This may also leave the target poisoned, paralyzed, or asleep."
   },
   {
     "name": "Esper Wing",
@@ -100,7 +106,8 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Esper Wing",
-    "zPower": 160
+    "zPower": 160,
+    "descEn": "The user slashes the target with aura-enriched wings. This also boosts the user's Speed stat. This move has a heightened chance of landing a critical hit."
   },
   {
     "name": "Grav Apple",
@@ -116,7 +123,10 @@
       "custom:gravity_boost"
     ],
     "nameEn": "Grav Apple",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "높은 곳에서 사과를 떨어뜨려서 데미지를 준다. 상대의 방어를 떨어뜨린다.",
+    "descEn": "The user inflicts damage by dropping an apple from high above. This also lowers the target's Defense stat.",
+    "descJa": "高いところから　りんごを　落として ダメージを　与える。 相手の　防御を　下げる。"
   },
   {
     "name": "Headlong Rush",
@@ -132,7 +142,8 @@
       "punch"
     ],
     "nameEn": "Headlong Rush",
-    "zPower": 190
+    "zPower": 190,
+    "descEn": "The user smashes into the target in a full-body tackle. This also lowers the user’s Defense and Sp. Def stats."
   },
   {
     "name": "Infernal Parade",
@@ -145,7 +156,8 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Infernal Parade",
-    "zPower": 120
+    "zPower": 120,
+    "descEn": "The user attacks with myriad fireballs. This may also leave the target with a burn. This move's power is doubled if the target has a status condition."
   },
   {
     "name": "Lunar Blessing",
@@ -157,7 +169,8 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Lunar Blessing"
+    "nameEn": "Lunar Blessing",
+    "descEn": "The user receives a blessing from the crescent moon, restoring HP and curing status conditions for itself and its ally Pokémon currently in the battle."
   },
   {
     "name": "Mountain Gale",
@@ -170,7 +183,8 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Mountain Gale",
-    "zPower": 180
+    "zPower": 180,
+    "descEn": "The user hurls giant chunks of ice at the target to inflict damage. This may also make the target flinch."
   },
   {
     "name": "Mystical Power",
@@ -183,7 +197,8 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Mystical Power",
-    "zPower": 140
+    "zPower": 140,
+    "descEn": "The user attacks by emitting a mysterious power. This also boosts the user’s Sp. Atk stat."
   },
   {
     "name": "Power Shift",
@@ -195,7 +210,8 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Power Shift"
+    "nameEn": "Power Shift",
+    "descEn": "The user swaps its Attack and Defense stats."
   },
   {
     "name": "Psyshield Bash",
@@ -210,7 +226,8 @@
       "contact"
     ],
     "nameEn": "Psyshield Bash",
-    "zPower": 140
+    "zPower": 140,
+    "descEn": "Cloaking itself in psychic energy, the user slams into the target. This also boosts the user’s Defense stat."
   },
   {
     "name": "Raging Fury",
@@ -223,7 +240,8 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Raging Fury",
-    "zPower": 190
+    "zPower": 190,
+    "descEn": "The user rampages around spewing flames for two to three turns. The user then becomes confused."
   },
   {
     "name": "Sandsear Storm",
@@ -239,7 +257,8 @@
       "custom:spread"
     ],
     "nameEn": "Sandsear Storm",
-    "zPower": 180
+    "zPower": 180,
+    "descEn": "The user attacks by wrapping opposing Pokémon in fierce winds and searingly hot sand. This may also leave them with a burn."
   },
   {
     "name": "Shelter",
@@ -251,7 +270,8 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Shelter"
+    "nameEn": "Shelter",
+    "descEn": "The user makes its skin as hard as an iron shield, sharply boosting its Defense stat."
   },
   {
     "name": "Springtide Storm",
@@ -267,7 +287,8 @@
       "custom:spread"
     ],
     "nameEn": "Springtide Storm",
-    "zPower": 180
+    "zPower": 180,
+    "descEn": "The user attacks by wrapping opposing Pokémon in fierce winds brimming with love and hate. This may also lower their Attack stats."
   },
   {
     "name": "Stone Axe",
@@ -283,7 +304,8 @@
       "slice"
     ],
     "nameEn": "Stone Axe",
-    "zPower": 120
+    "zPower": 120,
+    "descEn": "The user swings its stone axes at the target. Stone splinters left behind by this attack float around the target."
   },
   {
     "name": "Take Heart",
@@ -295,7 +317,8 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Take Heart"
+    "nameEn": "Take Heart",
+    "descEn": "The user lifts its spirits, curing its own status conditions and boosting its Sp. Atk and Sp. Def stats."
   },
   {
     "name": "Triple Arrows",
@@ -308,7 +331,8 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Triple Arrows",
-    "zPower": 175
+    "zPower": 175,
+    "descEn": "The user kicks, then fires three arrows. This move has a heightened chance of landing a critical hit and may also lower the target’s Defense stat or make it flinch."
   },
   {
     "name": "Victory Dance",
@@ -320,7 +344,8 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Victory Dance"
+    "nameEn": "Victory Dance",
+    "descEn": "The user performs an intense dance to usher in victory, boosting its Attack, Defense, and Speed stats."
   },
   {
     "name": "Wave Crash",
@@ -336,7 +361,8 @@
       "recoil"
     ],
     "nameEn": "Wave Crash",
-    "zPower": 190
+    "zPower": 190,
+    "descEn": "The user shrouds itself in water and slams into the target with its whole body to inflict damage. This also damages the user quite a lot."
   },
   {
     "name": "Wildbolt Storm",
@@ -352,7 +378,8 @@
       "custom:spread"
     ],
     "nameEn": "Wildbolt Storm",
-    "zPower": 180
+    "zPower": 180,
+    "descEn": "The user summons a thunderous tempest and savagely attacks with lightning and wind. This may also leave opposing Pokémon with paralysis."
   },
   {
     "name": "Branch Poke",
@@ -367,7 +394,10 @@
       "contact"
     ],
     "nameEn": "Branch Poke",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "날카롭고 뾰족한 가지로 상대를 찔러서 공격한다.",
+    "descEn": "The user attacks the target by poking it with a sharply pointed branch.",
+    "descJa": "するどく　とがった　枝で 相手を　突いて　攻撃する。"
   },
   {
     "name": "Behemoth Blade",
@@ -384,7 +414,10 @@
       "slice"
     ],
     "nameEn": "Behemoth Blade",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "거대한 검이 되어 베어버린다. 상대가 다이맥스 중이면 데미지가 2배가 된다.",
+    "descEn": "The user becomes a gigantic sword and cuts the target. This move deals twice the damage if the target is Dynamaxed.",
+    "descJa": "巨大な　剣となり　切りかかる。 相手が　ダイマックス　していると ダメージは　２倍に　なる。"
   },
   {
     "name": "Behemoth Bash",
@@ -400,7 +433,10 @@
       "custom:double_dynamax"
     ],
     "nameEn": "Behemoth Bash",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "거대한 방패가 되어 부딪친다. 상대가 다이맥스 중이면 데미지가 2배가 된다.",
+    "descEn": "The user becomes a gigantic shield and slams into the target. This move deals twice the damage if the target is Dynamaxed.",
+    "descJa": "巨大な　盾となり　ぶつかる。 相手が　ダイマックス　していると ダメージは　２倍に　なる。"
   },
   {
     "name": "Grassy Glide",
@@ -416,7 +452,10 @@
       "contact"
     ],
     "nameEn": "Grassy Glide",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "지면에 미끄러지듯 상대를 공격한다. 그래스필드일 때 반드시 선제공격할 수 있다.",
+    "descEn": "Gliding on the ground, the user attacks the target. This move always goes first on Grassy Terrain.",
+    "descJa": "地面を　滑るように　相手を　攻撃。 グラスフィールドの時 必ず　先制攻撃　できる。"
   },
   {
     "name": "Snipe Shot",
@@ -429,7 +468,10 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Snipe Shot",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "상대의 기술을 끌어모으는 특성이나 기술의 영향을 무시하고 선택한 상대를 공격할 수 있다.",
+    "descEn": "The user ignores the effects of opposing Pokémon's moves and Abilities that draw in moves, allowing this move to hit the chosen target.",
+    "descJa": "相手の　技を　引き受ける 特性や　技の　影響を　無視して 選んだ　相手を　攻撃　できる。"
   },
   {
     "name": "Teatime",
@@ -441,7 +483,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Teatime"
+    "nameEn": "Teatime",
+    "descKo": "다과회를 열어서 배틀에 나와 있는 포켓몬이 각각 지니고 있는 나무열매를 먹는다.",
+    "descEn": "The user has teatime with all the Pokémon currently in the battle. Each Pokémon eats its held Berry.",
+    "descJa": "おちゃかいを　ひらいて 場にいる　ポケモンが　それぞれ 持っている　きのみを　食べる。"
   },
   {
     "name": "Max Overgrowth",
@@ -454,7 +499,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Overgrowth"
+    "nameEn": "Max Overgrowth",
+    "descKo": "다이맥스한 포켓몬이 날리는 풀타입의 공격. 5턴 동안 그래스필드로 만든다.",
+    "descEn": "This is a Grass-type attack Dynamax Pokémon use. The user turns the ground into Grassy Terrain for five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　くさタイプの　攻撃。 ５ターンの　間　グラスフィールドにする。"
   },
   {
     "name": "Max Knuckle",
@@ -467,7 +515,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Knuckle"
+    "nameEn": "Max Knuckle",
+    "descKo": "다이맥스한 포켓몬이 날리는 격투타입의 공격. 같은 편의 공격을 올린다.",
+    "descEn": "This is a Fighting-type attack Dynamax Pokémon use. This raises ally Pokémon’s Attack stats.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　かくとうタイプの　攻撃。 味方の　攻撃を　上げる。"
   },
   {
     "name": "Max Wyrmwind",
@@ -480,7 +531,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Wyrmwind"
+    "nameEn": "Max Wyrmwind",
+    "descKo": "다이맥스한 포켓몬이 날리는 드래곤타입의 공격. 상대의 공격을 떨어뜨린다.",
+    "descEn": "This is a Dragon-type attack Dynamax Pokémon use. This lowers the target’s Attack stat.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　ドラゴンタイプの　攻撃。 相手の　攻撃を　下げる。"
   },
   {
     "name": "Max Rockfall",
@@ -493,7 +547,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Rockfall"
+    "nameEn": "Max Rockfall",
+    "descKo": "다이맥스한 포켓몬이 날리는 바위타입의 공격. 5턴 동안 날씨를 모래바람으로 만든다.",
+    "descEn": "This is a Rock-type attack Dynamax Pokémon use. The user summons a sandstorm lasting five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　いわタイプの　攻撃。 ５ターンの　間　砂あらしにする。"
   },
   {
     "name": "Dynamax Cannon",
@@ -508,7 +565,10 @@
       "custom:double_dynamax"
     ],
     "nameEn": "Dynamax Cannon",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "코어에서 빔을 발사해서 공격한다. 상대가 다이맥스 중이면 데미지가 2배가 된다.",
+    "descEn": "The user condenses energy within its body and unleashes that energy from its core to inflict damage.",
+    "descJa": "コアから　ビームを　放って　攻撃。 相手が　ダイマックス　していると ダメージは　２倍に　なる。"
   },
   {
     "name": "Max Flare",
@@ -521,7 +581,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Flare"
+    "nameEn": "Max Flare",
+    "descKo": "다이맥스한 포켓몬이 날리는 불꽃타입의 공격. 5턴 동안 햇살을 강하게 만든다.",
+    "descEn": "This is a Fire-type attack Dynamax Pokémon use. The user intensifies the sun for five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　ほのおタイプの　攻撃。 ５ターンの　間　日差しを　強くする。"
   },
   {
     "name": "Max Mindstorm",
@@ -534,7 +597,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Mindstorm"
+    "nameEn": "Max Mindstorm",
+    "descKo": "다이맥스한 포켓몬이 날리는 에스퍼타입의 공격. 5턴 동안 사이코필드로 만든다.",
+    "descEn": "This is a Psychic-type attack Dynamax Pokémon use. The user turns the ground into Psychic Terrain for five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　エスパータイプの　攻撃。 ５ターンの　間　サイコフィールドにする。"
   },
   {
     "name": "Max Geyser",
@@ -547,7 +613,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Geyser"
+    "nameEn": "Max Geyser",
+    "descKo": "다이맥스한 포켓몬이 날리는 물타입의 공격. 5턴 동안 비를 내리게 한다.",
+    "descEn": "This is a Water-type attack Dynamax Pokémon use. The user summons a heavy rain that falls for five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　みずタイプの　攻撃。 ５ターンの　間　雨を　降らせる。"
   },
   {
     "name": "Max Steelspike",
@@ -560,7 +629,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Steelspike"
+    "nameEn": "Max Steelspike",
+    "descKo": "다이맥스한 포켓몬이 날리는 강철타입의 공격. 같은 편의 방어를 올린다.",
+    "descEn": "This is a Steel-type attack Dynamax Pokémon use. This raises ally Pokémon’s Defense stats.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　はがねタイプの　攻撃。 味方の　防御を　上げる。"
   },
   {
     "name": "Max Lightning",
@@ -573,7 +645,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Lightning"
+    "nameEn": "Max Lightning",
+    "descKo": "다이맥스한 포켓몬이 날리는 전기타입의 공격. 5턴 동안 일렉트릭필드로 만든다.",
+    "descEn": "This is an Electric-type attack Dynamax Pokémon use. The user turns the ground into Electric Terrain for five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　でんきタイプの　攻撃。 ５ターンの　間　エレキフィールドにする。"
   },
   {
     "name": "Max Hailstorm",
@@ -586,7 +661,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Hailstorm"
+    "nameEn": "Max Hailstorm",
+    "descKo": "다이맥스한 포켓몬이 날리는 얼음타입의 공격. 5턴 동안 싸라기눈을 내리게 한다.",
+    "descEn": "This is an Ice-type attack Dynamax Pokémon use. The user summons a hailstorm lasting five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　こおりタイプの　攻撃。 ５ターンの　間　あられを　降らす。"
   },
   {
     "name": "Max Darkness",
@@ -599,7 +677,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Darkness"
+    "nameEn": "Max Darkness",
+    "descKo": "다이맥스한 포켓몬이 날리는 악타입의 공격. 상대의 특수방어를 떨어뜨린다.",
+    "descEn": "This is a Dark-type attack Dynamax Pokémon use. This lowers the target’s Sp. Def stat.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　あくタイプの　攻撃。 相手の　特防を　下げる。"
   },
   {
     "name": "Max Ooze",
@@ -612,7 +693,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Ooze"
+    "nameEn": "Max Ooze",
+    "descKo": "다이맥스한 포켓몬이 날리는 독타입의 공격. 같은 편의 특수공격을 올린다.",
+    "descEn": "This is a Poison-type attack Dynamax Pokémon use. This raises ally Pokémon’s Sp. Atk stats.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　どくタイプの　攻撃。 味方の　特攻を　上げる。"
   },
   {
     "name": "Max Quake",
@@ -625,7 +709,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Quake"
+    "nameEn": "Max Quake",
+    "descKo": "다이맥스한 포켓몬이 날리는 땅타입의 공격. 같은 편의 특수방어를 올린다.",
+    "descEn": "This is a Ground-type attack Dynamax Pokémon use. This raises ally Pokémon’s Sp. Def stats.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　じめんタイプの　攻撃。 味方の　特防を　上げる。"
   },
   {
     "name": "Max Strike",
@@ -638,7 +725,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Strike"
+    "nameEn": "Max Strike",
+    "descKo": "다이맥스한 포켓몬이 날리는 노말타입의 공격. 상대의 스피드를 떨어뜨린다.",
+    "descEn": "This is a Normal-type attack Dynamax Pokémon use. This lowers the target’s Speed stat.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　ノーマルタイプの　攻撃。 相手の　素早さを　下げる。"
   },
   {
     "name": "Max Guard",
@@ -652,7 +742,10 @@
     "moveClass": "maxMove",
     "priority": 4,
     "tags": [],
-    "nameEn": "Max Guard"
+    "nameEn": "Max Guard",
+    "descKo": "상대의 공격을 전혀 받지 않는다. 연속으로 쓰면 실패하기 쉽다.",
+    "descEn": "This move enables the user to protect itself from all attacks. Its chance of failing rises if it is used in succession.",
+    "descJa": "相手の　攻撃を まったく　受けない。 連続で　だすと　失敗しやすい。"
   },
   {
     "name": "Max Flutterby",
@@ -665,7 +758,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Flutterby"
+    "nameEn": "Max Flutterby",
+    "descKo": "다이맥스한 포켓몬이 날리는 벌레타입의 공격. 상대의 특수공격을 떨어뜨린다.",
+    "descEn": "This is a Bug-type attack Dynamax Pokémon use. This lowers the target’s Sp. Atk stat.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　むしタイプの　攻撃。 相手の　特攻を　下げる。"
   },
   {
     "name": "Max Airstream",
@@ -678,7 +774,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Airstream"
+    "nameEn": "Max Airstream",
+    "descKo": "다이맥스한 포켓몬이 날리는 비행타입의 공격. 같은 편의 스피드를 올린다.",
+    "descEn": "This is a Flying-type attack Dynamax Pokémon use. This raises ally Pokémon’s Speed stats.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　ひこうタイプの　攻撃。 味方の　素早さを　上げる。"
   },
   {
     "name": "Max Starfall",
@@ -691,7 +790,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Starfall"
+    "nameEn": "Max Starfall",
+    "descKo": "다이맥스한 포켓몬이 날리는 페어리타입의 공격. 5턴 동안 미스트필드로 만든다.",
+    "descEn": "This is a Fairy-type attack Dynamax Pokémon use. The user turns the ground into Misty Terrain for five turns.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　フェアリータイプの　攻撃。 ５ターンの　間　ミストフィールドにする。"
   },
   {
     "name": "Max Phantasm",
@@ -704,7 +806,10 @@
     "pp": 10,
     "moveClass": "maxMove",
     "tags": [],
-    "nameEn": "Max Phantasm"
+    "nameEn": "Max Phantasm",
+    "descKo": "다이맥스한 포켓몬이 날리는 고스트타입의 공격. 상대의 방어를 떨어뜨린다.",
+    "descEn": "This is a Ghost-type attack Dynamax Pokémon use. This lowers the target’s Defense stat.",
+    "descJa": "ダイマックスした　ポケモンが 繰りだす　ゴーストタイプの　攻撃。 相手の　防御を　下げる。"
   },
   {
     "name": "Terrain Pulse",
@@ -719,7 +824,10 @@
       "pulse"
     ],
     "nameEn": "Terrain Pulse",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "필드의 힘을 빌려서 공격한다. 사용했을 때의 필드 상태에 따라서 기술 타입과 위력이 바뀐다.",
+    "descEn": "The user utilizes the energy of the terrain to attack. This move’s type and power change depending on the terrain at the time the move is used.",
+    "descJa": "フィールドの力を　借りて　攻撃。 使った時の　フィールドの状態に　よって 技の　タイプと　威力が　変わる。"
   },
   {
     "name": "Dual Wingbeat",
@@ -736,7 +844,10 @@
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Dual Wingbeat",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "날개를 상대에게 부딪쳐서 공격한다. 2회 연속으로 데미지를 준다.",
+    "descEn": "The user slams the target with its wings to inflict damage. The target is hit twice in a row.",
+    "descJa": "翼を　相手に　ぶつけて 攻撃する。　２回連続で ダメージを　与える。"
   },
   {
     "name": "Decorate",
@@ -748,7 +859,10 @@
     "accuracy": 0,
     "pp": 15,
     "tags": [],
-    "nameEn": "Decorate"
+    "nameEn": "Decorate",
+    "descKo": "데코레이션을 해서 상대의 공격과 특수공격을 크게 올린다.",
+    "descEn": "The user sharply boosts the target's Attack and Sp. Atk stats by decorating the target.",
+    "descJa": "かざりつけを　することで 相手の　攻撃と　特攻を ぐーんと　上げる。"
   },
   {
     "name": "Dragon Darts",
@@ -763,7 +877,10 @@
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Dragon Darts",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "드라꼰으로 2번 공격한다. 상대가 2마리일 때는 각각 1번씩 공격한다.",
+    "descEn": "The user attacks twice using Dreepy. If there are two opposing Pokémon, this move hits each of them once.",
+    "descJa": "ドラメシヤで　２回　攻撃。 相手が　２匹　いるときは それぞれに　１回ずつ　攻撃する。"
   },
   {
     "name": "Dragon Energy",
@@ -779,7 +896,10 @@
       "custom:spread"
     ],
     "nameEn": "Dragon Energy",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "생명력을 파워로 바꿔서 상대를 공격한다. 자신의 HP가 적을수록 기술의 위력이 떨어진다.",
+    "descEn": "Converting its life-force into power, the user attacks opposing Pokémon. The lower the user's HP, the lower the move's power.",
+    "descJa": "生命力を　パワーに　変え　相手を 攻撃する。　自分の　ＨＰが　少ないほど 技の　威力は　さがる。"
   },
   {
     "name": "Drum Beating",
@@ -794,7 +914,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Drum Beating",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "드럼의 뿌리를 연주로 조종해서 공격하는 것으로 상대의 스피드를 떨어뜨린다.",
+    "descEn": "The user plays its drum, controlling the drum's roots to attack the target. This also lowers the target's Speed stat.",
+    "descJa": "ドラムの　根っこを　ドラミングで コントロールして　こうげき　することで 相手の　素早さを　下げる。"
   },
   {
     "name": "Rising Voltage",
@@ -809,7 +932,10 @@
       "custom:terrain_double_electric"
     ],
     "nameEn": "Rising Voltage",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "지면에서 올라오는 전격으로 공격한다. 상대가 일렉트릭필드 위에 있을 때 기술의 위력이 2배가 된다.",
+    "descEn": "The user attacks with electricity rising from the ground. This move's power is doubled if the target is on Electric Terrain.",
+    "descJa": "地面から　立ちのぼる　電撃で　攻撃。 相手が　エレキフィールドに　いる時 技の　威力が　２倍に　なる。"
   },
   {
     "name": "Magic Powder",
@@ -823,7 +949,10 @@
     "tags": [
       "powder"
     ],
-    "nameEn": "Magic Powder"
+    "nameEn": "Magic Powder",
+    "descKo": "마법가루를 날려서 상대를 에스퍼타입으로 바꾼다.",
+    "descEn": "The user scatters a cloud of magic powder that changes the target's type to Psychic.",
+    "descJa": "まほうのこなを　浴びせて 相手を　エスパータイプに　変化させる。"
   },
   {
     "name": "Meteor Beam",
@@ -838,7 +967,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Meteor Beam",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "1턴째에 우주의 힘을 모아서 특수공격을 올리고 2턴째에 상대를 공격한다.",
+    "descEn": "The user gathers energy from space and boosts its Sp. Atk stat on the first turn, then attacks on the next turn.",
+    "descJa": "１ターン目に　宇宙の　力を 集めることで　特攻が　あがり ２ターン目に　相手を　攻撃する。"
   },
   {
     "name": "Eternabeam",
@@ -851,7 +983,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Eternabeam",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "본래의 모습이 된 무한다이노 최대의 공격. 다음 턴은 움직일 수 없다.",
+    "descEn": "This is Eternatus’s most powerful attack in its original form. The user can’t move on the next turn.",
+    "descJa": "本来の　姿と　なった ムゲンダイナ　最大の　攻撃。 次の　ターンは　動けなくなる。"
   },
   {
     "name": "Octolock",
@@ -863,7 +998,10 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Octolock"
+    "nameEn": "Octolock",
+    "descKo": "상대를 도망칠 수 없게 한다. 굳히기에 당한 상대는 매 턴 방어와 특수방어가 떨어진다.",
+    "descEn": "The user locks the target in and prevents it from fleeing. This move also lowers the target’s Defense and Sp. Def every turn.",
+    "descJa": "相手を　逃げられなくする。 かためられた　相手は　毎ターン 防御と　特防が　下がる。"
   },
   {
     "name": "Jaw Lock",
@@ -879,7 +1017,10 @@
       "bite"
     ],
     "nameEn": "Jaw Lock",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "어느 한쪽이 기절할 때까지 교체할 수 없게 된다. 한쪽의 포켓몬이 없어지면 효과가 사라진다.",
+    "descEn": "This move prevents the user and the target from switching out until either of them faints. The effect goes away if either of the Pokémon leaves the field.",
+    "descJa": "お互い　ひんしに　なるまで 交代が　できなくなる。　どちらかの ポケモンが　いなくなると　効果は消える。"
   },
   {
     "name": "Misty Explosion",
@@ -896,7 +1037,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Misty Explosion",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "자신의 주위에 있는 모두를 공격하지만 사용하면 기절한다. 미스트필드일 때 위력이 올라간다.",
+    "descEn": "The user attacks everything around it and faints upon using this move. This move's power is boosted on Misty Terrain.",
+    "descJa": "自分の　周りに　いる　すべてを 攻撃するが　使うと　瀕死になる。 ミストフィールドで　威力が　あがる。"
   },
   {
     "name": "Body Press",
@@ -912,7 +1056,10 @@
       "custom:use_defense"
     ],
     "nameEn": "Body Press",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "몸을 부딪쳐서 공격한다. 방어가 높을수록 주는 데미지가 올라간다.",
+    "descEn": "The user attacks by slamming its body into the target. The higher the user's Defense stat, the greater the damage this move deals.",
+    "descJa": "体を　ぶつけて　攻撃。 防御が　高いほど 与える　ダメージが　増える。"
   },
   {
     "name": "No Retreat",
@@ -924,7 +1071,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "No Retreat"
+    "nameEn": "No Retreat",
+    "descKo": "자신의 모든 능력이 올라가지만 교체하거나 도망칠 수 없게 된다.",
+    "descEn": "This move boosts all the user's stats but prevents the user from switching out or fleeing.",
+    "descJa": "自分の　すべての 能力が　上がるが　交代　したり 逃げることが　できなくなる。"
   },
   {
     "name": "Stuff Cheeks",
@@ -936,7 +1086,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Stuff Cheeks"
+    "nameEn": "Stuff Cheeks",
+    "descKo": "지니고 있는 나무열매를 먹고 방어를 크게 올린다.",
+    "descEn": "The user eats its held Berry, then sharply boosts its Defense stat.",
+    "descJa": "持っている　きのみを　食べて 防御を　ぐーんと　あげる。"
   },
   {
     "name": "Corrosive Gas",
@@ -948,7 +1101,10 @@
     "accuracy": 100,
     "pp": 40,
     "tags": [],
-    "nameEn": "Corrosive Gas"
+    "nameEn": "Corrosive Gas",
+    "descKo": "주위에 있는 모든 것을 강력한 산성 가스로 뒤덮어서 지니고 있는 도구를 녹여버린다.",
+    "descEn": "The user surrounds everything around it with highly acidic gas and melts away items they hold.",
+    "descJa": "強い　酸性の　ガスで 周りに　いるものを　包みこみ 持っている　道具を　溶かしてしまう。"
   },
   {
     "name": "Lash Out",
@@ -963,7 +1119,10 @@
       "contact"
     ],
     "nameEn": "Lash Out",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "상대에 대한 울분이 담긴 공격을 한다. 그 턴에 능력이 떨어져 있으면 기술의 위력이 2배가 된다.",
+    "descEn": "The user lashes out to vent its frustration toward the target. This move's power is doubled if the user's stats were lowered during this turn.",
+    "descJa": "相手への　いらだちを　ぶつけて　攻撃。 そのターンに　能力を　さげられていると 技の　威力が　２倍に　なる。"
   },
   {
     "name": "Obstruct",
@@ -976,7 +1135,10 @@
     "pp": 10,
     "priority": 4,
     "tags": [],
-    "nameEn": "Obstruct"
+    "nameEn": "Obstruct",
+    "descKo": "상대의 공격을 전혀 받지 않는다. 연속으로 쓰면 실패하기 쉽다. 접촉한 상대의 방어를 크게 떨어뜨린다.",
+    "descEn": "This move enables the user to protect itself from all attacks. Its chance of failing rises if it is used in succession. Direct contact harshly lowers the attacker’s Defense stat.",
+    "descJa": "相手の　攻撃を　まったく　受けない。 連続で　だすと　失敗しやすい。 触れると　防御が　がくっと　下がる。"
   },
   {
     "name": "Glacial Lance",
@@ -991,7 +1153,10 @@
       "custom:spread"
     ],
     "nameEn": "Glacial Lance",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "눈보라를 두른 얼음의 창을 상대에게 던져서 공격한다.",
+    "descEn": "The user attacks by hurling a blizzard-cloaked icicle lance at opposing Pokémon.",
+    "descJa": "吹雪を　まとった　氷の　槍を 相手に　投げつけて　攻撃する。"
   },
   {
     "name": "Apple Acid",
@@ -1006,7 +1171,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Apple Acid",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "새콤한 사과에서 만들어 낸 산성 액체로 공격한다. 상대의 특수방어를 떨어뜨린다.",
+    "descEn": "The user attacks the target with an acidic liquid created from tart apples. This also lowers the target's Sp. Def stat.",
+    "descJa": "すっぱい　りんごから　つくりだした 酸性の　液体で　攻撃。 相手の　特防を　下げる。"
   },
   {
     "name": "False Surrender",
@@ -1021,7 +1189,10 @@
       "contact"
     ],
     "nameEn": "False Surrender",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "고개를 숙이는 척하면서 흐트러진 머리카락으로 찌른다. 공격은 반드시 명중한다.",
+    "descEn": "The user pretends to bow its head, but then it stabs the target with its disheveled hair. This attack never misses.",
+    "descJa": "頭を　下げる　ふりを　しながら 振りみだした　髪の毛を　突き刺す。 攻撃は　必ず　命中する。"
   },
   {
     "name": "Life Dew",
@@ -1033,7 +1204,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Life Dew"
+    "nameEn": "Life Dew",
+    "descKo": "신비한 물을 흩뿌려서 자신과 배틀에 나와 있는 같은 편의 HP를 회복한다.",
+    "descEn": "The user scatters mysterious water around and restores the HP of itself and its ally Pokémon currently in the battle.",
+    "descJa": "不思議な　水を　ふりまいて 自分と　場にいる 味方の　ＨＰを　回復する。"
   },
   {
     "name": "Eerie Spell",
@@ -1048,7 +1222,10 @@
       "sound"
     ],
     "nameEn": "Eerie Spell",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "강력한 사이코 파워로 공격한다. 상대가 마지막으로 사용한 기술의 PP를 3만큼 줄인다.",
+    "descEn": "The user attacks with its tremendous psychic power. This also drains 3 PP from the move last used by the target.",
+    "descJa": "強力な　サイコパワーで　攻撃。 相手が　最後に　使った技の ＰＰを　３だけ　減らす。"
   },
   {
     "name": "Shell Side Arm",
@@ -1064,7 +1241,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Shell Side Arm",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "물리와 특수 중 더 많은 데미지를 줄 수 있는 능력으로 공격한다. 독 상태로 만들 때가 있다.",
+    "descEn": "This move is either physical or special—whichever will inflict more damage. This may also poison the target.",
+    "descJa": "物理か　特殊か　より多く　ダメージを 与えられる　能力で　攻撃する。 毒状態に　することが　ある。"
   },
   {
     "name": "Clangorous Soul",
@@ -1078,7 +1258,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Clangorous Soul"
+    "nameEn": "Clangorous Soul",
+    "descKo": "자신의 HP를 조금 깎아서 모든 능력을 올린다.",
+    "descEn": "The user boosts all its stats by using some of its own HP.",
+    "descJa": "自分の　ＨＰを　少し　削って すべての　能力を　上げる。"
   },
   {
     "name": "Spirit Break",
@@ -1094,7 +1277,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Spirit Break",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "맞으면 기가 꺾여버릴 것 같은 기세로 공격한다. 상대의 특수공격을 떨어뜨린다.",
+    "descEn": "The user attacks the target with so much force that it could break the target's spirit. This also lowers the target's Sp. Atk stat.",
+    "descJa": "食らうと　くじけるほどの 勢いで　攻撃。 相手の　特攻を　下げる。"
   },
   {
     "name": "Surging Strikes",
@@ -1113,7 +1299,10 @@
     "minHits": 1,
     "maxHits": 3,
     "nameEn": "Surging Strikes",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "물의 태세가 극에 달하여 물 흐르듯 3회의 연격을 날린다. 반드시 급소에 맞는다.",
+    "descEn": "The user, having mastered the Water style, strikes the target with a flowing motion three times in a row. This move always lands a critical hit.",
+    "descJa": "みずの型を　極めし 流れるような　３回の　連撃。 必ず　急所に　当たる。"
   },
   {
     "name": "Scale Shot",
@@ -1128,7 +1317,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Scale Shot",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "비늘을 쏘아서 공격한다. 2-5회 동안 연속으로 쓴다. 스피드가 올라가지만 방어가 떨어진다.",
+    "descEn": "The user attacks by shooting scales two to five times in a row. This move boosts the user's Speed stat but lowers its Defense stat.",
+    "descJa": "ウロコを　撃ちだして　攻撃する。 ２ー５回の　間　連続で　だす。 素早さが　あがるが　防御が　さがる。"
   },
   {
     "name": "Meteor Assault",
@@ -1141,7 +1333,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Meteor Assault",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "굵은 줄기를 휘둘러서 공격한다. 단 자신도 비틀거리기 때문에 다음 턴은 움직일 수 없다.",
+    "descEn": "The user attacks wildly with its thick leek. The user can’t move on the next turn, because the force of this move makes it stagger.",
+    "descJa": "太い　クキを　ふりまわして　攻撃。 ただし　自分も　よろめいてしまうため 次の　ターンは　動けなくなる。"
   },
   {
     "name": "Thunder Cage",
@@ -1156,7 +1351,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Thunder Cage",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "전기가 흐르는 우리 안에 4-5턴 동안 상대를 가두어 공격한다.",
+    "descEn": "The user traps the target inside a cage of sparking electricity that inflicts damage for four to five turns.",
+    "descJa": "ほとばしる　電気の　おりの　中に ４ー５ターンの　間 相手を　閉じこめて　攻撃する。"
   },
   {
     "name": "Fishious Rend",
@@ -1172,7 +1370,10 @@
       "bite"
     ],
     "nameEn": "Fishious Rend",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "단단한 아가미로 문다. 상대보다 먼저 공격하면 기술의 위력은 2배가 된다.",
+    "descEn": "The user rends the target with its hard gills. If the user attacks before the target, the power of this move is doubled.",
+    "descJa": "かたい　エラで　かみつく。 相手より　先に　攻撃できると 技の　威力は　２倍に　なる。"
   },
   {
     "name": "Astral Barrage",
@@ -1187,7 +1388,10 @@
       "custom:spread"
     ],
     "nameEn": "Astral Barrage",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "수많은 작은 영체를 상대에게 부딪쳐서 공격한다.",
+    "descEn": "The user attacks by sending a frightful amount of small ghosts at opposing Pokémon.",
+    "descJa": "たくさんの　小さな　霊体を 相手に　ぶつけて　攻撃する。"
   },
   {
     "name": "Steel Roller",
@@ -1202,7 +1406,10 @@
       "contact"
     ],
     "nameEn": "Steel Roller",
-    "zPower": 195
+    "zPower": 195,
+    "descKo": "필드를 파괴하면서 공격한다. 필드가 어떤 상태로든 변해 있지 않은 경우 기술은 실패한다.",
+    "descEn": "The user attacks while destroying the terrain. This move fails if the ground hasn't turned into a terrain.",
+    "descJa": "フィールドを　破壊しながら　攻撃。 なんらかの　フィールド状態に 変わっていないと　技は　失敗する。"
   },
   {
     "name": "Wicked Blow",
@@ -1219,7 +1426,10 @@
       "punch"
     ],
     "nameEn": "Wicked Blow",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "악의 태세가 극에 달하여 강렬한 일격을 날린다. 반드시 급소에 맞는다.",
+    "descEn": "The user, having mastered the Dark style, strikes the target with a fierce blow. This move always lands a critical hit.",
+    "descJa": "あくの型を　極めし 強烈な　一撃。 必ず　急所に　当たる。"
   },
   {
     "name": "Freezing Glare",
@@ -1234,7 +1444,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Freezing Glare",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "두 눈에서 사이코 파워를 발사해서 공격한다. 얼음 상태로 만들 때가 있다.",
+    "descEn": "The user shoots its psychic power from its eyes to attack. This may also leave the target frozen.",
+    "descJa": "両目から　サイコパワーを 撃ちだして　攻撃する。 こおり状態に　することが　ある。"
   },
   {
     "name": "Skitter Smack",
@@ -1250,7 +1463,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Skitter Smack",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "배후에서 엄습해서 공격한다. 상대의 특수공격을 떨어뜨린다.",
+    "descEn": "The user skitters behind the target to attack. This also lowers the target's Sp. Atk stat.",
+    "descJa": "背後から　はいより　攻撃する。 相手の　特攻を　さげる。"
   },
   {
     "name": "Scorching Sands",
@@ -1265,7 +1481,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Scorching Sands",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "뜨겁게 달궈진 모래를 상대에게 부딪쳐서 공격한다. 화상 상태로 만들 때가 있다.",
+    "descEn": "The user throws scorching sand at the target to attack. This may also leave the target with a burn.",
+    "descJa": "熱く　焼けた　砂を 相手に　ぶつけて　攻撃する。 やけど状態に　することが　ある。"
   },
   {
     "name": "Aura Wheel",
@@ -1280,7 +1499,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Aura Wheel",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "볼주머니에 저장해둔 에너지로 공격하고 자신의 스피드를 올린다. 모르페코의 모습에 따라 타입이 바뀐다.",
+    "descEn": "Morpeko attacks and boosts its Speed stat with the energy stored in its cheeks. This move's type changes depending on the user's form.",
+    "descJa": "ほほぶくろに　溜めた　エネルギーで 攻撃し　自分の　素早さを　あげる。 モルペコの　姿で　タイプが　変わる。"
   },
   {
     "name": "Overdrive",
@@ -1296,7 +1518,10 @@
       "custom:spread"
     ],
     "nameEn": "Overdrive",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "기타나 베이스를 쳐서 큰 울림과 강한 진동을 상대에게 전달하여 공격한다.",
+    "descEn": "The user attacks opposing Pokémon by twanging a guitar or bass guitar, causing a huge echo and strong vibration.",
+    "descJa": "ギターや　ベースを　かきならして 激しく　響く　大きな　振動を 相手に　与えて　攻撃する。"
   },
   {
     "name": "Breaking Swipe",
@@ -1313,7 +1538,10 @@
       "custom:spread"
     ],
     "nameEn": "Breaking Swipe",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "강인한 꼬리를 세차게 휘둘러서 상대를 공격한다. 상대의 공격을 떨어뜨린다.",
+    "descEn": "The user swings its tough tail wildly and attacks opposing Pokémon. This also lowers their Attack stats.",
+    "descJa": "きょうじんな　しっぽを　激しく ふりはらって　相手を　攻撃する。 相手の　攻撃を　下げる。"
   },
   {
     "name": "Expanding Force",
@@ -1328,7 +1556,10 @@
       "custom:terrain_boost_psychic"
     ],
     "nameEn": "Expanding Force",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사이코 파워로 상대를 공격한다. 사이코필드일 때는 위력이 오르며 모든 상대에게 데미지를 준다.",
+    "descEn": "The user attacks the target with its psychic power. When the ground is Psychic Terrain, this move's power is boosted and it damages all opposing Pokémon.",
+    "descJa": "サイコパワーで　相手を　攻撃する。 サイコフィールドの時　威力が　あがり すべての　相手に　ダメージを　与える。"
   },
   {
     "name": "Strange Steam",
@@ -1343,7 +1574,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Strange Steam",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "연기를 분출해서 상대를 공격한다. 혼란시킬 때가 있다.",
+    "descEn": "The user attacks the target by emitting steam. This may also confuse the target.",
+    "descJa": "煙を　噴出して 相手を　攻撃。 混乱　させることが　ある。"
   },
   {
     "name": "Bolt Beak",
@@ -1358,7 +1592,10 @@
       "contact"
     ],
     "nameEn": "Bolt Beak",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "전기를 두른 부리로 찌른다. 상대보다 먼저 공격하면 기술의 위력은 2배가 된다.",
+    "descEn": "The user stabs the target with its electrified beak. If the user attacks before the target, the power of this move is doubled.",
+    "descJa": "電気を　まとった　くちばしで　刺す。 相手より　先に　攻撃できると 技の　威力は　２倍に　なる。"
   },
   {
     "name": "Jungle Healing",
@@ -1370,7 +1607,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Jungle Healing"
+    "nameEn": "Jungle Healing",
+    "descKo": "정글과 하나가 되어 자신과 배틀에 나와 있는 같은 편의 HP와 모든 상태를 회복한다.",
+    "descEn": "The user becomes one with the jungle, restoring HP and curing status conditions for itself and its ally Pokémon currently in the battle.",
+    "descJa": "ジャングルと　一体化して 自分と　場にいる　味方の ＨＰと　状態を　回復する。"
   },
   {
     "name": "Burning Jealousy",
@@ -1386,7 +1626,10 @@
       "custom:spread"
     ],
     "nameEn": "Burning Jealousy",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "질투의 에너지로 상대를 공격한다. 그 턴에 능력이 올라간 포켓몬을 화상 상태로 만든다.",
+    "descEn": "The user attacks with energy from jealousy. This leaves all opposing Pokémon that have had their stats boosted during the turn with a burn.",
+    "descJa": "しっとの　エネルギーで　相手を　攻撃。 そのターン　能力が　あがった　ポケモンを やけどの　状態に　する。"
   },
   {
     "name": "Snap Trap",
@@ -1402,7 +1645,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Snap Trap",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "집게덫으로 붙잡은 뒤 4-5턴 동안 상대를 끼워서 공격한다.",
+    "descEn": "The user snares the target in a snap trap for four to five turns.",
+    "descJa": "トラバサミで　捕らえて ４－５ターンの　間 相手を　はさんで　攻撃する。"
   },
   {
     "name": "Thunderous Kick",
@@ -1418,7 +1664,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Thunderous Kick",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "번개 같은 움직임으로 상대를 농락하며 킥을 날린다. 상대의 방어를 떨어뜨린다.",
+    "descEn": "The user overwhelms the target with lightning-like movement before delivering a kick. This also lowers the target's Defense stat.",
+    "descJa": "雷の　ような　動きで 相手を　翻弄しながら　キックする。 相手の　防御を　さげる。"
   },
   {
     "name": "Steel Beam",
@@ -1431,7 +1680,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Steel Beam",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "전신에서 끌어모은 강철을 빔으로 바꿔 세차게 발사한다. 자신도 데미지를 받는다.",
+    "descEn": "The user fires a beam of steel that it collected from its entire body. This also damages the user.",
+    "descJa": "全身から　集めた　はがねを ビームとして　激しく　撃ちだす。 自分も　ダメージを　受けてしまう。"
   },
   {
     "name": "Coaching",
@@ -1443,7 +1695,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Coaching"
+    "nameEn": "Coaching",
+    "descKo": "적절한 지도를 통해서 같은 편 전원의 공격과 방어를 올린다.",
+    "descEn": "The user properly coaches its ally Pokémon, boosting their Attack and Defense stats.",
+    "descJa": "的確な　指導を　おこなうことで　 味方　全員の 攻撃と　防御を　上げる。"
   },
   {
     "name": "Court Change",
@@ -1455,7 +1710,10 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Court Change"
+    "nameEn": "Court Change",
+    "descKo": "이상한 힘으로 서로의 필드 효과를 교체한다.",
+    "descEn": "With its mysterious power, the user swaps the effects on either side of the field.",
+    "descJa": "不思議な　力で お互いの　場の　効果を　入れ替える。"
   },
   {
     "name": "Flip Turn",
@@ -1470,7 +1728,10 @@
       "contact"
     ],
     "nameEn": "Flip Turn",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "공격한 뒤 굉장한 스피드로 돌아와서 교대 포켓몬과 교체한다.",
+    "descEn": "After making its attack, the user rushes back to switch places with a party Pokémon in waiting.",
+    "descJa": "攻撃した　あと ものすごい　スピードで　戻ってきて 控えの　ポケモンと　入れ替わる。"
   },
   {
     "name": "Tar Shot",
@@ -1485,7 +1746,10 @@
     "nameEn": "Tar Shot",
     "aliases": [
       "타르숏"
-    ]
+    ],
+    "descKo": "끈적끈적한 타르를 날려서 상대의 스피드를 떨어뜨린다. 상대는 불꽃이 약점이 된다.",
+    "descEn": "The user pours sticky tar over the target, lowering the target's Speed stat. The target becomes weaker to Fire-type moves.",
+    "descJa": "ねばねばの　タールを　浴びせて 相手の　素早さを　下げる。 相手は　ほのおが　弱点に　なる。"
   },
   {
     "name": "Fiery Wrath",
@@ -1501,7 +1765,10 @@
       "custom:spread"
     ],
     "nameEn": "Fiery Wrath",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "분노를 불꽃 같은 오라로 바꿔서 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The user transforms its wrath into a fire-like aura to attack. This may also make opposing Pokémon flinch.",
+    "descJa": "怒りを　炎の　ような オーラに　変えて　攻撃する。 相手を　ひるませることが　ある。"
   },
   {
     "name": "Triple Axel",
@@ -1519,7 +1786,10 @@
     "minHits": 1,
     "maxHits": 3,
     "nameEn": "Triple Axel",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "3회 연속으로 킥을 날려 공격한다. 기술이 맞을 때마다 위력이 올라간다.",
+    "descEn": "A consecutive three-kick attack that becomes more powerful with each successful hit.",
+    "descJa": "３回連続で　キックを　くりだして 攻撃する。　技が　当たるたびに 威力は　あがる。"
   },
   {
     "name": "Poltergeist",
@@ -1534,7 +1804,10 @@
       "custom:requires_def_item"
     ],
     "nameEn": "Poltergeist",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "상대의 지닌 물건을 조종해서 공격한다. 상대가 도구를 지니고 있지 않으면 실패한다.",
+    "descEn": "The user attacks by controlling the target's item. This move fails if the target isn't holding an item.",
+    "descJa": "相手の　持ち物を　あやつって　攻撃。 相手が　道具を　持っていない　場合は 失敗する。"
   },
   {
     "name": "Pyro Ball",
@@ -1550,6 +1823,9 @@
       "custom:has_secondary"
     ],
     "nameEn": "Pyro Ball",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "작은 돌을 태운 불꽃의 공으로 상대를 공격한다. 화상 상태로 만들 때가 있다.",
+    "descEn": "The user attacks by igniting a small stone and launching it as a fiery ball at the target. This may also leave the target with a burn.",
+    "descJa": "小石を　燃やした　炎の　ボールで 相手を　攻撃する。 やけど　状態に　することが　ある。"
   }
 ]

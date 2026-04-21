@@ -3,19 +3,24 @@
     "name": "Piercing Drill",
     "nameKo": "관통드릴",
     "nameJa": "かんつうドリル",
-    "nameEn": "Piercing Drill"
+    "nameEn": "Piercing Drill",
+    "descEn": "When the Pokémon uses contact moves, it can hit even targets that are protecting themselves, dealing 1/4 of the damage that the move would otherwise deal. Everything aside from the target's protective effects is still triggered."
   },
   {
     "name": "Spicy Spray",
     "nameKo": "하바네로분출",
     "nameJa": "とびだすハバネロ",
-    "nameEn": "Spicy Spray"
+    "nameEn": "Spicy Spray",
+    "descEn": "When the Pokémon takes damage from a move, it burns the attacker."
   },
   {
     "name": "RKS System",
     "nameKo": "AR시스템",
     "nameJa": "ＡＲシステム",
-    "nameEn": "RKS System"
+    "nameEn": "RKS System",
+    "descKo": "지니고 있는 메모리로 자신의 타입이 변한다.",
+    "descEn": "Changes the Pokémon’s type to match the memory disc it holds.",
+    "descJa": "持っている　メモリで 自分の　タイプが　変わる。"
   },
   {
     "name": "Aqua Boost",
@@ -441,499 +446,724 @@
     "name": "Drought",
     "nameKo": "가뭄",
     "nameJa": "ひでり",
-    "nameEn": "Drought"
+    "nameEn": "Drought",
+    "descKo": "등장했을 때 날씨를 맑음으로 만든다.",
+    "descEn": "Turns the sunlight harsh when the Pokémon enters a battle.",
+    "descJa": "登場　したときに 天気を　晴れに　する。"
   },
   {
     "name": "Speed Boost",
     "nameKo": "가속",
     "nameJa": "かそく",
-    "nameEn": "Speed Boost"
+    "nameEn": "Speed Boost",
+    "descKo": "매 턴 스피드가 올라간다.",
+    "descEn": "The Pokémon's Speed stat is boosted every turn.",
+    "descJa": "毎ターン　素早さが　上がる。"
   },
   {
     "name": "Lingering Aroma",
     "nameKo": "가시지않는향기",
     "nameJa": "とれないにおい",
-    "nameEn": "Lingering Aroma"
+    "nameEn": "Lingering Aroma",
+    "descEn": "Contact with the Pokémon changes the attacker's Ability to Lingering Aroma."
   },
   {
     "name": "Tangled Feet",
     "nameKo": "갈지자걸음",
     "nameJa": "ちどりあし",
-    "nameEn": "Tangled Feet"
+    "nameEn": "Tangled Feet",
+    "descKo": "혼란 상태일 때는 회피율이 올라간다.",
+    "descEn": "Boosts the Pokémon's evasiveness if it is confused.",
+    "descJa": "こんらん状態の　ときは 回避率が　アップする。"
   },
   {
     "name": "Supersweet Syrup",
     "nameKo": "감미로운꿀",
     "nameJa": "かんろなミツ",
-    "nameEn": "Supersweet Syrup"
+    "nameEn": "Supersweet Syrup",
+    "descEn": "Lowers the evasion of opposing Pokémon by 1 stage when first sent into battle"
   },
   {
     "name": "Steelworker",
     "nameKo": "강철술사",
     "nameJa": "はがねつかい",
-    "nameEn": "Steelworker"
+    "nameEn": "Steelworker",
+    "descKo": "강철타입 기술의 위력이 올라간다.",
+    "descEn": "Powers up Steel-type moves.",
+    "descJa": "はがねタイプの　技の 威力が　上がる。"
   },
   {
     "name": "Steely Spirit",
     "nameKo": "강철정신",
     "nameJa": "はがねのせいしん",
-    "nameEn": "Steely Spirit"
+    "nameEn": "Steely Spirit",
+    "descKo": "같은 편의 강철타입 공격의 위력이 올라간다.",
+    "descEn": "Powers up the Steel-type moves of the Pokémon and its allies.",
+    "descJa": "味方の　はがねタイプの 攻撃の　威力が　上がる。"
   },
   {
     "name": "Arena Trap",
     "nameKo": "개미지옥",
     "nameJa": "ありじごく",
-    "nameEn": "Arena Trap"
+    "nameEn": "Arena Trap",
+    "descKo": "배틀에서 상대를 도망칠 수 없게 한다.",
+    "descEn": "Prevents opposing Pokémon from fleeing from battle.",
+    "descJa": "戦闘で　相手を 逃げられなくする。"
   },
   {
     "name": "Dry Skin",
     "nameKo": "건조피부",
     "nameJa": "かんそうはだ",
-    "nameEn": "Dry Skin"
+    "nameEn": "Dry Skin",
+    "descKo": "비가 오는 날씨나 물타입의 기술로 HP가 회복되고 맑을 때나 불꽃타입의 기술로는 줄어든다.",
+    "descEn": "Restores the Pokémon's HP in rain or when it is hit by Water-type moves. Reduces HP in harsh sunlight, and increases the damage received from Fire-type moves.",
+    "descJa": "天気が　雨の時や　みずタイプの 技で　ＨＰが　回復し　はれの時や ほのおタイプの　技で　減ってしまう。"
   },
   {
     "name": "Truant",
     "nameKo": "게으름",
     "nameJa": "なまけ",
-    "nameEn": "Truant"
+    "nameEn": "Truant",
+    "descKo": "기술을 사용하면 다음 턴은 쉰다.",
+    "descEn": "Each time the Pokémon uses a move, it spends the next turn loafing around.",
+    "descJa": "技を　出すと 次の　ターンは　休んでしまう。"
   },
   {
     "name": "Protosynthesis",
     "nameKo": "고대활성",
     "nameJa": "こだいかっせい",
-    "nameEn": "Protosynthesis"
+    "nameEn": "Protosynthesis",
+    "descEn": "Boosts the Pokémon's most proficient stat in harsh sunlight or if the Pokémon is holding Booster Energy."
   },
   {
     "name": "Unburden",
     "nameKo": "곡예",
     "nameJa": "かるわざ",
-    "nameEn": "Unburden"
+    "nameEn": "Unburden",
+    "descKo": "지니던 도구가 없어지면 스피드가 올라간다.",
+    "descEn": "Boosts the Speed stat if the Pokémon's held item is used or lost.",
+    "descJa": "持っていた　道具が　なくなると 素早さが　上がる。"
   },
   {
     "name": "Symbiosis",
     "nameKo": "공생",
     "nameJa": "きょうせい",
-    "nameEn": "Symbiosis"
+    "nameEn": "Symbiosis",
+    "descKo": "같은 편이 도구를 쓰면 자신이 지니고 있는 도구를 같은 편에게 건넨다.",
+    "descEn": "The Pokémon passes its held item to an ally that has used up an item.",
+    "descJa": "味方が　道具を　使うと 自分の　持っている　道具を 味方に　渡す。"
   },
   {
     "name": "Power of Alchemy",
     "nameKo": "화학의힘",
     "nameJa": "かがくのちから",
-    "nameEn": "Power of Alchemy"
+    "nameEn": "Power of Alchemy",
+    "descKo": "쓰러진 같은 편의 특성을 이어받아 같은 특성으로 바뀐다.",
+    "descEn": "The Pokémon copies the Ability of a defeated ally.",
+    "descJa": "倒された　味方の　特性を　受け継ぎ 同じ　特性に　変わる。"
   },
   {
     "name": "Hyper Cutter",
     "nameKo": "괴력집게",
     "nameJa": "かいりきバサミ",
-    "nameEn": "Hyper Cutter"
+    "nameEn": "Hyper Cutter",
+    "descKo": "힘이 자랑인 집게를 가지고 있어 상대가 공격을 떨어뜨리지 못한다.",
+    "descEn": "The Pokémon's prized, mighty pincers prevent other Pokémon from lowering its Attack stat.",
+    "descJa": "力自慢の　ハサミを　持っているので 相手に　攻撃を　下げられない。"
   },
   {
     "name": "Imposter",
     "nameKo": "괴짜",
     "nameJa": "かわりもの",
-    "nameEn": "Imposter"
+    "nameEn": "Imposter",
+    "descKo": "눈앞의 포켓몬으로 변신해버린다.",
+    "descEn": "The Pokémon transforms itself into the Pokémon it's facing.",
+    "descJa": "目の前の　ポケモンに 変身　してしまう。"
   },
   {
     "name": "Stalwart",
     "nameKo": "굳건한신념",
     "nameJa": "すじがねいり",
-    "nameEn": "Stalwart"
+    "nameEn": "Stalwart",
+    "descKo": "상대의 기술을 끌어모으는 특성이나 기술의 영향을 받지 않는다.",
+    "descEn": "Ignores the effects of opposing Pokémon's Abilities and moves that draw in moves.",
+    "descJa": "相手の　技を　引き受ける 特性や　技の 影響を　無視　できる。"
   },
   {
     "name": "Mycelium Might",
     "nameKo": "균사의힘",
     "nameJa": "きんしのちから",
-    "nameEn": "Mycelium Might"
+    "nameEn": "Mycelium Might",
+    "descEn": "The Pokémon will always act more slowly when using status moves, but these moves will be unimpeded by the Ability of the target."
   },
   {
     "name": "Gulp Missile",
     "nameKo": "그대로꿀꺽미사일",
     "nameJa": "うのミサイル",
-    "nameEn": "Gulp Missile"
+    "nameEn": "Gulp Missile",
+    "descKo": "파도타기나 다이빙을 쓰면 먹이를 물어온다. 데미지를 받으면 먹이를 토해내서 공격한다.",
+    "descEn": "When the Pokémon uses Surf or Dive, it will come back with prey. When it takes damage, it will spit out the prey to attack.",
+    "descJa": "なみのりか　ダイビングを　すると 獲物を　くわえてくる。　ダメージを 受けると　獲物を　吐きだして　攻撃。"
   },
   {
     "name": "Grassy Surge",
     "nameKo": "그래스메이커",
     "nameJa": "グラスメイカー",
-    "nameEn": "Grassy Surge"
+    "nameEn": "Grassy Surge",
+    "descKo": "등장했을 때 그래스필드를 사용한다.",
+    "descEn": "Turns the ground into Grassy Terrain when the Pokémon enters a battle.",
+    "descJa": "登場　したときに グラスフィールドを　はりめぐらせる。"
   },
   {
     "name": "Shadow Tag",
     "nameKo": "그림자밟기",
     "nameJa": "かげふみ",
-    "nameEn": "Shadow Tag"
+    "nameEn": "Shadow Tag",
+    "descKo": "상대의 그림자를 밟아 도망치거나 교체할 수 없게 한다.",
+    "descEn": "The Pokémon steps on the opposing Pokémon's shadows to prevent them from fleeing or switching out.",
+    "descJa": "相手の　影を　踏み 逃げたり　交代　できなくする。"
   },
   {
     "name": "Guts",
     "nameKo": "근성",
     "nameJa": "こんじょう",
-    "nameEn": "Guts"
+    "nameEn": "Guts",
+    "descKo": "상태 이상이 되면 근성을 보여서 공격이 올라간다.",
+    "descEn": "It's so gutsy that having a status condition boosts the Pokémon's Attack stat.",
+    "descJa": "状態異常に　なると 根性を　だして 攻撃が　上がる。"
   },
   {
     "name": "Torrent",
     "nameKo": "급류",
     "nameJa": "げきりゅう",
-    "nameEn": "Torrent"
+    "nameEn": "Torrent",
+    "descKo": "HP가 줄었을 때 물타입 기술의 위력이 올라간다.",
+    "descEn": "Powers up Water-type moves when the Pokémon's HP is low.",
+    "descJa": "ＨＰが　減ったとき みずタイプの　技の 威力が　上がる。"
   },
   {
     "name": "Curious Medicine",
     "nameKo": "기묘한약",
     "nameJa": "きみょうなくすり",
-    "nameEn": "Curious Medicine"
+    "nameEn": "Curious Medicine",
+    "descKo": "등장했을 때 조개껍질에서 약을 흩뿌려서 능력 변화를 원래대로 되돌린다.",
+    "descEn": "When the Pokémon enters a battle, it scatters medicine from its shell, which removes all stat changes from allies.",
+    "descJa": "登場　したときに 貝がらから　薬を　振りまいて 味方の　能力変化を　元に戻す。"
   },
   {
     "name": "Forecast",
     "nameKo": "기분파",
     "nameJa": "てんきや",
-    "nameEn": "Forecast"
+    "nameEn": "Forecast",
+    "descKo": "날씨의 영향을 받아 물타입, 불꽃타입, 얼음타입 중 하나로 변화한다.",
+    "descEn": "The Pokémon transforms with the weather to change its type to Water, Fire, or Ice.",
+    "descJa": "天気の　影響を　受けて みずタイプ　ほのおタイプ　こおりタイプの どれかに　変化する。"
   },
   {
     "name": "Unnerve",
     "nameKo": "긴장감",
     "nameJa": "きんちょうかん",
-    "nameEn": "Unnerve"
+    "nameEn": "Unnerve",
+    "descKo": "상대를 긴장시켜 나무열매를 먹지 못하게 한다.",
+    "descEn": "Unnerves opposing Pokémon and makes them unable to eat Berries.",
+    "descJa": "相手を　緊張させて きのみを　食べられなく　させる。"
   },
   {
     "name": "Rough Skin",
     "nameKo": "까칠한피부",
     "nameJa": "さめはだ",
-    "nameEn": "Rough Skin"
+    "nameEn": "Rough Skin",
+    "descKo": "공격을 받았을 때 자신에게 접촉한 상대를 까칠까칠한 피부로 상처를 입힌다.",
+    "descEn": "The Pokémon's rough skin damages attackers that make direct contact with it.",
+    "descJa": "攻撃を　受けたとき 自分に　触れた　相手を ざらざらの　肌で　キズつける。"
   },
   {
     "name": "Weak Armor",
     "nameKo": "깨어진갑옷",
     "nameJa": "くだけるよろい",
-    "nameEn": "Weak Armor"
+    "nameEn": "Weak Armor",
+    "descKo": "물리 기술로 데미지를 받으면 방어가 떨어지고 스피드가 크게 올라간다.",
+    "descEn": "The Pokémon's Defense stat is lowered when it takes damage from physical moves, but its Speed stat is sharply boosted.",
+    "descJa": "物理技で　ダメージを　受けると 防御が　下がり 素早さが　ぐーんと　上がる。"
   },
   {
     "name": "Hunger Switch",
     "nameKo": "꼬르륵스위치",
     "nameJa": "はらぺこスイッチ",
-    "nameEn": "Hunger Switch"
+    "nameEn": "Hunger Switch",
+    "descKo": "턴이 끝날 때마다 배부른 모양, 배고픈 모양, 배부른 모양...으로 번갈아서 모습을 바꾼다.",
+    "descEn": "The Pokémon changes its form, alternating between its Full Belly Mode and Hangry Mode after the end of every turn.",
+    "descJa": "ターンの　終わりに　まんぷくもよう はらぺこもよう　まんぷくもよう……と 交互に　姿を　変える。"
   },
   {
     "name": "Water Compaction",
     "nameKo": "꾸덕꾸덕굳기",
     "nameJa": "みずがため",
-    "nameEn": "Water Compaction"
+    "nameEn": "Water Compaction",
+    "descKo": "물타입의 기술을 받으면 방어가 크게 올라간다.",
+    "descEn": "Boosts the Defense stat sharply when the Pokémon is hit by a Water-type move.",
+    "descJa": "みずタイプの　技を　受けると 防御が　ぐーんと　上がる。"
   },
   {
     "name": "Honey Gather",
     "nameKo": "꿀모으기",
     "nameJa": "みつあつめ",
-    "nameEn": "Honey Gather"
+    "nameEn": "Honey Gather",
+    "descKo": "배틀이 끝났을 때 달콤한꿀을 주울 때가 있다.",
+    "descEn": "The Pokémon may gather Honey after a battle.",
+    "descJa": "戦闘が　終わったとき あまいミツを　拾うことが　ある。"
   },
   {
     "name": "Desolate Land",
     "nameKo": "끝의대지",
     "nameJa": "おわりのだいち",
-    "nameEn": "Desolate Land"
+    "nameEn": "Desolate Land",
+    "descKo": "물타입의 공격을 받지 않는 날씨로 만든다.",
+    "descEn": "The Pokémon changes the weather to nullify Water-type attacks.",
+    "descJa": "みずタイプの　攻撃を 受けない　天気にする。"
   },
   {
     "name": "Pickpocket",
     "nameKo": "나쁜손버릇",
     "nameJa": "わるいてぐせ",
-    "nameEn": "Pickpocket"
+    "nameEn": "Pickpocket",
+    "descKo": "접촉한 상대의 도구를 훔친다.",
+    "descEn": "The Pokémon steals the held item from attackers that made direct contact with it.",
+    "descJa": "触られた　相手の　道具を 盗んで　しまう。"
   },
   {
     "name": "Bad Dreams",
     "nameKo": "나이트메어",
     "nameJa": "ナイトメア",
-    "nameEn": "Bad Dreams"
+    "nameEn": "Bad Dreams",
+    "descKo": "잠듦 상태의 상대에게 데미지를 준다.",
+    "descEn": "Damages opposing Pokémon that are asleep.",
+    "descJa": "ねむり状態の　相手に ダメージを　あたえる。"
   },
   {
     "name": "Cloud Nine",
     "nameKo": "날씨부정",
     "nameJa": "ノーてんき",
-    "nameEn": "Cloud Nine"
+    "nameEn": "Cloud Nine",
+    "descKo": "모든 날씨의 영향이 없어진다.",
+    "descEn": "Eliminates the effects of weather.",
+    "descJa": "あらゆる　天気の　影響が なくなって　しまう。"
   },
   {
     "name": "Keen Eye",
     "nameKo": "날카로운눈",
     "nameJa": "するどいめ",
-    "nameEn": "Keen Eye"
+    "nameEn": "Keen Eye",
+    "descKo": "날카로운 눈 덕분에 명중률이 떨어지지 않는다.",
+    "descEn": "The Pokémon's keen eyes prevent its accuracy from being lowered.",
+    "descJa": "鋭い　目の　おかげで 命中率を　下げられない。"
   },
   {
     "name": "Heatproof",
     "nameKo": "내열",
     "nameJa": "たいねつ",
-    "nameEn": "Heatproof"
+    "nameEn": "Heatproof",
+    "descKo": "내열인 몸으로 인해 불꽃타입 공격의 데미지를 반감한다.",
+    "descEn": "The Pokémon's heatproof body halves the damage taken from Fire-type moves.",
+    "descJa": "耐熱の　体に　よって ほのおタイプの　技の 威力を　半減させる。"
   },
   {
     "name": "Innards Out",
     "nameKo": "내용물분출",
     "nameJa": "とびだすなかみ",
-    "nameEn": "Innards Out"
+    "nameEn": "Innards Out",
+    "descKo": "상대가 쓰러뜨렸을 때 HP의 남은 양만큼 상대에게 데미지를 준다.",
+    "descEn": "Damages the attacker landing the finishing hit by the amount equal to its last HP.",
+    "descJa": "相手に　倒されたとき ＨＰの　残りの　ぶんだけ 相手に　ダメージを　あたえる。"
   },
   {
     "name": "Seed Sower",
     "nameKo": "넘치는씨",
     "nameJa": "こぼれダネ",
-    "nameEn": "Seed Sower"
+    "nameEn": "Seed Sower",
+    "descEn": "Turns the ground into Grassy Terrain when the Pokémon is hit by an attack."
   },
   {
     "name": "No Guard",
     "nameKo": "노가드",
     "nameJa": "ノーガード",
-    "nameEn": "No Guard"
+    "nameEn": "No Guard",
+    "descKo": "노가드전법에 따라 서로가 사용하는 기술이 반드시 맞게 된다.",
+    "descEn": "The Pokémon employs no-guard tactics to ensure incoming and outgoing attacks always land.",
+    "descJa": "ノーガード戦法に　よって お互いの　出す　技が かならず　当たる　ようになる。"
   },
   {
     "name": "Well-Baked Body",
     "nameKo": "노릇노릇바디",
     "nameJa": "こんがりボディ",
-    "nameEn": "Well-Baked Body"
+    "nameEn": "Well-Baked Body",
+    "descEn": "The Pokémon takes no damage when hit by Fire-type moves. Instead, its Defense stat is sharply boosted."
   },
   {
     "name": "Normalize",
     "nameKo": "노말스킨",
     "nameJa": "ノーマルスキン",
-    "nameEn": "Normalize"
+    "nameEn": "Normalize",
+    "descKo": "어떤 타입의 기술도 모두 노말타입이 된다. 위력이 조금 올라간다.",
+    "descEn": "All the Pokémon’s moves become Normal type. The power of those moves is boosted a little.",
+    "descJa": "どんな　タイプの　技でも すべて　ノーマルタイプに　なる。 威力が　少し　上がる。"
   },
   {
     "name": "Snow Cloak",
     "nameKo": "눈숨기",
     "nameJa": "ゆきがくれ",
-    "nameEn": "Snow Cloak"
+    "nameEn": "Snow Cloak",
+    "descKo": "날씨가 싸라기눈일 때 회피율이 올라간다.",
+    "descEn": "Boosts the Pokémon's evasiveness in snow.",
+    "descJa": "天気が　あられのとき 回避率が　上がる。"
   },
   {
     "name": "Slush Rush",
     "nameKo": "눈치우기",
     "nameJa": "ゆきかき",
-    "nameEn": "Slush Rush"
+    "nameEn": "Slush Rush",
+    "descKo": "날씨가 싸라기눈일 때 스피드가 올라간다.",
+    "descEn": "Boosts the Pokémon's Speed stat in snow.",
+    "descJa": "天気が　あられ　のとき 素早さが　上がる。"
   },
   {
     "name": "Snow Warning",
     "nameKo": "눈퍼뜨리기",
     "nameJa": "ゆきふらし",
-    "nameEn": "Snow Warning"
+    "nameEn": "Snow Warning",
+    "descKo": "등장했을 때 날씨를 싸라기눈으로 만든다.",
+    "descEn": "The Pokémon makes it snow when it enters a battle.",
+    "descJa": "登場　したときに 天気を　あられに　する。"
   },
   {
     "name": "Download",
     "nameKo": "다운로드",
     "nameJa": "ダウンロード",
-    "nameEn": "Download"
+    "nameEn": "Download",
+    "descKo": "상대의 방어와 특수방어를 비교해서 낮은 쪽 능력에 맞춰서 자신의 공격이나 특수공격을 올린다.",
+    "descEn": "The Pokémon compares an opposing Pokémon's Defense and Sp. Def stats before raising its own Attack or Sp. Atk stat—whichever will be more effective.",
+    "descJa": "相手の　防御と　特防を　くらべて 低い　ほうの　能力に　あわせて 自分の　攻撃か　特攻を　上げる。"
   },
   {
     "name": "Dark Aura",
     "nameKo": "다크오라",
     "nameJa": "ダークオーラ",
-    "nameEn": "Dark Aura"
+    "nameEn": "Dark Aura",
+    "descKo": "전원의 악타입 기술이 강해진다.",
+    "descEn": "Powers up each Pokémon’s Dark-type moves.",
+    "descJa": "全員の　あくタイプの 技が　強くなる。"
   },
   {
     "name": "Tough Claws",
     "nameKo": "단단한발톱",
     "nameJa": "かたいツメ",
-    "nameEn": "Tough Claws"
+    "nameEn": "Tough Claws",
+    "descKo": "상대에게 접촉하는 기술의 위력이 올라간다.",
+    "descEn": "Powers up moves that make direct contact.",
+    "descJa": "相手に　接触する　技の 威力が　高くなる。"
   },
   {
     "name": "Simple",
     "nameKo": "단순",
     "nameJa": "たんじゅん",
-    "nameEn": "Simple"
+    "nameEn": "Simple",
+    "descKo": "능력 변화가 평소의 2배가 된다.",
+    "descEn": "Doubles the effects of the Pokémon's stat changes.",
+    "descJa": "能力　変化が いつもの　２倍に　なる。"
   },
   {
     "name": "Zen Mode",
     "nameKo": "달마모드",
     "nameJa": "ダルマモード",
-    "nameEn": "Zen Mode"
+    "nameEn": "Zen Mode",
+    "descKo": "HP가 절반 이하가 되면 모습이 변화한다.",
+    "descEn": "Changes the Pokémon’s shape when HP is half or less.",
+    "descJa": "ＨＰが　半分　以下に　なると 姿が　変化する。"
   },
   {
     "name": "Super Luck",
     "nameKo": "대운",
     "nameJa": "きょううん",
-    "nameEn": "Super Luck"
+    "nameEn": "Super Luck",
+    "descKo": "대운을 가지고 있어 상대의 급소에 공격이 맞기 쉽다.",
+    "descEn": "The Pokémon is so lucky that the critical-hit ratios of its moves are boosted.",
+    "descJa": "強運を　持っているため 相手の　急所に 攻撃が　当たりやすい。"
   },
   {
     "name": "Hospitality",
     "nameKo": "대접",
     "nameJa": "おもてなし",
-    "nameEn": "Hospitality"
+    "nameEn": "Hospitality",
+    "descEn": "When the Pokémon enters a battle, it showers its ally with hospitality, restoring a small amount of the ally's HP"
   },
   {
     "name": "Delta Stream",
     "nameKo": "델타스트림",
     "nameJa": "デルタストリーム",
-    "nameEn": "Delta Stream"
+    "nameEn": "Delta Stream",
+    "descKo": "비행타입의 약점이 없어지는 날씨로 만든다.",
+    "descEn": "The Pokémon changes the weather to eliminate all of the Flying type’s weaknesses.",
+    "descJa": "ひこうタイプの　弱点が なくなる　天気にする。"
   },
   {
     "name": "Wimp Out",
     "nameKo": "도망태세",
     "nameJa": "にげごし",
-    "nameEn": "Wimp Out"
+    "nameEn": "Wimp Out",
+    "descKo": "HP가 절반이 되면 황급히 도망쳐서 지닌 포켓몬으로 돌아간다.",
+    "descEn": "The Pokémon cowardly switches out when its HP becomes half or less.",
+    "descJa": "ＨＰが　半分に　なると あわてて　逃げ出して 手持ちに　引っ込んで　しまう。"
   },
   {
     "name": "Run Away",
     "nameKo": "도주",
     "nameJa": "にげあし",
-    "nameEn": "Run Away"
+    "nameEn": "Run Away",
+    "descKo": "야생 포켓몬으로부터 반드시 도망칠 수 있다.",
+    "descEn": "Enables a sure getaway from wild Pokémon.",
+    "descJa": "野生の　ポケモンから 必ず　逃げられる。"
   },
   {
     "name": "Poison Point",
     "nameKo": "독가시",
     "nameJa": "どくのトゲ",
-    "nameEn": "Poison Point"
+    "nameEn": "Poison Point",
+    "descKo": "자신과 접촉한 상대를 독 상태로 만들 때가 있다.",
+    "descEn": "Contact with the Pokémon may poison the attacker.",
+    "descJa": "自分に　触った　相手を どく状態に　することがある。"
   },
   {
     "name": "Toxic Chain",
     "nameKo": "독사슬",
     "nameJa": "どくのくさり",
-    "nameEn": "Toxic Chain"
+    "nameEn": "Toxic Chain",
+    "descEn": "The power of the Pokémon's toxic chain may badly poison any target the Pokémon hits with a move"
   },
   {
     "name": "Poison Touch",
     "nameKo": "독수",
     "nameJa": "どくしゅ",
-    "nameEn": "Poison Touch"
+    "nameEn": "Poison Touch",
+    "descKo": "접촉하기만 해도 상대를 독 상태로 만들 때가 있다.",
+    "descEn": "May poison a target when the Pokémon makes contact.",
+    "descJa": "触る　だけで　相手を どく　状態に　することがある。"
   },
   {
     "name": "Poison Puppeteer",
     "nameKo": "독조종",
     "nameJa": "どくくぐつ",
-    "nameEn": "Poison Puppeteer"
+    "nameEn": "Poison Puppeteer",
+    "descEn": "Pokémon poisoned by Pecharunt's moves will also become confused."
   },
   {
     "name": "Toxic Debris",
     "nameKo": "독치장",
     "nameJa": "どくげしょう",
-    "nameEn": "Toxic Debris"
+    "nameEn": "Toxic Debris",
+    "descEn": "Scatters poison spikes at the feet of the opposing team when the Pokémon takes damage from physical moves."
   },
   {
     "name": "Toxic Boost",
     "nameKo": "독폭주",
     "nameJa": "どくぼうそう",
-    "nameEn": "Toxic Boost"
+    "nameEn": "Toxic Boost",
+    "descKo": "독 상태가 되었을 때 물리 기술의 위력이 올라간다.",
+    "descEn": "Powers up physical moves when the Pokémon is poisoned.",
+    "descJa": "どく状態に　なったとき 物理技の　威力が　上がる。"
   },
   {
     "name": "Rock Head",
     "nameKo": "돌머리",
     "nameJa": "いしあたま",
-    "nameEn": "Rock Head"
+    "nameEn": "Rock Head",
+    "descKo": "반동을 받는 기술을 사용해도 HP가 줄지 않는다.",
+    "descEn": "Protects the Pokémon from recoil damage.",
+    "descJa": "反動を　受ける　技を　出しても ＨＰが　減らない。"
   },
   {
     "name": "Cud Chew",
     "nameKo": "되새김질",
     "nameJa": "はんすう",
-    "nameEn": "Cud Chew"
+    "nameEn": "Cud Chew",
+    "descEn": "When the Pokémon eats a Berry, it will regurgitate that Berry at the end of the next turn and eat it one more time."
   },
   {
     "name": "Thick Fat",
     "nameKo": "두꺼운지방",
     "nameJa": "あついしぼう",
-    "nameEn": "Thick Fat"
+    "nameEn": "Thick Fat",
+    "descKo": "두꺼운 지방으로 보호되고 있어 불꽃타입과 얼음타입의 기술의 데미지를 반감시킨다.",
+    "descEn": "The Pokémon is protected by a layer of thick fat, which halves the damage taken from Fire- and Ice-type moves.",
+    "descJa": "厚い　脂肪で　守られているので ほのおタイプと　こおりタイプの 技の　ダメージを　半減させる。"
   },
   {
     "name": "Oblivious",
     "nameKo": "둔감",
     "nameJa": "どんかん",
-    "nameEn": "Oblivious"
+    "nameEn": "Oblivious",
+    "descKo": "둔감해서 헤롱헤롱이나 도발 상태가 되지 않는다.",
+    "descEn": "The Pokémon is oblivious, keeping it from being infatuated, falling for taunts, or being affected by Intimidate.",
+    "descJa": "鈍感なので メロメロや　ちょうはつ状態に ならない。"
   },
   {
     "name": "Wandering Spirit",
     "nameKo": "떠도는영혼",
     "nameJa": "さまようたましい",
-    "nameEn": "Wandering Spirit"
+    "nameEn": "Wandering Spirit",
+    "descKo": "접촉하는 기술로 공격해온 포켓몬과 특성을 바꾼다.",
+    "descEn": "The Pokémon exchanges Abilities with a Pokémon that hits it with a move that makes direct contact.",
+    "descJa": "接触する　技で 攻撃　してきた　ポケモンと 特性を　入れ替える。"
   },
   {
     "name": "Light Metal",
     "nameKo": "라이트메탈",
     "nameJa": "ライトメタル",
-    "nameEn": "Light Metal"
+    "nameEn": "Light Metal",
+    "descKo": "자신의 무게가 절반이 된다.",
+    "descEn": "Halves the Pokémon's weight.",
+    "descJa": "自分の　重さが 半分に　なる。"
   },
   {
     "name": "Shields Down",
     "nameKo": "리밋실드",
     "nameJa": "リミットシールド",
-    "nameEn": "Shields Down"
+    "nameEn": "Shields Down",
+    "descKo": "HP가 절반이 되면 껍질이 깨져 공격적으로 된다.",
+    "descEn": "When its HP drops to half or less, the Pokémon's shell breaks and it becomes aggressive.",
+    "descJa": "ＨＰが　半分に　なると 殻が　壊れて 攻撃的に　なる。"
   },
   {
     "name": "Libero",
     "nameKo": "리베로",
     "nameJa": "リベロ",
-    "nameEn": "Libero"
+    "nameEn": "Libero",
+    "descKo": "자신이 사용한 기술과 같은 타입으로 변화한다.",
+    "descEn": "Changes the Pokémon's type to the type of the move it's about to use. This works only once each time the Pokémon enters battle.",
+    "descJa": "自分が　出す　技と 同じ　タイプに　変化する。"
   },
   {
     "name": "Receiver",
     "nameKo": "리시버",
     "nameJa": "レシーバー",
-    "nameEn": "Receiver"
+    "nameEn": "Receiver",
+    "descKo": "쓰러진 같은 편의 특성을 이어받아 같은 특성이 된다.",
+    "descEn": "The Pokémon copies the Ability of a defeated ally.",
+    "descJa": "倒された　味方の　特性を 受け継いで　同じ　特性に　なる。"
   },
   {
     "name": "Leaf Guard",
     "nameKo": "리프가드",
     "nameJa": "リーフガード",
-    "nameEn": "Leaf Guard"
+    "nameEn": "Leaf Guard",
+    "descKo": "날씨가 맑을 때는 상태 이상이 되지 않는다.",
+    "descEn": "Prevents status conditions in harsh sunlight.",
+    "descJa": "天気が　晴れのときは 状態異常に　ならない。"
   },
   {
     "name": "Magma Armor",
     "nameKo": "마그마의무장",
     "nameJa": "マグマのよろい",
-    "nameEn": "Magma Armor"
+    "nameEn": "Magma Armor",
+    "descKo": "뜨거운 마그마를 몸에 둘러서 얼음 상태가 되지 않는다.",
+    "descEn": "The Pokémon’s hot magma coating prevents it from being frozen.",
+    "descJa": "熱い　マグマを　身にまとい こおり状態に　ならない。"
   },
   {
     "name": "Minus",
     "nameKo": "마이너스",
     "nameJa": "マイナス",
-    "nameEn": "Minus"
+    "nameEn": "Minus",
+    "descKo": "플러스나 마이너스의 특성을 가진 포켓몬이 동료에 있으면 자신의 특수공격이 올라간다.",
+    "descEn": "Boosts the Sp. Atk stat of the Pokémon if an ally with the Plus or Minus Ability is also in battle.",
+    "descJa": "プラスか　マイナスの　特性を　持つ ポケモンが　仲間に　いると 自分の　特攻が　上がる。"
   },
   {
     "name": "Zero to Hero",
     "nameKo": "마이티체인지",
     "nameJa": "マイティチェンジ",
-    "nameEn": "Zero to Hero"
+    "nameEn": "Zero to Hero",
+    "descEn": "The Pokémon transforms into its Hero Form when it switches out."
   },
   {
     "name": "Own Tempo",
     "nameKo": "마이페이스",
     "nameJa": "マイペース",
-    "nameEn": "Own Tempo"
+    "nameEn": "Own Tempo",
+    "descKo": "마이페이스라서 혼란 상태가 되지 않는다.",
+    "descEn": "The Pokémon sticks to its own tempo, preventing it from becoming confused or being affected by Intimidate.",
+    "descJa": "マイペースなので こんらん状態に　ならない。"
   },
   {
     "name": "Storm Drain",
     "nameKo": "마중물",
     "nameJa": "よびみず",
-    "nameEn": "Storm Drain"
+    "nameEn": "Storm Drain",
+    "descKo": "물타입의 기술을 자신에게 끌어모아 데미지는 받지 않고 특수공격이 올라간다.",
+    "descEn": "The Pokémon draws in all Water-type moves. Instead of taking damage from them, its Sp. Atk stat is boosted.",
+    "descJa": "みずタイプの　技を　自分に　よせつけ ダメージは　受けずに　特攻が　上がる。"
   },
   {
     "name": "Magician",
     "nameKo": "매지션",
     "nameJa": "マジシャン",
-    "nameEn": "Magician"
+    "nameEn": "Magician",
+    "descKo": "기술을 맞은 상대의 도구를 빼앗아 버린다.",
+    "descEn": "The Pokémon steals the held item from any target it hits with a move.",
+    "descJa": "技を　当てた　相手の 道具を　奪ってしまう。"
   },
   {
     "name": "Magic Guard",
     "nameKo": "매직가드",
     "nameJa": "マジックガード",
-    "nameEn": "Magic Guard"
+    "nameEn": "Magic Guard",
+    "descKo": "공격 이외에는 데미지를 입지 않는다.",
+    "descEn": "The Pokémon only takes damage from attacks.",
+    "descJa": "攻撃　以外では ダメージを　受けない。"
   },
   {
     "name": "Magic Bounce",
     "nameKo": "매직미러",
     "nameJa": "マジックミラー",
-    "nameEn": "Magic Bounce"
+    "nameEn": "Magic Bounce",
+    "descKo": "상대가 쓴 변화 기술을 받지 않고 그대로 되받아칠 수 있다.",
+    "descEn": "The Pokémon reflects status moves instead of getting hit by them.",
+    "descJa": "相手に　だされた　変化技を　受けずに そのまま　返す　ことが　できる。"
   },
   {
     "name": "Blaze",
     "nameKo": "맹화",
     "nameJa": "もうか",
-    "nameEn": "Blaze"
+    "nameEn": "Blaze",
+    "descKo": "HP가 줄었을 때 불꽃타입 기술의 위력이 올라간다.",
+    "descEn": "Powers up Fire-type moves when the Pokémon's HP is low.",
+    "descJa": "ＨＰが　減ったとき ほのおタイプの　技の 威力が　上がる。"
   },
   {
     "name": "Gluttony",
     "nameKo": "먹보",
     "nameJa": "くいしんぼう",
-    "nameEn": "Gluttony"
+    "nameEn": "Gluttony",
+    "descKo": "HP가 줄어들면 먹을 나무열매를 HP가 절반일 때 먹어버린다.",
+    "descEn": "If the Pokémon is holding a Berry to be eaten when its HP is low, it will instead eat the Berry when its HP drops to half or less.",
+    "descJa": "ＨＰが　少なくなったら　食べる きのみを　ＨＰ　半分の 時に　食べてしまう。"
   },
   {
     "name": "Multiscale",
     "nameKo": "멀티스케일",
     "nameJa": "マルチスケイル",
-    "nameEn": "Multiscale"
+    "nameEn": "Multiscale",
+    "descKo": "HP가 꽉 찼을 때 받는 데미지가 줄어든다.",
+    "descEn": "Reduces the amount of damage the Pokémon takes while its HP is full.",
+    "descJa": "ＨＰが　満タンの　ときに 受ける　ダメージが　少なくなる。"
   },
   {
     "name": "Multitype",
     "nameKo": "멀티타입",
     "nameJa": "マルチタイプ",
-    "nameEn": "Multitype"
+    "nameEn": "Multitype",
+    "descKo": "지니고 있는 플레이트나 Z크리스탈 타입에 따라 자신의 타입이 바뀐다.",
+    "descEn": "Changes the Pokémon's type to match the plate it holds.",
+    "descJa": "持っている　プレートや Ｚクリスタルの　タイプによって 自分の　タイプが　変わる。"
   },
   {
     "name": "Mega Golisopod Ability",
@@ -945,7 +1175,10 @@
     "name": "Mega Launcher",
     "nameKo": "메가런처",
     "nameJa": "メガランチャー",
-    "nameEn": "Mega Launcher"
+    "nameEn": "Mega Launcher",
+    "descKo": "파동 기술의 위력이 올라간다.",
+    "descEn": "Powers up pulse moves.",
+    "descJa": "波動の　技の 威力が　高くなる。"
   },
   {
     "name": "Mega Zygarde Ability",
@@ -957,439 +1190,650 @@
     "name": "Full Metal Body",
     "nameKo": "메탈프로텍트",
     "nameJa": "メタルプロテクト",
-    "nameEn": "Full Metal Body"
+    "nameEn": "Full Metal Body",
+    "descKo": "상대 기술이나 특성으로 능력을 떨어뜨릴 수 없다.",
+    "descEn": "Prevents other Pokémon’s moves or Abilities from lowering the Pokémon’s stats.",
+    "descJa": "相手の　技や　特性で 能力を　下げられない。"
   },
   {
     "name": "Immunity",
     "nameKo": "면역",
     "nameJa": "めんえき",
-    "nameEn": "Immunity"
+    "nameEn": "Immunity",
+    "descKo": "체내에 면역을 가지고 있어 독 상태가 되지 않는다.",
+    "descEn": "The Pokémon's immune system prevents it from being poisoned.",
+    "descJa": "体内に　免疫を　持っているため どく状態に　ならない。"
   },
   {
     "name": "Perish Body",
     "nameKo": "멸망의바디",
     "nameJa": "ほろびのボディ",
-    "nameEn": "Perish Body"
+    "nameEn": "Perish Body",
+    "descKo": "접촉하는 기술을 받으면 3턴 후에 양쪽 모두 기절한다. 교체되면 효과가 없어진다.",
+    "descEn": "When hit by a move that makes direct contact, the Pokémon and the attacker will faint after three turns unless they switch out of battle.",
+    "descJa": "接触する　技を　受けると お互い　３ターン　たつと　ひんしになる。 交代すると　効果は　なくなる。"
   },
   {
     "name": "Sand Stream",
     "nameKo": "모래날림",
     "nameJa": "すなおこし",
-    "nameEn": "Sand Stream"
+    "nameEn": "Sand Stream",
+    "descKo": "등장했을 때 날씨를 모래바람으로 만든다.",
+    "descEn": "The Pokémon summons a sandstorm when it enters a battle.",
+    "descJa": "登場　したとき 天気を　砂あらしにする。"
   },
   {
     "name": "Sand Spit",
     "nameKo": "모래뿜기",
     "nameJa": "すなはき",
-    "nameEn": "Sand Spit"
+    "nameEn": "Sand Spit",
+    "descKo": "공격을 받으면 모래바람을 일으킨다.",
+    "descEn": "The Pokémon creates a sandstorm when it's hit by an attack.",
+    "descJa": "攻撃を　受けると 砂あらしを　起こす。"
   },
   {
     "name": "Sand Veil",
     "nameKo": "모래숨기",
     "nameJa": "すながくれ",
-    "nameEn": "Sand Veil"
+    "nameEn": "Sand Veil",
+    "descKo": "모래바람일 때 회피율이 올라간다.",
+    "descEn": "Boosts the Pokémon's evasiveness in a sandstorm.",
+    "descJa": "砂あらしの　とき 回避率が　上がる。"
   },
   {
     "name": "Sand Force",
     "nameKo": "모래의힘",
     "nameJa": "すなのちから",
-    "nameEn": "Sand Force"
+    "nameEn": "Sand Force",
+    "descKo": "날씨가 모래바람일 때 바위타입과 땅타입과 강철타입의 위력이 올라간다.",
+    "descEn": "Boosts the power of Rock-, Ground-, and Steel-type moves in a sandstorm.",
+    "descJa": "天気が　すなあらしの　とき いわタイプと　じめんタイプと はがねタイプの　威力が　上がる。"
   },
   {
     "name": "Sand Rush",
     "nameKo": "모래헤치기",
     "nameJa": "すなかき",
-    "nameEn": "Sand Rush"
+    "nameEn": "Sand Rush",
+    "descKo": "날씨가 모래바람일 때 스피드가 올라간다.",
+    "descEn": "Boosts the Pokémon's Speed stat in a sandstorm.",
+    "descJa": "天気が　すなあらし　のとき 素早さが　上がる。"
   },
   {
     "name": "Defeatist",
     "nameKo": "무기력",
     "nameJa": "よわき",
-    "nameEn": "Defeatist"
+    "nameEn": "Defeatist",
+    "descKo": "HP가 절반이 되면 무기력해져서 공격과 특수공격이 반감된다.",
+    "descEn": "Halves the Pokémon’s Attack and Sp. Atk stats when its HP becomes half or less.",
+    "descJa": "ＨＰが　半分に　なると 弱気に　なって　攻撃と 特攻が　半減する。"
   },
   {
     "name": "Merciless",
     "nameKo": "무도한행동",
     "nameJa": "ひとでなし",
-    "nameEn": "Merciless"
+    "nameEn": "Merciless",
+    "descKo": "독 상태의 상대를 공격하면 반드시 급소에 맞는다.",
+    "descEn": "The Pokémon's attacks become critical hits if the target is poisoned.",
+    "descJa": "どく状態の 相手を　攻撃すると かならず　急所に　当たる。"
   },
   {
     "name": "Gorilla Tactics",
     "nameKo": "무아지경",
     "nameJa": "ごりむちゅう",
-    "nameEn": "Gorilla Tactics"
+    "nameEn": "Gorilla Tactics",
+    "descKo": "공격이 올라가지만 처음에 선택한 기술 외에는 쓸 수 없게 된다.",
+    "descEn": "Boosts the Pokémon’s Attack stat but only allows the use of the first selected move.",
+    "descJa": "攻撃は　上がるが 最初に　選んだ 技しか　出せなくなる。"
   },
   {
     "name": "Dancer",
     "nameKo": "무희",
     "nameJa": "おどりこ",
-    "nameEn": "Dancer"
+    "nameEn": "Dancer",
+    "descKo": "누군가 춤 기술을 쓰면 자신도 이어서 춤 기술을 쓸 수 있다.",
+    "descEn": "Whenever a dance move is used in battle, the Pokémon will copy the user to immediately perform that dance move itself.",
+    "descJa": "だれかが　踊り技を　使うと 自分も　それに　続いて 踊り技を　出すことが　できる。"
   },
   {
     "name": "Gooey",
     "nameKo": "미끈미끈",
     "nameJa": "ぬめぬめ",
-    "nameEn": "Gooey"
+    "nameEn": "Gooey",
+    "descKo": "공격으로 자신과 접촉한 상대의 스피드를 떨어뜨린다.",
+    "descEn": "Contact with the Pokémon lowers the attacker's Speed stat.",
+    "descJa": "攻撃で　自分に　触れた　相手の 素早さを　下げる。"
   },
   {
     "name": "Mummy",
     "nameKo": "미라",
     "nameJa": "ミイラ",
-    "nameEn": "Mummy"
+    "nameEn": "Mummy",
+    "descKo": "상대가 접촉하면 상대를 미라로 만들어버린다.",
+    "descEn": "Contact with the Pokémon changes the attacker’s Ability to Mummy.",
+    "descJa": "相手に　触られると 相手を　ミイラに　してしまう。"
   },
   {
     "name": "Wonder Skin",
     "nameKo": "미라클스킨",
     "nameJa": "ミラクルスキン",
-    "nameEn": "Wonder Skin"
+    "nameEn": "Wonder Skin",
+    "descKo": "변화 기술을 받기 어려운 몸으로 되어 있다.",
+    "descEn": "Makes status moves more likely to miss the Pokémon.",
+    "descJa": "変化技を　受けにくい 体に　なっている。"
   },
   {
     "name": "Mirror Armor",
     "nameKo": "미러아머",
     "nameJa": "ミラーアーマー",
-    "nameEn": "Mirror Armor"
+    "nameEn": "Mirror Armor",
+    "descKo": "자신이 받는 능력 다운 효과에 한해 되받아친다.",
+    "descEn": "Bounces back only the stat-lowering effects that the Pokémon receives.",
+    "descJa": "自分が　受けた 能力　ダウンの 効果　だけを　跳ね返す。"
   },
   {
     "name": "Misty Surge",
     "nameKo": "미스트메이커",
     "nameJa": "ミストメイカー",
-    "nameEn": "Misty Surge"
+    "nameEn": "Misty Surge",
+    "descKo": "등장했을 때 미스트필드를 사용한다.",
+    "descEn": "Turns the ground into Misty Terrain when the Pokémon enters a battle.",
+    "descJa": "登場　したときに ミストフィールドを　はりめぐらせる。"
   },
   {
     "name": "Wind Rider",
     "nameKo": "바람타기",
     "nameJa": "かぜのり",
-    "nameEn": "Wind Rider"
+    "nameEn": "Wind Rider",
+    "descEn": "Boosts the Pokémon's Attack stat if Tailwind takes effect or if the Pokémon is hit by a wind move. The Pokémon also takes no damage from wind moves."
   },
   {
     "name": "Rocky Payload",
     "nameKo": "바위나르기",
     "nameJa": "いわはこび",
-    "nameEn": "Rocky Payload"
+    "nameEn": "Rocky Payload",
+    "descEn": "Powers up Rock-type moves."
   },
   {
     "name": "Illuminate",
     "nameKo": "발광",
     "nameJa": "はっこう",
-    "nameEn": "Illuminate"
+    "nameEn": "Illuminate",
+    "descKo": "주변을 밝게 하는 것으로 야생 포켓몬과 만나기 쉬워진다.",
+    "descEn": "By illuminating its surroundings, the Pokémon prevents its accuracy from being lowered.",
+    "descJa": "あたりを　明るくする　ことで 野生の　ポケモンに 遭遇　しやすくなる。"
   },
   {
     "name": "Berserk",
     "nameKo": "발끈",
     "nameJa": "ぎゃくじょう",
-    "nameEn": "Berserk"
+    "nameEn": "Berserk",
+    "descKo": "상대의 공격으로 HP가 절반이 되면 특수공격이 올라간다.",
+    "descEn": "Boosts the Pokémon's Sp. Atk stat when it takes a hit that causes its HP to drop to half or less.",
+    "descJa": "相手の　攻撃で ＨＰが　半分に　なると 特攻が　上がる。"
   },
   {
     "name": "Soundproof",
     "nameKo": "방음",
     "nameJa": "ぼうおん",
-    "nameEn": "Soundproof"
+    "nameEn": "Soundproof",
+    "descKo": "소리를 차단하는 것으로 소리 공격을 받지 않는다.",
+    "descEn": "Soundproofing gives the Pokémon full immunity to all sound-based moves.",
+    "descJa": "音を　遮断　することに　よって 音の　攻撃を　受けない。"
   },
   {
     "name": "Overcoat",
     "nameKo": "방진",
     "nameJa": "ぼうじん",
-    "nameEn": "Overcoat"
+    "nameEn": "Overcoat",
+    "descKo": "모래바람이나 싸라기눈 등의 데미지를 입지 않는다. 가루의 기술을 받지 않는다.",
+    "descEn": "The Pokémon takes no damage from sandstorms. It is also protected from the effects of powders and spores.",
+    "descJa": "すなあらしや　あられなどの ダメージを　受けない。 粉の　技を　受けない。"
   },
   {
     "name": "Bulletproof",
     "nameKo": "방탄",
     "nameJa": "ぼうだん",
-    "nameEn": "Bulletproof"
+    "nameEn": "Bulletproof",
+    "descKo": "상대 구슬이나 폭탄 등 기술을 막을 수 있다.",
+    "descEn": "Protects the Pokémon from ball and bomb moves.",
+    "descJa": "相手の　弾や　爆弾などの 技を　防ぐことが　できる。"
   },
   {
     "name": "Screen Cleaner",
     "nameKo": "배리어프리",
     "nameJa": "バリアフリー",
-    "nameEn": "Screen Cleaner"
+    "nameEn": "Screen Cleaner",
+    "descKo": "등장했을 때 상대와 같은 편의 빛의장막, 리플렉터, 오로라베일의 효과가 사라진다.",
+    "descEn": "When the Pokémon enters a battle, the effects of Light Screen, Reflect, and Aurora Veil are nullified for both opposing and ally Pokémon.",
+    "descJa": "登場　したときに　敵と　味方の ひかりのかべ　リフレクター オーロラベールの　効果が　消える。"
   },
   {
     "name": "Scrappy",
     "nameKo": "배짱",
     "nameJa": "きもったま",
-    "nameEn": "Scrappy"
+    "nameEn": "Scrappy",
+    "descKo": "고스트타입 포켓몬에게 노말타입과 격투타입의 기술을 맞게 한다.",
+    "descEn": "The Pokémon can hit Ghost-type Pokémon with Normal- and Fighting-type moves. It is also unaffected by Intimidate.",
+    "descJa": "ゴーストタイプの　ポケモンに ノーマルタイプと　かくとうタイプの 技を　当てることが　できる。"
   },
   {
     "name": "Battery",
     "nameKo": "배터리",
     "nameJa": "バッテリー",
-    "nameEn": "Battery"
+    "nameEn": "Battery",
+    "descKo": "같은 편 특수 기술의 위력을 올린다.",
+    "descEn": "Powers up ally Pokémon's special moves.",
+    "descJa": "味方の　特殊技の 威力を　上げる。"
   },
   {
     "name": "Stance Change",
     "nameKo": "배틀스위치",
     "nameJa": "バトルスイッチ",
-    "nameEn": "Stance Change"
+    "nameEn": "Stance Change",
+    "descKo": "공격 기술을 쓰면 블레이드폼으로 기술 킹실드를 쓰면 실드폼으로 변한다.",
+    "descEn": "The Pokémon changes its form to Blade Forme when it uses an attack move and changes to Shield Forme when it uses King’s Shield.",
+    "descJa": "攻撃技を　出すと　ブレードフォルムに 技　キングシールドを　出すと シールドフォルムに　変化する。"
   },
   {
     "name": "Chilling Neigh",
     "nameKo": "백의울음",
     "nameJa": "しろのいななき",
-    "nameEn": "Chilling Neigh"
+    "nameEn": "Chilling Neigh",
+    "descKo": "상대를 쓰러뜨리면 차가운 울음소리를 내면서 공격이 올라간다.",
+    "descEn": "When the Pokémon knocks out a target, it utters a chilling neigh, which boosts its Attack stat.",
+    "descJa": "相手を　倒すと 冷たい　声で　いなないて 攻撃が　上がる。"
   },
   {
     "name": "Swarm",
     "nameKo": "벌레의알림",
     "nameJa": "むしのしらせ",
-    "nameEn": "Swarm"
+    "nameEn": "Swarm",
+    "descKo": "HP가 줄었을 때 벌레타입 기술의 위력이 올라간다.",
+    "descEn": "Powers up Bug-type moves when the Pokémon's HP is low.",
+    "descJa": "ＨＰが　減ったとき むしタイプの　技の 威力が　上がる。"
   },
   {
     "name": "Moody",
     "nameKo": "변덕쟁이",
     "nameJa": "ムラっけ",
-    "nameEn": "Moody"
+    "nameEn": "Moody",
+    "descKo": "매 턴 능력 중 하나가 크게 오르고 하나가 떨어진다.",
+    "descEn": "Every turn, one of the Pokémon's stats will be boosted sharply but another stat will be lowered.",
+    "descJa": "毎ターン　能力の　どれかが ぐーんと　上がって　どれかが　下がる。"
   },
   {
     "name": "Color Change",
     "nameKo": "변색",
     "nameJa": "へんしょく",
-    "nameEn": "Color Change"
+    "nameEn": "Color Change",
+    "descKo": "상대에게 받은 기술의 타입으로 자신의 타입이 변화한다.",
+    "descEn": "The Pokémon’s type becomes the type of the move used on it.",
+    "descJa": "相手から　受けた　技の　タイプに 自分の　タイプが　変化　する。"
   },
   {
     "name": "Protean",
     "nameKo": "변환자재",
     "nameJa": "へんげんじざい",
-    "nameEn": "Protean"
+    "nameEn": "Protean",
+    "descKo": "자신이 사용한 기술과 같은 타입으로 변화한다.",
+    "descEn": "Changes the Pokémon's type to the type of the move it's about to use. This works only once each time the Pokémon enters battle.",
+    "descJa": "自分が　出す　技と 同じ　タイプに　変化する。"
   },
   {
     "name": "Unseen Fist",
     "nameKo": "보이지않는주먹",
     "nameJa": "ふかしのこぶし",
-    "nameEn": "Unseen Fist"
+    "nameEn": "Unseen Fist",
+    "descKo": "상대에게 접촉하는 기술을 사용하면 방어의 효과를 무시하고 공격할 수 있다.",
+    "descEn": "If the Pokémon uses moves that make direct contact, it can attack the target even if the target protects itself.",
+    "descJa": "相手に　接触する　技なら 守りの　効果を 無視して　攻撃することが　できる。"
   },
   {
     "name": "Fluffy",
     "nameKo": "복슬복슬",
     "nameJa": "もふもふ",
-    "nameEn": "Fluffy"
+    "nameEn": "Fluffy",
+    "descKo": "상대로부터 받은 접촉하는 기술의 데미지를 반감시키지만 불꽃타입 기술의 데미지는 2배가 된다.",
+    "descEn": "Halves the damage taken from moves that make direct contact, but doubles that of Fire-type moves.",
+    "descJa": "相手から　受けた　接触する　技の ダメージを　半減するが　ほのおタイプの 技の　ダメージは　２倍になる。"
   },
   {
     "name": "Compound Eyes",
     "nameKo": "복안",
     "nameJa": "ふくがん",
-    "nameEn": "Compound Eyes"
+    "nameEn": "Compound Eyes",
+    "descKo": "복안을 가지고 있어 기술의 명중률이 올라간다.",
+    "descEn": "The Pokémon's compound eyes boost its accuracy.",
+    "descJa": "複眼を　持っているため 技の　命中率が　上がる。"
   },
   {
     "name": "Cheek Pouch",
     "nameKo": "볼주머니",
     "nameJa": "ほおぶくろ",
-    "nameEn": "Cheek Pouch"
+    "nameEn": "Cheek Pouch",
+    "descKo": "어떤 나무열매라도 먹으면 HP도 회복한다.",
+    "descEn": "The Pokémon's HP is restored when it eats any Berry, in addition to the Berry's usual effect.",
+    "descJa": "どんな　きのみでも 食べると　ＨＰも　回復する。"
   },
   {
     "name": "Ball Fetch",
     "nameKo": "볼줍기",
     "nameJa": "たまひろい",
-    "nameEn": "Ball Fetch"
+    "nameEn": "Ball Fetch",
+    "descKo": "도구를 지니고 있지 않은 경우 첫 번째로 던져서 실패한 몬스터볼을 주워온다.",
+    "descEn": "If the Pokémon is not holding an item, it will fetch the Poké Ball from the first failed throw of the battle.",
+    "descJa": "道具を　持っていない　場合 １回目に　投げて　失敗　した モンスターボールを　拾ってくる。"
   },
   {
     "name": "Corrosion",
     "nameKo": "부식",
     "nameJa": "ふしょく",
-    "nameEn": "Corrosion"
+    "nameEn": "Corrosion",
+    "descKo": "강철타입이나 독타입도 독 상태로 만들 수 있다.",
+    "descEn": "The Pokémon can poison the target even if it's a Steel or Poison type.",
+    "descJa": "はがねタイプや　どくタイプも どく状態に　することが　できる。"
   },
   {
     "name": "Levitate",
     "nameKo": "부유",
     "nameJa": "ふゆう",
-    "nameEn": "Levitate"
+    "nameEn": "Levitate",
+    "descKo": "땅에서 뜨는 것으로 땅타입의 기술을 받지 않는다.",
+    "descEn": "By floating in the air, the Pokémon receives full immunity to all Ground-type moves.",
+    "descJa": "地面から　浮くことによって じめんタイプの　技を　受けない。"
   },
   {
     "name": "Parental Bond",
     "nameKo": "부자유친",
     "nameJa": "おやこあい",
-    "nameEn": "Parental Bond"
+    "nameEn": "Parental Bond",
+    "descKo": "부모와 자식 2마리로 2번 공격할 수 있다.",
+    "descEn": "Parent and child each attacks.",
+    "descJa": "親子　２匹で　２回 攻撃することが　できる。"
   },
   {
     "name": "Big Pecks",
     "nameKo": "부풀린가슴",
     "nameJa": "はとむね",
-    "nameEn": "Big Pecks"
+    "nameEn": "Big Pecks",
+    "descKo": "방어를 떨어뜨리는 효과를 받지 않는다.",
+    "descEn": "Prevents the Pokémon from having its Defense stat lowered.",
+    "descJa": "防御を　下げる 効果を　受けない。"
   },
   {
     "name": "Anger Point",
     "nameKo": "분노의경혈",
     "nameJa": "いかりのつぼ",
-    "nameEn": "Anger Point"
+    "nameEn": "Anger Point",
+    "descKo": "급소에 공격이 맞으면 크게 분노해 공격력이 최대가 된다.",
+    "descEn": "The Pokémon is angered when it takes a critical hit, and that maxes its Attack stat.",
+    "descJa": "急所に　攻撃が　当たると 怒りくるって　攻撃力が 最大に　なる。"
   },
   {
     "name": "Anger Shell",
     "nameKo": "분노의껍질",
     "nameJa": "いかりのこうら",
-    "nameEn": "Anger Shell"
+    "nameEn": "Anger Shell",
+    "descEn": "When an attack causes its HP to drop to half or less, the Pokémon gets angry. This lowers its Defense and Sp. Def stats but boosts its Attack, Sp. Atk, and Speed stats."
   },
   {
     "name": "Wonder Guard",
     "nameKo": "불가사의부적",
     "nameJa": "ふしぎなまもり",
-    "nameEn": "Wonder Guard"
+    "nameEn": "Wonder Guard",
+    "descKo": "효과가 굉장한 기술만 맞는 불가사의한 힘.",
+    "descEn": "Its mysterious power only lets supereffective moves hit the Pokémon.",
+    "descJa": "効果バツグンの　技しか 当たらない　不思議な　力。"
   },
   {
     "name": "Steadfast",
     "nameKo": "불굴의마음",
     "nameJa": "ふくつのこころ",
-    "nameEn": "Steadfast"
+    "nameEn": "Steadfast",
+    "descKo": "풀죽을 때마다 불굴의 마음을 불태워 스피드가 올라간다.",
+    "descEn": "The Pokémon's determination boosts its Speed stat every time it flinches.",
+    "descJa": "ひるむ　たびに 不屈の心を　燃やして 素早さが　上がる。"
   },
   {
     "name": "Dauntless Shield",
     "nameKo": "불굴의방패",
     "nameJa": "ふくつのたて",
-    "nameEn": "Dauntless Shield"
+    "nameEn": "Dauntless Shield",
+    "descKo": "등장했을 때 방어가 올라간다.",
+    "descEn": "Boosts the Pokémon’s Defense stat the first time the Pokémon enters a battle.",
+    "descJa": "登場　したときに 防御が　上がる。"
   },
   {
     "name": "Flame Body",
     "nameKo": "불꽃몸",
     "nameJa": "ほのおのからだ",
-    "nameEn": "Flame Body"
+    "nameEn": "Flame Body",
+    "descKo": "자신과 접촉한 상대를 화상 상태로 만들 때가 있다.",
+    "descEn": "Contact with the Pokémon may burn the attacker.",
+    "descJa": "自分に　触った　相手を やけど状態に　する　ことがある。"
   },
   {
     "name": "Insomnia",
     "nameKo": "불면",
     "nameJa": "ふみん",
-    "nameEn": "Insomnia"
+    "nameEn": "Insomnia",
+    "descKo": "잠들지 못하는 체질이라 잠듦 상태가 되지 않는다.",
+    "descEn": "The Pokémon's insomnia prevents it from falling asleep.",
+    "descJa": "眠れない　体質　なので ねむり状態に　ならない。"
   },
   {
     "name": "Intrepid Sword",
     "nameKo": "불요의검",
     "nameJa": "ふとうのけん",
-    "nameEn": "Intrepid Sword"
+    "nameEn": "Intrepid Sword",
+    "descKo": "등장했을 때 공격이 올라간다.",
+    "descEn": "Boosts the Pokémon’s Attack stat the first time the Pokémon enters a battle.",
+    "descJa": "登場　したときに 攻撃が　上がる。"
   },
   {
     "name": "Neuroforce",
     "nameKo": "브레인포스",
     "nameJa": "ブレインフォース",
-    "nameEn": "Neuroforce"
+    "nameEn": "Neuroforce",
+    "descKo": "효과가 굉장한 공격의 위력이 더욱 올라간다.",
+    "descEn": "Powers up moves that are super effective.",
+    "descJa": "効果バツグンの　攻撃で 威力が　さらに　上がる。"
   },
   {
     "name": "Dazzling",
     "nameKo": "비비드바디",
     "nameJa": "ビビッドボディ",
-    "nameEn": "Dazzling"
+    "nameEn": "Dazzling",
+    "descKo": "상대를 놀라게 해서 이쪽을 향한 선제 기술을 사용할 수 없게 한다.",
+    "descEn": "The Pokémon dazzles its opponents, making them unable to use priority moves against the Pokémon or its allies.",
+    "descJa": "相手を　びっくり　させて こちらに　むかって　先制技を 出せない　ようにする。"
   },
   {
     "name": "Beast Boost",
     "nameKo": "비스트부스트",
     "nameJa": "ビーストブースト",
-    "nameEn": "Beast Boost"
+    "nameEn": "Beast Boost",
+    "descKo": "상대를 기절시켰을 때 자신의 가장 높은 능력이 올라간다.",
+    "descEn": "The Pokémon boosts its most proficient stat each time it knocks out a Pokémon.",
+    "descJa": "相手を　倒したとき 自分の　いちばん　高い 能力が　上がる。"
   },
   {
     "name": "Commander",
     "nameKo": "사령탑",
     "nameJa": "しれいとう",
-    "nameEn": "Commander"
+    "nameEn": "Commander",
+    "descEn": "When the Pokémon enters a battle, it goes inside the mouth of an ally Dondozo if one is on the field. The Pokémon then issues commands from there."
   },
   {
     "name": "Psychic Surge",
     "nameKo": "사이코메이커",
     "nameJa": "サイコメイカー",
-    "nameEn": "Psychic Surge"
+    "nameEn": "Psychic Surge",
+    "descKo": "등장했을 때 사이코필드를 사용한다.",
+    "descEn": "Turns the ground into Psychic Terrain when the Pokémon enters a battle.",
+    "descJa": "登場　したときに サイコフィールドを　はりめぐらせる。"
   },
   {
     "name": "Tinted Lens",
     "nameKo": "색안경",
     "nameJa": "いろめがね",
-    "nameEn": "Tinted Lens"
+    "nameEn": "Tinted Lens",
+    "descKo": "효과가 별로인 기술을 통상의 위력으로 쓸 수 있다.",
+    "descEn": "The Pokémon can use “not very effective” moves to deal regular damage.",
+    "descJa": "効果が　いまひとつの　技を 通常の　威力で 出すことが　できる。"
   },
   {
     "name": "Klutz",
     "nameKo": "서투름",
     "nameJa": "ぶきよう",
-    "nameEn": "Klutz"
+    "nameEn": "Klutz",
+    "descKo": "지니고 있는 도구를 쓸 수 없다.",
+    "descEn": "The Pokémon can't use any held items.",
+    "descJa": "持っている　道具を 使うことが　できない。"
   },
   {
     "name": "Surge Surfer",
     "nameKo": "서핑테일",
     "nameJa": "サーフテール",
-    "nameEn": "Surge Surfer"
+    "nameEn": "Surge Surfer",
+    "descKo": "일렉트릭필드일 때 스피드가 2배가 된다.",
+    "descEn": "Doubles the Pokémon's Speed stat on Electric Terrain.",
+    "descJa": "エレキフィールド　のとき 素早さが　２倍に　なる。"
   },
   {
     "name": "Solar Power",
     "nameKo": "선파워",
     "nameJa": "サンパワー",
-    "nameEn": "Solar Power"
+    "nameEn": "Solar Power",
+    "descKo": "날씨가 맑으면 특수공격이 올라가지만 매 턴 HP가 줄어든다.",
+    "descEn": "In harsh sunlight, the Pokémon's Sp. Atk stat is boosted, but its HP decreases every turn.",
+    "descJa": "天気が　晴れると 特攻が　上がるが 毎ターン　ＨＰが　減る。"
   },
   {
     "name": "Soul-Heart",
     "nameKo": "소울하트",
     "nameJa": "ソウルハート",
-    "nameEn": "Soul-Heart"
+    "nameEn": "Soul-Heart",
+    "descKo": "포켓몬이 기절할 때마다 특수공격이 올라간다.",
+    "descEn": "Boosts the Pokémon's Sp. Atk stat every time another Pokémon faints.",
+    "descJa": "ポケモンが　ひんしに　なるたびに 特攻が　上がる。"
   },
   {
     "name": "Quick Feet",
     "nameKo": "속보",
     "nameJa": "はやあし",
-    "nameEn": "Quick Feet"
+    "nameEn": "Quick Feet",
+    "descKo": "상태 이상이 되면 스피드가 올라간다.",
+    "descEn": "Boosts the Speed stat if the Pokémon has a status condition.",
+    "descJa": "状態異常に　なると 素早さが　上がる。"
   },
   {
     "name": "Cotton Down",
     "nameKo": "솜털",
     "nameJa": "わたげ",
-    "nameEn": "Cotton Down"
+    "nameEn": "Cotton Down",
+    "descKo": "공격을 받으면 솜털을 흩뿌려서 자신을 제외한 모든 포켓몬의 스피드를 떨어뜨린다.",
+    "descEn": "When the Pokémon is hit by an attack, it scatters cotton fluff around and lowers the Speed stat of all Pokémon except itself.",
+    "descJa": "攻撃を　受けると　わたげを　ばらまいて 自分以外の　ポケモン　すべての 素早さを　下げる。"
   },
   {
     "name": "Water Veil",
     "nameKo": "수의베일",
     "nameJa": "みずのベール",
-    "nameEn": "Water Veil"
+    "nameEn": "Water Veil",
+    "descKo": "물의 베일을 몸에 둘러서 화상 상태가 되지 않는다.",
+    "descEn": "The Pokémon's water veil prevents it from being burned.",
+    "descJa": "水のベールを　身にまとい やけど状態に　ならない。"
   },
   {
     "name": "Water Bubble",
     "nameKo": "수포",
     "nameJa": "すいほう",
-    "nameEn": "Water Bubble"
+    "nameEn": "Water Bubble",
+    "descKo": "자신을 향하는 불꽃타입 기술의 위력을 떨어뜨린다. 화상을 입지 않는다.",
+    "descEn": "Lowers the power of Fire-type moves that hit the Pokémon and prevents it from being burned.",
+    "descJa": "自分に　対する　ほのおタイプの 技の　威力を　下げる。 やけど　しない。"
   },
   {
     "name": "Harvest",
     "nameKo": "수확",
     "nameJa": "しゅうかく",
-    "nameEn": "Harvest"
+    "nameEn": "Harvest",
+    "descKo": "사용한 나무열매를 몇 번이고 만들어 낸다.",
+    "descEn": "May create another Berry after one is used.",
+    "descJa": "使った　きのみを 何回も　作りだす。"
   },
   {
     "name": "Ripen",
     "nameKo": "숙성",
     "nameJa": "じゅくせい",
-    "nameEn": "Ripen"
+    "nameEn": "Ripen",
+    "descKo": "나무열매를 숙성시켜서 효과가 2배가 된다.",
+    "descEn": "Ripens Berries and doubles their effect.",
+    "descJa": "熟成　させることで きのみの　効果が 倍に　なる。"
   },
   {
     "name": "Pure Power",
     "nameKo": "순수한힘",
     "nameJa": "ヨガパワー",
-    "nameEn": "Pure Power"
+    "nameEn": "Pure Power",
+    "descKo": "요가의 힘으로 물리공격의 위력이 2배가 된다.",
+    "descEn": "Using its pure power, the Pokémon doubles its Attack stat.",
+    "descJa": "ヨガの　力で 物理攻撃の　威力が ２倍に　なる。"
   },
   {
     "name": "Sniper",
     "nameKo": "스나이퍼",
     "nameJa": "スナイパー",
-    "nameEn": "Sniper"
+    "nameEn": "Sniper",
+    "descKo": "공격을 급소에 맞혔을 때 위력이 더욱 올라간다.",
+    "descEn": "If the Pokémon's attack lands a critical hit, the attack is powered up even further.",
+    "descJa": "攻撃を　急所に　当てると 威力が　さらに　上がる。"
   },
   {
     "name": "Power Construct",
     "nameKo": "스웜체인지",
     "nameJa": "スワームチェンジ",
-    "nameEn": "Power Construct"
+    "nameEn": "Power Construct",
+    "descKo": "HP가 절반이 되면 셀들이 응원하러 달려와 퍼펙트폼으로 모습이 변한다.",
+    "descEn": "Other Cells gather to aid when its HP becomes half or less. Then the Pokémon changes its form to Complete Forme.",
+    "descJa": "ＨＰが　半分に　なると セルたちが　応援に　駆けつけ パーフェクトフォルムに　姿を　変える。"
   },
   {
     "name": "Sweet Veil",
     "nameKo": "스위트베일",
     "nameJa": "スイートベール",
-    "nameEn": "Sweet Veil"
+    "nameEn": "Sweet Veil",
+    "descKo": "같은 편의 포켓몬이 잠들지 않게 된다.",
+    "descEn": "Prevents the Pokémon and its allies from falling asleep.",
+    "descJa": "味方の　ポケモンは 眠らなくなる。"
   },
   {
     "name": "Aerilate",
     "nameKo": "스카이스킨",
     "nameJa": "スカイスキン",
-    "nameEn": "Aerilate"
+    "nameEn": "Aerilate",
+    "descKo": "노말타입의 기술이 비행타입이 된다. 위력이 조금 올라간다.",
+    "descEn": "Normal-type moves become Flying-type moves. The power of those moves is boosted a little.",
+    "descJa": "ノーマルタイプの　技が ひこうタイプになる。 威力が　少し　上がる。"
   },
   {
     "name": "Propeller Tail",
     "nameKo": "스크루지느러미",
     "nameJa": "スクリューおびれ",
-    "nameEn": "Propeller Tail"
+    "nameEn": "Propeller Tail",
+    "descKo": "상대의 기술을 끌어모으는 특성이나 기술의 영향을 받지 않는다.",
+    "descEn": "Ignores the effects of opposing Pokémon's Abilities and moves that draw in moves.",
+    "descJa": "相手の　技を　引き受ける 特性や　技の 影響を　無視　できる。"
   },
   {
     "name": "Skill Link",
     "nameKo": "스킬링크",
     "nameJa": "スキルリンク",
-    "nameEn": "Skill Link"
+    "nameEn": "Skill Link",
+    "descKo": "연속 기술을 사용하면 항상 최고 횟수를 사용할 수 있다.",
+    "descEn": "Maximizes the number of times multistrike moves hit.",
+    "descJa": "連続技を　使うと　いつも 最高回数　出すことが　できる。"
   },
   {
     "name": "Steel Skin",
@@ -1401,529 +1845,769 @@
     "name": "Shadow Shield",
     "nameKo": "스펙터가드",
     "nameJa": "ファントムガード",
-    "nameEn": "Shadow Shield"
+    "nameEn": "Shadow Shield",
+    "descKo": "HP가 꽉 찼을 때 받는 데미지가 줄어든다.",
+    "descEn": "Reduces the amount of damage the Pokémon takes while its HP is full.",
+    "descJa": "ＨＰが　満タンの　ときに 受ける　ダメージが　少なくなる。"
   },
   {
     "name": "Slow Start",
     "nameKo": "슬로스타트",
     "nameJa": "スロースタート",
-    "nameEn": "Slow Start"
+    "nameEn": "Slow Start",
+    "descKo": "5턴 동안 공격과 스피드가 절반이 된다.",
+    "descEn": "For five turns, the Pokémon's Attack and Speed stats are halved.",
+    "descJa": "５ターンの　あいだ 攻撃と　素早さが 半分に　なる。"
   },
   {
     "name": "Damp",
     "nameKo": "습기",
     "nameJa": "しめりけ",
-    "nameEn": "Damp"
+    "nameEn": "Damp",
+    "descKo": "주변을 습하게 함으로써 자폭 등 폭발하는 기술을 아무도 못 쓰게 한다.",
+    "descEn": "The Pokémon dampens its surroundings, preventing all Pokémon from using explosive moves such as Self-Destruct.",
+    "descJa": "あたりを　湿らせることに　よって じばく　などの　爆発する　技を だれも　使えなくなる。"
   },
   {
     "name": "Competitive",
     "nameKo": "승기",
     "nameJa": "かちき",
-    "nameEn": "Competitive"
+    "nameEn": "Competitive",
+    "descKo": "능력이 떨어지면 특수공격이 크게 올라간다.",
+    "descEn": "Boosts the Pokémon's Sp. Atk stat sharply when its stats are lowered by an opposing Pokémon.",
+    "descJa": "能力を　下げられると 特攻が　ぐーんと　上がる。"
   },
   {
     "name": "Victory Star",
     "nameKo": "승리의별",
     "nameJa": "しょうりのほし",
-    "nameEn": "Victory Star"
+    "nameEn": "Victory Star",
+    "descKo": "자신과 같은 편의 명중률이 올라간다.",
+    "descEn": "Boosts the accuracy of its allies and itself.",
+    "descJa": "自分や　味方の 命中率が　上がる。"
   },
   {
     "name": "Stall",
     "nameKo": "시간벌기",
     "nameJa": "あとだし",
-    "nameEn": "Stall"
+    "nameEn": "Stall",
+    "descKo": "기술을 사용하는 순서가 반드시 마지막이 된다.",
+    "descEn": "The Pokémon is always the last to use its moves.",
+    "descJa": "技を　出す　順番が かならず　最後に　なる。"
   },
   {
     "name": "Primordial Sea",
     "nameKo": "시작의바다",
     "nameJa": "はじまりのうみ",
-    "nameEn": "Primordial Sea"
+    "nameEn": "Primordial Sea",
+    "descKo": "불꽃타입의 공격을 받지 않는 날씨로 만든다.",
+    "descEn": "The Pokémon changes the weather to nullify Fire-type attacks.",
+    "descJa": "ほのおタイプの　攻撃を 受けない　天気にする。"
   },
   {
     "name": "Overgrow",
     "nameKo": "심록",
     "nameJa": "しんりょく",
-    "nameEn": "Overgrow"
+    "nameEn": "Overgrow",
+    "descKo": "HP가 줄었을 때 풀타입 기술의 위력이 올라간다.",
+    "descEn": "Powers up Grass-type moves when the Pokémon's HP is low.",
+    "descJa": "ＨＰが　減ったとき くさタイプの　技の 威力が　上がる。"
   },
   {
     "name": "Contrary",
     "nameKo": "심술꾸러기",
     "nameJa": "あまのじゃく",
-    "nameEn": "Contrary"
+    "nameEn": "Contrary",
+    "descKo": "능력의 변화가 역전해서 올라갈 때 떨어지고 떨어질 때 올라간다.",
+    "descEn": "Reverses any stat changes affecting the Pokémon so that attempts to boost its stats instead lower them—and attempts to lower its stats will boost them.",
+    "descJa": "能力の　変化が　逆転して 上がるときに　下がり 下がるときに　上がる。"
   },
   {
     "name": "Mind's Eye",
     "nameKo": "심안",
     "nameJa": "しんがん",
-    "nameEn": "Mind's Eye"
+    "nameEn": "Mind's Eye",
+    "descEn": "The Pokémon ignores changes to opponents' evasiveness, its accuracy can't be lowered, and it can hit Ghost types with Normal-type and Fighting-type moves"
   },
   {
     "name": "Synchronize",
     "nameKo": "싱크로",
     "nameJa": "シンクロ",
-    "nameEn": "Synchronize"
+    "nameEn": "Synchronize",
+    "descKo": "자신이 걸린 독이나 마비, 화상을 상대에게 옮긴다.",
+    "descEn": "If the Pokémon is burned, paralyzed, or poisoned by another Pokémon, that Pokémon will be inflicted with the same status condition.",
+    "descJa": "自分が　なってしまった どくや　まひや　やけどを 相手に　うつす。"
   },
   {
     "name": "Swift Swim",
     "nameKo": "쓱쓱",
     "nameJa": "すいすい",
-    "nameEn": "Swift Swim"
+    "nameEn": "Swift Swim",
+    "descKo": "비가 오는 날씨일 때 스피드가 올라간다.",
+    "descEn": "Boosts the Pokémon's Speed stat in rain.",
+    "descJa": "天気が　雨のとき 素早さが　上がる。"
   },
   {
     "name": "Aroma Veil",
     "nameKo": "아로마베일",
     "nameJa": "アロマベール",
-    "nameEn": "Aroma Veil"
+    "nameEn": "Aroma Veil",
+    "descKo": "자신과 같은 편으로 향하는 멘탈 공격을 막을 수 있다.",
+    "descEn": "Protects the Pokémon and its allies from effects that prevent the use of moves.",
+    "descJa": "自分と　味方への　メンタル 攻撃を　防ぐことが　できる。"
   },
   {
     "name": "Ice Body",
     "nameKo": "아이스바디",
     "nameJa": "アイスボディ",
-    "nameEn": "Ice Body"
+    "nameEn": "Ice Body",
+    "descKo": "날씨가 싸라기눈일 때 HP를 조금씩 회복한다.",
+    "descEn": "The Pokémon gradually regains HP in snow.",
+    "descJa": "天気が　あられのとき　ＨＰを 少しずつ　回復　する。"
   },
   {
     "name": "Ice Face",
     "nameKo": "아이스페이스",
     "nameJa": "アイスフェイス",
-    "nameEn": "Ice Face"
+    "nameEn": "Ice Face",
+    "descKo": "물리공격을 머리의 얼음이 대신 맞아주지만 모습도 바뀐다. 얼음은 싸라기눈이 내리면 원래대로 돌아온다.",
+    "descEn": "The Pokémon's ice head can take a physical attack as a substitute, but the attack also changes the Pokémon's appearance. The ice will be restored when it snows.",
+    "descJa": "物理攻撃は　頭の　氷が みがわりに　なるが　姿も　変わる。 氷は　あられが　降ると　元に戻る。"
   },
   {
     "name": "Stench",
     "nameKo": "악취",
     "nameJa": "あくしゅう",
-    "nameEn": "Stench"
+    "nameEn": "Stench",
+    "descKo": "악취를 풍겨서 공격했을 때 상대가 풀죽을 때가 있다.",
+    "descEn": "By releasing a stench when attacking, the Pokémon may cause the target to flinch.",
+    "descJa": "臭い　においを　放つことによって 攻撃した　ときに　相手を ひるませることが　ある。"
   },
   {
     "name": "Analytic",
     "nameKo": "애널라이즈",
     "nameJa": "アナライズ",
-    "nameEn": "Analytic"
+    "nameEn": "Analytic",
+    "descKo": "제일 마지막에 기술을 쓰면 기술의 위력이 올라간다.",
+    "descEn": "Boosts the power of the Pokémon's move if it is the last to act that turn.",
+    "descJa": "いちばん　最後に　技を　出すと 技の　威力が　上がる。"
   },
   {
     "name": "Schooling",
     "nameKo": "어군",
     "nameJa": "ぎょぐん",
-    "nameEn": "Schooling"
+    "nameEn": "Schooling",
+    "descKo": "HP가 많을 때 무리지어 강해진다. HP가 얼마 남지 않으면 무리는 뿔뿔이 흩어진다.",
+    "descEn": "When it has a lot of HP, the Pokémon forms a powerful school. It stops schooling when its HP is low.",
+    "descJa": "ＨＰが　多いときは　群れて　強くなる。 ＨＰの　残りが　少なくなると 群れは　散り散りに　なってしまう。"
   },
   {
     "name": "Ice Scales",
     "nameKo": "얼음인분",
     "nameJa": "こおりのりんぷん",
-    "nameEn": "Ice Scales"
+    "nameEn": "Ice Scales",
+    "descKo": "얼음인분의 보호를 받아 특수공격으로 받는 데미지가 절반이 된다.",
+    "descEn": "The Pokémon is protected by ice scales, which halve the damage taken from special moves.",
+    "descJa": "こおりのりんぷんに　守られて 特殊攻撃で　受ける ダメージが　半減　する。"
   },
   {
     "name": "Air Lock",
     "nameKo": "에어록",
     "nameJa": "エアロック",
-    "nameEn": "Air Lock"
+    "nameEn": "Air Lock",
+    "descKo": "모든 날씨의 영향이 없어진다.",
+    "descEn": "Eliminates the effects of weather.",
+    "descJa": "あらゆる　天気の　影響が 消えて　しまう。"
   },
   {
     "name": "Queenly Majesty",
     "nameKo": "여왕의위엄",
     "nameJa": "じょおうのいげん",
-    "nameEn": "Queenly Majesty"
+    "nameEn": "Queenly Majesty",
+    "descKo": "상대에게 위압감을 줘서 이쪽을 향한 선제 기술을 사용할 수 없게 한다.",
+    "descEn": "When the Pokémon uses Surf or Dive, it will come back with prey. When it takes damage, it will spit out the prey to attack.",
+    "descJa": "相手に　威圧感を　あたえ こちらに　むかって　先制技を 出せない　ようにする。"
   },
   {
     "name": "Thermal Exchange",
     "nameKo": "열교환",
     "nameJa": "ねつこうかん",
-    "nameEn": "Thermal Exchange"
+    "nameEn": "Thermal Exchange",
+    "descEn": "Boosts the Attack stat when the Pokémon is hit by a Fire-type move. The Pokémon also cannot be burned."
   },
   {
     "name": "Flare Boost",
     "nameKo": "열폭주",
     "nameJa": "ねつぼうそう",
-    "nameEn": "Flare Boost"
+    "nameEn": "Flare Boost",
+    "descKo": "화상 상태가 되었을 때 특수 기술의 위력이 올라간다.",
+    "descEn": "Powers up special moves when the Pokémon is burned.",
+    "descJa": "やけど状態に　なったとき 特殊技の　威力が　上がる。"
   },
   {
     "name": "Chlorophyll",
     "nameKo": "엽록소",
     "nameJa": "ようりょくそ",
-    "nameEn": "Chlorophyll"
+    "nameEn": "Chlorophyll",
+    "descKo": "날씨가 맑을 때 스피드가 올라간다.",
+    "descEn": "Boosts the Pokémon's Speed stat in harsh sunlight.",
+    "descJa": "天気が　晴れのとき 素早さが　上がる。"
   },
   {
     "name": "Sharpness",
     "nameKo": "예리함",
     "nameJa": "きれあじ",
-    "nameEn": "Sharpness"
+    "nameEn": "Sharpness",
+    "descEn": "Powers up slicing moves."
   },
   {
     "name": "Forewarn",
     "nameKo": "예지몽",
     "nameJa": "よちむ",
-    "nameEn": "Forewarn"
+    "nameEn": "Forewarn",
+    "descKo": "등장했을 때 상대가 지닌 기술을 하나만 꿰뚫어본다.",
+    "descEn": "When it enters a battle, the Pokémon can tell one of the moves an opposing Pokémon has.",
+    "descJa": "登場　したとき 相手の　持つ　技を ひとつだけ　読み取る。"
   },
   {
     "name": "Defiant",
     "nameKo": "오기",
     "nameJa": "まけんき",
-    "nameEn": "Defiant"
+    "nameEn": "Defiant",
+    "descKo": "능력이 떨어지면 공격이 크게 올라간다.",
+    "descEn": "If the Pokémon has any stat lowered by an opposing Pokémon, its Attack stat will be boosted sharply.",
+    "descJa": "能力を　下げられると 攻撃が　ぐーんと　上がる。"
   },
   {
     "name": "Aura Break",
     "nameKo": "오라브레이크",
     "nameJa": "オーラブレイク",
-    "nameEn": "Aura Break"
+    "nameEn": "Aura Break",
+    "descKo": "오라의 효과를 역전시켜 위력을 떨어뜨린다.",
+    "descEn": "The effects of “Aura” Abilities are reversed to lower the power of affected moves.",
+    "descJa": "オーラの　効果を　逆転させて 威力を　下げる。"
   },
   {
     "name": "Strong Jaw",
     "nameKo": "옹골찬턱",
     "nameJa": "がんじょうあご",
-    "nameEn": "Strong Jaw"
+    "nameEn": "Strong Jaw",
+    "descKo": "턱이 튼튼하여 무는 기술의 위력이 올라간다.",
+    "descEn": "The Pokémon's strong jaw boosts the power of its biting moves.",
+    "descJa": "あごが　頑丈で 噛む　技の　威力が 高くなる。"
   },
   {
     "name": "Sturdy",
     "nameKo": "옹골참",
     "nameJa": "がんじょう",
-    "nameEn": "Sturdy"
+    "nameEn": "Sturdy",
+    "descKo": "상대 기술을 받아도 일격으로 쓰러지지 않는다. 일격필살 기술도 효과 없다.",
+    "descEn": "The Pokémon cannot be knocked out by a single hit as long as its HP is full. One-hit KO moves will also fail to knock it out.",
+    "descJa": "相手の　技を　受けても 一撃で　倒されることが　ない。 一撃必殺技も　効かない。"
   },
   {
     "name": "Dragon's Maw",
     "nameKo": "용의턱",
     "nameJa": "りゅうのあぎと",
-    "nameEn": "Dragon's Maw"
+    "nameEn": "Dragon's Maw",
+    "descKo": "드래곤타입 기술의 위력이 올라간다.",
+    "descEn": "Powers up Dragon-type moves.",
+    "descJa": "ドラゴンタイプの　技の 威力が　上がる。"
   },
   {
     "name": "Sheer Force",
     "nameKo": "우격다짐",
     "nameJa": "ちからずく",
-    "nameEn": "Sheer Force"
+    "nameEn": "Sheer Force",
+    "descKo": "기술의 추가 효과가 없어지지만 그만큼 높은 위력으로 기술을 사용할 수 있다.",
+    "descEn": "Removes any additional effects from the Pokémon's moves, but increases the moves' power.",
+    "descJa": "技の　追加効果は　なくなるが そのぶん　高い　威力で 技を　出すことが　できる。"
   },
   {
     "name": "Long Reach",
     "nameKo": "원격",
     "nameJa": "えんかく",
-    "nameEn": "Long Reach"
+    "nameEn": "Long Reach",
+    "descKo": "모든 기술을 상대에게 접촉하지 않고 사용할 수 있다.",
+    "descEn": "The Pokémon uses its moves without making contact with the target.",
+    "descJa": "すべての　技を 相手に　接触　しないで 出すことが　できる。"
   },
   {
     "name": "Emergency Exit",
     "nameKo": "위기회피",
     "nameJa": "ききかいひ",
-    "nameEn": "Emergency Exit"
+    "nameEn": "Emergency Exit",
+    "descKo": "HP가 절반이 되면 위험을 회피하기 위해 지닌 포켓몬으로 돌아간다.",
+    "descEn": "The Pokémon, sensing danger, switches out when its HP becomes half or less.",
+    "descJa": "ＨＰが　半分に　なると 危険を　回避するため 手持ちに　引っ込んで　しまう。"
   },
   {
     "name": "Anticipation",
     "nameKo": "위험예지",
     "nameJa": "きけんよち",
-    "nameEn": "Anticipation"
+    "nameEn": "Anticipation",
+    "descKo": "상대가 지닌 위험한 기술을 감지할 수 있다.",
+    "descEn": "The Pokémon can sense an opposing Pokémon's dangerous moves.",
+    "descJa": "相手の　持つ　危険な　技を 察知する　ことができる。"
   },
   {
     "name": "Intimidate",
     "nameKo": "위협",
     "nameJa": "いかく",
-    "nameEn": "Intimidate"
+    "nameEn": "Intimidate",
+    "descKo": "등장했을 때 위협해서 상대를 위축시켜 상대의 공격을 떨어뜨린다.",
+    "descEn": "When the Pokémon enters a battle, it intimidates opposing Pokémon and makes them cower, lowering their Attack stats.",
+    "descJa": "登場　したとき　威嚇して 相手を　萎縮させ 相手の　攻撃を　下げて　しまう。"
   },
   {
     "name": "Battle Bond",
     "nameKo": "유대변화",
     "nameJa": "きずなへんげ",
-    "nameEn": "Battle Bond"
+    "nameEn": "Battle Bond",
+    "descKo": "상대를 쓰러뜨리면 트레이너와의 유대감이 깊어져서 지우개굴닌자로 변한다. 물수리검이 강해진다.",
+    "descEn": "When the Pokémon knocks out a target, its bond with its Trainer is strengthened, and its Attack, Sp. Atk, and Speed stats are boosted.",
+    "descJa": "相手を　倒すと　トレーナーとの キズナが　深まり　サトシゲッコウガに 変化する。みずしゅりけんが　強くなる。"
   },
   {
     "name": "Limber",
     "nameKo": "유연",
     "nameJa": "じゅうなん",
-    "nameEn": "Limber"
+    "nameEn": "Limber",
+    "descKo": "유연한 몸으로 인해 마비 상태가 되지 않는다.",
+    "descEn": "The Pokémon's limber body prevents it from being paralyzed.",
+    "descJa": "柔軟な　体によって まひ状態に　ならない。"
   },
   {
     "name": "Aftermath",
     "nameKo": "유폭",
     "nameJa": "ゆうばく",
-    "nameEn": "Aftermath"
+    "nameEn": "Aftermath",
+    "descKo": "기절했을 때 접촉한 상대에게 데미지를 준다.",
+    "descEn": "Damages the attacker if it knocks out the Pokémon with a move that makes direct contact.",
+    "descJa": "ひんしに　なったとき 触った　相手に ダメージを　あたえる。"
   },
   {
     "name": "Vital Spirit",
     "nameKo": "의기양양",
     "nameJa": "やるき",
-    "nameEn": "Vital Spirit"
+    "nameEn": "Vital Spirit",
+    "descKo": "의기양양해져서 잠듦 상태가 되지 않는다.",
+    "descEn": "The Pokémon is full of vitality, and that prevents it from falling asleep.",
+    "descJa": "やる気を　だすことに　よって ねむり状態に　ならない。"
   },
   {
     "name": "Hustle",
     "nameKo": "의욕",
     "nameJa": "はりきり",
-    "nameEn": "Hustle"
+    "nameEn": "Hustle",
+    "descKo": "자신의 공격이 높아지지만 명중률이 떨어진다.",
+    "descEn": "Boosts the Pokémon's Attack stat but lowers its accuracy.",
+    "descJa": "自分の　攻撃が　高くなるが 命中率が　下がる。"
   },
   {
     "name": "Mimicry",
     "nameKo": "의태",
     "nameJa": "ぎたい",
-    "nameEn": "Mimicry"
+    "nameEn": "Mimicry",
+    "descKo": "필드의 상태에 따라 포켓몬의 타입이 바뀐다.",
+    "descEn": "Changes the Pokémon’s type depending on the terrain.",
+    "descJa": "フィールドの　状態に　あわせて ポケモンの　タイプが　変わる。"
   },
   {
     "name": "Marvel Scale",
     "nameKo": "이상한비늘",
     "nameJa": "ふしぎなうろこ",
-    "nameEn": "Marvel Scale"
+    "nameEn": "Marvel Scale",
+    "descKo": "상태 이상이 되면 이상한 비늘이 반응해서 방어가 올라간다.",
+    "descEn": "The Pokémon's marvelous scales boost its Defense stat if it has a status condition.",
+    "descJa": "状態異常に　なると 不思議なウロコが　反応して 防御が　上がる。"
   },
   {
     "name": "Reckless",
     "nameKo": "이판사판",
     "nameJa": "すてみ",
-    "nameEn": "Reckless"
+    "nameEn": "Reckless",
+    "descKo": "반동 데미지를 받는 기술의 위력이 올라간다.",
+    "descEn": "Powers up moves that have recoil damage.",
+    "descJa": "反動で　ダメージを 受ける　技の　威力が　上がる。"
   },
   {
     "name": "Shield Dust",
     "nameKo": "인분",
     "nameJa": "りんぷん",
-    "nameEn": "Shield Dust"
+    "nameEn": "Shield Dust",
+    "descKo": "인분에 보호받아 기술의 추가 효과를 받지 않게 된다.",
+    "descEn": "Protective dust shields the Pokémon from the additional effects of moves.",
+    "descJa": "りんぷんに　守られて 技の　追加効果を　受けなくなる。"
   },
   {
     "name": "Electric Surge",
     "nameKo": "일렉트릭메이커",
     "nameJa": "エレキメイカー",
-    "nameEn": "Electric Surge"
+    "nameEn": "Electric Surge",
+    "descKo": "등장했을 때 일렉트릭필드를 사용한다.",
+    "descEn": "Turns the ground into Electric Terrain when the Pokémon enters a battle.",
+    "descJa": "登場　したときに エレキフィールドを　はりめぐらせる。"
   },
   {
     "name": "Galvanize",
     "nameKo": "일렉트릭스킨",
     "nameJa": "エレキスキン",
-    "nameEn": "Galvanize"
+    "nameEn": "Galvanize",
+    "descKo": "노말타입 기술이 전기타입이 된다. 위력이 조금 올라간다.",
+    "descEn": "Normal-type moves become Electric-type moves. The power of those moves is boosted a little.",
+    "descJa": "ノーマルタイプの　技が でんきタイプになる。 威力が　少し　上がる。"
   },
   {
     "name": "Illusion",
     "nameKo": "일루전",
     "nameJa": "イリュージョン",
-    "nameEn": "Illusion"
+    "nameEn": "Illusion",
+    "descKo": "지닌 포켓몬 중 제일 뒤에 있는 포켓몬으로 둔갑하여 나와서 상대를 속인다.",
+    "descEn": "The Pokémon fools opponents by entering battle disguised as the last Pokémon in its Trainer's party.",
+    "descJa": "手持ちの　いちばん　うしろに　いる ポケモンに　なりきって　登場して 相手を　化かす。"
   },
   {
     "name": "Early Bird",
     "nameKo": "일찍기상",
     "nameJa": "はやおき",
-    "nameEn": "Early Bird"
+    "nameEn": "Early Bird",
+    "descKo": "잠듦 상태가 되어도 2배 스피드로 깨어날 수 있다.",
+    "descEn": "The Pokémon awakens from sleep twice as fast as other Pokémon.",
+    "descJa": "ねむり状態に　なっても ２倍の　早さで 目覚める　ことが　できる。"
   },
   {
     "name": "Moxie",
     "nameKo": "자기과신",
     "nameJa": "じしんかじょう",
-    "nameEn": "Moxie"
+    "nameEn": "Moxie",
+    "descKo": "상대를 쓰러뜨리면 자신감이 붙어서 공격이 올라간다.",
+    "descEn": "When the Pokémon knocks out a target, it shows moxie, which boosts its Attack stat.",
+    "descJa": "相手を　倒すと 自信が　ついて 攻撃が　上がる。"
   },
   {
     "name": "Magnet Pull",
     "nameKo": "자력",
     "nameJa": "じりょく",
-    "nameEn": "Magnet Pull"
+    "nameEn": "Magnet Pull",
+    "descKo": "강철타입의 포켓몬을 자력으로 끌어모아 도망칠 수 없게 한다.",
+    "descEn": "Prevents Steel-type Pokémon from fleeing by pulling them in with magnetism.",
+    "descJa": "はがねタイプの　ポケモンを 磁力で　引きつけて 逃げられなくする。"
   },
   {
     "name": "Natural Cure",
     "nameKo": "자연회복",
     "nameJa": "しぜんかいふく",
-    "nameEn": "Natural Cure"
+    "nameEn": "Natural Cure",
+    "descKo": "지닌 포켓몬으로 돌아오면 상태 이상이 회복된다.",
+    "descEn": "The Pokémon's status conditions are cured when it switches out.",
+    "descJa": "手持ちに　ひっこむと 状態異常が　治る。"
   },
   {
     "name": "Drizzle",
     "nameKo": "잔비",
     "nameJa": "あめふらし",
-    "nameEn": "Drizzle"
+    "nameEn": "Drizzle",
+    "descKo": "등장했을 때 날씨를 비로 만든다.",
+    "descEn": "The Pokémon makes it rain when it enters a battle.",
+    "descJa": "登場　したときに 天気を　雨に　する。"
   },
   {
     "name": "Stakeout",
     "nameKo": "잠복",
     "nameJa": "はりこみ",
-    "nameEn": "Stakeout"
+    "nameEn": "Stakeout",
+    "descKo": "교체로 나온 상대에게 2배 데미지로 공격할 수 있다.",
+    "descEn": "Doubles the damage dealt to a target that has just switched into battle.",
+    "descJa": "交代で　出てきた　相手に ２倍の　ダメージで　攻撃　できる。"
   },
   {
     "name": "Regenerator",
     "nameKo": "재생력",
     "nameJa": "さいせいりょく",
-    "nameEn": "Regenerator"
+    "nameEn": "Regenerator",
+    "descKo": "지닌 포켓몬으로 돌아오면 HP를 조금 회복한다.",
+    "descEn": "The Pokémon has a little of its HP restored when withdrawn from battle.",
+    "descJa": "手持ちに　引っ込むと ＨＰが　少し　回復する。"
   },
   {
     "name": "Sword of Ruin",
     "nameKo": "재앙의검",
     "nameJa": "わざわいのつるぎ",
-    "nameEn": "Sword of Ruin"
+    "nameEn": "Sword of Ruin",
+    "descEn": "The power of the Pokémon's ruinous sword lowers the Defense stats of all Pokémon except itself."
   },
   {
     "name": "Beads of Ruin",
     "nameKo": "재앙의구슬",
     "nameJa": "わざわいのたま",
-    "nameEn": "Beads of Ruin"
+    "nameEn": "Beads of Ruin",
+    "descEn": "The power of the Pokémon's ruinous beads lowers the Sp. Def stats of all Pokémon except itself."
   },
   {
     "name": "Vessel of Ruin",
     "nameKo": "재앙의그릇",
     "nameJa": "わざわいのうつわ",
-    "nameEn": "Vessel of Ruin"
+    "nameEn": "Vessel of Ruin",
+    "descEn": "The power of the Pokémon's ruinous vessel lowers the Sp. Atk stats of all Pokémon except itself."
   },
   {
     "name": "Tablets of Ruin",
     "nameKo": "재앙의목간",
     "nameJa": "わざわいのおふだ",
-    "nameEn": "Tablets of Ruin"
+    "nameEn": "Tablets of Ruin",
+    "descEn": "The power of the Pokémon's ruinous wooden tablets lowers the Attack stats of all Pokémon except itself."
   },
   {
     "name": "Water Absorb",
     "nameKo": "저수",
     "nameJa": "ちょすい",
-    "nameEn": "Water Absorb"
+    "nameEn": "Water Absorb",
+    "descKo": "물타입의 기술을 받으면 데미지를 받지 않고 회복한다.",
+    "descEn": "If hit by a Water-type move, the Pokémon has its HP restored instead of taking damage.",
+    "descJa": "みずタイプの　技を　受けると ダメージを　受けずに　回復する。"
   },
   {
     "name": "Cursed Body",
     "nameKo": "저주받은바디",
     "nameJa": "のろわれボディ",
-    "nameEn": "Cursed Body"
+    "nameEn": "Cursed Body",
+    "descKo": "공격을 받으면 상대의 기술을 사슬묶기 상태로 만들 때가 있다.",
+    "descEn": "May disable a move that has dealt damage to the Pokémon.",
+    "descJa": "攻撃を　受けると　相手の　技を かなしばり状態に することが　ある。"
   },
   {
     "name": "Adaptability",
     "nameKo": "적응력",
     "nameJa": "てきおうりょく",
-    "nameEn": "Adaptability"
+    "nameEn": "Adaptability",
+    "descKo": "자신과 같은 타입의 기술 위력이 올라간다.",
+    "descEn": "Powers up moves of the same type as the Pokémon.",
+    "descJa": "自分と　おなじ　タイプの 技の　威力が　上がる。"
   },
   {
     "name": "Electromorphosis",
     "nameKo": "전기로바꾸기",
     "nameJa": "でんきにかえる",
-    "nameEn": "Electromorphosis"
+    "nameEn": "Electromorphosis",
+    "descEn": "The Pokémon becomes charged when it takes damage, boosting the power of the next Electric-type move the Pokémon uses."
   },
   {
     "name": "Motor Drive",
     "nameKo": "전기엔진",
     "nameJa": "でんきエンジン",
-    "nameEn": "Motor Drive"
+    "nameEn": "Motor Drive",
+    "descKo": "전기타입의 기술을 받으면 데미지를 받지 않고 스피드가 올라간다.",
+    "descEn": "The Pokémon takes no damage when hit by Electric-type moves. Instead, its Speed stat is boosted.",
+    "descJa": "でんきタイプの　技を　受けると ダメージを　受けずに 素早さが　上がる。"
   },
   {
     "name": "Battle Armor",
     "nameKo": "전투무장",
     "nameJa": "カブトアーマー",
-    "nameEn": "Battle Armor"
+    "nameEn": "Battle Armor",
+    "descKo": "단단한 껍질에 보호받아 상대의 공격이 급소에 맞지 않는다.",
+    "descEn": "Hard armor protects the Pokémon from critical hits.",
+    "descJa": "硬い　甲羅に　守られて 相手の　攻撃が 急所に　当たらない。"
   },
   {
     "name": "Comatose",
     "nameKo": "절대안깸",
     "nameJa": "ぜったいねむり",
-    "nameEn": "Comatose"
+    "nameEn": "Comatose",
+    "descKo": "항상 비몽사몽 상태로 절대 깨지 않는다. 잠든 상태로 공격할 수 있다.",
+    "descEn": "The Pokémon is always drowsing and will never wake up. It can attack while in its sleeping state.",
+    "descJa": "つねに　夢うつつの　状態で 絶対に　目覚めない。 眠ったまま　攻撃が　できる。"
   },
   {
     "name": "Sticky Hold",
     "nameKo": "점착",
     "nameJa": "ねんちゃく",
-    "nameEn": "Sticky Hold"
+    "nameEn": "Sticky Hold",
+    "descKo": "점착질의 몸에 도구가 달라붙어 있어 상대에게 도구를 뺏기지 않는다.",
+    "descEn": "The Pokémon's held items cling to its sticky body and cannot be removed by other Pokémon.",
+    "descJa": "粘着質の　体に 道具が　くっついているため 相手に　道具を　奪われない。"
   },
   {
     "name": "Inner Focus",
     "nameKo": "정신력",
     "nameJa": "せいしんりょく",
-    "nameEn": "Inner Focus"
+    "nameEn": "Inner Focus",
+    "descKo": "단련한 정신으로 인하여 상대의 공격에 풀죽지 않는다.",
+    "descEn": "The Pokémon's intense focus prevents it from flinching or being affected by Intimidate.",
+    "descJa": "鍛えられた　精神に　よって 相手の　攻撃に　ひるまない。"
   },
   {
     "name": "Justified",
     "nameKo": "정의의마음",
     "nameJa": "せいぎのこころ",
-    "nameEn": "Justified"
+    "nameEn": "Justified",
+    "descKo": "악타입 공격을 받으면 정의감으로 공격이 올라간다.",
+    "descEn": "When the Pokémon is hit by a Dark-type attack, its Attack stat is boosted by its sense of justice.",
+    "descJa": "あくタイプの　攻撃を　受けると 正義感で　攻撃が　上がる。"
   },
   {
     "name": "Static",
     "nameKo": "정전기",
     "nameJa": "せいでんき",
-    "nameEn": "Static"
+    "nameEn": "Static",
+    "descKo": "정전기를 몸에 둘러 접촉한 상대를 마비시킬 때가 있다.",
+    "descEn": "The Pokémon is charged with static electricity and may paralyze attackers that make direct contact with it.",
+    "descJa": "静電気を　体に　まとい 触った　相手を まひさせる　ことがある。"
   },
   {
     "name": "Purifying Salt",
     "nameKo": "정화의소금",
     "nameJa": "きよめのしお",
-    "nameEn": "Purifying Salt"
+    "nameEn": "Purifying Salt",
+    "descEn": "The Pokémon's pure salt protects it from status conditions and halves the damage taken from Ghost-type moves."
   },
   {
     "name": "Rain Dish",
     "nameKo": "젖은접시",
     "nameJa": "あめうけざら",
-    "nameEn": "Rain Dish"
+    "nameEn": "Rain Dish",
+    "descKo": "비가 오는 날씨일 때 조금씩 HP를 회복한다.",
+    "descEn": "The Pokémon gradually regains HP in rain.",
+    "descJa": "天気が　雨のとき 少しずつ　ＨＰを　回復する。"
   },
   {
     "name": "Teraform Zero",
     "nameKo": "제로포밍",
     "nameJa": "ゼロフォーミング",
-    "nameEn": "Teraform Zero"
+    "nameEn": "Teraform Zero",
+    "descEn": "When Terapagos changes into its Stellar Form, it uses its hidden powers to eliminate all effects of weather and terrain, reducing them to zero."
   },
   {
     "name": "Shell Armor",
     "nameKo": "조가비갑옷",
     "nameJa": "シェルアーマー",
-    "nameEn": "Shell Armor"
+    "nameEn": "Shell Armor",
+    "descKo": "단단한 껍질의 보호를 받아 상대의 공격이 급소에 맞지 않는다.",
+    "descEn": "A hard shell protects the Pokémon from critical hits.",
+    "descJa": "硬い　殻に　守られ 相手の　攻撃が 急所に　当たらない。"
   },
   {
     "name": "Rattled",
     "nameKo": "주눅",
     "nameJa": "びびり",
-    "nameEn": "Rattled"
+    "nameEn": "Rattled",
+    "descKo": "악타입과 고스트타입과 벌레타입의 기술을 받으면 주눅이 들어 스피드가 올라간다.",
+    "descEn": "The Pokémon gets scared when hit by a Dark-, Ghost-, or Bug-type attack or if intimidated, which boosts its Speed stat.",
+    "descJa": "あくタイプと　ゴーストタイプと むしタイプの　技を　受けると びびって　素早さが　上がる。"
   },
   {
     "name": "Steam Engine",
     "nameKo": "증기기관",
     "nameJa": "じょうききかん",
-    "nameEn": "Steam Engine"
+    "nameEn": "Steam Engine",
+    "descKo": "물타입이나 불꽃타입 기술을 받으면 스피드가 매우 크게 올라간다.",
+    "descEn": "Boosts the Speed stat drastically when the Pokémon is hit by a Fire- or Water-type move.",
+    "descJa": "みずタイプ　ほのおタイプの 技を　受けると 素早さが　ぐぐーんと　上がる。"
   },
   {
     "name": "Stamina",
     "nameKo": "지구력",
     "nameJa": "じきゅうりょく",
-    "nameEn": "Stamina"
+    "nameEn": "Stamina",
+    "descKo": "공격을 받으면 방어가 올라간다.",
+    "descEn": "Boosts the Defense stat when the Pokémon is hit by an attack.",
+    "descJa": "攻撃を　受けると 防御が　上がる。"
   },
   {
     "name": "Orichalcum Pulse",
     "nameKo": "진홍빛고동",
     "nameJa": "ひひいろのこどう",
-    "nameEn": "Orichalcum Pulse"
+    "nameEn": "Orichalcum Pulse",
+    "descEn": "Turns the sunlight harsh when the Pokémon enters a battle. The ancient pulse thrumming through the Pokémon also boosts its Attack stat in harsh sunlight."
   },
   {
     "name": "Gale Wings",
     "nameKo": "질풍날개",
     "nameJa": "はやてのつばさ",
-    "nameEn": "Gale Wings"
+    "nameEn": "Gale Wings",
+    "descKo": "HP가 꽉 찼을 때 비행타입의 기술을 먼저 쓸 수 있다.",
+    "descEn": "Gives priority to the Pokémon's Flying-type moves while its HP is full.",
+    "descJa": "ＨＰが　満タン　だと ひこうタイプの　技を 先制で　出すことが　できる。"
   },
   {
     "name": "Prankster",
     "nameKo": "짓궂은마음",
     "nameJa": "いたずらごころ",
-    "nameEn": "Prankster"
+    "nameEn": "Prankster",
+    "descKo": "변화 기술을 먼저 쓸 수 있다.",
+    "descEn": "Gives priority to the Pokémon's status moves.",
+    "descJa": "変化技を　先制で 出すことが　できる。"
   },
   {
     "name": "Unaware",
     "nameKo": "천진",
     "nameJa": "てんねん",
-    "nameEn": "Unaware"
+    "nameEn": "Unaware",
+    "descKo": "상대의 능력 변화를 무시하고 공격할 수 있다.",
+    "descEn": "When attacking, the Pokémon ignores the target's stat changes.",
+    "descJa": "相手の　能力の　変化を 無視して　攻撃が　できる。"
   },
   {
     "name": "Huge Power",
     "nameKo": "천하장사",
     "nameJa": "ちからもち",
-    "nameEn": "Huge Power"
+    "nameEn": "Huge Power",
+    "descKo": "물리공격의 위력이 2배가 된다.",
+    "descEn": "Doubles the Pokémon's Attack stat.",
+    "descJa": "物理攻撃の 威力が　２倍になる。"
   },
   {
     "name": "Iron Barbs",
     "nameKo": "철가시",
     "nameJa": "てつのトゲ",
-    "nameEn": "Iron Barbs"
+    "nameEn": "Iron Barbs",
+    "descKo": "자신과 접촉한 상대에게 철가시로 데미지를 준다.",
+    "descEn": "Inflicts damage on the attacker upon contact with iron barbs.",
+    "descJa": "自分に　触った　相手に 鉄のトゲで　ダメージを　あたえる。"
   },
   {
     "name": "Iron Fist",
     "nameKo": "철주먹",
     "nameJa": "てつのこぶし",
-    "nameEn": "Iron Fist"
+    "nameEn": "Iron Fist",
+    "descKo": "펀치를 사용하는 기술의 위력이 올라간다.",
+    "descEn": "Powers up punching moves.",
+    "descJa": "パンチを　使う　技の 威力が　上がる。"
   },
   {
     "name": "Embody Aspect",
     "nameKo": "초상투영",
     "nameJa": "おもかげやどし",
-    "nameEn": "Embody Aspect"
+    "nameEn": "Embody Aspect",
+    "descEn": "The Pokémon's heart fills with memories, causing the Mask to shine and one of the Pokémon's stats to be boosted."
   },
   {
     "name": "Sap Sipper",
     "nameKo": "초식",
     "nameJa": "そうしょく",
-    "nameEn": "Sap Sipper"
+    "nameEn": "Sap Sipper",
+    "descKo": "풀타입 기술을 받으면 데미지를 입지 않고 공격이 올라간다.",
+    "descEn": "The Pokémon takes no damage when hit by Grass-type moves. Instead, its Attack stat is boosted.",
+    "descJa": "くさタイプの　技を　受けると ダメージを　受けずに 攻撃が　上がる。"
   },
   {
     "name": "Hydration",
     "nameKo": "촉촉바디",
     "nameJa": "うるおいボディ",
-    "nameEn": "Hydration"
+    "nameEn": "Hydration",
+    "descKo": "비가 오는 날씨일 때 상태 이상이 회복된다.",
+    "descEn": "Cures the Pokémon's status conditions in rain.",
+    "descJa": "天気が　雨のとき 状態異常が　治る。"
   },
   {
     "name": "Liquid Voice",
     "nameKo": "촉촉보이스",
     "nameJa": "うるおいボイス",
-    "nameEn": "Liquid Voice"
+    "nameEn": "Liquid Voice",
+    "descKo": "모든 소리 기술이 물타입이 된다.",
+    "descEn": "Sound-based moves become Water-type moves.",
+    "descJa": "すべての　音技が みずタイプに　なる。"
   },
   {
     "name": "Supreme Overlord 0",
@@ -1965,43 +2649,62 @@
     "name": "Volt Absorb",
     "nameKo": "축전",
     "nameJa": "ちくでん",
-    "nameEn": "Volt Absorb"
+    "nameEn": "Volt Absorb",
+    "descKo": "전기타입의 기술을 받으면 데미지를 받지 않고 회복한다.",
+    "descEn": "If hit by an Electric-type move, the Pokémon has its HP restored instead of taking damage.",
+    "descJa": "でんきタイプの　技を　受けると ダメージを　受けずに　回復する。"
   },
   {
     "name": "Healer",
     "nameKo": "치유의마음",
     "nameJa": "いやしのこころ",
-    "nameEn": "Healer"
+    "nameEn": "Healer",
+    "descKo": "같은 편의 상태 이상을 가끔 회복시킨다.",
+    "descEn": "Sometimes cures the status conditions of the Pokémon's allies.",
+    "descJa": "状態異常の　味方を たまに　治してあげる。"
   },
   {
     "name": "Tangling Hair",
     "nameKo": "컬리헤어",
     "nameJa": "カーリーヘアー",
-    "nameEn": "Tangling Hair"
+    "nameEn": "Tangling Hair",
+    "descKo": "공격으로 자신과 접촉한 상대의 스피드를 떨어뜨린다.",
+    "descEn": "Contact with the Pokémon lowers the attacker's Speed stat.",
+    "descJa": "攻撃で　自分に　触れた　相手の 素早さを　下げる。"
   },
   {
     "name": "Quark Drive",
     "nameKo": "쿼크차지",
     "nameJa": "クォークチャージ",
-    "nameEn": "Quark Drive"
+    "nameEn": "Quark Drive",
+    "descEn": "Boosts the Pokémon's most proficient stat on Electric Terrain or if the Pokémon is holding Booster Energy."
   },
   {
     "name": "Quick Draw",
     "nameKo": "퀵드로",
     "nameJa": "クイックドロウ",
-    "nameEn": "Quick Draw"
+    "nameEn": "Quick Draw",
+    "descKo": "상대보다 먼저 행동할 수도 있다.",
+    "descEn": "Enables the Pokémon to move first occasionally.",
+    "descJa": "相手より　先に 行動できることが　ある。"
   },
   {
     "name": "Clear Body",
     "nameKo": "클리어바디",
     "nameJa": "クリアボディ",
-    "nameEn": "Clear Body"
+    "nameEn": "Clear Body",
+    "descKo": "상대 기술이나 특성으로 능력을 떨어뜨릴 수 없다.",
+    "descEn": "Prevents other Pokémon's moves or Abilities from lowering the Pokémon's stats.",
+    "descJa": "相手の　技や　特性で 能力を　下げられない。"
   },
   {
     "name": "Flash Fire",
     "nameKo": "타오르는불꽃",
     "nameJa": "もらいび",
-    "nameEn": "Flash Fire"
+    "nameEn": "Flash Fire",
+    "descKo": "불꽃타입의 기술을 받으면 불꽃을 받아서 자신이 사용하는 불꽃타입의 기술이 강해진다.",
+    "descEn": "If hit by a Fire-type move, the Pokémon absorbs the flames and uses them to power up its own Fire-type moves.",
+    "descJa": "ほのおタイプの　技を　受けると 炎を　もらい　自分が　出す ほのおタイプの　技が　強くなる。"
   },
   {
     "name": "Disguise Busted",
@@ -2019,259 +2722,372 @@
     "name": "Shed Skin",
     "nameKo": "탈피",
     "nameJa": "だっぴ",
-    "nameEn": "Shed Skin"
+    "nameEn": "Shed Skin",
+    "descKo": "몸의 껍질을 벗어 던져 상태 이상을 회복할 때가 있다.",
+    "descEn": "The Pokémon may cure its own status conditions by shedding its skin.",
+    "descJa": "体の　皮を　脱ぎ捨てることで 状態異常を 治すことが　ある。"
   },
   {
     "name": "Turboblaze",
     "nameKo": "터보블레이즈",
     "nameJa": "ターボブレイズ",
-    "nameEn": "Turboblaze"
+    "nameEn": "Turboblaze",
+    "descKo": "상대 특성에 방해받지 않고 상대에게 기술을 쓸 수 있다.",
+    "descEn": "The Pokémon's moves are unimpeded by the Ability of the target.",
+    "descJa": "相手の　特性に　ジャマされず 相手に　技を　出すことが　できる。"
   },
   {
     "name": "Teravolt",
     "nameKo": "테라볼티지",
     "nameJa": "テラボルテージ",
-    "nameEn": "Teravolt"
+    "nameEn": "Teravolt",
+    "descKo": "상대 특성에 방해받지 않고 상대에게 기술을 쓸 수 있다.",
+    "descEn": "The Pokémon's moves are unimpeded by the Ability of the target.",
+    "descJa": "相手の　特性に　ジャマされず 相手に　技を　出すことが　できる。"
   },
   {
     "name": "Tera Shell",
     "nameKo": "테라셸",
     "nameJa": "テラスシェル",
-    "nameEn": "Tera Shell"
+    "nameEn": "Tera Shell",
+    "descEn": "The Pokémon's shell contains the powers of each type. All damage-dealing moves that hit the Pokémon when its HP is full will not be very effective."
   },
   {
     "name": "Tera Shift",
     "nameKo": "테라체인지",
     "nameJa": "テラスチェンジ",
-    "nameEn": "Tera Shift"
+    "nameEn": "Tera Shift",
+    "descEn": "When the Pokémon enters a battle, it absorbs the energy around itself and transforms into its Terastal Form."
   },
   {
     "name": "Armor Tail",
     "nameKo": "테일아머",
     "nameJa": "テイルアーマー",
-    "nameEn": "Armor Tail"
+    "nameEn": "Armor Tail",
+    "descEn": "The mysterious tail covering the Pokémon's head makes opponents unable to use priority moves against the Pokémon or its allies."
   },
   {
     "name": "Technician",
     "nameKo": "테크니션",
     "nameJa": "テクニシャン",
-    "nameEn": "Technician"
+    "nameEn": "Technician",
+    "descKo": "위력이 약한 기술의 위력을 올려서 공격할 수 있다.",
+    "descEn": "Powers up weak moves so the Pokémon can deal more damage with them.",
+    "descJa": "威力が　低い　技の 威力を　高くして　攻撃できる。"
   },
   {
     "name": "Telepathy",
     "nameKo": "텔레파시",
     "nameJa": "テレパシー",
-    "nameEn": "Telepathy"
+    "nameEn": "Telepathy",
+    "descKo": "같은 편의 공격의 낌새를 읽고 기술을 회피한다.",
+    "descEn": "The Pokémon anticipates and dodges the attacks of its allies.",
+    "descJa": "味方の　攻撃を　読み取って 技を　回避する。"
   },
   {
     "name": "Frisk",
     "nameKo": "통찰",
     "nameJa": "おみとおし",
-    "nameEn": "Frisk"
+    "nameEn": "Frisk",
+    "descKo": "등장했을 때 상대의 지닌 물건을 통찰할 수 있다.",
+    "descEn": "When it enters a battle, the Pokémon can check an opposing Pokémon's held item.",
+    "descJa": "登場　したとき 相手の　持ち物を 見通すことが　できる。"
   },
   {
     "name": "Transistor",
     "nameKo": "트랜지스터",
     "nameJa": "トランジスタ",
-    "nameEn": "Transistor"
+    "nameEn": "Transistor",
+    "descKo": "전기타입 기술의 위력이 올라간다.",
+    "descEn": "Powers up Electric-type moves.",
+    "descJa": "でんきタイプの　技の 威力が　上がる。"
   },
   {
     "name": "Trace",
     "nameKo": "트레이스",
     "nameJa": "トレース",
-    "nameEn": "Trace"
+    "nameEn": "Trace",
+    "descKo": "등장했을 때 상대의 특성을 트레이스해서 같은 특성이 된다.",
+    "descEn": "When it enters a battle, the Pokémon copies an opposing Pokémon's Ability.",
+    "descJa": "登場　したとき 相手の　特性を　トレースして 同じ　特性に　なる。"
   },
   {
     "name": "Mold Breaker",
     "nameKo": "틀깨기",
     "nameJa": "かたやぶり",
-    "nameEn": "Mold Breaker"
+    "nameEn": "Mold Breaker",
+    "descKo": "상대 특성에 방해받지 않고 상대에게 기술을 쓸 수 있다.",
+    "descEn": "The Pokémon's moves are unimpeded by the Ability of the target.",
+    "descJa": "相手の　特性に ジャマされる　ことなく　相手に 技を　出すことが　できる。"
   },
   {
     "name": "Infiltrator",
     "nameKo": "틈새포착",
     "nameJa": "すりぬけ",
-    "nameEn": "Infiltrator"
+    "nameEn": "Infiltrator",
+    "descKo": "상대의 벽이나 대타출동을 뚫고 공격할 수 있다.",
+    "descEn": "The Pokémon's moves are unaffected by the target's barriers, substitutes, and the like.",
+    "descJa": "相手の　壁や　身代わりを すりぬけて　攻撃　できる"
   },
   {
     "name": "Guard Dog",
     "nameKo": "파수견",
     "nameJa": "ばんけん",
-    "nameEn": "Guard Dog"
+    "nameEn": "Guard Dog",
+    "descEn": "Boosts the Pokémon’s Attack stat if intimidated. Moves and items that would force the Pokémon to switch out also fail to work."
   },
   {
     "name": "Pastel Veil",
     "nameKo": "파스텔베일",
     "nameJa": "パステルベール",
-    "nameEn": "Pastel Veil"
+    "nameEn": "Pastel Veil",
+    "descKo": "자신과 같은 편이 독의 상태 이상 효과를 받지 않게 된다.",
+    "descEn": "Protects the Pokémon and its ally Pokémon from being poisoned.",
+    "descJa": "自分も　味方も どくの　状態異常を 受けなくなる。"
   },
   {
     "name": "Power Spot",
     "nameKo": "파워스폿",
     "nameJa": "パワースポット",
-    "nameEn": "Power Spot"
+    "nameEn": "Power Spot",
+    "descKo": "옆에 있기만 해도 기술의 위력이 올라간다.",
+    "descEn": "Just being next to the Pokémon powers up moves.",
+    "descJa": "隣に　いるだけで 技の　威力が　上がる。"
   },
   {
     "name": "Fur Coat",
     "nameKo": "퍼코트",
     "nameJa": "ファーコート",
-    "nameEn": "Fur Coat"
+    "nameEn": "Fur Coat",
+    "descKo": "상대로부터 받는 물리 기술의 데미지가 절반이 된다.",
+    "descEn": "Halves the damage from physical moves.",
+    "descJa": "相手から　受ける　物理技の ダメージが　半分に　なる。"
   },
   {
     "name": "Punk Rock",
     "nameKo": "펑크록",
     "nameJa": "パンクロック",
-    "nameEn": "Punk Rock"
+    "nameEn": "Punk Rock",
+    "descKo": "소리 기술의 위력이 올라간다. 상대로부터 받는 소리 기술의 데미지는 절반이 된다.",
+    "descEn": "Boosts the power of sound-based moves. The Pokémon also takes half the damage from these kinds of moves.",
+    "descJa": "音技の　威力が　上がる。 受けた　音技の ダメージは　半分に　なる。"
   },
   {
     "name": "Pixilate",
     "nameKo": "페어리스킨",
     "nameJa": "フェアリースキン",
-    "nameEn": "Pixilate"
+    "nameEn": "Pixilate",
+    "descKo": "노말타입의 기술이 페어리타입이 된다. 위력이 조금 올라간다.",
+    "descEn": "Normal-type moves become Fairy-type moves. The power of those moves is boosted a little.",
+    "descJa": "ノーマルタイプの　技が フェアリータイプになる。 威力が　少し　上がる。"
   },
   {
     "name": "Fairy Aura",
     "nameKo": "페어리오라",
     "nameJa": "フェアリーオーラ",
-    "nameEn": "Fairy Aura"
+    "nameEn": "Fairy Aura",
+    "descKo": "전원의 페어리타입 기술이 강해진다.",
+    "descEn": "Powers up each Pokémon’s Fairy-type moves.",
+    "descJa": "全員の　フェアリータイプの 技が　強くなる。"
   },
   {
     "name": "Opportunist",
     "nameKo": "편승",
     "nameJa": "びんじょう",
-    "nameEn": "Opportunist"
+    "nameEn": "Opportunist",
+    "descEn": "If an opponent's stat is boosted, the Pokémon seizes the opportunity to boost the same stat for itself."
   },
   {
     "name": "Poison Heal",
     "nameKo": "포이즌힐",
     "nameJa": "ポイズンヒール",
-    "nameEn": "Poison Heal"
+    "nameEn": "Poison Heal",
+    "descKo": "독 상태가 되면 HP가 줄지 않고 증가한다.",
+    "descEn": "If poisoned, the Pokémon has its HP restored instead of taking damage.",
+    "descJa": "どく状態に　なると ＨＰが　減らずに　増えていく。"
   },
   {
     "name": "Effect Spore",
     "nameKo": "포자",
     "nameJa": "ほうし",
-    "nameEn": "Effect Spore"
+    "nameEn": "Effect Spore",
+    "descKo": "공격으로 자신에게 접촉한 상대를 독이나 마비, 잠듦 상태로 만들 때가 있다.",
+    "descEn": "Contact with the Pokémon may inflict poison, sleep, or paralysis on the attacker.",
+    "descJa": "攻撃で　自分に　触れた　相手を どくや　まひや　ねむり状態に する　ことがある。"
   },
   {
     "name": "Grass Pelt",
     "nameKo": "풀모피",
     "nameJa": "くさのけがわ",
-    "nameEn": "Grass Pelt"
+    "nameEn": "Grass Pelt",
+    "descKo": "그래스필드일 때 방어가 올라간다.",
+    "descEn": "Boosts the Pokémon's Defense stat on Grassy Terrain.",
+    "descJa": "グラスフィールドのとき 防御が　上がる。"
   },
   {
     "name": "Wind Power",
     "nameKo": "풍력발전",
     "nameJa": "ふうりょくでんき",
-    "nameEn": "Wind Power"
+    "nameEn": "Wind Power",
+    "descEn": "The Pokémon becomes charged when it is hit by a wind move, boosting the power of the next Electric-type move the Pokémon uses."
   },
   {
     "name": "Pressure",
     "nameKo": "프레셔",
     "nameJa": "プレッシャー",
-    "nameEn": "Pressure"
+    "nameEn": "Pressure",
+    "descKo": "프레셔를 줘서 상대가 쓰는 기술의 PP를 많이 줄인다.",
+    "descEn": "Puts other Pokémon under pressure, causing them to expend more PP to use their moves.",
+    "descJa": "プレッシャーを　あたえて 相手の　使う　技の　ＰＰを 多く　減らす。"
   },
   {
     "name": "Friend Guard",
     "nameKo": "프렌드가드",
     "nameJa": "フレンドガード",
-    "nameEn": "Friend Guard"
+    "nameEn": "Friend Guard",
+    "descKo": "같은 편의 데미지를 줄일 수 있다.",
+    "descEn": "Reduces damage dealt to allies.",
+    "descJa": "味方の　ダメージを 減らすことが　できる。"
   },
   {
     "name": "Refrigerate",
     "nameKo": "프리즈스킨",
     "nameJa": "フリーズスキン",
-    "nameEn": "Refrigerate"
+    "nameEn": "Refrigerate",
+    "descKo": "노말타입의 기술이 얼음타입이 된다. 위력이 조금 올라간다.",
+    "descEn": "Normal-type moves become Ice-type moves. The power of those moves is boosted a little.",
+    "descJa": "ノーマルタイプの　技が こおりタイプに　なる。 威力が　少し　上がる。"
   },
   {
     "name": "Prism Armor",
     "nameKo": "프리즘아머",
     "nameJa": "プリズムアーマー",
-    "nameEn": "Prism Armor"
+    "nameEn": "Prism Armor",
+    "descKo": "효과가 굉장한 공격의 위력을 약하게 만든다.",
+    "descEn": "Reduces the power of supereffective attacks taken.",
+    "descJa": "効果バツグンに　なってしまう 攻撃の　威力を 弱める　ことが　できる。"
   },
   {
     "name": "Flower Gift",
     "nameKo": "플라워기프트",
     "nameJa": "フラワーギフト",
-    "nameEn": "Flower Gift"
+    "nameEn": "Flower Gift",
+    "descKo": "날씨가 맑을 때 자신과 같은 편의 공격과 특수방어의 능력이 올라간다.",
+    "descEn": "Boosts the Attack and Sp. Def stats of itself and allies in harsh sunlight.",
+    "descJa": "天気が　晴れのとき 自分と　味方の　攻撃と 特防の　能力が　上がる。"
   },
   {
     "name": "Flower Veil",
     "nameKo": "플라워베일",
     "nameJa": "フラワーベール",
-    "nameEn": "Flower Veil"
+    "nameEn": "Flower Veil",
+    "descKo": "같은 편의 풀타입 포켓몬은 능력이 떨어지지 않고 상태 이상도 되지 않는다.",
+    "descEn": "Ally Grass-type Pokémon are protected from status conditions and the lowering of their stats.",
+    "descJa": "味方の　草ポケモンは 能力が　下がらず 状態異常にも　ならない。"
   },
   {
     "name": "Plus",
     "nameKo": "플러스",
     "nameJa": "プラス",
-    "nameEn": "Plus"
+    "nameEn": "Plus",
+    "descKo": "플러스나 마이너스의 특성을 가진 포켓몬이 동료에 있으면 자신의 특수공격이 올라간다.",
+    "descEn": "Boosts the Sp. Atk stat of the Pokémon if an ally with the Plus or Minus Ability is also in battle.",
+    "descJa": "プラスか　マイナスの　特性を　持つ ポケモンが　仲間に　いると 自分の　特攻が　上がる。"
   },
   {
     "name": "Lightning Rod",
     "nameKo": "피뢰침",
     "nameJa": "ひらいしん",
-    "nameEn": "Lightning Rod"
+    "nameEn": "Lightning Rod",
+    "descKo": "전기타입의 기술을 자신에게 끌어모아 데미지를 받지 않고 특수공격을 올린다.",
+    "descEn": "The Pokémon draws in all Electric-type moves. Instead of taking damage from them, its Sp. Atk stat is boosted.",
+    "descJa": "でんきタイプの　技を　自分に 寄せつけ　ダメージを　受けずに 特攻が　上がる。"
   },
   {
     "name": "Pickup",
     "nameKo": "픽업",
     "nameJa": "ものひろい",
-    "nameEn": "Pickup"
+    "nameEn": "Pickup",
+    "descKo": "상대가 사용한 도구를 주워올 때가 있다. 모험 중에도 주워온다.",
+    "descEn": "The Pokémon may pick up an item another Pokémon used during a battle. It may pick up items outside of battle, too.",
+    "descJa": "相手の　使った　道具を 拾ってくることが　ある。 冒険中も　拾ってくる。"
   },
   {
     "name": "Filter",
     "nameKo": "필터",
     "nameJa": "フィルター",
-    "nameEn": "Filter"
+    "nameEn": "Filter",
+    "descKo": "효과가 굉장한 공격의 위력을 약하게 만든다.",
+    "descEn": "Reduces the power of supereffective attacks that hit the Pokémon.",
+    "descJa": "効果バツグンに　なってしまう 攻撃の　威力を 弱める　ことが　できる。"
   },
   {
     "name": "Serene Grace",
     "nameKo": "하늘의은총",
     "nameJa": "てんのめぐみ",
-    "nameEn": "Serene Grace"
+    "nameEn": "Serene Grace",
+    "descKo": "하늘의 은총 덕분에 기술의 추가 효과가 나오기 쉽다.",
+    "descEn": "Raises the likelihood of additional effects occurring when the Pokémon uses its moves.",
+    "descJa": "天の恵みの　おかげで 技の　追加効果が　でやすい。"
   },
   {
     "name": "Solid Rock",
     "nameKo": "하드록",
     "nameJa": "ハードロック",
-    "nameEn": "Solid Rock"
+    "nameEn": "Solid Rock",
+    "descKo": "효과가 굉장한 공격의 위력을 약하게 만든다.",
+    "descEn": "Reduces the power of supereffective attacks that hit the Pokémon.",
+    "descJa": "効果バツグンに　なってしまう 攻撃の　威力を 弱める　ことが　できる。"
   },
   {
     "name": "Hadron Engine",
     "nameKo": "하드론엔진",
     "nameJa": "ハドロンエンジン",
-    "nameEn": "Hadron Engine"
+    "nameEn": "Hadron Engine",
+    "descEn": "Turns the ground into Electric Terrain when the Pokémon enters a battle. The futuristic engine within the Pokémon also boosts its Sp. Atk stat on Electric Terrain."
   },
   {
     "name": "White Smoke",
     "nameKo": "하얀연기",
     "nameJa": "しろいけむり",
-    "nameEn": "White Smoke"
+    "nameEn": "White Smoke",
+    "descKo": "하얀 연기의 보호를 받아 상대가 능력을 떨어뜨릴 수 없다.",
+    "descEn": "The Pokémon is protected by its white smoke, which prevents other Pokémon from lowering its stats.",
+    "descJa": "白い煙に　守られて 相手に　能力を　下げられない。"
   },
   {
     "name": "Liquid Ooze",
     "nameKo": "해감액",
     "nameJa": "ヘドロえき",
-    "nameEn": "Liquid Ooze"
+    "nameEn": "Liquid Ooze",
+    "descKo": "해감액을 흡수한 상대는 강렬한 악취로 데미지를 받아 HP가 줄어든다.",
+    "descEn": "The strong stench of the Pokémon's oozed liquid damages attackers that use HP-draining moves.",
+    "descJa": "ヘドロ液を　吸い取った　相手は 強烈な　悪臭で ダメージを　受けて　ＨＰを　減らす。"
   },
   {
     "name": "Cute Charm",
     "nameKo": "헤롱헤롱바디",
     "nameJa": "メロメロボディ",
-    "nameEn": "Cute Charm"
+    "nameEn": "Cute Charm",
+    "descKo": "자신과 접촉한 상대를 헤롱헤롱 상태로 만들 때가 있다.",
+    "descEn": "The Pokémon may infatuate attackers that make direct contact with it.",
+    "descJa": "自分に　触った　相手を メロメロに　することが　ある。"
   },
   {
     "name": "Heavy Metal",
     "nameKo": "헤비메탈",
     "nameJa": "ヘヴィメタル",
-    "nameEn": "Heavy Metal"
+    "nameEn": "Heavy Metal",
+    "descKo": "자신의 무게가 2배가 된다.",
+    "descEn": "Doubles the Pokémon's weight.",
+    "descJa": "自分の　重さが ２倍に　なる。"
   },
   {
     "name": "Costar",
     "nameKo": "협연",
     "nameJa": "きょうえん",
-    "nameEn": "Costar"
+    "nameEn": "Costar",
+    "descEn": "When the Pokémon enters a battle, it copies an ally's stat changes."
   },
   {
     "name": "As One",
@@ -2289,49 +3105,65 @@
     "name": "Neutralizing Gas",
     "nameKo": "화학변화가스",
     "nameJa": "かがくへんかガス",
-    "nameEn": "Neutralizing Gas"
+    "nameEn": "Neutralizing Gas",
+    "descKo": "화학변화가스를 가진 포켓몬이 배틀에 나와 있으면 모든 포켓몬이 가진 특성의 효과가 사라지거나 발동하지 않게 된다.",
+    "descEn": "While the Pokémon is in the battle, the effects of all other Pokémon's Abilities will be nullified or will not be triggered.",
+    "descJa": "かがくへんかガスの　ポケモンが　場にいると すべての　ポケモンの　特性の 効果が　消えたり　発動　しなくなる。"
   },
   {
     "name": "Good as Gold",
     "nameKo": "황금몸",
     "nameJa": "おうごんのからだ",
-    "nameEn": "Good as Gold"
+    "nameEn": "Good as Gold",
+    "descEn": "A body of pure, solid gold gives the Pokémon full immunity to other Pokémon's status moves."
   },
   {
     "name": "Grim Neigh",
     "nameKo": "흑의울음",
     "nameJa": "くろのいななき",
-    "nameEn": "Grim Neigh"
+    "nameEn": "Grim Neigh",
+    "descKo": "상대를 쓰러뜨리면 무서운 울음소리를 내면서 특수공격이 올라간다.",
+    "descEn": "When the Pokémon knocks out a target, it utters a terrifying neigh, which boosts its Sp. Atk stat.",
+    "descJa": "相手を　倒すと 恐ろしい　声で　いなないて 特攻が　上がる。"
   },
   {
     "name": "Earth Eater",
     "nameKo": "흙먹기",
     "nameJa": "どしょく",
-    "nameEn": "Earth Eater"
+    "nameEn": "Earth Eater",
+    "descEn": "If hit by a Ground-type move, the Pokémon has its HP restored instead of taking damage."
   },
   {
     "name": "Suction Cups",
     "nameKo": "흡반",
     "nameJa": "きゅうばん",
-    "nameEn": "Suction Cups"
+    "nameEn": "Suction Cups",
+    "descKo": "흡반으로 지면에 달라붙어 포켓몬을 교체시키는 기술이나 도구의 효과를 발휘하지 못하게 한다.",
+    "descEn": "The Pokémon uses suction cups to stay in one spot. This protects it from moves and items that would force it to switch out.",
+    "descJa": "吸盤で　地面に　張り付き ポケモンを　入れ替えさせる 技や　道具が　効かなくなる。"
   },
   {
     "name": "Triage",
     "nameKo": "힐링시프트",
     "nameJa": "ヒーリングシフト",
-    "nameEn": "Triage"
+    "nameEn": "Triage",
+    "descKo": "회복 기술을 먼저 사용할 수 있다.",
+    "descEn": "Gives priority to the Pokémon's healing moves.",
+    "descJa": "回復技を　先制で 出すことが　できる。"
   },
   {
     "name": "Mega Sol",
     "nameKo": "메가솔라",
     "nameJa": "メガソーラー",
-    "nameEn": "Mega Sol"
+    "nameEn": "Mega Sol",
+    "descEn": "Even when the sunlight has not turned harsh, the Pokémon can use its moves as if the weather were harsh sunlight."
   },
   {
     "name": "Dragonize",
     "nameKo": "드래곤스킨",
     "nameJa": "ドラゴンスキン",
-    "nameEn": "Dragonize"
+    "nameEn": "Dragonize",
+    "descEn": "The Pokémon's Normal-type moves become Dragon-type moves and their power is boosted by 20%."
   },
   {
     "name": "Rivalry Same",

@@ -12,7 +12,10 @@
       "contact"
     ],
     "nameEn": "Phantom Force",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "1턴째에 어디론가 사라져서 2턴째에 상대를 공격한다. 기술 방어를 무시하고 공격할 수 있다.",
+    "descEn": "The user vanishes somewhere, then strikes the target on the next turn. This move hits even if the target protects itself.",
+    "descJa": "１ターンめで　どこかに　消えて ２ターンめに　相手を　攻撃する。 守りを　無視して　攻撃できる。"
   },
   {
     "name": "Eerie Impulse",
@@ -24,7 +27,10 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Eerie Impulse"
+    "nameEn": "Eerie Impulse",
+    "descKo": "몸에서 발생시킨 괴전파를 상대에게 쏘아 특수공격을 크게 떨어뜨린다.",
+    "descEn": "The user's body generates an eerie impulse. Exposing the target to it harshly lowers the target's Sp. Atk stat.",
+    "descJa": "体から　かいでんぱを　放ち 相手に　浴びせる　ことによって 特攻を　がくっと　さげる。"
   },
   {
     "name": "Land’s Wrath",
@@ -49,7 +55,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Grassy Terrain"
+    "nameEn": "Grassy Terrain",
+    "descKo": "5턴 동안 그래스필드로 만든다. 땅에 있으면 매 턴 회복한다. 풀타입의 위력이 올라간다.",
+    "descEn": "The user turns the ground into Grassy Terrain for five turns. This restores the HP of Pokémon on the ground a little every turn and powers up Grass-type moves.",
+    "descJa": "５ターンの　間　グラスフィールドにする。 地面にいると　毎ターン　回復する。 くさタイプの　威力が　あがる。"
   },
   {
     "name": "Power-Up Punch",
@@ -66,7 +75,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Power-Up Punch",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "반복하여 때리면 점점 주먹이 단단해진다. 상대를 때리면 공격이 오른다.",
+    "descEn": "Striking opponents over and over makes the user’s fists harder. Hitting a target raises the Attack stat.",
+    "descJa": "繰り返し　打つことで だんだん　こぶしが　固くなる。 相手に　当てると　攻撃が　あがる。"
   },
   {
     "name": "Origin Pulse",
@@ -82,7 +94,10 @@
       "custom:spread"
     ],
     "nameEn": "Origin Pulse",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "파랗게 빛나는 무수한 광선으로 상대를 공격한다.",
+    "descEn": "The user attacks opposing Pokémon with countless beams of light that glow a deep and brilliant blue.",
+    "descJa": "青白く　輝く　無数の　光線で 相手を　攻撃する。"
   },
   {
     "name": "Petal Blizzard",
@@ -99,7 +114,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Petal Blizzard",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "세찬 꽃보라를 일으켜서 주위에 있는 포켓몬을 공격하여 데미지를 준다.",
+    "descEn": "The user stirs up a violent petal blizzard and damages everything around it.",
+    "descJa": "激しい　花吹雪を　起こし 周りに　いるものに　攻撃して ダメージを　与える。"
   },
   {
     "name": "Sticky Web",
@@ -111,7 +129,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Sticky Web"
+    "nameEn": "Sticky Web",
+    "descKo": "상대의 주위에 끈적끈적한 네트를 둘러 펼쳐 교체되어 나온 상대의 스피드를 떨어뜨린다.",
+    "descEn": "The user weaves a sticky net around the opposing team, which lowers their Speed stats upon switching into battle.",
+    "descJa": "相手の　周りに　ねばねばした ネットを　はりめぐらせ　交代で でてきた　相手の　素早さを　さげる。"
   },
   {
     "name": "Spiky Shield",
@@ -124,7 +145,10 @@
     "pp": 10,
     "priority": 4,
     "tags": [],
-    "nameEn": "Spiky Shield"
+    "nameEn": "Spiky Shield",
+    "descKo": "상대의 공격을 막음과 동시에 접촉한 상대의 체력을 떨어뜨린다.",
+    "descEn": "In addition to protecting the user from attacks, this move also damages any attacker that makes direct contact.",
+    "descJa": "相手の　攻撃を　防ぐと 同時に　触れた　相手の 体力を　削って　しまう。"
   },
   {
     "name": "Hyperspace Fury",
@@ -142,7 +166,10 @@
     "aliases": [
       "다른차원러시"
     ],
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "많은 팔로 방어와 판별 등을 무시하는 연속 공격이다. 자신의 방어가 떨어진다.",
+    "descEn": "Using its many arms, the user unleashes a barrage of attacks that ignore the effects of moves like Protect and Detect. This also lowers the user's Defense stat.",
+    "descJa": "たくさんの　腕で　まもるや　みきり などを　無視した　連続攻撃。 自分の　防御が　さがる。"
   },
   {
     "name": "Hyperspace Hole",
@@ -158,7 +185,10 @@
     "aliases": [
       "다른차원홀"
     ],
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "다른차원홀로 갑자기 상대 바로 옆에 나타나 공격한다. 방어나 판별 등도 무시할 수 있다.",
+    "descEn": "Using a hyperspace hole, the user appears right next to the target and strikes. This attack can hit a target using a move such as Protect or Detect.",
+    "descJa": "異次元ホールで　突然　相手の 真横に　現れ　攻撃する。 まもるや　みきり　なども　無視　できる。"
   },
   {
     "name": "Diamond Storm",
@@ -174,7 +204,10 @@
       "custom:spread"
     ],
     "nameEn": "Diamond Storm",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "다이아 폭풍을 일으켜 데미지를 준다. 자신의 방어를 크게 올릴 때가 있다.",
+    "descEn": "The user whips up a storm of diamonds to damage opposing Pokémon. This may also sharply boost the user's Defense stat.",
+    "descJa": "ダイヤの　嵐を　巻き起こし ダメージを　与える。　自分の 防御を　ぐーんと　あげることが　ある。"
   },
   {
     "name": "Precipice Blades",
@@ -189,7 +222,10 @@
       "custom:spread"
     ],
     "nameEn": "Precipice Blades",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "대지의 힘을 칼날로 바꿔 상대를 공격한다.",
+    "descEn": "The user attacks opposing Pokémon by manifesting the power of the land in fearsome blades of stone.",
+    "descJa": "大地の　力を　刃に　変えて 相手を　攻撃する。"
   },
   {
     "name": "Oblivion Wing",
@@ -202,7 +238,10 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Oblivion Wing",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "조준한 상대로부터 HP를 흡수한다. 준 데미지의 반 이상 HP를 회복한다.",
+    "descEn": "The user absorbs its target’s HP. The user’s HP is restored by over half of the damage taken by the target.",
+    "descJa": "ねらいを　定めた　相手から　ＨＰを 吸い取る。　与えた　ダメージの 半分以上　ＨＰを　回復する。"
   },
   {
     "name": "Topsy-Turvy",
@@ -214,7 +253,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Topsy-Turvy"
+    "nameEn": "Topsy-Turvy",
+    "descKo": "상대에게 걸려 있는 모든 능력 변화를 뒤집어서 반대로 만든다.",
+    "descEn": "All stat changes affecting the target turn topsy-turvy and become the opposite of what they were.",
+    "descJa": "相手に　かかっている すべての　能力変化を ひっくり返して　逆にする。"
   },
   {
     "name": "Draining Kiss",
@@ -229,7 +271,10 @@
       "contact"
     ],
     "nameEn": "Draining Kiss",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "키스로 상대의 HP를 흡수한다. 준 데미지의 반 이상 HP를 회복한다.",
+    "descEn": "The user steals the target's HP with a kiss. The user's HP is restored by over half the damage taken by the target.",
+    "descJa": "キッスによって　相手から　ＨＰを 吸い取る。　与えた　ダメージの 半分以上　ＨＰを　回復する。"
   },
   {
     "name": "Mat Block",
@@ -242,7 +287,10 @@
     "pp": 10,
     "priority": 3,
     "tags": [],
-    "nameEn": "Mat Block"
+    "nameEn": "Mat Block",
+    "descKo": "뒤집어 세운 마룻바닥을 방패로 하여 자신과 같은 편으로 향하는 기술 데미지를 막는다. 변화 기술은 막을 수 없다.",
+    "descEn": "Using a pulled-up mat as a shield, the user protects itself and its allies from damaging moves. This does not stop status moves.",
+    "descJa": "かえした　タタミを　盾にして　自分や 味方への　技の　ダメージを　防ぐ。 変化技は　防ぐことが　できない。"
   },
   {
     "name": "Fell Stinger",
@@ -257,7 +305,10 @@
       "contact"
     ],
     "nameEn": "Fell Stinger",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "이 기술을 사용하여 상대를 쓰러뜨리면 공격이 매우 크게 오른다.",
+    "descEn": "When the user knocks out a target with this move, the user's Attack stat is boosted drastically.",
+    "descJa": "この　技を　使って 相手を　倒すと 攻撃が　ぐぐーんと　あがる。"
   },
   {
     "name": "Parting Shot",
@@ -271,7 +322,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Parting Shot"
+    "nameEn": "Parting Shot",
+    "descKo": "막말을 내뱉어 상대를 위협하여 공격과 특수공격을 떨어뜨린 후 교대 포켓몬과 교체한다.",
+    "descEn": "With a parting threat, the user lowers the target's Attack and Sp. Atk stats. Then it switches places with a party Pokémon in waiting.",
+    "descJa": "すてゼリフで　相手を　いかくし 攻撃と　特攻を　さげたのち 控えの　ポケモンと　入れ替わる。"
   },
   {
     "name": "Dazzling Gleam",
@@ -286,7 +340,10 @@
       "custom:spread"
     ],
     "nameEn": "Dazzling Gleam",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "강력한 빛을 내어 상대에게 데미지를 준다.",
+    "descEn": "The user damages opposing Pokémon by emitting a powerful flash.",
+    "descJa": "強力な　光を　放ち 相手に　ダメージを　与える。"
   },
   {
     "name": "Mystical Fire",
@@ -301,7 +358,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Mystical Fire",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "입에서 내뱉는 아주 뜨거운 불꽃으로 공격한다. 상대의 특수공격을 떨어뜨린다.",
+    "descEn": "The user attacks by breathing a special, hot fire. This also lowers the target's Sp. Atk stat.",
+    "descJa": "口から　吐きだす　特別 熱い　炎で　攻撃する。 相手の　特攻を　さげる。"
   },
   {
     "name": "Moonblast",
@@ -316,7 +376,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Moonblast",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "달의 파워를 빌려서 상대를 공격한다. 상대의 특수공격을 떨어뜨릴 때가 있다.",
+    "descEn": "Borrowing the power of the moon, the user attacks the target. This may also lower the target's Sp. Atk stat.",
+    "descJa": "月の　パワーを　かりて 相手を　攻撃する。　相手の 特攻を　さげる　ことがある。"
   },
   {
     "name": "Water Shuriken",
@@ -332,7 +395,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Water Shuriken",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "점액으로 만든 수리검을 2-5회 동안 연속으로 던진다. 반드시 선제공격할 수 있다.",
+    "descEn": "The user hits the target with throwing stars two to five times in a row. This move always goes first.",
+    "descJa": "粘液で　できた　手裏剣を ２ー５回の　間　連続で　だす。 必ず　先制攻撃　できる。"
   },
   {
     "name": "Misty Terrain",
@@ -344,7 +410,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Misty Terrain"
+    "nameEn": "Misty Terrain",
+    "descKo": "5턴 동안 땅에 있으면 상태 이상이 되지 않고 드래곤타입 기술의 데미지도 절반이 된다.",
+    "descEn": "This protects Pokémon on the ground from status conditions and halves damage from Dragon-type moves for five turns.",
+    "descJa": "５ターンの　間　地面にいると 状態異常に　ならず　ドラゴン技の ダメージも　半分になる。"
   },
   {
     "name": "Venom Drench",
@@ -356,7 +425,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Venom Drench"
+    "nameEn": "Venom Drench",
+    "descKo": "특수한 독액을 끼얹는다. 독 상태인 상대는 공격, 특수공격, 스피드가 떨어진다.",
+    "descEn": "Opposing Pokémon are drenched in an odd poisonous liquid. This lowers the Attack, Sp. Atk, and Speed stats of a poisoned target.",
+    "descJa": "特殊な　毒液を　浴びせかける。 毒状態の　相手は 攻撃　特攻　素早さが　さがる。"
   },
   {
     "name": "Nuzzle",
@@ -372,7 +444,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Nuzzle",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "전기가 흐르는 볼을 비벼서 공격한다. 상대를 마비 상태로 만든다.",
+    "descEn": "The user attacks by nuzzling its electrified cheeks against the target. This also leaves the target with paralysis.",
+    "descJa": "電気を　帯びた　ほっぺを すりつけて　攻撃。 相手を　まひ状態に　する。"
   },
   {
     "name": "Noble Roar",
@@ -386,7 +461,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Noble Roar"
+    "nameEn": "Noble Roar",
+    "descKo": "우렁차게 부르짖어서 상대를 위협하여 상대의 공격과 특수공격을 떨어뜨린다.",
+    "descEn": "Letting out a noble roar, the user intimidates the target and lowers the target's Attack and Sp. Atk stats.",
+    "descJa": "おたけびを　あげて 相手を　威嚇し　相手の 攻撃と　特攻を　さげる。"
   },
   {
     "name": "Powder",
@@ -400,7 +478,10 @@
     "tags": [
       "powder"
     ],
-    "nameEn": "Powder"
+    "nameEn": "Powder",
+    "descKo": "분진을 뒤집어쓴 상대가 불꽃 기술을 쓰면 폭발하여 데미지를 준다.",
+    "descEn": "The user covers the target in a combustible powder. If the target uses a Fire-type move, the powder explodes and damages the target.",
+    "descJa": "ふんじんを　浴びせた　相手が ほのお技を　使うと 爆発して　ダメージを　与える。"
   },
   {
     "name": "Confide",
@@ -414,7 +495,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Confide"
+    "nameEn": "Confide",
+    "descKo": "비밀 이야기를 해서 상대의 집중력을 잃게 하여 특수공격을 떨어뜨린다.",
+    "descEn": "The user tells the target a secret, and the target loses its ability to concentrate. This lowers the target's Sp. Atk stat.",
+    "descJa": "ないしょばなしを　することで　相手の 集中力を　失わせ 相手の　特攻を　さげる。"
   },
   {
     "name": "Thousand Arrows",
@@ -431,7 +515,10 @@
       "custom:spread"
     ],
     "nameEn": "Thousand Arrows",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "떠 있는 포켓몬도 맞힐 수 있다. 떠 있던 상대는 맞아서 땅에 떨어진다.",
+    "descEn": "This move also hits opposing Pokémon that are in the air. Those Pokémon are knocked down to the ground.",
+    "descJa": "浮いている　ポケモンにも　当たる。 浮いていた　相手は 撃ち落とされて　地面に　落ちる。"
   },
   {
     "name": "Thousand Waves",
@@ -446,7 +533,10 @@
       "custom:spread"
     ],
     "nameEn": "Thousand Waves",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "땅 위를 뻗어 나가는 파도로 공격한다. 파도에 휩쓸린 상대는 전투에서 도망칠 수 없게 된다.",
+    "descEn": "The user attacks with a wave that crawls along the ground. Those it hits can’t flee from battle.",
+    "descJa": "地をはう　波によって　攻撃。 波に　巻き込まれた　相手は 戦闘から　逃げられなくなる。"
   },
   {
     "name": "Hold Hands",
@@ -458,7 +548,10 @@
     "accuracy": 0,
     "pp": 40,
     "tags": [],
-    "nameEn": "Hold Hands"
+    "nameEn": "Hold Hands",
+    "descKo": "같은 편 포켓몬끼리 손에 손을 잡는다. 굉장히 행복한 기분이 들게 된다.",
+    "descEn": "The user and an ally hold hands. This makes them very happy.",
+    "descJa": "味方の　ポケモン　同士が 手をつなぐ。　とっても　幸せな 気持ちに　なれる。"
   },
   {
     "name": "Electrify",
@@ -470,7 +563,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Electrify"
+    "nameEn": "Electrify",
+    "descKo": "상대가 기술을 쓰기 전에 송전하면 그 턴에 상대가 사용하는 기술은 전기타입이 된다.",
+    "descEn": "If the target is electrified before it uses a move during that turn, the target’s move becomes Electric type.",
+    "descJa": "相手が　技を　だす前に そうでん　すると　そのターン 相手の　技は　でんきタイプになる。"
   },
   {
     "name": "Forest’s Curse",
@@ -497,7 +593,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Steam Eruption",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "상대에게 굉장히 뜨거운 증기를 뿜는다. 상대는 화상을 입기도 한다.",
+    "descEn": "The user immerses the target in superheated steam. This may also leave the target with a burn.",
+    "descJa": "ものすごく　熱い　蒸気を 相手に　浴びせる。 相手は　やけどする　ことがある。"
   },
   {
     "name": "Aromatic Mist",
@@ -509,7 +608,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Aromatic Mist"
+    "nameEn": "Aromatic Mist",
+    "descKo": "신비한 아로마 향으로 같은 편의 특수방어를 올린다.",
+    "descEn": "The user boosts the Sp. Def stat of an ally Pokémon by using a mysterious aroma.",
+    "descJa": "不思議な　アロマの　香りによって 味方の　特防を　あげる。"
   },
   {
     "name": "Infestation",
@@ -525,7 +627,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Infestation",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "4-5턴 동안 상대에게 엉겨 붙어서 공격한다. 그동안 상대는 도망갈 수 없다.",
+    "descEn": "The target is infested and attacked for four to five turns. The target can't flee during this time.",
+    "descJa": "４ー５ターンの　間　相手に まとわりついて　攻撃する。 そのあいだ　相手は　逃げられない。"
   },
   {
     "name": "Fairy Wind",
@@ -540,7 +645,10 @@
       "wind"
     ],
     "nameEn": "Fairy Wind",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "요정의 바람을 일으켜 상대에게 몰아쳐서 공격한다.",
+    "descEn": "The user attacks by stirring up a fairy wind to strike the target.",
+    "descJa": "ようせいのかぜを　起こし 相手に　吹きつけて　攻撃する。"
   },
   {
     "name": "Rototiller",
@@ -552,7 +660,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Rototiller"
+    "nameEn": "Rototiller",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Electric Terrain",
@@ -564,7 +675,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Electric Terrain"
+    "nameEn": "Electric Terrain",
+    "descKo": "5턴 동안 일렉트릭필드로 만든다. 땅에 있는 포켓몬은 잠들지 않는다. 전기타입의 위력이 올라간다.",
+    "descEn": "The user turns the ground into Electric Terrain for five turns, powering up Electric-type moves. Pokémon on the ground can no longer fall asleep.",
+    "descJa": "５ターンの　間　エレキフィールドにする。 地面にいる　ポケモンは　眠らない。 でんきタイプの　威力が　あがる。"
   },
   {
     "name": "Magnetic Flux",
@@ -576,7 +690,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Magnetic Flux"
+    "nameEn": "Magnetic Flux",
+    "descKo": "자기장 조작으로 인해 특성 플러스와 마이너스의 방어, 특수방어가 오른다.",
+    "descEn": "The user manipulates magnetic fields, which boosts the Defense and Sp. Def stats of ally Pokémon with the Plus Ability or the Minus Ability.",
+    "descJa": "磁場を　操作　することによって 特性　プラスと　マイナスの 防御　特防が　あがる。"
   },
   {
     "name": "Hold Back",
@@ -591,7 +708,10 @@
       "contact"
     ],
     "nameEn": "Hold Back",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "적당히 공격하여 상대의 HP를 반드시 1은 남긴다.",
+    "descEn": "The user holds back when it attacks, and the target is left with at least 1 HP.",
+    "descJa": "手加減　した　攻撃で 相手の　ＨＰを 必ず　１だけ　残す。"
   },
   {
     "name": "Geomancy",
@@ -603,7 +723,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Geomancy"
+    "nameEn": "Geomancy",
+    "descKo": "1턴째에 에너지를 흡수하여 2턴째에 특수공격, 특수방어, 스피드를 크게 올린다.",
+    "descEn": "The user absorbs energy and sharply raises its Sp. Atk, Sp. Def, and Speed stats on the next turn.",
+    "descJa": "１ターン目で　エネルギーを 吸収し　２ターン目に　特攻 特防　素早さを　ぐーんと　あげる。"
   },
   {
     "name": "Disarming Voice",
@@ -619,7 +742,10 @@
       "custom:spread"
     ],
     "nameEn": "Disarming Voice",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "매혹적인 울음소리를 내어 상대에게 정신적 데미지를 준다. 공격은 반드시 명중한다.",
+    "descEn": "Letting out a charming cry, the user does emotional damage to opposing Pokémon. This attack never misses.",
+    "descJa": "魅惑の　鳴き声を　だして　相手に 精神的な　ダメージを　与える。 攻撃は　必ず　命中　する。"
   },
   {
     "name": "Baby-Doll Eyes",
@@ -632,7 +758,10 @@
     "pp": 30,
     "priority": 1,
     "tags": [],
-    "nameEn": "Baby-Doll Eyes"
+    "nameEn": "Baby-Doll Eyes",
+    "descKo": "초롱초롱한 눈동자로 상대를 바라보며 공격을 떨어뜨린다. 반드시 선제공격할 수 있다.",
+    "descEn": "The user stares at the target with its baby-doll eyes, which lowers the target's Attack stat. This move always goes first.",
+    "descJa": "つぶらなひとみで　相手を　みつめて 攻撃を　さげる。 必ず　先制攻撃　できる。"
   },
   {
     "name": "Celebrate",
@@ -644,7 +773,10 @@
     "accuracy": 0,
     "pp": 40,
     "tags": [],
-    "nameEn": "Celebrate"
+    "nameEn": "Celebrate",
+    "descKo": "포켓몬이 매우 행복한 당신을 축하해 준다.",
+    "descEn": "The Pokémon congratulates you on your special day!",
+    "descJa": "ポケモンが　とっても ハッピーな　あなたのことを お祝い　してくれる。"
   },
   {
     "name": "Play Rough",
@@ -660,7 +792,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Play Rough",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "상대에게 치근거리며 공격한다. 상대의 공격을 떨어뜨릴 때가 있다.",
+    "descEn": "The user attacks by playing rough with the target. This may also lower the target's Attack stat.",
+    "descJa": "相手に　じゃれついて 攻撃する。　相手の 攻撃を　さげる　ことがある。"
   },
   {
     "name": "Play Nice",
@@ -672,7 +807,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Play Nice"
+    "nameEn": "Play Nice",
+    "descKo": "상대와 친해져서 싸울 마음을 잃게 하여 상대의 공격을 떨어뜨린다.",
+    "descEn": "The user and the target become friends, and the target loses its will to fight. This lowers the target's Attack stat.",
+    "descJa": "相手と　なかよくなって 戦う　気力を　失わせ 相手の　攻撃を　さげる。"
   },
   {
     "name": "King’s Shield",
@@ -698,7 +836,10 @@
     "pp": 10,
     "priority": 3,
     "tags": [],
-    "nameEn": "Crafty Shield"
+    "nameEn": "Crafty Shield",
+    "descKo": "이상한 힘을 사용하여 같은 편을 공격하는 변화 기술을 막는다. 데미지 기술은 받는다.",
+    "descEn": "The user protects itself and its allies from status moves with a mysterious power. This does not stop moves that do damage.",
+    "descJa": "不思議な　力を　使って 味方への　変化技を　防ぐ。 ダメージ技は　受けてしまう。"
   },
   {
     "name": "Belch",
@@ -711,7 +852,10 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Belch",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "상대를 향해 트림을 하여 데미지를 준다. 나무열매를 먹지 않으면 쓸 수 없다.",
+    "descEn": "The user lets out a damaging belch at the target. The user must eat a held Berry to use this move.",
+    "descJa": "相手に　向かって　ゲップを 浴びせて　ダメージを　与える。 きのみを　食べないと　だせない。"
   },
   {
     "name": "Parabolic Charge",
@@ -727,7 +871,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Parabolic Charge",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "주위에 있는 모든 포켓몬에게 데미지를 준다. 준 데미지의 절반을 자신이 회복한다.",
+    "descEn": "The user attacks everything around it. The user's HP is restored by half the damage taken by those hit.",
+    "descJa": "周りにいる　ポケモン　全員に ダメージ。　与えた　ダメージの 半分を　自分が　回復する。"
   },
   {
     "name": "Light of Ruin",
@@ -740,7 +887,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Light of Ruin",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "영원의 꽃의 파워를 빌려서 강력한 광선을 쏜다. 자신도 상당한 데미지를 입는다.",
+    "descEn": "Drawing power from the Eternal Flower, the user fires a powerful beam of light. This also damages the user quite a lot.",
+    "descJa": "永遠の花　の　パワーを　かりて 強力な　光線を　撃ちだす。 自分も　かなりの　ダメージを　受ける。"
   },
   {
     "name": "Fairy Lock",
@@ -752,7 +902,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Fairy Lock"
+    "nameEn": "Fairy Lock",
+    "descKo": "록을 걸어 다음 턴의 모든 포켓몬을 도망가지 못하게 한다.",
+    "descEn": "By locking down the battlefield, the user keeps all Pokémon from fleeing during the next turn.",
+    "descJa": "ロックを　かけることによって 次のターン　すべての ポケモンを　逃げられなくする。"
   },
   {
     "name": "Boomburst",
@@ -769,7 +922,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Boomburst",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "무시무시한 폭음의 파괴력으로 주위에 있는 포켓몬을 공격한다.",
+    "descEn": "The user attacks everything around it with the destructive power of a terrible explosive sound.",
+    "descJa": "すさまじい　爆音の 破壊力に　よって 周りに　いるものを　攻撃する。"
   },
   {
     "name": "Freeze-Dry",
@@ -785,7 +941,10 @@
       "custom:freeze_dry"
     ],
     "nameEn": "Freeze-Dry",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "상대를 급격히 차갑게 하여 얼음 상태로 만들 때가 있다. 물타입 포켓몬에게도 효과가 굉장해진다.",
+    "descEn": "The user rapidly cools the target. This may also leave the target frozen. This move is super effective on Water types.",
+    "descJa": "相手を　急激に　冷やして こおり　状態に　することが　ある。 みずタイプにも　効果バツグンになる。"
   },
   {
     "name": "Ion Deluge",
@@ -797,7 +956,10 @@
     "accuracy": 0,
     "pp": 25,
     "tags": [],
-    "nameEn": "Ion Deluge"
+    "nameEn": "Ion Deluge",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Flower Shield",
@@ -809,7 +971,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Flower Shield"
+    "nameEn": "Flower Shield",
+    "descKo": "이상한 힘을 사용하여 배틀에 나와 있는 모든 풀타입 포켓몬의 방어를 올린다.",
+    "descEn": "The user raises the Defense stats of all Grass-type Pokémon in battle with a mysterious power.",
+    "descJa": "不思議な　力を　使って 場にいる　くさタイプの　ポケモン 全員の　防御を　あげる。"
   },
   {
     "name": "Flying Press",
@@ -826,7 +991,10 @@
       "custom:disabled_by_gravity"
     ],
     "nameEn": "Flying Press",
-    "zPower": 170
+    "zPower": 170,
+    "descKo": "공중에서 상대에게 다이브한다. 이 기술은 격투타입임과 동시에 비행타입이기도 하다.",
+    "descEn": "The user dives down onto the target from the sky. This move is Fighting and Flying type simultaneously.",
+    "descJa": "空中から　相手に　ダイブする。 この技は　かくとうタイプと　同時に ひこうタイプでも　ある。"
   },
   {
     "name": "Happy Hour",
@@ -838,7 +1006,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Happy Hour"
+    "nameEn": "Happy Hour",
+    "descKo": "해피타임 기술을 쓰면 배틀 후에 받을 수 있는 돈이 배가 된다.",
+    "descEn": "Using Happy Hour doubles the amount of prize money received after battle.",
+    "descJa": "ハッピータイムの　技を　使うと 戦闘の　あとで　もらえる お金が　倍になる。"
   },
   {
     "name": "Trick-or-Treat",
@@ -850,7 +1021,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Trick-or-Treat"
+    "nameEn": "Trick-or-Treat",
+    "descKo": "상대를 핼러윈으로 초대한다. 상대 타입에 고스트타입이 추가된다.",
+    "descEn": "The user takes the target trick-or-treating. This adds Ghost type to the target’s type.",
+    "descJa": "相手を　ハロウィンに　誘う。 相手の　タイプに ゴーストタイプが　追加される。"
   },
   {
     "name": "Dragon Ascent",
@@ -866,6 +1040,9 @@
       "custom:has_secondary"
     ],
     "nameEn": "Dragon Ascent",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "넓은 하늘에서 급속으로 강하하여 상대를 공격한다. 자신의 방어와 특수방어가 떨어진다.",
+    "descEn": "The user attacks the target by dropping out of the sky at high speed. This also lowers the user's Defense and Sp. Def stats.",
+    "descJa": "大空から　急速落下　して 相手を　攻撃する。 自分の　防御と　特防が　さがる。"
   }
 ]

@@ -12,7 +12,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Thunderbolt",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "강한 전격을 상대에게 날려서 공격한다. 마비 상태로 만들 때가 있다.",
+    "descEn": "The user attacks the target with a strong electric blast. This may also leave the target with paralysis.",
+    "descJa": "強い　電撃を 相手に　浴びせて　攻撃する。 まひ状態に　することが　ある。"
   },
   {
     "name": "Recover",
@@ -24,7 +27,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Recover"
+    "nameEn": "Recover",
+    "descKo": "세포를 재생시켜 자신의 최대 HP의 절반만큼 HP를 회복한다.",
+    "descEn": "The user regenerates its cells, restoring its own HP by up to half its max HP.",
+    "descJa": "細胞を　再生させて 自分の　最大ＨＰの 半分の　ＨＰを　回復する。"
   },
   {
     "name": "Spike Cannon",
@@ -39,7 +45,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Spike Cannon",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Guillotine",
@@ -55,7 +64,10 @@
       "custom:ohko"
     ],
     "nameEn": "Guillotine",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "큰 집게로 상대를 베어 갈라 공격한다. 맞으면 일격에 기절한다.",
+    "descEn": "A vicious tearing attack with big pincers. The target faints instantly if this attack hits.",
+    "descJa": "大きな　ハサミで 相手を　切り裂いて　攻撃する。 当たれば　一撃で　ひんしに　する。"
   },
   {
     "name": "Sharpen",
@@ -67,7 +79,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Sharpen"
+    "nameEn": "Sharpen",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Bubble",
@@ -83,7 +98,10 @@
       "custom:spread"
     ],
     "nameEn": "Bubble",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Bubble Beam",
@@ -98,7 +116,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Bubble Beam",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "거품을 기세 좋게 상대에게 발사하여 공격한다. 스피드를 떨어뜨릴 때가 있다.",
+    "descEn": "A spray of bubbles is forcefully ejected at the target. This may also lower the target's Speed stat.",
+    "descJa": "泡を　勢いよく 相手に　発射して　攻撃する。 素早さを　さげる　ことが　ある。"
   },
   {
     "name": "Agility",
@@ -110,7 +131,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Agility"
+    "nameEn": "Agility",
+    "descKo": "힘을 빼고 몸을 가볍게 해서 고속으로 움직인다. 자신의 스피드를 크게 올린다.",
+    "descEn": "The user relaxes and lightens its body to move faster. This sharply boosts its Speed stat.",
+    "descJa": "力を　ぬいて　体を　軽くして 高速で　動く。 自分の　素早さを　ぐーんと　あげる。"
   },
   {
     "name": "Pay Day",
@@ -123,7 +147,10 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Pay Day",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "상대의 몸에 돈을 세게 던져서 공격한다. 배틀 후에 돈을 받을 수 있다.",
+    "descEn": "Coins are hurled at the target to inflict damage. Money is earned after the battle.",
+    "descJa": "相手の　体に 小判を　投げつけて　攻撃する。 戦闘の　あとで　お金が　もらえる。"
   },
   {
     "name": "Fly",
@@ -139,7 +166,10 @@
       "contact"
     ],
     "nameEn": "Fly",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "1턴째에 하늘을 날아 2턴째에 상대를 공격한다.",
+    "descEn": "The user flies up into the sky on the first turn, then attacks on the next turn.",
+    "descJa": "１ターン目で　空へ　飛び ２ターン目に　相手を　攻撃する。"
   },
   {
     "name": "Strength",
@@ -154,7 +184,10 @@
       "contact"
     ],
     "nameEn": "Strength",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "혼신의 힘으로 상대를 세게 때려서 공격한다.",
+    "descEn": "The target is slugged with a punch thrown at maximum power.",
+    "descJa": "こん身の　力で 相手を　なぐりつけて　攻撃する。"
   },
   {
     "name": "Dig",
@@ -169,7 +202,10 @@
       "contact"
     ],
     "nameEn": "Dig",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "1턴째에 파고들어 2턴째에 상대를 공격한다.",
+    "descEn": "The user burrows into the ground on the first turn, then attacks on the next turn.",
+    "descJa": "１ターン目に　潜り　２ターン目で 相手を　攻撃する。"
   },
   {
     "name": "Barrage",
@@ -186,7 +222,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Barrage",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Double Team",
@@ -198,7 +237,10 @@
     "accuracy": 0,
     "pp": 15,
     "tags": [],
-    "nameEn": "Double Team"
+    "nameEn": "Double Team",
+    "descKo": "재빠른 움직임으로 분신을 만들어 상대를 혼란시켜 회피율을 올린다.",
+    "descEn": "By moving rapidly, the user makes illusory copies of itself to boost its evasiveness.",
+    "descJa": "素早い　動きで　分身を　つくり 相手を　まどわせて 回避率を　あげる。"
   },
   {
     "name": "Focus Energy",
@@ -210,7 +252,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Focus Energy"
+    "nameEn": "Focus Energy",
+    "descKo": "깊게 숨을 들이마셔 기합을 넣는다. 자신의 공격이 급소에 맞기 쉬워진다.",
+    "descEn": "The user takes a deep breath and focuses so that its future attacks have a heightened chance of landing critical hits.",
+    "descJa": "深く　息を　吸い　気合を　こめる。 自分の　攻撃が 急所に　当たりやすくなる。"
   },
   {
     "name": "Wrap",
@@ -226,7 +271,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Wrap",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "긴 몸이나 덩굴 등을 사용해 4-5턴 동안 상대를 휘감아 공격한다.",
+    "descEn": "A long body, vines, or the like are used to wrap and squeeze the target for four to five turns.",
+    "descJa": "長い　体や　つるなどを　使って ４ー５ターンの　間 相手に　まきついて　攻撃する。"
   },
   {
     "name": "Clamp",
@@ -242,7 +290,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Clamp",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Withdraw",
@@ -254,7 +305,10 @@
     "accuracy": 0,
     "pp": 40,
     "tags": [],
-    "nameEn": "Withdraw"
+    "nameEn": "Withdraw",
+    "descKo": "껍질에 숨어 몸을 보호하여 자신의 방어를 올린다.",
+    "descEn": "The user withdraws its body into its hard shell, boosting its Defense stat.",
+    "descJa": "殻に　潜りこんで　身を守り 自分の　防御を　あげる。"
   },
   {
     "name": "Tail Whip",
@@ -266,7 +320,10 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [],
-    "nameEn": "Tail Whip"
+    "nameEn": "Tail Whip",
+    "descKo": "꼬리를 좌우로 귀엽게 흔들어 방심을 유도한다. 상대의 방어를 떨어뜨린다.",
+    "descEn": "The user wags its tail cutely, making opposing Pokémon less wary. This lowers their Defense stats.",
+    "descJa": "しっぽを　左右に　かわいく　ふって 油断を　誘う。 相手の　防御を　さげる。"
   },
   {
     "name": "Petal Dance",
@@ -281,7 +338,10 @@
       "contact"
     ],
     "nameEn": "Petal Dance",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "2-3턴 동안 꽃을 흩뿌려서 상대를 공격한다. 흩뿌린 뒤에는 혼란에 빠진다.",
+    "descEn": "The user attacks the target by scattering petals for two to three turns. The user then becomes confused.",
+    "descJa": "２ー３ターンの　間　花を まきちらして　相手を　攻撃する。 まきちらした　あとは　混乱する。"
   },
   {
     "name": "Dream Eater",
@@ -296,7 +356,10 @@
       "custom:requires_def_sleep"
     ],
     "nameEn": "Dream Eater",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "잠자고 있는 상대의 꿈을 먹어 공격한다. 데미지의 절반을 HP로 회복한다.",
+    "descEn": "The user eats the dreams of a sleeping target. The user's HP is restored by up to half the damage taken by the target.",
+    "descJa": "寝ている　相手の　夢を　食べて 攻撃する。　ダメージの　半分の ＨＰを　回復する。"
   },
   {
     "name": "Night Shade",
@@ -311,7 +374,10 @@
       "custom:fixed_level"
     ],
     "nameEn": "Night Shade",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "무시무시한 환상을 보게 해서 자신의 레벨과 똑같은 만큼의 데미지를 상대에게 준다.",
+    "descEn": "The user makes the target see a frightening mirage. It inflicts damage equal to the user's level.",
+    "descJa": "恐ろしい　幻を　みせて 自分の　レベルと　同じだけの ダメージを　相手に　与える。"
   },
   {
     "name": "Thrash",
@@ -326,7 +392,10 @@
       "contact"
     ],
     "nameEn": "Thrash",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "2-3턴 동안 마구 난동 부려서 상대를 공격한다. 난동 부린 뒤에는 혼란에 빠진다.",
+    "descEn": "The user rampages and attacks for two to three turns. The user then becomes confused.",
+    "descJa": "２ー３ターンの　間 暴れまくって　相手を　攻撃する。 暴れたあとは　混乱する。"
   },
   {
     "name": "Wing Attack",
@@ -341,7 +410,10 @@
       "contact"
     ],
     "nameEn": "Wing Attack",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "크게 펼친 훌륭한 날개를 상대에게 부딪쳐서 공격한다.",
+    "descEn": "The target is struck with large, imposing wings spread wide to inflict damage.",
+    "descJa": "大きく　ひろげた　りっぱな　翼を 相手に　ぶつけて　攻撃する。"
   },
   {
     "name": "Whirlwind",
@@ -356,7 +428,10 @@
     "tags": [
       "wind"
     ],
-    "nameEn": "Whirlwind"
+    "nameEn": "Whirlwind",
+    "descKo": "상대를 날려버려서 교대할 포켓몬을 끌어낸다. 야생의 경우에는 배틀이 끝난다.",
+    "descEn": "The target is blown away, and a different Pokémon is dragged out. In the wild, this ends a battle against a single Pokémon.",
+    "descJa": "相手を　吹きとばして 控えの　ポケモンを　ひきずりだす。 野生の　場合は　戦闘が　終わる。"
   },
   {
     "name": "Ice Beam",
@@ -371,7 +446,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Ice Beam",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "냉동빔을 상대에게 발사하여 공격한다. 얼음 상태로 만들 때가 있다.",
+    "descEn": "The target is struck with an icy-cold beam of energy. This may also leave the target frozen.",
+    "descJa": "凍える　ビームを 相手に　発射して　攻撃する。 こおり状態に　することが　ある。"
   },
   {
     "name": "Ice Punch",
@@ -388,7 +466,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Ice Punch",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "냉기를 담은 펀치로 상대를 공격한다. 얼음 상태로 만들 때가 있다.",
+    "descEn": "The target is attacked with an icy punch. This may also leave the target frozen.",
+    "descJa": "冷気を　こめた　パンチで 相手を　攻撃する。 こおり状態に　することが　ある。"
   },
   {
     "name": "Sing",
@@ -402,7 +483,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Sing"
+    "nameEn": "Sing",
+    "descKo": "기분 좋은 예쁜 노랫소리를 들려주고 상대를 잠듦 상태로 만든다.",
+    "descEn": "A soothing lullaby is sung in a beautiful voice that puts the target to sleep.",
+    "descJa": "心地好い　きれいな 歌声を　聞かせて 相手を　眠り状態に　する。"
   },
   {
     "name": "Acid Armor",
@@ -414,7 +498,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Acid Armor"
+    "nameEn": "Acid Armor",
+    "descKo": "세포의 변화로 액체가 되어 자신의 방어를 크게 올린다.",
+    "descEn": "The user alters its cellular structure to liquefy itself, sharply boosting its Defense stat.",
+    "descJa": "細胞の　変化で　液状に　なり 自分の　防御を　ぐーんと　あげる。"
   },
   {
     "name": "Body Slam",
@@ -430,7 +517,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Body Slam",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "몸 전체로 상대를 덮쳐눌러 공격한다. 마비 상태로 만들 때가 있다.",
+    "descEn": "The user attacks by dropping onto the target with its full body weight. This may also leave the target with paralysis.",
+    "descJa": "全身で 相手に　のしかかり　攻撃する。 まひ状態に　することが　ある。"
   },
   {
     "name": "Blizzard",
@@ -447,7 +537,10 @@
       "custom:spread"
     ],
     "nameEn": "Blizzard",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "세찬 눈보라를 상대에게 내뿜어 공격한다. 얼음 상태로 만들 때가 있다.",
+    "descEn": "A howling blizzard is summoned to strike opposing Pokémon. This may also leave the opposing Pokémon frozen.",
+    "descJa": "激しい　吹雪を 相手に　吹きつけて　攻撃する。 こおり状態に　することが　ある。"
   },
   {
     "name": "Harden",
@@ -459,7 +552,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Harden"
+    "nameEn": "Harden",
+    "descKo": "전신에 힘을 담아 몸을 단단하게 해서 자신의 방어를 올린다.",
+    "descEn": "The user stiffens all the muscles in its body to boost its Defense stat.",
+    "descJa": "全身に　力を　こめて 体を　硬くして 自分の　防御を　あげる。"
   },
   {
     "name": "Substitute",
@@ -471,7 +567,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Substitute"
+    "nameEn": "Substitute",
+    "descKo": "자신의 HP를 조금 깎아서 분신을 만든다. 분신은 자신의 대타가 된다.",
+    "descEn": "The user creates a substitute for itself using some of its own HP. The substitute serves as the user's decoy.",
+    "descJa": "自分の　ＨＰを　少し　削って 分身を　だす。 分身は　自分の　身代わりに　なる。"
   },
   {
     "name": "Explosion",
@@ -487,7 +586,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Explosion",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "큰 폭발로 자신의 주위에 있는 포켓몬을 공격한다. 쓰고 나서는 기절한다.",
+    "descEn": "The user attacks everything around it by causing a tremendous explosion. The user faints upon using this move.",
+    "descJa": "大きな　爆発で　自分の 周りに　いるものを　攻撃する。 使ったあとに　ひんしに　なる。"
   },
   {
     "name": "Twineedle",
@@ -504,7 +606,10 @@
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Twineedle",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Vine Whip",
@@ -519,7 +624,10 @@
       "contact"
     ],
     "nameEn": "Vine Whip",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "채찍처럼 휘어지는 가늘고 긴 덩굴로 상대를 힘껏 쳐서 공격한다.",
+    "descEn": "The target is struck with slender, whiplike vines to inflict damage.",
+    "descJa": "ムチのように　しなる　細長い　つるで 相手を　たたきつけて　攻撃する。"
   },
   {
     "name": "Poison Powder",
@@ -533,7 +641,10 @@
     "tags": [
       "powder"
     ],
-    "nameEn": "Poison Powder"
+    "nameEn": "Poison Powder",
+    "descKo": "독이 있는 가루를 많이 흩뿌려서 상대를 독 상태로 만든다.",
+    "descEn": "The user scatters a cloud of poisonous dust that poisons the target.",
+    "descJa": "毒の　ある　粉を たくさん　ふりまいて 相手を　毒状態に　する。"
   },
   {
     "name": "Poison Gas",
@@ -545,7 +656,10 @@
     "accuracy": 90,
     "pp": 40,
     "tags": [],
-    "nameEn": "Poison Gas"
+    "nameEn": "Poison Gas",
+    "descKo": "독가스를 상대의 얼굴에 내뿜어 독 상태로 만든다.",
+    "descEn": "A cloud of poison gas is sprayed in the faces of opposing Pokémon, poisoning those it hits.",
+    "descJa": "毒ガスを　相手の　顔に　吹きかけて 毒の　状態に　する。"
   },
   {
     "name": "Poison Sting",
@@ -560,7 +674,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Poison Sting",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "독이 있는 침을 상대에게 꿰찔러서 공격한다. 독 상태로 만들 때가 있다.",
+    "descEn": "The user stabs the target with a poisonous stinger to inflict damage. This may also poison the target.",
+    "descJa": "毒の　ある　ハリを 相手に　突き刺して　攻撃する。 毒状態に　することが　ある。"
   },
   {
     "name": "Rock Throw",
@@ -573,7 +690,10 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Rock Throw",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "작은 바위를 들어올려 상대에게 내던져서 공격한다.",
+    "descEn": "The user picks up and throws a small rock at the target to inflict damage.",
+    "descJa": "小さな　岩を　持ちあげて 相手に　投げつけて　攻撃する。"
   },
   {
     "name": "Rolling Kick",
@@ -589,7 +709,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Rolling Kick",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Take Down",
@@ -605,7 +728,10 @@
       "recoil"
     ],
     "nameEn": "Take Down",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "굉장한 기세로 상대에게 부딪쳐 공격한다. 자신도 조금 데미지를 입는다.",
+    "descEn": "A reckless full-body charge attack for slamming into the target. This also damages the user a little.",
+    "descJa": "すごい　勢いで 相手に　ぶつかって　攻撃する。 自分も　少し　ダメージを　受ける。"
   },
   {
     "name": "Double Kick",
@@ -625,7 +751,10 @@
     "aliases": [
       "두번치기"
     ],
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "2개의 다리로 상대를 걷어차서 공격한다. 2회 연속으로 데미지를 준다.",
+    "descEn": "The user attacks by kicking the target twice in a row using two feet.",
+    "descJa": "２本の　足で　相手を　けとばして 攻撃する。　２回連続で ダメージを　与える。"
   },
   {
     "name": "Mirror Move",
@@ -637,7 +766,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Mirror Move"
+    "nameEn": "Mirror Move",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Fissure",
@@ -652,7 +784,10 @@
       "custom:ohko"
     ],
     "nameEn": "Fissure",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "땅이 갈라진 곳에 상대를 떨어뜨려 공격한다. 맞으면 일격에 기절한다.",
+    "descEn": "The user opens up a fissure in the ground and drops the target in. The target faints instantly if this attack hits.",
+    "descJa": "地割れの　裂け目に 相手を　落として　攻撃する。 当たれば　一撃で　ひんしに　する。"
   },
   {
     "name": "Skull Bash",
@@ -671,7 +806,10 @@
     "aliases": [
       "로케트박치기"
     ],
-    "zPower": 195
+    "zPower": 195,
+    "descKo": "1턴째에 머리를 움츠려 방어를 올린다. 2턴째에 상대를 공격한다.",
+    "descEn": "The user tucks in its head to raise its Defense stat on the first turn, then rams the target on the next turn.",
+    "descJa": "１ターン目に　頭を　ひっこめて 防御を　あげる。 ２ターン目に　相手を　攻撃する。"
   },
   {
     "name": "Reflect",
@@ -683,7 +821,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Reflect"
+    "nameEn": "Reflect",
+    "descKo": "5턴 동안 이상한 장막을 쳐서 상대로부터 받는 물리공격의 데미지를 약하게 한다.",
+    "descEn": "A wondrous wall of light is put up to reduce damage from physical moves for five turns.",
+    "descJa": "５ターンの　間　不思議な　かべで 相手から　受ける　物理攻撃の ダメージを　弱める。"
   },
   {
     "name": "Fury Attack",
@@ -700,7 +841,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Fury Attack",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "뿔이나 부리로 상대를 찔러서 공격한다. 2-5회 동안 연속으로 쓴다.",
+    "descEn": "The user attacks by jabbing the target with a horn, a beak, or the like. This move hits two to five times in a row.",
+    "descJa": "つのや　くちばしで 相手を　つついて　攻撃する。 ２ー５回の　間　連続で　だす。"
   },
   {
     "name": "Fury Swipes",
@@ -717,7 +861,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Fury Swipes",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "손톱이나 낫 등으로 상대를 할퀴어서 공격한다. 2-5회 동안 연속으로 쓴다.",
+    "descEn": "The user attacks by raking the target with claws, scythes, or the like. This move hits two to five times in a row.",
+    "descJa": "ツメや　カマなどで 相手を　ひっかいて　攻撃する。 ２ー５回の　間　連続で　だす。"
   },
   {
     "name": "Pound",
@@ -732,7 +879,10 @@
       "contact"
     ],
     "nameEn": "Pound",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "긴 꼬리나 손 등을 사용하여 상대를 때려서 공격한다.",
+    "descEn": "The target is physically pounded with a long tail, a foreleg, or the like.",
+    "descJa": "長い　しっぽや　手などを　使って 相手を　はたいて　攻撃する。"
   },
   {
     "name": "Amnesia",
@@ -744,7 +894,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Amnesia"
+    "nameEn": "Amnesia",
+    "descKo": "머리를 비워서 순간적으로 무언가를 잊어버림으로써 자신의 특수방어를 크게 올린다.",
+    "descEn": "The user temporarily empties its mind to forget its concerns. This sharply boosts the user's Sp. Def stat.",
+    "descJa": "頭を　からにして 一瞬　なにかを　忘れることで 自分の　特防を　ぐーんと　あげる。"
   },
   {
     "name": "Toxic",
@@ -756,7 +909,10 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [],
-    "nameEn": "Toxic"
+    "nameEn": "Toxic",
+    "descKo": "상대를 맹독의 상태로 만든다. 턴이 진행될수록 독의 데미지가 증가한다.",
+    "descEn": "A move that leaves the target badly poisoned. Its poison damage worsens every turn.",
+    "descJa": "相手を　猛毒の　状態に　する。 ターンが　すすむほど 毒の　ダメージが　増えていく。"
   },
   {
     "name": "Mega Drain",
@@ -769,7 +925,10 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Mega Drain",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "양분을 흡수하여 공격한다. 상대에게 입힌 데미지의 절반에 해당하는 HP를 회복할 수 있다.",
+    "descEn": "A nutrient-draining attack. The user's HP is restored by up to half the damage taken by the target.",
+    "descJa": "養分を　吸い取り　攻撃する。 相手に　与えた　ダメージの 半分の　ＨＰを　回復できる。"
   },
   {
     "name": "Mega Kick",
@@ -784,7 +943,10 @@
       "contact"
     ],
     "nameEn": "Mega Kick",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "굉장한 힘을 담은 킥으로 상대를 걷어차서 공격한다.",
+    "descEn": "The target is attacked by a kick launched with muscle-packed power.",
+    "descJa": "ものすごい　力を　こめた　キックで 相手を　けとばして　攻撃する。"
   },
   {
     "name": "Mega Punch",
@@ -800,7 +962,10 @@
       "punch"
     ],
     "nameEn": "Mega Punch",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "힘을 담은 펀치로 상대를 공격한다.",
+    "descEn": "The target is slugged by a punch thrown with muscle-packed power.",
+    "descJa": "力を　こめた　パンチで 相手を　攻撃する。"
   },
   {
     "name": "Sand Attack",
@@ -812,7 +977,10 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [],
-    "nameEn": "Sand Attack"
+    "nameEn": "Sand Attack",
+    "descKo": "상대의 얼굴에 모래를 뿌려서 명중률을 떨어뜨린다.",
+    "descEn": "Sand is hurled in the target's face, lowering the target's accuracy.",
+    "descJa": "相手の　顔に　砂を　かけて 命中率を　さげる。"
   },
   {
     "name": "Tackle",
@@ -827,7 +995,10 @@
       "contact"
     ],
     "nameEn": "Tackle",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "상대를 향해서 몸 전체를 부딪쳐가며 공격한다.",
+    "descEn": "A physical attack in which the user charges and slams into the target with its whole body.",
+    "descJa": "相手に　むかって　全身で ぶつかっていき　攻撃する。"
   },
   {
     "name": "High Jump Kick",
@@ -844,7 +1015,10 @@
       "custom:disabled_by_gravity"
     ],
     "nameEn": "High Jump Kick",
-    "zPower": 195
+    "zPower": 195,
+    "descKo": "점프해서 무릎차기로 상대를 공격한다. 빗나가면 자신이 데미지를 입는다.",
+    "descEn": "The target is attacked with a knee kick from a jump. If this move misses, the user takes damage instead.",
+    "descJa": "ジャンプからの　ひざげりで 相手を　攻撃する。 はずすと　自分が　ダメージを　受ける。"
   },
   {
     "name": "Bite",
@@ -861,7 +1035,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Bite",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "날카롭고 뾰족한 이빨로 물어서 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The target is bitten with viciously sharp fangs. This may also make the target flinch.",
+    "descJa": "鋭く　とがった　歯で かみついて　攻撃する。 相手を　ひるませることが　ある。"
   },
   {
     "name": "Water Gun",
@@ -874,7 +1051,10 @@
     "pp": 25,
     "tags": [],
     "nameEn": "Water Gun",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "물을 기세 좋게 상대에게 발사하여 공격한다.",
+    "descEn": "The target is blasted with a forceful shot of water.",
+    "descJa": "水を　勢いよく 相手に　発射して　攻撃する。"
   },
   {
     "name": "Pin Missile",
@@ -889,7 +1069,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Pin Missile",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "날카로운 침을 상대에게 발사해서 공격한다. 2-5회 동안 연속으로 쓴다.",
+    "descEn": "The user attacks by shooting sharp spikes at the target. This move hits two to five times in a row.",
+    "descJa": "鋭い　ハリを 相手に　発射して　攻撃する。 ２ー５回の　間　連続で　だす。"
   },
   {
     "name": "Gust",
@@ -904,7 +1087,10 @@
       "wind"
     ],
     "nameEn": "Gust",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "날개로 일으킨 격한 바람을 상대에게 부딪쳐서 공격한다.",
+    "descEn": "A gust of wind is whipped up by wings and launched at the target to inflict damage.",
+    "descJa": "翼で　おこした　激しい　風を 相手に　ぶつけて　攻撃する。"
   },
   {
     "name": "Headbutt",
@@ -920,7 +1106,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Headbutt",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "머리를 내밀어 곧장 돌진하여 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The user sticks out its head and attacks by charging straight into the target. This may also make the target flinch.",
+    "descJa": "頭を　突きだして まっすぐ　つっこんで　攻撃する。 相手を　ひるませることが　ある。"
   },
   {
     "name": "Struggle",
@@ -935,7 +1124,10 @@
       "contact"
     ],
     "nameEn": "Struggle",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "자신의 PP가 떨어지면 발버둥 쳐 상대를 공격한다. 자신도 조금 데미지를 입는다.",
+    "descEn": "This attack is used in desperation only if the user has no PP. It also damages the user a little.",
+    "descJa": "自分の　ＰＰが　なくなると あがいて　相手を　攻撃する。 自分も　少し　ダメージを　受ける。"
   },
   {
     "name": "Barrier",
@@ -947,7 +1139,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Barrier"
+    "nameEn": "Barrier",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Glare",
@@ -959,7 +1154,10 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [],
-    "nameEn": "Glare"
+    "nameEn": "Glare",
+    "descKo": "배의 무늬로 겁을 주어 상대를 마비 상태로 만든다.",
+    "descEn": "The user intimidates the target with the pattern on its belly to cause paralysis.",
+    "descJa": "おなかの　模様で　おびえさせて 相手を　まひの　状態に　する。"
   },
   {
     "name": "Spore",
@@ -973,7 +1171,10 @@
     "tags": [
       "powder"
     ],
-    "nameEn": "Spore"
+    "nameEn": "Spore",
+    "descKo": "최면 효과가 있는 포자를 훌훌 흩뿌려서 상대를 잠듦 상태로 만든다.",
+    "descEn": "The user scatters bursts of spores that induce sleep.",
+    "descJa": "催眠効果の　ある 胞子を　パラパラと　ふりまき 相手を　眠り状態に　する。"
   },
   {
     "name": "Thunder",
@@ -988,7 +1189,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Thunder",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "강한 번개를 상대에게 떨어뜨려 공격한다. 마비 상태로 만들 때가 있다.",
+    "descEn": "A wicked thunderbolt is dropped on the target to inflict damage. This may also leave the target with paralysis.",
+    "descJa": "激しい　雷を 相手に　落として　攻撃する。 まひ状態に　することが　ある。"
   },
   {
     "name": "Thunder Punch",
@@ -1005,7 +1209,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Thunder Punch",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "전격을 담은 펀치로 상대를 공격한다. 마비 상태로 만들 때가 있다.",
+    "descEn": "The target is attacked with an electrified punch. This may also leave the target with paralysis.",
+    "descJa": "電撃を　こめた　パンチで 相手を　攻撃する。 まひ状態に　することが　ある。"
   },
   {
     "name": "Slash",
@@ -1021,7 +1228,10 @@
       "slice"
     ],
     "nameEn": "Slash",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "발톱이나 낫 등으로 상대를 베어 갈라서 공격한다. 급소에 맞기 쉽다.",
+    "descEn": "The target is attacked with a slash of claws, scythes, or the like. This move has a heightened chance of landing a critical hit.",
+    "descJa": "ツメや　カマなどで 相手を　切り裂いて　攻撃する。 急所に　当たりやすい。"
   },
   {
     "name": "Transform",
@@ -1033,7 +1243,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Transform"
+    "nameEn": "Transform",
+    "descKo": "상대 포켓몬으로 변신하여 상대와 완전히 똑같은 기술을 사용할 수 있다.",
+    "descEn": "The user transforms into a copy of the target, right down to having the same move set.",
+    "descJa": "相手の　ポケモンに　変身することで 相手と　まったく 同じ　技が　使える。"
   },
   {
     "name": "Rage",
@@ -1048,7 +1261,10 @@
       "contact"
     ],
     "nameEn": "Rage",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Super Fang",
@@ -1064,7 +1280,10 @@
       "custom:fixed_half_hp"
     ],
     "nameEn": "Super Fang",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "날카로운 앞니로 강하게 물어서 공격한다. 상대의 HP는 절반이 된다.",
+    "descEn": "The user chomps hard on the target with its sharp front fangs. This cuts the target's HP in half.",
+    "descJa": "鋭い　前歯で 激しく　かみついて　攻撃する。 相手の　ＨＰは　半分に　なる。"
   },
   {
     "name": "Ember",
@@ -1079,7 +1298,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Ember",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "작은 불꽃을 상대에게 발사하여 공격한다. 화상 상태로 만들 때가 있다.",
+    "descEn": "The target is attacked with small flames. This may also leave the target with a burn.",
+    "descJa": "小さな　炎を 相手に　発射して　攻撃する。 やけど状態に　することが　ある。"
   },
   {
     "name": "Fire Punch",
@@ -1096,7 +1318,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Fire Punch",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "불꽃을 담은 펀치로 상대를 공격한다. 화상 상태로 만들 때가 있다.",
+    "descEn": "The target is attacked with a fiery punch. This may also leave the target with a burn.",
+    "descJa": "炎を　こめた　パンチで 相手を　攻撃する。 やけど状態に　することが　ある。"
   },
   {
     "name": "Fire Blast",
@@ -1111,7 +1336,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Fire Blast",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "큰 대자의 불꽃으로 상대를 불태운다. 화상 상태로 만들 때가 있다.",
+    "descEn": "The target is attacked with an intense blast of all-consuming fire. This may also leave the target with a burn.",
+    "descJa": "大の字の　炎で 相手を　焼きつくす。 やけど状態に　することが　ある。"
   },
   {
     "name": "Sky Attack",
@@ -1126,7 +1354,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Sky Attack",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "2턴째에 상대를 공격한다. 가끔 풀죽게 만든다. 급소에도 맞기 쉽다.",
+    "descEn": "The user attacks the turn after using this move. This move has a heightened chance of landing a critical hit and may also make the target flinch.",
+    "descJa": "２ターン目に　相手を　攻撃する。 たまに　ひるませる。 急所にも　当たりやすい。"
   },
   {
     "name": "Light Screen",
@@ -1138,7 +1369,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Light Screen"
+    "nameEn": "Light Screen",
+    "descKo": "5턴 동안 이상한 장막을 쳐서 상대로부터 받는 특수공격의 데미지를 약하게 한다.",
+    "descEn": "A wondrous wall of light is put up to reduce damage from special moves for five turns.",
+    "descJa": "５ターンの　間　不思議な　かべで 相手から　受ける　特殊攻撃の ダメージを　弱める。"
   },
   {
     "name": "Bonemerang",
@@ -1153,7 +1387,10 @@
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Bonemerang",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "손에 들고 있는 뼈를 상대에게 날려서 날아갈 때와 돌아올 때 2회 연속 데미지를 준다.",
+    "descEn": "The user throws the bone it holds. The bone loops around to hit the target twice—coming and going.",
+    "descJa": "手に　持った　ホネを　相手に　投げつけ 行きと　帰りの　２回連続で ダメージを　与える。"
   },
   {
     "name": "Bone Club",
@@ -1168,7 +1405,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Bone Club",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Horn Drill",
@@ -1184,7 +1424,10 @@
       "custom:ohko"
     ],
     "nameEn": "Horn Drill",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "회전하는 뿔을 상대에게 꿰찔러서 공격한다. 맞으면 일격에 기절한다.",
+    "descEn": "The user stabs the target with a horn that rotates like a drill. The target faints instantly if this attack hits.",
+    "descJa": "回転する　つのを 相手に　突き刺して　攻撃する。 当たれば　一撃で　ひんしに　する。"
   },
   {
     "name": "Horn Attack",
@@ -1199,7 +1442,10 @@
       "contact"
     ],
     "nameEn": "Horn Attack",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "날카롭고 뾰족한 뿔로 상대를 공격한다.",
+    "descEn": "The target is jabbed with a sharply pointed horn to inflict damage.",
+    "descJa": "鋭く　とがった　つので 相手を　攻撃する。"
   },
   {
     "name": "Disable",
@@ -1211,7 +1457,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Disable"
+    "nameEn": "Disable",
+    "descKo": "상대의 움직임을 막아 바로 전에 쓴 기술을 4턴 동안 사용할 수 없게 만든다.",
+    "descEn": "For four turns, the target will be unable to use whichever move it last used.",
+    "descJa": "相手の　動きを　とめて 直前に　だしていた　技を ４ターンの　間　使えなくする。"
   },
   {
     "name": "Psywave",
@@ -1224,7 +1473,10 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Psywave",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Psychic",
@@ -1239,7 +1491,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Psychic",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "강한 염동력을 상대에게 보내어 공격한다. 상대의 특수방어를 떨어뜨릴 때가 있다.",
+    "descEn": "The target is hit with a strong telekinetic force to inflict damage. This may also lower the target’s Sp. Def stat.",
+    "descJa": "強い　念力を　相手に　送って 攻撃する。　相手の　特防を さげることが　ある。"
   },
   {
     "name": "Growth",
@@ -1251,7 +1506,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Growth"
+    "nameEn": "Growth",
+    "descKo": "몸을 일시에 크게 성장시켜 공격과 특수공격을 올린다.",
+    "descEn": "The user's body grows all at once, boosting the Attack and Sp. Atk stats.",
+    "descJa": "体を　一気に 大きく　生長させて 攻撃と　特攻を　あげる。"
   },
   {
     "name": "Sonic Boom",
@@ -1266,7 +1524,10 @@
       "custom:fixed_20"
     ],
     "nameEn": "Sonic Boom",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Metronome",
@@ -1278,7 +1539,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Metronome"
+    "nameEn": "Metronome",
+    "descKo": "손가락을 흔들어 자신의 뇌를 자극해서 모든 기술 중 어느 하나를 날린다.",
+    "descEn": "The user waggles a finger and stimulates its brain into randomly using nearly any move.",
+    "descJa": "指をふり　自分の　脳を　刺激して すべての　技の　なかから どれか　１つを　くりだす。"
   },
   {
     "name": "Solar Beam",
@@ -1293,7 +1557,10 @@
       "custom:solar_halve"
     ],
     "nameEn": "Solar Beam",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "1턴째에 빛을 가득 모아 2턴째에 빛의 다발을 발사하여 공격한다.",
+    "descEn": "The user gathers light on the first turn, then blasts a bundled beam on the next turn.",
+    "descJa": "１ターン目に　光を　いっぱいに　集め ２ターン目に　光の　束を 発射して　攻撃する。"
   },
   {
     "name": "Sleep Powder",
@@ -1307,7 +1574,10 @@
     "tags": [
       "powder"
     ],
-    "nameEn": "Sleep Powder"
+    "nameEn": "Sleep Powder",
+    "descKo": "잠이 오는 가루를 많이 흩뿌려서 상대를 잠듦 상태로 만든다.",
+    "descEn": "The user scatters a cloud of soporific dust that puts the target to sleep.",
+    "descJa": "眠くなる　粉を たくさん　ふりまいて 相手を　眠り状態に　する。"
   },
   {
     "name": "Teleport",
@@ -1320,7 +1590,10 @@
     "pp": 20,
     "priority": -6,
     "tags": [],
-    "nameEn": "Teleport"
+    "nameEn": "Teleport",
+    "descKo": "교대할 포켓몬이 있을 때 사용하면 교체한다. 야생 포켓몬은 도망가 버린다.",
+    "descEn": "The user switches places with a party Pokémon in waiting, if any. If a wild Pokémon uses this move, it flees.",
+    "descJa": "ひかえの　ポケモンが　いるときに 使うと　入れ替わる。 野生の　ポケモンは　逃げてしまう。"
   },
   {
     "name": "Kinesis",
@@ -1332,7 +1605,10 @@
     "accuracy": 80,
     "pp": 15,
     "tags": [],
-    "nameEn": "Kinesis"
+    "nameEn": "Kinesis",
+    "descKo": "숟가락을 휘어서 주의를 끌어 상대의 명중률을 낮춘다.",
+    "descEn": "The user distracts the target by bending a spoon. This lowers the target’s accuracy.",
+    "descJa": "スプーンを　まげて　注意を　ひき 相手の　命中率を　さげる。"
   },
   {
     "name": "Smog",
@@ -1347,7 +1623,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Smog",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "더러운 가스를 상대에게 내뿜어 공격한다. 독 상태로 만들 때가 있다.",
+    "descEn": "The target is attacked with a discharge of filthy gases. This may also poison the target.",
+    "descJa": "汚れた　ガスを 相手に　吹きつけて　攻撃する。 毒状態に　することが　ある。"
   },
   {
     "name": "Rock Slide",
@@ -1363,7 +1642,10 @@
       "custom:spread"
     ],
     "nameEn": "Rock Slide",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "큰 바위를 세차게 부딪쳐서 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "Large boulders are hurled at opposing Pokémon to inflict damage. This may also make the opposing Pokémon flinch.",
+    "descJa": "大きな　岩を 激しく　ぶつけて　攻撃する。 相手を　ひるませることが　ある。"
   },
   {
     "name": "Swift",
@@ -1378,7 +1660,10 @@
       "custom:spread"
     ],
     "nameEn": "Swift",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "별 모양의 빛을 발사해서 상대를 공격한다. 공격은 반드시 명중한다.",
+    "descEn": "Star-shaped rays are shot at opposing Pokémon. This attack never misses.",
+    "descJa": "星型の　光を　発射して 相手を　攻撃する。 攻撃は　必ず　命中する。"
   },
   {
     "name": "String Shot",
@@ -1390,7 +1675,10 @@
     "accuracy": 95,
     "pp": 40,
     "tags": [],
-    "nameEn": "String Shot"
+    "nameEn": "String Shot",
+    "descKo": "입에서 뿜어낸 실을 휘감아서 상대의 스피드를 크게 떨어뜨린다.",
+    "descEn": "The user blows silk from its mouth that binds opposing Pokémon and harshly lowers their Speed stats.",
+    "descJa": "口から　吹きだした 糸を　まきつけて　相手の 素早さを　がくっと　さげる。"
   },
   {
     "name": "Screech",
@@ -1404,7 +1692,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Screech"
+    "nameEn": "Screech",
+    "descKo": "그만 귀를 막아버리고 싶은 싫은 소리를 내어 상대의 방어를 크게 떨어뜨린다.",
+    "descEn": "An earsplitting screech harshly lowers the target's Defense stat.",
+    "descJa": "おもわず　耳を　ふさぎたくなる いやなおとを　だして 相手の　防御を　がくっと　さげる。"
   },
   {
     "name": "Leech Seed",
@@ -1416,7 +1707,10 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [],
-    "nameEn": "Leech Seed"
+    "nameEn": "Leech Seed",
+    "descKo": "씨가 뿌려진 상대의 HP를 매 턴 조금씩 흡수하여 자신의 HP를 회복한다.",
+    "descEn": "A seed is planted on the target. It steals some HP from the target every turn.",
+    "descJa": "植えつけた　相手の　ＨＰを 毎ターン　少しだけ　吸い取り 自分の　ＨＰを　回復する。"
   },
   {
     "name": "Lovely Kiss",
@@ -1428,7 +1722,10 @@
     "accuracy": 75,
     "pp": 10,
     "tags": [],
-    "nameEn": "Lovely Kiss"
+    "nameEn": "Lovely Kiss",
+    "descKo": "무서운 얼굴로 키스한다. 상대를 잠듦 상태로 만든다.",
+    "descEn": "With a scary face, the user tries to force a kiss on the target. If it succeeds, the target falls asleep.",
+    "descJa": "恐ろしい　顔で　キスを　せまる。 相手を　眠り状態に　する。"
   },
   {
     "name": "Low Kick",
@@ -1445,7 +1742,10 @@
       "custom:weight_target"
     ],
     "nameEn": "Low Kick",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "발을 강하게 걸고 상대를 넘어뜨려 공격한다. 상대가 무거울수록 위력이 올라간다.",
+    "descEn": "A powerful low kick that makes the target fall over. The heavier the target, the greater the move's power.",
+    "descJa": "足を　強く　けり 相手を　転ばせて　攻撃する。 相手が　重いほど　威力が　あがる。"
   },
   {
     "name": "Soft-Boiled",
@@ -1457,7 +1757,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Soft-Boiled"
+    "nameEn": "Soft-Boiled",
+    "descKo": "자신의 최대 HP 절반을 회복한다.",
+    "descEn": "The user restores its own HP by up to half its max HP.",
+    "descJa": "最大ＨＰの　半分 自分の　ＨＰを　回復する。"
   },
   {
     "name": "Egg Bomb",
@@ -1472,7 +1775,10 @@
       "ball"
     ],
     "nameEn": "Egg Bomb",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Smokescreen",
@@ -1484,7 +1790,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Smokescreen"
+    "nameEn": "Smokescreen",
+    "descKo": "연기나 먹물을 내뿜어 상대의 명중률을 떨어뜨린다.",
+    "descEn": "The user releases an obscuring cloud of smoke or ink. This lowers the target's accuracy.",
+    "descJa": "煙や　墨などを　吹きかけて 相手の　命中率を　さげる。"
   },
   {
     "name": "Double Slap",
@@ -1501,7 +1810,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Double Slap",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Comet Punch",
@@ -1519,7 +1831,10 @@
     "minHits": 2,
     "maxHits": 5,
     "nameEn": "Comet Punch",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Confusion",
@@ -1534,7 +1849,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Confusion",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "약한 염동력을 상대에게 보내어 공격한다. 상대를 혼란시킬 때가 있다.",
+    "descEn": "The target is hit with a weak telekinetic force to inflict damage. This may also confuse the target.",
+    "descJa": "弱い　念力を 相手に　送って　攻撃する。 相手を　混乱させることが　ある。"
   },
   {
     "name": "Aurora Beam",
@@ -1549,7 +1867,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Aurora Beam",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "무지개색의 빔을 상대에게 발사하여 공격한다. 공격을 떨어뜨릴 때가 있다.",
+    "descEn": "The target is hit with a rainbow-colored beam. This may also lower the target's Attack stat.",
+    "descJa": "にじいろの　ビームを 相手に　発射して　攻撃する。 攻撃を　さげる　ことが　ある。"
   },
   {
     "name": "Sludge",
@@ -1564,7 +1885,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Sludge",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "더러운 오물을 상대에게 내던져서 공격한다. 독 상태로 만들 때가 있다.",
+    "descEn": "The user hurls unsanitary sludge at the target to inflict damage. This may also poison the target.",
+    "descJa": "汚い　ヘドロを 相手に　投げつけて　攻撃する。 毒状態に　することが　ある。"
   },
   {
     "name": "Meditate",
@@ -1576,7 +1900,10 @@
     "accuracy": 0,
     "pp": 40,
     "tags": [],
-    "nameEn": "Meditate"
+    "nameEn": "Meditate",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Dragon Rage",
@@ -1591,7 +1918,10 @@
       "custom:fixed_40"
     ],
     "nameEn": "Dragon Rage",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Acid",
@@ -1607,7 +1937,10 @@
       "custom:spread"
     ],
     "nameEn": "Acid",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "강한 산을 상대에게 끼얹어 공격한다. 상대의 특수방어를 떨어뜨릴 때가 있다.",
+    "descEn": "Opposing Pokémon are attacked with a spray of harsh acid. This may also lower their Sp. Def stats.",
+    "descJa": "強い　酸を　相手に　かけて 攻撃する。　相手の　特防を さげることが　ある。"
   },
   {
     "name": "Roar",
@@ -1622,7 +1955,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Roar"
+    "nameEn": "Roar",
+    "descKo": "상대를 도망가게 해서 교대할 포켓몬을 끌어낸다. 야생의 경우에는 배틀이 끝난다.",
+    "descEn": "The target is scared off, and a different Pokémon is dragged out. In the wild, this ends a battle against a single Pokémon.",
+    "descJa": "相手を　逃がして 控えの　ポケモンを　ひきずりだす。 野生の　場合は　戦闘が　終わる。"
   },
   {
     "name": "Growl",
@@ -1636,7 +1972,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Growl"
+    "nameEn": "Growl",
+    "descKo": "귀여운 울음소리를 들려주고 관심을 끌어 방심한 사이에 상대의 공격을 떨어뜨린다.",
+    "descEn": "The user growls in an endearing way, making opposing Pokémon less wary. This lowers their Attack stats.",
+    "descJa": "かわいい　なきごえを　聞かせて 気を　ひき　油断を　させて 相手の　攻撃を　さげる。"
   },
   {
     "name": "Defense Curl",
@@ -1648,7 +1987,10 @@
     "accuracy": 0,
     "pp": 40,
     "tags": [],
-    "nameEn": "Defense Curl"
+    "nameEn": "Defense Curl",
+    "descKo": "몸을 둥글게 웅크려서 자신의 방어를 올린다.",
+    "descEn": "The user curls up and boosts its Defense stat.",
+    "descJa": "体を　まるめて　ちぢこまり 自分の　防御を　あげる。"
   },
   {
     "name": "Confuse Ray",
@@ -1660,7 +2002,10 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Confuse Ray"
+    "nameEn": "Confuse Ray",
+    "descKo": "이상한 빛을 상대에게 비춰 당황하게 한다. 상대를 혼란시킨다.",
+    "descEn": "The target is exposed to a sinister ray that causes confusion.",
+    "descJa": "怪しい　光を 相手に　みせて　まどわせる。 相手を　混乱させる。"
   },
   {
     "name": "Double-Edge",
@@ -1676,7 +2021,10 @@
       "recoil"
     ],
     "nameEn": "Double-Edge",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "목숨을 걸고 상대에게 돌진하여 공격을 한다. 자신도 상당한 데미지를 입는다.",
+    "descEn": "A reckless life-risking tackle in which the user rushes the target. This also damages the user quite a lot.",
+    "descJa": "命を　懸けて 相手に　突進して　攻撃する。 自分も　かなり　ダメージを　受ける。"
   },
   {
     "name": "Razor Leaf",
@@ -1692,7 +2040,10 @@
       "custom:spread"
     ],
     "nameEn": "Razor Leaf",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "잎사귀를 날려 상대를 베어 공격한다. 급소에 맞기 쉽다.",
+    "descEn": "Sharp-edged leaves are launched to slash at opposing Pokémon. This move has a heightened chance of landing a critical hit.",
+    "descJa": "はっぱを　とばして 相手を　切りつけて　攻撃する。 急所に　当たりやすい。"
   },
   {
     "name": "Self-Destruct",
@@ -1708,7 +2059,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Self-Destruct",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "폭발을 일으켜서 자신의 주위에 있는 포켓몬을 공격한다. 쓰고 나서 기절하게 된다.",
+    "descEn": "The user attacks everything around it by causing an explosion. The user faints upon using this move.",
+    "descJa": "爆発を　おこして　自分の 周りに　いるものを　攻撃する。 使ったあとに　ひんしに　なる。"
   },
   {
     "name": "Minimize",
@@ -1720,7 +2074,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Minimize"
+    "nameEn": "Minimize",
+    "descKo": "몸을 축소하여 작게 보임으로써 자신의 회피율을 크게 올린다.",
+    "descEn": "The user compresses its body to make itself look smaller, which sharply boosts its evasiveness.",
+    "descJa": "体を　ちぢめて　小さく　みせて 自分の　回避率を ぐーんと　あげる。"
   },
   {
     "name": "Rest",
@@ -1732,7 +2089,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Rest"
+    "nameEn": "Rest",
+    "descKo": "2턴 동안 계속 잠잔다. 자신의 HP와 상태 이상을 모두 회복한다.",
+    "descEn": "The user goes to sleep for two turns. This fully restores the user's HP and cures any status conditions.",
+    "descJa": "２ターンの　間　眠り続ける。 自分の　ＨＰと　状態異常を すべて　回復する。"
   },
   {
     "name": "Dizzy Punch",
@@ -1749,7 +2109,10 @@
       "punch"
     ],
     "nameEn": "Dizzy Punch",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Stun Spore",
@@ -1763,7 +2126,10 @@
     "tags": [
       "powder"
     ],
-    "nameEn": "Stun Spore"
+    "nameEn": "Stun Spore",
+    "descKo": "저리가루를 많이 흩뿌려서 상대를 마비 상태로 만든다.",
+    "descEn": "The user scatters a cloud of numbing powder that paralyzes the target.",
+    "descJa": "しびれる　粉を たくさん　ふりまいて 相手を　まひ状態に　する。"
   },
   {
     "name": "Quick Attack",
@@ -1779,7 +2145,10 @@
       "contact"
     ],
     "nameEn": "Quick Attack",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "눈에 보이지 않는 굉장한 속도로 상대에게 돌진한다. 반드시 선제공격할 수 있다.",
+    "descEn": "The user lunges at the target to inflict damage, moving at blinding speed. This move always goes first.",
+    "descJa": "目にも　留まらぬ　ものすごい　速さで 相手に　つっこむ。 必ず　先制攻撃　できる。"
   },
   {
     "name": "Thunder Shock",
@@ -1794,7 +2163,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Thunder Shock",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "전기 자극을 상대에게 날려서 공격한다. 마비 상태로 만들 때가 있다.",
+    "descEn": "The user attacks the target with a jolt of electricity. This may also leave the target with paralysis.",
+    "descJa": "電気の　刺激を 相手に　浴びせて　攻撃する。 まひ状態に　することが　ある。"
   },
   {
     "name": "Thunder Wave",
@@ -1806,7 +2178,10 @@
     "accuracy": 90,
     "pp": 20,
     "tags": [],
-    "nameEn": "Thunder Wave"
+    "nameEn": "Thunder Wave",
+    "descKo": "약한 전격을 날려서 상대를 마비 상태로 만든다.",
+    "descEn": "The user launches a weak jolt of electricity that paralyzes the target.",
+    "descJa": "弱い　電撃を　浴びせることで 相手を　まひ状態に　する。"
   },
   {
     "name": "Jump Kick",
@@ -1823,7 +2198,10 @@
       "custom:disabled_by_gravity"
     ],
     "nameEn": "Jump Kick",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Bind",
@@ -1839,7 +2217,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Bind",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "긴 몸이나 덩굴 등을 써서 4-5턴 동안 상대를 조여 공격한다.",
+    "descEn": "A long body, tentacles, or the like are used to bind and squeeze the target for four to five turns.",
+    "descJa": "長い　体や　つるなどを　使い ４ー５ターンの　間 相手を　締めつけて　攻撃する。"
   },
   {
     "name": "Seismic Toss",
@@ -1855,7 +2236,10 @@
       "custom:fixed_level"
     ],
     "nameEn": "Seismic Toss",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "인력을 사용해 내던진다. 자신의 레벨과 똑같은 데미지를 상대에게 준다.",
+    "descEn": "The target is thrown using the power of gravity. It inflicts damage equal to the user's level.",
+    "descJa": "引力を　使い　投げとばす。 自分の　レベルと　同じ　ダメージを 相手に　与える。"
   },
   {
     "name": "Submission",
@@ -1871,7 +2255,10 @@
       "recoil"
     ],
     "nameEn": "Submission",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "땅에 자신과 함께 상대를 내던져 공격한다. 자신도 조금 데미지를 입는다.",
+    "descEn": "The user grabs the target and recklessly dives for the ground. This also damages the user a little.",
+    "descJa": "地面に　自分ごと 相手を　投げつけて　攻撃する。 自分も　少し　ダメージを　受ける。"
   },
   {
     "name": "Earthquake",
@@ -1888,7 +2275,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Earthquake",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "지진의 충격으로 자신의 주위에 있는 포켓몬을 공격한다.",
+    "descEn": "The user sets off an earthquake that strikes every Pokémon around it.",
+    "descJa": "地震の　衝撃で　自分の 周りに　いるものを　攻撃する。"
   },
   {
     "name": "Stomp",
@@ -1904,7 +2294,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Stomp",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "큰 발로 상대를 짓밟아서 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The user attacks by stomping on the target with a big foot. This may also make the target flinch.",
+    "descJa": "大きな　足で 相手を　踏みつけて　攻撃する。 相手を　ひるませることが　ある。"
   },
   {
     "name": "Leer",
@@ -1916,7 +2309,10 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [],
-    "nameEn": "Leer"
+    "nameEn": "Leer",
+    "descKo": "날카로운 눈초리로 겁을 주어 상대의 방어를 떨어뜨린다.",
+    "descEn": "The user gives opposing Pokémon an intimidating leer that lowers their Defense stats.",
+    "descJa": "鋭い　目つきで　おびえさせて 相手の　防御を　さげる。"
   },
   {
     "name": "Peck",
@@ -1931,7 +2327,10 @@
       "contact"
     ],
     "nameEn": "Peck",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "날카롭고 뾰족한 부리나 뿔로 상대를 쪼아서 공격한다.",
+    "descEn": "The target is jabbed with a sharply pointed beak or horn to inflict damage.",
+    "descJa": "鋭く　とがった　くちばしや　つので 相手を　突いて　攻撃する。"
   },
   {
     "name": "Crabhammer",
@@ -1949,7 +2348,10 @@
     "aliases": [
       "찝게햄머"
     ],
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "큰 집게를 상대에게 내리쳐서 공격한다. 급소에 맞기 쉽다.",
+    "descEn": "The target is hammered with a large pincer. This move has a heightened chance of landing a critical hit.",
+    "descJa": "大きな　ハサミを 相手に　たたきつけて　攻撃する。 急所に　当たりやすい。"
   },
   {
     "name": "Vise Grip",
@@ -1980,7 +2382,10 @@
       "contact"
     ],
     "nameEn": "Bide",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Supersonic",
@@ -1994,7 +2399,10 @@
     "tags": [
       "sound"
     ],
-    "nameEn": "Supersonic"
+    "nameEn": "Supersonic",
+    "descKo": "특수한 음파를 몸에서 발산하여 상대를 혼란시킨다.",
+    "descEn": "The user generates odd sound waves from its body that confuse the target.",
+    "descJa": "特殊な　音波を 体から　発して 相手を　混乱させる。"
   },
   {
     "name": "Hypnosis",
@@ -2006,7 +2414,10 @@
     "accuracy": 60,
     "pp": 20,
     "tags": [],
-    "nameEn": "Hypnosis"
+    "nameEn": "Hypnosis",
+    "descKo": "졸음을 유도하는 암시를 걸어서 상대를 잠듦 상태로 만든다.",
+    "descEn": "The user employs hypnotic suggestion to make the target fall asleep.",
+    "descJa": "眠気を　誘う　暗示を　かけて 相手を　眠り状態に　する。"
   },
   {
     "name": "Counter",
@@ -2022,7 +2433,10 @@
       "contact"
     ],
     "nameEn": "Counter",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "상대로부터 받은 물리공격의 데미지를 2배로 만들어 같은 상대에게 돌려준다.",
+    "descEn": "A retaliatory attack that counters any physical move, inflicting double the damage taken.",
+    "descJa": "相手から　受けた　物理攻撃の ダメージを　２倍に　して 同じ　相手に　返す。"
   },
   {
     "name": "Razor Wind",
@@ -2037,7 +2451,10 @@
       "custom:spread"
     ],
     "nameEn": "Razor Wind",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Swords Dance",
@@ -2049,7 +2466,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Swords Dance"
+    "nameEn": "Swords Dance",
+    "descKo": "싸움의 춤을 격렬하게 춰서 기세를 높인다. 자신의 공격을 크게 올린다.",
+    "descEn": "A frenetic dance to uplift the fighting spirit. This sharply boosts the user's Attack stat.",
+    "descJa": "戦いの舞を　激しく　おどって 気合を　高める。 自分の　攻撃を　ぐーんと　あげる。"
   },
   {
     "name": "Karate Chop",
@@ -2064,7 +2484,10 @@
       "contact"
     ],
     "nameEn": "Karate Chop",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Conversion",
@@ -2076,7 +2499,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Conversion"
+    "nameEn": "Conversion",
+    "descKo": "자신의 타입을 배운 기술 중 가장 위에 있는 기술과 같은 타입으로 바꾼다.",
+    "descEn": "The user changes its type to become the same type as the move at the top of the list of moves it knows.",
+    "descJa": "自分の　タイプを おぼえている　技で　一番　上の 技と　同じ　タイプに　する。"
   },
   {
     "name": "Splash",
@@ -2090,7 +2516,10 @@
     "tags": [
       "custom:disabled_by_gravity"
     ],
-    "nameEn": "Splash"
+    "nameEn": "Splash",
+    "descKo": "공격도 하지 않고 팔딱팔딱 튈 뿐 아무 일도 일어나지 않는다...",
+    "descEn": "The user just flops and splashes around to no effect at all...",
+    "descJa": "攻撃もせずに　ピョン　ピョンと 跳ねるだけで　なにも　おこらない……。"
   },
   {
     "name": "Tri Attack",
@@ -2105,7 +2534,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Tri Attack",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "3개의 광선으로 공격한다. 마비, 화상 또는 얼음 상태 중 어느 하나로 만들 때가 있다.",
+    "descEn": "The user strikes with a simultaneous three-beam attack. This may also burn, freeze, or paralyze the target.",
+    "descJa": "３つの　光線で　攻撃する。 まひか　やけどか　こおり状態の どれかに　することが　ある。"
   },
   {
     "name": "Hyper Beam",
@@ -2118,7 +2550,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Hyper Beam",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "강한 광선을 상대에게 발사하여 공격한다. 다음 턴은 움직일 수 없다.",
+    "descEn": "The target is attacked with a powerful beam. The user can't move on the next turn.",
+    "descJa": "強い　光線を 相手に　発射して　攻撃する。 次の　ターンは　動けなくなる。"
   },
   {
     "name": "Surf",
@@ -2134,7 +2569,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Surf",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "큰 파도로 자신의 주위에 있는 포켓몬을 공격한다.",
+    "descEn": "The user attacks everything around it by swamping its surroundings with a giant wave.",
+    "descJa": "大きな　波で　自分の 周りに　いるものを　攻撃する。"
   },
   {
     "name": "Waterfall",
@@ -2150,7 +2588,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Waterfall",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "굉장한 기세로 상대에게 돌진한다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The user charges at the target and may make it flinch.",
+    "descJa": "すごい　勢いで　相手に　つっこむ。 相手を　ひるませることが　ある。"
   },
   {
     "name": "Cut",
@@ -2166,7 +2607,10 @@
       "slice"
     ],
     "nameEn": "Cut",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "낫이나 발톱 등으로 상대를 베어 공격한다.",
+    "descEn": "The target is cut with a scythe or claw.",
+    "descJa": "カマや　ツメなどで 相手を　切りつけて　攻撃する。"
   },
   {
     "name": "Flash",
@@ -2178,7 +2622,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Flash"
+    "nameEn": "Flash",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Hyper Fang",
@@ -2195,7 +2642,10 @@
       "bite"
     ],
     "nameEn": "Hyper Fang",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "날카로운 앞니로 강하게 물어서 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The user bites hard on the target with its sharp front fangs. This may also make the target flinch.",
+    "descJa": "鋭い　前歯で 強く　かみついて　攻撃する。 相手を　ひるませることが　ある。"
   },
   {
     "name": "Hydro Pump",
@@ -2208,7 +2658,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Hydro Pump",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "대량의 물을 세찬 기세로 상대에게 발사하여 공격한다.",
+    "descEn": "The target is blasted by a huge volume of water launched under great pressure.",
+    "descJa": "大量の　水を 激しい　勢いで 相手に　発射して　攻撃する。"
   },
   {
     "name": "Scratch",
@@ -2223,7 +2676,10 @@
       "contact"
     ],
     "nameEn": "Scratch",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "단단하고 뾰족한 날카로운 손톱으로 상대를 할퀴어서 공격한다.",
+    "descEn": "Hard, pointed, sharp claws rake the target to inflict damage.",
+    "descJa": "硬く　とがった　鋭い　ツメで 相手を　ひっかいて　攻撃する。"
   },
   {
     "name": "Lick",
@@ -2239,7 +2695,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Lick",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "긴 혀로 상대를 핥아서 공격한다. 마비 상태로 만들 때가 있다.",
+    "descEn": "The user licks the target with a long tongue to inflict damage. This may also leave the target with paralysis.",
+    "descJa": "長い　舌で 相手を　なめまわして　攻撃する。 まひ状態に　することが　ある。"
   },
   {
     "name": "Flamethrower",
@@ -2254,7 +2713,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Flamethrower",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "세찬 불꽃을 상대에게 발사하여 공격한다. 화상 상태로 만들 때가 있다.",
+    "descEn": "The target is scorched with an intense blast of fire. This may also leave the target with a burn.",
+    "descJa": "激しい　炎を 相手に　発射して　攻撃する。 やけど状態に　することが　ある。"
   },
   {
     "name": "Psybeam",
@@ -2269,7 +2731,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Psybeam",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "이상한 광선을 상대에게 발사하여 공격한다. 혼란시킬 때가 있다.",
+    "descEn": "The target is attacked with a peculiar ray. This may also confuse the target.",
+    "descJa": "不思議な　光線を 相手に　発射して　攻撃する。 混乱させることが　ある。"
   },
   {
     "name": "Fire Spin",
@@ -2284,7 +2749,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Fire Spin",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "세차게 소용돌이치는 불꽃 속에 4-5턴 동안 상대를 가두어 공격한다.",
+    "descEn": "The user traps the target inside a fierce vortex of fire that inflicts damage for four to five turns.",
+    "descJa": "激しく　渦をまく　炎の中に ４ー５ターンの　間 相手を　閉じこめて　攻撃する。"
   },
   {
     "name": "Drill Peck",
@@ -2299,7 +2767,10 @@
       "contact"
     ],
     "nameEn": "Drill Peck",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "회전하면서 뾰족한 부리를 상대에게 꿰찔러 공격한다.",
+    "descEn": "A corkscrewing attack that strikes the target with a sharp beak acting as a drill.",
+    "descJa": "回転しながら　とがった　くちばしを 相手に　突き刺して　攻撃する。"
   },
   {
     "name": "Constrict",
@@ -2315,7 +2786,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Constrict",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Mimic",
@@ -2327,7 +2801,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Mimic"
+    "nameEn": "Mimic",
+    "descKo": "상대가 마지막에 사용한 기술을 배틀을 하는 동안 자신의 기술로 만들 수 있다.",
+    "descEn": "The user copies the move last used by the target. The copied move can be used until the user of Mimic leaves the battle.",
+    "descJa": "相手が　最後に　使った　技を 戦闘の　あいだ 自分の　技に　することが　できる。"
   },
   {
     "name": "Haze",
@@ -2339,7 +2816,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Haze"
+    "nameEn": "Haze",
+    "descKo": "흑안개를 뿜어 배틀에 참가 중인 포켓몬 전원의 능력 변화를 원래대로 돌린다.",
+    "descEn": "The user creates a haze that eliminates every stat change among all the Pokémon engaged in battle.",
+    "descJa": "黒い霧を　だして　戦闘に でている　ポケモン　全員の 能力変化を　もとに　もどす。"
   },
   {
     "name": "Absorb",
@@ -2352,7 +2832,10 @@
     "pp": 25,
     "tags": [],
     "nameEn": "Absorb",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "양분을 흡수하여 공격한다. 상대에게 입힌 데미지의 절반에 해당하는 HP를 회복할 수 있다.",
+    "descEn": "A nutrient-draining attack. The user's HP is restored by up to half the damage taken by the target.",
+    "descJa": "養分を　吸い取り　攻撃する。 相手に　与えた　ダメージの 半分の　ＨＰを　回復できる。"
   },
   {
     "name": "Leech Life",
@@ -2367,7 +2850,10 @@
       "contact"
     ],
     "nameEn": "Leech Life",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "피를 빨아서 상대를 공격한다. 준 데미지의 절반을 HP로 회복한다.",
+    "descEn": "The user drains the target's blood. The user's HP is restored by up to half the damage taken by the target.",
+    "descJa": "血を　吸い取って　相手を 攻撃する。　与えた　ダメージの 半分の　ＨＰを　回復できる。"
   },
   {
     "name": "Mist",
@@ -2379,7 +2865,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Mist"
+    "nameEn": "Mist",
+    "descKo": "하얀 안개로 몸을 덮는다. 5턴 동안 상대에 의해 능력이 떨어지지 않게 된다.",
+    "descEn": "The user cloaks itself and its allies in a white mist that prevents any of their stats from being lowered for five turns.",
+    "descJa": "白い霧で　体を　おおう。 ５ターンの　間　相手に 能力を　さげられなく　なる。"
   },
   {
     "name": "Slam",
@@ -2394,6 +2883,9 @@
       "contact"
     ],
     "nameEn": "Slam",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "긴 꼬리나 덩굴 등을 사용해 상대를 힘껏 쳐서 공격한다.",
+    "descEn": "The target is slammed with a long tail, vines, or the like to inflict damage.",
+    "descJa": "長い　しっぽや　つるなどを　使い 相手を　たたきつけて　攻撃する。"
   }
 ]
