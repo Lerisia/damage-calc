@@ -931,24 +931,27 @@ class _StatInputState extends State<StatInput> {
           flex: 2,
           child: _flexButton('max', () {
             setState(() => _evResetCounter++);
-            // Budget-aware max:
-            //   - budget ≥ per-stat max → give full max (normal)
-            //   - 0 < budget < per-stat max → fill just what fits (no overflow)
-            //   - budget ≤ 0 → give full max anyway (override; user's "really do it" click)
-            // The second rule is what makes a follow-up click assign the
-            // full value once the first click has drained the remainder.
+            // Budget-aware max, based on the **displayed** remaining
+            // budget (total max − total used across all six stats):
+            //   - remaining ≥ per-stat max → give full max (normal)
+            //   - 0 < remaining < per-stat max → fill to the ceiling
+            //     from current (`current + remaining`), so total hits
+            //     the budget exactly without overflow
+            //   - remaining ≤ 0 → give full max anyway (override).
+            //     After the first click drains `remaining` to 0, a
+            //     second click lands here and assigns the full amount.
             final ev = widget.ev;
             final int newEv;
             if (sp) {
               final currentStatSp = ChampionsMode.evToSp(value);
-              final otherSp =
-                  ChampionsMode.totalSpFromEv(ev) - currentStatSp;
-              final budget = ChampionsMode.maxTotalSp - otherSp;
+              final remaining = ChampionsMode.maxTotalSp -
+                  ChampionsMode.totalSpFromEv(ev);
               final int spToAllocate;
-              if (budget >= maxDisplay) {
+              if (remaining >= maxDisplay) {
                 spToAllocate = maxDisplay;
-              } else if (budget > 0) {
-                spToAllocate = budget;
+              } else if (remaining > 0) {
+                spToAllocate =
+                    (currentStatSp + remaining).clamp(0, maxDisplay);
               } else {
                 spToAllocate = maxDisplay;
               }
@@ -956,11 +959,11 @@ class _StatInputState extends State<StatInput> {
             } else {
               final totalEv = ev.hp + ev.attack + ev.defense +
                   ev.spAttack + ev.spDefense + ev.speed;
-              final budget = 510 - (totalEv - value);
-              if (budget >= 252) {
+              final remaining = 510 - totalEv;
+              if (remaining >= 252) {
                 newEv = 252;
-              } else if (budget > 0) {
-                newEv = budget;
+              } else if (remaining > 0) {
+                newEv = (value + remaining).clamp(0, 252);
               } else {
                 newEv = 252;
               }
