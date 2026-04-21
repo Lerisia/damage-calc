@@ -47940,7 +47940,7 @@ h=A.a5(i).i("a6<1,k?>")
 i=A.V(new A.a6(i,new A.a4k(),h),h.i("ao.E"))
 return A.ay(["pokemonName",f,"pokemonNameKo",e,"pokemonNameJa",d,"pokemonNameEn",c,"dexNumber",b,"finalEvo",a,"gender",a0.b,"genderRate",a1,"type1",a2.b,"type2",a3,"weight",s,"baseStats",r,"pokemonAbilities",q,"selectedAbility",p,"level",o,"nature",n,"iv",m,"ev",l,"moves",k,"typeOverrides",j,"categoryOverrides",i,"powerOverrides",g.dx,"hitOverrides",g.dy,"criticals",g.fr,"zMoves",g.fx,"selectedItem",g.fy,"dynamax",g.go.b,"terastal",g.id.dA(),"canDynamax",g.k1,"canGmax",g.k2,"isMega",g.k3,"rank",g.k4.dA(),"hpPercent",g.ok,"status",g.p1.b,"charge",g.p2,"tailwind",g.p3,"reflect",g.p4,"lightScreen",g.R8,"auroraVeil",g.RG,"spreadTargets",g.rx,"helpingHand",g.ry,"allyPowerSpot",g.to,"allyBattery",g.x1,"allyFriendGuard",g.x2,"allyFlowerGift",g.xr,"allyPlusMinus",g.y1],t.N,t.z)},
 h5(a){var s,r=this
-r.a="bulbasaur"
+r.a="Bulbasaur"
 r.b="\uc774\uc0c1\ud574\uc528"
 r.c="\u30d5\u30b7\u30ae\u30c0\u30cd"
 r.d=null
@@ -48482,7 +48482,7 @@ return A.K(q.tP(q.a.a===B.eG?B.oN:B.eG),$async$xx)
 case 2:return A.P(null,r)}})
 return A.Q($async$xx,r)}}
 A.Ah.prototype={
-a8(){var s=null,r="bulbasaur",q="Overgrow",p=t.bk,o=t.N
+a8(){var s=null,r="Bulbasaur",q="Overgrow",p=t.bk,o=t.N
 return new A.Gj(A.aHV(!1,!1,!1,!1,!1,!1,s,!0,!1,s,!1,s,1,B.aE,s,!1,B.dN,4,!1,s,100,!1,s,50,!1,s,B.dQ,s,r,s,"\u30d5\u30b7\u30ae\u30c0\u30cd","\uc774\uc0c1\ud574\uc528",s,B.cS,!1,q,s,!1,B.d8,!1,B.d9,B.W,B.aq,s,6.9,s),A.aHV(!1,!1,!1,!1,!1,!1,s,!0,!1,s,!1,s,1,B.aE,s,!1,B.dN,4,!1,s,100,!1,s,50,!1,s,B.dQ,s,r,s,"\u30d5\u30b7\u30ae\u30c0\u30cd","\uc774\uc0c1\ud574\uc528",s,B.cS,!1,q,s,!1,B.d8,!1,B.d9,B.W,B.aq,s,6.9,s),new A.b1(s,p),new A.b1(s,p),A.aje(),A.aje(),new A.b1(s,t.l8),B.bu,B.br,B.nS,B.pu,B.Db,$.L1().a.a,A.w(o,o),A.w(o,o),A.aF(o),s,s)}}
 A.Gj.prototype={
 Tg(){if(this.c!=null)this.G(new A.arX(this))},
@@ -52472,7 +52472,7 @@ p=e.Px(r)
 o=e.Px(q)
 n=A.aSV(A.aH0(r),p,A.aH0(q),o,e.a.r)
 m=Math.abs(p-o)
-l=r.a===q.a
+l=r.e===q.e
 k=new A.amq(m)
 switch(n.a){case 0:if(l){s=A.n("speed.atkFasterBy")
 j="\u25b2 "+A.dJ(s,"{n}",""+m)}else j="\u25b2 "+A.o(k.$2(r,q))
