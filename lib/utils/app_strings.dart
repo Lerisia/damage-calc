@@ -237,6 +237,16 @@ class AppStrings {
       AppLanguage.en: 'No matches',
       AppLanguage.ja: '結果なし',
     },
+    'dex.sendToAttacker': {
+      AppLanguage.ko: '공격측으로',
+      AppLanguage.en: 'To attacker',
+      AppLanguage.ja: '攻撃側へ',
+    },
+    'dex.sendToDefender': {
+      AppLanguage.ko: '방어측으로',
+      AppLanguage.en: 'To defender',
+      AppLanguage.ja: '防御側へ',
+    },
 
     // === Panel sections ===
     'section.species': {

@@ -652,10 +652,31 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// Open the Pokédex screen, optionally focused on a specific
   /// Pokemon. [initialName] mirrors [BattlePokemonState.pokemonName]
   /// when invoked from the per-side panel "open in dex" button.
-  void _openDex({String? initialName}) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => DexScreen(initialPokemonName: initialName),
-    ));
+  ///
+  /// If the user taps one of the dex header's "To attacker" /
+  /// "To defender" buttons, the dex pops with a [DexPickResult] and
+  /// we apply the picked Pokemon to the chosen side, bumping
+  /// [_resetCounter] so Simple Mode re-hydrates its per-side UI. In
+  /// the narrow extended layout we also switch the tab so the user
+  /// lands on the side they just populated.
+  Future<void> _openDex({String? initialName}) async {
+    final result = await Navigator.of(context).push<DexPickResult>(
+      MaterialPageRoute(
+        builder: (_) => DexScreen(initialPokemonName: initialName),
+      ),
+    );
+    if (!mounted || result == null) return;
+    final target = result.side == 0 ? _attacker : _defender;
+    setState(() {
+      target.applyPokemon(result.pokemon);
+      _resetCounter++;
+    });
+    _onPanelChanged();
+    if (!_simpleMode) {
+      // Narrow layout has tabs 0=attacker, 1=defender, …; wide layouts
+      // ignore tab changes, so this is a no-op there.
+      _tabController.animateTo(result.side);
+    }
   }
 
   String _languageLabel() {

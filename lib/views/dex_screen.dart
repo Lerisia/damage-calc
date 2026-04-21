@@ -15,6 +15,13 @@ import '../utils/type_effectiveness.dart';
 import 'widgets/pokemon_panel.dart' show DynamaxPainter;
 import 'widgets/pokemon_selector.dart';
 
+/// Result produced when the user taps "공격측으로" / "방어측으로" in
+/// the dex header — the dex pops with this payload so the calculator
+/// can apply the Pokemon to the chosen side.
+///
+/// `side`: 0 = attacker, 1 = defender.
+typedef DexPickResult = ({int side, Pokemon pokemon});
+
 /// Pokédex screen — search a Pokemon and see species info, abilities,
 /// type matchups, and learnable moves. Reuses the calculator's
 /// PokemonSelector for search and KoStrings for type colors / names so
@@ -198,6 +205,10 @@ class _Header extends StatelessWidget {
   final Pokemon pokemon;
   const _Header({required this.pokemon});
 
+  void _send(BuildContext context, int side) {
+    Navigator.of(context).pop<DexPickResult>((side: side, pokemon: pokemon));
+  }
+
   @override
   Widget build(BuildContext context) {
     final dexId = pokemon.dexNumber.toString().padLeft(3, '0');
@@ -226,9 +237,24 @@ class _Header extends StatelessWidget {
                   pokemon.localizedName,
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.w700),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               ..._formBadges(context, pokemon),
+              const SizedBox(width: 4),
+              _sendButton(
+                context,
+                label: AppStrings.t('dex.sendToAttacker'),
+                color: Colors.red.shade600,
+                onPressed: () => _send(context, 0),
+              ),
+              const SizedBox(width: 4),
+              _sendButton(
+                context,
+                label: AppStrings.t('dex.sendToDefender'),
+                color: Colors.blue.shade600,
+                onPressed: () => _send(context, 1),
+              ),
             ],
           ),
           const SizedBox(height: 2),
@@ -285,6 +311,32 @@ class _Header extends StatelessWidget {
         ),
         Flexible(child: Text(value)),
       ],
+    );
+  }
+
+  static Widget _sendButton(
+    BuildContext context, {
+    required String label,
+    required Color color,
+    required VoidCallback onPressed,
+  }) {
+    // Compact outlined button — fits next to the pokemon name without
+    // hogging the row. Label gets ellipsized on very narrow screens
+    // because form badges + two buttons + long localized names would
+    // otherwise overflow.
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        foregroundColor: color,
+        side: BorderSide(color: color.withValues(alpha: 0.6)),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        visualDensity: VisualDensity.compact,
+      ),
+      child: Text(label,
+          style:
+              const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
     );
   }
 
