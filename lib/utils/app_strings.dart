@@ -503,11 +503,6 @@ class AppStrings {
       AppLanguage.en: 'Acc',
       AppLanguage.ja: '命中',
     },
-    'move.name': {
-      AppLanguage.ko: '이름',
-      AppLanguage.en: 'Name',
-      AppLanguage.ja: '名前',
-    },
     'move.critical': {
       AppLanguage.ko: '급소',
       AppLanguage.en: 'Crit',
