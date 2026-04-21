@@ -97,7 +97,23 @@ class _DexScreenState extends State<DexScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppStrings.t('dex.title')),
+          // Dex is an immersive screen — the title is redundant, so
+          // give the full width to the search field. `titleSpacing: 0`
+          // removes the default gap between the back button and title
+          // so the typeahead gets all available width.
+          titleSpacing: 0,
+          title: Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: PokemonSelector(
+              // PokemonSelector holds its own _selected state, so
+              // don't key it by _selected.name — that would remount
+              // the widget (and flash the typeahead overlay) every
+              // time auto-selection or a user pick updates state.
+              initialPokemonName:
+                  widget.initialPokemonName ?? 'Bulbasaur',
+              onSelected: _onSelect,
+            ),
+          ),
           bottom: TabBar(
             tabs: [
               Tab(text: AppStrings.t('dex.tabMain')),
@@ -113,15 +129,6 @@ class _DexScreenState extends State<DexScreen> {
           behavior: HitTestBehavior.translucent,
           child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
-              child: PokemonSelector(
-                key: ValueKey('dex_search_${_selected?.name ?? "init"}'),
-                initialPokemonName:
-                    widget.initialPokemonName ?? _selected?.name ?? 'Bulbasaur',
-                onSelected: _onSelect,
-              ),
-            ),
             Expanded(
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
@@ -242,9 +249,22 @@ class _Header extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _metaRow(AppStrings.t('dex.height'), '${pokemon.height} m'),
-                _metaRow(AppStrings.t('dex.weight'), '${pokemon.weight} kg'),
-                _metaRow(AppStrings.t('dex.gender'), _genderValue(pokemon)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Expanded(
+                      child: _metaCell(
+                          AppStrings.t('dex.height'), '${pokemon.height} m'),
+                    ),
+                    Expanded(
+                      child: _metaCell(
+                          AppStrings.t('dex.weight'), '${pokemon.weight} kg'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                _metaCell(AppStrings.t('dex.gender'), _genderValue(pokemon)),
               ],
             ),
           ),
@@ -253,21 +273,18 @@ class _Header extends StatelessWidget {
     );
   }
 
-  static Widget _metaRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.baseline,
-        textBaseline: TextBaseline.alphabetic,
-        children: [
-          SizedBox(
-            width: 56,
-            child: Text(label,
-                style: const TextStyle(fontWeight: FontWeight.w600)),
-          ),
-          Expanded(child: Text(value)),
-        ],
-      ),
+  static Widget _metaCell(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
+      children: [
+        SizedBox(
+          width: 56,
+          child: Text(label,
+              style: const TextStyle(fontWeight: FontWeight.w600)),
+        ),
+        Flexible(child: Text(value)),
+      ],
     );
   }
 
@@ -498,6 +515,10 @@ class _TypeMatchupsSection extends StatelessWidget {
     };
     for (final atkType in PokemonType.values) {
       if (atkType == PokemonType.typeless) continue;
+      // Stellar is a Terastal-only attacker type with a fixed 1×/2× rule
+      // against Terastallized targets; hiding it from the dex chart
+      // matches user expectation for "normal" matchups.
+      if (atkType == PokemonType.stellar) continue;
       final mult = getCombinedEffectiveness(atkType, pokemon.type1, pokemon.type2);
       if (buckets.containsKey(mult)) buckets[mult]!.add(atkType);
     }
@@ -746,7 +767,11 @@ class _MovesTabState extends State<_MovesTab> {
   }
 
   Widget _typeDropdown() {
-    return PopupMenuButton<PokemonType?>(
+    // PopupMenuButton can't distinguish a selected null-valued item
+    // from dismissal, so we encode "all" as -1 and every real type as
+    // its enum index.
+    const allSentinel = -1;
+    return PopupMenuButton<int>(
       tooltip: AppStrings.t('dex.allTypes'),
       popUpAnimationStyle:
           AnimationStyle(duration: const Duration(milliseconds: 100)),
@@ -770,20 +795,22 @@ class _MovesTabState extends State<_MovesTab> {
       ),
       itemBuilder: (_) => [
         PopupMenuItem(
-          value: null,
+          value: allSentinel,
           child: Text(AppStrings.t('dex.allTypes'),
               style: const TextStyle(fontSize: 13)),
         ),
         for (final t in PokemonType.values)
           if (t != PokemonType.typeless)
             PopupMenuItem(
-              value: t,
+              value: t.index,
               child: Text(KoStrings.getTypeName(t),
                   style: TextStyle(
                       fontSize: 13, color: KoStrings.getTypeColor(t))),
             ),
       ],
-      onSelected: (v) => setState(() => _typeFilter = v),
+      onSelected: (v) => setState(() {
+        _typeFilter = v == allSentinel ? null : PokemonType.values[v];
+      }),
     );
   }
 
@@ -797,7 +824,10 @@ class _MovesTabState extends State<_MovesTab> {
       }
     }
 
-    return PopupMenuButton<MoveCategory?>(
+    // Same sentinel trick as _typeDropdown — PopupMenuButton swallows
+    // null selections, so encode "all" as -1.
+    const allSentinel = -1;
+    return PopupMenuButton<int>(
       tooltip: AppStrings.t('dex.allCategories'),
       popUpAnimationStyle:
           AnimationStyle(duration: const Duration(milliseconds: 100)),
@@ -812,17 +842,19 @@ class _MovesTabState extends State<_MovesTab> {
                 const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
       ),
       itemBuilder: (_) => [
-        PopupMenuItem<MoveCategory?>(
-          value: null,
+        PopupMenuItem(
+          value: allSentinel,
           child: Text(label(null), style: const TextStyle(fontSize: 13)),
         ),
         for (final c in MoveCategory.values)
           PopupMenuItem(
-            value: c,
+            value: c.index,
             child: Text(label(c), style: const TextStyle(fontSize: 13)),
           ),
       ],
-      onSelected: (v) => setState(() => _categoryFilter = v),
+      onSelected: (v) => setState(() {
+        _categoryFilter = v == allSentinel ? null : MoveCategory.values[v];
+      }),
     );
   }
 

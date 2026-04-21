@@ -1480,6 +1480,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 side, side == 0 ? _attacker : _defender),
               onLoadSide: (side) => _showLoadSheet(side),
               onResetSide: (side) => _resetSide(side),
+              onOpenDexForSide: (side) => _openDex(
+                initialName:
+                    (side == 0 ? _attacker : _defender).pokemonName,
+              ),
             )
           : GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

@@ -58,6 +58,9 @@ class SimpleModeView extends StatefulWidget {
   final ValueChanged<int> onSaveSide;
   final ValueChanged<int> onLoadSide;
   final ValueChanged<int> onResetSide;
+  /// Open the Pokédex focused on the given species.
+  /// side: 0 = attacker, 1 = defender.
+  final ValueChanged<int>? onOpenDexForSide;
 
   const SimpleModeView({
     super.key,
@@ -76,6 +79,7 @@ class SimpleModeView extends StatefulWidget {
     required this.onSaveSide,
     required this.onLoadSide,
     required this.onResetSide,
+    this.onOpenDexForSide,
   });
 
   @override
@@ -1255,6 +1259,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// toggle + Terastal toggle. Mirrors the normal mode's header.
   Widget _speciesHeader({required bool attacker}) {
     final state = attacker ? _atk : _def;
+    final onOpenDex = widget.onOpenDexForSide;
     return Row(children: [
       Expanded(
         child: PokemonSelector(
@@ -1268,6 +1273,17 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           onSelected: attacker ? _applyAttackerPokemon : _applyDefenderPokemon,
         ),
       ),
+      if (onOpenDex != null) ...[
+        const SizedBox(width: 2),
+        IconButton(
+          tooltip: AppStrings.t('dex.title'),
+          icon: const Icon(Icons.menu_book_outlined, size: 20),
+          onPressed: () => onOpenDex(attacker ? 0 : 1),
+          visualDensity: VisualDensity.compact,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+        ),
+      ],
       const SizedBox(width: 4),
       ..._effectiveTypeBadges(state),
       const SizedBox(width: 4),
