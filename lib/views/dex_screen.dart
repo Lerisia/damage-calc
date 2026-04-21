@@ -88,7 +88,13 @@ class _DexScreenState extends State<DexScreen> {
             ],
           ),
         ),
-        body: Column(
+        body: GestureDetector(
+          // Tap outside the typeahead → blur it. Without this the
+          // suggestion box stays mounted because flutter_typeahead's
+          // hideOnUnfocus needs an actual focus change.
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          behavior: HitTestBehavior.translucent,
+          child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
@@ -116,6 +122,7 @@ class _DexScreenState extends State<DexScreen> {
               ),
             ),
           ],
+          ),
         ),
       ),
     );
