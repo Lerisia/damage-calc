@@ -256,7 +256,6 @@ class _Header extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              ..._formBadges(context, pokemon),
               const SizedBox(width: 4),
               _sendButton(
                 context,
@@ -377,25 +376,6 @@ class _Header extends StatelessWidget {
         '♀ ${female.toStringAsFixed(female % 1 == 0 ? 0 : 1)}%';
   }
 
-  static List<Widget> _formBadges(BuildContext context, Pokemon p) {
-    final badges = <Widget>[];
-    if (p.isMega) {
-      badges.add(Padding(
-        padding: const EdgeInsets.only(left: 4),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-          decoration: BoxDecoration(
-            color: Colors.purple.shade100,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Text('MEGA',
-              style: TextStyle(
-                  fontSize: 10, fontWeight: FontWeight.bold, color: Colors.purple)),
-        ),
-      ));
-    }
-    return badges;
-  }
 }
 
 class _StatRow extends StatelessWidget {
