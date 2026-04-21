@@ -646,6 +646,45 @@ class _MovesTabState extends State<_MovesTab> {
   _MoveSortKey _sortKey = _MoveSortKey.name;
   bool _sortAsc = true;
 
+  @override
+  void didUpdateWidget(_MovesTab old) {
+    super.didUpdateWidget(old);
+    // When the pokemon (and so the learnable set) changes, drop any
+    // filter that no longer matches anything so the user isn't stuck
+    // on an empty list. Safe to mutate directly here — didUpdateWidget
+    // runs during rebuild, no extra setState needed.
+    if (old.learnable != widget.learnable || old.moveDex != widget.moveDex) {
+      final types = _availableTypes();
+      if (_typeFilter != null && !types.contains(_typeFilter)) {
+        _typeFilter = null;
+      }
+      final cats = _availableCategories();
+      if (_categoryFilter != null && !cats.contains(_categoryFilter)) {
+        _categoryFilter = null;
+      }
+    }
+  }
+
+  Set<PokemonType> _availableTypes() {
+    final out = <PokemonType>{};
+    for (final m in widget.moveDex.values) {
+      if (widget.learnable.contains(toShowdownMoveId(m.name))) {
+        out.add(m.type);
+      }
+    }
+    return out;
+  }
+
+  Set<MoveCategory> _availableCategories() {
+    final out = <MoveCategory>{};
+    for (final m in widget.moveDex.values) {
+      if (widget.learnable.contains(toShowdownMoveId(m.name))) {
+        out.add(m.category);
+      }
+    }
+    return out;
+  }
+
   void _toggleSort(_MoveSortKey key) {
     setState(() {
       if (_sortKey == key) {
@@ -771,6 +810,7 @@ class _MovesTabState extends State<_MovesTab> {
     // from dismissal, so we encode "all" as -1 and every real type as
     // its enum index.
     const allSentinel = -1;
+    final avail = _availableTypes();
     return PopupMenuButton<int>(
       tooltip: AppStrings.t('dex.allTypes'),
       popUpAnimationStyle:
@@ -781,16 +821,30 @@ class _MovesTabState extends State<_MovesTab> {
           border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(
-          _typeFilter == null
-              ? AppStrings.t('dex.allTypes')
-              : KoStrings.getTypeName(_typeFilter!),
-          style: TextStyle(
-              fontSize: 12,
-              color: _typeFilter != null
-                  ? KoStrings.getTypeColor(_typeFilter!)
-                  : null,
-              fontWeight: FontWeight.w600),
+        // Stack with an invisible "all" label so the chip width stays
+        // constant regardless of which type is picked — otherwise the
+        // chip jumps around between long ("전기"/"격투") and short
+        // ("물"/"불") selections.
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(AppStrings.t('dex.allTypes'),
+                style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.transparent)),
+            Text(
+              _typeFilter == null
+                  ? AppStrings.t('dex.allTypes')
+                  : KoStrings.getTypeName(_typeFilter!),
+              style: TextStyle(
+                  fontSize: 12,
+                  color: _typeFilter != null
+                      ? KoStrings.getTypeColor(_typeFilter!)
+                      : null,
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
         ),
       ),
       itemBuilder: (_) => [
@@ -800,7 +854,7 @@ class _MovesTabState extends State<_MovesTab> {
               style: const TextStyle(fontSize: 13)),
         ),
         for (final t in PokemonType.values)
-          if (t != PokemonType.typeless)
+          if (t != PokemonType.typeless && avail.contains(t))
             PopupMenuItem(
               value: t.index,
               child: Text(KoStrings.getTypeName(t),
@@ -827,6 +881,7 @@ class _MovesTabState extends State<_MovesTab> {
     // Same sentinel trick as _typeDropdown — PopupMenuButton swallows
     // null selections, so encode "all" as -1.
     const allSentinel = -1;
+    final avail = _availableCategories();
     return PopupMenuButton<int>(
       tooltip: AppStrings.t('dex.allCategories'),
       popUpAnimationStyle:
@@ -837,9 +892,21 @@ class _MovesTabState extends State<_MovesTab> {
           border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(label(_categoryFilter),
-            style:
-                const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+        // Stack with invisible "all categories" placeholder keeps the
+        // chip width constant across selections.
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(label(null),
+                style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.transparent)),
+            Text(label(_categoryFilter),
+                style: const TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w600)),
+          ],
+        ),
       ),
       itemBuilder: (_) => [
         PopupMenuItem(
@@ -847,10 +914,11 @@ class _MovesTabState extends State<_MovesTab> {
           child: Text(label(null), style: const TextStyle(fontSize: 13)),
         ),
         for (final c in MoveCategory.values)
-          PopupMenuItem(
-            value: c.index,
-            child: Text(label(c), style: const TextStyle(fontSize: 13)),
-          ),
+          if (avail.contains(c))
+            PopupMenuItem(
+              value: c.index,
+              child: Text(label(c), style: const TextStyle(fontSize: 13)),
+            ),
       ],
       onSelected: (v) => setState(() {
         _categoryFilter = v == allSentinel ? null : MoveCategory.values[v];
