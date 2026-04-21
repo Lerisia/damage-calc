@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/abilitydex.dart';
 import '../data/learnsetdex.dart';
 import '../data/movedex.dart';
+import '../data/pokedex.dart';
 import '../models/ability.dart';
 import '../models/dynamax.dart';
 import '../models/move.dart';
@@ -47,12 +48,28 @@ class _DexScreenState extends State<DexScreen> {
     final results = await Future.wait([
       loadAbilitydex(),
       loadMovedex(),
+      loadPokedex(),
     ]);
     if (!mounted) return;
+    final allPokemon = results[2] as List<Pokemon>;
+    // Auto-select the initial pokemon so the dex opens with data
+    // populated — PokemonSelector shows the initial name in the
+    // text field but doesn't fire onSelected, so the parent stays
+    // uninitialized without this nudge.
+    final initialName = widget.initialPokemonName ?? 'Bulbasaur';
+    final initial = allPokemon.firstWhere(
+      (p) => p.name == initialName,
+      orElse: () => allPokemon.firstWhere(
+        (p) => p.dexNumber == 1,
+        orElse: () => allPokemon.first,
+      ),
+    );
     setState(() {
       _abilityDex = results[0] as Map<String, Ability>;
       _moveDex = results[1] as Map<String, Move>;
+      _selected = initial;
     });
+    _loadLearnsetFor(initial);
   }
 
   Future<void> _loadLearnsetFor(Pokemon p) async {
@@ -107,6 +124,7 @@ class _DexScreenState extends State<DexScreen> {
             ),
             Expanded(
               child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   _MainTab(
                     pokemon: _selected,
@@ -221,16 +239,33 @@ class _Header extends StatelessWidget {
           const SizedBox(height: 8),
           DefaultTextStyle(
             style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
-            child: Wrap(
-              spacing: 14,
-              runSpacing: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${AppStrings.t('dex.height')} ${pokemon.height} m'),
-                Text('${AppStrings.t('dex.weight')} ${pokemon.weight} kg'),
-                Text(_genderLabel(pokemon)),
+                _metaRow(AppStrings.t('dex.height'), '${pokemon.height} m'),
+                _metaRow(AppStrings.t('dex.weight'), '${pokemon.weight} kg'),
+                _metaRow(AppStrings.t('dex.gender'), _genderValue(pokemon)),
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  static Widget _metaRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          SizedBox(
+            width: 56,
+            child: Text(label,
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+          ),
+          Expanded(child: Text(value)),
         ],
       ),
     );
@@ -249,10 +284,10 @@ class _Header extends StatelessWidget {
     );
   }
 
-  static String _genderLabel(Pokemon p) {
+  static String _genderValue(Pokemon p) {
     if (p.genderRate == -1) return AppStrings.t('dex.genderless');
-    if (p.genderRate == 0) return '${AppStrings.t('dex.gender')} ♂';
-    if (p.genderRate == 8) return '${AppStrings.t('dex.gender')} ♀';
+    if (p.genderRate == 0) return '♂';
+    if (p.genderRate == 8) return '♀';
     final female = p.genderRate / 8 * 100;
     final male = 100 - female;
     return '♂ ${male.toStringAsFixed(male % 1 == 0 ? 0 : 1)}% / '
@@ -456,6 +491,7 @@ class _TypeMatchupsSection extends StatelessWidget {
     final buckets = <double, List<PokemonType>>{
       4.0: [],
       2.0: [],
+      1.0: [],
       0.5: [],
       0.25: [],
       0.0: [],
@@ -530,6 +566,7 @@ class _TypeMatchupsSection extends StatelessWidget {
   static String _multLabel(double mult) {
     if (mult == 4.0) return '×4';
     if (mult == 2.0) return '×2';
+    if (mult == 1.0) return '×1';
     if (mult == 0.5) return '×½';
     if (mult == 0.25) return '×¼';
     if (mult == 0.0) return '×0';
@@ -579,10 +616,50 @@ class _MovesTab extends StatefulWidget {
   State<_MovesTab> createState() => _MovesTabState();
 }
 
+enum _MoveSortKey { name, type, category, power, accuracy }
+
 class _MovesTabState extends State<_MovesTab> {
   String _query = '';
   PokemonType? _typeFilter;
   MoveCategory? _categoryFilter;
+  _MoveSortKey _sortKey = _MoveSortKey.name;
+  bool _sortAsc = true;
+
+  void _toggleSort(_MoveSortKey key) {
+    setState(() {
+      if (_sortKey == key) {
+        _sortAsc = !_sortAsc;
+      } else {
+        _sortKey = key;
+        // Power/accuracy default to descending (big → small) since
+        // that's almost always what you want when ranking moves.
+        _sortAsc = !(key == _MoveSortKey.power || key == _MoveSortKey.accuracy);
+      }
+    });
+  }
+
+  int _compare(Move a, Move b) {
+    int cmp;
+    switch (_sortKey) {
+      case _MoveSortKey.name:
+        cmp = a.localizedName.compareTo(b.localizedName);
+      case _MoveSortKey.type:
+        cmp = KoStrings.getTypeName(a.type)
+            .compareTo(KoStrings.getTypeName(b.type));
+      case _MoveSortKey.category:
+        cmp = a.category.index.compareTo(b.category.index);
+      case _MoveSortKey.power:
+        cmp = a.power.compareTo(b.power);
+      case _MoveSortKey.accuracy:
+        // Treat 0 (—) as "no miss" → highest when sorting descending,
+        // lowest when sorting ascending. Simplest: leave as-is.
+        cmp = a.accuracy.compareTo(b.accuracy);
+    }
+    if (cmp == 0 && _sortKey != _MoveSortKey.name) {
+      cmp = a.localizedName.compareTo(b.localizedName);
+    }
+    return _sortAsc ? cmp : -cmp;
+  }
 
   List<Move> _filtered() {
     if (widget.pokemon == null) return [];
@@ -602,8 +679,7 @@ class _MovesTabState extends State<_MovesTab> {
       }
       out.add(m);
     }
-    out.sort((a, b) =>
-        a.localizedName.compareTo(b.localizedName));
+    out.sort(_compare);
     return out;
   }
 
@@ -616,46 +692,56 @@ class _MovesTabState extends State<_MovesTab> {
       return const Center(child: CircularProgressIndicator());
     }
     final moves = _filtered();
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: AppStrings.t('dex.searchMoves'),
-                    isDense: true,
-                    prefixIcon: const Icon(Icons.search, size: 18),
-                  ),
-                  style: const TextStyle(fontSize: 14),
-                  onChanged: (v) => setState(() => _query = v),
-                ),
-              ),
-              const SizedBox(width: 8),
-              _typeDropdown(),
-              const SizedBox(width: 4),
-              _categoryDropdown(),
-            ],
-          ),
-        ),
-        const Divider(height: 1),
-        if (moves.isEmpty)
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        children: [
           Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(AppStrings.t('dex.noMovesMatch'),
-                style: TextStyle(color: Colors.grey.shade600)),
-          )
-        else
-          Expanded(
-            child: ListView.separated(
-              itemCount: moves.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
-              itemBuilder: (_, i) => _moveRow(moves[i]),
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: AppStrings.t('dex.searchMoves'),
+                      isDense: true,
+                      prefixIcon: const Icon(Icons.search, size: 18),
+                    ),
+                    style: const TextStyle(fontSize: 14),
+                    onChanged: (v) => setState(() => _query = v),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                _typeDropdown(),
+                const SizedBox(width: 4),
+                _categoryDropdown(),
+              ],
             ),
           ),
-      ],
+          const Divider(height: 1),
+          _sortHeader(),
+          const Divider(height: 1),
+          if (moves.isEmpty)
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(AppStrings.t('dex.noMovesMatch'),
+                  style: TextStyle(color: Colors.grey.shade600)),
+            )
+          else
+            Expanded(
+              child: ListView.separated(
+                // Dismiss keyboard on scroll — users who start dragging
+                // the list shouldn't have to reach up to close it.
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                itemCount: moves.length,
+                separatorBuilder: (_, __) => const Divider(height: 1),
+                itemBuilder: (_, i) => _moveRow(moves[i]),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -726,11 +812,94 @@ class _MovesTabState extends State<_MovesTab> {
                 const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
       ),
       itemBuilder: (_) => [
-        const PopupMenuItem<MoveCategory?>(value: null, child: Text('—')),
+        PopupMenuItem<MoveCategory?>(
+          value: null,
+          child: Text(label(null), style: const TextStyle(fontSize: 13)),
+        ),
         for (final c in MoveCategory.values)
-          PopupMenuItem(value: c, child: Text(label(c))),
+          PopupMenuItem(
+            value: c,
+            child: Text(label(c), style: const TextStyle(fontSize: 13)),
+          ),
       ],
       onSelected: (v) => setState(() => _categoryFilter = v),
+    );
+  }
+
+  Widget _sortHeader() {
+    Widget headerCell({
+      required _MoveSortKey key,
+      required String label,
+      required Widget Function(Widget child) wrap,
+    }) {
+      final active = _sortKey == key;
+      final arrow = active ? (_sortAsc ? ' ↑' : ' ↓') : '';
+      return InkWell(
+        onTap: () => _toggleSort(key),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: wrap(
+            Text(
+              '$label$arrow',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade700,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 5,
+            child: headerCell(
+              key: _MoveSortKey.name,
+              label: AppStrings.t('move.name'),
+              wrap: (c) => Align(alignment: Alignment.centerLeft, child: c),
+            ),
+          ),
+          SizedBox(
+            width: 50,
+            child: headerCell(
+              key: _MoveSortKey.type,
+              label: AppStrings.t('move.type'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+          const SizedBox(width: 6),
+          SizedBox(
+            width: 36,
+            child: headerCell(
+              key: _MoveSortKey.category,
+              label: AppStrings.t('move.category'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+          SizedBox(
+            width: 36,
+            child: headerCell(
+              key: _MoveSortKey.power,
+              label: AppStrings.t('move.power'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+          SizedBox(
+            width: 36,
+            child: headerCell(
+              key: _MoveSortKey.accuracy,
+              label: AppStrings.t('move.accuracy'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

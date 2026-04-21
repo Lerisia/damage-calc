@@ -498,6 +498,16 @@ class AppStrings {
       AppLanguage.en: 'BP',
       AppLanguage.ja: '威力',
     },
+    'move.accuracy': {
+      AppLanguage.ko: '명중',
+      AppLanguage.en: 'Acc',
+      AppLanguage.ja: '命中',
+    },
+    'move.name': {
+      AppLanguage.ko: '이름',
+      AppLanguage.en: 'Name',
+      AppLanguage.ja: '名前',
+    },
     'move.critical': {
       AppLanguage.ko: '급소',
       AppLanguage.en: 'Crit',
@@ -867,6 +877,11 @@ class AppStrings {
       AppLanguage.ko: '특수',
       AppLanguage.en: 'Special',
       AppLanguage.ja: '特殊',
+    },
+    'damage.status': {
+      AppLanguage.ko: '변화',
+      AppLanguage.en: 'Status',
+      AppLanguage.ja: '変化',
     },
     'damage.moveNotSet': {
       AppLanguage.ko: '미설정',
