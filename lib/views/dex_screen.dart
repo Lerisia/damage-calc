@@ -538,7 +538,19 @@ class _TypeMatchupsSection extends StatelessWidget {
       // against Terastallized targets; hiding it from the dex chart
       // matches user expectation for "normal" matchups.
       if (atkType == PokemonType.stellar) continue;
-      final mult = getCombinedEffectiveness(atkType, pokemon.type1, pokemon.type2);
+      // The shared type chart leaves type immunities at 1× because the
+      // main damage calculator gates them separately via ability /
+      // ground checks. The dex is a pure species-vs-type reference, so
+      // we re-apply the pure type immunity table here — Normal/Fighting
+      // vs Ghost, Ground vs Flying, Poison vs Steel, etc. all land in
+      // the ×0 bucket.
+      final double mult;
+      if (hasTypeImmunity(atkType, pokemon.type1, pokemon.type2)) {
+        mult = 0.0;
+      } else {
+        mult =
+            getCombinedEffectiveness(atkType, pokemon.type1, pokemon.type2);
+      }
       if (buckets.containsKey(mult)) buckets[mult]!.add(atkType);
     }
     final activeKeys = buckets.entries
