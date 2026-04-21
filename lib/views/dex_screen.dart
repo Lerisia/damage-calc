@@ -5,14 +5,12 @@ import '../data/learnsetdex.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
 import '../models/ability.dart';
-import '../models/dynamax.dart';
 import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
 import '../utils/localization.dart';
 import '../utils/type_effectiveness.dart';
-import 'widgets/pokemon_panel.dart' show DynamaxPainter;
 import 'widgets/pokemon_selector.dart';
 
 /// Result produced when the user taps "공격측으로" / "방어측으로" in
@@ -338,23 +336,21 @@ class _Header extends StatelessWidget {
     required Color color,
     required VoidCallback onPressed,
   }) {
-    // Compact outlined button — fits next to the pokemon name without
-    // hogging the row. Label gets ellipsized on very narrow screens
-    // because form badges + two buttons + long localized names would
-    // otherwise overflow.
-    return OutlinedButton(
+    return FilledButton.tonal(
       onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
-        foregroundColor: color,
-        side: BorderSide(color: color.withValues(alpha: 0.6)),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      style: FilledButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: color,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         minimumSize: Size.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        visualDensity: VisualDensity.compact,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
       ),
       child: Text(label,
           style:
-              const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
+              const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
     );
   }
 
@@ -383,33 +379,6 @@ class _Header extends StatelessWidget {
 
   static List<Widget> _formBadges(BuildContext context, Pokemon p) {
     final badges = <Widget>[];
-    if (p.canGmax) {
-      badges.add(Padding(
-        padding: const EdgeInsets.only(left: 4),
-        child: SizedBox(
-          width: 22, height: 22,
-          child: CustomPaint(
-            painter: DynamaxPainter(
-              state: DynamaxState.gigantamax,
-              isGmax: true,
-            ),
-          ),
-        ),
-      ));
-    } else if (p.canDynamax) {
-      badges.add(Padding(
-        padding: const EdgeInsets.only(left: 4),
-        child: SizedBox(
-          width: 22, height: 22,
-          child: CustomPaint(
-            painter: DynamaxPainter(
-              state: DynamaxState.dynamax,
-              isGmax: false,
-            ),
-          ),
-        ),
-      ));
-    }
     if (p.isMega) {
       badges.add(Padding(
         padding: const EdgeInsets.only(left: 4),
