@@ -25,7 +25,10 @@
       "contact"
     ],
     "nameEn": "High Horsepower",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "온몸을 써서 상대에게 맹렬히 어택한다.",
+    "descEn": "The user fiercely attacks the target using its entire body.",
+    "descJa": "全身を　使って 相手に　猛アタックする。"
   },
   {
     "name": "Darkest Lariat",
@@ -41,7 +44,10 @@
       "custom:ignore_def_rank"
     ],
     "nameEn": "Darkest Lariat",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "양팔을 돌려 상대에게 부딪친다. 상대의 능력 변화에 상관없이 데미지를 준다.",
+    "descEn": "The user swings both arms and hits the target. The target's stat changes don't affect the damage inflicted by this move.",
+    "descJa": "両腕を　回し　相手に　当てる。 相手の　能力変化に 関係なく　ダメージを　与える。"
   },
   {
     "name": "Spirit Shackle",
@@ -54,7 +60,10 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Spirit Shackle",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "공격과 동시에 상대의 그림자를 꿰매 도망칠 수 없게 한다.",
+    "descEn": "The user attacks while simultaneously stitching the target's shadow to the ground to prevent the target from fleeing.",
+    "descJa": "攻撃と　同時に 相手の　影を　縫い付けて 逃げられなくする。"
   },
   {
     "name": "Power Trip",
@@ -70,7 +79,10 @@
       "custom:rank_power"
     ],
     "nameEn": "Power Trip",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "자신의 강함을 뻐기고 공격한다. 자신의 능력이 올라가 있는 만큼 위력이 오른다.",
+    "descEn": "The user boasts its strength and attacks the target. The more the user's stats are boosted, the greater the move's power.",
+    "descJa": "自分の　強さを　鼻高々に 攻撃する。自分の　能力が あがって　いるほど　威力が　あがる。"
   },
   {
     "name": "Mind Blown",
@@ -86,7 +98,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Mind Blown",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "자신의 머리를 폭발시켜 주위의 모든 것을 공격한다. 자신도 데미지를 받는다.",
+    "descEn": "The user attacks everything around it by causing its own head to explode. This also damages the user.",
+    "descJa": "自分の　頭を　爆発　させて 周りの　すべてを　攻撃する。 自分も　ダメージを　受けてしまう。"
   },
   {
     "name": "Freezy Frost",
@@ -99,7 +114,10 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Freezy Frost",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Pollen Puff",
@@ -114,7 +132,10 @@
       "ball"
     ],
     "nameEn": "Pollen Puff",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "상대에게는 폭발하는 경단을 사용하여 공격한다. 같은 편에게는 회복하는 경단을 준다.",
+    "descEn": "The user attacks the enemy with a pollen puff that explodes. If the target is an ally, it gives the ally a pollen puff that restores its HP instead.",
+    "descJa": "敵には　爆発する　だんごを 使って　攻撃。　味方には 回復する　だんごを　与える。"
   },
   {
     "name": "Leafage",
@@ -127,7 +148,10 @@
     "pp": 40,
     "tags": [],
     "nameEn": "Leafage",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "잎을 상대에 맞춰 공격한다.",
+    "descEn": "The user attacks by pelting the target with leaves.",
+    "descJa": "はっぱを　相手に　当てて 攻撃する。"
   },
   {
     "name": "Extreme Evoboost",
@@ -140,7 +164,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Extreme Evoboost"
+    "nameEn": "Extreme Evoboost",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Tearful Look",
@@ -152,7 +179,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Tearful Look"
+    "nameEn": "Tearful Look",
+    "descKo": "눈물을 그렁그렁거려 상대의 전의를 상실하게 한다. 상대의 공격과 특수공격이 떨어진다.",
+    "descEn": "The user gets teary-eyed to make the target lose its combative spirit. This lowers the target's Attack and Sp. Atk stats.",
+    "descJa": "なみだめに　なって 相手の　戦力を　喪失させる。 相手の　攻撃と　特攻が　さがる。"
   },
   {
     "name": "Inferno Overdrive",
@@ -197,7 +227,10 @@
     "minHits": 2,
     "maxHits": 2,
     "nameEn": "Double Iron Bash",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "가슴의 너트를 축으로 회전시켜 2번 연속 팔로 힘껏 친다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The user rotates, centering the hex nut in its chest, and then strikes with its arms twice in a row. This may also make the target flinch.",
+    "descJa": "胸の　ナットを　軸に　回転して ２回　続けて　うでを　たたきつける。 相手を　ひるませる　ことが　ある。"
   },
   {
     "name": "Lunge",
@@ -213,7 +246,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Lunge",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "전력으로 상대에게 덤벼들며 공격한다. 상대의 공격을 떨어뜨린다.",
+    "descEn": "The user makes a lunge at the target, attacking with full force. This also lowers the target's Attack stat.",
+    "descJa": "全力で　相手に 飛びかかって　攻撃。 相手の　攻撃を　さげる。"
   },
   {
     "name": "Toxic Thread",
@@ -225,7 +261,10 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Toxic Thread"
+    "nameEn": "Toxic Thread",
+    "descKo": "독이 섞인 실을 뿜어낸다. 상대를 독 상태로 만들고 스피드를 떨어뜨린다.",
+    "descEn": "The user shoots poisonous threads to poison the target and lower the target's Speed stat.",
+    "descJa": "毒の　混じった　糸を　吹き付ける。 相手を　毒にして 素早さを　さげる。"
   },
   {
     "name": "Floaty Fall",
@@ -241,7 +280,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Floaty Fall",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Dragon Hammer",
@@ -256,7 +298,10 @@
       "contact"
     ],
     "nameEn": "Dragon Hammer",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "몸을 해머처럼 써서 상대를 덮쳐 데미지를 준다.",
+    "descEn": "The user wields its body like a hammer to attack the target and inflict damage.",
+    "descJa": "体を　ハンマーのように 使って　相手に　襲いかかり ダメージを　与える。"
   },
   {
     "name": "Tectonic Rage",
@@ -297,7 +342,10 @@
     "tags": [
       "custom:has_secondary"
     ],
-    "nameEn": "Stoked Sparksurfer"
+    "nameEn": "Stoked Sparksurfer",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Twinkle Tackle",
@@ -336,7 +384,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Splintered Stormshards"
+    "nameEn": "Splintered Stormshards",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Subzero Slammer",
@@ -378,7 +429,10 @@
       "contact"
     ],
     "nameEn": "First Impression",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "위력이 높은 기술이지만 배틀에 나가서 바로 쓰지 않으면 성공할 수 없다.",
+    "descEn": "Although this move has great power, it works only on the first turn each time the user enters battle.",
+    "descJa": "威力が　高い　技　だが 戦闘に　出たら すぐに　出さないと　成功　しない。"
   },
   {
     "name": "Shattered Psyche",
@@ -419,7 +473,10 @@
       "contact"
     ],
     "nameEn": "Multi-Attack",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "높은 에너지를 둘러싸 상대에게 부딪쳐 공격한다. 메모리에 따라 타입이 바뀐다.",
+    "descEn": "Cloaking itself in high energy, the user slams into the target. The memory held determines the move’s type.",
+    "descJa": "高い　エネルギーを　まといつつ 相手に　ぶつかって　攻撃する。 メモリに　より　タイプが　変わる。"
   },
   {
     "name": "Sunsteel Strike",
@@ -435,7 +492,10 @@
       "custom:ignore_ability"
     ],
     "nameEn": "Sunsteel Strike",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "유성 같은 기세로 돌진한다. 상대의 특성을 무시하고 공격할 수 있다.",
+    "descEn": "The user slams into the target with the force of a meteor. This move can be used on the target regardless of its Ability.",
+    "descJa": "流星の　ような　勢いで 突進する。　相手の　特性を 無視して　攻撃　することが　できる。"
   },
   {
     "name": "Shore Up",
@@ -447,7 +507,10 @@
     "accuracy": 0,
     "pp": 5,
     "tags": [],
-    "nameEn": "Shore Up"
+    "nameEn": "Shore Up",
+    "descKo": "자신의 최대 HP 절반을 회복한다. 모래바람일 때는 많이 회복한다.",
+    "descEn": "The user restores its own HP by up to half its max HP. It regains more HP in a sandstorm.",
+    "descJa": "最大ＨＰの　半分 自分の　ＨＰを　回復する。 すなあらしの時は　多く　回復。"
   },
   {
     "name": "Never-Ending Nightmare",
@@ -486,7 +549,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Menacing Moonraze Maelstrom"
+    "nameEn": "Menacing Moonraze Maelstrom",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Sparkling Aria",
@@ -503,7 +569,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Sparkling Aria",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "노래 부르는 것으로 많은 벌룬을 방출한다. 기술에 맞으면 화상이 낫는다.",
+    "descEn": "The user bursts into song, emitting many bubbles. Any Pokémon suffering from a burn will be cured by the touch of these bubbles.",
+    "descJa": "歌うことによって　たくさんの バルーンを　放出する。 技を　受けると　やけどが　治る。"
   },
   {
     "name": "Oceanic Operetta",
@@ -516,7 +585,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Oceanic Operetta"
+    "nameEn": "Oceanic Operetta",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Sparkly Swirl",
@@ -529,7 +601,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Sparkly Swirl",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Beak Blast",
@@ -544,7 +619,10 @@
       "ball"
     ],
     "nameEn": "Beak Blast",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "먼저 부리를 가열시킨 다음 공격을 날린다. 가열 중에 만지면 화상을 입는다.",
+    "descEn": "The user first heats up its beak, and then it attacks the target. Making direct contact with the user while it's heating up its beak results in a burn.",
+    "descJa": "最初に　クチバシを　加熱してから 攻撃を　くりだす。 加熱中に　さわると　やけどする。"
   },
   {
     "name": "Stomping Tantrum",
@@ -559,7 +637,10 @@
       "contact"
     ],
     "nameEn": "Stomping Tantrum",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "분함을 발판 삼아 공격한다. 앞 턴에서 기술이 빗나갔다면 위력이 배가 된다.",
+    "descEn": "Driven by frustration, the user attacks the target. This move's power is doubled if the user's previous move failed.",
+    "descJa": "悔しさを　バネにして　攻撃する。 前の　ターンに　技を　外していると 威力が　倍に　なる。"
   },
   {
     "name": "Fire Lash",
@@ -575,7 +656,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Fire Lash",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "불타는 채찍으로 상대를 친다. 공격을 받은 상대는 방어가 떨어진다.",
+    "descEn": "The user strikes the target with a burning lash. This also lowers the target's Defense stat.",
+    "descJa": "焼けたムチで　相手を　打ちつける。 攻撃を　受けた　相手は 防御が　さがる。"
   },
   {
     "name": "Burn Up",
@@ -588,7 +672,10 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Burn Up",
-    "zPower": 195
+    "zPower": 195,
+    "descKo": "전신의 불꽃을 모두 태워서 큰 데미지를 준다. 자신의 불꽃타입이 없어진다.",
+    "descEn": "To inflict massive damage, the user burns itself out. After using this move, the user will no longer be Fire type.",
+    "descJa": "全身の　ほのおを　すべて 燃やして　大ダメージを　与える。 自分の　ほのおタイプが　なくなる。"
   },
   {
     "name": "Clangorous Soulblaze",
@@ -604,7 +691,10 @@
       "custom:has_secondary",
       "sound"
     ],
-    "nameEn": "Clangorous Soulblaze"
+    "nameEn": "Clangorous Soulblaze",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Veevee Volley",
@@ -619,7 +709,10 @@
       "contact"
     ],
     "nameEn": "Veevee Volley",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Black Hole Eclipse",
@@ -687,7 +780,10 @@
       "bite"
     ],
     "nameEn": "Psychic Fangs",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사이코 파워로 물어서 상대를 공격한다. 빛의장막이나 리플렉터도 파괴할 수 있다.",
+    "descEn": "The user attacks by biting the target with its psychic capabilities. This move can also break barriers, such as Light Screen and Reflect.",
+    "descJa": "サイコパワーで　かみついて 相手を　攻撃する。　ひかりのかべや リフレクター　なども　破壊できる。"
   },
   {
     "name": "Psychic Terrain",
@@ -699,7 +795,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Psychic Terrain"
+    "nameEn": "Psychic Terrain",
+    "descKo": "5턴 동안 땅에 있으면 선제공격을 받지 않는다. 에스퍼타입의 위력이 올라간다.",
+    "descEn": "This protects Pokémon on the ground from priority moves and powers up Psychic-type moves for five turns.",
+    "descJa": "５ターンの間　地面にいると 先制技を　受けない。 エスパータイプの　威力が　あがる。"
   },
   {
     "name": "Bouncy Bubble",
@@ -712,7 +811,10 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Bouncy Bubble",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Moongeist Beam",
@@ -727,7 +829,10 @@
       "custom:ignore_ability"
     ],
     "nameEn": "Moongeist Beam",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "괴상한 광선을 쏘아 공격한다. 상대의 특성을 무시하고 공격할 수 있다.",
+    "descEn": "The user emits a sinister ray to attack the target. This move can be used on the target regardless of its Ability.",
+    "descJa": "怪しい　光線を　放って 攻撃する。相手の　特性を 無視して　攻撃　することが　できる。"
   },
   {
     "name": "Shadow Bone",
@@ -742,7 +847,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Shadow Bone",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "영혼이 머물고 있는 뼈로 상대를 세게 때려서 공격한다. 상대의 방어를 떨어뜨릴 때가 있다.",
+    "descEn": "The user attacks by beating the target with a bone that contains a spirit. This may also lower the target’s Defense stat.",
+    "descJa": "魂の　宿った　ホネで 相手を　なぐりつけて　攻撃する。 相手の　防御を　さげる　ことがある。"
   },
   {
     "name": "Spectral Thief",
@@ -757,7 +865,10 @@
       "contact"
     ],
     "nameEn": "Spectral Thief",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "상대의 그림자에 숨어들어 상대의 능력이 올라가는 것을 뺏어 공격한다.",
+    "descEn": "The user hides in the target’s shadow, steals the target’s stat boosts, and then attacks.",
+    "descJa": "相手の　影に　潜り込み 相手の　能力アップを 奪って　攻撃する。"
   },
   {
     "name": "Sinister Arrow Raid",
@@ -770,7 +881,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Sinister Arrow Raid"
+    "nameEn": "Sinister Arrow Raid",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Searing Sunraze Smash",
@@ -785,7 +899,10 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Searing Sunraze Smash"
+    "nameEn": "Searing Sunraze Smash",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Brutal Swing",
@@ -802,7 +919,10 @@
       "custom:spread_hits_ally"
     ],
     "nameEn": "Brutal Swing",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "자신의 몸을 세차게 휘둘러서 상대에게 데미지를 준다.",
+    "descEn": "The user swings its body around violently to inflict damage on everything in its vicinity.",
+    "descJa": "自分の　体を ぶんまわして　相手に ダメージを　与える。"
   },
   {
     "name": "Solar Blade",
@@ -819,7 +939,10 @@
       "custom:solar_halve"
     ],
     "nameEn": "Solar Blade",
-    "zPower": 190
+    "zPower": 190,
+    "descKo": "1턴째에 빛을 가득 모아 2턴째에 그 힘을 검에 담아 공격한다.",
+    "descEn": "The user gathers light on the first turn, then fills a blade with the light's energy and attacks on the next turn.",
+    "descJa": "１ターン目に　光を　いっぱいに　集め ２ターン目に　その　力を 剣に　込めて　攻撃する。"
   },
   {
     "name": "Hydro Vortex",
@@ -863,7 +986,10 @@
     "aliases": [
       "스마트호른"
     ],
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "뾰족한 뿔로 상대를 꿰찔러서 공격한다. 공격은 반드시 명중한다.",
+    "descEn": "The user stabs the target with a sharp horn. This attack never misses.",
+    "descJa": "とがった　つので　相手を 突き刺して　攻撃する。 攻撃は　必ず　命中する。"
   },
   {
     "name": "Clanging Scales",
@@ -880,7 +1006,10 @@
       "custom:spread"
     ],
     "nameEn": "Clanging Scales",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "전신의 비늘을 비벼서 큰 소리를 내 공격한다. 공격 후 자신의 방어가 떨어진다.",
+    "descEn": "The user rubs the scales on its entire body and makes a huge noise to attack opposing Pokémon. The user's Defense stat is lowered after the attack.",
+    "descJa": "全身の　うろこを　こすり 大きな　音を　出して　攻撃する。 攻撃後　自分の　防御が　さがる。"
   },
   {
     "name": "Gigavolt Havoc",
@@ -918,7 +1047,10 @@
     "accuracy": 0,
     "pp": 15,
     "tags": [],
-    "nameEn": "Spotlight"
+    "nameEn": "Spotlight",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Speed Swap",
@@ -933,7 +1065,10 @@
     "nameEn": "Speed Swap",
     "aliases": [
       "스피드스웹"
-    ]
+    ],
+    "descKo": "상대의 스피드와 자신의 스피드를 교체한다.",
+    "descEn": "The user exchanges Speed stats with the target.",
+    "descJa": "相手の　素早さと 自分の　素早さを 入れ替えてしまう。"
   },
   {
     "name": "Sappy Seed",
@@ -948,7 +1083,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Sappy Seed",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Baddy Bad",
@@ -961,7 +1099,10 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Baddy Bad",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Ice Hammer",
@@ -978,7 +1119,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Ice Hammer",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "강하고 무거운 주먹을 휘둘러 데미지를 준다. 자신의 스피드가 떨어진다.",
+    "descEn": "The user swings its strong, heavy fist at the target to inflict damage. This also lowers the user's Speed stat.",
+    "descJa": "強くて　重い　こぶしを ふるって　ダメージを　与える。 自分の　素早さが　さがる。"
   },
   {
     "name": "Liquidation",
@@ -994,7 +1138,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Liquidation",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "물의 힘으로 상대에게 부딪쳐서 공격한다. 상대의 방어를 떨어뜨릴 때가 있다.",
+    "descEn": "The user slams into the target using a full-force blast of water. This may also lower the target's Defense stat.",
+    "descJa": "水の　力で　相手に ぶつかって　攻撃する。 相手の　防御を　さげる　ことがある。"
   },
   {
     "name": "Guardian of Alola",
@@ -1007,7 +1154,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Guardian of Alola"
+    "nameEn": "Guardian of Alola",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Acid Downpour",
@@ -1049,7 +1199,10 @@
       "contact"
     ],
     "nameEn": "Accelerock",
-    "zPower": 100
+    "zPower": 100,
+    "descKo": "재빠른 스피드로 상대에게 부딪쳐서 공격한다. 반드시 선제공격할 수 있다.",
+    "descEn": "The user smashes into the target at high speed. This move always goes first.",
+    "descJa": "素早い　スピードで 相手に　ぶつかって　攻撃する。 必ず　先制攻撃　できる。"
   },
   {
     "name": "Anchor Shot",
@@ -1067,7 +1220,10 @@
     "aliases": [
       "앵커숏"
     ],
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "앵커를 상대에게 휘감아서 공격한다. 상대는 도망칠 수 없게 된다.",
+    "descEn": "The user entangles the target with its anchor chain while attacking. The target becomes unable to flee.",
+    "descJa": "アンカーを　相手に　からませて 攻撃する。　相手は 逃げることが　できなくなる。"
   },
   {
     "name": "Gear Up",
@@ -1079,7 +1235,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Gear Up"
+    "nameEn": "Gear Up",
+    "descKo": "기어를 넣는 것으로 특성 플러스와 마이너스의 공격과 특수공격이 올라간다.",
+    "descEn": "The user engages its gears to raise the Attack and Sp. Atk stats of ally Pokémon with the Plus or Minus Ability.",
+    "descJa": "ギアを　入れる　ことによって 特性　プラスと　マイナスの 攻撃と　特攻が　あがる。"
   },
   {
     "name": "Devastating Drake",
@@ -1117,7 +1276,10 @@
     "accuracy": 0,
     "pp": 30,
     "tags": [],
-    "nameEn": "Laser Focus"
+    "nameEn": "Laser Focus",
+    "descKo": "정신을 집중해서 다음 공격을 반드시 급소에 맞춘다.",
+    "descEn": "The user concentrates intensely. The attack on the next turn always results in a critical hit.",
+    "descJa": "精神を　集中して 次の　攻撃を　必ず 急所に　当てる。"
   },
   {
     "name": "Aurora Veil",
@@ -1129,7 +1291,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Aurora Veil"
+    "nameEn": "Aurora Veil",
+    "descKo": "5턴 동안 물리와 특수 기술의 데미지를 약하게 한다. 싸라기눈일 때만 쓸 수 있다.",
+    "descEn": "This move reduces damage from physical and special moves for five turns. This can be used only when it is snowing.",
+    "descJa": "５ターンの　間　物理と 特殊の　ダメージを　弱める。 あられの　時しか　出すことが　できない。"
   },
   {
     "name": "Genesis Supernova",
@@ -1142,7 +1307,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Genesis Supernova"
+    "nameEn": "Genesis Supernova",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Breakneck Blitz",
@@ -1210,7 +1378,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Sizzly Slide",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Nature’s Madness",
@@ -1237,7 +1408,10 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Revelation Dance",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "전력으로 춤추며 공격한다. 이 기술의 타입은 자신의 타입과 같아진다.",
+    "descEn": "The user attacks the target by dancing with all its might. This move becomes the same type as the user's type.",
+    "descJa": "全力で　踊って　攻撃する。 この　技の　タイプは 自分の　タイプと　同じになる。"
   },
   {
     "name": "All-Out Pummeling",
@@ -1301,7 +1475,10 @@
     "accuracy": 0,
     "pp": 20,
     "tags": [],
-    "nameEn": "Purify"
+    "nameEn": "Purify",
+    "descKo": "상대의 상태 이상을 회복한다. 회복하면 자신은 HP를 회복할 수 있다.",
+    "descEn": "The user heals the target’s status condition. If the move succeeds, it also restores the user’s own HP.",
+    "descJa": "相手の　状態異常を　治す。 治すと　自分は　ＨＰを 回復　することが　できる。"
   },
   {
     "name": "Throat Chop",
@@ -1317,7 +1494,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Throat Chop",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "이 기술에 맞은 상대는 지옥의 고통 때문에 2턴 동안 소리 기술을 낼 수 없다.",
+    "descEn": "The user attacks the target's throat, and the resultant suffering prevents the target from using sound-based moves for two turns.",
+    "descJa": "この　技を　受けた　相手は 地獄の　苦しみから　２ターンの間 音の　技を　出すことが　できなくなる。"
   },
   {
     "name": "Instruct",
@@ -1329,7 +1509,10 @@
     "accuracy": 0,
     "pp": 15,
     "tags": [],
-    "nameEn": "Instruct"
+    "nameEn": "Instruct",
+    "descKo": "상대에게 지시하여 상대가 쓴 기술을 다시 한번 쓰게 할 수 있다.",
+    "descEn": "The user instructs the target to reuse the move last used by the target.",
+    "descJa": "相手が　出した　技を 指示して　もう一度 出させることが　できる。"
   },
   {
     "name": "Pulverizing Pancake",
@@ -1344,7 +1527,10 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Pulverizing Pancake"
+    "nameEn": "Pulverizing Pancake",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Zing Zap",
@@ -1360,7 +1546,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Zing Zap",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "상대에게 부딪쳐 강력한 전기를 날려서 찌리리따끔따끔하게 만든다. 상대를 풀죽게 만들 때가 있다.",
+    "descEn": "The user crashes into the target, delivering a powerful electric shock. This may also make the target flinch.",
+    "descJa": "相手に　ぶつかって　強力な 電気を浴びせ　びりびりちくちく　させる。 相手を　ひるませる　ことが　ある。"
   },
   {
     "name": "Buzzy Buzz",
@@ -1375,7 +1564,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Buzzy Buzz",
-    "zPower": 120
+    "zPower": 120,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Splishy Splash",
@@ -1391,7 +1583,10 @@
       "custom:spread"
     ],
     "nameEn": "Splishy Splash",
-    "zPower": 175
+    "zPower": 175,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Corkscrew Crash",
@@ -1432,7 +1627,10 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Soul-Stealing 7-Star Strike"
+    "nameEn": "Soul-Stealing 7-Star Strike",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Core Enforcer",
@@ -1447,7 +1645,10 @@
       "custom:spread"
     ],
     "nameEn": "Core Enforcer",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "데미지를 준 상대가 이미 행동을 끝냈다면 상대의 특성을 없애버린다.",
+    "descEn": "If the Pokémon the user has inflicted damage on have already used their moves, this move eliminates the effect of the target’s Ability.",
+    "descJa": "ダメージを　与えた　相手が すでに　行動を　終えていたら 相手の　特性を　消してしまう。"
   },
   {
     "name": "Glitzy Glow",
@@ -1460,7 +1661,10 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Glitzy Glow",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Baneful Bunker",
@@ -1473,7 +1677,10 @@
     "pp": 10,
     "priority": 4,
     "tags": [],
-    "nameEn": "Baneful Bunker"
+    "nameEn": "Baneful Bunker",
+    "descKo": "상대의 공격을 막음과 동시에 접촉한 상대에게 독을 퍼뜨린다.",
+    "descEn": "In addition to protecting the user from attacks, this move also poisons any attacker that makes direct contact.",
+    "descJa": "相手の　攻撃を　防ぐと 同時に　触れた　相手に 毒を　与えてしまう。"
   },
   {
     "name": "Let’s Snuggle Forever",
@@ -1504,7 +1711,10 @@
       "custom:spread"
     ],
     "nameEn": "Shell Trap",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "껍질의 트랩을 설치한다. 상대가 물리 기술을 쓰면 폭발해서 데미지를 준다.",
+    "descEn": "The user sets a shell trap. If the user is hit by a physical move, the trap will explode and inflict damage on opposing Pokémon.",
+    "descJa": "こうらの　トラップを　しかける。 相手が　物理技を　出すと 爆発して　ダメージを　与える。"
   },
   {
     "name": "Trop Kick",
@@ -1520,7 +1730,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Trop Kick",
-    "zPower": 140
+    "zPower": 140,
+    "descKo": "남쪽 나라에서 유래된 뜨거운 킥을 상대에게 날린다. 상대의 공격을 떨어뜨린다.",
+    "descEn": "The user lands an intense kick of tropical origins on the target. This also lowers the target's Attack stat.",
+    "descJa": "南国　由来の　熱い キックを　相手に　浴びせる。 相手の　攻撃を　さげる。"
   },
   {
     "name": "Supersonic Skystrike",
@@ -1563,7 +1776,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Zippy Zap",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Photon Geyser",
@@ -1579,7 +1795,10 @@
       "custom:ignore_ability"
     ],
     "nameEn": "Photon Geyser",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "빛의 기둥으로 공격한다. 공격과 특수공격을 비교해서 높은 쪽으로 데미지를 준다.",
+    "descEn": "The user attacks the target with a pillar of light. This move inflicts damage using the Attack or Sp. Atk stat—whichever is higher for the user.",
+    "descJa": "光の　柱で　攻撃する。 攻撃と　特攻を　比べて 高いほうで　ダメージを　与える。"
   },
   {
     "name": "Prismatic Laser",
@@ -1592,7 +1811,10 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Prismatic Laser",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "프리즘의 힘으로 강력한 광선을 발사한다. 다음 턴은 움직일 수 없다.",
+    "descEn": "The user shoots powerful lasers using the power of a prism. The user can't move on the next turn.",
+    "descJa": "プリズムの　力で　強力な 光線を　発射する。 次の　ターンは　動けなくなる。"
   },
   {
     "name": "Plasma Fists",
@@ -1608,7 +1830,10 @@
       "punch"
     ],
     "nameEn": "Plasma Fists",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "전기를 두른 주먹으로 공격한다. 노말타입 기술을 전기타입으로 바꿔버린다.",
+    "descEn": "The user attacks with electrically charged fists. This move changes Normal-type moves to Electric-type moves.",
+    "descJa": "電気を　まとった　こぶしで 攻撃。　ノーマルタイプの　技を でんきタイプに　してしまう。"
   },
   {
     "name": "Floral Healing",
@@ -1620,7 +1845,10 @@
     "accuracy": 0,
     "pp": 10,
     "tags": [],
-    "nameEn": "Floral Healing"
+    "nameEn": "Floral Healing",
+    "descKo": "최대 HP의 절반만큼 상대의 HP를 회복한다. 그래스필드일 때 효과가 올라간다.",
+    "descEn": "The user restores the target's HP by up to half its max HP. More HP is restored when the ground is Grassy Terrain.",
+    "descJa": "最大ＨＰの　半分 相手の　ＨＰを　回復する。 グラスフィールドの時　効果が　あがる。"
   },
   {
     "name": "Fleur Cannon",
@@ -1635,7 +1863,10 @@
       "custom:has_secondary"
     ],
     "nameEn": "Fleur Cannon",
-    "zPower": 195
+    "zPower": 195,
+    "descKo": "강력한 빔을 발산한 후 자신의 특수공격이 크게 떨어진다.",
+    "descEn": "The user unleashes a strong beam. The recoil from this move harshly lowers the user's Sp. Atk stat.",
+    "descJa": "強力な　ビームを　放ったあと 自分の　特攻が　がくっと　さがる。"
   },
   {
     "name": "Pika Papow",
@@ -1648,7 +1879,10 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Pika Papow",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Catastropika",
@@ -1663,7 +1897,10 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Catastropika"
+    "nameEn": "Catastropika",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Light That Burns the Sky",
@@ -1676,7 +1913,10 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Light That Burns the Sky"
+    "nameEn": "Light That Burns the Sky",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Malicious Moonsault",
@@ -1691,7 +1931,10 @@
     "tags": [
       "contact"
     ],
-    "nameEn": "Malicious Moonsault"
+    "nameEn": "Malicious Moonsault",
+    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+    "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
   {
     "name": "Strength Sap",
@@ -1703,6 +1946,9 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [],
-    "nameEn": "Strength Sap"
+    "nameEn": "Strength Sap",
+    "descKo": "상대 공격력과 동일하게 자신의 HP를 회복한다. 그리고 상대의 공격을 떨어뜨린다.",
+    "descEn": "The user restores its own HP by the same amount as the target's Attack stat. It then lowers the target's Attack stat.",
+    "descJa": "相手の　攻撃力と　同じだけ 自分の　ＨＰを　回復する。 そして　相手の　攻撃を　さげる。"
   }
 ]

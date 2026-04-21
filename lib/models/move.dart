@@ -34,6 +34,9 @@ class Move {
   final int maxHits;
   final List<String> aliases;
   final int? zPower;
+  final String? descKo;
+  final String? descEn;
+  final String? descJa;
 
   const Move({
     required this.name,
@@ -52,7 +55,13 @@ class Move {
     this.maxHits = 1,
     this.aliases = const [],
     this.zPower,
+    this.descKo,
+    this.descEn,
+    this.descJa,
   });
+
+  String? get localizedDescription =>
+      AppStrings.maybeName(nameKo: descKo, nameEn: descEn, nameJa: descJa);
 
   String get localizedName => AppStrings.name(nameKo: nameKo, nameEn: nameEn, nameJa: nameJa, name: name);
 
@@ -151,6 +160,9 @@ class Move {
           ? List<String>.from(json['aliases'] as List)
           : const [],
       zPower: json['zPower'] as int?,
+      descKo: json['descKo'] as String?,
+      descEn: json['descEn'] as String?,
+      descJa: json['descJa'] as String?,
     );
   }
 }

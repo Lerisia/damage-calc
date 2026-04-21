@@ -1622,5 +1622,30 @@
       "영꽃"
     ],
     "nameEn": "Floette (Eternal Flower)"
+  },
+  {
+    "dexNumber": 774,
+    "formId": 10128,
+    "name": "Minior (Core Form)",
+    "nameKo": "메테노 (코어의 모습)",
+    "nameJa": "メテノ (コアのすがた)",
+    "type1": "rock",
+    "type2": "flying",
+    "baseStats": {
+      "hp": 60,
+      "attack": 100,
+      "defense": 60,
+      "spAttack": 100,
+      "spDefense": 60,
+      "speed": 120
+    },
+    "abilities": [
+      "Shields Down"
+    ],
+    "weight": 0.3,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": -1,
+    "nameEn": "Minior (Core Form)"
   }
 ]

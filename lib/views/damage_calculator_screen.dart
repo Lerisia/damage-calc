@@ -16,6 +16,7 @@ import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/simple_mode_controller.dart';
+import 'dex_screen.dart';
 import 'simple_mode_screen.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/korean_search.dart';
@@ -646,6 +647,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       context: context,
       builder: (_) => const _AboutDialog(),
     );
+  }
+
+  /// Open the Pokédex screen, optionally focused on a specific
+  /// Pokemon. [initialName] mirrors [BattlePokemonState.pokemonName]
+  /// when invoked from the per-side panel "open in dex" button.
+  void _openDex({String? initialName}) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => DexScreen(initialPokemonName: initialName),
+    ));
   }
 
   String _languageLabel() {
@@ -1376,6 +1386,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 itemBuilder: (_) => [
                   PopupMenuItem(
+                    value: 'dex',
+                    child: Row(children: [
+                      const Icon(Icons.menu_book_outlined, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t('dex.title')),
+                    ]),
+                  ),
+                  PopupMenuItem(
                     value: 'language',
                     child: Row(children: [
                       const Icon(Icons.language, size: 20),
@@ -1409,6 +1427,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ],
                 onSelected: (v) {
                   switch (v) {
+                    case 'dex':
+                      _openDex();
                     case 'language':
                       _showLanguageDialog();
                     case 'theme':
@@ -1640,6 +1660,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             onSave: () => _showSaveDialog(side, state),
             onLoad: () => _showLoadSheet(side),
             onReset: () => _resetSide(side),
+            onOpenDex: () => _openDex(initialName: state.pokemonName),
             resetCounter: _resetCounter,
             isAttacker: isAttacker,
             opponentSpeed: isAttacker

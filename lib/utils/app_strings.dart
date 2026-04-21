@@ -70,6 +70,22 @@ class AppStrings {
     };
   }
 
+  /// Like [name] but returns null when the corresponding field is null
+  /// (no language fallback). Used for optional fields like ability /
+  /// move descriptions where we'd rather show nothing than the wrong
+  /// language.
+  static String? maybeName({
+    String? nameKo,
+    String? nameEn,
+    String? nameJa,
+  }) {
+    return switch (_current) {
+      AppLanguage.ko => nameKo ?? nameEn ?? nameJa,
+      AppLanguage.en => nameEn ?? nameKo ?? nameJa,
+      AppLanguage.ja => nameJa ?? nameEn ?? nameKo,
+    };
+  }
+
   static const Map<String, Map<AppLanguage, String>> _strings = {
     // === App ===
     'app.title': {
@@ -143,6 +159,83 @@ class AppStrings {
       AppLanguage.ko: '스피드',
       AppLanguage.en: 'Speed',
       AppLanguage.ja: 'スピード',
+    },
+
+    // === Dex ===
+    'dex.title': {
+      AppLanguage.ko: '도감',
+      AppLanguage.en: 'Pokédex',
+      AppLanguage.ja: '図鑑',
+    },
+    'dex.tabMain': {
+      AppLanguage.ko: '메인',
+      AppLanguage.en: 'Main',
+      AppLanguage.ja: 'メイン',
+    },
+    'dex.tabMoves': {
+      AppLanguage.ko: '기술',
+      AppLanguage.en: 'Moves',
+      AppLanguage.ja: '技',
+    },
+    'dex.weight': {
+      AppLanguage.ko: '무게',
+      AppLanguage.en: 'Weight',
+      AppLanguage.ja: '重さ',
+    },
+    'dex.height': {
+      AppLanguage.ko: '키',
+      AppLanguage.en: 'Height',
+      AppLanguage.ja: '高さ',
+    },
+    'dex.gender': {
+      AppLanguage.ko: '성별',
+      AppLanguage.en: 'Gender',
+      AppLanguage.ja: '性別',
+    },
+    'dex.genderless': {
+      AppLanguage.ko: '성별 없음',
+      AppLanguage.en: 'Genderless',
+      AppLanguage.ja: '性別不明',
+    },
+    'dex.statTotal': {
+      AppLanguage.ko: '합계',
+      AppLanguage.en: 'Total',
+      AppLanguage.ja: '合計',
+    },
+    'dex.abilities': {
+      AppLanguage.ko: '특성',
+      AppLanguage.en: 'Abilities',
+      AppLanguage.ja: '特性',
+    },
+    'dex.typeMatchups': {
+      AppLanguage.ko: '타입 상성',
+      AppLanguage.en: 'Type Matchups',
+      AppLanguage.ja: 'タイプ相性',
+    },
+    'dex.searchMoves': {
+      AppLanguage.ko: '기술 검색',
+      AppLanguage.en: 'Search moves',
+      AppLanguage.ja: '技を検索',
+    },
+    'dex.allTypes': {
+      AppLanguage.ko: '모든 타입',
+      AppLanguage.en: 'All types',
+      AppLanguage.ja: '全タイプ',
+    },
+    'dex.allCategories': {
+      AppLanguage.ko: '모든 분류',
+      AppLanguage.en: 'All categories',
+      AppLanguage.ja: '全分類',
+    },
+    'dex.noDescription': {
+      AppLanguage.ko: '설명 없음',
+      AppLanguage.en: 'No description',
+      AppLanguage.ja: '説明なし',
+    },
+    'dex.noMovesMatch': {
+      AppLanguage.ko: '검색 결과 없음',
+      AppLanguage.en: 'No matches',
+      AppLanguage.ja: '結果なし',
     },
 
     // === Panel sections ===

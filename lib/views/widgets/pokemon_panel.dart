@@ -55,6 +55,10 @@ class PokemonPanel extends StatefulWidget {
   final VoidCallback? onSave;
   final VoidCallback? onLoad;
   final VoidCallback? onReset;
+  /// Tap target that opens the Pokédex focused on this Pokemon. The
+  /// parent screen owns navigation so the panel doesn't need to know
+  /// about routing.
+  final VoidCallback? onOpenDex;
   final bool useSpMode;
   final ValueChanged<bool>? onSpModeChanged;
 
@@ -85,6 +89,7 @@ class PokemonPanel extends StatefulWidget {
     this.onSave,
     this.onLoad,
     this.onReset,
+    this.onOpenDex,
     this.useSpMode = false,
     this.onSpModeChanged,
   });
@@ -211,6 +216,17 @@ class PokemonPanelState extends State<PokemonPanel>
                 _notifyParent();
               },
             )),
+            if (widget.onOpenDex != null) ...[
+              const SizedBox(width: 2),
+              IconButton(
+                tooltip: AppStrings.t('dex.title'),
+                icon: const Icon(Icons.menu_book_outlined, size: 20),
+                onPressed: widget.onOpenDex,
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+            ],
             const SizedBox(width: 4),
             ..._effectiveTypeBadges(),
             const SizedBox(width: 4),
