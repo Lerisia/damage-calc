@@ -579,7 +579,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             const SizedBox(width: 8),
             Expanded(child: _itemField(attacker: true)),
           ]),
-          const SizedBox(height: 14),
+          const SizedBox(height: 6),
           // Move | Critical | × multiplier — sits above the stat row
           // so picking a special move (which flips the offensive stat
           // slot from Atk to SpA) doesn't blow away the user's
