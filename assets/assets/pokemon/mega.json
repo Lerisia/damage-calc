@@ -1356,8 +1356,8 @@
     "abilities": [
       "Magic Bounce"
     ],
-    "weight": 40.0,
-    "height": 1.3,
+    "weight": 42.3,
+    "height": 1.7,
     "dexNumber": 36,
     "finalEvo": true,
     "canDynamax": false,
@@ -1383,8 +1383,8 @@
     "abilities": [
       "Innards Out"
     ],
-    "weight": 15.5,
-    "height": 1.7,
+    "weight": 125.5,
+    "height": 4.5,
     "dexNumber": 71,
     "finalEvo": true,
     "canDynamax": false,
@@ -1411,7 +1411,7 @@
       "Huge Power"
     ],
     "weight": 80.0,
-    "height": 1.1,
+    "height": 2.3,
     "dexNumber": 121,
     "finalEvo": true,
     "canDynamax": false,
@@ -1437,7 +1437,7 @@
     "abilities": [
       "Multiscale"
     ],
-    "weight": 210.0,
+    "weight": 290.0,
     "height": 2.2,
     "dexNumber": 149,
     "finalEvo": true,
@@ -1464,8 +1464,8 @@
     "abilities": [
       "Mega Sol"
     ],
-    "weight": 100.5,
-    "height": 1.8,
+    "weight": 201.0,
+    "height": 2.4,
     "dexNumber": 154,
     "finalEvo": true,
     "canDynamax": false,
@@ -1491,7 +1491,7 @@
     "abilities": [
       "Dragonize"
     ],
-    "weight": 88.8,
+    "weight": 108.8,
     "height": 2.3,
     "dexNumber": 160,
     "finalEvo": true,
@@ -1518,7 +1518,7 @@
     "abilities": [
       "Stalwart"
     ],
-    "weight": 50.5,
+    "weight": 40.4,
     "height": 1.7,
     "dexNumber": 227,
     "finalEvo": true,
@@ -1545,8 +1545,8 @@
     "abilities": [
       "Snow Warning"
     ],
-    "weight": 26.6,
-    "height": 1.3,
+    "weight": 29.6,
+    "height": 2.6,
     "dexNumber": 478,
     "finalEvo": true,
     "canDynamax": false,
@@ -1572,8 +1572,8 @@
     "abilities": [
       "Mold Breaker"
     ],
-    "weight": 150.0,
-    "height": 1.6,
+    "weight": 180.3,
+    "height": 1.8,
     "dexNumber": 500,
     "finalEvo": true,
     "canDynamax": false,
@@ -1599,8 +1599,8 @@
     "abilities": [
       "Piercing Drill"
     ],
-    "weight": 40.4,
-    "height": 0.7,
+    "weight": 60.0,
+    "height": 0.9,
     "dexNumber": 530,
     "finalEvo": true,
     "canDynamax": false,
@@ -1623,11 +1623,9 @@
       "spDefense": 99,
       "speed": 62
     },
-    "abilities": [
-      "Battle Armor"
-    ],
-    "weight": 200.5,
-    "height": 2.5,
+    "abilities": [],
+    "weight": 230.5,
+    "height": 3.2,
     "dexNumber": 545,
     "finalEvo": true,
     "canDynamax": false,
@@ -1650,10 +1648,8 @@
       "spDefense": 135,
       "speed": 68
     },
-    "abilities": [
-      "Hustle"
-    ],
-    "weight": 30.0,
+    "abilities": [],
+    "weight": 31.0,
     "height": 1.1,
     "dexNumber": 560,
     "finalEvo": true,
@@ -1676,11 +1672,9 @@
       "spDefense": 90,
       "speed": 80
     },
-    "abilities": [
-      "Levitate"
-    ],
-    "weight": 80.5,
-    "height": 2.1,
+    "abilities": [],
+    "weight": 180.0,
+    "height": 3.0,
     "dexNumber": 604,
     "finalEvo": true,
     "canDynamax": false,
@@ -1706,8 +1700,8 @@
     "abilities": [
       "Infiltrator"
     ],
-    "weight": 34.3,
-    "height": 1.0,
+    "weight": 69.6,
+    "height": 2.5,
     "dexNumber": 609,
     "finalEvo": true,
     "canDynamax": false,
@@ -1811,10 +1805,8 @@
       "spDefense": 86,
       "speed": 126
     },
-    "abilities": [
-      "Intimidate"
-    ],
-    "weight": 81.5,
+    "abilities": [],
+    "weight": 93.3,
     "height": 1.5,
     "dexNumber": 668,
     "finalEvo": true,
@@ -1840,7 +1832,7 @@
     "abilities": [
       "Fairy Aura"
     ],
-    "weight": 0.9,
+    "weight": 100.8,
     "height": 0.2,
     "dexNumber": 670,
     "finalEvo": true,
@@ -1864,11 +1856,9 @@
       "spDefense": 120,
       "speed": 88
     },
-    "abilities": [
-      "Contrary"
-    ],
-    "weight": 47.0,
-    "height": 1.5,
+    "abilities": [],
+    "weight": 69.8,
+    "height": 2.9,
     "dexNumber": 687,
     "finalEvo": true,
     "canDynamax": false,
@@ -1891,11 +1881,9 @@
       "spDefense": 106,
       "speed": 88
     },
-    "abilities": [
-      "Tough Claws"
-    ],
-    "weight": 96.0,
-    "height": 1.3,
+    "abilities": [],
+    "weight": 100.0,
+    "height": 2.2,
     "dexNumber": 689,
     "finalEvo": true,
     "canDynamax": false,
@@ -1918,11 +1906,9 @@
       "spDefense": 163,
       "speed": 44
     },
-    "abilities": [
-      "Tinted Lens"
-    ],
-    "weight": 81.5,
-    "height": 1.8,
+    "abilities": [],
+    "weight": 100.3,
+    "height": 2.1,
     "dexNumber": 691,
     "finalEvo": true,
     "canDynamax": false,
@@ -1948,8 +1934,8 @@
     "abilities": [
       "No Guard"
     ],
-    "weight": 21.5,
-    "height": 0.8,
+    "weight": 25.0,
+    "height": 1.0,
     "dexNumber": 701,
     "finalEvo": true,
     "canDynamax": false,
@@ -1972,11 +1958,9 @@
       "spDefense": 85,
       "speed": 100
     },
-    "abilities": [
-      "Mega Zygarde Ability"
-    ],
-    "weight": 305.0,
-    "height": 5.0,
+    "abilities": [],
+    "weight": 610.0,
+    "height": 7.7,
     "dexNumber": 718,
     "finalEvo": true,
     "canDynamax": false,
@@ -2002,7 +1986,7 @@
     "abilities": [
       "Berserk"
     ],
-    "weight": 185.0,
+    "weight": 240.5,
     "height": 3.0,
     "dexNumber": 780,
     "finalEvo": true,
@@ -2025,11 +2009,9 @@
       "spDefense": 65,
       "speed": 100
     },
-    "abilities": [
-      "Battle Armor"
-    ],
-    "weight": 62.0,
-    "height": 3.0,
+    "abilities": [],
+    "weight": 99.0,
+    "height": 1.6,
     "dexNumber": 870,
     "finalEvo": true,
     "canDynamax": false,
@@ -2051,11 +2033,9 @@
       "spDefense": 95,
       "speed": 110
     },
-    "abilities": [
-      "Reckless"
-    ],
-    "weight": 30.0,
-    "height": 0.8,
+    "abilities": [],
+    "weight": 38.0,
+    "height": 1.2,
     "dexNumber": 26,
     "finalEvo": true,
     "canDynamax": false,
@@ -2077,11 +2057,9 @@
       "spDefense": 80,
       "speed": 130
     },
-    "abilities": [
-      "Electric Surge"
-    ],
-    "weight": 30.0,
-    "height": 0.8,
+    "abilities": [],
+    "weight": 26.0,
+    "height": 1.0,
     "dexNumber": 26,
     "finalEvo": true,
     "canDynamax": false,
@@ -2107,8 +2085,8 @@
     "abilities": [
       "Levitate"
     ],
-    "weight": 1.0,
-    "height": 0.6,
+    "weight": 8.0,
+    "height": 1.2,
     "dexNumber": 358,
     "finalEvo": true,
     "canDynamax": false,
@@ -2131,10 +2109,8 @@
       "spDefense": 60,
       "speed": 151
     },
-    "abilities": [
-      "Tough Claws"
-    ],
-    "weight": 47.0,
+    "abilities": [],
+    "weight": 49.0,
     "height": 1.2,
     "dexNumber": 359,
     "finalEvo": true,
@@ -2158,11 +2134,9 @@
       "spDefense": 90,
       "speed": 110
     },
-    "abilities": [
-      "Contrary"
-    ],
-    "weight": 24.9,
-    "height": 1.2,
+    "abilities": [],
+    "weight": 50.0,
+    "height": 1.9,
     "dexNumber": 398,
     "finalEvo": true,
     "canDynamax": false,
@@ -2184,10 +2158,8 @@
       "spDefense": 85,
       "speed": 151
     },
-    "abilities": [
-      "Levitate"
-    ],
-    "weight": 95.0,
+    "abilities": [],
+    "weight": 99.0,
     "height": 1.9,
     "dexNumber": 445,
     "finalEvo": true,
@@ -2211,11 +2183,9 @@
       "spDefense": 70,
       "speed": 151
     },
-    "abilities": [
-      "Mega Launcher"
-    ],
-    "weight": 57.5,
-    "height": 1.2,
+    "abilities": [],
+    "weight": 49.4,
+    "height": 1.3,
     "dexNumber": 448,
     "finalEvo": true,
     "canDynamax": false,
@@ -2238,11 +2208,9 @@
       "spDefense": 141,
       "speed": 67
     },
-    "abilities": [
-      "Flash Fire"
-    ],
-    "weight": 430.0,
-    "height": 1.7,
+    "abilities": [],
+    "weight": 570.0,
+    "height": 2.8,
     "dexNumber": 485,
     "finalEvo": true,
     "canDynamax": false,
@@ -2264,11 +2232,9 @@
       "spDefense": 130,
       "speed": 85
     },
-    "abilities": [
-      "Bad Dreams"
-    ],
-    "weight": 50.5,
-    "height": 1.5,
+    "abilities": [],
+    "weight": 240.0,
+    "height": 3.0,
     "dexNumber": 491,
     "finalEvo": true,
     "canDynamax": false,
@@ -2295,7 +2261,7 @@
       "Unseen Fist"
     ],
     "weight": 330.0,
-    "height": 2.8,
+    "height": 4.0,
     "dexNumber": 623,
     "finalEvo": true,
     "canDynamax": false,
@@ -2320,8 +2286,8 @@
     "abilities": [
       "Trace"
     ],
-    "weight": 8.5,
-    "height": 0.6,
+    "weight": 10.1,
+    "height": 0.8,
     "dexNumber": 678,
     "finalEvo": true,
     "canDynamax": false,
@@ -2347,8 +2313,8 @@
     "abilities": [
       "Iron Fist"
     ],
-    "weight": 180.0,
-    "height": 1.7,
+    "weight": 252.8,
+    "height": 2.6,
     "dexNumber": 740,
     "finalEvo": true,
     "canDynamax": false,
@@ -2371,11 +2337,9 @@
       "spDefense": 120,
       "speed": 40
     },
-    "abilities": [
-      "Tough Claws"
-    ],
-    "weight": 108.0,
-    "height": 2.0,
+    "abilities": [],
+    "weight": 148.0,
+    "height": 2.3,
     "dexNumber": 768,
     "finalEvo": true,
     "canDynamax": false,
@@ -2398,11 +2362,9 @@
       "spDefense": 115,
       "speed": 95
     },
-    "abilities": [
-      "Soul-Heart"
-    ],
-    "weight": 80.5,
-    "height": 1.0,
+    "abilities": [],
+    "weight": 248.1,
+    "height": 1.3,
     "dexNumber": 801,
     "finalEvo": true,
     "canDynamax": false,
@@ -2424,9 +2386,7 @@
       "spDefense": 80,
       "speed": 153
     },
-    "abilities": [
-      "Speed Boost"
-    ],
+    "abilities": [],
     "weight": 44.5,
     "height": 1.5,
     "dexNumber": 807,
@@ -2454,8 +2414,8 @@
     "abilities": [
       "Spicy Spray"
     ],
-    "weight": 15.0,
-    "height": 0.9,
+    "weight": 22.0,
+    "height": 1.2,
     "dexNumber": 952,
     "finalEvo": true,
     "canDynamax": false,
@@ -2481,8 +2441,8 @@
     "abilities": [
       "Adaptability"
     ],
-    "weight": 45.0,
-    "height": 1.0,
+    "weight": 77.0,
+    "height": 2.8,
     "dexNumber": 970,
     "finalEvo": true,
     "canDynamax": false,
@@ -2505,11 +2465,9 @@
       "spDefense": 125,
       "speed": 92
     },
-    "abilities": [
-      "Storm Drain"
-    ],
-    "weight": 8.0,
-    "height": 0.3,
+    "abilities": [],
+    "weight": 24.0,
+    "height": 0.6,
     "dexNumber": 978,
     "finalEvo": true,
     "canDynamax": false,
@@ -2532,10 +2490,8 @@
       "spDefense": 101,
       "speed": 87
     },
-    "abilities": [
-      "Thermal Exchange"
-    ],
-    "weight": 210.0,
+    "abilities": [],
+    "weight": 315.0,
     "height": 2.1,
     "dexNumber": 998,
     "finalEvo": true,
