@@ -455,7 +455,6 @@ class _AbilitiesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final abs = pokemon.abilities;
-    if (abs.isEmpty) return const SizedBox.shrink();
     // Convention: last ability in the list is the hidden one when 3
     // are listed (PokeAPI convention is preserved in our data). We
     // tag with '*' when this looks like a HA pattern.
@@ -465,8 +464,38 @@ class _AbilitiesSection extends StatelessWidget {
       children: [
         _SectionTitle(AppStrings.t('dex.abilities')),
         const SizedBox(height: 6),
-        for (int i = 0; i < abs.length; i++)
-          _abilityRow(abs[i], isHidden: i == hiddenIndex && abs.length >= 2),
+        if (abs.isEmpty)
+          // Placeholder for fan/unreleased mega forms whose abilities
+          // haven't been officially revealed — show "미공개" with a
+          // short note that it'll be updated once official info drops.
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppStrings.t('dex.abilityUnrevealed'),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2, left: 2),
+                  child: Text(
+                    AppStrings.t('dex.abilityUnrevealedDesc'),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        else
+          for (int i = 0; i < abs.length; i++)
+            _abilityRow(abs[i], isHidden: i == hiddenIndex && abs.length >= 2),
       ],
     );
   }

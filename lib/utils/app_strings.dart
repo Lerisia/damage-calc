@@ -244,6 +244,16 @@ class AppStrings {
       AppLanguage.en: 'No description',
       AppLanguage.ja: '説明なし',
     },
+    'dex.abilityUnrevealed': {
+      AppLanguage.ko: '미공개',
+      AppLanguage.en: 'Unrevealed',
+      AppLanguage.ja: '未公開',
+    },
+    'dex.abilityUnrevealedDesc': {
+      AppLanguage.ko: '아직 특성이 공개되지 않았습니다. 공식 정보가 공개되면 업데이트됩니다.',
+      AppLanguage.en: "This ability hasn't been revealed yet. It'll be updated once official info is available.",
+      AppLanguage.ja: '特性はまだ公開されていません。公式情報が公開され次第、更新されます。',
+    },
     'dex.noMovesMatch': {
       AppLanguage.ko: '검색 결과 없음',
       AppLanguage.en: 'No matches',
