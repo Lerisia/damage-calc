@@ -446,7 +446,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: () => _showRankPicker(state, stat),
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 30 * s, height: 28 * s,
+        width: 32 * s, height: 28 * s,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: active ? activeFg.withValues(alpha: 0.18) : null,
@@ -535,9 +535,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _attackerCard(),
-                // No gap between cards — each card already has a
-                // top+bottom divider, so zero spacing makes adjacent
-                // dividers sit flush and read as a single line.
+                // A 3px nudge between attacker and defender — small
+                // enough to read as a single boundary zone, large
+                // enough to visibly separate the red and blue rules.
+                const SizedBox(height: 3),
                 _defenderCard(),
                 const SizedBox(height: 10),
                 _resultCard(),
@@ -1066,7 +1067,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+        // Fixed-width label slot — "HP" is Latin (narrow) while the
+        // rest are Korean/Japanese 2-char labels (wider). Without the
+        // slot, each row's SP field starts at a different X and the
+        // downstream chips drift out of alignment.
+        SizedBox(
+          width: 28,
+          child: Text(label,
+              style: const TextStyle(
+                  fontSize: 13, fontWeight: FontWeight.w700)),
+        ),
         const SizedBox(width: 4),
         SizedBox(
           width: 40, height: 30,
@@ -1121,7 +1131,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 28 * s, height: 28 * s,
+        width: 30 * s, height: 28 * s,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(color: fg.withValues(alpha: 0.7)),
@@ -1155,7 +1165,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: () => _cycleNature(stat, attacker: attacker),
       borderRadius: BorderRadius.circular(4),
       child: Container(
-        width: 28 * s, height: 28 * s,
+        width: 30 * s, height: 28 * s,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isActive ? color.withValues(alpha: 0.18) : null,
