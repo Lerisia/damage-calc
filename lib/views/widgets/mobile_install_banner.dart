@@ -35,13 +35,14 @@ class MobileInstallPrompt {
     );
   }
 
-  /// Fire-and-forget — do NOT await. iOS Safari's popup blocker
-  /// cancels window.open calls that happen after any await-break
-  /// because the user-gesture scope is lost by then. Returning the
-  /// Future but not awaiting it keeps the launch synchronous on
-  /// the caller side.
+  /// Open the store URL in the current tab. Flutter web with
+  /// CanvasKit dispatches taps as synthesized events, which iOS
+  /// Safari treats as non-user-gesture and popup-blocks any
+  /// window.open('_blank'). Navigating the current tab ('_self')
+  /// sidesteps popup blockers entirely — and for this flow it's
+  /// fine UX, the user already committed to leaving.
   static void open(String url) {
-    launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
+    launchUrl(Uri.parse(url), webOnlyWindowName: '_self');
   }
 }
 

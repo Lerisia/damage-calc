@@ -2401,11 +2401,11 @@ class _AboutDialog extends StatelessWidget {
   static const _appStoreUrl =
       'https://apps.apple.com/kr/app/id6761017449';
 
-  /// Fire-and-forget launch — not awaited so iOS Safari keeps the
-  /// window.open call inside the user-gesture scope and doesn't
-  /// pop-up-block it.
+  /// See MobileInstallPrompt.open — '_self' instead of '_blank' to
+  /// navigate current tab and avoid iOS Safari popup-blocking a
+  /// CanvasKit-dispatched click.
   void _open(String url) {
-    launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
+    launchUrl(Uri.parse(url), webOnlyWindowName: '_self');
   }
 
   @override
