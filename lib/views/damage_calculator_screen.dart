@@ -35,6 +35,7 @@ import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/speed_compare_tab.dart';
@@ -2399,6 +2400,18 @@ class _ThemeToggleButton extends StatelessWidget {
 class _AboutDialog extends StatelessWidget {
   const _AboutDialog();
 
+  static const _playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.elyss.damagecalc';
+  static const _appStoreUrl =
+      'https://apps.apple.com/kr/app/id6761017449';
+
+  Future<void> _open(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -2417,6 +2430,36 @@ class _AboutDialog extends StatelessWidget {
           const Text('By  Elyss'),
           const SelectableText('Web  damage-calc.com'),
           const SelectableText('GitHub  github.com/Lerisia/damage-calc'),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              OutlinedButton.icon(
+                onPressed: () => _open(_playStoreUrl),
+                icon: const Icon(Icons.android, size: 16),
+                label: Text(AppStrings.t('banner.getAndroid'),
+                    style: const TextStyle(fontSize: 12)),
+                style: OutlinedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+              const SizedBox(width: 8),
+              OutlinedButton.icon(
+                onPressed: () => _open(_appStoreUrl),
+                icon: const Icon(Icons.apple, size: 16),
+                label: Text(AppStrings.t('banner.getIos'),
+                    style: const TextStyle(fontSize: 12)),
+                style: OutlinedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 16),
           const Divider(),
           const SizedBox(height: 8),
