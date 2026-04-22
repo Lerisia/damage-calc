@@ -978,14 +978,19 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     int? saveLoadSide,
   }) {
     // iOS-style section: thin horizontal rule top and bottom, no left/
-    // right borders or padding. The accent colour lives in the title
-    // text (공격측 = red, 방어측 = blue) rather than a frame so the
-    // content gets the full horizontal width. Dividers use the theme's
-    // default divider color so adjacent cards' lines merge cleanly.
+    // right borders or padding. Dividers pick up the side's accent
+    // colour (공격측 red, 방어측 blue) so the section is instantly
+    // identifiable and adjacent cards' lines read as a red→blue
+    // transition at the boundary.
+    final rule = Divider(
+      height: 1,
+      thickness: 1,
+      color: accent.withValues(alpha: 0.6),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Divider(height: 1, thickness: 1),
+        rule,
         Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 12),
           child: Column(
@@ -1018,7 +1023,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             ],
           ),
         ),
-        const Divider(height: 1, thickness: 1),
+        rule,
       ],
     );
   }
