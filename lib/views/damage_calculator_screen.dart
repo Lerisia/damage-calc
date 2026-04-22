@@ -35,6 +35,7 @@ import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
+import 'widgets/mobile_install_banner.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/speed_compare_tab.dart';
 
@@ -1490,7 +1491,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       // normal and simple subtrees. State still persists because the
       // attacker/defender BattlePokemonState live on this parent and
       // Simple Mode re-hydrates its controllers from them on init.
-      body: _simpleMode
+      body: Column(
+        children: [
+          // Web-only nudge to install the native app on narrow screens;
+          // hidden when dismissed or on wider viewports.
+          const MobileInstallBanner(),
+          Expanded(
+            child: _simpleMode
           ? SimpleModeView(
               attacker: _attacker,
               defender: _defender,
@@ -1538,6 +1545,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           return _buildNarrowLayout();
         },
       )),
+          ),
+        ],
+      ),
     );
   }
 

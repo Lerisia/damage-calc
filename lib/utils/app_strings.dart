@@ -254,6 +254,27 @@ class AppStrings {
       AppLanguage.en: "This ability hasn't been revealed yet. It'll be updated once official info is available.",
       AppLanguage.ja: '特性はまだ公開されていません。公式情報が公開され次第、更新されます。',
     },
+    // Mobile-web → install-the-native-app banner.
+    'banner.mobileWebMsg': {
+      AppLanguage.ko: '이 계산기는 모바일 앱으로 개발되었습니다. 앱 버전의 반응속도가 훨씬 빠르므로, 모바일에서는 앱 다운로드를 권장합니다.',
+      AppLanguage.en: 'This calculator was built as a native mobile app. The app version is much faster — installation is recommended on mobile.',
+      AppLanguage.ja: 'この計算機はモバイルアプリとして開発されました。アプリ版のほうがはるかに高速なので、モバイルではアプリのダウンロードをおすすめします。',
+    },
+    'banner.getAndroid': {
+      AppLanguage.ko: 'Android 앱',
+      AppLanguage.en: 'Android app',
+      AppLanguage.ja: 'Android版',
+    },
+    'banner.getIos': {
+      AppLanguage.ko: 'iOS 앱',
+      AppLanguage.en: 'iOS app',
+      AppLanguage.ja: 'iOS版',
+    },
+    'banner.dismiss': {
+      AppLanguage.ko: '닫기',
+      AppLanguage.en: 'Dismiss',
+      AppLanguage.ja: '閉じる',
+    },
     'dex.noMovesMatch': {
       AppLanguage.ko: '검색 결과 없음',
       AppLanguage.en: 'No matches',
