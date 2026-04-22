@@ -585,7 +585,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           // slot from Atk to SpA) doesn't blow away the user's
           // just-entered SP after the fact.
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // Align to the bottom so the move-selector's underline
+            // sits at the same Y as the multiplier field's underline
+            // — the multiplier now has a floating label that makes
+            // its total height taller, and with center alignment the
+            // two underlines drifted apart by the label's height.
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
                 child: MoveSelector(
@@ -1082,13 +1087,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  /// Horizontal scale for the stat-row chips. Narrow phones (≤360px)
-  /// bottom out at 0.85×; larger screens grow up to 1.2× so the chips
-  /// don't look lost in all that extra width. Used by _miniBtn,
-  /// _natureCycleChip, _rankChip, and _hitCountChip for consistent
-  /// sizing across the row.
+  /// Horizontal scale for the stat-row chips. Baseline 360px → 1.0×;
+  /// narrow phones bottom out at 0.85× and larger phones / tablets
+  /// grow up to 1.3× so the chips aren't lost in all that extra width.
+  /// Used by _miniBtn, _natureCycleChip, _rankChip, and _hitCountChip
+  /// for consistent sizing across the row.
   double get _chipScale =>
-      (MediaQuery.sizeOf(context).width / 400).clamp(0.85, 1.2);
+      (MediaQuery.sizeOf(context).width / 360).clamp(0.85, 1.3);
 
   Widget _miniBtn(String label, VoidCallback onTap) {
     // Fixed width sized for the widest label we ever show ("32") so
