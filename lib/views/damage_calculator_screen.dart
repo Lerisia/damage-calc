@@ -2401,10 +2401,11 @@ class _AboutDialog extends StatelessWidget {
   static const _appStoreUrl =
       'https://apps.apple.com/kr/app/id6761017449';
 
-  Future<void> _open(String url) async {
-    // See MobileInstallPrompt.open for why canLaunchUrl is skipped on
-    // web. Just call launchUrl directly.
-    await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
+  /// Fire-and-forget launch — not awaited so iOS Safari keeps the
+  /// window.open call inside the user-gesture scope and doesn't
+  /// pop-up-block it.
+  void _open(String url) {
+    launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
   }
 
   @override
