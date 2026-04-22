@@ -2402,10 +2402,9 @@ class _AboutDialog extends StatelessWidget {
       'https://apps.apple.com/kr/app/id6761017449';
 
   Future<void> _open(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
+    // See MobileInstallPrompt.open for why canLaunchUrl is skipped on
+    // web. Just call launchUrl directly.
+    await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
   }
 
   @override

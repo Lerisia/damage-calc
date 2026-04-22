@@ -36,10 +36,11 @@ class MobileInstallPrompt {
   }
 
   static Future<void> open(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
+    // Don't gate on canLaunchUrl: on web the browser can't answer
+    // that question and returns false, which silently blocks the
+    // whole launch. launchUrl itself opens the URL in a new tab via
+    // window.open on web and via the platform intent on mobile.
+    await launchUrl(Uri.parse(url), webOnlyWindowName: '_blank');
   }
 }
 
