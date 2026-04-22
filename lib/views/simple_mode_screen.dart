@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
 import '../models/room.dart';
@@ -609,6 +610,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                       // move starts at its own default (or collapses
                       // out entirely if it isn't multi-hit).
                       _atk.hitOverrides[0] = null;
+                      // Mirror Extended Mode: moves tagged as always-
+                      // crit (Frost Breath, Storm Throw, Wicked Blow,
+                      // Surging Strikes, Zippy Zap, etc.) auto-tick
+                      // the crit checkbox so the user doesn't have to
+                      // remember per move.
+                      _atk.criticals[0] = m.hasTag(MoveTags.alwaysCrit);
                     });
                     widget.onChanged();
                   },
