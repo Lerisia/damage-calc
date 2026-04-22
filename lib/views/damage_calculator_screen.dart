@@ -35,7 +35,8 @@ import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../utils/url_navigator_stub.dart'
+    if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/speed_compare_tab.dart';
@@ -2401,11 +2402,12 @@ class _AboutDialog extends StatelessWidget {
   static const _appStoreUrl =
       'https://apps.apple.com/kr/app/id6761017449';
 
-  /// See MobileInstallPrompt.open — '_self' instead of '_blank' to
-  /// navigate current tab and avoid iOS Safari popup-blocking a
-  /// CanvasKit-dispatched click.
+  /// See MobileInstallPrompt.open — bypass url_launcher entirely
+  /// and assign window.location directly via the conditional-import
+  /// helper. CanvasKit's synthesized clicks aren't seen as user
+  /// gestures by browsers, so url_launcher's launch silently fails.
   void _open(String url) {
-    launchUrl(Uri.parse(url), webOnlyWindowName: '_self');
+    nav.navigateTo(url);
   }
 
   @override

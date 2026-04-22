@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/app_strings.dart';
+import '../../utils/url_navigator_stub.dart'
+    if (dart.library.html) '../../utils/url_navigator_web.dart' as nav;
 
 /// One-shot popup shown to mobile-web visitors nudging them toward
 /// the native app. Fires exactly once per browser (flag persisted in
@@ -35,14 +36,13 @@ class MobileInstallPrompt {
     );
   }
 
-  /// Open the store URL in the current tab. Flutter web with
-  /// CanvasKit dispatches taps as synthesized events, which iOS
-  /// Safari treats as non-user-gesture and popup-blocks any
-  /// window.open('_blank'). Navigating the current tab ('_self')
-  /// sidesteps popup blockers entirely — and for this flow it's
-  /// fine UX, the user already committed to leaving.
+  /// Open the store URL in the current tab. Bypasses url_launcher —
+  /// CanvasKit-synthesized clicks aren't recognized as user gestures
+  /// by browsers, so url_launcher's window.open silently fails. We
+  /// just assign window.location instead, which has no such
+  /// restriction.
   static void open(String url) {
-    launchUrl(Uri.parse(url), webOnlyWindowName: '_self');
+    nav.navigateTo(url);
   }
 }
 
