@@ -1064,15 +1064,20 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final isMaxed = (int.tryParse(spCtl.text) ?? 0) == ChampionsMode.maxPerStat;
     final flipLabel = isMaxed ? '0' : '${ChampionsMode.maxPerStat}';
 
+    // Fixed label slot so every row's SP field starts at the same X.
+    // Width varies per language because "특방" / "特防" / "SpD" have
+    // noticeably different glyph widths at 13pt bold — a Korean-sized
+    // slot clips the Japanese/English versions.
+    final double labelSlot = switch (AppStrings.current) {
+      AppLanguage.ko => 28,
+      AppLanguage.en => 32,
+      AppLanguage.ja => 30,
+    };
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Fixed-width label slot — "HP" is Latin (narrow) while the
-        // rest are Korean/Japanese 2-char labels (wider). Without the
-        // slot, each row's SP field starts at a different X and the
-        // downstream chips drift out of alignment.
         SizedBox(
-          width: 28,
+          width: labelSlot,
           child: Text(label,
               style: const TextStyle(
                   fontSize: 13, fontWeight: FontWeight.w700)),
