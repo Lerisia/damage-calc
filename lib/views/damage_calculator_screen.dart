@@ -273,7 +273,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadSpMode();
     _loadDoublesExpanded();
     _ensureDataCaches();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowSimpleModeAnnouncement());
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _maybeShowSimpleModeAnnouncement();
+      // Mobile-web install nudge — fires at most once per browser.
+      if (!mounted) return;
+      await MobileInstallPrompt.maybeShow(context);
+    });
   }
 
   /// One-shot "Simple Mode is now the default" dialog for existing
@@ -1492,13 +1497,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       // normal and simple subtrees. State still persists because the
       // attacker/defender BattlePokemonState live on this parent and
       // Simple Mode re-hydrates its controllers from them on init.
-      body: Column(
-        children: [
-          // Web-only nudge to install the native app on narrow screens;
-          // hidden when dismissed or on wider viewports.
-          const MobileInstallBanner(),
-          Expanded(
-            child: _simpleMode
+      body: _simpleMode
           ? SimpleModeView(
               attacker: _attacker,
               defender: _defender,
@@ -1546,9 +1545,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           return _buildNarrowLayout();
         },
       )),
-          ),
-        ],
-      ),
     );
   }
 
