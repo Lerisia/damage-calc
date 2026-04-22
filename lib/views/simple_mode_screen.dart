@@ -535,7 +535,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _attackerCard(),
-                const SizedBox(height: 10),
+                // No gap between cards — each card already has a
+                // top+bottom divider, so zero spacing makes adjacent
+                // dividers sit flush and read as a single line.
                 _defenderCard(),
                 const SizedBox(height: 10),
                 _resultCard(),
@@ -975,39 +977,49 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     required Widget child,
     int? saveLoadSide,
   }) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-      decoration: BoxDecoration(
-        border: Border.all(color: accent.withValues(alpha: 0.4)),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    // iOS-style section: thin horizontal rule top and bottom, no left/
+    // right borders or padding. The accent colour lives in the title
+    // text (공격측 = red, 방어측 = blue) rather than a frame so the
+    // content gets the full horizontal width. Dividers use the theme's
+    // default divider color so adjacent cards' lines merge cleanly.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Divider(height: 1, thickness: 1),
+        Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: TextStyle(color: accent, fontWeight: FontWeight.w700)),
-              if (saveLoadSide != null) ...[
-                const Spacer(),
-                _titleActionBtn(
-                  AppStrings.t('sample.save'),
-                  () => widget.onSaveSide(saveLoadSide),
-                ),
-                _titleActionBtn(
-                  AppStrings.t('sample.load'),
-                  () => widget.onLoadSide(saveLoadSide),
-                ),
-                _titleActionBtn(
-                  AppStrings.t('action.reset'),
-                  () => widget.onResetSide(saveLoadSide),
-                ),
-              ],
+              Row(
+                children: [
+                  Text(title,
+                      style: TextStyle(
+                          color: accent, fontWeight: FontWeight.w700)),
+                  if (saveLoadSide != null) ...[
+                    const Spacer(),
+                    _titleActionBtn(
+                      AppStrings.t('sample.save'),
+                      () => widget.onSaveSide(saveLoadSide),
+                    ),
+                    _titleActionBtn(
+                      AppStrings.t('sample.load'),
+                      () => widget.onLoadSide(saveLoadSide),
+                    ),
+                    _titleActionBtn(
+                      AppStrings.t('action.reset'),
+                      () => widget.onResetSide(saveLoadSide),
+                    ),
+                  ],
+                ],
+              ),
+              const SizedBox(height: 2),
+              child,
             ],
           ),
-          const SizedBox(height: 2),
-          child,
-        ],
-      ),
+        ),
+        const Divider(height: 1, thickness: 1),
+      ],
     );
   }
 
