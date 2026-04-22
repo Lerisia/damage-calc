@@ -349,9 +349,14 @@ class AppStrings {
       AppLanguage.ja: '壁',
     },
     'simple.natureNeutral': {
-      AppLanguage.ko: '무',
-      AppLanguage.en: '–',
-      AppLanguage.ja: '無',
+      AppLanguage.ko: '성격',
+      AppLanguage.en: 'Nat',
+      AppLanguage.ja: '性格',
+    },
+    'simple.rankNeutral': {
+      AppLanguage.ko: '랭크',
+      AppLanguage.en: 'Rnk',
+      AppLanguage.ja: '段階',
     },
     'simple.announceTitle': {
       AppLanguage.ko: '간단 모드가 기본이 되었습니다',
