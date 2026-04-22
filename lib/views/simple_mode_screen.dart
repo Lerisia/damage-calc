@@ -433,7 +433,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final double fontSize;
     if (!active) {
       label = AppStrings.t('simple.rankNeutral');
-      fontSize = 9;
+      fontSize = 11;
     } else {
       label = value > 0 ? '+$value' : '$value';
       fontSize = 12;
@@ -1128,7 +1128,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // en Nat, ja 性格). Active state keeps the larger ↑ / ↓ arrow.
     final (label, color, fontSize) = switch (dir) {
       _NatureDir.neutral =>
-          (AppStrings.t('simple.natureNeutral'), neutralFg, 9.0),
+          (AppStrings.t('simple.natureNeutral'), neutralFg, 11.0),
       _NatureDir.up => ('↑', Colors.red, 14.0),
       _NatureDir.down => ('↓', Colors.blue, 14.0),
     };
