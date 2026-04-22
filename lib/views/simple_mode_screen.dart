@@ -426,12 +426,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final state = attacker ? _atk : _def;
     final value = _rankStage(state, stat);
     final label = value == 0 ? '±' : (value > 0 ? '+$value' : '$value');
-    final Color color = value > 0
-        ? Colors.red
-        : value < 0
-            ? Colors.blue
-            : Colors.grey;
     final active = value != 0;
+    // Neutral state uses the theme's foreground color (properly
+    // adapted to light/dark) instead of Colors.grey, which looked
+    // washed-out in dark mode.
+    final Color neutralFg = Theme.of(context).colorScheme.onSurface;
+    final Color activeFg = value > 0 ? Colors.red : Colors.blue;
+    final Color fg = active ? activeFg : neutralFg;
     return InkWell(
       onTap: () => _showRankPicker(state, stat),
       borderRadius: BorderRadius.circular(4),
@@ -439,16 +440,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         width: 30, height: 28,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: active ? color.withValues(alpha: 0.18) : null,
+          color: active ? activeFg.withValues(alpha: 0.18) : null,
           border: Border.all(
-            color: active ? color : Colors.grey.withValues(alpha: 0.4),
+            color: active ? activeFg : neutralFg.withValues(alpha: 0.7),
           ),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 12, fontWeight: FontWeight.w700, color: color,
+            fontSize: 12, fontWeight: FontWeight.w700, color: fg,
           ),
         ),
       ),
@@ -729,7 +730,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
+            border: Border.all(
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.7),
+            ),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(
@@ -1068,6 +1074,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   Widget _miniBtn(String label, VoidCallback onTap) {
     // Fixed width sized for the widest label we ever show ("32") so
     // toggling 0 ↔ 32 doesn't shove neighbouring widgets sideways.
+    final fg = Theme.of(context).colorScheme.onSurface;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(4),
@@ -1075,14 +1082,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         width: 28, height: 28,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withValues(alpha: 0.4)),
+          border: Border.all(color: fg.withValues(alpha: 0.7)),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(
           label,
           style: TextStyle(
             fontSize: 12, fontWeight: FontWeight.w700,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.75),
+            color: fg,
           ),
         ),
       ),
@@ -1091,8 +1098,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   Widget _natureCycleChip(NatureStat stat, {required bool attacker}) {
     final dir = _natureDir(stat, attacker: attacker);
+    // Neutral state uses theme foreground so the chip stays legible
+    // in both light and dark themes; Colors.grey washed out in dark.
+    final Color neutralFg = Theme.of(context).colorScheme.onSurface;
     final (label, color) = switch (dir) {
-      _NatureDir.neutral => (AppStrings.t('simple.natureNeutral'), Colors.grey),
+      _NatureDir.neutral =>
+          (AppStrings.t('simple.natureNeutral'), neutralFg),
       _NatureDir.up => ('↑', Colors.red),
       _NatureDir.down => ('↓', Colors.blue),
     };
@@ -1106,7 +1117,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         decoration: BoxDecoration(
           color: isActive ? color.withValues(alpha: 0.18) : null,
           border: Border.all(
-            color: isActive ? color : Colors.grey.withValues(alpha: 0.4),
+            color: isActive ? color : neutralFg.withValues(alpha: 0.7),
           ),
           borderRadius: BorderRadius.circular(4),
         ),
@@ -1123,10 +1134,21 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   Widget _abilityField({required bool attacker}) {
     final controller = attacker ? _atkAbilityCtl : _defAbilityCtl;
     final focus = attacker ? _atkAbilityFocus : _defAbilityFocus;
+    final state = attacker ? _atk : _def;
     // Pokemon's own abilities float to the top, full catalog below —
     // same ordering Normal Mode uses. Precomputed cache; rebuilt only
     // on species/language change.
     final sorted = attacker ? _atkSortedAbilities : _defSortedAbilities;
+    // Own ability keys (including Supreme Overlord's numbered variants)
+    // — used to gray out entries that don't legitimately belong to this
+    // pokemon, same visual language as non-learnable moves.
+    final ownSet = <String>{
+      for (final a in state.pokemonAbilities)
+        if (a == 'Supreme Overlord')
+          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
+        else
+          a,
+    };
 
     // Key ties TypeAhead instance to resetCounter so any swap/reset
     // tears down the widget (dropping its internal SuggestionsController
@@ -1150,10 +1172,19 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         labelText: AppStrings.t('label.ability'),
         isDense: true,
       ),
-      itemBuilder: (context, ability) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(_abilityNames[ability] ?? ability, style: const TextStyle(fontSize: 14)),
-      ),
+      itemBuilder: (context, ability) {
+        final isOwn = ownSet.contains(ability);
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(
+            _abilityNames[ability] ?? ability,
+            style: TextStyle(
+              fontSize: 14,
+              color: isOwn ? null : Colors.grey,
+            ),
+          ),
+        );
+      },
       onSelected: (v) {
         setState(() {
           if (attacker) {
