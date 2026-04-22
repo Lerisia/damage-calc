@@ -50538,7 +50538,7 @@ akP(a,b){var s,r,q,p,o,n,m,l,k,j,i=this,h=null,g=i.a,f=b?g.c:g.d,e=i.TP(f,a)
 g=e===0
 s=!g
 if(g){r=A.n("simple.rankNeutral")
-q=9}else{r=""+e
+q=11}else{r=""+e
 if(e>0)r="+"+r
 q=12}g=i.c
 g.toString
@@ -50694,7 +50694,7 @@ return B.c.aY(A.bm(s,B.hc,t.w).w.a.a/360,0.85,1.3)},
 aiz(a,b){var s,r,q,p,o,n,m,l,k,j,i=this,h=null,g=i.T4(a,b),f=i.c
 f.toString
 s=A.T(f).ax.k3
-switch(g.a){case 0:f=new A.fA(A.n("simple.natureNeutral"),s,9)
+switch(g.a){case 0:f=new A.fA(A.n("simple.natureNeutral"),s,11)
 break
 case 1:f=B.Yc
 break
