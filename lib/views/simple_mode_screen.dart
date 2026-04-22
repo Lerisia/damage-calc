@@ -658,7 +658,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _statGroup(
                   label: offLabel,
@@ -895,7 +895,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _statGroup(
                   label: defLabel,

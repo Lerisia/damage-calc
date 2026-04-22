@@ -212,7 +212,13 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
 
     // Mirror match: fall back to 공격측/방어측 so the line isn't
     // ambiguous. Otherwise show the actual species names.
-    final mirror = atk.pokemonName == def.pokemonName;
+    //
+    // dexNumber over pokemonName: the English name string can pick up
+    // form suffixes (e.g. "Mega Charizard X") so two mons of the same
+    // species wouldn't compare equal via name; dexNumber is also more
+    // reliable when the user swaps species back-and-forth — any stale
+    // string artifact in the name field doesn't trip us up.
+    final mirror = atk.dexNumber == def.dexNumber;
     String namedFasterBy(BattlePokemonState faster, BattlePokemonState slower) {
       final a = faster.localizedPokemonName;
       final b = slower.localizedPokemonName;
@@ -629,6 +635,16 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     final sorted = _sortedAbilities(state);
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
     if (!focusNode.hasFocus) controller.text = initialText;
+    // Own abilities (with Supreme Overlord's stacked variants expanded)
+    // are rendered full-color; everything else is gray, matching the
+    // move picker's learnable/unlearnable convention.
+    final ownSet = <String>{
+      for (final a in state.pokemonAbilities)
+        if (a == 'Supreme Overlord')
+          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
+        else
+          a,
+    };
 
     return KeyedSubtree(
       key: ValueKey('speed_ability_${state.selectedAbility}_${state.pokemonName}'),
@@ -649,9 +665,16 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         },
         decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
         itemBuilder: (context, ability) {
+          final isOwn = ownSet.contains(ability);
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Text(_abilityKo(ability), style: const TextStyle(fontSize: 14)),
+            child: Text(
+              _abilityKo(ability),
+              style: TextStyle(
+                fontSize: 14,
+                color: isOwn ? null : Colors.grey,
+              ),
+            ),
           );
         },
         onSelected: (v) {

@@ -538,6 +538,18 @@ class _StatInputState extends State<StatInput> {
       _abilityController.text = initialText;
     }
 
+    // Abilities this Pokemon legitimately owns — mirrored from the
+    // data's pokemonAbilities with Supreme Overlord's stacked variants
+    // expanded so all six count as "own". Anything outside this set is
+    // rendered gray so the picker reads like the move list's
+    // learnable / unlearnable split.
+    final ownSet = <String>{
+      for (final a in widget.pokemonAbilities)
+        if (a == 'Supreme Overlord')
+          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
+        else
+          a,
+    };
     return buildTypeAhead<String>(
       controller: _abilityController,
       focusNode: _abilityFocusNode,
@@ -555,9 +567,16 @@ class _StatInputState extends State<StatInput> {
       },
       decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
       itemBuilder: (context, ability) {
+        final isOwn = ownSet.contains(ability);
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(_abilityKo(ability), style: const TextStyle(fontSize: 14)),
+          child: Text(
+            _abilityKo(ability),
+            style: TextStyle(
+              fontSize: 14,
+              color: isOwn ? null : Colors.grey,
+            ),
+          ),
         );
       },
       onSelected: (v) {
