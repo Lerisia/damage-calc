@@ -598,9 +598,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               ),
               const SizedBox(width: 6),
               _hitCountChip(),
-              _criticalCheck(),
-              const SizedBox(width: 6),
               SizedBox(width: 70, child: _multiplierField()),
+              const SizedBox(width: 6),
+              _criticalCheck(),
             ],
           ),
           // Reserve a fixed slot for move-info so picking a move doesn't
@@ -1226,17 +1226,19 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   Widget _multiplierField() {
     // Persistent '×' prefix so the field always reads as a multiplier,
-    // even before anything's typed. Kept isDense / no label so the
-    // underline aligns with the MoveSelector TextField.
+    // even before anything's typed. Floating labelText mirrors the
+    // ability/item field styling so the field is self-describing.
     return TextField(
       controller: _multCtl,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       style: const TextStyle(fontSize: 14),
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
+        labelText: AppStrings.t('label.otherModifier'),
+        labelStyle: const TextStyle(fontSize: 12),
         prefixText: '× ',
-        prefixStyle: TextStyle(fontSize: 14),
+        prefixStyle: const TextStyle(fontSize: 14),
         hintText: '1.0',
-        hintStyle: TextStyle(fontSize: 14),
+        hintStyle: const TextStyle(fontSize: 14),
         isDense: true,
       ),
       onChanged: (_) => setState(() {}),

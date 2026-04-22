@@ -565,6 +565,11 @@ class AppStrings {
       AppLanguage.en: 'Item',
       AppLanguage.ja: 'もちもの',
     },
+    'label.otherModifier': {
+      AppLanguage.ko: '기타 보정',
+      AppLanguage.en: 'Other mod',
+      AppLanguage.ja: 'その他補正',
+    },
     'label.nature': {
       AppLanguage.ko: '성격',
       AppLanguage.en: 'Nature',
