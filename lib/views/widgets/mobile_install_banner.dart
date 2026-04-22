@@ -49,33 +49,55 @@ class _InstallDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Text(
-        AppStrings.t('banner.mobileWebMsg'),
-        style: const TextStyle(fontSize: 14, height: 1.4),
+      // Single-column content: message then a row of two compact store
+      // buttons side by side (AlertDialog.actions was stacking them
+      // vertically on narrow phones).
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            AppStrings.t('banner.mobileWebMsg'),
+            style: const TextStyle(fontSize: 14, height: 1.4),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.tonalIcon(
+                  onPressed: () {
+                    MobileInstallPrompt
+                        .open(MobileInstallPrompt._playStoreUrl);
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.android, size: 16),
+                  label: Text(AppStrings.t('banner.getAndroid'),
+                      style: const TextStyle(fontSize: 13)),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: FilledButton.tonalIcon(
+                  onPressed: () {
+                    MobileInstallPrompt
+                        .open(MobileInstallPrompt._appStoreUrl);
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.apple, size: 16),
+                  label: Text(AppStrings.t('banner.getIos'),
+                      style: const TextStyle(fontSize: 13)),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       actionsPadding:
           const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      actionsOverflowDirection: VerticalDirection.up,
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text(AppStrings.t('banner.dismiss')),
-        ),
-        FilledButton.tonalIcon(
-          onPressed: () {
-            MobileInstallPrompt.open(MobileInstallPrompt._playStoreUrl);
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.android, size: 16),
-          label: Text(AppStrings.t('banner.getAndroid')),
-        ),
-        FilledButton.tonalIcon(
-          onPressed: () {
-            MobileInstallPrompt.open(MobileInstallPrompt._appStoreUrl);
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.apple, size: 16),
-          label: Text(AppStrings.t('banner.getIos')),
         ),
       ],
     );
