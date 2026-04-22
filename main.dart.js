@@ -50169,11 +50169,11 @@ A.xo.prototype={
 I(a){var s=null,r=A.F(A.m("app.title"),s,s,s,s,B.iT,s,s),q=t.p,p=A.c1(A.b([B.a5w,B.br,A.F(A.m("about.description"),s,s,s,s,s,s,s),B.br,A.F(A.m("about.subtitle"),s,s,s,s,B.b3,s,s),B.cs,B.a5y,B.YV,B.YW,B.cs,A.aR(A.b([A.aPc(B.t1,A.F(A.m("banner.getAndroid"),s,s,s,s,B.oO,s,s),new A.ape(this),A.aPe(s,s,s,s,s,s,s,s,s,s,s,B.C,B.re,s,s,s,s,B.c4,s,s)),B.aG,A.aPc(B.t2,A.F(A.m("banner.getIos"),s,s,s,s,B.oO,s,s),new A.apf(this),A.aPe(s,s,s,s,s,s,s,s,s,s,s,B.C,B.re,s,s,s,s,B.c4,s,s))],q),B.q,s,B.n,B.p,0,s),B.iL,B.Kd,B.br,A.F(A.m("about.beta"),s,s,s,s,B.a3D,s,s),B.cs,A.F(A.m("about.disclaimer"),s,s,s,s,B.EZ,s,s)],q),B.ay,B.n,B.aA)
 return A.pp(A.b([A.ep(A.F(A.m("action.close"),s,s,s,s,s,s,s),new A.apg(a),s)],q),s,p,s,r)}}
 A.ape.prototype={
-$0(){A.KP(A.k_(u.E),"_blank")
+$0(){A.KP(A.k_(u.E),"_self")
 return null},
 $S:0}
 A.apf.prototype={
-$0(){A.KP(A.k_(u.V),"_blank")
+$0(){A.KP(A.k_(u.V),"_self")
 return null},
 $S:0}
 A.apg.prototype={
@@ -51452,11 +51452,11 @@ A.xS.prototype={
 I(a){var s=null,r=t.p,q=A.c1(A.b([A.F(A.m("banner.mobileWebMsg"),s,s,s,s,B.a4L,s,s),B.iL,A.aR(A.b([A.aT(A.aNS(B.t1,A.F(A.m("banner.getAndroid"),s,s,s,s,B.b3,s,s),new A.awt(a)),1),B.aG,A.aT(A.aNS(B.t2,A.F(A.m("banner.getIos"),s,s,s,s,B.b3,s,s),new A.awu(a)),1)],r),B.q,s,B.n,B.p,0,s)],r),B.cx,B.n,B.aA)
 return A.pp(A.b([A.ep(A.F(A.m("banner.dismiss"),s,s,s,s,s,s,s),new A.awv(a),s)],r),B.d2,q,s,s)}}
 A.awt.prototype={
-$0(){A.KP(A.k_(u.E),"_blank")
+$0(){A.KP(A.k_(u.E),"_self")
 A.cy(this.a,!1).dq(null)},
 $S:0}
 A.awu.prototype={
-$0(){A.KP(A.k_(u.V),"_blank")
+$0(){A.KP(A.k_(u.V),"_self")
 A.cy(this.a,!1).dq(null)},
 $S:0}
 A.awv.prototype={
