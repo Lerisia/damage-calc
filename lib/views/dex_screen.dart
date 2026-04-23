@@ -722,67 +722,44 @@ class _BulkSection extends StatelessWidget {
       (AppStrings.t('dex.bulkFull'), fullP.physical, fullS.special),
     ];
 
-    final fg = Theme.of(context).colorScheme.onSurface;
-    final fgDim = fg.withValues(alpha: 0.7);
-    TableRow headerRow() => TableRow(children: [
-          const SizedBox.shrink(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(AppStrings.t('dex.bulkPhysical'),
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.w700, color: fgDim)),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(AppStrings.t('dex.bulkSpecial'),
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.w700, color: fgDim)),
-          ),
-        ]);
-    TableRow bodyRow((String, int, int) r) => TableRow(children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Text(r.$1,
-                style: const TextStyle(fontSize: 13)),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Text(_fmt(r.$2),
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w600)),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Text(_fmt(r.$3),
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w600)),
-          ),
-        ]);
+    final scheme = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _SectionTitle(AppStrings.t('dex.bulk')),
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
         Table(
+          border: TableBorder.all(
+            color: scheme.outlineVariant,
+            width: 1,
+          ),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {
             0: FlexColumnWidth(2),
             1: FlexColumnWidth(3),
             2: FlexColumnWidth(3),
           },
-          children: [headerRow(), ...rows.map(bodyRow)],
-        ),
-        const SizedBox(height: 4),
-        Text(
-          AppStrings.t('dex.bulkFormula'),
-          style: TextStyle(
-              fontSize: 11,
-              color: fgDim,
-              fontStyle: FontStyle.italic),
+          children: [
+            TableRow(
+              decoration: BoxDecoration(
+                color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              ),
+              children: [
+                const SizedBox.shrink(),
+                _DexTableCell(AppStrings.t('dex.bulkPhysical'),
+                    bold: true, dim: true),
+                _DexTableCell(AppStrings.t('dex.bulkSpecial'),
+                    bold: true, dim: true),
+              ],
+            ),
+            for (final r in rows)
+              TableRow(children: [
+                _DexTableCell(r.$1, align: TextAlign.left, bold: true),
+                _DexTableCell(_fmt(r.$2), bold: true),
+                _DexTableCell(_fmt(r.$3), bold: true),
+              ]),
+          ],
         ),
       ],
     );
@@ -878,82 +855,96 @@ class _DecisivePowerSection extends StatelessWidget {
 
     if (rows.isEmpty) return const SizedBox.shrink();
 
-    final fg = Theme.of(context).colorScheme.onSurface;
-    final fgDim = fg.withValues(alpha: 0.7);
-
-    TableRow headerRow() => TableRow(children: [
-          const SizedBox.shrink(),
-          for (final k in const [
-            'dex.bulkNone',
-            'dex.bulkHp',
-            'dex.bulkFull',
-          ])
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Text(
-                // Re-use bulk tier labels, but swap "HP 보정" → the
-                // "준보정" semantics (half investment, neutral) since
-                // user confirmed full/half/none are all meaningful
-                // for offensive EV spreads.
-                k == 'dex.bulkHp' ? _halfLabel() : AppStrings.t(k),
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: fgDim),
-              ),
-            ),
-        ]);
-
-    TableRow bodyRow((Move, int, int, int, int) r) {
-      final hits = r.$2;
-      final label = hits > 1
-          ? '${r.$1.localizedName} (×$hits)'
-          : r.$1.localizedName;
-      return TableRow(children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          child: Text(label, style: const TextStyle(fontSize: 13)),
-        ),
-        for (final v in [r.$3, r.$4, r.$5])
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Text(_BulkSection._fmt(v),
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w600)),
-          ),
-      ]);
-    }
+    final scheme = Theme.of(context).colorScheme;
+    String tierLabel(String key) => key == 'dex.bulkHp'
+        // Re-use the bulk tier i18n keys but swap the middle label
+        // since "준보정" (half investment + neutral) is the right term
+        // for offensive EV spreads.
+        ? AppStrings.t('dex.decisiveHalf')
+        : AppStrings.t(key);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _SectionTitle(AppStrings.t('dex.decisive')),
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
         Table(
+          border: TableBorder.all(
+            color: scheme.outlineVariant,
+            width: 1,
+          ),
+          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           columnWidths: const {
             0: FlexColumnWidth(3),
             1: FlexColumnWidth(2),
             2: FlexColumnWidth(2),
             3: FlexColumnWidth(2),
           },
-          children: [headerRow(), ...rows.map(bodyRow)],
-        ),
-        const SizedBox(height: 4),
-        Text(
-          AppStrings.t('dex.decisiveFormula'),
-          style: TextStyle(
-              fontSize: 11,
-              color: fgDim,
-              fontStyle: FontStyle.italic),
+          children: [
+            TableRow(
+              decoration: BoxDecoration(
+                color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              ),
+              children: [
+                const SizedBox.shrink(),
+                for (final k in const [
+                  'dex.bulkNone',
+                  'dex.bulkHp',
+                  'dex.bulkFull',
+                ])
+                  _DexTableCell(tierLabel(k), bold: true, dim: true),
+              ],
+            ),
+            for (final r in rows)
+              TableRow(children: [
+                _DexTableCell(
+                  r.$2 > 1
+                      ? '${r.$1.localizedName} (×${r.$2})'
+                      : r.$1.localizedName,
+                  align: TextAlign.left,
+                  bold: true,
+                ),
+                for (final v in [r.$3, r.$4, r.$5])
+                  _DexTableCell(_BulkSection._fmt(v), bold: true),
+              ]),
+          ],
         ),
       ],
     );
   }
+}
 
-  // "준보정" for offensive EVs = 252 EV neutral nature.
-  String _halfLabel() => AppStrings.t('dex.decisiveHalf');
+/// Shared cell widget for the dex tables — gives consistent padding,
+/// alignment, font sizing across the bulk and decisive-power tables.
+class _DexTableCell extends StatelessWidget {
+  final String text;
+  final bool bold;
+  final bool dim;
+  final TextAlign align;
+
+  const _DexTableCell(
+    this.text, {
+    this.bold = false,
+    this.dim = false,
+    this.align = TextAlign.right,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final fg = Theme.of(context).colorScheme.onSurface;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Text(
+        text,
+        textAlign: align,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
+          color: dim ? fg.withValues(alpha: 0.7) : fg,
+        ),
+      ),
+    );
+  }
 }
 
 class _SectionTitle extends StatelessWidget {
