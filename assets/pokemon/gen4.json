@@ -1471,7 +1471,13 @@
     "type2": "ground",
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Garchomp"
+    "nameEn": "Garchomp",
+    "keyMoves": [
+      "Earthquake",
+      "Dragon Claw",
+      "Stone Edge",
+      "Iron Head"
+    ]
   },
   {
     "dexNumber": 446,

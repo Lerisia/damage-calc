@@ -23,6 +23,10 @@ class Pokemon {
   final bool hidden; // 검색 목록에서 숨김 (e.g. 테라파고스 노말폼)
   final bool isMega; // 메가진화 폼
   final List<String> aliases; // 별명 (e.g. 불거폰, 랜드)
+  /// Ordered list of representative attacking moves (by English
+  /// `Move.name`) used by the dex's 결정력 table. Curated per species;
+  /// empty when the pokemon hasn't had its key moves picked yet.
+  final List<String> keyMoves;
 
   const Pokemon({
     required this.dexNumber,
@@ -44,6 +48,7 @@ class Pokemon {
     this.hidden = false,
     this.isMega = false,
     this.aliases = const [],
+    this.keyMoves = const [],
   });
 
   /// Create a Pokemon from a JSON map
@@ -71,6 +76,9 @@ class Pokemon {
       isMega: json['isMega'] as bool? ?? false,
       aliases: json['aliases'] != null
           ? List<String>.from(json['aliases'] as List)
+          : const [],
+      keyMoves: json['keyMoves'] != null
+          ? List<String>.from(json['keyMoves'] as List)
           : const [],
     );
   }

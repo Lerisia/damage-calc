@@ -6,10 +6,13 @@ import '../data/movedex.dart';
 import '../data/pokedex.dart';
 import '../models/ability.dart';
 import '../models/move.dart';
+import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
+import '../models/stats.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
 import '../utils/localization.dart';
+import '../utils/stat_calculator.dart';
 import '../utils/type_effectiveness.dart';
 import 'widgets/pokemon_selector.dart';
 
@@ -106,6 +109,7 @@ class _DexScreenState extends State<DexScreen> {
     final mainTab = _MainTab(
       pokemon: _selected,
       abilityDex: _abilityDex,
+      moveDex: _moveDex,
     );
     final movesTab = _MovesTab(
       pokemon: _selected,
@@ -184,8 +188,13 @@ class _DexScreenState extends State<DexScreen> {
 class _MainTab extends StatelessWidget {
   final Pokemon? pokemon;
   final Map<String, Ability> abilityDex;
+  final Map<String, Move> moveDex;
 
-  const _MainTab({required this.pokemon, required this.abilityDex});
+  const _MainTab({
+    required this.pokemon,
+    required this.abilityDex,
+    required this.moveDex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +220,12 @@ class _MainTab extends StatelessWidget {
           _AbilitiesSection(pokemon: p, abilityDex: abilityDex),
           const SizedBox(height: 16),
           _TypeMatchupsSection(pokemon: p),
+          const SizedBox(height: 16),
+          _BulkSection(pokemon: p),
+          if (p.keyMoves.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            _DecisivePowerSection(pokemon: p, moveDex: moveDex),
+          ],
         ],
       ),
     );
@@ -660,6 +675,284 @@ class _TypeMatchupsSection extends StatelessWidget {
     if (mult == 0) return Colors.grey;
     return Colors.black;
   }
+}
+
+class _BulkSection extends StatelessWidget {
+  final Pokemon pokemon;
+  const _BulkSection({required this.pokemon});
+
+  static const _level = 50;
+  static const _fullIv = Stats(
+      hp: 31, attack: 31, defense: 31, spAttack: 31, spDefense: 31, speed: 31);
+
+  @override
+  Widget build(BuildContext context) {
+    // Three investment tiers users care about — "준보정" is rare in
+    // practice so we skip it.
+    //   - none:    0 EV, neutral nature
+    //   - hp:      252 HP EV, neutral nature
+    //   - full:    252 HP + 252 Def/SpD EV, +Def/+SpD nature
+    const baseEv = Stats(
+        hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
+    final hpEv = baseEv.copyWith(hp: 252);
+    final fullPhys = baseEv.copyWith(hp: 252, defense: 252);
+    final fullSpec = baseEv.copyWith(hp: 252, spDefense: 252);
+
+    final none = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: baseEv, nature: const NatureProfile(), level: _level);
+    final hpOnly = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: hpEv, nature: const NatureProfile(), level: _level);
+    final fullP = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: fullPhys, nature: const NatureProfile(up: NatureStat.def),
+        level: _level);
+    final fullS = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: fullSpec, nature: const NatureProfile(up: NatureStat.spd),
+        level: _level);
+
+    final rows = <(String, int, int)>[
+      (
+        AppStrings.t('dex.bulkNone'),
+        none.hp * none.defense,
+        none.hp * none.spDefense,
+      ),
+      (
+        AppStrings.t('dex.bulkHp'),
+        hpOnly.hp * hpOnly.defense,
+        hpOnly.hp * hpOnly.spDefense,
+      ),
+      (
+        AppStrings.t('dex.bulkFull'),
+        fullP.hp * fullP.defense,
+        fullS.hp * fullS.spDefense,
+      ),
+    ];
+
+    final fg = Theme.of(context).colorScheme.onSurface;
+    final fgDim = fg.withValues(alpha: 0.7);
+    TableRow headerRow() => TableRow(children: [
+          const SizedBox.shrink(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(AppStrings.t('dex.bulkPhysical'),
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w700, color: fgDim)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(AppStrings.t('dex.bulkSpecial'),
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w700, color: fgDim)),
+          ),
+        ]);
+    TableRow bodyRow((String, int, int) r) => TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Text(r.$1,
+                style: const TextStyle(fontSize: 13)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Text(_fmt(r.$2),
+                textAlign: TextAlign.right,
+                style: const TextStyle(
+                    fontSize: 13, fontWeight: FontWeight.w600)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Text(_fmt(r.$3),
+                textAlign: TextAlign.right,
+                style: const TextStyle(
+                    fontSize: 13, fontWeight: FontWeight.w600)),
+          ),
+        ]);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _SectionTitle(AppStrings.t('dex.bulk')),
+        const SizedBox(height: 6),
+        Table(
+          columnWidths: const {
+            0: FlexColumnWidth(2),
+            1: FlexColumnWidth(3),
+            2: FlexColumnWidth(3),
+          },
+          children: [headerRow(), ...rows.map(bodyRow)],
+        ),
+        const SizedBox(height: 4),
+        Text(
+          AppStrings.t('dex.bulkFormula'),
+          style: TextStyle(
+              fontSize: 11,
+              color: fgDim,
+              fontStyle: FontStyle.italic),
+        ),
+      ],
+    );
+  }
+
+  static String _fmt(int n) {
+    final s = n.toString();
+    final buf = StringBuffer();
+    for (int i = 0; i < s.length; i++) {
+      if (i > 0 && (s.length - i) % 3 == 0) buf.write(',');
+      buf.write(s[i]);
+    }
+    return buf.toString();
+  }
+}
+
+/// 결정력 table — shows raw offensive output for each of the
+/// species' curated key moves at three investment tiers (none /
+/// half / full). STAB is applied when the move's type matches the
+/// species's type; no item, rank or ability modifiers are included.
+class _DecisivePowerSection extends StatelessWidget {
+  final Pokemon pokemon;
+  final Map<String, Move> moveDex;
+
+  const _DecisivePowerSection({
+    required this.pokemon,
+    required this.moveDex,
+  });
+
+  static const _level = 50;
+  static const _fullIv = Stats(
+      hp: 31, attack: 31, defense: 31, spAttack: 31, spDefense: 31, speed: 31);
+
+  @override
+  Widget build(BuildContext context) {
+    // Three tiers for an attacking stat:
+    //   - none: 0 EV, neutral nature
+    //   - half: 252 EV, neutral nature
+    //   - full: 252 EV, +attack/+spAttack nature
+    const baseEv = Stats(
+        hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
+
+    final none = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: baseEv, nature: const NatureProfile(), level: _level);
+    final halfAtk = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: baseEv.copyWith(attack: 252),
+        nature: const NatureProfile(), level: _level);
+    final halfSpa = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: baseEv.copyWith(spAttack: 252),
+        nature: const NatureProfile(), level: _level);
+    final fullAtk = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: baseEv.copyWith(attack: 252),
+        nature: const NatureProfile(up: NatureStat.atk), level: _level);
+    final fullSpa = StatCalculator.calculate(
+        baseStats: pokemon.baseStats, iv: _fullIv,
+        ev: baseEv.copyWith(spAttack: 252),
+        nature: const NatureProfile(up: NatureStat.spa), level: _level);
+
+    int output(Move m, Stats stats) {
+      final atk = m.category == MoveCategory.physical
+          ? stats.attack
+          : stats.spAttack;
+      final stab = (m.type == pokemon.type1 || m.type == pokemon.type2)
+          ? 1.5 : 1.0;
+      return (atk * m.power * stab).floor();
+    }
+
+    final rows = <(Move, int, int, int)>[];
+    for (final name in pokemon.keyMoves) {
+      final m = moveDex[name];
+      if (m == null || m.power <= 0) continue;
+      final noneStats = m.category == MoveCategory.physical ? none : none;
+      final halfStats =
+          m.category == MoveCategory.physical ? halfAtk : halfSpa;
+      final fullStats =
+          m.category == MoveCategory.physical ? fullAtk : fullSpa;
+      rows.add((
+        m,
+        output(m, noneStats),
+        output(m, halfStats),
+        output(m, fullStats),
+      ));
+    }
+
+    if (rows.isEmpty) return const SizedBox.shrink();
+
+    final fg = Theme.of(context).colorScheme.onSurface;
+    final fgDim = fg.withValues(alpha: 0.7);
+
+    TableRow headerRow() => TableRow(children: [
+          const SizedBox.shrink(),
+          for (final k in const [
+            'dex.bulkNone',
+            'dex.bulkHp',
+            'dex.bulkFull',
+          ])
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Text(
+                // Re-use bulk tier labels, but swap "HP 보정" → the
+                // "준보정" semantics (half investment, neutral) since
+                // user confirmed full/half/none are all meaningful
+                // for offensive EV spreads.
+                k == 'dex.bulkHp' ? _halfLabel() : AppStrings.t(k),
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: fgDim),
+              ),
+            ),
+        ]);
+
+    TableRow bodyRow((Move, int, int, int) r) => TableRow(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Text(r.$1.localizedName,
+                style: const TextStyle(fontSize: 13)),
+          ),
+          for (final v in [r.$2, r.$3, r.$4])
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Text(_BulkSection._fmt(v),
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600)),
+            ),
+        ]);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _SectionTitle(AppStrings.t('dex.decisive')),
+        const SizedBox(height: 6),
+        Table(
+          columnWidths: const {
+            0: FlexColumnWidth(3),
+            1: FlexColumnWidth(2),
+            2: FlexColumnWidth(2),
+            3: FlexColumnWidth(2),
+          },
+          children: [headerRow(), ...rows.map(bodyRow)],
+        ),
+        const SizedBox(height: 4),
+        Text(
+          AppStrings.t('dex.decisiveFormula'),
+          style: TextStyle(
+              fontSize: 11,
+              color: fgDim,
+              fontStyle: FontStyle.italic),
+        ),
+      ],
+    );
+  }
+
+  // "준보정" for offensive EVs = 252 EV neutral nature.
+  String _halfLabel() => AppStrings.t('dex.decisiveHalf');
 }
 
 class _SectionTitle extends StatelessWidget {

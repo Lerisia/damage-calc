@@ -254,6 +254,56 @@ class AppStrings {
       AppLanguage.en: "This ability hasn't been revealed yet. It'll be updated once official info is available.",
       AppLanguage.ja: '特性はまだ公開されていません。公式情報が公開され次第、更新されます。',
     },
+    'dex.bulk': {
+      AppLanguage.ko: '내구 (Lv. 50)',
+      AppLanguage.en: 'Bulk (Lv. 50)',
+      AppLanguage.ja: '耐久 (Lv. 50)',
+    },
+    'dex.bulkPhysical': {
+      AppLanguage.ko: '물리',
+      AppLanguage.en: 'Physical',
+      AppLanguage.ja: '物理',
+    },
+    'dex.bulkSpecial': {
+      AppLanguage.ko: '특수',
+      AppLanguage.en: 'Special',
+      AppLanguage.ja: '特殊',
+    },
+    'dex.bulkNone': {
+      AppLanguage.ko: '무보정',
+      AppLanguage.en: 'No investment',
+      AppLanguage.ja: '無補正',
+    },
+    'dex.bulkHp': {
+      AppLanguage.ko: 'HP 보정',
+      AppLanguage.en: 'HP only',
+      AppLanguage.ja: 'HPのみ',
+    },
+    'dex.bulkFull': {
+      AppLanguage.ko: '극보정',
+      AppLanguage.en: 'Full',
+      AppLanguage.ja: '極振り',
+    },
+    'dex.bulkFormula': {
+      AppLanguage.ko: 'HP × 방어 / HP × 특방',
+      AppLanguage.en: 'HP × Def / HP × SpD',
+      AppLanguage.ja: 'HP × 防御 / HP × 特防',
+    },
+    'dex.decisive': {
+      AppLanguage.ko: '결정력 (Lv. 50, 자속 반영)',
+      AppLanguage.en: 'Output (Lv. 50, STAB included)',
+      AppLanguage.ja: '決定力 (Lv. 50, タイプ一致込み)',
+    },
+    'dex.decisiveFormula': {
+      AppLanguage.ko: '공격력 × 기술 위력 × 자속',
+      AppLanguage.en: 'Atk × move power × STAB',
+      AppLanguage.ja: '攻撃 × 技威力 × タイプ一致',
+    },
+    'dex.decisiveHalf': {
+      AppLanguage.ko: '준보정',
+      AppLanguage.en: 'Half',
+      AppLanguage.ja: '準補正',
+    },
     // Mobile-web → install-the-native-app banner.
     'banner.mobileWebMsg': {
       AppLanguage.ko: '이 계산기는 모바일 앱으로 개발되었습니다. 앱 버전의 반응속도가 훨씬 빠르므로, 모바일에서는 앱 다운로드를 권장합니다.',
