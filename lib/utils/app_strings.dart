@@ -255,9 +255,9 @@ class AppStrings {
       AppLanguage.ja: '特性はまだ公開されていません。公式情報が公開され次第、更新されます。',
     },
     'dex.bulk': {
-      AppLanguage.ko: '내구 (Lv. 50)',
-      AppLanguage.en: 'Bulk (Lv. 50)',
-      AppLanguage.ja: '耐久 (Lv. 50)',
+      AppLanguage.ko: '내구 체계',
+      AppLanguage.en: 'Bulk Metric',
+      AppLanguage.ja: '耐久指数',
     },
     'dex.bulkPhysical': {
       AppLanguage.ko: '물리',
@@ -290,9 +290,9 @@ class AppStrings {
       AppLanguage.ja: 'HP × 防御 / HP × 特防',
     },
     'dex.decisive': {
-      AppLanguage.ko: '결정력 (Lv. 50, 자속 반영)',
-      AppLanguage.en: 'Output (Lv. 50, STAB included)',
-      AppLanguage.ja: '決定力 (Lv. 50, タイプ一致込み)',
+      AppLanguage.ko: '주요 결정력',
+      AppLanguage.en: 'Key Output',
+      AppLanguage.ja: '主要決定力',
     },
     'dex.decisiveFormula': {
       AppLanguage.ko: '공격력 × 기술 위력 × 자속',

@@ -12,7 +12,9 @@ import '../models/stats.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
 import '../utils/localization.dart';
-import '../utils/stat_calculator.dart';
+import '../utils/defensive_calculator.dart';
+import '../utils/move_transform.dart';
+import '../utils/offensive_calculator.dart';
 import '../utils/type_effectiveness.dart';
 import 'widgets/pokemon_selector.dart';
 
@@ -687,48 +689,37 @@ class _BulkSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Three investment tiers users care about — "준보정" is rare in
-    // practice so we skip it.
-    //   - none:    0 EV, neutral nature
-    //   - hp:      252 HP EV, neutral nature
-    //   - full:    252 HP + 252 Def/SpD EV, +Def/+SpD nature
+    // Three investment tiers — "준보정" is rare in practice so we skip
+    // it. Bulk uses DefensiveCalculator so the value matches what the
+    // calculator's defender panel reports (HP × Def / 0.411, comparable
+    // to 결정력). No ability/item/weather/etc. context is applied — the
+    // dex shows the species' raw bulk profile.
     const baseEv = Stats(
         hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
-    final hpEv = baseEv.copyWith(hp: 252);
-    final fullPhys = baseEv.copyWith(hp: 252, defense: 252);
-    final fullSpec = baseEv.copyWith(hp: 252, spDefense: 252);
 
-    final none = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: baseEv, nature: const NatureProfile(), level: _level);
-    final hpOnly = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: hpEv, nature: const NatureProfile(), level: _level);
-    final fullP = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: fullPhys, nature: const NatureProfile(up: NatureStat.def),
-        level: _level);
-    final fullS = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: fullSpec, nature: const NatureProfile(up: NatureStat.spd),
-        level: _level);
+    ({int physical, int special}) bulk(Stats ev, NatureProfile nat) =>
+        DefensiveCalculator.calculate(
+          baseStats: pokemon.baseStats,
+          iv: _fullIv,
+          ev: ev,
+          nature: nat,
+          level: _level,
+          type1: pokemon.type1,
+          type2: pokemon.type2,
+          finalEvo: pokemon.finalEvo,
+        );
+
+    final none = bulk(baseEv, const NatureProfile());
+    final hpOnly = bulk(baseEv.copyWith(hp: 252), const NatureProfile());
+    final fullP = bulk(baseEv.copyWith(hp: 252, defense: 252),
+        const NatureProfile(up: NatureStat.def));
+    final fullS = bulk(baseEv.copyWith(hp: 252, spDefense: 252),
+        const NatureProfile(up: NatureStat.spd));
 
     final rows = <(String, int, int)>[
-      (
-        AppStrings.t('dex.bulkNone'),
-        none.hp * none.defense,
-        none.hp * none.spDefense,
-      ),
-      (
-        AppStrings.t('dex.bulkHp'),
-        hpOnly.hp * hpOnly.defense,
-        hpOnly.hp * hpOnly.spDefense,
-      ),
-      (
-        AppStrings.t('dex.bulkFull'),
-        fullP.hp * fullP.defense,
-        fullS.hp * fullS.spDefense,
-      ),
+      (AppStrings.t('dex.bulkNone'), none.physical, none.special),
+      (AppStrings.t('dex.bulkHp'), hpOnly.physical, hpOnly.special),
+      (AppStrings.t('dex.bulkFull'), fullP.physical, fullS.special),
     ];
 
     final fg = Theme.of(context).colorScheme.onSurface;
@@ -827,56 +818,61 @@ class _DecisivePowerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Three tiers for an attacking stat:
+    // Three tiers for an attacking stat. Output is computed via
+    // OffensiveCalculator so the value matches the calc's attacker
+    // panel exactly (STAB, weather/terrain defaults, ability/item
+    // off — pure species-vs-move).
     //   - none: 0 EV, neutral nature
     //   - half: 252 EV, neutral nature
     //   - full: 252 EV, +attack/+spAttack nature
     const baseEv = Stats(
         hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
 
-    final none = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: baseEv, nature: const NatureProfile(), level: _level);
-    final halfAtk = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: baseEv.copyWith(attack: 252),
-        nature: const NatureProfile(), level: _level);
-    final halfSpa = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: baseEv.copyWith(spAttack: 252),
-        nature: const NatureProfile(), level: _level);
-    final fullAtk = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: baseEv.copyWith(attack: 252),
-        nature: const NatureProfile(up: NatureStat.atk), level: _level);
-    final fullSpa = StatCalculator.calculate(
-        baseStats: pokemon.baseStats, iv: _fullIv,
-        ev: baseEv.copyWith(spAttack: 252),
-        nature: const NatureProfile(up: NatureStat.spa), level: _level);
-
-    int output(Move m, Stats stats) {
-      final atk = m.category == MoveCategory.physical
-          ? stats.attack
-          : stats.spAttack;
-      final stab = (m.type == pokemon.type1 || m.type == pokemon.type2)
-          ? 1.5 : 1.0;
-      return (atk * m.power * stab).floor();
+    int outputFor(Move m, Stats ev, NatureProfile nat, int hits) {
+      final transformed = TransformedMove(
+        m,
+        m.category == MoveCategory.physical
+            ? OffensiveStat.attack
+            : OffensiveStat.spAttack,
+      );
+      final single = OffensiveCalculator.calculate(
+        baseStats: pokemon.baseStats,
+        iv: _fullIv,
+        ev: ev,
+        nature: nat,
+        level: _level,
+        transformed: transformed,
+        type1: pokemon.type1,
+        type2: pokemon.type2,
+      );
+      // Multi-hit moves like Scale Shot show the all-hits-land total;
+      // the calc itself doesn't multiply, so do it here.
+      return single * hits;
     }
 
-    final rows = <(Move, int, int, int)>[];
-    for (final name in pokemon.keyMoves) {
+    NatureProfile fullNature(Move m) => m.category == MoveCategory.physical
+        ? const NatureProfile(up: NatureStat.atk)
+        : const NatureProfile(up: NatureStat.spa);
+    Stats halfEv(Move m) => m.category == MoveCategory.physical
+        ? baseEv.copyWith(attack: 252)
+        : baseEv.copyWith(spAttack: 252);
+
+    // keyMoves entries can carry an optional ":N" suffix to lock a
+    // multi-hit move (e.g. "Scale Shot:3") to a specific hit count.
+    // Default = 1 hit per row.
+    final rows = <(Move, int, int, int, int)>[];
+    for (final raw in pokemon.keyMoves) {
+      final parts = raw.split(':');
+      final name = parts[0];
+      final hits = parts.length > 1 ? int.tryParse(parts[1]) ?? 1 : 1;
       final m = moveDex[name];
       if (m == null || m.power <= 0) continue;
-      final noneStats = m.category == MoveCategory.physical ? none : none;
-      final halfStats =
-          m.category == MoveCategory.physical ? halfAtk : halfSpa;
-      final fullStats =
-          m.category == MoveCategory.physical ? fullAtk : fullSpa;
       rows.add((
         m,
-        output(m, noneStats),
-        output(m, halfStats),
-        output(m, fullStats),
+        hits,
+        outputFor(m, baseEv, const NatureProfile(), hits),
+        outputFor(m, halfEv(m), const NatureProfile(), hits),
+        outputFor(m, halfEv(m), fullNature(m), hits),
       ));
     }
 
@@ -909,21 +905,26 @@ class _DecisivePowerSection extends StatelessWidget {
             ),
         ]);
 
-    TableRow bodyRow((Move, int, int, int) r) => TableRow(children: [
+    TableRow bodyRow((Move, int, int, int, int) r) {
+      final hits = r.$2;
+      final label = hits > 1
+          ? '${r.$1.localizedName} (×$hits)'
+          : r.$1.localizedName;
+      return TableRow(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          child: Text(label, style: const TextStyle(fontSize: 13)),
+        ),
+        for (final v in [r.$3, r.$4, r.$5])
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Text(r.$1.localizedName,
-                style: const TextStyle(fontSize: 13)),
+            child: Text(_BulkSection._fmt(v),
+                textAlign: TextAlign.right,
+                style: const TextStyle(
+                    fontSize: 13, fontWeight: FontWeight.w600)),
           ),
-          for (final v in [r.$2, r.$3, r.$4])
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Text(_BulkSection._fmt(v),
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w600)),
-            ),
-        ]);
+      ]);
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
