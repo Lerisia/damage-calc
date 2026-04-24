@@ -219,6 +219,11 @@ class AppStrings {
       AppLanguage.en: 'Abilities',
       AppLanguage.ja: '特性',
     },
+    'dex.calcAbility': {
+      AppLanguage.ko: '계산 특성',
+      AppLanguage.en: 'Ability for calc',
+      AppLanguage.ja: '計算用特性',
+    },
     'dex.typeMatchups': {
       AppLanguage.ko: '타입 상성',
       AppLanguage.en: 'Type Matchups',
@@ -290,14 +295,14 @@ class AppStrings {
       AppLanguage.ja: 'H32',
     },
     'dex.bulkHB': {
-      AppLanguage.ko: 'HB32 방어↑',
-      AppLanguage.en: 'HB32 Def↑',
-      AppLanguage.ja: 'HB32 防御↑',
+      AppLanguage.ko: 'HB 극보정',
+      AppLanguage.en: 'HB 252+',
+      AppLanguage.ja: 'HB 極振り↑',
     },
     'dex.bulkHD': {
-      AppLanguage.ko: 'HD32 특방↑',
-      AppLanguage.en: 'HD32 SpD↑',
-      AppLanguage.ja: 'HD32 特防↑',
+      AppLanguage.ko: 'HD 극보정',
+      AppLanguage.en: 'HD 252+',
+      AppLanguage.ja: 'HD 極振り↑',
     },
     'dex.bulkFormula': {
       AppLanguage.ko: 'HP × 방어 / HP × 특방',

@@ -21,7 +21,13 @@ const _allFiles = [
 ];
 
 List<Pokemon>? _cache;
+Set<String>? _megaStoneIds;
 Future<List<Pokemon>>? _loading;
+
+/// Set of item IDs that force Mega Evolution (any `requiredItem` on a
+/// Mega form). Populated during [loadPokedex]. Returns empty set until
+/// the pokedex has loaded.
+Set<String> megaStoneItemIds() => _megaStoneIds ?? const {};
 
 /// Loads all Pokemon data from assets/pokemon/*.json (cached after first load).
 /// Uses parallel loading for faster startup.
@@ -42,6 +48,10 @@ Future<List<Pokemon>> _doLoad() async {
   final pokedex = results.expand((list) => list).toList();
 
   _cache = pokedex;
+  _megaStoneIds = {
+    for (final p in pokedex)
+      if (p.requiredItem != null) p.requiredItem!,
+  };
   return pokedex;
 }
 

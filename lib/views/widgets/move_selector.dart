@@ -17,8 +17,12 @@ class MoveSelector extends StatefulWidget {
   final String? pokemonName;
   final String? pokemonNameKo;
   final int? dexNumber;
+  /// Fires whenever the inner text field gains/loses focus. Useful
+  /// for parents that want to expand layout while the user is picking
+  /// and collapse it after.
+  final ValueChanged<bool>? onFocusChanged;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -162,7 +166,10 @@ class _MoveSelectorState extends State<MoveSelector> {
           displayNameOverride: widget.displayNameOverride,
           selected: _selected,
           onTap: widget.onTap,
-          onFocusChanged: (hasFocus) => _isFocused = hasFocus,
+          onFocusChanged: (hasFocus) {
+            _isFocused = hasFocus;
+            widget.onFocusChanged?.call(hasFocus);
+          },
           onSubmitted: () {
             final results = _sortedOptions(controller.text);
             if (results.isNotEmpty) {

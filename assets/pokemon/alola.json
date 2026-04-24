@@ -179,6 +179,9 @@
     "type2": "fairy",
     "finalEvo": true,
     "genderRate": 6,
+    "aliases": [
+      "알나테"
+    ],
     "nameEn": "Alolan Ninetales"
   },
   {

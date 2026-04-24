@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '../data/abilitydex.dart';
+import '../data/champions_usage.dart';
 import '../data/learnsetdex.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
 import '../models/ability.dart';
+import '../models/battle_pokemon.dart';
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
+import '../models/room.dart';
 import '../models/stats.dart';
+import '../models/terrain.dart';
 import '../models/type.dart';
+import '../models/weather.dart';
 import '../utils/app_strings.dart';
+import '../utils/battle_facade.dart';
 import '../utils/localization.dart';
-import '../utils/defensive_calculator.dart';
-import '../utils/move_transform.dart';
-import '../utils/offensive_calculator.dart';
+import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/type_effectiveness.dart';
+import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_selector.dart';
 
@@ -188,7 +194,7 @@ class _DexScreenState extends State<DexScreen> {
 // Main tab — header, stats, abilities, type matchups
 // ────────────────────────────────────────────────────────────────────────
 
-class _MainTab extends StatelessWidget {
+class _MainTab extends StatefulWidget {
   final Pokemon? pokemon;
   final Map<String, Ability> abilityDex;
   final Map<String, Move> moveDex;
@@ -200,8 +206,51 @@ class _MainTab extends StatelessWidget {
   });
 
   @override
+  State<_MainTab> createState() => _MainTabState();
+}
+
+class _MainTabState extends State<_MainTab> {
+  /// Ability the user has selected for the bulk / decisive power
+  /// tables. Defaulted from curated usage data (or species' first
+  /// ability) when the species changes.
+  String? _selectedAbility;
+
+  @override
+  void initState() {
+    super.initState();
+    _seedAbility();
+  }
+
+  @override
+  void didUpdateWidget(_MainTab old) {
+    super.didUpdateWidget(old);
+    if (old.pokemon?.name != widget.pokemon?.name) {
+      _seedAbility();
+    }
+  }
+
+  /// Pick a default ability for calc tables — curated top pick wins
+  /// when the species has usage data; otherwise falls back to the
+  /// species' first listed ability.
+  void _seedAbility() {
+    final p = widget.pokemon;
+    if (p == null) {
+      _selectedAbility = null;
+      return;
+    }
+    final curated = championsUsageFor(p.name)?.abilities;
+    String? picked;
+    if (curated != null && curated.isNotEmpty) {
+      final first = curated.first.name;
+      if (p.abilities.contains(first)) picked = first;
+    }
+    picked ??= p.abilities.isNotEmpty ? p.abilities.first : null;
+    _selectedAbility = picked;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final p = pokemon;
+    final p = widget.pokemon;
     if (p == null) {
       return Center(
         child: Padding(
@@ -220,13 +269,125 @@ class _MainTab extends StatelessWidget {
           const SizedBox(height: 12),
           _StatRow(pokemon: p),
           const SizedBox(height: 16),
-          _AbilitiesSection(pokemon: p, abilityDex: abilityDex),
+          _AbilitiesSection(pokemon: p, abilityDex: widget.abilityDex),
           const SizedBox(height: 16),
           _TypeMatchupsSection(pokemon: p),
           const SizedBox(height: 16),
-          _BulkSection(pokemon: p),
+          if (p.abilities.isNotEmpty) ...[
+            _CalcAbilityPicker(
+              pokemon: p,
+              abilityDex: widget.abilityDex,
+              selected: _selectedAbility,
+              onChanged: (ab) => setState(() => _selectedAbility = ab),
+            ),
+            const SizedBox(height: 12),
+          ],
+          _BulkSection(pokemon: p, ability: _selectedAbility),
           const SizedBox(height: 16),
-          _DecisivePowerSection(pokemon: p, moveDex: moveDex),
+          _DecisivePowerSection(
+            pokemon: p,
+            moveDex: widget.moveDex,
+            ability: _selectedAbility,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Flat chip used by the calc-ability picker. Deliberately not
+/// [ChoiceChip] — Material's chip animates a checkmark in/out on
+/// selection which jiggles the row's metrics. Here we only flip the
+/// fill color so tapping is visually instant.
+class _AbilityChip extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _AbilityChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final bg = selected ? scheme.primary.withValues(alpha: 0.18) : Colors.transparent;
+    final fg = selected ? scheme.primary : scheme.onSurface.withValues(alpha: 0.8);
+    final border = selected ? scheme.primary : scheme.outlineVariant;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: bg,
+          border: Border.all(color: border),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: fg,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Compact picker that drives the bulk + decisive-power tables. Shows
+/// the species' ability list (one row) and lets the user tap to switch.
+/// Auto-applied weather/terrain (Drought → Sun, etc.) is handled by the
+/// table sections themselves.
+class _CalcAbilityPicker extends StatelessWidget {
+  final Pokemon pokemon;
+  final Map<String, Ability> abilityDex;
+  final String? selected;
+  final ValueChanged<String> onChanged;
+
+  const _CalcAbilityPicker({
+    required this.pokemon,
+    required this.abilityDex,
+    required this.selected,
+    required this.onChanged,
+  });
+
+  String _label(String key) => abilityDex[key]?.localizedName ?? key;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        border: Border.all(color: scheme.outlineVariant),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        children: [
+          Text(
+            AppStrings.t('dex.calcAbility'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Wrap(
+              spacing: 6,
+              runSpacing: 4,
+              children: [
+                for (final key in pokemon.abilities)
+                  _AbilityChip(
+                    label: _label(key),
+                    selected: selected == key,
+                    onTap: () => onChanged(key),
+                  ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -678,9 +839,56 @@ class _TypeMatchupsSection extends StatelessWidget {
   }
 }
 
+/// Build a stripped-down [BattlePokemonState] the dex can feed into
+/// [BattleFacade]. All defender-specific battle toggles (status, rank,
+/// allies, rooms, etc.) stay at their defaults — the dex is a raw
+/// species baseline, not an in-battle snapshot.
+BattlePokemonState _dexState({
+  required Pokemon pokemon,
+  required String? ability,
+  required Stats ev,
+  required NatureProfile nature,
+  required Stats iv,
+  required int level,
+  Move? move,
+  int? hits,
+}) {
+  return BattlePokemonState(
+    pokemonName: pokemon.name,
+    pokemonNameKo: pokemon.nameKo,
+    pokemonNameJa: pokemon.nameJa,
+    pokemonNameEn: pokemon.nameEn,
+    dexNumber: pokemon.dexNumber,
+    finalEvo: pokemon.finalEvo,
+    genderRate: pokemon.genderRate,
+    type1: pokemon.type1,
+    type2: pokemon.type2,
+    weight: pokemon.weight,
+    baseStats: pokemon.baseStats,
+    pokemonAbilities: pokemon.abilities,
+    selectedAbility: BattlePokemonState.expandAbilityKey(ability),
+    level: level,
+    nature: nature,
+    iv: iv,
+    ev: ev,
+    moves: [move, null, null, null],
+    hitOverrides: [hits, null, null, null],
+    isMega: pokemon.isMega,
+    canDynamax: pokemon.canDynamax,
+    canGmax: pokemon.canGmax,
+    selectedItem: pokemon.requiredItem,
+  );
+}
+
 class _BulkSection extends StatelessWidget {
   final Pokemon pokemon;
-  const _BulkSection({required this.pokemon});
+  /// Ability used by the bulk calc. Unconditional Def/SpD modifiers
+  /// (Fur Coat, Ice Scales-adjacent, Grass Pelt under terrain, etc.)
+  /// flow into the numbers; weather/terrain that the ability implies
+  /// (Drought → Sun, Grassy Surge → Grassy terrain) is auto-activated
+  /// so bulk reflects the on-field reality of that species.
+  final String? ability;
+  const _BulkSection({required this.pokemon, this.ability});
 
   static const _level = 50;
   static const _fullIv = Stats(
@@ -689,23 +897,30 @@ class _BulkSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Three investment tiers — "준보정" is rare in practice so we skip
-    // it. Bulk uses DefensiveCalculator so the value matches what the
-    // calculator's defender panel reports (HP × Def / 0.411, comparable
-    // to 결정력). No ability/item/weather/etc. context is applied — the
-    // dex shows the species' raw bulk profile.
+    // it. Bulk routes through [BattleFacade.calcBulk] so the numbers
+    // match what the calculator's defender panel shows (HP × Def /
+    // 0.411, with the full ability chain applied).
     const baseEv = Stats(
         hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
 
+    final weather =
+        ability != null ? (abilityWeatherMap[ability!] ?? Weather.none) : Weather.none;
+    final terrain =
+        ability != null ? (abilityTerrainMap[ability!] ?? Terrain.none) : Terrain.none;
+
     ({int physical, int special}) bulk(Stats ev, NatureProfile nat) =>
-        DefensiveCalculator.calculate(
-          baseStats: pokemon.baseStats,
-          iv: _fullIv,
-          ev: ev,
-          nature: nat,
-          level: _level,
-          type1: pokemon.type1,
-          type2: pokemon.type2,
-          finalEvo: pokemon.finalEvo,
+        BattleFacade.calcBulk(
+          state: _dexState(
+            pokemon: pokemon,
+            ability: ability,
+            ev: ev,
+            nature: nat,
+            iv: _fullIv,
+            level: _level,
+          ),
+          weather: weather,
+          terrain: terrain,
+          room: const RoomConditions(),
         );
 
     final none = bulk(baseEv, const NatureProfile());
@@ -788,10 +1003,17 @@ class _BulkSection extends StatelessWidget {
 class _DecisivePowerSection extends StatefulWidget {
   final Pokemon pokemon;
   final Map<String, Move> moveDex;
+  /// Ability for decisive power. Offensive modifiers (Adaptability,
+  /// Huge Power, Sheer Force, …) flow through OffensiveCalculator via
+  /// `attackerAbility`; weather/terrain this ability would set on
+  /// switch-in (Drought, Grassy Surge, …) is auto-activated for the
+  /// duration of the calc.
+  final String? ability;
 
   const _DecisivePowerSection({
     required this.pokemon,
     required this.moveDex,
+    this.ability,
   });
 
   @override
@@ -805,15 +1027,17 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
   static const _baseEv = Stats(
       hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
 
-  // Per-row hit count for multi-hit moves, keyed by the raw keyMoves
-  // entry string (e.g. "Scale Shot:3"). The :N suffix in the JSON is
-  // the initial value; users can tap the (×N) chip to change it
-  // within [minHits, maxHits].
+  // Per-row hit count for multi-hit moves, keyed by move English name.
   final Map<String, int> _hits = {};
 
   // Scratch-row move picked by the user for ad-hoc damage lookups.
   Move? _customMove;
   int _customHits = 1;
+
+  /// True while the scratch selector has focus. Drives the layout
+  /// swap — picking widens the selector back to full row, collapsing
+  /// to the fused 4-column layout on blur.
+  bool _scratchFocused = false;
 
   @override
   void initState() {
@@ -832,49 +1056,103 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
     }
   }
 
-  void _seedHits() {
-    for (final raw in widget.pokemon.keyMoves) {
-      final parts = raw.split(':');
-      final name = parts[0];
+  /// Curated damage-move pool from the Champions Singles usage data.
+  /// Falls back to the legacy `pokemon.keyMoves` list (unsuffixed names
+  /// only) for species that haven't been curated yet. Fixed-damage and
+  /// OHKO moves are filtered out — the table shows only moves whose
+  /// output scales with the user's stats.
+  List<Move> _decisiveMoves() {
+    final usage = championsUsageFor(widget.pokemon.name);
+    final rawNames = <String>[];
+    if (usage != null && usage.moves.isNotEmpty) {
+      rawNames.addAll(usage.moves.map((row) => row.name));
+    } else {
+      // Legacy fallback: strip the ":N" hit-count suffix if present.
+      rawNames.addAll(widget.pokemon.keyMoves.map((s) => s.split(':').first));
+    }
+    final out = <Move>[];
+    for (final name in rawNames) {
       final m = widget.moveDex[name];
       if (m == null) continue;
-      int hits = 1;
-      if (parts.length > 1) {
-        hits = int.tryParse(parts[1]) ?? 1;
-      } else if (m.isMultiHit) {
-        hits = m.maxHits;
-      }
-      _hits[raw] = hits;
+      if (m.power <= 0) continue;
+      if (_isFixedOrOhko(m)) continue;
+      out.add(m);
+    }
+    return out;
+  }
+
+  bool _isFixedOrOhko(Move m) =>
+      m.hasTag(MoveTags.ohko) ||
+      m.hasTag(MoveTags.fixedLevel) ||
+      m.hasTag(MoveTags.fixedHalfHp) ||
+      m.hasTag(MoveTags.fixedThreeQuarterHp) ||
+      m.hasTag(MoveTags.fixed20) ||
+      m.hasTag(MoveTags.fixed40);
+
+  void _seedHits() {
+    for (final m in _decisiveMoves()) {
+      if (m.isMultiHit) _hits[m.name] = m.maxHits;
     }
   }
 
+  /// Run a decisive-power calc for [m] under the given EV/nature. We
+  /// route the call through [BattleFacade.getMoveSlotInfo] so every
+  /// ability-driven transform (Pixilate, Liquid Voice, Sheer Force,
+  /// Adaptability, Huge Power, …) is applied the same way the
+  /// calculator does. Multi-hit `hits` feeds into the move slot's
+  /// hit-count override.
   int _outputFor(Move m, Stats ev, NatureProfile nat, int hits) {
-    final transformed = TransformedMove(
-      m,
-      m.category == MoveCategory.physical
-          ? OffensiveStat.attack
-          : OffensiveStat.spAttack,
-    );
-    final single = OffensiveCalculator.calculate(
-      baseStats: widget.pokemon.baseStats,
-      iv: _fullIv,
+    final ab = widget.ability;
+    final weather =
+        ab != null ? (abilityWeatherMap[ab] ?? Weather.none) : Weather.none;
+    final terrain =
+        ab != null ? (abilityTerrainMap[ab] ?? Terrain.none) : Terrain.none;
+    final state = _dexState(
+      pokemon: widget.pokemon,
+      ability: ab,
       ev: ev,
       nature: nat,
+      iv: _fullIv,
       level: _level,
-      transformed: transformed,
-      type1: widget.pokemon.type1,
-      type2: widget.pokemon.type2,
+      move: m,
+      hits: m.isMultiHit ? hits : null,
     );
-    return single * hits;
+    final info = BattleFacade.getMoveSlotInfo(
+      state: state,
+      moveIndex: 0,
+      weather: weather,
+      terrain: terrain,
+      room: const RoomConditions(),
+    );
+    return info.offensivePower ?? 0;
   }
 
-  NatureProfile _fullNature(Move m) => m.category == MoveCategory.physical
-      ? const NatureProfile(up: NatureStat.atk)
-      : const NatureProfile(up: NatureStat.spa);
+  /// Which stat the move scales off (Body Press → Def, etc.). Kept
+  /// here only to pick the right EV/nature column; actual stat
+  /// selection inside the calc happens in [transformMove].
+  NatureStat _investStat(Move m) {
+    if (m.hasTag(MoveTags.useDefense)) return NatureStat.def;
+    return m.category == MoveCategory.physical
+        ? NatureStat.atk
+        : NatureStat.spa;
+  }
 
-  Stats _halfEv(Move m) => m.category == MoveCategory.physical
-      ? _baseEv.copyWith(attack: 252)
-      : _baseEv.copyWith(spAttack: 252);
+  NatureProfile _fullNature(Move m) => NatureProfile(up: _investStat(m));
+
+  Stats _halfEv(Move m) {
+    switch (_investStat(m)) {
+      case NatureStat.atk:
+        return _baseEv.copyWith(attack: 252);
+      case NatureStat.spa:
+        return _baseEv.copyWith(spAttack: 252);
+      case NatureStat.def:
+        return _baseEv.copyWith(defense: 252);
+      case NatureStat.spd:
+        return _baseEv.copyWith(spDefense: 252);
+      case NatureStat.spe:
+        return _baseEv.copyWith(speed: 252);
+    }
+  }
 
   Future<int?> _showHitPicker(Move m) async {
     if (!m.isMultiHit || m.minHits == m.maxHits) return null;
@@ -934,24 +1212,23 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
         : AppStrings.t(k);
 
     final curatedRows = <TableRow>[];
-    for (final raw in widget.pokemon.keyMoves) {
-      final name = raw.split(':').first;
-      final m = widget.moveDex[name];
-      if (m == null || m.power <= 0) continue;
-      final hits = _hits[raw] ?? 1;
+    for (final m in _decisiveMoves()) {
+      final hits = _hits[m.name] ?? 1;
       final v1 = _outputFor(m, _baseEv, const NatureProfile(), hits);
       final v2 = _outputFor(m, _halfEv(m), const NatureProfile(), hits);
       final v3 = _outputFor(m, _halfEv(m), _fullNature(m), hits);
       curatedRows.add(TableRow(children: [
-        _moveLabel(m, hits: hits, onTap: () => _pickKeyMoveHits(raw, m)),
+        _moveLabel(m, hits: hits, onTap: () => _pickKeyMoveHits(m.name, m)),
         _DexTableCell(_BulkSection._fmt(v1), bold: true),
         _DexTableCell(_BulkSection._fmt(v2), bold: true),
         _DexTableCell(_BulkSection._fmt(v3), bold: true),
       ]));
     }
 
-    // Scratch row: embedded move search. Always rendered so users can
-    // look up any move's output without editing data.
+    // Scratch area below the table. The MoveSelector claims the full
+    // section width (no column-1 squeeze) so search is roomy; once a
+    // move is picked, a compact 4-column row beneath shows its values
+    // aligned with the main table's columns.
     final custom = _customMove;
     int? c1, c2, c3;
     int customHits = _customHits;
@@ -969,68 +1246,91 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
     final customIsMultiHit =
         custom != null && custom.isMultiHit && custom.minHits != custom.maxHits;
 
-    final scratchRow = TableRow(
+    // Single Row layout — flex values change instead of the widget
+    // tree, so tapping the compact selector doesn't unmount it (which
+    // was losing focus and forcing a second tap). Expand to flex 9
+    // (the full 3+2+2+2 table width) while focused or empty; collapse
+    // to flex 3 (matching the column-1 width) once a move is set and
+    // focus is lost so the results line up with the main table.
+    final fuseWithValues =
+        !_scratchFocused && custom != null && custom.power > 0;
+    final scratchArea = Container(
       decoration: BoxDecoration(
         color: scheme.surfaceContainerHighest.withValues(alpha: 0.25),
+        border: Border.all(color: scheme.outlineVariant, width: 1),
+        borderRadius: BorderRadius.circular(4),
       ),
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          child: Row(
-            children: [
-              Expanded(
-                child: MoveSelector(
-                  key: ValueKey(
-                      'dex_decisive_custom_${widget.pokemon.name}_${custom?.name ?? ''}'),
-                  initialMoveName: custom?.name,
-                  pokemonName: widget.pokemon.name,
-                  pokemonNameKo: widget.pokemon.nameKo,
-                  dexNumber: widget.pokemon.dexNumber,
-                  onSelected: (m) => setState(() {
-                    _customMove = m;
-                    _customHits = m.isMultiHit ? m.maxHits : 1;
-                  }),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      child: Row(
+        children: [
+          Expanded(
+            flex: fuseWithValues ? 3 : 9,
+            child: Row(
+              children: [
+                Expanded(
+                  child: MoveSelector(
+                    key: ValueKey(
+                        'dex_decisive_custom_${widget.pokemon.name}'),
+                    initialMoveName: custom?.name,
+                    pokemonName: widget.pokemon.name,
+                    pokemonNameKo: widget.pokemon.nameKo,
+                    dexNumber: widget.pokemon.dexNumber,
+                    onFocusChanged: (f) {
+                      if (_scratchFocused != f) {
+                        setState(() => _scratchFocused = f);
+                      }
+                    },
+                    onSelected: (m) => setState(() {
+                      _customMove = m;
+                      _customHits = m.isMultiHit ? m.maxHits : 1;
+                    }),
+                  ),
                 ),
-              ),
-              if (customIsMultiHit) ...[
-                const SizedBox(width: 6),
-                InkWell(
-                  onTap: () => _pickCustomHits(custom),
-                  borderRadius: BorderRadius.circular(4),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: scheme.onSurface.withValues(alpha: 0.4)),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      '×$customHits',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: scheme.onSurface.withValues(alpha: 0.8),
+                if (customIsMultiHit) ...[
+                  const SizedBox(width: 6),
+                  InkWell(
+                    onTap: () => _pickCustomHits(custom),
+                    borderRadius: BorderRadius.circular(4),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: scheme.onSurface.withValues(alpha: 0.4)),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        '×$customHits',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: scheme.onSurface.withValues(alpha: 0.8),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        _DexTableCell(c1 == null ? '—' : _BulkSection._fmt(c1),
-            bold: c1 != null, dim: c1 == null),
-        _DexTableCell(c2 == null ? '—' : _BulkSection._fmt(c2),
-            bold: c2 != null, dim: c2 == null),
-        _DexTableCell(c3 == null ? '—' : _BulkSection._fmt(c3),
-            bold: c3 != null, dim: c3 == null),
-      ],
+          if (fuseWithValues) ...[
+            Expanded(
+              flex: 2,
+              child: _DexTableCell(_BulkSection._fmt(c1!), bold: true),
+            ),
+            Expanded(
+              flex: 2,
+              child: _DexTableCell(_BulkSection._fmt(c2!), bold: true),
+            ),
+            Expanded(
+              flex: 2,
+              child: _DexTableCell(_BulkSection._fmt(c3!), bold: true),
+            ),
+          ],
+        ],
+      ),
     );
 
-    // Note: keyMoves list can be empty — in that case only the scratch
-    // row is rendered, still giving users a per-species damage lookup
-    // tool. Header is always present so the columns have context.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1064,9 +1364,10 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
               ],
             ),
             ...curatedRows,
-            scratchRow,
           ],
         ),
+        const SizedBox(height: 6),
+        scratchArea,
       ],
     );
   }

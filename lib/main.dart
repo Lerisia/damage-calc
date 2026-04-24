@@ -8,6 +8,7 @@ import 'models/ability.dart';
 import 'models/item.dart';
 import 'data/movedex.dart';
 import 'data/pokedex.dart';
+import 'data/champions_usage.dart';
 import 'views/damage_calculator_screen.dart';
 
 void main() {
@@ -222,6 +223,7 @@ class _AppLoaderState extends State<_AppLoader> {
       loadAllMoves(),
       loadAbilitydex(),
       loadItemdex(),
+      loadChampionsUsage(),
     ]);
 
     // Build name maps from loaded data

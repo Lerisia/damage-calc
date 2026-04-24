@@ -25,7 +25,10 @@
     "genderRate": 1,
     "canDynamax": false,
     "nameEn": "Mega Venusaur",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메상해꽃"
+    ]
   },
   {
     "dexNumber": 6,
@@ -114,7 +117,10 @@
     "genderRate": 1,
     "canDynamax": false,
     "nameEn": "Mega Blastoise",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메북왕"
+    ]
   },
   {
     "dexNumber": 65,
@@ -169,7 +175,10 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Gengar",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메팬"
+    ]
   },
   {
     "dexNumber": 115,
@@ -196,7 +205,10 @@
     "genderRate": 8,
     "canDynamax": false,
     "nameEn": "Mega Kangaskhan",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메캥"
+    ]
   },
   {
     "dexNumber": 127,
@@ -252,7 +264,10 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Gyarados",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메갸라"
+    ]
   },
   {
     "dexNumber": 142,
@@ -391,7 +406,10 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Scizor",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메핫삼"
+    ]
   },
   {
     "dexNumber": 214,
@@ -475,7 +493,10 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Tyranitar",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메마기"
+    ]
   },
   {
     "dexNumber": 257,
@@ -723,7 +744,10 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Garchomp",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메한카"
+    ]
   },
   {
     "dexNumber": 448,
@@ -751,7 +775,10 @@
     "genderRate": 1,
     "canDynamax": false,
     "nameEn": "Mega Lucario",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메루카"
+    ]
   },
   {
     "dexNumber": 460,
@@ -975,7 +1002,10 @@
     "genderRate": 0,
     "canDynamax": false,
     "nameEn": "Mega Gallade",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메엘레"
+    ]
   },
   {
     "dexNumber": 531,
@@ -1281,7 +1311,10 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Lopunny",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메어롭"
+    ]
   },
   {
     "dexNumber": 373,
@@ -1364,7 +1397,10 @@
     "requiredItem": "clefablite",
     "nameEn": "Mega Clefable",
     "isMega": true,
-    "genderRate": 6
+    "genderRate": 6,
+    "aliases": [
+      "메픽시"
+    ]
   },
   {
     "name": "Mega Victreebel",
@@ -1391,7 +1427,10 @@
     "requiredItem": "victreebelite",
     "nameEn": "Mega Victreebel",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "메츠보트"
+    ]
   },
   {
     "name": "Mega Starmie",
@@ -1418,7 +1457,10 @@
     "requiredItem": "starminite",
     "nameEn": "Mega Starmie",
     "isMega": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "aliases": [
+      "메쿠스타"
+    ]
   },
   {
     "name": "Mega Dragonite",
@@ -1445,7 +1487,10 @@
     "requiredItem": "dragoninite",
     "nameEn": "Mega Dragonite",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "메망나"
+    ]
   },
   {
     "name": "Mega Meganium",
@@ -1472,7 +1517,10 @@
     "requiredItem": "meganiumite",
     "nameEn": "Mega Meganium",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "aliases": [
+      "기가니움"
+    ]
   },
   {
     "name": "Mega Feraligatr",
@@ -1526,7 +1574,10 @@
     "requiredItem": "skarmorite",
     "nameEn": "Mega Skarmory",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "메장조"
+    ]
   },
   {
     "name": "Mega Froslass",
@@ -1553,7 +1604,10 @@
     "requiredItem": "froslassite",
     "nameEn": "Mega Froslass",
     "isMega": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "aliases": [
+      "메여아"
+    ]
   },
   {
     "name": "Mega Emboar",
@@ -1762,7 +1816,10 @@
     "requiredItem": "delphoxite",
     "nameEn": "Mega Delphox",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "aliases": [
+      "메폭시"
+    ]
   },
   {
     "name": "Mega Greninja",
@@ -1789,7 +1846,10 @@
     "requiredItem": "greninjite",
     "nameEn": "Mega Greninja",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "aliases": [
+      "메개닌"
+    ]
   },
   {
     "name": "Mega Pyroar",
@@ -1840,7 +1900,10 @@
     "requiredItem": "floettite",
     "nameEn": "Mega Floette",
     "isMega": true,
-    "genderRate": 8
+    "genderRate": 8,
+    "aliases": [
+      "메플라"
+    ]
   },
   {
     "name": "Mega Malamar",
@@ -2449,7 +2512,10 @@
     "requiredItem": "glimmoranite",
     "nameEn": "Mega Glimmora",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "메킬플"
+    ]
   },
   {
     "name": "Mega Tatsugiri",

@@ -288,6 +288,9 @@
     "type2": "ghost",
     "finalEvo": true,
     "genderRate": 1,
+    "aliases": [
+      "히로아크"
+    ],
     "nameEn": "Hisuian Zoroark"
   },
   {

@@ -15,6 +15,7 @@ const _genFiles = [
 ];
 
 List<Move>? _cache;
+Map<String, Move>? _byName;
 Future<List<Move>>? _loading;
 
 /// Loads all moves as a list from assets/moves/gen*.json (cached after first load).
@@ -33,6 +34,7 @@ Future<List<Move>> _doLoad() async {
 
   final results = await Future.wait(futures);
   _cache = results.expand((list) => list).toList();
+  _byName = {for (final m in _cache!) m.name: m};
   return _cache!;
 }
 
@@ -41,3 +43,7 @@ Future<Map<String, Move>> loadMovedex() async {
   final moves = await loadAllMoves();
   return {for (final m in moves) m.name: m};
 }
+
+/// Sync lookup by English move name. Returns `null` before the
+/// movedex cache is populated or for unknown names.
+Move? findMoveByName(String name) => _byName?[name];

@@ -1,0 +1,2690 @@
+{
+  "_meta": {
+    "source": "Pokemon Champions in-game Battle Data (Singles)",
+    "format": "Regulation M-A",
+    "updatedAt": "2026-04-25",
+    "curatedBy": "manual",
+    "notes": "Entries are ordered by descending in-game usage. pct is optional and left null when only rank order was recorded. Items/moves/natures with <1% usage are omitted from newer entries (from Gengar onward) to reduce noise."
+  },
+
+  "Garchomp": {
+    "abilities": [
+      {"name": "Rough Skin"},
+      {"name": "Sand Veil"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "sitrus-berry"},
+      {"name": "lum-berry"},
+      {"name": "garchompite"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Outrage"},
+      {"name": "Scale Shot"},
+      {"name": "Rock Tomb"},
+      {"name": "Poison Jab"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Outrage"},
+      {"name": "Rock Tomb"},
+      {"name": "Poison Jab"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Primarina": {
+    "abilities": [
+      {"name": "Torrent"},
+      {"name": "Liquid Voice"}
+    ],
+    "items": [
+      {"name": "sitrus-berry"},
+      {"name": "leftovers"},
+      {"name": "mystic-water"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Moonblast"},
+      {"name": "Sparkling Aria"},
+      {"name": "Aqua Jet"},
+      {"name": "Flip Turn"},
+      {"name": "Ice Beam"}
+    ],
+    "defaultMoves": [
+      {"name": "Moonblast"},
+      {"name": "Sparkling Aria"},
+      {"name": "Aqua Jet"},
+      {"name": "Flip Turn"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Quiet"}
+    ]
+  },
+
+  "Charizard": {
+    "_note": "Aggregate contains Mega Y / Mega X users picking base + stone. Use Mega Charizard Y / X entries for cleaner per-form data.",
+    "abilities": [
+      {"name": "Blaze"},
+      {"name": "Solar Power"}
+    ],
+    "items": [
+      {"name": "charizardite-y"},
+      {"name": "charizardite-x"},
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Flamethrower"},
+      {"name": "Overheat"},
+      {"name": "Weather Ball"},
+      {"name": "Solar Beam"},
+      {"name": "Air Slash"},
+      {"name": "Focus Blast"},
+      {"name": "Scorching Sands"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Solar Beam"},
+      {"name": "Air Slash"},
+      {"name": "Focus Blast"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Charizard Y": {
+    "_note": "Damage move pool mirrors base Charizard; ability pins to Drought and item to charizardite-y on Mega.",
+    "abilities": [
+      {"name": "Drought"}
+    ],
+    "items": [
+      {"name": "charizardite-y"}
+    ],
+    "moves": [
+      {"name": "Flamethrower"},
+      {"name": "Overheat"},
+      {"name": "Weather Ball"},
+      {"name": "Solar Beam"},
+      {"name": "Air Slash"},
+      {"name": "Focus Blast"},
+      {"name": "Scorching Sands"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Solar Beam"},
+      {"name": "Air Slash"},
+      {"name": "Focus Blast"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Charizard X": {
+    "abilities": [
+      {"name": "Tough Claws"}
+    ],
+    "items": [
+      {"name": "charizardite-x"}
+    ],
+    "moves": [
+      {"name": "Flare Blitz"},
+      {"name": "Outrage"},
+      {"name": "Dragon Claw"},
+      {"name": "Thunder Punch"},
+      {"name": "Flame Charge"}
+    ],
+    "defaultMoves": [
+      {"name": "Flare Blitz"},
+      {"name": "Dragon Claw"},
+      {"name": "Thunder Punch"},
+      {"name": "Flame Charge"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Corviknight": {
+    "abilities": [
+      {"name": "Pressure"},
+      {"name": "Mirror Armor"},
+      {"name": "Unnerve"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "sitrus-berry"},
+      {"name": "bright-powder"},
+      {"name": "lum-berry"},
+      {"name": "occa-berry"}
+    ],
+    "moves": [
+      {"name": "Brave Bird"},
+      {"name": "Iron Head"},
+      {"name": "Body Press"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "Brave Bird"},
+      {"name": "Iron Head"},
+      {"name": "Body Press"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Relaxed"},
+      {"name": "Careful"}
+    ]
+  },
+
+  "Archaludon": {
+    "abilities": [
+      {"name": "Stamina"},
+      {"name": "Sturdy"},
+      {"name": "Stalwart"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "sitrus-berry"},
+      {"name": "white-herb"},
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Flash Cannon"},
+      {"name": "Draco Meteor"},
+      {"name": "Electro Shot"},
+      {"name": "Thunderbolt"},
+      {"name": "Aura Sphere"}
+    ],
+    "defaultMoves": [
+      {"name": "Flash Cannon"},
+      {"name": "Draco Meteor"},
+      {"name": "Thunderbolt"},
+      {"name": "Aura Sphere"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Hippowdon": {
+    "abilities": [
+      {"name": "Sand Stream"},
+      {"name": "Sand Force"}
+    ],
+    "items": [
+      {"name": "sitrus-berry"},
+      {"name": "leftovers"},
+      {"name": "mental-herb"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Rock Tomb"},
+      {"name": "Ice Fang"},
+      {"name": "Fissure"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Rock Tomb"},
+      {"name": "Ice Fang"},
+      {"name": "Fissure"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Careful"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Gengar": {
+    "abilities": [
+      {"name": "Cursed Body"}
+    ],
+    "items": [
+      {"name": "gengarite"},
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"}
+    ],
+    "moves": [
+      {"name": "Shadow Ball"},
+      {"name": "Sludge Wave"},
+      {"name": "Focus Blast"},
+      {"name": "Icy Wind"},
+      {"name": "Thunderbolt"}
+    ],
+    "defaultMoves": [
+      {"name": "Shadow Ball"},
+      {"name": "Sludge Wave"},
+      {"name": "Focus Blast"},
+      {"name": "Icy Wind"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Gengar": {
+    "_note": "Damage move pool mirrors base Gengar; ability pins to Shadow Tag and item to gengarite on Mega.",
+    "abilities": [
+      {"name": "Shadow Tag"}
+    ],
+    "items": [
+      {"name": "gengarite"}
+    ],
+    "moves": [
+      {"name": "Shadow Ball"},
+      {"name": "Sludge Wave"},
+      {"name": "Focus Blast"},
+      {"name": "Icy Wind"},
+      {"name": "Thunderbolt"}
+    ],
+    "defaultMoves": [
+      {"name": "Shadow Ball"},
+      {"name": "Sludge Wave"},
+      {"name": "Focus Blast"},
+      {"name": "Icy Wind"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Scizor": {
+    "abilities": [
+      {"name": "Technician"},
+      {"name": "Light Metal"},
+      {"name": "Swarm"}
+    ],
+    "items": [
+      {"name": "scizorite"},
+      {"name": "sitrus-berry"},
+      {"name": "lum-berry"},
+      {"name": "metal-coat"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Bullet Punch"},
+      {"name": "U-turn"},
+      {"name": "Close Combat"},
+      {"name": "Knock Off"},
+      {"name": "Dual Wingbeat"}
+    ],
+    "defaultMoves": [
+      {"name": "Bullet Punch"},
+      {"name": "U-turn"},
+      {"name": "Close Combat"},
+      {"name": "Knock Off"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Mega Scizor": {
+    "_note": "Damage move pool mirrors base Scizor; ability pins to Technician and item to scizorite on Mega.",
+    "abilities": [
+      {"name": "Technician"}
+    ],
+    "items": [
+      {"name": "scizorite"}
+    ],
+    "moves": [
+      {"name": "Bullet Punch"},
+      {"name": "U-turn"},
+      {"name": "Close Combat"},
+      {"name": "Knock Off"},
+      {"name": "Dual Wingbeat"}
+    ],
+    "defaultMoves": [
+      {"name": "Bullet Punch"},
+      {"name": "U-turn"},
+      {"name": "Close Combat"},
+      {"name": "Knock Off"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Aegislash": {
+    "_note": "Shield Forme: defensive stance, never attacks. Move pool intentionally empty — decisive power lives on the Blade Forme entry.",
+    "abilities": [
+      {"name": "Stance Change"}
+    ],
+    "items": [
+      {"name": "spell-tag"},
+      {"name": "leftovers"},
+      {"name": "focus-sash"},
+      {"name": "sitrus-berry"},
+      {"name": "lum-berry"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Quiet"},
+      {"name": "Brave"},
+      {"name": "Relaxed"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Aegislash (Blade Forme)": {
+    "_note": "Attacking form — where the damage move pool lives. Pool covers both physical and special sets; default is the common physical spread.",
+    "abilities": [
+      {"name": "Stance Change"}
+    ],
+    "items": [
+      {"name": "spell-tag"},
+      {"name": "leftovers"},
+      {"name": "focus-sash"},
+      {"name": "sitrus-berry"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Poltergeist"},
+      {"name": "Shadow Sneak"},
+      {"name": "Iron Head"},
+      {"name": "Sacred Sword"},
+      {"name": "Close Combat"},
+      {"name": "Shadow Ball"},
+      {"name": "Flash Cannon"}
+    ],
+    "defaultMoves": [
+      {"name": "Poltergeist"},
+      {"name": "Shadow Sneak"},
+      {"name": "Iron Head"},
+      {"name": "Sacred Sword"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Quiet"},
+      {"name": "Brave"},
+      {"name": "Relaxed"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Dragonite": {
+    "abilities": [
+      {"name": "Multiscale"},
+      {"name": "Inner Focus"}
+    ],
+    "items": [
+      {"name": "dragoninite"},
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "white-herb"},
+      {"name": "silk-scarf"}
+    ],
+    "moves": [
+      {"name": "Draco Meteor"},
+      {"name": "Air Slash"},
+      {"name": "Thunderbolt"},
+      {"name": "Flamethrower"},
+      {"name": "Ice Beam"},
+      {"name": "Extreme Speed"}
+    ],
+    "defaultMoves": [
+      {"name": "Draco Meteor"},
+      {"name": "Air Slash"},
+      {"name": "Thunderbolt"},
+      {"name": "Flamethrower"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Adamant"},
+      {"name": "Timid"},
+      {"name": "Jolly"},
+      {"name": "Quiet"}
+    ]
+  },
+
+  "Mega Dragonite": {
+    "_note": "Damage move pool mirrors base Dragonite; ability pins to Multiscale and item to dragoninite on Mega.",
+    "abilities": [
+      {"name": "Multiscale"}
+    ],
+    "items": [
+      {"name": "dragoninite"}
+    ],
+    "moves": [
+      {"name": "Draco Meteor"},
+      {"name": "Air Slash"},
+      {"name": "Thunderbolt"},
+      {"name": "Flamethrower"},
+      {"name": "Ice Beam"},
+      {"name": "Extreme Speed"}
+    ],
+    "defaultMoves": [
+      {"name": "Draco Meteor"},
+      {"name": "Air Slash"},
+      {"name": "Thunderbolt"},
+      {"name": "Flamethrower"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Adamant"},
+      {"name": "Timid"},
+      {"name": "Jolly"},
+      {"name": "Quiet"}
+    ]
+  },
+
+  "Meowscarada": {
+    "abilities": [
+      {"name": "Protean"},
+      {"name": "Overgrow"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Flower Trick"},
+      {"name": "Knock Off"},
+      {"name": "Sucker Punch"},
+      {"name": "Triple Axel"},
+      {"name": "U-turn"},
+      {"name": "Play Rough"}
+    ],
+    "defaultMoves": [
+      {"name": "Flower Trick"},
+      {"name": "Knock Off"},
+      {"name": "Triple Axel"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Basculegion": {
+    "_note": "Male form only. Female form is not covered — per in-game Battle Data, Champions Singles stats don't apply to the Female Basculegion.",
+    "abilities": [
+      {"name": "Adaptability"},
+      {"name": "Swift Swim"},
+      {"name": "Mold Breaker"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "mystic-water"},
+      {"name": "spell-tag"}
+    ],
+    "moves": [
+      {"name": "Last Respects"},
+      {"name": "Wave Crash"},
+      {"name": "Aqua Jet"},
+      {"name": "Flip Turn"},
+      {"name": "Ice Fang"}
+    ],
+    "defaultMoves": [
+      {"name": "Last Respects"},
+      {"name": "Wave Crash"},
+      {"name": "Aqua Jet"},
+      {"name": "Flip Turn"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Kingambit": {
+    "abilities": [
+      {"name": "Supreme Overlord"},
+      {"name": "Defiant"},
+      {"name": "Pressure"}
+    ],
+    "items": [
+      {"name": "black-glasses"},
+      {"name": "roseli-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Kowtow Cleave"},
+      {"name": "Sucker Punch"},
+      {"name": "Iron Head"},
+      {"name": "Low Kick"}
+    ],
+    "defaultMoves": [
+      {"name": "Kowtow Cleave"},
+      {"name": "Sucker Punch"},
+      {"name": "Iron Head"},
+      {"name": "Low Kick"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Mimikyu": {
+    "_note": "Uses the 'Disguise Disguised' ability key — the default pre-bust state; abilities.json has no plain 'Disguise'.",
+    "abilities": [
+      {"name": "Disguise Disguised"}
+    ],
+    "items": [
+      {"name": "spell-tag"},
+      {"name": "sitrus-berry"},
+      {"name": "bright-powder"},
+      {"name": "fairy-feather"},
+      {"name": "scope-lens"}
+    ],
+    "moves": [
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"},
+      {"name": "Play Rough"},
+      {"name": "Drain Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"},
+      {"name": "Play Rough"},
+      {"name": "Drain Punch"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Brave"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Lopunny": {
+    "abilities": [
+      {"name": "Limber"},
+      {"name": "Cute Charm"},
+      {"name": "Klutz"}
+    ],
+    "items": [
+      {"name": "lopunnite"},
+      {"name": "mental-herb"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Facade"},
+      {"name": "Fake Out"},
+      {"name": "Triple Axel"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Fake Out"},
+      {"name": "Triple Axel"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Lopunny": {
+    "_note": "Damage move pool mirrors base Lopunny; ability pins to Scrappy and item to lopunnite on Mega.",
+    "abilities": [
+      {"name": "Scrappy"}
+    ],
+    "items": [
+      {"name": "lopunnite"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Facade"},
+      {"name": "Fake Out"},
+      {"name": "Triple Axel"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Fake Out"},
+      {"name": "Triple Axel"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Hydreigon": {
+    "abilities": [
+      {"name": "Levitate"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "sitrus-berry"},
+      {"name": "white-herb"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Dark Pulse"},
+      {"name": "Draco Meteor"},
+      {"name": "Flamethrower"},
+      {"name": "Flash Cannon"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "Dark Pulse"},
+      {"name": "Draco Meteor"},
+      {"name": "Flamethrower"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Wash Rotom": {
+    "abilities": [
+      {"name": "Levitate"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "choice-scarf"},
+      {"name": "leftovers"},
+      {"name": "sitrus-berry"},
+      {"name": "chesto-berry"}
+    ],
+    "moves": [
+      {"name": "Hydro Pump"},
+      {"name": "Thunderbolt"},
+      {"name": "Volt Switch"},
+      {"name": "Shadow Ball"}
+    ],
+    "defaultMoves": [
+      {"name": "Hydro Pump"},
+      {"name": "Thunderbolt"},
+      {"name": "Volt Switch"},
+      {"name": "Shadow Ball"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Timid"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Glimmora": {
+    "abilities": [
+      {"name": "Toxic Debris"},
+      {"name": "Corrosion"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "glimmoranite"},
+      {"name": "leftovers"},
+      {"name": "shuca-berry"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Power Gem"},
+      {"name": "Sludge Wave"},
+      {"name": "Earth Power"},
+      {"name": "Energy Ball"},
+      {"name": "Dazzling Gleam"}
+    ],
+    "defaultMoves": [
+      {"name": "Power Gem"},
+      {"name": "Sludge Wave"},
+      {"name": "Earth Power"},
+      {"name": "Energy Ball"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Calm"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Mega Glimmora": {
+    "_note": "Damage move pool differs from base Glimmora (different niche on Mega). Default is the 4 before Dazzling Gleam — add Dazzling Gleam as a situational extra in the 5-move pool.",
+    "abilities": [
+      {"name": "Adaptability"}
+    ],
+    "items": [
+      {"name": "glimmoranite"}
+    ],
+    "moves": [
+      {"name": "Power Gem"},
+      {"name": "Sludge Wave"},
+      {"name": "Earth Power"},
+      {"name": "Energy Ball"},
+      {"name": "Dazzling Gleam"}
+    ],
+    "defaultMoves": [
+      {"name": "Power Gem"},
+      {"name": "Sludge Wave"},
+      {"name": "Earth Power"},
+      {"name": "Energy Ball"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Calm"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Umbreon": {
+    "_note": "Pure support/stall — no damage moves worth tracking. Move pool intentionally empty.",
+    "abilities": [
+      {"name": "Inner Focus"},
+      {"name": "Synchronize"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "bright-powder"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Impish"},
+      {"name": "Calm"},
+      {"name": "Careful"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Delphox": {
+    "abilities": [
+      {"name": "Blaze"},
+      {"name": "Magician"}
+    ],
+    "items": [
+      {"name": "delphoxite"},
+      {"name": "choice-scarf"}
+    ],
+    "moves": [
+      {"name": "Flamethrower"},
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Dazzling Gleam"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Dazzling Gleam"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Delphox": {
+    "_note": "Damage move pool mirrors base Delphox; ability pins to Levitate and item to delphoxite on Mega.",
+    "abilities": [
+      {"name": "Levitate"}
+    ],
+    "items": [
+      {"name": "delphoxite"}
+    ],
+    "moves": [
+      {"name": "Flamethrower"},
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Dazzling Gleam"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Dazzling Gleam"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Lucario": {
+    "abilities": [
+      {"name": "Inner Focus"},
+      {"name": "Justified"},
+      {"name": "Steadfast"}
+    ],
+    "items": [
+      {"name": "lucarionite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Bullet Punch"},
+      {"name": "Meteor Mash"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Bullet Punch"},
+      {"name": "Meteor Mash"},
+      {"name": "Earthquake"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Naive"}
+    ]
+  },
+
+  "Mega Lucario": {
+    "_note": "Damage move pool mirrors base Lucario; ability pins to Adaptability and item to lucarionite on Mega.",
+    "abilities": [
+      {"name": "Adaptability"}
+    ],
+    "items": [
+      {"name": "lucarionite"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Bullet Punch"},
+      {"name": "Meteor Mash"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Bullet Punch"},
+      {"name": "Meteor Mash"},
+      {"name": "Earthquake"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Naive"}
+    ]
+  },
+
+  "Meganium": {
+    "abilities": [
+      {"name": "Overgrow"},
+      {"name": "Leaf Guard"}
+    ],
+    "items": [
+      {"name": "meganiumite"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Solar Beam"},
+      {"name": "Giga Drain"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Weather Ball"},
+      {"name": "Earth Power"}
+    ],
+    "defaultMoves": [
+      {"name": "Solar Beam"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Weather Ball"},
+      {"name": "Earth Power"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Timid"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Mega Meganium": {
+    "_note": "Damage move pool mirrors base Meganium; ability pins to Mega Sol and item to meganiumite on Mega.",
+    "abilities": [
+      {"name": "Mega Sol"}
+    ],
+    "items": [
+      {"name": "meganiumite"}
+    ],
+    "moves": [
+      {"name": "Solar Beam"},
+      {"name": "Giga Drain"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Weather Ball"},
+      {"name": "Earth Power"}
+    ],
+    "defaultMoves": [
+      {"name": "Solar Beam"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Weather Ball"},
+      {"name": "Earth Power"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Timid"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Gyarados": {
+    "abilities": [
+      {"name": "Intimidate"},
+      {"name": "Moxie"}
+    ],
+    "items": [
+      {"name": "gyaradosite"},
+      {"name": "sitrus-berry"},
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "mystic-water"}
+    ],
+    "moves": [
+      {"name": "Waterfall"},
+      {"name": "Crunch"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"}
+    ],
+    "defaultMoves": [
+      {"name": "Waterfall"},
+      {"name": "Crunch"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Mega Gyarados": {
+    "_note": "Damage move pool mirrors base Gyarados; ability pins to Mold Breaker and item to gyaradosite on Mega.",
+    "abilities": [
+      {"name": "Mold Breaker"}
+    ],
+    "items": [
+      {"name": "gyaradosite"}
+    ],
+    "moves": [
+      {"name": "Waterfall"},
+      {"name": "Crunch"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"}
+    ],
+    "defaultMoves": [
+      {"name": "Waterfall"},
+      {"name": "Crunch"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Greninja": {
+    "abilities": [
+      {"name": "Protean"},
+      {"name": "Torrent"}
+    ],
+    "items": [
+      {"name": "greninjite"},
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "kings-rock"}
+    ],
+    "moves": [
+      {"name": "Hydro Pump"},
+      {"name": "Surf"},
+      {"name": "Water Shuriken"},
+      {"name": "Dark Pulse"},
+      {"name": "Ice Beam"},
+      {"name": "Sludge Wave"}
+    ],
+    "defaultMoves": [
+      {"name": "Surf"},
+      {"name": "Dark Pulse"},
+      {"name": "Ice Beam"},
+      {"name": "Sludge Wave"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Naive"},
+      {"name": "Hasty"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Mega Greninja": {
+    "_note": "Damage move pool mirrors base Greninja; ability pins to Protean and item to greninjite on Mega.",
+    "abilities": [
+      {"name": "Protean"}
+    ],
+    "items": [
+      {"name": "greninjite"}
+    ],
+    "moves": [
+      {"name": "Hydro Pump"},
+      {"name": "Surf"},
+      {"name": "Water Shuriken"},
+      {"name": "Dark Pulse"},
+      {"name": "Ice Beam"},
+      {"name": "Sludge Wave"}
+    ],
+    "defaultMoves": [
+      {"name": "Surf"},
+      {"name": "Dark Pulse"},
+      {"name": "Ice Beam"},
+      {"name": "Sludge Wave"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Naive"},
+      {"name": "Hasty"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Kangaskhan": {
+    "abilities": [
+      {"name": "Scrappy"},
+      {"name": "Inner Focus"},
+      {"name": "Early Bird"}
+    ],
+    "items": [
+      {"name": "kangaskhanite"},
+      {"name": "silk-scarf"}
+    ],
+    "moves": [
+      {"name": "Double-Edge"},
+      {"name": "Fake Out"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Sucker Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Fake Out"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Sucker Punch"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Mega Kangaskhan": {
+    "_note": "Damage move pool mirrors base Kangaskhan; ability pins to Parental Bond and item to kangaskhanite on Mega.",
+    "abilities": [
+      {"name": "Parental Bond"}
+    ],
+    "items": [
+      {"name": "kangaskhanite"}
+    ],
+    "moves": [
+      {"name": "Double-Edge"},
+      {"name": "Fake Out"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Sucker Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Fake Out"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Sucker Punch"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Floette (Eternal Flower)": {
+    "abilities": [
+      {"name": "Flower Veil"},
+      {"name": "Symbiosis"}
+    ],
+    "items": [
+      {"name": "floettite"},
+      {"name": "choice-scarf"}
+    ],
+    "moves": [
+      {"name": "Light of Ruin"},
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psychic"},
+      {"name": "Giga Drain"}
+    ],
+    "defaultMoves": [
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psychic"},
+      {"name": "Giga Drain"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Mega Floette": {
+    "_note": "Damage move pool mirrors base Floette (Eternal Flower); ability pins to Fairy Aura and item to floettite on Mega.",
+    "abilities": [
+      {"name": "Fairy Aura"}
+    ],
+    "items": [
+      {"name": "floettite"}
+    ],
+    "moves": [
+      {"name": "Light of Ruin"},
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psychic"},
+      {"name": "Giga Drain"}
+    ],
+    "defaultMoves": [
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psychic"},
+      {"name": "Giga Drain"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Venusaur": {
+    "abilities": [
+      {"name": "Chlorophyll"},
+      {"name": "Overgrow"}
+    ],
+    "items": [
+      {"name": "venusaurite"},
+      {"name": "leftovers"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Energy Ball"},
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Earth Power"}
+    ],
+    "defaultMoves": [
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Earth Power"}
+    ],
+    "natures": [
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Mega Venusaur": {
+    "_note": "Damage move pool mirrors base Venusaur; ability pins to Thick Fat and item to venusaurite on Mega.",
+    "abilities": [
+      {"name": "Thick Fat"}
+    ],
+    "items": [
+      {"name": "venusaurite"}
+    ],
+    "moves": [
+      {"name": "Energy Ball"},
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Earth Power"}
+    ],
+    "defaultMoves": [
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Earth Power"}
+    ],
+    "natures": [
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Sneasler": {
+    "abilities": [
+      {"name": "Unburden"},
+      {"name": "Poison Touch"},
+      {"name": "Pressure"}
+    ],
+    "items": [
+      {"name": "white-herb"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "choice-scarf"},
+      {"name": "kings-rock"}
+    ],
+    "moves": [
+      {"name": "Dire Claw"},
+      {"name": "Close Combat"},
+      {"name": "Fake Out"},
+      {"name": "Throat Chop"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "Dire Claw"},
+      {"name": "Close Combat"},
+      {"name": "Fake Out"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Volcarona": {
+    "abilities": [
+      {"name": "Flame Body"},
+      {"name": "Swarm"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "sitrus-berry"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Flamethrower"},
+      {"name": "Fiery Dance"},
+      {"name": "Bug Buzz"},
+      {"name": "Giga Drain"},
+      {"name": "Psychic"}
+    ],
+    "defaultMoves": [
+      {"name": "Fiery Dance"},
+      {"name": "Bug Buzz"},
+      {"name": "Giga Drain"},
+      {"name": "Psychic"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Bold"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Clefable": {
+    "abilities": [
+      {"name": "Unaware"},
+      {"name": "Magic Guard"},
+      {"name": "Cute Charm"}
+    ],
+    "items": [
+      {"name": "clefablite"},
+      {"name": "leftovers"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psyshock"},
+      {"name": "Flamethrower"}
+    ],
+    "defaultMoves": [
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psyshock"},
+      {"name": "Flamethrower"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Mega Clefable": {
+    "_note": "Damage move pool mirrors base Clefable; ability pins to Magic Bounce and item to clefablite on Mega.",
+    "abilities": [
+      {"name": "Magic Bounce"}
+    ],
+    "items": [
+      {"name": "clefablite"}
+    ],
+    "moves": [
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psyshock"},
+      {"name": "Flamethrower"}
+    ],
+    "defaultMoves": [
+      {"name": "Moonblast"},
+      {"name": "Draining Kiss"},
+      {"name": "Psyshock"},
+      {"name": "Flamethrower"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Heat Rotom": {
+    "abilities": [
+      {"name": "Levitate"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "white-herb"},
+      {"name": "chesto-berry"}
+    ],
+    "moves": [
+      {"name": "Overheat"},
+      {"name": "Thunderbolt"},
+      {"name": "Volt Switch"},
+      {"name": "Shadow Ball"}
+    ],
+    "defaultMoves": [
+      {"name": "Overheat"},
+      {"name": "Thunderbolt"},
+      {"name": "Volt Switch"},
+      {"name": "Shadow Ball"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Bold"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Tyranitar": {
+    "abilities": [
+      {"name": "Sand Stream"},
+      {"name": "Unnerve"}
+    ],
+    "items": [
+      {"name": "tyranitarite"},
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "roseli-berry"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Crunch"},
+      {"name": "Knock Off"},
+      {"name": "Stone Edge"},
+      {"name": "Rock Slide"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Knock Off"},
+      {"name": "Stone Edge"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Careful"},
+      {"name": "Jolly"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Mega Tyranitar": {
+    "_note": "Damage move pool mirrors base Tyranitar; ability pins to Sand Stream and item to tyranitarite on Mega.",
+    "abilities": [
+      {"name": "Sand Stream"}
+    ],
+    "items": [
+      {"name": "tyranitarite"}
+    ],
+    "moves": [
+      {"name": "Crunch"},
+      {"name": "Knock Off"},
+      {"name": "Stone Edge"},
+      {"name": "Rock Slide"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Knock Off"},
+      {"name": "Stone Edge"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Careful"},
+      {"name": "Jolly"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Starmie": {
+    "abilities": [
+      {"name": "Natural Cure"},
+      {"name": "Illuminate"},
+      {"name": "Analytic"}
+    ],
+    "items": [
+      {"name": "starminite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Flip Turn"},
+      {"name": "Zen Headbutt"},
+      {"name": "Ice Spinner"}
+    ],
+    "defaultMoves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Zen Headbutt"},
+      {"name": "Ice Spinner"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Timid"},
+      {"name": "Naive"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Starmie": {
+    "_note": "Damage move pool mirrors base Starmie; ability pins to Huge Power and item to starminite on Mega.",
+    "abilities": [
+      {"name": "Huge Power"}
+    ],
+    "items": [
+      {"name": "starminite"}
+    ],
+    "moves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Flip Turn"},
+      {"name": "Zen Headbutt"},
+      {"name": "Ice Spinner"}
+    ],
+    "defaultMoves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Zen Headbutt"},
+      {"name": "Ice Spinner"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Timid"},
+      {"name": "Naive"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Sylveon": {
+    "abilities": [
+      {"name": "Pixilate"},
+      {"name": "Cute Charm"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "fairy-feather"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Hyper Voice"},
+      {"name": "Mystical Fire"},
+      {"name": "Shadow Ball"},
+      {"name": "Psyshock"}
+    ],
+    "defaultMoves": [
+      {"name": "Hyper Voice"},
+      {"name": "Mystical Fire"},
+      {"name": "Shadow Ball"},
+      {"name": "Psyshock"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Relaxed"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Hatterene": {
+    "abilities": [
+      {"name": "Magic Bounce"},
+      {"name": "Healer"},
+      {"name": "Anticipation"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Misty Explosion"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Mystical Fire"}
+    ],
+    "defaultMoves": [
+      {"name": "Psychic"},
+      {"name": "Misty Explosion"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Mystical Fire"}
+    ],
+    "natures": [
+      {"name": "Quiet"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Relaxed"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Hisuian Zoroark": {
+    "abilities": [
+      {"name": "Illusion"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "spell-tag"}
+    ],
+    "moves": [
+      {"name": "Bitter Malice"},
+      {"name": "Hyper Voice"},
+      {"name": "Flamethrower"},
+      {"name": "Icy Wind"},
+      {"name": "Focus Blast"}
+    ],
+    "defaultMoves": [
+      {"name": "Bitter Malice"},
+      {"name": "Hyper Voice"},
+      {"name": "Flamethrower"},
+      {"name": "Icy Wind"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Gallade": {
+    "abilities": [
+      {"name": "Sharpness"},
+      {"name": "Justified"},
+      {"name": "Steadfast"}
+    ],
+    "items": [
+      {"name": "galladite"},
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "scope-lens"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Sacred Sword"},
+      {"name": "Psycho Cut"},
+      {"name": "Leaf Blade"},
+      {"name": "Triple Axel"},
+      {"name": "Night Slash"},
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"}
+    ],
+    "defaultMoves": [
+      {"name": "Sacred Sword"},
+      {"name": "Psycho Cut"},
+      {"name": "Leaf Blade"},
+      {"name": "Shadow Sneak"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Gallade": {
+    "_note": "Damage move pool mirrors base Gallade; ability pins to Inner Focus and item to galladite on Mega.",
+    "abilities": [
+      {"name": "Inner Focus"}
+    ],
+    "items": [
+      {"name": "galladite"}
+    ],
+    "moves": [
+      {"name": "Sacred Sword"},
+      {"name": "Psycho Cut"},
+      {"name": "Leaf Blade"},
+      {"name": "Triple Axel"},
+      {"name": "Night Slash"},
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"}
+    ],
+    "defaultMoves": [
+      {"name": "Sacred Sword"},
+      {"name": "Psycho Cut"},
+      {"name": "Leaf Blade"},
+      {"name": "Shadow Sneak"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Araquanid": {
+    "abilities": [
+      {"name": "Water Bubble"},
+      {"name": "Water Absorb"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "mystic-water"},
+      {"name": "leftovers"},
+      {"name": "sitrus-berry"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Liquidation"},
+      {"name": "Lunge"},
+      {"name": "Leech Life"},
+      {"name": "Poison Jab"}
+    ],
+    "defaultMoves": [
+      {"name": "Liquidation"},
+      {"name": "Lunge"},
+      {"name": "Leech Life"},
+      {"name": "Poison Jab"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Impish"},
+      {"name": "Modest"},
+      {"name": "Careful"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Whimsicott": {
+    "abilities": [
+      {"name": "Prankster"},
+      {"name": "Infiltrator"},
+      {"name": "Chlorophyll"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "bright-powder"},
+      {"name": "mental-herb"}
+    ],
+    "moves": [
+      {"name": "Moonblast"},
+      {"name": "Energy Ball"},
+      {"name": "Giga Drain"}
+    ],
+    "defaultMoves": [
+      {"name": "Moonblast"},
+      {"name": "Energy Ball"},
+      {"name": "Giga Drain"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Kleavor": {
+    "abilities": [
+      {"name": "Sharpness"},
+      {"name": "Swarm"},
+      {"name": "Sheer Force"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"},
+      {"name": "quick-claw"},
+      {"name": "hard-stone"}
+    ],
+    "moves": [
+      {"name": "Stone Axe"},
+      {"name": "X-Scissor"},
+      {"name": "U-turn"},
+      {"name": "Close Combat"},
+      {"name": "Night Slash"}
+    ],
+    "defaultMoves": [
+      {"name": "Stone Axe"},
+      {"name": "X-Scissor"},
+      {"name": "Close Combat"},
+      {"name": "Night Slash"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Alolan Ninetales": {
+    "abilities": [
+      {"name": "Snow Warning"},
+      {"name": "Snow Cloak"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "never-melt-ice"},
+      {"name": "lum-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Blizzard"},
+      {"name": "Freeze-Dry"},
+      {"name": "Icy Wind"},
+      {"name": "Moonblast"}
+    ],
+    "defaultMoves": [
+      {"name": "Blizzard"},
+      {"name": "Freeze-Dry"},
+      {"name": "Icy Wind"},
+      {"name": "Moonblast"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Hisuian Goodra": {
+    "abilities": [
+      {"name": "Gooey"},
+      {"name": "Shell Armor"},
+      {"name": "Sap Sipper"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "chesto-berry"},
+      {"name": "white-herb"},
+      {"name": "dragon-fang"}
+    ],
+    "moves": [
+      {"name": "Draco Meteor"},
+      {"name": "Flash Cannon"},
+      {"name": "Body Press"},
+      {"name": "Thunderbolt"},
+      {"name": "Flamethrower"},
+      {"name": "Ice Beam"},
+      {"name": "Acid Spray"}
+    ],
+    "defaultMoves": [
+      {"name": "Draco Meteor"},
+      {"name": "Flash Cannon"},
+      {"name": "Body Press"},
+      {"name": "Thunderbolt"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Gentle"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Gardevoir": {
+    "abilities": [
+      {"name": "Trace"},
+      {"name": "Synchronize"},
+      {"name": "Telepathy"}
+    ],
+    "items": [
+      {"name": "gardevoirite"},
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Moonblast"},
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Mystical Fire"},
+      {"name": "Thunderbolt"},
+      {"name": "Vacuum Wave"}
+    ],
+    "defaultMoves": [
+      {"name": "Moonblast"},
+      {"name": "Psychic"},
+      {"name": "Mystical Fire"},
+      {"name": "Vacuum Wave"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Calm"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Mega Gardevoir": {
+    "_note": "Ability pins to Pixilate and item to gardevoirite on Mega. Pixilate converts Hyper Voice into a Fairy-type spread move, so Mega runs Hyper Voice where base runs Moonblast.",
+    "abilities": [
+      {"name": "Pixilate"}
+    ],
+    "items": [
+      {"name": "gardevoirite"}
+    ],
+    "moves": [
+      {"name": "Hyper Voice"},
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Mystical Fire"},
+      {"name": "Thunderbolt"},
+      {"name": "Vacuum Wave"}
+    ],
+    "defaultMoves": [
+      {"name": "Hyper Voice"},
+      {"name": "Psychic"},
+      {"name": "Mystical Fire"},
+      {"name": "Vacuum Wave"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Calm"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Scovillain": {
+    "abilities": [
+      {"name": "Moody"},
+      {"name": "Insomnia"},
+      {"name": "Chlorophyll"}
+    ],
+    "items": [
+      {"name": "scovillainite"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Flamethrower"},
+      {"name": "Burning Jealousy"},
+      {"name": "Leaf Storm"},
+      {"name": "Giga Drain"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Burning Jealousy"},
+      {"name": "Leaf Storm"},
+      {"name": "Giga Drain"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Calm"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Mega Scovillain": {
+    "_note": "Damage move pool mirrors base Scovillain; ability pins to Spicy Spray and item to scovillainite on Mega.",
+    "abilities": [
+      {"name": "Spicy Spray"}
+    ],
+    "items": [
+      {"name": "scovillainite"}
+    ],
+    "moves": [
+      {"name": "Flamethrower"},
+      {"name": "Burning Jealousy"},
+      {"name": "Leaf Storm"},
+      {"name": "Giga Drain"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Burning Jealousy"},
+      {"name": "Leaf Storm"},
+      {"name": "Giga Drain"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Calm"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Froslass": {
+    "abilities": [
+      {"name": "Cursed Body"},
+      {"name": "Snow Cloak"}
+    ],
+    "items": [
+      {"name": "froslassite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Blizzard"},
+      {"name": "Shadow Ball"},
+      {"name": "Thunderbolt"},
+      {"name": "Ice Shard"}
+    ],
+    "defaultMoves": [
+      {"name": "Blizzard"},
+      {"name": "Shadow Ball"},
+      {"name": "Thunderbolt"},
+      {"name": "Ice Shard"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Froslass": {
+    "_note": "Damage move pool mirrors base Froslass; ability pins to Snow Warning and item to froslassite on Mega.",
+    "abilities": [
+      {"name": "Snow Warning"}
+    ],
+    "items": [
+      {"name": "froslassite"}
+    ],
+    "moves": [
+      {"name": "Blizzard"},
+      {"name": "Shadow Ball"},
+      {"name": "Thunderbolt"},
+      {"name": "Ice Shard"}
+    ],
+    "defaultMoves": [
+      {"name": "Blizzard"},
+      {"name": "Shadow Ball"},
+      {"name": "Thunderbolt"},
+      {"name": "Ice Shard"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Skarmory": {
+    "abilities": [
+      {"name": "Sturdy"},
+      {"name": "Weak Armor"},
+      {"name": "Keen Eye"}
+    ],
+    "items": [
+      {"name": "skarmorite"},
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "mental-herb"},
+      {"name": "bright-powder"}
+    ],
+    "moves": [
+      {"name": "Brave Bird"},
+      {"name": "Iron Head"},
+      {"name": "Body Press"},
+      {"name": "Drill Run"}
+    ],
+    "defaultMoves": [
+      {"name": "Brave Bird"},
+      {"name": "Iron Head"},
+      {"name": "Body Press"},
+      {"name": "Drill Run"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Bold"},
+      {"name": "Careful"}
+    ]
+  },
+
+  "Mega Skarmory": {
+    "_note": "Damage move pool mirrors base Skarmory; ability pins to Stalwart and item to skarmorite on Mega. Mega runs offensive natures (Jolly / Adamant) whereas base prefers defensive spreads.",
+    "abilities": [
+      {"name": "Stalwart"}
+    ],
+    "items": [
+      {"name": "skarmorite"}
+    ],
+    "moves": [
+      {"name": "Brave Bird"},
+      {"name": "Iron Head"},
+      {"name": "Body Press"},
+      {"name": "Drill Run"}
+    ],
+    "defaultMoves": [
+      {"name": "Brave Bird"},
+      {"name": "Iron Head"},
+      {"name": "Body Press"},
+      {"name": "Drill Run"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Ceruledge": {
+    "abilities": [
+      {"name": "Weak Armor"},
+      {"name": "Flash Fire"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "charcoal"},
+      {"name": "spell-tag"}
+    ],
+    "moves": [
+      {"name": "Bitter Blade"},
+      {"name": "Poltergeist"},
+      {"name": "Shadow Sneak"},
+      {"name": "Close Combat"}
+    ],
+    "defaultMoves": [
+      {"name": "Bitter Blade"},
+      {"name": "Poltergeist"},
+      {"name": "Shadow Sneak"},
+      {"name": "Close Combat"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Impish"},
+      {"name": "Careful"}
+    ]
+  },
+
+  "Excadrill": {
+    "abilities": [
+      {"name": "Mold Breaker"},
+      {"name": "Sand Rush"},
+      {"name": "Sand Force"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "excadrite"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Iron Head"},
+      {"name": "Rock Slide"},
+      {"name": "Rock Tomb"},
+      {"name": "Poison Jab"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Iron Head"},
+      {"name": "Rock Slide"},
+      {"name": "Poison Jab"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Excadrill": {
+    "_note": "Damage move pool mirrors base Excadrill; ability pins to Piercing Drill and item to excadrite on Mega.",
+    "abilities": [
+      {"name": "Piercing Drill"}
+    ],
+    "items": [
+      {"name": "excadrite"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Iron Head"},
+      {"name": "Rock Slide"},
+      {"name": "Rock Tomb"},
+      {"name": "Poison Jab"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Iron Head"},
+      {"name": "Rock Slide"},
+      {"name": "Poison Jab"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Victreebel": {
+    "abilities": [
+      {"name": "Chlorophyll"},
+      {"name": "Gluttony"}
+    ],
+    "items": [
+      {"name": "victreebelite"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Sucker Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Sucker Punch"}
+    ],
+    "natures": [
+      {"name": "Quiet"},
+      {"name": "Adamant"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Lax"}
+    ]
+  },
+
+  "Mega Victreebel": {
+    "_note": "Damage move pool mirrors base Victreebel; ability pins to Innards Out and item to victreebelite on Mega.",
+    "abilities": [
+      {"name": "Innards Out"}
+    ],
+    "items": [
+      {"name": "victreebelite"}
+    ],
+    "moves": [
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Sucker Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Giga Drain"},
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Sucker Punch"}
+    ],
+    "natures": [
+      {"name": "Quiet"},
+      {"name": "Adamant"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Lax"}
+    ]
+  },
+
+  "Blastoise": {
+    "abilities": [
+      {"name": "Torrent"},
+      {"name": "Rain Dish"}
+    ],
+    "items": [
+      {"name": "blastoisinite"},
+      {"name": "white-herb"}
+    ],
+    "moves": [
+      {"name": "Hydro Pump"},
+      {"name": "Surf"},
+      {"name": "Water Pulse"},
+      {"name": "Aura Sphere"},
+      {"name": "Ice Beam"},
+      {"name": "Dark Pulse"},
+      {"name": "Dragon Pulse"}
+    ],
+    "defaultMoves": [
+      {"name": "Water Pulse"},
+      {"name": "Aura Sphere"},
+      {"name": "Ice Beam"},
+      {"name": "Dark Pulse"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Mega Blastoise": {
+    "_note": "Damage move pool mirrors base Blastoise; ability pins to Mega Launcher and item to blastoisinite on Mega.",
+    "abilities": [
+      {"name": "Mega Launcher"}
+    ],
+    "items": [
+      {"name": "blastoisinite"}
+    ],
+    "moves": [
+      {"name": "Hydro Pump"},
+      {"name": "Surf"},
+      {"name": "Water Pulse"},
+      {"name": "Aura Sphere"},
+      {"name": "Ice Beam"},
+      {"name": "Dark Pulse"},
+      {"name": "Dragon Pulse"}
+    ],
+    "defaultMoves": [
+      {"name": "Water Pulse"},
+      {"name": "Aura Sphere"},
+      {"name": "Ice Beam"},
+      {"name": "Dark Pulse"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Empoleon": {
+    "abilities": [
+      {"name": "Competitive"},
+      {"name": "Torrent"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "roseli-berry"},
+      {"name": "shuca-berry"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Surf"},
+      {"name": "Flip Turn"},
+      {"name": "Flash Cannon"},
+      {"name": "Ice Beam"},
+      {"name": "Vacuum Wave"}
+    ],
+    "defaultMoves": [
+      {"name": "Surf"},
+      {"name": "Flip Turn"},
+      {"name": "Flash Cannon"},
+      {"name": "Ice Beam"}
+    ],
+    "natures": [
+      {"name": "Gentle"},
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Snorlax": {
+    "abilities": [
+      {"name": "Thick Fat"},
+      {"name": "Immunity"},
+      {"name": "Gluttony"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "chesto-berry"},
+      {"name": "lum-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "roseli-berry"}
+    ],
+    "moves": [
+      {"name": "Body Slam"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Heavy Slam"}
+    ],
+    "defaultMoves": [
+      {"name": "Body Slam"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Heavy Slam"}
+    ],
+    "natures": [
+      {"name": "Careful"},
+      {"name": "Impish"},
+      {"name": "Adamant"},
+      {"name": "Gentle"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Diggersby": {
+    "abilities": [
+      {"name": "Huge Power"},
+      {"name": "Pickup"},
+      {"name": "Cheek Pouch"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Body Slam"},
+      {"name": "Quick Attack"},
+      {"name": "Ice Punch"},
+      {"name": "Thunder Punch"},
+      {"name": "Fire Punch"},
+      {"name": "Superpower"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Quick Attack"},
+      {"name": "Ice Punch"},
+      {"name": "Thunder Punch"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Mamoswine": {
+    "abilities": [
+      {"name": "Thick Fat"},
+      {"name": "Oblivious"},
+      {"name": "Snow Cloak"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"},
+      {"name": "never-melt-ice"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Icicle Spear"},
+      {"name": "Icicle Crash"},
+      {"name": "Ice Shard"},
+      {"name": "Stone Edge"},
+      {"name": "Rock Slide"},
+      {"name": "Rock Tomb"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Icicle Spear"},
+      {"name": "Ice Shard"},
+      {"name": "Rock Tomb"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Bellibolt": {
+    "abilities": [
+      {"name": "Electromorphosis"},
+      {"name": "Static"},
+      {"name": "Damp"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "magnet"},
+      {"name": "shuca-berry"}
+    ],
+    "moves": [
+      {"name": "Parabolic Charge"},
+      {"name": "Volt Switch"},
+      {"name": "Acid Spray"},
+      {"name": "Sucker Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Parabolic Charge"},
+      {"name": "Volt Switch"},
+      {"name": "Acid Spray"},
+      {"name": "Sucker Punch"}
+    ],
+    "natures": [
+      {"name": "Calm"},
+      {"name": "Gentle"},
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Quiet"}
+    ]
+  },
+
+  "Pelipper": {
+    "abilities": [
+      {"name": "Drizzle"},
+      {"name": "Keen Eye"},
+      {"name": "Rain Dish"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "leftovers"},
+      {"name": "wacan-berry"}
+    ],
+    "moves": [
+      {"name": "Hurricane"},
+      {"name": "Surf"},
+      {"name": "Ice Beam"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "Hurricane"},
+      {"name": "Surf"},
+      {"name": "Ice Beam"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Relaxed"},
+      {"name": "Bold"},
+      {"name": "Timid"},
+      {"name": "Quiet"}
+    ]
+  },
+
+  "Azumarill": {
+    "abilities": [
+      {"name": "Huge Power"},
+      {"name": "Sap Sipper"},
+      {"name": "Thick Fat"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "mystic-water"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Play Rough"},
+      {"name": "Superpower"},
+      {"name": "Knock Off"},
+      {"name": "Ice Spinner"}
+    ],
+    "defaultMoves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Play Rough"},
+      {"name": "Superpower"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Relaxed"},
+      {"name": "Brave"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Espathra": {
+    "abilities": [
+      {"name": "Speed Boost"},
+      {"name": "Opportunist"},
+      {"name": "Frisk"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "focus-sash"},
+      {"name": "leftovers"},
+      {"name": "mental-herb"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Lumina Crash"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Shadow Ball"}
+    ],
+    "defaultMoves": [
+      {"name": "Lumina Crash"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Shadow Ball"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Toxapex": {
+    "_note": "Pure support/stall — no damage moves worth tracking.",
+    "abilities": [
+      {"name": "Regenerator"},
+      {"name": "Merciless"},
+      {"name": "Limber"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "mental-herb"},
+      {"name": "bright-powder"}
+    ],
+    "natures": [
+      {"name": "Calm"},
+      {"name": "Bold"},
+      {"name": "Careful"},
+      {"name": "Impish"},
+      {"name": "Gentle"}
+    ]
+  },
+
+  "Skeledirge": {
+    "abilities": [
+      {"name": "Unaware"},
+      {"name": "Blaze"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "kasib-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "shuca-berry"}
+    ],
+    "moves": [
+      {"name": "Torch Song"},
+      {"name": "Shadow Ball"},
+      {"name": "Earth Power"},
+      {"name": "Alluring Voice"}
+    ],
+    "defaultMoves": [
+      {"name": "Torch Song"},
+      {"name": "Shadow Ball"},
+      {"name": "Earth Power"},
+      {"name": "Alluring Voice"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Dragapult": {
+    "_note": "Both physical and special sets are viable. Move pool covers both; default is the common physical spread.",
+    "abilities": [
+      {"name": "Infiltrator"},
+      {"name": "Clear Body"},
+      {"name": "Cursed Body"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "dragon-fang"},
+      {"name": "sitrus-berry"},
+      {"name": "white-herb"}
+    ],
+    "moves": [
+      {"name": "Dragon Darts"},
+      {"name": "Phantom Force"},
+      {"name": "Sucker Punch"},
+      {"name": "U-turn"},
+      {"name": "Draco Meteor"},
+      {"name": "Shadow Ball"},
+      {"name": "Flamethrower"},
+      {"name": "Thunderbolt"}
+    ],
+    "defaultMoves": [
+      {"name": "Dragon Darts"},
+      {"name": "Phantom Force"},
+      {"name": "Sucker Punch"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Timid"},
+      {"name": "Adamant"},
+      {"name": "Naive"},
+      {"name": "Modest"}
+    ]
+  }
+}

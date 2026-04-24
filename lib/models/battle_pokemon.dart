@@ -1,6 +1,10 @@
+import '../data/champions_usage.dart';
+import '../data/movedex.dart';
+import '../data/pokedex.dart';
 import '../utils/app_strings.dart';
 import 'dynamax.dart';
 import 'gender.dart';
+import 'nature.dart';
 import 'pokemon.dart';
 import 'terastal.dart';
 import 'move.dart';
@@ -335,15 +339,87 @@ class BattlePokemonState {
     baseStats = pokemon.baseStats;
     pokemonAbilities = pokemon.abilities;
     final firstAbility = pokemon.abilities.isNotEmpty ? pokemon.abilities.first : null;
-    selectedAbility = firstAbility == 'Supreme Overlord'
-        ? 'Supreme Overlord 0'
-        : firstAbility == 'Rivalry'
-        ? 'Rivalry Same' : firstAbility;
+    selectedAbility = expandAbilityKey(firstAbility);
     if (pokemon.requiredItem != null) {
       selectedItem = pokemon.requiredItem;
+    } else {
+      selectedItem = null;
     }
     if (pokemon.name == 'terapagos-stellar') {
-      terastal = TerastalState(active: true, teraType: PokemonType.stellar);
+      terastal = const TerastalState(active: true, teraType: PokemonType.stellar);
     }
+
+    _applyChampionsUsageDefaults(pokemon);
+  }
+
+  /// Hydrate the freshly-loaded species with curator-chosen defaults
+  /// (ability/item/nature/moves) pulled from the Champions Singles
+  /// usage snapshot. Silently no-ops when the species is uncurated or
+  /// the cache hasn't loaded yet — in either case the earlier
+  /// [applyPokemon] body has already set sane fallbacks.
+  void _applyChampionsUsageDefaults(Pokemon pokemon) {
+    final usage = championsUsageFor(pokemon.name);
+    if (usage == null) {
+      // Uncurated → wipe the moveset so we don't carry stale slots
+      // over from the previous species.
+      _resetMoveSlots();
+      return;
+    }
+
+    // Ability: only override if the curated top pick is actually one
+    // the species can legally run (protects against data drift).
+    if (usage.abilities.isNotEmpty) {
+      final curated = usage.abilities.first.name;
+      if (pokemon.abilities.contains(curated)) {
+        selectedAbility = expandAbilityKey(curated);
+      }
+    }
+
+    // Item: mega forms already pinned their stone above; for base
+    // forms, prefer the top non-megastone pick so we don't auto-
+    // transform the species the moment it's loaded.
+    if (pokemon.requiredItem == null && usage.items.isNotEmpty) {
+      final stones = megaStoneItemIds();
+      for (final row in usage.items) {
+        if (!stones.contains(row.name)) {
+          selectedItem = row.name;
+          break;
+        }
+      }
+    }
+
+    if (usage.natures.isNotEmpty) {
+      final natName = usage.natures.first.name.toLowerCase();
+      try {
+        nature = NatureProfile.fromNature(Nature.values.byName(natName));
+      } catch (_) {
+        // Unknown / non-canonical name — keep the current nature.
+      }
+    }
+
+    _resetMoveSlots();
+    final defaults = usage.defaultMoves;
+    for (int i = 0; i < defaults.length && i < 4; i++) {
+      moves[i] = findMoveByName(defaults[i].name);
+    }
+  }
+
+  void _resetMoveSlots() {
+    moves = [null, null, null, null];
+    typeOverrides = [null, null, null, null];
+    categoryOverrides = [null, null, null, null];
+    powerOverrides = [null, null, null, null];
+    hitOverrides = [null, null, null, null];
+    criticals = [false, false, false, false];
+    zMoves = [false, false, false, false];
+  }
+
+  /// Map an ability group key (as stored in `pokemon.abilities`) to the
+  /// expanded variant the ability picker / damage calc expects.
+  static String? expandAbilityKey(String? key) {
+    if (key == null) return null;
+    if (key == 'Supreme Overlord') return 'Supreme Overlord 0';
+    if (key == 'Rivalry') return 'Rivalry Same';
+    return key;
   }
 }
