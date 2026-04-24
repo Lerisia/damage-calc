@@ -1517,7 +1517,10 @@
     "requiredItem": "meganiumite",
     "nameEn": "Mega Meganium",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "aliases": [
+      "기가니움"
+    ]
   },
   {
     "name": "Mega Feraligatr",
