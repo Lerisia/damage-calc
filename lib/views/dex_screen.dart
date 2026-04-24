@@ -16,6 +16,7 @@ import '../utils/defensive_calculator.dart';
 import '../utils/move_transform.dart';
 import '../utils/offensive_calculator.dart';
 import '../utils/type_effectiveness.dart';
+import 'widgets/move_selector.dart';
 import 'widgets/pokemon_selector.dart';
 
 /// Result produced when the user taps "공격측으로" / "방어측으로" in
@@ -224,10 +225,8 @@ class _MainTab extends StatelessWidget {
           _TypeMatchupsSection(pokemon: p),
           const SizedBox(height: 16),
           _BulkSection(pokemon: p),
-          if (p.keyMoves.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            _DecisivePowerSection(pokemon: p, moveDex: moveDex),
-          ],
+          const SizedBox(height: 16),
+          _DecisivePowerSection(pokemon: p, moveDex: moveDex),
         ],
       ),
     );
@@ -711,15 +710,21 @@ class _BulkSection extends StatelessWidget {
 
     final none = bulk(baseEv, const NatureProfile());
     final hpOnly = bulk(baseEv.copyWith(hp: 252), const NatureProfile());
-    final fullP = bulk(baseEv.copyWith(hp: 252, defense: 252),
+    final hb = bulk(baseEv.copyWith(hp: 252, defense: 252),
         const NatureProfile(up: NatureStat.def));
-    final fullS = bulk(baseEv.copyWith(hp: 252, spDefense: 252),
+    final hd = bulk(baseEv.copyWith(hp: 252, spDefense: 252),
         const NatureProfile(up: NatureStat.spd));
 
+    // 4-row layout. For HB/HD rows the "off-axis" column (SpD on HB,
+    // Def on HD) is mathematically identical to the H32 value — no
+    // EV or nature changes that stat — so we surface that value
+    // rather than leaving it blank. The user still gets a complete
+    // picture of the spread's total bulk footprint.
     final rows = <(String, int, int)>[
       (AppStrings.t('dex.bulkNone'), none.physical, none.special),
-      (AppStrings.t('dex.bulkHp'), hpOnly.physical, hpOnly.special),
-      (AppStrings.t('dex.bulkFull'), fullP.physical, fullS.special),
+      (AppStrings.t('dex.bulkH'), hpOnly.physical, hpOnly.special),
+      (AppStrings.t('dex.bulkHB'), hb.physical, hpOnly.special),
+      (AppStrings.t('dex.bulkHD'), hpOnly.physical, hd.special),
     ];
 
     final scheme = Theme.of(context).colorScheme;
@@ -780,7 +785,7 @@ class _BulkSection extends StatelessWidget {
 /// species' curated key moves at three investment tiers (none /
 /// half / full). STAB is applied when the move's type matches the
 /// species's type; no item, rank or ability modifiers are included.
-class _DecisivePowerSection extends StatelessWidget {
+class _DecisivePowerSection extends StatefulWidget {
   final Pokemon pokemon;
   final Map<String, Move> moveDex;
 
@@ -789,80 +794,243 @@ class _DecisivePowerSection extends StatelessWidget {
     required this.moveDex,
   });
 
+  @override
+  State<_DecisivePowerSection> createState() => _DecisivePowerSectionState();
+}
+
+class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
   static const _level = 50;
   static const _fullIv = Stats(
       hp: 31, attack: 31, defense: 31, spAttack: 31, spDefense: 31, speed: 31);
+  static const _baseEv = Stats(
+      hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
+
+  // Per-row hit count for multi-hit moves, keyed by the raw keyMoves
+  // entry string (e.g. "Scale Shot:3"). The :N suffix in the JSON is
+  // the initial value; users can tap the (×N) chip to change it
+  // within [minHits, maxHits].
+  final Map<String, int> _hits = {};
+
+  // Scratch-row move picked by the user for ad-hoc damage lookups.
+  Move? _customMove;
+  int _customHits = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _seedHits();
+  }
+
+  @override
+  void didUpdateWidget(_DecisivePowerSection old) {
+    super.didUpdateWidget(old);
+    if (old.pokemon != widget.pokemon || old.moveDex != widget.moveDex) {
+      _hits.clear();
+      _customMove = null;
+      _customHits = 1;
+      _seedHits();
+    }
+  }
+
+  void _seedHits() {
+    for (final raw in widget.pokemon.keyMoves) {
+      final parts = raw.split(':');
+      final name = parts[0];
+      final m = widget.moveDex[name];
+      if (m == null) continue;
+      int hits = 1;
+      if (parts.length > 1) {
+        hits = int.tryParse(parts[1]) ?? 1;
+      } else if (m.isMultiHit) {
+        hits = m.maxHits;
+      }
+      _hits[raw] = hits;
+    }
+  }
+
+  int _outputFor(Move m, Stats ev, NatureProfile nat, int hits) {
+    final transformed = TransformedMove(
+      m,
+      m.category == MoveCategory.physical
+          ? OffensiveStat.attack
+          : OffensiveStat.spAttack,
+    );
+    final single = OffensiveCalculator.calculate(
+      baseStats: widget.pokemon.baseStats,
+      iv: _fullIv,
+      ev: ev,
+      nature: nat,
+      level: _level,
+      transformed: transformed,
+      type1: widget.pokemon.type1,
+      type2: widget.pokemon.type2,
+    );
+    return single * hits;
+  }
+
+  NatureProfile _fullNature(Move m) => m.category == MoveCategory.physical
+      ? const NatureProfile(up: NatureStat.atk)
+      : const NatureProfile(up: NatureStat.spa);
+
+  Stats _halfEv(Move m) => m.category == MoveCategory.physical
+      ? _baseEv.copyWith(attack: 252)
+      : _baseEv.copyWith(spAttack: 252);
+
+  Future<int?> _showHitPicker(Move m) async {
+    if (!m.isMultiHit || m.minHits == m.maxHits) return null;
+    return showDialog<int>(
+      context: context,
+      builder: (ctx) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              for (int n = m.minHits; n <= m.maxHits; n++)
+                InkWell(
+                  onTap: () => Navigator.pop(ctx, n),
+                  child: Container(
+                    width: 44,
+                    height: 36,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.grey.withValues(alpha: 0.4)),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text('×$n',
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w700)),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickKeyMoveHits(String rawKey, Move m) async {
+    final picked = await _showHitPicker(m);
+    if (picked != null && mounted) {
+      setState(() => _hits[rawKey] = picked);
+    }
+  }
+
+  Future<void> _pickCustomHits(Move m) async {
+    final picked = await _showHitPicker(m);
+    if (picked != null && mounted) {
+      setState(() => _customHits = picked);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Three tiers for an attacking stat. Output is computed via
-    // OffensiveCalculator so the value matches the calc's attacker
-    // panel exactly (STAB, weather/terrain defaults, ability/item
-    // off — pure species-vs-move).
-    //   - none: 0 EV, neutral nature
-    //   - half: 252 EV, neutral nature
-    //   - full: 252 EV, +attack/+spAttack nature
-    const baseEv = Stats(
-        hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0);
-
-    int outputFor(Move m, Stats ev, NatureProfile nat, int hits) {
-      final transformed = TransformedMove(
-        m,
-        m.category == MoveCategory.physical
-            ? OffensiveStat.attack
-            : OffensiveStat.spAttack,
-      );
-      final single = OffensiveCalculator.calculate(
-        baseStats: pokemon.baseStats,
-        iv: _fullIv,
-        ev: ev,
-        nature: nat,
-        level: _level,
-        transformed: transformed,
-        type1: pokemon.type1,
-        type2: pokemon.type2,
-      );
-      // Multi-hit moves like Scale Shot show the all-hits-land total;
-      // the calc itself doesn't multiply, so do it here.
-      return single * hits;
-    }
-
-    NatureProfile fullNature(Move m) => m.category == MoveCategory.physical
-        ? const NatureProfile(up: NatureStat.atk)
-        : const NatureProfile(up: NatureStat.spa);
-    Stats halfEv(Move m) => m.category == MoveCategory.physical
-        ? baseEv.copyWith(attack: 252)
-        : baseEv.copyWith(spAttack: 252);
-
-    // keyMoves entries can carry an optional ":N" suffix to lock a
-    // multi-hit move (e.g. "Scale Shot:3") to a specific hit count.
-    // Default = 1 hit per row.
-    final rows = <(Move, int, int, int, int)>[];
-    for (final raw in pokemon.keyMoves) {
-      final parts = raw.split(':');
-      final name = parts[0];
-      final hits = parts.length > 1 ? int.tryParse(parts[1]) ?? 1 : 1;
-      final m = moveDex[name];
-      if (m == null || m.power <= 0) continue;
-      rows.add((
-        m,
-        hits,
-        outputFor(m, baseEv, const NatureProfile(), hits),
-        outputFor(m, halfEv(m), const NatureProfile(), hits),
-        outputFor(m, halfEv(m), fullNature(m), hits),
-      ));
-    }
-
-    if (rows.isEmpty) return const SizedBox.shrink();
-
     final scheme = Theme.of(context).colorScheme;
-    String tierLabel(String key) => key == 'dex.bulkHp'
-        // Re-use the bulk tier i18n keys but swap the middle label
-        // since "준보정" (half investment + neutral) is the right term
-        // for offensive EV spreads.
-        ? AppStrings.t('dex.decisiveHalf')
-        : AppStrings.t(key);
 
+    String tierLabel(String k) => k == 'dex.bulkHp'
+        ? AppStrings.t('dex.decisiveHalf')
+        : AppStrings.t(k);
+
+    final curatedRows = <TableRow>[];
+    for (final raw in widget.pokemon.keyMoves) {
+      final name = raw.split(':').first;
+      final m = widget.moveDex[name];
+      if (m == null || m.power <= 0) continue;
+      final hits = _hits[raw] ?? 1;
+      final v1 = _outputFor(m, _baseEv, const NatureProfile(), hits);
+      final v2 = _outputFor(m, _halfEv(m), const NatureProfile(), hits);
+      final v3 = _outputFor(m, _halfEv(m), _fullNature(m), hits);
+      curatedRows.add(TableRow(children: [
+        _moveLabel(m, hits: hits, onTap: () => _pickKeyMoveHits(raw, m)),
+        _DexTableCell(_BulkSection._fmt(v1), bold: true),
+        _DexTableCell(_BulkSection._fmt(v2), bold: true),
+        _DexTableCell(_BulkSection._fmt(v3), bold: true),
+      ]));
+    }
+
+    // Scratch row: embedded move search. Always rendered so users can
+    // look up any move's output without editing data.
+    final custom = _customMove;
+    int? c1, c2, c3;
+    int customHits = _customHits;
+    if (custom != null && custom.power > 0) {
+      customHits = custom.isMultiHit && _customHits < custom.minHits
+          ? custom.minHits
+          : _customHits;
+      c1 = _outputFor(custom, _baseEv, const NatureProfile(), customHits);
+      c2 = _outputFor(
+          custom, _halfEv(custom), const NatureProfile(), customHits);
+      c3 = _outputFor(
+          custom, _halfEv(custom), _fullNature(custom), customHits);
+    }
+
+    final customIsMultiHit =
+        custom != null && custom.isMultiHit && custom.minHits != custom.maxHits;
+
+    final scratchRow = TableRow(
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHighest.withValues(alpha: 0.25),
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          child: Row(
+            children: [
+              Expanded(
+                child: MoveSelector(
+                  key: ValueKey(
+                      'dex_decisive_custom_${widget.pokemon.name}_${custom?.name ?? ''}'),
+                  initialMoveName: custom?.name,
+                  pokemonName: widget.pokemon.name,
+                  pokemonNameKo: widget.pokemon.nameKo,
+                  dexNumber: widget.pokemon.dexNumber,
+                  onSelected: (m) => setState(() {
+                    _customMove = m;
+                    _customHits = m.isMultiHit ? m.maxHits : 1;
+                  }),
+                ),
+              ),
+              if (customIsMultiHit) ...[
+                const SizedBox(width: 6),
+                InkWell(
+                  onTap: () => _pickCustomHits(custom),
+                  borderRadius: BorderRadius.circular(4),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: scheme.onSurface.withValues(alpha: 0.4)),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      '×$customHits',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface.withValues(alpha: 0.8),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        _DexTableCell(c1 == null ? '—' : _BulkSection._fmt(c1),
+            bold: c1 != null, dim: c1 == null),
+        _DexTableCell(c2 == null ? '—' : _BulkSection._fmt(c2),
+            bold: c2 != null, dim: c2 == null),
+        _DexTableCell(c3 == null ? '—' : _BulkSection._fmt(c3),
+            bold: c3 != null, dim: c3 == null),
+      ],
+    );
+
+    // Note: keyMoves list can be empty — in that case only the scratch
+    // row is rendered, still giving users a per-species damage lookup
+    // tool. Header is always present so the columns have context.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -895,21 +1063,58 @@ class _DecisivePowerSection extends StatelessWidget {
                   _DexTableCell(tierLabel(k), bold: true, dim: true),
               ],
             ),
-            for (final r in rows)
-              TableRow(children: [
-                _DexTableCell(
-                  r.$2 > 1
-                      ? '${r.$1.localizedName} (×${r.$2})'
-                      : r.$1.localizedName,
-                  align: TextAlign.left,
-                  bold: true,
-                ),
-                for (final v in [r.$3, r.$4, r.$5])
-                  _DexTableCell(_BulkSection._fmt(v), bold: true),
-              ]),
+            ...curatedRows,
+            scratchRow,
           ],
         ),
       ],
+    );
+  }
+
+  Widget _moveLabel(Move m,
+      {required int hits, required VoidCallback onTap}) {
+    final canPick = m.isMultiHit && m.minHits != m.maxHits;
+    final name = m.localizedName;
+    if (hits <= 1) {
+      return _DexTableCell(name, align: TextAlign.left, bold: true);
+    }
+    // Multi-hit: name + tappable (×N) chip. Inside the same cell so
+    // table column sizing is still driven by label column flex.
+    final scheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: Text(name,
+                style: const TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.w700)),
+          ),
+          const SizedBox(width: 4),
+          InkWell(
+            onTap: canPick ? onTap : null,
+            borderRadius: BorderRadius.circular(4),
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: scheme.onSurface.withValues(alpha: 0.4)),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                '×$hits',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: scheme.onSurface.withValues(alpha: 0.8),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
