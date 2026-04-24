@@ -22,9 +22,9 @@
     "moves": [
       {"name": "Earthquake"},
       {"name": "Outrage"},
+      {"name": "Scale Shot"},
       {"name": "Rock Tomb"},
-      {"name": "Poison Jab"},
-      {"name": "Scale Shot"}
+      {"name": "Poison Jab"}
     ],
     "defaultMoves": [
       {"name": "Earthquake"},
