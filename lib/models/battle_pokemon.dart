@@ -2,6 +2,7 @@ import '../data/champions_usage.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
 import '../utils/app_strings.dart';
+import '../utils/stacking_moves.dart';
 import 'dynamax.dart';
 import 'gender.dart';
 import 'nature.dart';
@@ -400,7 +401,14 @@ class BattlePokemonState {
     _resetMoveSlots();
     final defaults = usage.defaultMoves;
     for (int i = 0; i < defaults.length && i < 4; i++) {
-      moves[i] = findMoveByName(defaults[i].name);
+      final m = findMoveByName(defaults[i].name);
+      moves[i] = m;
+      // Stacking-power moves (Last Respects, Rage Fist) need a
+      // powerOverride pre-set to match the ×N chip's default tier,
+      // otherwise the UI shows e.g. ×3 while the calc uses base 50.
+      if (m != null && isStackingPower(m)) {
+        powerOverrides[i] = stackingPower(m, stackingDefaultTier(m));
+      }
     }
   }
 
