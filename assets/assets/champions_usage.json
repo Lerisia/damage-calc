@@ -601,15 +601,15 @@
       {"name": "scope-lens"}
     ],
     "moves": [
-      {"name": "Play Rough"},
       {"name": "Shadow Claw"},
       {"name": "Shadow Sneak"},
+      {"name": "Play Rough"},
       {"name": "Drain Punch"}
     ],
     "defaultMoves": [
-      {"name": "Play Rough"},
       {"name": "Shadow Claw"},
       {"name": "Shadow Sneak"},
+      {"name": "Play Rough"},
       {"name": "Drain Punch"}
     ],
     "natures": [
@@ -1303,15 +1303,15 @@
       {"name": "kings-rock"}
     ],
     "moves": [
-      {"name": "Close Combat"},
       {"name": "Dire Claw"},
+      {"name": "Close Combat"},
       {"name": "Fake Out"},
       {"name": "Throat Chop"},
       {"name": "U-turn"}
     ],
     "defaultMoves": [
-      {"name": "Close Combat"},
       {"name": "Dire Claw"},
+      {"name": "Close Combat"},
       {"name": "Fake Out"},
       {"name": "U-turn"}
     ],
@@ -2377,14 +2377,14 @@
       {"name": "roseli-berry"}
     ],
     "moves": [
-      {"name": "Earthquake"},
       {"name": "Body Slam"},
+      {"name": "Earthquake"},
       {"name": "Ice Punch"},
       {"name": "Heavy Slam"}
     ],
     "defaultMoves": [
-      {"name": "Earthquake"},
       {"name": "Body Slam"},
+      {"name": "Earthquake"},
       {"name": "Ice Punch"},
       {"name": "Heavy Slam"}
     ],
@@ -2463,7 +2463,7 @@
     ]
   },
 
-  "Pincurchin": {
+  "Bellibolt": {
     "abilities": [
       {"name": "Electromorphosis"},
       {"name": "Static"},
