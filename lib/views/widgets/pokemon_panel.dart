@@ -19,6 +19,7 @@ import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/aura_effects.dart';
 import '../../utils/battle_facade.dart';
 import '../../utils/ruin_effects.dart';
+import '../../utils/stacking_moves.dart';
 import '../../utils/grounded.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
@@ -505,7 +506,12 @@ class PokemonPanelState extends State<PokemonPanel>
                           s.moves[index] = m;
                           s.typeOverrides[index] = null;
                           s.categoryOverrides[index] = null;
-                          s.powerOverrides[index] = null;
+                          // Stacking-power moves: seed the default tier
+                          // (Last Respects ×3, Rage Fist ×1) so the
+                          // calc matches the chip's display on load.
+                          s.powerOverrides[index] = isStackingPower(m)
+                              ? stackingPower(m, stackingDefaultTier(m))
+                              : null;
                           s.hitOverrides[index] = null;
                           s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
                         });
@@ -513,36 +519,64 @@ class PokemonPanelState extends State<PokemonPanel>
                       },
                     ),
                   ),
-                  if (!isSearching && move != null && info.isMultiHit)
-                    GestureDetector(
-                      onTap: info.minHits == info.maxHits
-                          ? null
-                          : () async {
-                              final h = await showDialog<int>(
-                                context: context,
-                                builder: (ctx) => SimpleDialog(
-                                  children: [
-                                    for (int h = info.minHits; h <= info.maxHits; h++)
-                                      SimpleDialogOption(
-                                        onPressed: () => Navigator.pop(ctx, h),
-                                        child: Text('×$h', style: const TextStyle(fontSize: 14)),
-                                      ),
-                                  ],
-                                ),
-                              );
-                              if (h != null) { setState(() { s.hitOverrides[index] = h; }); _notifyParent(); }
-                            },
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 2),
-                        child: Text(
-                          '×${s.hitOverrides[index] ?? info.maxHits}',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: s.hitOverrides[index] != null ? Colors.orange : Colors.grey[600],
+                  if (!isSearching && move != null &&
+                      (info.isMultiHit || isStackingPower(move))) ...[
+                    () {
+                      final stacking = isStackingPower(move);
+                      final stackMaxVal = stackingMax(move);
+                      final (lo, hi) = stacking
+                          ? (1, stackMaxVal!)
+                          : (info.minHits, info.maxHits);
+                      final current = stacking
+                          ? currentStackingTier(move, s.powerOverrides[index])
+                          : (s.hitOverrides[index] ?? info.maxHits);
+                      final customized = stacking
+                          ? current != stackingDefaultTier(move)
+                          : s.hitOverrides[index] != null;
+                      return GestureDetector(
+                        onTap: (!stacking && info.minHits == info.maxHits)
+                            ? null
+                            : () async {
+                                final h = await showDialog<int>(
+                                  context: context,
+                                  builder: (ctx) => SimpleDialog(
+                                    children: [
+                                      for (int h = lo; h <= hi; h++)
+                                        SimpleDialogOption(
+                                          onPressed: () => Navigator.pop(ctx, h),
+                                          child: Text('×$h',
+                                              style: const TextStyle(fontSize: 14)),
+                                        ),
+                                    ],
+                                  ),
+                                );
+                                if (h != null) {
+                                  setState(() {
+                                    if (stacking) {
+                                      s.powerOverrides[index] =
+                                          stackingPower(move, h);
+                                    } else {
+                                      s.hitOverrides[index] = h;
+                                    }
+                                  });
+                                  _notifyParent();
+                                }
+                              },
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 2),
+                          child: Text(
+                            '×$current',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: customized
+                                  ? Colors.orange
+                                  : Colors.grey[600],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    }(),
+                  ],
                 ],
               ),
             ),

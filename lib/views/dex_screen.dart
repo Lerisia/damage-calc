@@ -19,6 +19,7 @@ import '../models/weather.dart';
 import '../utils/app_strings.dart';
 import '../utils/battle_facade.dart';
 import '../utils/localization.dart';
+import '../utils/stacking_moves.dart';
 import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/type_effectiveness.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
@@ -1095,19 +1096,10 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
     for (final m in _decisiveMoves()) {
       if (m.isMultiHit) {
         _hits[m.name] = m.maxHits;
-      } else if (_stackMax(m) != null) {
-        _hits[m.name] = _stackingDefault(m);
+      } else if (isStackingPower(m)) {
+        _hits[m.name] = stackingDefaultTier(m);
       }
     }
-  }
-
-  /// Default picker tier for stacking moves. Last Respects usually
-  /// comes down with a couple of teammates already fainted, so ×3
-  /// (2 fainted allies) reads as a realistic baseline; other
-  /// stackers start at ×1.
-  int _stackingDefault(Move m) {
-    if (m.name == 'Last Respects') return 3;
-    return 1;
   }
 
   /// Run a decisive-power calc for [m] under the given EV/nature. We
@@ -1123,7 +1115,6 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
         ab != null ? (abilityWeatherMap[ab] ?? Weather.none) : Weather.none;
     final terrain =
         ab != null ? (abilityTerrainMap[ab] ?? Terrain.none) : Terrain.none;
-    final stackMax = _stackMax(m);
     final state = _dexState(
       pokemon: widget.pokemon,
       ability: ab,
@@ -1134,7 +1125,7 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
       move: m,
       hits: m.isMultiHit ? hits : null,
       powerOverride:
-          stackMax != null ? _stackingPower(m, hits) : null,
+          isStackingPower(m) ? stackingPower(m, hits) : null,
     );
     final info = BattleFacade.getMoveSlotInfo(
       state: state,
@@ -1146,29 +1137,10 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
     return info.offensivePower ?? 0;
   }
 
-  /// Max picker value for stacking-power moves. Returns `null` when
-  /// [m] doesn't stack.
-  ///
-  /// - Last Respects: +50 per fainted ally, cap at 5 fainted → ×5.
-  /// - Rage Fist: +50 per hit taken, cap at 6 hits → ×7.
-  int? _stackMax(Move m) {
-    if (m.name == 'Last Respects') return 5;
-    if (m.name == 'Rage Fist') return 7;
-    return null;
-  }
-
-  /// Absolute power for the given picker value on a stacking move.
-  /// `tier` is 1-indexed; tier 1 yields the move's base power (no
-  /// stacking). Both current stackers scale linearly with tier.
-  int _stackingPower(Move m, int tier) {
-    if (_stackMax(m) != null) return m.power * tier;
-    return m.power;
-  }
-
   /// Whether [m] should expose an ×N picker — either it's a
-  /// variable multi-hit or a stacking-power move like Last Respects.
+  /// variable multi-hit or a stacking-power move.
   bool _hasTierPicker(Move m) =>
-      (m.isMultiHit && m.minHits != m.maxHits) || _stackMax(m) != null;
+      (m.isMultiHit && m.minHits != m.maxHits) || isStackingPower(m);
 
   /// Which stat the move scales off (Body Press → Def, etc.). Kept
   /// here only to pick the right EV/nature column; actual stat
@@ -1199,9 +1171,9 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
 
   Future<int?> _showHitPicker(Move m) async {
     if (!_hasTierPicker(m)) return null;
-    final stackMax = _stackMax(m);
-    final (lo, hi) = stackMax != null
-        ? (1, stackMax)
+    final stackMaxVal = stackingMax(m);
+    final (lo, hi) = stackMaxVal != null
+        ? (1, stackMaxVal)
         : (m.minHits, m.maxHits);
     return showDialog<int>(
       context: context,
@@ -1421,7 +1393,7 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
   Widget _moveLabel(Move m,
       {required int hits, required VoidCallback onTap}) {
     final canPick = _hasTierPicker(m);
-    final isStacking = _stackMax(m) != null;
+    final isStacking = isStackingPower(m);
     final name = m.localizedName;
     // Stacking moves (Last Respects) always keep the chip so the
     // picker is discoverable even at the x1 baseline. Multi-hit moves

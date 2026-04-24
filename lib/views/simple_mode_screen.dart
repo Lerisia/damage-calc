@@ -15,6 +15,7 @@ import '../utils/app_strings.dart';
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
 import '../utils/champions_mode.dart';
+import '../utils/stacking_moves.dart';
 import '../utils/stat_calculator.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/localization.dart';
@@ -636,6 +637,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                       // move starts at its own default (or collapses
                       // out entirely if it isn't multi-hit).
                       _atk.hitOverrides[0] = null;
+                      // Stacking-power moves (Last Respects, Rage Fist)
+                      // need a pre-set powerOverride so the calc
+                      // matches the chip's default tier (e.g. Last
+                      // Respects starts at ×3).
+                      _atk.powerOverrides[0] = isStackingPower(m)
+                          ? stackingPower(m, stackingDefaultTier(m))
+                          : null;
                       // Mirror Extended Mode: moves tagged as always-
                       // crit (Frost Breath, Storm Throw, Wicked Blow,
                       // Surging Strikes, Zippy Zap, etc.) auto-tick
@@ -762,16 +770,21 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  /// Multi-hit picker chip — only rendered when the selected move is
-  /// multi-hit (e.g. Bullet Seed 2–5). Shows the current hit count
-  /// (defaulting to the move's max) and taps open a compact picker
-  /// over the [minHits, maxHits] range. The choice is stored on
-  /// [BattlePokemonState.hitOverrides] so it stays in sync with
-  /// Extended Mode.
+  /// ×N chip — rendered for multi-hit moves AND stacking-power moves
+  /// (Last Respects, Rage Fist). Multi-hit stores the tier in
+  /// [BattlePokemonState.hitOverrides] (same semantics as Extended
+  /// Mode); stacking moves store an absolute power in
+  /// [BattlePokemonState.powerOverrides] so the calc picks up the
+  /// boosted power without having to teach transformMove a new case.
   Widget _hitCountChip() {
     final move = _atk.moves[0];
-    if (move == null || !move.isMultiHit) return const SizedBox.shrink();
-    final current = _atk.hitOverrides[0] ?? move.maxHits;
+    if (move == null) return const SizedBox.shrink();
+    final stacking = isStackingPower(move);
+    final multiHit = move.isMultiHit && move.minHits != move.maxHits;
+    if (!stacking && !multiHit) return const SizedBox.shrink();
+    final current = stacking
+        ? currentStackingTier(move, _atk.powerOverrides[0])
+        : (_atk.hitOverrides[0] ?? move.maxHits);
     final s = _chipScale;
     return Padding(
       padding: EdgeInsets.only(right: 4 * s),
@@ -800,7 +813,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   void _showHitCountPicker(Move move) {
-    final current = _atk.hitOverrides[0] ?? move.maxHits;
+    final stacking = isStackingPower(move);
+    final stackMaxVal = stackingMax(move);
+    final (lo, hi) = stacking
+        ? (1, stackMaxVal!)
+        : (move.minHits, move.maxHits);
+    final current = stacking
+        ? currentStackingTier(move, _atk.powerOverrides[0])
+        : (_atk.hitOverrides[0] ?? move.maxHits);
     showDialog(
       context: context,
       builder: (ctx) => Dialog(
@@ -809,10 +829,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           child: Wrap(
             spacing: 6, runSpacing: 6,
             children: [
-              for (int n = move.minHits; n <= move.maxHits; n++)
+              for (int n = lo; n <= hi; n++)
                 InkWell(
                   onTap: () {
-                    setState(() => _atk.hitOverrides[0] = n);
+                    setState(() {
+                      if (stacking) {
+                        _atk.powerOverrides[0] = stackingPower(move, n);
+                      } else {
+                        _atk.hitOverrides[0] = n;
+                      }
+                    });
                     widget.onChanged();
                     Navigator.pop(ctx);
                   },
