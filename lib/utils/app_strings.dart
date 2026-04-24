@@ -284,6 +284,21 @@ class AppStrings {
       AppLanguage.en: 'Full',
       AppLanguage.ja: '極振り',
     },
+    'dex.bulkH': {
+      AppLanguage.ko: 'H32',
+      AppLanguage.en: 'H32',
+      AppLanguage.ja: 'H32',
+    },
+    'dex.bulkHB': {
+      AppLanguage.ko: 'HB32 방어↑',
+      AppLanguage.en: 'HB32 Def↑',
+      AppLanguage.ja: 'HB32 防御↑',
+    },
+    'dex.bulkHD': {
+      AppLanguage.ko: 'HD32 특방↑',
+      AppLanguage.en: 'HD32 SpD↑',
+      AppLanguage.ja: 'HD32 特防↑',
+    },
     'dex.bulkFormula': {
       AppLanguage.ko: 'HP × 방어 / HP × 특방',
       AppLanguage.en: 'HP × Def / HP × SpD',
