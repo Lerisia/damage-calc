@@ -117,8 +117,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   BattlePokemonState get _atk => widget.attacker;
   BattlePokemonState get _def => widget.defender;
 
-  // Attacker SP controllers (offensive-stat slot + Speed).
+  // Attacker SP controllers (offensive-stat slot + Speed). Defense is
+  // included because Body Press (and similar "use_defense" moves) treat
+  // Def as the offensive stat, so the attacker's offensive slot swaps
+  // to this controller when such a move is selected.
   final _atkAtkSpCtl = TextEditingController(text: '0');
+  final _atkDefSpCtl = TextEditingController(text: '0');
   final _atkSpaSpCtl = TextEditingController(text: '0');
   final _atkSpeSpCtl = TextEditingController(text: '0');
 
@@ -234,6 +238,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// labels from the shared [BattlePokemonState]s.
   void _hydrateFromState() {
     _atkAtkSpCtl.text = '${ChampionsMode.evToSp(_atk.ev.attack)}';
+    _atkDefSpCtl.text = '${ChampionsMode.evToSp(_atk.ev.defense)}';
     _atkSpaSpCtl.text = '${ChampionsMode.evToSp(_atk.ev.spAttack)}';
     _atkSpeSpCtl.text = '${ChampionsMode.evToSp(_atk.ev.speed)}';
     _defHpSpCtl.text = '${ChampionsMode.evToSp(_def.ev.hp)}';
@@ -262,7 +267,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   @override
   void dispose() {
-    for (final c in [_atkAtkSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
+    for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
                       _multCtl, _atkAbilityCtl, _atkItemCtl,
                       _defAbilityCtl, _defItemCtl]) {
@@ -315,7 +320,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       _atk.ev = Stats(
         hp: 0,
         attack: ChampionsMode.spToEv(_parseSp(_atkAtkSpCtl)),
-        defense: 0,
+        defense: ChampionsMode.spToEv(_parseSp(_atkDefSpCtl)),
         spAttack: ChampionsMode.spToEv(_parseSp(_atkSpaSpCtl)),
         spDefense: 0,
         speed: ChampionsMode.spToEv(_parseSp(_atkSpeSpCtl)),
@@ -365,6 +370,18 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       return false;
     }
     return _atk.baseStats.spAttack > _atk.baseStats.attack;
+  }
+
+  /// Which stat drives the attacker's damage output. Normally Atk or
+  /// SpA per [_effectiveIsSpecial]; swaps to Def for moves tagged
+  /// `use_defense` (Body Press). The simple-mode offensive EV slot is
+  /// bound to this stat so the user invests in the right place.
+  NatureStat get _effectiveOffensiveStat {
+    final move = _atk.moves[0];
+    if (move != null && move.hasTag(MoveTags.useDefense)) {
+      return NatureStat.def;
+    }
+    return _effectiveIsSpecial ? NatureStat.spa : NatureStat.atk;
   }
 
   /// Toggle a stat's nature chip between neutral and ↑ (no ↓ state in
@@ -561,12 +578,21 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444);
     final move = _atk.moves[0];
-    final isSpecial = _effectiveIsSpecial;
-    final offStat = isSpecial ? NatureStat.spa : NatureStat.atk;
-    final offLabel = AppStrings.t(
-      isSpecial ? 'stat.spAttack' : 'stat.attack',
-    );
-    final offCtl = isSpecial ? _atkSpaSpCtl : _atkAtkSpCtl;
+    // Offensive slot follows the effective stat — Atk / SpA for normal
+    // moves, Def when a `use_defense` move (Body Press) is picked.
+    final offStat = _effectiveOffensiveStat;
+    final offLabel = AppStrings.t(switch (offStat) {
+      NatureStat.atk => 'stat.attack',
+      NatureStat.spa => 'stat.spAttack',
+      NatureStat.def => 'stat.defense',
+      _ => 'stat.attack',
+    });
+    final offCtl = switch (offStat) {
+      NatureStat.atk => _atkAtkSpCtl,
+      NatureStat.spa => _atkSpaSpCtl,
+      NatureStat.def => _atkDefSpCtl,
+      _ => _atkAtkSpCtl,
+    };
 
     return _card(
       accent: accent,

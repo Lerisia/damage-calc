@@ -38,3 +38,6 @@ scripts/
 # Coverage
 coverage/
 __pycache__/
+
+# Pikalytics-scraped stats — generated, not source of truth
+assets/champions_usage.json
