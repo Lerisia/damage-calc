@@ -852,6 +852,7 @@ BattlePokemonState _dexState({
   required int level,
   Move? move,
   int? hits,
+  int? powerOverride,
 }) {
   return BattlePokemonState(
     pokemonName: pokemon.name,
@@ -873,6 +874,7 @@ BattlePokemonState _dexState({
     ev: ev,
     moves: [move, null, null, null],
     hitOverrides: [hits, null, null, null],
+    powerOverrides: [powerOverride, null, null, null],
     isMega: pokemon.isMega,
     canDynamax: pokemon.canDynamax,
     canGmax: pokemon.canGmax,
@@ -1091,8 +1093,21 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
 
   void _seedHits() {
     for (final m in _decisiveMoves()) {
-      if (m.isMultiHit) _hits[m.name] = m.maxHits;
+      if (m.isMultiHit) {
+        _hits[m.name] = m.maxHits;
+      } else if (_stackMax(m) != null) {
+        _hits[m.name] = _stackingDefault(m);
+      }
     }
+  }
+
+  /// Default picker tier for stacking moves. Last Respects usually
+  /// comes down with a couple of teammates already fainted, so ×3
+  /// (2 fainted allies) reads as a realistic baseline; other
+  /// stackers start at ×1.
+  int _stackingDefault(Move m) {
+    if (m.name == 'Last Respects') return 3;
+    return 1;
   }
 
   /// Run a decisive-power calc for [m] under the given EV/nature. We
@@ -1100,13 +1115,15 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
   /// ability-driven transform (Pixilate, Liquid Voice, Sheer Force,
   /// Adaptability, Huge Power, …) is applied the same way the
   /// calculator does. Multi-hit `hits` feeds into the move slot's
-  /// hit-count override.
+  /// hit-count override; for stacking-power moves (Last Respects)
+  /// `hits` is reinterpreted as a power override.
   int _outputFor(Move m, Stats ev, NatureProfile nat, int hits) {
     final ab = widget.ability;
     final weather =
         ab != null ? (abilityWeatherMap[ab] ?? Weather.none) : Weather.none;
     final terrain =
         ab != null ? (abilityTerrainMap[ab] ?? Terrain.none) : Terrain.none;
+    final stackMax = _stackMax(m);
     final state = _dexState(
       pokemon: widget.pokemon,
       ability: ab,
@@ -1116,6 +1133,8 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
       level: _level,
       move: m,
       hits: m.isMultiHit ? hits : null,
+      powerOverride:
+          stackMax != null ? _stackingPower(m, hits) : null,
     );
     final info = BattleFacade.getMoveSlotInfo(
       state: state,
@@ -1126,6 +1145,30 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
     );
     return info.offensivePower ?? 0;
   }
+
+  /// Max picker value for stacking-power moves. Returns `null` when
+  /// [m] doesn't stack.
+  ///
+  /// - Last Respects: +50 per fainted ally, cap at 5 fainted → ×5.
+  /// - Rage Fist: +50 per hit taken, cap at 6 hits → ×7.
+  int? _stackMax(Move m) {
+    if (m.name == 'Last Respects') return 5;
+    if (m.name == 'Rage Fist') return 7;
+    return null;
+  }
+
+  /// Absolute power for the given picker value on a stacking move.
+  /// `tier` is 1-indexed; tier 1 yields the move's base power (no
+  /// stacking). Both current stackers scale linearly with tier.
+  int _stackingPower(Move m, int tier) {
+    if (_stackMax(m) != null) return m.power * tier;
+    return m.power;
+  }
+
+  /// Whether [m] should expose an ×N picker — either it's a
+  /// variable multi-hit or a stacking-power move like Last Respects.
+  bool _hasTierPicker(Move m) =>
+      (m.isMultiHit && m.minHits != m.maxHits) || _stackMax(m) != null;
 
   /// Which stat the move scales off (Body Press → Def, etc.). Kept
   /// here only to pick the right EV/nature column; actual stat
@@ -1155,7 +1198,11 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
   }
 
   Future<int?> _showHitPicker(Move m) async {
-    if (!m.isMultiHit || m.minHits == m.maxHits) return null;
+    if (!_hasTierPicker(m)) return null;
+    final stackMax = _stackMax(m);
+    final (lo, hi) = stackMax != null
+        ? (1, stackMax)
+        : (m.minHits, m.maxHits);
     return showDialog<int>(
       context: context,
       builder: (ctx) => Dialog(
@@ -1165,7 +1212,7 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
             spacing: 6,
             runSpacing: 6,
             children: [
-              for (int n = m.minHits; n <= m.maxHits; n++)
+              for (int n = lo; n <= hi; n++)
                 InkWell(
                   onTap: () => Navigator.pop(ctx, n),
                   child: Container(
@@ -1243,8 +1290,7 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
           custom, _halfEv(custom), _fullNature(custom), customHits);
     }
 
-    final customIsMultiHit =
-        custom != null && custom.isMultiHit && custom.minHits != custom.maxHits;
+    final customHasTierPicker = custom != null && _hasTierPicker(custom);
 
     // Single Row layout — flex values change instead of the widget
     // tree, so tapping the compact selector doesn't unmount it (which
@@ -1286,7 +1332,7 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
                     }),
                   ),
                 ),
-                if (customIsMultiHit) ...[
+                if (customHasTierPicker) ...[
                   const SizedBox(width: 6),
                   InkWell(
                     onTap: () => _pickCustomHits(custom),
@@ -1374,9 +1420,13 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
 
   Widget _moveLabel(Move m,
       {required int hits, required VoidCallback onTap}) {
-    final canPick = m.isMultiHit && m.minHits != m.maxHits;
+    final canPick = _hasTierPicker(m);
+    final isStacking = _stackMax(m) != null;
     final name = m.localizedName;
-    if (hits <= 1) {
+    // Stacking moves (Last Respects) always keep the chip so the
+    // picker is discoverable even at the x1 baseline. Multi-hit moves
+    // collapse to a plain row when the user's picked x1.
+    if (!canPick || (!isStacking && hits <= 1)) {
       return _DexTableCell(name, align: TextAlign.left, bold: true);
     }
     // Multi-hit: name + tappable (×N) chip. Inside the same cell so

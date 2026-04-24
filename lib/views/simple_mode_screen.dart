@@ -1611,7 +1611,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // consistent with the scaled numbers.
     final result = _applyMultiplier(baseResult, mult);
 
-    final offensivePower = BattleFacade.calcOffensivePower(
+    final rawOffensivePower = BattleFacade.calcOffensivePower(
       state: _atk,
       moveIndex: 0,
       weather: widget.weather,
@@ -1628,6 +1628,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       opponentItem: _def.selectedItem,
       opponentAbility: _def.selectedAbility,
     );
+    // The extra multiplier scales the damage panel's rolls; do the
+    // same to the displayed 결정력 so both numbers stay consistent
+    // with the user's typed-in adjustment.
+    final offensivePower =
+        rawOffensivePower != null ? (rawOffensivePower * mult).round() : null;
     final bulk = BattleFacade.calcBulk(
       state: _def,
       weather: widget.weather,
