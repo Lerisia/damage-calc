@@ -13,24 +13,42 @@ double _getEffectiveness(PokemonType attackType, PokemonType defenderType, {bool
   return _chart[attackType]?[defenderType] ?? 1.0;
 }
 
-/// Returns the combined effectiveness against a Pokemon with one or two types.
+/// Returns the combined effectiveness against a Pokemon with up to
+/// three types (Forest's Curse / Trick-or-Treat add a third type;
+/// users can also override via the type picker).
+///
 /// [freezeDry] overrides Water interaction to x2.
 /// [flyingPress] calculates Fighting × Flying dual-type effectiveness.
 /// Note: type immunities are handled separately in damage_calculator.dart.
-double getCombinedEffectiveness(PokemonType attackType, PokemonType defType1, PokemonType? defType2, {bool freezeDry = false, bool flyingPress = false}) {
+double getCombinedEffectiveness(
+  PokemonType attackType,
+  PokemonType defType1,
+  PokemonType? defType2, {
+  PokemonType? defType3,
+  bool freezeDry = false,
+  bool flyingPress = false,
+}) {
+  // Typeless slots contribute a neutral 1.0× — collapse to a single
+  // pass over the effective non-typeless types.
+  final defTypes = <PokemonType>[
+    if (defType1 != PokemonType.typeless) defType1,
+    if (defType2 != null && defType2 != PokemonType.typeless) defType2,
+    if (defType3 != null && defType3 != PokemonType.typeless) defType3,
+  ];
+
   if (flyingPress) {
     // Flying Press: combine Fighting AND Flying effectiveness
-    double fightMult = _getEffectiveness(PokemonType.fighting, defType1);
-    double flyMult = _getEffectiveness(PokemonType.flying, defType1);
-    if (defType2 != null) {
-      fightMult *= _getEffectiveness(PokemonType.fighting, defType2);
-      flyMult *= _getEffectiveness(PokemonType.flying, defType2);
+    double fightMult = 1.0;
+    double flyMult = 1.0;
+    for (final t in defTypes) {
+      fightMult *= _getEffectiveness(PokemonType.fighting, t);
+      flyMult *= _getEffectiveness(PokemonType.flying, t);
     }
     return fightMult * flyMult;
   }
-  double mult = _getEffectiveness(attackType, defType1, freezeDry: freezeDry);
-  if (defType2 != null) {
-    mult *= _getEffectiveness(attackType, defType2, freezeDry: freezeDry);
+  double mult = 1.0;
+  for (final t in defTypes) {
+    mult *= _getEffectiveness(attackType, t, freezeDry: freezeDry);
   }
   return mult;
 }
@@ -49,13 +67,20 @@ const Map<PokemonType, Set<PokemonType>> typeImmunities = {
   PokemonType.dragon: {PokemonType.fairy},
 };
 
-/// Check if a move type has a type immunity against the defender's types.
+/// Check if a move type has a type immunity against the defender's
+/// types (up to three — Forest's Curse / Trick-or-Treat add a third).
 /// Returns true if at least one of the defender's types is immune.
-bool hasTypeImmunity(PokemonType moveType, PokemonType defType1, PokemonType? defType2) {
+bool hasTypeImmunity(
+  PokemonType moveType,
+  PokemonType defType1,
+  PokemonType? defType2, {
+  PokemonType? defType3,
+}) {
   final immuneSet = typeImmunities[moveType];
   if (immuneSet == null) return false;
   if (immuneSet.contains(defType1)) return true;
   if (defType2 != null && immuneSet.contains(defType2)) return true;
+  if (defType3 != null && immuneSet.contains(defType3)) return true;
   return false;
 }
 

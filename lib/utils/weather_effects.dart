@@ -39,9 +39,14 @@ Weather effectiveWeather(Weather weather, {String? abilityA, String? abilityB}) 
   Weather weather, {
   required PokemonType type1,
   PokemonType? type2,
+  PokemonType? type3,
 }) {
-  final bool isRock = type1 == PokemonType.rock || type2 == PokemonType.rock;
-  final bool isIce = type1 == PokemonType.ice || type2 == PokemonType.ice;
+  final bool isRock = type1 == PokemonType.rock ||
+      type2 == PokemonType.rock ||
+      type3 == PokemonType.rock;
+  final bool isIce = type1 == PokemonType.ice ||
+      type2 == PokemonType.ice ||
+      type3 == PokemonType.ice;
 
   double defMod = 1.0;
   double spdMod = 1.0;

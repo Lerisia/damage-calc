@@ -787,6 +787,22 @@ class AppStrings {
       AppLanguage.ja: 'リセット',
     },
 
+    'type.picker.title': {
+      AppLanguage.ko: '타입 선택 (최대 3개)',
+      AppLanguage.en: 'Pick types (max 3)',
+      AppLanguage.ja: 'タイプ選択 (最大3つ)',
+    },
+    'type.picker.clear': {
+      AppLanguage.ko: '선택 해제',
+      AppLanguage.en: 'Clear',
+      AppLanguage.ja: '選択解除',
+    },
+    'type.none': {
+      AppLanguage.ko: '없음',
+      AppLanguage.en: 'None',
+      AppLanguage.ja: 'なし',
+    },
+
     // === Sample ===
     'sample.save': {
       AppLanguage.ko: '샘플 저장',

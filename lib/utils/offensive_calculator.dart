@@ -43,6 +43,7 @@ class OffensiveCalculator {
     required TransformedMove transformed,
     required PokemonType type1,
     PokemonType? type2,
+    PokemonType? type3,
     Rank rank = const Rank(),
     Weather weather = Weather.none,
     Terrain terrain = Terrain.none,
@@ -112,7 +113,10 @@ class OffensiveCalculator {
     modifiedStat = (modifiedStat * ruin.atkMod).floor();
 
     // Protean/Libero: force STAB on all moves, but NOT during Terastal
-    final bool isOriginalStab = (forceStab && !terastallized) || move.type == type1 || move.type == type2;
+    final bool isOriginalStab = (forceStab && !terastallized) ||
+        move.type == type1 ||
+        move.type == type2 ||
+        move.type == type3;
     final bool isTeraStab = terastallized && teraType != null && move.type == teraType;
 
     // Determine STAB multiplier

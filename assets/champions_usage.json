@@ -525,7 +525,7 @@
   },
 
   "Basculegion": {
-    "_note": "Male form only. Female form is not covered — per in-game Battle Data, Champions Singles stats don't apply to the Female Basculegion.",
+    "_note": "Male form (physical Last Respects). Female form has its own special-attacker entry.",
     "abilities": [
       {"name": "Adaptability"},
       {"name": "Swift Swim"},
@@ -553,6 +553,36 @@
     "natures": [
       {"name": "Jolly"},
       {"name": "Adamant"}
+    ]
+  },
+
+  "Basculegion (Female)": {
+    "_note": "Female form runs a special-attacker set distinct from Male's physical Last Respects spam.",
+    "abilities": [
+      {"name": "Adaptability"},
+      {"name": "Swift Swim"},
+      {"name": "Mold Breaker"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "mystic-water"}
+    ],
+    "moves": [
+      {"name": "Shadow Ball"},
+      {"name": "Surf"},
+      {"name": "Hydro Pump"},
+      {"name": "Ice Beam"}
+    ],
+    "defaultMoves": [
+      {"name": "Shadow Ball"},
+      {"name": "Surf"},
+      {"name": "Hydro Pump"},
+      {"name": "Ice Beam"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"}
     ]
   },
 
@@ -1596,6 +1626,1502 @@
       {"name": "Bold"},
       {"name": "Relaxed"},
       {"name": "Calm"}
+    ]
+  },
+
+  "Infernape": {
+    "abilities": [
+      {"name": "Blaze"},
+      {"name": "Iron Fist"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Mach Punch"},
+      {"name": "Flare Blitz"},
+      {"name": "Thunder Punch"},
+      {"name": "U-turn"},
+      {"name": "Rock Tomb"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Mach Punch"},
+      {"name": "Flare Blitz"},
+      {"name": "Thunder Punch"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Naive"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Alakazam": {
+    "abilities": [
+      {"name": "Magic Guard"},
+      {"name": "Inner Focus"},
+      {"name": "Synchronize"}
+    ],
+    "items": [
+      {"name": "alakazite"},
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"}
+    ],
+    "moves": [
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Focus Blast"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Shadow Ball"},
+      {"name": "Energy Ball"}
+    ],
+    "defaultMoves": [
+      {"name": "Psychic"},
+      {"name": "Focus Blast"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Shadow Ball"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Alakazam": {
+    "_note": "Damage move pool mirrors base Alakazam; ability pins to Trace and item to alakazite on Mega.",
+    "abilities": [
+      {"name": "Trace"}
+    ],
+    "items": [
+      {"name": "alakazite"}
+    ],
+    "moves": [
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Focus Blast"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Shadow Ball"},
+      {"name": "Energy Ball"}
+    ],
+    "defaultMoves": [
+      {"name": "Psychic"},
+      {"name": "Focus Blast"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Shadow Ball"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Vaporeon": {
+    "abilities": [
+      {"name": "Water Absorb"},
+      {"name": "Hydration"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "chesto-berry"}
+    ],
+    "moves": [
+      {"name": "Surf"},
+      {"name": "Scald"},
+      {"name": "Flip Turn"},
+      {"name": "Ice Beam"}
+    ],
+    "defaultMoves": [
+      {"name": "Surf"},
+      {"name": "Scald"},
+      {"name": "Flip Turn"},
+      {"name": "Ice Beam"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Relaxed"},
+      {"name": "Calm"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Polteageist": {
+    "abilities": [
+      {"name": "Cursed Body"},
+      {"name": "Weak Armor"}
+    ],
+    "items": [
+      {"name": "white-herb"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Shadow Ball"},
+      {"name": "Giga Drain"}
+    ],
+    "defaultMoves": [
+      {"name": "Shadow Ball"},
+      {"name": "Giga Drain"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Crabominable": {
+    "abilities": [
+      {"name": "Hyper Cutter"},
+      {"name": "Iron Fist"},
+      {"name": "Anger Point"}
+    ],
+    "items": [
+      {"name": "crabominite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Ice Hammer"},
+      {"name": "Drain Punch"},
+      {"name": "Mach Punch"},
+      {"name": "Thunder Punch"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Crabhammer"}
+    ],
+    "defaultMoves": [
+      {"name": "Ice Hammer"},
+      {"name": "Drain Punch"},
+      {"name": "Mach Punch"},
+      {"name": "Thunder Punch"}
+    ],
+    "natures": [
+      {"name": "Brave"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Crabominable": {
+    "_note": "Damage move pool mirrors base Crabominable; ability pins to Iron Fist and item to crabominite on Mega.",
+    "abilities": [
+      {"name": "Iron Fist"}
+    ],
+    "items": [
+      {"name": "crabominite"}
+    ],
+    "moves": [
+      {"name": "Ice Hammer"},
+      {"name": "Drain Punch"},
+      {"name": "Mach Punch"},
+      {"name": "Thunder Punch"},
+      {"name": "Earthquake"},
+      {"name": "Ice Punch"},
+      {"name": "Crabhammer"}
+    ],
+    "defaultMoves": [
+      {"name": "Ice Hammer"},
+      {"name": "Drain Punch"},
+      {"name": "Mach Punch"},
+      {"name": "Thunder Punch"}
+    ],
+    "natures": [
+      {"name": "Brave"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Weavile": {
+    "abilities": [
+      {"name": "Pressure"},
+      {"name": "Pickpocket"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "never-melt-ice"},
+      {"name": "kings-rock"}
+    ],
+    "moves": [
+      {"name": "Knock Off"},
+      {"name": "Triple Axel"},
+      {"name": "Icicle Crash"},
+      {"name": "Ice Shard"},
+      {"name": "Low Kick"},
+      {"name": "Poison Jab"}
+    ],
+    "defaultMoves": [
+      {"name": "Knock Off"},
+      {"name": "Triple Axel"},
+      {"name": "Ice Shard"},
+      {"name": "Low Kick"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Heliolisk": {
+    "abilities": [
+      {"name": "Dry Skin"},
+      {"name": "Solar Power"},
+      {"name": "Sand Veil"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"},
+      {"name": "magnet"}
+    ],
+    "moves": [
+      {"name": "Thunderbolt"},
+      {"name": "Volt Switch"},
+      {"name": "Hyper Voice"},
+      {"name": "Surf"},
+      {"name": "Focus Blast"},
+      {"name": "Dragon Pulse"},
+      {"name": "Dark Pulse"}
+    ],
+    "defaultMoves": [
+      {"name": "Thunderbolt"},
+      {"name": "Volt Switch"},
+      {"name": "Hyper Voice"},
+      {"name": "Surf"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Hawlucha": {
+    "abilities": [
+      {"name": "Mold Breaker"},
+      {"name": "Unburden"},
+      {"name": "Limber"}
+    ],
+    "items": [
+      {"name": "hawluchanite"},
+      {"name": "white-herb"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "High Jump Kick"},
+      {"name": "Close Combat"},
+      {"name": "Brave Bird"},
+      {"name": "Dual Wingbeat"},
+      {"name": "Stone Edge"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "High Jump Kick"},
+      {"name": "Brave Bird"},
+      {"name": "Stone Edge"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Mega Hawlucha": {
+    "_note": "Damage move pool mirrors base Hawlucha; ability pins to No Guard and item to hawluchanite on Mega.",
+    "abilities": [
+      {"name": "No Guard"}
+    ],
+    "items": [
+      {"name": "hawluchanite"}
+    ],
+    "moves": [
+      {"name": "High Jump Kick"},
+      {"name": "Close Combat"},
+      {"name": "Brave Bird"},
+      {"name": "Dual Wingbeat"},
+      {"name": "Stone Edge"},
+      {"name": "U-turn"}
+    ],
+    "defaultMoves": [
+      {"name": "High Jump Kick"},
+      {"name": "Brave Bird"},
+      {"name": "Stone Edge"},
+      {"name": "U-turn"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Beedrill": {
+    "abilities": [
+      {"name": "Swarm"},
+      {"name": "Sniper"}
+    ],
+    "items": [
+      {"name": "beedrillite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Poison Jab"},
+      {"name": "U-turn"},
+      {"name": "Fell Stinger"},
+      {"name": "Drill Run"},
+      {"name": "Knock Off"}
+    ],
+    "defaultMoves": [
+      {"name": "Poison Jab"},
+      {"name": "U-turn"},
+      {"name": "Fell Stinger"},
+      {"name": "Drill Run"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Beedrill": {
+    "_note": "Damage move pool mirrors base Beedrill; ability pins to Adaptability and item to beedrillite on Mega.",
+    "abilities": [
+      {"name": "Adaptability"}
+    ],
+    "items": [
+      {"name": "beedrillite"}
+    ],
+    "moves": [
+      {"name": "Poison Jab"},
+      {"name": "U-turn"},
+      {"name": "Fell Stinger"},
+      {"name": "Drill Run"},
+      {"name": "Knock Off"}
+    ],
+    "defaultMoves": [
+      {"name": "Poison Jab"},
+      {"name": "U-turn"},
+      {"name": "Fell Stinger"},
+      {"name": "Drill Run"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Sharpedo": {
+    "abilities": [
+      {"name": "Speed Boost"},
+      {"name": "Rough Skin"}
+    ],
+    "items": [
+      {"name": "sharpedonite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Crunch"},
+      {"name": "Liquidation"},
+      {"name": "Close Combat"},
+      {"name": "Ice Fang"},
+      {"name": "Psychic Fangs"}
+    ],
+    "defaultMoves": [
+      {"name": "Crunch"},
+      {"name": "Liquidation"},
+      {"name": "Close Combat"},
+      {"name": "Ice Fang"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Mega Sharpedo": {
+    "_note": "Damage move pool mirrors base Sharpedo; ability pins to Strong Jaw and item to sharpedonite on Mega.",
+    "abilities": [
+      {"name": "Strong Jaw"}
+    ],
+    "items": [
+      {"name": "sharpedonite"}
+    ],
+    "moves": [
+      {"name": "Crunch"},
+      {"name": "Liquidation"},
+      {"name": "Close Combat"},
+      {"name": "Ice Fang"},
+      {"name": "Psychic Fangs"}
+    ],
+    "defaultMoves": [
+      {"name": "Crunch"},
+      {"name": "Liquidation"},
+      {"name": "Close Combat"},
+      {"name": "Ice Fang"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Sableye": {
+    "abilities": [
+      {"name": "Prankster"},
+      {"name": "Stall"},
+      {"name": "Keen Eye"}
+    ],
+    "items": [
+      {"name": "sablenite"},
+      {"name": "leftovers"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "bright-powder"}
+    ],
+    "moves": [
+      {"name": "Poltergeist"},
+      {"name": "Knock Off"}
+    ],
+    "defaultMoves": [
+      {"name": "Poltergeist"},
+      {"name": "Knock Off"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Bold"},
+      {"name": "Careful"},
+      {"name": "Relaxed"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Mega Sableye": {
+    "_note": "Damage move pool mirrors base Sableye; ability pins to Magic Bounce and item to sablenite on Mega.",
+    "abilities": [
+      {"name": "Magic Bounce"}
+    ],
+    "items": [
+      {"name": "sablenite"}
+    ],
+    "moves": [
+      {"name": "Poltergeist"},
+      {"name": "Knock Off"}
+    ],
+    "defaultMoves": [
+      {"name": "Poltergeist"},
+      {"name": "Knock Off"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Bold"},
+      {"name": "Careful"},
+      {"name": "Relaxed"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Quaquaval": {
+    "abilities": [
+      {"name": "Moxie"},
+      {"name": "Torrent"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "sitrus-berry"},
+      {"name": "mystic-water"},
+      {"name": "lum-berry"},
+      {"name": "choice-scarf"}
+    ],
+    "moves": [
+      {"name": "Aqua Step"},
+      {"name": "Aqua Jet"},
+      {"name": "Close Combat"},
+      {"name": "Triple Axel"},
+      {"name": "Ice Spinner"},
+      {"name": "Knock Off"}
+    ],
+    "defaultMoves": [
+      {"name": "Aqua Step"},
+      {"name": "Aqua Jet"},
+      {"name": "Close Combat"},
+      {"name": "Triple Axel"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Feraligatr": {
+    "abilities": [
+      {"name": "Sheer Force"},
+      {"name": "Torrent"}
+    ],
+    "items": [
+      {"name": "feraligite"},
+      {"name": "sitrus-berry"},
+      {"name": "mystic-water"}
+    ],
+    "moves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Double-Edge"},
+      {"name": "Ice Punch"},
+      {"name": "Earthquake"}
+    ],
+    "defaultMoves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Double-Edge"},
+      {"name": "Ice Punch"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Feraligatr": {
+    "_note": "Damage move pool mirrors base Feraligatr; ability pins to Dragonize and item to feraligite on Mega.",
+    "abilities": [
+      {"name": "Dragonize"}
+    ],
+    "items": [
+      {"name": "feraligite"}
+    ],
+    "moves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Double-Edge"},
+      {"name": "Ice Punch"},
+      {"name": "Earthquake"}
+    ],
+    "defaultMoves": [
+      {"name": "Liquidation"},
+      {"name": "Aqua Jet"},
+      {"name": "Double-Edge"},
+      {"name": "Ice Punch"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Espeon": {
+    "abilities": [
+      {"name": "Magic Bounce"},
+      {"name": "Synchronize"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "bright-powder"}
+    ],
+    "moves": [
+      {"name": "Psychic"},
+      {"name": "Alluring Voice"},
+      {"name": "Shadow Ball"},
+      {"name": "Power Gem"}
+    ],
+    "defaultMoves": [
+      {"name": "Psychic"},
+      {"name": "Alluring Voice"},
+      {"name": "Shadow Ball"},
+      {"name": "Power Gem"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Sinistcha": {
+    "abilities": [
+      {"name": "Heatproof"},
+      {"name": "Hospitality"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Matcha Gotcha"},
+      {"name": "Shadow Ball"},
+      {"name": "Scald"}
+    ],
+    "defaultMoves": [
+      {"name": "Matcha Gotcha"},
+      {"name": "Shadow Ball"},
+      {"name": "Scald"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Aggron": {
+    "abilities": [
+      {"name": "Sturdy"},
+      {"name": "Heavy Metal"},
+      {"name": "Rock Head"}
+    ],
+    "items": [
+      {"name": "aggronite"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Heavy Slam"},
+      {"name": "Iron Head"},
+      {"name": "Stone Edge"},
+      {"name": "Earthquake"},
+      {"name": "Body Press"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Heavy Slam"},
+      {"name": "Stone Edge"},
+      {"name": "Earthquake"},
+      {"name": "Body Press"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Adamant"},
+      {"name": "Careful"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Mega Aggron": {
+    "_note": "Damage move pool mirrors base Aggron; ability pins to Filter and item to aggronite on Mega.",
+    "abilities": [
+      {"name": "Filter"}
+    ],
+    "items": [
+      {"name": "aggronite"}
+    ],
+    "moves": [
+      {"name": "Heavy Slam"},
+      {"name": "Iron Head"},
+      {"name": "Stone Edge"},
+      {"name": "Earthquake"},
+      {"name": "Body Press"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Heavy Slam"},
+      {"name": "Stone Edge"},
+      {"name": "Earthquake"},
+      {"name": "Body Press"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Adamant"},
+      {"name": "Careful"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Slowbro": {
+    "abilities": [
+      {"name": "Regenerator"},
+      {"name": "Oblivious"},
+      {"name": "Own Tempo"}
+    ],
+    "items": [
+      {"name": "slowbronite"},
+      {"name": "leftovers"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Scald"},
+      {"name": "Psychic"},
+      {"name": "Ice Beam"},
+      {"name": "Body Press"},
+      {"name": "Flamethrower"}
+    ],
+    "defaultMoves": [
+      {"name": "Scald"},
+      {"name": "Psychic"},
+      {"name": "Ice Beam"},
+      {"name": "Body Press"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Mega Slowbro": {
+    "_note": "Damage move pool mirrors base Slowbro; ability pins to Shell Armor and item to slowbronite on Mega.",
+    "abilities": [
+      {"name": "Shell Armor"}
+    ],
+    "items": [
+      {"name": "slowbronite"}
+    ],
+    "moves": [
+      {"name": "Scald"},
+      {"name": "Psychic"},
+      {"name": "Ice Beam"},
+      {"name": "Body Press"},
+      {"name": "Flamethrower"}
+    ],
+    "defaultMoves": [
+      {"name": "Scald"},
+      {"name": "Psychic"},
+      {"name": "Ice Beam"},
+      {"name": "Body Press"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Orthworm": {
+    "abilities": [
+      {"name": "Earth Eater"},
+      {"name": "Sand Veil"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Iron Head"},
+      {"name": "Heavy Slam"},
+      {"name": "Body Press"},
+      {"name": "Earthquake"},
+      {"name": "Rock Tomb"}
+    ],
+    "defaultMoves": [
+      {"name": "Iron Head"},
+      {"name": "Heavy Slam"},
+      {"name": "Body Press"},
+      {"name": "Earthquake"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Relaxed"},
+      {"name": "Careful"}
+    ]
+  },
+
+  "Palafin": {
+    "_note": "Naive (Zero) Form. Hero Form duplicates this entry — Zero to Hero swaps stats mid-battle, so usage data lives at the species level.",
+    "abilities": [
+      {"name": "Zero to Hero"}
+    ],
+    "items": [
+      {"name": "mystic-water"},
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Wave Crash"},
+      {"name": "Jet Punch"},
+      {"name": "Flip Turn"},
+      {"name": "Close Combat"},
+      {"name": "Drain Punch"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Wave Crash"},
+      {"name": "Jet Punch"},
+      {"name": "Flip Turn"},
+      {"name": "Close Combat"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Palafin (Hero Form)": {
+    "_note": "Shares usage with the Naive Form (Zero to Hero swaps stats mid-battle).",
+    "abilities": [
+      {"name": "Zero to Hero"}
+    ],
+    "items": [
+      {"name": "mystic-water"},
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Wave Crash"},
+      {"name": "Jet Punch"},
+      {"name": "Flip Turn"},
+      {"name": "Close Combat"},
+      {"name": "Drain Punch"},
+      {"name": "Ice Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Wave Crash"},
+      {"name": "Jet Punch"},
+      {"name": "Flip Turn"},
+      {"name": "Close Combat"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Arcanine": {
+    "abilities": [
+      {"name": "Intimidate"},
+      {"name": "Flash Fire"},
+      {"name": "Justified"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "shuca-berry"},
+      {"name": "charcoal"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Flare Blitz"},
+      {"name": "Extreme Speed"},
+      {"name": "Play Rough"},
+      {"name": "Snarl"},
+      {"name": "Wild Charge"},
+      {"name": "Close Combat"}
+    ],
+    "defaultMoves": [
+      {"name": "Flare Blitz"},
+      {"name": "Extreme Speed"},
+      {"name": "Play Rough"},
+      {"name": "Snarl"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Adamant"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Aerodactyl": {
+    "abilities": [
+      {"name": "Unnerve"},
+      {"name": "Pressure"},
+      {"name": "Rock Head"}
+    ],
+    "items": [
+      {"name": "aerodactylite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Dual Wingbeat"},
+      {"name": "Stone Edge"},
+      {"name": "Rock Slide"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"},
+      {"name": "Iron Head"},
+      {"name": "Crunch"}
+    ],
+    "defaultMoves": [
+      {"name": "Dual Wingbeat"},
+      {"name": "Rock Slide"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Aerodactyl": {
+    "_note": "Damage move pool mirrors base Aerodactyl; ability pins to Tough Claws and item to aerodactylite on Mega.",
+    "abilities": [
+      {"name": "Tough Claws"}
+    ],
+    "items": [
+      {"name": "aerodactylite"}
+    ],
+    "moves": [
+      {"name": "Dual Wingbeat"},
+      {"name": "Stone Edge"},
+      {"name": "Rock Slide"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"},
+      {"name": "Iron Head"},
+      {"name": "Crunch"}
+    ],
+    "defaultMoves": [
+      {"name": "Dual Wingbeat"},
+      {"name": "Rock Slide"},
+      {"name": "Earthquake"},
+      {"name": "Ice Fang"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Chesnaught": {
+    "abilities": [
+      {"name": "Bulletproof"},
+      {"name": "Overgrow"}
+    ],
+    "items": [
+      {"name": "chesnaughtite"},
+      {"name": "leftovers"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Body Press"},
+      {"name": "Drain Punch"},
+      {"name": "Seed Bomb"},
+      {"name": "Wood Hammer"},
+      {"name": "Knock Off"},
+      {"name": "Earthquake"}
+    ],
+    "defaultMoves": [
+      {"name": "Body Press"},
+      {"name": "Drain Punch"},
+      {"name": "Seed Bomb"},
+      {"name": "Knock Off"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Adamant"},
+      {"name": "Careful"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Mega Chesnaught": {
+    "_note": "Damage move pool mirrors base Chesnaught; ability pins to Bulletproof and item to chesnaughtite on Mega.",
+    "abilities": [
+      {"name": "Bulletproof"}
+    ],
+    "items": [
+      {"name": "chesnaughtite"}
+    ],
+    "moves": [
+      {"name": "Body Press"},
+      {"name": "Drain Punch"},
+      {"name": "Seed Bomb"},
+      {"name": "Wood Hammer"},
+      {"name": "Knock Off"},
+      {"name": "Earthquake"}
+    ],
+    "defaultMoves": [
+      {"name": "Body Press"},
+      {"name": "Drain Punch"},
+      {"name": "Seed Bomb"},
+      {"name": "Knock Off"}
+    ],
+    "natures": [
+      {"name": "Impish"},
+      {"name": "Adamant"},
+      {"name": "Careful"},
+      {"name": "Bold"}
+    ]
+  },
+
+  "Hisuian Arcanine": {
+    "abilities": [
+      {"name": "Rock Head"},
+      {"name": "Intimidate"},
+      {"name": "Flash Fire"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Flare Blitz"},
+      {"name": "Head Smash"},
+      {"name": "Wild Charge"},
+      {"name": "Extreme Speed"},
+      {"name": "Close Combat"}
+    ],
+    "defaultMoves": [
+      {"name": "Flare Blitz"},
+      {"name": "Head Smash"},
+      {"name": "Wild Charge"},
+      {"name": "Extreme Speed"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Ditto": {
+    "_note": "Transform reshapes every slot — moves and the EV/nature matter only after transforming, so we record only ability and held item. Hardy nature is the de-facto neutral default.",
+    "abilities": [
+      {"name": "Imposter"},
+      {"name": "Limber"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "quick-claw"}
+    ],
+    "natures": [
+      {"name": "Hardy"}
+    ]
+  },
+
+  "Chandelure": {
+    "abilities": [
+      {"name": "Flash Fire"},
+      {"name": "Infiltrator"},
+      {"name": "Flame Body"}
+    ],
+    "items": [
+      {"name": "chandelurite"},
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Shadow Ball"},
+      {"name": "Flamethrower"},
+      {"name": "Overheat"},
+      {"name": "Fire Blast"},
+      {"name": "Energy Ball"},
+      {"name": "Psychic"}
+    ],
+    "defaultMoves": [
+      {"name": "Shadow Ball"},
+      {"name": "Flamethrower"},
+      {"name": "Energy Ball"},
+      {"name": "Psychic"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Chandelure": {
+    "_note": "Damage move pool mirrors base Chandelure; ability pins to Infiltrator and item to chandelurite on Mega.",
+    "abilities": [
+      {"name": "Infiltrator"}
+    ],
+    "items": [
+      {"name": "chandelurite"}
+    ],
+    "moves": [
+      {"name": "Shadow Ball"},
+      {"name": "Flamethrower"},
+      {"name": "Overheat"},
+      {"name": "Fire Blast"},
+      {"name": "Energy Ball"},
+      {"name": "Psychic"}
+    ],
+    "defaultMoves": [
+      {"name": "Shadow Ball"},
+      {"name": "Flamethrower"},
+      {"name": "Energy Ball"},
+      {"name": "Psychic"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Armarouge": {
+    "abilities": [
+      {"name": "Weak Armor"},
+      {"name": "Flash Fire"}
+    ],
+    "items": [
+      {"name": "focus-sash"},
+      {"name": "charcoal"},
+      {"name": "white-herb"},
+      {"name": "choice-scarf"},
+      {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Armor Cannon"},
+      {"name": "Psychic"},
+      {"name": "Psyshock"},
+      {"name": "Energy Ball"},
+      {"name": "Aura Sphere"}
+    ],
+    "defaultMoves": [
+      {"name": "Armor Cannon"},
+      {"name": "Psychic"},
+      {"name": "Energy Ball"},
+      {"name": "Aura Sphere"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Quiet"}
+    ]
+  },
+
+  "Tinkaton": {
+    "abilities": [
+      {"name": "Mold Breaker"},
+      {"name": "Own Tempo"},
+      {"name": "Pickpocket"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "focus-sash"},
+      {"name": "shuca-berry"},
+      {"name": "metal-coat"},
+      {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Gigaton Hammer"},
+      {"name": "Play Rough"},
+      {"name": "Knock Off"},
+      {"name": "Rock Tomb"},
+      {"name": "Ice Hammer"}
+    ],
+    "defaultMoves": [
+      {"name": "Gigaton Hammer"},
+      {"name": "Play Rough"},
+      {"name": "Knock Off"},
+      {"name": "Rock Tomb"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Careful"},
+      {"name": "Impish"}
+    ]
+  },
+
+  "Galarian Slowking": {
+    "abilities": [
+      {"name": "Regenerator"},
+      {"name": "Own Tempo"},
+      {"name": "Curious Medicine"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "shuca-berry"},
+      {"name": "black-belt"},
+      {"name": "bright-powder"}
+    ],
+    "moves": [
+      {"name": "Sludge Wave"},
+      {"name": "Sludge Bomb"},
+      {"name": "Psychic"},
+      {"name": "Flamethrower"},
+      {"name": "Ice Beam"}
+    ],
+    "defaultMoves": [
+      {"name": "Sludge Wave"},
+      {"name": "Psychic"},
+      {"name": "Flamethrower"},
+      {"name": "Ice Beam"}
+    ],
+    "natures": [
+      {"name": "Calm"},
+      {"name": "Modest"},
+      {"name": "Gentle"},
+      {"name": "Bold"},
+      {"name": "Relaxed"}
+    ]
+  },
+
+  "Heracross": {
+    "abilities": [
+      {"name": "Moxie"},
+      {"name": "Guts"},
+      {"name": "Swarm"}
+    ],
+    "items": [
+      {"name": "heracronite"},
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Pin Missile"},
+      {"name": "Rock Blast"},
+      {"name": "Bullet Seed"},
+      {"name": "Earthquake"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Pin Missile"},
+      {"name": "Rock Blast"},
+      {"name": "Bullet Seed"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Mega Heracross": {
+    "_note": "Damage move pool mirrors base Heracross; ability pins to Skill Link and item to heracronite on Mega.",
+    "abilities": [
+      {"name": "Skill Link"}
+    ],
+    "items": [
+      {"name": "heracronite"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Pin Missile"},
+      {"name": "Rock Blast"},
+      {"name": "Bullet Seed"},
+      {"name": "Earthquake"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Pin Missile"},
+      {"name": "Rock Blast"},
+      {"name": "Bullet Seed"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Hisuian Samurott": {
+    "abilities": [
+      {"name": "Sharpness"},
+      {"name": "Torrent"}
+    ],
+    "items": [
+      {"name": "choice-scarf"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "black-glasses"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Ceaseless Edge"},
+      {"name": "Sucker Punch"},
+      {"name": "Razor Shell"},
+      {"name": "Flip Turn"},
+      {"name": "Aqua Jet"},
+      {"name": "Sacred Sword"}
+    ],
+    "defaultMoves": [
+      {"name": "Ceaseless Edge"},
+      {"name": "Razor Shell"},
+      {"name": "Sacred Sword"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"}
+    ]
+  },
+
+  "Conkeldurr": {
+    "abilities": [
+      {"name": "Iron Fist"},
+      {"name": "Guts"},
+      {"name": "Sheer Force"}
+    ],
+    "items": [
+      {"name": "black-belt"},
+      {"name": "lum-berry"},
+      {"name": "sitrus-berry"},
+      {"name": "leftovers"},
+      {"name": "quick-claw"}
+    ],
+    "moves": [
+      {"name": "Drain Punch"},
+      {"name": "Mach Punch"},
+      {"name": "Ice Punch"},
+      {"name": "Earthquake"},
+      {"name": "Knock Off"},
+      {"name": "Thunder Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Drain Punch"},
+      {"name": "Mach Punch"},
+      {"name": "Ice Punch"},
+      {"name": "Earthquake"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Milotic": {
+    "abilities": [
+      {"name": "Competitive"},
+      {"name": "Marvel Scale"},
+      {"name": "Cute Charm"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "lum-berry"},
+      {"name": "mystic-water"},
+      {"name": "sitrus-berry"},
+      {"name": "bright-powder"}
+    ],
+    "moves": [
+      {"name": "Scald"},
+      {"name": "Flip Turn"},
+      {"name": "Ice Beam"},
+      {"name": "Icy Wind"},
+      {"name": "Alluring Voice"},
+      {"name": "Draining Kiss"}
+    ],
+    "defaultMoves": [
+      {"name": "Scald"},
+      {"name": "Flip Turn"},
+      {"name": "Ice Beam"},
+      {"name": "Alluring Voice"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Serperior": {
+    "abilities": [
+      {"name": "Contrary"},
+      {"name": "Overgrow"}
+    ],
+    "items": [
+      {"name": "leftovers"},
+      {"name": "focus-sash"},
+      {"name": "lum-berry"},
+      {"name": "choice-scarf"},
+      {"name": "miracle-seed"}
+    ],
+    "moves": [
+      {"name": "Leaf Storm"},
+      {"name": "Giga Drain"},
+      {"name": "Dragon Pulse"}
+    ],
+    "defaultMoves": [
+      {"name": "Leaf Storm"},
+      {"name": "Giga Drain"},
+      {"name": "Dragon Pulse"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Adamant"},
+      {"name": "Bold"},
+      {"name": "Calm"}
+    ]
+  },
+
+  "Banette": {
+    "abilities": [
+      {"name": "Frisk"},
+      {"name": "Insomnia"},
+      {"name": "Cursed Body"}
+    ],
+    "items": [
+      {"name": "banettite"},
+      {"name": "focus-sash"}
+    ],
+    "moves": [
+      {"name": "Poltergeist"},
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"},
+      {"name": "Gunk Shot"}
+    ],
+    "defaultMoves": [
+      {"name": "Poltergeist"},
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"},
+      {"name": "Gunk Shot"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Mega Banette": {
+    "_note": "Damage move pool mirrors base Banette; ability pins to Prankster and item to banettite on Mega.",
+    "abilities": [
+      {"name": "Prankster"}
+    ],
+    "items": [
+      {"name": "banettite"}
+    ],
+    "moves": [
+      {"name": "Poltergeist"},
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"},
+      {"name": "Gunk Shot"}
+    ],
+    "defaultMoves": [
+      {"name": "Poltergeist"},
+      {"name": "Shadow Claw"},
+      {"name": "Shadow Sneak"},
+      {"name": "Gunk Shot"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Incineroar": {
+    "abilities": [
+      {"name": "Intimidate"},
+      {"name": "Blaze"}
+    ],
+    "items": [
+      {"name": "lum-berry"},
+      {"name": "leftovers"},
+      {"name": "roseli-berry"},
+      {"name": "quick-claw"},
+      {"name": "sitrus-berry"}
+    ],
+    "moves": [
+      {"name": "Flare Blitz"},
+      {"name": "Darkest Lariat"},
+      {"name": "Throat Chop"},
+      {"name": "Close Combat"},
+      {"name": "Drain Punch"},
+      {"name": "Fake Out"}
+    ],
+    "defaultMoves": [
+      {"name": "Flare Blitz"},
+      {"name": "Darkest Lariat"},
+      {"name": "Close Combat"},
+      {"name": "Fake Out"}
+    ],
+    "natures": [
+      {"name": "Careful"},
+      {"name": "Impish"},
+      {"name": "Adamant"},
+      {"name": "Relaxed"},
+      {"name": "Gentle"}
     ]
   },
 

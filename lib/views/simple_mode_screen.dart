@@ -27,6 +27,7 @@ import 'widgets/damage_result_panel.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_panel.dart' show DynamaxPainter, TerastalPainter;
 import 'widgets/pokemon_selector.dart';
+import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
 /// Compact in-battle calculator. Shares the attacker/defender state
@@ -1461,6 +1462,13 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   List<Widget> _effectiveTypeBadges(BattlePokemonState state) {
+    // Terastal collapses the chip stack to the single Tera type and
+    // disables editing — defense uses only the Tera type, picker is
+    // pointless until Tera is turned off.
+    final teraActive = state.terastal.active && state.terastal.teraType != null;
+    if (teraActive) {
+      return [_typeChipBadge(state.terastal.teraType!, isTera: true)];
+    }
     final override = getAbilityTypeOverride(
       ability: state.selectedAbility,
       pokemonName: state.pokemonName,
@@ -1468,28 +1476,66 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       terrain: widget.terrain,
       heldItem: state.selectedItem,
     );
+    final overridden = override != null;
     final type1 = override?.type1 ?? state.type1;
     final type2 = override != null ? override.type2 : state.type2;
+    final type3 = override != null ? null : state.type3;
+    final tap = overridden ? null : () => _openTypePicker(state);
     return [
-      _typeChipBadge(type1),
+      _typeChipBadge(type1, onTap: tap),
       if (type2 != null) ...[
         const SizedBox(width: 2),
-        _typeChipBadge(type2),
+        _typeChipBadge(type2, onTap: tap),
+      ],
+      if (type3 != null) ...[
+        const SizedBox(width: 2),
+        _typeChipBadge(type3, onTap: tap),
       ],
     ];
   }
 
-  Widget _typeChipBadge(PokemonType type) {
-    return Container(
+  Future<void> _openTypePicker(BattlePokemonState state) async {
+    final result = await showTypePickerDialog(
+      context: context,
+      currentType1: state.type1,
+      currentType2: state.type2,
+      currentType3: state.type3,
+      pokemonName: state.pokemonName,
+    );
+    if (result == null || !mounted) return;
+    setState(() {
+      state.type1 = result.type1;
+      state.type2 = result.type2;
+      state.type3 = result.type3;
+    });
+    widget.onChanged();
+  }
+
+  Widget _typeChipBadge(PokemonType type, {bool isTera = false, VoidCallback? onTap}) {
+    final color = type == PokemonType.typeless
+        ? Theme.of(context).colorScheme.outline
+        : KoStrings.getTypeColor(type);
+    final label = type == PokemonType.typeless
+        ? AppStrings.t('type.none')
+        : KoStrings.getTypeName(type);
+    final chip = Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: KoStrings.getTypeColor(type),
+        color: color,
         borderRadius: BorderRadius.circular(4),
+        border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
       ),
       child: Text(
-        KoStrings.getTypeName(type),
-        style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
+        label,
+        style: const TextStyle(
+            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
       ),
+    );
+    if (onTap == null) return chip;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: chip,
     );
   }
 

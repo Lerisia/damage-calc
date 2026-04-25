@@ -51,6 +51,9 @@
     "type2": "rock",
     "finalEvo": true,
     "genderRate": 2,
+    "aliases": [
+      "히윈디"
+    ],
     "nameEn": "Hisuian Arcanine"
   },
   {
@@ -211,6 +214,9 @@
     "type2": "dark",
     "finalEvo": true,
     "genderRate": 1,
+    "aliases": [
+      "히검귀"
+    ],
     "nameEn": "Hisuian Samurott"
   },
   {

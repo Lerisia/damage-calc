@@ -294,12 +294,12 @@ class DamageCalculator {
       nature: attacker.nature, level: attacker.level, rank: attacker.rank,
     );
     final atkGroundedEarly = isGrounded(
-      type1: attacker.type1, type2: attacker.type2,
+      type1: attacker.type1, type2: attacker.type2, type3: attacker.type3,
       ability: atkAbilityRaw, item: attacker.selectedItem,
       gravity: room.gravity,
     );
     final defGroundedEarly = isGrounded(
-      type1: defender.type1, type2: defender.type2,
+      type1: defender.type1, type2: defender.type2, type3: defender.type3,
       ability: defAbilityRaw, item: defender.selectedItem,
       gravity: room.gravity,
     );
@@ -423,6 +423,9 @@ class DamageCalculator {
     );
     final atkType1 = atkTypeOverride?.type1 ?? attacker.type1;
     final PokemonType? atkType2 = atkTypeOverride != null ? atkTypeOverride.type2 : attacker.type2;
+    // Ability type overrides (Multitype, RKS System, etc.) collapse
+    // to a pure single/dual type — they wipe any user-set 3rd type.
+    final PokemonType? atkType3 = atkTypeOverride != null ? null : attacker.type3;
 
     final defTypeOverride = getAbilityTypeOverride(
       ability: defAbilityRaw,
@@ -595,12 +598,15 @@ class DamageCalculator {
     // Use ability-overridden types if applicable
     final defEffType1 = defTypeOverride?.type1 ?? defender.type1;
     final defEffType2 = defTypeOverride != null ? defTypeOverride.type2 : defender.type2;
+    // Ability overrides collapse to a 1-or-2-type form; user's third
+    // type only sticks when there is no ability-driven override.
+    final defEffType3 = defTypeOverride != null ? null : defender.type3;
     // Mega Sol on the attacker negates defender-side weather buffs
     // during its own attacks (in addition to applying Sun offensively).
     final weatherForDef = effectiveDefensiveWeatherForAttack(
         weather, attackerAbility: atkAbilityRaw);
     final weatherDef = getWeatherDefensiveModifier(
-      weatherForDef, type1: defEffType1, type2: defEffType2);
+      weatherForDef, type1: defEffType1, type2: defEffType2, type3: defEffType3);
     D = (D * (targetPhysDef ? weatherDef.defMod : weatherDef.spdMod)).floor();
 
     // Apply Ruin defensive modifier
@@ -667,7 +673,7 @@ class DamageCalculator {
     // Psychic Terrain blocks priority moves against grounded targets
     if (effectiveMove.priority > 0 && terrain == Terrain.psychic) {
       final defGroundedForTerrain = isGrounded(
-        type1: defEffType1, type2: defEffType2,
+        type1: defEffType1, type2: defEffType2, type3: defEffType3,
         ability: defAbilityName, item: defender.selectedItem,
         gravity: room.gravity,
       );
@@ -684,21 +690,26 @@ class DamageCalculator {
     // --- Defender type (Terastal > Ability override > original) ---
     final PokemonType defType1;
     final PokemonType? defType2;
+    final PokemonType? defType3;
     if (defender.terastal.active && defender.terastal.teraType != null &&
         defender.terastal.teraType != PokemonType.stellar) {
       defType1 = defender.terastal.teraType!;
       defType2 = null;
+      defType3 = null;
     } else if (defTypeOverride != null) {
       defType1 = defTypeOverride.type1;
       defType2 = defTypeOverride.type2;
+      defType3 = null;
     } else {
       defType1 = defender.type1;
       defType2 = defender.type2;
+      defType3 = defender.type3;
     }
 
     // --- Type effectiveness (immunities removed from chart, checked below) ---
     var effectiveness = getCombinedEffectiveness(
       moveType, defType1, defType2,
+      defType3: defType3,
       freezeDry: effectiveMove.hasTag(MoveTags.freezeDry),
       flyingPress: effectiveMove.hasTag(MoveTags.flyingPress));
 
@@ -706,7 +717,7 @@ class DamageCalculator {
     // Thousand Arrows bypasses this. Mold Breaker ignores Levitate.
     if (moveType == PokemonType.ground) {
       final defIsGrounded = isGrounded(
-        type1: defType1, type2: defType2,
+        type1: defType1, type2: defType2, type3: defType3,
         ability: moldBreaks ? null : defAbilityName,
         item: defender.selectedItem,
         gravity: room.gravity,
@@ -724,13 +735,15 @@ class DamageCalculator {
     // --- Type immunity check ---
     // Each immunity can be overridden by specific mechanics.
     // Note: Ground→Flying is handled above via isGrounded.
-    if (hasTypeImmunity(moveType, defType1, defType2) &&
+    if (hasTypeImmunity(moveType, defType1, defType2, defType3: defType3) &&
         moveType != PokemonType.ground) {
       bool immune = true;
 
       // Normal/Fighting → Ghost: overridden by Scrappy / Mind's Eye
       if ((moveType == PokemonType.normal || moveType == PokemonType.fighting) &&
-          (defType1 == PokemonType.ghost || defType2 == PokemonType.ghost) &&
+          (defType1 == PokemonType.ghost ||
+           defType2 == PokemonType.ghost ||
+           defType3 == PokemonType.ghost) &&
           canHitGhost(effectiveAbility)) {
         immune = false;
         notes.add('ability:$effectiveAbility:고스트에게 적중');
@@ -738,7 +751,9 @@ class DamageCalculator {
 
       // Poison → Steel: overridden by Corrosion
       if (moveType == PokemonType.poison &&
-          (defType1 == PokemonType.steel || defType2 == PokemonType.steel) &&
+          (defType1 == PokemonType.steel ||
+           defType2 == PokemonType.steel ||
+           defType3 == PokemonType.steel) &&
           canPoisonSteel(effectiveAbility)) {
         immune = false;
         notes.add('ability:Corrosion:강철에게 적중');
@@ -757,14 +772,26 @@ class DamageCalculator {
     // Strong Winds (Delta Stream): removes Flying-type weaknesses
     // Ice/Electric/Rock vs Flying becomes 1x instead of 2x
     if (weather == Weather.strongWinds &&
-        (defType1 == PokemonType.flying || defType2 == PokemonType.flying) &&
+        (defType1 == PokemonType.flying ||
+         defType2 == PokemonType.flying ||
+         defType3 == PokemonType.flying) &&
         effectiveness > 1.0 &&
         (moveType == PokemonType.ice || moveType == PokemonType.electric || moveType == PokemonType.rock)) {
-      // Recalculate without the Flying weakness
-      final nonFlyingEff = defType1 == PokemonType.flying
-          ? (defType2 != null ? getCombinedEffectiveness(moveType, defType2, null) : 1.0)
-          : getCombinedEffectiveness(moveType, defType1, null);
-      effectiveness = nonFlyingEff;
+      // Recalculate with the Flying type stripped out so the rest of
+      // the type matchup still applies.
+      PokemonType? a = defType1 == PokemonType.flying ? null : defType1;
+      PokemonType? b = defType2 == PokemonType.flying ? null : defType2;
+      PokemonType? c = defType3 == PokemonType.flying ? null : defType3;
+      // Compact non-null entries into the (1, 2?, 3?) slots.
+      final remaining = [a, b, c].whereType<PokemonType>().toList();
+      effectiveness = remaining.isEmpty
+          ? 1.0
+          : getCombinedEffectiveness(
+              moveType,
+              remaining[0],
+              remaining.length > 1 ? remaining[1] : null,
+              defType3: remaining.length > 2 ? remaining[2] : null,
+            );
       notes.add('weather:strong_winds');
     }
 
@@ -837,13 +864,13 @@ class DamageCalculator {
       );
     }
     final atkGrounded = isGrounded(
-      type1: atkType1, type2: atkType2,
+      type1: atkType1, type2: atkType2, type3: atkType3,
       ability: atkAbilityRaw, item: attacker.selectedItem,
       gravity: room.gravity,
     );
     // Defender grounding for terrain: use effectiveDefAbility (Mold Breaker applied)
     final defGroundedForTerrain = isGrounded(
-      type1: defEffType1, type2: defEffType2,
+      type1: defEffType1, type2: defEffType2, type3: defEffType3,
       ability: effectiveDefAbility, item: defender.selectedItem,
       gravity: room.gravity,
     );
@@ -1368,11 +1395,13 @@ class DamageCalculator {
         ? defender.terastal.teraType! : defender.type1;
     final PokemonType? defEffType2 = (defender.terastal.active && defender.terastal.teraType != null)
         ? null : defender.type2;
+    final PokemonType? defEffType3 = (defender.terastal.active && defender.terastal.teraType != null)
+        ? null : defender.type3;
 
     // Ground OHKO (Fissure): ungrounded targets are immune
     if (move.type == PokemonType.ground) {
       final defIsGrounded = isGrounded(
-        type1: defEffType1, type2: defEffType2,
+        type1: defEffType1, type2: defEffType2, type3: defEffType3,
         ability: defenderAbility,
         item: defender.selectedItem,
         gravity: room.gravity,
@@ -1451,7 +1480,8 @@ class DamageCalculator {
 
     // Type immunity check
     final effectiveness = getCombinedEffectiveness(
-      move.type, defender.type1, defender.type2);
+      move.type, defender.type1, defender.type2,
+      defType3: defender.type3);
     if (effectiveness == 0.0) {
       return DamageResult(
         baseDamage: 0, minDamage: 0, maxDamage: 0,

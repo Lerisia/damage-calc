@@ -31,6 +31,12 @@ class BattlePokemonState {
   int genderRate;
   PokemonType type1;
   PokemonType? type2;
+  /// Optional third type for in-battle modifications (Forest's Curse,
+  /// Trick-or-Treat) or user overrides. `null` for the typical
+  /// species default. Burn Up / Double Shock leaves the user with
+  /// fewer types — that's expressed by setting [type1] (and possibly
+  /// [type2]) to `PokemonType.typeless` rather than nulling [type1].
+  PokemonType? type3;
   double weight; // kg
   Stats baseStats;
   List<String> pokemonAbilities;
@@ -90,6 +96,7 @@ class BattlePokemonState {
     this.genderRate = 4,
     this.type1 = PokemonType.grass,
     this.type2 = PokemonType.poison,
+    this.type3,
     this.weight = 6.9,
     Stats? baseStats,
     List<String>? pokemonAbilities,
@@ -155,6 +162,7 @@ class BattlePokemonState {
     'genderRate': genderRate,
     'type1': type1.name,
     'type2': type2?.name,
+    'type3': type3?.name,
     'weight': weight,
     'baseStats': baseStats.toJson(),
     'pokemonAbilities': pokemonAbilities,
@@ -206,6 +214,9 @@ class BattlePokemonState {
       type1: PokemonType.values.byName(json['type1'] as String),
       type2: json['type2'] != null
           ? PokemonType.values.byName(json['type2'] as String)
+          : null,
+      type3: json['type3'] != null
+          ? PokemonType.values.byName(json['type3'] as String)
           : null,
       weight: (json['weight'] as num).toDouble(),
       baseStats: Stats.fromJson(json['baseStats'] as Map<String, dynamic>),
@@ -264,6 +275,7 @@ class BattlePokemonState {
     genderRate = 4;
     type1 = PokemonType.grass;
     type2 = PokemonType.poison;
+    type3 = null;
     weight = 6.9;
     baseStats = const Stats(
         hp: 45, attack: 49, defense: 49,
@@ -336,6 +348,7 @@ class BattlePokemonState {
     }
     type1 = pokemon.type1;
     type2 = pokemon.type2;
+    type3 = null;
     weight = pokemon.weight;
     baseStats = pokemon.baseStats;
     pokemonAbilities = pokemon.abilities;

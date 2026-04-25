@@ -459,6 +459,9 @@ class BattleFacade {
     );
     final effectiveType1 = abilityTypeOverride?.type1 ?? state.type1;
     final effectiveType2 = abilityTypeOverride != null ? abilityTypeOverride.type2 : state.type2;
+    // Ability-driven type rewrites (Multitype, RKS System, …) collapse
+    // to a 1-or-2-type form, so any user-set 3rd type is dropped.
+    final PokemonType? effectiveType3 = abilityTypeOverride != null ? null : state.type3;
 
     // Doubles-only modifiers (spread, helping hand, ally abilities, ...)
     final doublesMods = computeDoublesModifiers(
@@ -498,6 +501,7 @@ class BattleFacade {
       transformed: transformed,
       type1: effectiveType1,
       type2: effectiveType2,
+      type3: effectiveType3,
       rank: state.rank,
       weather: atkWeather,
       terrain: terrain,
@@ -507,6 +511,7 @@ class BattleFacade {
       grounded: isGrounded(
         type1: effectiveType1,
         type2: effectiveType2,
+        type3: effectiveType3,
         ability: effectiveAbilityForCalc,
         item: state.selectedItem,
         gravity: room.gravity,
@@ -565,6 +570,7 @@ class BattleFacade {
       level: state.level,
       type1: state.type1,
       type2: state.type2,
+      type3: state.type3,
       rank: state.rank,
       weather: effWeather,
       ability: state.selectedAbility,

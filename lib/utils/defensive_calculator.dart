@@ -27,6 +27,7 @@ class DefensiveCalculator {
     required int level,
     required PokemonType type1,
     PokemonType? type2,
+    PokemonType? type3,
     Rank rank = const Rank(),
     Weather weather = Weather.none,
     String? ability,
@@ -61,7 +62,7 @@ class DefensiveCalculator {
 
     // Stat modifiers: applied to individual def/spd stats before HP multiplication
     final weatherMod = getWeatherDefensiveModifier(
-      weather, type1: type1, type2: type2,
+      weather, type1: type1, type2: type2, type3: type3,
     );
     double defStatMod = weatherMod.defMod;
     double spdStatMod = weatherMod.spdMod;

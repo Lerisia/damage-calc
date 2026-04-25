@@ -20,6 +20,7 @@ import '../../utils/aura_effects.dart';
 import '../../utils/battle_facade.dart';
 import '../../utils/ruin_effects.dart';
 import '../../utils/stacking_moves.dart';
+import 'type_picker_dialog.dart';
 import '../../utils/grounded.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
@@ -463,7 +464,7 @@ class PokemonPanelState extends State<PokemonPanel>
       opponentItem: widget.opponentItem,
       opponentAbility: widget.opponentAbility,
       attackerGrounded: isGrounded(
-        type1: s.type1, type2: s.type2,
+        type1: s.type1, type2: s.type2, type3: s.type3,
         ability: s.selectedAbility, item: s.selectedItem,
         gravity: widget.room.gravity,
       ),
@@ -735,6 +736,12 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   List<Widget> _effectiveTypeBadges() {
+    // Terastal overrides everything for defensive purposes — show a
+    // single Tera-styled chip and lock editing while Tera is active.
+    final teraActive = s.terastal.active && s.terastal.teraType != null;
+    if (teraActive) {
+      return [_typeBadge(s.terastal.teraType!, isTera: true)];
+    }
     final override = getAbilityTypeOverride(
       ability: s.selectedAbility,
       pokemonName: s.pokemonName,
@@ -742,21 +749,53 @@ class PokemonPanelState extends State<PokemonPanel>
       terrain: widget.terrain,
       heldItem: s.selectedItem,
     );
+    // Ability-driven overrides (Multitype, RKS, Forecast …) win for
+    // display purposes — chips are read-only when an ability is
+    // forcing the type.
+    final overridden = override != null;
     final type1 = override?.type1 ?? s.type1;
     final type2 = override != null ? override.type2 : s.type2;
+    final type3 = override != null ? null : s.type3;
 
-    return [
-      _typeBadge(type1),
+    final chips = [
+      _typeBadge(type1, onTap: overridden ? null : _openTypePicker),
       if (type2 != null) ...[
         const SizedBox(width: 2),
-        _typeBadge(type2),
+        _typeBadge(type2, onTap: overridden ? null : _openTypePicker),
+      ],
+      if (type3 != null) ...[
+        const SizedBox(width: 2),
+        _typeBadge(type3, onTap: overridden ? null : _openTypePicker),
       ],
     ];
+    return chips;
   }
 
-  Widget _typeBadge(PokemonType type, {bool isTera = false}) {
-    final color = KoStrings.getTypeColor(type);
-    return Container(
+  Future<void> _openTypePicker() async {
+    final result = await showTypePickerDialog(
+      context: context,
+      currentType1: s.type1,
+      currentType2: s.type2,
+      currentType3: s.type3,
+      pokemonName: s.pokemonName,
+    );
+    if (result == null || !mounted) return;
+    setState(() {
+      s.type1 = result.type1;
+      s.type2 = result.type2;
+      s.type3 = result.type3;
+    });
+    _notifyParent();
+  }
+
+  Widget _typeBadge(PokemonType type, {bool isTera = false, VoidCallback? onTap}) {
+    final color = type == PokemonType.typeless
+        ? Theme.of(context).colorScheme.outline
+        : KoStrings.getTypeColor(type);
+    final label = type == PokemonType.typeless
+        ? AppStrings.t('type.none')
+        : KoStrings.getTypeName(type);
+    final chip = Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: color,
@@ -764,9 +803,16 @@ class PokemonPanelState extends State<PokemonPanel>
         border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
       ),
       child: Text(
-        KoStrings.getTypeName(type),
-        style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
+        label,
+        style: const TextStyle(
+            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
       ),
+    );
+    if (onTap == null) return chip;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: onTap,
+      child: chip,
     );
   }
 
