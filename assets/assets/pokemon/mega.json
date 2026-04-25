@@ -146,6 +146,9 @@
     "requiredItem": "alakazite",
     "genderRate": 2,
     "canDynamax": false,
+    "aliases": [
+      "메후딘"
+    ],
     "nameEn": "Mega Alakazam",
     "isMega": true
   },
@@ -294,6 +297,9 @@
     "requiredItem": "aerodactylite",
     "genderRate": 1,
     "canDynamax": false,
+    "aliases": [
+      "메테라"
+    ],
     "nameEn": "Mega Aerodactyl",
     "isMega": true
   },
@@ -436,6 +442,9 @@
     "requiredItem": "heracronite",
     "genderRate": 4,
     "canDynamax": false,
+    "aliases": [
+      "메헤라"
+    ],
     "nameEn": "Mega Heracross",
     "isMega": true
   },
@@ -945,6 +954,9 @@
     "requiredItem": "sablenite",
     "genderRate": 4,
     "canDynamax": false,
+    "aliases": [
+      "메까미"
+    ],
     "nameEn": "Mega Sableye",
     "isMega": true
   },
@@ -1060,6 +1072,9 @@
     "requiredItem": "sharpedonite",
     "genderRate": 4,
     "canDynamax": false,
+    "aliases": [
+      "메크니아"
+    ],
     "nameEn": "Mega Sharpedo",
     "isMega": true
   },
@@ -1088,6 +1103,9 @@
     "requiredItem": "slowbronite",
     "genderRate": 4,
     "canDynamax": false,
+    "aliases": [
+      "메도란"
+    ],
     "nameEn": "Mega Slowbro",
     "isMega": true
   },
@@ -1369,6 +1387,9 @@
     "requiredItem": "beedrillite",
     "genderRate": 4,
     "canDynamax": false,
+    "aliases": [
+      "메침붕"
+    ],
     "nameEn": "Mega Beedrill",
     "isMega": true
   },
@@ -1545,6 +1566,9 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "feraligite",
+    "aliases": [
+      "메장크"
+    ],
     "nameEn": "Mega Feraligatr",
     "isMega": true,
     "genderRate": 1
@@ -1787,6 +1811,9 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "chesnaughtite",
+    "aliases": [
+      "메리가론"
+    ],
     "nameEn": "Mega Chesnaught",
     "isMega": true,
     "genderRate": 1
@@ -2003,6 +2030,9 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "hawluchanite",
+    "aliases": [
+      "메차불"
+    ],
     "nameEn": "Mega Hawlucha",
     "isMega": true,
     "genderRate": 4
@@ -2382,6 +2412,9 @@
     "finalEvo": true,
     "canDynamax": false,
     "requiredItem": "crabominite",
+    "aliases": [
+      "메단단게"
+    ],
     "nameEn": "Mega Crabominable",
     "isMega": true,
     "genderRate": 4
