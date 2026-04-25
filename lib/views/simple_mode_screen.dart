@@ -294,10 +294,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   void _applyAttackerPokemon(Pokemon p) {
     setState(() {
+      // applyPokemon already seeds curated defaults (ability, item,
+      // nature, default moves) and pins requiredItem for mega forms.
+      // Don't overwrite selectedItem here — that wiped out the curated
+      // top item (Black Glasses on Kingambit, etc.).
       _atk.applyPokemon(p);
-      // Simple Mode: item always defaults to 없음 on species change
-      // unless the new species literally requires one (e.g. Giratina-O).
-      _atk.selectedItem = p.requiredItem;
       _rebuildSortedAbilitiesFor(attacker: true);
       _atkAbilityCtl.text = _abilityNames[_atk.selectedAbility ?? ''] ?? '';
       _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
@@ -308,7 +309,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void _applyDefenderPokemon(Pokemon p) {
     setState(() {
       _def.applyPokemon(p);
-      _def.selectedItem = p.requiredItem;
       _rebuildSortedAbilitiesFor(attacker: false);
       _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
       _defItemCtl.text = _itemDisplayText(_def.selectedItem);
