@@ -1687,6 +1687,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Widget _buildPokemonTab(int side, String label, BattlePokemonState state, GlobalKey<PokemonPanelState> panelKey) {
     final isAttacker = side == 0;
+    // Cache the opponent's derived numbers once per build — the panel
+    // needs Speed + Attack + Defense + SpDefense, and previously each
+    // accessor recomputed the full Stats. Same-build local so any
+    // setState produces a fresh value naturally.
+    final opponent = isAttacker ? _defender : _attacker;
+    final opponentStats = _calcStats(opponent);
+    final opponentSpeed = _calcEffectiveSpeed(opponent);
     return PokemonPanel(
             key: panelKey,
             state: state,
@@ -1703,34 +1710,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             onOpenDex: () => _openDex(initialName: state.pokemonName),
             resetCounter: _resetCounter,
             isAttacker: isAttacker,
-            opponentSpeed: isAttacker
-                ? _calcEffectiveSpeed(_defender)
-                : _calcEffectiveSpeed(_attacker),
-            opponentAlwaysLast: isAttacker
-                ? _isAlwaysLast(_defender)
-                : _isAlwaysLast(_attacker),
-            opponentAttack: isAttacker
-                ? _calcStats(_defender).attack
-                : _calcStats(_attacker).attack,
-            opponentDefense: isAttacker
-                ? _calcStats(_defender).defense
-                : _calcStats(_attacker).defense,
-            opponentSpDefense: isAttacker
-                ? _calcStats(_defender).spDefense
-                : _calcStats(_attacker).spDefense,
-            opponentGender: isAttacker ? _defender.gender : _attacker.gender,
-            opponentWeight: isAttacker
-                ? BattleFacade.effectiveWeight(_defender)
-                : BattleFacade.effectiveWeight(_attacker),
-            opponentHpPercent: isAttacker
-                ? _defender.hpPercent
-                : _attacker.hpPercent,
-            opponentItem: isAttacker
-                ? _defender.selectedItem
-                : _attacker.selectedItem,
-            opponentAbility: isAttacker
-                ? _defender.selectedAbility
-                : _attacker.selectedAbility,
+            opponentSpeed: opponentSpeed,
+            opponentAlwaysLast: _isAlwaysLast(opponent),
+            opponentAttack: opponentStats.attack,
+            opponentDefense: opponentStats.defense,
+            opponentSpDefense: opponentStats.spDefense,
+            opponentGender: opponent.gender,
+            opponentWeight: BattleFacade.effectiveWeight(opponent),
+            opponentHpPercent: opponent.hpPercent,
+            opponentItem: opponent.selectedItem,
+            opponentAbility: opponent.selectedAbility,
             doublesExpanded: _doublesExpanded,
             onDoublesExpandToggle: () =>
                 _setDoublesExpanded(!_doublesExpanded),
@@ -1741,7 +1730,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
 
   /// Get the 결정력 for a specific move slot (always up-to-date).
-  int? _getOffensivePower(int moveIndex) {
+  /// Caller passes pre-computed defender attack/speed so the damage
+  /// tab doesn't recompute the same Stats/Speed once per slot.
+  int? _getOffensivePower(int moveIndex,
+      {required int defAttack, required int defSpeed}) {
     return BattleFacade.calcOffensivePower(
       state: _attacker,
       moveIndex: moveIndex,
@@ -1750,8 +1742,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       room: _room,
       auras: _auras,
       ruins: _ruins,
-      opponentSpeed: _calcEffectiveSpeed(_defender),
-      opponentAttack: _calcStats(_defender).attack,
+      opponentSpeed: defSpeed,
+      opponentAttack: defAttack,
       opponentGender: _defender.gender,
       opponentWeight: BattleFacade.effectiveWeight(_defender),
       opponentHpPercent: _defender.hpPercent,
@@ -1772,7 +1764,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  DamageResult _calcDamage(int moveIndex) {
+  DamageResult _calcDamage(int moveIndex,
+      {required int atkSpeed,
+      required int defSpeed,
+      required int defAttack}) {
     return DamageCalculator.calculate(
       attacker: _attacker,
       defender: _defender,
@@ -1782,15 +1777,24 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       room: _room,
       auras: _auras,
       ruins: _ruins,
-      opponentAttack: _calcStats(_defender).attack,
-      opponentSpeed: _calcEffectiveSpeed(_defender),
-      myEffectiveSpeed: _calcEffectiveSpeed(_attacker),
+      opponentAttack: defAttack,
+      opponentSpeed: defSpeed,
+      myEffectiveSpeed: atkSpeed,
       opponentGender: _defender.gender,
     );
   }
 
   Widget _buildDamageCalcTab() {
-    final defMaxHp = _calcStats(_defender).hp;
+    // Cache stats/speed once per build — every setState forces a fresh
+    // build() so these always reflect current attacker/defender state,
+    // and we avoid recomputing the same Stats/Speed 6×–9× across the
+    // 4 move rows + summary header (especially load-bearing in wide
+    // mode where every panel edit re-runs this whole tab).
+    final defStats = _calcStats(_defender);
+    final atkSpeed = _calcEffectiveSpeed(_attacker);
+    final defSpeed = _calcEffectiveSpeed(_defender);
+
+    final defMaxHp = defStats.hp;
     final defCurrentHp = (defMaxHp * _defender.hpPercent / 100).floor();
     final bulk = _getDefensiveBulk();
 
@@ -1846,14 +1850,20 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           const SizedBox(height: 12),
 
           for (int i = 0; i < 4; i++)
-            _buildMoveResult(i, bulk),
+            _buildMoveResult(i, bulk,
+                atkSpeed: atkSpeed,
+                defSpeed: defSpeed,
+                defAttack: defStats.attack),
         ],
       ),
     )),
     );
   }
 
-  Widget _buildMoveResult(int index, ({int physical, int special}) bulk) {
+  Widget _buildMoveResult(int index, ({int physical, int special}) bulk,
+      {required int atkSpeed,
+      required int defSpeed,
+      required int defAttack}) {
     final move = _attacker.moves[index];
     if (move == null) {
       return Padding(
@@ -1863,12 +1873,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       );
     }
 
-    final result = _calcDamage(index);
+    final result = _calcDamage(index,
+        atkSpeed: atkSpeed, defSpeed: defSpeed, defAttack: defAttack);
     final effectiveType = result.move.type == PokemonType.typeless
         ? null : result.move.type;
     final offLabel = result.isPhysical ? AppStrings.t('damage.physical') : AppStrings.t('damage.special');
     final defLabel = result.targetPhysDef ? AppStrings.t('damage.physical') : AppStrings.t('damage.special');
-    final offPower = _getOffensivePower(index);
+    final offPower = _getOffensivePower(index,
+        defAttack: defAttack, defSpeed: defSpeed);
     final defBulk = result.targetPhysDef ? bulk.physical : bulk.special;
 
     // Effectiveness label
@@ -2419,7 +2431,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.5.4'),
+          const Text('v1.5.5'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
