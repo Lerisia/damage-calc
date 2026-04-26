@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/nature.dart';
+import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/status.dart';
@@ -29,7 +30,7 @@ void main() {
     test('physical bulk = HP * Def', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
       );
       // HP = 120, Def = 69 -> floor(120 * 69 / 0.411) = 20145
@@ -39,7 +40,7 @@ void main() {
     test('special bulk = HP * SpDef', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
       );
       // HP = 120, SpD = 85 -> floor(120 * 85 / 0.411) = 24817
@@ -51,7 +52,7 @@ void main() {
     test('sandstorm boosts Rock-type special bulk', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.rock,
         weather: Weather.sandstorm,
       );
@@ -64,7 +65,7 @@ void main() {
     test('snow boosts Ice-type physical bulk', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.ice,
         weather: Weather.snow,
       );
@@ -79,7 +80,7 @@ void main() {
     test('Fur Coat doubles physical bulk', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.normal,
         ability: 'Fur Coat',
       );
@@ -93,7 +94,7 @@ void main() {
       // not as a stat modifier, so bulk is unchanged.
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.bug,
         ability: 'Ice Scales',
       );
@@ -104,7 +105,7 @@ void main() {
     test('Marvel Scale boosts physical bulk when statused', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.water,
         ability: 'Marvel Scale',
         status: StatusCondition.burn,
@@ -116,7 +117,7 @@ void main() {
     test('Marvel Scale no effect when healthy', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.water,
         ability: 'Marvel Scale',
         status: StatusCondition.none,
@@ -129,7 +130,7 @@ void main() {
     test('Eviolite boosts both bulks for non-final evo', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
         item: 'eviolite',
         finalEvo: false,
@@ -143,7 +144,7 @@ void main() {
     test('Eviolite no effect for final evo', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
         item: 'eviolite',
         finalEvo: true,
@@ -155,7 +156,7 @@ void main() {
     test('Assault Vest boosts special bulk', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.fighting,
         item: 'assault-vest',
       );
@@ -169,7 +170,7 @@ void main() {
     test('Flower Gift boosts special bulk in sun', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.normal,
         weather: Weather.sun,
         ability: 'Flower Gift',
@@ -182,7 +183,7 @@ void main() {
     test('Flower Gift no effect without sun', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.normal,
         weather: Weather.rain,
         ability: 'Flower Gift',
@@ -193,7 +194,7 @@ void main() {
     test('Flower Gift works in harsh sun', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.normal,
         weather: Weather.harshSun,
         ability: 'Flower Gift',
@@ -206,7 +207,7 @@ void main() {
     test('positive defense rank increases physical bulk', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.normal,
         rank: const Rank(defense: 2),
       );
@@ -218,7 +219,7 @@ void main() {
     test('negative spDefense rank decreases special bulk', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.normal,
         rank: const Rank(spDefense: -2),
       );
@@ -232,7 +233,7 @@ void main() {
     test('Sandstorm + Assault Vest stack for Rock type', () {
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.rock,
         weather: Weather.sandstorm,
         item: 'assault-vest',
@@ -248,12 +249,12 @@ void main() {
       // Wonder Room: Def uses SpDef(85), SpDef uses Def(69)
       final normal = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
       );
       final wonder = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
         room: RoomConditions(wonderRoom: true),
       );
@@ -266,7 +267,7 @@ void main() {
       // Physical uses SpDef(85) base, Special uses Def(69) base * 1.5
       final result = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
         item: 'assault-vest',
         room: RoomConditions(wonderRoom: true),
@@ -284,7 +285,7 @@ void main() {
       // HP = 120
       final wonder = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
         rank: const Rank(defense: 2),
         room: RoomConditions(wonderRoom: true),
@@ -298,13 +299,13 @@ void main() {
     test('non-Wonder rooms do not swap', () {
       final trick = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
         room: RoomConditions(trickRoom: true),
       );
       final normal = DefensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         type1: PokemonType.grass,
       );
       expect(trick.physical, equals(normal.physical));

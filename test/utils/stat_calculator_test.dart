@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/nature.dart';
+import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/utils/stat_calculator.dart';
 
 void main() {
@@ -27,7 +28,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
       );
       // HP: ((2*45+31+0)*50/100)+50+10 = (121*50/100)+60 = 60+60 = 120
@@ -47,7 +48,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.adamant, // +Atk -SpA
+        nature: NatureProfile.fromNature(Nature.adamant), // +Atk -SpA
         level: 50,
       );
       // Atk with 1.1x: floor(69 * 1.1) = 75
@@ -69,7 +70,7 @@ void main() {
           hp: 252, attack: 0, defense: 0,
           spAttack: 252, spDefense: 4, speed: 0,
         ),
-        nature: Nature.modest, // +SpA -Atk
+        nature: NatureProfile.fromNature(Nature.modest), // +SpA -Atk
         level: 50,
       );
       // HP: ((2*45+31+252/4)*50/100)+50+10 = ((121+63)*50/100)+60
@@ -91,7 +92,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 100,
       );
       // HP: ((2*45+31)*100/100)+100+10 = 121+110 = 231
@@ -111,7 +112,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
         rank: const Rank(attack: 2),
       );
@@ -134,7 +135,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
         rank: const Rank(attack: -1),
       );
@@ -153,7 +154,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
         rank: const Rank(),
       );
@@ -167,7 +168,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
       );
       expect(withRank.attack, equals(withoutRank.attack));
@@ -185,7 +186,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
         rank: const Rank(spAttack: 1),
       );
@@ -206,7 +207,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
         rank: const Rank(speed: -2),
       );
@@ -225,7 +226,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.adamant, // +Atk -SpA
+        nature: NatureProfile.fromNature(Nature.adamant), // +Atk -SpA
         level: 50,
         rank: const Rank(attack: 2),
       );
@@ -246,7 +247,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
         rank: const Rank(defense: 6),
       );
@@ -265,7 +266,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
         rank: const Rank(spDefense: -6),
       );
@@ -285,7 +286,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 50,
       );
       // HP: ((2*45+0)*50/100)+50+10 = (90*50/100)+60 = 45+60 = 105
@@ -305,7 +306,7 @@ void main() {
           hp: 0, attack: 0, defense: 0,
           spAttack: 0, spDefense: 0, speed: 0,
         ),
-        nature: Nature.hardy,
+        nature: NatureProfile.fromNature(Nature.hardy),
         level: 1,
       );
       // HP: ((2*45+31)*1/100)+1+10 = (121/100)+11 = 1+11 = 12

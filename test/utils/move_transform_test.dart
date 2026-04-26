@@ -1440,7 +1440,7 @@ void main() {
       expect(result.move.power, equals(40));
     });
 
-    test('no opponent weight -> no change', () {
+    test('no opponent weight (Heavy Slam) -> no change', () {
       final result = transformMove(heavySlam,
           const MoveContext(myWeight: 500));
       expect(result.move.power, equals(0));
@@ -1490,7 +1490,7 @@ void main() {
       expect(result.move.power, equals(20));
     });
 
-    test('no opponent weight -> no change', () {
+    test('no opponent weight (Low Kick) -> no change', () {
       final result = transformMove(lowKick, const MoveContext());
       expect(result.move.power, equals(0));
     });

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/nature.dart';
+import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/utils/champions_mode.dart';
 import 'package:damage_calc/utils/stat_calculator.dart';
 
@@ -132,7 +133,7 @@ void main() {
           baseStats: baseStats,
           iv: ChampionsMode.fixedIv,
           ev: const Stats(hp: 0, attack: 252, defense: 0, spAttack: 0, spDefense: 0, speed: 0),
-          nature: Nature.hardy,
+          nature: NatureProfile.fromNature(Nature.hardy),
           level: ChampionsMode.level,
         );
         // Champions 32 SP = 252 EV
@@ -140,7 +141,7 @@ void main() {
           baseStats: baseStats,
           iv: ChampionsMode.fixedIv,
           ev: Stats(hp: 0, attack: ChampionsMode.spToEv(32), defense: 0, spAttack: 0, spDefense: 0, speed: 0),
-          nature: Nature.hardy,
+          nature: NatureProfile.fromNature(Nature.hardy),
           level: ChampionsMode.level,
         );
         expect(champions.attack, equals(traditional.attack),
@@ -158,7 +159,7 @@ void main() {
           baseStats: baseStats,
           iv: ChampionsMode.fixedIv,
           ev: const Stats(hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0),
-          nature: Nature.hardy,
+          nature: NatureProfile.fromNature(Nature.hardy),
           level: ChampionsMode.level,
         );
         for (int sp = 1; sp <= 3; sp++) {
@@ -166,7 +167,7 @@ void main() {
             baseStats: baseStats,
             iv: ChampionsMode.fixedIv,
             ev: Stats(hp: 0, attack: ChampionsMode.spToEv(sp), defense: 0, spAttack: 0, spDefense: 0, speed: 0),
-            nature: Nature.hardy,
+            nature: NatureProfile.fromNature(Nature.hardy),
             level: ChampionsMode.level,
           );
           expect(result.attack - resultZero.attack, equals(sp),

@@ -3,73 +3,47 @@ import 'package:damage_calc/data/learnsetdex.dart';
 
 void main() {
   group('toShowdownMoveId', () {
-    test('simple move', () {
-      expect(toShowdownMoveId('Acid Spray'), equals('acidspray'));
-    });
-
-    test('apostrophe move', () {
-      expect(toShowdownMoveId("King's Shield"), equals('kingsshield'));
-    });
-
-    test('hyphenated move', () {
-      expect(toShowdownMoveId('X-Scissor'), equals('xscissor'));
-    });
-
-    test('comma move', () {
-      expect(toShowdownMoveId('10,000,000 Volt Thunderbolt'), equals('10000000voltthunderbolt'));
-    });
-
-    test('single word', () {
-      expect(toShowdownMoveId('Earthquake'), equals('earthquake'));
-    });
+    // Table-driven: each entry produces one isolated test() so a
+    // single mismatch still reports cleanly without affecting siblings.
+    const cases = <(String label, String input, String expected)>[
+      ('simple move', 'Acid Spray', 'acidspray'),
+      ('apostrophe move', "King's Shield", 'kingsshield'),
+      ('hyphenated move', 'X-Scissor', 'xscissor'),
+      ('comma move', '10,000,000 Volt Thunderbolt', '10000000voltthunderbolt'),
+      ('single word', 'Earthquake', 'earthquake'),
+    ];
+    for (final c in cases) {
+      test(c.$1, () {
+        expect(toShowdownMoveId(c.$2), equals(c.$3));
+      });
+    }
   });
 
   group('toShowdownPokemonId', () {
-    test('simple name', () {
-      expect(toShowdownPokemonId('Bulbasaur'), equals('bulbasaur'));
-    });
-
-    test('Nidoran female', () {
-      expect(toShowdownPokemonId('Nidoran♀'), equals('nidoranf'));
-    });
-
-    test('Nidoran male', () {
-      expect(toShowdownPokemonId('Nidoran♂'), equals('nidoranm'));
-    });
-
-    test('Mr. Mime', () {
-      expect(toShowdownPokemonId('Mr. Mime'), equals('mrmime'));
-    });
-
-    test("Farfetch'd", () {
-      expect(toShowdownPokemonId("Farfetch'd"), equals('farfetchd'));
-    });
-
-    test('Flabébé', () {
-      expect(toShowdownPokemonId('Flabébé'), equals('flabebe'));
-    });
-
-    test('Type: Null', () {
-      expect(toShowdownPokemonId('Type: Null'), equals('typenull'));
-    });
-
-    test('Mega → base form', () {
-      expect(toShowdownPokemonId('Mega Charizard'), equals('charizard'));
-    });
-
-    test('Mega X/Y → base form', () {
-      expect(toShowdownPokemonId('Mega Charizard X'), equals('charizard'));
-      expect(toShowdownPokemonId('Mega Charizard Y'), equals('charizard'));
-    });
-
-    test('Mega Meganium → base form (not confused with meganium)', () {
-      expect(toShowdownPokemonId('Mega Meganium'), equals('meganium'));
-    });
-
-    test('alternate form → base form', () {
-      expect(toShowdownPokemonId('aegislash-blade'), equals('aegislash'));
-      expect(toShowdownPokemonId('deoxys-attack'), equals('deoxys'));
-    });
+    // Single-input cases — each becomes its own test() for isolation.
+    const cases = <(String label, String input, String expected)>[
+      ('simple name', 'Bulbasaur', 'bulbasaur'),
+      ('Nidoran female', 'Nidoran♀', 'nidoranf'),
+      ('Nidoran male', 'Nidoran♂', 'nidoranm'),
+      ('Mr. Mime', 'Mr. Mime', 'mrmime'),
+      ("Farfetch'd", "Farfetch'd", 'farfetchd'),
+      ('Flabébé', 'Flabébé', 'flabebe'),
+      ('Type: Null', 'Type: Null', 'typenull'),
+      ('Mega → base form', 'Mega Charizard', 'charizard'),
+      ('Mega Charizard X → base form', 'Mega Charizard X', 'charizard'),
+      ('Mega Charizard Y → base form', 'Mega Charizard Y', 'charizard'),
+      // Mega Meganium → base must not collapse to "meganium"-the-fragment
+      // accidentally — keeps its own row to call that out.
+      ('Mega Meganium → base form (no meganium confusion)',
+          'Mega Meganium', 'meganium'),
+      ('Aegislash form → base', 'aegislash-blade', 'aegislash'),
+      ('Deoxys form → base', 'deoxys-attack', 'deoxys'),
+    ];
+    for (final c in cases) {
+      test(c.$1, () {
+        expect(toShowdownPokemonId(c.$2), equals(c.$3));
+      });
+    }
 
     test('Alolan Form with dexNumber resolves via regional map', () {
       // This requires _regional cache to be loaded, so test the name detection
@@ -103,31 +77,27 @@ void main() {
       expect(formMoves, equals(baseMoves));
     });
 
-    test('Scizor has Roost in Champions', () async {
-      // Champions restored Roost to Scizor's learnset (not available in Gen 9 SV).
-      final moves = await getLearnableMoves('Scizor');
-      expect(moves.contains('roost'), isTrue);
-    });
-
-    test('Cinderace has High Jump Kick (inherited from Scorbunny egg move)', () async {
-      final moves = await getLearnableMoves('Cinderace');
-      expect(moves.contains('highjumpkick'), isTrue);
-    });
-
-    test('Beedrill has Fell Stinger (gen 7, Let\'s Go excluded)', () async {
-      final moves = await getLearnableMoves('Beedrill');
-      expect(moves.contains('fellstinger'), isTrue);
-    });
-
-    test('Pikachu has Thunderbolt', () async {
-      final moves = await getLearnableMoves('Pikachu');
-      expect(moves.contains('thunderbolt'), isTrue);
-    });
-
-    test('Meganium has Solar Beam (ZA data)', () async {
-      final moves = await getLearnableMoves('Meganium');
-      expect(moves.contains('solarbeam'), isTrue);
-    });
+    // Spot-check learnsets that exercise non-trivial data paths
+    // (egg moves, restored moves, ZA-only data, etc.). Each row stays
+    // its own test() so a single regression points at the exact pair.
+    const learnSpotChecks = <(String label, String pokemon, String moveId)>[
+      // Champions restored Roost (gone in Gen 9 SV)
+      ('Scizor has Roost in Champions', 'Scizor', 'roost'),
+      // Inherited from Scorbunny egg move
+      ('Cinderace has High Jump Kick', 'Cinderace', 'highjumpkick'),
+      // Gen 7 source, Let's Go excluded
+      ('Beedrill has Fell Stinger', 'Beedrill', 'fellstinger'),
+      ('Pikachu has Thunderbolt', 'Pikachu', 'thunderbolt'),
+      // ZA-only data path
+      ('Meganium has Solar Beam (ZA data)', 'Meganium', 'solarbeam'),
+    ];
+    for (final c in learnSpotChecks) {
+      test(c.$1, () async {
+        final moves = await getLearnableMoves(c.$2);
+        expect(moves.contains(c.$3), isTrue,
+            reason: '${c.$2} should know ${c.$3}');
+      });
+    }
 
     test('special name Pokemon resolve correctly', () async {
       final nidoranF = await getLearnableMoves('Nidoran♀');

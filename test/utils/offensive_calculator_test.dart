@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/nature.dart';
+import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/type.dart';
@@ -63,7 +64,7 @@ void main() {
       // Atk = 69, power = 40 -> 2760
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
@@ -74,7 +75,7 @@ void main() {
       // SpA = 85, power = 90 -> 7650
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(psychicMove),
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
@@ -89,7 +90,7 @@ void main() {
       // SpA = floor(117 * 1.1) = 128, power = 90 -> 11520
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: spAtkEv,
-        nature: Nature.modest, level: 50,
+        nature: NatureProfile.fromNature(Nature.modest), level: 50,
         transformed: _transform(psychicMove),
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
@@ -103,7 +104,7 @@ void main() {
       // SpA = 85, power = 90 -> floor(85 * 90 * 1.5) = 11475
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(sludgeBomb),
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
@@ -113,7 +114,7 @@ void main() {
     test('no STAB when type does not match', () {
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(psychicMove),
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
@@ -125,7 +126,7 @@ void main() {
       // SpA = 85, power = 90 -> floor(85 * 90 * 2.0) = 15300
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(sludgeBomb),
         type1: PokemonType.grass, type2: PokemonType.poison,
         stabOverride: 2.0,
@@ -140,7 +141,7 @@ void main() {
       // power = 40 -> 4120
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         statModifier: 1.5,
@@ -152,7 +153,7 @@ void main() {
       // Atk = 69, power = 40 -> 2760 * 1.3 = 3588
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         powerModifier: 1.3,
@@ -166,7 +167,7 @@ void main() {
       // 69 * 40 * 1.5 = 4140
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         isCritical: true,
@@ -179,7 +180,7 @@ void main() {
       // Atk = 69, power = 40, crit 1.5 -> 4140
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         rank: const Rank(attack: -2),
@@ -193,7 +194,7 @@ void main() {
       // 138 * 40 * 1.5 = 8280
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         rank: const Rank(attack: 2),
@@ -207,7 +208,7 @@ void main() {
       // 69 * 40 * 2.25 = 6210
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         isCritical: true,
@@ -222,7 +223,7 @@ void main() {
       // SpA = 85, power = 90, sun 1.5x -> floor(85*90*1.5) = 11475
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(flamethrower),
         type1: PokemonType.grass, type2: PokemonType.poison,
         weather: Weather.sun,
@@ -241,7 +242,7 @@ void main() {
       // SpA = 85, power = 90, terrain 1.3x -> floor(85 * floor(90*1.3)) = floor(85*117) = 9945
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(thunderbolt, const MoveContext(
           terrain: Terrain.electric, attackerGrounded: true,
         )),
@@ -261,7 +262,7 @@ void main() {
       // Ungrounded -> no terrain boost -> 85 * 90 = 7650
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(thunderbolt),
         type1: PokemonType.grass, type2: PokemonType.poison,
         terrain: Terrain.electric,
@@ -276,7 +277,7 @@ void main() {
       // Atk = 69, power = 40 -> 2760 * 0.5 = 1380
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         status: StatusCondition.burn,
@@ -288,7 +289,7 @@ void main() {
       // SpA = 85, power = 90 -> 7650 (unchanged)
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(flamethrower),
         type1: PokemonType.grass, type2: PokemonType.poison,
         status: StatusCondition.burn,
@@ -300,7 +301,7 @@ void main() {
       // Atk = 69, power = 40 -> 2760 (no halving)
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         status: StatusCondition.burn,
@@ -319,7 +320,7 @@ void main() {
       );
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(toxic),
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
@@ -333,7 +334,7 @@ void main() {
       // power = 90 -> 170 * 90 = 15300
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(psychicMove),
         type1: PokemonType.grass, type2: PokemonType.poison,
         rank: const Rank(spAttack: 2),
@@ -346,7 +347,7 @@ void main() {
       // power = 40 -> 46 * 40 = 1840
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         rank: const Rank(attack: -1),
@@ -362,7 +363,7 @@ void main() {
       // 85 * 90 * 1.5 * 1.5 (statMod) = floor(85 * 1.5) = 127; 127 * 90 * 1.5 = 17145
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(sludgeBomb),
         type1: PokemonType.grass, type2: PokemonType.poison,
         statModifier: 1.5,
@@ -376,7 +377,7 @@ void main() {
       // floor(85 * 90 * 1.5 * 1.3) = floor(14917.5) = 14917
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(sludgeBomb),
         type1: PokemonType.grass, type2: PokemonType.poison,
         powerModifier: 1.3,
@@ -391,7 +392,7 @@ void main() {
       // Wait: 85 * 90 * 1.5 * 1.5 = 17212.5 -> 17212
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(flamethrower),
         type1: PokemonType.grass, type2: PokemonType.poison,
         isCritical: true,
@@ -411,7 +412,7 @@ void main() {
       // Def = 69, power = 80 -> 69 * 80 = 5520
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(bodyPress),
         type1: PokemonType.grass, type2: PokemonType.poison,
       );
@@ -429,7 +430,7 @@ void main() {
       // SpA = 85, power = 85, misty 0.5x -> floor(85*85*0.5) = 3612
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(dragonPulse),
         type1: PokemonType.grass, type2: PokemonType.poison,
         terrain: Terrain.misty,
@@ -444,7 +445,7 @@ void main() {
       // SpA = 85, power = 90, rain 0.5x -> floor(85*90*0.5) = 3825
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(flamethrower),
         type1: PokemonType.grass, type2: PokemonType.poison,
         weather: Weather.rain,
@@ -467,7 +468,7 @@ void main() {
       // floor(150 * 95 * 1.5) = 21375
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(foulPlay),
         type1: PokemonType.dark,
         opponentAttack: 150,
@@ -479,7 +480,7 @@ void main() {
       // Atk = 69, power = 95, Dark STAB 1.5 -> floor(69 * 95 * 1.5) = 9832
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(foulPlay),
         type1: PokemonType.dark,
       );
@@ -492,7 +493,7 @@ void main() {
       // floor(100 * 95 * 1.5) = 14250
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(foulPlay),
         type1: PokemonType.dark,
         opponentAttack: 100,
@@ -505,7 +506,7 @@ void main() {
       // 100 * 95 = 9500 (no STAB)
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(foulPlay),
         type1: PokemonType.grass, type2: PokemonType.poison,
         opponentAttack: 100,
@@ -522,7 +523,7 @@ void main() {
       final effect = getAbilityEffect('Huge Power', move: tackle);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         statModifier: effect.statModifiers.attack,
@@ -534,7 +535,7 @@ void main() {
       // Atk = 69, power = 40 -> 2760 * 1.3 = 3588
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         powerModifier: 1.3,
@@ -549,7 +550,7 @@ void main() {
       final effect = getAbilityEffect('Adaptability', move: sludgeBomb);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(sludgeBomb),
         type1: PokemonType.grass, type2: PokemonType.poison,
         stabOverride: effect.stabOverride,
@@ -565,7 +566,7 @@ void main() {
           move: flamethrower, weather: Weather.sun);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(flamethrower),
         type1: PokemonType.grass, type2: PokemonType.poison,
         weather: Weather.sun,
@@ -584,7 +585,7 @@ void main() {
           actualStats: slowStats, opponentSpeed: 100);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         powerModifier: effect.powerModifier,
@@ -598,7 +599,7 @@ void main() {
       final effect = getAbilityEffect('Sniper', move: tackle);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         isCritical: true,
@@ -615,7 +616,7 @@ void main() {
           status: StatusCondition.burn);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
-        nature: Nature.hardy, level: 50,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
         status: StatusCondition.burn,
