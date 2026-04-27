@@ -222,12 +222,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   /// cleared. Confirmation is asked only when at least one slot is
   /// already filled, so first-time use is a single-tap flow.
   Future<void> _loadParty() async {
-    final store = await SampleStorage.loadStore();
+    final initial = await SampleStorage.loadStore();
     if (!mounted) return;
-    final candidates = store.teams
-        .where((t) => t.memberIds.isNotEmpty)
-        .toList(growable: false);
-    if (candidates.isEmpty) {
+    if (initial.teams.where((t) => t.memberIds.isNotEmpty).isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(AppStrings.t('team.load.noTeams')),
       ));
@@ -235,31 +232,13 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     }
     final pickedId = await showModalBottomSheet<String>(
       context: context,
-      builder: (ctx) => SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            ListTile(
-              dense: true,
-              title: Text(
-                AppStrings.t('team.load.title'),
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-            const Divider(height: 1),
-            for (final t in candidates)
-              ListTile(
-                leading: const Icon(Icons.folder_outlined),
-                title: Text(t.name),
-                subtitle:
-                    Text('${t.memberIds.length} / $kMaxTeamSize'),
-                onTap: () => Navigator.pop(ctx, t.id),
-              ),
-          ],
-        ),
-      ),
+      builder: (ctx) => const _PartyPickerSheet(),
     );
     if (pickedId == null || !mounted) return;
+    // Re-read store post-sheet so a delete inside the picker doesn't
+    // make us look up a sample id that's gone.
+    final store = await SampleStorage.loadStore();
+    if (!mounted) return;
 
     // Confirm replacement only when the user would lose work.
     if (_team.any((s) => s.pokemon != null)) {
@@ -928,11 +907,18 @@ class _SlotCardState extends State<_SlotCard> {
                   ),
                 ),
                 Expanded(
-                  child: PokemonSelector(
-                    key: ValueKey(
-                        'team_slot_${widget.index}_${p?.name ?? "empty"}'),
-                    initialPokemonName: p?.name,
-                    onSelected: widget.onPokemonSelected,
+                  child: Container(
+                    // Faded type-color tint behind the name field so the
+                    // user can spot a slot's typing without scanning over
+                    // to the chips. Single type → flat tint, dual type
+                    // → 50/50 horizontal split.
+                    decoration: p == null ? null : _typeTintDecoration(p),
+                    child: PokemonSelector(
+                      key: ValueKey(
+                          'team_slot_${widget.index}_${p?.name ?? "empty"}'),
+                      initialPokemonName: p?.name,
+                      onSelected: widget.onPokemonSelected,
+                    ),
                   ),
                 ),
                 if (p != null) ...[
@@ -1063,6 +1049,33 @@ class _SlotCardState extends State<_SlotCard> {
         KoStrings.getTypeName(type),
         style: const TextStyle(
             fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  /// Faded type-color background for the name field. Single type =
+  /// flat 18% tint; dual type = a hard-stop horizontal gradient so
+  /// the split is read as "left-half type1, right-half type2"
+  /// instead of a smooth blend (which loses the second type's
+  /// identity).
+  static const double _typeTintAlpha = 0.18;
+  BoxDecoration _typeTintDecoration(Pokemon p) {
+    final c1 = KoStrings.getTypeColor(p.type1).withValues(alpha: _typeTintAlpha);
+    final t2 = p.type2;
+    if (t2 == null) {
+      return BoxDecoration(
+        color: c1,
+        borderRadius: BorderRadius.circular(4),
+      );
+    }
+    final c2 = KoStrings.getTypeColor(t2).withValues(alpha: _typeTintAlpha);
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(4),
+      gradient: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: [c1, c1, c2, c2],
+        stops: const [0.0, 0.5, 0.5, 1.0],
       ),
     );
   }
@@ -1403,8 +1416,15 @@ class _CoverageMatrix extends StatelessWidget {
   /// keeps the header column narrow on phones. For English we fall
   /// back to a 90° rotated label since stacking each letter would be
   /// unreadable for a name like "Aegislash".
-  Widget _vertNameCell(String name) {
+  Widget _vertNameCell(String rawName) {
     final lang = AppStrings.current;
+    // Strip parenthesized form/variant suffixes for the matrix header
+    // only — "킬가르도 (블레이드폼)" → "킬가르도", "오거폰 (우물의가면)"
+    // → "오거폰". The slot card still shows the full name; it's only
+    // here, where vertical space is tight and column reading speed
+    // matters, that the parens get in the way.
+    final parenIdx = rawName.indexOf('(');
+    final name = parenIdx > 0 ? rawName.substring(0, parenIdx).trim() : rawName;
     if (lang == AppLanguage.ko || lang == AppLanguage.ja) {
       // Drop spaces / hyphens that show up in some long names — they
       // waste a stack row and don't add information ("미라이돈"보다
@@ -1791,6 +1811,171 @@ class _OffensiveSwitch extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Modal bottom sheet that lists saved parties (with at least one
+/// member) and lets the user pick one to load. Each row also has a
+/// rename / delete menu so users don't have to bounce out to the
+/// sample sheet just to clean up old parties. Returns the picked
+/// party id via [Navigator.pop], or null on dismiss.
+class _PartyPickerSheet extends StatefulWidget {
+  const _PartyPickerSheet();
+
+  @override
+  State<_PartyPickerSheet> createState() => _PartyPickerSheetState();
+}
+
+class _PartyPickerSheetState extends State<_PartyPickerSheet> {
+  SampleStore _store = const SampleStore();
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _refresh();
+  }
+
+  Future<void> _refresh() async {
+    final store = await SampleStorage.loadStore();
+    if (!mounted) return;
+    setState(() {
+      _store = store;
+      _loading = false;
+    });
+  }
+
+  Future<void> _renameTeam(TeamFolder t) async {
+    final controller = TextEditingController(text: t.name);
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('sample.team.namePrompt')),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          onSubmitted: (v) => Navigator.pop(ctx, v.trim()),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
+            child: Text(AppStrings.t('action.confirm')),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (newName == null || newName.isEmpty || newName == t.name) return;
+    await SampleStorage.renameTeam(t.id, newName);
+    await _refresh();
+  }
+
+  Future<void> _deleteTeam(TeamFolder t) async {
+    // Same 3-way prompt as SampleListSheet — keep the member samples
+    // (move to the loose pool) or cascade-delete them with the party.
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('${AppStrings.t('sample.team.delete.title')}: ${t.name}'),
+        content: t.memberIds.isEmpty
+            ? null
+            : Text(AppStrings.t('sample.team.delete.body')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          if (t.memberIds.isNotEmpty)
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, 'cascade'),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text(AppStrings.t('sample.team.delete.cascade')),
+            ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, 'keep'),
+            child: Text(t.memberIds.isEmpty
+                ? AppStrings.t('action.confirm')
+                : AppStrings.t('sample.team.delete.keep')),
+          ),
+        ],
+      ),
+    );
+    if (result == null) return;
+    await SampleStorage.deleteTeam(t.id, deleteMembers: result == 'cascade');
+    await _refresh();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loading) {
+      return const SizedBox(
+        height: 200,
+        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      );
+    }
+    final candidates = _store.teams
+        .where((t) => t.memberIds.isNotEmpty)
+        .toList(growable: false);
+    return SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          ListTile(
+            dense: true,
+            title: Text(
+              AppStrings.t('team.load.title'),
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ),
+          const Divider(height: 1),
+          if (candidates.isEmpty)
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Center(
+                child: Text(
+                  AppStrings.t('team.load.noTeams'),
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+              ),
+            )
+          else
+            for (final t in candidates)
+              ListTile(
+                leading: const Icon(Icons.folder_outlined),
+                title: Text(t.name),
+                subtitle:
+                    Text('${t.memberIds.length} / $kMaxTeamSize'),
+                onTap: () => Navigator.pop(context, t.id),
+                trailing: PopupMenuButton<String>(
+                  tooltip: '',
+                  popUpAnimationStyle: AnimationStyle(
+                      duration: const Duration(milliseconds: 100)),
+                  icon: const Icon(Icons.more_vert, size: 18),
+                  padding: EdgeInsets.zero,
+                  onSelected: (v) {
+                    if (v == 'rename') _renameTeam(t);
+                    if (v == 'delete') _deleteTeam(t);
+                  },
+                  itemBuilder: (_) => [
+                    PopupMenuItem(
+                      value: 'rename',
+                      child: Text(AppStrings.t('sample.team.rename')),
+                    ),
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: Text(AppStrings.t('sample.team.delete'),
+                          style: const TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
+              ),
+        ],
       ),
     );
   }
