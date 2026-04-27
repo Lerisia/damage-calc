@@ -157,24 +157,13 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       }
       _team[index].heldItem = pickedItem;
 
-      // Wipe the move slots first — old picks were learned by the
-      // previous species and almost never carry over correctly.
+      // Move slots stay empty on species change. Auto-loading from
+      // Champions usage defaultMoves overstates the offensive matrix
+      // — that data lists damage moves only, so a real-party 3-attack
+      // + 1-status build would render as if it had a 4th coverage
+      // move. Better to require an explicit pick than to mislead.
       for (int i = 0; i < _team[index].moves.length; i++) {
         _team[index].moves[i] = null;
-      }
-      // Then seed from curated Champions Singles defaults; fall back
-      // to the first 4 of the broader move list. moves dex must be
-      // loaded for this to find anything (it usually is by the time
-      // a user picks a pokemon).
-      final usage = championsUsageFor(p.name);
-      final moveSource = usage?.defaultMoves.isNotEmpty == true
-          ? usage!.defaultMoves
-          : usage?.moves ?? const [];
-      final byName = _movesByName;
-      if (byName != null) {
-        for (int i = 0; i < 4 && i < moveSource.length; i++) {
-          _team[index].moves[i] = byName[moveSource[i].name];
-        }
       }
     });
   }
