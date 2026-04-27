@@ -33,6 +33,14 @@ class _TeamSlot {
   /// State-dependent moves (Tera Blast, Ivy Cudgel, …) resolve via
   /// [coverageMoveFromMove] when the matrix is built.
   final List<Move?> moves = List<Move?>.filled(4, null, growable: false);
+  /// Source sample id when this slot was hydrated from a saved
+  /// sample (via party load or single-slot load). Used by
+  /// `_saveAsParty` to update existing samples in place on overwrite
+  /// — so a custom rename like "한카리아스 (특수형)" survives a
+  /// re-save when the species hasn't changed. Stays set across
+  /// ability / item / move edits (the binding is to the saved
+  /// sample, not to its current data).
+  String? sampleId;
 }
 
 /// Process-lifetime team state — survives navigating away from the
@@ -305,7 +313,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           final newSlot = _TeamSlot()
             ..pokemon = p
             ..ability = s.state.selectedAbility
-            ..heldItem = s.state.selectedItem;
+            ..heldItem = s.state.selectedItem
+            ..sampleId = s.id;
           for (int mi = 0; mi < newSlot.moves.length; mi++) {
             newSlot.moves[mi] =
                 mi < s.state.moves.length ? s.state.moves[mi] : null;
@@ -337,7 +346,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       ));
       return;
     }
-    var store = await SampleStorage.loadStore();
+    final store = await SampleStorage.loadStore();
     if (!mounted) return;
 
     // Default name: most-recently-loaded party (so re-saving with no
@@ -351,10 +360,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     );
     if (teamName == null || teamName.isEmpty || !mounted) return;
 
-    // Overwrite check: if any existing party has the same name,
-    // confirm. On confirm, delete it (cascade — drops the old member
-    // samples too) so the upcoming save can land cleanly with the
-    // same name and the slot's current data.
+    // Overwrite check: if any existing party shares the name, confirm
+    // before mutating. The actual save logic below decides per-slot
+    // whether to update an existing sample in place (same species
+    // → preserve user-customized name) or to recreate it.
     final existingParty = store.teams
         .where((t) => t.name == teamName)
         .firstOrNull;
@@ -377,50 +386,130 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         ),
       );
       if (ok != true || !mounted) return;
-      await SampleStorage.deleteTeam(existingParty.id, deleteMembers: true);
-      // Reload so the new-name uniqueness check below sees the post-
-      // delete state.
-      store = await SampleStorage.loadStore();
-      if (!mounted) return;
     }
 
-    // Uniform naming "species (party)" so saved-sample browsing groups
-    // them visually with the party label. Collisions (same species
-    // twice in one party) get a numeric suffix.
-    final existingNames = store.samples.map((s) => s.name).toSet();
+    // Names need to stay globally unique. For collision-checking we
+    // ignore samples currently inside the party being overwritten —
+    // those will either be kept (no rename), renamed (the old name
+    // disappears anyway), or detached/deleted by the end.
+    final reservedNames = store.samples
+        .where((s) =>
+            existingParty == null ||
+            !existingParty.memberIds.contains(s.id))
+        .map((s) => s.name)
+        .toSet();
     String uniqueName(String base) {
       final withParty = '$base ($teamName)';
-      if (!existingNames.contains(withParty)) return withParty;
+      if (!reservedNames.contains(withParty)) return withParty;
       for (int i = 2;; i++) {
         final candidate = '$withParty ($i)';
-        if (!existingNames.contains(candidate)) return candidate;
+        if (!reservedNames.contains(candidate)) return candidate;
       }
     }
 
-    final teamId = await SampleStorage.createTeam(teamName);
-    int saved = 0;
-    for (final slot in filled) {
+    BattlePokemonState buildState(_TeamSlot slot) {
       final state = BattlePokemonState();
       state.applyPokemon(slot.pokemon!);
       if (slot.ability != null) state.selectedAbility = slot.ability!;
       if (slot.heldItem != null) state.selectedItem = slot.heldItem;
-      for (int mi = 0; mi < state.moves.length && mi < slot.moves.length; mi++) {
+      for (int mi = 0;
+          mi < state.moves.length && mi < slot.moves.length;
+          mi++) {
         if (slot.moves[mi] != null) state.moves[mi] = slot.moves[mi];
       }
-      final name = uniqueName(slot.pokemon!.localizedName);
-      existingNames.add(name);
-      try {
-        await SampleStorage.savePokemon(
-            name: name, state: state, teamId: teamId);
+      return state;
+    }
+
+    int saved = 0;
+    if (existingParty != null) {
+      // ── Overwrite path: update samples bound to slots in place
+      // (preserving id + custom name when species matches), create
+      // new samples for slots without a binding to this party, and
+      // detach samples the user removed from the party.
+      final memberIds = Set<String>.from(existingParty.memberIds);
+      final keptIds = <String>{};
+      // Two passes: first updates (no rename) so their existing names
+      // stay in `reservedNames` as-is; renames + creates next so the
+      // unique-name search avoids them.
+      final firstPass = <_TeamSlot>[];
+      final secondPass = <_TeamSlot>[];
+      for (final slot in filled) {
+        final sid = slot.sampleId;
+        if (sid != null && memberIds.contains(sid)) {
+          firstPass.add(slot);
+        } else {
+          secondPass.add(slot);
+        }
+      }
+      for (final slot in firstPass) {
+        final sid = slot.sampleId!;
+        final existing = store.sampleById(sid);
+        if (existing == null) {
+          secondPass.add(slot);
+          continue;
+        }
+        final state = buildState(slot);
+        final speciesChanged =
+            existing.state.pokemonName != slot.pokemon!.name;
+        if (speciesChanged) {
+          // Species swap → recompute name; the old name was tied to
+          // a different species and would be misleading to keep.
+          final newName = uniqueName(slot.pokemon!.localizedName);
+          reservedNames.add(newName);
+          await SampleStorage.updatePokemon(sid,
+              name: newName, state: state);
+        } else {
+          // Same species → preserve the existing (possibly user-
+          // customized) name. Only the state changes.
+          await SampleStorage.updatePokemon(sid, state: state);
+        }
+        keptIds.add(sid);
         saved++;
-      } on TeamFullException {
-        break;
+      }
+      for (final slot in secondPass) {
+        final state = buildState(slot);
+        final name = uniqueName(slot.pokemon!.localizedName);
+        reservedNames.add(name);
+        try {
+          final newId = await SampleStorage.savePokemon(
+              name: name, state: state, teamId: existingParty.id);
+          slot.sampleId = newId;
+          keptIds.add(newId);
+          saved++;
+        } on TeamFullException {
+          break;
+        }
+      }
+      // Drop samples the user removed from the party. Cascade-style
+      // delete (matches the user's intent of "this is the new state
+      // of the party").
+      for (final mid in existingParty.memberIds) {
+        if (!keptIds.contains(mid)) {
+          await SampleStorage.deletePokemon(mid);
+        }
+      }
+    } else {
+      // ── Fresh-save path: brand-new party, every slot gets a new
+      // sample with the standard "species (party)" name.
+      final newPartyId = await SampleStorage.createTeam(teamName);
+      for (final slot in filled) {
+        final state = buildState(slot);
+        final name = uniqueName(slot.pokemon!.localizedName);
+        reservedNames.add(name);
+        try {
+          final newId = await SampleStorage.savePokemon(
+              name: name, state: state, teamId: newPartyId);
+          slot.sampleId = newId;
+          saved++;
+        } on TeamFullException {
+          break;
+        }
       }
     }
+
     if (!mounted) return;
-    // Track the just-saved party so a subsequent save defaults its
-    // name (and again hits the overwrite path on no-op resave).
     _TeamCoverageStore.loadedPartyName = teamName;
+    setState(() {});
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('"$teamName" ${AppStrings.t('team.save.done')} ($saved)'),
     ));
@@ -498,6 +587,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             _team[index].pokemon = p;
             _team[index].ability = s.selectedAbility;
             _team[index].heldItem = s.selectedItem;
+            _team[index].sampleId = sample.id;
             for (int i = 0; i < _team[index].moves.length; i++) {
               _team[index].moves[i] = i < s.moves.length ? s.moves[i] : null;
             }
