@@ -111,9 +111,9 @@ class AppStrings {
       AppLanguage.ja: 'アプリについて',
     },
     'team.title': {
-      AppLanguage.ko: '팀 상성표',
-      AppLanguage.en: 'Team Coverage',
-      AppLanguage.ja: 'チーム相性表',
+      AppLanguage.ko: '파티 상성표',
+      AppLanguage.en: 'Party Coverage',
+      AppLanguage.ja: 'パーティ相性表',
     },
     'team.slot.empty': {
       AppLanguage.ko: '비어있음',
