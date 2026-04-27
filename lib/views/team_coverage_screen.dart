@@ -68,17 +68,38 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   void _setPokemon(int index, Pokemon p) {
     setState(() {
       _team[index].pokemon = p;
-      // Seed ability from curated Champions Singles data when the
-      // species has it; fall back to species' first listed ability.
-      final curated = championsUsageFor(p.name)?.abilities;
-      String? picked;
-      if (curated != null && curated.isNotEmpty) {
-        final first = curated.first.name;
-        if (p.abilities.contains(first)) picked = first;
+
+      // Seed ability from curated Champions Singles data; fall back
+      // to the species' first listed ability.
+      final curatedAbilities = championsUsageFor(p.name)?.abilities;
+      String? pickedAbility;
+      if (curatedAbilities != null && curatedAbilities.isNotEmpty) {
+        final first = curatedAbilities.first.name;
+        if (p.abilities.contains(first)) pickedAbility = first;
       }
-      picked ??= p.abilities.isNotEmpty ? p.abilities.first : null;
-      _team[index].ability = picked;
-      _team[index].heldItem = null;
+      pickedAbility ??= p.abilities.isNotEmpty ? p.abilities.first : null;
+      _team[index].ability = pickedAbility;
+
+      // Seed item the same way the calculator's auto-load does — use
+      // the curated top pick, but skip megastones for base forms so
+      // dropping a Pokemon in doesn't silently mega-evolve it. Mega
+      // forms get pinned to their requiredItem.
+      String? pickedItem;
+      if (p.requiredItem != null) {
+        pickedItem = p.requiredItem;
+      } else {
+        final curatedItems = championsUsageFor(p.name)?.items;
+        if (curatedItems != null && curatedItems.isNotEmpty) {
+          final stones = megaStoneItemIds();
+          for (final row in curatedItems) {
+            if (!stones.contains(row.name)) {
+              pickedItem = row.name;
+              break;
+            }
+          }
+        }
+      }
+      _team[index].heldItem = pickedItem;
     });
   }
 
@@ -346,6 +367,10 @@ class _SlotCard extends StatelessWidget {
     return PopupMenuButton<String>(
       tooltip: '',
       position: PopupMenuPosition.under,
+      // Mid-battle calc — match the rest of the app's snappy ≤100 ms
+      // popup style instead of the default ~250 ms slide.
+      popUpAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 100)),
       itemBuilder: (_) => [
         for (final ab in p.abilities)
           PopupMenuItem(
@@ -382,6 +407,8 @@ class _SlotCard extends StatelessWidget {
     return PopupMenuButton<String?>(
       tooltip: '',
       position: PopupMenuPosition.under,
+      popUpAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 100)),
       itemBuilder: (_) => [
         PopupMenuItem<String?>(
           value: null,
@@ -481,15 +508,14 @@ class _CoverageMatrix extends StatelessWidget {
       displayMatrix[filledIndices[j]] = filledMatrix[j];
     }
 
-    // Flex columns so the table always fits its parent's width — no
-    // horizontal scroll, no overflow. Ratio: type label 1.6, each
-    // Pokemon 1.0, summary 1.8. On a 360-wide portrait that lands at
-    // ~61 / ~38 / ~68 px which is just enough; on wider screens the
-    // cells expand proportionally.
+    // Type-label column is sized to a snug 3-char chip (Korean type
+    // names cap at 3 chars: 에스퍼, 고스트, 드래곤, 페어리) — no
+    // wasted whitespace around it. The remaining width is split
+    // between the 6 Pokemon columns and the summary block via flex.
     return Table(
       defaultColumnWidth: const FlexColumnWidth(1.0),
       columnWidths: {
-        0: const FlexColumnWidth(1.6),
+        0: const FixedColumnWidth(48),
         for (int i = 0; i < team.length; i++)
           i + 1: const FlexColumnWidth(1.0),
         team.length + 1: const FlexColumnWidth(1.8),
@@ -581,16 +607,29 @@ class _CoverageMatrix extends StatelessWidget {
       ColorScheme scheme) {
     final attackType = teamCoverageAttackTypes[t];
     return TableRow(
+      // Zebra-stripe data rows so the eye can track a single type
+      // across the 6 Pokemon columns without losing its place. The
+      // stripe sits behind everything (cell content paints on top),
+      // so the summary's colored backgrounds still read at full
+      // saturation.
+      decoration: BoxDecoration(
+        color: t.isOdd
+            ? scheme.surfaceContainerHighest.withValues(alpha: 0.35)
+            : null,
+      ),
       children: [
+        // No horizontal padding — the type chip fills the 48 px
+        // column flush, no whitespace either side. Vertical pad is
+        // just enough to keep the chip from touching the row borders.
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-          child: Center(child: _attackTypeChip(attackType)),
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: _attackTypeChip(attackType),
         ),
         for (int p = 0; p < team.length; p++)
           // Empty slot → blank cell so the column stays in place
           // without inviting the eye to read anything into it.
           matrix[p] == null
-              ? const SizedBox(height: 30)
+              ? const SizedBox(height: 22)
               : _multCell(matrix[p]![t], scheme),
         _summaryCell(summary, scheme),
       ],
@@ -598,13 +637,14 @@ class _CoverageMatrix extends StatelessWidget {
   }
 
   /// Solid colored chip — same style as the team-builder slot's type
-  /// chips and the attacker/defender panel badges. ClipRect lets the
-  /// chip overflow the column on the right without wrapping; users
-  /// recognize "사이…" or "고스…" fine when the column is squeezed.
+  /// chips and the attacker/defender panel badges. The chip fills the
+  /// fixed-width type column edge-to-edge; the 3-char Korean name sits
+  /// centered with the colored bg picking up any slack.
   Widget _attackTypeChip(PokemonType type) {
     return ClipRect(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(vertical: 2),
         decoration: BoxDecoration(
           color: KoStrings.getTypeColor(type),
           borderRadius: BorderRadius.circular(4),
@@ -621,14 +661,32 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
+  /// Background tint for the weak/resist halves of the summary cell —
+  /// gets denser the more team members fall into that bucket. 0 is
+  /// transparent so it blends with the row's zebra stripe; 6 (full
+  /// team) is the most saturated shade we'll show.
+  Color _summaryBg(int count, MaterialColor base) {
+    return switch (count) {
+      0 => Colors.transparent,
+      1 => base.shade50,
+      2 => base.shade100,
+      3 => base.shade200,
+      4 => base.shade300,
+      _ => base.shade400, // 5 or 6
+    };
+  }
+
   /// Side-by-side numbers — weak (red) on the left, resist+immune
-  /// (blue) on the right. Visually fenced off from the matrix by a
-  /// thicker left border so the eye knows where the cells stop and
-  /// the totals begin.
+  /// (blue) on the right. Each half carries a tint that grows with
+  /// the count, so the eye can scan the column and spot the worst
+  /// (densest red) and best (densest blue) types at a glance without
+  /// reading the digits. Fenced off from the matrix by a thicker
+  /// left border.
   Widget _summaryCell(CoverageColumnSummary summary, ColorScheme scheme) {
     final resistOrImmune = summary.resist + summary.immune;
+    final weakBg = _summaryBg(summary.weak, Colors.red);
+    final resistBg = _summaryBg(resistOrImmune, Colors.blue);
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       decoration: BoxDecoration(
         border: Border(
           left: BorderSide(
@@ -638,28 +696,41 @@ class _CoverageMatrix extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-            '${summary.weak}',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
-              height: 1.0,
-              color: summary.weak > 0
-                  ? Colors.red.shade700
-                  : scheme.onSurface.withValues(alpha: 0.25),
+          Expanded(
+            child: Container(
+              color: weakBg,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                '${summary.weak}',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
+                  height: 1.0,
+                  color: summary.weak > 0
+                      ? Colors.red.shade900
+                      : scheme.onSurface.withValues(alpha: 0.25),
+                ),
+              ),
             ),
           ),
-          Text(
-            '$resistOrImmune',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              height: 1.0,
-              color: resistOrImmune > 0
-                  ? Colors.blue.shade700
-                  : scheme.onSurface.withValues(alpha: 0.25),
+          Expanded(
+            child: Container(
+              color: resistBg,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                '$resistOrImmune',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  height: 1.0,
+                  color: resistOrImmune > 0
+                      ? Colors.blue.shade900
+                      : scheme.onSurface.withValues(alpha: 0.25),
+                ),
+              ),
             ),
           ),
         ],
@@ -704,7 +775,7 @@ class _CoverageMatrix extends StatelessWidget {
       }
     }
     return Container(
-      height: 30,
+      height: 22,
       alignment: Alignment.center,
       child: Text(
         label,
