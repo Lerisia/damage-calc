@@ -430,22 +430,27 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (int i = 0; i < _maxTeamSize; i++) ...[
-          _SlotCard(
-            // Keying by index keeps the typeahead controllers stable
-            // across slot mutations — without the key, swapping which
-            // Pokemon is in slot 0 would shred slot 0's text state.
-            key: ValueKey('team_slot_card_$i'),
-            index: i,
-            slot: _team[i],
-            abilityDex: _abilityDex ?? const {},
-            abilityNames: _abilityNames ?? const {},
-            itemDex: _itemDex ?? const {},
-            itemNames: _itemNames ?? const {},
-            onPokemonSelected: (p) => _setPokemon(i, p),
-            onAbilitySelected: (a) => _setAbility(i, a),
-            onItemSelected: (it) => _setItem(i, it),
-            onLoadSample: () => _loadSampleInto(i),
-            onClear: () => _clearSlot(i),
+          // RepaintBoundary per card so editing one slot's typeahead
+          // doesn't repaint the other five. Cheap on first-paint and
+          // pays off whenever the user types in a single field.
+          RepaintBoundary(
+            child: _SlotCard(
+              // Keying by index keeps the typeahead controllers stable
+              // across slot mutations — without the key, swapping which
+              // Pokemon is in slot 0 would shred slot 0's text state.
+              key: ValueKey('team_slot_card_$i'),
+              index: i,
+              slot: _team[i],
+              abilityDex: _abilityDex ?? const {},
+              abilityNames: _abilityNames ?? const {},
+              itemDex: _itemDex ?? const {},
+              itemNames: _itemNames ?? const {},
+              onPokemonSelected: (p) => _setPokemon(i, p),
+              onAbilitySelected: (a) => _setAbility(i, a),
+              onItemSelected: (it) => _setItem(i, it),
+              onLoadSample: () => _loadSampleInto(i),
+              onClear: () => _clearSlot(i),
+            ),
           ),
           if (i < _maxTeamSize - 1) const SizedBox(height: 4),
         ],
@@ -454,10 +459,14 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
 
     // Pass ALL 6 slots — including empty ones — so the matrix grid
     // is dimensionally stable. Empty slots render blank cells; the
-    // summary only counts filled ones.
-    final matrix = _CoverageMatrix(
-      team: _team,
-      abilityNames: _abilityNames ?? const {},
+    // summary only counts filled ones. Wrapped in a RepaintBoundary
+    // so scroll / typing in slot fields doesn't trigger a 144-cell
+    // matrix repaint on every frame.
+    final matrix = RepaintBoundary(
+      child: _CoverageMatrix(
+        team: _team,
+        abilityNames: _abilityNames ?? const {},
+      ),
     );
 
     return PopScope(
@@ -488,16 +497,16 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextButton.icon(
-                onPressed: _loadParty,
-                icon: const Icon(Icons.folder_open_outlined, size: 18),
-                label: Text(AppStrings.t('team.load')),
-                style: _appBarBtnStyle,
-              ),
-              TextButton.icon(
                 onPressed:
                     _team.any((s) => s.pokemon != null) ? _saveAsParty : null,
                 icon: const Icon(Icons.save_outlined, size: 18),
                 label: Text(AppStrings.t('team.save')),
+                style: _appBarBtnStyle,
+              ),
+              TextButton.icon(
+                onPressed: _loadParty,
+                icon: const Icon(Icons.folder_open_outlined, size: 18),
+                label: Text(AppStrings.t('team.load')),
                 style: _appBarBtnStyle,
               ),
               TextButton.icon(
@@ -511,19 +520,31 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           ),
         ),
       ),
-      body: isWide
+      // Tap on empty space → unfocus the active typeahead so its
+      // overlay dismisses. flutter_typeahead's `hideOnUnfocus: true`
+      // only fires on real focus changes, not on bare taps, so we
+      // route every body tap through FocusManager. Same pattern as
+      // dex_screen.
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.translucent,
+        child: isWide
           ? Padding(
               padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Slot column narrower than matrix on wide layouts
+                  // — the slot cards don't need much room past their
+                  // typeahead fields, while the matrix benefits from
+                  // every extra px (16 type rows × 6 mons + summary).
                   Expanded(
-                    flex: 5,
+                    flex: 4,
                     child: SingleChildScrollView(child: slotList),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    flex: 4,
+                    flex: 6,
                     child: SingleChildScrollView(child: matrix),
                   ),
                 ],
@@ -540,6 +561,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 ],
               ),
             ),
+      ),
       ),
     );
   }

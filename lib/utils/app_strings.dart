@@ -156,9 +156,9 @@ class AppStrings {
       AppLanguage.ja: '保存されたサンプルがありません。',
     },
     'team.resetAll': {
-      AppLanguage.ko: '전체 초기화',
-      AppLanguage.en: 'Reset all',
-      AppLanguage.ja: 'すべてリセット',
+      AppLanguage.ko: '초기화',
+      AppLanguage.en: 'Reset',
+      AppLanguage.ja: 'リセット',
     },
     'team.resetAll.confirm': {
       AppLanguage.ko: '6마리 전부 비우시겠습니까?',
@@ -166,9 +166,9 @@ class AppStrings {
       AppLanguage.ja: '6体すべてクリアしますか？',
     },
     'team.load': {
-      AppLanguage.ko: '파티 불러오기',
-      AppLanguage.en: 'Load party',
-      AppLanguage.ja: 'パーティ読込',
+      AppLanguage.ko: '불러오기',
+      AppLanguage.en: 'Load',
+      AppLanguage.ja: '読込',
     },
     'team.save': {
       AppLanguage.ko: '파티 저장',
@@ -237,13 +237,13 @@ class AppStrings {
       AppLanguage.ja: 'このパーティのポケモンはどうしますか？',
     },
     'sample.team.delete.keep': {
-      AppLanguage.ko: '파티에서 빼기',
-      AppLanguage.en: 'Detach from party',
-      AppLanguage.ja: 'パーティから外す',
+      AppLanguage.ko: '분리',
+      AppLanguage.en: 'Detach',
+      AppLanguage.ja: '分離',
     },
     'sample.team.delete.cascade': {
       AppLanguage.ko: '함께 삭제',
-      AppLanguage.en: 'Delete with party',
+      AppLanguage.en: 'Delete all',
       AppLanguage.ja: '一緒に削除',
     },
     'sample.team.empty': {
