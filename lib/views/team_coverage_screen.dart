@@ -1320,23 +1320,33 @@ class _CoverageMatrix extends StatelessWidget {
         fg = scheme.onSurface;
       }
     }
+    // Render the glyph at the natural fontSize when the cell is wide
+    // enough; FittedBox(scaleDown) shrinks proportionally when the
+    // cell narrows, so a 4-char party (wider columns) sees the full
+    // 17 px while a 6-mon party on a 360 px phone gracefully scales
+    // down instead of wrapping to two lines.
     final text = Text(
       label,
+      maxLines: 1,
+      softWrap: false,
       style: TextStyle(fontSize: 17, fontWeight: weight, color: fg, height: 1.0),
     );
     return Container(
       height: 28,
       alignment: Alignment.center,
-      child: pillBg == null
-          ? text
-          : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: pillBg,
-                borderRadius: BorderRadius.circular(4),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: pillBg == null
+            ? text
+            : Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                decoration: BoxDecoration(
+                  color: pillBg,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: text,
               ),
-              child: text,
-            ),
+      ),
     );
   }
 
