@@ -647,8 +647,13 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _DisplayModeToggle(mode: mode),
-              const SizedBox(height: 6),
+              // Numeric/symbolic toggle moves to the top bar on wide
+              // layouts (no need for two copies); narrow keeps it
+              // here above the matrix where it's easy to reach.
+              if (!isWide) ...[
+                _DisplayModeToggle(mode: mode),
+                const SizedBox(height: 6),
+              ],
               if (showOff) _matrixSectionHeader(
                   AppStrings.t('team.matrix.defensive')),
               RepaintBoundary(
@@ -657,6 +662,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                   abilityNames: _abilityNames ?? const {},
                   symbolic: symbolic,
                   offensive: false,
+                  horizontalNames: isWide,
                 ),
               ),
               if (showOff) ...[
@@ -669,6 +675,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                     abilityNames: _abilityNames ?? const {},
                     symbolic: symbolic,
                     offensive: true,
+                    horizontalNames: isWide,
                   ),
                 ),
               ],
@@ -680,13 +687,24 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
 
     // Offensive toggle is a screen-level mode (it expands the slot
     // cards AND adds the second matrix), so it lives at the very top
-    // of the body — above both the slot list and the matrix region —
-    // instead of being tucked next to the numeric/symbolic toggle.
-    final offensiveBar = Padding(
+    // of the body. On wide layouts there's room next to it for the
+    // numeric/symbolic toggle as well — pulling that out of the
+    // matrix block saves a row inside the table area.
+    final topToggleBar = Padding(
       padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
-      child: ValueListenableBuilder<bool>(
-        valueListenable: CoverageDisplayController.instance.showOffensive,
-        builder: (_, showOff, __) => _OffensiveSwitch(value: showOff),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ValueListenableBuilder<bool>(
+            valueListenable: CoverageDisplayController.instance.showOffensive,
+            builder: (_, showOff, __) => _OffensiveSwitch(value: showOff),
+          ),
+          if (isWide)
+            ValueListenableBuilder<CoverageDisplayMode>(
+              valueListenable: CoverageDisplayController.instance.mode,
+              builder: (_, mode, __) => _DisplayModeToggle(mode: mode),
+            ),
+        ],
       ),
     );
 
@@ -755,7 +773,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  offensiveBar,
+                  topToggleBar,
                   Expanded(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -784,7 +802,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  offensiveBar,
+                  topToggleBar,
                   slotList,
                   const SizedBox(height: 20),
                   matrix,
@@ -1298,12 +1316,18 @@ class _CoverageMatrix extends StatelessWidget {
   /// pokemon's moves can deal vs each defender type). `false` →
   /// defensive matrix (current default).
   final bool offensive;
+  /// `true` → render header pokemon names horizontally (wide-screen
+  /// layout where the column width is generous enough to fit the
+  /// name on one line). Saves the ~60 px the vertical-stack layout
+  /// reserves for narrow phones.
+  final bool horizontalNames;
 
   const _CoverageMatrix({
     required this.team,
     required this.abilityNames,
     this.symbolic = false,
     this.offensive = false,
+    this.horizontalNames = false,
   });
 
   @override
@@ -1417,12 +1441,12 @@ class _CoverageMatrix extends StatelessWidget {
         const SizedBox.shrink(),
         for (final slot in team)
           slot.pokemon != null
-              ? _vertNameCell(
+              ? _nameCell(
                   slot.pokemon!.localizedName,
                   type1: slot.effectiveType1,
                   type2: slot.effectiveType2,
                 )
-              : const SizedBox(height: 84),
+              : SizedBox(height: horizontalNames ? 28 : 84),
         // Color-coded labels side-by-side, with the same thicker
         // left divider that the data rows carry below.
         Container(
@@ -1461,18 +1485,16 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
-  /// Vertical Pokemon name cell. For Korean / Japanese we stack the
-  /// name one character per line (킬 / 가 / 르 / 도) — every character
-  /// is its own glyph in those scripts, so this reads naturally and
-  /// keeps the header column narrow on phones. For English we fall
-  /// back to a 90° rotated label since stacking each letter would be
-  /// unreadable for a name like "Aegislash".
+  /// Pokemon-name header cell. On wide layouts the column is roomy
+  /// enough to render the name horizontally on a single line (saves
+  /// ~60 px of header height). On narrow layouts the column is too
+  /// tight; we stack each character of a Korean / Japanese name
+  /// (킬 / 가 / 르 / 도) or rotate an English name 90°.
   ///
   /// A faded type-color tint sits behind the name — single type =
-  /// flat, dual type = top half [type1] / bottom half [type2]. Top/
-  /// bottom (vs the slot card's left/right) matches the vertical
-  /// reading flow of the stacked characters.
-  Widget _vertNameCell(
+  /// flat, dual type split: left/right for horizontal layouts, top/
+  /// bottom for vertical layouts (each matching the reading flow).
+  Widget _nameCell(
     String rawName, {
     required PokemonType? type1,
     required PokemonType? type2,
@@ -1485,6 +1507,50 @@ class _CoverageMatrix extends StatelessWidget {
     // matters, that the parens get in the way.
     final parenIdx = rawName.indexOf('(');
     final name = parenIdx > 0 ? rawName.substring(0, parenIdx).trim() : rawName;
+    if (horizontalNames) {
+      // Try horizontal first; fall back to the vertical layout per
+      // cell when the column is too narrow for the name. Mixed
+      // layouts within one header row are fine — Table sizes the row
+      // to its tallest cell, so as soon as one name needs the
+      // vertical fallback the row goes back to 84 px. The user's
+      // win is "horizontal whenever it fits", not "always
+      // horizontal".
+      return LayoutBuilder(builder: (context, constraints) {
+        const style = TextStyle(fontSize: 13, fontWeight: FontWeight.w700);
+        final tp = TextPainter(
+          text: TextSpan(text: name, style: style),
+          maxLines: 1,
+          textDirection: TextDirection.ltr,
+        )..layout();
+        final fits = tp.width <= constraints.maxWidth - 8;
+        if (fits) {
+          return SizedBox(
+            height: 28,
+            child: DecoratedBox(
+              decoration: _horizontalNameTint(type1, type2),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Center(
+                  child: Text(name, maxLines: 1, style: style),
+                ),
+              ),
+            ),
+          );
+        }
+        return _verticalNameLayout(name, type1, type2, lang);
+      });
+    }
+    return _verticalNameLayout(name, type1, type2, lang);
+  }
+
+  /// Vertical layout extracted so the horizontal-fits-or-fallback
+  /// path can reuse it without code duplication.
+  Widget _verticalNameLayout(
+    String name,
+    PokemonType? type1,
+    PokemonType? type2,
+    AppLanguage lang,
+  ) {
     final Widget content;
     if (lang == AppLanguage.ko || lang == AppLanguage.ja) {
       // Drop spaces / hyphens that show up in some long names — they
@@ -1537,7 +1603,7 @@ class _CoverageMatrix extends StatelessWidget {
   }
 
   /// Faded type-color background for the vertical name cell. Single
-  /// type → flat 18% tint; dual type → top half [t1] / bottom half
+  /// type → flat 20% tint; dual type → top half [t1] / bottom half
   /// [t2] hard-stop gradient. Returns an empty decoration when no
   /// types are passed.
   static const double _vertTintAlpha = 0.20;
@@ -1552,6 +1618,23 @@ class _CoverageMatrix extends StatelessWidget {
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
+        colors: [c1, c1, c2, c2],
+        stops: const [0.0, 0.5, 0.5, 1.0],
+      ),
+    );
+  }
+
+  /// Horizontal version — dual type splits left/right since the name
+  /// reads left-to-right.
+  BoxDecoration _horizontalNameTint(PokemonType? t1, PokemonType? t2) {
+    if (t1 == null) return const BoxDecoration();
+    final c1 = KoStrings.getTypeColor(t1).withValues(alpha: _vertTintAlpha);
+    if (t2 == null) return BoxDecoration(color: c1);
+    final c2 = KoStrings.getTypeColor(t2).withValues(alpha: _vertTintAlpha);
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
         colors: [c1, c1, c2, c2],
         stops: const [0.0, 0.5, 0.5, 1.0],
       ),
