@@ -42,6 +42,21 @@ import 'widgets/mobile_install_banner.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/speed_compare_tab.dart';
 
+/// Page route that fades in over 120 ms instead of the platform slide.
+/// We use it for the dex and party-coverage screens so they read as
+/// proper standalone screens rather than transient popups, and to
+/// sidestep an iOS layer-raster timing bug that surfaced during the
+/// slide-in (mid-card blank rectangles in the party coverage matrix).
+PageRouteBuilder<T> _fadeRoute<T>(WidgetBuilder builder) {
+  return PageRouteBuilder<T>(
+    transitionDuration: const Duration(milliseconds: 120),
+    reverseTransitionDuration: const Duration(milliseconds: 120),
+    pageBuilder: (ctx, _, __) => builder(ctx),
+    transitionsBuilder: (_, anim, __, child) =>
+        FadeTransition(opacity: anim, child: child),
+  );
+}
+
 class DamageCalculatorScreen extends StatefulWidget {
   final Map<String, String> abilityNameMap;
   final Map<String, String> itemNameMap;
@@ -654,8 +669,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// lands on the side they just populated.
   Future<void> _openDex({String? initialName}) async {
     final result = await Navigator.of(context).push<DexPickResult>(
-      MaterialPageRoute(
-        builder: (_) => DexScreen(initialPokemonName: initialName),
+      _fadeRoute(
+        (_) => DexScreen(initialPokemonName: initialName),
       ),
     );
     if (!mounted || result == null) return;
@@ -673,11 +688,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   Future<void> _openTeamCoverage() async {
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => const TeamCoverageScreen(),
-      ),
-    );
+    await Navigator.of(context)
+        .push(_fadeRoute((_) => const TeamCoverageScreen()));
   }
 
   String _languageLabel() {

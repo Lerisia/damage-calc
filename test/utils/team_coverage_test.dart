@@ -257,4 +257,345 @@ void main() {
       expect(normalCol.neutral, equals(2));
     });
   });
+
+  // ────────────────────────────────────────────────────────────────
+  // Offensive — best damage multiplier across a slot's damaging
+  // moves vs each single defender type.
+  // ────────────────────────────────────────────────────────────────
+  group('offensiveEffectivenessOf — single-type effectiveness', () {
+    test('Fire vs Grass is 2×', () {
+      expect(
+          offensiveEffectivenessOf(
+              PokemonType.fire, PokemonType.grass),
+          equals(2.0));
+    });
+
+    test('Water vs Fire is 2×', () {
+      expect(
+          offensiveEffectivenessOf(
+              PokemonType.water, PokemonType.fire),
+          equals(2.0));
+    });
+
+    test('Fire vs Water is 0.5×', () {
+      expect(
+          offensiveEffectivenessOf(
+              PokemonType.fire, PokemonType.water),
+          equals(0.5));
+    });
+
+    test('Normal vs Ghost is 0× (chart immunity)', () {
+      expect(
+          offensiveEffectivenessOf(
+              PokemonType.normal, PokemonType.ghost),
+          equals(0.0));
+    });
+
+    test('Ground vs Flying is 0× (chart immunity)', () {
+      expect(
+          offensiveEffectivenessOf(
+              PokemonType.ground, PokemonType.flying),
+          equals(0.0));
+    });
+
+    test('Dragon vs Fairy is 0×', () {
+      expect(
+          offensiveEffectivenessOf(
+              PokemonType.dragon, PokemonType.fairy),
+          equals(0.0));
+    });
+
+    test('Normal vs Normal is 1×', () {
+      expect(
+          offensiveEffectivenessOf(
+              PokemonType.normal, PokemonType.normal),
+          equals(1.0));
+    });
+  });
+
+  group('offensiveCoverageRow — best across moves', () {
+    test('single super-effective move propagates to its column', () {
+      // Pokemon with Fire alone: vs Grass = 2×, vs Water = 0.5×.
+      const slot = CoverageSlot(
+        type1: PokemonType.fire,
+        moves: [CoverageMove(type: PokemonType.fire)],
+      );
+      final row = offensiveCoverageRow(slot);
+      final grassCell =
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.grass)];
+      final waterCell =
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.water)];
+      expect(grassCell.multiplier, equals(2.0));
+      expect(waterCell.multiplier, equals(0.5));
+    });
+
+    test('best of two moves wins per column', () {
+      // Fire + Ground: vs Water → Fire 0.5×, Ground 1× → best 1×.
+      // vs Steel → Fire 2×, Ground 2× → best 2× (tied).
+      const slot = CoverageSlot(
+        type1: PokemonType.fire,
+        moves: [
+          CoverageMove(type: PokemonType.fire),
+          CoverageMove(type: PokemonType.ground),
+        ],
+      );
+      final row = offensiveCoverageRow(slot);
+      expect(
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.water)]
+              .multiplier,
+          equals(1.0));
+      expect(
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.steel)]
+              .multiplier,
+          equals(2.0));
+    });
+
+    test('all-immune row when only Normal moves vs Ghost defender', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.normal,
+        moves: [CoverageMove(type: PokemonType.normal)],
+      );
+      final row = offensiveCoverageRow(slot);
+      final ghostCell =
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.ghost)];
+      expect(ghostCell.isImmune, isTrue);
+      expect(ghostCell.immunityReason, equals('allImmune'));
+    });
+
+    test('status moves are skipped — Fire (status) gives an empty pool', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.fire,
+        moves: [
+          CoverageMove(type: PokemonType.fire, isDamaging: false),
+        ],
+      );
+      final row = offensiveCoverageRow(slot);
+      // No damaging moves → every cell marked immune via 'noMoves'.
+      for (final c in row) {
+        expect(c.isImmune, isTrue);
+        expect(c.immunityReason, equals('noMoves'));
+      }
+    });
+
+    test('empty move list → all cells immune (noMoves)', () {
+      const slot = CoverageSlot(type1: PokemonType.fire);
+      final row = offensiveCoverageRow(slot);
+      for (final c in row) {
+        expect(c.isImmune, isTrue);
+        expect(c.immunityReason, equals('noMoves'));
+      }
+    });
+
+    test('move that hits an immunity does not poison the max', () {
+      // Fighting + Rock: vs Ghost → Fighting 0×, Rock 1× → best 1×.
+      const slot = CoverageSlot(
+        type1: PokemonType.fighting,
+        moves: [
+          CoverageMove(type: PokemonType.fighting),
+          CoverageMove(type: PokemonType.rock),
+        ],
+      );
+      final row = offensiveCoverageRow(slot);
+      final ghostCell =
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.ghost)];
+      expect(ghostCell.multiplier, equals(1.0));
+      expect(ghostCell.isImmune, isFalse);
+    });
+  });
+
+  group('offensiveEffectivenessOf — attacker abilities', () {
+    test('Scrappy lets Normal hit Ghost for 1×', () {
+      expect(
+        offensiveEffectivenessOf(PokemonType.normal, PokemonType.ghost,
+            attackerAbility: 'Scrappy'),
+        equals(1.0),
+      );
+    });
+
+    test('Scrappy lets Fighting hit Ghost for 1×', () {
+      expect(
+        offensiveEffectivenessOf(PokemonType.fighting, PokemonType.ghost,
+            attackerAbility: 'Scrappy'),
+        equals(1.0),
+      );
+    });
+
+    test("Mind's Eye = Scrappy for type matchup purposes", () {
+      expect(
+        offensiveEffectivenessOf(PokemonType.normal, PokemonType.ghost,
+            attackerAbility: "Mind's Eye"),
+        equals(1.0),
+      );
+    });
+
+    test('Scrappy does NOT bypass other immunities (Ground vs Flying)', () {
+      expect(
+        offensiveEffectivenessOf(PokemonType.ground, PokemonType.flying,
+            attackerAbility: 'Scrappy'),
+        equals(0),
+      );
+    });
+
+    test('Tinted Lens doubles a 0.5× hit to 1×', () {
+      // Fire vs Water = 0.5× → ×2 = 1×.
+      expect(
+        offensiveEffectivenessOf(PokemonType.fire, PokemonType.water,
+            attackerAbility: 'Tinted Lens'),
+        equals(1.0),
+      );
+    });
+
+    test('Tinted Lens does NOT modify neutral hits', () {
+      expect(
+        offensiveEffectivenessOf(PokemonType.normal, PokemonType.normal,
+            attackerAbility: 'Tinted Lens'),
+        equals(1.0),
+      );
+    });
+
+    test('Tinted Lens does NOT modify super-effective hits', () {
+      expect(
+        offensiveEffectivenessOf(PokemonType.fire, PokemonType.grass,
+            attackerAbility: 'Tinted Lens'),
+        equals(2.0),
+      );
+    });
+
+    test('Tinted Lens does NOT bypass immunities', () {
+      expect(
+        offensiveEffectivenessOf(PokemonType.normal, PokemonType.ghost,
+            attackerAbility: 'Tinted Lens'),
+        equals(0),
+      );
+    });
+  });
+
+  group('offensiveCoverageRow — special moves', () {
+    test('Freeze-Dry vs Water is 2× (overrides chart)', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.ice,
+        moves: [CoverageMove(type: PokemonType.ice, freezeDry: true)],
+      );
+      final row = offensiveCoverageRow(slot);
+      expect(
+        row[teamCoverageDefenseTypes.indexOf(PokemonType.water)]
+            .multiplier,
+        equals(2.0),
+      );
+    });
+
+    test('Freeze-Dry vs Fire is 0.5× (standard Ice resistance)', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.ice,
+        moves: [CoverageMove(type: PokemonType.ice, freezeDry: true)],
+      );
+      final row = offensiveCoverageRow(slot);
+      expect(
+        row[teamCoverageDefenseTypes.indexOf(PokemonType.fire)]
+            .multiplier,
+        equals(0.5),
+      );
+    });
+
+    test('Flying Press vs Grass is 2× (Flying 2 × Fighting 1)', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.fighting,
+        moves: [CoverageMove(type: PokemonType.fighting, flyingPress: true)],
+      );
+      final row = offensiveCoverageRow(slot);
+      expect(
+        row[teamCoverageDefenseTypes.indexOf(PokemonType.grass)]
+            .multiplier,
+        equals(2.0),
+      );
+    });
+
+    test('Flying Press vs Bug is 1× (Flying 2 × Fighting 0.5)', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.fighting,
+        moves: [CoverageMove(type: PokemonType.fighting, flyingPress: true)],
+      );
+      final row = offensiveCoverageRow(slot);
+      expect(
+        row[teamCoverageDefenseTypes.indexOf(PokemonType.bug)]
+            .multiplier,
+        equals(1.0),
+      );
+    });
+
+    test('Flying Press vs Ghost is 0× (Fighting half = 0)', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.fighting,
+        moves: [CoverageMove(type: PokemonType.fighting, flyingPress: true)],
+      );
+      final row = offensiveCoverageRow(slot);
+      final ghostCell =
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.ghost)];
+      expect(ghostCell.isImmune, isTrue);
+    });
+  });
+
+  group('offensiveCoverageRow — slot abilities propagate', () {
+    test('Scrappy slot turns Normal-only mover into Ghost-coverage', () {
+      const slot = CoverageSlot(
+        type1: PokemonType.normal,
+        ability: 'Scrappy',
+        moves: [CoverageMove(type: PokemonType.normal)],
+      );
+      final row = offensiveCoverageRow(slot);
+      final ghostCell =
+          row[teamCoverageDefenseTypes.indexOf(PokemonType.ghost)];
+      expect(ghostCell.isImmune, isFalse);
+      expect(ghostCell.multiplier, equals(1.0));
+    });
+
+    test('Tinted Lens slot covers resisted defenders neutrally', () {
+      // Fire vs Water = 0.5× normally; Tinted Lens lifts it to 1×.
+      const slot = CoverageSlot(
+        type1: PokemonType.fire,
+        ability: 'Tinted Lens',
+        moves: [CoverageMove(type: PokemonType.fire)],
+      );
+      final row = offensiveCoverageRow(slot);
+      expect(
+        row[teamCoverageDefenseTypes.indexOf(PokemonType.water)]
+            .multiplier,
+        equals(1.0),
+      );
+    });
+  });
+
+  group('offensiveCoverageMatrix — shape', () {
+    test('empty team yields empty matrix', () {
+      expect(offensiveCoverageMatrix(const []), isEmpty);
+    });
+
+    test('preserves team order, one row per slot, 18 cols per row', () {
+      const team = [
+        CoverageSlot(
+          type1: PokemonType.fire,
+          moves: [CoverageMove(type: PokemonType.fire)],
+        ),
+        CoverageSlot(
+          type1: PokemonType.water,
+          moves: [CoverageMove(type: PokemonType.water)],
+        ),
+      ];
+      final m = offensiveCoverageMatrix(team);
+      expect(m.length, equals(2));
+      for (final row in m) {
+        expect(row.length, equals(teamCoverageDefenseTypes.length));
+      }
+      // Slot 0 (Fire mover) hits Grass for 2×.
+      expect(
+          m[0][teamCoverageDefenseTypes.indexOf(PokemonType.grass)]
+              .multiplier,
+          equals(2.0));
+      // Slot 1 (Water mover) hits Fire for 2×.
+      expect(
+          m[1][teamCoverageDefenseTypes.indexOf(PokemonType.fire)]
+              .multiplier,
+          equals(2.0));
+    });
+  });
 }
