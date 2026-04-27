@@ -18,6 +18,7 @@ import '../utils/localization.dart';
 import '../utils/team_coverage.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_selector.dart';
+import 'widgets/sample_list_sheet.dart';
 import 'widgets/typeahead_helpers.dart';
 
 /// One slot in the team-builder. We keep just the bits that affect
@@ -42,6 +43,10 @@ class _TeamCoverageStore {
   static const int maxTeamSize = 6;
   static final List<_TeamSlot> team =
       List.generate(maxTeamSize, (_) => _TeamSlot());
+  /// Name of the saved party most recently loaded into [team]. Used
+  /// by `_saveAsParty` to default the save dialog name and to detect
+  /// the overwrite case. Cleared on full reset.
+  static String? loadedPartyName;
 }
 
 class TeamCoverageScreen extends StatefulWidget {
@@ -192,6 +197,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       for (int i = 0; i < _team.length; i++) {
         _team[i] = _TeamSlot();
       }
+      // No tracked party once everything's empty.
+      _TeamCoverageStore.loadedPartyName = null;
     });
   }
 
@@ -308,6 +315,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           _team[i] = _TeamSlot();
         }
       }
+      // Remember the loaded party so the next save defaults its name
+      // and trips the overwrite-confirm flow when the user keeps it.
+      _TeamCoverageStore.loadedPartyName = team.name;
     });
   }
 
@@ -327,26 +337,58 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       ));
       return;
     }
-    final store = await SampleStorage.loadStore();
+    var store = await SampleStorage.loadStore();
     if (!mounted) return;
 
-    // Default name "파티 N" using the next available number across
-    // the existing parties — simple, predictable, and the user can
-    // edit before confirming.
-    final defaultName = '파티 ${store.teams.length + 1}';
+    // Default name: most-recently-loaded party (so re-saving with no
+    // edits triggers the natural overwrite path). Falls back to
+    // "파티 N" using the next number for first-time saves.
+    final defaultName = _TeamCoverageStore.loadedPartyName ??
+        '파티 ${store.teams.length + 1}';
     final teamName = await _promptText(
       title: AppStrings.t('team.save.title'),
       initial: defaultName,
     );
     if (teamName == null || teamName.isEmpty || !mounted) return;
 
-    // Names must stay globally unique. Try species, then "species
-    // (party)", then numeric suffix. Bake names into the local set as
-    // we go so two slots of the same species don't collide with each
-    // other within this save batch.
+    // Overwrite check: if any existing party has the same name,
+    // confirm. On confirm, delete it (cascade — drops the old member
+    // samples too) so the upcoming save can land cleanly with the
+    // same name and the slot's current data.
+    final existingParty = store.teams
+        .where((t) => t.name == teamName)
+        .firstOrNull;
+    if (existingParty != null) {
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(AppStrings.t('team.save.overwrite.title')),
+          content: Text(AppStrings.t('team.save.overwrite.body')),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(AppStrings.t('action.cancel')),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(AppStrings.t('action.overwrite')),
+            ),
+          ],
+        ),
+      );
+      if (ok != true || !mounted) return;
+      await SampleStorage.deleteTeam(existingParty.id, deleteMembers: true);
+      // Reload so the new-name uniqueness check below sees the post-
+      // delete state.
+      store = await SampleStorage.loadStore();
+      if (!mounted) return;
+    }
+
+    // Uniform naming "species (party)" so saved-sample browsing groups
+    // them visually with the party label. Collisions (same species
+    // twice in one party) get a numeric suffix.
     final existingNames = store.samples.map((s) => s.name).toSet();
     String uniqueName(String base) {
-      if (!existingNames.contains(base)) return base;
       final withParty = '$base ($teamName)';
       if (!existingNames.contains(withParty)) return withParty;
       for (int i = 2;; i++) {
@@ -360,13 +402,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     for (final slot in filled) {
       final state = BattlePokemonState();
       state.applyPokemon(slot.pokemon!);
-      // applyPokemon seeds ability/item/moves from curated defaults —
-      // override only when the user explicitly picked something
-      // different in the slot.
       if (slot.ability != null) state.selectedAbility = slot.ability!;
       if (slot.heldItem != null) state.selectedItem = slot.heldItem;
-      // Carry over the slot's moves so a saved party round-trips
-      // back into the same matchup; nulls stay null.
       for (int mi = 0; mi < state.moves.length && mi < slot.moves.length; mi++) {
         if (slot.moves[mi] != null) state.moves[mi] = slot.moves[mi];
       }
@@ -377,12 +414,13 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             name: name, state: state, teamId: teamId);
         saved++;
       } on TeamFullException {
-        // Shouldn't hit — we just created the team — but bail clean
-        // if the schema ever changes.
         break;
       }
     }
     if (!mounted) return;
+    // Track the just-saved party so a subsequent save defaults its
+    // name (and again hits the overwrite path on no-op resave).
+    _TeamCoverageStore.loadedPartyName = teamName;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text('"$teamName" ${AppStrings.t('team.save.done')} ($saved)'),
     ));
@@ -435,53 +473,39 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     setState(() => _team[index].heldItem = item);
   }
 
-  /// Pull a saved sample (from the calculator's attacker/defender
-  /// sample storage) and copy just the bits the team builder cares
-  /// about into [index].
+  /// Pull a saved sample (from the shared sample storage) and copy
+  /// the species + ability + item + moves into [index]. Uses the
+  /// same SampleListSheet as the calculator so the load UX (party
+  /// folders, expand/collapse, search, rename, move, delete) is
+  /// identical across the two screens.
   Future<void> _loadSampleInto(int index) async {
-    final samples = await SampleStorage.loadSamples();
-    if (!mounted) return;
-    if (samples.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppStrings.t('team.sample.empty')),
-      ));
-      return;
-    }
     final pokedex = await loadPokedex();
     if (!mounted) return;
-    // Build a map name → Pokemon once so we can rehydrate samples
-    // whose persisted state only kept the `pokemonName` string.
     final byName = {for (final p in pokedex) p.name: p};
-    final picked = await showModalBottomSheet<int>(
+    await showModalBottomSheet(
       context: context,
-      builder: (ctx) => SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            for (int i = 0; i < samples.length; i++)
-              ListTile(
-                title: Text(samples[i].name),
-                subtitle: Text(samples[i].state.localizedPokemonName,
-                    style: const TextStyle(fontSize: 12)),
-                onTap: () => Navigator.pop(ctx, i),
-              ),
-          ],
-        ),
+      isScrollControlled: true,
+      builder: (ctx) => SampleListSheet(
+        itemNameMap: _itemNames ?? const {},
+        onLoad: (sample) {
+          final s = sample.state;
+          final p = byName[s.pokemonName];
+          if (p == null) {
+            Navigator.pop(ctx);
+            return;
+          }
+          setState(() {
+            _team[index].pokemon = p;
+            _team[index].ability = s.selectedAbility;
+            _team[index].heldItem = s.selectedItem;
+            for (int i = 0; i < _team[index].moves.length; i++) {
+              _team[index].moves[i] = i < s.moves.length ? s.moves[i] : null;
+            }
+          });
+          Navigator.pop(ctx);
+        },
       ),
     );
-    if (picked == null || !mounted) return;
-    final s = samples[picked].state;
-    final p = byName[s.pokemonName];
-    if (p == null) return;
-    setState(() {
-      _team[index].pokemon = p;
-      _team[index].ability = s.selectedAbility;
-      _team[index].heldItem = s.selectedItem;
-      // Carry over the saved moveset; nulls in s.moves stay null.
-      for (int i = 0; i < _team[index].moves.length; i++) {
-        _team[index].moves[i] = i < s.moves.length ? s.moves[i] : null;
-      }
-    });
   }
 
   @override

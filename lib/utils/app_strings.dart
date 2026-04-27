@@ -205,6 +205,16 @@ class AppStrings {
       AppLanguage.en: 'Saved',
       AppLanguage.ja: '保存完了',
     },
+    'team.save.overwrite.title': {
+      AppLanguage.ko: '같은 이름의 파티가 있습니다',
+      AppLanguage.en: 'Party with this name exists',
+      AppLanguage.ja: '同じ名前のパーティがあります',
+    },
+    'team.save.overwrite.body': {
+      AppLanguage.ko: '기존 파티를 덮어쓰시겠습니까?',
+      AppLanguage.en: 'Overwrite the existing party?',
+      AppLanguage.ja: '既存のパーティを上書きしますか？',
+    },
     'team.matrix.display.numeric': {
       AppLanguage.ko: '숫자',
       AppLanguage.en: 'Numbers',
