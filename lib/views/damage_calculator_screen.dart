@@ -560,6 +560,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final name = result.name;
     if (name.isEmpty) return;
 
+    // Strip transient battle state (Tera, Dynamax, Z-Move flags)
+    // from the snapshot we save — those toggles model the current
+    // turn's situation, not a build property, so persisting them
+    // would resurface old turn-state when the sample is loaded into
+    // another match. Builds the user actually wants to keep
+    // (movesets, EVs, ability, item) survive untouched.
+    final saveState = BattlePokemonState.fromJson(state.toJson())
+      ..terastal = const TerastalState()
+      ..dynamax = DynamaxState.none
+      ..zMoves = [false, false, false, false];
+
     final exists = await SampleStorage.sampleExists(name);
     if (exists) {
       if (!mounted) return;
@@ -584,7 +595,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       // Overwrite preserves the existing pokemon's id and team
       // membership — switching teams is a separate operation in the
       // load sheet.
-      await SampleStorage.overwriteSample(name, state);
+      await SampleStorage.overwriteSample(name, saveState);
     } else {
       // Resolve target team: existing pick, or freshly created if the
       // user chose "+ 새 팀". Wrapped in a try so a TeamFullException
@@ -595,7 +606,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       }
       try {
         await SampleStorage.savePokemon(
-            name: name, state: state, teamId: teamId);
+            name: name, state: saveState, teamId: teamId);
       } on TeamFullException {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -19,6 +19,7 @@ import '../utils/team_coverage.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
+import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
 /// One slot in the team-builder. We keep just the bits that affect
@@ -41,6 +42,22 @@ class _TeamSlot {
   /// ability / item / move edits (the binding is to the saved
   /// sample, not to its current data).
   String? sampleId;
+  /// User-applied type override (Soak / Forest's Curse / Burn Up /
+  /// 3-type combos). `null` means "use the species' natural types";
+  /// when non-null, all three slots are explicit (type2/type3 may
+  /// still be null individually to mean "no second/third type").
+  ({PokemonType type1, PokemonType? type2, PokemonType? type3})? typeOverride;
+
+  /// Effective type1 — override wins, else species natural type1.
+  PokemonType? get effectiveType1 =>
+      typeOverride?.type1 ?? pokemon?.type1;
+
+  /// Effective type2 — explicitly null when override sets it null.
+  PokemonType? get effectiveType2 =>
+      typeOverride != null ? typeOverride!.type2 : pokemon?.type2;
+
+  /// Effective type3 — only ever set via override (Forest's Curse).
+  PokemonType? get effectiveType3 => typeOverride?.type3;
 }
 
 /// Process-lifetime team state — survives navigating away from the
@@ -165,7 +182,17 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       for (int i = 0; i < _team[index].moves.length; i++) {
         _team[index].moves[i] = null;
       }
+      // Type overrides were tied to the old species; drop them so
+      // the new pokemon's natural types take over.
+      _team[index].typeOverride = null;
     });
+  }
+
+  void _setTypeOverride(
+    int index,
+    ({PokemonType type1, PokemonType? type2, PokemonType? type3})? override,
+  ) {
+    setState(() => _team[index].typeOverride = override);
   }
 
   void _setMove(int slotIndex, int moveIndex, Move? move) {
@@ -597,6 +624,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
               onClear: () => _clearSlot(i),
               showMoves: showOff,
               onMoveChanged: (mi, m) => _setMove(i, mi, m),
+              onTypeOverrideChanged: (override) =>
+                  _setTypeOverride(i, override),
             ),
             if (i < _maxTeamSize - 1) const SizedBox(height: 4),
           ],
@@ -784,6 +813,11 @@ class _SlotCard extends StatefulWidget {
   /// fill in the moves used for the offensive coverage matrix.
   final bool showMoves;
   final void Function(int moveIndex, Move? move) onMoveChanged;
+  /// Tap handler for the type chips — opens the type-picker dialog
+  /// and reports the user's pick (or null to clear back to natural).
+  final void Function(
+      ({PokemonType type1, PokemonType? type2, PokemonType? type3})?
+          override) onTypeOverrideChanged;
 
   const _SlotCard({
     super.key,
@@ -800,6 +834,7 @@ class _SlotCard extends StatefulWidget {
     required this.onClear,
     required this.showMoves,
     required this.onMoveChanged,
+    required this.onTypeOverrideChanged,
   });
 
   @override
@@ -923,11 +958,30 @@ class _SlotCardState extends State<_SlotCard> {
                 ),
                 if (p != null) ...[
                   const SizedBox(width: 6),
-                  _typeChip(p.type1),
-                  if (p.type2 != null) ...[
-                    const SizedBox(width: 2),
-                    _typeChip(p.type2!),
-                  ],
+                  // Tap any chip to open the type picker (Soak /
+                  // Forest's Curse / Burn Up overrides). Chips show
+                  // the EFFECTIVE types, so a Soaked Charizard
+                  // displays as Water in the slot card and the
+                  // matrix at the same time.
+                  InkWell(
+                    onTap: () => _openTypePicker(p),
+                    borderRadius: BorderRadius.circular(4),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (widget.slot.effectiveType1 != null)
+                          _typeChip(widget.slot.effectiveType1!),
+                        if (widget.slot.effectiveType2 != null) ...[
+                          const SizedBox(width: 2),
+                          _typeChip(widget.slot.effectiveType2!),
+                        ],
+                        if (widget.slot.effectiveType3 != null) ...[
+                          const SizedBox(width: 2),
+                          _typeChip(widget.slot.effectiveType3!),
+                        ],
+                      ],
+                    ),
+                  ),
                 ],
                 const SizedBox(width: 4),
                 IconButton(
@@ -1050,6 +1104,28 @@ class _SlotCardState extends State<_SlotCard> {
         style: const TextStyle(
             fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
       ),
+    );
+  }
+
+  Future<void> _openTypePicker(Pokemon p) async {
+    final result = await showTypePickerDialog(
+      context: context,
+      currentType1: widget.slot.effectiveType1 ?? p.type1,
+      currentType2: widget.slot.effectiveType2,
+      currentType3: widget.slot.effectiveType3,
+      pokemonName: p.name,
+    );
+    if (result == null) return;
+    // The dialog's "초기화" returns the species' natural types — if
+    // the result matches the natural pair, drop the override so the
+    // slot tracks any future species change cleanly.
+    final isNatural = result.type1 == p.type1 &&
+        result.type2 == p.type2 &&
+        result.type3 == null;
+    widget.onTypeOverrideChanged(
+      isNatural
+          ? null
+          : (type1: result.type1, type2: result.type2, type3: result.type3),
     );
   }
 
@@ -1278,9 +1354,13 @@ class _CoverageMatrix extends StatelessWidget {
       final slot = team[i];
       final p = slot.pokemon;
       if (p == null) continue;
-      // Offensive matrix needs the slot's moves resolved through
-      // transformMove (Tera Blast, Ivy Cudgel, Judgment, -ate skins,
-      // …); defensive matrix only needs the species' types.
+      // Honor user type overrides (Soak / Forest's Curse / Burn Up
+      // …) if applied — both for defensive matchups and as the
+      // userType1 fed into Revelation Dance / -ate resolution on
+      // the offensive side.
+      final t1 = slot.effectiveType1 ?? p.type1;
+      final t2 = slot.effectiveType2;
+      final t3 = slot.effectiveType3;
       final coverageMoves = offensive
           ? [
               for (final m in slot.moves)
@@ -1289,14 +1369,15 @@ class _CoverageMatrix extends StatelessWidget {
                     m,
                     ability: slot.ability,
                     heldItem: slot.heldItem,
-                    userType1: p.type1,
+                    userType1: t1,
                     pokemonName: p.name,
                   ),
             ]
           : const <CoverageMove>[];
       filledCells.add(CoverageSlot(
-        type1: p.type1,
-        type2: p.type2,
+        type1: t1,
+        type2: t2,
+        type3: t3,
         ability: slot.ability,
         heldItem: slot.heldItem,
         moves: coverageMoves,
