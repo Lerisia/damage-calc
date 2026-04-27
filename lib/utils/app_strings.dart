@@ -701,7 +701,7 @@ class AppStrings {
       AppLanguage.ja: 'パーティ相性表追加',
     },
     'announce.partyCoverage.body': {
-      AppLanguage.ko: '오른쪽 위 점 세 개 메뉴에서 파티 상성표를 열어 6마리 파티의 방어/공격 상성을 확인할 수 있습니다.',
+      AppLanguage.ko: '오른쪽 위 메뉴(⋮)에서 파티 상성표를 열어 6마리 파티의 방어/공격 상성을 확인할 수 있습니다.',
       AppLanguage.en: 'Open Party Coverage from the menu (top-right ⋮) to see your 6-mon party\'s defensive and offensive matchups.',
       AppLanguage.ja: '右上のメニュー（⋮）からパーティ相性表を開くと、6体パーティの防御/攻撃相性を確認できます。',
     },
