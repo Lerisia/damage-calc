@@ -155,6 +155,16 @@ class AppStrings {
       AppLanguage.en: 'No saved samples yet.',
       AppLanguage.ja: '保存されたサンプルがありません。',
     },
+    'team.resetAll': {
+      AppLanguage.ko: '전체 초기화',
+      AppLanguage.en: 'Reset all',
+      AppLanguage.ja: 'すべてリセット',
+    },
+    'team.resetAll.confirm': {
+      AppLanguage.ko: '6마리 전부 비울까요?',
+      AppLanguage.en: 'Clear all 6 slots?',
+      AppLanguage.ja: '6体すべてクリアしますか？',
+    },
     'app.theme': {
       AppLanguage.ko: '테마',
       AppLanguage.en: 'Theme',

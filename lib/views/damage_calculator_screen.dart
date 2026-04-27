@@ -691,10 +691,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Future<void> _openTeamCoverage() async {
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => TeamCoverageScreen(
-          abilityNames: _abilityNameMap,
-          itemNames: _itemNameMap,
-        ),
+        builder: (_) => const TeamCoverageScreen(),
       ),
     );
   }

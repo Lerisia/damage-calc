@@ -127,10 +127,23 @@ class _DexScreenState extends State<DexScreen> {
       moveDex: _moveDex,
       loading: _loadingMoves,
     );
-    return DefaultTabController(
+    return PopScope(
+      // Block iOS swipe-back / Android system back. Users were dismissing
+      // the dex by accident with edge drags while reading — only the
+      // explicit back arrow exits now (Navigator.pop bypasses canPop).
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {},
+      child: DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          // Override auto-implied BackButton so the AppBar arrow still
+          // works under PopScope(canPop:false).
+          leading: IconButton(
+            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+            icon: const BackButtonIcon(),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           // Dex is an immersive screen — the title is redundant, so
           // give the full width to the search field. `titleSpacing: 0`
           // removes the default gap between the back button and title
@@ -186,6 +199,7 @@ class _DexScreenState extends State<DexScreen> {
           ],
           ),
         ),
+      ),
       ),
     );
   }

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import '../data/abilitydex.dart';
 import '../data/champions_usage.dart';
+import '../data/itemdex.dart';
 import '../data/pokedex.dart';
 import '../data/sample_storage.dart';
+import '../models/ability.dart';
+import '../models/item.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
+import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/team_coverage.dart';
 import 'widgets/pokemon_selector.dart';
+import 'widgets/typeahead_helpers.dart';
 
 /// One slot in the team-builder. We keep just the bits that affect
 /// type matchups — full BattlePokemonState is overkill here and would
@@ -29,14 +35,7 @@ class _TeamCoverageStore {
 }
 
 class TeamCoverageScreen extends StatefulWidget {
-  final Map<String, String> abilityNames;
-  final Map<String, String> itemNames;
-
-  const TeamCoverageScreen({
-    super.key,
-    this.abilityNames = const {},
-    this.itemNames = const {},
-  });
+  const TeamCoverageScreen({super.key});
 
   @override
   State<TeamCoverageScreen> createState() => _TeamCoverageScreenState();
@@ -47,22 +46,49 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   // Backed by the singleton so the picks persist across pushes/pops.
   List<_TeamSlot> get _team => _TeamCoverageStore.team;
 
-  /// Filled slots only — used to feed coverage logic and to render
-  /// the matrix without empty rows.
-  List<_TeamSlot> get _filled =>
-      _team.where((s) => s.pokemon != null).toList(growable: false);
+  // Full ability/item dex maps for the typeahead pickers — same data
+  // the calculator's StatInput loads. Cached statically so navigating
+  // away and back doesn't re-pay the load.
+  static Map<String, Ability>? _abilityDex;
+  static Map<String, Item>? _itemDex;
+  // Filtered, key→localized-name maps for the picker. Mirrors the
+  // calculator's filtering: skip non-mainline abilities and non-battle
+  // items so users don't trip over Colosseum / cosmetic entries.
+  static Map<String, String>? _abilityNames;
+  static Map<String, String>? _itemNames;
 
-  /// Resolves a slot to a [CoverageSlot]. Pokemon's natural type1/2
-  /// is used; Forest's Curse / type-picker overrides aren't supported
-  /// in the team builder yet.
-  CoverageSlot _toCoverageSlot(_TeamSlot s) {
-    final p = s.pokemon!;
-    return CoverageSlot(
-      type1: p.type1,
-      type2: p.type2,
-      ability: s.ability,
-      heldItem: s.heldItem,
-    );
+  @override
+  void initState() {
+    super.initState();
+    _loadDexes();
+  }
+
+  Future<void> _loadDexes() async {
+    if (_abilityDex != null && _itemDex != null) {
+      if (mounted) setState(() {});
+      return;
+    }
+    try {
+      final aDex = await loadAbilitydex();
+      final iDex = await loadItemdex();
+      // Same filters StatInput applies — non-mainline abilities are
+      // spin-off / Colosseum entries that just confuse the picker;
+      // non-battle items don't matter for coverage decisions.
+      final aNames = <String, String>{};
+      for (final e in aDex.entries) {
+        if (e.value.nonMainline) continue;
+        aNames[e.key] = e.value.localizedName;
+      }
+      final iNames = <String, String>{};
+      for (final e in iDex.entries) {
+        if (e.value.battle) iNames[e.key] = e.value.localizedName;
+      }
+      _abilityDex = aDex;
+      _itemDex = iDex;
+      _abilityNames = aNames;
+      _itemNames = iNames;
+      if (mounted) setState(() {});
+    } catch (_) {}
   }
 
   void _setPokemon(int index, Pokemon p) {
@@ -100,6 +126,31 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         }
       }
       _team[index].heldItem = pickedItem;
+    });
+  }
+
+  Future<void> _resetAll() async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        content: Text(AppStrings.t('team.resetAll.confirm')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(AppStrings.t('team.resetAll')),
+          ),
+        ],
+      ),
+    );
+    if (ok != true || !mounted) return;
+    setState(() {
+      for (int i = 0; i < _team.length; i++) {
+        _team[i] = _TeamSlot();
+      }
     });
   }
 
@@ -175,10 +226,16 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       children: [
         for (int i = 0; i < _maxTeamSize; i++) ...[
           _SlotCard(
+            // Keying by index keeps the typeahead controllers stable
+            // across slot mutations — without the key, swapping which
+            // Pokemon is in slot 0 would shred slot 0's text state.
+            key: ValueKey('team_slot_card_$i'),
             index: i,
             slot: _team[i],
-            abilityNames: widget.abilityNames,
-            itemNames: widget.itemNames,
+            abilityDex: _abilityDex ?? const {},
+            abilityNames: _abilityNames ?? const {},
+            itemDex: _itemDex ?? const {},
+            itemNames: _itemNames ?? const {},
             onPokemonSelected: (p) => _setPokemon(i, p),
             onAbilitySelected: (a) => _setAbility(i, a),
             onItemSelected: (it) => _setItem(i, it),
@@ -195,12 +252,43 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // summary only counts filled ones.
     final matrix = _CoverageMatrix(
       team: _team,
-      abilityNames: widget.abilityNames,
+      abilityNames: _abilityNames ?? const {},
     );
 
-    return Scaffold(
+    return PopScope(
+      // Block iOS swipe-back / Android system back so a stray drag
+      // along the edge doesn't lose the user's whole team. Only the
+      // explicit AppBar back arrow exits the screen — that's a
+      // deliberate tap, not an accidental drag.
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {},
+      child: Scaffold(
       appBar: AppBar(
-        title: Text(AppStrings.t('team.title')),
+        // Override the auto-implied BackButton (which calls
+        // Navigator.maybePop and would be blocked by canPop:false).
+        // Navigator.pop bypasses PopScope, so this still exits.
+        leading: IconButton(
+          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+          icon: const BackButtonIcon(),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // No big "팀 상성표" title — the screen content makes it
+        // obvious where you are. The slot reset lives in the title
+        // position so it stays one tap away even when the slot list
+        // is scrolled. Team-level load (saved teams) will land next
+        // to it once the persistence layer ships.
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: _team.any((s) => s.pokemon != null) ? _resetAll : null,
+            icon: const Icon(Icons.delete_sweep_outlined, size: 18),
+            label: Text(AppStrings.t('team.resetAll')),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              visualDensity: VisualDensity.compact,
+            ),
+          ),
+        ),
       ),
       body: isWide
           ? Padding(
@@ -231,14 +319,17 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 ],
               ),
             ),
+      ),
     );
   }
 }
 
-class _SlotCard extends StatelessWidget {
+class _SlotCard extends StatefulWidget {
   final int index;
   final _TeamSlot slot;
+  final Map<String, Ability> abilityDex;
   final Map<String, String> abilityNames;
+  final Map<String, Item> itemDex;
   final Map<String, String> itemNames;
   final ValueChanged<Pokemon> onPokemonSelected;
   final ValueChanged<String> onAbilitySelected;
@@ -247,9 +338,12 @@ class _SlotCard extends StatelessWidget {
   final VoidCallback onClear;
 
   const _SlotCard({
+    super.key,
     required this.index,
     required this.slot,
+    required this.abilityDex,
     required this.abilityNames,
+    required this.itemDex,
     required this.itemNames,
     required this.onPokemonSelected,
     required this.onAbilitySelected,
@@ -258,14 +352,83 @@ class _SlotCard extends StatelessWidget {
     required this.onClear,
   });
 
-  String _abilityLabel(String key) => abilityNames[key] ?? key;
+  @override
+  State<_SlotCard> createState() => _SlotCardState();
+}
+
+class _SlotCardState extends State<_SlotCard> {
+  final _abilityController = TextEditingController();
+  final _itemController = TextEditingController();
+  final _abilityFocus = FocusNode();
+  final _itemFocus = FocusNode();
+
+  // Cached sorted ability list. Same approach as StatInput — own
+  // abilities first (sorted by their declaration order), then the
+  // rest A→Z by Korean name. Recomputed only when the species'
+  // ability list changes.
+  List<String> _cachedSortedAbilities = const [];
+  List<String> _lastPokemonAbilities = const [];
+
+  @override
+  void dispose() {
+    _abilityController.dispose();
+    _itemController.dispose();
+    _abilityFocus.dispose();
+    _itemFocus.dispose();
+    super.dispose();
+  }
+
+  String _abilityLabel(String key) => widget.abilityNames[key] ?? key;
   String _itemLabel(String? key) =>
-      key == null ? AppStrings.t('team.item.none') : (itemNames[key] ?? key);
+      key == null ? AppStrings.t('team.item.none') : (widget.itemNames[key] ?? key);
+
+  /// Expand Supreme Overlord into its 0–5 stacked variants so all
+  /// six count as "own" abilities for the gray/non-gray split.
+  static List<String> _expandAbilities(
+      List<String> abilities, Map<String, String> nameMap) {
+    final expanded = <String>[];
+    for (final a in abilities) {
+      if (a == 'Supreme Overlord') {
+        for (int i = 0; i <= 5; i++) {
+          final key = 'Supreme Overlord $i';
+          if (nameMap.containsKey(key)) expanded.add(key);
+        }
+      } else {
+        expanded.add(a);
+      }
+    }
+    return expanded;
+  }
+
+  void _rebuildSortedAbilities(List<String> pokemonAbilities) {
+    final all = widget.abilityNames.keys.toList();
+    final own = _expandAbilities(pokemonAbilities, widget.abilityNames);
+    final rest = all.where((a) => !own.contains(a)).toList();
+    rest.sort((a, b) => _abilityLabel(a).compareTo(_abilityLabel(b)));
+    _cachedSortedAbilities = [...own, ...rest];
+    _lastPokemonAbilities = List.of(pokemonAbilities);
+  }
+
+  List<String> _sortedAbilities(List<String> pokemonAbilities) {
+    if (!_listEquals(_lastPokemonAbilities, pokemonAbilities) ||
+        _cachedSortedAbilities.isEmpty) {
+      _rebuildSortedAbilities(pokemonAbilities);
+    }
+    return _cachedSortedAbilities;
+  }
+
+  bool _listEquals(List<String> a, List<String> b) {
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final p = slot.pokemon;
+    final p = widget.slot.pokemon;
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: scheme.outlineVariant),
@@ -281,7 +444,7 @@ class _SlotCard extends StatelessWidget {
               SizedBox(
                 width: 24,
                 child: Text(
-                  '${index + 1}',
+                  '${widget.index + 1}',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -291,9 +454,10 @@ class _SlotCard extends StatelessWidget {
               ),
               Expanded(
                 child: PokemonSelector(
-                  key: ValueKey('team_slot_${index}_${p?.name ?? "empty"}'),
+                  key: ValueKey(
+                      'team_slot_${widget.index}_${p?.name ?? "empty"}'),
                   initialPokemonName: p?.name,
-                  onSelected: onPokemonSelected,
+                  onSelected: widget.onPokemonSelected,
                 ),
               ),
               if (p != null) ...[
@@ -308,7 +472,7 @@ class _SlotCard extends StatelessWidget {
               IconButton(
                 tooltip: AppStrings.t('team.sample.load'),
                 icon: const Icon(Icons.folder_open, size: 18),
-                onPressed: onLoadSample,
+                onPressed: widget.onLoadSample,
                 visualDensity: VisualDensity.compact,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
@@ -317,7 +481,7 @@ class _SlotCard extends StatelessWidget {
                 IconButton(
                   tooltip: '',
                   icon: const Icon(Icons.close, size: 18),
-                  onPressed: onClear,
+                  onPressed: widget.onClear,
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
@@ -332,11 +496,11 @@ class _SlotCard extends StatelessWidget {
             children: [
               const SizedBox(width: 24),
               Expanded(
-                child: _abilityDropdown(scheme, p),
+                child: _abilityField(scheme, p),
               ),
               const SizedBox(width: 6),
               Expanded(
-                child: _itemDropdown(scheme, p),
+                child: _itemField(scheme, p),
               ),
             ],
           ),
@@ -360,107 +524,166 @@ class _SlotCard extends StatelessWidget {
     );
   }
 
-  Widget _abilityDropdown(ColorScheme scheme, Pokemon? p) {
-    if (p == null) {
-      return _dropdownBody(scheme, '-', hasValue: false, disabled: true);
+  // ─── Ability typeahead — same pattern as StatInput._abilityAutocomplete:
+  // own abilities sorted to the top, others gray, tri-language search.
+  Widget _abilityField(ColorScheme scheme, Pokemon? p) {
+    if (p == null || widget.abilityNames.isEmpty) {
+      return _disabledField(scheme, AppStrings.t('label.ability'));
     }
-    return PopupMenuButton<String>(
-      tooltip: '',
-      position: PopupMenuPosition.under,
-      // Mid-battle calc — match the rest of the app's snappy ≤100 ms
-      // popup style instead of the default ~250 ms slide.
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
-      itemBuilder: (_) => [
-        for (final ab in p.abilities)
-          PopupMenuItem(
-            value: ab,
-            child: Text(_abilityLabel(ab),
-                style: const TextStyle(fontSize: 13)),
-          ),
-      ],
-      onSelected: onAbilitySelected,
-      child: _dropdownBody(
-        scheme,
-        slot.ability != null ? _abilityLabel(slot.ability!) : '-',
-        hasValue: slot.ability != null,
-      ),
-    );
-  }
-
-  /// Item picker. We surface the curated top items for the species
-  /// (champions_usage data) plus a "none" option — full item search
-  /// stays in the calculator. The item field mostly matters here for
-  /// Air Balloon / Iron Ball, which are common enough to show up in
-  /// curated lists. Renders as a disabled row when no Pokemon yet.
-  Widget _itemDropdown(ColorScheme scheme, Pokemon? p) {
-    if (p == null) {
-      return _dropdownBody(
-        scheme,
-        AppStrings.t('team.item.none'),
-        hasValue: false,
-        disabled: true,
-      );
+    final sorted = _sortedAbilities(p.abilities);
+    final initialText = widget.slot.ability != null
+        ? _abilityLabel(widget.slot.ability!)
+        : '';
+    if (!_abilityFocus.hasFocus) {
+      _abilityController.text = initialText;
     }
-    final usage = championsUsageFor(p.name);
-    final curated = usage?.items.map((row) => row.name).toList() ?? const [];
-    return PopupMenuButton<String?>(
-      tooltip: '',
-      position: PopupMenuPosition.under,
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
-      itemBuilder: (_) => [
-        PopupMenuItem<String?>(
-          value: null,
-          child: Text(AppStrings.t('team.item.none'),
-              style: const TextStyle(fontSize: 13)),
-        ),
-        for (final item in curated)
-          PopupMenuItem<String?>(
-            value: item,
-            child: Text(_itemLabel(item),
-                style: const TextStyle(fontSize: 13)),
-          ),
-      ],
-      onSelected: onItemSelected,
-      child: _dropdownBody(
-        scheme,
-        _itemLabel(slot.heldItem),
-        hasValue: slot.heldItem != null,
-      ),
-    );
-  }
 
-  /// Shared dropdown body. [disabled] dims the border, label, and
-  /// arrow so an empty slot's controls read as inert without removing
-  /// them from the layout.
-  Widget _dropdownBody(ColorScheme scheme, String label,
-      {required bool hasValue, bool disabled = false}) {
-    final borderAlpha = disabled ? 0.4 : 1.0;
-    final labelAlpha = disabled ? 0.3 : (hasValue ? 1.0 : 0.4);
-    final iconAlpha = disabled ? 0.25 : 0.6;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: scheme.outlineVariant.withValues(alpha: borderAlpha)),
-        borderRadius: BorderRadius.circular(4),
+    final ownSet = <String>{
+      for (final a in p.abilities)
+        if (a == 'Supreme Overlord')
+          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
+        else
+          a,
+    };
+
+    return buildTypeAhead<String>(
+      controller: _abilityController,
+      focusNode: _abilityFocus,
+      suggestionsCallback: (query) {
+        if (query.isEmpty || query == initialText) return sorted;
+        return sorted.where((a) {
+          final data = widget.abilityDex[a];
+          return triLanguageScore(query,
+                nameKo: data?.nameKo ?? _abilityLabel(a),
+                nameEn: data?.nameEn ?? a,
+                nameJa: data?.nameJa ?? '',
+                internalKey: a,
+              ) >
+              0;
+        }).toList();
+      },
+      decoration: InputDecoration(
+        labelText: AppStrings.t('label.ability'),
+        isDense: true,
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                color: scheme.onSurface.withValues(alpha: labelAlpha),
-              ),
-              overflow: TextOverflow.ellipsis,
+      itemBuilder: (context, ability) {
+        final isOwn = ownSet.contains(ability);
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(
+            _abilityLabel(ability),
+            style: TextStyle(
+              fontSize: 14,
+              color: isOwn ? null : Colors.grey,
             ),
           ),
-          Icon(Icons.arrow_drop_down,
-              size: 18, color: scheme.onSurface.withValues(alpha: iconAlpha)),
-        ],
+        );
+      },
+      onSelected: (v) {
+        _abilityController.text = _abilityLabel(v);
+        _abilityFocus.unfocus();
+        widget.onAbilitySelected(v);
+      },
+      onSubmittedPick: (text) {
+        if (text.isEmpty) return null;
+        final matches = sorted.where((a) {
+          final data = widget.abilityDex[a];
+          return triLanguageScore(text,
+                nameKo: data?.nameKo ?? _abilityLabel(a),
+                nameEn: data?.nameEn ?? a,
+                nameJa: data?.nameJa ?? '',
+                internalKey: a,
+              ) >
+              0;
+        }).toList();
+        return matches.isNotEmpty ? matches.first : null;
+      },
+    );
+  }
+
+  // ─── Item typeahead — same pattern as StatInput._itemAutocomplete:
+  // empty key '' represents "no item" and sits at the top, currently
+  // selected item bubbles to the front, tri-language search.
+  Widget _itemField(ColorScheme scheme, Pokemon? p) {
+    if (p == null || widget.itemNames.isEmpty) {
+      return _disabledField(scheme, AppStrings.t('label.item'));
+    }
+    final allItems = ['', ...widget.itemNames.keys];
+    if (widget.slot.heldItem != null && allItems.contains(widget.slot.heldItem)) {
+      allItems.remove(widget.slot.heldItem);
+      allItems.insert(0, widget.slot.heldItem!);
+    }
+    final initialText = _itemLabel(widget.slot.heldItem);
+    if (!_itemFocus.hasFocus) {
+      _itemController.text = initialText;
+    }
+
+    return buildTypeAhead<String>(
+      controller: _itemController,
+      focusNode: _itemFocus,
+      suggestionsCallback: (text) {
+        if (text.isEmpty || text == initialText) return allItems;
+        return allItems.where((key) {
+          final data = widget.itemDex[key];
+          return triLanguageScore(text,
+                nameKo: data?.nameKo ?? _itemLabel(key.isEmpty ? null : key),
+                nameEn: data?.nameEn ?? '',
+                nameJa: data?.nameJa ?? '',
+                internalKey: key,
+              ) >
+              0;
+        }).toList();
+      },
+      decoration: InputDecoration(
+        labelText: AppStrings.t('label.item'),
+        isDense: true,
+      ),
+      itemBuilder: (context, key) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Text(
+            _itemLabel(key.isEmpty ? null : key),
+            style: const TextStyle(fontSize: 14),
+          ),
+        );
+      },
+      onSelected: (v) {
+        _itemController.text = _itemLabel(v.isEmpty ? null : v);
+        _itemFocus.unfocus();
+        widget.onItemSelected(v.isEmpty ? null : v);
+      },
+      onSubmittedPick: (text) {
+        if (text.isEmpty) return null;
+        final matches = allItems.where((key) {
+          final data = widget.itemDex[key];
+          return triLanguageScore(text,
+                nameKo: data?.nameKo ?? _itemLabel(key.isEmpty ? null : key),
+                nameEn: data?.nameEn ?? '',
+                nameJa: data?.nameJa ?? '',
+                internalKey: key,
+              ) >
+              0;
+        }).toList();
+        return matches.isNotEmpty ? matches.first : null;
+      },
+    );
+  }
+
+  /// Disabled-looking InputDecorator for the empty-slot state — mirrors
+  /// the active typeahead's height/border so the row doesn't jump when
+  /// a Pokemon is picked.
+  Widget _disabledField(ColorScheme scheme, String label) {
+    return InputDecorator(
+      decoration: InputDecoration(
+        labelText: label,
+        isDense: true,
+      ),
+      child: Text(
+        '-',
+        style: TextStyle(
+          fontSize: 14,
+          color: scheme.onSurface.withValues(alpha: 0.3),
+        ),
       ),
     );
   }
@@ -580,10 +803,46 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
-  /// Vertical Pokemon name cell — RotatedBox flips a normal Text 90°
-  /// so a 6-column header stays narrow even with longer names like
-  /// "메가샹델라". Tall enough to fit ~6 Korean characters.
+  /// Vertical Pokemon name cell. For Korean / Japanese we stack the
+  /// name one character per line (킬 / 가 / 르 / 도) — every character
+  /// is its own glyph in those scripts, so this reads naturally and
+  /// keeps the header column narrow on phones. For English we fall
+  /// back to a 90° rotated label since stacking each letter would be
+  /// unreadable for a name like "Aegislash".
   Widget _vertNameCell(String name) {
+    final lang = AppStrings.current;
+    if (lang == AppLanguage.ko || lang == AppLanguage.ja) {
+      // Drop spaces / hyphens that show up in some long names — they
+      // waste a stack row and don't add information ("미라이돈"보다
+      // "미라이 돈" 같은 케이스).
+      final chars = name.runes
+          .map((r) => String.fromCharCode(r))
+          .where((c) => c.trim().isNotEmpty)
+          .toList();
+      // Cap at 6 stacked chars so 84 px is enough; longer names (rare
+      // in the dex) trail off with an ellipsis row.
+      final shown = chars.length <= 6 ? chars : [...chars.take(5), '…'];
+      return SizedBox(
+        height: 84,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (final c in shown)
+                Text(
+                  c,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    height: 1.05,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      );
+    }
     return SizedBox(
       height: 84,
       child: Center(
@@ -607,15 +866,14 @@ class _CoverageMatrix extends StatelessWidget {
       ColorScheme scheme) {
     final attackType = teamCoverageAttackTypes[t];
     return TableRow(
-      // Zebra-stripe data rows so the eye can track a single type
-      // across the 6 Pokemon columns without losing its place. The
-      // stripe sits behind everything (cell content paints on top),
-      // so the summary's colored backgrounds still read at full
-      // saturation.
+      // Zebra-stripe data rows. surfaceContainerHighest is wired to
+      // zinc-100 (#F4F4F5) on light / zinc-800 on dark in this app's
+      // theme — that lands right on the conventional GitHub /
+      // Bootstrap table-stripe contrast (~5% delta from surface),
+      // which is the "국룰" zebra value. Full alpha so it actually
+      // reads; the prior 0.35 was too faint.
       decoration: BoxDecoration(
-        color: t.isOdd
-            ? scheme.surfaceContainerHighest.withValues(alpha: 0.35)
-            : null,
+        color: t.isOdd ? scheme.surfaceContainerHighest : null,
       ),
       children: [
         // No horizontal padding — the type chip fills the 48 px
@@ -738,28 +996,35 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
-  /// One matrix cell. We rely on text + color alone (no background
-  /// tint) so a column scan reads clean — each cell is just one short
-  /// glyph in one of four colors:
-  ///   - dark red   "4×"  — quad weakness
-  ///   - red        "2×"  — weakness
-  ///   - (blank)          — neutral
-  ///   - blue       "½"   — resist
-  ///   - dark blue  "¼"   — quad resist
-  ///   - grey       "무"  — immune
+  /// One matrix cell. Common matchups (2×, ½) read as colored text
+  /// only so the chart doesn't go busy. The three decisive tiers —
+  /// 4× quad-weak, ¼ quad-resist, and 무 immune — get a small filled
+  /// pill behind the glyph so they pop on a column scan. The pill
+  /// fits inside the existing 22 px row (no height change); it's just
+  /// a contained badge, not a full-cell tint.
+  ///   - 4×  "4×"  — light red pill, dark red text
+  ///   - 2×  "2×"  — red text only
+  ///   - 1×  (blank)
+  ///   - ½   "½"   — blue text only
+  ///   - ¼   "¼"   — light blue pill, dark blue text
+  ///   - 무  "무"  — light gray pill, gray text
   Widget _multCell(CoverageCell cell, ColorScheme scheme) {
     String label;
     Color fg;
+    Color? pillBg;
     FontWeight weight = FontWeight.w800;
     if (cell.isImmune) {
       label = AppStrings.t('team.matrix.immune');
-      fg = scheme.onSurface.withValues(alpha: 0.45);
+      fg = scheme.onSurface.withValues(alpha: 0.55);
+      pillBg = scheme.onSurface.withValues(alpha: 0.10);
       weight = FontWeight.w700;
     } else {
       final m = cell.multiplier;
       if (m == 4) {
         label = '4×';
         fg = Colors.red.shade900;
+        pillBg = Colors.red.shade100;
+        weight = FontWeight.w900;
       } else if (m == 2) {
         label = '2×';
         fg = Colors.red.shade600;
@@ -769,18 +1034,30 @@ class _CoverageMatrix extends StatelessWidget {
       } else if (m == 0.25) {
         label = '¼';
         fg = Colors.blue.shade900;
+        pillBg = Colors.blue.shade100;
+        weight = FontWeight.w900;
       } else {
         label = '';
         fg = scheme.onSurface;
       }
     }
+    final text = Text(
+      label,
+      style: TextStyle(fontSize: 13, fontWeight: weight, color: fg, height: 1.0),
+    );
     return Container(
       height: 22,
       alignment: Alignment.center,
-      child: Text(
-        label,
-        style: TextStyle(fontSize: 13, fontWeight: weight, color: fg),
-      ),
+      child: pillBg == null
+          ? text
+          : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+              decoration: BoxDecoration(
+                color: pillBg,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: text,
+            ),
     );
   }
 
