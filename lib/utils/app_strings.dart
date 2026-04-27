@@ -165,6 +165,112 @@ class AppStrings {
       AppLanguage.en: 'Clear all 6 slots?',
       AppLanguage.ja: '6体すべてクリアしますか？',
     },
+    // ── Sample storage / team folders (load + save sheets) ────────
+    'sample.team.add': {
+      AppLanguage.ko: '팀 추가',
+      AppLanguage.en: 'Add team',
+      AppLanguage.ja: 'チーム追加',
+    },
+    'sample.team.namePrompt': {
+      AppLanguage.ko: '팀 이름',
+      AppLanguage.en: 'Team name',
+      AppLanguage.ja: 'チーム名',
+    },
+    'sample.team.rename': {
+      AppLanguage.ko: '이름 변경',
+      AppLanguage.en: 'Rename',
+      AppLanguage.ja: '名前を変更',
+    },
+    'sample.team.delete': {
+      AppLanguage.ko: '팀 삭제',
+      AppLanguage.en: 'Delete team',
+      AppLanguage.ja: 'チーム削除',
+    },
+    'sample.team.delete.title': {
+      AppLanguage.ko: '팀 삭제',
+      AppLanguage.en: 'Delete team',
+      AppLanguage.ja: 'チーム削除',
+    },
+    'sample.team.delete.body': {
+      AppLanguage.ko: '소속 포켓몬은 어떻게 할까요?',
+      AppLanguage.en: 'What should happen to the pokemon in this team?',
+      AppLanguage.ja: 'このチームのポケモンはどうしますか？',
+    },
+    'sample.team.delete.keep': {
+      AppLanguage.ko: '팀 밖으로 옮기기',
+      AppLanguage.en: 'Move to loose pool',
+      AppLanguage.ja: 'チーム外に移動',
+    },
+    'sample.team.delete.cascade': {
+      AppLanguage.ko: '함께 삭제',
+      AppLanguage.en: 'Delete with team',
+      AppLanguage.ja: '一緒に削除',
+    },
+    'sample.team.empty': {
+      AppLanguage.ko: '비어있음',
+      AppLanguage.en: 'Empty',
+      AppLanguage.ja: '空',
+    },
+    'sample.team.full': {
+      AppLanguage.ko: '가득참',
+      AppLanguage.en: 'Full',
+      AppLanguage.ja: '満員',
+    },
+    'sample.loose.title': {
+      AppLanguage.ko: '팀 밖',
+      AppLanguage.en: 'Unsorted',
+      AppLanguage.ja: 'チーム外',
+    },
+    'sample.pokemon.rename': {
+      AppLanguage.ko: '이름 변경',
+      AppLanguage.en: 'Rename',
+      AppLanguage.ja: '名前を変更',
+    },
+    'sample.pokemon.move': {
+      AppLanguage.ko: '다른 팀으로 이동',
+      AppLanguage.en: 'Move to team…',
+      AppLanguage.ja: '他のチームへ移動',
+    },
+    'sample.pokemon.delete': {
+      AppLanguage.ko: '삭제',
+      AppLanguage.en: 'Delete',
+      AppLanguage.ja: '削除',
+    },
+    'sample.move.title': {
+      AppLanguage.ko: '어디로 이동할까요?',
+      AppLanguage.en: 'Move to where?',
+      AppLanguage.ja: 'どこへ移動しますか？',
+    },
+    'sample.move.toLoose': {
+      AppLanguage.ko: '팀 밖으로',
+      AppLanguage.en: 'Loose pool',
+      AppLanguage.ja: 'チーム外へ',
+    },
+    'sample.team.fullSnack': {
+      AppLanguage.ko: '팀이 가득 찼어요 (6/6)',
+      AppLanguage.en: 'Team is full (6/6)',
+      AppLanguage.ja: 'チームが満員です (6/6)',
+    },
+    'sample.name.dup': {
+      AppLanguage.ko: '같은 이름이 이미 있어요',
+      AppLanguage.en: 'A sample with this name already exists',
+      AppLanguage.ja: '同じ名前のサンプルが既にあります',
+    },
+    'sample.save.team': {
+      AppLanguage.ko: '저장 위치',
+      AppLanguage.en: 'Save into',
+      AppLanguage.ja: '保存先',
+    },
+    'sample.save.team.none': {
+      AppLanguage.ko: '팀 밖',
+      AppLanguage.en: 'Loose pool',
+      AppLanguage.ja: 'チーム外',
+    },
+    'sample.save.team.create': {
+      AppLanguage.ko: '+ 새 팀 만들기',
+      AppLanguage.en: '+ New team…',
+      AppLanguage.ja: '+ 新しいチーム…',
+    },
     'app.theme': {
       AppLanguage.ko: '테마',
       AppLanguage.en: 'Theme',

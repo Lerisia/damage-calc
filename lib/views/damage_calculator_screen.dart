@@ -535,44 +535,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Future<void> _showSaveDialog(int side, BattlePokemonState state) async {
     final loadedName = side == 0 ? _attackerLoadedName : _defenderLoadedName;
-    final controller = TextEditingController(
-      text: loadedName ?? state.localizedPokemonName,
-    );
-    final name = await showDialog<String>(
+    final result = await showDialog<_SaveDialogResult>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(AppStrings.t('sample.save')),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: controller,
-              maxLength: 50,
-              decoration: InputDecoration(
-                labelText: AppStrings.t('sample.name'),
-              ),
-              autofocus: true,
-            ),
-            if (SampleStorage.isWebStorage)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  AppStrings.t('sample.browserWarning'),
-                  style: TextStyle(fontSize: 11, color: Colors.grey[500]),
-                ),
-              ),
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(AppStrings.t('action.cancel'))),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, controller.text),
-            child: Text(AppStrings.t('action.save')),
-          ),
-        ],
+      builder: (ctx) => _SaveSampleDialog(
+        defaultName: loadedName ?? state.localizedPokemonName,
+        loadedName: loadedName,
       ),
     );
-    if (name == null || name.isEmpty) return;
+    if (result == null) return;
+    final name = result.name;
+    if (name.isEmpty) return;
 
     final exists = await SampleStorage.sampleExists(name);
     if (exists) {
@@ -595,9 +567,28 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ),
       );
       if (overwrite != true) return;
+      // Overwrite preserves the existing pokemon's id and team
+      // membership — switching teams is a separate operation in the
+      // load sheet.
       await SampleStorage.overwriteSample(name, state);
     } else {
-      await SampleStorage.saveSample(name, state);
+      // Resolve target team: existing pick, or freshly created if the
+      // user chose "+ 새 팀". Wrapped in a try so a TeamFullException
+      // surfaces as a snackbar instead of crashing the calc.
+      String? teamId = result.teamId;
+      if (result.newTeamName != null) {
+        teamId = await SampleStorage.createTeam(result.newTeamName!);
+      }
+      try {
+        await SampleStorage.savePokemon(
+            name: name, state: state, teamId: teamId);
+      } on TeamFullException {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppStrings.t('sample.team.fullSnack')),
+        ));
+        return;
+      }
     }
 
     if (!mounted) return;
@@ -614,26 +605,25 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   Future<void> _showLoadSheet(int side) async {
-    final samples = await SampleStorage.loadSamples();
-    if (!mounted) return;
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      // The sheet now owns its own state — it loads the SampleStore,
+      // mutates teams/pokemon in place, and reloads after each
+      // change. The parent only needs the load callback.
       builder: (ctx) => _SampleListSheet(
-        samples: samples,
         itemNameMap: _itemNameMap,
-        onLoad: (index) {
+        onLoad: (sample) {
           setState(() {
-            final loaded = samples[index].state;
+            final loaded = sample.state;
             _repairPresetData(loaded);
-            final loadedName = samples[index].name;
             if (side == 0) {
               _attacker = loaded;
-              _attackerLoadedName = loadedName;
+              _attackerLoadedName = sample.name;
               _prevAtkPokemon = loaded.pokemonName;
             } else {
               _defender = loaded;
-              _defenderLoadedName = loadedName;
+              _defenderLoadedName = sample.name;
               _prevDefPokemon = loaded.pokemonName;
             }
             _resetCounter++;
@@ -641,12 +631,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           });
           Navigator.pop(ctx);
         },
-        onDelete: (index) async {
-          await SampleStorage.deleteSample(index);
-          Navigator.pop(ctx);
-          _showLoadSheet(side);
-        },
-        onImportComplete: () => _showLoadSheet(side),
       ),
     );
   }
@@ -2220,19 +2204,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 }
 
+/// Bottom sheet that surfaces the saved-pokemon storage as a folder
+/// tree: teams (groups of up to 6) at the top, loose samples below.
+/// The sheet owns its own [SampleStore] state and re-reads from
+/// [SampleStorage] after every mutation (rename, move, delete, …) so
+/// the parent stays out of CRUD concerns and only consumes a load.
 class _SampleListSheet extends StatefulWidget {
-  final List<({String name, BattlePokemonState state})> samples;
   final Map<String, String> itemNameMap;
-  final ValueChanged<int> onLoad;
-  final ValueChanged<int> onDelete;
-  final VoidCallback? onImportComplete;
+  /// Invoked when the user taps a pokemon row to load it into the
+  /// active panel. The sheet does NOT auto-close; the caller pops it
+  /// (matches the prior behaviour of waiting until state is applied).
+  final void Function(StoredSample) onLoad;
 
   const _SampleListSheet({
-    required this.samples,
-    this.itemNameMap = const {},
     required this.onLoad,
-    required this.onDelete,
-    this.onImportComplete,
+    this.itemNameMap = const {},
   });
 
   @override
@@ -2240,44 +2226,244 @@ class _SampleListSheet extends StatefulWidget {
 }
 
 class _SampleListSheetState extends State<_SampleListSheet> {
+  SampleStore _store = const SampleStore();
+  bool _loading = true;
   String _query = '';
 
-  List<int> _filteredIndices() {
-    if (_query.isEmpty) {
-      return List.generate(widget.samples.length, (i) => i);
-    }
-    final scored = <(int, int)>[];
-    for (int i = 0; i < widget.samples.length; i++) {
-      final sample = widget.samples[i];
-      final nameScore = koreanMatchScore(_query, sample.name);
-      final pokemonKoScore = koreanMatchScore(_query, sample.state.pokemonNameKo);
-      final pokemonEnScore = koreanMatchScore(_query, sample.state.pokemonName);
-      final score = [nameScore, pokemonKoScore, pokemonEnScore].reduce(math.max);
-      if (score > 0) scored.add((i, score));
-    }
-    scored.sort((a, b) => b.$2.compareTo(a.$2));
-    return scored.map((e) => e.$1).toList();
+  @override
+  void initState() {
+    super.initState();
+    _refresh();
   }
+
+  Future<void> _refresh() async {
+    final store = await SampleStorage.loadStore();
+    if (!mounted) return;
+    setState(() {
+      _store = store;
+      _loading = false;
+    });
+  }
+
+  // ── Mutations ──────────────────────────────────────────────────
+
+  Future<void> _addTeam() async {
+    final name = await _promptName(title: AppStrings.t('sample.team.add'));
+    if (name == null || name.isEmpty) return;
+    await SampleStorage.createTeam(name);
+    await _refresh();
+  }
+
+  Future<void> _renameTeam(TeamFolder t) async {
+    final name = await _promptName(
+        title: AppStrings.t('sample.team.namePrompt'), initial: t.name);
+    if (name == null || name.isEmpty || name == t.name) return;
+    await SampleStorage.renameTeam(t.id, name);
+    await _refresh();
+  }
+
+  Future<void> _deleteTeam(TeamFolder t) async {
+    // 3-way prompt: keep members (loose) / cascade delete / cancel.
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('${AppStrings.t('sample.team.delete.title')}: ${t.name}'),
+        content: t.memberIds.isEmpty
+            ? null
+            : Text(AppStrings.t('sample.team.delete.body')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          if (t.memberIds.isNotEmpty)
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, 'cascade'),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text(AppStrings.t('sample.team.delete.cascade')),
+            ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, 'keep'),
+            child: Text(t.memberIds.isEmpty
+                ? AppStrings.t('action.confirm')
+                : AppStrings.t('sample.team.delete.keep')),
+          ),
+        ],
+      ),
+    );
+    if (result == null) return;
+    await SampleStorage.deleteTeam(t.id, deleteMembers: result == 'cascade');
+    await _refresh();
+  }
+
+  Future<void> _renamePokemon(StoredSample s) async {
+    final name = await _promptName(
+      title: AppStrings.t('sample.pokemon.rename'),
+      initial: s.name,
+      validator: (text) {
+        if (text == s.name) return null;
+        // Globally unique — cheap check against current store.
+        if (_store.samples.any((x) => x.name == text)) {
+          return AppStrings.t('sample.name.dup');
+        }
+        return null;
+      },
+    );
+    if (name == null || name.isEmpty || name == s.name) return;
+    await SampleStorage.updatePokemon(s.id, name: name);
+    await _refresh();
+  }
+
+  Future<void> _deletePokemon(StoredSample s) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        content: Text('"${s.name}" 삭제'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text(AppStrings.t('sample.pokemon.delete')),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    await SampleStorage.deletePokemon(s.id);
+    await _refresh();
+  }
+
+  Future<void> _movePokemon(StoredSample s) async {
+    final currentTeamId = _store.teamOf(s.id)?.id;
+    final pickedAction = await showModalBottomSheet<String>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              dense: true,
+              title: Text(
+                AppStrings.t('sample.move.title'),
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+            const Divider(height: 1),
+            // "Move to loose" — disabled if already loose.
+            ListTile(
+              leading: const Icon(Icons.inbox_outlined),
+              title: Text(AppStrings.t('sample.move.toLoose')),
+              enabled: currentTeamId != null,
+              onTap: () => Navigator.pop(ctx, '__loose__'),
+            ),
+            for (final t in _store.teams)
+              ListTile(
+                leading: const Icon(Icons.folder_outlined),
+                title: Text('${t.name}  (${t.memberIds.length}/$kMaxTeamSize)'),
+                // Already in: disabled. Full target (and not the current
+                // team): also disabled.
+                enabled: t.id != currentTeamId &&
+                    t.memberIds.length < kMaxTeamSize,
+                trailing: t.memberIds.length >= kMaxTeamSize &&
+                        t.id != currentTeamId
+                    ? Text(AppStrings.t('sample.team.full'),
+                        style: TextStyle(
+                            fontSize: 11, color: Colors.grey.shade500))
+                    : null,
+                onTap: () => Navigator.pop(ctx, t.id),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (pickedAction == null) return;
+    final targetId = pickedAction == '__loose__' ? null : pickedAction;
+    try {
+      await SampleStorage.movePokemon(s.id, targetId);
+    } on TeamFullException {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('sample.team.fullSnack')),
+      ));
+      return;
+    }
+    await _refresh();
+  }
+
+  Future<String?> _promptName({
+    required String title,
+    String initial = '',
+    String? Function(String)? validator,
+  }) async {
+    final controller = TextEditingController(text: initial);
+    String? errorText;
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setLocal) => AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            decoration: InputDecoration(errorText: errorText),
+            onSubmitted: (text) {
+              final err = validator?.call(text.trim());
+              if (err != null) {
+                setLocal(() => errorText = err);
+                return;
+              }
+              Navigator.pop(ctx, text.trim());
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(AppStrings.t('action.cancel')),
+            ),
+            TextButton(
+              onPressed: () {
+                final text = controller.text.trim();
+                final err = validator?.call(text);
+                if (err != null) {
+                  setLocal(() => errorText = err);
+                  return;
+                }
+                Navigator.pop(ctx, text);
+              },
+              child: Text(AppStrings.t('action.confirm')),
+            ),
+          ],
+        ),
+      ),
+    );
+    controller.dispose();
+    return result;
+  }
+
+  // ── Search filtering ──────────────────────────────────────────
+
+  bool _matches(StoredSample s) {
+    if (_query.isEmpty) return true;
+    final scores = [
+      koreanMatchScore(_query, s.name),
+      koreanMatchScore(_query, s.state.pokemonNameKo),
+      koreanMatchScore(_query, s.state.pokemonName),
+    ];
+    return scores.any((sc) => sc > 0);
+  }
+
+  // ── Build ─────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
-    if (widget.samples.isEmpty) {
-      return SizedBox(
-        height: 300,
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(AppStrings.t('sample.empty'), style: const TextStyle(fontSize: 16)),
-          ],
-        ),
-      );
-    }
-    final indices = _filteredIndices();
     return DraggableScrollableSheet(
-      initialChildSize: 0.5,
+      initialChildSize: 0.6,
       minChildSize: 0.3,
-      maxChildSize: 0.8,
+      maxChildSize: 0.9,
       expand: false,
       builder: (ctx, scrollController) {
         return Column(
@@ -2285,8 +2471,10 @@ class _SampleListSheetState extends State<_SampleListSheet> {
             if (SampleStorage.isWebStorage)
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-                child: Text(AppStrings.t('sample.browserWarning'),
-                  style: TextStyle(fontSize: 11, color: Colors.grey[500])),
+                child: Text(
+                  AppStrings.t('sample.browserWarning'),
+                  style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+                ),
               ),
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
@@ -2299,9 +2487,20 @@ class _SampleListSheetState extends State<_SampleListSheet> {
                         hintText: AppStrings.t('sample.search'),
                         prefixIcon: const Icon(Icons.search, size: 20),
                         isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 8),
                       ),
                       onChanged: (v) => setState(() => _query = v),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  TextButton.icon(
+                    onPressed: _addTeam,
+                    icon: const Icon(Icons.create_new_folder_outlined,
+                        size: 18),
+                    label: Text(AppStrings.t('sample.team.add')),
+                    style: TextButton.styleFrom(
+                      visualDensity: VisualDensity.compact,
                     ),
                   ),
                 ],
@@ -2309,44 +2508,444 @@ class _SampleListSheetState extends State<_SampleListSheet> {
             ),
             const SizedBox(height: 4),
             const Divider(height: 1),
-            Expanded(
-              child: indices.isEmpty
-                  ? Center(child: Text(AppStrings.t('search.noResults'),
-                      style: TextStyle(color: Colors.grey[400])))
-                  : ListView.separated(
-                      controller: scrollController,
-                      itemCount: indices.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
-                      itemBuilder: (ctx, i) {
-                        final idx = indices[i];
-                        final sample = widget.samples[idx];
-                        final state = sample.state;
-                        final itemKo = state.selectedItem != null
-                            ? widget.itemNameMap[state.selectedItem] ?? state.selectedItem
-                            : null;
-                        final parts = [
-                          'Lv.${state.level}',
-                          state.nature.localizedName,
-                          if (itemKo != null) itemKo,
-                        ];
-                        return ListTile(
-                          title: Text(sample.name),
-                          subtitle: Text('${state.localizedPokemonName} | ${parts.join(' ')}'),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete_outline, size: 20),
-                            onPressed: () => widget.onDelete(idx),
-                          ),
-                          onTap: () => widget.onLoad(idx),
-                        );
-                      },
-                    ),
-            ),
+            Expanded(child: _body(scrollController)),
           ],
         );
       },
     );
   }
 
+  Widget _body(ScrollController scrollController) {
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+    }
+    if (_store.teams.isEmpty && _store.samples.isEmpty) {
+      return Center(
+        child: Text(AppStrings.t('sample.empty'),
+            style: const TextStyle(fontSize: 14)),
+      );
+    }
+    // Search active → flat filtered list (team grouping hidden so the
+    // user can scan candidates without context-switching between
+    // sections).
+    if (_query.isNotEmpty) {
+      final hits = _store.samples.where(_matches).toList();
+      if (hits.isEmpty) {
+        return Center(
+          child: Text(AppStrings.t('search.noResults'),
+              style: TextStyle(color: Colors.grey[400])),
+        );
+      }
+      return ListView.separated(
+        controller: scrollController,
+        itemCount: hits.length,
+        separatorBuilder: (_, __) => const Divider(height: 1),
+        itemBuilder: (_, i) => _pokemonTile(hits[i]),
+      );
+    }
+    // Default tree view.
+    final sections = <Widget>[];
+    for (final t in _store.teams) {
+      sections.add(_teamHeader(t));
+      if (t.memberIds.isEmpty) {
+        sections.add(_emptyTeamPlaceholder());
+      } else {
+        for (final pid in t.memberIds) {
+          final s = _store.sampleById(pid);
+          if (s != null) sections.add(_pokemonTile(s, indent: true));
+        }
+      }
+    }
+    final loose = _store.looseSamples;
+    if (loose.isNotEmpty) {
+      sections.add(_looseHeader(loose.length));
+      for (final s in loose) {
+        sections.add(_pokemonTile(s));
+      }
+    }
+    return ListView(
+      controller: scrollController,
+      children: sections,
+    );
+  }
+
+  Widget _teamHeader(TeamFolder t) {
+    final scheme = Theme.of(context).colorScheme;
+    final full = t.memberIds.length >= kMaxTeamSize;
+    return Container(
+      color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
+      padding: const EdgeInsets.fromLTRB(12, 6, 4, 6),
+      child: Row(
+        children: [
+          const Icon(Icons.folder_outlined, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              t.name,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Text(
+            '${t.memberIds.length}/$kMaxTeamSize',
+            style: TextStyle(
+              fontSize: 12,
+              color: full ? Colors.orange.shade700 : Colors.grey.shade600,
+              fontWeight: full ? FontWeight.w700 : FontWeight.w500,
+            ),
+          ),
+          PopupMenuButton<String>(
+            tooltip: '',
+            popUpAnimationStyle:
+                AnimationStyle(duration: const Duration(milliseconds: 100)),
+            icon: const Icon(Icons.more_vert, size: 18),
+            padding: EdgeInsets.zero,
+            onSelected: (v) {
+              if (v == 'rename') _renameTeam(t);
+              if (v == 'delete') _deleteTeam(t);
+            },
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'rename',
+                child: Text(AppStrings.t('sample.team.rename')),
+              ),
+              PopupMenuItem(
+                value: 'delete',
+                child: Text(AppStrings.t('sample.team.delete'),
+                    style: const TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _looseHeader(int count) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
+      padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+      child: Row(
+        children: [
+          const Icon(Icons.inbox_outlined, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              AppStrings.t('sample.loose.title'),
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+          ),
+          Text(
+            '$count',
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _emptyTeamPlaceholder() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40, 8, 16, 8),
+      child: Text(
+        AppStrings.t('sample.team.empty'),
+        style: TextStyle(
+          fontSize: 12,
+          color: Colors.grey.shade500,
+          fontStyle: FontStyle.italic,
+        ),
+      ),
+    );
+  }
+
+  Widget _pokemonTile(StoredSample s, {bool indent = false}) {
+    final state = s.state;
+    final itemKo = state.selectedItem != null
+        ? widget.itemNameMap[state.selectedItem] ?? state.selectedItem
+        : null;
+    final parts = [
+      'Lv.${state.level}',
+      state.nature.localizedName,
+      if (itemKo != null) itemKo,
+    ];
+    return ListTile(
+      contentPadding:
+          EdgeInsets.fromLTRB(indent ? 32 : 16, 0, 4, 0),
+      title: Text(s.name),
+      subtitle: Text(
+        '${state.localizedPokemonName} | ${parts.join(' ')}',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      onTap: () => widget.onLoad(s),
+      trailing: PopupMenuButton<String>(
+        tooltip: '',
+        popUpAnimationStyle:
+            AnimationStyle(duration: const Duration(milliseconds: 100)),
+        icon: const Icon(Icons.more_vert, size: 18),
+        padding: EdgeInsets.zero,
+        onSelected: (v) {
+          if (v == 'rename') _renamePokemon(s);
+          if (v == 'move') _movePokemon(s);
+          if (v == 'delete') _deletePokemon(s);
+        },
+        itemBuilder: (_) => [
+          PopupMenuItem(
+            value: 'rename',
+            child: Text(AppStrings.t('sample.pokemon.rename')),
+          ),
+          PopupMenuItem(
+            value: 'move',
+            child: Text(AppStrings.t('sample.pokemon.move')),
+          ),
+          PopupMenuItem(
+            value: 'delete',
+            child: Text(AppStrings.t('sample.pokemon.delete'),
+                style: const TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Result returned by [_SaveSampleDialog]. Either [teamId] is set
+/// (existing team), or [newTeamName] is set (will be created on
+/// confirm), or both null (loose / 팀 밖).
+class _SaveDialogResult {
+  final String name;
+  final String? teamId;
+  final String? newTeamName;
+  const _SaveDialogResult({
+    required this.name,
+    this.teamId,
+    this.newTeamName,
+  });
+}
+
+/// Save dialog with name field + team picker. The team list shows
+/// each team's fill state ("정공팀 (4/6)") and disables full ones so
+/// the user doesn't try to push a 7th member. A "+ 새 팀" button
+/// next to the dropdown opens a name prompt; the team isn't actually
+/// created until the user confirms the save.
+class _SaveSampleDialog extends StatefulWidget {
+  final String defaultName;
+  /// If the active panel was loaded from a saved sample, its current
+  /// team is used as the dropdown default so re-saving doesn't
+  /// silently move the pokemon out of its team.
+  final String? loadedName;
+
+  const _SaveSampleDialog({
+    required this.defaultName,
+    this.loadedName,
+  });
+
+  @override
+  State<_SaveSampleDialog> createState() => _SaveSampleDialogState();
+}
+
+class _SaveSampleDialogState extends State<_SaveSampleDialog> {
+  late final TextEditingController _nameCtrl =
+      TextEditingController(text: widget.defaultName);
+
+  SampleStore _store = const SampleStore();
+  bool _loading = true;
+  String? _selectedTeamId; // null = loose
+  String? _pendingNewTeamName; // set when "+ 새 팀" provided a name
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStore();
+  }
+
+  Future<void> _loadStore() async {
+    final store = await SampleStorage.loadStore();
+    if (!mounted) return;
+    String? defaultTeam;
+    if (widget.loadedName != null) {
+      // Pre-select the team the existing sample lives in so re-save
+      // keeps it there (most common workflow: tweak then save again).
+      final existing = store.samples
+          .where((s) => s.name == widget.loadedName)
+          .firstOrNull;
+      if (existing != null) {
+        defaultTeam = store.teamOf(existing.id)?.id;
+      }
+    }
+    setState(() {
+      _store = store;
+      _selectedTeamId = defaultTeam;
+      _loading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _promptNewTeamName() async {
+    final controller = TextEditingController();
+    final name = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('sample.team.namePrompt')),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          onSubmitted: (v) => Navigator.pop(ctx, v.trim()),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
+            child: Text(AppStrings.t('action.confirm')),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (name == null || name.isEmpty) return;
+    setState(() {
+      _pendingNewTeamName = name;
+      _selectedTeamId = null; // dropdown unselected; pending name takes over
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(AppStrings.t('sample.save')),
+      content: _loading
+          ? const SizedBox(
+              height: 80,
+              child: Center(child: CircularProgressIndicator(strokeWidth: 2)))
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _nameCtrl,
+                  maxLength: 50,
+                  decoration: InputDecoration(
+                    labelText: AppStrings.t('sample.name'),
+                  ),
+                  autofocus: true,
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Expanded(child: _teamPickerOrPending()),
+                    const SizedBox(width: 4),
+                    IconButton(
+                      tooltip: AppStrings.t('sample.team.add'),
+                      icon: const Icon(Icons.create_new_folder_outlined,
+                          size: 20),
+                      onPressed: _promptNewTeamName,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  ],
+                ),
+                if (SampleStorage.isWebStorage)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      AppStrings.t('sample.browserWarning'),
+                      style:
+                          TextStyle(fontSize: 11, color: Colors.grey[500]),
+                    ),
+                  ),
+              ],
+            ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppStrings.t('action.cancel')),
+        ),
+        TextButton(
+          onPressed: _loading
+              ? null
+              : () => Navigator.pop(
+                    context,
+                    _SaveDialogResult(
+                      name: _nameCtrl.text.trim(),
+                      teamId: _pendingNewTeamName == null
+                          ? _selectedTeamId
+                          : null,
+                      newTeamName: _pendingNewTeamName,
+                    ),
+                  ),
+          child: Text(AppStrings.t('action.save')),
+        ),
+      ],
+    );
+  }
+
+  Widget _teamPickerOrPending() {
+    // Pending new-team takes precedence over the dropdown so the user
+    // sees what they just typed; tap the chip to clear it and
+    // re-pick.
+    if (_pendingNewTeamName != null) {
+      return InputDecorator(
+        decoration: InputDecoration(
+          labelText: AppStrings.t('sample.save.team'),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.create_new_folder, size: 16),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(_pendingNewTeamName!,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+            ),
+            InkWell(
+              onTap: () => setState(() => _pendingNewTeamName = null),
+              child: const Padding(
+                padding: EdgeInsets.all(4),
+                child: Icon(Icons.close, size: 14),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    final items = <DropdownMenuItem<String?>>[
+      DropdownMenuItem(
+        value: null,
+        child: Text(AppStrings.t('sample.save.team.none')),
+      ),
+      for (final t in _store.teams)
+        DropdownMenuItem(
+          value: t.id,
+          enabled: t.memberIds.length < kMaxTeamSize,
+          child: Text(
+            '${t.name}  (${t.memberIds.length}/$kMaxTeamSize)',
+            style: TextStyle(
+              color: t.memberIds.length >= kMaxTeamSize
+                  ? Colors.grey
+                  : null,
+            ),
+          ),
+        ),
+    ];
+    return DropdownButtonFormField<String?>(
+      value: _selectedTeamId,
+      isExpanded: true,
+      decoration: InputDecoration(
+        labelText: AppStrings.t('sample.save.team'),
+        isDense: true,
+      ),
+      items: items,
+      onChanged: (v) => setState(() => _selectedTeamId = v),
+    );
+  }
 }
 
 /// Compact language toggle button for wide AppBar.
