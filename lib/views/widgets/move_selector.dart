@@ -21,8 +21,13 @@ class MoveSelector extends StatefulWidget {
   /// for parents that want to expand layout while the user is picking
   /// and collapse it after.
   final ValueChanged<bool>? onFocusChanged;
+  /// `true` → drop the type / category / power suffix from each
+  /// suggestion row, leaving only the name + learnable/unlearnable
+  /// gray. Used in tight layouts (party-coverage move grid) where
+  /// the extra metadata doesn't fit on phone widths.
+  final bool compact;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -185,6 +190,18 @@ class _MoveSelectorState extends State<MoveSelector> {
       itemBuilder: (context, move) {
         final learnable = _canLearn(move);
         final nameColor = learnable ? null : Colors.grey;
+        // Compact mode: name only (+ learnable gray) so the suggestion
+        // list fits in tight grids like the party-coverage move 2x2.
+        if (widget.compact) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Text(
+              move.localizedName,
+              style: TextStyle(fontSize: 14, color: nameColor),
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Row(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/abilitydex.dart';
 import '../data/champions_usage.dart';
 import '../data/itemdex.dart';
+import '../data/movedex.dart';
 import '../data/pokedex.dart';
 import '../data/sample_storage.dart';
 import '../models/ability.dart';
@@ -65,6 +66,11 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   // items so users don't trip over Colosseum / cosmetic entries.
   static Map<String, String>? _abilityNames;
   static Map<String, String>? _itemNames;
+  // English-name → Move map. Used by _setPokemon to materialize the
+  // curated default-moves list, and by _loadParty / _loadSampleInto
+  // to rehydrate moves stored on saved samples (which only persist
+  // the move name).
+  static Map<String, Move>? _movesByName;
 
   @override
   void initState() {
@@ -73,13 +79,14 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   }
 
   Future<void> _loadDexes() async {
-    if (_abilityDex != null && _itemDex != null) {
+    if (_abilityDex != null && _itemDex != null && _movesByName != null) {
       if (mounted) setState(() {});
       return;
     }
     try {
       final aDex = await loadAbilitydex();
       final iDex = await loadItemdex();
+      final allMoves = await loadAllMoves();
       // Same filters StatInput applies — non-mainline abilities are
       // spin-off / Colosseum entries that just confuse the picker;
       // non-battle items don't matter for coverage decisions.
@@ -96,6 +103,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       _itemDex = iDex;
       _abilityNames = aNames;
       _itemNames = iNames;
+      _movesByName = {for (final m in allMoves) m.name: m};
       if (mounted) setState(() {});
     } catch (_) {}
   }
@@ -136,11 +144,24 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       }
       _team[index].heldItem = pickedItem;
 
-      // Wipe the move slots — old picks were learned by the previous
-      // species and almost never carry over correctly. Cleaner to
-      // start fresh than to leave illegal moves stuck in the picker.
+      // Wipe the move slots first — old picks were learned by the
+      // previous species and almost never carry over correctly.
       for (int i = 0; i < _team[index].moves.length; i++) {
         _team[index].moves[i] = null;
+      }
+      // Then seed from curated Champions Singles defaults; fall back
+      // to the first 4 of the broader move list. moves dex must be
+      // loaded for this to find anything (it usually is by the time
+      // a user picks a pokemon).
+      final usage = championsUsageFor(p.name);
+      final moveSource = usage?.defaultMoves.isNotEmpty == true
+          ? usage!.defaultMoves
+          : usage?.moves ?? const [];
+      final byName = _movesByName;
+      if (byName != null) {
+        for (int i = 0; i < 4 && i < moveSource.length; i++) {
+          _team[index].moves[i] = byName[moveSource[i].name];
+        }
       }
     });
   }
@@ -274,10 +295,15 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             _team[i] = _TeamSlot();
             continue;
           }
-          _team[i] = _TeamSlot()
+          final newSlot = _TeamSlot()
             ..pokemon = p
             ..ability = s.state.selectedAbility
             ..heldItem = s.state.selectedItem;
+          for (int mi = 0; mi < newSlot.moves.length; mi++) {
+            newSlot.moves[mi] =
+                mi < s.state.moves.length ? s.state.moves[mi] : null;
+          }
+          _team[i] = newSlot;
         } else {
           _team[i] = _TeamSlot();
         }
@@ -334,10 +360,16 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     for (final slot in filled) {
       final state = BattlePokemonState();
       state.applyPokemon(slot.pokemon!);
-      // applyPokemon seeds ability/item from curated defaults — only
-      // override when the user explicitly picked something different.
+      // applyPokemon seeds ability/item/moves from curated defaults —
+      // override only when the user explicitly picked something
+      // different in the slot.
       if (slot.ability != null) state.selectedAbility = slot.ability!;
       if (slot.heldItem != null) state.selectedItem = slot.heldItem;
+      // Carry over the slot's moves so a saved party round-trips
+      // back into the same matchup; nulls stay null.
+      for (int mi = 0; mi < state.moves.length && mi < slot.moves.length; mi++) {
+        if (slot.moves[mi] != null) state.moves[mi] = slot.moves[mi];
+      }
       final name = uniqueName(slot.pokemon!.localizedName);
       existingNames.add(name);
       try {
@@ -445,6 +477,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       _team[index].pokemon = p;
       _team[index].ability = s.selectedAbility;
       _team[index].heldItem = s.selectedItem;
+      // Carry over the saved moveset; nulls in s.moves stay null.
+      for (int i = 0; i < _team[index].moves.length; i++) {
+        _team[index].moves[i] = i < s.moves.length ? s.moves[i] : null;
+      }
     });
   }
 
@@ -500,8 +536,6 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _OffensiveSwitch(value: showOff),
-              const SizedBox(height: 4),
               _DisplayModeToggle(mode: mode),
               const SizedBox(height: 6),
               if (showOff) _matrixSectionHeader(
@@ -530,6 +564,18 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             ],
           );
         },
+      ),
+    );
+
+    // Offensive toggle is a screen-level mode (it expands the slot
+    // cards AND adds the second matrix), so it lives at the very top
+    // of the body — above both the slot list and the matrix region —
+    // instead of being tucked next to the numeric/symbolic toggle.
+    final offensiveBar = Padding(
+      padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
+      child: ValueListenableBuilder<bool>(
+        valueListenable: CoverageDisplayController.instance.showOffensive,
+        builder: (_, showOff, __) => _OffensiveSwitch(value: showOff),
       ),
     );
 
@@ -594,31 +640,40 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         behavior: HitTestBehavior.translucent,
         child: isWide
           ? Padding(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Slot column narrower than matrix on wide layouts
-                  // — the slot cards don't need much room past their
-                  // typeahead fields, while the matrix benefits from
-                  // every extra px (16 type rows × 6 mons + summary).
+                  offensiveBar,
                   Expanded(
-                    flex: 4,
-                    child: SingleChildScrollView(child: slotList),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    flex: 6,
-                    child: SingleChildScrollView(child: matrix),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Slot column narrower than matrix on wide
+                        // layouts — slots don't need much room past
+                        // their typeahead fields, while the matrix
+                        // benefits from every extra px.
+                        Expanded(
+                          flex: 4,
+                          child: SingleChildScrollView(child: slotList),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          flex: 6,
+                          child: SingleChildScrollView(child: matrix),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             )
           : SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 120),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  offensiveBar,
                   slotList,
                   const SizedBox(height: 20),
                   matrix,
@@ -889,6 +944,8 @@ class _SlotCardState extends State<_SlotCard> {
       dexNumber: p.dexNumber,
       initialMoveName: current?.name,
       onSelected: (m) => widget.onMoveChanged(moveIndex, m),
+      // Phone-width grid → drop the type/category/power suffix.
+      compact: true,
     );
   }
 
