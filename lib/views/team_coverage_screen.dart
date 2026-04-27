@@ -431,27 +431,29 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (int i = 0; i < _maxTeamSize; i++) ...[
-          // RepaintBoundary per card so editing one slot's typeahead
-          // doesn't repaint the other five. Cheap on first-paint and
-          // pays off whenever the user types in a single field.
-          RepaintBoundary(
-            child: _SlotCard(
-              // Keying by index keeps the typeahead controllers stable
-              // across slot mutations — without the key, swapping which
-              // Pokemon is in slot 0 would shred slot 0's text state.
-              key: ValueKey('team_slot_card_$i'),
-              index: i,
-              slot: _team[i],
-              abilityDex: _abilityDex ?? const {},
-              abilityNames: _abilityNames ?? const {},
-              itemDex: _itemDex ?? const {},
-              itemNames: _itemNames ?? const {},
-              onPokemonSelected: (p) => _setPokemon(i, p),
-              onAbilitySelected: (a) => _setAbility(i, a),
-              onItemSelected: (it) => _setItem(i, it),
-              onLoadSample: () => _loadSampleInto(i),
-              onClear: () => _clearSlot(i),
-            ),
+          // No per-card RepaintBoundary. The earlier optimization
+          // for steady-state typing caused a layer-raster timing
+          // glitch on iOS slide-in: cards in the middle of the
+          // visible area showed a blank rectangle in their Row 1
+          // (type chips + load / clear buttons) for the first few
+          // frames after push. The slotList rarely repaints anyway
+          // (only on slot mutations), so the trade-off doesn't pay.
+          _SlotCard(
+            // Keying by index keeps the typeahead controllers stable
+            // across slot mutations — without the key, swapping which
+            // Pokemon is in slot 0 would shred slot 0's text state.
+            key: ValueKey('team_slot_card_$i'),
+            index: i,
+            slot: _team[i],
+            abilityDex: _abilityDex ?? const {},
+            abilityNames: _abilityNames ?? const {},
+            itemDex: _itemDex ?? const {},
+            itemNames: _itemNames ?? const {},
+            onPokemonSelected: (p) => _setPokemon(i, p),
+            onAbilitySelected: (a) => _setAbility(i, a),
+            onItemSelected: (it) => _setItem(i, it),
+            onLoadSample: () => _loadSampleInto(i),
+            onClear: () => _clearSlot(i),
           ),
           if (i < _maxTeamSize - 1) const SizedBox(height: 4),
         ],
