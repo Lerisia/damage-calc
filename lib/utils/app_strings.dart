@@ -136,7 +136,7 @@ class AppStrings {
       AppLanguage.ja: '無効',
     },
     'team.matrix.empty': {
-      AppLanguage.ko: '포켓몬을 먼저 추가해주세요.',
+      AppLanguage.ko: '포켓몬을 먼저 추가해 주십시오.',
       AppLanguage.en: 'Add at least one Pokemon to see coverage.',
       AppLanguage.ja: 'まずポケモンを追加してください。',
     },
@@ -161,20 +161,60 @@ class AppStrings {
       AppLanguage.ja: 'すべてリセット',
     },
     'team.resetAll.confirm': {
-      AppLanguage.ko: '6마리 전부 비울까요?',
+      AppLanguage.ko: '6마리 전부 비우시겠습니까?',
       AppLanguage.en: 'Clear all 6 slots?',
       AppLanguage.ja: '6体すべてクリアしますか？',
     },
-    // ── Sample storage / team folders (load + save sheets) ────────
+    'team.load': {
+      AppLanguage.ko: '파티 불러오기',
+      AppLanguage.en: 'Load party',
+      AppLanguage.ja: 'パーティ読込',
+    },
+    'team.save': {
+      AppLanguage.ko: '파티 저장',
+      AppLanguage.en: 'Save party',
+      AppLanguage.ja: 'パーティ保存',
+    },
+    'team.load.title': {
+      AppLanguage.ko: '불러올 파티',
+      AppLanguage.en: 'Pick a party',
+      AppLanguage.ja: 'パーティ選択',
+    },
+    'team.load.noTeams': {
+      AppLanguage.ko: '저장된 파티가 없습니다',
+      AppLanguage.en: 'No saved parties yet',
+      AppLanguage.ja: '保存されたパーティがありません',
+    },
+    'team.load.replaceConfirm': {
+      AppLanguage.ko: '현재 입력된 포켓몬이 사라집니다. 계속하시겠습니까?',
+      AppLanguage.en: 'Current slots will be replaced. Continue?',
+      AppLanguage.ja: '現在のスロットが置き換わります。続行しますか？',
+    },
+    'team.save.title': {
+      AppLanguage.ko: '새 파티 이름',
+      AppLanguage.en: 'New party name',
+      AppLanguage.ja: '新しいパーティ名',
+    },
+    'team.save.empty': {
+      AppLanguage.ko: '저장할 포켓몬이 없습니다',
+      AppLanguage.en: 'No pokemon to save',
+      AppLanguage.ja: '保存するポケモンがありません',
+    },
+    'team.save.done': {
+      AppLanguage.ko: '저장 완료',
+      AppLanguage.en: 'Saved',
+      AppLanguage.ja: '保存完了',
+    },
+    // ── Sample storage / party folders (load + save sheets) ──────
     'sample.team.add': {
-      AppLanguage.ko: '팀 추가',
-      AppLanguage.en: 'Add team',
-      AppLanguage.ja: 'チーム追加',
+      AppLanguage.ko: '파티 추가',
+      AppLanguage.en: 'Add party',
+      AppLanguage.ja: 'パーティ追加',
     },
     'sample.team.namePrompt': {
-      AppLanguage.ko: '팀 이름',
-      AppLanguage.en: 'Team name',
-      AppLanguage.ja: 'チーム名',
+      AppLanguage.ko: '파티 이름',
+      AppLanguage.en: 'Party name',
+      AppLanguage.ja: 'パーティ名',
     },
     'sample.team.rename': {
       AppLanguage.ko: '이름 변경',
@@ -182,28 +222,28 @@ class AppStrings {
       AppLanguage.ja: '名前を変更',
     },
     'sample.team.delete': {
-      AppLanguage.ko: '팀 삭제',
-      AppLanguage.en: 'Delete team',
-      AppLanguage.ja: 'チーム削除',
+      AppLanguage.ko: '파티 삭제',
+      AppLanguage.en: 'Delete party',
+      AppLanguage.ja: 'パーティ削除',
     },
     'sample.team.delete.title': {
-      AppLanguage.ko: '팀 삭제',
-      AppLanguage.en: 'Delete team',
-      AppLanguage.ja: 'チーム削除',
+      AppLanguage.ko: '파티 삭제',
+      AppLanguage.en: 'Delete party',
+      AppLanguage.ja: 'パーティ削除',
     },
     'sample.team.delete.body': {
-      AppLanguage.ko: '소속 포켓몬은 어떻게 할까요?',
-      AppLanguage.en: 'What should happen to the pokemon in this team?',
-      AppLanguage.ja: 'このチームのポケモンはどうしますか？',
+      AppLanguage.ko: '소속 포켓몬은 어떻게 처리하시겠습니까?',
+      AppLanguage.en: 'What should happen to the pokemon in this party?',
+      AppLanguage.ja: 'このパーティのポケモンはどうしますか？',
     },
     'sample.team.delete.keep': {
-      AppLanguage.ko: '팀 밖으로 옮기기',
-      AppLanguage.en: 'Move to loose pool',
-      AppLanguage.ja: 'チーム外に移動',
+      AppLanguage.ko: '파티에서 빼기',
+      AppLanguage.en: 'Detach from party',
+      AppLanguage.ja: 'パーティから外す',
     },
     'sample.team.delete.cascade': {
       AppLanguage.ko: '함께 삭제',
-      AppLanguage.en: 'Delete with team',
+      AppLanguage.en: 'Delete with party',
       AppLanguage.ja: '一緒に削除',
     },
     'sample.team.empty': {
@@ -217,9 +257,9 @@ class AppStrings {
       AppLanguage.ja: '満員',
     },
     'sample.loose.title': {
-      AppLanguage.ko: '팀 밖',
-      AppLanguage.en: 'Unsorted',
-      AppLanguage.ja: 'チーム外',
+      AppLanguage.ko: '파티 없음',
+      AppLanguage.en: 'No party',
+      AppLanguage.ja: 'パーティなし',
     },
     'sample.pokemon.rename': {
       AppLanguage.ko: '이름 변경',
@@ -227,9 +267,9 @@ class AppStrings {
       AppLanguage.ja: '名前を変更',
     },
     'sample.pokemon.move': {
-      AppLanguage.ko: '다른 팀으로 이동',
-      AppLanguage.en: 'Move to team…',
-      AppLanguage.ja: '他のチームへ移動',
+      AppLanguage.ko: '다른 파티로 이동',
+      AppLanguage.en: 'Move to party…',
+      AppLanguage.ja: '他のパーティへ移動',
     },
     'sample.pokemon.delete': {
       AppLanguage.ko: '삭제',
@@ -237,39 +277,39 @@ class AppStrings {
       AppLanguage.ja: '削除',
     },
     'sample.move.title': {
-      AppLanguage.ko: '어디로 이동할까요?',
+      AppLanguage.ko: '어디로 이동하시겠습니까?',
       AppLanguage.en: 'Move to where?',
       AppLanguage.ja: 'どこへ移動しますか？',
     },
     'sample.move.toLoose': {
-      AppLanguage.ko: '팀 밖으로',
-      AppLanguage.en: 'Loose pool',
-      AppLanguage.ja: 'チーム外へ',
+      AppLanguage.ko: '파티 없음으로',
+      AppLanguage.en: 'No party',
+      AppLanguage.ja: 'パーティなしへ',
     },
     'sample.team.fullSnack': {
-      AppLanguage.ko: '팀이 가득 찼어요 (6/6)',
-      AppLanguage.en: 'Team is full (6/6)',
-      AppLanguage.ja: 'チームが満員です (6/6)',
+      AppLanguage.ko: '파티가 가득 찼습니다 (6/6)',
+      AppLanguage.en: 'Party is full (6/6)',
+      AppLanguage.ja: 'パーティが満員です (6/6)',
     },
     'sample.name.dup': {
-      AppLanguage.ko: '같은 이름이 이미 있어요',
+      AppLanguage.ko: '같은 이름이 이미 있습니다',
       AppLanguage.en: 'A sample with this name already exists',
       AppLanguage.ja: '同じ名前のサンプルが既にあります',
     },
     'sample.save.team': {
-      AppLanguage.ko: '저장 위치',
+      AppLanguage.ko: '저장 파티',
       AppLanguage.en: 'Save into',
       AppLanguage.ja: '保存先',
     },
     'sample.save.team.none': {
-      AppLanguage.ko: '팀 밖',
-      AppLanguage.en: 'Loose pool',
-      AppLanguage.ja: 'チーム外',
+      AppLanguage.ko: '파티 없음',
+      AppLanguage.en: 'No party',
+      AppLanguage.ja: 'パーティなし',
     },
     'sample.save.team.create': {
-      AppLanguage.ko: '+ 새 팀 만들기',
-      AppLanguage.en: '+ New team…',
-      AppLanguage.ja: '+ 新しいチーム…',
+      AppLanguage.ko: '+ 새 파티 만들기',
+      AppLanguage.en: '+ New party…',
+      AppLanguage.ja: '+ 新しいパーティ…',
     },
     'app.theme': {
       AppLanguage.ko: '테마',
@@ -681,7 +721,7 @@ class AppStrings {
       AppLanguage.ja: '追加倍率',
     },
     'simple.noMove': {
-      AppLanguage.ko: '기술을 선택하세요',
+      AppLanguage.ko: '기술을 선택해 주십시오',
       AppLanguage.en: 'Pick a move',
       AppLanguage.ja: '技を選択',
     },
@@ -1011,7 +1051,7 @@ class AppStrings {
       AppLanguage.ja: '無効なファイル形式です',
     },
     'sample.pasteJson': {
-      AppLanguage.ko: '내보낸 JSON 데이터를 붙여넣으세요.',
+      AppLanguage.ko: '내보낸 JSON 데이터를 붙여넣어 주십시오.',
       AppLanguage.en: 'Paste exported JSON data.',
       AppLanguage.ja: 'エクスポートしたJSONデータを貼り付けてください。',
     },

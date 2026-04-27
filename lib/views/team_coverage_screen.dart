@@ -5,6 +5,7 @@ import '../data/itemdex.dart';
 import '../data/pokedex.dart';
 import '../data/sample_storage.dart';
 import '../models/ability.dart';
+import '../models/battle_pokemon.dart';
 import '../models/item.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
@@ -154,6 +155,210 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     });
   }
 
+  // Shared style for the AppBar action buttons — compact density and
+  // tight padding so the three buttons fit alongside the back arrow on
+  // a phone-width screen.
+  static final ButtonStyle _appBarBtnStyle = TextButton.styleFrom(
+    padding: const EdgeInsets.symmetric(horizontal: 6),
+    visualDensity: VisualDensity.compact,
+  );
+
+  /// Show the saved-party picker and replace the 6 slots with the
+  /// chosen team's members. Slots beyond the team's member count are
+  /// cleared. Confirmation is asked only when at least one slot is
+  /// already filled, so first-time use is a single-tap flow.
+  Future<void> _loadParty() async {
+    final store = await SampleStorage.loadStore();
+    if (!mounted) return;
+    final candidates = store.teams
+        .where((t) => t.memberIds.isNotEmpty)
+        .toList(growable: false);
+    if (candidates.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.load.noTeams')),
+      ));
+      return;
+    }
+    final pickedId = await showModalBottomSheet<String>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            ListTile(
+              dense: true,
+              title: Text(
+                AppStrings.t('team.load.title'),
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+            const Divider(height: 1),
+            for (final t in candidates)
+              ListTile(
+                leading: const Icon(Icons.folder_outlined),
+                title: Text(t.name),
+                subtitle:
+                    Text('${t.memberIds.length} / $kMaxTeamSize'),
+                onTap: () => Navigator.pop(ctx, t.id),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (pickedId == null || !mounted) return;
+
+    // Confirm replacement only when the user would lose work.
+    if (_team.any((s) => s.pokemon != null)) {
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          content: Text(AppStrings.t('team.load.replaceConfirm')),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(AppStrings.t('action.cancel')),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(AppStrings.t('action.confirm')),
+            ),
+          ],
+        ),
+      );
+      if (ok != true || !mounted) return;
+    }
+
+    final team = store.teams.firstWhere((t) => t.id == pickedId);
+    final pokedex = await loadPokedex();
+    if (!mounted) return;
+    final byName = {for (final p in pokedex) p.name: p};
+    setState(() {
+      for (int i = 0; i < _team.length; i++) {
+        if (i < team.memberIds.length) {
+          final s = store.sampleById(team.memberIds[i]);
+          if (s == null) {
+            _team[i] = _TeamSlot();
+            continue;
+          }
+          final p = byName[s.state.pokemonName];
+          if (p == null) {
+            _team[i] = _TeamSlot();
+            continue;
+          }
+          _team[i] = _TeamSlot()
+            ..pokemon = p
+            ..ability = s.state.selectedAbility
+            ..heldItem = s.state.selectedItem;
+        } else {
+          _team[i] = _TeamSlot();
+        }
+      }
+    });
+  }
+
+  /// Persist the current 6 slots as a new saved party. The samples
+  /// are intentionally stub-y — species + ability + item only — since
+  /// the party screen doesn't capture EV/IV/level/moves. Users can
+  /// open the saved sample in the calculator afterwards to flesh out
+  /// the rest of the build.
+  Future<void> _saveAsParty() async {
+    final filled = <_TeamSlot>[];
+    for (final s in _team) {
+      if (s.pokemon != null) filled.add(s);
+    }
+    if (filled.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.save.empty')),
+      ));
+      return;
+    }
+    final store = await SampleStorage.loadStore();
+    if (!mounted) return;
+
+    // Default name "파티 N" using the next available number across
+    // the existing parties — simple, predictable, and the user can
+    // edit before confirming.
+    final defaultName = '파티 ${store.teams.length + 1}';
+    final teamName = await _promptText(
+      title: AppStrings.t('team.save.title'),
+      initial: defaultName,
+    );
+    if (teamName == null || teamName.isEmpty || !mounted) return;
+
+    // Names must stay globally unique. Try species, then "species
+    // (party)", then numeric suffix. Bake names into the local set as
+    // we go so two slots of the same species don't collide with each
+    // other within this save batch.
+    final existingNames = store.samples.map((s) => s.name).toSet();
+    String uniqueName(String base) {
+      if (!existingNames.contains(base)) return base;
+      final withParty = '$base ($teamName)';
+      if (!existingNames.contains(withParty)) return withParty;
+      for (int i = 2;; i++) {
+        final candidate = '$withParty ($i)';
+        if (!existingNames.contains(candidate)) return candidate;
+      }
+    }
+
+    final teamId = await SampleStorage.createTeam(teamName);
+    int saved = 0;
+    for (final slot in filled) {
+      final state = BattlePokemonState();
+      state.applyPokemon(slot.pokemon!);
+      // applyPokemon seeds ability/item from curated defaults — only
+      // override when the user explicitly picked something different.
+      if (slot.ability != null) state.selectedAbility = slot.ability!;
+      if (slot.heldItem != null) state.selectedItem = slot.heldItem;
+      final name = uniqueName(slot.pokemon!.localizedName);
+      existingNames.add(name);
+      try {
+        await SampleStorage.savePokemon(
+            name: name, state: state, teamId: teamId);
+        saved++;
+      } on TeamFullException {
+        // Shouldn't hit — we just created the team — but bail clean
+        // if the schema ever changes.
+        break;
+      }
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('"$teamName" ${AppStrings.t('team.save.done')} ($saved)'),
+    ));
+  }
+
+  /// Minimal name-prompt dialog for the party-save flow. Standalone
+  /// so it doesn't need to reach into the slot card's helper.
+  Future<String?> _promptText({
+    required String title,
+    String initial = '',
+  }) async {
+    final controller = TextEditingController(text: initial);
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(title),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          onSubmitted: (v) => Navigator.pop(ctx, v.trim()),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
+            child: Text(AppStrings.t('action.confirm')),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    return result;
+  }
+
   void _clearSlot(int index) {
     setState(() {
       _team[index] = _TeamSlot();
@@ -272,21 +477,37 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           icon: const BackButtonIcon(),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        // No big "팀 상성표" title — the screen content makes it
-        // obvious where you are. The slot reset lives in the title
-        // position so it stays one tap away even when the slot list
-        // is scrolled. Team-level load (saved teams) will land next
-        // to it once the persistence layer ships.
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextButton.icon(
-            onPressed: _team.any((s) => s.pokemon != null) ? _resetAll : null,
-            icon: const Icon(Icons.delete_sweep_outlined, size: 18),
-            label: Text(AppStrings.t('team.resetAll')),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              visualDensity: VisualDensity.compact,
-            ),
+        // Title row hosts party-level actions (load saved party, save
+        // current party, reset). Wrapped in a horizontal scroll so
+        // narrow screens degrade to a swipe instead of a clipped
+        // label.
+        titleSpacing: 0,
+        title: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton.icon(
+                onPressed: _loadParty,
+                icon: const Icon(Icons.folder_open_outlined, size: 18),
+                label: Text(AppStrings.t('team.load')),
+                style: _appBarBtnStyle,
+              ),
+              TextButton.icon(
+                onPressed:
+                    _team.any((s) => s.pokemon != null) ? _saveAsParty : null,
+                icon: const Icon(Icons.save_outlined, size: 18),
+                label: Text(AppStrings.t('team.save')),
+                style: _appBarBtnStyle,
+              ),
+              TextButton.icon(
+                onPressed:
+                    _team.any((s) => s.pokemon != null) ? _resetAll : null,
+                icon: const Icon(Icons.delete_sweep_outlined, size: 18),
+                label: Text(AppStrings.t('team.resetAll')),
+                style: _appBarBtnStyle,
+              ),
+            ],
           ),
         ),
       ),
@@ -439,70 +660,81 @@ class _SlotCardState extends State<_SlotCard> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // ─── Row 1: index | name selector | type chips | load | clear
-          Row(
-            children: [
-              SizedBox(
-                width: 24,
-                child: Text(
-                  '${widget.index + 1}',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: scheme.onSurface.withValues(alpha: 0.5),
+          // Fixed height so the card doesn't jump when type chips or
+          // the clear button appear after a pokemon is picked.
+          SizedBox(
+            height: 36,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 24,
+                  child: Text(
+                    '${widget.index + 1}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: scheme.onSurface.withValues(alpha: 0.5),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: PokemonSelector(
-                  key: ValueKey(
-                      'team_slot_${widget.index}_${p?.name ?? "empty"}'),
-                  initialPokemonName: p?.name,
-                  onSelected: widget.onPokemonSelected,
+                Expanded(
+                  child: PokemonSelector(
+                    key: ValueKey(
+                        'team_slot_${widget.index}_${p?.name ?? "empty"}'),
+                    initialPokemonName: p?.name,
+                    onSelected: widget.onPokemonSelected,
+                  ),
                 ),
-              ),
-              if (p != null) ...[
-                const SizedBox(width: 6),
-                _typeChip(p.type1),
-                if (p.type2 != null) ...[
-                  const SizedBox(width: 2),
-                  _typeChip(p.type2!),
+                if (p != null) ...[
+                  const SizedBox(width: 6),
+                  _typeChip(p.type1),
+                  if (p.type2 != null) ...[
+                    const SizedBox(width: 2),
+                    _typeChip(p.type2!),
+                  ],
                 ],
-              ],
-              const SizedBox(width: 4),
-              IconButton(
-                tooltip: AppStrings.t('team.sample.load'),
-                icon: const Icon(Icons.folder_open, size: 18),
-                onPressed: widget.onLoadSample,
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
-              ),
-              if (p != null)
+                const SizedBox(width: 4),
                 IconButton(
-                  tooltip: '',
-                  icon: const Icon(Icons.close, size: 18),
-                  onPressed: widget.onClear,
+                  tooltip: AppStrings.t('team.sample.load'),
+                  icon: const Icon(Icons.folder_open, size: 18),
+                  onPressed: widget.onLoadSample,
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+                  constraints:
+                      const BoxConstraints(minWidth: 30, minHeight: 30),
                 ),
-            ],
+                if (p != null)
+                  IconButton(
+                    tooltip: '',
+                    icon: const Icon(Icons.close, size: 18),
+                    onPressed: widget.onClear,
+                    visualDensity: VisualDensity.compact,
+                    padding: EdgeInsets.zero,
+                    constraints:
+                        const BoxConstraints(minWidth: 30, minHeight: 30),
+                  ),
+              ],
+            ),
           ),
-          // ─── Row 2: ability + item dropdowns — always present so
-          // the row height stays constant whether or not a Pokemon is
-          // picked. Disabled when empty.
+          // ─── Row 2: ability + item dropdowns. Fixed height matches
+          // a TextField with a floating label, so swapping the
+          // disabled placeholder for an active typeahead doesn't
+          // resize the card.
           const SizedBox(height: 4),
-          Row(
-            children: [
-              const SizedBox(width: 24),
-              Expanded(
-                child: _abilityField(scheme, p),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: _itemField(scheme, p),
-              ),
-            ],
+          SizedBox(
+            height: 50,
+            child: Row(
+              children: [
+                const SizedBox(width: 24),
+                Expanded(
+                  child: _abilityField(scheme, p),
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: _itemField(scheme, p),
+                ),
+              ],
+            ),
           ),
         ],
       ),

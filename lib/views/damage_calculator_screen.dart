@@ -2229,6 +2229,10 @@ class _SampleListSheetState extends State<_SampleListSheet> {
   SampleStore _store = const SampleStore();
   bool _loading = true;
   String _query = '';
+  // Collapsed party ids — defaults to expanded for newly seen parties
+  // so first-time use shows everything. Reset each sheet open (not
+  // persisted across navigations).
+  final Set<String> _collapsed = <String>{};
 
   @override
   void initState() {
@@ -2543,10 +2547,14 @@ class _SampleListSheetState extends State<_SampleListSheet> {
         itemBuilder: (_, i) => _pokemonTile(hits[i]),
       );
     }
-    // Default tree view.
+    // Default tree view. Collapsed parties show only their header so
+    // a long sample list stays scannable; tap the chevron (or the
+    // header) to expand.
     final sections = <Widget>[];
     for (final t in _store.teams) {
-      sections.add(_teamHeader(t));
+      final collapsed = _collapsed.contains(t.id);
+      sections.add(_teamHeader(t, collapsed: collapsed));
+      if (collapsed) continue;
       if (t.memberIds.isEmpty) {
         sections.add(_emptyTeamPlaceholder());
       } else {
@@ -2569,54 +2577,75 @@ class _SampleListSheetState extends State<_SampleListSheet> {
     );
   }
 
-  Widget _teamHeader(TeamFolder t) {
+  Widget _teamHeader(TeamFolder t, {required bool collapsed}) {
     final scheme = Theme.of(context).colorScheme;
     final full = t.memberIds.length >= kMaxTeamSize;
-    return Container(
+    return Material(
       color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
-      padding: const EdgeInsets.fromLTRB(12, 6, 4, 6),
-      child: Row(
-        children: [
-          const Icon(Icons.folder_outlined, size: 18),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              t.name,
-              style: const TextStyle(fontWeight: FontWeight.w700),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Text(
-            '${t.memberIds.length}/$kMaxTeamSize',
-            style: TextStyle(
-              fontSize: 12,
-              color: full ? Colors.orange.shade700 : Colors.grey.shade600,
-              fontWeight: full ? FontWeight.w700 : FontWeight.w500,
-            ),
-          ),
-          PopupMenuButton<String>(
-            tooltip: '',
-            popUpAnimationStyle:
-                AnimationStyle(duration: const Duration(milliseconds: 100)),
-            icon: const Icon(Icons.more_vert, size: 18),
-            padding: EdgeInsets.zero,
-            onSelected: (v) {
-              if (v == 'rename') _renameTeam(t);
-              if (v == 'delete') _deleteTeam(t);
-            },
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                value: 'rename',
-                child: Text(AppStrings.t('sample.team.rename')),
+      child: InkWell(
+        onTap: () => setState(() {
+          if (collapsed) {
+            _collapsed.remove(t.id);
+          } else {
+            _collapsed.add(t.id);
+          }
+        }),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 6, 4, 6),
+          child: Row(
+            children: [
+              // Chevron rotates between right (collapsed) and down
+              // (expanded) — a 100 ms spin so the state change is
+              // legible without dragging on the snappy-UI rule.
+              AnimatedRotation(
+                turns: collapsed ? 0 : 0.25,
+                duration: const Duration(milliseconds: 100),
+                child: const Icon(Icons.chevron_right, size: 20),
               ),
-              PopupMenuItem(
-                value: 'delete',
-                child: Text(AppStrings.t('sample.team.delete'),
-                    style: const TextStyle(color: Colors.red)),
+              const SizedBox(width: 4),
+              const Icon(Icons.folder_outlined, size: 18),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  t.name,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                '${t.memberIds.length}/$kMaxTeamSize',
+                style: TextStyle(
+                  fontSize: 12,
+                  color:
+                      full ? Colors.orange.shade700 : Colors.grey.shade600,
+                  fontWeight: full ? FontWeight.w700 : FontWeight.w500,
+                ),
+              ),
+              PopupMenuButton<String>(
+                tooltip: '',
+                popUpAnimationStyle: AnimationStyle(
+                    duration: const Duration(milliseconds: 100)),
+                icon: const Icon(Icons.more_vert, size: 18),
+                padding: EdgeInsets.zero,
+                onSelected: (v) {
+                  if (v == 'rename') _renameTeam(t);
+                  if (v == 'delete') _deleteTeam(t);
+                },
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: 'rename',
+                    child: Text(AppStrings.t('sample.team.rename')),
+                  ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    child: Text(AppStrings.t('sample.team.delete'),
+                        style: const TextStyle(color: Colors.red)),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
