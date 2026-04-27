@@ -942,18 +942,11 @@ class _SlotCardState extends State<_SlotCard> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    // Faded type-color tint behind the name field so the
-                    // user can spot a slot's typing without scanning over
-                    // to the chips. Single type → flat tint, dual type
-                    // → 50/50 horizontal split.
-                    decoration: p == null ? null : _typeTintDecoration(p),
-                    child: PokemonSelector(
-                      key: ValueKey(
-                          'team_slot_${widget.index}_${p?.name ?? "empty"}'),
-                      initialPokemonName: p?.name,
-                      onSelected: widget.onPokemonSelected,
-                    ),
+                  child: PokemonSelector(
+                    key: ValueKey(
+                        'team_slot_${widget.index}_${p?.name ?? "empty"}'),
+                    initialPokemonName: p?.name,
+                    onSelected: widget.onPokemonSelected,
                   ),
                 ),
                 if (p != null) ...[
@@ -1126,33 +1119,6 @@ class _SlotCardState extends State<_SlotCard> {
       isNatural
           ? null
           : (type1: result.type1, type2: result.type2, type3: result.type3),
-    );
-  }
-
-  /// Faded type-color background for the name field. Single type =
-  /// flat 18% tint; dual type = a hard-stop horizontal gradient so
-  /// the split is read as "left-half type1, right-half type2"
-  /// instead of a smooth blend (which loses the second type's
-  /// identity).
-  static const double _typeTintAlpha = 0.18;
-  BoxDecoration _typeTintDecoration(Pokemon p) {
-    final c1 = KoStrings.getTypeColor(p.type1).withValues(alpha: _typeTintAlpha);
-    final t2 = p.type2;
-    if (t2 == null) {
-      return BoxDecoration(
-        color: c1,
-        borderRadius: BorderRadius.circular(4),
-      );
-    }
-    final c2 = KoStrings.getTypeColor(t2).withValues(alpha: _typeTintAlpha);
-    return BoxDecoration(
-      borderRadius: BorderRadius.circular(4),
-      gradient: LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        colors: [c1, c1, c2, c2],
-        stops: const [0.0, 0.5, 0.5, 1.0],
-      ),
     );
   }
 
@@ -1451,7 +1417,11 @@ class _CoverageMatrix extends StatelessWidget {
         const SizedBox.shrink(),
         for (final slot in team)
           slot.pokemon != null
-              ? _vertNameCell(slot.pokemon!.localizedName)
+              ? _vertNameCell(
+                  slot.pokemon!.localizedName,
+                  type1: slot.effectiveType1,
+                  type2: slot.effectiveType2,
+                )
               : const SizedBox(height: 84),
         // Color-coded labels side-by-side, with the same thicker
         // left divider that the data rows carry below.
@@ -1497,7 +1467,16 @@ class _CoverageMatrix extends StatelessWidget {
   /// keeps the header column narrow on phones. For English we fall
   /// back to a 90° rotated label since stacking each letter would be
   /// unreadable for a name like "Aegislash".
-  Widget _vertNameCell(String rawName) {
+  ///
+  /// A faded type-color tint sits behind the name — single type =
+  /// flat, dual type = top half [type1] / bottom half [type2]. Top/
+  /// bottom (vs the slot card's left/right) matches the vertical
+  /// reading flow of the stacked characters.
+  Widget _vertNameCell(
+    String rawName, {
+    required PokemonType? type1,
+    required PokemonType? type2,
+  }) {
     final lang = AppStrings.current;
     // Strip parenthesized form/variant suffixes for the matrix header
     // only — "킬가르도 (블레이드폼)" → "킬가르도", "오거폰 (우물의가면)"
@@ -1506,6 +1485,7 @@ class _CoverageMatrix extends StatelessWidget {
     // matters, that the parens get in the way.
     final parenIdx = rawName.indexOf('(');
     final name = parenIdx > 0 ? rawName.substring(0, parenIdx).trim() : rawName;
+    final Widget content;
     if (lang == AppLanguage.ko || lang == AppLanguage.ja) {
       // Drop spaces / hyphens that show up in some long names — they
       // waste a stack row and don't add information ("미라이돈"보다
@@ -1517,30 +1497,25 @@ class _CoverageMatrix extends StatelessWidget {
       // Cap at 6 stacked chars so 84 px is enough; longer names (rare
       // in the dex) trail off with an ellipsis row.
       final shown = chars.length <= 6 ? chars : [...chars.take(5), '…'];
-      return SizedBox(
-        height: 84,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (final c in shown)
-                Text(
-                  c,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    height: 1.05,
-                    fontWeight: FontWeight.w700,
-                  ),
+      content = Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final c in shown)
+              Text(
+                c,
+                style: const TextStyle(
+                  fontSize: 12,
+                  height: 1.05,
+                  fontWeight: FontWeight.w700,
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       );
-    }
-    return SizedBox(
-      height: 84,
-      child: Center(
+    } else {
+      content = Center(
         child: RotatedBox(
           quarterTurns: 3,
           child: Text(
@@ -1550,6 +1525,35 @@ class _CoverageMatrix extends StatelessWidget {
             style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
           ),
         ),
+      );
+    }
+    return SizedBox(
+      height: 84,
+      child: DecoratedBox(
+        decoration: _vertNameTint(type1, type2),
+        child: content,
+      ),
+    );
+  }
+
+  /// Faded type-color background for the vertical name cell. Single
+  /// type → flat 18% tint; dual type → top half [t1] / bottom half
+  /// [t2] hard-stop gradient. Returns an empty decoration when no
+  /// types are passed.
+  static const double _vertTintAlpha = 0.20;
+  BoxDecoration _vertNameTint(PokemonType? t1, PokemonType? t2) {
+    if (t1 == null) return const BoxDecoration();
+    final c1 = KoStrings.getTypeColor(t1).withValues(alpha: _vertTintAlpha);
+    if (t2 == null) {
+      return BoxDecoration(color: c1);
+    }
+    final c2 = KoStrings.getTypeColor(t2).withValues(alpha: _vertTintAlpha);
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [c1, c1, c2, c2],
+        stops: const [0.0, 0.5, 0.5, 1.0],
       ),
     );
   }
