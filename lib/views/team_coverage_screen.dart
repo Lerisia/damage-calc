@@ -1163,7 +1163,7 @@ class _CoverageMatrix extends StatelessWidget {
           // Empty slot → blank cell so the column stays in place
           // without inviting the eye to read anything into it.
           matrix[p] == null
-              ? const SizedBox(height: 22)
+              ? const SizedBox(height: 28)
               : _multCell(matrix[p]![t], scheme),
         _summaryCell(summary, scheme),
       ],
@@ -1189,7 +1189,7 @@ class _CoverageMatrix extends StatelessWidget {
           softWrap: false,
           overflow: TextOverflow.clip,
           style: const TextStyle(
-              fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
+              fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -1239,7 +1239,7 @@ class _CoverageMatrix extends StatelessWidget {
               child: Text(
                 '${summary.weak}',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 19,
                   fontWeight: FontWeight.w900,
                   height: 1.0,
                   color: summary.weak > 0
@@ -1257,7 +1257,7 @@ class _CoverageMatrix extends StatelessWidget {
               child: Text(
                 '$resistOrImmune',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 19,
                   fontWeight: FontWeight.w800,
                   height: 1.0,
                   color: resistOrImmune > 0
@@ -1322,15 +1322,15 @@ class _CoverageMatrix extends StatelessWidget {
     }
     final text = Text(
       label,
-      style: TextStyle(fontSize: 13, fontWeight: weight, color: fg, height: 1.0),
+      style: TextStyle(fontSize: 17, fontWeight: weight, color: fg, height: 1.0),
     );
     return Container(
-      height: 22,
+      height: 28,
       alignment: Alignment.center,
       child: pillBg == null
           ? text
           : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: pillBg,
                 borderRadius: BorderRadius.circular(4),
