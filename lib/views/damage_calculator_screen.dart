@@ -290,25 +290,27 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadDoublesExpanded();
     _ensureDataCaches();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _maybeShowSimpleModeAnnouncement();
+      await _maybeShowPartyCoverageAnnouncement();
       // Mobile-web install nudge — fires at most once per browser.
       if (!mounted) return;
       await MobileInstallPrompt.maybeShow(context);
     });
   }
 
-  /// One-shot "Simple Mode is now the default" dialog for existing
+  /// One-shot "Party coverage chart is here" dialog for existing
   /// installs — shown after first frame so we're not fighting the
-  /// splash. Tracked via SimpleModeController's persistent flag so it
-  /// never fires twice on the same device.
-  Future<void> _maybeShowSimpleModeAnnouncement() async {
-    if (await SimpleModeController.instance.announcementShown()) return;
+  /// splash. Tracked via a SharedPreferences flag so it never fires
+  /// twice on the same device.
+  static const _partyCoverageAnnounceKey = 'partyCoverageAnnouncementShown';
+  Future<void> _maybeShowPartyCoverageAnnouncement() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(_partyCoverageAnnounceKey) ?? false) return;
     if (!mounted) return;
     await showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(AppStrings.t('simple.announceTitle')),
-        content: Text(AppStrings.t('simple.announceBody')),
+        title: Text(AppStrings.t('announce.partyCoverage.title')),
+        content: Text(AppStrings.t('announce.partyCoverage.body')),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
@@ -317,7 +319,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ],
       ),
     );
-    await SimpleModeController.instance.markAnnouncementShown();
+    await prefs.setBool(_partyCoverageAnnounceKey, true);
   }
 
   static const _spModeKey = 'use_sp_mode';
@@ -2572,7 +2574,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.6.0'),
+          const Text('v1.6.1'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

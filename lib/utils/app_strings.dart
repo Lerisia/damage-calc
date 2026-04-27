@@ -695,15 +695,15 @@ class AppStrings {
       AppLanguage.en: 'Rnk',
       AppLanguage.ja: '段階',
     },
-    'simple.announceTitle': {
-      AppLanguage.ko: '간단 모드가 기본이 되었습니다',
-      AppLanguage.en: 'Simple Mode is now the default',
-      AppLanguage.ja: 'かんたんモードが既定になりました',
+    'announce.partyCoverage.title': {
+      AppLanguage.ko: '파티 상성표 추가',
+      AppLanguage.en: 'Party Coverage chart added',
+      AppLanguage.ja: 'パーティ相性表追加',
     },
-    'simple.announceBody': {
-      AppLanguage.ko: '확장 모드는 오른쪽 상단 \'확장\' 버튼으로 전환할 수 있습니다.',
-      AppLanguage.en: 'Switch to Extended Mode anytime with the \'Ext.\' button at the top.',
-      AppLanguage.ja: '拡張モードは右上の「拡張」ボタンで切り替えられます。',
+    'announce.partyCoverage.body': {
+      AppLanguage.ko: '햄버거 메뉴에서 파티 상성표를 열어 6마리 파티의 방어/공격 상성을 확인할 수 있습니다.',
+      AppLanguage.en: 'Open Party Coverage from the hamburger menu to see your 6-mon party\'s defensive and offensive matchups.',
+      AppLanguage.ja: 'ハンバーガーメニューからパーティ相性表を開くと、6体パーティの防御/攻撃相性を確認できます。',
     },
     'simple.extendedAnnounceTitle': {
       AppLanguage.ko: '확장 모드',
