@@ -140,6 +140,21 @@ class AppStrings {
       AppLanguage.en: 'Add at least one Pokemon to see coverage.',
       AppLanguage.ja: 'まずポケモンを追加してください。',
     },
+    'team.item.none': {
+      AppLanguage.ko: '아이템 없음',
+      AppLanguage.en: 'No item',
+      AppLanguage.ja: '道具なし',
+    },
+    'team.sample.load': {
+      AppLanguage.ko: '저장된 샘플 불러오기',
+      AppLanguage.en: 'Load saved sample',
+      AppLanguage.ja: '保存されたサンプルを読み込む',
+    },
+    'team.sample.empty': {
+      AppLanguage.ko: '저장된 샘플이 없습니다.',
+      AppLanguage.en: 'No saved samples yet.',
+      AppLanguage.ja: '保存されたサンプルがありません。',
+    },
     'app.theme': {
       AppLanguage.ko: '테마',
       AppLanguage.en: 'Theme',

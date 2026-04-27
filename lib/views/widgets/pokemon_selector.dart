@@ -7,7 +7,10 @@ import 'typeahead_helpers.dart';
 
 class PokemonSelector extends StatefulWidget {
   final void Function(Pokemon pokemon) onSelected;
-  final String initialPokemonName;
+  /// Pokemon name to seed the field with, or `null` for an empty
+  /// "pick a Pokemon" state. Empty string is treated the same as
+  /// `null` so callers passing `state.pokemonName ?? ''` work.
+  final String? initialPokemonName;
 
   const PokemonSelector({
     super.key,
@@ -43,9 +46,14 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     setState(() {
       _allPokemon = visible;
       _searchEntries = visible.map((p) => SearchEntry(p, p.nameKo, p.name, nameJa: p.nameJa, aliases: p.aliases)).toList();
-      if (_selected == null && all.isNotEmpty) {
+      // Empty / null initial name → leave the field blank so callers
+      // (e.g. team builder slots) can render a true "no Pokemon" state
+      // instead of forcing a Bulbasaur fallback.
+      final seed = widget.initialPokemonName;
+      if (_selected == null && all.isNotEmpty &&
+          seed != null && seed.isNotEmpty) {
         _selected = all.firstWhere(
-          (p) => p.name == widget.initialPokemonName,
+          (p) => p.name == seed,
           orElse: () => all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first),
         );
         _controller.text = _selected?.localizedName ?? '';

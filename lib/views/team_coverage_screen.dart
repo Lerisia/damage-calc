@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/champions_usage.dart';
+import '../data/pokedex.dart';
+import '../data/sample_storage.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
@@ -16,18 +18,34 @@ class _TeamSlot {
   String? heldItem; // currently only used to honour Air Balloon / Iron Ball
 }
 
+/// Process-lifetime team state — survives navigating away from the
+/// screen so the user doesn't lose their picks the moment they pop
+/// back to the calculator. Cleared only on app restart. (Persistent
+/// disk storage will hook into the existing sample save/load slot.)
+class _TeamCoverageStore {
+  static const int maxTeamSize = 6;
+  static final List<_TeamSlot> team =
+      List.generate(maxTeamSize, (_) => _TeamSlot());
+}
+
 class TeamCoverageScreen extends StatefulWidget {
   final Map<String, String> abilityNames;
+  final Map<String, String> itemNames;
 
-  const TeamCoverageScreen({super.key, this.abilityNames = const {}});
+  const TeamCoverageScreen({
+    super.key,
+    this.abilityNames = const {},
+    this.itemNames = const {},
+  });
 
   @override
   State<TeamCoverageScreen> createState() => _TeamCoverageScreenState();
 }
 
 class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
-  static const int _maxTeamSize = 6;
-  final List<_TeamSlot> _team = List.generate(_maxTeamSize, (_) => _TeamSlot());
+  static const int _maxTeamSize = _TeamCoverageStore.maxTeamSize;
+  // Backed by the singleton so the picks persist across pushes/pops.
+  List<_TeamSlot> get _team => _TeamCoverageStore.team;
 
   /// Filled slots only — used to feed coverage logic and to render
   /// the matrix without empty rows.
@@ -74,37 +92,124 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     setState(() => _team[index].ability = ability);
   }
 
+  /// Item picker can clear back to "no item", so we accept null.
+  void _setItem(int index, String? item) {
+    setState(() => _team[index].heldItem = item);
+  }
+
+  /// Pull a saved sample (from the calculator's attacker/defender
+  /// sample storage) and copy just the bits the team builder cares
+  /// about into [index].
+  Future<void> _loadSampleInto(int index) async {
+    final samples = await SampleStorage.loadSamples();
+    if (!mounted) return;
+    if (samples.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.sample.empty')),
+      ));
+      return;
+    }
+    final pokedex = await loadPokedex();
+    if (!mounted) return;
+    // Build a map name → Pokemon once so we can rehydrate samples
+    // whose persisted state only kept the `pokemonName` string.
+    final byName = {for (final p in pokedex) p.name: p};
+    final picked = await showModalBottomSheet<int>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            for (int i = 0; i < samples.length; i++)
+              ListTile(
+                title: Text(samples[i].name),
+                subtitle: Text(samples[i].state.localizedPokemonName,
+                    style: const TextStyle(fontSize: 12)),
+                onTap: () => Navigator.pop(ctx, i),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (picked == null || !mounted) return;
+    final s = samples[picked].state;
+    final p = byName[s.pokemonName];
+    if (p == null) return;
+    setState(() {
+      _team[index].pokemon = p;
+      _team[index].ability = s.selectedAbility;
+      _team[index].heldItem = s.selectedItem;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Wide layout splits into two columns: slot list on the left,
+    // matrix on the right. Threshold matches the calculator's wide
+    // breakpoint feel.
+    final isWide = MediaQuery.of(context).size.width >= 900;
+
+    final slotList = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (int i = 0; i < _maxTeamSize; i++) ...[
+          _SlotCard(
+            index: i,
+            slot: _team[i],
+            abilityNames: widget.abilityNames,
+            itemNames: widget.itemNames,
+            onPokemonSelected: (p) => _setPokemon(i, p),
+            onAbilitySelected: (a) => _setAbility(i, a),
+            onItemSelected: (it) => _setItem(i, it),
+            onLoadSample: () => _loadSampleInto(i),
+            onClear: () => _clearSlot(i),
+          ),
+          if (i < _maxTeamSize - 1) const SizedBox(height: 4),
+        ],
+      ],
+    );
+
+    // Pass ALL 6 slots — including empty ones — so the matrix grid
+    // is dimensionally stable. Empty slots render blank cells; the
+    // summary only counts filled ones.
+    final matrix = _CoverageMatrix(
+      team: _team,
+      abilityNames: widget.abilityNames,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppStrings.t('team.title')),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (int i = 0; i < _maxTeamSize; i++) ...[
-              _SlotCard(
-                index: i,
-                slot: _team[i],
-                abilityNames: widget.abilityNames,
-                onPokemonSelected: (p) => _setPokemon(i, p),
-                onAbilitySelected: (a) => _setAbility(i, a),
-                onClear: () => _clearSlot(i),
+      body: isWide
+          ? Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: SingleChildScrollView(child: slotList),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    flex: 4,
+                    child: SingleChildScrollView(child: matrix),
+                  ),
+                ],
               ),
-              if (i < _maxTeamSize - 1) const SizedBox(height: 8),
-            ],
-            const SizedBox(height: 20),
-            _CoverageMatrix(
-              team: _filled,
-              cells: _filled.map(_toCoverageSlot).toList(),
-              abilityNames: widget.abilityNames,
+            )
+          : SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 120),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  slotList,
+                  const SizedBox(height: 20),
+                  matrix,
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -113,20 +218,28 @@ class _SlotCard extends StatelessWidget {
   final int index;
   final _TeamSlot slot;
   final Map<String, String> abilityNames;
+  final Map<String, String> itemNames;
   final ValueChanged<Pokemon> onPokemonSelected;
   final ValueChanged<String> onAbilitySelected;
+  final ValueChanged<String?> onItemSelected;
+  final VoidCallback onLoadSample;
   final VoidCallback onClear;
 
   const _SlotCard({
     required this.index,
     required this.slot,
     required this.abilityNames,
+    required this.itemNames,
     required this.onPokemonSelected,
     required this.onAbilitySelected,
+    required this.onItemSelected,
+    required this.onLoadSample,
     required this.onClear,
   });
 
   String _abilityLabel(String key) => abilityNames[key] ?? key;
+  String _itemLabel(String? key) =>
+      key == null ? AppStrings.t('team.item.none') : (itemNames[key] ?? key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,84 +250,189 @@ class _SlotCard extends StatelessWidget {
         border: Border.all(color: scheme.outlineVariant),
         borderRadius: BorderRadius.circular(6),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      child: Row(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
-            width: 24,
-            child: Text(
-              '${index + 1}',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: scheme.onSurface.withValues(alpha: 0.5),
-              ),
-            ),
-          ),
-          Expanded(
-            child: PokemonSelector(
-              key: ValueKey('team_slot_${index}_${p?.name ?? "empty"}'),
-              initialPokemonName: p?.name ?? '',
-              onSelected: onPokemonSelected,
-            ),
-          ),
-          const SizedBox(width: 8),
-          if (p != null && p.abilities.isNotEmpty) ...[
-            SizedBox(
-              width: 140,
-              child: PopupMenuButton<String>(
-                tooltip: '',
-                position: PopupMenuPosition.under,
-                itemBuilder: (_) => [
-                  for (final ab in p.abilities)
-                    PopupMenuItem(
-                      value: ab,
-                      child: Text(_abilityLabel(ab),
-                          style: const TextStyle(fontSize: 13)),
-                    ),
-                ],
-                onSelected: onAbilitySelected,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 6),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: scheme.outlineVariant),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          slot.ability != null
-                              ? _abilityLabel(slot.ability!)
-                              : '-',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: slot.ability != null
-                                ? scheme.onSurface
-                                : scheme.onSurface.withValues(alpha: 0.4),
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Icon(Icons.arrow_drop_down,
-                          size: 18,
-                          color: scheme.onSurface.withValues(alpha: 0.6)),
-                    ],
+          // ─── Row 1: index | name selector | type chips | load | clear
+          Row(
+            children: [
+              SizedBox(
+                width: 24,
+                child: Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: scheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
               ),
+              Expanded(
+                child: PokemonSelector(
+                  key: ValueKey('team_slot_${index}_${p?.name ?? "empty"}'),
+                  initialPokemonName: p?.name,
+                  onSelected: onPokemonSelected,
+                ),
+              ),
+              if (p != null) ...[
+                const SizedBox(width: 6),
+                _typeChip(p.type1),
+                if (p.type2 != null) ...[
+                  const SizedBox(width: 2),
+                  _typeChip(p.type2!),
+                ],
+              ],
+              const SizedBox(width: 4),
+              IconButton(
+                tooltip: AppStrings.t('team.sample.load'),
+                icon: const Icon(Icons.folder_open, size: 18),
+                onPressed: onLoadSample,
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+              ),
+              if (p != null)
+                IconButton(
+                  tooltip: '',
+                  icon: const Icon(Icons.close, size: 18),
+                  onPressed: onClear,
+                  visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+                ),
+            ],
+          ),
+          // ─── Row 2: ability + item dropdowns — always present so
+          // the row height stays constant whether or not a Pokemon is
+          // picked. Disabled when empty.
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              const SizedBox(width: 24),
+              Expanded(
+                child: _abilityDropdown(scheme, p),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: _itemDropdown(scheme, p),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _typeChip(PokemonType type) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: KoStrings.getTypeColor(type),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        KoStrings.getTypeName(type),
+        style: const TextStyle(
+            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _abilityDropdown(ColorScheme scheme, Pokemon? p) {
+    if (p == null) {
+      return _dropdownBody(scheme, '-', hasValue: false, disabled: true);
+    }
+    return PopupMenuButton<String>(
+      tooltip: '',
+      position: PopupMenuPosition.under,
+      itemBuilder: (_) => [
+        for (final ab in p.abilities)
+          PopupMenuItem(
+            value: ab,
+            child: Text(_abilityLabel(ab),
+                style: const TextStyle(fontSize: 13)),
+          ),
+      ],
+      onSelected: onAbilitySelected,
+      child: _dropdownBody(
+        scheme,
+        slot.ability != null ? _abilityLabel(slot.ability!) : '-',
+        hasValue: slot.ability != null,
+      ),
+    );
+  }
+
+  /// Item picker. We surface the curated top items for the species
+  /// (champions_usage data) plus a "none" option — full item search
+  /// stays in the calculator. The item field mostly matters here for
+  /// Air Balloon / Iron Ball, which are common enough to show up in
+  /// curated lists. Renders as a disabled row when no Pokemon yet.
+  Widget _itemDropdown(ColorScheme scheme, Pokemon? p) {
+    if (p == null) {
+      return _dropdownBody(
+        scheme,
+        AppStrings.t('team.item.none'),
+        hasValue: false,
+        disabled: true,
+      );
+    }
+    final usage = championsUsageFor(p.name);
+    final curated = usage?.items.map((row) => row.name).toList() ?? const [];
+    return PopupMenuButton<String?>(
+      tooltip: '',
+      position: PopupMenuPosition.under,
+      itemBuilder: (_) => [
+        PopupMenuItem<String?>(
+          value: null,
+          child: Text(AppStrings.t('team.item.none'),
+              style: const TextStyle(fontSize: 13)),
+        ),
+        for (final item in curated)
+          PopupMenuItem<String?>(
+            value: item,
+            child: Text(_itemLabel(item),
+                style: const TextStyle(fontSize: 13)),
+          ),
+      ],
+      onSelected: onItemSelected,
+      child: _dropdownBody(
+        scheme,
+        _itemLabel(slot.heldItem),
+        hasValue: slot.heldItem != null,
+      ),
+    );
+  }
+
+  /// Shared dropdown body. [disabled] dims the border, label, and
+  /// arrow so an empty slot's controls read as inert without removing
+  /// them from the layout.
+  Widget _dropdownBody(ColorScheme scheme, String label,
+      {required bool hasValue, bool disabled = false}) {
+    final borderAlpha = disabled ? 0.4 : 1.0;
+    final labelAlpha = disabled ? 0.3 : (hasValue ? 1.0 : 0.4);
+    final iconAlpha = disabled ? 0.25 : 0.6;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: scheme.outlineVariant.withValues(alpha: borderAlpha)),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                color: scheme.onSurface.withValues(alpha: labelAlpha),
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(width: 4),
-            IconButton(
-              tooltip: '',
-              icon: const Icon(Icons.close, size: 18),
-              onPressed: onClear,
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-            ),
-          ],
+          ),
+          Icon(Icons.arrow_drop_down,
+              size: 18, color: scheme.onSurface.withValues(alpha: iconAlpha)),
         ],
       ),
     );
@@ -223,51 +441,67 @@ class _SlotCard extends StatelessWidget {
 
 class _CoverageMatrix extends StatelessWidget {
   final List<_TeamSlot> team;
-  final List<CoverageSlot> cells;
   final Map<String, String> abilityNames;
 
   const _CoverageMatrix({
     required this.team,
-    required this.cells,
     required this.abilityNames,
   });
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    if (cells.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(
-          AppStrings.t('team.matrix.empty'),
-          style: TextStyle(
-            fontSize: 14,
-            color: scheme.onSurface.withValues(alpha: 0.5),
-          ),
-        ),
-      );
+    // The matrix grid is dimensionally stable: always [team.length]
+    // Pokemon columns (typically 6, even when slots are empty). Empty
+    // slots produce a `null` row internally, which the renderer paints
+    // as a blank cell. The summary on the right only counts filled
+    // slots, so 0/0 reads cleanly when the team is empty.
+    final filledCells = <CoverageSlot>[];
+    final filledIndices = <int>[];
+    for (int i = 0; i < team.length; i++) {
+      final slot = team[i];
+      final p = slot.pokemon;
+      if (p == null) continue;
+      filledCells.add(CoverageSlot(
+        type1: p.type1,
+        type2: p.type2,
+        ability: slot.ability,
+        heldItem: slot.heldItem,
+      ));
+      filledIndices.add(i);
     }
-    final matrix = defensiveCoverageMatrix(cells);
-    final summary = summarize(matrix);
+    final filledMatrix = defensiveCoverageMatrix(filledCells);
+    final summary = summarize(filledMatrix);
 
-    // Horizontal scroll for the matrix on narrow screens — 18 attack
-    // type columns + the per-row summary column never fit comfortably
-    // on mobile portrait.
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Table(
-        defaultColumnWidth: const FixedColumnWidth(44),
-        columnWidths: const {0: FixedColumnWidth(120)},
-        border: TableBorder.all(
-            color: scheme.outlineVariant.withValues(alpha: 0.6), width: 0.6),
-        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-        children: [
-          _headerRow(scheme),
-          for (int row = 0; row < team.length; row++)
-            _pokemonRow(team[row], matrix[row], scheme),
-          _summaryRow(summary, scheme),
-        ],
-      ),
+    // Re-expand into a [team.length × 18] grid where empty slots get
+    // null rows. Renderer keys off this for blank cells.
+    final List<List<CoverageCell>?> displayMatrix =
+        List<List<CoverageCell>?>.filled(team.length, null);
+    for (int j = 0; j < filledIndices.length; j++) {
+      displayMatrix[filledIndices[j]] = filledMatrix[j];
+    }
+
+    // Flex columns so the table always fits its parent's width — no
+    // horizontal scroll, no overflow. Ratio: type label 1.6, each
+    // Pokemon 1.0, summary 1.8. On a 360-wide portrait that lands at
+    // ~61 / ~38 / ~68 px which is just enough; on wider screens the
+    // cells expand proportionally.
+    return Table(
+      defaultColumnWidth: const FlexColumnWidth(1.0),
+      columnWidths: {
+        0: const FlexColumnWidth(1.6),
+        for (int i = 0; i < team.length; i++)
+          i + 1: const FlexColumnWidth(1.0),
+        team.length + 1: const FlexColumnWidth(1.8),
+      },
+      border: TableBorder.all(
+          color: scheme.outlineVariant.withValues(alpha: 0.6), width: 0.6),
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      children: [
+        _headerRow(scheme),
+        for (int t = 0; t < teamCoverageAttackTypes.length; t++)
+          _typeRow(t, displayMatrix, summary[t], scheme),
+      ],
     );
   }
 
@@ -278,149 +512,205 @@ class _CoverageMatrix extends StatelessWidget {
       ),
       children: [
         const SizedBox.shrink(),
-        for (final t in teamCoverageAttackTypes)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6),
-            child: Text(
-              KoStrings.getTypeName(t),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: KoStrings.getTypeColor(t),
+        for (final slot in team)
+          slot.pokemon != null
+              ? _vertNameCell(slot.pokemon!.localizedName)
+              : const SizedBox(height: 84),
+        // Color-coded labels side-by-side, with the same thicker
+        // left divider that the data rows carry below.
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(
+                color: scheme.onSurface.withValues(alpha: 0.45),
+                width: 1.5,
               ),
             ),
           ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                AppStrings.t('team.matrix.weak'),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.red.shade700,
+                ),
+              ),
+              Text(
+                AppStrings.t('team.matrix.resist'),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.blue.shade700,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
 
-  TableRow _pokemonRow(
-      _TeamSlot slot, List<CoverageCell> row, ColorScheme scheme) {
-    final p = slot.pokemon!;
+  /// Vertical Pokemon name cell — RotatedBox flips a normal Text 90°
+  /// so a 6-column header stays narrow even with longer names like
+  /// "메가샹델라". Tall enough to fit ~6 Korean characters.
+  Widget _vertNameCell(String name) {
+    return SizedBox(
+      height: 84,
+      child: Center(
+        child: RotatedBox(
+          quarterTurns: 3,
+          child: Text(
+            name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+          ),
+        ),
+      ),
+    );
+  }
+
+  TableRow _typeRow(
+      int t,
+      List<List<CoverageCell>?> matrix,
+      CoverageColumnSummary summary,
+      ColorScheme scheme) {
+    final attackType = teamCoverageAttackTypes[t];
     return TableRow(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          child: Text(
-            p.localizedName,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-            overflow: TextOverflow.ellipsis,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+          child: Center(child: _attackTypeChip(attackType)),
         ),
-        for (final cell in row) _multCell(cell, scheme),
+        for (int p = 0; p < team.length; p++)
+          // Empty slot → blank cell so the column stays in place
+          // without inviting the eye to read anything into it.
+          matrix[p] == null
+              ? const SizedBox(height: 30)
+              : _multCell(matrix[p]![t], scheme),
+        _summaryCell(summary, scheme),
       ],
     );
   }
 
-  /// One matrix cell. Color/text encodes the bucket so the eye can
-  /// scan a column without reading every number:
-  ///   - red shades: weakness (2× / 4×)
-  ///   - blue shades: resist (½ / ¼)
-  ///   - grey: neutral (1×, blank)
-  ///   - dim outlined "무": immune (0×)
-  Widget _multCell(CoverageCell cell, ColorScheme scheme) {
-    if (cell.isImmune) {
-      return Container(
-        height: 30,
-        alignment: Alignment.center,
+  /// Solid colored chip — same style as the team-builder slot's type
+  /// chips and the attacker/defender panel badges. ClipRect lets the
+  /// chip overflow the column on the right without wrapping; users
+  /// recognize "사이…" or "고스…" fine when the column is squeezed.
+  Widget _attackTypeChip(PokemonType type) {
+    return ClipRect(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
-          color: scheme.onSurface.withValues(alpha: 0.08),
+          color: KoStrings.getTypeColor(type),
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Text(
-          AppStrings.t('team.matrix.immune'),
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            color: scheme.onSurface.withValues(alpha: 0.55),
+          KoStrings.getTypeName(type),
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.clip,
+          style: const TextStyle(
+              fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
+  /// Side-by-side numbers — weak (red) on the left, resist+immune
+  /// (blue) on the right. Visually fenced off from the matrix by a
+  /// thicker left border so the eye knows where the cells stop and
+  /// the totals begin.
+  Widget _summaryCell(CoverageColumnSummary summary, ColorScheme scheme) {
+    final resistOrImmune = summary.resist + summary.immune;
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            color: scheme.onSurface.withValues(alpha: 0.45),
+            width: 1.5,
           ),
         ),
-      );
-    }
-    final m = cell.multiplier;
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            '${summary.weak}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w900,
+              height: 1.0,
+              color: summary.weak > 0
+                  ? Colors.red.shade700
+                  : scheme.onSurface.withValues(alpha: 0.25),
+            ),
+          ),
+          Text(
+            '$resistOrImmune',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              height: 1.0,
+              color: resistOrImmune > 0
+                  ? Colors.blue.shade700
+                  : scheme.onSurface.withValues(alpha: 0.25),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// One matrix cell. We rely on text + color alone (no background
+  /// tint) so a column scan reads clean — each cell is just one short
+  /// glyph in one of four colors:
+  ///   - dark red   "4×"  — quad weakness
+  ///   - red        "2×"  — weakness
+  ///   - (blank)          — neutral
+  ///   - blue       "½"   — resist
+  ///   - dark blue  "¼"   — quad resist
+  ///   - grey       "무"  — immune
+  Widget _multCell(CoverageCell cell, ColorScheme scheme) {
     String label;
-    Color bg;
     Color fg;
-    if (m == 4) {
-      label = '4×';
-      bg = Colors.red.withValues(alpha: 0.55);
-      fg = Colors.white;
-    } else if (m == 2) {
-      label = '2×';
-      bg = Colors.red.withValues(alpha: 0.28);
-      fg = Colors.red.shade900;
-    } else if (m == 0.5) {
-      label = '½';
-      bg = Colors.blue.withValues(alpha: 0.22);
-      fg = Colors.blue.shade900;
-    } else if (m == 0.25) {
-      label = '¼';
-      bg = Colors.blue.withValues(alpha: 0.45);
-      fg = Colors.white;
+    FontWeight weight = FontWeight.w800;
+    if (cell.isImmune) {
+      label = AppStrings.t('team.matrix.immune');
+      fg = scheme.onSurface.withValues(alpha: 0.45);
+      weight = FontWeight.w700;
     } else {
-      // Neutral: blank cell so the colored ones stand out.
-      label = '';
-      bg = Colors.transparent;
-      fg = scheme.onSurface;
+      final m = cell.multiplier;
+      if (m == 4) {
+        label = '4×';
+        fg = Colors.red.shade900;
+      } else if (m == 2) {
+        label = '2×';
+        fg = Colors.red.shade600;
+      } else if (m == 0.5) {
+        label = '½';
+        fg = Colors.blue.shade600;
+      } else if (m == 0.25) {
+        label = '¼';
+        fg = Colors.blue.shade900;
+      } else {
+        label = '';
+        fg = scheme.onSurface;
+      }
     }
     return Container(
       height: 30,
       alignment: Alignment.center,
-      decoration: BoxDecoration(color: bg),
       child: Text(
         label,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: fg),
+        style: TextStyle(fontSize: 13, fontWeight: weight, color: fg),
       ),
     );
   }
 
-  TableRow _summaryRow(
-      List<CoverageColumnSummary> summary, ColorScheme scheme) {
-    return TableRow(
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest.withValues(alpha: 0.4),
-      ),
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Text(
-            '${AppStrings.t('team.matrix.weak')} / ${AppStrings.t('team.matrix.resist')}',
-            style: TextStyle(
-              fontSize: 11,
-              color: scheme.onSurface.withValues(alpha: 0.6),
-            ),
-          ),
-        ),
-        for (final col in summary)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '${col.weak}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
-                    color: col.weak > 0
-                        ? Colors.red.shade700
-                        : scheme.onSurface.withValues(alpha: 0.35),
-                  ),
-                ),
-                Text(
-                  '${col.resist + col.immune}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: (col.resist + col.immune) > 0
-                        ? Colors.blue.shade700
-                        : scheme.onSurface.withValues(alpha: 0.35),
-                  ),
-                ),
-              ],
-            ),
-          ),
-      ],
-    );
-  }
 }
