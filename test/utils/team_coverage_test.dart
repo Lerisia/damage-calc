@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/utils/team_coverage.dart';
 
@@ -562,6 +563,83 @@ void main() {
             .multiplier,
         equals(1.0),
       );
+    });
+  });
+
+  group('coverageMoveFromMove — wraps transformMove', () {
+    Move makeMove({
+      required String name,
+      required PokemonType type,
+      MoveCategory category = MoveCategory.physical,
+      List<String> tags = const [],
+    }) =>
+        Move(
+          name: name,
+          nameKo: name,
+          nameJa: name,
+          type: type,
+          category: category,
+          power: 80,
+          accuracy: 100,
+          pp: 10,
+          tags: tags,
+        );
+
+    test('Tera Blast picks up the user Tera type when terastallized', () {
+      final tb = makeMove(name: 'Tera Blast', type: PokemonType.normal);
+      final cov = coverageMoveFromMove(
+        tb,
+        terastallized: true,
+        teraType: PokemonType.fairy,
+      );
+      expect(cov.type, equals(PokemonType.fairy));
+    });
+
+    test('Tera Blast stays Normal when not terastallized', () {
+      final tb = makeMove(name: 'Tera Blast', type: PokemonType.normal);
+      final cov = coverageMoveFromMove(tb);
+      expect(cov.type, equals(PokemonType.normal));
+    });
+
+    test('Ivy Cudgel reads the wearer mask from pokemonName', () {
+      final ic = makeMove(name: 'Ivy Cudgel', type: PokemonType.grass);
+      final hearthflame = coverageMoveFromMove(
+        ic,
+        pokemonName: 'ogerpon-hearthflame',
+      );
+      expect(hearthflame.type, equals(PokemonType.fire));
+
+      final wellspring = coverageMoveFromMove(
+        ic,
+        pokemonName: 'ogerpon-wellspring',
+      );
+      expect(wellspring.type, equals(PokemonType.water));
+
+      final cornerstone = coverageMoveFromMove(
+        ic,
+        pokemonName: 'ogerpon-cornerstone',
+      );
+      expect(cornerstone.type, equals(PokemonType.rock));
+
+      // Default form keeps Grass.
+      final base = coverageMoveFromMove(ic, pokemonName: 'ogerpon');
+      expect(base.type, equals(PokemonType.grass));
+    });
+
+    test('Pixilate skin converts Normal moves to Fairy', () {
+      final tackle = makeMove(name: 'Tackle', type: PokemonType.normal);
+      final cov = coverageMoveFromMove(tackle, ability: 'Pixilate');
+      expect(cov.type, equals(PokemonType.fairy));
+    });
+
+    test('Status moves report isDamaging = false', () {
+      final swords = makeMove(
+        name: 'Swords Dance',
+        type: PokemonType.normal,
+        category: MoveCategory.status,
+      );
+      final cov = coverageMoveFromMove(swords);
+      expect(cov.isDamaging, isFalse);
     });
   });
 

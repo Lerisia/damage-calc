@@ -1,6 +1,9 @@
+import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/type.dart';
 import 'ability_effects.dart' show canHitGhost, isAbilityTypeImmune;
 import 'grounded.dart';
+import 'move_transform.dart';
 import 'type_effectiveness.dart';
 
 /// One team-coverage cell — what happens when a move of [attackType]
@@ -333,4 +336,51 @@ CoverageCell _bestOffensiveCell(
 /// (in [teamCoverageDefenseTypes] order).
 List<List<CoverageCell>> offensiveCoverageMatrix(List<CoverageSlot> team) {
   return team.map(offensiveCoverageRow).toList(growable: false);
+}
+
+/// Build a [CoverageMove] from a calculator [Move] by routing the
+/// move + caller-supplied state through the existing
+/// [transformMove] pipeline. This single entry point handles every
+/// state-dependent move the calculator already knows about — Tera
+/// Blast, Ivy Cudgel (Ogerpon masks), Judgment / Multi-Attack /
+/// Techno Blast (held items), Revelation Dance (primary type),
+/// Aura Wheel (Morpeko form), Raging Bull (Paldean Tauros), the
+/// -ate skin abilities (Pixilate / Refrigerate / Aerilate /
+/// Galvanize), Liquid Voice (sound → Water), Weather Ball / Terrain
+/// Pulse, and Tera Starstorm — so callers don't have to special-case
+/// any of them. Move-intrinsic flags ([MoveTags.freezeDry] /
+/// [MoveTags.flyingPress]) are forwarded so the matrix renders
+/// Freeze-Dry vs Water as 2× and Flying Press as combined
+/// Fighting × Flying.
+///
+/// Defaults match the lightweight team-coverage UI which doesn't
+/// track weather / terrain / status — pass those if available so
+/// Weather Ball etc. resolve correctly.
+CoverageMove coverageMoveFromMove(
+  Move move, {
+  String? ability,
+  String? heldItem,
+  PokemonType? userType1,
+  String? pokemonName,
+  bool terastallized = false,
+  PokemonType? teraType,
+  MoveContext? context,
+}) {
+  final ctx = context ??
+      MoveContext(
+        ability: ability,
+        heldItem: heldItem,
+        userType1: userType1,
+        pokemonName: pokemonName,
+        terastallized: terastallized,
+        teraType: teraType,
+        hasItem: heldItem != null,
+      );
+  final m = transformMove(move, ctx).move;
+  return CoverageMove(
+    type: m.type,
+    isDamaging: m.category != MoveCategory.status,
+    freezeDry: m.hasTag(MoveTags.freezeDry),
+    flyingPress: m.hasTag(MoveTags.flyingPress),
+  );
 }
