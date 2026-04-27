@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'utils/app_strings.dart';
+import 'utils/coverage_display_controller.dart';
 import 'utils/simple_mode_controller.dart';
 import 'utils/theme_controller.dart';
 import 'data/abilitydex.dart';
@@ -217,6 +218,7 @@ class _AppLoaderState extends State<_AppLoader> {
       AppStrings.loadSavedLanguage(),
       ThemeController.instance.load(),
       SimpleModeController.instance.load(),
+      CoverageDisplayController.instance.load(),
     ]);
     final results = await Future.wait([
       loadPokedex(),

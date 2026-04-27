@@ -10,6 +10,7 @@ import '../models/item.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
+import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/team_coverage.dart';
@@ -462,10 +463,24 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // summary only counts filled ones. Wrapped in a RepaintBoundary
     // so scroll / typing in slot fields doesn't trigger a 144-cell
     // matrix repaint on every frame.
-    final matrix = RepaintBoundary(
-      child: _CoverageMatrix(
-        team: _team,
-        abilityNames: _abilityNames ?? const {},
+    //
+    // ValueListenableBuilder reacts to the user's display-mode pick
+    // (numeric ↔ symbolic) without rebuilding the slot list above.
+    final matrix = ValueListenableBuilder<CoverageDisplayMode>(
+      valueListenable: CoverageDisplayController.instance.mode,
+      builder: (_, mode, __) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _DisplayModeToggle(mode: mode),
+          const SizedBox(height: 6),
+          RepaintBoundary(
+            child: _CoverageMatrix(
+              team: _team,
+              abilityNames: _abilityNames ?? const {},
+              symbolic: mode == CoverageDisplayMode.symbolic,
+            ),
+          ),
+        ],
       ),
     );
 
@@ -946,10 +961,15 @@ class _SlotCardState extends State<_SlotCard> {
 class _CoverageMatrix extends StatelessWidget {
   final List<_TeamSlot> team;
   final Map<String, String> abilityNames;
+  /// `true` → render multipliers as the standard Pokemon-game symbol
+  /// set (◎ / ○ / △ / ▲ / ✕). `false` → numeric ("4×", "½", …).
+  /// The decisive-tier pill background is shown in both modes.
+  final bool symbolic;
 
   const _CoverageMatrix({
     required this.team,
     required this.abilityNames,
+    this.symbolic = false,
   });
 
   @override
@@ -1255,38 +1275,41 @@ class _CoverageMatrix extends StatelessWidget {
   /// 4× quad-weak, ¼ quad-resist, and 무 immune — get a small filled
   /// pill behind the glyph so they pop on a column scan. The pill
   /// fits inside the existing 22 px row (no height change); it's just
-  /// a contained badge, not a full-cell tint.
-  ///   - 4×  "4×"  — light red pill, dark red text
-  ///   - 2×  "2×"  — red text only
-  ///   - 1×  (blank)
-  ///   - ½   "½"   — blue text only
-  ///   - ¼   "¼"   — light blue pill, dark blue text
-  ///   - 무  "무"  — light gray pill, gray text
+  /// a contained badge, not a full-cell tint. Symbol mode swaps the
+  /// glyphs to the standard Pokemon-game set (◎ / ○ / △ / ▲ / ✕)
+  /// while keeping the same colors and pills.
+  ///   numeric:        symbolic:
+  ///   - 4×  "4×"      ◎     — light red pill, dark red text
+  ///   - 2×  "2×"      ○     — red text only
+  ///   - 1×  (blank)   (blank)
+  ///   - ½   "½"       △     — blue text only
+  ///   - ¼   "¼"       ▲     — light blue pill, dark blue text
+  ///   - 무  "무"      ✕     — light gray pill, gray text
   Widget _multCell(CoverageCell cell, ColorScheme scheme) {
     String label;
     Color fg;
     Color? pillBg;
     FontWeight weight = FontWeight.w800;
     if (cell.isImmune) {
-      label = AppStrings.t('team.matrix.immune');
+      label = symbolic ? '✕' : AppStrings.t('team.matrix.immune');
       fg = scheme.onSurface.withValues(alpha: 0.55);
       pillBg = scheme.onSurface.withValues(alpha: 0.10);
       weight = FontWeight.w700;
     } else {
       final m = cell.multiplier;
       if (m == 4) {
-        label = '4×';
+        label = symbolic ? '◎' : '4×';
         fg = Colors.red.shade900;
         pillBg = Colors.red.shade100;
         weight = FontWeight.w900;
       } else if (m == 2) {
-        label = '2×';
+        label = symbolic ? '○' : '2×';
         fg = Colors.red.shade600;
       } else if (m == 0.5) {
-        label = '½';
+        label = symbolic ? '△' : '½';
         fg = Colors.blue.shade600;
       } else if (m == 0.25) {
-        label = '¼';
+        label = symbolic ? '▲' : '¼';
         fg = Colors.blue.shade900;
         pillBg = Colors.blue.shade100;
         weight = FontWeight.w900;
@@ -1315,4 +1338,76 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
+}
+
+/// Compact two-button toggle that flips the matrix between numeric
+/// and symbolic notation. Tied to [CoverageDisplayController] which
+/// persists the choice to SharedPreferences (same lifecycle as the
+/// language and theme settings).
+class _DisplayModeToggle extends StatelessWidget {
+  final CoverageDisplayMode mode;
+  const _DisplayModeToggle({required this.mode});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: scheme.outlineVariant),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _modeBtn(
+              context,
+              label: AppStrings.t('team.matrix.display.numeric'),
+              selected: mode == CoverageDisplayMode.numeric,
+              target: CoverageDisplayMode.numeric,
+            ),
+            Container(
+              width: 1,
+              height: 20,
+              color: scheme.outlineVariant,
+            ),
+            _modeBtn(
+              context,
+              label: AppStrings.t('team.matrix.display.symbolic'),
+              selected: mode == CoverageDisplayMode.symbolic,
+              target: CoverageDisplayMode.symbolic,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _modeBtn(BuildContext context, {
+    required String label,
+    required bool selected,
+    required CoverageDisplayMode target,
+  }) {
+    final scheme = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: () => CoverageDisplayController.instance.set(target),
+      child: Container(
+        color: selected
+            ? scheme.surfaceContainerHighest
+            : Colors.transparent,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+            color: selected
+                ? scheme.onSurface
+                : scheme.onSurface.withValues(alpha: 0.5),
+          ),
+        ),
+      ),
+    );
+  }
 }

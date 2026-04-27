@@ -205,6 +205,16 @@ class AppStrings {
       AppLanguage.en: 'Saved',
       AppLanguage.ja: '保存完了',
     },
+    'team.matrix.display.numeric': {
+      AppLanguage.ko: '숫자',
+      AppLanguage.en: 'Numbers',
+      AppLanguage.ja: '数値',
+    },
+    'team.matrix.display.symbolic': {
+      AppLanguage.ko: '기호',
+      AppLanguage.en: 'Symbols',
+      AppLanguage.ja: '記号',
+    },
     // ── Sample storage / party folders (load + save sheets) ──────
     'sample.team.add': {
       AppLanguage.ko: '파티 추가',
