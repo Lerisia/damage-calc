@@ -1652,16 +1652,22 @@ class _CoverageMatrix extends StatelessWidget {
         fg = scheme.onSurface;
       }
     }
-    // Render the glyph at the natural fontSize when the cell is wide
-    // enough; FittedBox(scaleDown) shrinks proportionally when the
-    // cell narrows, so a 4-char party (wider columns) sees the full
-    // 17 px while a 6-mon party on a 360 px phone gracefully scales
-    // down instead of wrapping to two lines.
+    // Per-label fontSize so the column doesn't read as lopsided.
+    // Precomposed fractions (½ ¼) and the symbol-mode glyphs render
+    // at sub-digit visual size in most fonts, while digit-glyph
+    // labels (4×, 2×) and the localized "immune" CJK label (무) come
+    // out full-height. Trim the full-height ones a touch so the row
+    // feels balanced. FittedBox(scaleDown) still kicks in for narrow
+    // columns regardless.
+    final isFullHeight =
+        label == '4×' || label == '2×' || label == AppStrings.t('team.matrix.immune');
+    final fontSize = isFullHeight ? 15.0 : 17.0;
     final text = Text(
       label,
       maxLines: 1,
       softWrap: false,
-      style: TextStyle(fontSize: 17, fontWeight: weight, color: fg, height: 1.0),
+      style: TextStyle(
+          fontSize: fontSize, fontWeight: weight, color: fg, height: 1.0),
     );
     return Container(
       height: 28,
