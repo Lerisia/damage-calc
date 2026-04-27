@@ -215,6 +215,21 @@ class AppStrings {
       AppLanguage.en: 'Symbols',
       AppLanguage.ja: '記号',
     },
+    'team.matrix.showOffensive': {
+      AppLanguage.ko: '공격 상성표',
+      AppLanguage.en: 'Offensive coverage',
+      AppLanguage.ja: '攻撃相性表',
+    },
+    'team.matrix.defensive': {
+      AppLanguage.ko: '방어 상성표',
+      AppLanguage.en: 'Defensive coverage',
+      AppLanguage.ja: '防御相性表',
+    },
+    'label.move': {
+      AppLanguage.ko: '기술',
+      AppLanguage.en: 'Move',
+      AppLanguage.ja: '技',
+    },
     // ── Sample storage / party folders (load + save sheets) ──────
     'sample.team.add': {
       AppLanguage.ko: '파티 추가',

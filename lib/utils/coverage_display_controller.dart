@@ -14,6 +14,7 @@ class CoverageDisplayController {
       CoverageDisplayController._();
 
   static const _prefsKey = 'partyCoverageDisplay';
+  static const _showOffensiveKey = 'partyCoverageShowOffensive';
 
   /// Defaults to numeric so existing users see no change on first
   /// launch; users who prefer the symbol notation can opt in via the
@@ -21,14 +22,21 @@ class CoverageDisplayController {
   final ValueNotifier<CoverageDisplayMode> mode =
       ValueNotifier<CoverageDisplayMode>(CoverageDisplayMode.numeric);
 
+  /// Whether to also show the offensive matrix and the per-slot move
+  /// pickers. Defaults to off so users who only want defensive
+  /// matchups don't have to fill in moves.
+  final ValueNotifier<bool> showOffensive = ValueNotifier<bool>(false);
+
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
     final saved = prefs.getString(_prefsKey);
-    if (saved == null) return;
-    final found = CoverageDisplayMode.values
-        .where((m) => m.name == saved)
-        .firstOrNull;
-    if (found != null) mode.value = found;
+    if (saved != null) {
+      final found = CoverageDisplayMode.values
+          .where((m) => m.name == saved)
+          .firstOrNull;
+      if (found != null) mode.value = found;
+    }
+    showOffensive.value = prefs.getBool(_showOffensiveKey) ?? false;
   }
 
   Future<void> set(CoverageDisplayMode m) async {
@@ -36,5 +44,12 @@ class CoverageDisplayController {
     mode.value = m;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_prefsKey, m.name);
+  }
+
+  Future<void> setShowOffensive(bool v) async {
+    if (showOffensive.value == v) return;
+    showOffensive.value = v;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_showOffensiveKey, v);
   }
 }

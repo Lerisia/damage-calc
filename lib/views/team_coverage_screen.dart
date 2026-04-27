@@ -7,6 +7,7 @@ import '../data/sample_storage.dart';
 import '../models/ability.dart';
 import '../models/battle_pokemon.dart';
 import '../models/item.dart';
+import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
@@ -14,6 +15,7 @@ import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/team_coverage.dart';
+import 'widgets/move_selector.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/typeahead_helpers.dart';
 
@@ -24,6 +26,11 @@ class _TeamSlot {
   Pokemon? pokemon;
   String? ability;
   String? heldItem; // currently only used to honour Air Balloon / Iron Ball
+  /// Up to 4 moves used for the offensive coverage matrix. Indexes
+  /// are stable; null entries render as empty pickers in the UI.
+  /// State-dependent moves (Tera Blast, Ivy Cudgel, …) resolve via
+  /// [coverageMoveFromMove] when the matrix is built.
+  final List<Move?> moves = List<Move?>.filled(4, null, growable: false);
 }
 
 /// Process-lifetime team state — survives navigating away from the
@@ -128,7 +135,18 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         }
       }
       _team[index].heldItem = pickedItem;
+
+      // Wipe the move slots — old picks were learned by the previous
+      // species and almost never carry over correctly. Cleaner to
+      // start fresh than to leave illegal moves stuck in the picker.
+      for (int i = 0; i < _team[index].moves.length; i++) {
+        _team[index].moves[i] = null;
+      }
     });
+  }
+
+  void _setMove(int slotIndex, int moveIndex, Move? move) {
+    setState(() => _team[slotIndex].moves[moveIndex] = move);
   }
 
   Future<void> _resetAll() async {
@@ -163,6 +181,16 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     padding: const EdgeInsets.symmetric(horizontal: 6),
     visualDensity: VisualDensity.compact,
   );
+
+  Widget _matrixSectionHeader(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4, top: 2),
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+      ),
+    );
+  }
 
   /// Show the saved-party picker and replace the 6 slots with the
   /// chosen team's members. Slots beyond the team's member count are
@@ -427,62 +455,81 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // breakpoint feel.
     final isWide = MediaQuery.of(context).size.width >= 900;
 
-    final slotList = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (int i = 0; i < _maxTeamSize; i++) ...[
-          // No per-card RepaintBoundary. The earlier optimization
-          // for steady-state typing caused a layer-raster timing
-          // glitch on iOS slide-in: cards in the middle of the
-          // visible area showed a blank rectangle in their Row 1
-          // (type chips + load / clear buttons) for the first few
-          // frames after push. The slotList rarely repaints anyway
-          // (only on slot mutations), so the trade-off doesn't pay.
-          _SlotCard(
-            // Keying by index keeps the typeahead controllers stable
-            // across slot mutations — without the key, swapping which
-            // Pokemon is in slot 0 would shred slot 0's text state.
-            key: ValueKey('team_slot_card_$i'),
-            index: i,
-            slot: _team[i],
-            abilityDex: _abilityDex ?? const {},
-            abilityNames: _abilityNames ?? const {},
-            itemDex: _itemDex ?? const {},
-            itemNames: _itemNames ?? const {},
-            onPokemonSelected: (p) => _setPokemon(i, p),
-            onAbilitySelected: (a) => _setAbility(i, a),
-            onItemSelected: (it) => _setItem(i, it),
-            onLoadSample: () => _loadSampleInto(i),
-            onClear: () => _clearSlot(i),
-          ),
-          if (i < _maxTeamSize - 1) const SizedBox(height: 4),
-        ],
-      ],
-    );
-
-    // Pass ALL 6 slots — including empty ones — so the matrix grid
-    // is dimensionally stable. Empty slots render blank cells; the
-    // summary only counts filled ones. Wrapped in a RepaintBoundary
-    // so scroll / typing in slot fields doesn't trigger a 144-cell
-    // matrix repaint on every frame.
-    //
-    // ValueListenableBuilder reacts to the user's display-mode pick
-    // (numeric ↔ symbolic) without rebuilding the slot list above.
-    final matrix = ValueListenableBuilder<CoverageDisplayMode>(
-      valueListenable: CoverageDisplayController.instance.mode,
-      builder: (_, mode, __) => Column(
+    // Slot list reacts to the offensive toggle so the move-picker
+    // row appears/disappears in lockstep with the offensive matrix
+    // below.
+    final slotList = ValueListenableBuilder<bool>(
+      valueListenable: CoverageDisplayController.instance.showOffensive,
+      builder: (_, showOff, __) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _DisplayModeToggle(mode: mode),
-          const SizedBox(height: 6),
-          RepaintBoundary(
-            child: _CoverageMatrix(
-              team: _team,
+          for (int i = 0; i < _maxTeamSize; i++) ...[
+            _SlotCard(
+              key: ValueKey('team_slot_card_$i'),
+              index: i,
+              slot: _team[i],
+              abilityDex: _abilityDex ?? const {},
               abilityNames: _abilityNames ?? const {},
-              symbolic: mode == CoverageDisplayMode.symbolic,
+              itemDex: _itemDex ?? const {},
+              itemNames: _itemNames ?? const {},
+              onPokemonSelected: (p) => _setPokemon(i, p),
+              onAbilitySelected: (a) => _setAbility(i, a),
+              onItemSelected: (it) => _setItem(i, it),
+              onLoadSample: () => _loadSampleInto(i),
+              onClear: () => _clearSlot(i),
+              showMoves: showOff,
+              onMoveChanged: (mi, m) => _setMove(i, mi, m),
             ),
-          ),
+            if (i < _maxTeamSize - 1) const SizedBox(height: 4),
+          ],
         ],
+      ),
+    );
+
+    // Matrix block reacts to BOTH the display mode (numeric/symbol)
+    // and the offensive toggle. When offensive is on, the defensive
+    // matrix gets a section header and the offensive matrix follows
+    // below — single column on phones, side-by-side on very wide
+    // screens (handled at the body level in phase 3).
+    final matrix = ValueListenableBuilder<CoverageDisplayMode>(
+      valueListenable: CoverageDisplayController.instance.mode,
+      builder: (_, mode, __) => ValueListenableBuilder<bool>(
+        valueListenable: CoverageDisplayController.instance.showOffensive,
+        builder: (_, showOff, __) {
+          final symbolic = mode == CoverageDisplayMode.symbolic;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _OffensiveSwitch(value: showOff),
+              const SizedBox(height: 4),
+              _DisplayModeToggle(mode: mode),
+              const SizedBox(height: 6),
+              if (showOff) _matrixSectionHeader(
+                  AppStrings.t('team.matrix.defensive')),
+              RepaintBoundary(
+                child: _CoverageMatrix(
+                  team: _team,
+                  abilityNames: _abilityNames ?? const {},
+                  symbolic: symbolic,
+                  offensive: false,
+                ),
+              ),
+              if (showOff) ...[
+                const SizedBox(height: 16),
+                _matrixSectionHeader(
+                    AppStrings.t('team.matrix.showOffensive')),
+                RepaintBoundary(
+                  child: _CoverageMatrix(
+                    team: _team,
+                    abilityNames: _abilityNames ?? const {},
+                    symbolic: symbolic,
+                    offensive: true,
+                  ),
+                ),
+              ],
+            ],
+          );
+        },
       ),
     );
 
@@ -596,6 +643,10 @@ class _SlotCard extends StatefulWidget {
   final ValueChanged<String?> onItemSelected;
   final VoidCallback onLoadSample;
   final VoidCallback onClear;
+  /// When true, a 3rd row of 4 move pickers is added so the user can
+  /// fill in the moves used for the offensive coverage matrix.
+  final bool showMoves;
+  final void Function(int moveIndex, Move? move) onMoveChanged;
 
   const _SlotCard({
     super.key,
@@ -610,6 +661,8 @@ class _SlotCard extends StatefulWidget {
     required this.onItemSelected,
     required this.onLoadSample,
     required this.onClear,
+    required this.showMoves,
+    required this.onMoveChanged,
   });
 
   @override
@@ -775,8 +828,67 @@ class _SlotCardState extends State<_SlotCard> {
               ],
             ),
           ),
+          // ─── Row 3 (offensive mode only): 4 move pickers in a 2×2
+          // grid. Disabled when no pokemon picked. Picking a pokemon
+          // wipes the previous slot's moves so stale picks from the
+          // last species don't bleed in.
+          if (widget.showMoves) ...[
+            const SizedBox(height: 4),
+            _moveGrid(scheme, p),
+          ],
         ],
       ),
+    );
+  }
+
+  Widget _moveGrid(ColorScheme scheme, Pokemon? p) {
+    Widget cell(int i) {
+      return Expanded(
+        child: SizedBox(
+          height: 50,
+          child: _moveField(scheme, p, i),
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.only(left: 24),
+      child: Column(
+        children: [
+          Row(children: [cell(0), const SizedBox(width: 6), cell(1)]),
+          const SizedBox(height: 4),
+          Row(children: [cell(2), const SizedBox(width: 6), cell(3)]),
+        ],
+      ),
+    );
+  }
+
+  Widget _moveField(ColorScheme scheme, Pokemon? p, int moveIndex) {
+    if (p == null) {
+      return InputDecorator(
+        decoration: InputDecoration(
+          labelText: '${AppStrings.t('label.move')} ${moveIndex + 1}',
+          isDense: true,
+        ),
+        child: Text(
+          '-',
+          style: TextStyle(
+            fontSize: 14,
+            color: scheme.onSurface.withValues(alpha: 0.3),
+          ),
+        ),
+      );
+    }
+    final current = widget.slot.moves[moveIndex];
+    return MoveSelector(
+      // Key by pokemon + move so swapping pokemon resets the
+      // selector's internal cached pick.
+      key: ValueKey(
+          'team_slot_${widget.index}_move${moveIndex}_${p.name}_${current?.name ?? ''}'),
+      pokemonName: p.name,
+      pokemonNameKo: p.nameKo,
+      dexNumber: p.dexNumber,
+      initialMoveName: current?.name,
+      onSelected: (m) => widget.onMoveChanged(moveIndex, m),
     );
   }
 
@@ -967,11 +1079,16 @@ class _CoverageMatrix extends StatelessWidget {
   /// set (◎ / ○ / △ / ▲ / ✕). `false` → numeric ("4×", "½", …).
   /// The decisive-tier pill background is shown in both modes.
   final bool symbolic;
+  /// `true` → show the offensive matrix (best damage multiplier each
+  /// pokemon's moves can deal vs each defender type). `false` →
+  /// defensive matrix (current default).
+  final bool offensive;
 
   const _CoverageMatrix({
     required this.team,
     required this.abilityNames,
     this.symbolic = false,
+    this.offensive = false,
   });
 
   @override
@@ -988,15 +1105,34 @@ class _CoverageMatrix extends StatelessWidget {
       final slot = team[i];
       final p = slot.pokemon;
       if (p == null) continue;
+      // Offensive matrix needs the slot's moves resolved through
+      // transformMove (Tera Blast, Ivy Cudgel, Judgment, -ate skins,
+      // …); defensive matrix only needs the species' types.
+      final coverageMoves = offensive
+          ? [
+              for (final m in slot.moves)
+                if (m != null)
+                  coverageMoveFromMove(
+                    m,
+                    ability: slot.ability,
+                    heldItem: slot.heldItem,
+                    userType1: p.type1,
+                    pokemonName: p.name,
+                  ),
+            ]
+          : const <CoverageMove>[];
       filledCells.add(CoverageSlot(
         type1: p.type1,
         type2: p.type2,
         ability: slot.ability,
         heldItem: slot.heldItem,
+        moves: coverageMoves,
       ));
       filledIndices.add(i);
     }
-    final filledMatrix = defensiveCoverageMatrix(filledCells);
+    final filledMatrix = offensive
+        ? offensiveCoverageMatrix(filledCells)
+        : defensiveCoverageMatrix(filledCells);
     final summary = summarize(filledMatrix);
 
     // Re-expand into a [team.length × 18] grid where empty slots get
@@ -1019,8 +1155,30 @@ class _CoverageMatrix extends StatelessWidget {
           i + 1: const FlexColumnWidth(1.0),
         team.length + 1: const FlexColumnWidth(1.8),
       },
-      border: TableBorder.all(
-          color: scheme.outlineVariant.withValues(alpha: 0.6), width: 0.6),
+      // Vertical separators between pokemon columns are deliberately
+      // beefier than the horizontal row dividers — when scanning a
+      // type row across 6 mons the eye needs the column boundaries
+      // to pop. Horizontals stay thin since the zebra stripes carry
+      // most of the row separation.
+      border: TableBorder(
+        top: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: 0.6),
+            width: 0.6),
+        bottom: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: 0.6),
+            width: 0.6),
+        left: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: 0.6),
+            width: 0.6),
+        right: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: 0.6),
+            width: 0.6),
+        horizontalInside: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: 0.6),
+            width: 0.6),
+        verticalInside: BorderSide(
+            color: scheme.outlineVariant, width: 1.2),
+      ),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
         _headerRow(scheme),
@@ -1142,14 +1300,17 @@ class _CoverageMatrix extends StatelessWidget {
       ColorScheme scheme) {
     final attackType = teamCoverageAttackTypes[t];
     return TableRow(
-      // Zebra-stripe data rows. surfaceContainerHighest is wired to
-      // zinc-100 (#F4F4F5) on light / zinc-800 on dark in this app's
-      // theme — that lands right on the conventional GitHub /
-      // Bootstrap table-stripe contrast (~5% delta from surface),
-      // which is the "국룰" zebra value. Full alpha so it actually
-      // reads; the prior 0.35 was too faint.
+      // Zebra stripe with a 4% black overlay on top of zinc-100 so
+      // it lands ~9% darker than the surface — louder than the
+      // earlier ~5% so the row separation still reads through the
+      // beefier vertical gridlines.
       decoration: BoxDecoration(
-        color: t.isOdd ? scheme.surfaceContainerHighest : null,
+        color: t.isOdd
+            ? Color.alphaBlend(
+                scheme.onSurface.withValues(alpha: 0.04),
+                scheme.surfaceContainerHighest,
+              )
+            : null,
       ),
       children: [
         // No horizontal padding — the type chip fills the 48 px
@@ -1417,6 +1578,51 @@ class _DisplayModeToggle extends StatelessWidget {
             color: selected
                 ? scheme.onSurface
                 : scheme.onSurface.withValues(alpha: 0.5),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Single-line switch row for the offensive-coverage toggle. Right-
+/// aligned to sit next to the numeric/symbolic segmented above the
+/// matrix; tied to [CoverageDisplayController.showOffensive] which
+/// persists the choice across launches.
+class _OffensiveSwitch extends StatelessWidget {
+  final bool value;
+  const _OffensiveSwitch({required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: InkWell(
+        onTap: () =>
+            CoverageDisplayController.instance.setShowOffensive(!value),
+        borderRadius: BorderRadius.circular(4),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                AppStrings.t('team.matrix.showOffensive'),
+                style: const TextStyle(fontSize: 13),
+              ),
+              const SizedBox(width: 6),
+              // shrinkWrap so the switch doesn't blow up the row
+              // height on Material defaults.
+              SizedBox(
+                height: 24,
+                child: Switch.adaptive(
+                  value: value,
+                  onChanged: (v) =>
+                      CoverageDisplayController.instance.setShowOffensive(v),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+            ],
           ),
         ),
       ),
