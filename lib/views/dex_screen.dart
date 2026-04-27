@@ -262,7 +262,10 @@ class _MainTabState extends State<_MainTab> {
       );
     }
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+      // Generous bottom inset matches the calculator tabs (120 px) so
+      // the last decisive-power row never butts against the system
+      // gesture bar / keyboard, and gives the eye some breathing room.
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 120),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1668,6 +1671,9 @@ class _MovesTabState extends State<_MovesTab> {
                 // the list shouldn't have to reach up to close it.
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
+                // Match the main tab's bottom inset so the last move
+                // row stays comfortably above the system gesture bar.
+                padding: const EdgeInsets.only(bottom: 120),
                 itemCount: moves.length,
                 separatorBuilder: (_, __) => const Divider(height: 1),
                 itemBuilder: (_, i) => _moveRow(moves[i]),

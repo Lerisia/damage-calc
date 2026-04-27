@@ -17,6 +17,7 @@ import '../utils/battle_facade.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/simple_mode_controller.dart';
 import 'dex_screen.dart';
+import 'team_coverage_screen.dart';
 import 'simple_mode_screen.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/korean_search.dart';
@@ -687,6 +688,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
   }
 
+  Future<void> _openTeamCoverage() async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => TeamCoverageScreen(abilityNames: _abilityNameMap),
+      ),
+    );
+  }
+
   String _languageLabel() {
     const labels = {
       AppLanguage.ko: '🇰🇷 한국어',
@@ -1353,6 +1362,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w600)),
               ),
+              TextButton.icon(
+                onPressed: _openTeamCoverage,
+                icon: const Icon(Icons.shield_outlined),
+                label: Text(AppStrings.t('team.title'),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600)),
+              ),
               const Spacer(),
               TextButton(
                 onPressed: _toggleSimpleMode,
@@ -1430,6 +1446,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ]),
                   ),
                   PopupMenuItem(
+                    value: 'team',
+                    child: Row(children: [
+                      const Icon(Icons.shield_outlined, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t('team.title')),
+                    ]),
+                  ),
+                  PopupMenuItem(
                     value: 'language',
                     child: Row(children: [
                       const Icon(Icons.language, size: 20),
@@ -1465,6 +1489,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   switch (v) {
                     case 'dex':
                       _openDex();
+                    case 'team':
+                      _openTeamCoverage();
                     case 'language':
                       _showLanguageDialog();
                     case 'theme':
@@ -2431,7 +2457,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.5.5'),
+          const Text('v1.6.0'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

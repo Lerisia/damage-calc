@@ -110,6 +110,36 @@ class AppStrings {
       AppLanguage.en: 'About',
       AppLanguage.ja: 'アプリについて',
     },
+    'team.title': {
+      AppLanguage.ko: '팀 상성표',
+      AppLanguage.en: 'Team Coverage',
+      AppLanguage.ja: 'チーム相性表',
+    },
+    'team.slot.empty': {
+      AppLanguage.ko: '비어있음',
+      AppLanguage.en: 'Empty slot',
+      AppLanguage.ja: '空きスロット',
+    },
+    'team.matrix.weak': {
+      AppLanguage.ko: '약점',
+      AppLanguage.en: 'Weak',
+      AppLanguage.ja: '弱点',
+    },
+    'team.matrix.resist': {
+      AppLanguage.ko: '저항',
+      AppLanguage.en: 'Resist',
+      AppLanguage.ja: '耐性',
+    },
+    'team.matrix.immune': {
+      AppLanguage.ko: '무효',
+      AppLanguage.en: 'Immune',
+      AppLanguage.ja: '無効',
+    },
+    'team.matrix.empty': {
+      AppLanguage.ko: '포켓몬을 먼저 추가해주세요.',
+      AppLanguage.en: 'Add at least one Pokemon to see coverage.',
+      AppLanguage.ja: 'まずポケモンを追加してください。',
+    },
     'app.theme': {
       AppLanguage.ko: '테마',
       AppLanguage.en: 'Theme',
