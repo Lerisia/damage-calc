@@ -1961,21 +1961,32 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
-  /// Build the per-opp-row summary by reusing the same buckets the
-  /// type-row summary uses. For the offensive matrix the columns
-  /// represent "my X best vs opp" — `weak` counts my mons hitting
-  /// super-effectively, `resist` counts opp's resists; for the
-  /// defensive matrix the polarity flips ("opp's best vs my X") and
-  /// `weak` is the bad-news count.
+  /// Per-opp-row summary: bucket the (opp, my) cells across the my-
+  /// party. Computed inline because `summarize()` from
+  /// team_coverage.dart assumes an 18-column type matrix — we have
+  /// one cell per my-pokemon, not 18.
+  ///
+  /// For the offensive matrix `weak` = my mons that hit opp super-
+  /// effectively; for the defensive matrix `weak` = my mons that
+  /// take super-effective damage from opp.
   CoverageColumnSummary _summaryForOpponentRow(_TeamSlot opp) {
-    final cells = <List<CoverageCell>>[];
+    int weak = 0, neutral = 0, resist = 0, immune = 0;
     for (int mi = 0; mi < team.length; mi++) {
       if (team[mi].pokemon == null) continue;
       if (lineupMode && !lineup.contains(mi)) continue;
-      cells.add([_opponentMatchCell(opp, team[mi])]);
+      final c = _opponentMatchCell(opp, team[mi]);
+      if (c.isImmune) {
+        immune++;
+      } else if (c.isWeak) {
+        weak++;
+      } else if (c.isResist) {
+        resist++;
+      } else {
+        neutral++;
+      }
     }
-    final s = summarize(cells);
-    return s.first;
+    return CoverageColumnSummary(
+        weak: weak, neutral: neutral, resist: resist, immune: immune);
   }
 
   /// Compute the best-effectiveness CoverageCell for the (opp, my)
