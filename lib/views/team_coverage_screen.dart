@@ -692,6 +692,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           required int displayIndex,
           required Key key,
           required VoidCallback onClearOrRemove,
+          // Opp slots always show their move pickers because the
+          // matrix uses opp moves on BOTH the defensive (opp's best
+          // attack vs my mons) and offensive (my best vs opp) sides.
+          required bool alwaysShowMoves,
         }) =>
             RepaintBoundary(
               child: _SlotCard(
@@ -707,7 +711,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 onItemSelected: (it) => _setItem(slot, it),
                 onLoadSample: () => _loadSampleInto(slot),
                 onClear: onClearOrRemove,
-                showMoves: showOff,
+                showMoves: alwaysShowMoves || showOff,
                 onMoveChanged: (mi, m) => _setMove(slot, mi, m),
                 onTypeOverrideChanged: (override) =>
                     _setTypeOverride(slot, override),
@@ -725,6 +729,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 displayIndex: i,
                 key: ValueKey('team_slot_card_$i'),
                 onClearOrRemove: () => _clearMySlot(i),
+                alwaysShowMoves: false,
               ),
               if (i < _maxTeamSize - 1) const SizedBox(height: 4),
             ],
@@ -738,6 +743,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 displayIndex: i,
                 key: ValueKey('opp_slot_card_${opps[i].hashCode}'),
                 onClearOrRemove: () => _removeOpponent(i),
+                alwaysShowMoves: true,
               ),
               if (i < opps.length - 1) const SizedBox(height: 4),
             ],
@@ -1553,7 +1559,12 @@ class _CoverageMatrix extends StatelessWidget {
         // mon's best attacking move vs the opp.
         for (int oi = 0; oi < opponents.length; oi++)
           if (opponents[oi].pokemon != null)
-            _opponentRow(opponents[oi], scheme),
+            _opponentRow(
+              opponents[oi],
+              _summaryForOpponentRow(opponents[oi]),
+              scheme,
+              isLast: _isLastFilledOpp(oi),
+            ),
         for (int t = 0; t < teamCoverageAttackTypes.length; t++)
           _typeRow(t, myDisplay, summary[t], scheme),
       ],
@@ -1875,32 +1886,59 @@ class _CoverageMatrix extends StatelessWidget {
   }
 
   /// Same dim treatment for the data cells in a column.
+  /// True when no later opponent slot is filled — used to mark the
+  /// last opp row so it carries the section-divider bottom border.
+  bool _isLastFilledOpp(int idx) {
+    for (int j = idx + 1; j < opponents.length; j++) {
+      if (opponents[j].pokemon != null) return false;
+    }
+    return true;
+  }
+
   /// One opponent row, shown above the type rows. Column 0 holds
-  /// the opp's name (clipped to fit the 48 px label column), each
-  /// my-pokemon column holds the best matchup multiplier for that
-  /// (opp, my) pair, and the summary column is left blank — opp
-  /// rows aren't part of the weak/resist count.
-  TableRow _opponentRow(_TeamSlot opp, ColorScheme scheme) {
+  /// the opp's name (clipped to fit the 48 px label column, with a
+  /// faded type-color background like the my-party header cells),
+  /// each my-pokemon column holds the best matchup multiplier for
+  /// that (opp, my) pair, and the summary column carries a
+  /// weak/resist count across the my-party slots — same renderer
+  /// the type rows use.
+  TableRow _opponentRow(
+      _TeamSlot opp, CoverageColumnSummary summary, ColorScheme scheme,
+      {required bool isLast}) {
     final p = opp.pokemon!;
     return TableRow(
-      // Subtle red tint so the opponent block reads as distinct
-      // from the type rows below; same kind of visual cue we use
-      // for the attacker/defender accent in the calc.
       decoration: BoxDecoration(
-        color: Colors.red.shade50.withValues(alpha: 0.6),
+        color: Colors.red.shade50.withValues(alpha: 0.4),
+        // Thicker bottom border on the LAST opp row so the opp /
+        // type sections separate cleanly. Border on top of the
+        // first type row would do the same job; opp-side keeps the
+        // logic local.
+        border: isLast
+            ? Border(
+                bottom: BorderSide(
+                  color: scheme.onSurface.withValues(alpha: 0.55),
+                  width: 1.8,
+                ),
+              )
+            : null,
       ),
       children: [
-        // Opp name in the type-label column. Clip horizontally so a
-        // long name like "한카리아스" reads as "한카…" — the user
-        // already approved this trade-off.
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-          child: Text(
-            p.localizedName,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.clip,
-            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+        // Opp name with the same faded type-color tint we use for
+        // my-party header names — single type flat, dual type a
+        // left/right hard-stop gradient.
+        DecoratedBox(
+          decoration: _horizontalNameTint(
+              opp.effectiveType1 ?? p.type1, opp.effectiveType2),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+            child: Text(
+              p.localizedName,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.clip,
+              style:
+                  const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+            ),
           ),
         ),
         // Per-my-pokemon cells with the best matchup multiplier.
@@ -1914,10 +1952,30 @@ class _CoverageMatrix extends StatelessWidget {
                     scheme,
                   ),
                 ),
-        // Summary column intentionally blank for opp rows.
-        const SizedBox.shrink(),
+        // Summary uses the same renderer as type rows — its built-in
+        // 1.5 px left border doubles as the divider between the per-
+        // pokemon cells and the count column. lineup-filtered when
+        // 선출 보기 is active (handled in _summaryForOpponentRow).
+        _summaryCell(summary, scheme),
       ],
     );
+  }
+
+  /// Build the per-opp-row summary by reusing the same buckets the
+  /// type-row summary uses. For the offensive matrix the columns
+  /// represent "my X best vs opp" — `weak` counts my mons hitting
+  /// super-effectively, `resist` counts opp's resists; for the
+  /// defensive matrix the polarity flips ("opp's best vs my X") and
+  /// `weak` is the bad-news count.
+  CoverageColumnSummary _summaryForOpponentRow(_TeamSlot opp) {
+    final cells = <List<CoverageCell>>[];
+    for (int mi = 0; mi < team.length; mi++) {
+      if (team[mi].pokemon == null) continue;
+      if (lineupMode && !lineup.contains(mi)) continue;
+      cells.add([_opponentMatchCell(opp, team[mi])]);
+    }
+    final s = summarize(cells);
+    return s.first;
   }
 
   /// Compute the best-effectiveness CoverageCell for the (opp, my)
