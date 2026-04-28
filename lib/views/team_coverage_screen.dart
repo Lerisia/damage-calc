@@ -152,7 +152,12 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       _team[index].pokemon = p;
 
       // Seed ability from curated Champions Singles data; fall back
-      // to the species' first listed ability.
+      // to the species' first listed ability. Pass the result through
+      // expandAbilityKey so stateful ability bases ("Supreme Overlord",
+      // "Rivalry") map to their concrete dex variants ("Supreme
+      // Overlord 0", "Rivalry Same") — matches what the calculator's
+      // applyPokemon does, and lets the localized label + picker
+      // selection actually find the entry.
       final curatedAbilities = championsUsageFor(p.name)?.abilities;
       String? pickedAbility;
       if (curatedAbilities != null && curatedAbilities.isNotEmpty) {
@@ -160,7 +165,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         if (p.abilities.contains(first)) pickedAbility = first;
       }
       pickedAbility ??= p.abilities.isNotEmpty ? p.abilities.first : null;
-      _team[index].ability = pickedAbility;
+      _team[index].ability = BattlePokemonState.expandAbilityKey(pickedAbility);
 
       // Seed item the same way the calculator's auto-load does — use
       // the curated top pick, but skip megastones for base forms so
