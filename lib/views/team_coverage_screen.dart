@@ -68,6 +68,10 @@ class _TeamCoverageStore {
   static const int maxTeamSize = 6;
   static final List<_TeamSlot> team =
       List.generate(maxTeamSize, (_) => _TeamSlot());
+  /// Opponent slots — dynamically grown via the "+ 상대 추가" button,
+  /// capped at [maxTeamSize]. Cleared on full reset and never saved
+  /// as part of a party (opponents are situational scratch data).
+  static final List<_TeamSlot> opponents = <_TeamSlot>[];
   /// Name of the saved party most recently loaded into [team]. Used
   /// by `_saveAsParty` to default the save dialog name and to detect
   /// the overwrite case. Cleared on full reset.
@@ -78,8 +82,9 @@ class _TeamCoverageStore {
   /// brings that column back to full opacity and adds it to the
   /// summary count.
   static bool lineupMode = false;
-  /// Slot indices currently included in the lineup (subset of
-  /// 0..maxTeamSize-1). Cleared on full reset.
+  /// Slot indices (within [team]) currently included in the lineup —
+  /// opponent columns are never lineup-eligible. Cleared on full
+  /// reset.
   static final Set<int> lineup = <int>{};
 }
 
@@ -148,70 +153,62 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     } catch (_) {}
   }
 
-  void _setPokemon(int index, Pokemon p) {
-    setState(() {
-      _team[index].pokemon = p;
+  void _applyPokemonToSlot(_TeamSlot slot, Pokemon p) {
+    slot.pokemon = p;
 
-      // Seed ability from curated Champions Singles data; fall back
-      // to the species' first listed ability. Pass the result through
-      // expandAbilityKey so stateful ability bases ("Supreme Overlord",
-      // "Rivalry") map to their concrete dex variants ("Supreme
-      // Overlord 0", "Rivalry Same") — matches what the calculator's
-      // applyPokemon does, and lets the localized label + picker
-      // selection actually find the entry.
-      final curatedAbilities = championsUsageFor(p.name)?.abilities;
-      String? pickedAbility;
-      if (curatedAbilities != null && curatedAbilities.isNotEmpty) {
-        final first = curatedAbilities.first.name;
-        if (p.abilities.contains(first)) pickedAbility = first;
-      }
-      pickedAbility ??= p.abilities.isNotEmpty ? p.abilities.first : null;
-      _team[index].ability = BattlePokemonState.expandAbilityKey(pickedAbility);
+    // Seed ability from curated Champions Singles data; fall back
+    // to the species' first listed ability. Pass through
+    // expandAbilityKey so stateful ability bases ("Supreme
+    // Overlord", "Rivalry") map to their concrete dex variants.
+    final curatedAbilities = championsUsageFor(p.name)?.abilities;
+    String? pickedAbility;
+    if (curatedAbilities != null && curatedAbilities.isNotEmpty) {
+      final first = curatedAbilities.first.name;
+      if (p.abilities.contains(first)) pickedAbility = first;
+    }
+    pickedAbility ??= p.abilities.isNotEmpty ? p.abilities.first : null;
+    slot.ability = BattlePokemonState.expandAbilityKey(pickedAbility);
 
-      // Seed item the same way the calculator's auto-load does — use
-      // the curated top pick, but skip megastones for base forms so
-      // dropping a Pokemon in doesn't silently mega-evolve it. Mega
-      // forms get pinned to their requiredItem.
-      String? pickedItem;
-      if (p.requiredItem != null) {
-        pickedItem = p.requiredItem;
-      } else {
-        final curatedItems = championsUsageFor(p.name)?.items;
-        if (curatedItems != null && curatedItems.isNotEmpty) {
-          final stones = megaStoneItemIds();
-          for (final row in curatedItems) {
-            if (!stones.contains(row.name)) {
-              pickedItem = row.name;
-              break;
-            }
+    // Seed item: required-item mons (mega forms) pin to that; base
+    // forms get the curated top non-megastone item so dropping a
+    // pokemon in doesn't silently mega-evolve.
+    String? pickedItem;
+    if (p.requiredItem != null) {
+      pickedItem = p.requiredItem;
+    } else {
+      final curatedItems = championsUsageFor(p.name)?.items;
+      if (curatedItems != null && curatedItems.isNotEmpty) {
+        final stones = megaStoneItemIds();
+        for (final row in curatedItems) {
+          if (!stones.contains(row.name)) {
+            pickedItem = row.name;
+            break;
           }
         }
       }
-      _team[index].heldItem = pickedItem;
+    }
+    slot.heldItem = pickedItem;
 
-      // Move slots stay empty on species change. Auto-loading from
-      // Champions usage defaultMoves overstates the offensive matrix
-      // — that data lists damage moves only, so a real-party 3-attack
-      // + 1-status build would render as if it had a 4th coverage
-      // move. Better to require an explicit pick than to mislead.
-      for (int i = 0; i < _team[index].moves.length; i++) {
-        _team[index].moves[i] = null;
-      }
-      // Type overrides were tied to the old species; drop them so
-      // the new pokemon's natural types take over.
-      _team[index].typeOverride = null;
-    });
+    // Move slots stay empty on species change. Type overrides too.
+    for (int i = 0; i < slot.moves.length; i++) {
+      slot.moves[i] = null;
+    }
+    slot.typeOverride = null;
+  }
+
+  void _setPokemon(_TeamSlot slot, Pokemon p) {
+    setState(() => _applyPokemonToSlot(slot, p));
   }
 
   void _setTypeOverride(
-    int index,
+    _TeamSlot slot,
     ({PokemonType type1, PokemonType? type2, PokemonType? type3})? override,
   ) {
-    setState(() => _team[index].typeOverride = override);
+    setState(() => slot.typeOverride = override);
   }
 
-  void _setMove(int slotIndex, int moveIndex, Move? move) {
-    setState(() => _team[slotIndex].moves[moveIndex] = move);
+  void _setMove(_TeamSlot slot, int moveIndex, Move? move) {
+    setState(() => slot.moves[moveIndex] = move);
   }
 
   Future<void> _resetAll() async {
@@ -236,6 +233,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       for (int i = 0; i < _team.length; i++) {
         _team[i] = _TeamSlot();
       }
+      _TeamCoverageStore.opponents.clear();
       _TeamCoverageStore.loadedPartyName = null;
       _TeamCoverageStore.lineup.clear();
       _TeamCoverageStore.lineupMode = false;
@@ -278,6 +276,37 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       child: Text(
         label,
         style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+      ),
+    );
+  }
+
+  Widget _opponentSectionHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+      child: Row(
+        children: [
+          Text(
+            AppStrings.t('team.opponent'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            '${_TeamCoverageStore.opponents.length} / $_maxTeamSize',
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          ),
+          Expanded(child: Divider(indent: 8, color: Colors.grey.shade300)),
+        ],
+      ),
+    );
+  }
+
+  Widget _addOpponentButton() {
+    final canAdd = _TeamCoverageStore.opponents.length < _maxTeamSize;
+    return Center(
+      child: TextButton.icon(
+        onPressed: canAdd ? _addOpponent : null,
+        icon: const Icon(Icons.add, size: 18),
+        label: Text(AppStrings.t('team.opponent.add')),
       ),
     );
   }
@@ -580,19 +609,33 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     return result;
   }
 
-  void _clearSlot(int index) {
+  /// Reset a fixed-size slot (my party) back to empty in place.
+  /// Used by the X button on my-party slot cards.
+  void _clearMySlot(int index) {
     setState(() {
       _team[index] = _TeamSlot();
     });
   }
 
-  void _setAbility(int index, String ability) {
-    setState(() => _team[index].ability = ability);
+  /// Drop an opponent slot from the dynamic list. Used by the X
+  /// button on opponent slot cards (different semantics from
+  /// _clearMySlot — opp slots aren't fixed-size).
+  void _removeOpponent(int index) {
+    setState(() => _TeamCoverageStore.opponents.removeAt(index));
+  }
+
+  void _addOpponent() {
+    if (_TeamCoverageStore.opponents.length >= _maxTeamSize) return;
+    setState(() => _TeamCoverageStore.opponents.add(_TeamSlot()));
+  }
+
+  void _setAbility(_TeamSlot slot, String ability) {
+    setState(() => slot.ability = ability);
   }
 
   /// Item picker can clear back to "no item", so we accept null.
-  void _setItem(int index, String? item) {
-    setState(() => _team[index].heldItem = item);
+  void _setItem(_TeamSlot slot, String? item) {
+    setState(() => slot.heldItem = item);
   }
 
   /// Pull a saved sample (from the shared sample storage) and copy
@@ -600,7 +643,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   /// same SampleListSheet as the calculator so the load UX (party
   /// folders, expand/collapse, search, rename, move, delete) is
   /// identical across the two screens.
-  Future<void> _loadSampleInto(int index) async {
+  Future<void> _loadSampleInto(_TeamSlot slot) async {
     final pokedex = await loadPokedex();
     if (!mounted) return;
     final byName = {for (final p in pokedex) p.name: p};
@@ -617,12 +660,12 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             return;
           }
           setState(() {
-            _team[index].pokemon = p;
-            _team[index].ability = s.selectedAbility;
-            _team[index].heldItem = s.selectedItem;
-            _team[index].sampleId = sample.id;
-            for (int i = 0; i < _team[index].moves.length; i++) {
-              _team[index].moves[i] = i < s.moves.length ? s.moves[i] : null;
+            slot.pokemon = p;
+            slot.ability = s.selectedAbility;
+            slot.heldItem = s.selectedItem;
+            slot.sampleId = sample.id;
+            for (int i = 0; i < slot.moves.length; i++) {
+              slot.moves[i] = i < s.moves.length ? s.moves[i] : null;
             }
           });
           Navigator.pop(ctx);
@@ -643,40 +686,66 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // below.
     final slotList = ValueListenableBuilder<bool>(
       valueListenable: CoverageDisplayController.instance.showOffensive,
-      builder: (_, showOff, __) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (int i = 0; i < _maxTeamSize; i++) ...[
-            // RepaintBoundary per slot card so the whole card isn't
-            // re-rasterized while the user scrolls past it. Earlier
-            // we'd dropped these because the iOS slide page-route
-            // surfaced a layer-raster timing bug; the screen now
-            // uses a fade transition (no slide) so per-card RB is
-            // safe again, and brings back smoother scroll.
+      builder: (_, showOff, __) {
+        Widget slotCard(
+          _TeamSlot slot, {
+          required int displayIndex,
+          required Key key,
+          required VoidCallback onClearOrRemove,
+        }) =>
             RepaintBoundary(
               child: _SlotCard(
-                key: ValueKey('team_slot_card_$i'),
-                index: i,
-                slot: _team[i],
+                key: key,
+                index: displayIndex,
+                slot: slot,
                 abilityDex: _abilityDex ?? const {},
                 abilityNames: _abilityNames ?? const {},
                 itemDex: _itemDex ?? const {},
                 itemNames: _itemNames ?? const {},
-                onPokemonSelected: (p) => _setPokemon(i, p),
-                onAbilitySelected: (a) => _setAbility(i, a),
-                onItemSelected: (it) => _setItem(i, it),
-                onLoadSample: () => _loadSampleInto(i),
-                onClear: () => _clearSlot(i),
+                onPokemonSelected: (p) => _setPokemon(slot, p),
+                onAbilitySelected: (a) => _setAbility(slot, a),
+                onItemSelected: (it) => _setItem(slot, it),
+                onLoadSample: () => _loadSampleInto(slot),
+                onClear: onClearOrRemove,
                 showMoves: showOff,
-                onMoveChanged: (mi, m) => _setMove(i, mi, m),
+                onMoveChanged: (mi, m) => _setMove(slot, mi, m),
                 onTypeOverrideChanged: (override) =>
-                    _setTypeOverride(i, override),
+                    _setTypeOverride(slot, override),
               ),
-            ),
-            if (i < _maxTeamSize - 1) const SizedBox(height: 4),
+            );
+
+        final opps = _TeamCoverageStore.opponents;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // ─── My party (fixed 6 slots)
+            for (int i = 0; i < _maxTeamSize; i++) ...[
+              slotCard(
+                _team[i],
+                displayIndex: i,
+                key: ValueKey('team_slot_card_$i'),
+                onClearOrRemove: () => _clearMySlot(i),
+              ),
+              if (i < _maxTeamSize - 1) const SizedBox(height: 4),
+            ],
+            // ─── Opponent party (dynamic, opt-in via "+ 추가")
+            const SizedBox(height: 12),
+            _opponentSectionHeader(),
+            const SizedBox(height: 4),
+            for (int i = 0; i < opps.length; i++) ...[
+              slotCard(
+                opps[i],
+                displayIndex: i,
+                key: ValueKey('opp_slot_card_${opps[i].hashCode}'),
+                onClearOrRemove: () => _removeOpponent(i),
+              ),
+              if (i < opps.length - 1) const SizedBox(height: 4),
+            ],
+            const SizedBox(height: 4),
+            _addOpponentButton(),
           ],
-        ],
-      ),
+        );
+      },
     );
 
     // Matrix block reacts to BOTH the display mode (numeric/symbol)
@@ -715,6 +784,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
               RepaintBoundary(
                 child: _CoverageMatrix(
                   team: _team,
+                  opponents: _TeamCoverageStore.opponents,
                   abilityNames: _abilityNames ?? const {},
                   symbolic: symbolic,
                   offensive: false,
@@ -731,6 +801,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 RepaintBoundary(
                   child: _CoverageMatrix(
                     team: _team,
+                    opponents: _TeamCoverageStore.opponents,
                     abilityNames: _abilityNames ?? const {},
                     symbolic: symbolic,
                     offensive: true,
@@ -1379,6 +1450,11 @@ class _SlotCardState extends State<_SlotCard> {
 
 class _CoverageMatrix extends StatelessWidget {
   final List<_TeamSlot> team;
+  /// Opponent slots — same data shape as [team]; rendered as
+  /// additional columns on the right of the my-party block,
+  /// separated by a thicker vertical divider. Summary still counts
+  /// only [team] (lineup applies only to my pokemon).
+  final List<_TeamSlot> opponents;
   final Map<String, String> abilityNames;
   /// `true` → render multipliers as the standard Pokemon-game symbol
   /// set (◎ / ○ / △ / ▲ / ✕). `false` → numeric ("4×", "½", …).
@@ -1403,6 +1479,7 @@ class _CoverageMatrix extends StatelessWidget {
 
   const _CoverageMatrix({
     required this.team,
+    required this.opponents,
     required this.abilityNames,
     required this.lineupMode,
     required this.lineup,
@@ -1415,73 +1492,20 @@ class _CoverageMatrix extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    // The matrix grid is dimensionally stable: always [team.length]
-    // Pokemon columns (typically 6, even when slots are empty). Empty
-    // slots produce a `null` row internally, which the renderer paints
-    // as a blank cell. The summary on the right only counts filled
-    // slots, so 0/0 reads cleanly when the team is empty.
-    final filledCells = <CoverageSlot>[];
-    final filledIndices = <int>[];
-    for (int i = 0; i < team.length; i++) {
-      final slot = team[i];
-      final p = slot.pokemon;
-      if (p == null) continue;
-      // Honor user type overrides (Soak / Forest's Curse / Burn Up
-      // …) if applied — both for defensive matchups and as the
-      // userType1 fed into Revelation Dance / -ate resolution on
-      // the offensive side.
-      final t1 = slot.effectiveType1 ?? p.type1;
-      final t2 = slot.effectiveType2;
-      final t3 = slot.effectiveType3;
-      final coverageMoves = offensive
-          ? [
-              for (final m in slot.moves)
-                if (m != null)
-                  coverageMoveFromMove(
-                    m,
-                    ability: slot.ability,
-                    heldItem: slot.heldItem,
-                    userType1: t1,
-                    pokemonName: p.name,
-                  ),
-            ]
-          : const <CoverageMove>[];
-      filledCells.add(CoverageSlot(
-        type1: t1,
-        type2: t2,
-        type3: t3,
-        ability: slot.ability,
-        heldItem: slot.heldItem,
-        moves: coverageMoves,
-      ));
-      filledIndices.add(i);
-    }
-    final filledMatrix = offensive
-        ? offensiveCoverageMatrix(filledCells)
-        : defensiveCoverageMatrix(filledCells);
+    // Build per-slot cell rows for both my party and the opponent
+    // party. Same logic for both — opp pokemon defend / attack the
+    // exact same way as mine.
+    final myDisplay = _buildDisplayMatrix(team);
+    final oppDisplay = _buildDisplayMatrix(opponents);
 
-    // Summary either counts every filled slot (default) or only the
-    // ones in the lineup subset (when lineup mode is active). Empty
-    // selection → 0/0 across the board, matching the user's mental
-    // model that 선출 보기 starts blank.
-    final List<List<CoverageCell>> summarySource;
-    if (lineupMode) {
-      summarySource = [
-        for (int j = 0; j < filledIndices.length; j++)
-          if (lineup.contains(filledIndices[j])) filledMatrix[j],
-      ];
-    } else {
-      summarySource = filledMatrix;
-    }
+    // Summary counts only my slots (opponents are info-only). Lineup
+    // further narrows to the picked subset; empty pick → 0/0.
+    final summarySource = <List<CoverageCell>>[
+      for (int i = 0; i < team.length; i++)
+        if (myDisplay[i] != null &&
+            (!lineupMode || lineup.contains(i))) myDisplay[i]!,
+    ];
     final summary = summarize(summarySource);
-
-    // Re-expand into a [team.length × 18] grid where empty slots get
-    // null rows. Renderer keys off this for blank cells.
-    final List<List<CoverageCell>?> displayMatrix =
-        List<List<CoverageCell>?>.filled(team.length, null);
-    for (int j = 0; j < filledIndices.length; j++) {
-      displayMatrix[filledIndices[j]] = filledMatrix[j];
-    }
 
     // Type-label column is sized to a snug 3-char chip (Korean type
     // names cap at 3 chars: 에스퍼, 고스트, 드래곤, 페어리) — no
@@ -1522,10 +1546,64 @@ class _CoverageMatrix extends StatelessWidget {
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
         _headerRow(scheme),
+        // Opponent rows BEFORE the type rows. Each row's cell shows
+        // the BEST multiplier between that opp and a my-pokemon
+        // column — for the defensive matrix, that's the opp's best
+        // attacking move vs my mon; for the offensive matrix, my
+        // mon's best attacking move vs the opp.
+        for (int oi = 0; oi < opponents.length; oi++)
+          if (opponents[oi].pokemon != null)
+            _opponentRow(opponents[oi], scheme),
         for (int t = 0; t < teamCoverageAttackTypes.length; t++)
-          _typeRow(t, displayMatrix, summary[t], scheme),
+          _typeRow(t, myDisplay, summary[t], scheme),
       ],
     );
+  }
+
+  /// Build a [slots.length] × 18 grid of [CoverageCell]s. Empty
+  /// slots stay as `null` rows so the renderer can paint blanks.
+  /// Used for both my party and opponents — same shape, same logic.
+  List<List<CoverageCell>?> _buildDisplayMatrix(List<_TeamSlot> slots) {
+    final filled = <CoverageSlot>[];
+    final filledIdx = <int>[];
+    for (int i = 0; i < slots.length; i++) {
+      final slot = slots[i];
+      final p = slot.pokemon;
+      if (p == null) continue;
+      final t1 = slot.effectiveType1 ?? p.type1;
+      final t2 = slot.effectiveType2;
+      final t3 = slot.effectiveType3;
+      final coverageMoves = offensive
+          ? [
+              for (final m in slot.moves)
+                if (m != null)
+                  coverageMoveFromMove(
+                    m,
+                    ability: slot.ability,
+                    heldItem: slot.heldItem,
+                    userType1: t1,
+                    pokemonName: p.name,
+                  ),
+            ]
+          : const <CoverageMove>[];
+      filled.add(CoverageSlot(
+        type1: t1,
+        type2: t2,
+        type3: t3,
+        ability: slot.ability,
+        heldItem: slot.heldItem,
+        moves: coverageMoves,
+      ));
+      filledIdx.add(i);
+    }
+    final matrix = offensive
+        ? offensiveCoverageMatrix(filled)
+        : defensiveCoverageMatrix(filled);
+    final display = List<List<CoverageCell>?>.filled(slots.length, null);
+    for (int j = 0; j < filledIdx.length; j++) {
+      display[filledIdx[j]] = matrix[j];
+    }
+    return display;
   }
 
   TableRow _headerRow(ColorScheme scheme) {
@@ -1742,7 +1820,7 @@ class _CoverageMatrix extends StatelessWidget {
 
   TableRow _typeRow(
       int t,
-      List<List<CoverageCell>?> matrix,
+      List<List<CoverageCell>?> myMatrix,
       CoverageColumnSummary summary,
       ColorScheme scheme) {
     final attackType = teamCoverageAttackTypes[t];
@@ -1768,11 +1846,9 @@ class _CoverageMatrix extends StatelessWidget {
           child: _attackTypeChip(attackType),
         ),
         for (int p = 0; p < team.length; p++)
-          // Empty slot → blank cell so the column stays in place
-          // without inviting the eye to read anything into it.
-          matrix[p] == null
+          myMatrix[p] == null
               ? const SizedBox(height: 28)
-              : _wrapCellForLineup(p, _multCell(matrix[p]![t], scheme)),
+              : _wrapCellForLineup(p, _multCell(myMatrix[p]![t], scheme)),
         _summaryCell(summary, scheme),
       ],
     );
@@ -1799,6 +1875,102 @@ class _CoverageMatrix extends StatelessWidget {
   }
 
   /// Same dim treatment for the data cells in a column.
+  /// One opponent row, shown above the type rows. Column 0 holds
+  /// the opp's name (clipped to fit the 48 px label column), each
+  /// my-pokemon column holds the best matchup multiplier for that
+  /// (opp, my) pair, and the summary column is left blank — opp
+  /// rows aren't part of the weak/resist count.
+  TableRow _opponentRow(_TeamSlot opp, ColorScheme scheme) {
+    final p = opp.pokemon!;
+    return TableRow(
+      // Subtle red tint so the opponent block reads as distinct
+      // from the type rows below; same kind of visual cue we use
+      // for the attacker/defender accent in the calc.
+      decoration: BoxDecoration(
+        color: Colors.red.shade50.withValues(alpha: 0.6),
+      ),
+      children: [
+        // Opp name in the type-label column. Clip horizontally so a
+        // long name like "한카리아스" reads as "한카…" — the user
+        // already approved this trade-off.
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          child: Text(
+            p.localizedName,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.clip,
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+          ),
+        ),
+        // Per-my-pokemon cells with the best matchup multiplier.
+        for (int mi = 0; mi < team.length; mi++)
+          team[mi].pokemon == null
+              ? const SizedBox(height: 28)
+              : _wrapCellForLineup(
+                  mi,
+                  _multCell(
+                    _opponentMatchCell(opp, team[mi]),
+                    scheme,
+                  ),
+                ),
+        // Summary column intentionally blank for opp rows.
+        const SizedBox.shrink(),
+      ],
+    );
+  }
+
+  /// Compute the best-effectiveness CoverageCell for the (opp, my)
+  /// pair — direction depends on [offensive]:
+  ///   - defensive matrix: opp attacks my pokemon. Take max over
+  ///     opp's damaging moves of `coverageOf(moveType, my slot)`.
+  ///   - offensive matrix: my pokemon attacks opp. Take max over
+  ///     my pokemon's damaging moves of `coverageOf(moveType, opp
+  ///     slot)`.
+  /// In both directions empty / all-immune move sets collapse to
+  /// 0× (rendered as 무 / ✕).
+  CoverageCell _opponentMatchCell(_TeamSlot opp, _TeamSlot mySlot) {
+    final attacker = offensive ? mySlot : opp;
+    final defender = offensive ? opp : mySlot;
+    final attackerP = attacker.pokemon;
+    final defenderP = defender.pokemon;
+    if (attackerP == null || defenderP == null) {
+      return const CoverageCell(0, immunityReason: 'noMoves');
+    }
+    final defenderSlot = CoverageSlot(
+      type1: defender.effectiveType1 ?? defenderP.type1,
+      type2: defender.effectiveType2,
+      type3: defender.effectiveType3,
+      ability: defender.ability,
+      heldItem: defender.heldItem,
+    );
+    final t1 = attacker.effectiveType1 ?? attackerP.type1;
+    final coverageMoves = <CoverageMove>[
+      for (final m in attacker.moves)
+        if (m != null)
+          coverageMoveFromMove(
+            m,
+            ability: attacker.ability,
+            heldItem: attacker.heldItem,
+            userType1: t1,
+            pokemonName: attackerP.name,
+          ),
+    ];
+    final damaging = coverageMoves.where((m) => m.isDamaging).toList();
+    if (damaging.isEmpty) {
+      return const CoverageCell(0, immunityReason: 'noMoves');
+    }
+    double best = 0;
+    for (final m in damaging) {
+      final cell = coverageOf(m.type, defenderSlot);
+      if (cell.multiplier > best) best = cell.multiplier;
+    }
+    if (best == 0) {
+      return const CoverageCell(0, immunityReason: 'allImmune');
+    }
+    return CoverageCell(best);
+  }
+
   Widget _wrapCellForLineup(int slotIdx, Widget child) {
     if (!lineupMode) return child;
     final selected = lineup.contains(slotIdx);
