@@ -1498,11 +1498,43 @@ class _CoverageMatrix extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    // Build per-slot cell rows for both my party and the opponent
-    // party. Same logic for both — opp pokemon defend / attack the
-    // exact same way as mine.
-    final myDisplay = _buildDisplayMatrix(team);
-    final oppDisplay = _buildDisplayMatrix(opponents);
+
+    // ── Single up-front pass: resolve every slot's moves through
+    // transformMove once. Without this cache each opp/my matchup
+    // cell would re-run transformMove for every attacker move on
+    // every render — opponents made it especially bad (6 my × 4
+    // moves × N opps × 2 calls per opp summary). One cache, shared
+    // by every helper below.
+    final movesCache = <_TeamSlot, List<CoverageMove>>{};
+    void cacheMoves(List<_TeamSlot> slots) {
+      for (final slot in slots) {
+        final p = slot.pokemon;
+        if (p == null) {
+          movesCache[slot] = const [];
+          continue;
+        }
+        final t1 = slot.effectiveType1 ?? p.type1;
+        movesCache[slot] = [
+          for (final m in slot.moves)
+            if (m != null)
+              coverageMoveFromMove(
+                m,
+                ability: slot.ability,
+                heldItem: slot.heldItem,
+                userType1: t1,
+                pokemonName: p.name,
+              ),
+        ];
+      }
+    }
+    cacheMoves(team);
+    cacheMoves(opponents);
+
+    // Build per-slot cell rows for my party only — the opp display
+    // matrix used to be computed here too but never consumed (opp
+    // rows render via _opponentMatchCell, not the per-type matrix),
+    // so dropping it removes another offensive-mode pass.
+    final myDisplay = _buildDisplayMatrix(team, movesCache);
 
     // Summary counts only my slots (opponents are info-only). Lineup
     // further narrows to the picked subset; empty pick → 0/0.
@@ -1512,6 +1544,20 @@ class _CoverageMatrix extends StatelessWidget {
             (!lineupMode || lineup.contains(i))) myDisplay[i]!,
     ];
     final summary = summarize(summarySource);
+
+    // Pre-compute opp×my matchup cells once. Reused by both the
+    // opp row renderer and `_summaryForOpponentRow` so neither
+    // recomputes the same coverageOf chain.
+    final oppMatchCache = <_TeamSlot, Map<_TeamSlot, CoverageCell>>{};
+    for (final opp in opponents) {
+      if (opp.pokemon == null) continue;
+      final perOpp = <_TeamSlot, CoverageCell>{};
+      for (final mySlot in team) {
+        if (mySlot.pokemon == null) continue;
+        perOpp[mySlot] = _opponentMatchCell(opp, mySlot, movesCache);
+      }
+      oppMatchCache[opp] = perOpp;
+    }
 
     // Type-label column is sized to a snug 3-char chip (Korean type
     // names cap at 3 chars: 에스퍼, 고스트, 드래곤, 페어리) — no
@@ -1561,7 +1607,10 @@ class _CoverageMatrix extends StatelessWidget {
           if (opponents[oi].pokemon != null)
             _opponentRow(
               opponents[oi],
-              _summaryForOpponentRow(opponents[oi]),
+              oppMatchCache[opponents[oi]] ?? const {},
+              _summaryForOpponentRow(
+                  opponents[oi],
+                  oppMatchCache[opponents[oi]] ?? const {}),
               scheme,
               isLast: _isLastFilledOpp(oi),
             ),
@@ -1573,8 +1622,11 @@ class _CoverageMatrix extends StatelessWidget {
 
   /// Build a [slots.length] × 18 grid of [CoverageCell]s. Empty
   /// slots stay as `null` rows so the renderer can paint blanks.
-  /// Used for both my party and opponents — same shape, same logic.
-  List<List<CoverageCell>?> _buildDisplayMatrix(List<_TeamSlot> slots) {
+  /// [movesCache] holds pre-resolved CoverageMoves per slot — see
+  /// the cache build in the parent `build()`.
+  List<List<CoverageCell>?> _buildDisplayMatrix(
+      List<_TeamSlot> slots,
+      Map<_TeamSlot, List<CoverageMove>> movesCache) {
     final filled = <CoverageSlot>[];
     final filledIdx = <int>[];
     for (int i = 0; i < slots.length; i++) {
@@ -1584,26 +1636,13 @@ class _CoverageMatrix extends StatelessWidget {
       final t1 = slot.effectiveType1 ?? p.type1;
       final t2 = slot.effectiveType2;
       final t3 = slot.effectiveType3;
-      final coverageMoves = offensive
-          ? [
-              for (final m in slot.moves)
-                if (m != null)
-                  coverageMoveFromMove(
-                    m,
-                    ability: slot.ability,
-                    heldItem: slot.heldItem,
-                    userType1: t1,
-                    pokemonName: p.name,
-                  ),
-            ]
-          : const <CoverageMove>[];
       filled.add(CoverageSlot(
         type1: t1,
         type2: t2,
         type3: t3,
         ability: slot.ability,
         heldItem: slot.heldItem,
-        moves: coverageMoves,
+        moves: offensive ? (movesCache[slot] ?? const []) : const [],
       ));
       filledIdx.add(i);
     }
@@ -1903,7 +1942,10 @@ class _CoverageMatrix extends StatelessWidget {
   /// weak/resist count across the my-party slots — same renderer
   /// the type rows use.
   TableRow _opponentRow(
-      _TeamSlot opp, CoverageColumnSummary summary, ColorScheme scheme,
+      _TeamSlot opp,
+      Map<_TeamSlot, CoverageCell> oppCells,
+      CoverageColumnSummary summary,
+      ColorScheme scheme,
       {required bool isLast}) {
     final p = opp.pokemon!;
     return TableRow(
@@ -1948,7 +1990,9 @@ class _CoverageMatrix extends StatelessWidget {
               : _wrapCellForLineup(
                   mi,
                   _multCell(
-                    _opponentMatchCell(opp, team[mi]),
+                    oppCells[team[mi]] ??
+                        const CoverageCell(0,
+                            immunityReason: 'noMoves'),
                     scheme,
                   ),
                 ),
@@ -1969,12 +2013,14 @@ class _CoverageMatrix extends StatelessWidget {
   /// For the offensive matrix `weak` = my mons that hit opp super-
   /// effectively; for the defensive matrix `weak` = my mons that
   /// take super-effective damage from opp.
-  CoverageColumnSummary _summaryForOpponentRow(_TeamSlot opp) {
+  CoverageColumnSummary _summaryForOpponentRow(
+      _TeamSlot opp, Map<_TeamSlot, CoverageCell> oppCells) {
     int weak = 0, neutral = 0, resist = 0, immune = 0;
     for (int mi = 0; mi < team.length; mi++) {
       if (team[mi].pokemon == null) continue;
       if (lineupMode && !lineup.contains(mi)) continue;
-      final c = _opponentMatchCell(opp, team[mi]);
+      final c = oppCells[team[mi]] ??
+          const CoverageCell(0, immunityReason: 'noMoves');
       if (c.isImmune) {
         immune++;
       } else if (c.isWeak) {
@@ -1998,12 +2044,14 @@ class _CoverageMatrix extends StatelessWidget {
   ///     slot)`.
   /// In both directions empty / all-immune move sets collapse to
   /// 0× (rendered as 무 / ✕).
-  CoverageCell _opponentMatchCell(_TeamSlot opp, _TeamSlot mySlot) {
+  CoverageCell _opponentMatchCell(
+      _TeamSlot opp,
+      _TeamSlot mySlot,
+      Map<_TeamSlot, List<CoverageMove>> movesCache) {
     final attacker = offensive ? mySlot : opp;
     final defender = offensive ? opp : mySlot;
-    final attackerP = attacker.pokemon;
     final defenderP = defender.pokemon;
-    if (attackerP == null || defenderP == null) {
+    if (defenderP == null) {
       return const CoverageCell(0, immunityReason: 'noMoves');
     }
     final defenderSlot = CoverageSlot(
@@ -2013,18 +2061,7 @@ class _CoverageMatrix extends StatelessWidget {
       ability: defender.ability,
       heldItem: defender.heldItem,
     );
-    final t1 = attacker.effectiveType1 ?? attackerP.type1;
-    final coverageMoves = <CoverageMove>[
-      for (final m in attacker.moves)
-        if (m != null)
-          coverageMoveFromMove(
-            m,
-            ability: attacker.ability,
-            heldItem: attacker.heldItem,
-            userType1: t1,
-            pokemonName: attackerP.name,
-          ),
-    ];
+    final coverageMoves = movesCache[attacker] ?? const [];
     final damaging = coverageMoves.where((m) => m.isDamaging).toList();
     if (damaging.isEmpty) {
       return const CoverageCell(0, immunityReason: 'noMoves');
