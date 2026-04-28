@@ -3182,5 +3182,35 @@
     "nameKo": "투쟁심 (무성)",
     "nameJa": "とうそうしん (無性)",
     "nameEn": "Rivalry (Genderless)"
+  },
+  {
+    "name": "Supreme Overlord",
+    "nameKo": "총대장",
+    "nameJa": "そうだいしょう",
+    "nameEn": "Supreme Overlord",
+    "descriptionOnly": true,
+    "descKo": "배틀에 등장했을 때 자신의 편에서 쓰러진 동료가 있을 때마다 공격과 특수공격이 강해진다. (한 마리당 +10%, 최대 +50%)",
+    "descEn": "When the Pokémon enters battle, its Attack and Sp. Atk are boosted for every member of its team that has already been defeated (+10% per fainted ally, up to +50%).",
+    "descJa": "バトルに登場したとき、味方で倒された仲間がいるたびに、攻撃と特攻が強くなる。（1体ごとに+10%、最大+50%）"
+  },
+  {
+    "name": "Disguise",
+    "nameKo": "탈",
+    "nameJa": "ばけのかわ",
+    "nameEn": "Disguise",
+    "descriptionOnly": true,
+    "descKo": "배틀에 한 번만, 탈로 위장해 공격을 막는다. 막을 때 최대 HP의 1/8만큼 데미지를 받는다.",
+    "descEn": "Once per battle, the Pokémon's disguise blocks one attack. Breaking the disguise costs 1/8 of its max HP.",
+    "descJa": "バトル中に1回だけ、ばけのかわで攻撃を防ぐ。防いだときに最大HPの1/8のダメージを受ける。"
+  },
+  {
+    "name": "Rivalry",
+    "nameKo": "투쟁심",
+    "nameJa": "とうそうしん",
+    "nameEn": "Rivalry",
+    "descriptionOnly": true,
+    "descKo": "자신과 같은 성별인 상대에게 위력이 1.25배가 되며, 다른 성별인 상대에게는 0.75배가 된다.",
+    "descEn": "Becomes competitive: deals 1.25× to same-gender targets and 0.75× to opposite-gender targets.",
+    "descJa": "性別が同じ相手には威力が1.25倍に、異なる相手には0.75倍になる。"
   }
 ]

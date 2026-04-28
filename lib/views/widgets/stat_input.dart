@@ -239,6 +239,7 @@ class _StatInputState extends State<StatInput> {
         // Hangul" heuristic, which was ambiguous and produced edge
         // cases.
         if (entry.value.nonMainline) continue;
+        if (entry.value.descriptionOnly) continue;
         map[entry.key] = entry.value.localizedName;
       }
       _abilityCache = map;

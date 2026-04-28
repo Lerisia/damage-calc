@@ -397,11 +397,19 @@ class _CalcAbilityPicker extends StatelessWidget {
               spacing: 6,
               runSpacing: 4,
               children: [
-                for (final key in pokemon.abilities)
+                // Stateful ability bases (Supreme Overlord, Rivalry)
+                // get mapped to a default variant ("Supreme Overlord
+                // 0", "Rivalry Same") so the chip carries a key the
+                // damage calc actually understands. Mirrors what
+                // applyPokemon does on the calc side.
+                for (final raw in pokemon.abilities)
                   _AbilityChip(
-                    label: _label(key),
-                    selected: selected == key,
-                    onTap: () => onChanged(key),
+                    label: _label(
+                        BattlePokemonState.expandAbilityKey(raw) ?? raw),
+                    selected: selected ==
+                        (BattlePokemonState.expandAbilityKey(raw) ?? raw),
+                    onTap: () => onChanged(
+                        BattlePokemonState.expandAbilityKey(raw) ?? raw),
                   ),
               ],
             ),
@@ -647,6 +655,16 @@ class _AbilitiesSection extends StatelessWidget {
 
   const _AbilitiesSection({required this.pokemon, required this.abilityDex});
 
+  /// Map a variant key (Supreme Overlord 0, Disguise Busted, Rivalry
+  /// Same, …) back to its base entry name. Returns null when the key
+  /// is already a base or doesn't have a base counterpart.
+  static String? _baseAbilityFor(String key) {
+    if (key.startsWith('Supreme Overlord ')) return 'Supreme Overlord';
+    if (key.startsWith('Disguise ')) return 'Disguise';
+    if (key.startsWith('Rivalry ')) return 'Rivalry';
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final abs = pokemon.abilities;
@@ -697,8 +715,16 @@ class _AbilitiesSection extends StatelessWidget {
 
   Widget _abilityRow(String key, {required bool isHidden}) {
     final ab = abilityDex[key];
-    final name = ab?.localizedName ?? key;
-    final desc = ab?.localizedDescription;
+    // Stateful abilities ship as numbered / state-suffixed variants
+    // ("Supreme Overlord 0", "Disguise Busted") with no descriptions
+    // of their own. Fall back to the base entry — added with
+    // descriptionOnly: true — so the dex shows the canonical name +
+    // explanation instead of "총대장 ×0" + nothing.
+    final base = _baseAbilityFor(key);
+    final baseAb = base != null ? abilityDex[base] : null;
+    final name = baseAb?.localizedName ?? ab?.localizedName ?? key;
+    final desc =
+        baseAb?.localizedDescription ?? ab?.localizedDescription;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Column(

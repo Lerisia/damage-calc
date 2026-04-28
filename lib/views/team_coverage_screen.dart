@@ -132,6 +132,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       final aNames = <String, String>{};
       for (final e in aDex.entries) {
         if (e.value.nonMainline) continue;
+        if (e.value.descriptionOnly) continue;
         aNames[e.key] = e.value.localizedName;
       }
       final iNames = <String, String>{};

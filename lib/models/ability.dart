@@ -14,6 +14,13 @@ class Ability {
   /// them — otherwise users stumble into them mid-battle.
   final bool nonMainline;
 
+  /// True for "base" entries that exist purely so the dex can show a
+  /// description for a stateful ability (Supreme Overlord, Disguise,
+  /// Rivalry, …). Picker UIs must hide these — the calculator and
+  /// party-coverage screens deal in the concrete numbered/state
+  /// variants ("Supreme Overlord 0", "Disguise Disguised", etc.).
+  final bool descriptionOnly;
+
   /// Official in-game flavor text from PokéAPI. Missing for abilities
   /// not yet localised to the corresponding language (in particular
   /// brand-new Champions / spin-off entries).
@@ -27,6 +34,7 @@ class Ability {
     required this.nameJa,
     this.nameEn,
     this.nonMainline = false,
+    this.descriptionOnly = false,
     this.descKo,
     this.descEn,
     this.descJa,
@@ -44,6 +52,7 @@ class Ability {
       nameJa: json['nameJa'] as String,
       nameEn: json['nameEn'] as String?,
       nonMainline: json['nonMainline'] as bool? ?? false,
+      descriptionOnly: json['descriptionOnly'] as bool? ?? false,
       descKo: json['descKo'] as String?,
       descEn: json['descEn'] as String?,
       descJa: json['descJa'] as String?,
