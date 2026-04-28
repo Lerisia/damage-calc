@@ -647,23 +647,31 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (int i = 0; i < _maxTeamSize; i++) ...[
-            _SlotCard(
-              key: ValueKey('team_slot_card_$i'),
-              index: i,
-              slot: _team[i],
-              abilityDex: _abilityDex ?? const {},
-              abilityNames: _abilityNames ?? const {},
-              itemDex: _itemDex ?? const {},
-              itemNames: _itemNames ?? const {},
-              onPokemonSelected: (p) => _setPokemon(i, p),
-              onAbilitySelected: (a) => _setAbility(i, a),
-              onItemSelected: (it) => _setItem(i, it),
-              onLoadSample: () => _loadSampleInto(i),
-              onClear: () => _clearSlot(i),
-              showMoves: showOff,
-              onMoveChanged: (mi, m) => _setMove(i, mi, m),
-              onTypeOverrideChanged: (override) =>
-                  _setTypeOverride(i, override),
+            // RepaintBoundary per slot card so the whole card isn't
+            // re-rasterized while the user scrolls past it. Earlier
+            // we'd dropped these because the iOS slide page-route
+            // surfaced a layer-raster timing bug; the screen now
+            // uses a fade transition (no slide) so per-card RB is
+            // safe again, and brings back smoother scroll.
+            RepaintBoundary(
+              child: _SlotCard(
+                key: ValueKey('team_slot_card_$i'),
+                index: i,
+                slot: _team[i],
+                abilityDex: _abilityDex ?? const {},
+                abilityNames: _abilityNames ?? const {},
+                itemDex: _itemDex ?? const {},
+                itemNames: _itemNames ?? const {},
+                onPokemonSelected: (p) => _setPokemon(i, p),
+                onAbilitySelected: (a) => _setAbility(i, a),
+                onItemSelected: (it) => _setItem(i, it),
+                onLoadSample: () => _loadSampleInto(i),
+                onClear: () => _clearSlot(i),
+                showMoves: showOff,
+                onMoveChanged: (mi, m) => _setMove(i, mi, m),
+                onTypeOverrideChanged: (override) =>
+                    _setTypeOverride(i, override),
+              ),
             ),
             if (i < _maxTeamSize - 1) const SizedBox(height: 4),
           ],
