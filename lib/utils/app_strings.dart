@@ -230,6 +230,16 @@ class AppStrings {
       AppLanguage.en: 'Offensive coverage',
       AppLanguage.ja: '攻撃相性表',
     },
+    'team.matrix.lineup': {
+      AppLanguage.ko: '선출',
+      AppLanguage.en: 'Lineup',
+      AppLanguage.ja: '選出',
+    },
+    'team.matrix.lineup.hint': {
+      AppLanguage.ko: '표 위 이름을 눌러 선출에 추가/제외',
+      AppLanguage.en: 'Tap a header name to add / remove from the lineup',
+      AppLanguage.ja: '表の名前をタップして選出に追加 / 除外',
+    },
     'team.matrix.defensive': {
       AppLanguage.ko: '방어 상성표',
       AppLanguage.en: 'Defensive coverage',

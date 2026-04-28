@@ -72,6 +72,15 @@ class _TeamCoverageStore {
   /// by `_saveAsParty` to default the save dialog name and to detect
   /// the overwrite case. Cleared on full reset.
   static String? loadedPartyName;
+  /// Lineup-mode toggle ("선출 보기"). When true, the matrix dims
+  /// every column and the summary collapses to 0/0; tapping a
+  /// header pokemon name toggles its slot index in [lineup], which
+  /// brings that column back to full opacity and adds it to the
+  /// summary count.
+  static bool lineupMode = false;
+  /// Slot indices currently included in the lineup (subset of
+  /// 0..maxTeamSize-1). Cleared on full reset.
+  static final Set<int> lineup = <int>{};
 }
 
 class TeamCoverageScreen extends StatefulWidget {
@@ -221,8 +230,31 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       for (int i = 0; i < _team.length; i++) {
         _team[i] = _TeamSlot();
       }
-      // No tracked party once everything's empty.
       _TeamCoverageStore.loadedPartyName = null;
+      _TeamCoverageStore.lineup.clear();
+      _TeamCoverageStore.lineupMode = false;
+    });
+  }
+
+  void _toggleLineupMode() {
+    setState(() {
+      _TeamCoverageStore.lineupMode = !_TeamCoverageStore.lineupMode;
+      if (!_TeamCoverageStore.lineupMode) {
+        // Leaving the mode wipes the picked subset so re-entering
+        // starts from "nothing selected" (matches the user's
+        // mental model: 선출 보기 ON = empty canvas).
+        _TeamCoverageStore.lineup.clear();
+      }
+    });
+  }
+
+  void _toggleLineupSlot(int index) {
+    setState(() {
+      if (_TeamCoverageStore.lineup.contains(index)) {
+        _TeamCoverageStore.lineup.remove(index);
+      } else {
+        _TeamCoverageStore.lineup.add(index);
+      }
     });
   }
 
@@ -647,11 +679,21 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Numeric/symbolic toggle moves to the top bar on wide
-              // layouts (no need for two copies); narrow keeps it
-              // here above the matrix where it's easy to reach.
+              // Numeric/symbolic + 선출 toggles move to the top bar
+              // on wide layouts; narrow keeps both here as a single
+              // row above the matrix.
               if (!isWide) ...[
-                _DisplayModeToggle(mode: mode),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _LineupSwitch(
+                      value: _TeamCoverageStore.lineupMode,
+                      onToggle: _toggleLineupMode,
+                    ),
+                    const SizedBox(width: 8),
+                    _DisplayModeToggle(mode: mode),
+                  ],
+                ),
                 const SizedBox(height: 6),
               ],
               if (showOff) _matrixSectionHeader(
@@ -663,6 +705,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                   symbolic: symbolic,
                   offensive: false,
                   horizontalNames: isWide,
+                  lineupMode: _TeamCoverageStore.lineupMode,
+                  lineup: _TeamCoverageStore.lineup,
+                  onLineupToggle: _toggleLineupSlot,
                 ),
               ),
               if (showOff) ...[
@@ -676,6 +721,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                     symbolic: symbolic,
                     offensive: true,
                     horizontalNames: isWide,
+                    lineupMode: _TeamCoverageStore.lineupMode,
+                    lineup: _TeamCoverageStore.lineup,
+                    onLineupToggle: _toggleLineupSlot,
                   ),
                 ),
               ],
@@ -700,9 +748,19 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             builder: (_, showOff, __) => _OffensiveSwitch(value: showOff),
           ),
           if (isWide)
-            ValueListenableBuilder<CoverageDisplayMode>(
-              valueListenable: CoverageDisplayController.instance.mode,
-              builder: (_, mode, __) => _DisplayModeToggle(mode: mode),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _LineupSwitch(
+                  value: _TeamCoverageStore.lineupMode,
+                  onToggle: _toggleLineupMode,
+                ),
+                const SizedBox(width: 8),
+                ValueListenableBuilder<CoverageDisplayMode>(
+                  valueListenable: CoverageDisplayController.instance.mode,
+                  builder: (_, mode, __) => _DisplayModeToggle(mode: mode),
+                ),
+              ],
             ),
         ],
       ),
@@ -1321,10 +1379,20 @@ class _CoverageMatrix extends StatelessWidget {
   /// name on one line). Saves the ~60 px the vertical-stack layout
   /// reserves for narrow phones.
   final bool horizontalNames;
+  /// Lineup mode + selected indices. When [lineupMode] is true, the
+  /// summary collapses to only the selected slots and unselected
+  /// columns dim out. Tapping a header name fires [onLineupToggle]
+  /// to flip that slot's selection.
+  final bool lineupMode;
+  final Set<int> lineup;
+  final ValueChanged<int> onLineupToggle;
 
   const _CoverageMatrix({
     required this.team,
     required this.abilityNames,
+    required this.lineupMode,
+    required this.lineup,
+    required this.onLineupToggle,
     this.symbolic = false,
     this.offensive = false,
     this.horizontalNames = false,
@@ -1377,7 +1445,21 @@ class _CoverageMatrix extends StatelessWidget {
     final filledMatrix = offensive
         ? offensiveCoverageMatrix(filledCells)
         : defensiveCoverageMatrix(filledCells);
-    final summary = summarize(filledMatrix);
+
+    // Summary either counts every filled slot (default) or only the
+    // ones in the lineup subset (when lineup mode is active). Empty
+    // selection → 0/0 across the board, matching the user's mental
+    // model that 선출 보기 starts blank.
+    final List<List<CoverageCell>> summarySource;
+    if (lineupMode) {
+      summarySource = [
+        for (int j = 0; j < filledIndices.length; j++)
+          if (lineup.contains(filledIndices[j])) filledMatrix[j],
+      ];
+    } else {
+      summarySource = filledMatrix;
+    }
+    final summary = summarize(summarySource);
 
     // Re-expand into a [team.length × 18] grid where empty slots get
     // null rows. Renderer keys off this for blank cells.
@@ -1439,12 +1521,15 @@ class _CoverageMatrix extends StatelessWidget {
       ),
       children: [
         const SizedBox.shrink(),
-        for (final slot in team)
-          slot.pokemon != null
-              ? _nameCell(
-                  slot.pokemon!.localizedName,
-                  type1: slot.effectiveType1,
-                  type2: slot.effectiveType2,
+        for (int i = 0; i < team.length; i++)
+          team[i].pokemon != null
+              ? _wrapNameForLineup(
+                  i,
+                  _nameCell(
+                    team[i].pokemon!.localizedName,
+                    type1: team[i].effectiveType1,
+                    type2: team[i].effectiveType2,
+                  ),
                 )
               : SizedBox(height: horizontalNames ? 28 : 84),
         // Color-coded labels side-by-side, with the same thicker
@@ -1673,7 +1758,7 @@ class _CoverageMatrix extends StatelessWidget {
           // without inviting the eye to read anything into it.
           matrix[p] == null
               ? const SizedBox(height: 28)
-              : _multCell(matrix[p]![t], scheme),
+              : _wrapCellForLineup(p, _multCell(matrix[p]![t], scheme)),
         _summaryCell(summary, scheme),
       ],
     );
@@ -1683,6 +1768,32 @@ class _CoverageMatrix extends StatelessWidget {
   /// chips and the attacker/defender panel badges. The chip fills the
   /// fixed-width type column edge-to-edge; the 3-char Korean name sits
   /// centered with the colored bg picking up any slack.
+  /// Wrap a header name cell with InkWell so tapping toggles the
+  /// slot in the lineup; outside lineup mode it's a passthrough.
+  /// Selected lineup picks render at full opacity, the rest dim.
+  Widget _wrapNameForLineup(int slotIdx, Widget child) {
+    if (!lineupMode) return child;
+    final selected = lineup.contains(slotIdx);
+    final wrapped = Opacity(
+      opacity: selected ? 1.0 : 0.30,
+      child: child,
+    );
+    return InkWell(
+      onTap: () => onLineupToggle(slotIdx),
+      child: wrapped,
+    );
+  }
+
+  /// Same dim treatment for the data cells in a column.
+  Widget _wrapCellForLineup(int slotIdx, Widget child) {
+    if (!lineupMode) return child;
+    final selected = lineup.contains(slotIdx);
+    return Opacity(
+      opacity: selected ? 1.0 : 0.30,
+      child: child,
+    );
+  }
+
   Widget _attackTypeChip(PokemonType type) {
     return ClipRect(
       child: Container(
@@ -1978,6 +2089,44 @@ class _OffensiveSwitch extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// "선출 보기" switch — same shape as [_OffensiveSwitch] but tied
+/// to the lineup-mode flag in [_TeamCoverageStore]. Toggles the
+/// dim-everything / tap-name-to-add behavior in the matrix.
+class _LineupSwitch extends StatelessWidget {
+  final bool value;
+  final VoidCallback onToggle;
+  const _LineupSwitch({required this.value, required this.onToggle});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onToggle,
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              AppStrings.t('team.matrix.lineup'),
+              style: const TextStyle(fontSize: 13),
+            ),
+            const SizedBox(width: 6),
+            SizedBox(
+              height: 24,
+              child: Switch.adaptive(
+                value: value,
+                onChanged: (_) => onToggle(),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
+          ],
         ),
       ),
     );
