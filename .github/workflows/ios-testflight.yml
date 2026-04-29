@@ -5,9 +5,17 @@ on:
 
 jobs:
   build-and-upload:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        # Apple now requires the iOS 26 SDK (Xcode 26+) for App Store
+        # Connect uploads, so pin to a Xcode 26.x toolchain instead of
+        # whatever macos-latest happens to default to.
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '26.0'
 
       - name: Install Apple certificate and provisioning profile
         env:
