@@ -386,6 +386,17 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _effectiveIsSpecial ? NatureStat.spa : NatureStat.atk;
   }
 
+  /// Whether the defender slot should expose SpD (vs Def). Tracks
+  /// [_effectiveIsSpecial] except that special moves tagged
+  /// `target_phys_def` (Psyshock / Psystrike / Secret Sword) hit the
+  /// physical Defense stat — so the defender's Def must be the editable
+  /// slot even though the attacker still uses SpA.
+  bool get _effectiveDefIsSpecial {
+    final move = _atk.moves[0];
+    if (move != null && move.hasTag(MoveTags.targetPhysDef)) return false;
+    return _effectiveIsSpecial;
+  }
+
   /// Toggle a stat's nature chip between neutral and ↑ (no ↓ state in
   /// Simple Mode). Going up auto-fills the ↓ slot with the opposite so
   /// the applied Nature is a real one; going back to neutral clears
@@ -911,10 +922,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6);
     // Attacker's move category drives which defensive stat is visible —
-    // same auto-switch as on the attacker side. When no move is picked
-    // yet, falls back to the attacker's base-stat / ability heuristic
-    // so both sides agree on Atk-vs-SpA.
-    final isSpecial = _effectiveIsSpecial;
+    // same auto-switch as on the attacker side. Psyshock / Psystrike /
+    // Secret Sword stay on Def even though they're special.
+    final isSpecial = _effectiveDefIsSpecial;
     final defStat = isSpecial ? NatureStat.spd : NatureStat.def;
     final defLabel = AppStrings.t(isSpecial ? 'stat.spDefense' : 'stat.defense');
     final defCtl = isSpecial ? _defSpdSpCtl : _defDefSpCtl;
