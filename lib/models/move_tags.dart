@@ -103,4 +103,11 @@ class MoveTags {
   // Hits the ally too when allAdjacent — used by Earthquake/Surf/etc. Only
   // meaningful when a full ally slot exists; set but otherwise inert for now.
   static const String spreadHitsAlly = 'custom:spread_hits_ally';
+
+  // User switches out after using the move. Covers damaging pivots
+  // (U-turn / Volt Switch / Flip Turn) and status pivots (Parting Shot /
+  // Baton Pass / Teleport / Chilly Reception / Shed Tail). Used to
+  // classify moves as a distinct role from main-attack and priority for
+  // default-move ordering and dex display.
+  static const String switchOut = 'custom:switch_out';
 }

@@ -1589,7 +1589,9 @@
     "accuracy": 0,
     "pp": 20,
     "priority": -6,
-    "tags": [],
+    "tags": [
+      "custom:switch_out"
+    ],
     "nameEn": "Teleport",
     "descKo": "교대할 포켓몬이 있을 때 사용하면 교체한다. 야생 포켓몬은 도망가 버린다.",
     "descEn": "The user switches places with a party Pokémon in waiting, if any. If a wild Pokémon uses this move, it flees.",

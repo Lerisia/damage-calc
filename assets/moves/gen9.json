@@ -128,7 +128,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:switch_out"
+    ],
     "nameEn": "Chilly Reception",
     "descEn": "The user tells a chillingly bad joke before switching places with a party Pokémon in waiting. This summons a snowstorm lasting five turns."
   },
@@ -601,7 +603,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:switch_out"
+    ],
     "nameEn": "Shed Tail",
     "descEn": "The user creates a substitute for itself using its own HP before switching places with a party Pokémon in waiting."
   },

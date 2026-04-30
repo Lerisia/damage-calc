@@ -320,7 +320,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "sound"
+      "sound",
+      "custom:switch_out"
     ],
     "nameEn": "Parting Shot",
     "descKo": "막말을 내뱉어 상대를 위협하여 공격과 특수공격을 떨어뜨린 후 교대 포켓몬과 교체한다.",
