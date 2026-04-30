@@ -578,7 +578,9 @@
     "power": 70,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "custom:switch_out"
+    ],
     "nameEn": "Volt Switch",
     "zPower": 140,
     "descKo": "공격한 뒤 굉장한 스피드로 돌아와서 교대 포켓몬과 교체한다.",

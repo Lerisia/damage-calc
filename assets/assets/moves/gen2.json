@@ -654,7 +654,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 40,
-    "tags": [],
+    "tags": [
+      "custom:switch_out"
+    ],
     "nameEn": "Baton Pass",
     "aliases": [
       "바톤터치"

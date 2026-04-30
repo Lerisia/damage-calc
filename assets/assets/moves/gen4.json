@@ -1474,7 +1474,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "contact"
+      "contact",
+      "custom:switch_out"
     ],
     "nameEn": "U-turn",
     "zPower": 140,
