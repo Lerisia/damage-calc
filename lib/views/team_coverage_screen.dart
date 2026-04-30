@@ -851,9 +851,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                     child: ScaleTransition(scale: anim, child: child),
                   ),
                   child: showOff
-                      ? const Padding(
-                          key: ValueKey('on'),
-                          padding: EdgeInsets.only(left: 8),
+                      ? Padding(
+                          key: const ValueKey('on'),
+                          padding: const EdgeInsets.only(left: 8),
                           child: StatusMovesToggle(),
                         )
                       : const SizedBox.shrink(key: ValueKey('off')),

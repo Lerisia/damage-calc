@@ -303,7 +303,9 @@ class PokemonPanelState extends State<PokemonPanel>
             _sectionCard(
               key: _movesSectionKey,
               title: AppStrings.t('section.moves'),
-              trailing: const StatusMovesToggle(),
+              // Not const — language toggle relies on the parent's
+              // setState rebuilding this subtree to refresh the label.
+              trailing: StatusMovesToggle(),
               child: Column(
                 children: [
                   _moveHeader(context),
