@@ -30,14 +30,17 @@ class StatusMovesToggle extends StatelessWidget {
               children: [
                 Icon(
                   on ? Icons.check_box : Icons.check_box_outline_blank,
-                  size: 14,
+                  size: 16,
                   color: color,
                 ),
-                const SizedBox(width: 3),
+                const SizedBox(width: 4),
                 Text(
                   AppStrings.t('move.showStatus'),
+                  // Match the section header font size (13) so the
+                  // toggle reads as a peer to "기술" instead of a
+                  // footnote tucked into the corner.
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     color: color,
                     fontWeight: on ? FontWeight.w600 : FontWeight.normal,
                   ),
