@@ -25,6 +25,7 @@ import '../../utils/grounded.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
 import 'move_selector.dart';
+import 'status_moves_toggle.dart';
 import 'pokemon_selector.dart';
 import 'stat_input.dart';
 
@@ -302,6 +303,7 @@ class PokemonPanelState extends State<PokemonPanel>
             _sectionCard(
               key: _movesSectionKey,
               title: AppStrings.t('section.moves'),
+              trailing: const StatusMovesToggle(),
               child: Column(
                 children: [
                   _moveHeader(context),
@@ -1104,7 +1106,7 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  Widget _sectionCard({Key? key, required String title, required Widget child}) {
+  Widget _sectionCard({Key? key, required String title, required Widget child, Widget? trailing}) {
     // Borderless, flat, separated by whitespace. Title uses the attacker/
     // defender accent color so users always know which side they're editing.
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -1112,21 +1114,26 @@ class PokemonPanelState extends State<PokemonPanel>
         ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
         : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
 
+    final titleWidget = Text(
+      title,
+      style: TextStyle(
+        color: accent,
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.1,
+      ),
+    );
+
     return Padding(
       key: key,
       padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: accent,
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.1,
-            ),
-          ),
+          if (trailing != null)
+            Row(children: [titleWidget, const Spacer(), trailing])
+          else
+            titleWidget,
           const SizedBox(height: 8),
           child,
         ],

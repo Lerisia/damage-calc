@@ -4,6 +4,7 @@ import '../../data/movedex.dart';
 import '../../data/learnsetdex.dart';
 import '../../models/move.dart';
 import '../../utils/korean_search.dart';
+import '../../utils/move_options_controller.dart';
 import 'typeahead_helpers.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
@@ -26,8 +27,14 @@ class MoveSelector extends StatefulWidget {
   /// gray. Used in tight layouts (party-coverage move grid) where
   /// the extra metadata doesn't fit on phone widths.
   final bool compact;
+  /// When `false`, status-category moves are always hidden from the
+  /// search list regardless of the global "변화기 보기" toggle. Simple
+  /// Mode forces this off — its compact UI doesn't need them. Extended
+  /// Mode and the party-coverage grid leave this `true` so the user's
+  /// global preference applies.
+  final bool allowStatus;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -37,6 +44,11 @@ class _MoveSelectorState extends State<MoveSelector> {
   static List<Move>? _movesCache;
   static Map<String, Set<String>> _learnsetCache = {};
 
+  /// All selectable moves (non-G-Max etc. already stripped). The
+  /// status-move filter is applied dynamically on top of this so
+  /// toggling [MoveOptionsController.showStatusMoves] doesn't require
+  /// reloading from disk.
+  List<Move> _baseMoves = [];
   List<Move> _allMoves = [];
   List<SearchEntry<Move>> _searchEntries = [];
   Set<String> _learnableMoveIds = {};
@@ -48,6 +60,10 @@ class _MoveSelectorState extends State<MoveSelector> {
   void initState() {
     super.initState();
     _loadMoves();
+    if (widget.allowStatus) {
+      MoveOptionsController.instance.showStatusMoves
+          .addListener(_rebuildEntries);
+    }
   }
 
   @override
@@ -60,27 +76,49 @@ class _MoveSelectorState extends State<MoveSelector> {
 
   @override
   void dispose() {
+    if (widget.allowStatus) {
+      MoveOptionsController.instance.showStatusMoves
+          .removeListener(_rebuildEntries);
+    }
     _controller.dispose();
     super.dispose();
   }
 
+  bool _showStatus() =>
+      widget.allowStatus && MoveOptionsController.instance.showStatusMoves.value;
+
   Future<void> _loadMoves() async {
     final all = await loadAllMoves();
-    all.removeWhere((m) =>
-        m.category == MoveCategory.status ||
-        m.moveClass != MoveClass.normal);
+    // Strip non-selectable kinds (G-Max moves, Z-moves, …) up-front.
+    // Status moves are filtered dynamically by [_rebuildEntries].
+    all.removeWhere((m) => m.moveClass != MoveClass.normal);
+    _baseMoves = all;
+    _rebuildEntries();
+    _updateLearnset();
+  }
+
+  void _rebuildEntries() {
+    if (!mounted) return;
+    final filtered = _showStatus()
+        ? _baseMoves
+        : _baseMoves
+            .where((m) => m.category != MoveCategory.status)
+            .toList();
     setState(() {
-      _allMoves = all;
-      _searchEntries = all.map((m) => SearchEntry(m, m.nameKo, m.name, nameJa: m.nameJa, aliases: m.aliases)).toList();
+      _allMoves = filtered;
+      _searchEntries = filtered
+          .map((m) => SearchEntry(m, m.nameKo, m.name,
+              nameJa: m.nameJa, aliases: m.aliases))
+          .toList();
       if (_selected == null && widget.initialMoveName != null) {
-        final match = all.where((m) => m.name == widget.initialMoveName);
+        final match = _baseMoves.where((m) => m.name == widget.initialMoveName);
         if (match.isNotEmpty) {
           _selected = match.first;
-          _controller.text = widget.displayNameOverride ?? _selected!.localizedName;
+          _controller.text =
+              widget.displayNameOverride ?? _selected!.localizedName;
         }
       }
     });
-    _updateLearnset();
   }
 
   Future<void> _updateLearnset() async {

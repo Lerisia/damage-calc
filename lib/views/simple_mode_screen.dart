@@ -642,6 +642,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                   pokemonName: _atk.pokemonName,
                   pokemonNameKo: _atk.pokemonNameKo,
                   dexNumber: _atk.dexNumber,
+                  // Simple Mode never surfaces status moves regardless
+                  // of the global toggle — its layout has no slot for
+                  // them and they'd just clutter the search.
+                  allowStatus: false,
                   onSelected: (m) {
                     setState(() {
                       _atk.moves[0] = m;

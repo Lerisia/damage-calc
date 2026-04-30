@@ -17,6 +17,7 @@ import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/team_coverage.dart';
 import 'widgets/move_selector.dart';
+import 'widgets/status_moves_toggle.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/type_picker_dialog.dart';
@@ -836,7 +837,29 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         children: [
           ValueListenableBuilder<bool>(
             valueListenable: CoverageDisplayController.instance.showOffensive,
-            builder: (_, showOff, __) => _OffensiveSwitch(value: showOff),
+            builder: (_, showOff, __) => Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _OffensiveSwitch(value: showOff),
+                // "변화기 보기" only makes sense once the offensive
+                // matrix is on (only then can the user pick moves on
+                // each slot), so it slides in alongside.
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 220),
+                  transitionBuilder: (child, anim) => FadeTransition(
+                    opacity: anim,
+                    child: ScaleTransition(scale: anim, child: child),
+                  ),
+                  child: showOff
+                      ? const Padding(
+                          key: ValueKey('on'),
+                          padding: EdgeInsets.only(left: 8),
+                          child: StatusMovesToggle(),
+                        )
+                      : const SizedBox.shrink(key: ValueKey('off')),
+                ),
+              ],
+            ),
           ),
           if (isWide)
             Row(

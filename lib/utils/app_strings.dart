@@ -910,6 +910,11 @@ class AppStrings {
       AppLanguage.en: 'Fixed',
       AppLanguage.ja: '固定',
     },
+    'move.showStatus': {
+      AppLanguage.ko: '변화기 보기',
+      AppLanguage.en: 'Show status moves',
+      AppLanguage.ja: '変化技を表示',
+    },
 
     // === Labels ===
     'label.level': {
