@@ -1906,6 +1906,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             style: TextStyle(fontSize: 16, color: Colors.grey[400])),
       );
     }
+    // Status moves carry no damage information — rendering the standard
+    // damage card just shows "0~0%" which reads as a bug. Hide the slot
+    // entirely; the move is still selected, the user just won't see a
+    // result block for it.
+    if (move.category == MoveCategory.status) {
+      return const SizedBox.shrink();
+    }
 
     final result = _calcDamage(index,
         atkSpeed: atkSpeed, defSpeed: defSpeed, defAttack: defAttack);

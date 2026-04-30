@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/battle_pokemon.dart';
 import '../../models/dynamax.dart';
+import '../../models/move.dart';
 import '../../models/type.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/damage_calculator.dart';
@@ -87,6 +88,13 @@ class DamageResultPanel extends StatelessWidget {
   // ────────────────────────────────────────────────────────────────────────
 
   Widget _moveCard(BuildContext context) {
+    // Status moves don't have meaningful damage output; collapse the
+    // card so we don't render a "0~0%" block that looks like a bug.
+    // (Simple Mode never picks status moves anyway, but Extended Mode
+    // may pass a status-move slot through here in the future.)
+    if (result.move.category == MoveCategory.status) {
+      return const SizedBox.shrink();
+    }
     final effectiveType = result.move.type == PokemonType.typeless
         ? null : result.move.type;
     final offLabel = result.isPhysical ? AppStrings.t('damage.physical') : AppStrings.t('damage.special');
