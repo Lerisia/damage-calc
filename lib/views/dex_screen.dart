@@ -1104,9 +1104,10 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
 
   /// Curated damage-move pool from the Champions Singles usage data.
   /// Falls back to the legacy `pokemon.keyMoves` list (unsuffixed names
-  /// only) for species that haven't been curated yet. Fixed-damage and
-  /// OHKO moves are filtered out — the table shows only moves whose
-  /// output scales with the user's stats.
+  /// only) for species that haven't been curated yet. Filters out moves
+  /// whose output doesn't reflect the user's own offensive stats —
+  /// status moves (power 0), fixed-damage / OHKO moves, and Foul Play
+  /// (which scales off the target's Attack).
   List<Move> _decisiveMoves() {
     final usage = championsUsageFor(widget.pokemon.name);
     final rawNames = <String>[];
@@ -1121,19 +1122,20 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
       final m = widget.moveDex[name];
       if (m == null) continue;
       if (m.power <= 0) continue;
-      if (_isFixedOrOhko(m)) continue;
+      if (_doesntScaleWithUserOffense(m)) continue;
       out.add(m);
     }
     return out;
   }
 
-  bool _isFixedOrOhko(Move m) =>
+  bool _doesntScaleWithUserOffense(Move m) =>
       m.hasTag(MoveTags.ohko) ||
       m.hasTag(MoveTags.fixedLevel) ||
       m.hasTag(MoveTags.fixedHalfHp) ||
       m.hasTag(MoveTags.fixedThreeQuarterHp) ||
       m.hasTag(MoveTags.fixed20) ||
-      m.hasTag(MoveTags.fixed40);
+      m.hasTag(MoveTags.fixed40) ||
+      m.hasTag(MoveTags.useOpponentAtk);
 
   void _seedHits() {
     for (final m in _decisiveMoves()) {
