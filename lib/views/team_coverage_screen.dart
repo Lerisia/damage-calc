@@ -984,17 +984,17 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: SingleChildScrollView(child: allyList),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
-                              flex: 2,
+                              flex: 3,
                               child: SingleChildScrollView(child: opponentList),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
-                              flex: 6,
+                              flex: 5,
                               child: SingleChildScrollView(child: matrix),
                             ),
                           ],
