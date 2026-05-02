@@ -940,33 +940,41 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
         child: isWide
-          ? Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  topToggleBar,
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Slot column narrower than matrix on wide
-                        // layouts — slots don't need much room past
-                        // their typeahead fields, while the matrix
-                        // benefits from every extra px.
-                        Expanded(
-                          flex: 4,
-                          child: SingleChildScrollView(child: slotList),
+          ? Center(
+              // Cap the wide layout at iPad-Pro-landscape width. On
+              // ultra-wide monitors the matrix used to stretch to fit
+              // the screen, leaving each cell awkwardly oversized.
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 1280),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      topToggleBar,
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Slot column narrower than matrix on wide
+                            // layouts — slots don't need much room past
+                            // their typeahead fields, while the matrix
+                            // benefits from every extra px.
+                            Expanded(
+                              flex: 4,
+                              child: SingleChildScrollView(child: slotList),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              flex: 6,
+                              child: SingleChildScrollView(child: matrix),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          flex: 6,
-                          child: SingleChildScrollView(child: matrix),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             )
           : SingleChildScrollView(
