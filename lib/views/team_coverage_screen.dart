@@ -685,66 +685,75 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // Slot list reacts to the offensive toggle so the move-picker
     // row appears/disappears in lockstep with the offensive matrix
     // below.
-    final slotList = ValueListenableBuilder<bool>(
+    Widget buildSlotCard(
+      _TeamSlot slot, {
+      required int displayIndex,
+      required Key key,
+      required VoidCallback onClearOrRemove,
+      required bool alwaysShowMoves,
+      required bool showOff,
+    }) =>
+        RepaintBoundary(
+          child: _SlotCard(
+            key: key,
+            index: displayIndex,
+            slot: slot,
+            abilityDex: _abilityDex ?? const {},
+            abilityNames: _abilityNames ?? const {},
+            itemDex: _itemDex ?? const {},
+            itemNames: _itemNames ?? const {},
+            onPokemonSelected: (p) => _setPokemon(slot, p),
+            onAbilitySelected: (a) => _setAbility(slot, a),
+            onItemSelected: (it) => _setItem(slot, it),
+            onLoadSample: () => _loadSampleInto(slot),
+            onClear: onClearOrRemove,
+            showMoves: alwaysShowMoves || showOff,
+            onMoveChanged: (mi, m) => _setMove(slot, mi, m),
+            onTypeOverrideChanged: (override) =>
+                _setTypeOverride(slot, override),
+          ),
+        );
+
+    // Ally / opponent column builders, broken out so the wide layout
+    // can place them in separate columns. (Narrow layout stitches them
+    // back together as `slotList` below.)
+    final allyList = ValueListenableBuilder<bool>(
+      valueListenable: CoverageDisplayController.instance.showOffensive,
+      builder: (_, showOff, __) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (int i = 0; i < _maxTeamSize; i++) ...[
+            buildSlotCard(
+              _team[i],
+              displayIndex: i,
+              key: ValueKey('team_slot_card_$i'),
+              onClearOrRemove: () => _clearMySlot(i),
+              alwaysShowMoves: false,
+              showOff: showOff,
+            ),
+            if (i < _maxTeamSize - 1) const SizedBox(height: 4),
+          ],
+        ],
+      ),
+    );
+
+    final opponentList = ValueListenableBuilder<bool>(
       valueListenable: CoverageDisplayController.instance.showOffensive,
       builder: (_, showOff, __) {
-        Widget slotCard(
-          _TeamSlot slot, {
-          required int displayIndex,
-          required Key key,
-          required VoidCallback onClearOrRemove,
-          // Opp slots always show their move pickers because the
-          // matrix uses opp moves on BOTH the defensive (opp's best
-          // attack vs my mons) and offensive (my best vs opp) sides.
-          required bool alwaysShowMoves,
-        }) =>
-            RepaintBoundary(
-              child: _SlotCard(
-                key: key,
-                index: displayIndex,
-                slot: slot,
-                abilityDex: _abilityDex ?? const {},
-                abilityNames: _abilityNames ?? const {},
-                itemDex: _itemDex ?? const {},
-                itemNames: _itemNames ?? const {},
-                onPokemonSelected: (p) => _setPokemon(slot, p),
-                onAbilitySelected: (a) => _setAbility(slot, a),
-                onItemSelected: (it) => _setItem(slot, it),
-                onLoadSample: () => _loadSampleInto(slot),
-                onClear: onClearOrRemove,
-                showMoves: alwaysShowMoves || showOff,
-                onMoveChanged: (mi, m) => _setMove(slot, mi, m),
-                onTypeOverrideChanged: (override) =>
-                    _setTypeOverride(slot, override),
-              ),
-            );
-
         final opps = _TeamCoverageStore.opponents;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ─── My party (fixed 6 slots)
-            for (int i = 0; i < _maxTeamSize; i++) ...[
-              slotCard(
-                _team[i],
-                displayIndex: i,
-                key: ValueKey('team_slot_card_$i'),
-                onClearOrRemove: () => _clearMySlot(i),
-                alwaysShowMoves: false,
-              ),
-              if (i < _maxTeamSize - 1) const SizedBox(height: 4),
-            ],
-            // ─── Opponent party (dynamic, opt-in via "+ 추가")
-            const SizedBox(height: 12),
             _opponentSectionHeader(),
             const SizedBox(height: 4),
             for (int i = 0; i < opps.length; i++) ...[
-              slotCard(
+              buildSlotCard(
                 opps[i],
                 displayIndex: i,
                 key: ValueKey('opp_slot_card_${opps[i].hashCode}'),
                 onClearOrRemove: () => _removeOpponent(i),
                 alwaysShowMoves: true,
+                showOff: showOff,
               ),
               if (i < opps.length - 1) const SizedBox(height: 4),
             ],
@@ -753,6 +762,17 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           ],
         );
       },
+    );
+
+    // Narrow layout reassembles ally + opponent into a single scroll
+    // column (the existing behaviour).
+    final slotList = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        allyList,
+        const SizedBox(height: 12),
+        opponentList,
+      ],
     );
 
     // Matrix block reacts to BOTH the display mode (numeric/symbol)
@@ -956,17 +976,22 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Slot column narrower than matrix on wide
-                            // layouts — slots don't need much room past
-                            // their typeahead fields, while the matrix
-                            // benefits from every extra px.
+                            // 3-column wide layout: ally party | opponent
+                            // party | matrix. Matrix gets the largest
+                            // share since it has the most cells; ally and
+                            // opponent columns mirror each other.
                             Expanded(
-                              flex: 4,
-                              child: SingleChildScrollView(child: slotList),
+                              flex: 3,
+                              child: SingleChildScrollView(child: allyList),
                             ),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: 12),
                             Expanded(
-                              flex: 6,
+                              flex: 3,
+                              child: SingleChildScrollView(child: opponentList),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              flex: 5,
                               child: SingleChildScrollView(child: matrix),
                             ),
                           ],
