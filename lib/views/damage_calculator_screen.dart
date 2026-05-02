@@ -2581,7 +2581,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.6.5'),
+          const Text('v1.6.6'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
