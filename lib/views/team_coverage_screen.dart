@@ -680,7 +680,14 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // Wide layout splits into two columns: slot list on the left,
     // matrix on the right. Threshold matches the calculator's wide
     // breakpoint feel.
-    final isWide = MediaQuery.of(context).size.width >= 900;
+    // Match the calculator's three-tier breakpoints so the two screens
+    // feel consistent on the same device.
+    //   narrow      : <1050 — 1 column scroll
+    //   wide        : 1050~1400 — 2 columns (slot list | matrix)
+    //   extra-wide  : ≥1400 — 3 columns (ally | opp | matrix)
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isExtraWide = screenWidth >= 1400;
+    final isWide = screenWidth >= 1050;
 
     // Slot list reacts to the offensive toggle so the move-picker
     // row appears/disappears in lockstep with the offensive matrix
@@ -959,13 +966,13 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
-        child: isWide
+        child: isExtraWide
+          // ─── Extra-wide (≥1400): 3 columns ally | opp | matrix.
+          // Capped at 1600 so on 4K monitors the matrix cells don't
+          // grow to comic-sans size.
           ? Center(
-              // Cap the wide layout at iPad-Pro-landscape width. On
-              // ultra-wide monitors the matrix used to stretch to fit
-              // the screen, leaving each cell awkwardly oversized.
               child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1280),
+                constraints: const BoxConstraints(maxWidth: 1600),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
                   child: Column(
@@ -976,22 +983,18 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // 3-column wide layout: ally party | opponent
-                            // party | matrix. Matrix gets the largest
-                            // share since it has the most cells; ally and
-                            // opponent columns mirror each other.
                             Expanded(
-                              flex: 3,
+                              flex: 2,
                               child: SingleChildScrollView(child: allyList),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
-                              flex: 3,
+                              flex: 2,
                               child: SingleChildScrollView(child: opponentList),
                             ),
                             const SizedBox(width: 12),
                             Expanded(
-                              flex: 5,
+                              flex: 6,
                               child: SingleChildScrollView(child: matrix),
                             ),
                           ],
@@ -1002,18 +1005,46 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 ),
               ),
             )
-          : SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 120),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  topToggleBar,
-                  slotList,
-                  const SizedBox(height: 20),
-                  matrix,
-                ],
-              ),
-            ),
+          : isWide
+              // ─── Wide (1050~1400): 2 columns slotList | matrix.
+              // No outer cap — the screen fits naturally in this range.
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      topToggleBar,
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 4,
+                              child: SingleChildScrollView(child: slotList),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              flex: 6,
+                              child: SingleChildScrollView(child: matrix),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 120),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      topToggleBar,
+                      slotList,
+                      const SizedBox(height: 20),
+                      matrix,
+                    ],
+                  ),
+                ),
       ),
       ),
     );
