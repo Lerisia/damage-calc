@@ -562,7 +562,7 @@
     ],
     "weight": 3.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Pumpkaboo (Small Size)"
   },
@@ -589,7 +589,7 @@
     ],
     "weight": 7.5,
     "height": 0.5,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Pumpkaboo (Large Size)"
   },
@@ -616,7 +616,7 @@
     ],
     "weight": 15.0,
     "height": 0.8,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Pumpkaboo (Super Size)"
   },

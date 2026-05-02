@@ -546,7 +546,7 @@
     ],
     "weight": 31.5,
     "height": 0.9,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Cranidos"
   },
@@ -595,7 +595,7 @@
     "weight": 57.0,
     "height": 0.5,
     "type2": "steel",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Shieldon"
   },
@@ -644,7 +644,7 @@
     ],
     "weight": 3.4,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Burmy"
   },
@@ -719,7 +719,7 @@
     "weight": 5.5,
     "height": 0.3,
     "type2": "flying",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Combee"
   },
@@ -793,7 +793,7 @@
     ],
     "weight": 29.5,
     "height": 0.7,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Buizel"
   },
@@ -840,7 +840,7 @@
     ],
     "weight": 3.3,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Cherubi"
   },
@@ -888,7 +888,7 @@
     ],
     "weight": 6.3,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Shellos"
   },
@@ -965,7 +965,7 @@
     "weight": 1.2,
     "height": 0.4,
     "type2": "flying",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Drifloon"
   },
@@ -1016,7 +1016,7 @@
     ],
     "weight": 5.5,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Buneary"
   },
@@ -1115,7 +1115,7 @@
     ],
     "weight": 3.9,
     "height": 0.5,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 6,
     "nameEn": "Glameow"
   },
@@ -1189,7 +1189,7 @@
     "weight": 19.2,
     "height": 0.4,
     "type2": "dark",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Stunky"
   },
@@ -1241,7 +1241,7 @@
     "weight": 60.5,
     "height": 0.5,
     "type2": "psychic",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": -1,
     "nameEn": "Bronzor"
   },
@@ -1419,7 +1419,7 @@
     "weight": 20.5,
     "height": 0.7,
     "type2": "ground",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Gible"
   },
@@ -1444,7 +1444,7 @@
     "weight": 56.0,
     "height": 1.4,
     "type2": "ground",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Gabite"
   },
@@ -1525,7 +1525,7 @@
     ],
     "weight": 20.2,
     "height": 0.7,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Riolu"
   },
@@ -1575,7 +1575,7 @@
     ],
     "weight": 49.5,
     "height": 0.8,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Hippopotas"
   },
@@ -1625,7 +1625,7 @@
     "weight": 12.0,
     "height": 0.8,
     "type2": "bug",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Skorupi"
   },
@@ -1677,7 +1677,7 @@
     "weight": 23.0,
     "height": 0.7,
     "type2": "fighting",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Croagunk"
   },
@@ -1751,7 +1751,7 @@
     ],
     "weight": 7.0,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Finneon"
   },
@@ -1827,7 +1827,7 @@
     "weight": 50.5,
     "height": 1.0,
     "type2": "ice",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Snover"
   },

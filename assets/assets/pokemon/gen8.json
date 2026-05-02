@@ -19,7 +19,7 @@
     ],
     "weight": 5.0,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Grookey"
   },
@@ -43,7 +43,7 @@
     ],
     "weight": 14.0,
     "height": 0.7,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Thwackey"
   },
@@ -92,7 +92,7 @@
     ],
     "weight": 4.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Scorbunny"
   },
@@ -116,7 +116,7 @@
     ],
     "weight": 9.0,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Raboot"
   },
@@ -165,7 +165,7 @@
     ],
     "weight": 4.0,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Sobble"
   },
@@ -189,7 +189,7 @@
     ],
     "weight": 11.5,
     "height": 0.7,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Drizzile"
   },
@@ -238,7 +238,7 @@
     ],
     "weight": 2.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Skwovet"
   },
@@ -287,7 +287,7 @@
     ],
     "weight": 1.8,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Rookidee"
   },
@@ -312,7 +312,7 @@
     ],
     "weight": 16.0,
     "height": 0.8,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Corvisquire"
   },
@@ -364,7 +364,7 @@
     ],
     "weight": 8.0,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Blipbug"
   },
@@ -390,7 +390,7 @@
     "weight": 19.5,
     "height": 0.4,
     "type2": "psychic",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Dottler"
   },
@@ -442,7 +442,7 @@
     ],
     "weight": 8.9,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Nickit"
   },
@@ -492,7 +492,7 @@
     ],
     "weight": 2.2,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Gossifleur"
   },
@@ -542,7 +542,7 @@
     ],
     "weight": 6.0,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Wooloo"
   },
@@ -592,7 +592,7 @@
     ],
     "weight": 8.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Chewtle"
   },
@@ -643,7 +643,7 @@
     ],
     "weight": 13.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Yamper"
   },
@@ -692,7 +692,7 @@
     ],
     "weight": 12.0,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Rolycoly"
   },
@@ -718,7 +718,7 @@
     "weight": 78.0,
     "height": 1.1,
     "type2": "fire",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Carkol"
   },
@@ -771,7 +771,7 @@
     "weight": 0.5,
     "height": 0.2,
     "type2": "dragon",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Applin"
   },
@@ -850,7 +850,7 @@
     ],
     "weight": 7.6,
     "height": 2.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Silicobra"
   },
@@ -924,7 +924,7 @@
     ],
     "weight": 1.0,
     "height": 0.5,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Arrokuda"
   },
@@ -974,7 +974,7 @@
     "weight": 11.0,
     "height": 0.4,
     "type2": "poison",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Toxel"
   },
@@ -1027,7 +1027,7 @@
     "weight": 1.0,
     "height": 0.7,
     "type2": "bug",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Sizzlipede"
   },
@@ -1078,7 +1078,7 @@
     ],
     "weight": 4.0,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Clobbopus"
   },
@@ -1126,7 +1126,7 @@
     ],
     "weight": 0.2,
     "height": 0.1,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": -1,
     "nameEn": "Sinistea"
   },
@@ -1175,7 +1175,7 @@
     ],
     "weight": 3.4,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 8,
     "nameEn": "Hatenna"
   },
@@ -1200,7 +1200,7 @@
     ],
     "weight": 4.8,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 8,
     "nameEn": "Hattrem"
   },
@@ -1253,7 +1253,7 @@
     "weight": 5.5,
     "height": 0.4,
     "type2": "fairy",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 0,
     "nameEn": "Impidimp"
   },
@@ -1279,7 +1279,7 @@
     "weight": 12.5,
     "height": 0.8,
     "type2": "fairy",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 0,
     "nameEn": "Morgrem"
   },
@@ -1479,7 +1479,7 @@
     ],
     "weight": 0.3,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 8,
     "nameEn": "Milcery"
   },
@@ -1577,7 +1577,7 @@
     "weight": 3.8,
     "height": 0.3,
     "type2": "bug",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Snom"
   },
@@ -1722,7 +1722,7 @@
     ],
     "weight": 100.0,
     "height": 1.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Cufant"
   },
@@ -1877,7 +1877,7 @@
     "weight": 40.0,
     "height": 1.8,
     "type2": "dragon",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "canGmax": true,
     "nameEn": "Duraludon"
@@ -1904,7 +1904,7 @@
     "weight": 2.0,
     "height": 0.5,
     "type2": "ghost",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Dreepy"
   },
@@ -1930,7 +1930,7 @@
     "weight": 11.0,
     "height": 1.4,
     "type2": "ghost",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Drakloak"
   },
@@ -2052,7 +2052,7 @@
     ],
     "weight": 12.0,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Kubfu"
   },

@@ -19,7 +19,7 @@
     ],
     "weight": 4.1,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Sprigatito"
   },
@@ -43,7 +43,7 @@
     ],
     "weight": 12.2,
     "height": 0.9,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Floragato"
   },
@@ -92,7 +92,7 @@
     ],
     "weight": 9.8,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Fuecoco"
   },
@@ -116,7 +116,7 @@
     ],
     "weight": 30.7,
     "height": 1.0,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Crocalor"
   },
@@ -165,7 +165,7 @@
     ],
     "weight": 6.1,
     "height": 0.5,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Quaxly"
   },
@@ -189,7 +189,7 @@
     ],
     "weight": 21.5,
     "height": 1.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Quaxwell"
   },
@@ -239,7 +239,7 @@
     ],
     "weight": 10.2,
     "height": 0.5,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Lechonk"
   },
@@ -288,7 +288,7 @@
     ],
     "weight": 4.0,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Tarountula"
   },
@@ -336,7 +336,7 @@
     ],
     "weight": 1.0,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Nymble"
   },
@@ -386,7 +386,7 @@
     ],
     "weight": 2.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Pawmi"
   },
@@ -412,7 +412,7 @@
     "weight": 6.5,
     "height": 0.4,
     "type2": "fighting",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Pawmo"
   },
@@ -463,7 +463,7 @@
     ],
     "weight": 1.8,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": -1,
     "nameEn": "Tandemaus"
   },
@@ -512,7 +512,7 @@
     ],
     "weight": 10.9,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Fidough"
   },
@@ -561,7 +561,7 @@
     "weight": 6.5,
     "height": 0.3,
     "type2": "normal",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Smoliv"
   },
@@ -586,7 +586,7 @@
     "weight": 11.9,
     "height": 0.6,
     "type2": "normal",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Dolliv"
   },
@@ -662,7 +662,7 @@
     ],
     "weight": 16.0,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Nacli"
   },
@@ -687,7 +687,7 @@
     ],
     "weight": 105.0,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Naclstack"
   },
@@ -736,7 +736,7 @@
     ],
     "weight": 10.5,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Charcadet"
   },
@@ -811,7 +811,7 @@
     ],
     "weight": 0.4,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Tadbulb"
   },
@@ -862,7 +862,7 @@
     "weight": 3.6,
     "height": 0.4,
     "type2": "flying",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Wattrel"
   },
@@ -913,7 +913,7 @@
     ],
     "weight": 16.0,
     "height": 0.5,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Maschiff"
   },
@@ -964,7 +964,7 @@
     "weight": 0.7,
     "height": 0.2,
     "type2": "normal",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Shroodle"
   },
@@ -1015,7 +1015,7 @@
     "weight": 0.6,
     "height": 0.6,
     "type2": "ghost",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Bramblin"
   },
@@ -1064,7 +1064,7 @@
     "weight": 33.0,
     "height": 0.9,
     "type2": "grass",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Toedscool"
   },
@@ -1138,7 +1138,7 @@
     ],
     "weight": 3.0,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Capsakid"
   },
@@ -1188,7 +1188,7 @@
     ],
     "weight": 1.0,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Rellor"
   },
@@ -1238,7 +1238,7 @@
     ],
     "weight": 1.5,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Flittle"
   },
@@ -1289,7 +1289,7 @@
     "weight": 8.9,
     "height": 0.4,
     "type2": "steel",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 8,
     "nameEn": "Tinkatink"
   },
@@ -1315,7 +1315,7 @@
     "weight": 59.1,
     "height": 0.7,
     "type2": "steel",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 8,
     "nameEn": "Tinkatuff"
   },
@@ -1366,7 +1366,7 @@
     ],
     "weight": 1.8,
     "height": 1.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Wiglett"
   },
@@ -1440,7 +1440,7 @@
     ],
     "weight": 60.2,
     "height": 1.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Finizen"
   },
@@ -1488,7 +1488,7 @@
     "weight": 35.0,
     "height": 1.0,
     "type2": "poison",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Varoom"
   },
@@ -1587,7 +1587,7 @@
     "weight": 8.0,
     "height": 0.7,
     "type2": "poison",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Glimmet"
   },
@@ -1636,7 +1636,7 @@
     ],
     "weight": 35.0,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Greavard"
   },
@@ -1711,7 +1711,7 @@
     ],
     "weight": 45.0,
     "height": 1.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Cetoddle"
   },
@@ -2262,7 +2262,7 @@
     "weight": 17.0,
     "height": 0.5,
     "type2": "ice",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Frigibax"
   },
@@ -2287,7 +2287,7 @@
     "weight": 30.0,
     "height": 0.8,
     "type2": "ice",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Arctibax"
   },
@@ -2335,7 +2335,7 @@
     ],
     "weight": 5.0,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": -1,
     "nameEn": "Gimmighoul"
   },
@@ -2631,7 +2631,7 @@
     "weight": 9.7,
     "height": 0.4,
     "type2": "dragon",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": -1,
     "nameEn": "Dipplin"
   },
@@ -2656,7 +2656,7 @@
     "weight": 1.1,
     "height": 0.1,
     "type2": "ghost",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": -1,
     "nameEn": "Poltchageist"
   },

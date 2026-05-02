@@ -267,7 +267,7 @@
     "weight": 12.5,
     "height": 0.7,
     "type2": "ghost",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Hisuian Zorua"
   },
@@ -349,7 +349,7 @@
     "weight": 68.5,
     "height": 0.7,
     "type2": "dragon",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Hisuian Sliggoo"
   },
