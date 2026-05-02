@@ -19,7 +19,7 @@
     ],
     "weight": 9.0,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Chespin"
   },
@@ -43,7 +43,7 @@
     ],
     "weight": 29.0,
     "height": 0.7,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Quilladin"
   },
@@ -92,7 +92,7 @@
     ],
     "weight": 9.4,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Fennekin"
   },
@@ -116,7 +116,7 @@
     ],
     "weight": 14.5,
     "height": 1.0,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Braixen"
   },
@@ -165,7 +165,7 @@
     ],
     "weight": 7.0,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Froakie"
   },
@@ -189,7 +189,7 @@
     ],
     "weight": 10.9,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Frogadier"
   },
@@ -239,7 +239,7 @@
     ],
     "weight": 5.0,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Bunnelby"
   },
@@ -290,7 +290,7 @@
     "weight": 1.7,
     "height": 0.3,
     "type2": "flying",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Fletchling"
   },
@@ -315,7 +315,7 @@
     "weight": 16.0,
     "height": 0.7,
     "type2": "flying",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Fletchinder"
   },
@@ -365,7 +365,7 @@
     ],
     "weight": 2.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Scatterbug"
   },
@@ -389,7 +389,7 @@
     ],
     "weight": 8.4,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Spewpa"
   },
@@ -443,7 +443,7 @@
     "weight": 13.5,
     "height": 0.6,
     "type2": "normal",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 7,
     "nameEn": "Litleo"
   },
@@ -519,7 +519,7 @@
     ],
     "weight": 0.9,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 8,
     "nameEn": "Floette"
   },
@@ -567,7 +567,7 @@
     ],
     "weight": 31.0,
     "height": 0.9,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Skiddo"
   },
@@ -616,7 +616,7 @@
     ],
     "weight": 8.0,
     "height": 0.6,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Pancham"
   },
@@ -690,7 +690,7 @@
     ],
     "weight": 3.5,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Espurr"
   },
@@ -739,7 +739,7 @@
     "weight": 2.0,
     "height": 0.8,
     "type2": "ghost",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Honedge"
   },
@@ -763,7 +763,7 @@
     "weight": 4.5,
     "height": 0.8,
     "type2": "ghost",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Doublade"
   },
@@ -811,7 +811,7 @@
     ],
     "weight": 0.5,
     "height": 0.2,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Spritzee"
   },
@@ -859,7 +859,7 @@
     ],
     "weight": 3.5,
     "height": 0.4,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Swirlix"
   },
@@ -909,7 +909,7 @@
     "weight": 3.5,
     "height": 0.4,
     "type2": "psychic",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Inkay"
   },
@@ -961,7 +961,7 @@
     "weight": 31.0,
     "height": 0.5,
     "type2": "water",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Binacle"
   },
@@ -1013,7 +1013,7 @@
     "weight": 7.3,
     "height": 0.5,
     "type2": "water",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Skrelp"
   },
@@ -1062,7 +1062,7 @@
     ],
     "weight": 8.3,
     "height": 0.5,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Clauncher"
   },
@@ -1111,7 +1111,7 @@
     "weight": 6.0,
     "height": 0.5,
     "type2": "normal",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Helioptile"
   },
@@ -1162,7 +1162,7 @@
     "weight": 26.0,
     "height": 0.8,
     "type2": "dragon",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Tyrunt"
   },
@@ -1212,7 +1212,7 @@
     "weight": 25.2,
     "height": 1.3,
     "type2": "ice",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 1,
     "nameEn": "Amaura"
   },
@@ -1363,7 +1363,7 @@
     ],
     "weight": 2.8,
     "height": 0.3,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Goomy"
   },
@@ -1388,7 +1388,7 @@
     ],
     "weight": 17.5,
     "height": 0.8,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Sliggoo"
   },
@@ -1464,7 +1464,7 @@
     "weight": 7.0,
     "height": 0.4,
     "type2": "grass",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Phantump"
   },
@@ -1516,7 +1516,7 @@
     "weight": 5.0,
     "height": 0.4,
     "type2": "grass",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Pumpkaboo"
   },
@@ -1567,7 +1567,7 @@
     ],
     "weight": 99.5,
     "height": 1.0,
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Bergmite"
   },
@@ -1618,7 +1618,7 @@
     "weight": 8.0,
     "height": 0.5,
     "type2": "dragon",
-    "finalEvo": true,
+    "finalEvo": false,
     "genderRate": 4,
     "nameEn": "Noibat"
   },
