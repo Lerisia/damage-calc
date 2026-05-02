@@ -374,6 +374,18 @@ class DamageResultPanel extends StatelessWidget {
         return abilityNameMap[parts[1]] ?? parts[1];
       case 'unaware':
         return abilityNameMap['Unaware'] ?? 'Unaware';
+      case 'weather':
+        const weatherKeys = {
+          'strong_winds': 'note.strongWinds',
+          'harsh_sun_water': 'note.harshSunWater',
+          'heavy_rain_fire': 'note.heavyRainFire',
+        };
+        final wKey = weatherKeys[parts[1]];
+        return wKey != null ? AppStrings.t(wKey) : note;
+      case 'ground':
+        return AppStrings.t('note.groundImmune');
+      case 'type':
+        return AppStrings.t('note.typeImmune');
       default:
         return note;
     }
