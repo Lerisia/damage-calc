@@ -202,6 +202,10 @@ class DamageResultPanel extends StatelessWidget {
               ],
             ),
           ),
+          // 16-roll distribution (collapsed when every multi-hit row
+          // matches; per-hit rows when escalating power or Parental
+          // Bond differentiates them).
+          ..._buildDamageRolls(result),
           if (result.modifierNotes.isNotEmpty) ...[
             const SizedBox(height: 6),
             Wrap(
@@ -216,6 +220,33 @@ class DamageResultPanel extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List<Widget> _buildDamageRolls(DamageResult result) {
+    final perHit = result.perHitAllRolls;
+    final List<List<int>> rows;
+    if (perHit == null || perHit.isEmpty) {
+      if (result.allRolls.isEmpty) return const [];
+      rows = [result.allRolls];
+    } else {
+      final unique = perHit.map((r) => r.join(',')).toSet();
+      rows = unique.length == 1 ? [perHit[0]] : perHit;
+    }
+    final showHitLabels = rows.length > 1;
+    return [
+      const SizedBox(height: 6),
+      for (int i = 0; i < rows.length; i++)
+        Padding(
+          padding: const EdgeInsets.only(top: 1),
+          child: Text(
+            showHitLabels
+                ? '${i + 1}: ${rows[i].join(', ')}'
+                : rows[i].join(', '),
+            style: TextStyle(fontSize: 11, color: Colors.grey[600],
+                fontFeatures: const [FontFeature.tabularFigures()]),
+          ),
+        ),
+    ];
   }
 
   // ────────────────────────────────────────────────────────────────────────

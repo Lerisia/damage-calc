@@ -2028,6 +2028,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               ],
             ),
           ),
+          // 16-roll distribution. Single-hit moves get one row; multi-hit
+          // moves with identical per-hit rolls collapse to one row, but
+          // escalating-power (Triple Axel) or Parental-Bond style moves
+          // where hits actually differ get one row per hit.
+          ..._buildDamageRolls(result),
           // Modifier notes
           if (result.modifierNotes.isNotEmpty) ...[
             const SizedBox(height: 6),
@@ -2043,6 +2048,34 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ],
       ),
     );
+  }
+
+  List<Widget> _buildDamageRolls(DamageResult result) {
+    final perHit = result.perHitAllRolls;
+    final List<List<int>> rows;
+    if (perHit == null || perHit.isEmpty) {
+      if (result.allRolls.isEmpty) return const [];
+      rows = [result.allRolls];
+    } else {
+      // Collapse if every hit has the same rolls (Bullet Seed-style).
+      final unique = perHit.map((r) => r.join(',')).toSet();
+      rows = unique.length == 1 ? [perHit[0]] : perHit;
+    }
+    final showHitLabels = rows.length > 1;
+    return [
+      const SizedBox(height: 6),
+      for (int i = 0; i < rows.length; i++)
+        Padding(
+          padding: const EdgeInsets.only(top: 1),
+          child: Text(
+            showHitLabels
+                ? '${i + 1}: ${rows[i].join(', ')}'
+                : rows[i].join(', '),
+            style: TextStyle(fontSize: 11, color: Colors.grey[600],
+                fontFeatures: const [FontFeature.tabularFigures()]),
+          ),
+        ),
+    ];
   }
 
   Widget _dmgTypeText(BattlePokemonState state) {
