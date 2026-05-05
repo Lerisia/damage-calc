@@ -229,11 +229,16 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           ),
           const SizedBox(height: 12),
           _statsRow(m),
-          if (m.tags.isNotEmpty) ...[
+          // Hide internal `custom:*` tags from the dex — they're game-
+          // logic flags (has_secondary, use_opponent_atk, …) that read
+          // as noise to a casual reader. Only the standard contact /
+          // punch / sound / etc. set is shown.
+          if (m.tags.any((t) => !t.startsWith('custom:'))) ...[
             const SizedBox(height: 12),
             Wrap(
               spacing: 4, runSpacing: 4,
               children: m.tags
+                  .where((t) => !t.startsWith('custom:'))
                   .map((t) => Chip(
                         label: Text(_tagDisplay(t),
                             style: const TextStyle(fontSize: 11)),
