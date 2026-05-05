@@ -35,6 +35,10 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   // good enough for "who learns this move" since Showdown's learnsets
   // are keyed by base-form anyway.
   Map<String, Pokemon> _showdownIdToPokemon = const {};
+  // Per-move learners cache, populated on first lookup. Detail pane
+  // rebuilds on every setState (e.g. theme change) so without this we
+  // were re-walking + sorting ~60 entries per frame.
+  final Map<String, List<Pokemon>> _learnersCache = {};
 
   Move? _selected;
   final _searchCtl = TextEditingController();
@@ -105,8 +109,13 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
 
   List<Pokemon> _learnersOf(Move m) {
     final id = toShowdownMoveId(m.name);
+    final cached = _learnersCache[id];
+    if (cached != null) return cached;
     final ids = _inverseLearnsets[id];
-    if (ids == null || ids.isEmpty) return const [];
+    if (ids == null || ids.isEmpty) {
+      _learnersCache[id] = const [];
+      return const [];
+    }
     final out = <Pokemon>[];
     final seen = <String>{};
     for (final pid in ids) {
@@ -114,6 +123,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       if (p != null && seen.add(p.name)) out.add(p);
     }
     out.sort((a, b) => a.dexNumber.compareTo(b.dexNumber));
+    _learnersCache[id] = out;
     return out;
   }
 
