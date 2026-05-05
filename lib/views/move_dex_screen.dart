@@ -114,6 +114,21 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
         );
       }
     });
+
+    // Cross-link from Pokémon Dex on a narrow (mobile) layout: the
+    // search pane is the only surface this screen renders, so just
+    // setting `_selected` doesn't show the user the move they came
+    // for. Push the detail screen automatically. Wide layouts already
+    // render the detail pane inline, so they don't need this.
+    if (widget.initialMoveName != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final isWide = MediaQuery.of(context).size.width >= 1050;
+        if (!isWide && _selected != null) {
+          _pickMove(_selected!, true);
+        }
+      });
+    }
   }
 
   /// Returns the list to render in the search pane. When the user
