@@ -15,6 +15,7 @@ import '../utils/app_strings.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
+import '../utils/page_routes.dart';
 import '../utils/team_coverage.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/status_moves_toggle.dart';
@@ -915,66 +916,62 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {},
       child: Scaffold(
-      appBar: AppBar(
-        // Cap the AppBar contents to match the body width (1600) so
-        // back arrow + party action buttons line up with the panes
-        // below on wide / 4K windows.
-        automaticallyImplyLeading: false,
-        titleSpacing: 0,
-        actions: const [SizedBox.shrink()],
-        title: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1600),
-            child: Row(
-              children: [
-                IconButton(
-                  // Override the auto-implied BackButton (which calls
-                  // Navigator.maybePop and would be blocked by
-                  // canPop:false). Navigator.pop bypasses PopScope.
-                  tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                  icon: const BackButtonIcon(),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                Expanded(
-                  // Party-level actions (load saved party, save current
-                  // party, reset). Wrapped in a horizontal scroll so
-                  // narrow screens degrade to a swipe instead of a
-                  // clipped label.
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextButton.icon(
-                          onPressed: _team.any((s) => s.pokemon != null)
-                              ? _saveAsParty
-                              : null,
-                          icon: const Icon(Icons.save_outlined, size: 18),
-                          label: Text(AppStrings.t('team.save')),
-                          style: _appBarBtnStyle,
-                        ),
-                        TextButton.icon(
-                          onPressed: _loadParty,
-                          icon: const Icon(Icons.folder_open_outlined,
-                              size: 18),
-                          label: Text(AppStrings.t('team.load')),
-                          style: _appBarBtnStyle,
-                        ),
-                        TextButton.icon(
-                          onPressed: _team.any((s) => s.pokemon != null)
-                              ? _resetAll
-                              : null,
-                          icon: const Icon(Icons.delete_sweep_outlined,
-                              size: 18),
-                          label: Text(AppStrings.t('team.resetAll')),
-                          style: _appBarBtnStyle,
-                        ),
-                      ],
-                    ),
+      // Cap AppBar visual width to match the body so the toolbar
+      // chrome sits centered above the panes on 4K screens.
+      appBar: cappedAppBar(
+        maxWidth: 1600,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          title: Row(
+            children: [
+              IconButton(
+                // Override the auto-implied BackButton (which calls
+                // Navigator.maybePop and would be blocked by
+                // canPop:false). Navigator.pop bypasses PopScope.
+                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+                icon: const BackButtonIcon(),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              Expanded(
+                // Party-level actions (load saved party, save current
+                // party, reset). Wrapped in a horizontal scroll so
+                // narrow screens degrade to a swipe instead of a
+                // clipped label.
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextButton.icon(
+                        onPressed: _team.any((s) => s.pokemon != null)
+                            ? _saveAsParty
+                            : null,
+                        icon: const Icon(Icons.save_outlined, size: 18),
+                        label: Text(AppStrings.t('team.save')),
+                        style: _appBarBtnStyle,
+                      ),
+                      TextButton.icon(
+                        onPressed: _loadParty,
+                        icon: const Icon(Icons.folder_open_outlined,
+                            size: 18),
+                        label: Text(AppStrings.t('team.load')),
+                        style: _appBarBtnStyle,
+                      ),
+                      TextButton.icon(
+                        onPressed: _team.any((s) => s.pokemon != null)
+                            ? _resetAll
+                            : null,
+                        icon: const Icon(Icons.delete_sweep_outlined,
+                            size: 18),
+                        label: Text(AppStrings.t('team.resetAll')),
+                        style: _appBarBtnStyle,
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

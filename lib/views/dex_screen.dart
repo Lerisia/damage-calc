@@ -139,62 +139,54 @@ class _DexScreenState extends State<DexScreen> {
       child: DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          // Cap the AppBar contents to match the body width (1200) so
-          // the search field, back arrow, and Champions toggle line up
-          // with the panes below instead of stretching across 4K. The
-          // AppBar's bottom border still spans the full width — that's
-          // intentional, it visually separates the chrome from the
-          // page like a real toolbar.
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          // Empty actions slot so AppBar doesn't reserve the default
-          // 16px right padding outside our cap.
-          actions: const [SizedBox.shrink()],
-          title: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1200),
-              child: Row(
-                children: [
-                  IconButton(
-                    tooltip:
-                        MaterialLocalizations.of(context).backButtonTooltip,
-                    icon: const BackButtonIcon(),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                  Expanded(
-                    child: PokemonSelector(
-                      // PokemonSelector holds its own _selected state, so
-                      // don't key it by _selected.name — that would remount
-                      // the widget (and flash the typeahead overlay) every
-                      // time auto-selection or a user pick updates state.
-                      initialPokemonName:
-                          widget.initialPokemonName ?? 'Bulbasaur',
-                      onSelected: _onSelect,
-                      filterChampionsOnly: true,
-                    ),
-                  ),
-                  ValueListenableBuilder<bool>(
-                    valueListenable: ChampionsFilterController
-                        .instance.championsOnly,
-                    builder: (context, on, _) => _ChampionsOnlyToggle(
-                      value: on,
-                      onChanged: (v) => ChampionsFilterController.instance
-                          .set(v ?? false),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          bottom: wide
-              ? null
-              : TabBar(
-                  tabs: [
-                    Tab(text: AppStrings.t('dex.tabMain')),
-                    Tab(text: AppStrings.t('dex.tabMoves')),
-                  ],
+        // Cap AppBar visual width to match the body. The whole
+        // toolbar — chrome, shadow, bottom border, the lot — sits
+        // in the same 1200 column the panes live in below.
+        appBar: cappedAppBar(
+          maxWidth: 1200,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            titleSpacing: 0,
+            title: Row(
+              children: [
+                IconButton(
+                  tooltip:
+                      MaterialLocalizations.of(context).backButtonTooltip,
+                  icon: const BackButtonIcon(),
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
+                Expanded(
+                  child: PokemonSelector(
+                    // PokemonSelector holds its own _selected state, so
+                    // don't key it by _selected.name — that would remount
+                    // the widget (and flash the typeahead overlay) every
+                    // time auto-selection or a user pick updates state.
+                    initialPokemonName:
+                        widget.initialPokemonName ?? 'Bulbasaur',
+                    onSelected: _onSelect,
+                    filterChampionsOnly: true,
+                  ),
+                ),
+                ValueListenableBuilder<bool>(
+                  valueListenable: ChampionsFilterController
+                      .instance.championsOnly,
+                  builder: (context, on, _) => _ChampionsOnlyToggle(
+                    value: on,
+                    onChanged: (v) => ChampionsFilterController.instance
+                        .set(v ?? false),
+                  ),
+                ),
+              ],
+            ),
+            bottom: wide
+                ? null
+                : TabBar(
+                    tabs: [
+                      Tab(text: AppStrings.t('dex.tabMain')),
+                      Tab(text: AppStrings.t('dex.tabMoves')),
+                    ],
+                  ),
+          ),
         ),
         body: GestureDetector(
           // Tap outside the typeahead → blur it. Without this the

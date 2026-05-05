@@ -219,21 +219,17 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     // it stops at iPad-Pro-landscape * a bit.
     final isWide = MediaQuery.of(context).size.width >= 1050;
     return Scaffold(
-      // Cap the AppBar title to match the body width so the title text
-      // visually anchors above the body cap on wide windows. AppBar
-      // background still spans full width as standard chrome.
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1200),
-            child: Padding(
-              // Match the leading icon's natural inset so the title
-              // sits where you'd expect, not flush against the back
-              // arrow.
-              padding: const EdgeInsets.only(left: 8),
-              child: Text(AppStrings.t('dex.move.title')),
-            ),
+      // Cap the AppBar's visual chrome (background + shadow + bottom
+      // border) at the body width so on wide screens the toolbar
+      // sits centered above the panes instead of stretching across
+      // the whole window.
+      appBar: cappedAppBar(
+        maxWidth: 1200,
+        appBar: AppBar(
+          titleSpacing: 0,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Text(AppStrings.t('dex.move.title')),
           ),
         ),
       ),

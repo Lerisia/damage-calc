@@ -13,3 +13,29 @@ PageRouteBuilder<T> fadeRoute<T>(WidgetBuilder builder) {
         FadeTransition(opacity: anim, child: child),
   );
 }
+
+/// Wraps an [AppBar] so its visual chrome — background fill, shadow,
+/// bottom border, the lot — caps at [maxWidth] on wide screens and
+/// centers. Body content of the dex / coverage screens is capped at
+/// the same width, so this aligns the toolbar with the columns below
+/// instead of stretching across a 4K window.
+///
+/// Pass-through: the wrapped AppBar's `preferredSize` is preserved
+/// (so `bottom: TabBar` height accounting still works).
+PreferredSizeWidget cappedAppBar({
+  required AppBar appBar,
+  required double maxWidth,
+}) {
+  return PreferredSize(
+    preferredSize: appBar.preferredSize,
+    child: LayoutBuilder(
+      builder: (context, c) {
+        final w = c.maxWidth.clamp(0.0, maxWidth);
+        return Align(
+          alignment: Alignment.topCenter,
+          child: SizedBox(width: w, child: appBar),
+        );
+      },
+    ),
+  );
+}
