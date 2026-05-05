@@ -180,13 +180,22 @@ class _DexScreenState extends State<DexScreen> {
           children: [
             Expanded(
               child: wide
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(child: mainTab),
-                        const VerticalDivider(width: 1),
-                        Expanded(child: movesTab),
-                      ],
+                  // Two-pane split — capped so 4K monitors don't stretch
+                  // the dex into illegibility. Width tighter than the
+                  // coverage screen because two panes don't need 1600.
+                  ? Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                            maxWidth: 1200, maxHeight: 900),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(child: mainTab),
+                            const VerticalDivider(width: 1),
+                            Expanded(child: movesTab),
+                          ],
+                        ),
+                      ),
                     )
                   : TabBarView(
                 physics: const NeverScrollableScrollPhysics(),

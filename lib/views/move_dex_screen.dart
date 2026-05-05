@@ -141,7 +141,8 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           : isWide
               ? Center(
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 1600),
+                    constraints: const BoxConstraints(
+                        maxWidth: 1200, maxHeight: 900),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
