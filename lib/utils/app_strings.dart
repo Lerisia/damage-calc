@@ -446,9 +446,9 @@ class AppStrings {
       AppLanguage.ja: '図鑑',
     },
     'dex.championsOnly': {
-      AppLanguage.ko: '등장 종만',
+      AppLanguage.ko: '챔피언스만',
       AppLanguage.en: 'Champions only',
-      AppLanguage.ja: '登場種のみ',
+      AppLanguage.ja: 'チャンピオンズのみ',
     },
     'tag.contact': {
       AppLanguage.ko: '접촉',
