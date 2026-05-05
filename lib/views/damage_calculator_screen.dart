@@ -1370,12 +1370,48 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 icon: const Icon(Icons.camera_alt_outlined),
                 label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               ),
-              TextButton.icon(
-                onPressed: () => _openDex(),
-                icon: const Icon(Icons.menu_book_outlined),
-                label: Text(AppStrings.t('dex.title'),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600)),
+              // Dex button → popup with both Pokémon Dex and Move Dex.
+              // Single AppBar slot so the toolbar doesn't keep growing.
+              PopupMenuButton<String>(
+                tooltip: AppStrings.t('dex.menu'),
+                popUpAnimationStyle: AnimationStyle(
+                    duration: const Duration(milliseconds: 100)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.menu_book_outlined, size: 18),
+                      const SizedBox(width: 6),
+                      Text(AppStrings.t('dex.menu'),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600)),
+                      const Icon(Icons.arrow_drop_down, size: 18),
+                    ],
+                  ),
+                ),
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: 'pokemon',
+                    child: Row(children: [
+                      const Icon(Icons.menu_book_outlined, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t('dex.title')),
+                    ]),
+                  ),
+                  PopupMenuItem(
+                    value: 'move',
+                    child: Row(children: [
+                      const Icon(Icons.format_list_bulleted, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t('dex.move.title')),
+                    ]),
+                  ),
+                ],
+                onSelected: (v) {
+                  if (v == 'pokemon') _openDex();
+                  if (v == 'move') _openMoveDex();
+                },
               ),
               TextButton.icon(
                 onPressed: _openTeamCoverage,

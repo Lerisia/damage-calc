@@ -440,6 +440,11 @@ class AppStrings {
       AppLanguage.en: 'Move Dex',
       AppLanguage.ja: 'わざ図鑑',
     },
+    'dex.menu': {
+      AppLanguage.ko: '도감',
+      AppLanguage.en: 'Dex',
+      AppLanguage.ja: '図鑑',
+    },
     'dex.move.search': {
       AppLanguage.ko: '기술 검색',
       AppLanguage.en: 'Search moves',
