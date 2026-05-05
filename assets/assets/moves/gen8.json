@@ -9,7 +9,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:double_on_poison"
+      "custom:double_on_poison",
+      "custom:has_secondary"
     ],
     "nameEn": "Barb Barrage",
     "zPower": 120,
@@ -24,7 +25,9 @@
     "power": 75,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Bitter Malice",
     "zPower": 140,
     "descEn": "The user attacks the target with spine-chilling resentment. This also lowers the target’s Attack stat."
@@ -40,7 +43,8 @@
     "pp": 10,
     "tags": [
       "wind",
-      "custom:spread"
+      "custom:spread",
+      "custom:has_secondary"
     ],
     "nameEn": "Bleakwind Storm",
     "zPower": 180,
@@ -57,7 +61,8 @@
     "pp": 15,
     "tags": [
       "contact",
-      "slice"
+      "slice",
+      "custom:has_secondary"
     ],
     "nameEn": "Ceaseless Edge",
     "zPower": 120,
@@ -89,7 +94,8 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Dire Claw",
     "zPower": 160,
@@ -104,7 +110,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Esper Wing",
     "zPower": 160,
     "descEn": "The user slashes the target with aura-enriched wings. This also boosts the user's Speed stat. This move has a heightened chance of landing a critical hit."
@@ -154,7 +162,9 @@
     "power": 65,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Infernal Parade",
     "zPower": 120,
     "descEn": "The user attacks with myriad fireballs. This may also leave the target with a burn. This move's power is doubled if the target has a status condition."
@@ -181,7 +191,9 @@
     "power": 120,
     "accuracy": 85,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Mountain Gale",
     "zPower": 180,
     "descEn": "The user hurls giant chunks of ice at the target to inflict damage. This may also make the target flinch."
@@ -195,7 +207,9 @@
     "power": 70,
     "accuracy": 90,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Mystical Power",
     "zPower": 140,
     "descEn": "The user attacks by emitting a mysterious power. This also boosts the user’s Sp. Atk stat."
@@ -223,7 +237,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Psyshield Bash",
     "zPower": 140,
@@ -254,7 +269,8 @@
     "pp": 10,
     "tags": [
       "wind",
-      "custom:spread"
+      "custom:spread",
+      "custom:has_secondary"
     ],
     "nameEn": "Sandsear Storm",
     "zPower": 180,
@@ -284,7 +300,8 @@
     "pp": 5,
     "tags": [
       "wind",
-      "custom:spread"
+      "custom:spread",
+      "custom:has_secondary"
     ],
     "nameEn": "Springtide Storm",
     "zPower": 180,
@@ -301,7 +318,8 @@
     "pp": 15,
     "tags": [
       "contact",
-      "slice"
+      "slice",
+      "custom:has_secondary"
     ],
     "nameEn": "Stone Axe",
     "zPower": 120,
@@ -329,7 +347,9 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Triple Arrows",
     "zPower": 175,
     "descEn": "The user kicks, then fires three arrows. This move has a heightened chance of landing a critical hit and may also lower the target’s Defense stat or make it flinch."
@@ -375,7 +395,8 @@
     "pp": 10,
     "tags": [
       "wind",
-      "custom:spread"
+      "custom:spread",
+      "custom:has_secondary"
     ],
     "nameEn": "Wildbolt Storm",
     "zPower": 180,
@@ -963,9 +984,7 @@
     "power": 120,
     "accuracy": 90,
     "pp": 10,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Meteor Beam",
     "zPower": 190,
     "descKo": "1턴째에 우주의 힘을 모아서 특수공격을 올리고 2턴째에 상대를 공격한다.",
@@ -1219,7 +1238,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "sound"
+      "sound",
+      "custom:has_secondary"
     ],
     "nameEn": "Eerie Spell",
     "zPower": 160,
@@ -1347,9 +1367,7 @@
     "power": 80,
     "accuracy": 90,
     "pp": 15,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Thunder Cage",
     "zPower": 160,
     "descKo": "전기가 흐르는 우리 안에 4-5턴 동안 상대를 가두어 공격한다.",
@@ -1641,8 +1659,7 @@
     "accuracy": 100,
     "pp": 15,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Snap Trap",
     "zPower": 100,

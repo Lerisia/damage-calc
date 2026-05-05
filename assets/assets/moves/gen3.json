@@ -571,9 +571,7 @@
     "power": 35,
     "accuracy": 85,
     "pp": 15,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Sand Tomb",
     "zPower": 100,
     "descKo": "세차게 불어대는 모래바람 속에 4-5턴 동안 상대를 가두어 공격한다.",
@@ -901,9 +899,7 @@
     "power": 140,
     "accuracy": 90,
     "pp": 5,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Psycho Boost",
     "zPower": 200,
     "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
@@ -1143,8 +1139,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Superpower",
     "zPower": 190,
@@ -1219,9 +1214,7 @@
     "power": 130,
     "accuracy": 90,
     "pp": 5,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Overheat",
     "zPower": 195,
     "descKo": "풀 파워로 상대를 공격한다. 쓰면 반동으로 자신의 특수공격이 크게 떨어진다.",

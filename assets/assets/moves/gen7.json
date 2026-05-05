@@ -58,7 +58,9 @@
     "power": 90,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Spirit Shackle",
     "zPower": 160,
     "descKo": "공격과 동시에 상대의 그림자를 꿰매 도망칠 수 없게 한다.",
@@ -566,7 +568,8 @@
     "tags": [
       "sound",
       "custom:spread",
-      "custom:spread_hits_ally"
+      "custom:spread_hits_ally",
+      "custom:has_secondary"
     ],
     "nameEn": "Sparkling Aria",
     "zPower": 175,
@@ -1001,7 +1004,6 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "custom:has_secondary",
       "sound",
       "custom:spread"
     ],
@@ -1079,9 +1081,7 @@
     "power": 100,
     "accuracy": 90,
     "pp": 10,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Sappy Seed",
     "zPower": 180,
     "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
@@ -1115,8 +1115,7 @@
     "pp": 10,
     "tags": [
       "contact",
-      "punch",
-      "custom:has_secondary"
+      "punch"
     ],
     "nameEn": "Ice Hammer",
     "zPower": 180,
@@ -1214,7 +1213,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Anchor Shot",
     "aliases": [
@@ -1306,7 +1306,9 @@
     "accuracy": 0,
     "pp": 1,
     "moveClass": "zMove",
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Genesis Supernova",
     "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
@@ -1859,9 +1861,7 @@
     "power": 130,
     "accuracy": 90,
     "pp": 5,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Fleur Cannon",
     "zPower": 195,
     "descKo": "강력한 빔을 발산한 후 자신의 특수공격이 크게 떨어진다.",

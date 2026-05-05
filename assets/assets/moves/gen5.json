@@ -9,8 +9,7 @@
     "accuracy": 95,
     "pp": 5,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "V-create",
     "zPower": 220,
@@ -340,9 +339,7 @@
     "power": 50,
     "accuracy": 100,
     "pp": 15,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Smack Down",
     "zPower": 100,
     "descKo": "돌이나 구슬을 던져서 날고 있는 상대를 공격한다. 맞은 상대는 땅에 떨어진다.",
@@ -1028,8 +1025,7 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "custom:always_crit",
-      "custom:has_secondary"
+      "custom:always_crit"
     ],
     "nameEn": "Frost Breath",
     "zPower": 120,
