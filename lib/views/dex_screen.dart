@@ -19,11 +19,13 @@ import '../models/weather.dart';
 import '../utils/app_strings.dart';
 import '../utils/battle_facade.dart';
 import '../utils/champions_filter_controller.dart';
+import '../utils/page_routes.dart';
 import '../utils/localization.dart';
 import '../utils/stacking_moves.dart';
 import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/type_effectiveness.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
+import 'move_dex_screen.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_selector.dart';
 
@@ -1970,7 +1972,15 @@ class _MovesTabState extends State<_MovesTab> {
       MoveCategory.special => AppStrings.t('damage.special'),
       MoveCategory.status => AppStrings.t('damage.status'),
     };
-    return Padding(
+    return InkWell(
+      // Cross-link to Move Dex. pushReplacement keeps the navigator
+      // stack at depth 1 (calc → dex) — toggling Pokémon Dex ↔ Move
+      // Dex never grows the stack, and back always returns to the
+      // calculator regardless of how many cross-links the user clicks.
+      onTap: () => Navigator.of(context).pushReplacement(
+        fadeRoute((_) => MoveDexScreen(initialMoveName: m.name)),
+      ),
+      child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -2035,6 +2045,7 @@ class _MovesTabState extends State<_MovesTab> {
                   overflow: TextOverflow.ellipsis),
             ),
         ],
+      ),
       ),
     );
   }

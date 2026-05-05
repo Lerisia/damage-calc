@@ -11,6 +11,8 @@ import '../utils/app_strings.dart';
 import '../utils/champions_filter_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
+import '../utils/page_routes.dart';
+import 'dex_screen.dart';
 
 /// Move dictionary screen. Mirrors the Pokémon dex screen's split layout
 /// — search list on the left, selected-move detail on the right (wide)
@@ -339,7 +341,17 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                       spacing: 6,
                       runSpacing: 6,
                       children: filtered
-                          .map((p) => Chip(
+                          // ActionChip (not Chip) so each pill is
+                          // tappable. pushReplacement keeps the nav
+                          // stack flat: cross-linking Pokémon Dex ↔
+                          // Move Dex never deepens beyond the calc →
+                          // dex pair.
+                          .map((p) => ActionChip(
+                                onPressed: () => Navigator.of(context)
+                                    .pushReplacement(
+                                  fadeRoute((_) => DexScreen(
+                                      initialPokemonName: p.name)),
+                                ),
                                 label: Text(
                                   '#${p.dexNumber}  ${p.localizedName}',
                                   style: const TextStyle(fontSize: 12),

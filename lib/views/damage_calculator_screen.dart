@@ -35,27 +35,13 @@ import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
+import '../utils/page_routes.dart';
 import '../utils/url_navigator_stub.dart'
     if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/speed_compare_tab.dart';
-
-/// Page route that fades in over 120 ms instead of the platform slide.
-/// We use it for the dex and party-coverage screens so they read as
-/// proper standalone screens rather than transient popups, and to
-/// sidestep an iOS layer-raster timing bug that surfaced during the
-/// slide-in (mid-card blank rectangles in the party coverage matrix).
-PageRouteBuilder<T> _fadeRoute<T>(WidgetBuilder builder) {
-  return PageRouteBuilder<T>(
-    transitionDuration: const Duration(milliseconds: 120),
-    reverseTransitionDuration: const Duration(milliseconds: 120),
-    pageBuilder: (ctx, _, __) => builder(ctx),
-    transitionsBuilder: (_, anim, __, child) =>
-        FadeTransition(opacity: anim, child: child),
-  );
-}
 
 class DamageCalculatorScreen extends StatefulWidget {
   final Map<String, String> abilityNameMap;
@@ -682,7 +668,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// lands on the side they just populated.
   Future<void> _openDex({String? initialName}) async {
     final result = await Navigator.of(context).push<DexPickResult>(
-      _fadeRoute(
+      fadeRoute(
         (_) => DexScreen(initialPokemonName: initialName),
       ),
     );
@@ -702,12 +688,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Future<void> _openTeamCoverage() async {
     await Navigator.of(context)
-        .push(_fadeRoute((_) => const TeamCoverageScreen()));
+        .push(fadeRoute((_) => const TeamCoverageScreen()));
   }
 
   Future<void> _openMoveDex({String? initialMoveName}) async {
     await Navigator.of(context).push(
-      _fadeRoute((_) => MoveDexScreen(initialMoveName: initialMoveName)),
+      fadeRoute((_) => MoveDexScreen(initialMoveName: initialMoveName)),
     );
   }
 
