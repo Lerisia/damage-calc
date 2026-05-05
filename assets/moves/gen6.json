@@ -159,9 +159,7 @@
     "power": 100,
     "accuracy": 0,
     "pp": 5,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Hyperspace Fury",
     "aliases": [
       "다른차원러시"
@@ -511,7 +509,6 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "custom:has_secondary",
       "custom:thousand_arrows",
       "custom:spread"
     ],
@@ -624,8 +621,7 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Infestation",
     "zPower": 100,
@@ -1037,8 +1033,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Dragon Ascent",
     "zPower": 190,

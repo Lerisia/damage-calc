@@ -598,9 +598,7 @@
     "power": 35,
     "accuracy": 85,
     "pp": 15,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Whirlpool",
     "zPower": 100,
     "descKo": "세차게 소용돌이치는 물속에 4-5턴 동안 상대를 가두어 공격한다.",

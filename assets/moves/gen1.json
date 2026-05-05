@@ -267,8 +267,7 @@
     "accuracy": 90,
     "pp": 20,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Wrap",
     "zPower": 100,
@@ -286,8 +285,7 @@
     "accuracy": 85,
     "pp": 15,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Clamp",
     "zPower": 100,
@@ -799,8 +797,7 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Skull Bash",
     "aliases": [
@@ -2215,8 +2212,7 @@
     "accuracy": 85,
     "pp": 20,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Bind",
     "zPower": 100,
@@ -2747,9 +2743,7 @@
     "power": 35,
     "accuracy": 85,
     "pp": 15,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Fire Spin",
     "zPower": 100,
     "descKo": "세차게 소용돌이치는 불꽃 속에 4-5턴 동안 상대를 가두어 공격한다.",

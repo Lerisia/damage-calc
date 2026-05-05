@@ -480,9 +480,7 @@
     "power": 130,
     "accuracy": 90,
     "pp": 5,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Leaf Storm",
     "zPower": 195,
     "descKo": "뾰족한 잎사귀로 상대에게 돌풍을 일으킨다. 사용하면 반동으로 자신의 특수공격이 크게 떨어진다.",
@@ -516,9 +514,7 @@
     "power": 100,
     "accuracy": 75,
     "pp": 5,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Magma Storm",
     "zPower": 180,
     "descKo": "세차게 타오르는 불꽃 속에 4-5턴 동안 상대를 가두어 공격한다.",
@@ -1272,8 +1268,7 @@
     "pp": 10,
     "tags": [
       "contact",
-      "punch",
-      "custom:has_secondary"
+      "punch"
     ],
     "nameEn": "Hammer Arm",
     "zPower": 180,
@@ -1403,9 +1398,7 @@
     "power": 130,
     "accuracy": 90,
     "pp": 5,
-    "tags": [
-      "custom:has_secondary"
-    ],
+    "tags": [],
     "nameEn": "Draco Meteor",
     "zPower": 195,
     "descKo": "천공에서 운석을 상대에게 떨어뜨린다. 사용하면 반동으로 자신의 특수공격이 크게 떨어진다.",
@@ -1508,8 +1501,7 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "contact",
-      "custom:has_secondary"
+      "contact"
     ],
     "nameEn": "Close Combat",
     "zPower": 190,

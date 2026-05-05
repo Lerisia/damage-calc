@@ -25,7 +25,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Aqua Step",
     "zPower": 160,
@@ -55,7 +56,8 @@
     "accuracy": 90,
     "pp": 10,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Axe Kick",
     "zPower": 190,
@@ -87,7 +89,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Blazing Torque",
     "zPower": 160
   },
@@ -114,7 +118,9 @@
     "power": 50,
     "accuracy": 100,
     "pp": 20,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Chilling Water",
     "zPower": 100,
     "descEn": "The user attacks the target by showering it with water that's so cold it saps the target's power. This also lowers the target's Attack stat."
@@ -160,7 +166,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Combat Torque",
     "zPower": 180
   },
@@ -389,7 +397,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Lumina Crash",
     "zPower": 160,
     "descEn": "The user attacks by unleashing a peculiar light that even affects the mind. This also harshly lowers the target's Sp. Def stat."
@@ -403,7 +413,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Magical Torque",
     "zPower": 180
   },
@@ -433,7 +445,8 @@
     "accuracy": 90,
     "pp": 15,
     "tags": [
-      "custom:spread"
+      "custom:spread",
+      "custom:has_secondary"
     ],
     "nameEn": "Matcha Gotcha",
     "zPower": 160,
@@ -450,7 +463,8 @@
     "pp": 15,
     "tags": [
       "contact",
-      "custom:spread"
+      "custom:spread",
+      "custom:has_secondary"
     ],
     "nameEn": "Mortal Spin",
     "zPower": 100,
@@ -465,7 +479,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Noxious Torque",
     "zPower": 180
   },
@@ -512,7 +528,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Pounce",
     "zPower": 100,
@@ -589,7 +606,9 @@
     "power": 40,
     "accuracy": 100,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Salt Cure",
     "zPower": 100,
     "descEn": "The user salt cures the target, inflicting damage every turn. Steel and Water types are more strongly affected by this move."
@@ -719,7 +738,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:has_secondary"
     ],
     "nameEn": "Torch Song",
     "zPower": 160,
@@ -735,7 +755,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Trailblaze",
     "zPower": 100,
@@ -784,7 +805,9 @@
     "power": 80,
     "accuracy": 100,
     "pp": 10,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Wicked Torque",
     "zPower": 160
   },
@@ -799,7 +822,8 @@
     "pp": 15,
     "priority": 1,
     "tags": [
-      "contact"
+      "contact",
+      "custom:has_secondary"
     ],
     "nameEn": "Upper Hand",
     "zPower": 120,
@@ -828,7 +852,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:has_secondary"
     ],
     "nameEn": "Alluring Voice",
     "zPower": 160,
@@ -858,7 +883,8 @@
     "accuracy": 100,
     "pp": 10,
     "tags": [
-      "sound"
+      "sound",
+      "custom:has_secondary"
     ],
     "nameEn": "Psychic Noise",
     "zPower": 140,
@@ -906,7 +932,9 @@
     "power": 100,
     "accuracy": 100,
     "pp": 5,
-    "tags": [],
+    "tags": [
+      "custom:has_secondary"
+    ],
     "nameEn": "Malignant Chain",
     "zPower": 180,
     "descEn": "The user pours toxins into the target by wrapping them in a toxic, corrosive chain. This may also leave the target badly poisoned."
