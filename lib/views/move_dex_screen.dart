@@ -610,17 +610,27 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Title row — name + type pill + " / " + category, packed
+          // tight against the left so type/category aren't stranded
+          // on the far edge of the (~720 px) detail pane. Long names
+          // ellipsize before they push the badges off the row.
           Row(
             children: [
-              Expanded(
-                child: Text(m.localizedName,
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.bold)),
+              Flexible(
+                child: Text(
+                  m.localizedName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold),
+                ),
               ),
+              const SizedBox(width: 12),
               _typePill(m.type, big: true),
               const SizedBox(width: 6),
-              Text(_categoryShort(m.category),
-                  style: const TextStyle(fontSize: 14)),
+              Text('/ ${_categoryShort(m.category)}',
+                  style: TextStyle(
+                      fontSize: 14, color: Colors.grey.shade700)),
             ],
           ),
           const SizedBox(height: 12),
