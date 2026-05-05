@@ -16,6 +16,7 @@ import '../utils/battle_facade.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/simple_mode_controller.dart';
 import 'dex_screen.dart';
+import 'move_dex_screen.dart';
 import 'team_coverage_screen.dart';
 import 'simple_mode_screen.dart';
 import '../utils/damage_calculator.dart';
@@ -702,6 +703,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Future<void> _openTeamCoverage() async {
     await Navigator.of(context)
         .push(_fadeRoute((_) => const TeamCoverageScreen()));
+  }
+
+  Future<void> _openMoveDex({String? initialMoveName}) async {
+    await Navigator.of(context).push(
+      _fadeRoute((_) => MoveDexScreen(initialMoveName: initialMoveName)),
+    );
   }
 
   String _languageLabel() {
@@ -1454,6 +1461,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ]),
                   ),
                   PopupMenuItem(
+                    value: 'movedex',
+                    child: Row(children: [
+                      const Icon(Icons.format_list_bulleted, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t('dex.move.title')),
+                    ]),
+                  ),
+                  PopupMenuItem(
                     value: 'team',
                     child: Row(children: [
                       const Icon(Icons.shield_outlined, size: 20),
@@ -1497,6 +1512,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   switch (v) {
                     case 'dex':
                       _openDex();
+                    case 'movedex':
+                      _openMoveDex();
                     case 'team':
                       _openTeamCoverage();
                     case 'language':

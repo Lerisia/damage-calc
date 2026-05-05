@@ -431,9 +431,29 @@ class AppStrings {
 
     // === Dex ===
     'dex.title': {
-      AppLanguage.ko: '도감',
+      AppLanguage.ko: '포켓몬 도감',
       AppLanguage.en: 'Pokédex',
-      AppLanguage.ja: '図鑑',
+      AppLanguage.ja: 'ポケモン図鑑',
+    },
+    'dex.move.title': {
+      AppLanguage.ko: '기술 도감',
+      AppLanguage.en: 'Move Dex',
+      AppLanguage.ja: 'わざ図鑑',
+    },
+    'dex.move.search': {
+      AppLanguage.ko: '기술 검색',
+      AppLanguage.en: 'Search moves',
+      AppLanguage.ja: 'わざを検索',
+    },
+    'dex.move.learners': {
+      AppLanguage.ko: '배우는 포켓몬',
+      AppLanguage.en: 'Learnt by',
+      AppLanguage.ja: '覚えるポケモン',
+    },
+    'dex.move.noLearners': {
+      AppLanguage.ko: '배우는 포켓몬 없음',
+      AppLanguage.en: 'No Pokémon learn this move',
+      AppLanguage.ja: '覚えるポケモンなし',
     },
     'dex.tabMain': {
       AppLanguage.ko: '메인',
@@ -909,6 +929,16 @@ class AppStrings {
       AppLanguage.ko: '고정',
       AppLanguage.en: 'Fixed',
       AppLanguage.ja: '固定',
+    },
+    'move.priority': {
+      AppLanguage.ko: '우선도',
+      AppLanguage.en: 'Priority',
+      AppLanguage.ja: '優先度',
+    },
+    'move.hits': {
+      AppLanguage.ko: '히트수',
+      AppLanguage.en: 'Hits',
+      AppLanguage.ja: '攻撃回数',
     },
     'move.showStatus': {
       AppLanguage.ko: '변화기 보기',

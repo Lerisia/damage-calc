@@ -4,6 +4,10 @@ import 'package:flutter/services.dart';
 /// Cached learnset data: { showdownPokemonId: [showdownMoveId, ...] }
 Map<String, List<String>>? _learnsetCache;
 
+/// Inverse learnset: { showdownMoveId: [showdownPokemonId, ...] }.
+/// Built on first request from [_learnsetCache] and cached.
+Map<String, List<String>>? _inverseLearnsetCache;
+
 /// Cached regional form map: { "dexNumber_region": showdownPokemonId }
 Map<String, String>? _regionalCache;
 
@@ -29,6 +33,23 @@ Future<Map<String, List<String>>> loadLearnsets() async {
   _regionalCache = regional ?? {};
   return _learnsetCache!;
 }
+
+/// Returns the inverse learnset: for each Showdown move ID, the list of
+/// Showdown pokemon IDs that can learn it. Used by the move dex to show
+/// "who learns this move". Built lazily on first call.
+Future<Map<String, List<String>>> loadInverseLearnsets() async {
+  if (_inverseLearnsetCache != null) return _inverseLearnsetCache!;
+  final forward = await loadLearnsets();
+  final inverse = <String, List<String>>{};
+  for (final entry in forward.entries) {
+    for (final move in entry.value) {
+      inverse.putIfAbsent(move, () => <String>[]).add(entry.key);
+    }
+  }
+  _inverseLearnsetCache = inverse;
+  return inverse;
+}
+
 
 /// Returns the set of learnable Showdown move IDs for a Pokemon.
 ///
