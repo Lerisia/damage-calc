@@ -4,6 +4,15 @@ export 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../utils/app_strings.dart';
 
+/// Timestamp of the most recent `onSelected` callback fired by **any**
+/// typeahead in the app. Combined with each instance's `_focusGainAt`,
+/// the focus-loss handler can tell "user picked something" from "user
+/// typed and tapped away without picking" — even when the user moves
+/// focus directly from one typeahead to another (the per-instance
+/// focus-gain timestamp acts as the cutoff so a pick from the previous
+/// typeahead doesn't count toward the next one's accounting).
+DateTime _lastTypeAheadPickAt = DateTime.fromMillisecondsSinceEpoch(0);
+
 /// Stateful TextField that registers focusNode listener exactly once.
 class _TypeAheadTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -26,6 +35,10 @@ class _TypeAheadTextField extends StatefulWidget {
 
 class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
   String? _savedText;
+  // Set when the user focuses the field; cleared on focus loss. Used
+  // as the cutoff against `_lastTypeAheadPickAt` to decide whether
+  // *this* focus session ended in a pick.
+  DateTime? _focusGainAt;
   bool _listenerAdded = false;
 
   @override
@@ -53,14 +66,25 @@ class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
 
   void _onFocusChange() {
     if (widget.focusNode.hasFocus) {
+      _focusGainAt = DateTime.now();
       _savedText = widget.controller.text;
       widget.controller.clear();
       widget.onTap?.call();
     } else {
-      if (widget.controller.text.isEmpty && _savedText != null) {
+      // A pick during *this* focus session means the parent has set
+      // controller.text to the picked label; we keep it. Otherwise the
+      // user typed (or cleared) and tapped away — restore the saved
+      // value so the field doesn't deceptively show the search query
+      // as if it were the current selection.
+      final pickedThisFocus = _focusGainAt != null &&
+          _lastTypeAheadPickAt.isAfter(_focusGainAt!);
+      if (!pickedThisFocus && _savedText != null) {
         widget.controller.text = _savedText!;
+        widget.controller.selection =
+            TextSelection.collapsed(offset: _savedText!.length);
       }
       _savedText = null;
+      _focusGainAt = null;
     }
   }
 
@@ -117,6 +141,15 @@ TypeAheadField<T> buildTypeAhead<T>({
   FocusNode? focusNode,
   T? Function(String)? onSubmittedPick,
 }) {
+  // Stamp the global pick timestamp before delegating, so the focus-
+  // loss handler can distinguish "user picked" from "user tapped
+  // away". Both the typeahead's own onSelected (tap a suggestion) and
+  // the Enter-to-pick path go through this wrapper.
+  void onSelectedWrapped(T v) {
+    _lastTypeAheadPickAt = DateTime.now();
+    onSelected(v);
+  }
+
   return TypeAheadField<T>(
     controller: controller,
     focusNode: focusNode,
@@ -151,12 +184,12 @@ TypeAheadField<T> buildTypeAhead<T>({
         onSubmittedPick: onSubmittedPick != null
             ? (text) {
                 final result = onSubmittedPick(text);
-                if (result != null) onSelected(result);
+                if (result != null) onSelectedWrapped(result);
               }
             : null,
       );
     },
     itemBuilder: itemBuilder,
-    onSelected: onSelected,
+    onSelected: onSelectedWrapped,
   );
 }
