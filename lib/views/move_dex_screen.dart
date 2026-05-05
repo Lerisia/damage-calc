@@ -125,25 +125,22 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       body: _allMoves.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : isWide
+              // Wide: search left, detail right — both visible at once.
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(width: 320, child: _searchPane()),
+                    SizedBox(width: 320, child: _searchPane(pushOnTap: false)),
                     const VerticalDivider(width: 1),
                     Expanded(child: _detailPane()),
                   ],
                 )
-              : Column(
-                  children: [
-                    SizedBox(height: 280, child: _searchPane()),
-                    const Divider(height: 1),
-                    Expanded(child: _detailPane()),
-                  ],
-                ),
+              // Narrow: full-screen search list. Tap pushes a dedicated
+              // detail screen so the result has room to breathe.
+              : _searchPane(pushOnTap: true),
     );
   }
 
-  Widget _searchPane() {
+  Widget _searchPane({bool pushOnTap = false}) {
     return Column(
       children: [
         Padding(
@@ -161,8 +158,8 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
             onSubmitted: (_) {
               final filtered = _filteredMoves(_searchCtl.text);
               if (filtered.isNotEmpty) {
-                setState(() => _selected = filtered.first);
                 _searchFocus.unfocus();
+                _pickMove(filtered.first, pushOnTap);
               }
             },
           ),
@@ -193,7 +190,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                       ],
                     ],
                   ),
-                  onTap: () => setState(() => _selected = m),
+                  onTap: () => _pickMove(m, pushOnTap),
                 );
               },
             );
@@ -322,6 +319,24 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     );
   }
 
+  void _pickMove(Move m, bool push) {
+    if (push) {
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(title: Text(m.localizedName)),
+          body: Builder(builder: (_) {
+            // Temporarily set _selected so _detailPane reads off the
+            // tapped move; the wrapper Scaffold owns the back button.
+            _selected = m;
+            return _detailPane();
+          }),
+        ),
+      ));
+    } else {
+      setState(() => _selected = m);
+    }
+  }
+
   String _categoryShort(MoveCategory c) => switch (c) {
         MoveCategory.physical => AppStrings.t('damage.physical'),
         MoveCategory.special => AppStrings.t('damage.special'),
@@ -329,7 +344,23 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       };
 
   String _tagDisplay(String tag) {
-    // Strip the "custom:" prefix; the bare slug reads fine for now.
+    // Standard (non-custom) tags get a localized label; custom internals
+    // (always_crit, has_secondary, etc.) fall back to their bare slug
+    // for now.
+    const standard = {
+      'contact': 'tag.contact',
+      'punch': 'tag.punch',
+      'sound': 'tag.sound',
+      'bite': 'tag.bite',
+      'pulse': 'tag.pulse',
+      'slice': 'tag.slice',
+      'recoil': 'tag.recoil',
+      'ball': 'tag.ball',
+      'powder': 'tag.powder',
+      'wind': 'tag.wind',
+    };
+    final key = standard[tag];
+    if (key != null) return AppStrings.t(key);
     if (tag.startsWith('custom:')) return tag.substring(7);
     return tag;
   }

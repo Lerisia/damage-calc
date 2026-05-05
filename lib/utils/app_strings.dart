@@ -445,6 +445,56 @@ class AppStrings {
       AppLanguage.en: 'Dex',
       AppLanguage.ja: '図鑑',
     },
+    'tag.contact': {
+      AppLanguage.ko: '접촉',
+      AppLanguage.en: 'Contact',
+      AppLanguage.ja: '接触',
+    },
+    'tag.punch': {
+      AppLanguage.ko: '펀치',
+      AppLanguage.en: 'Punch',
+      AppLanguage.ja: 'パンチ',
+    },
+    'tag.sound': {
+      AppLanguage.ko: '음파',
+      AppLanguage.en: 'Sound',
+      AppLanguage.ja: '音',
+    },
+    'tag.bite': {
+      AppLanguage.ko: '이빨',
+      AppLanguage.en: 'Bite',
+      AppLanguage.ja: '牙',
+    },
+    'tag.pulse': {
+      AppLanguage.ko: '파동',
+      AppLanguage.en: 'Pulse',
+      AppLanguage.ja: '波動',
+    },
+    'tag.slice': {
+      AppLanguage.ko: '베기',
+      AppLanguage.en: 'Slice',
+      AppLanguage.ja: '切',
+    },
+    'tag.recoil': {
+      AppLanguage.ko: '반동',
+      AppLanguage.en: 'Recoil',
+      AppLanguage.ja: '反動',
+    },
+    'tag.ball': {
+      AppLanguage.ko: '탄',
+      AppLanguage.en: 'Ball',
+      AppLanguage.ja: '弾',
+    },
+    'tag.powder': {
+      AppLanguage.ko: '가루',
+      AppLanguage.en: 'Powder',
+      AppLanguage.ja: '粉',
+    },
+    'tag.wind': {
+      AppLanguage.ko: '바람',
+      AppLanguage.en: 'Wind',
+      AppLanguage.ja: '風',
+    },
     'dex.move.search': {
       AppLanguage.ko: '기술 검색',
       AppLanguage.en: 'Search moves',
