@@ -293,9 +293,13 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
             ],
           ),
         );
+    final isStatus = m.category == MoveCategory.status;
     return Row(
       children: [
-        cell(AppStrings.t('move.power'), m.power == 0 ? '—' : '${m.power}'),
+        // Status moves carry no damage; hide the power column entirely
+        // rather than show "0" or "—".
+        if (!isStatus)
+          cell(AppStrings.t('move.power'), '${m.power}'),
         cell(AppStrings.t('move.accuracy'),
             m.accuracy == 0 ? '—' : '${m.accuracy}'),
         cell('PP', '${m.pp}'),
@@ -345,7 +349,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   String _categoryShort(MoveCategory c) => switch (c) {
         MoveCategory.physical => AppStrings.t('damage.physical'),
         MoveCategory.special => AppStrings.t('damage.special'),
-        MoveCategory.status => AppStrings.t('move.fixed'),
+        MoveCategory.status => AppStrings.t('damage.status'),
       };
 
   String _tagDisplay(String tag) {
