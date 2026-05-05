@@ -1965,11 +1965,12 @@ class _MovesTabState extends State<_MovesTab> {
       MoveCategory.status => AppStrings.t('damage.status'),
     };
     return InkWell(
-      // Cross-link to Move Dex. pushReplacement keeps the navigator
-      // stack at depth 1 (calc → dex) — toggling Pokémon Dex ↔ Move
-      // Dex never grows the stack, and back always returns to the
-      // calculator regardless of how many cross-links the user clicks.
-      onTap: () => Navigator.of(context).pushReplacement(
+      // Cross-link to Move Dex. We `push` (not pushReplacement) so the
+      // Pokémon Dex stays underneath — one back returns to the moves
+      // tab and the user can tap the next move to compare. Toggling
+      // back-and-forth can theoretically deepen the stack, but in
+      // practice users browse a few moves and back out.
+      onTap: () => Navigator.of(context).push(
         fadeRoute((_) => MoveDexScreen(initialMoveName: m.name)),
       ),
       child: Padding(

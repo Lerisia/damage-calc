@@ -114,21 +114,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
         );
       }
     });
-
-    // Cross-link from Pokémon Dex on a narrow (mobile) layout: the
-    // search pane is the only surface this screen renders, so just
-    // setting `_selected` doesn't show the user the move they came
-    // for. Push the detail screen automatically. Wide layouts already
-    // render the detail pane inline, so they don't need this.
-    if (widget.initialMoveName != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        final isWide = MediaQuery.of(context).size.width >= 1050;
-        if (!isWide && _selected != null) {
-          _pickMove(_selected!, true);
-        }
-      });
-    }
   }
 
   /// Returns the list to render in the search pane. When the user
@@ -250,38 +235,55 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       ),
       body: _allMoves.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : isWide
-              // See dex_screen.dart for why we use LayoutBuilder + a
-              // concrete SizedBox (rather than ConstrainedBox) for
-              // the height cap.
+          : widget.initialMoveName != null
+              // Cross-link mode (e.g. tapped from Pokémon Dex's moves
+              // tab): the user came for one specific move — render
+              // only the detail, no search list. One back returns to
+              // wherever they came from instead of stranding them on
+              // a Move Dex search list they never asked for.
               ? LayoutBuilder(
                   builder: (context, c) {
                     final w = c.maxWidth.clamp(0.0, 1200.0);
-                    final h = c.maxHeight.clamp(0.0, 900.0);
                     return Align(
                       alignment: Alignment.topCenter,
-                      child: SizedBox(
-                        width: w,
-                        height: h,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Wider on web than the original 320 so
-                            // the type/category dropdowns + sortable
-                            // columns fit comfortably. Detail pane
-                            // still gets the larger half.
-                            SizedBox(width: 480, child: _searchPane(pushOnTap: false)),
-                            const VerticalDivider(width: 1),
-                            Expanded(child: _detailPane()),
-                          ],
-                        ),
-                      ),
+                      child: SizedBox(width: w, child: _detailPane()),
                     );
                   },
                 )
-              // Narrow: full-screen search list. Tap pushes a dedicated
-              // detail screen so the result has room to breathe.
-              : _searchPane(pushOnTap: true),
+              : isWide
+                  // See dex_screen.dart for why we use LayoutBuilder +
+                  // a concrete SizedBox (rather than ConstrainedBox)
+                  // for the height cap.
+                  ? LayoutBuilder(
+                      builder: (context, c) {
+                        final w = c.maxWidth.clamp(0.0, 1200.0);
+                        final h = c.maxHeight.clamp(0.0, 900.0);
+                        return Align(
+                          alignment: Alignment.topCenter,
+                          child: SizedBox(
+                            width: w,
+                            height: h,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                // Wider on web than the original 320
+                                // so the type/category dropdowns +
+                                // sortable columns fit comfortably.
+                                // Detail pane still gets the larger
+                                // half.
+                                SizedBox(width: 480, child: _searchPane(pushOnTap: false)),
+                                const VerticalDivider(width: 1),
+                                Expanded(child: _detailPane()),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  // Narrow: full-screen search list. Tap pushes a
+                  // dedicated detail screen so the result has room
+                  // to breathe.
+                  : _searchPane(pushOnTap: true),
     );
   }
 
@@ -709,13 +711,12 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                       runSpacing: 6,
                       children: filtered
                           // ActionChip (not Chip) so each pill is
-                          // tappable. pushReplacement keeps the nav
-                          // stack flat: cross-linking Pokémon Dex ↔
-                          // Move Dex never deepens beyond the calc →
-                          // dex pair.
+                          // tappable. We `push` (not pushReplacement)
+                          // so the user can back out to whatever
+                          // screen they were on before this move.
                           .map((p) => ActionChip(
                                 onPressed: () => Navigator.of(context)
-                                    .pushReplacement(
+                                    .push(
                                   fadeRoute((_) => DexScreen(
                                       initialPokemonName: p.name)),
                                 ),
