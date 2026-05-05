@@ -952,6 +952,11 @@ class AppStrings {
       AppLanguage.en: 'None',
       AppLanguage.ja: 'なし',
     },
+    'label.foe': {
+      AppLanguage.ko: '(상대)',
+      AppLanguage.en: '(opp)',
+      AppLanguage.ja: '(相手)',
+    },
     'label.terastal': {
       AppLanguage.ko: '테라스탈 타입',
       AppLanguage.en: 'Tera Type',

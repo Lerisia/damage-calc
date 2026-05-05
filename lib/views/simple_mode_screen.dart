@@ -130,6 +130,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   // Defender SP controllers for HP / Def / SpDef / Spe.
   final _defHpSpCtl = TextEditingController(text: '0');
+  final _defAtkSpCtl = TextEditingController(text: '0');
   final _defDefSpCtl = TextEditingController(text: '0');
   final _defSpdSpCtl = TextEditingController(text: '0');
   final _defSpeSpCtl = TextEditingController(text: '0');
@@ -244,6 +245,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     _atkSpaSpCtl.text = '${ChampionsMode.evToSp(_atk.ev.spAttack)}';
     _atkSpeSpCtl.text = '${ChampionsMode.evToSp(_atk.ev.speed)}';
     _defHpSpCtl.text = '${ChampionsMode.evToSp(_def.ev.hp)}';
+    _defAtkSpCtl.text = '${ChampionsMode.evToSp(_def.ev.attack)}';
     _defDefSpCtl.text = '${ChampionsMode.evToSp(_def.ev.defense)}';
     _defSpdSpCtl.text = '${ChampionsMode.evToSp(_def.ev.spDefense)}';
     _defSpeSpCtl.text = '${ChampionsMode.evToSp(_def.ev.speed)}';
@@ -270,7 +272,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   @override
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
-                      _defHpSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
+                      _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
                       _multCtl, _atkAbilityCtl, _atkItemCtl,
                       _defAbilityCtl, _defItemCtl]) {
       c.dispose();
@@ -335,7 +337,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     setState(() {
       _def.ev = Stats(
         hp: ChampionsMode.spToEv(_parseSp(_defHpSpCtl)),
-        attack: 0,
+        // Attack is normally unused on the defender, but Foul Play
+        // (속임수) reads it. Plumbed through so the attacker-side
+        // "공격(상대)" slot can edit it directly.
+        attack: ChampionsMode.spToEv(_parseSp(_defAtkSpCtl)),
         defense: ChampionsMode.spToEv(_parseSp(_defDefSpCtl)),
         spAttack: 0,
         spDefense: ChampionsMode.spToEv(_parseSp(_defSpdSpCtl)),
@@ -591,21 +596,31 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final accent = isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444);
     final move = _atk.moves[0];
+    // Foul Play (속임수) reads the defender's Attack instead of the
+    // attacker's. Re-bind the attacker's offensive slot to the
+    // defender's controller / nature / rank so the user can edit
+    // those values directly here without an extra row on the
+    // defender card.
+    final isFoulPlay = move?.hasTag(MoveTags.useOpponentAtk) ?? false;
     // Offensive slot follows the effective stat — Atk / SpA for normal
     // moves, Def when a `use_defense` move (Body Press) is picked.
-    final offStat = _effectiveOffensiveStat;
+    final offStat = isFoulPlay ? NatureStat.atk : _effectiveOffensiveStat;
     final offLabel = AppStrings.t(switch (offStat) {
       NatureStat.atk => 'stat.attack',
       NatureStat.spa => 'stat.spAttack',
       NatureStat.def => 'stat.defense',
       _ => 'stat.attack',
     });
-    final offCtl = switch (offStat) {
-      NatureStat.atk => _atkAtkSpCtl,
-      NatureStat.spa => _atkSpaSpCtl,
-      NatureStat.def => _atkDefSpCtl,
-      _ => _atkAtkSpCtl,
-    };
+    final offSubLabel = isFoulPlay ? AppStrings.t('label.foe') : null;
+    final offCtl = isFoulPlay
+        ? _defAtkSpCtl
+        : switch (offStat) {
+            NatureStat.atk => _atkAtkSpCtl,
+            NatureStat.spa => _atkSpaSpCtl,
+            NatureStat.def => _atkDefSpCtl,
+            _ => _atkAtkSpCtl,
+          };
+    final offSync = isFoulPlay ? _syncDefEvs : _syncAtkEvs;
 
     return _card(
       accent: accent,
@@ -722,10 +737,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               children: [
                 _statGroup(
                   label: offLabel,
+                  sublabel: offSubLabel,
                   stat: offStat,
                   spCtl: offCtl,
-                  onSpChanged: _syncAtkEvs,
-                  attacker: true,
+                  onSpChanged: offSync,
+                  // Foul Play: nature-chip + rank-chip should also
+                  // operate on the defender, since the defender's
+                  // Attack is what's actually scaled.
+                  attacker: !isFoulPlay,
                 ),
                 _statGroup(
                   label: AppStrings.t('stat.speedShort'),
@@ -1125,6 +1144,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     required VoidCallback onSpChanged,
     required bool attacker,
     bool canNature = true,
+    /// Tiny qualifier line shown under the main label (e.g. "(상대)"
+    /// for Foul Play, where the attacker-side "공격" slot actually
+    /// edits the *defender*'s Attack stat).
+    String? sublabel,
   }) {
     void setSp(String v) {
       spCtl.text = v;
@@ -1152,9 +1175,18 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       children: [
         SizedBox(
           width: labelSlot,
-          child: Text(label,
-              style: const TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w700)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label,
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w700)),
+              if (sublabel != null)
+                Text(sublabel,
+                    style: TextStyle(fontSize: 9, color: Colors.grey[600])),
+            ],
+          ),
         ),
         const SizedBox(width: 4),
         SizedBox(
