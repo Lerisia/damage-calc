@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'utils/app_strings.dart';
+import 'utils/champions_filter_controller.dart';
 import 'utils/coverage_display_controller.dart';
 import 'utils/move_options_controller.dart';
 import 'utils/simple_mode_controller.dart';
@@ -221,6 +222,7 @@ class _AppLoaderState extends State<_AppLoader> {
       SimpleModeController.instance.load(),
       CoverageDisplayController.instance.load(),
       MoveOptionsController.instance.load(),
+      ChampionsFilterController.instance.load(),
     ]);
     final results = await Future.wait([
       loadPokedex(),

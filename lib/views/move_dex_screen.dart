@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/champions_usage.dart';
 import '../data/learnsetdex.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
@@ -7,6 +8,7 @@ import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
+import '../utils/champions_filter_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 
@@ -135,23 +137,50 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     // it stops at iPad-Pro-landscape * a bit.
     final isWide = MediaQuery.of(context).size.width >= 1050;
     return Scaffold(
-      appBar: AppBar(title: Text(AppStrings.t('dex.move.title'))),
+      // Cap the AppBar title to match the body width so the title text
+      // visually anchors above the body cap on wide windows. AppBar
+      // background still spans full width as standard chrome.
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: Padding(
+              // Match the leading icon's natural inset so the title
+              // sits where you'd expect, not flush against the back
+              // arrow.
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(AppStrings.t('dex.move.title')),
+            ),
+          ),
+        ),
+      ),
       body: _allMoves.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : isWide
-              ? Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                        maxWidth: 1200, maxHeight: 900),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(width: 320, child: _searchPane(pushOnTap: false)),
-                        const VerticalDivider(width: 1),
-                        Expanded(child: _detailPane()),
-                      ],
-                    ),
-                  ),
+              // See dex_screen.dart for why we use LayoutBuilder + a
+              // concrete SizedBox (rather than ConstrainedBox) for
+              // the height cap.
+              ? LayoutBuilder(
+                  builder: (context, c) {
+                    final w = c.maxWidth.clamp(0.0, 1200.0);
+                    final h = c.maxHeight.clamp(0.0, 900.0);
+                    return Align(
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        width: w,
+                        height: h,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(width: 320, child: _searchPane(pushOnTap: false)),
+                            const VerticalDivider(width: 1),
+                            Expanded(child: _detailPane()),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 )
               // Narrow: full-screen search list. Tap pushes a dedicated
               // detail screen so the result has room to breathe.
@@ -273,27 +302,58 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                 style: TextStyle(fontSize: 13, color: Colors.grey[800])),
           ],
           const SizedBox(height: 20),
-          Text('${AppStrings.t('dex.move.learners')} (${learners.length})',
-              style: const TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w600)),
-          const SizedBox(height: 8),
-          if (learners.isEmpty)
-            Text(AppStrings.t('dex.move.noLearners'),
-                style: TextStyle(fontSize: 13, color: Colors.grey[500]))
-          else
-            Wrap(
-              spacing: 6, runSpacing: 6,
-              children: learners
-                  .map((p) => Chip(
-                        label: Text(
-                          '#${p.dexNumber}  ${p.localizedName}',
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        visualDensity: VisualDensity.compact,
-                      ))
-                  .toList(),
-            ),
+          ValueListenableBuilder<bool>(
+            valueListenable:
+                ChampionsFilterController.instance.championsOnly,
+            builder: (context, championsOnly, _) {
+              final filtered = championsOnly
+                  ? learners.where((p) => isInChampions(p.name)).toList()
+                  : learners;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                            '${AppStrings.t('dex.move.learners')} (${filtered.length})',
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                      _MoveDexChampionsToggle(
+                        value: championsOnly,
+                        onChanged: (v) => ChampionsFilterController
+                            .instance
+                            .set(v ?? false),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  if (filtered.isEmpty)
+                    Text(AppStrings.t('dex.move.noLearners'),
+                        style: TextStyle(
+                            fontSize: 13, color: Colors.grey[500]))
+                  else
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      children: filtered
+                          .map((p) => Chip(
+                                label: Text(
+                                  '#${p.dexNumber}  ${p.localizedName}',
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                visualDensity: VisualDensity.compact,
+                              ))
+                          .toList(),
+                    ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
@@ -391,5 +451,44 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     if (key != null) return AppStrings.t(key);
     if (tag.startsWith('custom:')) return tag.substring(7);
     return tag;
+  }
+}
+
+/// Compact "Champions only" checkbox used inside the Move Dex's
+/// learners-list header. Matches the AppBar variant in dex_screen.dart
+/// but without the right-side AppBar padding.
+class _MoveDexChampionsToggle extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool?> onChanged;
+
+  const _MoveDexChampionsToggle({required this.value, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onChanged(!value),
+      borderRadius: BorderRadius.circular(6),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: Checkbox(
+                value: value,
+                onChanged: onChanged,
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(AppStrings.t('dex.championsOnly'),
+                style: const TextStyle(fontSize: 12)),
+          ],
+        ),
+      ),
+    );
   }
 }

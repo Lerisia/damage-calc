@@ -18,6 +18,7 @@ import '../models/type.dart';
 import '../models/weather.dart';
 import '../utils/app_strings.dart';
 import '../utils/battle_facade.dart';
+import '../utils/champions_filter_controller.dart';
 import '../utils/localization.dart';
 import '../utils/stacking_moves.dart';
 import '../utils/terrain_effects.dart' show abilityTerrainMap;
@@ -137,28 +138,51 @@ class _DexScreenState extends State<DexScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          // Override auto-implied BackButton so the AppBar arrow still
-          // works under PopScope(canPop:false).
-          leading: IconButton(
-            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-            icon: const BackButtonIcon(),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          // Dex is an immersive screen — the title is redundant, so
-          // give the full width to the search field. `titleSpacing: 0`
-          // removes the default gap between the back button and title
-          // so the typeahead gets all available width.
+          // Cap the AppBar contents to match the body width (1200) so
+          // the search field, back arrow, and Champions toggle line up
+          // with the panes below instead of stretching across 4K. The
+          // AppBar's bottom border still spans the full width — that's
+          // intentional, it visually separates the chrome from the
+          // page like a real toolbar.
+          automaticallyImplyLeading: false,
           titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: PokemonSelector(
-              // PokemonSelector holds its own _selected state, so
-              // don't key it by _selected.name — that would remount
-              // the widget (and flash the typeahead overlay) every
-              // time auto-selection or a user pick updates state.
-              initialPokemonName:
-                  widget.initialPokemonName ?? 'Bulbasaur',
-              onSelected: _onSelect,
+          // Empty actions slot so AppBar doesn't reserve the default
+          // 16px right padding outside our cap.
+          actions: const [SizedBox.shrink()],
+          title: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: Row(
+                children: [
+                  IconButton(
+                    tooltip:
+                        MaterialLocalizations.of(context).backButtonTooltip,
+                    icon: const BackButtonIcon(),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  Expanded(
+                    child: PokemonSelector(
+                      // PokemonSelector holds its own _selected state, so
+                      // don't key it by _selected.name — that would remount
+                      // the widget (and flash the typeahead overlay) every
+                      // time auto-selection or a user pick updates state.
+                      initialPokemonName:
+                          widget.initialPokemonName ?? 'Bulbasaur',
+                      onSelected: _onSelect,
+                      filterChampionsOnly: true,
+                    ),
+                  ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: ChampionsFilterController
+                        .instance.championsOnly,
+                    builder: (context, on, _) => _ChampionsOnlyToggle(
+                      value: on,
+                      onChanged: (v) => ChampionsFilterController.instance
+                          .set(v ?? false),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           bottom: wide
@@ -176,17 +200,25 @@ class _DexScreenState extends State<DexScreen> {
           // hideOnUnfocus needs an actual focus change.
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           behavior: HitTestBehavior.translucent,
-          child: Column(
-          children: [
-            Expanded(
-              child: wide
-                  // Two-pane split — capped so 4K monitors don't stretch
-                  // the dex into illegibility. Width tighter than the
-                  // coverage screen because two panes don't need 1600.
-                  ? Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                            maxWidth: 1200, maxHeight: 900),
+          child: wide
+              // Two-pane split — capped so 4K monitors don't stretch
+              // the dex into illegibility. Width tighter than the
+              // coverage screen because two panes don't need 1600.
+              // We pin the cap to a *concrete* height (LayoutBuilder
+              // → SizedBox) so the empty space below the cap stays
+              // empty instead of getting absorbed by the inner Row
+              // children — a bare ConstrainedBox(maxHeight: 900)
+              // loosens back to the children's intrinsic heights on
+              // web, which made the top-pin invisible.
+              ? LayoutBuilder(
+                  builder: (context, c) {
+                    final w = c.maxWidth.clamp(0.0, 1200.0);
+                    final h = c.maxHeight.clamp(0.0, 900.0);
+                    return Align(
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        width: w,
+                        height: h,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -196,17 +228,16 @@ class _DexScreenState extends State<DexScreen> {
                           ],
                         ),
                       ),
-                    )
-                  : TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  mainTab,
-                  movesTab,
-                ],
-              ),
-            ),
-          ],
-          ),
+                    );
+                  },
+                )
+              : TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    mainTab,
+                    movesTab,
+                  ],
+                ),
         ),
       ),
       ),
@@ -2004,6 +2035,49 @@ class _MovesTabState extends State<_MovesTab> {
                   overflow: TextOverflow.ellipsis),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Compact toggle used in the dex AppBars. Visually a checkbox + short
+/// label; the whole strip is tappable so users don't have to land on
+/// the 18×18 box. Sits inside [AppBar.actions] so we avoid the AppBar
+/// auto-padding on the right edge.
+class _ChampionsOnlyToggle extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool?> onChanged;
+
+  const _ChampionsOnlyToggle({required this.value, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: InkWell(
+        onTap: () => onChanged(!value),
+        borderRadius: BorderRadius.circular(6),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: Checkbox(
+                  value: value,
+                  onChanged: onChanged,
+                  visualDensity: VisualDensity.compact,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Text(AppStrings.t('dex.championsOnly'),
+                  style: const TextStyle(fontSize: 12)),
+            ],
+          ),
+        ),
       ),
     );
   }

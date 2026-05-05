@@ -117,3 +117,11 @@ void preloadChampionsUsage() {
 ChampionsUsageEntry? championsUsageFor(String pokemonName) {
   return _cache?[pokemonName];
 }
+
+/// O(1) presence test — does this Pokémon have a Champions usage
+/// entry? Used by dex filter UIs ("show only Pokémon in Champions")
+/// to skip full-cache lookups on every visible row.
+bool isInChampions(String pokemonName) {
+  final c = _cache;
+  return c != null && c.containsKey(pokemonName);
+}

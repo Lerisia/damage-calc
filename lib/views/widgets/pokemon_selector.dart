@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../utils/app_strings.dart';
+import '../../utils/champions_filter_controller.dart';
 import '../../utils/korean_search.dart';
 import 'typeahead_helpers.dart';
 
@@ -11,11 +13,18 @@ class PokemonSelector extends StatefulWidget {
   /// "pick a Pokemon" state. Empty string is treated the same as
   /// `null` so callers passing `state.pokemonName ?? ''` work.
   final String? initialPokemonName;
+  /// When true, narrow the search list to species curated in
+  /// [championsUsageFor] (Pokémon Champions roster). The selector still
+  /// respects the user's last pick — selected species always shows up
+  /// at the top regardless of filter — so toggling won't strand the
+  /// field on a hidden value.
+  final bool filterChampionsOnly;
 
   const PokemonSelector({
     super.key,
     required this.onSelected,
     this.initialPokemonName = 'Bulbasaur',
+    this.filterChampionsOnly = false,
   });
 
   @override
@@ -32,12 +41,20 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   void initState() {
     super.initState();
     _loadPokemon();
+    // The global "Champions only" toggle can flip between dex visits;
+    // listen so the suggestions list refilters on the fly.
+    ChampionsFilterController.instance.championsOnly.addListener(_onFilterChanged);
   }
 
   @override
   void dispose() {
+    ChampionsFilterController.instance.championsOnly.removeListener(_onFilterChanged);
     _controller.dispose();
     super.dispose();
+  }
+
+  void _onFilterChanged() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _loadPokemon() async {
@@ -61,17 +78,25 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     });
   }
 
+  bool _passesFilter(Pokemon p) {
+    if (!widget.filterChampionsOnly) return true;
+    if (!ChampionsFilterController.instance.championsOnly.value) return true;
+    return isInChampions(p.name);
+  }
+
   List<Pokemon> _sortedOptions(String query) {
     if (query.isEmpty) {
+      final base = _allPokemon.where(_passesFilter).toList();
       return _selected != null
-          ? [_selected!, ..._allPokemon.where((p) => p != _selected)]
-          : List.of(_allPokemon);
+          ? [_selected!, ...base.where((p) => p != _selected)]
+          : base;
     }
 
     final qLower = query.toLowerCase();
     final qRunes = qLower.runes.toList();
     final scored = <(Pokemon, int)>[];
     for (final entry in _searchEntries) {
+      if (!_passesFilter(entry.item)) continue;
       final score = scoreEntry(qRunes, qLower, entry);
       if (score > 0) scored.add((entry.item, score));
     }
