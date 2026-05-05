@@ -1366,6 +1366,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         });
         widget.onChanged();
       },
+      // Enter on the ability field auto-picks the first matching
+      // ability (mirrors Extended Mode's behaviour). Saves a tap.
+      onSubmittedPick: (text) {
+        if (text.isEmpty) return null;
+        final q = text.toLowerCase();
+        final matches = sorted.where((a) =>
+            a.toLowerCase().contains(q) ||
+            (_abilityNames[a] ?? '').toLowerCase().contains(q));
+        return matches.isNotEmpty ? matches.first : null;
+      },
     ),
     );
   }
@@ -1414,6 +1424,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           focus.unfocus();
         });
         widget.onChanged();
+      },
+      // Enter on the item field auto-picks the first matching item
+      // (mirrors Extended Mode + the ability field above).
+      onSubmittedPick: (text) {
+        if (text.isEmpty) return null;
+        final q = text.toLowerCase();
+        final matches = allItems.where((k) =>
+            k.toLowerCase().contains(q) ||
+            (_itemNames[k] ?? '').toLowerCase().contains(q));
+        return matches.isNotEmpty ? matches.first : null;
       },
     ),
     );
