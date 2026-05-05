@@ -119,20 +119,28 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width >= 900;
+    // Match the coverage screen's wide breakpoint (1050) and cap so
+    // both dex screens feel consistent on the same device. On 4K
+    // monitors the detail pane used to stretch the whole width — now
+    // it stops at iPad-Pro-landscape * a bit.
+    final isWide = MediaQuery.of(context).size.width >= 1050;
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.t('dex.move.title'))),
       body: _allMoves.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : isWide
-              // Wide: search left, detail right — both visible at once.
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(width: 320, child: _searchPane(pushOnTap: false)),
-                    const VerticalDivider(width: 1),
-                    Expanded(child: _detailPane()),
-                  ],
+              ? Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 1600),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(width: 320, child: _searchPane(pushOnTap: false)),
+                        const VerticalDivider(width: 1),
+                        Expanded(child: _detailPane()),
+                      ],
+                    ),
+                  ),
                 )
               // Narrow: full-screen search list. Tap pushes a dedicated
               // detail screen so the result has room to breathe.
