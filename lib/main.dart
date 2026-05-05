@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show FontLoader, rootBundle;
 import 'utils/app_strings.dart';
 import 'utils/champions_filter_controller.dart';
 import 'utils/coverage_display_controller.dart';
@@ -223,6 +225,14 @@ class _AppLoaderState extends State<_AppLoader> {
       CoverageDisplayController.instance.load(),
       MoveOptionsController.instance.load(),
       ChampionsFilterController.instance.load(),
+      // Web-only: preload bundled fonts at startup so CanvasKit
+      // doesn't lazy-fetch the .otf/.ttf files on first dex render
+      // (the dex shows Korean/JP glyphs not used on the calculator,
+      // which made the font swap visible). Cost: ~11 MB on the
+      // first visit; subsequent visits hit the browser cache and
+      // pay nothing. Native builds already register fonts up front,
+      // so we skip this work there.
+      _preloadFontsForWeb(),
     ]);
     final results = await Future.wait([
       loadPokedex(),
@@ -282,4 +292,38 @@ class _AppLoaderState extends State<_AppLoader> {
       ),
     );
   }
+}
+
+/// Web-only: force-load all bundled font families so CanvasKit's
+/// glyph cache is warm before the user navigates to a screen that
+/// shows new characters. No-op (fast return) on native builds, where
+/// fonts are already registered at engine init.
+Future<void> _preloadFontsForWeb() async {
+  if (!kIsWeb) return;
+
+  Future<void> loadFamily(String family, List<String> assets) async {
+    final loader = FontLoader(family);
+    for (final asset in assets) {
+      loader.addFont(rootBundle.load(asset));
+    }
+    await loader.load();
+  }
+
+  // Mirrors the `fonts:` block in pubspec.yaml. Errors swallowed so
+  // a flaky font fetch doesn't strand the user on the loading
+  // screen — the app can still render via fallbacks.
+  try {
+    await Future.wait([
+      loadFamily('Pretendard', const [
+        'assets/fonts/Pretendard-Regular.otf',
+        'assets/fonts/Pretendard-Medium.otf',
+        'assets/fonts/Pretendard-SemiBold.otf',
+        'assets/fonts/Pretendard-Bold.otf',
+      ]),
+      loadFamily('NotoSansKR',
+          const ['assets/fonts/NotoSansKR-Fallback.ttf']),
+      loadFamily('MPLUSRounded1c',
+          const ['assets/fonts/MPLUSRounded1c-Regular.ttf']),
+    ]);
+  } catch (_) {/* fall back to lazy load */}
 }

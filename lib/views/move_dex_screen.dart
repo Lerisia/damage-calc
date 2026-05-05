@@ -14,6 +14,12 @@ import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import 'dex_screen.dart';
 
+/// Sort column for the Move Dex list. Mirrors the same enum in
+/// [_MovesTabState] (Pokémon Dex) — duplicated rather than shared
+/// because the file-private scope keeps each dex's sort state from
+/// leaking across screens.
+enum _MoveSortKey { name, type, category, power, accuracy }
+
 /// Move dictionary screen. Mirrors the Pokémon dex screen's split layout
 /// — search list on the left, selected-move detail on the right (wide)
 /// or stacked (narrow). Detail shows base stats, tags, description, and
@@ -48,6 +54,16 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   final _searchCtl = TextEditingController();
   final _searchFocus = FocusNode();
 
+  // Filters + sort, mirroring the Pokémon Dex's Moves tab.
+  PokemonType? _typeFilter;
+  MoveCategory? _categoryFilter;
+  // null = no user-driven sort → preserve `_allMoves` registration
+  // order (the order they ship in the JSON files, which is roughly
+  // chronological by introduction). Tapping a column header cycles
+  // through default-direction → opposite-direction → back to null.
+  _MoveSortKey? _sortKey;
+  bool _sortAsc = true;
+
   @override
   void initState() {
     super.initState();
@@ -68,7 +84,9 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
 
     final moves = await movesFut;
     moves.removeWhere((m) => m.moveClass != MoveClass.normal);
-    moves.sort((a, b) => a.localizedName.compareTo(b.localizedName));
+    // Intentionally NOT sorting here — `_allMoves` keeps the JSON
+    // load order (≈ registration / chronological). The user can opt
+    // into alphabetical or any other column via the sort header.
 
     final inv = await invFut;
     final pokedex = await pokedexFut;
@@ -98,17 +116,79 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     });
   }
 
+  /// Returns the list to render in the search pane. When the user
+  /// has typed a query, results are scored and ordered by match
+  /// quality (sort header is ignored — relevance wins). Otherwise
+  /// the full move list is filtered by type/category and sorted by
+  /// the active column.
   List<Move> _filteredMoves(String query) {
-    if (query.isEmpty) return _allMoves;
-    final qLower = query.toLowerCase();
-    final qRunes = qLower.runes.toList();
-    final scored = <(Move, int)>[];
-    for (final e in _searchEntries) {
-      final s = scoreEntry(qRunes, qLower, e);
-      if (s > 0) scored.add((e.item, s));
+    bool typeOk(Move m) =>
+        _typeFilter == null || m.type == _typeFilter;
+    bool catOk(Move m) =>
+        _categoryFilter == null || m.category == _categoryFilter;
+
+    if (query.isNotEmpty) {
+      final qLower = query.toLowerCase();
+      final qRunes = qLower.runes.toList();
+      final scored = <(Move, int)>[];
+      for (final e in _searchEntries) {
+        final m = e.item;
+        if (!typeOk(m) || !catOk(m)) continue;
+        final s = scoreEntry(qRunes, qLower, e);
+        if (s > 0) scored.add((m, s));
+      }
+      scored.sort((a, b) => b.$2.compareTo(a.$2));
+      return scored.map((e) => e.$1).toList();
     }
-    scored.sort((a, b) => b.$2.compareTo(a.$2));
-    return scored.map((e) => e.$1).toList();
+
+    final out = _allMoves.where((m) => typeOk(m) && catOk(m)).toList();
+    if (_sortKey != null) out.sort(_compare);
+    return out;
+  }
+
+  int _compare(Move a, Move b) {
+    int cmp;
+    switch (_sortKey!) {
+      case _MoveSortKey.name:
+        cmp = a.localizedName.compareTo(b.localizedName);
+      case _MoveSortKey.type:
+        cmp = KoStrings.getTypeName(a.type)
+            .compareTo(KoStrings.getTypeName(b.type));
+      case _MoveSortKey.category:
+        cmp = a.category.index.compareTo(b.category.index);
+      case _MoveSortKey.power:
+        cmp = a.power.compareTo(b.power);
+      case _MoveSortKey.accuracy:
+        cmp = a.accuracy.compareTo(b.accuracy);
+    }
+    if (cmp == 0 && _sortKey != _MoveSortKey.name) {
+      cmp = a.localizedName.compareTo(b.localizedName);
+    }
+    return _sortAsc ? cmp : -cmp;
+  }
+
+  bool _defaultAsc(_MoveSortKey key) =>
+      !(key == _MoveSortKey.power || key == _MoveSortKey.accuracy);
+
+  void _toggleSort(_MoveSortKey key) {
+    setState(() {
+      final defaultAsc = _defaultAsc(key);
+      if (_sortKey != key) {
+        // First click on this column — start in the column's default
+        // direction (numeric desc, text asc).
+        _sortKey = key;
+        _sortAsc = defaultAsc;
+      } else if (_sortAsc == defaultAsc) {
+        // Already at default direction → flip.
+        _sortAsc = !defaultAsc;
+      } else {
+        // Already at opposite direction → cycle back to no-sort
+        // (registration order). Gives the user a way out without an
+        // explicit "reset" button.
+        _sortKey = null;
+        _sortAsc = true;
+      }
+    });
   }
 
   List<Pokemon> _learnersOf(Move m) {
@@ -175,7 +255,11 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            SizedBox(width: 320, child: _searchPane(pushOnTap: false)),
+                            // Wider on web than the original 320 so
+                            // the type/category dropdowns + sortable
+                            // columns fit comfortably. Detail pane
+                            // still gets the larger half.
+                            SizedBox(width: 480, child: _searchPane(pushOnTap: false)),
                             const VerticalDivider(width: 1),
                             Expanded(child: _detailPane()),
                           ],
@@ -191,6 +275,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   }
 
   Widget _searchPane({bool pushOnTap = false}) {
+    final filtered = _filteredMoves(_searchCtl.text);
     return Column(
       children: [
         Padding(
@@ -206,47 +291,308 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
             ),
             onChanged: (_) => setState(() {}),
             onSubmitted: (_) {
-              final filtered = _filteredMoves(_searchCtl.text);
-              if (filtered.isNotEmpty) {
+              final results = _filteredMoves(_searchCtl.text);
+              if (results.isNotEmpty) {
                 _searchFocus.unfocus();
-                _pickMove(filtered.first, pushOnTap);
+                _pickMove(results.first, pushOnTap);
               }
             },
           ),
         ),
-        Expanded(
-          child: Builder(builder: (context) {
-            final filtered = _filteredMoves(_searchCtl.text);
-            return ListView.builder(
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 4, 8, 6),
+          child: Row(
+            children: [
+              _typeDropdown(),
+              const SizedBox(width: 6),
+              _categoryDropdown(),
+            ],
+          ),
+        ),
+        const Divider(height: 1),
+        _sortHeader(),
+        const Divider(height: 1),
+        if (filtered.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(AppStrings.t('dex.noMovesMatch'),
+                style: TextStyle(color: Colors.grey.shade600)),
+          )
+        else
+          Expanded(
+            child: ListView.separated(
+              keyboardDismissBehavior:
+                  ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: const EdgeInsets.only(bottom: 120),
               itemCount: filtered.length,
+              separatorBuilder: (_, __) => const Divider(height: 1),
               itemBuilder: (_, i) {
                 final m = filtered[i];
                 final isSelected = _selected?.name == m.name;
-                return ListTile(
-                  dense: true,
-                  visualDensity: VisualDensity.compact,
-                  selected: isSelected,
-                  title: Text(m.localizedName, style: const TextStyle(fontSize: 14)),
-                  subtitle: Row(
-                    children: [
-                      _typePill(m.type),
-                      const SizedBox(width: 6),
-                      Text(_categoryShort(m.category),
-                          style: TextStyle(fontSize: 11, color: Colors.grey[600])),
-                      if (m.power > 0) ...[
-                        const SizedBox(width: 8),
-                        Text('${m.power}',
-                            style: TextStyle(fontSize: 11, color: Colors.grey[600])),
-                      ],
-                    ],
-                  ),
-                  onTap: () => _pickMove(m, pushOnTap),
-                );
+                return _moveRow(m, isSelected: isSelected, push: pushOnTap);
               },
-            );
-          }),
-        ),
+            ),
+          ),
       ],
+    );
+  }
+
+  Widget _moveRow(Move m, {required bool isSelected, required bool push}) {
+    final categoryLabel = _categoryShort(m.category);
+    final scheme = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: () => _pickMove(m, push),
+      child: Container(
+        // Selected row gets a subtle tint so the user can tell which
+        // move is in the detail pane after a click.
+        color: isSelected
+            ? scheme.primary.withValues(alpha: 0.08)
+            : null,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Text(m.localizedName,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w600)),
+            ),
+            SizedBox(
+              width: 50,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                decoration: BoxDecoration(
+                  color: KoStrings.getTypeColor(m.type),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                child: Text(KoStrings.getTypeName(m.type),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold)),
+              ),
+            ),
+            const SizedBox(width: 6),
+            SizedBox(
+              width: 36,
+              child: Text(categoryLabel,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 11, color: Colors.grey.shade700)),
+            ),
+            SizedBox(
+              width: 36,
+              child: Text(m.power > 0 ? '${m.power}' : '—',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600)),
+            ),
+            SizedBox(
+              width: 36,
+              child: Text(m.accuracy > 0 ? '${m.accuracy}' : '—',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _typeDropdown() {
+    // Encode "all types" as -1 — PopupMenuButton can't disambiguate
+    // a null selection from a tap-outside dismissal.
+    const allSentinel = -1;
+    return PopupMenuButton<int>(
+      tooltip: AppStrings.t('dex.allTypes'),
+      popUpAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 100)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        // Stack with an invisible "all" placeholder keeps the chip
+        // width steady across selections so the row doesn't jitter.
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(AppStrings.t('dex.allTypes'),
+                style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.transparent)),
+            Text(
+              _typeFilter == null
+                  ? AppStrings.t('dex.allTypes')
+                  : KoStrings.getTypeName(_typeFilter!),
+              style: TextStyle(
+                  fontSize: 12,
+                  color: _typeFilter != null
+                      ? KoStrings.getTypeColor(_typeFilter!)
+                      : null,
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+      itemBuilder: (_) => [
+        PopupMenuItem(
+          value: allSentinel,
+          child: Text(AppStrings.t('dex.allTypes'),
+              style: const TextStyle(fontSize: 13)),
+        ),
+        for (final t in PokemonType.values)
+          if (t != PokemonType.typeless)
+            PopupMenuItem(
+              value: t.index,
+              child: Text(KoStrings.getTypeName(t),
+                  style: TextStyle(
+                      fontSize: 13, color: KoStrings.getTypeColor(t))),
+            ),
+      ],
+      onSelected: (v) => setState(() {
+        _typeFilter = v == allSentinel ? null : PokemonType.values[v];
+      }),
+    );
+  }
+
+  Widget _categoryDropdown() {
+    String label(MoveCategory? c) {
+      if (c == null) return AppStrings.t('dex.allCategories');
+      switch (c) {
+        case MoveCategory.physical:
+          return AppStrings.t('damage.physical');
+        case MoveCategory.special:
+          return AppStrings.t('damage.special');
+        case MoveCategory.status:
+          return AppStrings.t('damage.status');
+      }
+    }
+
+    const allSentinel = -1;
+    return PopupMenuButton<int>(
+      tooltip: AppStrings.t('dex.allCategories'),
+      popUpAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 100)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(label(null),
+                style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.transparent)),
+            Text(label(_categoryFilter),
+                style: const TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w600)),
+          ],
+        ),
+      ),
+      itemBuilder: (_) => [
+        PopupMenuItem(
+          value: allSentinel,
+          child: Text(label(null), style: const TextStyle(fontSize: 13)),
+        ),
+        for (final c in MoveCategory.values)
+          PopupMenuItem(
+            value: c.index,
+            child: Text(label(c), style: const TextStyle(fontSize: 13)),
+          ),
+      ],
+      onSelected: (v) => setState(() {
+        _categoryFilter = v == allSentinel ? null : MoveCategory.values[v];
+      }),
+    );
+  }
+
+  Widget _sortHeader() {
+    Widget headerCell({
+      required _MoveSortKey key,
+      required String label,
+      required Widget Function(Widget child) wrap,
+    }) {
+      final active = _sortKey == key;
+      // Hide the arrow when a search query is active — relevance
+      // sort overrides column sort, and showing both is misleading.
+      final searching = _searchCtl.text.isNotEmpty;
+      final arrow = (active && !searching) ? (_sortAsc ? ' ↑' : ' ↓') : '';
+      return InkWell(
+        onTap: () => _toggleSort(key),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: wrap(
+            Text(
+              '$label$arrow',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: (active && !searching)
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey.shade700,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 5,
+            child: headerCell(
+              key: _MoveSortKey.name,
+              label: AppStrings.t('move.name'),
+              wrap: (c) => Align(alignment: Alignment.centerLeft, child: c),
+            ),
+          ),
+          SizedBox(
+            width: 50,
+            child: headerCell(
+              key: _MoveSortKey.type,
+              label: AppStrings.t('move.type'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+          const SizedBox(width: 6),
+          SizedBox(
+            width: 36,
+            child: headerCell(
+              key: _MoveSortKey.category,
+              label: AppStrings.t('move.category'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+          SizedBox(
+            width: 36,
+            child: headerCell(
+              key: _MoveSortKey.power,
+              label: AppStrings.t('move.power'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+          SizedBox(
+            width: 36,
+            child: headerCell(
+              key: _MoveSortKey.accuracy,
+              label: AppStrings.t('move.accuracy'),
+              wrap: (c) => Center(child: c),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
