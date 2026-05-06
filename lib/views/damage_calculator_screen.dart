@@ -1363,10 +1363,20 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 icon: const Icon(Icons.refresh),
                 label: Text(AppStrings.t('toolbar.reset'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               ),
+              // Mode toggle lives next to swap/reset on wide so it
+              // sits in the user's main scan path (capture used to
+              // be here — moved out because the simple↔extended
+              // toggle was getting buried in the far-right cluster
+              // with locale/theme controls).
               TextButton.icon(
-                onPressed: _capture,
-                icon: const Icon(Icons.camera_alt_outlined),
-                label: Text(AppStrings.t('toolbar.capture'), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                onPressed: _toggleSimpleMode,
+                icon: const Icon(Icons.tune),
+                label: Text(
+                    AppStrings.t(_simpleMode
+                        ? 'simple.shortExtended'
+                        : 'simple.shortSimple'),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600)),
               ),
               // Dex button → popup with both Pokémon Dex and Move Dex.
               // Single AppBar slot so the toolbar doesn't keep growing.
@@ -1419,20 +1429,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                         fontSize: 16, fontWeight: FontWeight.w600)),
               ),
               const Spacer(),
-              TextButton(
-                onPressed: _toggleSimpleMode,
-                child: Text(
-                  AppStrings.t(_simpleMode
-                      ? 'simple.shortExtended'
-                      : 'simple.shortSimple'),
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 4),
               _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
               const SizedBox(width: 4),
               const _ThemeToggleButton(),
