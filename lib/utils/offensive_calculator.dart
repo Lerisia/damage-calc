@@ -148,11 +148,14 @@ class OffensiveCalculator {
     final double terrainMod = getTerrainModifier(terrain,
         move: move, attackerGrounded: grounded, defenderGrounded: defenderGrounded);
 
-    // Burn halves physical damage unless Guts negates it
+    // Burn halves physical damage unless Guts negates it OR the move
+    // is Facade — Facade by spec ignores burn's Atk halving in
+    // addition to its own ×2 power doubling (Gen V+).
     final double burnMod =
         (status == StatusCondition.burn &&
          move.category == MoveCategory.physical &&
-         !hasGuts)
+         !hasGuts &&
+         !move.hasTag(MoveTags.facade))
             ? kBurnDamageReduction
             : 1.0;
 

@@ -309,6 +309,28 @@ void main() {
       );
       expect(result, equals(2760));
     });
+
+    test('Facade ignores burn atk halving (Gen V+)', () {
+      // Per Bulbapedia: Facade is unaffected by burn's Attack halving
+      // in addition to its ×2 power doubling. Verify both effects:
+      //   - move_transform doubles 70 → 140
+      //   - offensive calc doesn't apply the 0.5 burn mod
+      // Atk = 69, transformed power = 140 -> 69 * 140 = 9660
+      const facade = Move(
+        name: 'Facade', nameKo: '객기', nameJa: 'からげんき',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 70, accuracy: 100, pp: 20, tags: [MoveTags.facade],
+      );
+      final result = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
+        transformed: _transform(facade,
+            const MoveContext(status: StatusCondition.burn)),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        status: StatusCondition.burn,
+      );
+      expect(result, equals(9660));
+    });
   });
 
   group('Status moves', () {

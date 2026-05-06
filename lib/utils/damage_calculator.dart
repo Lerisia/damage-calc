@@ -878,8 +878,11 @@ class DamageCalculator {
       move: effectiveMove, attackerGrounded: atkGrounded, defenderGrounded: defGroundedForTerrain);
 
     // --- Burn ---
+    // Facade ignores burn's Atk halving (Gen V+) in addition to its
+    // own ×2 power doubling — exempt the move here too.
     final double burnMod = (attacker.status == StatusCondition.burn &&
-        isPhysical && !negatesBurn(atkAbilityRaw)) ? kBurnDamageReduction : 1.0;
+        isPhysical && !negatesBurn(atkAbilityRaw) &&
+        !effectiveMove.hasTag(MoveTags.facade)) ? kBurnDamageReduction : 1.0;
 
     // --- Critical ---
     final double critMod = isCritical
