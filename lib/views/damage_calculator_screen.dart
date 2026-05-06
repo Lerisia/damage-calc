@@ -1930,6 +1930,70 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     });
   }
 
+  /// Convolve two damage distributions (a + b → a+b). Output is
+  /// `{damage: probability}`. Pure helper — no closure on instance
+  /// state — so safe to call from [_setKoLabel].
+  Map<int, double> _convolveDist(Map<int, double> a, Map<int, double> b) {
+    final out = <int, double>{};
+    for (final ea in a.entries) {
+      for (final eb in b.entries) {
+        final k = ea.key + eb.key;
+        out[k] = (out[k] ?? 0) + ea.value * eb.value;
+      }
+    }
+    return out;
+  }
+
+  /// Compute "확정/난수 N세트 (XX.X%)" for the sum. Returns ('', grey)
+  /// when the result isn't worth displaying (sum is 0 damage or the
+  /// 5-set cap can't reach the defender's HP).
+  (String, Color) _setKoLabel(
+    Map<int, double> oneSetDist,
+    int defenderHp, {
+    required int minDmg,
+    required int maxDmg,
+  }) {
+    if (maxDmg <= 0 || defenderHp <= 0) return ('', Colors.grey);
+    const cap = 5;
+
+    // Quick range bounds: smallest N where guaranteed (every roll
+    // would already KO) and smallest N where ANY roll could KO.
+    final guaranteedN = minDmg > 0 ? (defenderHp / minDmg).ceil() : cap + 1;
+    final possibleN = (defenderHp / maxDmg).ceil();
+    if (possibleN > cap) return ('', Colors.grey);
+
+    if (guaranteedN <= possibleN) {
+      // Min already ≥ HP at this N → 확정.
+      final tmpl = AppStrings.t('damage.sum.guaranteedSet');
+      return (tmpl.replaceFirst('{n}', '$possibleN'), Colors.red);
+    }
+
+    // Random KO at this N: convolve N copies of the one-set dist
+    // and integrate ≥ HP.
+    var dist = oneSetDist;
+    for (int i = 1; i < possibleN; i++) {
+      dist = _convolveDist(dist, oneSetDist);
+    }
+    double prob = 0;
+    for (final e in dist.entries) {
+      if (e.key >= defenderHp) prob += e.value;
+    }
+    if (prob <= 0) return ('', Colors.grey);
+    if (prob >= 1.0 - 1e-9) {
+      final tmpl = AppStrings.t('damage.sum.guaranteedSet');
+      return (tmpl.replaceFirst('{n}', '$possibleN'), Colors.red);
+    }
+    final pct = prob * 100;
+    final pctText = pct >= 99.95
+        ? '>99.9'
+        : pct < 0.05 ? '<0.1' : pct.toStringAsFixed(1);
+    final tmpl = AppStrings.t('damage.sum.randomSet');
+    return (
+      '${tmpl.replaceFirst('{n}', '$possibleN')} ($pctText%)',
+      Colors.orange,
+    );
+  }
+
   /// Drops the sum if the move list has changed since selection. Called
   /// at the top of [_buildDamageCalcTab]; safe even when the sum is
   /// empty (early exit).
@@ -1976,72 +2040,86 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     // something different — drop it instead.
     _maybeInvalidateSum();
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(4, 8, 4, 120),
-      child: Screenshot(
-        controller: _damageTabScreenshotController,
-        child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Header line 1: names
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              '${_attacker.localizedPokemonName}${_dynamaxLabel(_attacker)} → ${_defender.localizedPokemonName}${_dynamaxLabel(_defender)}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    // Sticky-footer layout: scrollable cards on top, sum block pinned
+    // to the bottom of the tab. Without this, on short viewports the
+    // user would have to scroll past 4 move cards to reach the sum
+    // every time they tapped one — broken with each new selection.
+    // Footer collapses to a thin hint when empty so the scrollable
+    // area gives up almost no vertical space in the common case.
+    return Screenshot(
+      controller: _damageTabScreenshotController,
+      child: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Header line 1: names
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        '${_attacker.localizedPokemonName}${_dynamaxLabel(_attacker)} → ${_defender.localizedPokemonName}${_dynamaxLabel(_defender)}',
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    // Header line 2: types
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _dmgTypeText(_attacker),
+                        const Text('  →  ', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                        _dmgTypeText(_defender),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'HP $defCurrentHp/$defMaxHp | ${AppStrings.t('section.physBulk')} ${bulk.physical} | ${AppStrings.t('section.specBulk')} ${bulk.special}',
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Defensive condition checkboxes
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _dmgCheck(AppStrings.t('damage.reflect'), _defender.reflect, (v) {
+                          setState(() => _defender.reflect = v);
+                        }),
+                        const SizedBox(width: 16),
+                        _dmgCheck(AppStrings.t('damage.lightScreen'), _defender.lightScreen, (v) {
+                          setState(() => _defender.lightScreen = v);
+                        }),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+
+                    for (int i = 0; i < 4; i++)
+                      _buildMoveResult(i, bulk,
+                          atkSpeed: atkSpeed,
+                          defSpeed: defSpeed,
+                          defAttack: defStats.attack),
+                  ],
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 2),
-          // Header line 2: types
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _dmgTypeText(_attacker),
-              const Text('  →  ', style: TextStyle(fontSize: 12, color: Colors.grey)),
-              _dmgTypeText(_defender),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'HP $defCurrentHp/$defMaxHp | ${AppStrings.t('section.physBulk')} ${bulk.physical} | ${AppStrings.t('section.specBulk')} ${bulk.special}',
-            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 12),
-
-          // Defensive condition checkboxes
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _dmgCheck(AppStrings.t('damage.reflect'), _defender.reflect, (v) {
-                setState(() => _defender.reflect = v);
-              }),
-              const SizedBox(width: 16),
-              _dmgCheck(AppStrings.t('damage.lightScreen'), _defender.lightScreen, (v) {
-                setState(() => _defender.lightScreen = v);
-              }),
-            ],
-          ),
-          const SizedBox(height: 12),
-
-          for (int i = 0; i < 4; i++)
-            _buildMoveResult(i, bulk,
-                atkSpeed: atkSpeed,
-                defSpeed: defSpeed,
-                defAttack: defStats.attack),
-          _buildSumFooter(
-            atkSpeed: atkSpeed,
-            defSpeed: defSpeed,
-            defAttack: defStats.attack,
-            defenderHp: defCurrentHp,
-            defenderMaxHp: defMaxHp,
-          ),
-        ],
+            _buildSumFooter(
+              atkSpeed: atkSpeed,
+              defSpeed: defSpeed,
+              defAttack: defStats.attack,
+              defenderHp: defCurrentHp,
+              defenderMaxHp: defMaxHp,
+            ),
+          ],
+        ),
       ),
-    )),
     );
   }
 
@@ -2290,34 +2368,26 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       }
     }
 
-    final dist = RandomFactor.multiHitDistributionFromRolls(allShots);
+    final oneSetDist = RandomFactor.multiHitDistributionFromRolls(allShots);
     int minDmg = 1 << 30, maxDmg = 0;
-    double koProb = 0;
-    for (final e in dist.entries) {
+    for (final e in oneSetDist.entries) {
       if (e.key < minDmg) minDmg = e.key;
       if (e.key > maxDmg) maxDmg = e.key;
-      if (e.key >= defenderHp) koProb += e.value;
     }
-    if (dist.isEmpty) { minDmg = 0; maxDmg = 0; }
+    if (oneSetDist.isEmpty) { minDmg = 0; maxDmg = 0; }
 
     final minPct = defenderMaxHp > 0 ? minDmg / defenderMaxHp * 100 : 0.0;
     final maxPct = defenderMaxHp > 0 ? maxDmg / defenderMaxHp * 100 : 0.0;
 
-    // KO label: 확정 / 난수 (xx.x%) / 확정 비KO. We show the line only
-    // when there's something meaningful to say (KO possible).
-    String koText = '';
-    Color koColor = Colors.grey;
-    if (koProb >= 1.0 - 1e-9) {
-      koText = AppStrings.t('damage.sum.guaranteedKo');
-      koColor = Colors.red;
-    } else if (koProb > 0) {
-      final pct = koProb * 100;
-      final pctText = pct >= 99.95
-          ? '>99.9'
-          : pct < 0.05 ? '<0.1' : pct.toStringAsFixed(1);
-      koText = '${AppStrings.t('damage.sum.randomKo')} ($pctText%)';
-      koColor = Colors.orange;
-    }
+    // N-set KO: how many full repetitions of this combo are needed
+    // to KO. Mirrors a single move's "1타 / 2타" pattern but the unit
+    // is "세트" (one application of the user's selected combo).
+    // Cap at 5 — beyond that the answer is rarely actionable in
+    // practice, and convolution depth grows with N.
+    final (koText, koColor) = _setKoLabel(
+      oneSetDist, defenderHp,
+      minDmg: minDmg, maxDmg: maxDmg,
+    );
 
     return Container(
       margin: const EdgeInsets.only(top: 12),

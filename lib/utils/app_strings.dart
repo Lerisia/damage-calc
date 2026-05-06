@@ -1421,15 +1421,16 @@ class AppStrings {
       AppLanguage.en: 'Reset',
       AppLanguage.ja: 'リセット',
     },
-    'damage.sum.guaranteedKo': {
-      AppLanguage.ko: '확정 KO',
-      AppLanguage.en: 'Guaranteed KO',
-      AppLanguage.ja: '確定KO',
+    // {n} is replaced at render time with the integer set count.
+    'damage.sum.guaranteedSet': {
+      AppLanguage.ko: '확정 {n}세트',
+      AppLanguage.en: 'Guaranteed in {n} set(s)',
+      AppLanguage.ja: '確定{n}セット',
     },
-    'damage.sum.randomKo': {
-      AppLanguage.ko: '난수 KO',
-      AppLanguage.en: 'Random KO',
-      AppLanguage.ja: '乱数KO',
+    'damage.sum.randomSet': {
+      AppLanguage.ko: '난수 {n}세트',
+      AppLanguage.en: 'Random in {n} set(s)',
+      AppLanguage.ja: '乱数{n}セット',
     },
     'damage.sum.disclaimer': {
       AppLanguage.ko: '* 능력 변동 미반영',
