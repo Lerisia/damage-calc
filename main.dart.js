@@ -9187,7 +9187,7 @@ if(g1===0){g2=m===B.c3?"weather:harsh_sun_water":"weather:heavy_rain_fire"
 s=A.Q(e7,t.N)
 s.push(g2)
 return new A.dK(0,0,0,d7,0,c1,!1,r,s,B.bt,m0)}g3=A.b0F(k,A.nH(q,c,m5.go,b7,b8,b9),A.nH(b4,c,m7.go,e2,e3,e4),r)
-g4=m5.p2===B.hq&&c1&&q!=="Guts"?0.5:1
+g4=m5.p2===B.hq&&c1&&q!=="Guts"&&!B.b.m(h,"custom:facade")?0.5:1
 if(c2){c=c9.d
 g5=c==null?1.5:c}else g5=1
 m3.f=1
@@ -32744,7 +32744,7 @@ if(c3)if(k)if(c.at<=1)if(c.Q<=0){r=c.r
 r=r<60&&r>0}i=r?60:c.r
 h=A.b0H(c9,c)
 g=A.b0F(c4,a8,!0,c)
-f=c0===B.hq&&b===B.aW&&!a9?0.5:1
+f=c0===B.hq&&b===B.aW&&!a9&&!B.b.m(c.z,"custom:facade")?0.5:1
 e=B.b.m(c.z,"custom:parental_bond")?1.25:1
 d=A.b0x(a,c.e,a0)
 if(b0)b=a2==null?1.5:a2
@@ -116724,7 +116724,7 @@ B.a64=new A.r(!0,B.u,null,".AppleSystemUIFont",null,null,null,null,null,null,nul
 B.aa9=new A.eB(B.a7Q,B.a6M,B.a7R,B.a8n,B.a6t,B.a6B,B.a75,B.a8g,B.a7i,B.a8J,B.a5Y,B.a6f,B.a8G,B.a91,B.a64)
 B.aaa=new A.hH("  \u2192  ",null,B.GM,null,null,null,null,null,null,null)
 B.aab=new A.hH("By  Elyss",null,null,null,null,null,null,null,null,null)
-B.aac=new A.hH("v1.7.0",null,null,null,null,null,null,null,null,null)
+B.aac=new A.hH("v1.7.1",null,null,null,null,null,null,null,null,null)
 B.GT=new A.hH("-",null,null,B.a_,null,null,null,null,null,null)
 B.aad=new A.hH("-",null,B.aR,B.a_,null,null,null,null,null,null)
 B.aae=new A.hH("-",null,B.pT,null,null,null,null,null,null,null)
