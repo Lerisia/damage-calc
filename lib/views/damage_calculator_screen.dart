@@ -2332,12 +2332,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
     if (total == 0) {
       // Compact empty state — small dashed-feel text, no big chrome.
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
-        child: Text(
-          AppStrings.t('damage.sum.emptyHint'),
-          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-          textAlign: TextAlign.center,
+      // SafeArea pushes the hint above the iOS home-indicator bar so
+      // the swipe gesture handle isn't sitting on top of the text.
+      return SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 12, 10, 8),
+          child: Text(
+            AppStrings.t('damage.sum.emptyHint'),
+            style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     }
@@ -2385,7 +2390,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       minDmg: minDmg, maxDmg: maxDmg,
     );
 
-    return Container(
+    return SafeArea(
+      top: false,
+      // Push the populated footer above the iOS home-indicator bar
+      // too — otherwise the disclaimer / KO line ends up under the
+      // swipe gesture handle on devices with no physical home button.
+      child: Container(
       margin: const EdgeInsets.only(top: 12),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -2463,6 +2473,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             style: TextStyle(fontSize: 11, color: Colors.grey[600]),
           ),
         ],
+      ),
       ),
     );
   }
