@@ -2042,20 +2042,23 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     // every time they tapped one — broken with each new selection.
     // Footer collapses to a thin hint when empty so the scrollable
     // area gives up almost no vertical space in the common case.
-    return Screenshot(
-      controller: _damageTabScreenshotController,
-      child: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+    //
+    // No Screenshot wrap here: the screenshot button is wide-only and
+    // uses a separate controller, and an extra RepaintBoundary
+    // around the scroll viewport makes iOS flings stutter (the layer
+    // gets re-rasterized every frame as visible content shifts).
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
                     // Header line 1: names
                     FittedBox(
                       fit: BoxFit.scaleDown,
@@ -2106,15 +2109,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ),
               ),
             ),
-            _buildSumFooter(
+            // Footer is its own composite layer so the scroll above
+          // doesn't drag it through the rasterizer every frame.
+          RepaintBoundary(
+            child: _buildSumFooter(
               atkSpeed: atkSpeed,
               defSpeed: defSpeed,
               defAttack: defStats.attack,
               defenderHp: defCurrentHp,
               defenderMaxHp: defMaxHp,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -2304,16 +2310,22 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     // so a tap adds the slot to the sum. Skipped moves are passed
     // through unwrapped — their result card stays interactive-feeling
     // dead, and the user just doesn't see any feedback on tap.
-    if (!summable) return card;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        // Match the card's outer corner so the ripple stays inside.
-        borderRadius: BorderRadius.circular(10),
-        onTap: () => _addToSum(index),
-        child: card,
-      ),
-    );
+    //
+    // RepaintBoundary isolates each card into its own composite layer
+    // so iOS scroll re-uses cached layer pixels (translation only)
+    // instead of re-rasterizing all 4 cards every frame during fling.
+    final wrapped = summable
+        ? Material(
+            color: Colors.transparent,
+            child: InkWell(
+              // Match the card's outer corner so the ripple stays inside.
+              borderRadius: BorderRadius.circular(10),
+              onTap: () => _addToSum(index),
+              child: card,
+            ),
+          )
+        : card;
+    return RepaintBoundary(child: wrapped);
   }
 
   /// Compact sticky-feeling footer block at the bottom of the damage

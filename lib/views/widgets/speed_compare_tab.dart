@@ -263,7 +263,12 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           child: Column(
             children: [
-              KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, itemController: _atkItemController, natureController: _atkNatureController, abilityFocus: _atkAbilityFocus, itemFocus: _atkItemFocus, natureFocus: _atkNatureFocus)),
+              // RepaintBoundary lets each side's panel cache its
+              // pixels so iOS scroll fling becomes layer translation
+              // instead of full re-paint of both panels every frame.
+              RepaintBoundary(
+                child: KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, itemController: _atkItemController, natureController: _atkNatureController, abilityFocus: _atkAbilityFocus, itemFocus: _atkItemFocus, natureFocus: _atkNatureFocus)),
+              ),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
@@ -282,7 +287,9 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                 ),
               ),
               const SizedBox(height: 8),
-              KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, itemController: _defItemController, natureController: _defNatureController, abilityFocus: _defAbilityFocus, itemFocus: _defItemFocus, natureFocus: _defNatureFocus)),
+              RepaintBoundary(
+                child: KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, itemController: _defItemController, natureController: _defNatureController, abilityFocus: _defAbilityFocus, itemFocus: _defItemFocus, natureFocus: _defNatureFocus)),
+              ),
             ],
           ),
         ),

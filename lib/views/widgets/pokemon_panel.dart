@@ -1067,43 +1067,47 @@ class PokemonPanelState extends State<PokemonPanel>
         ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
         : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
 
-    return Padding(
-      key: key,
-      padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: onToggle,
-            borderRadius: BorderRadius.circular(4),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: accent,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.1,
+    // Same RepaintBoundary isolation as [_sectionCard] — keeps the
+    // toggleable section's paint independent from its scroll neighbors.
+    return RepaintBoundary(
+      child: Padding(
+        key: key,
+        padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: onToggle,
+              borderRadius: BorderRadius.circular(4),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: accent,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.1,
+                      ),
                     ),
-                  ),
-                  Icon(
-                    expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                    size: 18,
-                    color: accent,
-                  ),
-                ],
+                    Icon(
+                      expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                      size: 18,
+                      color: accent,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          if (expanded) ...[
-            const SizedBox(height: 8),
-            child,
+            if (expanded) ...[
+              const SizedBox(height: 8),
+              child,
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -1126,19 +1130,24 @@ class PokemonPanelState extends State<PokemonPanel>
       ),
     );
 
-    return Padding(
-      key: key,
-      padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (trailing != null)
-            Row(children: [titleWidget, const Spacer(), trailing])
-          else
-            titleWidget,
-          const SizedBox(height: 8),
-          child,
-        ],
+    // Each section card lives in its own paint layer so iOS scrolls
+    // without re-rasterizing the whole panel every frame — fling
+    // becomes layer translation rather than pixel re-paint.
+    return RepaintBoundary(
+      child: Padding(
+        key: key,
+        padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (trailing != null)
+              Row(children: [titleWidget, const Spacer(), trailing])
+            else
+              titleWidget,
+            const SizedBox(height: 8),
+            child,
+          ],
+        ),
       ),
     );
   }
