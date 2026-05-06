@@ -1405,6 +1405,38 @@ class AppStrings {
       AppLanguage.ja: '未設定',
     },
 
+    // === Damage sum (대미지 합산) ===
+    'damage.sum.title': {
+      AppLanguage.ko: '합산',
+      AppLanguage.en: 'Sum',
+      AppLanguage.ja: '合算',
+    },
+    'damage.sum.emptyHint': {
+      AppLanguage.ko: '기술 카드를 탭해서 합산에 추가',
+      AppLanguage.en: 'Tap a move card to add it to the sum',
+      AppLanguage.ja: 'わざカードをタップして合算に追加',
+    },
+    'damage.sum.reset': {
+      AppLanguage.ko: '초기화',
+      AppLanguage.en: 'Reset',
+      AppLanguage.ja: 'リセット',
+    },
+    'damage.sum.guaranteedKo': {
+      AppLanguage.ko: '확정 KO',
+      AppLanguage.en: 'Guaranteed KO',
+      AppLanguage.ja: '確定KO',
+    },
+    'damage.sum.randomKo': {
+      AppLanguage.ko: '난수 KO',
+      AppLanguage.en: 'Random KO',
+      AppLanguage.ja: '乱数KO',
+    },
+    'damage.sum.disclaimer': {
+      AppLanguage.ko: '* 능력 변동 미반영',
+      AppLanguage.en: '* Stat changes between hits are not applied',
+      AppLanguage.ja: '* 能力変化は反映されません',
+    },
+
     // === Effectiveness ===
     'eff.immune': {
       AppLanguage.ko: '효과 없음',

@@ -11,8 +11,10 @@ import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
 import '../utils/theme_controller.dart';
 import '../utils/image_saver.dart' as saver;
+import '../models/move_tags.dart';
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
+import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/simple_mode_controller.dart';
 import 'dex_screen.dart';
@@ -87,6 +89,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// inputs within a session. Battle environment is shared via the
   /// top toolbar. Persisted across launches via [SimpleModeController].
   bool _simpleMode = SimpleModeController.instance.isSimple.value;
+
+  // Damage-tab move sum: tap a result block to add it (× count, max 8
+  // total). Convolves the per-shot 16-roll distributions to give a
+  // joint damage distribution across the selected uses. Stat / ability
+  // / item changes flow through naturally because we recompute every
+  // build; only the move *list itself* changing forces a reset (signature
+  // captured at first add).
+  static const int _kSumMax = 8;
+  final Map<int, int> _summedSlots = {};
+  List<String?> _summedSig = const [];
 
   // Name of the sample currently loaded on each side (used to prefill the
   // save dialog so users can update presets in place). Cleared when the
@@ -1857,6 +1869,93 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
+  // ────────────────────────────────────────────────────────────────────
+  // Damage sum (대미지 합산)
+  //
+  // Tap a move's result block to add it to a running sum at the
+  // bottom of the damage tab. Backed by the existing per-shot 16-roll
+  // distributions and `RandomFactor.multiHitDistributionFromRolls` —
+  // each shot (single-hit move = one shot, multi-hit move = N shots)
+  // is treated identically and convolved into a joint distribution.
+  // ────────────────────────────────────────────────────────────────────
+
+  /// Snapshot of the attacker's move name list — captured at first add.
+  /// On every build we compare against the current names; mismatch →
+  /// reset (the user's mental anchor was tied to specific move names).
+  List<String?> _currentMoveNames() =>
+      [for (final m in _attacker.moves) m?.name];
+
+  /// True for OHKO / Sheer Cold style moves whose damage isn't a
+  /// normal stat-based calc — these shouldn't be summable. Status
+  /// moves are already filtered upstream (the result card collapses
+  /// to nothing for them).
+  bool _moveSummable(Move move) {
+    if (move.category == MoveCategory.status) return false;
+    if (move.hasTag(MoveTags.ohko)) return false;
+    if (move.hasTag(MoveTags.ohkoIceImmune)) return false;
+    return true;
+  }
+
+  /// Total selected count across all slots.
+  int get _summedTotal =>
+      _summedSlots.values.fold(0, (a, b) => a + b);
+
+  void _addToSum(int slot) {
+    final move = _attacker.moves[slot];
+    if (move == null || !_moveSummable(move)) return;
+    if (_summedTotal >= _kSumMax) return;
+    setState(() {
+      // Capture the signature lazily so an empty sum doesn't pin to
+      // an unrelated move list state.
+      if (_summedSlots.isEmpty) {
+        _summedSig = _currentMoveNames();
+      }
+      _summedSlots[slot] = (_summedSlots[slot] ?? 0) + 1;
+    });
+  }
+
+  void _removeSumEntry(int slot) {
+    if (!_summedSlots.containsKey(slot)) return;
+    setState(() {
+      _summedSlots.remove(slot);
+      if (_summedSlots.isEmpty) _summedSig = const [];
+    });
+  }
+
+  void _resetSum() {
+    if (_summedSlots.isEmpty) return;
+    setState(() {
+      _summedSlots.clear();
+      _summedSig = const [];
+    });
+  }
+
+  /// Drops the sum if the move list has changed since selection. Called
+  /// at the top of [_buildDamageCalcTab]; safe even when the sum is
+  /// empty (early exit).
+  void _maybeInvalidateSum() {
+    if (_summedSlots.isEmpty) return;
+    final now = _currentMoveNames();
+    bool same = now.length == _summedSig.length;
+    if (same) {
+      for (int i = 0; i < now.length; i++) {
+        if (now[i] != _summedSig[i]) { same = false; break; }
+      }
+    }
+    if (!same) {
+      // Build-time invalidation: schedule the clear for after the
+      // frame so we don't setState during build.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        if (_summedSlots.isEmpty) return;
+        setState(() {
+          _summedSlots.clear();
+          _summedSig = const [];
+        });
+      });
+    }
+  }
+
   Widget _buildDamageCalcTab() {
     // Cache stats/speed once per build — every setState forces a fresh
     // build() so these always reflect current attacker/defender state,
@@ -1870,6 +1969,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final defMaxHp = defStats.hp;
     final defCurrentHp = (defMaxHp * _defender.hpPercent / 100).floor();
     final bulk = _getDefensiveBulk();
+
+    // Stat / item / weather changes flow through naturally because we
+    // recompute on every build. But if the attacker's *moves* shifted
+    // since the user last added one, the sum would silently mean
+    // something different — drop it instead.
+    _maybeInvalidateSum();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(4, 8, 4, 120),
@@ -1927,6 +2032,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 atkSpeed: atkSpeed,
                 defSpeed: defSpeed,
                 defAttack: defStats.attack),
+          _buildSumFooter(
+            atkSpeed: atkSpeed,
+            defSpeed: defSpeed,
+            defAttack: defStats.attack,
+            defenderHp: defCurrentHp,
+            defenderMaxHp: defMaxHp,
+          ),
         ],
       ),
     )),
@@ -2011,17 +2123,26 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final baseBg = Theme.of(context).scaffoldBackgroundColor;
     final cardBg = Color.lerp(baseBg, typeColor, isDark ? 0.18 : 0.09);
 
-    return Container(
+    final summable = _moveSummable(result.move);
+    final selectedCount = _summedSlots[index] ?? 0;
+    final scheme = Theme.of(context).colorScheme;
+
+    final card = Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       margin: const EdgeInsets.symmetric(vertical: 3),
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(10),
+        // Selected slot gets a thin accent border so the user can spot
+        // which results are currently in the sum at a glance.
+        border: selectedCount > 0
+            ? Border.all(color: scheme.primary, width: 1.5)
+            : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Move name + type + effectiveness
+          // Move name + type + effectiveness + sum-count badge
           Row(
             children: [
               Flexible(
@@ -2033,7 +2154,24 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               Text(effectiveType != null ? KoStrings.getTypeName(effectiveType) : '-',
                   style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
-              Text(effLabel, style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
+              Expanded(
+                child: Text(effLabel,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
+              ),
+              if (selectedCount > 0)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: scheme.primary,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text('×$selectedCount',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: scheme.onPrimary,
+                          fontWeight: FontWeight.w700)),
+                ),
             ],
           ),
           const SizedBox(height: 6),
@@ -2084,6 +2222,180 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               )).toList(),
             ),
           ],
+        ],
+      ),
+    );
+
+    // Summable moves (everything except status / OHKO) get an InkWell
+    // so a tap adds the slot to the sum. Skipped moves are passed
+    // through unwrapped — their result card stays interactive-feeling
+    // dead, and the user just doesn't see any feedback on tap.
+    if (!summable) return card;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        // Match the card's outer corner so the ripple stays inside.
+        borderRadius: BorderRadius.circular(10),
+        onTap: () => _addToSum(index),
+        child: card,
+      ),
+    );
+  }
+
+  /// Compact sticky-feeling footer block at the bottom of the damage
+  /// tab. Empty state is a thin one-line hint; populated state shows
+  /// the per-slot chips with × counts, the convolved damage range,
+  /// and the resulting KO probability against the defender's current HP.
+  Widget _buildSumFooter({
+    required int atkSpeed,
+    required int defSpeed,
+    required int defAttack,
+    required int defenderHp,
+    required int defenderMaxHp,
+  }) {
+    final scheme = Theme.of(context).colorScheme;
+    final total = _summedTotal;
+
+    if (total == 0) {
+      // Compact empty state — small dashed-feel text, no big chrome.
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(10, 12, 10, 0),
+        child: Text(
+          AppStrings.t('damage.sum.emptyHint'),
+          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    // Build the joint distribution by concatenating every selected
+    // shot (single-hit = 1 shot, multi-hit = N shots) and convolving
+    // through the existing helper. This way a single-hit Tackle and a
+    // multi-hit Bullet Seed contribute the same way: each shot is a
+    // 16-roll uniform distribution.
+    final allShots = <List<int>>[];
+    final entries = <({int slot, int count, DamageResult result})>[];
+    for (final entry in _summedSlots.entries) {
+      final slot = entry.key;
+      final count = entry.value;
+      final res = _calcDamage(slot,
+          atkSpeed: atkSpeed, defSpeed: defSpeed, defAttack: defAttack);
+      entries.add((slot: slot, count: count, result: res));
+      for (int i = 0; i < count; i++) {
+        if (res.perHitAllRolls != null) {
+          allShots.addAll(res.perHitAllRolls!);
+        } else {
+          allShots.add(res.allRolls);
+        }
+      }
+    }
+
+    final dist = RandomFactor.multiHitDistributionFromRolls(allShots);
+    int minDmg = 1 << 30, maxDmg = 0;
+    double koProb = 0;
+    for (final e in dist.entries) {
+      if (e.key < minDmg) minDmg = e.key;
+      if (e.key > maxDmg) maxDmg = e.key;
+      if (e.key >= defenderHp) koProb += e.value;
+    }
+    if (dist.isEmpty) { minDmg = 0; maxDmg = 0; }
+
+    final minPct = defenderMaxHp > 0 ? minDmg / defenderMaxHp * 100 : 0.0;
+    final maxPct = defenderMaxHp > 0 ? maxDmg / defenderMaxHp * 100 : 0.0;
+
+    // KO label: 확정 / 난수 (xx.x%) / 확정 비KO. We show the line only
+    // when there's something meaningful to say (KO possible).
+    String koText = '';
+    Color koColor = Colors.grey;
+    if (koProb >= 1.0 - 1e-9) {
+      koText = AppStrings.t('damage.sum.guaranteedKo');
+      koColor = Colors.red;
+    } else if (koProb > 0) {
+      final pct = koProb * 100;
+      final pctText = pct >= 99.95
+          ? '>99.9'
+          : pct < 0.05 ? '<0.1' : pct.toStringAsFixed(1);
+      koText = '${AppStrings.t('damage.sum.randomKo')} ($pctText%)';
+      koColor = Colors.orange;
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: scheme.outlineVariant, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '${AppStrings.t('damage.sum.title')} ($total/$_kSumMax)',
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+              ),
+              const Spacer(),
+              IconButton(
+                tooltip: AppStrings.t('damage.sum.reset'),
+                onPressed: _resetSum,
+                icon: const Icon(Icons.refresh, size: 18),
+                visualDensity: VisualDensity.compact,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              for (final e in entries)
+                if (_attacker.moves[e.slot] != null)
+                  InputChip(
+                    label: Text(
+                      e.count > 1
+                          ? '${_attacker.moves[e.slot]!.localizedName} ×${e.count}'
+                          : _attacker.moves[e.slot]!.localizedName,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    onDeleted: () => _removeSumEntry(e.slot),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    visualDensity: VisualDensity.compact,
+                  ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                Text(
+                  '${minPct.toStringAsFixed(1)}~${maxPct.toStringAsFixed(1)}%',
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(width: 8),
+                Text('($minDmg~$maxDmg)',
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600])),
+                if (koText.isNotEmpty) ...[
+                  const SizedBox(width: 12),
+                  Text(koText,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: koColor,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            AppStrings.t('damage.sum.disclaimer'),
+            style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+          ),
         ],
       ),
     );
@@ -2653,7 +2965,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.7.1'),
+          const Text('v1.7.2'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
