@@ -53,6 +53,12 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   Move? _selected;
   final _searchCtl = TextEditingController();
   final _searchFocus = FocusNode();
+  // Learners (배우는 포켓몬) chip filter — without Champions-only on,
+  // some moves' learner list runs to hundreds of species; this filter
+  // narrows the visible chips by name. Substring match against
+  // localized + English + JP names + aliases.
+  final _learnersSearchCtl = TextEditingController();
+  String _learnersQuery = '';
 
   // Filters + sort, mirroring the Pokémon Dex's Moves tab.
   PokemonType? _typeFilter;
@@ -74,6 +80,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   void dispose() {
     _searchCtl.dispose();
     _searchFocus.dispose();
+    _learnersSearchCtl.dispose();
     super.dispose();
   }
 
@@ -369,51 +376,69 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
             ? scheme.primary.withValues(alpha: 0.08)
             : null,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              flex: 5,
-              child: Text(m.localizedName,
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w600)),
-            ),
-            SizedBox(
-              width: 50,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                decoration: BoxDecoration(
-                  color: KoStrings.getTypeColor(m.type),
-                  borderRadius: BorderRadius.circular(3),
+            Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Text(m.localizedName,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600)),
                 ),
-                child: Text(KoStrings.getTypeName(m.type),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        fontSize: 10,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold)),
+                SizedBox(
+                  width: 50,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: KoStrings.getTypeColor(m.type),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    child: Text(KoStrings.getTypeName(m.type),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 10,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                SizedBox(
+                  width: 36,
+                  child: Text(categoryLabel,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 11, color: Colors.grey.shade700)),
+                ),
+                SizedBox(
+                  width: 36,
+                  child: Text(m.power > 0 ? '${m.power}' : '—',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 13, fontWeight: FontWeight.w600)),
+                ),
+                SizedBox(
+                  width: 36,
+                  child: Text(m.accuracy > 0 ? '${m.accuracy}' : '—',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
+                ),
+              ],
+            ),
+            // Two-line description below the columns — same pattern as
+            // Pokémon Dex's moves tab so the two lists feel like the
+            // same kind of object.
+            if (m.localizedDescription != null &&
+                m.localizedDescription!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(m.localizedDescription!,
+                    style: TextStyle(
+                        fontSize: 11, color: Colors.grey.shade600),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis),
               ),
-            ),
-            const SizedBox(width: 6),
-            SizedBox(
-              width: 36,
-              child: Text(categoryLabel,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 11, color: Colors.grey.shade700)),
-            ),
-            SizedBox(
-              width: 36,
-              child: Text(m.power > 0 ? '${m.power}' : '—',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w600)),
-            ),
-            SizedBox(
-              width: 36,
-              child: Text(m.accuracy > 0 ? '${m.accuracy}' : '—',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
-            ),
           ],
         ),
       ),
@@ -689,9 +714,20 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
             valueListenable:
                 ChampionsFilterController.instance.championsOnly,
             builder: (context, championsOnly, _) {
-              final filtered = championsOnly
+              final base = championsOnly
                   ? learners.where((p) => isInChampions(p.name)).toList()
                   : learners;
+              // Apply the per-move learner-search filter on top of
+              // Champions-only.
+              final q = _learnersQuery.trim().toLowerCase();
+              final filtered = q.isEmpty
+                  ? base
+                  : base.where((p) {
+                      bool match(String s) => s.toLowerCase().contains(q);
+                      if (match(p.name) || match(p.nameKo) ||
+                          match(p.nameJa)) return true;
+                      return p.aliases.any(match);
+                    }).toList();
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -711,6 +747,20 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                             .set(v ?? false),
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 8),
+                  // Learner-name filter — outer move list can stay
+                  // unfiltered while the user narrows just the chips.
+                  TextField(
+                    controller: _learnersSearchCtl,
+                    decoration: InputDecoration(
+                      hintText: AppStrings.t('search.pokemon'),
+                      prefixIcon: const Icon(Icons.search, size: 18),
+                      isDense: true,
+                      border: const OutlineInputBorder(),
+                    ),
+                    style: const TextStyle(fontSize: 13),
+                    onChanged: (v) => setState(() => _learnersQuery = v),
                   ),
                   const SizedBox(height: 8),
                   if (filtered.isEmpty)
