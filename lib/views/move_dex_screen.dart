@@ -616,8 +616,13 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     );
   }
 
-  Widget _detailPane() {
-    final m = _selected;
+  /// Renders the move detail content. When [move] is supplied, that
+  /// move is shown directly — used by narrow's pushed sub-screen so it
+  /// doesn't need to mutate `_selected` (which would leave the search
+  /// list highlighting the row after the user pops back). Without
+  /// [move], falls back to `_selected` for the wide split-pane case.
+  Widget _detailPane({Move? move}) {
+    final m = move ?? _selected;
     if (m == null) {
       return Center(
         child: Text(AppStrings.t('dex.move.search'),
@@ -796,15 +801,14 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
 
   void _pickMove(Move m, bool push) {
     if (push) {
+      // Pass the move explicitly to _detailPane so we don't have to
+      // mutate `_selected` — keeping `_selected` clean means the
+      // search list underneath won't be left with a highlighted row
+      // after the pushed detail is popped.
       Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => Scaffold(
           appBar: AppBar(title: Text(m.localizedName)),
-          body: Builder(builder: (_) {
-            // Temporarily set _selected so _detailPane reads off the
-            // tapped move; the wrapper Scaffold owns the back button.
-            _selected = m;
-            return _detailPane();
-          }),
+          body: _detailPane(move: m),
         ),
       ));
     } else {
