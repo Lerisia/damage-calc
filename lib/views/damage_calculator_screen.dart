@@ -2222,7 +2222,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Move name + type + effectiveness + sum-count badge
+          // Move name + type + effectiveness. Sum selection is shown
+          // by the card's accent border + the chips in the sticky
+          // footer below — repeating it here as a "×N" badge just
+          // crowded the row into wrapping.
           Row(
             children: [
               Flexible(
@@ -2234,24 +2237,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               Text(effectiveType != null ? KoStrings.getTypeName(effectiveType) : '-',
                   style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
-              Expanded(
-                child: Text(effLabel,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
-              ),
-              if (selectedCount > 0)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: scheme.primary,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text('×$selectedCount',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: scheme.onPrimary,
-                          fontWeight: FontWeight.w700)),
-                ),
+              Text(effLabel,
+                  style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
             ],
           ),
           const SizedBox(height: 6),
