@@ -45,6 +45,24 @@ import 'widgets/pokemon_panel.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/speed_compare_tab.dart';
 
+/// TabController that defaults to a 180 ms transition instead of
+/// Material's 300 ms — this calc runs inside a 1-minute battle
+/// command select, so each saved 120 ms of swipe animation matters.
+/// TabBar internally calls `controller.animateTo(i)` without a
+/// duration override, so subclassing is the cleanest way to set a
+/// shop-wide default.
+class _FastTabController extends TabController {
+  _FastTabController({required super.length, required super.vsync});
+
+  @override
+  void animateTo(int value,
+      {Duration? duration, Curve curve = Curves.ease}) {
+    super.animateTo(value,
+        duration: duration ?? const Duration(milliseconds: 180),
+        curve: curve);
+  }
+}
+
 class DamageCalculatorScreen extends StatefulWidget {
   final Map<String, String> abilityNameMap;
   final Map<String, String> itemNameMap;
@@ -272,7 +290,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = _FastTabController(length: 4, vsync: this);
     // Refresh state on tab change (e.g. for toolbar button visibility)
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {

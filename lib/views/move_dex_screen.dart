@@ -233,7 +233,13 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           ),
         ),
       ),
-      body: _allMoves.isEmpty
+      // Tap anywhere outside the search field → drop focus so the
+      // mobile keyboard collapses and the typeahead-like list isn't
+      // hovering "active". Same pattern as the Pokémon dex.
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.translucent,
+        child: _allMoves.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : widget.initialMoveName != null
               // Cross-link mode (e.g. tapped from Pokémon Dex's moves
@@ -284,6 +290,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                   // dedicated detail screen so the result has room
                   // to breathe.
                   : _searchPane(pushOnTap: true),
+      ),
     );
   }
 
