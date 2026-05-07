@@ -55,10 +55,12 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   final _searchFocus = FocusNode();
   // Learners (배우는 포켓몬) chip filter — without Champions-only on,
   // some moves' learner list runs to hundreds of species; this filter
-  // narrows the visible chips by name. Substring match against
-  // localized + English + JP names + aliases.
+  // narrows the visible chips by name. We don't mirror the controller
+  // text into a separate state field: the chip list is wrapped in a
+  // ListenableBuilder watching this controller, so it rebuilds even
+  // when the field lives inside a pushed detail screen (whose widget
+  // tree wouldn't otherwise re-evaluate on parent setState).
   final _learnersSearchCtl = TextEditingController();
-  String _learnersQuery = '';
 
   // Filters + sort, mirroring the Pokémon Dex's Moves tab.
   PokemonType? _typeFilter;
@@ -717,38 +719,9 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
               final base = championsOnly
                   ? learners.where((p) => isInChampions(p.name)).toList()
                   : learners;
-              // Apply the per-move learner-search filter on top of
-              // Champions-only.
-              final q = _learnersQuery.trim().toLowerCase();
-              final filtered = q.isEmpty
-                  ? base
-                  : base.where((p) {
-                      bool match(String s) => s.toLowerCase().contains(q);
-                      if (match(p.name) || match(p.nameKo) ||
-                          match(p.nameJa)) return true;
-                      return p.aliases.any(match);
-                    }).toList();
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                            '${AppStrings.t('dex.move.learners')} (${filtered.length})',
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600)),
-                      ),
-                      _MoveDexChampionsToggle(
-                        value: championsOnly,
-                        onChanged: (v) => ChampionsFilterController
-                            .instance
-                            .set(v ?? false),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
                   // Learner-name filter — outer move list can stay
                   // unfiltered while the user narrows just the chips.
                   TextField(
@@ -760,38 +733,69 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                       border: const OutlineInputBorder(),
                     ),
                     style: const TextStyle(fontSize: 13),
-                    onChanged: (v) => setState(() => _learnersQuery = v),
+                    // No setState here — ListenableBuilder below
+                    // listens to the controller directly so the chip
+                    // list rebuilds even inside a pushed detail
+                    // route (where parent setState wouldn't reach).
                   ),
                   const SizedBox(height: 8),
-                  if (filtered.isEmpty)
-                    Text(AppStrings.t('dex.move.noLearners'),
-                        style: TextStyle(
-                            fontSize: 13, color: Colors.grey[500]))
-                  else
-                    Wrap(
-                      spacing: 6,
-                      runSpacing: 6,
-                      children: filtered
-                          // ActionChip (not Chip) so each pill is
-                          // tappable. We `push` (not pushReplacement)
-                          // so the user can back out to whatever
-                          // screen they were on before this move.
-                          .map((p) => ActionChip(
-                                onPressed: () => Navigator.of(context)
-                                    .push(
-                                  fadeRoute((_) => DexScreen(
-                                      initialPokemonName: p.name)),
-                                ),
-                                label: Text(
-                                  '#${p.dexNumber}  ${p.localizedName}',
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                visualDensity: VisualDensity.compact,
-                              ))
-                          .toList(),
-                    ),
+                  // ListenableBuilder listens to the TextEditingController
+                  // (it extends ValueListenable<TextEditingValue>),
+                  // rebuilding the header count + chip list on every
+                  // keystroke regardless of which route hosts this pane.
+                  ListenableBuilder(
+                    listenable: _learnersSearchCtl,
+                    builder: (context, _) {
+                      final q =
+                          _learnersSearchCtl.text.trim().toLowerCase();
+                      final filtered = q.isEmpty
+                          ? base
+                          : base.where((p) {
+                              bool match(String s) =>
+                                  s.toLowerCase().contains(q);
+                              if (match(p.name) ||
+                                  match(p.nameKo) ||
+                                  match(p.nameJa)) return true;
+                              return p.aliases.any(match);
+                            }).toList();
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                    '${AppStrings.t('dex.move.learners')} (${filtered.length})',
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600)),
+                              ),
+                              _MoveDexChampionsToggle(
+                                value: championsOnly,
+                                onChanged: (v) =>
+                                    ChampionsFilterController.instance
+                                        .set(v ?? false),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          if (filtered.isEmpty)
+                            Text(AppStrings.t('dex.move.noLearners'),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.grey[500]))
+                          else
+                            Wrap(
+                              spacing: 6,
+                              runSpacing: 6,
+                              children: filtered
+                                  .map((p) => _learnerChip(p))
+                                  .toList(),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
                 ],
               );
             },
@@ -849,7 +853,54 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     );
   }
 
+  /// Learner chip with type-tinted background. Single-type → solid;
+  /// dual-type → left/right hard split (same gradient pattern as the
+  /// party-coverage screen's `_horizontalNameTint`). Custom widget
+  /// rather than ActionChip because ActionChip's `backgroundColor`
+  /// can't accept a gradient.
+  Widget _learnerChip(Pokemon p) {
+    final c1 = KoStrings.getTypeColor(p.type1);
+    final t2 = p.type2;
+    final decoration = BoxDecoration(
+      color: t2 == null ? c1 : null,
+      gradient: t2 != null
+          ? LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [c1, c1, KoStrings.getTypeColor(t2), KoStrings.getTypeColor(t2)],
+              stops: const [0.0, 0.5, 0.5, 1.0],
+            )
+          : null,
+      borderRadius: BorderRadius.circular(8),
+    );
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          fadeRoute((_) => DexScreen(initialPokemonName: p.name)),
+        ),
+        borderRadius: BorderRadius.circular(8),
+        child: Container(
+          decoration: decoration,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Text(
+            p.localizedName,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   void _pickMove(Move m, bool push) {
+    // Reset the per-move learner-search filter when the user moves
+    // to a different move — the previous query is meaningless in the
+    // new move's learner list.
+    _learnersSearchCtl.clear();
     if (push) {
       // Pass the move explicitly to _detailPane so we don't have to
       // mutate `_selected` — keeping `_selected` clean means the
