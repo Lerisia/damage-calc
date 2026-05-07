@@ -1,12 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/move_tags.dart';
+import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/weather.dart';
 import 'package:damage_calc/utils/ability_effects.dart';
+import 'package:damage_calc/utils/move_transform.dart';
 
 void main() {
   // Common test moves
@@ -551,6 +553,146 @@ void main() {
     test('ability effect no longer applies power modifier', () {
       final effect = getAbilityEffect('Parental Bond', move: physicalNormal);
       expect(effect.powerModifier, equals(1.0));
+    });
+  });
+
+  // ====================================================================
+  // Unaware (천진) — defender ignores the attacker's stat-rank changes
+  // for whichever stat is being used offensively. The set of "offensive
+  // stats" depends on the move:
+  //   - Tackle / most physical → attack rank zeroed
+  //   - Psychic / most special → spAttack rank zeroed
+  //   - Body Press → attacker's defense rank counts as the offensive
+  //     stat, so it must be zeroed too (this is the regression we're
+  //     guarding against)
+  //   - Photon Geyser → both attack and spAttack zeroed
+  //   - Stored Power → power is computed from raw rank in
+  //     move_transform; Unaware only zeroes the rank used for the
+  //     stat formula. Tested separately at the move-transform layer.
+  // ====================================================================
+
+  group('Unaware: getEffectiveOffensiveRank', () {
+    const boostedRank = Rank(
+        attack: 6, defense: 6, spAttack: 6, spDefense: 0, speed: 0);
+
+    test('zeros attack rank for physical move', () {
+      final r = getEffectiveOffensiveRank(
+        rank: boostedRank,
+        offensiveStat: OffensiveStat.attack,
+        isCritical: false,
+        attackerAbility: null,
+        defenderAbility: 'Unaware',
+      );
+      expect(r.attack, equals(0));
+      // Other ranks unaffected — defense/spDefense are still part of
+      // the defender's role on the same Pokémon if it's also tanking.
+      expect(r.defense, equals(6));
+      expect(r.spAttack, equals(6));
+    });
+
+    test('zeros spAttack rank for special move', () {
+      final r = getEffectiveOffensiveRank(
+        rank: boostedRank,
+        offensiveStat: OffensiveStat.spAttack,
+        isCritical: false,
+        attackerAbility: null,
+        defenderAbility: 'Unaware',
+      );
+      expect(r.attack, equals(6));
+      expect(r.spAttack, equals(0));
+    });
+
+    test('Body Press: zeros attacker defense rank (regression)', () {
+      // Without this case, an attacker with +6 Def using Body Press
+      // would still hit a defender with Unaware for full boosted
+      // damage — Bulbapedia's Unaware spec explicitly covers this.
+      final r = getEffectiveOffensiveRank(
+        rank: boostedRank,
+        offensiveStat: OffensiveStat.defense,
+        isCritical: false,
+        attackerAbility: null,
+        defenderAbility: 'Unaware',
+      );
+      expect(r.defense, equals(0),
+          reason: 'Unaware must zero defender-perspective offensive '
+              'rank when Body Press uses Defense as the attack stat');
+      expect(r.attack, equals(6));
+      expect(r.spAttack, equals(6));
+    });
+
+    test('Photon Geyser: zeros both attack and spAttack', () {
+      final r = getEffectiveOffensiveRank(
+        rank: boostedRank,
+        offensiveStat: OffensiveStat.higherAttack,
+        isCritical: false,
+        attackerAbility: null,
+        defenderAbility: 'Unaware',
+      );
+      expect(r.attack, equals(0));
+      expect(r.spAttack, equals(0));
+      // Defense rank stays — Photon Geyser doesn't use it offensively.
+      expect(r.defense, equals(6));
+    });
+
+    test('Mold Breaker on attacker bypasses defender Unaware', () {
+      final r = getEffectiveOffensiveRank(
+        rank: boostedRank,
+        offensiveStat: OffensiveStat.defense,
+        isCritical: false,
+        attackerAbility: 'Mold Breaker',
+        defenderAbility: 'Unaware',
+      );
+      // Defense rank should remain since Mold Breaker ignores Unaware.
+      expect(r.defense, equals(6));
+    });
+
+    test('no Unaware on defender → ranks pass through', () {
+      final r = getEffectiveOffensiveRank(
+        rank: boostedRank,
+        offensiveStat: OffensiveStat.defense,
+        isCritical: false,
+        attackerAbility: null,
+        defenderAbility: null,
+      );
+      expect(r.defense, equals(6));
+      expect(r.attack, equals(6));
+    });
+  });
+
+  group('Unaware × Stored Power: power scales with rank but stat is base', () {
+    // Stored Power's power is computed in move_transform from the
+    // attacker's raw rank — Unaware on the defender must NOT shrink
+    // the move's power, even though it shrinks the actual stat used.
+    const storedPower = Move(
+      name: 'Stored Power', nameKo: '어시스트파워', nameJa: 'アシストパワー',
+      type: PokemonType.psychic, category: MoveCategory.special,
+      power: 20, accuracy: 100, pp: 10, tags: [MoveTags.rankPower],
+    );
+
+    test('power = 20 + 20×total positive boosts (raw rank)', () {
+      // attacker rank: +6 spAttack → power = 20 + 20*6 = 140
+      final transformed = transformMove(
+        storedPower,
+        const MoveContext(
+          rank: Rank(spAttack: 6),
+        ),
+      );
+      expect(transformed.move.power, equals(140));
+    });
+
+    test('power preserved even when defender has Unaware', () {
+      // Same raw rank; transformMove doesn't take defender ability —
+      // the rank-based power is computed independently of Unaware,
+      // which is the spec we're documenting here. Unaware's effect
+      // on the actual offensive stat is exercised in the
+      // damage_calculator tests.
+      final transformed = transformMove(
+        storedPower,
+        const MoveContext(
+          rank: Rank(spAttack: 6),
+        ),
+      );
+      expect(transformed.move.power, equals(140));
     });
   });
 }

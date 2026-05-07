@@ -135,18 +135,18 @@ void main() {
     });
   });
 
-  group('Stat modifier', () {
-    test('statModifier applies to attack', () {
-      // Atk = 69, statMod 1.5 -> floor(69 * 1.5) = 103
-      // power = 40 -> 4120
+  group('Power modifier (formerly statModifier)', () {
+    test('Choice Band-style ×1.5 folds into powerModifier', () {
+      // Choice Band-style ×1.5 — was statModifier, now folded into
+      // powerModifier (same chain as Life Orb). 69 * 40 * 1.5 = 4140.
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
-        statModifier: 1.5,
+        powerModifier: 1.5,
       );
-      expect(result, equals(4120));
+      expect(result, equals(4140));
     });
 
     test('powerModifier applies to final result', () {
@@ -379,19 +379,20 @@ void main() {
   });
 
   group('Combined modifiers', () {
-    test('STAB + weather + statModifier', () {
+    test('STAB + weather + Choice-style ×1.5 (folded into powerMod)', () {
       // Bulbasaur using Sludge Bomb (Poison STAB) in rain
-      // SpA = 85, power = 90, STAB 1.5x, rain doesn't affect poison
-      // 85 * 90 * 1.5 * 1.5 (statMod) = floor(85 * 1.5) = 127; 127 * 90 * 1.5 = 17145
+      // SpA = 85, power = 90, STAB 1.5x, rain doesn't affect poison.
+      // Single chained product, single floor at the end:
+      // floor(85 * 90 * 1.5 * 1.5) = floor(17212.5) = 17212.
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(sludgeBomb),
         type1: PokemonType.grass, type2: PokemonType.poison,
-        statModifier: 1.5,
+        powerModifier: 1.5,
         weather: Weather.rain,
       );
-      expect(result, equals(17145));
+      expect(result, equals(17212));
     });
 
     test('STAB + powerModifier', () {
@@ -538,17 +539,16 @@ void main() {
   });
 
   group('Ability → OffensiveCalculator integration', () {
-    test('Huge Power doubles attack in final result', () {
-      // getAbilityEffect('Huge Power') -> statModifiers.attack = 2.0
-      // Atk = 69, statMod 2.0 -> floor(69 * 2.0) = 138
-      // power = 40 -> 138 * 40 = 5520
+    test('Huge Power doubles physical damage (folded into powerMod)', () {
+      // ×2.0 produces an integer result with or without an
+      // intermediate floor, so the value is unchanged: 69 * 40 * 2 = 5520.
       final effect = getAbilityEffect('Huge Power', move: tackle);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: NatureProfile.fromNature(Nature.hardy), level: 50,
         transformed: _transform(tackle),
         type1: PokemonType.grass, type2: PokemonType.poison,
-        statModifier: effect.statModifiers.attack,
+        powerModifier: effect.statModifiers.attack,
       );
       expect(result, equals(5520));
     });
@@ -580,10 +580,9 @@ void main() {
       expect(result, equals(15300));
     });
 
-    test('Solar Power spAttack modifier in sun', () {
-      // getAbilityEffect('Solar Power', weather: sun) -> statModifiers.spAttack = 1.5
-      // SpA = 85, statMod 1.5 -> floor(85 * 1.5) = 127
-      // power = 90, sun fire boost 1.5 -> floor(127 * 90 * 1.5) = 17145
+    test('Solar Power spAttack modifier in sun (folded into powerMod)', () {
+      // SpA = 85, power = 90, sun fire boost ×1.5, Solar Power ×1.5.
+      // Single chain: floor(85 * 90 * 1.5 * 1.5) = 17212.
       final effect = getAbilityEffect('Solar Power',
           move: flamethrower, weather: Weather.sun);
       final result = OffensiveCalculator.calculate(
@@ -592,9 +591,9 @@ void main() {
         transformed: _transform(flamethrower),
         type1: PokemonType.grass, type2: PokemonType.poison,
         weather: Weather.sun,
-        statModifier: effect.statModifiers.spAttack,
+        powerModifier: effect.statModifiers.spAttack,
       );
-      expect(result, equals(17145));
+      expect(result, equals(17212));
     });
 
     test('Analytic powerModifier when slower', () {
@@ -630,10 +629,9 @@ void main() {
       expect(result, equals(6210));
     });
 
-    test('Guts stat + burn negation combined', () {
-      // getAbilityEffect('Guts', status: burn) -> statModifiers.attack = 1.5
-      // Atk = 69, statMod 1.5 -> floor(69 * 1.5) = 103
-      // power = 40, burn negated -> 103 * 40 = 4120
+    test('Guts ×1.5 + burn negation (folded into powerMod)', () {
+      // Atk = 69, power = 40, burn negated by Guts; Guts ×1.5.
+      // Single chain: floor(69 * 40 * 1.5) = 4140.
       final effect = getAbilityEffect('Guts', move: tackle,
           status: StatusCondition.burn);
       final result = OffensiveCalculator.calculate(
@@ -643,9 +641,9 @@ void main() {
         type1: PokemonType.grass, type2: PokemonType.poison,
         status: StatusCondition.burn,
         hasGuts: true,
-        statModifier: effect.statModifiers.attack,
+        powerModifier: effect.statModifiers.attack,
       );
-      expect(result, equals(4120));
+      expect(result, equals(4140));
     });
   });
 }

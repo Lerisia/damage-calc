@@ -56,19 +56,17 @@ void main() {
     for (final c in choiceCases) {
       test('${c.$1} boosts matching category stat by 1.5×', () {
         final effect = getItemEffect(c.$1, move: c.$2);
-        expect(effect.statModifier, equals(1.5));
-        expect(effect.powerModifier, equals(1.0));
+        expect(effect.powerModifier, equals(1.5));
       });
       test('${c.$1} does not boost the other category', () {
         final effect = getItemEffect(c.$1, move: c.$3);
-        expect(effect.statModifier, equals(1.0));
+        expect(effect.powerModifier, equals(1.0));
       });
     }
 
     // --- Power modifier items ---
     test('life-orb boosts power by ~1.3x (5324/4096)', () {
       final effect = getItemEffect('life-orb', move: tackle);
-      expect(effect.statModifier, equals(1.0));
       expect(effect.powerModifier, closeTo(5324/4096, 0.001));
     });
 
@@ -96,32 +94,32 @@ void main() {
     // --- Pokemon-specific items ---
     test('light-ball doubles pikachu stat', () {
       final effect = getItemEffect('light-ball', move: tackle, pokemonName: 'pikachu');
-      expect(effect.statModifier, equals(2.0));
+      expect(effect.powerModifier, equals(2.0));
     });
 
     test('light-ball does nothing for non-pikachu', () {
       final effect = getItemEffect('light-ball', move: tackle, pokemonName: 'raichu');
-      expect(effect.statModifier, equals(1.0));
+      expect(effect.powerModifier, equals(1.0));
     });
 
     test('thick-club doubles cubone attack', () {
       final effect = getItemEffect('thick-club', move: tackle, pokemonName: 'cubone');
-      expect(effect.statModifier, equals(2.0));
+      expect(effect.powerModifier, equals(2.0));
     });
 
     test('thick-club doubles marowak attack', () {
       final effect = getItemEffect('thick-club', move: tackle, pokemonName: 'marowak');
-      expect(effect.statModifier, equals(2.0));
+      expect(effect.powerModifier, equals(2.0));
     });
 
     test('thick-club does not boost special moves for marowak', () {
       final effect = getItemEffect('thick-club', move: psychic, pokemonName: 'marowak');
-      expect(effect.statModifier, equals(1.0));
+      expect(effect.powerModifier, equals(1.0));
     });
 
     test('deep-sea-tooth doubles clamperl spAtk', () {
       final effect = getItemEffect('deep-sea-tooth', move: surf, pokemonName: 'clamperl');
-      expect(effect.statModifier, equals(2.0));
+      expect(effect.powerModifier, equals(2.0));
     });
 
     test('adamant-orb boosts dialga dragon moves', () {
@@ -250,17 +248,17 @@ void main() {
     // --- More Pokemon-specific items ---
     test('deep-sea-tooth does not boost non-clamperl', () {
       final effect = getItemEffect('deep-sea-tooth', move: surf, pokemonName: 'huntail');
-      expect(effect.statModifier, equals(1.0));
+      expect(effect.powerModifier, equals(1.0));
     });
 
     test('deep-sea-tooth does not boost physical moves for clamperl', () {
       final effect = getItemEffect('deep-sea-tooth', move: tackle, pokemonName: 'clamperl');
-      expect(effect.statModifier, equals(1.0));
+      expect(effect.powerModifier, equals(1.0));
     });
 
     test('thick-club does not boost non-cubone/marowak', () {
       final effect = getItemEffect('thick-club', move: tackle, pokemonName: 'pikachu');
-      expect(effect.statModifier, equals(1.0));
+      expect(effect.powerModifier, equals(1.0));
     });
 
     test('griseous-orb boosts giratina dragon moves', () {
@@ -320,7 +318,7 @@ void main() {
 
     test('light-ball works for pikachu variants (contains check)', () {
       final effect = getItemEffect('light-ball', move: tackle, pokemonName: 'pikachu-gmax');
-      expect(effect.statModifier, equals(2.0));
+      expect(effect.powerModifier, equals(2.0));
     });
 
   });

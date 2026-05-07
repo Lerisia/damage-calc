@@ -1964,6 +1964,61 @@ void main() {
       );
       expect(r.modifierNotes.any((n) => n.contains('unaware:attacker')), isTrue);
     });
+
+    test('Body Press: defender Unaware ignores attacker Defense boost', () {
+      // Attacker with +6 Defense, Body Press (uses Def as offensive
+      // stat). Defender Unaware should ignore the +6 — damage at +6
+      // should equal damage at 0 boost.
+      const bodyPress = Move(
+        name: 'Body Press', nameKo: '바디프레스', nameJa: 'ボディプレス',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 80, accuracy: 100, pp: 10, tags: [MoveTags.useDefense],
+      );
+      final boostedVsUnaware = calc(
+        move: bodyPress,
+        atkRank: const Rank(defense: 6),
+        defAbility: 'Unaware',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      final flatVsUnaware = calc(
+        move: bodyPress,
+        atkRank: const Rank(),
+        defAbility: 'Unaware',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(boostedVsUnaware.maxDamage, equals(flatVsUnaware.maxDamage),
+          reason: 'Unaware on defender must ignore the attacker\'s '
+              'Defense rank when Body Press uses it offensively');
+    });
+  });
+
+  group('Body Press × Huge Power', () {
+    test('Huge Power doubles Body Press damage (per Bulbapedia)', () {
+      // Per Bulbapedia: Body Press uses Defense for the *stat value*
+      // and Defense rank stages, but Attack-modifying abilities like
+      // Huge Power still apply (they're effectively category-gated
+      // power multipliers). So Body Press with Huge Power should
+      // deal ×2 damage compared to without.
+      const bodyPress = Move(
+        name: 'Body Press', nameKo: '바디프레스', nameJa: 'ボディプレス',
+        type: PokemonType.fighting, category: MoveCategory.physical,
+        power: 80, accuracy: 100, pp: 10, tags: [MoveTags.useDefense],
+      );
+      final hugePower = calc(
+        move: bodyPress,
+        atkAbility: 'Huge Power',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      final noHugePower = calc(
+        move: bodyPress,
+        atkAbility: null,
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(hugePower.maxDamage, equals(noHugePower.maxDamage * 2),
+          reason: 'Huge Power should double Body Press damage — '
+              'per Bulbapedia it applies as an Attack-side multiplier '
+              'even though Body Press uses the Defense stat value');
+    });
   });
 
   // ---------------------------------------------------------------

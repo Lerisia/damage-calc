@@ -29,8 +29,11 @@ const double kTeraStabSameTypeWithOverride = 2.25;
 /// Move transformations (power, type, stat selection) should be done via
 /// [transformMove] in move_transform.dart before calling this.
 ///
-/// [statModifier] is applied to the attack stat (e.g. Choice Band).
-/// [powerModifier] is applied to the final result (e.g. Life Orb).
+/// [powerModifier] is applied to the final result. All stat-style
+/// modifiers from abilities/items (Huge Power, Choice Band, …) are
+/// expected to be folded into this single multiplier upstream so the
+/// formula has one chained product (matching Showdown's atMods chain
+/// + final pokeRound rather than two separate floors).
 /// Returns 0 for status moves.
 class OffensiveCalculator {
 
@@ -47,7 +50,6 @@ class OffensiveCalculator {
     Rank rank = const Rank(),
     Weather weather = Weather.none,
     Terrain terrain = Terrain.none,
-    double statModifier = 1.0,
     double powerModifier = 1.0,
     bool isCritical = false,
     bool grounded = true,
@@ -100,9 +102,10 @@ class OffensiveCalculator {
     );
 
     final int rawStat = transformed.resolveStat(actualStats, opponentAttack: opponentAttack);
-    int modifiedStat = (rawStat * statModifier).floor();
 
     // Ruin field effect on the attacker stat (self-exempt handled inside).
+    // Folded into the final multiplier chain — no intermediate floor on
+    // the stat (matches Showdown's chainMods + single pokeRound model).
     final ruin = getRuinEffect(
       attackerAbility: attackerAbility,
       defenderAbility: defenderAbility,
@@ -110,7 +113,7 @@ class OffensiveCalculator {
       targetPhysDef: targetPhysDef,
       state: ruinState,
     );
-    modifiedStat = (modifiedStat * ruin.atkMod).floor();
+    final int modifiedStat = rawStat;
 
     // Protean/Libero: force STAB on all moves, but NOT during Terastal
     final bool isOriginalStab = (forceStab && !terastallized) ||
@@ -171,6 +174,7 @@ class OffensiveCalculator {
     );
 
     final double raw = modifiedStat *
+        ruin.atkMod *
         doublesAttackMod *
         effectivePower *
         stabMult *

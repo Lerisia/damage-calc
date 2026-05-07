@@ -435,14 +435,28 @@ class BattleFacade {
             actualStats: baseStats)
         : const AbilityEffect();
 
-    // 3. Determine stat modifier based on the offensive stat used
-    final double abilityStatMod = _resolveAbilityStatMod(
-      transformed.offensiveStat,
-      abilityEffect.statModifiers,
-    );
+    // 3. Pick the right ability stat-modifier by *move category* (not
+    // by the offensive-stat slot) — Body Press is physical so it
+    // gets the Attack-side ability multipliers (Huge Power × 2 etc.)
+    // even though the underlying stat used is Defense. Matches
+    // Showdown's atMods chain. Photon Geyser keeps the
+    // max-of-attack/spAttack behaviour so a Huge Power user still
+    // benefits when Atk > SpA.
+    final double abilityStatMod;
+    if (transformed.move.hasTag(MoveTags.useHigherAtk)) {
+      abilityStatMod = math.max(
+        abilityEffect.statModifiers.attack,
+        abilityEffect.statModifiers.spAttack,
+      );
+    } else if (transformed.move.category == MoveCategory.physical) {
+      abilityStatMod = abilityEffect.statModifiers.attack;
+    } else {
+      abilityStatMod = abilityEffect.statModifiers.spAttack;
+    }
 
-    final double statMod = itemEffect.statModifier * abilityStatMod;
-    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+    double powerMod = itemEffect.powerModifier *
+        abilityEffect.powerModifier *
+        abilityStatMod;
 
     // Charge: Electric moves deal 2x damage
     if (state.charge && transformed.move.type == PokemonType.electric) {
@@ -505,7 +519,6 @@ class BattleFacade {
       rank: state.rank,
       weather: atkWeather,
       terrain: terrain,
-      statModifier: statMod,
       powerModifier: powerMod,
       isCritical: isCritical,
       grounded: isGrounded(
@@ -670,25 +683,6 @@ class BattleFacade {
       zMove: zMove,
       isMega: isMega,
     );
-  }
-
-  static double _resolveAbilityStatMod(
-    OffensiveStat stat,
-    AbilityStatModifiers modifiers,
-  ) {
-    switch (stat) {
-      case OffensiveStat.attack:
-        return modifiers.attack;
-      case OffensiveStat.spAttack:
-        return modifiers.spAttack;
-      case OffensiveStat.defense:
-        return modifiers.defense;
-      case OffensiveStat.higherAttack:
-        return math.max(modifiers.attack, modifiers.spAttack);
-      case OffensiveStat.opponentAttack:
-        // Foul Play: user's own Attack modifiers (Huge Power, etc.) still apply
-        return modifiers.attack;
-    }
   }
 
 }

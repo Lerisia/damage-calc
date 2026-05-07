@@ -485,35 +485,41 @@ class DamageCalculator {
             ))
         : const AbilityEffect();
 
+    // Per Bulbapedia, abilities/items framed as "boosts Attack/SpAtk"
+    // (Huge Power, Choice Band, Solar Power, …) are mechanically
+    // category-gated power multipliers — equivalent to a Life Orb
+    // restricted to physical / special moves. So we pick the right
+    // multiplier by *move category* (not the offensive stat
+    // OffensiveStat slot) and fold the result into powerMod. This
+    // makes Body Press (physical, uses Defense as the stat) get
+    // Huge Power × 2, Choice Band × 1.5, burn ÷ 2 just like any
+    // normal physical move — matching Showdown's atMods chain.
     final double abilityStatMod;
-    switch (atkStat) {
-      case OffensiveStat.attack:
-        abilityStatMod = abilityEffect.statModifiers.attack;
-      case OffensiveStat.spAttack:
-        abilityStatMod = abilityEffect.statModifiers.spAttack;
-      case OffensiveStat.defense:
-        abilityStatMod = abilityEffect.statModifiers.defense;
-      case OffensiveStat.higherAttack:
-        abilityStatMod = math.max(
-          abilityEffect.statModifiers.attack,
-          abilityEffect.statModifiers.spAttack,
-        );
-      case OffensiveStat.opponentAttack:
-        // Foul Play: user's own Attack modifiers (Huge Power, Pure Power, etc.)
-        // still apply to the opponent's Attack stat
-        abilityStatMod = abilityEffect.statModifiers.attack;
+    if (effectiveMove.hasTag(MoveTags.useHigherAtk)) {
+      // Photon Geyser: takes the higher of the two ability mods
+      // (preserves the prior behaviour for this corner case).
+      abilityStatMod = math.max(
+        abilityEffect.statModifiers.attack,
+        abilityEffect.statModifiers.spAttack,
+      );
+    } else if (effectiveMove.category == MoveCategory.physical) {
+      abilityStatMod = abilityEffect.statModifiers.attack;
+    } else {
+      abilityStatMod = abilityEffect.statModifiers.spAttack;
     }
 
-    // Foul Play uses opponent's raw stat, but user's own item/ability modifiers still apply
-    final double statMod = itemEffect.statModifier * abilityStatMod;
-    double powerMod = itemEffect.powerModifier * abilityEffect.powerModifier;
+    double powerMod = itemEffect.powerModifier *
+        abilityEffect.powerModifier *
+        abilityStatMod;
 
     // Charge: Electric moves deal 2x damage
     if (attacker.charge && effectiveMove.type == PokemonType.electric) {
       powerMod *= kChargePowerBoost;
     }
 
-    int A = (rawA * statMod).floor();
+    // statMod is now folded into powerMod (single chain instead of an
+    // intermediate floor on the stat); raw attack passes through unchanged.
+    int A = rawA;
 
     // --- Ruin abilities (not affected by Mold Breaker) ---
     // Ruin needs to know which defensive stat is actually used (Def vs

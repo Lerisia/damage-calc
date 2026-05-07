@@ -41,15 +41,18 @@ const double kChoiceScarfSpeed = 1.5;
 /// Iron Ball / Power items: 0.5x speed.
 const double kHeavyItemSpeedPenalty = 0.5;
 
-/// Offensive modifiers returned by an item
+/// Offensive modifier returned by an item. There used to be two
+/// separate fields (`statModifier` for Choice Band et al., and
+/// `powerModifier` for Life Orb et al.) but they both chained into
+/// the same final-damage product — the only practical difference
+/// was an extra intermediate floor on the stat side that didn't
+/// match Pokémon's actual formula. They're collapsed into one
+/// powerModifier; "Choice Band ×1.5 for physical moves" is exactly
+/// "Life Orb ×1.5, gated to physical moves".
 class ItemEffect {
-  final double statModifier;
   final double powerModifier;
 
-  const ItemEffect({
-    this.statModifier = 1.0,
-    this.powerModifier = 1.0,
-  });
+  const ItemEffect({this.powerModifier = 1.0});
 }
 
 const _defaultEffect = ItemEffect();
@@ -112,11 +115,11 @@ ItemEffect getItemEffect(
   switch (itemName) {
     case 'choice-band':
       return move.category == MoveCategory.physical
-          ? const ItemEffect(statModifier: kChoiceStatBoost)
+          ? const ItemEffect(powerModifier: kChoiceStatBoost)
           : _defaultEffect;
     case 'choice-specs':
       return move.category == MoveCategory.special
-          ? const ItemEffect(statModifier: kChoiceStatBoost)
+          ? const ItemEffect(powerModifier: kChoiceStatBoost)
           : _defaultEffect;
   }
 
@@ -155,21 +158,21 @@ ItemEffect getItemEffect(
     case 'light-ball':
       // Pikachu: 2x Attack and Sp.Atk
       if (name.contains('pikachu')) {
-        return const ItemEffect(statModifier: kPokemonSpecificStatBoost);
+        return const ItemEffect(powerModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'thick-club':
       // Cubone/Marowak: 2x Attack
       if ((name.contains('cubone') || name.contains('marowak')) &&
           move.category == MoveCategory.physical) {
-        return const ItemEffect(statModifier: kPokemonSpecificStatBoost);
+        return const ItemEffect(powerModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'deep-sea-tooth':
       // Clamperl: 2x Sp.Atk
       if (name.contains('clamperl') &&
           move.category == MoveCategory.special) {
-        return const ItemEffect(statModifier: kPokemonSpecificStatBoost);
+        return const ItemEffect(powerModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'adamant-orb':

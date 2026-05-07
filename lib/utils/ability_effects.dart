@@ -52,7 +52,12 @@ const double kQuickFeetSpeed = 1.5;
 /// Weather/terrain speed boost
 const double kWeatherSpeedBoost = 2.0;
 
-/// Per-stat modifiers from an ability
+/// Per-stat modifiers from an ability. The offensive path picks
+/// `attack` / `spAttack` by *move category* (Body Press is physical
+/// → reads `attack`); `speed` is read by the speed calculator;
+/// `defense` / `spDefense` are consumed by [getDefensiveAbilityEffect]
+/// for abilities like Protosynthesis / Quark Drive when the boosted
+/// stat is a defensive one.
 class AbilityStatModifiers {
   final double attack;
   final double defense;
@@ -714,12 +719,24 @@ Rank getEffectiveOffensiveRank({
 }) {
   var r = rank;
 
-  // Unaware: defender ignores attacker's offensive rank changes
+  // Unaware: defender ignores attacker's offensive rank changes.
+  // Zero whichever rank is being used offensively — for normal moves
+  // that's attack/spAttack, but Body Press uses the attacker's
+  // Defense as the offensive stat (and Photon Geyser variants need
+  // both attack and spAttack zeroed). Defender's own defense rank
+  // is handled separately by getEffectiveDefensiveRank.
   if (defenderAbility == 'Unaware' &&
       !shouldIgnoreAbility(attackerAbility, defenderAbility)) {
+    final usesAtk = offensiveStat == OffensiveStat.attack ||
+        offensiveStat == OffensiveStat.higherAttack;
+    final usesSpa = offensiveStat == OffensiveStat.spAttack ||
+        offensiveStat == OffensiveStat.higherAttack;
+    final usesDef = offensiveStat == OffensiveStat.defense;
     r = Rank(
-      attack: 0, defense: r.defense,
-      spAttack: 0, spDefense: r.spDefense,
+      attack: usesAtk ? 0 : r.attack,
+      defense: usesDef ? 0 : r.defense,
+      spAttack: usesSpa ? 0 : r.spAttack,
+      spDefense: r.spDefense,
       speed: r.speed,
     );
   }
