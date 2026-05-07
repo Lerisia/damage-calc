@@ -1678,6 +1678,9 @@ class _MovesTabState extends State<_MovesTab> {
     final ids = widget.learnable;
     final out = <Move>[];
     for (final m in widget.moveDex.values) {
+      // Skip calc-only variants (Magnitude 4-10 etc.) — the canonical
+      // synthetic entry shows up via its own row instead.
+      if (m.hasTag(MoveTags.dexHidden)) continue;
       final mid = toShowdownMoveId(m.name);
       if (!ids.contains(mid)) continue;
       if (_typeFilter != null && m.type != _typeFilter) continue;

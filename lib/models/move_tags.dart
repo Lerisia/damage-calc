@@ -110,4 +110,13 @@ class MoveTags {
   // classify moves as a distinct role from main-attack and priority for
   // default-move ordering and dex display.
   static const String switchOut = 'custom:switch_out';
+
+  // Move dex visibility flags. Some moves exist in the calc as multiple
+  // numeric variants (Magnitude 4-10, etc.) for power picking, but the
+  // Move Dex should only surface a single canonical entry.
+  // - [dexHidden]: hide this move from the Move Dex (calc-only variants)
+  // - [dexOnly]:   show only in the Move Dex (canonical synthetic
+  //                entry, never picked by the calc directly)
+  static const String dexHidden = 'custom:dex_hidden';
+  static const String dexOnly = 'custom:dex_only';
 }

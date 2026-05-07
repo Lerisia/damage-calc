@@ -358,6 +358,24 @@
     "descJa": "目にも　留まらぬ　ものすごい　速さで パンチを　くりだす。 必ず　先制攻撃　できる。"
   },
   {
+    "name": "Magnitude",
+    "nameKo": "매그니튜드",
+    "nameJa": "マグニチュード",
+    "type": "ground",
+    "category": "physical",
+    "power": 0,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "tags": [
+      "custom:dex_only",
+      "custom:grassy_halve"
+    ],
+    "description": "Power is randomly determined each use. Magnitude 4 (10 BP) 5% / 5 (30) 10% / 6 (50) 20% / 7 (70) 30% / 8 (90) 20% / 9 (110) 10% / 10 (150) 5%.",
+    "descriptionKo": "위력이 매번 무작위로 정해집니다. 매그니튜드 4 (위력 10) 5% / 5 (30) 10% / 6 (50) 20% / 7 (70) 30% / 8 (90) 20% / 9 (110) 10% / 10 (150) 5%.",
+    "descriptionJa": "使うたびに威力がランダムに決まる。マグニチュード4 (威力10) 5% / 5 (30) 10% / 6 (50) 20% / 7 (70) 30% / 8 (90) 20% / 9 (110) 10% / 10 (150) 5%。"
+  },
+  {
     "name": "Magnitude 4",
     "nameKo": "매그니튜드 4",
     "nameJa": "マグニチュード4",
@@ -367,7 +385,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:dex_hidden"
     ],
     "nameEn": "Magnitude 4",
     "zPower": 100
@@ -382,7 +401,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:dex_hidden"
     ],
     "nameEn": "Magnitude 5",
     "zPower": 100
@@ -397,7 +417,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:dex_hidden"
     ],
     "nameEn": "Magnitude 6",
     "zPower": 100
@@ -412,7 +433,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:dex_hidden"
     ],
     "nameEn": "Magnitude 7",
     "zPower": 140
@@ -427,7 +449,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:dex_hidden"
     ],
     "nameEn": "Magnitude 8",
     "zPower": 175
@@ -442,7 +465,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:dex_hidden"
     ],
     "nameEn": "Magnitude 9",
     "zPower": 185
@@ -457,7 +481,8 @@
     "accuracy": 100,
     "pp": 30,
     "tags": [
-      "custom:grassy_halve"
+      "custom:grassy_halve",
+      "custom:dex_hidden"
     ],
     "nameEn": "Magnitude 10",
     "zPower": 200

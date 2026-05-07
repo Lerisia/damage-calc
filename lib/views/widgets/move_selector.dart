@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../data/movedex.dart';
 import '../../data/learnsetdex.dart';
 import '../../models/move.dart';
+import '../../models/move_tags.dart';
 import '../../utils/korean_search.dart';
 import '../../utils/move_options_controller.dart';
 import 'typeahead_helpers.dart';
@@ -92,6 +93,10 @@ class _MoveSelectorState extends State<MoveSelector> {
     // Strip non-selectable kinds (G-Max moves, Z-moves, …) up-front.
     // Status moves are filtered dynamically by [_rebuildEntries].
     all.removeWhere((m) => m.moveClass != MoveClass.normal);
+    // `dex_only` synthetic entries (the canonical Magnitude row in
+    // the Move Dex, etc.) are display-only — the calc keeps the
+    // numeric variants for actual power picking.
+    all.removeWhere((m) => m.hasTag(MoveTags.dexOnly));
     _baseMoves = all;
     _rebuildEntries();
     _updateLearnset();

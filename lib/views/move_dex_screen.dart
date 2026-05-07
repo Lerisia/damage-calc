@@ -5,6 +5,7 @@ import '../data/learnsetdex.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
 import '../models/move.dart';
+import '../models/move_tags.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
@@ -93,6 +94,11 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
 
     final moves = await movesFut;
     moves.removeWhere((m) => m.moveClass != MoveClass.normal);
+    // Calc-side variants like Magnitude 4-10 carry the `dex_hidden`
+    // tag so the move dex shows just the canonical synthetic entry
+    // (Magnitude with the full power table in its description) and
+    // not seven near-duplicate rows.
+    moves.removeWhere((m) => m.hasTag(MoveTags.dexHidden));
     // Intentionally NOT sorting here — `_allMoves` keeps the JSON
     // load order (≈ registration / chronological). The user can opt
     // into alphabetical or any other column via the sort header.
