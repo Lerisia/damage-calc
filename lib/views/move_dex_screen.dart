@@ -858,8 +858,15 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   /// party-coverage screen's `_horizontalNameTint`). Custom widget
   /// rather than ActionChip because ActionChip's `backgroundColor`
   /// can't accept a gradient.
+  ///
+  /// Tint alpha matches the party-coverage screen (0.20) so the two
+  /// surfaces feel like the same "type-cued list" rather than two
+  /// different-saturation palettes. Bold dark/light text picked off
+  /// the theme keeps the move name readable on the faint tint in
+  /// both light and dark mode.
   Widget _learnerChip(Pokemon p) {
-    final c1 = KoStrings.getTypeColor(p.type1);
+    const tintAlpha = 0.20;
+    final c1 = KoStrings.getTypeColor(p.type1).withValues(alpha: tintAlpha);
     final t2 = p.type2;
     final decoration = BoxDecoration(
       color: t2 == null ? c1 : null,
@@ -867,12 +874,19 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           ? LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [c1, c1, KoStrings.getTypeColor(t2), KoStrings.getTypeColor(t2)],
+              colors: () {
+                final c2 = KoStrings.getTypeColor(t2)
+                    .withValues(alpha: tintAlpha);
+                return [c1, c1, c2, c2];
+              }(),
               stops: const [0.0, 0.5, 0.5, 1.0],
             )
           : null,
       borderRadius: BorderRadius.circular(8),
     );
+    final textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -885,9 +899,9 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           child: Text(
             p.localizedName,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: Colors.white,
+              color: textColor,
               fontWeight: FontWeight.w700,
             ),
           ),
