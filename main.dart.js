@@ -53148,7 +53148,7 @@ if(s>1){r=A.h("move.hits")
 q=a.as
 p=""+q
 n.push(o.$2(r,q===s?p:p+"~"+s))}return A.aj(n,B.o,null,B.k,B.m,0,null)},
-akW(a){var s,r,q,p=null,o=B.aL.h(0,a.f),n=(o==null?B.aD:o).aZ(0.5),m=a.r
+akW(a){var s,r,q,p=null,o=B.aL.h(0,a.f),n=(o==null?B.aD:o).aZ(0.2),m=a.r
 o=m==null
 s=o?n:p
 o=!o?new A.oA(B.cQ,B.es,B.ei,new A.aBP(m,n).$0(),B.or,p):p
@@ -53372,7 +53372,7 @@ $2(a,b){var s=null
 return A.av(A.bz(A.b([A.m(a,s,s,s,s,A.a8(s,s,B.a1,s,s,s,s,s,s,s,s,11,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),B.eg,A.m(b,s,s,s,s,B.hx,s,s)],t.p),B.o,B.k,B.m),1)},
 $S:354}
 A.aBP.prototype={
-$0(){var s=B.aL.h(0,this.a),r=(s==null?B.aD:s).aZ(0.5)
+$0(){var s=B.aL.h(0,this.a),r=(s==null?B.aD:s).aZ(0.2)
 s=this.b
 return A.b([s,s,r,r],t.t_)},
 $S:353}
