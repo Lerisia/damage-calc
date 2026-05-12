@@ -288,6 +288,13 @@ class DamageCalculator {
     final move = attacker.moves[moveIndex];
     if (move == null) return DamageResult.empty;
 
+    // Original DB BP — Showdown checks `move.bp > 0` (the static base
+    // power from the move data) when deciding the Tera STAB 60-BP
+    // minimum. For callback-BP moves like Gyro Ball / Heat Crash this
+    // is 0, so they don't get the boost even though their dynamic BP
+    // is positive.
+    final int originalMoveDbPower = move.power;
+
     // Apply move overrides
     var effectiveMove = move.copyWith(
       type: attacker.typeOverrides[moveIndex],
@@ -337,13 +344,25 @@ class DamageCalculator {
       baseStats: attacker.baseStats, iv: attacker.iv, ev: attacker.ev,
       nature: attacker.nature, level: attacker.level, rank: attacker.rank,
     );
+    // Tera replaces type set for hasType-based checks (Showdown semantics).
+    // Stellar Tera keeps the original types.
+    final atkTeraEarly = attacker.terastal.active &&
+        attacker.terastal.teraType != null &&
+        attacker.terastal.teraType != PokemonType.stellar;
+    final defTeraEarly = defender.terastal.active &&
+        defender.terastal.teraType != null &&
+        defender.terastal.teraType != PokemonType.stellar;
     final atkGroundedEarly = isGrounded(
-      type1: attacker.type1, type2: attacker.type2, type3: attacker.type3,
+      type1: atkTeraEarly ? attacker.terastal.teraType! : attacker.type1,
+      type2: atkTeraEarly ? null : attacker.type2,
+      type3: atkTeraEarly ? null : attacker.type3,
       ability: atkAbilityRaw, item: attacker.selectedItem,
       gravity: room.gravity,
     );
     final defGroundedEarly = isGrounded(
-      type1: defender.type1, type2: defender.type2, type3: defender.type3,
+      type1: defTeraEarly ? defender.terastal.teraType! : defender.type1,
+      type2: defTeraEarly ? null : defender.type2,
+      type3: defTeraEarly ? null : defender.type3,
       ability: defAbilityRaw, item: defender.selectedItem,
       gravity: room.gravity,
     );
@@ -484,8 +503,17 @@ class DamageCalculator {
     final isPhysical = effectiveMove.category == MoveCategory.physical;
 
     // --- Attacker stat ---
-    // Note: isCritical may be overridden later by Shell Armor / Battle Armor
+    // Note: isCritical may be overridden later by Shell Armor / Battle Armor.
+    // Merciless: poisoned targets always take critical hits. We treat
+    // this the same as if the user explicitly flagged a crit — keeps
+    // it visible in the crit path (boost-ignore, 1.5x dmg, screen
+    // bypass), and parities @smogon/calc's auto-Merciless handling.
     var isCritical = attacker.criticals[moveIndex];
+    if (!isCritical && atkAbilityRaw == 'Merciless' &&
+        (defender.status == StatusCondition.poison ||
+         defender.status == StatusCondition.badlyPoisoned)) {
+      isCritical = true;
+    }
     final atkStat = transformed.offensiveStat;
 
     // Unaware (defender) + Critical hit rank adjustments
@@ -627,7 +655,6 @@ class DamageCalculator {
       defenderAbility: defAbilityRaw,
       ignoreDefRank: effectiveMove.hasTag(MoveTags.ignoreDefRank),
     );
-    // ignore: avoid_print
 
     final defCalculated = StatCalculator.calculate(
       baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
@@ -944,14 +971,30 @@ class DamageCalculator {
         modifierNotes: [...notes, reason],
       );
     }
+    // Per Showdown's `hasType`, a terastallized Pokémon's *type set*
+    // becomes the Tera type alone (Stellar Tera still keeps the
+    // original types for these checks). So Tera-Flying makes the
+    // attacker ungrounded — Psychic Terrain etc. stops boosting.
+    final teraActive = attacker.terastal.active &&
+        attacker.terastal.teraType != null &&
+        attacker.terastal.teraType != PokemonType.stellar;
     final atkGrounded = isGrounded(
-      type1: atkType1, type2: atkType2, type3: atkType3,
+      type1: teraActive ? attacker.terastal.teraType! : atkType1,
+      type2: teraActive ? null : atkType2,
+      type3: teraActive ? null : atkType3,
       ability: atkAbilityRaw, item: attacker.selectedItem,
       gravity: room.gravity,
     );
-    // Defender grounding for terrain: use effectiveDefAbility (Mold Breaker applied)
+    // Defender grounding for terrain: use effectiveDefAbility (Mold Breaker
+    // applied). Tera-Flying etc. replaces the type set per Showdown's
+    // hasType, so a Tera-Flying defender becomes ungrounded.
+    final defTeraActive = defender.terastal.active &&
+        defender.terastal.teraType != null &&
+        defender.terastal.teraType != PokemonType.stellar;
     final defGroundedForTerrain = isGrounded(
-      type1: defEffType1, type2: defEffType2, type3: defEffType3,
+      type1: defTeraActive ? defender.terastal.teraType! : defEffType1,
+      type2: defTeraActive ? null : defEffType2,
+      type3: defTeraActive ? null : defEffType3,
       ability: effectiveDefAbility, item: defender.selectedItem,
       gravity: room.gravity,
     );
@@ -1116,14 +1159,32 @@ class DamageCalculator {
     // Target-HP-based power is now handled in transformMove (_applyTargetHpPower)
     final int dynamicPower = effectiveMove.power;
 
-    // Terastal minimum power: Tera STAB moves below threshold become threshold
-    // Exceptions: multi-hit moves and priority moves are not boosted
-    final bool teraMinPower = isTeraStab &&
+    // Terastal minimum power: when an adapted Tera STAB move (tera-type
+    // matches both move-type and one of the user's original types) has
+    // base power below 60, it's bumped to 60. The original-type match
+    // is what makes this an "adapted" Tera STAB — non-adapted Tera STAB
+    // (Tera-into-new-type) doesn't get this boost. Matches @smogon/calc
+    // gen789.ts: `move.type === attacker.teraType && attacker.hasType(attacker.teraType)`.
+    // Stellar / multi-hit / priority moves are also excluded.
+    // Per @smogon/calc gen789.ts (`basePower < 60` check after the
+    // bpMods chain), the Tera 60-BP minimum is evaluated on the
+    // *post-chain* power, not the pre-chain one. We apply the bump
+    // after the chain below. Conditions other than the BP threshold
+    // are settled here.
+    //
+    // @smogon/calc gates this with `move.type === teraType &&
+    // attacker.hasType(teraType)`, but its `hasType` swaps in the
+    // Tera type when Tera is active, so the second clause is always
+    // true once the first is — the practical rule is "any Tera STAB
+    // (matched move type) where the DB has a positive base power and
+    // it's a non-multi-hit, non-priority move." Stellar / Eruption /
+    // Water Spout / Dragon Energy are excluded.
+    final bool teraMinEligible = isTeraStab &&
         attacker.terastal.teraType != PokemonType.stellar &&
         !effectiveMove.isMultiHit &&
         effectiveMove.priority <= 0 &&
-        dynamicPower < kTeraMinPower && dynamicPower > 0;
-    final int basePower = teraMinPower ? kTeraMinPower : dynamicPower;
+        originalMoveDbPower > 0;
+    final int basePower = dynamicPower;
 
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
@@ -1152,7 +1213,14 @@ class DamageCalculator {
       notes.add('move:collision:×1.33');
     }
     final int bpChain = _chainMods(bpMods, 1, 1 << 31);
-    final int power = math.max(1, _applyChainMod(basePower, bpChain));
+    int power = math.max(1, _applyChainMod(basePower, bpChain));
+    // Tera 60-BP minimum (gen 9+): @smogon/calc evaluates this on the
+    // *post-chainMod* power. Grassy Terrain halves Earthquake to 50
+    // first, then this bumps it to 60 — gives 1.2× the damage we'd
+    // get if we evaluated before the chain.
+    if (teraMinEligible && power < kTeraMinPower && power > 0) {
+      power = kTeraMinPower;
+    }
     if (D == 0) D = 1; // prevent division by zero
 
     int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;

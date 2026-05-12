@@ -1010,7 +1010,7 @@ class _StatInputState extends State<StatInput> {
               textInputAction: TextInputAction.next,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
-                _ClampingFormatter(min: 0, max: 100),
+                _ClampingFormatter(min: 0, max: 999),
               ],
               style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
@@ -1022,7 +1022,7 @@ class _StatInputState extends State<StatInput> {
               onChanged: (text) {
                 final parsed = int.tryParse(text);
                 if (parsed != null) {
-                  widget.onHpPercentChanged(parsed.clamp(0, 100));
+                  widget.onHpPercentChanged(parsed.clamp(0, 999));
                 } else if (text.isEmpty) {
                   widget.onHpPercentChanged(100);
                 }

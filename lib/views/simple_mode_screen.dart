@@ -1018,30 +1018,75 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   Widget _hpPercentField() {
     final pct = _def.hpPercent;
     // Tint the slider green → orange → red as HP drops, to match
-    // what players see in-game at a glance.
-    final Color color = pct >= 50
-        ? Colors.green
-        : pct >= 20
-            ? Colors.orange
-            : Colors.red;
+    // what players see in-game at a glance. Above 100 % (e.g.
+    // Dynamax HP doubling, Pollen Puff heals, residual mid-turn
+    // damage estimates) we tint cyan to make it obvious the bar
+    // is above the normal cap.
+    final Color color = pct > 100
+        ? Colors.cyan
+        : pct >= 50
+            ? Colors.green
+            : pct >= 20
+                ? Colors.orange
+                : Colors.red;
+    const sliderMax = 150;
+    // Visual marker for the 100 % anchor sits at this fraction of
+    // the track. RoundSliderThumbShape radius (8) is the horizontal
+    // padding the slider reserves on each side for the thumb.
+    const thumbRadius = 8.0;
+    const hundredFraction = 100 / sliderMax;
     return Row(
       children: [
         Expanded(
-          child: SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              trackHeight: 6,
-              overlayShape: SliderComponentShape.noOverlay,
-              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-              activeTrackColor: color,
-              inactiveTrackColor: color.withValues(alpha: 0.25),
-              thumbColor: color,
-            ),
-            child: Slider(
-              value: pct.toDouble(),
-              min: 0, max: 100, divisions: 100,
-              onChanged: (v) {
-                setState(() => _def.hpPercent = v.round());
-                widget.onChanged();
+          child: SizedBox(
+            height: 28,
+            child: LayoutBuilder(
+              builder: (ctx, c) {
+                final trackWidth = c.maxWidth - thumbRadius * 2;
+                final markerLeft = thumbRadius + hundredFraction * trackWidth;
+                return Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned(
+                      left: markerLeft - 1,
+                      top: (c.maxHeight - 12) / 2,
+                      child: IgnorePointer(
+                        child: Container(
+                          width: 2,
+                          height: 12,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        trackHeight: 6,
+                        overlayShape: SliderComponentShape.noOverlay,
+                        thumbShape:
+                            const RoundSliderThumbShape(enabledThumbRadius: 8),
+                        activeTrackColor: color,
+                        inactiveTrackColor: color.withValues(alpha: 0.25),
+                        thumbColor: color,
+                      ),
+                      child: Slider(
+                        value: pct.clamp(0, sliderMax).toDouble(),
+                        min: 0,
+                        max: sliderMax.toDouble(),
+                        divisions: sliderMax,
+                        onChanged: (v) {
+                          var rounded = v.round();
+                          // Magnetic snap onto 100 % within ±2 — gives the
+                          // common "full HP" anchor a sticky feel without
+                          // making 99 / 101 unreachable.
+                          if ((rounded - 100).abs() <= 2) rounded = 100;
+                          setState(() => _def.hpPercent = rounded);
+                          widget.onChanged();
+                        },
+                      ),
+                    ),
+                  ],
+                );
               },
             ),
           ),

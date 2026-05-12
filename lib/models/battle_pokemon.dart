@@ -4,6 +4,7 @@ import '../data/pokedex.dart';
 import '../utils/app_strings.dart';
 import '../utils/stacking_moves.dart';
 import 'dynamax.dart';
+import 'move_tags.dart';
 import 'gender.dart';
 import 'nature.dart';
 import 'pokemon.dart';
@@ -421,6 +422,13 @@ class BattlePokemonState {
       // otherwise the UI shows e.g. ×3 while the calc uses base 50.
       if (m != null && isStackingPower(m)) {
         powerOverrides[i] = stackingPower(m, stackingDefaultTier(m));
+      }
+      // Mirror the manual-selection path: always-crit moves (Flower
+      // Trick, Frost Breath, Surging Strikes, Wicked Blow, …) should
+      // come in with the crit toggle already on so the displayed
+      // damage matches what the move actually does.
+      if (m != null) {
+        criticals[i] = m.hasTag(MoveTags.alwaysCrit);
       }
     }
   }
