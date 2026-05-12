@@ -447,21 +447,19 @@ DefensiveAbilityEffect getDefensiveAbilityEffect(String abilityName, {
 double getDefensiveAbilityDamageMultiplier(String abilityName, {
   required Move move,
 }) {
+  // Showdown routes defender abilities into TWO buckets:
+  //   * atMods (halve the attacker's Atk pre-formula): Thick Fat,
+  //     Heatproof, Water Bubble (vs Fire), Purifying Salt (vs Ghost),
+  //     Dry Skin (×1.25 from Fire). Use [getDefenderAtModMultiplier].
+  //   * finalMods (multiply the damage value post-formula): Ice Scales,
+  //     Fluffy, Punk Rock, Multiscale, Solid Rock / Filter / Prism
+  //     Armor, etc. This function only returns those — the atMods set
+  //     short-circuit to 1.0 here so the same input isn't applied
+  //     twice.
   final moveType = move.type;
   switch (abilityName) {
     case 'Ice Scales':
       return move.category == MoveCategory.special ? 0.5 : 1.0;
-    case 'Thick Fat':
-      return (moveType == PokemonType.fire || moveType == PokemonType.ice)
-          ? 0.5 : 1.0;
-    case 'Heatproof':
-      return moveType == PokemonType.fire ? 0.5 : 1.0;
-    case 'Water Bubble':
-      return moveType == PokemonType.fire ? 0.5 : 1.0;
-    case 'Purifying Salt':
-      return moveType == PokemonType.ghost ? 0.5 : 1.0;
-    case 'Dry Skin':
-      return moveType == PokemonType.fire ? 1.25 : 1.0;
     case 'Fluffy':
       // Fire moves deal double damage
       if (moveType == PokemonType.fire) return 2.0;
@@ -470,6 +468,32 @@ double getDefensiveAbilityDamageMultiplier(String abilityName, {
       return 1.0;
     case 'Punk Rock':
       return move.hasTag(MoveTags.sound) ? 0.5 : 1.0;
+    default:
+      return 1.0;
+  }
+}
+
+/// Defender abilities that Showdown applies in the attacker's atMods
+/// chain (so they halve / boost the Atk stat *before* the base damage
+/// formula, not the damage value after). Returns 1.0 for any ability
+/// that should be handled in [getDefensiveAbilityDamageMultiplier]
+/// instead.
+double getDefenderAtModMultiplier(String? abilityName, {required Move move}) {
+  if (abilityName == null) return 1.0;
+  final moveType = move.type;
+  switch (abilityName) {
+    case 'Thick Fat':
+      return (moveType == PokemonType.fire || moveType == PokemonType.ice)
+          ? 0.5
+          : 1.0;
+    case 'Heatproof':
+      return moveType == PokemonType.fire ? 0.5 : 1.0;
+    case 'Water Bubble':
+      return moveType == PokemonType.fire ? 0.5 : 1.0;
+    case 'Purifying Salt':
+      return moveType == PokemonType.ghost ? 0.5 : 1.0;
+    case 'Dry Skin':
+      return moveType == PokemonType.fire ? 1.25 : 1.0;
     default:
       return 1.0;
   }

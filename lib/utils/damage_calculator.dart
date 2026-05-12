@@ -521,7 +521,16 @@ class DamageCalculator {
     // Showdown's calc exactly. See the Kangaskhan-Silk-Scarf-Last
     // Resort case: 140×1.2 = 168 must reach the formula, not the
     // post-floor damage value, for 85 to appear in the 16-roll spread.
-    final double atkStatChainMod = abilityStatMod;
+    // Defender abilities like Thick Fat / Heatproof / Water Bubble /
+    // Purifying Salt / Dry Skin live in Showdown's atMods chain —
+    // they halve (or in Dry Skin's case, boost) the attacker's Atk
+    // stat for specific move types instead of multiplying the damage
+    // value after the formula. Mold Breaker bypasses this just like
+    // any other defender ability.
+    final double defAtModMul = (defAbilityRaw != null && !earlyMoldBreaks)
+        ? getDefenderAtModMultiplier(defAbilityRaw, move: effectiveMove)
+        : 1.0;
+    final double atkStatChainMod = abilityStatMod * defAtModMul;
     double basePowerChainMod =
         itemEffect.powerModifier * abilityEffect.powerModifier;
     // Charge: 2× Electric base power on the user's next Electric move.
@@ -564,6 +573,7 @@ class DamageCalculator {
       defenderAbility: defAbilityRaw,
       ignoreDefRank: effectiveMove.hasTag(MoveTags.ignoreDefRank),
     );
+    // ignore: avoid_print
 
     final defCalculated = StatCalculator.calculate(
       baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
@@ -1081,10 +1091,16 @@ class DamageCalculator {
     // Electric ×1.3, Misty → Dragon ÷2), and Collision Course's
     // ×1.3333 on super effective. Putting them post-formula was the
     // source of our ±1 mismatches with Showdown's calc.
+    // Showdown splits weather out from basePower: terrain and
+    // Collision Course / Electro Drift are onBasePower callbacks
+    // (apply to the move's power), but weather offensive mod (Sun×
+    // Fire 1.5, Rain×Fire 0.5, …) lives in the damage chain right
+    // after baseDamage and before crit/random. Keeping them split
+    // matters because the formula's integer divisions sit between
+    // these two steps.
     final int power = (basePower
             * movePowerMod
             * basePowerChainMod
-            * weatherMod
             * terrainMod
             * collisionMod)
         .floor();
@@ -1125,10 +1141,12 @@ class DamageCalculator {
       final berry = berryModHit < 0 ? berryMod : berryModHit;
 
       int d = baseDmgInput;
-      // Pre-random modifier — only crit lives here now. Weather and
-      // terrain were moved to the pre-formula basePower chain to
-      // match Showdown; item / ability power and stat mods were also
-      // folded upstream into basePower / atMods.
+      // Pre-random modifiers per Showdown's order. Terrain and item
+      // / ability base-power boosts already rode the basePower chain
+      // upstream; weather stays here because Showdown applies the
+      // weather offensive mod (Sun×Fire 1.5 / Rain×Fire 0.5 / …)
+      // after the formula and before crit + random.
+      d = _pokeRound(d * weatherMod);
       d = _pokeRound(d * critMod);
       // Random factor (floor, not pokeRound)
       d = d * randomRoll ~/ 100;
@@ -1146,6 +1164,10 @@ class DamageCalculator {
         d = _pokeRound(d * defAbi);
       }
       d = _pokeRound(d * expertBeltMod);
+      // Item damage-side finalMods (Life Orb ×1.3, …).
+      if (itemEffect.damageModifier != 1.0) {
+        d = _pokeRound(d * itemEffect.damageModifier);
+      }
       d = _pokeRound(d * screenMod);
       d = _pokeRound(d * berry);
       if (aura.multiplier != 1.0) {

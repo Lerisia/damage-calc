@@ -65,9 +65,13 @@ void main() {
     }
 
     // --- Power modifier items ---
-    test('life-orb boosts power by ~1.3x (5324/4096)', () {
+    test('life-orb damage mod ~1.3x (5324/4096)', () {
+      // Life Orb is a Showdown finalMods entry, so it lives on
+      // `damageModifier` (post-formula chain) not `powerModifier`
+      // (pre-formula base-power chain).
       final effect = getItemEffect('life-orb', move: tackle);
-      expect(effect.powerModifier, closeTo(5324/4096, 0.001));
+      expect(effect.damageModifier, closeTo(5324 / 4096, 0.001));
+      expect(effect.powerModifier, equals(1.0));
     });
 
     // --- 1.1× power-modifier items, gated by move category/tag ---

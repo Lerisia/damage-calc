@@ -41,18 +41,27 @@ const double kChoiceScarfSpeed = 1.5;
 /// Iron Ball / Power items: 0.5x speed.
 const double kHeavyItemSpeedPenalty = 0.5;
 
-/// Offensive modifier returned by an item. There used to be two
-/// separate fields (`statModifier` for Choice Band et al., and
-/// `powerModifier` for Life Orb et al.) but they both chained into
-/// the same final-damage product — the only practical difference
-/// was an extra intermediate floor on the stat side that didn't
-/// match Pokémon's actual formula. They're collapsed into one
-/// powerModifier; "Choice Band ×1.5 for physical moves" is exactly
-/// "Life Orb ×1.5, gated to physical moves".
+/// Offensive modifier returned by an item, split into the two
+/// Showdown chains that apply at different points of the damage
+/// formula:
+///
+/// * [powerModifier]: basePower / atMods bucket — folded into the
+///   move's power (and the Atk stat) *before* the integer-truncating
+///   base damage formula. Type-boost items (Silk Scarf, Mystic Water,
+///   Charcoal, …), Muscle Band, Wise Glasses, Punching Glove, Normal
+///   Gem, Choice Band / Specs, Light Ball, Thick Club fall here.
+/// * [damageModifier]: finalMods bucket — applied as a post-formula
+///   pokeRound on the damage value, after STAB / type / burn and
+///   alongside Expert Belt / screens / aura. Life Orb (×1.3) and any
+///   future finalMod-bucket items live here.
 class ItemEffect {
   final double powerModifier;
+  final double damageModifier;
 
-  const ItemEffect({this.powerModifier = 1.0});
+  const ItemEffect({
+    this.powerModifier = 1.0,
+    this.damageModifier = 1.0,
+  });
 }
 
 const _defaultEffect = ItemEffect();
@@ -126,7 +135,10 @@ ItemEffect getItemEffect(
   // Power modifier items
   switch (itemName) {
     case 'life-orb':
-      return const ItemEffect(powerModifier: kLifeOrbPower);
+      // Life Orb is a Showdown finalMods entry — applied to the
+      // damage value after STAB / type / burn, not folded into the
+      // pre-formula base power.
+      return const ItemEffect(damageModifier: kLifeOrbPower);
     case 'muscle-band':
       return move.category == MoveCategory.physical
           ? const ItemEffect(powerModifier: kItemMinorPowerBoost)
