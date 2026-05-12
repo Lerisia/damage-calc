@@ -2014,10 +2014,18 @@ void main() {
         atkAbility: null,
         defType1: PokemonType.normal, defType2: null,
       );
-      expect(hugePower.maxDamage, equals(noHugePower.maxDamage * 2),
-          reason: 'Huge Power should double Body Press damage — '
-              'per Bulbapedia it applies as an Attack-side multiplier '
-              'even though Body Press uses the Defense stat value');
+      // Huge Power is an atMods chain modifier in Showdown — applied
+      // to the Attack stat *before* the base damage formula. Since
+      // the formula has integer-truncating divisions, the resulting
+      // damage is *approximately* 2× but not exactly (e.g., 74 → 144
+      // instead of 148). We assert ≈2× rather than exactly 2× to
+      // match Showdown semantics.
+      expect(hugePower.maxDamage,
+          greaterThan(noHugePower.maxDamage * 19 ~/ 10),
+          reason: 'Huge Power ≈ 2× Body Press damage (Showdown atMods).');
+      expect(hugePower.maxDamage,
+          lessThanOrEqualTo(noHugePower.maxDamage * 2),
+          reason: 'Damage can\'t exceed exact 2× — floor() in the formula.');
     });
   });
 

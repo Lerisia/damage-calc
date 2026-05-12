@@ -487,13 +487,12 @@ class DamageCalculator {
 
     // Per Bulbapedia, abilities/items framed as "boosts Attack/SpAtk"
     // (Huge Power, Choice Band, Solar Power, …) are mechanically
-    // category-gated power multipliers — equivalent to a Life Orb
-    // restricted to physical / special moves. So we pick the right
-    // multiplier by *move category* (not the offensive stat
-    // OffensiveStat slot) and fold the result into powerMod. This
-    // makes Body Press (physical, uses Defense as the stat) get
-    // Huge Power × 2, Choice Band × 1.5, burn ÷ 2 just like any
-    // normal physical move — matching Showdown's atMods chain.
+    // category-gated stat multipliers — Showdown handles them in the
+    // atMods chain. So we pick the right multiplier by *move
+    // category* (not the offensive stat OffensiveStat slot) and fold
+    // the result into the Atk-stat chain below. This makes Body
+    // Press (physical, uses Defense as the stat) get Huge Power × 2,
+    // Choice Band × 1.5, burn ÷ 2 just like any normal physical move.
     final double abilityStatMod;
     if (effectiveMove.hasTag(MoveTags.useHigherAtk)) {
       // Photon Geyser: takes the higher of the two ability mods
@@ -508,18 +507,30 @@ class DamageCalculator {
       abilityStatMod = abilityEffect.statModifiers.spAttack;
     }
 
-    double powerMod = itemEffect.powerModifier *
-        abilityEffect.powerModifier *
-        abilityStatMod;
-
-    // Charge: Electric moves deal 2x damage
+    // Showdown splits these multipliers into two pre-formula chains:
+    //   atMods  — Attack-stat boosters (Huge Power, Choice Band, …)
+    //              applied to A before the base damage formula.
+    //   basePowerMods — power boosters (Silk Scarf, Sheer Force,
+    //              Muscle Band, Normal Gem, Charge, …) applied to the
+    //              move's power before the formula.
+    // Previously we routed all of them through a *post-formula*
+    // pokeRound chain, which differs from Showdown by ±1 because the
+    // base-damage formula has integer divisions (~/126, ~/50) that
+    // are skipped when the multiplier is applied later. Folding them
+    // into the right pre-formula chains makes our output match
+    // Showdown's calc exactly. See the Kangaskhan-Silk-Scarf-Last
+    // Resort case: 140×1.2 = 168 must reach the formula, not the
+    // post-floor damage value, for 85 to appear in the 16-roll spread.
+    final double atkStatChainMod = abilityStatMod;
+    double basePowerChainMod =
+        itemEffect.powerModifier * abilityEffect.powerModifier;
+    // Charge: 2× Electric base power on the user's next Electric move.
     if (attacker.charge && effectiveMove.type == PokemonType.electric) {
-      powerMod *= kChargePowerBoost;
+      basePowerChainMod *= kChargePowerBoost;
     }
 
-    // statMod is now folded into powerMod (single chain instead of an
-    // intermediate floor on the stat); raw attack passes through unchanged.
-    int A = rawA;
+    // Apply the Atk-stat chain to A before the formula.
+    int A = (rawA * atkStatChainMod).floor();
 
     // --- Ruin abilities (not affected by Mold Breaker) ---
     // Ruin needs to know which defensive stat is actually used (Def vs
@@ -1050,9 +1061,33 @@ class DamageCalculator {
         dynamicPower < kTeraMinPower && dynamicPower > 0;
     final int basePower = teraMinPower ? kTeraMinPower : dynamicPower;
 
+    // --- Collision Course / Electro Drift: x1.3333 on super effective.
+    // Showdown handles this as a basePowerMod (onBasePower) — folded
+    // into the pre-formula power chain along with weather/terrain/items.
+    double collisionMod = 1.0;
+    if (isSuperEffective &&
+        effectiveMove.hasTag(MoveTags.superEffectiveBoost)) {
+      collisionMod = kCollisionCourseBoost;
+      notes.add('move:collision:×1.33');
+    }
+
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
-    final int power = (basePower * movePowerMod).floor();
+    // Fold the full base-power chain into `power` *before* the
+    // integer-truncating formula divisions. Showdown groups all of
+    // these as onBasePower modifiers: type-boost items (Silk Scarf),
+    // power-boost abilities (Sheer Force), Charge, type/weather
+    // boosts (Sun-boosted Fire), terrain (Electric Terrain →
+    // Electric ×1.3, Misty → Dragon ÷2), and Collision Course's
+    // ×1.3333 on super effective. Putting them post-formula was the
+    // source of our ±1 mismatches with Showdown's calc.
+    final int power = (basePower
+            * movePowerMod
+            * basePowerChainMod
+            * weatherMod
+            * terrainMod
+            * collisionMod)
+        .floor();
     if (D == 0) D = 1; // prevent division by zero
 
     final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;
@@ -1072,14 +1107,6 @@ class DamageCalculator {
     );
     notes.addAll(aura.notes);
 
-    // --- Collision Course / Electro Drift: x1.3333 on super effective ---
-    double collisionMod = 1.0;
-    if (isSuperEffective &&
-        effectiveMove.hasTag(MoveTags.superEffectiveBoost)) {
-      collisionMod = kCollisionCourseBoost;
-      notes.add('move:collision:×1.33');
-    }
-
     // --- Apply modifiers sequentially with pokeRound after each ---
     // Official Gen V+ order:
     //   baseDmg × Targets × PB × Weather × GlaiveRush × Critical
@@ -1098,8 +1125,10 @@ class DamageCalculator {
       final berry = berryModHit < 0 ? berryMod : berryModHit;
 
       int d = baseDmgInput;
-      // Pre-random modifiers
-      d = _pokeRound(d * weatherMod);
+      // Pre-random modifier — only crit lives here now. Weather and
+      // terrain were moved to the pre-formula basePower chain to
+      // match Showdown; item / ability power and stat mods were also
+      // folded upstream into basePower / atMods.
       d = _pokeRound(d * critMod);
       // Random factor (floor, not pokeRound)
       d = d * randomRoll ~/ 100;
@@ -1107,9 +1136,8 @@ class DamageCalculator {
       d = _pokeRound(d * stab);
       d = _pokeRound(d * eff);
       d = _pokeRound(d * burnMod);
-      // "other" bucket: terrain, abilities, items, screens, berries
-      d = _pokeRound(d * terrainMod);
-      d = _pokeRound(d * powerMod);
+      // Showdown finalMods bucket: defender/attacker damage-side
+      // abilities, screens, resist berries, aura.
       d = _pokeRound(d * defAbilityDmgMod);
       if (atkAbilityDmg.multiplier != 1.0) {
         d = _pokeRound(d * atkAbilityDmg.multiplier);
@@ -1123,7 +1151,6 @@ class DamageCalculator {
       if (aura.multiplier != 1.0) {
         d = _pokeRound(d * aura.multiplier);
       }
-      d = _pokeRound(d * collisionMod);
       return d;
     }
 
