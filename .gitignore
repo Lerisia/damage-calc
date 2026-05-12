@@ -38,3 +38,5 @@ scripts/
 # Coverage
 coverage/
 __pycache__/
+tools/showdown-compare/node_modules/
+tools/showdown-compare/package-lock.json
