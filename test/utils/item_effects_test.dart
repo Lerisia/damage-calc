@@ -55,11 +55,16 @@ void main() {
     ];
     for (final c in choiceCases) {
       test('${c.$1} boosts matching category stat by 1.5×', () {
+        // Choice items are Showdown atMods — atkStatModifier, not
+        // powerModifier (which would route through the basePower
+        // chain instead).
         final effect = getItemEffect(c.$1, move: c.$2);
-        expect(effect.powerModifier, equals(1.5));
+        expect(effect.atkStatModifier, equals(1.5));
+        expect(effect.powerModifier, equals(1.0));
       });
       test('${c.$1} does not boost the other category', () {
         final effect = getItemEffect(c.$1, move: c.$3);
+        expect(effect.atkStatModifier, equals(1.0));
         expect(effect.powerModifier, equals(1.0));
       });
     }
@@ -81,9 +86,12 @@ void main() {
       ('punching-glove', machPunch, tackle), // punch tag
     ];
     for (final c in oneOnePower) {
-      test('${c.$1} boosts matching move power by 1.1×', () {
+      test('${c.$1} boosts matching move power by ~1.1×', () {
+        // Specific fp ratios: Muscle Band / Wise Glasses use 4505/4096
+        // and Punching Glove uses 4506/4096 — Showdown stores them as
+        // distinct 4096-fp integers despite both nominally being 1.1.
         final effect = getItemEffect(c.$1, move: c.$2);
-        expect(effect.powerModifier, equals(1.1));
+        expect(effect.powerModifier, closeTo(1.1, 0.001));
       });
       test('${c.$1} does not boost non-matching moves', () {
         final effect = getItemEffect(c.$1, move: c.$3);
@@ -96,34 +104,36 @@ void main() {
     // mystic-water / flame-plate / etc.)
 
     // --- Pokemon-specific items ---
+    // Pokémon-specific stat boosters live on atkStatModifier (atMods
+    // bucket) — same as Choice Band / Specs.
     test('light-ball doubles pikachu stat', () {
       final effect = getItemEffect('light-ball', move: tackle, pokemonName: 'pikachu');
-      expect(effect.powerModifier, equals(2.0));
+      expect(effect.atkStatModifier, equals(2.0));
     });
 
     test('light-ball does nothing for non-pikachu', () {
       final effect = getItemEffect('light-ball', move: tackle, pokemonName: 'raichu');
-      expect(effect.powerModifier, equals(1.0));
+      expect(effect.atkStatModifier, equals(1.0));
     });
 
     test('thick-club doubles cubone attack', () {
       final effect = getItemEffect('thick-club', move: tackle, pokemonName: 'cubone');
-      expect(effect.powerModifier, equals(2.0));
+      expect(effect.atkStatModifier, equals(2.0));
     });
 
     test('thick-club doubles marowak attack', () {
       final effect = getItemEffect('thick-club', move: tackle, pokemonName: 'marowak');
-      expect(effect.powerModifier, equals(2.0));
+      expect(effect.atkStatModifier, equals(2.0));
     });
 
     test('thick-club does not boost special moves for marowak', () {
       final effect = getItemEffect('thick-club', move: psychic, pokemonName: 'marowak');
-      expect(effect.powerModifier, equals(1.0));
+      expect(effect.atkStatModifier, equals(1.0));
     });
 
     test('deep-sea-tooth doubles clamperl spAtk', () {
       final effect = getItemEffect('deep-sea-tooth', move: surf, pokemonName: 'clamperl');
-      expect(effect.powerModifier, equals(2.0));
+      expect(effect.atkStatModifier, equals(2.0));
     });
 
     test('adamant-orb boosts dialga dragon moves', () {
@@ -322,7 +332,7 @@ void main() {
 
     test('light-ball works for pikachu variants (contains check)', () {
       final effect = getItemEffect('light-ball', move: tackle, pokemonName: 'pikachu-gmax');
-      expect(effect.powerModifier, equals(2.0));
+      expect(effect.atkStatModifier, equals(2.0));
     });
 
   });

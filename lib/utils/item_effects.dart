@@ -12,9 +12,15 @@ const double kChoiceStatBoost = 1.5;
 /// Life Orb: 1.3x power at the cost of recoil.
 const double kLifeOrbPower = 5324.0 / 4096.0;
 
-/// Muscle Band (physical) / Wise Glasses (special) / Punching Glove (punch):
-/// 1.1x power for matching moves.
-const double kItemMinorPowerBoost = 1.1;
+/// Muscle Band (physical) / Wise Glasses (special): 4505/4096 (~1.0998).
+/// Stored as the exact 4096-fp ratio Showdown uses so the chainMods
+/// path lands on identical fp integers — generic _toFP(1.1) rounds to
+/// 4506, which produces a ±1 mismatch.
+const double kBandGlassesPower = 4505.0 / 4096.0;
+
+/// Punching Glove: 4506/4096 (~1.1001). Subtly different fp constant
+/// from Muscle Band / Wise Glasses — quirk preserved from the game ROM.
+const double kPunchingGlovePower = 4506.0 / 4096.0;
 
 /// Normal Gem: 1.3x power for a single Normal-type move.
 const double kNormalGemPower = 1.3;
@@ -57,10 +63,18 @@ const double kHeavyItemSpeedPenalty = 0.5;
 class ItemEffect {
   final double powerModifier;
   final double damageModifier;
+  /// Showdown atMods bucket — items that boost the attacker's Atk
+  /// (physical) or SpA (special) stat before the base damage formula.
+  /// Choice Band, Choice Specs, Light Ball (Pikachu), Thick Club
+  /// (Cubone/Marowak), Deep Sea Tooth (Clamperl) live here. Keeping
+  /// them separate from [powerModifier] (basePower) matters because
+  /// the formula has integer divisions between the two.
+  final double atkStatModifier;
 
   const ItemEffect({
     this.powerModifier = 1.0,
     this.damageModifier = 1.0,
+    this.atkStatModifier = 1.0,
   });
 }
 
@@ -122,13 +136,15 @@ ItemEffect getItemEffect(
 }) {
   // Stat modifier items
   switch (itemName) {
+    // Choice Band / Choice Specs live in the atMods bucket — they
+    // multiply the attacker's relevant stat, not the move's power.
     case 'choice-band':
       return move.category == MoveCategory.physical
-          ? const ItemEffect(powerModifier: kChoiceStatBoost)
+          ? const ItemEffect(atkStatModifier: kChoiceStatBoost)
           : _defaultEffect;
     case 'choice-specs':
       return move.category == MoveCategory.special
-          ? const ItemEffect(powerModifier: kChoiceStatBoost)
+          ? const ItemEffect(atkStatModifier: kChoiceStatBoost)
           : _defaultEffect;
   }
 
@@ -141,15 +157,15 @@ ItemEffect getItemEffect(
       return const ItemEffect(damageModifier: kLifeOrbPower);
     case 'muscle-band':
       return move.category == MoveCategory.physical
-          ? const ItemEffect(powerModifier: kItemMinorPowerBoost)
+          ? const ItemEffect(powerModifier: kBandGlassesPower)
           : _defaultEffect;
     case 'wise-glasses':
       return move.category == MoveCategory.special
-          ? const ItemEffect(powerModifier: kItemMinorPowerBoost)
+          ? const ItemEffect(powerModifier: kBandGlassesPower)
           : _defaultEffect;
     case 'punching-glove':
       return move.hasTag(MoveTags.punch)
-          ? const ItemEffect(powerModifier: kItemMinorPowerBoost)
+          ? const ItemEffect(powerModifier: kPunchingGlovePower)
           : _defaultEffect;
     case 'normal-gem':
       return move.type == PokemonType.normal
@@ -167,24 +183,27 @@ ItemEffect getItemEffect(
   // Pokemon-specific items
   final name = pokemonName?.toLowerCase() ?? '';
   switch (itemName) {
+    // Light Ball / Thick Club / Deep Sea Tooth are atMods entries in
+    // Showdown — they boost the attacker's stat, not the move's
+    // power.
     case 'light-ball':
       // Pikachu: 2x Attack and Sp.Atk
       if (name.contains('pikachu')) {
-        return const ItemEffect(powerModifier: kPokemonSpecificStatBoost);
+        return const ItemEffect(atkStatModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'thick-club':
       // Cubone/Marowak: 2x Attack
       if ((name.contains('cubone') || name.contains('marowak')) &&
           move.category == MoveCategory.physical) {
-        return const ItemEffect(powerModifier: kPokemonSpecificStatBoost);
+        return const ItemEffect(atkStatModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'deep-sea-tooth':
       // Clamperl: 2x Sp.Atk
       if (name.contains('clamperl') &&
           move.category == MoveCategory.special) {
-        return const ItemEffect(powerModifier: kPokemonSpecificStatBoost);
+        return const ItemEffect(atkStatModifier: kPokemonSpecificStatBoost);
       }
       return _defaultEffect;
     case 'adamant-orb':

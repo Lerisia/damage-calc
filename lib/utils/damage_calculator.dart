@@ -55,6 +55,50 @@ const int kTeraMinPower = 60;
 /// e.g. 10.4→10, 10.5→10, 10.6→11
 int _pokeRound(num x) => (x.toDouble() - 0.5).ceil();
 
+/// 4096-fixed-point scale used by Pokemon Showdown's chainMods system.
+/// 1.0 = 4096, 0.5 = 2048, 1.5 = 6144, etc. Matches the in-game ROM
+/// integer-only chain that the disassemblers reverse-engineered.
+const int _kFP = 4096;
+
+/// 4096-fp mod constants used throughout the damage chain. Centralising
+/// them keeps the routing readable and matches Showdown's table.
+const int _kFP_0_25 = 1024;   // 0.25
+const int _kFP_0_5 = 2048;    // 0.5
+const int _kFP_0_75 = 3072;   // 0.75
+const int _kFP_1 = 4096;      // 1.0
+const int _kFP_1_1 = 4506;    // 1.1 (Muscle Band / Wise Glasses / Punching Glove)
+const int _kFP_1_2 = 4915;    // 1.2 (Expert Belt / type-boost items)
+const int _kFP_1_25 = 5120;   // 1.25 (Dry Skin)
+const int _kFP_1_3 = 5325;    // 1.3 (Life Orb / Normal Gem, Sheer Force, Terrain boost)
+const int _kFP_1_5 = 6144;    // 1.5 (STAB, Choice Band/Specs, Sun×Fire, Rain×Water)
+const int _kFP_1_3333 = 5461; // 4/3 (Collision Course / Electro Drift on SE)
+const int _kFP_2 = 8192;      // 2.0 (Huge Power / Pure Power / Tera STAB)
+
+/// Convert a floating-point multiplier to 4096-fp. Used at boundaries
+/// where existing helpers still return doubles (weather / terrain /
+/// ability effects) — eventually those should return fp ints
+/// directly, but this is enough to route them through chainMods.
+int _toFP(double mul) => (mul * _kFP).round();
+
+/// Showdown's chainMods: accumulate a list of 4096-fp multipliers into
+/// a single integer with rounding-half-up at every step, clamped to
+/// [lowerBound, upperBound]. Mirrors @smogon/calc's `util.chainMods`.
+int _chainMods(List<int> mods, [int lowerBound = 410, int upperBound = 131172]) {
+  int M = _kFP;
+  for (final mod in mods) {
+    if (mod != _kFP) {
+      M = ((M * mod) + 2048) >> 12;
+    }
+  }
+  return M.clamp(lowerBound, upperBound);
+}
+
+/// Apply a 4096-fp chain modifier to a value, rounding via pokeRound.
+/// `pokeRound((value * mod) / 4096)` per Showdown's stat / damage
+/// modification pattern.
+int _applyChainMod(int value, int mod) =>
+    _pokeRound(value * mod / _kFP);
+
 /// Result of a single move's damage calculation.
 class DamageResult {
   /// Raw base damage (at max roll, for display)
@@ -530,16 +574,22 @@ class DamageCalculator {
     final double defAtModMul = (defAbilityRaw != null && !earlyMoldBreaks)
         ? getDefenderAtModMultiplier(defAbilityRaw, move: effectiveMove)
         : 1.0;
-    final double atkStatChainMod = abilityStatMod * defAtModMul;
-    double basePowerChainMod =
-        itemEffect.powerModifier * abilityEffect.powerModifier;
-    // Charge: 2× Electric base power on the user's next Electric move.
-    if (attacker.charge && effectiveMove.type == PokemonType.electric) {
-      basePowerChainMod *= kChargePowerBoost;
+    // Showdown atMods chain — abilityStatMod (Huge Power / Solar
+    // Power / etc.) folded with defender at-side mods (Thick Fat /
+    // Heatproof / Water Bubble / Dry Skin), item atkStatModifier
+    // (Choice Band / Specs / Light Ball / Thick Club / Deep Sea
+    // Tooth), and the ruin Atk multiplier — all 4096-fp integers,
+    // single pokeRound after compounding.
+    final atMods = <int>[];
+    if (abilityStatMod != 1.0) atMods.add(_toFP(abilityStatMod));
+    if (defAtModMul != 1.0) atMods.add(_toFP(defAtModMul));
+    if (itemEffect.atkStatModifier != 1.0) {
+      atMods.add(_toFP(itemEffect.atkStatModifier));
     }
-
-    // Apply the Atk-stat chain to A before the formula.
-    int A = (rawA * atkStatChainMod).floor();
+    // (Ruin.atkMod gets appended once it's computed below — declared
+    // here so the rest of this block can keep referring to `A` as the
+    // chain-applied stat.)
+    int A = rawA; // placeholder — finalised after ruin computation.
 
     // --- Ruin abilities (not affected by Mold Breaker) ---
     // Ruin needs to know which defensive stat is actually used (Def vs
@@ -562,7 +612,11 @@ class DamageCalculator {
       targetPhysDef: targetPhysDef,
       state: ruinState,
     );
-    A = (A * ruin.atkMod).floor();
+    if (ruin.atkMod != 1.0) atMods.add(_toFP(ruin.atkMod));
+    // Final A from the chain — single pokeRound after compounding
+    // all atMods at 4096 scale (Showdown's `chainMods(atMods, 410,
+    // 131072)` lower/upper bounds).
+    A = math.max(1, _applyChainMod(rawA, _chainMods(atMods, 410, 131072)));
 
     // --- Defender stat ---
     // Unaware (attacker) + Critical hit + ignore-def-rank moves
@@ -1071,42 +1125,52 @@ class DamageCalculator {
         dynamicPower < kTeraMinPower && dynamicPower > 0;
     final int basePower = teraMinPower ? kTeraMinPower : dynamicPower;
 
-    // --- Collision Course / Electro Drift: x1.3333 on super effective.
-    // Showdown handles this as a basePowerMod (onBasePower) — folded
-    // into the pre-formula power chain along with weather/terrain/items.
-    double collisionMod = 1.0;
-    if (isSuperEffective &&
-        effectiveMove.hasTag(MoveTags.superEffectiveBoost)) {
-      collisionMod = kCollisionCourseBoost;
-      notes.add('move:collision:×1.33');
-    }
-
     // --- Base damage: official Gen V+ formula ---
     final int level = attacker.level.clamp(1, 100);
-    // Fold the full base-power chain into `power` *before* the
-    // integer-truncating formula divisions. Showdown groups all of
-    // these as onBasePower modifiers: type-boost items (Silk Scarf),
-    // power-boost abilities (Sheer Force), Charge, type/weather
-    // boosts (Sun-boosted Fire), terrain (Electric Terrain →
-    // Electric ×1.3, Misty → Dragon ÷2), and Collision Course's
-    // ×1.3333 on super effective. Putting them post-formula was the
-    // source of our ±1 mismatches with Showdown's calc.
-    // Showdown splits weather out from basePower: terrain and
-    // Collision Course / Electro Drift are onBasePower callbacks
-    // (apply to the move's power), but weather offensive mod (Sun×
-    // Fire 1.5, Rain×Fire 0.5, …) lives in the damage chain right
-    // after baseDamage and before crit/random. Keeping them split
-    // matters because the formula's integer divisions sit between
-    // these two steps.
-    final int power = (basePower
-            * movePowerMod
-            * basePowerChainMod
-            * terrainMod
-            * collisionMod)
-        .floor();
+    // Showdown bpMods chain — every modifier that boosts the move's
+    // *base power* (NOT damage afterward). Includes type-boost items,
+    // power-boost abilities (Sheer Force / Iron Fist / Tough Claws /
+    // Reckless / Punk Rock / etc.), Charge, terrain boosts (Electric
+    // Terrain ×1.3 Electric / Misty Terrain ÷2 Dragon / Grassy ×0.5
+    // Earthquake / Bulldoze), Collision Course / Electro Drift on
+    // super effective, doubles spread / Helping Hand / Power Spot.
+    // Each multiplier becomes a 4096-fp integer; chainMods compounds
+    // them with rounding-half-up before applying to basePower with a
+    // single pokeRound. Weather offensive mod (Sun×Fire 1.5,
+    // Rain×Fire 0.5) is handled separately in the damage chain (it
+    final bpMods = <int>[];
+    if (movePowerMod != 1.0) bpMods.add(_toFP(movePowerMod));
+    if (itemEffect.powerModifier != 1.0) bpMods.add(_toFP(itemEffect.powerModifier));
+    if (abilityEffect.powerModifier != 1.0) bpMods.add(_toFP(abilityEffect.powerModifier));
+    if (attacker.charge && effectiveMove.type == PokemonType.electric) {
+      bpMods.add(_toFP(kChargePowerBoost));
+    }
+    if (terrainMod != 1.0) bpMods.add(_toFP(terrainMod));
+    if (isSuperEffective &&
+        effectiveMove.hasTag(MoveTags.superEffectiveBoost)) {
+      bpMods.add(_kFP_1_3333);
+      notes.add('move:collision:×1.33');
+    }
+    final int bpChain = _chainMods(bpMods, 1, 1 << 31);
+    final int power = math.max(1, _applyChainMod(basePower, bpChain));
     if (D == 0) D = 1; // prevent division by zero
 
-    final int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;
+    int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;
+    // Showdown's calculateBaseDamage applies spread / parental-bond
+    // / weather / crit modifications *to the base damage* before the
+    // random-factor loop. We've already folded basePower-side mods
+    // into `power` above, so the only steps left here are weather
+    // (Sun×Fire 1.5 / Rain×Water 1.5 / Sun×Water 0.5 / Rain×Fire 0.5,
+    // …) and crit ×1.5. Both use 4096-fp / pokeRound to match
+    // Showdown bit-for-bit.
+    if (weatherMod != 1.0) {
+      baseDmg = _applyChainMod(baseDmg, _toFP(weatherMod));
+    }
+    if (critMod != 1.0) {
+      // Showdown applies crit as floor(baseDmg * 1.5) — straight floor
+      // rather than pokeRound. Match exactly.
+      baseDmg = (baseDmg * critMod).floor();
+    }
 
     // --- Aura abilities (Fairy Aura / Dark Aura / Aura Break) ---
     final auraState = computeAuraState(
@@ -1123,14 +1187,22 @@ class DamageCalculator {
     );
     notes.addAll(aura.notes);
 
-    // --- Apply modifiers sequentially with pokeRound after each ---
-    // Official Gen V+ order:
-    //   baseDmg × Targets × PB × Weather × GlaiveRush × Critical
-    //   × random × STAB × Type × Burn × other × ZMove × TeraShield
-    // pokeRound = round to nearest, rounding DOWN at 0.5
-    // Random factor uses floor (integer division by 100).
-    // Parameterized for multi-hit: first hit may differ from subsequent hits
-    // due to Multiscale/Shadow Shield, Tera Shell, and resist berries.
+    // --- Damage chain mirroring Showdown's getFinalDamage ---
+    // Showdown applies the post-baseDamage chain as:
+    //   baseDamage (already includes spread, parental-bond, weather,
+    //              crit at the calculateBaseDamage step)
+    //   → floor(baseDamage * (85 + i) / 100)              [random]
+    //   → if STAB != 4096: damage * stabMod / 4096        [no round]
+    //   → floor(pokeRound(damage) * effectiveness)        [type eff]
+    //   → if burned: floor(damage / 2)
+    //   → pokeRound(max(1, damage * finalMod / 4096))     [finalMods]
+    //
+    // We fold weather into baseDmgInput before this function so the
+    // chain mirrors Showdown step-for-step. STAB and finalMods are
+    // 4096-fp integers; effectiveness stays as a double (it's an
+    // integer ratio so floor matches Showdown's behaviour).
+    final int stabFP = _toFP(stab);
+
     int applyModifiers(int baseDmgInput, int randomRoll, {
       double effectivenessHit = -1,
       double defAbilityDmgHit = -1,
@@ -1140,39 +1212,40 @@ class DamageCalculator {
       final defAbi = defAbilityDmgHit < 0 ? defAbilityDmg.multiplier : defAbilityDmgHit;
       final berry = berryModHit < 0 ? berryMod : berryModHit;
 
-      int d = baseDmgInput;
-      // Pre-random modifiers per Showdown's order. Terrain and item
-      // / ability base-power boosts already rode the basePower chain
-      // upstream; weather stays here because Showdown applies the
-      // weather offensive mod (Sun×Fire 1.5 / Rain×Fire 0.5 / …)
-      // after the formula and before crit + random.
-      d = _pokeRound(d * weatherMod);
-      d = _pokeRound(d * critMod);
-      // Random factor (floor, not pokeRound)
-      d = d * randomRoll ~/ 100;
-      // Post-random modifiers
-      d = _pokeRound(d * stab);
-      d = _pokeRound(d * eff);
-      d = _pokeRound(d * burnMod);
-      // Showdown finalMods bucket: defender/attacker damage-side
-      // abilities, screens, resist berries, aura.
-      d = _pokeRound(d * defAbilityDmgMod);
+      // Build the finalMods chain (Showdown's `calculateFinalMods`
+      // bucket). Defender at-side mods (Thick Fat / Heatproof / …)
+      // already rode atMods upstream and are skipped here.
+      final finalMods = <int>[];
+      if (defAbilityDmgMod != 1.0) finalMods.add(_toFP(defAbilityDmgMod));
       if (atkAbilityDmg.multiplier != 1.0) {
-        d = _pokeRound(d * atkAbilityDmg.multiplier);
+        finalMods.add(_toFP(atkAbilityDmg.multiplier));
       }
-      if (defAbi != 1.0) {
-        d = _pokeRound(d * defAbi);
-      }
-      d = _pokeRound(d * expertBeltMod);
-      // Item damage-side finalMods (Life Orb ×1.3, …).
+      if (defAbi != 1.0) finalMods.add(_toFP(defAbi));
+      if (expertBeltMod != 1.0) finalMods.add(_toFP(expertBeltMod));
       if (itemEffect.damageModifier != 1.0) {
-        d = _pokeRound(d * itemEffect.damageModifier);
+        finalMods.add(_toFP(itemEffect.damageModifier));
       }
-      d = _pokeRound(d * screenMod);
-      d = _pokeRound(d * berry);
-      if (aura.multiplier != 1.0) {
-        d = _pokeRound(d * aura.multiplier);
+      if (screenMod != 1.0) finalMods.add(_toFP(screenMod));
+      if (berry != 1.0) finalMods.add(_toFP(berry));
+      if (aura.multiplier != 1.0) finalMods.add(_toFP(aura.multiplier));
+      final int finalModChain = _chainMods(finalMods, 41, 131072);
+
+      // Random factor — floor, not pokeRound.
+      int d = baseDmgInput * randomRoll ~/ 100;
+      // STAB — no round mid-step; the next pokeRound after type-eff
+      // covers it.
+      if (stabFP != _kFP) {
+        d = d * stabFP ~/ _kFP;
       }
+      // Type effectiveness: floor(pokeRound(d) * eff).
+      d = (_pokeRound(d) * eff).floor();
+      // Burn — special case in Showdown: floor(d / 2) NOT pokeRound.
+      if (burnMod < 1.0) {
+        d = d ~/ 2;
+      }
+      // Final mods — single pokeRound at the end (clamped to ≥1 like
+      // Showdown does).
+      d = _pokeRound(math.max(1, d * finalModChain / _kFP));
       return d;
     }
 
