@@ -614,10 +614,14 @@ void main() {
       expect(result, equals(3588));
     });
 
-    test('Sniper criticalOverride with crit', () {
-      // getAbilityEffect('Sniper') -> criticalOverride = 2.25
-      // Atk = 69, power = 40, crit 2.25 -> floor(69 * 40 * 2.25) = 6210
+    test('Sniper crit no longer overrides via ability effect', () {
+      // Sniper's +50 % crit damage moved out of criticalOverride
+      // and into damage_calculator's finalMods chain. The ability
+      // lookup itself returns no criticalOverride, so this isolated
+      // offensive-calc path falls back to the default crit ×1.5.
+      // floor(69 * 40 * 1.5) = 4140.
       final effect = getAbilityEffect('Sniper', move: tackle);
+      expect(effect.criticalOverride, isNull);
       final result = OffensiveCalculator.calculate(
         baseStats: baseStats, iv: maxIv, ev: zeroEv,
         nature: NatureProfile.fromNature(Nature.hardy), level: 50,
@@ -626,7 +630,7 @@ void main() {
         isCritical: true,
         criticalOverride: effect.criticalOverride,
       );
-      expect(result, equals(6210));
+      expect(result, equals(4140));
     });
 
     test('Guts ×1.5 + burn negation (folded into powerMod)', () {

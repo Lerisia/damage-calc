@@ -43,7 +43,12 @@ const int kPinchHpThreshold = 33;
 const int kDefeatistHpThreshold = 50;
 
 /// Protosynthesis/Quark Drive boost values
-const double kParadoxStatBoost = 5461.0 / 4096.0;
+/// Protosynthesis / Quark Drive non-speed stat boost: ×1.3 in
+/// Showdown's 4096-fp (5325 / 4096 = 1.3000...). Earlier we had this
+/// at 5461 / 4096 ≈ 1.333× which made damage 2–3 BP too high in
+/// scenarios where Paradox boosted Atk or SpA. The actual game and
+/// @smogon/calc both use 1.3.
+const double kParadoxStatBoost = 5325.0 / 4096.0;
 const double kParadoxSpeedBoost = 1.5;
 
 /// Quick Feet speed boost
@@ -134,6 +139,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
   Stats? actualStats,
   String? heldItem,
   int? opponentSpeed,
+  int? mySpeed,
   Gender myGender = Gender.unset,
   Gender opponentGender = Gender.unset,
 }) {
@@ -152,11 +158,22 @@ AbilityEffect getAbilityEffect(String abilityName, {
               statModifiers: AbilityStatModifiers(attack: kMajorStatBoost))
           : _defaultEffect;
 
-    // --- Normalize: 1.2x to all Normal-type moves (type change is in move_transform) ---
+    // --- Normalize: 1.2x to moves Normalize actually retyped. The
+    // retype itself happens in move_transform's _applySkin. Showdown
+    // excludes the "noTypeChange" list (Weather Ball / Tera Blast /
+    // Judgment / etc.) from the boost even when the resolved type
+    // ends up Normal anyway, and ALSO excludes Max moves
+    // (gen789.ts: `if (!move.isMax && hasAteAbilityTypeChange)`).
     case 'Normalize':
-      return move != null && move.type == PokemonType.normal
-          ? const AbilityEffect(powerModifier: kMinorPowerBoost)
-          : _defaultEffect;
+      const noTypeChange = {
+        'Revelation Dance', 'Judgment', 'Nature Power', 'Techno Blast',
+        'Multi-Attack', 'Natural Gift', 'Weather Ball', 'Terrain Pulse',
+        'Struggle',
+      };
+      if (move == null || move.type != PokemonType.normal) return _defaultEffect;
+      if (noTypeChange.contains(move.name)) return _defaultEffect;
+      if (move.moveClass == MoveClass.maxMove) return _defaultEffect;
+      return const AbilityEffect(powerModifier: kMinorPowerBoost);
 
     // --- Tough Claws: contact OR Z-contact ---
     case 'Tough Claws':
@@ -196,15 +213,28 @@ AbilityEffect getAbilityEffect(String abilityName, {
           ? const AbilityEffect(weatherOverride: Weather.sun)
           : _defaultEffect;
 
-    // --- Type-based power modifiers (table-driven) ---
+    // --- Type-based stat modifiers ---
+    // Showdown gen789.ts routes Steelworker / Dragon's Maw / Rocky
+    // Payload / Transistor through atMods (×1.5 on the offensive
+    // stat, ×1.3 for gen-9 Transistor), not bpMods. Steely Spirit
+    // stays in bpMods (Showdown's `bpMods.push(6144)` together with
+    // Strong Jaw / Mega Launcher / etc.). Set both atk and spa stat
+    // slots so the move's category picks the relevant one.
     case 'Steelworker':
-    case 'Steely Spirit':
     case 'Transistor':
     case "Dragon's Maw":
     case 'Rocky Payload':
       final typeBoost = _typePowerBoosts[abilityName];
       if (typeBoost != null && move != null && move.type == typeBoost.$1) {
-        return AbilityEffect(powerModifier: typeBoost.$2);
+        return AbilityEffect(
+          statModifiers: AbilityStatModifiers(
+            attack: typeBoost.$2, spAttack: typeBoost.$2));
+      }
+      return _defaultEffect;
+    case 'Steely Spirit':
+      final tb = _typePowerBoosts[abilityName];
+      if (tb != null && move != null && move.type == tb.$1) {
+        return AbilityEffect(powerModifier: tb.$2);
       }
       return _defaultEffect;
 
@@ -256,16 +286,32 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Overgrow':
     case 'Torrent':
     case 'Swarm':
+      // Showdown gen789.ts routes pinch abilities through atMods
+      // (×1.5 on the offensive stat), not bpMods. We need both
+      // attack and spAttack at 1.5 because the boost should apply
+      // whether the move is physical (Liquidation) or special
+      // (Surf) — the move's category picks the relevant slot in
+      // the atMods chain.
       final pinchType = _pinchAbilityTypes[abilityName];
       return (pinchType != null && hpPercent <= kPinchHpThreshold &&
               move != null && move.type == pinchType)
-          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
+          ? const AbilityEffect(
+              statModifiers: AbilityStatModifiers(
+                attack: kMajorStatBoost,
+                spAttack: kMajorStatBoost))
           : _defaultEffect;
 
     // --- Other power modifiers ---
     case 'Water Bubble':
+      // Water Bubble (attacker side): Showdown routes the ×2 boost
+      // through atMods (8192/4096), not bpMods. atMods rounds with
+      // pokeRound once after compounding, so chain interactions
+      // (Choice Band, Life Orb, …) come out matching @smogon/calc.
+      // Set both stat slots so move category picks the right one.
       return move != null && move.type == PokemonType.water
-          ? const AbilityEffect(powerModifier: kDoublePower)
+          ? const AbilityEffect(
+              statModifiers: AbilityStatModifiers(
+                attack: kDoublePower, spAttack: kDoublePower))
           : _defaultEffect;
     case 'Punk Rock':
       return move != null && move.hasTag(MoveTags.sound)
@@ -281,9 +327,13 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Parental Bond':
       return _defaultEffect;
 
-    // --- Critical override ---
+    // --- Sniper ---
+    // Showdown applies Sniper as a ×1.5 entry in the finalMods chain
+    // (rather than bumping the crit multiplier to 2.25 in baseDmg).
+    // Damage_calculator now routes the +50 % through finalMods so the
+    // rounding order matches @smogon/calc bit-for-bit.
     case 'Sniper':
-      return const AbilityEffect(criticalOverride: kSniperCritical);
+      return _defaultEffect;
 
     // --- Status conditional ---
     case 'Guts':
@@ -292,14 +342,21 @@ AbilityEffect getAbilityEffect(String abilityName, {
               statModifiers: AbilityStatModifiers(attack: kMajorStatBoost))
           : _defaultEffect;
     case 'Toxic Boost':
-      return (status == StatusCondition.poison || status == StatusCondition.badlyPoisoned)
-          ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(attack: kMajorStatBoost))
+      // Showdown routes Toxic Boost through bpMods (×1.5 base power
+      // for physical moves while the user is poisoned), not through
+      // the Atk stat chain. Match the rounding order bit-for-bit.
+      return (move != null &&
+              move.category == MoveCategory.physical &&
+              (status == StatusCondition.poison ||
+               status == StatusCondition.badlyPoisoned))
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
     case 'Flare Boost':
-      return status == StatusCondition.burn
-          ? const AbilityEffect(
-              statModifiers: AbilityStatModifiers(spAttack: kMajorStatBoost))
+      // Flare Boost: bpMods ×1.5 for special moves while burned.
+      return (move != null &&
+              move.category == MoveCategory.special &&
+              status == StatusCondition.burn)
+          ? const AbilityEffect(powerModifier: kMajorPowerBoost)
           : _defaultEffect;
 
     // --- HP conditional (stat reduction) ---
@@ -311,8 +368,18 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Speed conditional ---
     case 'Analytic':
-      if (actualStats != null && opponentSpeed != null &&
-          actualStats.speed < opponentSpeed) {
+      // Showdown activates Analytic when the user moves last, i.e.
+      // attacker.stats.spe <= defender.stats.spe after every speed
+      // modifier (paralysis, Choice Scarf, Iron Ball, Tailwind,
+      // weather/terrain abilities like Chlorophyll / Swift Swim /
+      // Sand Rush / Slush Rush / Surge Surfer, Quick Feet, Unburden).
+      // mySpeed / opponentSpeed are the effective speeds produced by
+      // BattleFacade.calcSpeed, which already folds all of those in.
+      // We fall back to actualStats.speed only if the caller didn't
+      // supply mySpeed (no item/status/etc. modifiers).
+      final mineForAnalytic = mySpeed ?? actualStats?.speed;
+      if (mineForAnalytic != null && opponentSpeed != null &&
+          mineForAnalytic <= opponentSpeed) {
         return const AbilityEffect(powerModifier: kMediumPowerBoost);
       }
       return _defaultEffect;
@@ -492,8 +559,9 @@ double getDefenderAtModMultiplier(String? abilityName, {required Move move}) {
       return moveType == PokemonType.fire ? 0.5 : 1.0;
     case 'Purifying Salt':
       return moveType == PokemonType.ghost ? 0.5 : 1.0;
-    case 'Dry Skin':
-      return moveType == PokemonType.fire ? 1.25 : 1.0;
+    // Dry Skin is now routed through bpMods in damage_calculator
+    // (Showdown gen789.ts: `bpMods.push(5120)` when Fire). Leaving
+    // it here too would double-apply.
     default:
       return 1.0;
   }

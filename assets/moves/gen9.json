@@ -996,6 +996,8 @@
     "tags": [
       "slice"
     ],
+    "minHits": 2,
+    "maxHits": 2,
     "nameEn": "Tachyon Cutter",
     "zPower": 180,
     "descEn": "The user attacks by launching particle blades at the target twice in a row. This attack never misses."

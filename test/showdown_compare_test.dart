@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/data/movedex.dart';
 import 'package:damage_calc/data/pokedex.dart';
 import 'package:damage_calc/models/battle_pokemon.dart';
+import 'package:damage_calc/models/dynamax.dart';
 import 'package:damage_calc/models/move.dart';
+import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/nature.dart';
 import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/models/rank.dart';
@@ -19,6 +21,7 @@ import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/utils/aura_effects.dart';
 import 'package:damage_calc/utils/ruin_effects.dart';
 import 'package:damage_calc/utils/battle_facade.dart';
+import 'package:damage_calc/utils/stat_calculator.dart';
 
 const _weatherMap = {
   'Sun': Weather.sun,
@@ -113,11 +116,27 @@ void main() {
             ? (_statusMap[s['status']] ?? StatusCondition.none)
             : StatusCondition.none
         ..moves = [move, null, null, null]
-        ..criticals = [s['isCrit'] == true, false, false, false]
+        // damage_calculator no longer auto-flags always-crit moves
+        // (so users can model Shell Armor / Battle Armor by toggling
+        // off). @smogon/calc still treats them as auto-crit, so we
+        // OR in the alwaysCrit tag at the test layer to keep parity.
+        // Dynamax replaces the move with a Max move that does NOT
+        // inherit always-crit, so skip the OR in that case.
+        ..criticals = [
+            s['isCrit'] == true ||
+              (s['atkDynamax'] != true && move.hasTag(MoveTags.alwaysCrit)),
+            false, false, false,
+          ]
+        ..dynamax = s['atkDynamax'] == true ? DynamaxState.dynamax : DynamaxState.none
         ..terastal = (s['teraType'] != null
             ? TerastalState(
                 active: true, teraType: _teraTypeMap[s['teraType']])
-            : const TerastalState());
+            : const TerastalState())
+        ..hpPercent = (s['atkHpPct'] as int? ?? 100);
+      final atkAbility = (s['atkAbility'] as String?) ?? '';
+      if (atkAbility.isNotEmpty) {
+        atk.selectedAbility = BattlePokemonState.expandAbilityKey(atkAbility);
+      }
       final def = BattlePokemonState()
         ..applyPokemon(defP)
         ..ev = Stats(
@@ -131,7 +150,21 @@ void main() {
         ..rank = Rank(defense: s['defBoost'] as int, spDefense: s['defBoost'] as int)
         ..status = s['defStatus'] != null
             ? (_statusMap[s['defStatus']] ?? StatusCondition.none)
-            : StatusCondition.none;
+            : StatusCondition.none
+        ..selectedItem = (s['defItem'] as String?)?.isNotEmpty == true
+            ? _itemSlug(s['defItem'] as String)
+            : null
+        ..hpPercent = (s['defHpPct'] as int? ?? 100)
+        // Aurora Veil isn't a separate flag in our calc — it's
+        // equivalent to "Reflect AND Light Screen both on" since
+        // both push the same 0.5x finalMods entry per category.
+        ..reflect = (s['reflect'] == true) || (s['auroraVeil'] == true)
+        ..lightScreen = (s['lightScreen'] == true) || (s['auroraVeil'] == true)
+        ..dynamax = s['defDynamax'] == true ? DynamaxState.dynamax : DynamaxState.none;
+      final defAbility = (s['defAbility'] as String?) ?? '';
+      if (defAbility.isNotEmpty) {
+        def.selectedAbility = BattlePokemonState.expandAbilityKey(defAbility);
+      }
       final weather = _weatherMap[s['weather']] ?? Weather.none;
       final terrain = _terrainMap[s['terrain']] ?? Terrain.none;
       final room = RoomConditions(
@@ -144,11 +177,18 @@ void main() {
           state: atk, weather: weather, terrain: terrain, room: room);
       final defSpeed = BattleFacade.calcSpeed(
           state: def, weather: weather, terrain: terrain, room: room);
+      // Foul Play uses target Atk (with target's atk rank). Defender has
+      // no atk rank set in the generator, so it's just the raw stat.
+      final defStatsForFP = StatCalculator.calculate(
+        baseStats: def.baseStats, iv: def.iv, ev: def.ev,
+        nature: def.nature, level: def.level, rank: def.rank,
+      );
       final result = DamageCalculator.calculate(
         attacker: atk, defender: def, moveIndex: 0,
         weather: weather, terrain: terrain, room: room,
         myEffectiveSpeed: atkSpeed,
         opponentSpeed: defSpeed,
+        opponentAttack: defStatsForFP.attack,
         auras: const AuraToggles(), ruins: const RuinToggles(),
       );
       final ours = result.allRolls;

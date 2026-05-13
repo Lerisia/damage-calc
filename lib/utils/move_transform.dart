@@ -172,8 +172,21 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = move.copyWith(type: newType, category: newCategory);
   }
 
+  // 1.7. Photon Geyser (and Necrozma's signature Z-Move Light That Burns
+  // the Sky): become physical when the user's Attack exceeds Sp.Attack.
+  // Showdown sets `move.category` BEFORE the damage calc reads the
+  // defensive stat, so the move starts hitting Def instead of SpD —
+  // not just changing which offensive stat is used.
+  if ((move.name == 'Photon Geyser' ||
+       move.name == 'Light That Burns the Sky') &&
+      context.actualAttack != null && context.actualSpAttack != null &&
+      context.actualAttack! > context.actualSpAttack!) {
+    move = move.copyWith(category: MoveCategory.physical);
+  }
+
   // 2. Ability type transforms (only if still Normal after step 1/1.5)
-  move = _applySkin(move, context.ability);
+  move = _applySkin(move, context.ability,
+      terastallized: context.terastallized);
 
   // 2b. Liquid Voice: sound moves become Water type (no power boost)
   if (context.ability == 'Liquid Voice' && move.hasTag(MoveTags.sound)) {
@@ -274,7 +287,8 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = move.copyWith(power: (move.power * 0.5).floor());
   }
 
-  // 6. Multi-hit: apply total power (before Dynamax, which has its own formula)
+  // 6. Multi-hit: apply total power (Dynamax-converted Max moves
+  // have minHits=maxHits=1 already, so this skips them naturally).
   if (move.isMultiHit && context.hitCount != null && context.hitCount! > 1) {
     final hits = context.hitCount!;
     move = move.copyWith(
@@ -295,11 +309,14 @@ TransformedMove transformMove(Move move, MoveContext context) {
     );
   }
 
-  // 7. Dynamax first, then Z-Move check.
-  // Z-Move is blocked by Mega/Dynamax/Terastal (3 safety layers):
-  //   Layer 1: UI disables Z checkbox when any of these are active
-  //   Layer 2: Logic check below skips Z if Mega/Dynamax/Terastal
-  //   Layer 3: Dynamax runs first, so even if Z is on, Dynamax takes priority
+  // 7. Dynamax / Z-Move conversion. Runs LAST so the dynamic power
+  // adjustments above (status, HP %, Acrobatics no-item, etc.) get
+  // folded into the move's BP first; the Max-move table then uses
+  // the adjusted BP. This diverges from @smogon/calc — which locks
+  // the Max move at constructor time using the DB BP — but matches
+  // the UI expectation that "this move's BP with my Pokémon's
+  // current state would map to <Max move BP>". See README note.
+  // Z-Move is blocked by Mega/Dynamax/Terastal (3 safety layers).
   if (context.dynamax != DynamaxState.none && move.type != PokemonType.typeless) {
     move = _applyDynamax(move, context.dynamax, context.pokemonName);
   } else if (context.zMove && move.type != PokemonType.typeless &&
@@ -308,7 +325,7 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = _applyZMove(move, context.pokemonName);
   }
 
-  // 7. Stat selection
+  // 8. Stat selection
   final stat = _resolveOffensiveStat(move);
   return TransformedMove(move, stat);
 }
@@ -361,18 +378,44 @@ const Map<String, PokemonType> _skinAbilities = {
   'Normalize': PokemonType.normal,
 };
 
-Move _applySkin(Move move, String? ability) {
-  if (ability == null) return move;
+/// Moves whose type is determined by another source (weather, terrain,
+/// Tera type, plate, memory, etc.) and therefore are not retyped by
+/// -ate abilities or Normalize. Mirrors @smogon/calc gen789.ts's
+/// `noTypeChange` list, plus Tera Blast (when terastallized).
+bool _isTypeChangeBlocked(Move move, bool terastallized) {
+  const blocked = {
+    'Revelation Dance', 'Judgment', 'Nature Power', 'Techno Blast',
+    'Multi-Attack', 'Natural Gift', 'Weather Ball', 'Terrain Pulse',
+    'Struggle',
+  };
+  if (blocked.contains(move.name)) return true;
+  if (move.name == 'Tera Blast' && terastallized) return true;
+  return false;
+}
 
-  // Normalize: ALL moves become Normal (type change only, 1.2x is in ability_effects)
+Move _applySkin(Move move, String? ability, {bool terastallized = false}) {
+  if (ability == null) return move;
+  // Showdown's noTypeChange list excludes these moves from -ate and
+  // Normalize retyping (gen789.ts). Without this check, Galvanize +
+  // Weather Ball would force Electric type, ours diverging from
+  // @smogon/calc by both type and the ×1.2 ate boost.
+  if (_isTypeChangeBlocked(move, terastallized)) return move;
+
+  // Normalize: ALL moves become Normal type. The ×1.2 BP boost is
+  // applied via ability_effects.dart's powerModifier path so it
+  // rides the bpMods chain alongside Tough Claws / Sheer Force etc.
   if (ability == 'Normalize') {
     return move.copyWith(type: PokemonType.normal);
   }
 
-  // Other skins: only Normal moves get converted
+  // Other -ate skins: only Normal moves get converted. The ×1.2 BP
+  // boost applies to non-Max moves only — Showdown gates the ate
+  // boost with `!move.isMax`. Max moves still get the type change.
   final skinType = _skinAbilities[ability];
   if (skinType == null || move.type != PokemonType.normal) return move;
-
+  if (move.moveClass == MoveClass.maxMove) {
+    return move.copyWith(type: skinType);
+  }
   return move.copyWith(type: skinType, power: (move.power * 1.2).floor());
 }
 
@@ -786,11 +829,22 @@ const _flingPower = <String, int>{
 };
 
 /// Knock Off: 1.5× power when the target holds a removable item.
+/// Knock Off used to multiply [move.power] here, but that bakes the
+/// boost in *before* the bpMods chain runs and rounds incompatibly
+/// with Showdown's chainMods. The damage calculator now folds the
+/// 1.5 × into bpMods directly via [isKnockOffBoostApplicable], so we
+/// only return the move unchanged here.
 Move _applyKnockOff(Move move, String? opponentItem) {
-  if (!move.hasTag(MoveTags.knockOff)) return move;
-  if (opponentItem == null) return move;
-  if (isUnremovableItem(opponentItem)) return move;
-  return move.copyWith(power: (move.power * kKnockOffBoost).floor());
+  return move;
+}
+
+/// Whether Knock Off's 1.5 × power bonus should apply. Mirrors
+/// @smogon/calc's `move.named('Knock Off') && !resistedKnockOffDamage`.
+bool isKnockOffBoostApplicable(Move move, String? opponentItem) {
+  if (!move.hasTag(MoveTags.knockOff)) return false;
+  if (opponentItem == null) return false;
+  if (isUnremovableItem(opponentItem)) return false;
+  return true;
 }
 
 /// Target-HP-based power: Crush Grip / Wring Out (120×), Hard Press (100×)

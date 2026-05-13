@@ -250,6 +250,9 @@ class DamageResult {
 bool isUnremovableItem(String itemName) {
   // Z-Crystals
   if (itemName.endsWith('--held')) return true;
+  // Eviolite is removable despite ending in "ite" — explicit
+  // exception keeps the suffix-based mega-stone check simple.
+  if (itemName == 'eviolite') return false;
   // Mega stones
   if (itemName.endsWith('ite') || itemName.endsWith('ite-x') || itemName.endsWith('ite-y')) {
     return true;
@@ -514,6 +517,12 @@ class DamageCalculator {
          defender.status == StatusCondition.badlyPoisoned)) {
       isCritical = true;
     }
+    // Always-crit moves: the per-slot crit toggle is pre-checked on
+    // Pokemon load (battle_pokemon._applyChampionsUsageDefaults) and
+    // on manual move selection, so the calculator just reads the
+    // user's toggle here. We don't force-flip the toggle on — that
+    // would clobber a user who deliberately unchecked it (e.g., to
+    // model an opponent with Shell Armor / Battle Armor).
     final atkStat = transformed.offensiveStat;
 
     // Unaware (defender) + Critical hit rank adjustments
@@ -549,6 +558,7 @@ class DamageCalculator {
             terrain: terrain, status: attacker.status,
             heldItem: effectiveItem,
             opponentSpeed: opponentSpeed,
+            mySpeed: myEffectiveSpeed,
             myGender: attacker.gender,
             opponentGender: opponentGender,
             actualStats: StatCalculator.calculate(
@@ -565,19 +575,14 @@ class DamageCalculator {
     // the result into the Atk-stat chain below. This makes Body
     // Press (physical, uses Defense as the stat) get Huge Power × 2,
     // Choice Band × 1.5, burn ÷ 2 just like any normal physical move.
-    final double abilityStatMod;
-    if (effectiveMove.hasTag(MoveTags.useHigherAtk)) {
-      // Photon Geyser: takes the higher of the two ability mods
-      // (preserves the prior behaviour for this corner case).
-      abilityStatMod = math.max(
-        abilityEffect.statModifiers.attack,
-        abilityEffect.statModifiers.spAttack,
-      );
-    } else if (effectiveMove.category == MoveCategory.physical) {
-      abilityStatMod = abilityEffect.statModifiers.attack;
-    } else {
-      abilityStatMod = abilityEffect.statModifiers.spAttack;
-    }
+    // Pick ability stat-mod by the move's *category*. Photon Geyser
+    // already flipped its category to Physical (when Atk > SpA) in
+    // transformMove, so we read it directly here without the legacy
+    // useHigherAtk max() hack — which used to mis-apply Guts /
+    // Hustle / Solar Power to whichever side had a higher modifier.
+    final double abilityStatMod = effectiveMove.category == MoveCategory.physical
+        ? abilityEffect.statModifiers.attack
+        : abilityEffect.statModifiers.spAttack;
 
     // Showdown splits these multipliers into two pre-formula chains:
     //   atMods  — Attack-stat boosters (Huge Power, Choice Band, …)
@@ -1044,7 +1049,10 @@ class DamageCalculator {
       notes.add('item:expert-belt:×$kExpertBeltBoost');
     }
 
-    // --- Screens (Reflect / Light Screen / Aurora Veil) ---
+    // --- Screens (Reflect / Light Screen) ---
+    // Aurora Veil isn't a separate path in our calc — set both
+    // Reflect AND Light Screen to model it (they apply per-category
+    // to the same 0.5 finalMods entry, so the effect is identical).
     final bool bypassScreens = isCritical || bypassesScreens(effectiveAbility);
     double screenMod = 1.0;
     if (!bypassScreens) {
@@ -1212,6 +1220,19 @@ class DamageCalculator {
       bpMods.add(_kFP_1_3333);
       notes.add('move:collision:×1.33');
     }
+    // Defender's Dry Skin: Fire moves do 1.25 × damage. Showdown
+    // routes this through bpMods (5120/4096), so the chain rounds
+    // around it just like ours.
+    if (!earlyMoldBreaks && defAbilityRaw == 'Dry Skin' &&
+        effectiveMove.type == PokemonType.fire) {
+      bpMods.add(5120);
+    }
+    // Knock Off ×1.5 BP when the target holds a removable item.
+    // Folded into bpMods here (rather than mutating move.power
+    // up-front) so the chainMod rounding matches Showdown.
+    if (isKnockOffBoostApplicable(effectiveMove, defender.selectedItem)) {
+      bpMods.add(_kFP_1_5);
+    }
     final int bpChain = _chainMods(bpMods, 1, 1 << 31);
     int power = math.max(1, _applyChainMod(basePower, bpChain));
     // Tera 60-BP minimum (gen 9+): @smogon/calc evaluates this on the
@@ -1296,17 +1317,28 @@ class DamageCalculator {
       if (screenMod != 1.0) finalMods.add(_toFP(screenMod));
       if (berry != 1.0) finalMods.add(_toFP(berry));
       if (aura.multiplier != 1.0) finalMods.add(_toFP(aura.multiplier));
+      // Sniper: +50 % on critical hits, routed through finalMods so
+      // the rounding order matches Showdown (separate from the crit
+      // ×1.5 applied to baseDmg).
+      if (isCritical && atkAbilityRaw == 'Sniper') {
+        finalMods.add(_kFP_1_5);
+      }
       final int finalModChain = _chainMods(finalMods, 41, 131072);
 
       // Random factor — floor, not pokeRound.
       int d = baseDmgInput * randomRoll ~/ 100;
-      // STAB — no round mid-step; the next pokeRound after type-eff
-      // covers it.
-      if (stabFP != _kFP) {
-        d = d * stabFP ~/ _kFP;
-      }
-      // Type effectiveness: floor(pokeRound(d) * eff).
-      d = (_pokeRound(d) * eff).floor();
+      // STAB — Showdown keeps the multiplied value as a float and
+      // pokeRounds it together with the type-effectiveness step
+      // (gen789.ts: `damageAmount = damageAmount * stabMod / 4096`
+      // then `Math.floor(pokeRound(damageAmount) * eff)`). Doing the
+      // floor mid-step would mis-round any STAB-multiplied roll that
+      // lands on a *.5x or higher fractional part (e.g. 2.25× STAB
+      // produces 1907712/4096 = 465.75 — Showdown rounds 466, our
+      // earlier floor truncated to 465).
+      final num afterStab =
+          stabFP == _kFP ? d : (d * stabFP / _kFP);
+      // Type effectiveness: floor(pokeRound(afterStab) * eff).
+      d = (_pokeRound(afterStab) * eff).floor();
       // Burn — special case in Showdown: floor(d / 2) NOT pokeRound.
       if (burnMod < 1.0) {
         d = d ~/ 2;
@@ -1442,9 +1474,20 @@ class DamageCalculator {
       final bool isParentalBond = effectiveMove.hasTag(MoveTags.parentalBond);
 
       if (isEscalating) {
-        final singleHitPower = effectiveMove.power;
+        // Triple Axel / Triple Kick: per-hit BP = singleHitBP * (i+1).
+        // Showdown applies the full bpMods chain (Muscle Band, terrain
+        // boosts, type-boost items, etc.) and the Tera 60-BP minimum
+        // to *each* hit's BP separately. Earlier we used the raw move
+        // power and skipped both — leaving Muscle Band off escalating
+        // hits and underestimating damage by ~10 %.
+        final int singleHitPower = effectiveMove.power;
         perHitAllRolls = List.generate(hitCount, (i) {
-          final hitPower = (singleHitPower * (i + 1) * movePowerMod).floor();
+          final int rawHitBp = singleHitPower * (i + 1);
+          int hitPower = math.max(1, _applyChainMod(rawHitBp, bpChain));
+          if (teraMinEligible && hitPower < kTeraMinPower && hitPower > 0) {
+            hitPower = kTeraMinPower;
+          }
+          hitPower = (hitPower * movePowerMod).floor().clamp(1, 99999);
           final dForHit = dAtStage(stagesBeforeHit(i));
           final hitBaseDmg = ((2 * level ~/ 5 + 2) * hitPower * A ~/ dForHit) ~/ 50 + 2;
           if (i == 0) return allRolls(hitBaseDmg);

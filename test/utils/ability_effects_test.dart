@@ -186,25 +186,30 @@ void main() {
       expect(getAbilityEffect('Adaptability', move: physicalNormal).stabOverride, equals(2.0));
     });
 
-    test('Steelworker boosts steel moves by 1.5x', () {
-      expect(getAbilityEffect('Steelworker', move: steelMove).powerModifier, equals(1.5));
-      expect(getAbilityEffect('Steelworker', move: specialFire).powerModifier, equals(1.0));
+    test('Steelworker boosts steel moves by 1.5x (atMods)', () {
+      // Routed through atMods (statModifiers) to match Showdown
+      // gen789.ts; the move's category picks the relevant slot.
+      expect(getAbilityEffect('Steelworker', move: steelMove).statModifiers.attack, equals(1.5));
+      expect(getAbilityEffect('Steelworker', move: steelMove).statModifiers.spAttack, equals(1.5));
+      expect(getAbilityEffect('Steelworker', move: specialFire).statModifiers.attack, equals(1.0));
     });
 
-    test('Transistor boosts electric moves by 1.3x', () {
-      expect(getAbilityEffect('Transistor', move: electricMove).powerModifier, equals(1.3));
+    test('Transistor boosts electric moves by 1.3x (atMods)', () {
+      expect(getAbilityEffect('Transistor', move: electricMove).statModifiers.attack, equals(1.3));
+      expect(getAbilityEffect('Transistor', move: electricMove).statModifiers.spAttack, equals(1.3));
     });
 
-    test("Dragon's Maw boosts dragon moves by 1.5x", () {
-      expect(getAbilityEffect("Dragon's Maw", move: dragonMove).powerModifier, equals(1.5));
+    test("Dragon's Maw boosts dragon moves by 1.5x (atMods)", () {
+      expect(getAbilityEffect("Dragon's Maw", move: dragonMove).statModifiers.attack, equals(1.5));
     });
 
-    test('Rocky Payload boosts rock moves by 1.5x', () {
-      expect(getAbilityEffect('Rocky Payload', move: rockMove).powerModifier, equals(1.5));
+    test('Rocky Payload boosts rock moves by 1.5x (atMods)', () {
+      expect(getAbilityEffect('Rocky Payload', move: rockMove).statModifiers.attack, equals(1.5));
     });
 
-    test('Water Bubble boosts water moves by 2.0x', () {
-      expect(getAbilityEffect('Water Bubble', move: waterMove).powerModifier, equals(2.0));
+    test('Water Bubble boosts water moves by 2.0x (atMods)', () {
+      expect(getAbilityEffect('Water Bubble', move: waterMove).statModifiers.attack, equals(2.0));
+      expect(getAbilityEffect('Water Bubble', move: waterMove).statModifiers.spAttack, equals(2.0));
     });
   });
 
@@ -223,12 +228,12 @@ void main() {
     });
 
     test('Orichalcum Pulse boosts attack in sun/harsh sun', () {
-      expect(getAbilityEffect('Orichalcum Pulse', move: physicalNormal, weather: Weather.sun).statModifiers.attack, closeTo(5461/4096, 0.001));
+      expect(getAbilityEffect('Orichalcum Pulse', move: physicalNormal, weather: Weather.sun).statModifiers.attack, closeTo(5325/4096, 0.001));
       expect(getAbilityEffect('Orichalcum Pulse', move: physicalNormal, weather: Weather.none).statModifiers.attack, equals(1.0));
     });
 
     test('Hadron Engine boosts spAttack in electric terrain', () {
-      expect(getAbilityEffect('Hadron Engine', move: electricMove, terrain: Terrain.electric).statModifiers.spAttack, closeTo(5461/4096, 0.001));
+      expect(getAbilityEffect('Hadron Engine', move: electricMove, terrain: Terrain.electric).statModifiers.spAttack, closeTo(5325/4096, 0.001));
       expect(getAbilityEffect('Hadron Engine', move: electricMove, terrain: Terrain.none).statModifiers.spAttack, equals(1.0));
     });
 
@@ -243,12 +248,16 @@ void main() {
 
   group('HP conditional abilities', () {
     test('Blaze/Overgrow/Torrent/Swarm boost at HP <= 33%', () {
-      expect(getAbilityEffect('Blaze', move: specialFire, hpPercent: 33).powerModifier, equals(1.5));
-      expect(getAbilityEffect('Blaze', move: specialFire, hpPercent: 34).powerModifier, equals(1.0));
-      expect(getAbilityEffect('Blaze', move: waterMove, hpPercent: 10).powerModifier, equals(1.0));
-      expect(getAbilityEffect('Overgrow', move: grassMove, hpPercent: 20).powerModifier, equals(1.5));
-      expect(getAbilityEffect('Torrent', move: waterMove, hpPercent: 10).powerModifier, equals(1.5));
-      expect(getAbilityEffect('Swarm', move: bugMove, hpPercent: 5).powerModifier, equals(1.5));
+      // Routed through atMods (statModifiers.attack / spAttack at
+      // 1.5×) to match Showdown gen789.ts. Both stat slots are set
+      // so the move's category picks the relevant one downstream.
+      expect(getAbilityEffect('Blaze', move: specialFire, hpPercent: 33).statModifiers.spAttack, equals(1.5));
+      expect(getAbilityEffect('Blaze', move: specialFire, hpPercent: 34).statModifiers.spAttack, equals(1.0));
+      // Wrong move type: still 1.0 in both atk and spa slots.
+      expect(getAbilityEffect('Blaze', move: waterMove, hpPercent: 10).statModifiers.attack, equals(1.0));
+      expect(getAbilityEffect('Overgrow', move: grassMove, hpPercent: 20).statModifiers.spAttack, equals(1.5));
+      expect(getAbilityEffect('Torrent', move: waterMove, hpPercent: 10).statModifiers.attack, equals(1.5));
+      expect(getAbilityEffect('Swarm', move: bugMove, hpPercent: 5).statModifiers.spAttack, equals(1.5));
     });
   });
 
@@ -258,7 +267,7 @@ void main() {
 
     test('Protosynthesis boosts highest stat in sun', () {
       final effect = getAbilityEffect('Protosynthesis', move: physicalNormal, weather: Weather.sun, actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
+      expect(effect.statModifiers.attack, closeTo(5325/4096, 0.001));
     });
 
     test('Protosynthesis boosts speed by 1.5x if highest', () {
@@ -268,7 +277,7 @@ void main() {
 
     test('Protosynthesis activates with booster-energy without sun', () {
       final effect = getAbilityEffect('Protosynthesis', move: physicalNormal, weather: Weather.none, heldItem: 'booster-energy', actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
+      expect(effect.statModifiers.attack, closeTo(5325/4096, 0.001));
     });
 
     test('Protosynthesis inactive without sun or booster-energy', () {
@@ -278,18 +287,24 @@ void main() {
 
     test('Quark Drive boosts highest stat in electric terrain', () {
       final effect = getAbilityEffect('Quark Drive', move: electricMove, terrain: Terrain.electric, actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
+      expect(effect.statModifiers.attack, closeTo(5325/4096, 0.001));
     });
 
     test('Quark Drive activates with booster-energy without terrain', () {
       final effect = getAbilityEffect('Quark Drive', move: electricMove, terrain: Terrain.none, heldItem: 'booster-energy', actualStats: highAtkStats);
-      expect(effect.statModifiers.attack, closeTo(5461/4096, 0.001));
+      expect(effect.statModifiers.attack, closeTo(5325/4096, 0.001));
     });
   });
 
   group('Critical and status abilities', () {
-    test('Sniper sets critical multiplier to 2.25x', () {
-      expect(getAbilityEffect('Sniper', move: physicalNormal).criticalOverride, equals(2.25));
+    test('Sniper has no direct ability effect (routed through finalMods)', () {
+      // Sniper's +50 % crit damage now rides in damage_calculator's
+      // finalMods chain (not as a criticalOverride on the ability
+      // effect). The ability lookup itself returns the default
+      // effect; the +50 % is applied bit-for-bit like @smogon/calc.
+      final effect = getAbilityEffect('Sniper', move: physicalNormal);
+      expect(effect.criticalOverride, isNull);
+      expect(effect.powerModifier, equals(1.0));
     });
 
     test('Guts boosts attack when statused', () {
@@ -297,14 +312,20 @@ void main() {
       expect(getAbilityEffect('Guts', move: physicalNormal, status: StatusCondition.none).statModifiers.attack, equals(1.0));
     });
 
-    test('Toxic Boost boosts attack when poisoned only', () {
-      expect(getAbilityEffect('Toxic Boost', move: physicalNormal, status: StatusCondition.poison).statModifiers.attack, equals(1.5));
-      expect(getAbilityEffect('Toxic Boost', move: physicalNormal, status: StatusCondition.burn).statModifiers.attack, equals(1.0));
+    test('Toxic Boost boosts physical power when poisoned only', () {
+      // Routed through bpMods (powerModifier) per Showdown.
+      expect(getAbilityEffect('Toxic Boost', move: physicalNormal, status: StatusCondition.poison).powerModifier, equals(1.5));
+      expect(getAbilityEffect('Toxic Boost', move: physicalNormal, status: StatusCondition.burn).powerModifier, equals(1.0));
+      // Special move under Toxic Boost does NOT get the boost.
+      expect(getAbilityEffect('Toxic Boost', move: specialFire, status: StatusCondition.poison).powerModifier, equals(1.0));
     });
 
-    test('Flare Boost boosts spAttack when burned only', () {
-      expect(getAbilityEffect('Flare Boost', move: specialFire, status: StatusCondition.burn).statModifiers.spAttack, equals(1.5));
-      expect(getAbilityEffect('Flare Boost', move: specialFire, status: StatusCondition.poison).statModifiers.spAttack, equals(1.0));
+    test('Flare Boost boosts special power when burned only', () {
+      // Routed through bpMods per Showdown.
+      expect(getAbilityEffect('Flare Boost', move: specialFire, status: StatusCondition.burn).powerModifier, equals(1.5));
+      expect(getAbilityEffect('Flare Boost', move: specialFire, status: StatusCondition.poison).powerModifier, equals(1.0));
+      // Physical move under Flare Boost does NOT get the boost.
+      expect(getAbilityEffect('Flare Boost', move: physicalNormal, status: StatusCondition.burn).powerModifier, equals(1.0));
     });
   });
 
@@ -345,7 +366,9 @@ void main() {
       expect(effect.powerModifier, equals(1.3));
     });
 
-    test('no effect when faster or same speed', () {
+    test('no effect when strictly faster, active at equal speed', () {
+      // Matches @smogon/calc gen789.ts (`turnOrder !== 'first'`):
+      // Analytic activates when attacker is slower OR equal speed.
       final faster = getAbilityEffect('Analytic', move: physicalNormal,
           actualStats: const Stats(hp: 100, attack: 100, defense: 100, spAttack: 100, spDefense: 100, speed: 120),
           opponentSpeed: 100);
@@ -353,7 +376,7 @@ void main() {
       final same = getAbilityEffect('Analytic', move: physicalNormal,
           actualStats: const Stats(hp: 100, attack: 100, defense: 100, spAttack: 100, spDefense: 100, speed: 100),
           opponentSpeed: 100);
-      expect(same.powerModifier, equals(1.0));
+      expect(same.powerModifier, equals(1.3));
     });
   });
 
