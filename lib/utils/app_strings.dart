@@ -515,6 +515,21 @@ class AppStrings {
       AppLanguage.en: 'No Pokémon learn this move',
       AppLanguage.ja: '覚えるポケモンなし',
     },
+    'dex.move.alsoLearns': {
+      AppLanguage.ko: '함께 배우는 기술',
+      AppLanguage.en: 'Also learns',
+      AppLanguage.ja: '一緒に覚える技',
+    },
+    'dex.move.addFilterHint': {
+      AppLanguage.ko: '기술 추가 (최대 3개)',
+      AppLanguage.en: 'Add a move (up to 3)',
+      AppLanguage.ja: '技を追加（最大3つ）',
+    },
+    'dex.move.noIntersect': {
+      AppLanguage.ko: '조건을 모두 만족하는 포켓몬이 없습니다',
+      AppLanguage.en: 'No Pokémon learns all of these',
+      AppLanguage.ja: 'すべて覚えるポケモンがいません',
+    },
     'dex.tabMain': {
       AppLanguage.ko: '메인',
       AppLanguage.en: 'Main',
@@ -1676,6 +1691,11 @@ class AppStrings {
       AppLanguage.ko: '날씨 무효',
       AppLanguage.en: 'Weather negated',
       AppLanguage.ja: '天候無効',
+    },
+    'note.moldBreakerBypass': {
+      AppLanguage.ko: '틀깨기 효과로 무시됨',
+      AppLanguage.en: 'ignored by Mold Breaker',
+      AppLanguage.ja: 'かたやぶり効果で無視',
     },
     'note.terrainNegate': {
       AppLanguage.ko: '필드 무효',

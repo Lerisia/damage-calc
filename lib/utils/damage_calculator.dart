@@ -369,6 +369,29 @@ class DamageCalculator {
       ability: defAbilityRaw, item: defender.selectedItem,
       gravity: room.gravity,
     );
+    // Compute attacker / defender max HP and current HP up-front so
+    // HP-scaled moves (Eruption, Water Spout, Hard Press, Crush
+    // Grip, Wring Out, Reversal, Flail) get exact `floor(N * curHP
+    // / maxHP)` matching @smogon/calc. Dynamax doubles maxHP
+    // (floor-scaled) and curHP (ceil-scaled) per @smogon/calc's
+    // pokemon.ts — the two scale separately, which we mirror so
+    // pct=95 % Dynamax doesn't round to BP one off.
+    final defStatsForCtx = StatCalculator.calculate(
+      baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
+      nature: defender.nature, level: defender.level, rank: defender.rank,
+    );
+    final int defRawHp = defStatsForCtx.hp;
+    final int atkRawHp = atkBaseStats.hp;
+    final int defRawCurHp = (defRawHp * defender.hpPercent / 100).floor().clamp(1, defRawHp);
+    final int atkRawCurHp = (atkRawHp * attacker.hpPercent / 100).floor().clamp(1, atkRawHp);
+    final int defMaxHpForCtx = defender.dynamax != DynamaxState.none
+        ? defRawHp * 2 : defRawHp;
+    final int atkMaxHpForCtx = attacker.dynamax != DynamaxState.none
+        ? atkRawHp * 2 : atkRawHp;
+    final int defCurHpForCtx = defender.dynamax != DynamaxState.none
+        ? (defRawCurHp * 2) : defRawCurHp;
+    final int atkCurHpForCtx = attacker.dynamax != DynamaxState.none
+        ? (atkRawCurHp * 2) : atkRawCurHp;
     final moveCtx = MoveContext(
       weather: atkWeather,
       terrain: terrain,
@@ -386,6 +409,10 @@ class DamageCalculator {
       myWeight: BattleFacade.effectiveWeight(attacker),
       opponentWeight: BattleFacade.effectiveWeight(defender),
       opponentHpPercent: defender.hpPercent,
+      myMaxHp: atkMaxHpForCtx,
+      myCurHp: atkCurHpForCtx,
+      opponentMaxHp: defMaxHpForCtx,
+      opponentCurHp: defCurHpForCtx,
       opponentItem: defender.selectedItem,
       userType1: attacker.type1,
       heldItem: attacker.selectedItem,
@@ -732,7 +759,23 @@ class DamageCalculator {
     if (gasActive) notes.add('ability:Neutralizing Gas:특성 무효화');
     notes.addAll(weatherNotes);
     if (critNegateNote != null) notes.add(critNegateNote);
-    if (moldBreaks) notes.add('moldbreaker:${attacker.selectedAbility}');
+    if (moldBreaks) {
+      notes.add('moldbreaker:${attacker.selectedAbility}');
+      // Name the defender ability that's being suppressed, when it's
+      // one that would otherwise touch the damage — "틀깨기" alone
+      // doesn't tell the user *what* got skipped.
+      if (defAbilityRaw != null && ignorableAbilities.contains(defAbilityRaw)) {
+        notes.add('moldbreakerBypass:$defAbilityRaw');
+      }
+    }
+    // Defender abilities that halve the attacker's Atk/SpA for certain
+    // move types (Thick Fat / Heatproof / Water Bubble / Purifying
+    // Salt — applied above in the atMods chain). They shave damage but
+    // appear in neither 결정력 nor 내구력, so without a note the result
+    // looks unexplained. Dry Skin's ×1.25 (bpMods) is noted separately.
+    if (defAtModMul != 1.0 && defAbilityRaw != null && !moldBreaks) {
+      notes.add('ability:$defAbilityRaw:×$defAtModMul');
+    }
     // Unaware: show when it actually affects the calculation
     if (defAbilityRaw == 'Unaware' && !moldBreaks) {
       notes.add('unaware:defender');
@@ -836,11 +879,15 @@ class DamageCalculator {
         gravity: room.gravity,
       );
       if (!defIsGrounded && !effectiveMove.hasTag(MoveTags.thousandArrows)) {
+        final groundNote = groundImmunityNote(
+          type1: defType1, type2: defType2, type3: defType3,
+          ability: moldBreaks ? null : defAbilityName,
+        );
         return DamageResult(
           baseDamage: 0, minDamage: 0, maxDamage: 0,
           defenderHp: defMaxHp, effectiveness: 0.0,
           isPhysical: isPhysical, move: effectiveMove,
-          modifierNotes: [...notes, 'ground:ungrounded'],
+          modifierNotes: [...notes, groundNote],
         );
       }
     }
@@ -1121,11 +1168,14 @@ class DamageCalculator {
     notes.addAll(doublesMods.notes);
 
     // Defender-side doubles (Friend Guard reduces damage taken by 25%).
+    // Showdown routes Friend Guard through the finalMods chain
+    // (gen789.ts: `finalMods.push(3072)`), not bpMods — we fold it
+    // into the finalMods builder below instead of movePowerMod.
     final defenderDoubles = computeDefenderDoublesModifiers(
       defender: defender,
       isDoubles: true,
     );
-    movePowerMod *= defenderDoubles.powerMod;
+    final double friendGuardMod = defenderDoubles.powerMod;
     notes.addAll(defenderDoubles.notes);
 
     // Dynamax Cannon / Behemoth Blade / Behemoth Bash: x2 vs Dynamaxed target
@@ -1176,22 +1226,26 @@ class DamageCalculator {
     // Stellar / multi-hit / priority moves are also excluded.
     // Per @smogon/calc gen789.ts (`basePower < 60` check after the
     // bpMods chain), the Tera 60-BP minimum is evaluated on the
-    // *post-chain* power, not the pre-chain one. We apply the bump
-    // after the chain below. Conditions other than the BP threshold
-    // are settled here.
+    // *post-chain* power. We apply the bump after the chain below.
     //
     // @smogon/calc gates this with `move.type === teraType &&
     // attacker.hasType(teraType)`, but its `hasType` swaps in the
     // Tera type when Tera is active, so the second clause is always
     // true once the first is — the practical rule is "any Tera STAB
     // (matched move type) where the DB has a positive base power and
-    // it's a non-multi-hit, non-priority move." Stellar / Eruption /
-    // Water Spout / Dragon Energy are excluded.
+    // it's a non-multi-hit, non-priority move." Stellar is excluded.
+    // Dragon Energy / Eruption / Water Spout are also excluded
+    // explicitly in @smogon/calc — their HP-scaled BP is meant to be
+    // weakest at low HP and bumping to 60 would defeat that.
+    const _kEruptionLikeNames = {
+      'Dragon Energy', 'Eruption', 'Water Spout',
+    };
     final bool teraMinEligible = isTeraStab &&
         attacker.terastal.teraType != PokemonType.stellar &&
         !effectiveMove.isMultiHit &&
         effectiveMove.priority <= 0 &&
-        originalMoveDbPower > 0;
+        originalMoveDbPower > 0 &&
+        !_kEruptionLikeNames.contains(effectiveMove.name);
     final int basePower = dynamicPower;
 
     // --- Base damage: official Gen V+ formula ---
@@ -1207,32 +1261,72 @@ class DamageCalculator {
     // them with rounding-half-up before applying to basePower with a
     // single pokeRound. Weather offensive mod (Sun×Fire 1.5,
     // Rain×Fire 0.5) is handled separately in the damage chain (it
+    // bpMods chain order MATCHES @smogon/calc gen789.ts
+    // calculateBpModsSMSSSV. The chain is order-sensitive
+    // (intermediate +2048 fp rounding), so even semantically
+    // commutative multipliers can end up differing by ±1 fp when
+    // a different push order would change a mid-step round.
     final bpMods = <int>[];
+    // 1. Doubles ally Helping Hand (first per Showdown).
+    if (attacker.helpingHand) bpMods.add(_kFP_1_5);
+    // 2. Misc move-power add-ons we aggregate into movePowerMod
+    // (Hex / Brine / Charge / Dynamax-Cannon vs Max etc.). Showdown
+    // pushes these as individual entries; we approximate by one
+    // collapsed entry — small ±1 fp drift remains for cases where
+    // two of them stack.
     if (movePowerMod != 1.0) bpMods.add(_toFP(movePowerMod));
-    if (itemEffect.powerModifier != 1.0) bpMods.add(_toFP(itemEffect.powerModifier));
-    if (abilityEffect.powerModifier != 1.0) bpMods.add(_toFP(abilityEffect.powerModifier));
     if (attacker.charge && effectiveMove.type == PokemonType.electric) {
       bpMods.add(_toFP(kChargePowerBoost));
     }
+    // 3. Terrain (Electric/Grassy/Psychic boost OR Misty/Grassy
+    // halving).
     if (terrainMod != 1.0) bpMods.add(_toFP(terrainMod));
+    // 4. Ability-side power modifiers (Tough Claws / Strong Jaw /
+    // Mega Launcher / Technician / Sharpness / Sheer Force / Punk
+    // Rock / Iron Fist / Reckless / Steely Spirit / etc.). Showdown
+    // pushes these in distinct positions (6144 for Tech-class,
+    // 5325 for Tough-Claws-class, 4915 for Reckless / Iron Fist).
+    // We collapse them — small drift again, but the major-stat
+    // routings are correct.
+    if (abilityEffect.powerModifier != 1.0) bpMods.add(_toFP(abilityEffect.powerModifier));
+    // 5. Doubles ally abilities Battery / Power Spot.
+    if (attacker.allyBattery &&
+        effectiveMove.category == MoveCategory.special) {
+      bpMods.add(_kFP_1_3);
+    }
+    if (attacker.allyPowerSpot) bpMods.add(_kFP_1_3);
+    // 6. Collision Course / Electro Drift on super-effective.
     if (isSuperEffective &&
         effectiveMove.hasTag(MoveTags.superEffectiveBoost)) {
       bpMods.add(_kFP_1_3333);
       notes.add('move:collision:×1.33');
     }
-    // Defender's Dry Skin: Fire moves do 1.25 × damage. Showdown
-    // routes this through bpMods (5120/4096), so the chain rounds
-    // around it just like ours.
+    // 7. Defender's Dry Skin: Fire moves do 1.25 × damage.
     if (!earlyMoldBreaks && defAbilityRaw == 'Dry Skin' &&
         effectiveMove.type == PokemonType.fire) {
       bpMods.add(5120);
+      notes.add('ability:Dry Skin:×1.25');
     }
-    // Knock Off ×1.5 BP when the target holds a removable item.
-    // Folded into bpMods here (rather than mutating move.power
-    // up-front) so the chainMod rounding matches Showdown.
-    if (isKnockOffBoostApplicable(effectiveMove, defender.selectedItem)) {
+    // 8. Knock Off ×1.5 BP when target holds a removable item.
+    // Same slot also covers Misty Explosion + Misty terrain, Grav
+    // Apple + Gravity, and Expanding Force + Psychic terrain — they
+    // are mutually exclusive with Knock Off (different move names)
+    // and all push 6144 in Showdown's `calculateBpModsSMSSSV`.
+    if (isKnockOffBoostApplicable(effectiveMove, defender.selectedItem) ||
+        isMistyExplosionBoostApplicable(effectiveMove, terrain, atkGroundedEarly) ||
+        isGravApplyBoostApplicable(effectiveMove, room.gravity) ||
+        isExpandingForceBoostApplicable(effectiveMove, terrain, atkGroundedEarly)) {
       bpMods.add(_kFP_1_5);
     }
+    // 8b. Solar Beam / Solar Blade ×0.5 BP in rain, sandstorm,
+    // snow, or heavy rain. Showdown pushes 2048 right after the
+    // ×1.5 slot above.
+    if (isSolarHalveApplicable(effectiveMove, atkWeather)) {
+      bpMods.add(_kFP_0_5);
+    }
+    // 9. Type-boost items / Muscle Band / Wise Glasses / Punching
+    // Glove. Showdown pushes these LAST in calculateBpModsSMSSSV.
+    if (itemEffect.powerModifier != 1.0) bpMods.add(_toFP(itemEffect.powerModifier));
     final int bpChain = _chainMods(bpMods, 1, 1 << 31);
     int power = math.max(1, _applyChainMod(basePower, bpChain));
     // Tera 60-BP minimum (gen 9+): @smogon/calc evaluates this on the
@@ -1247,11 +1341,11 @@ class DamageCalculator {
     int baseDmg = ((2 * level ~/ 5 + 2) * power * A ~/ D) ~/ 50 + 2;
     // Showdown's calculateBaseDamage applies spread / parental-bond
     // / weather / crit modifications *to the base damage* before the
-    // random-factor loop. We've already folded basePower-side mods
-    // into `power` above, so the only steps left here are weather
-    // (Sun×Fire 1.5 / Rain×Water 1.5 / Sun×Water 0.5 / Rain×Fire 0.5,
-    // …) and crit ×1.5. Both use 4096-fp / pokeRound to match
-    // Showdown bit-for-bit.
+    // random-factor loop. Spread happens FIRST (pokeRound(base ×
+    // 3072 / 4096) for doubles allAdjacent / allAdjacentFoes moves).
+    if (attacker.spreadTargets && effectiveMove.hasTag(MoveTags.spread)) {
+      baseDmg = _applyChainMod(baseDmg, _kFP_0_75);
+    }
     if (weatherMod != 1.0) {
       baseDmg = _applyChainMod(baseDmg, _toFP(weatherMod));
     }
@@ -1317,11 +1411,13 @@ class DamageCalculator {
       if (screenMod != 1.0) finalMods.add(_toFP(screenMod));
       if (berry != 1.0) finalMods.add(_toFP(berry));
       if (aura.multiplier != 1.0) finalMods.add(_toFP(aura.multiplier));
+      if (friendGuardMod != 1.0) finalMods.add(_toFP(friendGuardMod));
       // Sniper: +50 % on critical hits, routed through finalMods so
       // the rounding order matches Showdown (separate from the crit
       // ×1.5 applied to baseDmg).
       if (isCritical && atkAbilityRaw == 'Sniper') {
         finalMods.add(_kFP_1_5);
+        notes.add('ability:Sniper:×1.5');
       }
       final int finalModChain = _chainMods(finalMods, 41, 131072);
 
@@ -1649,7 +1745,10 @@ class DamageCalculator {
         gravity: room.gravity,
       );
       if (!defIsGrounded) {
-        return immune(['ground:ungrounded']);
+        return immune([groundImmunityNote(
+          type1: defEffType1, type2: defEffType2, type3: defEffType3,
+          ability: defenderAbility,
+        )]);
       }
     }
 

@@ -56,6 +56,22 @@ class MoveContext {
   /// Opponent's remaining HP percentage (0–100).
   final int? opponentHpPercent;
 
+  /// User's current and maximum HP (post-Dynamax scaling, matching
+  /// @smogon/calc's maxHP() / curHP() conventions). Both are needed
+  /// so HP-scaled BP moves (Eruption / Water Spout / Dragon Energy /
+  /// Reversal / Flail) can compute `floor(N * curHP / maxHP)` bit-
+  /// for-bit. Passing pct + maxHp would lose precision under Dynamax
+  /// because @smogon/calc derives Dynamax curHP from the pre-Dynamax
+  /// curHP (then ceil-scales), not from pct against the doubled
+  /// maxHP.
+  final int? myMaxHp;
+  final int? myCurHp;
+
+  /// Opponent's current and maximum HP. Same purpose for target-
+  /// HP-scaled moves (Hard Press / Crush Grip / Wring Out).
+  final int? opponentMaxHp;
+  final int? opponentCurHp;
+
   /// User's primary type (for Revelation Dance).
   final PokemonType? userType1;
 
@@ -103,6 +119,10 @@ class MoveContext {
     this.opponentItem,
     this.hitCount,
     this.opponentHpPercent,
+    this.myMaxHp,
+    this.myCurHp,
+    this.opponentMaxHp,
+    this.opponentCurHp,
     this.zMove = false,
     this.isMega = false,
   });
@@ -159,17 +179,29 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = _applyTeraBlast(move, context);
   }
 
-  // 1.6. Tera Starstorm: becomes Stellar type when used by Terapagos (Stellar Form)
-  // Also becomes physical if Attack > SpAttack
-  if (move.name == 'Tera Starstorm' && context.pokemonName != null &&
-      context.pokemonName!.toLowerCase().contains('terapagos')) {
-    var newType = PokemonType.stellar;
-    var newCategory = move.category;
-    if (context.actualAttack != null && context.actualSpAttack != null &&
-        context.actualAttack! > context.actualSpAttack!) {
-      newCategory = MoveCategory.physical;
+  // 1.6. Tera Starstorm: becomes Stellar type ONLY when used by
+  // Terapagos in Stellar Form. Other Terapagos forms keep the
+  // database type (Normal). Showdown gates this on the exact
+  // species name `Terapagos-Stellar` (gen789.ts:320).
+  // forms.json stores the display name `Terapagos (Stellar Form)`,
+  // while internal code paths still reference the kebab-case
+  // `terapagos-stellar` — we accept both so this works regardless
+  // of which form-name convention reaches us.
+  // Also becomes physical if Attack > SpAttack — matches the
+  // Photon-Geyser-style category swap.
+  if (move.name == 'Tera Starstorm' && context.pokemonName != null) {
+    final n = context.pokemonName!.toLowerCase();
+    final isStellarForm =
+        n == 'terapagos-stellar' || n.contains('stellar form');
+    if (isStellarForm) {
+      var newType = PokemonType.stellar;
+      var newCategory = move.category;
+      if (context.actualAttack != null && context.actualSpAttack != null &&
+          context.actualAttack! > context.actualSpAttack!) {
+        newCategory = MoveCategory.physical;
+      }
+      move = move.copyWith(type: newType, category: newCategory);
     }
-    move = move.copyWith(type: newType, category: newCategory);
   }
 
   // 1.7. Photon Geyser (and Necrozma's signature Z-Move Light That Burns
@@ -258,12 +290,12 @@ TransformedMove transformMove(Move move, MoveContext context) {
 
   // 3. Conditional power changes
   move = _applyItemCondition(move, context.hasItem);
-  move = _applyHpPower(move, context.hpPercent);
+  move = _applyHpPower(move, context.hpPercent, context.myMaxHp, context.myCurHp);
   move = _applyStatusPower(move, context.status);
   move = _applySpeedPower(move, context.mySpeed, context.opponentSpeed);
   move = _applyTurnOrderPower(move, context.mySpeed, context.opponentSpeed);
   move = _applyWeightPower(move, context.myWeight, context.opponentWeight);
-  move = _applyTargetHpPower(move, context.opponentHpPercent);
+  move = _applyTargetHpPower(move, context.opponentHpPercent, context.opponentMaxHp, context.opponentCurHp);
   move = _applyKnockOff(move, context.opponentItem);
   move = _applyFlingPower(move, context.heldItem);
 
@@ -275,17 +307,12 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // 5. Rank-based power
   move = _applyRankPower(move, context.rank);
 
-  // 5b. Grav Apple: power * 1.5 under gravity
-  if (move.hasTag(MoveTags.gravityBoost) && context.gravity) {
-    move = move.copyWith(power: (move.power * 1.5).floor());
-  }
-
-  // 5c. Solar Beam / Solar Blade: halved in rain, sandstorm, snow, heavy rain
-  if (move.hasTag(MoveTags.solarHalve) &&
-      (context.weather == Weather.rain || context.weather == Weather.sandstorm ||
-       context.weather == Weather.snow || context.weather == Weather.heavyRain)) {
-    move = move.copyWith(power: (move.power * 0.5).floor());
-  }
+  // 5b. Grav Apple ×1.5 under gravity, Solar Beam/Blade ×0.5 in
+  // bad weather: both are bpMods entries in Showdown
+  // (`bpMods.push(6144)` and `bpMods.push(2048)` respectively), not
+  // direct BP modifications. damage_calculator now routes them
+  // through its bpMods chain — see `isGravApplyBoostApplicable`
+  // and `isSolarHalveApplicable`. No transform-side change here.
 
   // 6. Multi-hit: apply total power (Dynamax-converted Max moves
   // have minHits=maxHits=1 already, so this skips them naturally).
@@ -475,13 +502,41 @@ Move _applyItemCondition(Move move, bool hasItem) {
   return move;
 }
 
-/// HP-based power: Eruption/Water Spout/Dragon Energy, Flail/Reversal.
-Move _applyHpPower(Move move, int hpPercent) {
+/// HP-based power: Eruption/Water Spout/Dragon Energy (high), Flail/
+/// Reversal (low). Showdown computes BP from the user's exact
+/// curHP / maxHP ratio (`floor(150 * curHP / maxHP)`), which can
+/// diverge by 1 BP from a `floor(150 * pct / 100)` integer-percent
+/// approximation whenever maxHP isn't a multiple of 100. We pass
+/// [maxHp] so we can round-trip the same way.
+///
+/// HP above 100 % (e.g., the user manually entered 150 % in the
+/// damage-mode field, or a Dynamax target with hpPercent > maxHP)
+/// is clamped to 100 % — extra HP doesn't push BP above the
+/// move's natural cap.
+Move _applyHpPower(Move move, int hpPercent, int? maxHp, int? curHp) {
   if (move.hasTag(MoveTags.hpPowerHigh)) {
-    return move.copyWith(power: math.max(1, (150 * hpPercent / 100).floor()));
+    final int bp;
+    if (maxHp != null && curHp != null && maxHp > 0 && hpPercent <= 100) {
+      // Precise: use the caller-supplied curHP / maxHP — matches
+      // @smogon/calc's Dynamax-aware scaling (curHP ceil-scales,
+      // maxHP floor-scales separately).
+      bp = math.max(1, 150 * curHp ~/ maxHp);
+    } else if (maxHp != null && maxHp > 0 && hpPercent <= 100) {
+      // No curHp passed in but maxHp is: approximate from pct.
+      final int derived = math.max(1, maxHp * hpPercent ~/ 100);
+      bp = math.max(1, 150 * derived ~/ maxHp);
+    } else {
+      // Fallback / clamp for >100 %: use the percent directly.
+      final int clamped = hpPercent > 100 ? 100 : hpPercent;
+      bp = math.max(1, 150 * clamped ~/ 100);
+    }
+    return move.copyWith(power: bp);
   }
   if (move.hasTag(MoveTags.hpPowerLow)) {
-    return move.copyWith(power: _flailPower(hpPercent));
+    // Flail / Reversal: BP table by % HP. Clamp at 100 % (extra HP
+    // doesn't push BP above the lowest-HP tier).
+    final int pct = hpPercent > 100 ? 100 : hpPercent;
+    return move.copyWith(power: _flailPower(pct));
   }
   return move;
 }
@@ -847,17 +902,128 @@ bool isKnockOffBoostApplicable(Move move, String? opponentItem) {
   return true;
 }
 
-/// Target-HP-based power: Crush Grip / Wring Out (120×), Hard Press (100×)
-Move _applyTargetHpPower(Move move, int? opponentHpPercent) {
+/// Grav Apple's ×1.5 BP boost under Gravity. Routed through
+/// damage_calculator's bpMods chain (`push(6144)`) to match Showdown's
+/// chainMods rounding; a direct `power*1.5).floor()` here would
+/// diverge by 1 fp at odd-BP combinations once other bpMods stack.
+bool isGravApplyBoostApplicable(Move move, bool gravity) {
+  return move.hasTag(MoveTags.gravityBoost) && gravity;
+}
+
+/// Misty Explosion's ×1.5 BP boost on Misty Terrain (user grounded).
+/// bpMods entry — see [isGravApplyBoostApplicable] for why we route
+/// instead of multiplying directly.
+bool isMistyExplosionBoostApplicable(Move move, Terrain terrain,
+    bool attackerGrounded) {
+  return move.hasTag(MoveTags.terrainBoostMisty) &&
+      terrain == Terrain.misty && attackerGrounded;
+}
+
+/// Expanding Force's ×1.5 BP boost on Psychic Terrain (user grounded).
+bool isExpandingForceBoostApplicable(Move move, Terrain terrain,
+    bool attackerGrounded) {
+  return move.hasTag(MoveTags.terrainBoostPsychic) &&
+      terrain == Terrain.psychic && attackerGrounded;
+}
+
+/// Solar Beam / Solar Blade's ×0.5 BP cut in rain / sand / snow /
+/// heavy rain (and Hail in older gens — we lump all four under the
+/// snow case our `Weather` enum). bpMods entry (`push(2048)`).
+bool isSolarHalveApplicable(Move move, Weather weather) {
+  if (!move.hasTag(MoveTags.solarHalve)) return false;
+  return weather == Weather.rain ||
+      weather == Weather.sandstorm ||
+      weather == Weather.snow ||
+      weather == Weather.heavyRain;
+}
+
+// ───────────────────────────────────────────────────────────────────
+// Move-conditional bpMods that live OUTSIDE the printed base power.
+//
+// damage_calculator applies these inside its 4096-fp bpMods chain.
+// The move-slot BP display and the 결정력 calc (OffensiveCalculator)
+// don't run that chain, so they call [conditionalBpModFp] to get the
+// same multiplier and [applyBpModFp] to fold it in with identical
+// rounding. Every entry here is a *named-move* effect, so at most one
+// applies at a time — chain order is irrelevant.
+
+const int _kFpx1_5 = 6144; // ×1.5 in 4096-fixed-point
+const int _kFpx0_5 = 2048; // ×0.5 in 4096-fixed-point
+
+/// Combined 4096-fp multiplier (4096 == ×1) from the move-conditional
+/// bpMods that apply to [move] in the given field / matchup state:
+/// Knock Off ×1.5, Grav Apple / Misty Explosion / Expanding Force
+/// ×1.5, Solar Beam / Solar Blade ×0.5.
+int conditionalBpModFp(
+  Move move, {
+  required Weather weather,
+  required Terrain terrain,
+  required bool gravity,
+  required bool attackerGrounded,
+  required String? opponentItem,
+}) {
+  var m = 4096;
+  if (isKnockOffBoostApplicable(move, opponentItem)) {
+    m = (m * _kFpx1_5 + 2048) >> 12;
+  }
+  if (isGravApplyBoostApplicable(move, gravity)) {
+    m = (m * _kFpx1_5 + 2048) >> 12;
+  }
+  if (isMistyExplosionBoostApplicable(move, terrain, attackerGrounded)) {
+    m = (m * _kFpx1_5 + 2048) >> 12;
+  }
+  if (isExpandingForceBoostApplicable(move, terrain, attackerGrounded)) {
+    m = (m * _kFpx1_5 + 2048) >> 12;
+  }
+  if (isSolarHalveApplicable(move, weather)) {
+    m = (m * _kFpx0_5 + 2048) >> 12;
+  }
+  return m;
+}
+
+/// Apply a 4096-fp multiplier to [basePower] with Showdown's rounding
+/// (`(bp * mod + 2048) >> 12`). Returns [basePower] unchanged when
+/// [fpMod] is ×1 (4096).
+int applyBpModFp(int basePower, int fpMod) =>
+    fpMod == 4096 ? basePower : (basePower * fpMod + 2048) >> 12;
+
+/// Target-HP-based power: Crush Grip / Wring Out (120×), Hard
+/// Press (100×). Uses @smogon/calc's fixed-point formula
+/// (`100 * floor(curHP * 4096 / maxHP)`, then chain-rounded) so
+/// our BP matches Showdown exactly when curHP / maxHP are known.
+/// Falls back to the integer-percent approximation otherwise.
+/// HP above 100 % is clamped.
+Move _applyTargetHpPower(Move move, int? opponentHpPercent,
+    int? opponentMaxHp, int? opponentCurHp) {
   if (opponentHpPercent == null) return move;
+  final int pct = opponentHpPercent > 100 ? 100 : opponentHpPercent;
+
+  int _bp(int cap) {
+    if (opponentMaxHp != null && opponentCurHp != null && opponentMaxHp > 0) {
+      final int curHp = opponentCurHp > opponentMaxHp
+          ? opponentMaxHp : opponentCurHp;
+      // Showdown gen789.ts:
+      //   basePower = 100 * floor(curHP * 4096 / maxHP);
+      //   basePower = floor(floor((cap * basePower + 2048 - 1) / 4096) / 100)
+      //               || 1;
+      final int step1 = 100 * (curHp * 4096 ~/ opponentMaxHp);
+      final int step2 = (cap * step1 + 2048 - 1) ~/ 4096 ~/ 100;
+      return step2 == 0 ? 1 : step2;
+    }
+    if (opponentMaxHp != null && opponentMaxHp > 0) {
+      final int derived = math.max(1, opponentMaxHp * pct ~/ 100);
+      final int step1 = 100 * (derived * 4096 ~/ opponentMaxHp);
+      final int step2 = (cap * step1 + 2048 - 1) ~/ 4096 ~/ 100;
+      return step2 == 0 ? 1 : step2;
+    }
+    return (cap * pct ~/ 100).clamp(1, cap);
+  }
 
   if (move.hasTag(MoveTags.powerByTargetHp120)) {
-    final power = (120 * opponentHpPercent / 100).floor().clamp(1, 120);
-    return move.copyWith(power: power);
+    return move.copyWith(power: _bp(120));
   }
   if (move.hasTag(MoveTags.powerByTargetHp100)) {
-    final power = (100 * opponentHpPercent / 100).floor().clamp(1, 100);
-    return move.copyWith(power: power);
+    return move.copyWith(power: _bp(100));
   }
 
   return move;
@@ -865,29 +1031,26 @@ Move _applyTargetHpPower(Move move, int? opponentHpPercent) {
 
 /// Terrain-based power boosts and reductions.
 /// - Rising Voltage: 2x in Electric Terrain
-/// - Expanding Force: 1.5x in Psychic Terrain
-/// - Misty Explosion: 1.5x in Misty Terrain
+/// - Expanding Force / Misty Explosion: ×1.5 via bpMods in
+///   damage_calculator (Showdown's chainMods rounds differently
+///   from a direct `*1.5).floor()` at certain BPs).
 /// - Earthquake/Bulldoze/Magnitude: 0.5x in Grassy Terrain
 Move _applyTerrainPowerBoost(Move move, Terrain terrain, {
   bool attackerGrounded = true,
   bool defenderGrounded = true,
 }) {
-  // Move-specific terrain boosts — each has its own grounding requirement
-  // Rising Voltage: TARGET must be grounded on Electric Terrain
+  // Rising Voltage: TARGET must be grounded on Electric Terrain. ×2
+  // is exact in fp so we keep this direct (matches Showdown line
+  // `basePower = move.bp * 2`).
   if (move.hasTag(MoveTags.terrainDoubleElectric) && terrain == Terrain.electric
       && defenderGrounded) {
     return move.copyWith(power: move.power * 2);
   }
-  // Expanding Force: USER must be grounded on Psychic Terrain
-  if (move.hasTag(MoveTags.terrainBoostPsychic) && terrain == Terrain.psychic
-      && attackerGrounded) {
-    return move.copyWith(power: (move.power * 1.5).floor());
-  }
-  // Misty Explosion: USER must be grounded on Misty Terrain
-  if (move.hasTag(MoveTags.terrainBoostMisty) && terrain == Terrain.misty
-      && attackerGrounded) {
-    return move.copyWith(power: (move.power * 1.5).floor());
-  }
+
+  // Expanding Force / Misty Explosion ×1.5: Showdown pushes 6144
+  // into bpMods, not into basePower. Routed via damage_calculator's
+  // bpMods chain instead — see `isExpandingForceBoostApplicable` /
+  // `isMistyExplosionBoostApplicable`. No direct BP change here.
 
   // General terrain power modifiers (1.3x boost, 0.5x reduction) are NOT
   // applied here — they don't change the move's base power, only affect

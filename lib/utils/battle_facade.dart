@@ -219,7 +219,22 @@ class BattleFacade {
     }
     final effectiveCategory = state.categoryOverrides[moveIndex] ?? resolvedCategory;
     final basePower = transformed.move.power;
-    var effectivePower = state.powerOverrides[moveIndex] ?? basePower;
+    // Move-conditional bpMods that aren't baked into the printed BP —
+    // Knock Off ×1.5, Grav Apple / Misty Explosion / Expanding Force
+    // ×1.5, Solar Beam / Solar Blade ×0.5. Fold them in with the same
+    // 4096-fp rounding the damage calculator uses so the slot BP
+    // matches the actual damage path (e.g. Solar Blade 125 → 63).
+    // A manual power override always wins.
+    final int condBpMod = conditionalBpModFp(
+      transformed.move,
+      weather: atkWeather,
+      terrain: terrain,
+      gravity: room.gravity,
+      attackerGrounded: attackerGrounded,
+      opponentItem: opponentItem,
+    );
+    var effectivePower = state.powerOverrides[moveIndex] ??
+        applyBpModFp(basePower, condBpMod);
 
     // Terastal minimum power: Tera STAB moves below 60 become 60
     // (except multi-hit and priority moves)
@@ -400,12 +415,36 @@ class BattleFacade {
       zMove: zMove,
       isMega: state.isMega,
     );
-    final transformed = transformMove(move, ctx);
+    var transformed = transformMove(move, ctx);
 
     // Gravity: disabled moves return 0 (checked after transform,
     // so Dynamax moves pass through)
     if (room.gravity && transformed.move.hasTag(MoveTags.disabledByGravity)) {
       return 0;
+    }
+
+    // Move-conditional bpMods that aren't baked into the printed BP —
+    // Knock Off ×1.5, Grav Apple / Misty Explosion / Expanding Force
+    // ×1.5, Solar Beam / Solar Blade ×0.5. Fold into the move power so
+    // 결정력 reflects them (same 4096-fp rounding as the damage calc).
+    // A manual power override already replaced move.power above, so
+    // skip when one is set.
+    if (powerOverride == null) {
+      final int condBpMod = conditionalBpModFp(
+        transformed.move,
+        weather: atkWeather,
+        terrain: terrain,
+        gravity: room.gravity,
+        attackerGrounded: attackerGrounded,
+        opponentItem: opponentItem,
+      );
+      if (condBpMod != 4096) {
+        transformed = TransformedMove(
+          transformed.move
+              .copyWith(power: applyBpModFp(transformed.move.power, condBpMod)),
+          transformed.offensiveStat,
+        );
+      }
     }
 
     // 2. Resolve item/ability effects (Dynamax nullification applied)

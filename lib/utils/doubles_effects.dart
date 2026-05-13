@@ -101,27 +101,28 @@ DoublesModifiers computeDoublesModifiers({
   double attackMod = 1.0;
   final notes = <String>[];
 
-  // Spread: 2 targets → 0.75×
+  // Spread is now applied to baseDmg in damage_calculator (Showdown
+  // pokeRounds spread on baseDamage before weather/crit, not on the
+  // BP via bpMods). Notes still added here so the modifier list
+  // shows it. The actual ×0.75 happens up in damage_calculator.
   if (attacker.spreadTargets && move.hasTag(MoveTags.spread)) {
-    powerMod *= kSpreadMultiplier;
     notes.add('move:spread:×$kSpreadMultiplier');
   }
 
-  // Helping Hand: ally boosts this move → 1.5×
+  // Helping Hand / Power Spot / Battery: each one is its own entry
+  // in Showdown's bpMods chain (gen789.ts pushes them sequentially:
+  // 6144 for HH, 5325 for PS, 5325 for Battery). Collapsing them
+  // into one collapsed multiplier loses an off-by-one ≤ 1 fp unit
+  // when two or more chain together, so damage_calculator now reads
+  // the attacker flags directly. Notes still emitted here for the
+  // modifier list.
   if (attacker.helpingHand) {
-    powerMod *= kHelpingHandMultiplier;
     notes.add('move:helpingHand:×$kHelpingHandMultiplier');
   }
-
-  // Power Spot (ally's ability): 1.3× to every move.
   if (attacker.allyPowerSpot) {
-    powerMod *= kPowerSpotMultiplier;
     notes.add('move:powerSpot:×$kPowerSpotMultiplier');
   }
-
-  // Battery (ally's ability): 1.3× to special moves only.
   if (attacker.allyBattery && move.category == MoveCategory.special) {
-    powerMod *= kBatteryMultiplier;
     notes.add('move:battery:×$kBatteryMultiplier');
   }
 

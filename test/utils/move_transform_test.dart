@@ -410,28 +410,35 @@ void main() {
       power: 100, accuracy: 100, pp: 5, tags: [MoveTags.terrainBoostMisty],
     );
 
-    test('Expanding Force gets 1.5x in Psychic Terrain', () {
+    // Expanding Force / Misty Explosion ×1.5: Showdown routes this
+    // through bpMods (`push(6144)`), so transformMove leaves BP
+    // alone and damage_calculator's chain applies the boost. The
+    // tests check that the applicability helper returns true under
+    // the right conditions and false otherwise.
+    test('Expanding Force routing helper on Psychic Terrain', () {
       final result = transformMove(expandingForce,
           const MoveContext(terrain: Terrain.psychic));
-      expect(result.move.power, equals(120)); // 80 * 1.5
-    });
-
-    test('Expanding Force normal without Psychic Terrain', () {
-      final result = transformMove(expandingForce,
-          const MoveContext(terrain: Terrain.none));
       expect(result.move.power, equals(80));
+      expect(isExpandingForceBoostApplicable(
+          result.move, Terrain.psychic, true), isTrue);
     });
 
-    test('Misty Explosion gets 1.5x in Misty Terrain', () {
+    test('Expanding Force routing helper off Psychic Terrain', () {
+      expect(isExpandingForceBoostApplicable(
+          expandingForce, Terrain.none, true), isFalse);
+    });
+
+    test('Misty Explosion routing helper on Misty Terrain', () {
       final result = transformMove(mistyExplosion,
           const MoveContext(terrain: Terrain.misty));
-      expect(result.move.power, equals(150)); // 100 * 1.5
+      expect(result.move.power, equals(100));
+      expect(isMistyExplosionBoostApplicable(
+          result.move, Terrain.misty, true), isTrue);
     });
 
-    test('Misty Explosion normal without Misty Terrain', () {
-      final result = transformMove(mistyExplosion,
-          const MoveContext(terrain: Terrain.none));
-      expect(result.move.power, equals(100));
+    test('Misty Explosion routing helper off Misty Terrain', () {
+      expect(isMistyExplosionBoostApplicable(
+          mistyExplosion, Terrain.none, true), isFalse);
     });
   });
 
@@ -1009,13 +1016,19 @@ void main() {
       power: 120, accuracy: 100, pp: 5,
     );
 
-    test('becomes Stellar type for Terapagos', () {
+    test('becomes Stellar type for Terapagos-Stellar (kebab)', () {
       final result = transformMove(teraStarstorm,
-          const MoveContext(pokemonName: 'Terapagos'));
+          const MoveContext(pokemonName: 'Terapagos-Stellar'));
       expect(result.move.type, equals(PokemonType.stellar));
     });
 
-    test('becomes physical when Attack > SpAttack for Terapagos', () {
+    test('becomes Stellar type for Terapagos (Stellar Form) (display)', () {
+      final result = transformMove(teraStarstorm,
+          const MoveContext(pokemonName: 'Terapagos (Stellar Form)'));
+      expect(result.move.type, equals(PokemonType.stellar));
+    });
+
+    test('becomes physical when Attack > SpAttack for Terapagos-Stellar', () {
       final result = transformMove(teraStarstorm,
           const MoveContext(
             pokemonName: 'Terapagos-Stellar',
@@ -1025,13 +1038,28 @@ void main() {
       expect(result.move.category, equals(MoveCategory.physical));
     });
 
-    test('stays special for Terapagos when SpAttack >= Attack', () {
+    test('stays special for Terapagos-Stellar when SpAttack >= Attack', () {
       final result = transformMove(teraStarstorm,
           const MoveContext(
-            pokemonName: 'Terapagos',
+            pokemonName: 'Terapagos-Stellar',
             actualAttack: 100, actualSpAttack: 200,
           ));
       expect(result.move.category, equals(MoveCategory.special));
+    });
+
+    // Showdown only transforms Tera Starstorm for the Stellar form
+    // (gen789.ts: `attacker.name === 'Terapagos-Stellar'`). Other
+    // Terapagos forms keep the database Normal-type move.
+    test('no change for base Terapagos', () {
+      final result = transformMove(teraStarstorm,
+          const MoveContext(pokemonName: 'Terapagos'));
+      expect(result.move.type, equals(PokemonType.normal));
+    });
+
+    test('no change for Terapagos-Terastal', () {
+      final result = transformMove(teraStarstorm,
+          const MoveContext(pokemonName: 'Terapagos-Terastal'));
+      expect(result.move.type, equals(PokemonType.normal));
     });
 
     test('no change for non-Terapagos', () {
@@ -1229,16 +1257,17 @@ void main() {
       power: 80, accuracy: 100, pp: 10, tags: [MoveTags.gravityBoost],
     );
 
-    test('power * 1.5 under gravity', () {
+    // Grav Apple ×1.5 is a bpMods entry — transformMove leaves BP
+    // alone and damage_calculator's chain folds it in.
+    test('routing helper under gravity', () {
       final result = transformMove(gravApple,
           const MoveContext(gravity: true));
-      expect(result.move.power, equals(120)); // 80 * 1.5
+      expect(result.move.power, equals(80));
+      expect(isGravApplyBoostApplicable(result.move, true), isTrue);
     });
 
-    test('normal power without gravity', () {
-      final result = transformMove(gravApple,
-          const MoveContext(gravity: false));
-      expect(result.move.power, equals(80));
+    test('routing helper without gravity', () {
+      expect(isGravApplyBoostApplicable(gravApple, false), isFalse);
     });
   });
 
@@ -1249,34 +1278,29 @@ void main() {
       power: 120, accuracy: 100, pp: 10, tags: [MoveTags.solarHalve],
     );
 
-    test('halved in rain', () {
-      final result = transformMove(solarBeam,
-          const MoveContext(weather: Weather.rain));
-      expect(result.move.power, equals(60));
+    // Solar Beam/Blade ×0.5 is a bpMods entry — transformMove leaves
+    // BP alone and damage_calculator's chain folds it in.
+    test('routing helper applies in rain', () {
+      expect(isSolarHalveApplicable(solarBeam, Weather.rain), isTrue);
     });
 
-    test('halved in sandstorm', () {
-      final result = transformMove(solarBeam,
-          const MoveContext(weather: Weather.sandstorm));
-      expect(result.move.power, equals(60));
+    test('routing helper applies in sandstorm', () {
+      expect(isSolarHalveApplicable(solarBeam, Weather.sandstorm), isTrue);
     });
 
-    test('halved in snow', () {
-      final result = transformMove(solarBeam,
-          const MoveContext(weather: Weather.snow));
-      expect(result.move.power, equals(60));
+    test('routing helper applies in snow', () {
+      expect(isSolarHalveApplicable(solarBeam, Weather.snow), isTrue);
     });
 
-    test('halved in heavy rain', () {
-      final result = transformMove(solarBeam,
-          const MoveContext(weather: Weather.heavyRain));
-      expect(result.move.power, equals(60));
+    test('routing helper applies in heavy rain', () {
+      expect(isSolarHalveApplicable(solarBeam, Weather.heavyRain), isTrue);
     });
 
-    test('normal power in sun', () {
+    test('routing helper does not apply in sun', () {
       final result = transformMove(solarBeam,
           const MoveContext(weather: Weather.sun));
       expect(result.move.power, equals(120));
+      expect(isSolarHalveApplicable(result.move, Weather.sun), isFalse);
     });
   });
 

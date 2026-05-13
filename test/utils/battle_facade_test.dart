@@ -276,6 +276,95 @@ void main() {
       );
       expect(info.isFixedDamage, isTrue);
     });
+
+    // Move-conditional bpMods (Knock Off ×1.5, Solar Beam/Blade ×0.5,
+    // Grav Apple / Misty Explosion / Expanding Force ×1.5) aren't
+    // baked into the printed BP — getMoveSlotInfo folds them into
+    // effectivePower with the same 4096-fp rounding as the damage
+    // calculator.
+    group('move-conditional bpMods in effectivePower', () {
+      const solarBeam = Move(
+        name: 'Solar Beam', nameKo: '솔라빔', nameJa: 'ソーラービーム',
+        type: PokemonType.grass, category: MoveCategory.special,
+        power: 120, accuracy: 100, pp: 10, tags: [MoveTags.solarHalve],
+      );
+      const solarBlade = Move(
+        name: 'Solar Blade', nameKo: '솔라블레이드', nameJa: 'ソーラーブレード',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 125, accuracy: 100, pp: 10, tags: [MoveTags.solarHalve],
+      );
+      const knockOff = Move(
+        name: 'Knock Off', nameKo: '잡아던지기', nameJa: 'はたきおとす',
+        type: PokemonType.dark, category: MoveCategory.physical,
+        power: 65, accuracy: 100, pp: 20, tags: [MoveTags.knockOff],
+      );
+      const gravApple = Move(
+        name: 'Grav Apple', nameKo: 'G의힘', nameJa: 'Ｇのちから',
+        type: PokemonType.grass, category: MoveCategory.physical,
+        power: 90, accuracy: 100, pp: 10, tags: [MoveTags.gravityBoost],
+      );
+
+      MoveSlotInfo slot(Move m, {
+        Weather weather = Weather.none,
+        Terrain terrain = Terrain.none,
+        RoomConditions room = const RoomConditions(),
+        String? opponentItem,
+      }) {
+        final state = BattlePokemonState();
+        state.moves[0] = m;
+        return BattleFacade.getMoveSlotInfo(
+          state: state, moveIndex: 0,
+          weather: weather, terrain: terrain, room: room,
+          opponentItem: opponentItem,
+        );
+      }
+
+      test('Solar Beam halved in rain (120 → 60)', () {
+        expect(slot(solarBeam, weather: Weather.rain).effectivePower, 60);
+      });
+      test('Solar Beam unchanged in sun (120)', () {
+        expect(slot(solarBeam, weather: Weather.sun).effectivePower, 120);
+      });
+      test('Solar Blade in rain uses chainmod rounding (125 → 63)', () {
+        expect(slot(solarBlade, weather: Weather.rain).effectivePower, 63);
+      });
+      test('Knock Off ×1.5 vs target with removable item (65 → 98)', () {
+        expect(slot(knockOff, opponentItem: 'leftovers').effectivePower, 98);
+      });
+      test('Knock Off unchanged vs target with no item (65)', () {
+        expect(slot(knockOff).effectivePower, 65);
+      });
+      test('Knock Off unchanged vs target with unremovable item (65)', () {
+        // Mega stones are unremovable by Knock Off.
+        expect(slot(knockOff, opponentItem: 'charizardite-x').effectivePower, 65);
+      });
+      test('Grav Apple ×1.5 under Gravity (90 → 135)', () {
+        expect(
+          slot(gravApple, room: const RoomConditions(gravity: true))
+              .effectivePower,
+          135,
+        );
+      });
+      test('Grav Apple unchanged without Gravity (90)', () {
+        expect(slot(gravApple).effectivePower, 90);
+      });
+
+      test('결정력 reflects Solar Beam halving (rain < sun)', () {
+        final state = BattlePokemonState();
+        state.moves[0] = solarBeam;
+        final sun = BattleFacade.calcOffensivePower(
+          state: state, moveIndex: 0,
+          weather: Weather.sun, terrain: Terrain.none,
+          room: const RoomConditions());
+        final rain = BattleFacade.calcOffensivePower(
+          state: state, moveIndex: 0,
+          weather: Weather.rain, terrain: Terrain.none,
+          room: const RoomConditions());
+        expect(sun, isNotNull);
+        expect(rain, isNotNull);
+        expect(rain!, lessThan(sun!));
+      });
+    });
   });
 
   // ----------------------------------------------------------------

@@ -49,19 +49,26 @@ const MOVES = [
   // pin it to Normal-defaults so both calcs agree).
   'Foul Play','Weather Ball','Acrobatics','Tera Blast',
   'Photon Geyser',
-  // % HP scaling moves omitted from fuzz: @smogon/calc uses
-  //   floor(N * curHP / maxHP)
-  // while our calc uses
-  //   floor(N * hpPercent / 100)
-  // Whenever maxHP isn't a multiple of 100, these can diverge by 1
-  // BP. Water Spout / Eruption / Dragon Energy / Hard Press /
-  // Crush Grip / Wring Out all fall under this. Not a calc bug —
-  // an int-percent precision loss we live with.
+  // % HP scaling moves — now precise after we pass maxHp into the
+  // transform pipeline. floor(N * curHP / maxHP) matches @smogon/calc
+  // bit-for-bit.
+  'Water Spout','Eruption','Dragon Energy','Hard Press',
   // Always-crit (we already verified Storm Throw / Frost Breath
   // via the alwaysCrit auto-toggle path)
   'Frost Breath','Storm Throw',
   // Priority + crit interaction
   'Sacred Sword','Drain Punch','Liquidation','Bug Buzz',
+  // Weather/terrain BP-mod moves: Showdown applies these as
+  // bpMods.push() in calculateBpModsSMSSSV; our calc routes them
+  // through the same bpMods chain. Exercised here to catch any
+  // chainMod rounding drift.
+  // NOTE: Grav Apple is intentionally NOT listed — Pokémon
+  // Champions buffed it to BP 90, while @smogon/calc still uses the
+  // SV value of 80, so it would always diff. The ×1.5 gravity
+  // bpMods routing is shared with the moves below, so the rounding
+  // path is still covered.
+  'Misty Explosion','Solar Beam','Solar Blade',
+  'Expanding Force','Rising Voltage',
 ];
 const ITEMS = [
   '','Choice Band','Choice Specs','Choice Scarf','Life Orb',
@@ -254,17 +261,10 @@ function showdownRolls(s) {
     const defCurHP = s.defHpPct < 100
         ? Math.max(1, Math.floor(defMaxRef.maxHP() * s.defHpPct / 100))
         : undefined;
-    // Re-derive the integer hpPercent from the actual curHP so our
-    // Dart side, which only stores `hpPercent`, agrees with @smogon/calc
-    // on Water Spout / Eruption / Hard Press / Multiscale thresholds.
-    // Without this, floor(150*pct/100) and floor(150*curHP/maxHP) can
-    // disagree by 1 BP whenever maxHP isn't a multiple of 100.
-    if (atkCurHP !== undefined) {
-      s.atkHpPct = Math.floor(atkCurHP * 100 / atkMaxRef.maxHP());
-    }
-    if (defCurHP !== undefined) {
-      s.defHpPct = Math.floor(defCurHP * 100 / defMaxRef.maxHP());
-    }
+    // The Dart side now uses curHP/maxHP precisely (we pass maxHp
+    // into MoveContext), so we keep the original integer pct here
+    // and rely on both calcs computing curHP the same way:
+    // floor(maxHP * pct / 100).
     const attacker = new Pokemon(gen, s.atkSpec, {
       level: 50,
       item: s.item || undefined,

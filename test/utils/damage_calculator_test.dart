@@ -625,6 +625,132 @@ void main() {
       expect(withMoldBreaker.maxDamage, greaterThan(withoutMoldBreaker.maxDamage));
       expect(withMoldBreaker.modifierNotes.any((n) => n.contains('moldbreaker')), isTrue);
     });
+
+    test('names the bypassed defender ability', () {
+      final r = calc(
+        move: tackle, atkAbility: 'Mold Breaker',
+        defAbility: 'Multiscale',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.modifierNotes, contains('moldbreakerBypass:Multiscale'));
+    });
+
+    test('no bypass note for non-ignorable abilities', () {
+      final r = calc(
+        move: tackle, atkAbility: 'Mold Breaker',
+        defAbility: 'Intimidate', // not in ignorableAbilities
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.modifierNotes.any((n) => n.startsWith('moldbreakerBypass')), isFalse);
+    });
+  });
+
+  // ---------------------------------------------------------------
+  // Damage-tab notes for effects not captured by 결정력 / 내구력
+  // ---------------------------------------------------------------
+
+  group('Defender at-mod ability notes (Thick Fat etc.)', () {
+    test('Thick Fat vs Fire move emits note + reduces damage', () {
+      final withTF = calc(
+        move: ember, defAbility: 'Thick Fat',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      final without = calc(
+        move: ember, defAbility: 'Overgrow',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(withTF.maxDamage, lessThan(without.maxDamage));
+      expect(withTF.modifierNotes, contains('ability:Thick Fat:×0.5'));
+    });
+
+    test('Thick Fat vs non-Fire/Ice move: no note', () {
+      final r = calc(
+        move: tackle, defAbility: 'Thick Fat',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.modifierNotes.any((n) => n.startsWith('ability:Thick Fat')), isFalse);
+    });
+
+    test('Heatproof vs Fire move emits note', () {
+      final r = calc(
+        move: ember, defAbility: 'Heatproof',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.modifierNotes, contains('ability:Heatproof:×0.5'));
+    });
+
+    test('Mold Breaker suppresses the at-mod note', () {
+      final r = calc(
+        move: ember, atkAbility: 'Mold Breaker', defAbility: 'Thick Fat',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.modifierNotes.any((n) => n.startsWith('ability:Thick Fat')), isFalse);
+    });
+  });
+
+  group('Dry Skin ×1.25 Fire note', () {
+    test('emits note + boosts Fire damage', () {
+      final dry = calc(
+        move: ember, defAbility: 'Dry Skin',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      final plain = calc(
+        move: ember, defAbility: 'Overgrow',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(dry.maxDamage, greaterThan(plain.maxDamage));
+      expect(dry.modifierNotes, contains('ability:Dry Skin:×1.25'));
+    });
+  });
+
+  group('Ground immunity source attribution', () {
+    const earthquake = Move(
+      name: 'Earthquake', nameKo: '지진', nameJa: 'じしん',
+      type: PokemonType.ground, category: MoveCategory.physical,
+      power: 100, accuracy: 100, pp: 10,
+    );
+    test('Levitate → ability-attributed note', () {
+      final r = calc(
+        move: earthquake, defAbility: 'Levitate',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.maxDamage, 0);
+      expect(r.modifierNotes, contains('ability:Levitate:immune'));
+    });
+    test('Flying type → generic ground note', () {
+      final r = calc(
+        move: earthquake, defAbility: 'Overgrow',
+        defType1: PokemonType.flying, defType2: null,
+      );
+      expect(r.maxDamage, 0);
+      expect(r.modifierNotes, contains('ground:ungrounded'));
+    });
+    test('Air Balloon → generic ground note', () {
+      final r = calc(
+        move: earthquake, defAbility: 'Overgrow', defItem: 'air-balloon',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.maxDamage, 0);
+      expect(r.modifierNotes, contains('ground:ungrounded'));
+    });
+    test('Mold Breaker ignores Levitate → damage lands, no immune note', () {
+      final r = calc(
+        move: earthquake, atkAbility: 'Mold Breaker', defAbility: 'Levitate',
+        defType1: PokemonType.normal, defType2: null,
+      );
+      expect(r.maxDamage, greaterThan(0));
+    });
+  });
+
+  group('Sniper crit note', () {
+    test('emits note on critical hit', () {
+      final r = calc(critical: true, atkAbility: 'Sniper');
+      expect(r.modifierNotes, contains('ability:Sniper:×1.5'));
+    });
+    test('no note without crit', () {
+      final r = calc(critical: false, atkAbility: 'Sniper');
+      expect(r.modifierNotes.any((n) => n.startsWith('ability:Sniper')), isFalse);
+    });
   });
 
   // ---------------------------------------------------------------

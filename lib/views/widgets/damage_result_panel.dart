@@ -372,6 +372,9 @@ class DamageResultPanel extends StatelessWidget {
         return '$name: ${AppStrings.t('note.terrainNegate')}';
       case 'moldbreaker':
         return abilityNameMap[parts[1]] ?? parts[1];
+      case 'moldbreakerBypass':
+        final name = abilityNameMap[parts[1]] ?? parts[1];
+        return '$name: ${AppStrings.t('note.moldBreakerBypass')}';
       case 'unaware':
         return abilityNameMap['Unaware'] ?? 'Unaware';
       case 'weather':
