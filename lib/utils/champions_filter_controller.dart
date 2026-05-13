@@ -11,13 +11,15 @@ class ChampionsFilterController {
 
   static const _prefsKey = 'dexChampionsOnly';
 
-  /// Defaults to off — first-launch users see the full Pokédex; the
-  /// filter is opt-in.
-  final ValueNotifier<bool> championsOnly = ValueNotifier<bool>(false);
+  /// Defaults to on — the calc's primary audience plays Pokémon
+  /// Champions, so first-launch users see the Champions-only roster
+  /// by default. Anyone who wants the full Pokédex can flip the
+  /// toggle off and the choice is persisted.
+  final ValueNotifier<bool> championsOnly = ValueNotifier<bool>(true);
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
-    championsOnly.value = prefs.getBool(_prefsKey) ?? false;
+    championsOnly.value = prefs.getBool(_prefsKey) ?? true;
   }
 
   Future<void> set(bool v) async {

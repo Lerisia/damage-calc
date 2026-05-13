@@ -1106,7 +1106,15 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => Scaffold(
           appBar: AppBar(title: Text(m.localizedName)),
-          body: _detailPane(move: m),
+          // Tap-anywhere-outside drops keyboard focus, mirroring the
+          // outer screen's body wrapper at line ~294. Without it the
+          // pushed detail route has no way to dismiss the learner /
+          // "also learns" typeahead focus on mobile.
+          body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            behavior: HitTestBehavior.translucent,
+            child: _detailPane(move: m),
+          ),
         ),
       ));
     } else {
