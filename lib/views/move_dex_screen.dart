@@ -14,6 +14,7 @@ import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import 'dex_screen.dart';
+import 'widgets/typeahead_helpers.dart';
 
 /// Sort column for the Move Dex list. Mirrors the same enum in
 /// [_MovesTabState] (Pokémon Dex) — duplicated rather than shared
@@ -63,6 +64,19 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   // tree wouldn't otherwise re-evaluate on parent setState).
   final _learnersSearchCtl = TextEditingController();
 
+  // "Also learns" AND-filter: up to 3 extra moves that narrow the
+  // primary move's learner list to species that also learn each of
+  // them. Cleared whenever the user picks a different primary move
+  // — the filters are scoped to "this move's learner list".
+  // ValueNotifier (rather than a plain List + setState) so the
+  // filter section can sit inside a pushed detail route and still
+  // rebuild on chip add/remove, mirroring the [_learnersSearchCtl]
+  // pattern next door.
+  static const int _kMaxFilterMoves = 3;
+  final _filterMoves = ValueNotifier<List<Move>>(const []);
+  final _addFilterCtl = TextEditingController();
+  final _addFilterFocus = FocusNode();
+
   // Filters + sort, mirroring the Pokémon Dex's Moves tab.
   PokemonType? _typeFilter;
   MoveCategory? _categoryFilter;
@@ -84,6 +98,9 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     _searchCtl.dispose();
     _searchFocus.dispose();
     _learnersSearchCtl.dispose();
+    _addFilterCtl.dispose();
+    _addFilterFocus.dispose();
+    _filterMoves.dispose();
     super.dispose();
   }
 
@@ -224,6 +241,29 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     out.sort((a, b) => a.dexNumber.compareTo(b.dexNumber));
     _learnersCache[id] = out;
     return out;
+  }
+
+  /// Apply the "also learns" AND-filter to a primary-move learner list.
+  /// Each filter move contributes a learner-id set; the result keeps
+  /// only Pokémon whose Showdown ID is in *every* set. No-op when the
+  /// filter list is empty.
+  List<Pokemon> _applyFilterMoves(List<Pokemon> base, List<Move> filters) {
+    if (filters.isEmpty) return base;
+    final sets = <Set<String>>[];
+    for (final m in filters) {
+      final ids = _inverseLearnsets[toShowdownMoveId(m.name)];
+      // Unknown / unlearned move → empty intersection → nobody matches.
+      if (ids == null || ids.isEmpty) return const [];
+      sets.add(ids.toSet());
+    }
+    return base.where((p) {
+      final pid = toShowdownPokemonId(p.name,
+          nameKo: p.nameKo, dexNumber: p.dexNumber);
+      for (final s in sets) {
+        if (!s.contains(pid)) return false;
+      }
+      return true;
+    }).toList();
   }
 
   @override
@@ -722,87 +762,108 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
             valueListenable:
                 ChampionsFilterController.instance.championsOnly,
             builder: (context, championsOnly, _) {
-              final base = championsOnly
+              final champFiltered = championsOnly
                   ? learners.where((p) => isInChampions(p.name)).toList()
                   : learners;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Learner-name filter — outer move list can stay
-                  // unfiltered while the user narrows just the chips.
-                  TextField(
-                    controller: _learnersSearchCtl,
-                    decoration: InputDecoration(
-                      hintText: AppStrings.t('search.pokemon'),
-                      prefixIcon: const Icon(Icons.search, size: 18),
-                      isDense: true,
-                      border: const OutlineInputBorder(),
-                    ),
-                    style: const TextStyle(fontSize: 13),
-                    // No setState here — ListenableBuilder below
-                    // listens to the controller directly so the chip
-                    // list rebuilds even inside a pushed detail
-                    // route (where parent setState wouldn't reach).
-                  ),
-                  const SizedBox(height: 8),
-                  // ListenableBuilder listens to the TextEditingController
-                  // (it extends ValueListenable<TextEditingValue>),
-                  // rebuilding the header count + chip list on every
-                  // keystroke regardless of which route hosts this pane.
-                  ListenableBuilder(
-                    listenable: _learnersSearchCtl,
-                    builder: (context, _) {
-                      final q =
-                          _learnersSearchCtl.text.trim().toLowerCase();
-                      final filtered = q.isEmpty
-                          ? base
-                          : base.where((p) {
-                              bool match(String s) =>
-                                  s.toLowerCase().contains(q);
-                              if (match(p.name) ||
-                                  match(p.nameKo) ||
-                                  match(p.nameJa)) return true;
-                              return p.aliases.any(match);
-                            }).toList();
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+              // The "also learns" AND-filter sits between Champions
+              // filtering and the name search. Rebuild on filter-list
+              // changes via ValueListenableBuilder (works even in the
+              // pushed detail route where parent setState doesn't
+              // reach — same reason the name-search uses a
+              // ListenableBuilder on its TextEditingController).
+              return ValueListenableBuilder<List<Move>>(
+                valueListenable: _filterMoves,
+                builder: (context, filterMoves, _) {
+                  final base = _applyFilterMoves(champFiltered, filterMoves);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _alsoLearnsSection(primary: m, filterMoves: filterMoves),
+                      const SizedBox(height: 12),
+                      // Learner-name filter — outer move list can stay
+                      // unfiltered while the user narrows just the chips.
+                      TextField(
+                        controller: _learnersSearchCtl,
+                        decoration: InputDecoration(
+                          hintText: AppStrings.t('search.pokemon'),
+                          prefixIcon: const Icon(Icons.search, size: 18),
+                          isDense: true,
+                          border: const OutlineInputBorder(),
+                        ),
+                        style: const TextStyle(fontSize: 13),
+                        // No setState here — ListenableBuilder below
+                        // listens to the controller directly so the chip
+                        // list rebuilds even inside a pushed detail
+                        // route (where parent setState wouldn't reach).
+                      ),
+                      const SizedBox(height: 8),
+                      // ListenableBuilder listens to the TextEditingController
+                      // (it extends ValueListenable<TextEditingValue>),
+                      // rebuilding the header count + chip list on every
+                      // keystroke regardless of which route hosts this pane.
+                      ListenableBuilder(
+                        listenable: _learnersSearchCtl,
+                        builder: (context, _) {
+                          final q =
+                              _learnersSearchCtl.text.trim().toLowerCase();
+                          final filtered = q.isEmpty
+                              ? base
+                              : base.where((p) {
+                                  bool match(String s) =>
+                                      s.toLowerCase().contains(q);
+                                  if (match(p.name) ||
+                                      match(p.nameKo) ||
+                                      match(p.nameJa)) return true;
+                                  return p.aliases.any(match);
+                                }).toList();
+                          // Empty-state message changes based on *why*
+                          // there are zero results: no-one learns the
+                          // primary move at all vs. nobody satisfies
+                          // the extra-move filter.
+                          final emptyKey = filterMoves.isNotEmpty
+                              ? 'dex.move.noIntersect'
+                              : 'dex.move.noLearners';
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Text(
-                                    '${AppStrings.t('dex.move.learners')} (${filtered.length})',
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600)),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                        '${AppStrings.t('dex.move.learners')} (${filtered.length})',
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                  _MoveDexChampionsToggle(
+                                    value: championsOnly,
+                                    onChanged: (v) =>
+                                        ChampionsFilterController.instance
+                                            .set(v ?? false),
+                                  ),
+                                ],
                               ),
-                              _MoveDexChampionsToggle(
-                                value: championsOnly,
-                                onChanged: (v) =>
-                                    ChampionsFilterController.instance
-                                        .set(v ?? false),
-                              ),
+                              const SizedBox(height: 8),
+                              if (filtered.isEmpty)
+                                Text(AppStrings.t(emptyKey),
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.grey[500]))
+                              else
+                                Wrap(
+                                  spacing: 6,
+                                  runSpacing: 6,
+                                  children: filtered
+                                      .map((p) => _learnerChip(p))
+                                      .toList(),
+                                ),
                             ],
-                          ),
-                          const SizedBox(height: 8),
-                          if (filtered.isEmpty)
-                            Text(AppStrings.t('dex.move.noLearners'),
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.grey[500]))
-                          else
-                            Wrap(
-                              spacing: 6,
-                              runSpacing: 6,
-                              children: filtered
-                                  .map((p) => _learnerChip(p))
-                                  .toList(),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
             },
           ),
@@ -839,6 +900,119 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
         if (m.isMultiHit)
           cell(AppStrings.t('move.hits'),
               m.minHits == m.maxHits ? '${m.minHits}' : '${m.minHits}~${m.maxHits}'),
+      ],
+    );
+  }
+
+  /// "함께 배우는 기술" — AND-filter UI sitting above the learners
+  /// chip list. Renders the current filter chips (removable) and a
+  /// move-name typeahead while there's room for more. The actual
+  /// intersection happens in [_applyFilterMoves]; this widget only
+  /// reads/writes [_filterMoves].
+  Widget _alsoLearnsSection({
+    required Move primary,
+    required List<Move> filterMoves,
+  }) {
+    final canAddMore = filterMoves.length < _kMaxFilterMoves;
+    final pickedIds = {
+      toShowdownMoveId(primary.name),
+      ...filterMoves.map((m) => toShowdownMoveId(m.name)),
+    };
+
+    List<Move> suggestionsFor(String query) {
+      // Pre-filter: never suggest the primary move or anything
+      // already picked. After that, score by the same Korean-search
+      // pipeline used by the main move list so 초성 / 한영 mixes work.
+      final q = query.trim();
+      bool eligible(Move m) =>
+          !pickedIds.contains(toShowdownMoveId(m.name));
+      if (q.isEmpty) {
+        // Empty query → no suggestions; the user types to discover.
+        // (The main typeahead returns everything on empty; here that
+        // would be a 900-row dropdown, useless.)
+        return const [];
+      }
+      final qLower = q.toLowerCase();
+      final qRunes = qLower.runes.toList();
+      final scored = <(Move, int)>[];
+      for (final e in _searchEntries) {
+        if (!eligible(e.item)) continue;
+        final s = scoreEntry(qRunes, qLower, e);
+        if (s > 0) scored.add((e.item, s));
+      }
+      scored.sort((a, b) => b.$2.compareTo(a.$2));
+      return scored.map((e) => e.$1).take(50).toList();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(AppStrings.t('dex.move.alsoLearns'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 6),
+        if (filterMoves.isNotEmpty) ...[
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              for (int i = 0; i < filterMoves.length; i++)
+                InputChip(
+                  label: Text(filterMoves[i].localizedName,
+                      style: const TextStyle(fontSize: 12)),
+                  visualDensity: VisualDensity.compact,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  onDeleted: () {
+                    final next = [...filterMoves]..removeAt(i);
+                    _filterMoves.value = next;
+                  },
+                ),
+            ],
+          ),
+          const SizedBox(height: 6),
+        ],
+        if (canAddMore)
+          buildTypeAhead<Move>(
+            controller: _addFilterCtl,
+            focusNode: _addFilterFocus,
+            suggestionsCallback: suggestionsFor,
+            decoration: InputDecoration(
+              hintText: AppStrings.t('dex.move.addFilterHint'),
+              prefixIcon: const Icon(Icons.add, size: 18),
+              isDense: true,
+              border: const OutlineInputBorder(),
+            ),
+            hideOnEmpty: true,
+            maxHeight: 240,
+            itemBuilder: (context, move) {
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Text(move.localizedName,
+                          style: const TextStyle(fontSize: 14),
+                          overflow: TextOverflow.ellipsis),
+                    ),
+                    const SizedBox(width: 8),
+                    _typePill(move.type),
+                  ],
+                ),
+              );
+            },
+            onSelected: (move) {
+              _filterMoves.value = [...filterMoves, move];
+              _addFilterCtl.clear();
+              // Re-focus so the user can immediately add another.
+              _addFilterFocus.requestFocus();
+            },
+            // Enter-to-pick: if the current text matches a suggestion,
+            // grab the top result.
+            onSubmittedPick: (text) {
+              final hits = suggestionsFor(text);
+              return hits.isEmpty ? null : hits.first;
+            },
+          ),
       ],
     );
   }
@@ -919,8 +1093,11 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   void _pickMove(Move m, bool push) {
     // Reset the per-move learner-search filter when the user moves
     // to a different move — the previous query is meaningless in the
-    // new move's learner list.
+    // new move's learner list. Same for the "also learns" AND-filter:
+    // the extras only made sense relative to the previous primary.
     _learnersSearchCtl.clear();
+    _addFilterCtl.clear();
+    _filterMoves.value = const [];
     if (push) {
       // Pass the move explicitly to _detailPane so we don't have to
       // mutate `_selected` — keeping `_selected` clean means the
