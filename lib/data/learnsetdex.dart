@@ -118,6 +118,15 @@ String toShowdownPokemonId(String name, {String? nameKo, int? dexNumber}) {
     return _baseFormId(name) ?? _normalize(name);
   }
 
+  // Prefixed form names — display names like "Heat Rotom", "Ice
+  // Rider Calyrex", "Ultra Necrozma" don't have hyphens or "Mega "
+  // prefix, so they fell through to the generic _normalize path
+  // and returned IDs like "heatrotom" that don't exist in the
+  // learnsets file (which uses "rotomheat"). Route them through
+  // _baseFormId's prefixedForm map first.
+  final formId = _baseFormId(name);
+  if (formId != null) return formId;
+
   return _normalize(name);
 }
 
