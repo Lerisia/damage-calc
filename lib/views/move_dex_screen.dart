@@ -46,7 +46,15 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   // to whatever Pokémon entry happens to normalize to that Showdown ID;
   // good enough for "who learns this move" since Showdown's learnsets
   // are keyed by base-form anyway.
-  Map<String, Pokemon> _showdownIdToPokemon = const {};
+  // Map a Showdown pokemon id → list of pokedex entries that share
+  // that id but differ visually (by type combo). Forms with both the
+  // same id AND the same type are collapsed to one entry; forms
+  // whose types differ (Oricorio Baile/Pom-Pom/Pa'u/Sensu — all
+  // "oricorio" id but Fire/Electric/Psychic/Ghost) get their own
+  // chips so the type-tinted background distinguishes them. Forms
+  // whose ids differ (Wormadam Plant/Sandy/Trash, Rotom-Heat etc.)
+  // hit different map entries naturally.
+  Map<String, List<Pokemon>> _showdownIdToPokemon = const {};
   // Per-move learners cache, populated on first lookup. Detail pane
   // rebuilds on every setState (e.g. theme change) so without this we
   // were re-walking + sorting ~60 entries per frame.
@@ -123,11 +131,23 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     final inv = await invFut;
     final pokedex = await pokedexFut;
 
-    final byShowdownId = <String, Pokemon>{};
+    final byShowdownId = <String, List<Pokemon>>{};
+    // Dedup key: same Showdown id AND same type combo → collapse.
+    // Different id (Wormadam-Sandy) OR same id + different types
+    // (Oricorio forms) → keep as separate chip. Mega evolutions
+    // share their base's learnset, so even when their typing differs
+    // (Mega Charizard X is Fire/Dragon vs base Fire/Flying) we skip
+    // them — listing both would just be the same moves with a
+    // different chip color, which is visual noise.
+    String chipKey(String id, Pokemon p) =>
+        '$id|${p.type1.name}|${p.type2?.name ?? ''}';
+    final seenChipKeys = <String>{};
     for (final p in pokedex) {
+      if (p.isMega) continue;
       final id = toShowdownPokemonId(p.name,
           nameKo: p.nameKo, dexNumber: p.dexNumber);
-      byShowdownId.putIfAbsent(id, () => p);
+      if (!seenChipKeys.add(chipKey(id, p))) continue;
+      byShowdownId.putIfAbsent(id, () => []).add(p);
     }
 
     if (!mounted) return;
@@ -235,8 +255,11 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     final out = <Pokemon>[];
     final seen = <String>{};
     for (final pid in ids) {
-      final p = _showdownIdToPokemon[pid];
-      if (p != null && seen.add(p.name)) out.add(p);
+      final pokemons = _showdownIdToPokemon[pid];
+      if (pokemons == null) continue;
+      for (final p in pokemons) {
+        if (seen.add(p.name)) out.add(p);
+      }
     }
     out.sort((a, b) => a.dexNumber.compareTo(b.dexNumber));
     _learnersCache[id] = out;
