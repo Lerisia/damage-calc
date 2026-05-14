@@ -1824,6 +1824,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 _setDoublesExpanded(!_doublesExpanded),
             useSpMode: _useSpMode,
             onSpModeChanged: _setSpMode,
+            abilityNameMap: _abilityNameMap,
+            itemNameMap: _itemNameMap,
           );
   }
 

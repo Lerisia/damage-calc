@@ -69,6 +69,16 @@ class OffensiveCalculator {
     String? attackerAbility,
     String? defenderAbility,
     bool targetPhysDef = false,
+    // When non-null, the calculator appends a modifier note for each
+    // non-1.0 multiplier it applies (STAB, crit, weather, terrain,
+    // burn, ruin, aura, Parental Bond, Tera variants). The damage-
+    // calculator-style note keys (e.g. `stab:×1.5`, `crit:×1.5`,
+    // `aura:×4/3`) are consumed by the 결정력 breakdown popup via
+    // the same renderer used in the damage tab. Pre-formula
+    // modifiers (item/ability power, atk-stat boosts, the
+    // conditional bpMods) must be appended by the caller — they
+    // arrive here pre-collapsed into `powerModifier`.
+    List<String>? notesOut,
   }) {
     final move = transformed.move;
 
@@ -173,12 +183,14 @@ class OffensiveCalculator {
       state: auraState,
     );
 
+    final double critMult = isCritical
+        ? (criticalOverride ?? kCriticalMultiplier) : 1.0;
     final double raw = modifiedStat *
         ruin.atkMod *
         doublesAttackMod *
         effectivePower *
         stabMult *
-        (isCritical ? (criticalOverride ?? kCriticalMultiplier) : 1.0) *
+        critMult *
         weatherMod *
         terrainMod *
         burnMod *
@@ -186,6 +198,38 @@ class OffensiveCalculator {
         parentalBondMod *
         doublesPowerMod *
         aura.multiplier;
+
+    // Emit one note per non-trivial multiplier. Caller (BattleFacade)
+    // adds notes for the pre-collapsed `powerModifier` term (item /
+    // ability / conditional-bpMods); here we cover the stage that's
+    // computed inside this function.
+    if (notesOut != null) {
+      if (ruin.atkMod != 1.0) {
+        notesOut.add('ruin:atk:×${ruin.atkMod}');
+      }
+      if (doublesAttackMod != 1.0) {
+        notesOut.add('doubles:atk:×$doublesAttackMod');
+      }
+      if (stabMult != 1.0) {
+        final stabKey = isTeraStab
+            ? (isOriginalStab ? 'stab:tera:matching' : 'stab:tera:nonmatching')
+            : (terastallized && teraType == PokemonType.stellar
+                ? (isOriginalStab ? 'stab:stellar:matching' : 'stab:stellar:nonmatching')
+                : 'stab');
+        notesOut.add('$stabKey:×$stabMult');
+      }
+      if (terastallized && isTeraStab && !move.isMultiHit && move.priority <= 0
+          && move.power < kTeraMinPower && move.power > 0) {
+        notesOut.add('tera:min60');
+      }
+      if (critMult != 1.0) notesOut.add('crit:×$critMult');
+      if (weatherMod != 1.0) notesOut.add('weather:offensive:×$weatherMod');
+      if (terrainMod != 1.0) notesOut.add('terrain:offensive:×$terrainMod');
+      if (burnMod != 1.0) notesOut.add('burn:×$burnMod');
+      if (parentalBondMod != 1.0) notesOut.add('move:parental_bond:×$parentalBondMod');
+      if (doublesPowerMod != 1.0) notesOut.add('doubles:power:×$doublesPowerMod');
+      if (aura.multiplier != 1.0) notesOut.add('aura:×${aura.multiplier}');
+    }
 
     return raw.floor();
   }

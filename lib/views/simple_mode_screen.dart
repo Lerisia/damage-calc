@@ -24,6 +24,7 @@ import '../models/terastal.dart';
 import '../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../utils/ruin_effects.dart';
 import 'widgets/damage_result_panel.dart';
+import 'widgets/offensive_power_breakdown.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_panel.dart' show DynamaxPainter, TerastalPainter;
 import 'widgets/pokemon_selector.dart';
@@ -1794,6 +1795,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // consistent with the scaled numbers.
     final result = _applyMultiplier(baseResult, mult);
 
+    final offensiveNotes = <String>[];
     final rawOffensivePower = BattleFacade.calcOffensivePower(
       state: _atk,
       moveIndex: 0,
@@ -1810,6 +1812,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       opponentHpPercent: _def.hpPercent,
       opponentItem: _def.selectedItem,
       opponentAbility: _def.selectedAbility,
+      notesOut: offensiveNotes,
     );
     // The extra multiplier scales the damage panel's rolls; do the
     // same to the displayed 결정력 so both numbers stay consistent
@@ -1827,7 +1830,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final defMaxHp = _defenderHp();
     final defCurrentHp = (defMaxHp * _def.hpPercent / 100).floor();
 
-    return DamageResultPanel(
+    final panel = DamageResultPanel(
       attacker: _atk,
       defender: _def,
       result: result,
@@ -1839,6 +1842,22 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       abilityNameMap: _abilityNames,
       itemNameMap: _itemNames,
       showHeader: false,
+    );
+    // Tap anywhere on the result block → 결정력 breakdown popup.
+    // No affordance (per design) — discoverable via tap, doesn't
+    // clutter the snappy result view.
+    if (offensivePower == null) return panel;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => showOffensivePowerBreakdown(
+        context,
+        power: offensivePower,
+        moveDisplayName: result.move?.localizedName ?? '',
+        notes: offensiveNotes,
+        abilityNameMap: _abilityNames,
+        itemNameMap: _itemNames,
+      ),
+      child: panel,
     );
   }
 

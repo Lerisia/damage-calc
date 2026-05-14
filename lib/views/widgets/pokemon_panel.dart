@@ -25,6 +25,7 @@ import '../../utils/grounded.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
 import 'move_selector.dart';
+import 'offensive_power_breakdown.dart';
 import 'status_moves_toggle.dart';
 import 'pokemon_selector.dart';
 import 'stat_input.dart';
@@ -64,6 +65,11 @@ class PokemonPanel extends StatefulWidget {
   final VoidCallback? onOpenDex;
   final bool useSpMode;
   final ValueChanged<bool>? onSpModeChanged;
+  /// Localized name lookup tables, loaded once at app start and
+  /// threaded down here so the per-slot 결정력 breakdown popup can
+  /// render modifier notes in the user's language.
+  final Map<String, String> abilityNameMap;
+  final Map<String, String> itemNameMap;
 
   const PokemonPanel({
     super.key,
@@ -95,6 +101,8 @@ class PokemonPanel extends StatefulWidget {
     this.onOpenDex,
     this.useSpMode = false,
     this.onSpModeChanged,
+    this.abilityNameMap = const {},
+    this.itemNameMap = const {},
   });
 
   @override
@@ -694,15 +702,30 @@ class PokemonPanelState extends State<PokemonPanel>
           ),
           if (!isSearching) SizedBox(
             width: 60,
-            child: Text(
-              result != null
-                  ? '$result'
-                  : '-',
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+            // Tap on the 결정력 number → breakdown popup.
+            // No affordance per design — discoverable on tap.
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: result == null
+                  ? null
+                  : () => showOffensivePowerBreakdown(
+                        context,
+                        power: result,
+                        moveDisplayName: displayName ?? '',
+                        notes: info.offensivePowerNotes,
+                        abilityNameMap: widget.abilityNameMap,
+                        itemNameMap: widget.itemNameMap,
+                      ),
+              child: Text(
+                result != null
+                    ? '$result'
+                    : '-',
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
           ),

@@ -1697,6 +1697,86 @@ class AppStrings {
       AppLanguage.en: 'ignored by Mold Breaker',
       AppLanguage.ja: 'かたやぶり効果で無視',
     },
+    'note.stab': {
+      AppLanguage.ko: 'STAB',
+      AppLanguage.en: 'STAB',
+      AppLanguage.ja: 'タイプ一致',
+    },
+    'note.teraStab': {
+      AppLanguage.ko: '테라스탈 STAB',
+      AppLanguage.en: 'Tera STAB',
+      AppLanguage.ja: 'テラスタル一致',
+    },
+    'note.stellarStab': {
+      AppLanguage.ko: '스텔라 STAB',
+      AppLanguage.en: 'Stellar STAB',
+      AppLanguage.ja: 'ステラ一致',
+    },
+    'note.teraMin60': {
+      AppLanguage.ko: '테라 60 위력 보정',
+      AppLanguage.en: 'Tera 60 BP floor',
+      AppLanguage.ja: 'テラスタル 60威力 補正',
+    },
+    'note.critical': {
+      AppLanguage.ko: '급소',
+      AppLanguage.en: 'Critical hit',
+      AppLanguage.ja: '急所',
+    },
+    'note.burn': {
+      AppLanguage.ko: '화상',
+      AppLanguage.en: 'Burn',
+      AppLanguage.ja: 'やけど',
+    },
+    'note.weatherOffensive': {
+      AppLanguage.ko: '날씨 (공격)',
+      AppLanguage.en: 'Weather (offensive)',
+      AppLanguage.ja: '天候 (攻撃)',
+    },
+    'note.terrainOffensive': {
+      AppLanguage.ko: '필드 (위력)',
+      AppLanguage.en: 'Terrain (offensive)',
+      AppLanguage.ja: 'フィールド (威力)',
+    },
+    'note.aura': {
+      AppLanguage.ko: '오라',
+      AppLanguage.en: 'Aura',
+      AppLanguage.ja: 'オーラ',
+    },
+    'note.ruin': {
+      AppLanguage.ko: '재앙',
+      AppLanguage.en: 'Ruin',
+      AppLanguage.ja: '禍',
+    },
+    'note.doubles': {
+      AppLanguage.ko: '더블 보정',
+      AppLanguage.en: 'Doubles modifier',
+      AppLanguage.ja: 'ダブル補正',
+    },
+    'note.parentalBond': {
+      AppLanguage.ko: '부모의사랑',
+      AppLanguage.en: 'Parental Bond',
+      AppLanguage.ja: 'おやこあい',
+    },
+    'note.charge': {
+      AppLanguage.ko: '충전',
+      AppLanguage.en: 'Charge',
+      AppLanguage.ja: 'じゅうでん',
+    },
+    'breakdown.title': {
+      AppLanguage.ko: '결정력 상세',
+      AppLanguage.en: 'Offensive Power Breakdown',
+      AppLanguage.ja: '決定力 詳細',
+    },
+    'breakdown.empty': {
+      AppLanguage.ko: '추가 보정 없음',
+      AppLanguage.en: 'No additional modifiers',
+      AppLanguage.ja: '追加補正なし',
+    },
+    'breakdown.note': {
+      AppLanguage.ko: '※ 타입 상성, 익스퍼트벨트(효과 굉장 한정), 화면 등 매치업·상황 조건부 보정은 결정력에 포함되지 않습니다. 정확한 데미지는 데미지 탭을 참고하세요.',
+      AppLanguage.en: '※ Matchup-conditional modifiers (type effectiveness, Expert Belt on SE only, screens, etc.) are not in 결정력. See the Damage tab for exact values.',
+      AppLanguage.ja: '※ タイプ相性、こだわりメガネ(効果ばつぐん限定)、画面など試合状況依存の補正は決定力には含まれません。正確なダメージはダメージタブで確認してください。',
+    },
     'note.terrainNegate': {
       AppLanguage.ko: '필드 무효',
       AppLanguage.en: 'Terrain negated',

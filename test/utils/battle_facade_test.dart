@@ -450,6 +450,136 @@ void main() {
 
       expect(stabPower, greaterThan(noStabPower));
     });
+
+    // Regression: items that affect attacker output via the
+    // atkStatModifier bucket (Choice Band) or the damageModifier
+    // bucket (Life Orb) must show up in 결정력. They were silently
+    // dropped at 9ecc8a3 / 044847b respectively when item effects
+    // were re-split to match Showdown's chains.
+    group('item effects in 결정력', () {
+      const tackle = Move(
+        name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 40, accuracy: 100, pp: 35,
+      );
+      int? power(BattlePokemonState s) => BattleFacade.calcOffensivePower(
+        state: s, moveIndex: 0,
+        weather: Weather.none, terrain: Terrain.none,
+        room: const RoomConditions(),
+      );
+      test('Choice Band raises 결정력', () {
+        final noItem = BattlePokemonState();
+        noItem.moves[0] = tackle;
+        final withCb = BattlePokemonState();
+        withCb.moves[0] = tackle;
+        withCb.selectedItem = 'choice-band';
+        expect(power(withCb)!, greaterThan(power(noItem)!));
+      });
+      test('Life Orb raises 결정력', () {
+        final noItem = BattlePokemonState();
+        noItem.moves[0] = tackle;
+        final withLo = BattlePokemonState();
+        withLo.moves[0] = tackle;
+        withLo.selectedItem = 'life-orb';
+        expect(power(withLo)!, greaterThan(power(noItem)!));
+      });
+      test('Choice Specs raises 결정력 on special move', () {
+        const ember = Move(
+          name: 'Ember', nameKo: '불꽃세례', nameJa: 'ひのこ',
+          type: PokemonType.fire, category: MoveCategory.special,
+          power: 40, accuracy: 100, pp: 25,
+        );
+        final noItem = BattlePokemonState()..moves[0] = ember;
+        final withCs = BattlePokemonState()
+          ..moves[0] = ember
+          ..selectedItem = 'choice-specs';
+        expect(power(withCs)!, greaterThan(power(noItem)!));
+      });
+    });
+
+    // notesOut: the 결정력 breakdown popup reads this list. Verify
+    // every multiplier the calc applies produces exactly one note.
+    group('결정력 breakdown notes', () {
+      const tackle = Move(
+        name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 40, accuracy: 100, pp: 35,
+      );
+
+      test('Choice Band emits an item note', () {
+        final s = BattlePokemonState()
+          ..moves[0] = tackle
+          ..selectedItem = 'choice-band';
+        final notes = <String>[];
+        BattleFacade.calcOffensivePower(
+          state: s, moveIndex: 0,
+          weather: Weather.none, terrain: Terrain.none,
+          room: const RoomConditions(),
+          notesOut: notes,
+        );
+        expect(notes.any((n) => n.startsWith('item:choice-band:')), isTrue);
+      });
+
+      test('Life Orb emits an item note', () {
+        final s = BattlePokemonState()
+          ..moves[0] = tackle
+          ..selectedItem = 'life-orb';
+        final notes = <String>[];
+        BattleFacade.calcOffensivePower(
+          state: s, moveIndex: 0,
+          weather: Weather.none, terrain: Terrain.none,
+          room: const RoomConditions(),
+          notesOut: notes,
+        );
+        expect(notes.any((n) => n.startsWith('item:life-orb:')), isTrue);
+      });
+
+      test('crit toggle emits crit note', () {
+        final s = BattlePokemonState()
+          ..moves[0] = tackle
+          ..criticals = [true, false, false, false];
+        final notes = <String>[];
+        BattleFacade.calcOffensivePower(
+          state: s, moveIndex: 0,
+          weather: Weather.none, terrain: Terrain.none,
+          room: const RoomConditions(),
+          notesOut: notes,
+        );
+        expect(notes.any((n) => n.startsWith('crit:')), isTrue);
+      });
+
+      test('STAB on matching type emits stab note', () {
+        // Default Bulbasaur is Grass/Poison — Tackle (Normal) is not
+        // STAB. Use a Grass move to trigger.
+        const vineWhip = Move(
+          name: 'Vine Whip', nameKo: '덩굴채찍', nameJa: 'つるのムチ',
+          type: PokemonType.grass, category: MoveCategory.physical,
+          power: 45, accuracy: 100, pp: 25,
+        );
+        final s = BattlePokemonState()..moves[0] = vineWhip;
+        final notes = <String>[];
+        BattleFacade.calcOffensivePower(
+          state: s, moveIndex: 0,
+          weather: Weather.none, terrain: Terrain.none,
+          room: const RoomConditions(),
+          notesOut: notes,
+        );
+        expect(notes.any((n) => n.startsWith('stab:')), isTrue);
+      });
+
+      test('getMoveSlotInfo populates offensivePowerNotes', () {
+        final s = BattlePokemonState()
+          ..moves[0] = tackle
+          ..selectedItem = 'choice-band';
+        final info = BattleFacade.getMoveSlotInfo(
+          state: s, moveIndex: 0,
+          weather: Weather.none, terrain: Terrain.none,
+          room: const RoomConditions(),
+        );
+        expect(info.offensivePowerNotes,
+            contains(predicate<String>((n) => n.startsWith('item:choice-band:'))));
+      });
+    });
   });
 
   // ----------------------------------------------------------------

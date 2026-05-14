@@ -80,6 +80,12 @@ class MoveSlotInfo {
   /// 결정력 result, null when no move is set.
   final int? offensivePower;
 
+  /// Modifier notes (same key format as damage_calculator's modifier
+  /// notes) that contributed to [offensivePower]. Used by the
+  /// "결정력 breakdown" popup to show *why* the number is what it is.
+  /// Empty when [offensivePower] is null or no modifiers were applied.
+  final List<String> offensivePowerNotes;
+
   const MoveSlotInfo({
     this.displayName,
     this.effectiveType,
@@ -91,6 +97,7 @@ class MoveSlotInfo {
     this.minHits = 1,
     this.maxHits = 1,
     this.offensivePower,
+    this.offensivePowerNotes = const [],
   });
 }
 
@@ -249,7 +256,10 @@ class BattleFacade {
     }
     final displayName = transformed.move.localizedName;
 
-    // 결정력
+    // 결정력. The notes list is filled in by `_calcOffensivePower`
+    // (and `OffensiveCalculator` underneath) so the breakdown popup
+    // can surface every multiplier that contributed.
+    final offensivePowerNotes = <String>[];
     final offensivePower = _calcOffensivePower(
       state: state,
       move: move,
@@ -274,6 +284,7 @@ class BattleFacade {
       auras: auras,
       ruins: ruins,
       zMove: state.zMoves[moveIndex],
+      notesOut: offensivePowerNotes,
     );
 
     // Fixed damage is determined by the TRANSFORMED move, not the original
@@ -295,6 +306,7 @@ class BattleFacade {
       minHits: transformed.move.minHits,
       maxHits: transformed.move.maxHits,
       offensivePower: offensivePower,
+      offensivePowerNotes: offensivePowerNotes,
     );
   }
 
@@ -305,6 +317,11 @@ class BattleFacade {
   /// Calculates 결정력 for the move at [moveIndex] of [state].
   ///
   /// Returns `null` when the slot has no move assigned.
+  ///
+  /// [notesOut] is an optional collector: when non-null, the
+  /// modifier-note keys behind the result are appended (same format
+  /// as the damage tab's modifier list). The 결정력 breakdown popup
+  /// reads this.
   static int? calcOffensivePower({
     required BattlePokemonState state,
     required int moveIndex,
@@ -321,6 +338,7 @@ class BattleFacade {
     int? opponentHpPercent,
     String? opponentItem,
     String? opponentAbility,
+    List<String>? notesOut,
   }) {
     final move = state.moves[moveIndex];
     final hits = move != null && move.isMultiHit
@@ -347,6 +365,7 @@ class BattleFacade {
       opponentAbility: opponentAbility,
       hitCount: hits,
       zMove: state.zMoves[moveIndex],
+      notesOut: notesOut,
     );
   }
 
@@ -360,6 +379,11 @@ class BattleFacade {
     required Weather weather,
     required Terrain terrain,
     required RoomConditions room,
+    // Optional collector — when non-null the function appends a
+    // damage-calc-style note for each non-1.0 modifier it applies
+    // (item / ability / conditional-bpMods / stat boosts). Used by
+    // the "결정력 breakdown" popup.
+    List<String>? notesOut,
     AuraToggles auras = AuraToggles.inactive,
     RuinToggles ruins = RuinToggles.inactive,
     int? opponentSpeed,
@@ -493,13 +517,58 @@ class BattleFacade {
       abilityStatMod = abilityEffect.statModifiers.spAttack;
     }
 
+    // Two ItemEffect buckets that damage_calculator splits across the
+    // 4096-fp chains (atMods + finalMods) but 결정력 collapses into
+    // one float product:
+    //   * atkStatModifier — Choice Band / Specs ×1.5, Light Ball /
+    //     Thick Club / Deep Sea Tooth ×2 (atMods bucket).
+    //   * damageModifier — Life Orb ×1.3 (finalMods bucket).
+    // Without these two, 결정력 silently drops those items even
+    // though they shipped in damage_calculator. Regressed at commits
+    // 9ecc8a3 (Choice Band) and 044847b (Life Orb) when the item
+    // model was re-split to match Showdown's chain layout but the
+    // 결정력 collector wasn't updated to read the new buckets.
+    // (Expert Belt is *not* in damageModifier — it's effectiveness-
+    // conditional and lives in damage_calculator directly, so it
+    // stays out of 결정력 by design.)
     double powerMod = itemEffect.powerModifier *
+        itemEffect.atkStatModifier *
+        itemEffect.damageModifier *
         abilityEffect.powerModifier *
         abilityStatMod;
+
+    // Per-bucket modifier notes for the 결정력 breakdown popup.
+    // damage_calculator uses keys like `ability:Tough Claws:×1.3` and
+    // `item:choice-band:×1.5`; we mirror those exactly so the same
+    // formatter renders both tabs' notes.
+    if (notesOut != null) {
+      final atkAbilName = state.selectedAbility;
+      if (atkAbilName != null) {
+        if (abilityEffect.powerModifier != 1.0) {
+          notesOut.add('ability:$atkAbilName:×${abilityEffect.powerModifier}');
+        }
+        if (abilityStatMod != 1.0) {
+          notesOut.add('ability:$atkAbilName:×$abilityStatMod');
+        }
+      }
+      final atkItem = state.selectedItem;
+      if (atkItem != null && atkItem.isNotEmpty) {
+        if (itemEffect.powerModifier != 1.0) {
+          notesOut.add('item:$atkItem:×${itemEffect.powerModifier}');
+        }
+        if (itemEffect.atkStatModifier != 1.0) {
+          notesOut.add('item:$atkItem:×${itemEffect.atkStatModifier}');
+        }
+        if (itemEffect.damageModifier != 1.0) {
+          notesOut.add('item:$atkItem:×${itemEffect.damageModifier}');
+        }
+      }
+    }
 
     // Charge: Electric moves deal 2x damage
     if (state.charge && transformed.move.type == PokemonType.electric) {
       powerMod *= 2.0;
+      if (notesOut != null) notesOut.add('move:charge:×2.0');
     }
 
     // 4. Resolve effective type (Multitype, RKS System, Forecast, etc.)
@@ -583,6 +652,7 @@ class BattleFacade {
       attackerAbility: effectiveAbilityForCalc,
       defenderAbility: opponentAbility,
       targetPhysDef: targetPhysDef,
+      notesOut: notesOut,
     );
   }
 
