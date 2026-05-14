@@ -533,7 +533,6 @@ class DamageCalculator {
     final isPhysical = effectiveMove.category == MoveCategory.physical;
 
     // --- Attacker stat ---
-    // Note: isCritical may be overridden later by Shell Armor / Battle Armor.
     // Merciless: poisoned targets always take critical hits. We treat
     // this the same as if the user explicitly flagged a crit — keeps
     // it visible in the crit path (boost-ignore, 1.5x dmg, screen
@@ -550,6 +549,20 @@ class DamageCalculator {
     // user's toggle here. We don't force-flip the toggle on — that
     // would clobber a user who deliberately unchecked it (e.g., to
     // model an opponent with Shell Armor / Battle Armor).
+    //
+    // Shell Armor / Battle Armor: negate the crit *before* the rank
+    // computations below. Showdown's gen789.ts:234 folds the
+    // crit-immunity check into the same `isCritical` value used by
+    // calculateAttackSMSSSV / calculateDefenseSMSSSV — keeping the
+    // negation downstream of those let attacker's negative-atk-boost
+    // be ignored (crit semantic) even though the ×1.5 was suppressed,
+    // double-counting the attacker's effective stat. The full note
+    // (`ability:X:급소에 맞지 않음`) is added below where `notes` lives.
+    String? critNegateNote;
+    if (isCritical && isCritImmune(earlyDefAbility)) {
+      isCritical = false;
+      critNegateNote = 'ability:$earlyDefAbility:급소에 맞지 않음';
+    }
     final atkStat = transformed.offensiveStat;
 
     // Unaware (defender) + Critical hit rank adjustments
@@ -715,12 +728,10 @@ class DamageCalculator {
     final bool moldBreaks = earlyMoldBreaks;
     final String? effectiveDefAbility = earlyDefAbility;
 
-    // Shell Armor / Battle Armor: negate critical hit
-    String? critNegateNote;
-    if (isCritical && isCritImmune(effectiveDefAbility)) {
-      isCritical = false;
-      critNegateNote = 'ability:$effectiveDefAbility:급소에 맞지 않음';
-    }
+    // (Shell Armor / Battle Armor crit negation already handled
+    // above — see the block right after the Merciless check, hoisted
+    // there so the rank-computation `isCritical` matches the actual
+    // crit state.)
 
     // Defender ability/item defensive modifiers
     if (effectiveDefAbility != null) {
@@ -890,6 +901,12 @@ class DamageCalculator {
           modifierNotes: [...notes, groundNote],
         );
       }
+      // Iron Ball + Flying-type: KNOWN divergence from @smogon/calc
+      // (gen789.ts:415-418 sets typeEffectiveness = 1 here). The
+      // actual game keeps Steel's 2× super-effective alive — Iron
+      // Ball only cancels the Flying-type's ground immunity, not
+      // every other type's contribution. We follow the game; the
+      // fuzz tolerates this single off-by-2 case.
     }
 
     // --- Type immunity check ---
@@ -1289,6 +1306,15 @@ class DamageCalculator {
     // We collapse them — small drift again, but the major-stat
     // routings are correct.
     if (abilityEffect.powerModifier != 1.0) bpMods.add(_toFP(abilityEffect.powerModifier));
+    // 4b. -ate ×1.2 (Aerilate / Pixilate / Refrigerate / Galvanize).
+    // `_applySkin` retypes the move + tags it; the boost itself is
+    // routed here so it lands AFTER any dynamic-BP transform (Crush
+    // Grip, Wring Out, Eruption, …). Showdown gates it on
+    // `!move.isMax`; `_applySkin` already withholds the tag for Max.
+    if (effectiveMove.hasTag(MoveTags.ateBoosted)) {
+      bpMods.add(_kFP_1_2);
+      notes.add('ability:${attacker.selectedAbility}:×1.2');
+    }
     // 5. Doubles ally abilities Battery / Power Spot.
     if (attacker.allyBattery &&
         effectiveMove.category == MoveCategory.special) {

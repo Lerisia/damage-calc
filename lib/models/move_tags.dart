@@ -119,4 +119,16 @@ class MoveTags {
   //                entry, never picked by the calc directly)
   static const String dexHidden = 'custom:dex_hidden';
   static const String dexOnly = 'custom:dex_only';
+
+  /// Set by `_applySkin` when an `-ate` ability (Aerilate / Pixilate /
+  /// Refrigerate / Galvanize) successfully retypes a Normal move.
+  /// damage_calculator's bpMods chain reads this to push the ×1.2
+  /// boost (4915 fp) at the same chain slot as Showdown's gen789.ts
+  /// (`bpMods.push(4915)` after Rivalry, before Reckless / Iron Fist).
+  /// Routed via tag instead of multiplied directly inside transform
+  /// because dynamic-BP moves (Crush Grip, Wring Out, Eruption, …)
+  /// don't have their BP yet when `_applySkin` runs — multiplying the
+  /// pre-BP zero would silently drop the boost. Max moves never get
+  /// the tag (Showdown gates the boost on `!move.isMax`).
+  static const String ateBoosted = 'custom:ate_boosted';
 }

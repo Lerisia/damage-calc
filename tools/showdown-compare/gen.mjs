@@ -69,6 +69,10 @@ const MOVES = [
   // path is still covered.
   'Misty Explosion','Solar Beam','Solar Blade',
   'Expanding Force','Rising Voltage',
+  // Rank-based power (BP = 20 + 20 * #positive boosts).
+  'Stored Power','Power Trip',
+  // Defender-HP-scaled non-Hard-Press cousins (cap 120, fixed-point).
+  'Crush Grip','Wring Out',
 ];
 const ITEMS = [
   '','Choice Band','Choice Specs','Choice Scarf','Life Orb',
@@ -90,6 +94,14 @@ const DEF_ITEMS = [
   'Coba Berry','Shuca Berry','Payapa Berry','Rindo Berry',
   'Kebia Berry','Chilan Berry','Kasib Berry','Haban Berry',
   'Colbur Berry',
+  // Air Balloon: ungrounded → Ground-type immunity test.
+  'Air Balloon',
+  // Iron Ball intentionally excluded: @smogon/calc resolves
+  // Ground vs Iron-Ball'd Flying-type to 1× (gen789.ts:415 forces
+  // `typeEffectiveness = 1` when combined would have been 0). The
+  // actual game keeps Steel-side super-effective at 2×, so we
+  // diverge by design on that single case. Including Iron Ball
+  // here would generate spurious diffs we don't want to chase.
 ];
 const NATURES = ['Adamant','Modest','Jolly','Timid','Bold','Calm','Impish','Careful','Hardy','Naughty'];
 const WEATHERS = ['','Sun','Rain','Sand','Snow'];
@@ -140,6 +152,11 @@ const ABILITIES = [
   'Levitate','Flash Fire','Sap Sipper','Lightning Rod',
   'Storm Drain','Volt Absorb','Water Absorb','Earth Eater',
   'Motor Drive','Well-Baked Body',
+  // Crit immunity (defender side mostly) — exercises isCritImmune
+  // path when atkAbility=null and defAbility=Shell/Battle Armor.
+  'Shell Armor','Battle Armor',
+  // Type-immunity bypass (attacker side).
+  'Scrappy',"Mind's Eye",
 ];
 
 function* rng(seed) {

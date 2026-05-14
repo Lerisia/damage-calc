@@ -70,32 +70,42 @@ void main() {
   });
 
   group('Skin abilities', () {
-    test('Aerilate converts Normal to Flying with 1.2x power', () {
+    // -ate retypes the move and tags it with `ateBoosted`. The ×1.2
+    // BP boost itself is now routed through bpMods (damage_calc) and
+    // conditionalBpModFp (slot / 결정력) instead of multiplied here —
+    // this avoids the boost being silently dropped on dynamic-BP
+    // moves (Crush Grip, Eruption, …) whose BP is set later in the
+    // pipeline. transformMove leaves `power` at base.
+    test('Aerilate retypes Normal to Flying + ateBoosted tag', () {
       final result = transformMove(normalMove,
           const MoveContext(ability: 'Aerilate'));
       expect(result.move.type, equals(PokemonType.flying));
-      expect(result.move.power, equals(48)); // 40 * 1.2
+      expect(result.move.power, equals(40)); // base BP, ×1.2 in bpMods
+      expect(result.move.hasTag(MoveTags.ateBoosted), isTrue);
     });
 
-    test('Pixilate converts Normal to Fairy with 1.2x power', () {
+    test('Pixilate retypes Normal to Fairy + ateBoosted tag', () {
       final result = transformMove(normalMove,
           const MoveContext(ability: 'Pixilate'));
       expect(result.move.type, equals(PokemonType.fairy));
-      expect(result.move.power, equals(48));
+      expect(result.move.power, equals(40));
+      expect(result.move.hasTag(MoveTags.ateBoosted), isTrue);
     });
 
-    test('Refrigerate converts Normal to Ice with 1.2x power', () {
+    test('Refrigerate retypes Normal to Ice + ateBoosted tag', () {
       final result = transformMove(normalMove,
           const MoveContext(ability: 'Refrigerate'));
       expect(result.move.type, equals(PokemonType.ice));
-      expect(result.move.power, equals(48));
+      expect(result.move.power, equals(40));
+      expect(result.move.hasTag(MoveTags.ateBoosted), isTrue);
     });
 
-    test('Galvanize converts Normal to Electric with 1.2x power', () {
+    test('Galvanize retypes Normal to Electric + ateBoosted tag', () {
       final result = transformMove(normalMove,
           const MoveContext(ability: 'Galvanize'));
       expect(result.move.type, equals(PokemonType.electric));
-      expect(result.move.power, equals(48));
+      expect(result.move.power, equals(40));
+      expect(result.move.hasTag(MoveTags.ateBoosted), isTrue);
     });
 
     test('Aerilate does not affect non-Normal moves', () {
@@ -1824,11 +1834,12 @@ void main() {
   });
 
   group('Dragonize ability', () {
-    test('converts Normal move to Dragon with 1.2x power', () {
+    test('retypes Normal move to Dragon + ateBoosted tag', () {
       final result = transformMove(normalMove,
           const MoveContext(ability: 'Dragonize'));
       expect(result.move.type, equals(PokemonType.dragon));
-      expect(result.move.power, equals(48)); // 40 * 1.2
+      expect(result.move.power, equals(40)); // base BP, ×1.2 in bpMods
+      expect(result.move.hasTag(MoveTags.ateBoosted), isTrue);
     });
 
     test('does not affect non-Normal moves', () {
@@ -1836,6 +1847,7 @@ void main() {
           const MoveContext(ability: 'Dragonize'));
       expect(result.move.type, equals(PokemonType.fire));
       expect(result.move.power, equals(90));
+      expect(result.move.hasTag(MoveTags.ateBoosted), isFalse);
     });
   });
 

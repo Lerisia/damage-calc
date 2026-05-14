@@ -438,12 +438,22 @@ Move _applySkin(Move move, String? ability, {bool terastallized = false}) {
   // Other -ate skins: only Normal moves get converted. The ×1.2 BP
   // boost applies to non-Max moves only — Showdown gates the ate
   // boost with `!move.isMax`. Max moves still get the type change.
+  // The ×1.2 itself is NOT applied here, only signaled via the
+  // `ateBoosted` tag — multiplying inside transformMove silently
+  // drops the boost on dynamic-BP moves (Crush Grip, Wring Out,
+  // Eruption, Stored Power, …) whose BP is set later by step 3.
+  // damage_calculator's bpMods chain reads the tag and pushes
+  // 4915 (×1.2) at the right slot; the move-slot display + 결정력
+  // calc fold it in via conditionalBpModFp / applyBpModFp.
   final skinType = _skinAbilities[ability];
   if (skinType == null || move.type != PokemonType.normal) return move;
   if (move.moveClass == MoveClass.maxMove) {
     return move.copyWith(type: skinType);
   }
-  return move.copyWith(type: skinType, power: (move.power * 1.2).floor());
+  return move.copyWith(
+    type: skinType,
+    tags: [...move.tags, MoveTags.ateBoosted],
+  );
 }
 
 /// Weather Ball: changes type and power based on weather.
@@ -949,11 +959,13 @@ bool isSolarHalveApplicable(Move move, Weather weather) {
 
 const int _kFpx1_5 = 6144; // ×1.5 in 4096-fixed-point
 const int _kFpx0_5 = 2048; // ×0.5 in 4096-fixed-point
+const int _kFpx1_2 = 4915; // ×1.2 in 4096-fixed-point (-ate boost)
 
 /// Combined 4096-fp multiplier (4096 == ×1) from the move-conditional
 /// bpMods that apply to [move] in the given field / matchup state:
 /// Knock Off ×1.5, Grav Apple / Misty Explosion / Expanding Force
-/// ×1.5, Solar Beam / Solar Blade ×0.5.
+/// ×1.5, Solar Beam / Solar Blade ×0.5, and the -ate ×1.2 (signaled
+/// by the [MoveTags.ateBoosted] tag, set in `_applySkin`).
 int conditionalBpModFp(
   Move move, {
   required Weather weather,
@@ -971,6 +983,9 @@ int conditionalBpModFp(
   }
   if (isMistyExplosionBoostApplicable(move, terrain, attackerGrounded)) {
     m = (m * _kFpx1_5 + 2048) >> 12;
+  }
+  if (move.hasTag(MoveTags.ateBoosted)) {
+    m = (m * _kFpx1_2 + 2048) >> 12;
   }
   if (isExpandingForceBoostApplicable(move, terrain, attackerGrounded)) {
     m = (m * _kFpx1_5 + 2048) >> 12;
