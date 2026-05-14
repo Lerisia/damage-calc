@@ -545,22 +545,22 @@ class BattleFacade {
       final atkAbilName = state.selectedAbility;
       if (atkAbilName != null) {
         if (abilityEffect.powerModifier != 1.0) {
-          notesOut.add('ability:$atkAbilName:×${abilityEffect.powerModifier}');
+          notesOut.add('ability:$atkAbilName:${formatNoteMul(abilityEffect.powerModifier)}');
         }
         if (abilityStatMod != 1.0) {
-          notesOut.add('ability:$atkAbilName:×$abilityStatMod');
+          notesOut.add('ability:$atkAbilName:${formatNoteMul(abilityStatMod)}');
         }
       }
       final atkItem = state.selectedItem;
       if (atkItem != null && atkItem.isNotEmpty) {
         if (itemEffect.powerModifier != 1.0) {
-          notesOut.add('item:$atkItem:×${itemEffect.powerModifier}');
+          notesOut.add('item:$atkItem:${formatNoteMul(itemEffect.powerModifier)}');
         }
         if (itemEffect.atkStatModifier != 1.0) {
-          notesOut.add('item:$atkItem:×${itemEffect.atkStatModifier}');
+          notesOut.add('item:$atkItem:${formatNoteMul(itemEffect.atkStatModifier)}');
         }
         if (itemEffect.damageModifier != 1.0) {
-          notesOut.add('item:$atkItem:×${itemEffect.damageModifier}');
+          notesOut.add('item:$atkItem:${formatNoteMul(itemEffect.damageModifier)}');
         }
       }
     }
@@ -592,6 +592,13 @@ class BattleFacade {
       isDoubles: true,
       weather: atkWeather,
     );
+    // Surface each doubles-ally contribution by name in the 결정력
+    // breakdown (도우미 / 배터리 / 파워스폿 / 플라워기프트 /
+    // 플러스마이너스 / 광역). doublesMods already emits individual
+    // `move:helpingHand:×1.5` style notes — pass them through.
+    if (notesOut != null) {
+      notesOut.addAll(doublesMods.notes);
+    }
 
     // Field-state ability effects (auras + ruins). The toggles live on
     // RoomConditions; attacker/defender abilities also count as sources.

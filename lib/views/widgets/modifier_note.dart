@@ -114,9 +114,17 @@ String formatModifierNote(
     case 'unaware':
       return abilityNameMap['Unaware'] ?? 'Unaware';
     case 'weather':
-      // Two shapes: `weather:strong_winds`, `weather:offensive:×<v>`.
-      if (parts.length >= 3 && parts[1] == 'offensive') {
-        return '${AppStrings.t('note.weatherOffensive')} ${parts[2]}';
+      // Three shapes:
+      //   `weather:strong_winds` — generic strong-winds label.
+      //   `weather:harsh_sun_water` / `weather:heavy_rain_fire` —
+      //       water-in-harsh-sun / fire-in-heavy-rain immunity.
+      //   `weather:offensive:<enumName>:×<value>` — offensive
+      //       weather multiplier from OffensiveCalculator. We map
+      //       the enum name to the same Korean weather label our
+      //       UI uses elsewhere (쾌청, 비, 강한 햇살, 강한 비).
+      if (parts.length >= 4 && parts[1] == 'offensive') {
+        final name = AppStrings.t('note.weather.${parts[2]}');
+        return '$name ${parts[3]}';
       }
       const weatherKeys = {
         'strong_winds': 'note.strongWinds',
@@ -126,8 +134,10 @@ String formatModifierNote(
       final wKey = weatherKeys[parts[1]];
       return wKey != null ? AppStrings.t(wKey) : note;
     case 'terrain':
-      if (parts.length >= 3 && parts[1] == 'offensive') {
-        return '${AppStrings.t('note.terrainOffensive')} ${parts[2]}';
+      // `terrain:offensive:<enumName>:×<value>`
+      if (parts.length >= 4 && parts[1] == 'offensive') {
+        final name = AppStrings.t('note.terrain.${parts[2]}');
+        return '$name ${parts[3]}';
       }
       return note;
     case 'ground':
@@ -144,23 +154,29 @@ String formatModifierNote(
         return '${AppStrings.t('note.stellarStab')} ${parts.last}';
       }
       return '${AppStrings.t('note.stab')} ${parts[1]}';
+    // `tera:min60` is intentionally NOT a breakdown line — the
+    // 60-BP floor is already reflected in the slot's displayed
+    // power, so OffensiveCalculator stopped emitting it.
     case 'tera':
-      if (parts.length >= 2 && parts[1] == 'min60') {
-        return AppStrings.t('note.teraMin60');
-      }
       return note;
     case 'crit':
       return '${AppStrings.t('note.critical')} ${parts[1]}';
     case 'burn':
       return '${AppStrings.t('note.burn')} ${parts[1]}';
     case 'aura':
-      return '${AppStrings.t('note.aura')} ${parts[1]}';
+      // `aura:fairy:×1.33`, `aura:dark:×1.33`, `aura:break:×0.75`
+      if (parts.length >= 3) {
+        final name = AppStrings.t('note.aura.${parts[1]}');
+        return '$name ${parts[2]}';
+      }
+      return note;
     case 'ruin':
-      // `ruin:atk:×0.75`
-      return '${AppStrings.t('note.ruin')} ${parts.last}';
-    case 'doubles':
-      // `doubles:atk:×n`, `doubles:power:×n`
-      return '${AppStrings.t('note.doubles')} ${parts.last}';
+      // `ruin:tablets:×0.75`, `ruin:vessel:×0.75`
+      if (parts.length >= 3) {
+        final name = AppStrings.t('note.ruin.${parts[1]}');
+        return '$name ${parts[2]}';
+      }
+      return note;
     default:
       return note;
   }

@@ -1698,17 +1698,17 @@ class AppStrings {
       AppLanguage.ja: 'かたやぶり効果で無視',
     },
     'note.stab': {
-      AppLanguage.ko: 'STAB',
+      AppLanguage.ko: '자속',
       AppLanguage.en: 'STAB',
       AppLanguage.ja: 'タイプ一致',
     },
     'note.teraStab': {
-      AppLanguage.ko: '테라스탈 STAB',
+      AppLanguage.ko: '테라스탈 자속',
       AppLanguage.en: 'Tera STAB',
       AppLanguage.ja: 'テラスタル一致',
     },
     'note.stellarStab': {
-      AppLanguage.ko: '스텔라 STAB',
+      AppLanguage.ko: '스텔라 자속',
       AppLanguage.en: 'Stellar STAB',
       AppLanguage.ja: 'ステラ一致',
     },
@@ -1727,33 +1727,25 @@ class AppStrings {
       AppLanguage.en: 'Burn',
       AppLanguage.ja: 'やけど',
     },
-    'note.weatherOffensive': {
-      AppLanguage.ko: '날씨 (공격)',
-      AppLanguage.en: 'Weather (offensive)',
-      AppLanguage.ja: '天候 (攻撃)',
-    },
-    'note.terrainOffensive': {
-      AppLanguage.ko: '필드 (위력)',
-      AppLanguage.en: 'Terrain (offensive)',
-      AppLanguage.ja: 'フィールド (威力)',
-    },
-    'note.aura': {
-      AppLanguage.ko: '오라',
-      AppLanguage.en: 'Aura',
-      AppLanguage.ja: 'オーラ',
-    },
-    'note.ruin': {
-      AppLanguage.ko: '재앙',
-      AppLanguage.en: 'Ruin',
-      AppLanguage.ja: '禍',
-    },
-    'note.doubles': {
-      AppLanguage.ko: '더블 보정',
-      AppLanguage.en: 'Doubles modifier',
-      AppLanguage.ja: 'ダブル補正',
-    },
+    // Weather names — match the existing Localizations.weatherKo etc.
+    'note.weather.sun':       {AppLanguage.ko: '쾌청',     AppLanguage.en: 'Sun',          AppLanguage.ja: 'はれ'},
+    'note.weather.rain':      {AppLanguage.ko: '비',       AppLanguage.en: 'Rain',         AppLanguage.ja: 'あめ'},
+    'note.weather.harshSun':  {AppLanguage.ko: '강한 햇살', AppLanguage.en: 'Harsh Sun',    AppLanguage.ja: 'おおひでり'},
+    'note.weather.heavyRain': {AppLanguage.ko: '강한 비',   AppLanguage.en: 'Heavy Rain',   AppLanguage.ja: 'おおあめ'},
+    // Terrain names.
+    'note.terrain.electric':  {AppLanguage.ko: '일렉트릭필드', AppLanguage.en: 'Electric Terrain', AppLanguage.ja: 'エレキフィールド'},
+    'note.terrain.grassy':    {AppLanguage.ko: '그래스필드',   AppLanguage.en: 'Grassy Terrain',   AppLanguage.ja: 'グラスフィールド'},
+    'note.terrain.psychic':   {AppLanguage.ko: '사이코필드',   AppLanguage.en: 'Psychic Terrain',  AppLanguage.ja: 'サイコフィールド'},
+    'note.terrain.misty':     {AppLanguage.ko: '미스트필드',   AppLanguage.en: 'Misty Terrain',    AppLanguage.ja: 'ミストフィールド'},
+    // Aura ability names.
+    'note.aura.fairy': {AppLanguage.ko: '페어리오라',  AppLanguage.en: 'Fairy Aura',  AppLanguage.ja: 'フェアリーオーラ'},
+    'note.aura.dark':  {AppLanguage.ko: '다크오라',   AppLanguage.en: 'Dark Aura',   AppLanguage.ja: 'ダークオーラ'},
+    'note.aura.break': {AppLanguage.ko: '오라브레이크', AppLanguage.en: 'Aura Break',  AppLanguage.ja: 'オーラブレイク'},
+    // Ruin ability names (the two that touch the attacker's stat).
+    'note.ruin.tablets': {AppLanguage.ko: '재앙의목간', AppLanguage.en: 'Tablets of Ruin', AppLanguage.ja: 'わざわいのおふだ'},
+    'note.ruin.vessel':  {AppLanguage.ko: '재앙의그릇', AppLanguage.en: 'Vessel of Ruin',  AppLanguage.ja: 'わざわいのうつわ'},
     'note.parentalBond': {
-      AppLanguage.ko: '부모의사랑',
+      AppLanguage.ko: '부자유친',
       AppLanguage.en: 'Parental Bond',
       AppLanguage.ja: 'おやこあい',
     },
@@ -1773,9 +1765,9 @@ class AppStrings {
       AppLanguage.ja: '追加補正なし',
     },
     'breakdown.note': {
-      AppLanguage.ko: '※ 타입 상성, 익스퍼트벨트(효과 굉장 한정), 화면 등 매치업·상황 조건부 보정은 결정력에 포함되지 않습니다. 정확한 데미지는 데미지 탭을 참고하세요.',
-      AppLanguage.en: '※ Matchup-conditional modifiers (type effectiveness, Expert Belt on SE only, screens, etc.) are not in 결정력. See the Damage tab for exact values.',
-      AppLanguage.ja: '※ タイプ相性、こだわりメガネ(効果ばつぐん限定)、画面など試合状況依存の補正は決定力には含まれません。正確なダメージはダメージタブで確認してください。',
+      AppLanguage.ko: '※ 타입 상성, 달인의띠(효과가 굉장할 때 한정), 리플렉터·빛의장막처럼 상대에 따라 달라지는 보정은 결정력에 들어가지 않습니다. 정확한 대미지는 대미지 탭을 확인해주세요.',
+      AppLanguage.en: '※ Matchup-conditional modifiers (type effectiveness, Expert Belt on super-effective hits only, Reflect / Light Screen, etc.) are not folded into 결정력. See the Damage tab for exact values.',
+      AppLanguage.ja: '※ タイプ相性、たつじんのおび(効果ばつぐんの時のみ)、リフレクター・ひかりのかべなど相手依存の補正は決定力には含まれません。正確なダメージはダメージタブをご確認ください。',
     },
     'note.terrainNegate': {
       AppLanguage.ko: '필드 무효',

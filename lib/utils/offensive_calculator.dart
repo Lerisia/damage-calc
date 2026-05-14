@@ -201,14 +201,21 @@ class OffensiveCalculator {
 
     // Emit one note per non-trivial multiplier. Caller (BattleFacade)
     // adds notes for the pre-collapsed `powerModifier` term (item /
-    // ability / conditional-bpMods); here we cover the stage that's
-    // computed inside this function.
+    // ability / conditional-bpMods) and the doubles ally notes;
+    // here we cover the stage that's computed inside this function.
+    //
+    // Notes include the *specific* weather / terrain / aura / ruin
+    // (not generic "날씨" / "필드") so the 결정력 popup names the
+    // exact effect — e.g. "쾌청 ×1.5" rather than "날씨 ×1.5".
     if (notesOut != null) {
       if (ruin.atkMod != 1.0) {
-        notesOut.add('ruin:atk:×${ruin.atkMod}');
-      }
-      if (doublesAttackMod != 1.0) {
-        notesOut.add('doubles:atk:×$doublesAttackMod');
+        // Tablets of Ruin = physical Atk reduction;
+        // Vessel of Ruin = special SpA reduction.
+        // ruin.atkMod is shared across both — pick the right one by
+        // move category so the popup names the actual ability.
+        final ruinKind = move.category == MoveCategory.physical
+            ? 'tablets' : 'vessel';
+        notesOut.add('ruin:$ruinKind:${_fmtMul(ruin.atkMod)}');
       }
       if (stabMult != 1.0) {
         final stabKey = isTeraStab
@@ -216,21 +223,56 @@ class OffensiveCalculator {
             : (terastallized && teraType == PokemonType.stellar
                 ? (isOriginalStab ? 'stab:stellar:matching' : 'stab:stellar:nonmatching')
                 : 'stab');
-        notesOut.add('$stabKey:×$stabMult');
+        notesOut.add('$stabKey:${_fmtMul(stabMult)}');
       }
-      if (terastallized && isTeraStab && !move.isMultiHit && move.priority <= 0
-          && move.power < kTeraMinPower && move.power > 0) {
-        notesOut.add('tera:min60');
+      // Tera 60 위력 보정 is *already* baked into the slot's
+      // displayed BP (getMoveSlotInfo bumps effectivePower to 60),
+      // so listing it as a separate breakdown line would just
+      // repeat what the user already sees in the move row.
+      if (critMult != 1.0) notesOut.add('crit:${_fmtMul(critMult)}');
+      if (weatherMod != 1.0) {
+        // Use the Weather enum's `.name` so the renderer maps it to
+        // the existing weatherKo / weatherEn / weatherJa tables.
+        notesOut.add('weather:offensive:${weather.name}:${_fmtMul(weatherMod)}');
       }
-      if (critMult != 1.0) notesOut.add('crit:×$critMult');
-      if (weatherMod != 1.0) notesOut.add('weather:offensive:×$weatherMod');
-      if (terrainMod != 1.0) notesOut.add('terrain:offensive:×$terrainMod');
-      if (burnMod != 1.0) notesOut.add('burn:×$burnMod');
-      if (parentalBondMod != 1.0) notesOut.add('move:parental_bond:×$parentalBondMod');
-      if (doublesPowerMod != 1.0) notesOut.add('doubles:power:×$doublesPowerMod');
-      if (aura.multiplier != 1.0) notesOut.add('aura:×${aura.multiplier}');
+      if (terrainMod != 1.0) {
+        notesOut.add('terrain:offensive:${terrain.name}:${_fmtMul(terrainMod)}');
+      }
+      if (burnMod != 1.0) notesOut.add('burn:${_fmtMul(burnMod)}');
+      if (parentalBondMod != 1.0) {
+        notesOut.add('move:parental_bond:${_fmtMul(parentalBondMod)}');
+      }
+      if (aura.multiplier != 1.0) {
+        // Fairy Aura / Dark Aura → ×1.33 on matching type;
+        // Aura Break → ×0.75. Move type tells us which aura fired
+        // (multiplier sign disambiguates Aura Break from Aura).
+        final auraKind = aura.multiplier < 1.0
+            ? 'break'
+            : (move.type == PokemonType.fairy ? 'fairy' : 'dark');
+        notesOut.add('aura:$auraKind:${_fmtMul(aura.multiplier)}');
+      }
+      // doublesAttackMod / doublesPowerMod aren't broken out here —
+      // the individual `move:helpingHand`, `move:battery`, …
+      // entries are added by `_calcOffensivePower` from
+      // `doublesMods.notes` so we get specific ability names.
     }
 
     return raw.floor();
   }
 }
+
+/// Format a multiplier as `×<value>` for the 결정력 breakdown notes.
+/// Trims trailing zeros so 1.5 reads as `×1.5` and 4/3 reads as `×1.33`.
+/// Shared between offensive_calculator and battle_facade — exposed
+/// so callers that emit notes get the same readable format.
+String formatNoteMul(double v) {
+  if (v == v.truncateToDouble()) return '×${v.toInt()}';
+  var s = v.toStringAsFixed(2);
+  if (s.endsWith('0')) s = s.substring(0, s.length - 1);
+  if (s.endsWith('.')) s = s.substring(0, s.length - 1);
+  return '×$s';
+}
+
+/// Private alias kept for the in-file uses above so the existing
+/// emit sites read concisely.
+String _fmtMul(double v) => formatNoteMul(v);
