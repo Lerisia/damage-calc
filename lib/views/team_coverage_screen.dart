@@ -652,6 +652,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      showDragHandle: true,
       builder: (ctx) => SampleListSheet(
         itemNameMap: _itemNames ?? const {},
         onLoad: (sample) {

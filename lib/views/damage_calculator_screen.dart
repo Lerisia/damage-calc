@@ -652,6 +652,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      showDragHandle: true,
       // The sheet now owns its own state — it loads the SampleStore,
       // mutates teams/pokemon in place, and reloads after each
       // change. The parent only needs the load callback.

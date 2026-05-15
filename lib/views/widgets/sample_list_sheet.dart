@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../data/sample_storage.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/korean_search.dart';
@@ -36,14 +38,34 @@ class _SampleListSheetState extends State<SampleListSheet> {
   bool _loading = true;
   String _query = '';
   // Collapsed party ids — defaults to expanded for newly seen parties
-  // so first-time use shows everything. Reset each sheet open (not
-  // persisted across navigations).
+  // so first-time use shows everything. Persisted in SharedPreferences
+  // so the user's expand/collapse state survives sheet close/open and
+  // app relaunch (toggling parties closed every time the sample sheet
+  // opens was a recurring annoyance).
+  static const _kCollapsedKey = 'sampleListCollapsedTeamIds';
   final Set<String> _collapsed = <String>{};
 
   @override
   void initState() {
     super.initState();
     _refresh();
+    _loadCollapsed();
+  }
+
+  Future<void> _loadCollapsed() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getStringList(_kCollapsedKey);
+    if (!mounted || saved == null) return;
+    setState(() {
+      _collapsed
+        ..clear()
+        ..addAll(saved);
+    });
+  }
+
+  Future<void> _persistCollapsed() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_kCollapsedKey, _collapsed.toList());
   }
 
   Future<void> _refresh() async {
@@ -263,10 +285,14 @@ class _SampleListSheetState extends State<SampleListSheet> {
 
   @override
   Widget build(BuildContext context) {
+    // Open near full-height by default — the previous 0.6 default left
+    // only ~5 rows visible on mobile and the user had to drag up every
+    // time. Min raised to 0.5 so accidental swipes don't collapse the
+    // sheet down to a useless strip.
     return DraggableScrollableSheet(
-      initialChildSize: 0.6,
-      minChildSize: 0.3,
-      maxChildSize: 0.9,
+      initialChildSize: 0.92,
+      minChildSize: 0.5,
+      maxChildSize: 0.95,
       expand: false,
       builder: (ctx, scrollController) {
         return Column(
@@ -376,13 +402,16 @@ class _SampleListSheetState extends State<SampleListSheet> {
     return Material(
       color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
       child: InkWell(
-        onTap: () => setState(() {
-          if (collapsed) {
-            _collapsed.remove(t.id);
-          } else {
-            _collapsed.add(t.id);
-          }
-        }),
+        onTap: () {
+          setState(() {
+            if (collapsed) {
+              _collapsed.remove(t.id);
+            } else {
+              _collapsed.add(t.id);
+            }
+          });
+          _persistCollapsed();
+        },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 6, 4, 6),
           child: Row(
