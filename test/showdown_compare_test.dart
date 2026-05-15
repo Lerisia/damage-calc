@@ -132,7 +132,7 @@ void main() {
             ? TerastalState(
                 active: true, teraType: _teraTypeMap[s['teraType']])
             : const TerastalState())
-        ..hpPercent = (s['atkHpPct'] as int? ?? 100);
+        ..hpPercent = (s['atkHpPct'] as num?)?.toDouble() ?? 100.0;
       final atkAbility = (s['atkAbility'] as String?) ?? '';
       if (atkAbility.isNotEmpty) {
         atk.selectedAbility = BattlePokemonState.expandAbilityKey(atkAbility);
@@ -154,7 +154,7 @@ void main() {
         ..selectedItem = (s['defItem'] as String?)?.isNotEmpty == true
             ? _itemSlug(s['defItem'] as String)
             : null
-        ..hpPercent = (s['defHpPct'] as int? ?? 100)
+        ..hpPercent = ((s['defHpPct'] as num?)?.toDouble() ?? 100.0)
         // Aurora Veil isn't a separate flag in our calc — it's
         // equivalent to "Reflect AND Light Screen both on" since
         // both push the same 0.5x finalMods entry per category.

@@ -518,6 +518,27 @@ void main() {
           const MoveContext(hpPercent: 3));
       expect(result.move.power, equals(200));
     });
+
+    // Fractional HP — chip damage like 1/16 (= 6.25 %) lands inside
+    // a single tier and shouldn't crash thresholds. Smoke-checks the
+    // double-precision conversion of [hpPercent].
+    test('Flail at 6.25% HP (= 1/16) = 150', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 6.25));
+      expect(result.move.power, equals(150));
+    });
+
+    test('Flail at 3.99% HP rounds down a tier (= 200)', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 3.99));
+      expect(result.move.power, equals(200));
+    });
+
+    test('Flail at 4.0% HP stays in the 150 tier', () {
+      final result = transformMove(flail,
+          const MoveContext(hpPercent: 4.0));
+      expect(result.move.power, equals(150));
+    });
   });
 
   group('HP-based power edge cases', () {

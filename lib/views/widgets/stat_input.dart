@@ -92,7 +92,7 @@ class StatInput extends StatefulWidget {
   final String? selectedAbility;
   final String? selectedItem;
   final Rank rank;
-  final int hpPercent;
+  final double hpPercent;
   final StatusCondition status;
   final ValueChanged<int> onLevelChanged;
   final ValueChanged<NatureProfile> onNatureChanged;
@@ -101,7 +101,7 @@ class StatInput extends StatefulWidget {
   final ValueChanged<String> onAbilityChanged;
   final ValueChanged<String?> onItemChanged;
   final ValueChanged<Rank> onRankChanged;
-  final ValueChanged<int> onHpPercentChanged;
+  final ValueChanged<double> onHpPercentChanged;
   final ValueChanged<StatusCondition> onStatusChanged;
 
   const StatInput({
@@ -1004,13 +1004,15 @@ class _StatInputState extends State<StatInput> {
             height: 28,
             child: TextFormField(
               key: const ValueKey('hp_pct'),
-              initialValue: '${widget.hpPercent}',
+              initialValue: _formatHpPct(widget.hpPercent),
               textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               textInputAction: TextInputAction.next,
               inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                _ClampingFormatter(min: 0, max: 999),
+                // Up to 2 decimals — matches the precision needed to
+                // express 1/16 chip damage exactly (6.25 %).
+                FilteringTextInputFormatter.allow(RegExp(r'^\d{0,3}(\.\d{0,2})?')),
               ],
               style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
@@ -1020,11 +1022,13 @@ class _StatInputState extends State<StatInput> {
                 suffixStyle: TextStyle(fontSize: 11),
               ),
               onChanged: (text) {
-                final parsed = int.tryParse(text);
+                if (text.isEmpty) {
+                  widget.onHpPercentChanged(100.0);
+                  return;
+                }
+                final parsed = double.tryParse(text);
                 if (parsed != null) {
-                  widget.onHpPercentChanged(parsed.clamp(0, 999));
-                } else if (text.isEmpty) {
-                  widget.onHpPercentChanged(100);
+                  widget.onHpPercentChanged(parsed.clamp(0.0, 999.0));
                 }
               },
             ),
@@ -1032,6 +1036,16 @@ class _StatInputState extends State<StatInput> {
         ),
       ],
     );
+  }
+
+  /// Whole numbers render without a trailing `.0` so the common case
+  /// (100 %) doesn't suddenly read as `100.00 %` after the input
+  /// gained decimal precision.
+  static String _formatHpPct(double v) {
+    if (v == v.roundToDouble()) return v.toStringAsFixed(0);
+    final s = v.toStringAsFixed(2);
+    // Trim a trailing zero on the second decimal: 6.25 stays, 6.50 -> 6.5.
+    return s.endsWith('0') ? s.substring(0, s.length - 1) : s;
   }
 
   Widget _flexButton(String text, VoidCallback? onPressed) {

@@ -60,7 +60,12 @@ class BattlePokemonState {
   bool canGmax;
   bool isMega;
   Rank rank;
-  int hpPercent;
+  /// HP as a percentage of max — kept as a double so users can enter
+  /// chip-damage fractions like 1/16 (= 6.25 %) exactly. Threshold
+  /// checks (Multiscale ≥ 100, pinch berries ≤ 33, …) compare against
+  /// integer cutoffs so the extra precision doesn't change behavior
+  /// for whole-percent inputs.
+  double hpPercent;
   StatusCondition status;
 
   // Self-applied battle conditions
@@ -120,7 +125,7 @@ class BattlePokemonState {
     this.canGmax = false,
     this.isMega = false,
     this.rank = const Rank(),
-    this.hpPercent = 100,
+    this.hpPercent = 100.0,
     this.status = StatusCondition.none,
     this.charge = false,
     this.tailwind = false,
@@ -248,7 +253,7 @@ class BattlePokemonState {
       canGmax: json['canGmax'] as bool? ?? false,
       isMega: json['isMega'] as bool? ?? false,
       rank: Rank.fromJson(json['rank'] as Map<String, dynamic>),
-      hpPercent: json['hpPercent'] as int? ?? 100,
+      hpPercent: (json['hpPercent'] as num?)?.toDouble() ?? 100.0,
       status: StatusCondition.values.byName(json['status'] as String),
       charge: json['charge'] as bool? ?? false,
       tailwind: json['tailwind'] as bool? ?? false,
@@ -305,7 +310,7 @@ class BattlePokemonState {
     canGmax = false;
     isMega = false;
     rank = const Rank();
-    hpPercent = 100;
+    hpPercent = 100.0;
     status = StatusCondition.none;
     charge = false;
     tailwind = false;

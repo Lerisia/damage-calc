@@ -132,7 +132,7 @@ Weather effectiveDefensiveWeatherForAttack(Weather weather,
 AbilityEffect getAbilityEffect(String abilityName, {
   Move? move,
   int? originalBasePower,
-  int hpPercent = 100,
+  double hpPercent = 100.0,
   Weather weather = Weather.none,
   Terrain terrain = Terrain.none,
   StatusCondition status = StatusCondition.none,
@@ -906,7 +906,7 @@ Rank getEffectiveDefensiveRank({
 ({double multiplier, String? note}) getDefensiveAbilityDamageModifier({
   required String? defenderAbility,
   required double effectiveness,
-  required int defenderHpPercent,
+  required double defenderHpPercent,
   required bool moldBreaks,
 }) {
   if (defenderAbility == null || moldBreaks) return (multiplier: 1.0, note: null);
@@ -1049,7 +1049,7 @@ bool canPoisonSteel(String? attackerAbility) =>
 /// Super effective moves become [reduction] (default 0.5x).
 double applyTeraShell({
   required String? defenderAbility,
-  required int defenderHpPercent,
+  required double defenderHpPercent,
   required double effectiveness,
   double reduction = 0.5,
 }) {

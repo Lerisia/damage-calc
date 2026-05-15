@@ -1031,6 +1031,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                 ? Colors.orange
                 : Colors.red;
     const sliderMax = 150;
+    // Display whole percents as `94%` (no trailing `.0`); decimal
+    // entries (e.g. 6.25 % for 1/16 chip damage) render with up to
+    // two trailing digits, dropping a redundant trailing zero
+    // (`6.5 %` not `6.50 %`).
+    final pctText = pct == pct.roundToDouble()
+        ? pct.toStringAsFixed(0)
+        : (() {
+            final s = pct.toStringAsFixed(2);
+            return s.endsWith('0') ? s.substring(0, s.length - 1) : s;
+          })();
     // Visual marker for the 100 % anchor sits at this fraction of
     // the track. RoundSliderThumbShape radius (8) is the horizontal
     // padding the slider reserves on each side for the thumb.
@@ -1081,7 +1091,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                           // common "full HP" anchor a sticky feel without
                           // making 99 / 101 unreachable.
                           if ((rounded - 100).abs() <= 2) rounded = 100;
-                          setState(() => _def.hpPercent = rounded);
+                          setState(() => _def.hpPercent = rounded.toDouble());
                           widget.onChanged();
                         },
                       ),
@@ -1093,18 +1103,77 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           ),
         ),
         SizedBox(
-          width: 44,
-          child: Text(
-            '$pct%',
-            textAlign: TextAlign.right,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.visible,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          width: 56,
+          child: InkWell(
+            onTap: _editHpPercent,
+            borderRadius: BorderRadius.circular(4),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              child: Text(
+                '$pctText%',
+                textAlign: TextAlign.right,
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.visible,
+                style: const TextStyle(
+                    fontSize: 13, fontWeight: FontWeight.w600),
+              ),
+            ),
           ),
         ),
       ],
     );
+  }
+
+  /// Tap-to-edit dialog for fine HP control — the slider snaps to
+  /// 1 % steps, so chip-damage fractions like 1/16 (6.25 %) need a
+  /// keyboard entry path.
+  Future<void> _editHpPercent() async {
+    final controller = TextEditingController(
+      text: _def.hpPercent == _def.hpPercent.roundToDouble()
+          ? _def.hpPercent.toStringAsFixed(0)
+          : _def.hpPercent.toStringAsFixed(2),
+    );
+    final result = await showDialog<double>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          textAlign: TextAlign.center,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(
+                RegExp(r'^\d{0,3}(\.\d{0,2})?')),
+          ],
+          decoration: const InputDecoration(
+            suffixText: '%',
+            isDense: true,
+          ),
+          onSubmitted: (text) {
+            final v = double.tryParse(text);
+            Navigator.pop(ctx, v?.clamp(0.0, 999.0));
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.cancel')),
+          ),
+          TextButton(
+            onPressed: () {
+              final v = double.tryParse(controller.text);
+              Navigator.pop(ctx, v?.clamp(0.0, 999.0));
+            },
+            child: Text(AppStrings.t('action.confirm')),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (result == null) return;
+    setState(() => _def.hpPercent = result);
+    widget.onChanged();
   }
 
   // ────────────────────────────────────────────────────────────────────────

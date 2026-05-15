@@ -44,13 +44,13 @@ void main() {
     bool critical = false,
     bool charge = false,
     Rank atkRank = const Rank(),
-    int atkHpPercent = 100,
+    double atkHpPercent = 100,
     PokemonType defType1 = PokemonType.grass,
     PokemonType? defType2 = PokemonType.poison,
     String? defAbility = 'Overgrow',
     String? defItem,
     StatusCondition defStatus = StatusCondition.none,
-    int defHpPercent = 100,
+    double defHpPercent = 100,
     bool reflect = false,
     bool lightScreen = false,
     DynamaxState defDynamax = DynamaxState.none,
@@ -1069,6 +1069,27 @@ void main() {
         defHpPercent: 50,
       );
       expect(half.maxDamage, greaterThan(full.maxDamage));
+    });
+
+    // Fractional HP (= 1/16 chip) — Multiscale's `>= 100` threshold
+    // must NOT fire at 99.99 %, otherwise users who set chip-damage
+    // HP would silently get the half-damage bonus.
+    test('Multiscale at 99.99% HP does not trigger', () {
+      final fullHp = calc(
+        move: tackle,
+        defType1: PokemonType.normal, defType2: null,
+        defAbility: 'Multiscale',
+        defHpPercent: 100.0,
+      );
+      final chipped = calc(
+        move: tackle,
+        defType1: PokemonType.normal, defType2: null,
+        defAbility: 'Multiscale',
+        defHpPercent: 99.99,
+      );
+      // chipped HP should take ~2× the damage that full-HP Multiscale
+      // would block.
+      expect(chipped.maxDamage, greaterThan(fullHp.maxDamage));
     });
 
     test('Venoshock doubles on poisoned target', () {

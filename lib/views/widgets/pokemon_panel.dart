@@ -49,7 +49,7 @@ class PokemonPanel extends StatefulWidget {
   final int? opponentSpDefense;
   final Gender? opponentGender;
   final double? opponentWeight;
-  final int? opponentHpPercent;
+  final double? opponentHpPercent;
   final String? opponentItem;
   final String? opponentAbility;
   /// Shared expansion state for the Doubles-only options section, synced

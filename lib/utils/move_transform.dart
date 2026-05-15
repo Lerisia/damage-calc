@@ -26,7 +26,7 @@ class MoveContext {
   final Weather weather;
   final Terrain terrain;
   final Rank rank;
-  final int hpPercent;
+  final double hpPercent;
   final bool hasItem;
 
   final String? ability;
@@ -54,7 +54,7 @@ class MoveContext {
   final double? opponentWeight;
 
   /// Opponent's remaining HP percentage (0–100).
-  final int? opponentHpPercent;
+  final double? opponentHpPercent;
 
   /// User's current and maximum HP (post-Dynamax scaling, matching
   /// @smogon/calc's maxHP() / curHP() conventions). Both are needed
@@ -97,7 +97,7 @@ class MoveContext {
     this.weather = Weather.none,
     this.terrain = Terrain.none,
     this.rank = const Rank(),
-    this.hpPercent = 100,
+    this.hpPercent = 100.0,
     this.hasItem = false,
     this.ability,
     this.status = StatusCondition.none,
@@ -523,7 +523,7 @@ Move _applyItemCondition(Move move, bool hasItem) {
 /// damage-mode field, or a Dynamax target with hpPercent > maxHP)
 /// is clamped to 100 % — extra HP doesn't push BP above the
 /// move's natural cap.
-Move _applyHpPower(Move move, int hpPercent, int? maxHp, int? curHp) {
+Move _applyHpPower(Move move, double hpPercent, int? maxHp, int? curHp) {
   if (move.hasTag(MoveTags.hpPowerHigh)) {
     final int bp;
     if (maxHp != null && curHp != null && maxHp > 0 && hpPercent <= 100) {
@@ -533,19 +533,19 @@ Move _applyHpPower(Move move, int hpPercent, int? maxHp, int? curHp) {
       bp = math.max(1, 150 * curHp ~/ maxHp);
     } else if (maxHp != null && maxHp > 0 && hpPercent <= 100) {
       // No curHp passed in but maxHp is: approximate from pct.
-      final int derived = math.max(1, maxHp * hpPercent ~/ 100);
+      final int derived = math.max(1, (maxHp * hpPercent / 100).floor());
       bp = math.max(1, 150 * derived ~/ maxHp);
     } else {
       // Fallback / clamp for >100 %: use the percent directly.
-      final int clamped = hpPercent > 100 ? 100 : hpPercent;
-      bp = math.max(1, 150 * clamped ~/ 100);
+      final double clamped = hpPercent > 100 ? 100 : hpPercent;
+      bp = math.max(1, (150 * clamped / 100).floor());
     }
     return move.copyWith(power: bp);
   }
   if (move.hasTag(MoveTags.hpPowerLow)) {
     // Flail / Reversal: BP table by % HP. Clamp at 100 % (extra HP
     // doesn't push BP above the lowest-HP tier).
-    final int pct = hpPercent > 100 ? 100 : hpPercent;
+    final double pct = hpPercent > 100 ? 100 : hpPercent;
     return move.copyWith(power: _flailPower(pct));
   }
   return move;
@@ -1008,10 +1008,10 @@ int applyBpModFp(int basePower, int fpMod) =>
 /// our BP matches Showdown exactly when curHP / maxHP are known.
 /// Falls back to the integer-percent approximation otherwise.
 /// HP above 100 % is clamped.
-Move _applyTargetHpPower(Move move, int? opponentHpPercent,
+Move _applyTargetHpPower(Move move, double? opponentHpPercent,
     int? opponentMaxHp, int? opponentCurHp) {
   if (opponentHpPercent == null) return move;
-  final int pct = opponentHpPercent > 100 ? 100 : opponentHpPercent;
+  final double pct = opponentHpPercent > 100 ? 100 : opponentHpPercent;
 
   int _bp(int cap) {
     if (opponentMaxHp != null && opponentCurHp != null && opponentMaxHp > 0) {
@@ -1026,12 +1026,12 @@ Move _applyTargetHpPower(Move move, int? opponentHpPercent,
       return step2 == 0 ? 1 : step2;
     }
     if (opponentMaxHp != null && opponentMaxHp > 0) {
-      final int derived = math.max(1, opponentMaxHp * pct ~/ 100);
+      final int derived = math.max(1, (opponentMaxHp * pct / 100).floor());
       final int step1 = 100 * (derived * 4096 ~/ opponentMaxHp);
       final int step2 = (cap * step1 + 2048 - 1) ~/ 4096 ~/ 100;
       return step2 == 0 ? 1 : step2;
     }
-    return (cap * pct ~/ 100).clamp(1, cap);
+    return (cap * pct / 100).floor().clamp(1, cap);
   }
 
   if (move.hasTag(MoveTags.powerByTargetHp120)) {
@@ -1085,7 +1085,7 @@ Move _applyRankPower(Move move, Rank rank) {
 }
 
 /// Flail/Reversal power table.
-int _flailPower(int hpPercent) {
+int _flailPower(double hpPercent) {
   if (hpPercent >= 69) return 20;
   if (hpPercent >= 35) return 40;
   if (hpPercent >= 21) return 80;
