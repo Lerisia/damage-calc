@@ -653,6 +653,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
+      // No swipe-to-dismiss — the inner list spans the whole sheet
+      // and overscroll-pull-down was accidentally closing it while
+      // the user was just trying to scroll the list. Tap outside or
+      // press back to close instead.
+      enableDrag: false,
       // The sheet now owns its own state — it loads the SampleStore,
       // mutates teams/pokemon in place, and reloads after each
       // change. The parent only needs the load callback.

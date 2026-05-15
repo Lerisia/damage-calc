@@ -653,6 +653,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
+      // See sample-load call site in damage_calculator_screen.dart —
+      // overscroll-pull on the inner list was accidentally closing
+      // the sheet. Tap outside / back to close instead.
+      enableDrag: false,
       builder: (ctx) => SampleListSheet(
         itemNameMap: _itemNames ?? const {},
         onLoad: (sample) {
