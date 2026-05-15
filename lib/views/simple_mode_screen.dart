@@ -1084,24 +1084,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                         value: pct.clamp(0, sliderMax).toDouble(),
                         min: 0,
                         max: sliderMax.toDouble(),
-                        // 0.05 % step — fine enough for chip-damage
-                        // fractions (1/16 = 6.25 %, 1/8 = 12.5 %, …)
-                        // without requiring tap-to-edit. Sub-0.05 %
-                        // values are essentially never needed in
-                        // play.
-                        divisions: sliderMax * 20,
+                        // 1 % steps — landing on a precise sub-percent
+                        // value via the slider is too fiddly. For
+                        // chip-damage fractions (1/16 = 6.25 %, …),
+                        // the user taps the % label and types it.
+                        divisions: sliderMax,
                         onChanged: (v) {
-                          // Snap to the nearest 0.05 % step, then
-                          // round to 2 decimals to avoid floating-
-                          // point noise like 6.249999.
-                          var snapped =
-                              ((v * 20).round() / 20).clamp(0.0, sliderMax.toDouble());
-                          snapped = (snapped * 100).round() / 100;
-                          // Magnetic snap onto 100 % within ±0.5 —
-                          // keeps the common full-HP anchor sticky
-                          // even at fine granularity.
-                          if ((snapped - 100).abs() <= 0.5) snapped = 100.0;
-                          setState(() => _def.hpPercent = snapped);
+                          var rounded = v.round();
+                          if ((rounded - 100).abs() <= 2) rounded = 100;
+                          setState(
+                              () => _def.hpPercent = rounded.toDouble());
                           widget.onChanged();
                         },
                       ),
@@ -1112,22 +1104,38 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             ),
           ),
         ),
-        SizedBox(
-          width: 56,
-          child: InkWell(
-            onTap: _editHpPercent,
-            borderRadius: BorderRadius.circular(4),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              child: Text(
-                '$pctText%',
-                textAlign: TextAlign.right,
-                maxLines: 1,
-                softWrap: false,
-                overflow: TextOverflow.visible,
-                style: const TextStyle(
-                    fontSize: 13, fontWeight: FontWeight.w600),
-              ),
+        // Tappable % label — the slider can only do 1 % steps so
+        // chip-damage fractions like 6.25 % go through this editor.
+        // The pencil icon + outlined chip styling makes the tap
+        // affordance obvious; without it users assumed the label
+        // was a passive readout.
+        InkWell(
+          onTap: _editHpPercent,
+          borderRadius: BorderRadius.circular(6),
+          child: Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: Theme.of(context).colorScheme.outlineVariant),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '$pctText%',
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.visible,
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 4),
+                Icon(Icons.edit,
+                    size: 12,
+                    color: Theme.of(context).colorScheme.outline),
+              ],
             ),
           ),
         ),
