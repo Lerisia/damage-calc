@@ -937,16 +937,24 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     required List<Move> filterMoves,
   }) {
     final canAddMore = filterMoves.length < _kMaxFilterMoves;
-    final pickedIds = {
-      toShowdownMoveId(primary.name),
-      ...filterMoves.map((m) => toShowdownMoveId(m.name)),
-    };
+
+    // The TypeAheadField caches its callbacks on first build, so a
+    // closure that captures `filterMoves` from the parameter would
+    // see the stale list (only the snapshot at first show). That
+    // caused 2nd-add via Enter to read filterMoves=[] and overwrite
+    // the existing chip. Read `_filterMoves.value` and `primary`
+    // through helpers that resolve the LIVE state on every call.
+    Set<String> currentPickedIds() => {
+          toShowdownMoveId(primary.name),
+          for (final m in _filterMoves.value) toShowdownMoveId(m.name),
+        };
 
     List<Move> suggestionsFor(String query) {
       // Pre-filter: never suggest the primary move or anything
       // already picked. After that, score by the same Korean-search
       // pipeline used by the main move list so 초성 / 한영 mixes work.
       final q = query.trim();
+      final pickedIds = currentPickedIds();
       bool eligible(Move m) =>
           !pickedIds.contains(toShowdownMoveId(m.name));
       if (q.isEmpty) {
@@ -985,8 +993,14 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                   visualDensity: VisualDensity.compact,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   onDeleted: () {
-                    final next = [...filterMoves]..removeAt(i);
-                    _filterMoves.value = next;
+                    // Match-by-id removal — index from the build-time
+                    // list could drift if the user mutates the chip
+                    // strip mid-frame.
+                    final targetId = toShowdownMoveId(filterMoves[i].name);
+                    _filterMoves.value = [
+                      for (final m in _filterMoves.value)
+                        if (toShowdownMoveId(m.name) != targetId) m,
+                    ];
                   },
                 ),
             ],
@@ -1024,7 +1038,19 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
               );
             },
             onSelected: (move) {
-              _filterMoves.value = [...filterMoves, move];
+              // Read the LIVE list (`_filterMoves.value`), not the
+              // captured-at-build-time `filterMoves` parameter — the
+              // typeahead reuses its initial closure on subsequent
+              // picks, which made the second add overwrite the first
+              // instead of appending.
+              final next = [..._filterMoves.value];
+              if (next.length >= _kMaxFilterMoves) return;
+              if (next.any((m) =>
+                  toShowdownMoveId(m.name) == toShowdownMoveId(move.name))) {
+                // Defensive: ignore if the same move is already in.
+                return;
+              }
+              _filterMoves.value = [...next, move];
               _addFilterCtl.clear();
               // Re-focus so the user can immediately add another.
               _addFilterFocus.requestFocus();
