@@ -45,12 +45,24 @@ class _SampleListSheetState extends State<SampleListSheet> {
   // opens was a recurring annoyance).
   static const _kCollapsedKey = 'sampleListCollapsedTeamIds';
   final Set<String> _collapsed = <String>{};
+  // Independent controller for the list — keeps list scroll purely
+  // as list scroll. The previous DraggableScrollableSheet wired the
+  // inner scroll into its own drag-to-resize, so scrolling up to the
+  // top would suddenly start collapsing the sheet, which felt like
+  // the sheet was randomly snapping shut on the user.
+  final ScrollController _listController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _refresh();
     _loadCollapsed();
+  }
+
+  @override
+  void dispose() {
+    _listController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadCollapsed() async {
@@ -409,71 +421,69 @@ class _SampleListSheetState extends State<SampleListSheet> {
 
   @override
   Widget build(BuildContext context) {
-    // Open near full-height by default — the previous 0.6 default left
-    // only ~5 rows visible on mobile and the user had to drag up every
-    // time. Min raised to 0.5 so accidental swipes don't collapse the
-    // sheet down to a useless strip.
-    return DraggableScrollableSheet(
-      initialChildSize: 0.92,
-      minChildSize: 0.5,
-      maxChildSize: 0.95,
-      expand: false,
-      builder: (ctx, scrollController) {
-        return Column(
-          children: [
-            if (SampleStorage.isWebStorage)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-                child: Text(
-                  AppStrings.t('sample.browserWarning'),
-                  style: TextStyle(fontSize: 11, color: Colors.grey[500]),
-                ),
-              ),
+    // Fixed-height sheet (~92 % of screen). Switched away from
+    // DraggableScrollableSheet because its built-in bridge between
+    // inner-list scroll and sheet drag made the sheet randomly
+    // collapse when the user scrolled the list to its top edge —
+    // resize-via-list-scroll and list-scroll should be distinct
+    // gestures.
+    final screenH = MediaQuery.sizeOf(context).height;
+    return SizedBox(
+      height: screenH * 0.92,
+      child: Column(
+        children: [
+          if (SampleStorage.isWebStorage)
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      autofocus: false,
-                      decoration: InputDecoration(
-                        hintText: AppStrings.t('sample.search'),
-                        prefixIcon: const Icon(Icons.search, size: 20),
-                        isDense: true,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 8),
-                      ),
-                      onChanged: (v) => setState(() => _query = v),
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  IconButton(
-                    onPressed: _importShareCode,
-                    icon: const Icon(Icons.download_outlined, size: 20),
-                    tooltip: AppStrings.t('sample.share.import'),
-                    visualDensity: VisualDensity.compact,
-                    padding: const EdgeInsets.all(6),
-                    constraints: const BoxConstraints(),
-                  ),
-                  const SizedBox(width: 4),
-                  TextButton.icon(
-                    onPressed: _addTeam,
-                    icon: const Icon(Icons.create_new_folder_outlined,
-                        size: 18),
-                    label: Text(AppStrings.t('sample.team.add')),
-                    style: TextButton.styleFrom(
-                      visualDensity: VisualDensity.compact,
-                    ),
-                  ),
-                ],
+              child: Text(
+                AppStrings.t('sample.browserWarning'),
+                style: TextStyle(fontSize: 11, color: Colors.grey[500]),
               ),
             ),
-            const SizedBox(height: 4),
-            const Divider(height: 1),
-            Expanded(child: _body(scrollController)),
-          ],
-        );
-      },
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    autofocus: false,
+                    decoration: InputDecoration(
+                      hintText: AppStrings.t('sample.search'),
+                      prefixIcon: const Icon(Icons.search, size: 20),
+                      isDense: true,
+                      contentPadding:
+                          const EdgeInsets.symmetric(vertical: 8),
+                    ),
+                    onChanged: (v) => setState(() => _query = v),
+                  ),
+                ),
+                const SizedBox(width: 4),
+                IconButton(
+                  onPressed: _importShareCode,
+                  icon: const Icon(Icons.download_outlined, size: 20),
+                  tooltip: AppStrings.t('sample.share.import'),
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.all(6),
+                  constraints: const BoxConstraints(),
+                ),
+                const SizedBox(width: 4),
+                TextButton.icon(
+                  onPressed: _addTeam,
+                  icon: const Icon(Icons.create_new_folder_outlined,
+                      size: 18),
+                  label: Text(AppStrings.t('sample.team.add')),
+                  style: TextButton.styleFrom(
+                    visualDensity: VisualDensity.compact,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 4),
+          const Divider(height: 1),
+          Expanded(child: _body(_listController)),
+        ],
+      ),
     );
   }
 
