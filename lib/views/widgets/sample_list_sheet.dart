@@ -192,6 +192,21 @@ class _SampleListSheetState extends State<SampleListSheet> {
     ));
   }
 
+  Future<void> _copyTeamShareCode(TeamFolder t) async {
+    final members = [
+      for (final id in t.memberIds)
+        if (_store.sampleById(id) != null) _store.sampleById(id)!
+    ];
+    if (members.isEmpty) return;
+    final code = SampleStorage.exportTeamString(t, members);
+    await Clipboard.setData(ClipboardData(text: code));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppStrings.t('sample.share.copied')),
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
   Future<void> _importShareCode() async {
     final controller = TextEditingController();
     String? errorText;
@@ -204,7 +219,10 @@ class _SampleListSheetState extends State<SampleListSheet> {
       controller.dispose();
       return;
     }
-    final imported = await showDialog<StoredSample>(
+    // Result type is dynamic — pokemon import returns a StoredSample,
+    // team import returns a TeamFolder; the success snackbar branches
+    // on type so we can show "X imported" with the right label.
+    final imported = await showDialog<Object>(
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setLocal) {
@@ -216,9 +234,14 @@ class _SampleListSheetState extends State<SampleListSheet> {
               return;
             }
             try {
-              final s = await SampleStorage.importSampleString(text);
+              final Object result;
+              if (SampleStorage.isTeamShareString(text)) {
+                result = await SampleStorage.importTeamString(text);
+              } else {
+                result = await SampleStorage.importSampleString(text);
+              }
               if (!ctx.mounted) return;
-              Navigator.pop(ctx, s);
+              Navigator.pop(ctx, result);
             } catch (_) {
               setLocal(() =>
                   errorText = AppStrings.t('sample.share.import.invalid'));
@@ -244,7 +267,7 @@ class _SampleListSheetState extends State<SampleListSheet> {
                   minLines: 2,
                   style: const TextStyle(fontSize: 12),
                   decoration: InputDecoration(
-                    hintText: 'damacalc:p1:…',
+                    hintText: 'damacalc:…',
                     errorText: errorText,
                     isDense: true,
                   ),
@@ -296,8 +319,13 @@ class _SampleListSheetState extends State<SampleListSheet> {
     controller.dispose();
     if (imported == null || !mounted) return;
     await _refresh();
+    final String name = switch (imported) {
+      StoredSample s => s.name,
+      TeamFolder t => t.name,
+      _ => '',
+    };
     final msg = AppStrings.t('sample.share.import.success')
-        .replaceAll('{name}', imported.name);
+        .replaceAll('{name}', name);
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(msg),
@@ -609,12 +637,18 @@ class _SampleListSheetState extends State<SampleListSheet> {
                 padding: EdgeInsets.zero,
                 onSelected: (v) {
                   if (v == 'rename') _renameTeam(t);
+                  if (v == 'share') _copyTeamShareCode(t);
                   if (v == 'delete') _deleteTeam(t);
                 },
                 itemBuilder: (_) => [
                   PopupMenuItem(
                     value: 'rename',
                     child: Text(AppStrings.t('sample.team.rename')),
+                  ),
+                  PopupMenuItem(
+                    value: 'share',
+                    enabled: t.memberIds.isNotEmpty,
+                    child: Text(AppStrings.t('sample.share.copy')),
                   ),
                   PopupMenuItem(
                     value: 'delete',

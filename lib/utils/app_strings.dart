@@ -1261,9 +1261,9 @@ class AppStrings {
       AppLanguage.ja: '共有コードのインポート',
     },
     'sample.share.import.hint': {
-      AppLanguage.ko: 'damacalc:p1:… 으로 시작하는 코드를 붙여넣으십시오.',
-      AppLanguage.en: 'Paste a code starting with damacalc:p1:…',
-      AppLanguage.ja: 'damacalc:p1:… で始まるコードを貼り付けてください。',
+      AppLanguage.ko: 'damacalc:… 으로 시작하는 포켓몬/파티 코드를 붙여넣으십시오.',
+      AppLanguage.en: 'Paste a Pokémon or team code starting with damacalc:…',
+      AppLanguage.ja: 'damacalc:… で始まるポケモン／パーティーコードを貼り付けてください。',
     },
     'sample.share.import.paste': {
       AppLanguage.ko: '클립보드에서 붙여넣기',

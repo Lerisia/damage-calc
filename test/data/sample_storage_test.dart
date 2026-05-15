@@ -423,19 +423,131 @@ void main() {
     test('isShareString rejects garbage', () {
       expect(SampleStorage.isShareString(''), isFalse);
       expect(SampleStorage.isShareString('hello world'), isFalse);
-      expect(SampleStorage.isShareString('damacalc:p2:foo'), isFalse);
+      expect(SampleStorage.isShareString('damacalc:p3:foo'), isFalse);
     });
 
     test('decodeSampleString throws on invalid input', () {
       expect(() => SampleStorage.decodeSampleString('nope'),
           throwsFormatException);
-      expect(() => SampleStorage.decodeSampleString('damacalc:p1:!!!'),
+      expect(() => SampleStorage.decodeSampleString('damacalc:p2:!!!'),
           throwsFormatException);
       // Valid base64 but missing required keys.
       final badPayload = base64.encode(utf8.encode('{"foo":"bar"}'));
       expect(
           () => SampleStorage.decodeSampleString('damacalc:p1:$badPayload'),
           throwsFormatException);
+    });
+
+    test('exportSampleString uses gzipped p2 format and is shorter', () async {
+      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      final s = (await SampleStorage.loadStore()).samples.first;
+      final code = SampleStorage.exportSampleString(s);
+      expect(code.startsWith('damacalc:p2:'), isTrue);
+      // Plain base64 encoding of the same payload would be longer.
+      final plainJson = jsonEncode({'name': s.name, 'state': s.state.toJson()});
+      final plainB64 = base64.encode(utf8.encode(plainJson));
+      expect(code.length, lessThan('damacalc:p1:$plainB64'.length));
+    });
+
+    test('decodeSampleString accepts legacy p1 (uncompressed) payloads',
+        () async {
+      // Hand-craft a legacy p1: code so we cover the backward-compat
+      // path even after the encoder switches to p2.
+      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      final s = (await SampleStorage.loadStore()).samples.first;
+      final json = jsonEncode({'name': s.name, 'state': s.state.toJson()});
+      final legacy = 'damacalc:p1:${base64.encode(utf8.encode(json))}';
+
+      final decoded = SampleStorage.decodeSampleString(legacy);
+      expect(decoded.name, equals('Alpha'));
+      expect(decoded.state.pokemonName, equals('pikachu'));
+    });
+  });
+
+  // ──────────────────────────────────────────────────────────────
+  // Team share strings — copy-paste an entire party.
+  // ──────────────────────────────────────────────────────────────
+  group('SampleStorage team share strings', () {
+    Future<TeamFolder> seedTeam(String name, List<String> members) async {
+      final teamId = await SampleStorage.createTeam(name);
+      for (final m in members) {
+        await SampleStorage.savePokemon(
+            name: m, state: makeState(m.toLowerCase()), teamId: teamId);
+      }
+      return (await SampleStorage.loadStore())
+          .teams
+          .firstWhere((t) => t.id == teamId);
+    }
+
+    test('exportTeamString round-trips through decodeTeamString', () async {
+      final t = await seedTeam('Sweepers', ['Alpha', 'Beta', 'Gamma']);
+      final members = [
+        for (final id in t.memberIds)
+          (await SampleStorage.loadStore()).sampleById(id)!
+      ];
+
+      final code = SampleStorage.exportTeamString(t, members);
+      expect(SampleStorage.isShareString(code), isTrue);
+      expect(SampleStorage.isTeamShareString(code), isTrue);
+
+      final decoded = SampleStorage.decodeTeamString(code);
+      expect(decoded.name, equals('Sweepers'));
+      expect(decoded.members.map((m) => m.name).toList(),
+          equals(['Alpha', 'Beta', 'Gamma']));
+    });
+
+    test('importTeamString creates a new team and persists members',
+        () async {
+      final t = await seedTeam('Sweepers', ['Alpha', 'Beta']);
+      final members = [
+        for (final id in t.memberIds)
+          (await SampleStorage.loadStore()).sampleById(id)!
+      ];
+      final code = SampleStorage.exportTeamString(t, members);
+
+      // Wipe and re-import.
+      SharedPreferences.setMockInitialValues({});
+      final imported = await SampleStorage.importTeamString(code);
+      expect(imported.name, equals('Sweepers'));
+      expect(imported.memberIds.length, equals(2));
+
+      final store = await SampleStorage.loadStore();
+      expect(store.teams.length, equals(1));
+      expect(store.samples.map((s) => s.name).toSet(),
+          equals({'Alpha', 'Beta'}));
+    });
+
+    test('importTeamString suffixes colliding team and pokemon names',
+        () async {
+      final t = await seedTeam('Sweepers', ['Alpha', 'Beta']);
+      final members = [
+        for (final id in t.memberIds)
+          (await SampleStorage.loadStore()).sampleById(id)!
+      ];
+      final code = SampleStorage.exportTeamString(t, members);
+
+      // Re-import on top of itself: both team name and member names
+      // should get `(2)` suffixes.
+      final imported = await SampleStorage.importTeamString(code);
+      expect(imported.name, equals('Sweepers (2)'));
+      final store = await SampleStorage.loadStore();
+      final names = store.samples.map((s) => s.name).toSet();
+      expect(names, containsAll(['Alpha', 'Beta', 'Alpha (2)', 'Beta (2)']));
+    });
+
+    test('decodeTeamString rejects single-pokemon codes', () async {
+      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      final s = (await SampleStorage.loadStore()).samples.first;
+      final pokemonCode = SampleStorage.exportSampleString(s);
+      expect(() => SampleStorage.decodeTeamString(pokemonCode),
+          throwsFormatException);
+    });
+
+    test('isShareString accepts every variant', () {
+      expect(SampleStorage.isShareString('damacalc:p1:foo'), isTrue);
+      expect(SampleStorage.isShareString('damacalc:p2:foo'), isTrue);
+      expect(SampleStorage.isShareString('damacalc:t1:foo'), isTrue);
+      expect(SampleStorage.isShareString('damacalc:p3:foo'), isFalse);
     });
   });
 }

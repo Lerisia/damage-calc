@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/battle_pokemon.dart';
@@ -444,39 +445,79 @@ class SampleStorage {
   // the importer mints a fresh id) plus the user's chosen name.
   // ────────────────────────────────────────────────────────────────
 
-  static const _kShareSchemePrefix = 'damacalc:p1:';
+  // Scheme prefixes:
+  //   damacalc:p1: = single pokemon, JSON + base64        (legacy, v1.7.x)
+  //   damacalc:p2: = single pokemon, JSON + gzip + base64 (v1.8+)
+  //   damacalc:t1: = team,           JSON + gzip + base64 (v1.8+)
+  // Decoder accepts all three so existing p1: codes keep working.
+  // Encoder always emits the gzipped variants — they roughly halve
+  // the share-code length without changing semantics.
+  static const _kShareSchemePrefixV1 = 'damacalc:p1:';
+  static const _kShareSchemePrefixV2 = 'damacalc:p2:';
+  static const _kTeamShareSchemePrefix = 'damacalc:t1:';
 
-  /// Encode [sample] into a copy-pasteable string.
+  static String _gzipBase64(String json) {
+    final compressed = GZipEncoder().encode(utf8.encode(json));
+    return base64.encode(compressed);
+  }
+
+  static String _gunzipUtf8(String b64) {
+    final compressed = base64.decode(b64);
+    final raw = GZipDecoder().decodeBytes(compressed);
+    return utf8.decode(raw);
+  }
+
+  /// Encode [sample] into a copy-pasteable string (gzipped p2 format).
   static String exportSampleString(StoredSample sample) {
     final json = jsonEncode({
       'name': sample.name,
       'state': sample.state.toJson(),
     });
-    final b64 = base64.encode(utf8.encode(json));
-    return '$_kShareSchemePrefix$b64';
+    return '$_kShareSchemePrefixV2${_gzipBase64(json)}';
   }
 
-  /// Returns true if [input] looks like a share string this app
-  /// produced. Use as a quick guard in paste UIs before calling
-  /// [importSampleString], which throws on invalid input.
+  /// Returns true if [input] looks like any share string this app
+  /// produced (single pokemon p1/p2 or team t1). Use as a quick
+  /// guard in paste UIs before calling [importSampleString] /
+  /// [importTeamString], which throw on invalid input.
   static bool isShareString(String input) {
-    return input.trim().startsWith(_kShareSchemePrefix);
+    final t = input.trim();
+    return t.startsWith(_kShareSchemePrefixV1) ||
+        t.startsWith(_kShareSchemePrefixV2) ||
+        t.startsWith(_kTeamShareSchemePrefix);
   }
 
-  /// Decode a share string into a [StoredSample] without persisting
-  /// it. The returned sample has a fresh id (the original id isn't
-  /// preserved across share, so it's re-minted) and the original
-  /// embedded name. Throws [FormatException] on any decode failure.
+  /// True if [input] is a team share string (vs single pokemon).
+  /// Lets paste UIs branch between the per-pokemon and team import
+  /// flows without round-tripping the payload.
+  static bool isTeamShareString(String input) {
+    return input.trim().startsWith(_kTeamShareSchemePrefix);
+  }
+
+  /// Decode a single-pokemon share string into a [StoredSample]
+  /// without persisting it. Accepts both p1 (legacy plain base64)
+  /// and p2 (gzip + base64) payloads. Throws [FormatException] on
+  /// any decode failure or if [input] is a team share string.
   static StoredSample decodeSampleString(String input) {
     final s = input.trim();
-    if (!s.startsWith(_kShareSchemePrefix)) {
-      throw const FormatException('Not a damacalc share string');
+    final String json;
+    try {
+      if (s.startsWith(_kShareSchemePrefixV2)) {
+        json = _gunzipUtf8(s.substring(_kShareSchemePrefixV2.length));
+      } else if (s.startsWith(_kShareSchemePrefixV1)) {
+        json = utf8.decode(
+            base64.decode(s.substring(_kShareSchemePrefixV1.length)));
+      } else {
+        throw const FormatException('Not a damacalc pokemon share string');
+      }
+    } on FormatException {
+      rethrow;
+    } catch (e) {
+      throw FormatException('Invalid share string: $e');
     }
-    final payload = s.substring(_kShareSchemePrefix.length);
     final Map<String, dynamic> m;
     try {
-      m = jsonDecode(utf8.decode(base64.decode(payload)))
-          as Map<String, dynamic>;
+      m = jsonDecode(json) as Map<String, dynamic>;
     } catch (e) {
       throw FormatException('Invalid share string: $e');
     }
@@ -537,5 +578,113 @@ class SampleStorage {
       samples: [...store.samples, sample],
     ));
     return sample;
+  }
+
+  // ────────────────────────────────────────────────────────────────
+  // Team share strings — copy-paste an entire party (name + members).
+  // Format: damacalc:t1:<gzip+base64>; payload is
+  //   {"name": "<team name>", "members": [{state: ...}, ...]}
+  // Member ids and original team id are not preserved across share —
+  // a fresh team and fresh member ids are minted on import.
+  // ────────────────────────────────────────────────────────────────
+
+  /// Encode [team] (with its [members] in slot order) into a copy-
+  /// pasteable string. Member states are stripped of any per-store
+  /// identity (id/name uniqueness is restored on import).
+  static String exportTeamString(TeamFolder team, List<StoredSample> members) {
+    final json = jsonEncode({
+      'name': team.name,
+      'members': [
+        for (final m in members)
+          {
+            'name': m.name,
+            'state': m.state.toJson(),
+          },
+      ],
+    });
+    return '$_kTeamShareSchemePrefix${_gzipBase64(json)}';
+  }
+
+  /// Decode a team share string into a transient (team-name, member-
+  /// list) pair without persisting. Throws [FormatException] on any
+  /// decode failure or if [input] is a single-pokemon share string.
+  static ({String name, List<StoredSample> members}) decodeTeamString(
+      String input) {
+    final s = input.trim();
+    if (!s.startsWith(_kTeamShareSchemePrefix)) {
+      throw const FormatException('Not a damacalc team share string');
+    }
+    final String json;
+    try {
+      json = _gunzipUtf8(s.substring(_kTeamShareSchemePrefix.length));
+    } on FormatException {
+      rethrow;
+    } catch (e) {
+      throw FormatException('Invalid team share string: $e');
+    }
+    final Map<String, dynamic> m;
+    try {
+      m = jsonDecode(json) as Map<String, dynamic>;
+    } catch (e) {
+      throw FormatException('Invalid team share string: $e');
+    }
+    final name = m['name'] as String?;
+    final members = m['members'] as List?;
+    if (name == null || members == null) {
+      throw const FormatException('Team share string missing name/members');
+    }
+    final out = <StoredSample>[];
+    for (final raw in members) {
+      final mm = raw as Map<String, dynamic>;
+      out.add(StoredSample(
+        id: _genId('p'),
+        name: mm['name'] as String? ?? 'Pokemon',
+        state: BattlePokemonState.fromJson(
+            mm['state'] as Map<String, dynamic>),
+      ));
+    }
+    return (name: name, members: out);
+  }
+
+  /// Decode + persist a team share string. Always creates a fresh
+  /// team folder (even if a party with the same name already
+  /// exists, a `(2)` suffix is added so the user doesn't lose the
+  /// previous one). Member names are also de-duplicated against the
+  /// existing store with `(2)`, `(3)`, … suffixes.
+  static Future<TeamFolder> importTeamString(String input) async {
+    final decoded = decodeTeamString(input);
+    final store = await loadStore();
+
+    String _uniqueName(String base, Set<String> taken) {
+      if (!taken.contains(base)) return base;
+      var n = 2;
+      while (taken.contains('$base ($n)')) {
+        n++;
+      }
+      return '$base ($n)';
+    }
+
+    final teamNamesTaken = store.teams.map((t) => t.name).toSet();
+    final teamName = _uniqueName(decoded.name, teamNamesTaken);
+
+    final pokemonNamesTaken = store.samples.map((s) => s.name).toSet();
+    final newSamples = <StoredSample>[];
+    for (final m in decoded.members.take(kMaxTeamSize)) {
+      final unique = _uniqueName(m.name, pokemonNamesTaken);
+      pokemonNamesTaken.add(unique);
+      newSamples.add(StoredSample(id: m.id, name: unique, state: m.state));
+    }
+
+    final newTeam = TeamFolder(
+      id: _genId('t'),
+      name: teamName,
+      memberIds: [for (final s in newSamples) s.id],
+    );
+
+    await _writeStore(SampleStore(
+      teams: [...store.teams, newTeam],
+      samples: [...store.samples, ...newSamples],
+    ));
+    return newTeam;
   }
 }
