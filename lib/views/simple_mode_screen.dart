@@ -1084,20 +1084,24 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                         value: pct.clamp(0, sliderMax).toDouble(),
                         min: 0,
                         max: sliderMax.toDouble(),
-                        // 5 % step — finer than that is rarely needed
-                        // via the slider (sub-5 % chip values are
-                        // entered through tap-to-edit on the label).
-                        divisions: sliderMax ~/ 5,
+                        // 0.05 % step — fine enough for chip-damage
+                        // fractions (1/16 = 6.25 %, 1/8 = 12.5 %, …)
+                        // without requiring tap-to-edit. Sub-0.05 %
+                        // values are essentially never needed in
+                        // play.
+                        divisions: sliderMax * 20,
                         onChanged: (v) {
-                          // Snap to the nearest 5 % step.
-                          var snapped = (v / 5).round() * 5;
-                          // Magnetic snap onto 100 % is preserved even
-                          // though the divisions already pass through
-                          // 100 — keeps the same sticky feel for the
-                          // common full-HP anchor.
-                          if ((snapped - 100).abs() <= 2) snapped = 100;
-                          setState(
-                              () => _def.hpPercent = snapped.toDouble());
+                          // Snap to the nearest 0.05 % step, then
+                          // round to 2 decimals to avoid floating-
+                          // point noise like 6.249999.
+                          var snapped =
+                              ((v * 20).round() / 20).clamp(0.0, sliderMax.toDouble());
+                          snapped = (snapped * 100).round() / 100;
+                          // Magnetic snap onto 100 % within ±0.5 —
+                          // keeps the common full-HP anchor sticky
+                          // even at fine granularity.
+                          if ((snapped - 100).abs() <= 0.5) snapped = 100.0;
+                          setState(() => _def.hpPercent = snapped);
                           widget.onChanged();
                         },
                       ),
