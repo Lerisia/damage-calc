@@ -370,4 +370,72 @@ void main() {
       expect(store.teams.first.memberIds.length, equals(1));
     });
   });
+
+  // ──────────────────────────────────────────────────────────────
+  // Share strings — single-pokemon copy/paste codes used by the
+  // sample sheet's share UI (damacalc:p1:<base64-json>).
+  // ──────────────────────────────────────────────────────────────
+  group('SampleStorage share strings', () {
+    test('export+decode round-trip preserves name and state', () async {
+      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      final s = (await SampleStorage.loadStore()).samples.first;
+      final code = SampleStorage.exportSampleString(s);
+      expect(SampleStorage.isShareString(code), isTrue);
+
+      final decoded = SampleStorage.decodeSampleString(code);
+      expect(decoded.name, equals('Alpha'));
+      expect(decoded.state.pokemonName, equals('pikachu'));
+      expect(decoded.id, isNot(equals(s.id)),
+          reason: 'decode should mint a fresh id');
+    });
+
+    test('importSampleString persists and auto-renames on collision',
+        () async {
+      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      final s = (await SampleStorage.loadStore()).samples.first;
+      final code = SampleStorage.exportSampleString(s);
+
+      // First import collides with existing 'Alpha' → 'Alpha (2)'.
+      final imported1 = await SampleStorage.importSampleString(code);
+      expect(imported1.name, equals('Alpha (2)'));
+
+      // Second import collides with both → 'Alpha (3)'.
+      final imported2 = await SampleStorage.importSampleString(code);
+      expect(imported2.name, equals('Alpha (3)'));
+
+      final names =
+          (await SampleStorage.loadStore()).samples.map((s) => s.name).toList();
+      expect(names, containsAll(['Alpha', 'Alpha (2)', 'Alpha (3)']));
+    });
+
+    test('importSampleString into team adds to memberIds', () async {
+      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      final s = (await SampleStorage.loadStore()).samples.first;
+      final code = SampleStorage.exportSampleString(s);
+      final teamId = await SampleStorage.createTeam('T');
+
+      final imported =
+          await SampleStorage.importSampleString(code, teamId: teamId);
+      final store = await SampleStorage.loadStore();
+      expect(store.teams.first.memberIds, contains(imported.id));
+    });
+
+    test('isShareString rejects garbage', () {
+      expect(SampleStorage.isShareString(''), isFalse);
+      expect(SampleStorage.isShareString('hello world'), isFalse);
+      expect(SampleStorage.isShareString('damacalc:p2:foo'), isFalse);
+    });
+
+    test('decodeSampleString throws on invalid input', () {
+      expect(() => SampleStorage.decodeSampleString('nope'),
+          throwsFormatException);
+      expect(() => SampleStorage.decodeSampleString('damacalc:p1:!!!'),
+          throwsFormatException);
+      // Valid base64 but missing required keys.
+      final badPayload = base64.encode(utf8.encode('{"foo":"bar"}'));
+      expect(
+          () => SampleStorage.decodeSampleString('damacalc:p1:$badPayload'),
+          throwsFormatException);
+    });
+  });
 }

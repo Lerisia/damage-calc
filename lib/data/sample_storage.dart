@@ -435,4 +435,107 @@ class SampleStorage {
 
   /// Whether the current platform stores data in browser localStorage.
   static bool get isWebStorage => kIsWeb;
+
+  // ────────────────────────────────────────────────────────────────
+  // Share-string export / import — copy-paste a single Pokémon as a
+  // self-contained string. Format:
+  //   damacalc:p1:<base64(json)>
+  // The base64 payload is the StoredSample's `state` (without id —
+  // the importer mints a fresh id) plus the user's chosen name.
+  // ────────────────────────────────────────────────────────────────
+
+  static const _kShareSchemePrefix = 'damacalc:p1:';
+
+  /// Encode [sample] into a copy-pasteable string.
+  static String exportSampleString(StoredSample sample) {
+    final json = jsonEncode({
+      'name': sample.name,
+      'state': sample.state.toJson(),
+    });
+    final b64 = base64.encode(utf8.encode(json));
+    return '$_kShareSchemePrefix$b64';
+  }
+
+  /// Returns true if [input] looks like a share string this app
+  /// produced. Use as a quick guard in paste UIs before calling
+  /// [importSampleString], which throws on invalid input.
+  static bool isShareString(String input) {
+    return input.trim().startsWith(_kShareSchemePrefix);
+  }
+
+  /// Decode a share string into a [StoredSample] without persisting
+  /// it. The returned sample has a fresh id (the original id isn't
+  /// preserved across share, so it's re-minted) and the original
+  /// embedded name. Throws [FormatException] on any decode failure.
+  static StoredSample decodeSampleString(String input) {
+    final s = input.trim();
+    if (!s.startsWith(_kShareSchemePrefix)) {
+      throw const FormatException('Not a damacalc share string');
+    }
+    final payload = s.substring(_kShareSchemePrefix.length);
+    final Map<String, dynamic> m;
+    try {
+      m = jsonDecode(utf8.decode(base64.decode(payload)))
+          as Map<String, dynamic>;
+    } catch (e) {
+      throw FormatException('Invalid share string: $e');
+    }
+    final name = m['name'] as String?;
+    final stateJson = m['state'] as Map<String, dynamic>?;
+    if (name == null || stateJson == null) {
+      throw const FormatException('Share string missing name/state');
+    }
+    return StoredSample(
+      id: _genId('p'),
+      name: name,
+      state: BattlePokemonState.fromJson(stateJson),
+    );
+  }
+
+  /// Decode + persist a share string into the store, optionally adding
+  /// to a team. If a sample with the embedded name already exists,
+  /// the new entry's name gets a `(2)`, `(3)`, … suffix to avoid
+  /// the unique-name collision. Returns the new stored sample.
+  static Future<StoredSample> importSampleString(
+    String input, {
+    String? teamId,
+  }) async {
+    final decoded = decodeSampleString(input);
+    final store = await loadStore();
+    final taken = store.samples.map((s) => s.name).toSet();
+    String finalName = decoded.name;
+    if (taken.contains(finalName)) {
+      var n = 2;
+      while (taken.contains('$finalName ($n)')) {
+        n++;
+      }
+      finalName = '$finalName ($n)';
+    }
+    if (teamId != null) {
+      final team = store.teams.firstWhere(
+        (t) => t.id == teamId,
+        orElse: () => throw ArgumentError('Unknown team: $teamId'),
+      );
+      if (team.memberIds.length >= kMaxTeamSize) {
+        throw TeamFullException(teamId);
+      }
+    }
+    final sample = StoredSample(
+      id: decoded.id,
+      name: finalName,
+      state: decoded.state,
+    );
+    final newTeams = teamId == null
+        ? store.teams
+        : store.teams
+            .map((t) => t.id == teamId
+                ? t.copyWith(memberIds: [...t.memberIds, sample.id])
+                : t)
+            .toList();
+    await _writeStore(SampleStore(
+      teams: newTeams,
+      samples: [...store.samples, sample],
+    ));
+    return sample;
+  }
 }

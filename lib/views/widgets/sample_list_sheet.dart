@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/sample_storage.dart';
@@ -169,6 +170,129 @@ class _SampleListSheetState extends State<SampleListSheet> {
     await _refresh();
   }
 
+  Future<void> _copyShareCode(StoredSample s) async {
+    final code = SampleStorage.exportSampleString(s);
+    await Clipboard.setData(ClipboardData(text: code));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppStrings.t('sample.share.copied')),
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
+  Future<void> _importShareCode() async {
+    final controller = TextEditingController();
+    String? errorText;
+    final clip = await Clipboard.getData(Clipboard.kTextPlain);
+    final clipText = clip?.text?.trim() ?? '';
+    if (SampleStorage.isShareString(clipText)) {
+      controller.text = clipText;
+    }
+    if (!mounted) {
+      controller.dispose();
+      return;
+    }
+    final imported = await showDialog<StoredSample>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setLocal) {
+          Future<void> confirm() async {
+            final text = controller.text.trim();
+            if (!SampleStorage.isShareString(text)) {
+              setLocal(() =>
+                  errorText = AppStrings.t('sample.share.import.invalid'));
+              return;
+            }
+            try {
+              final s = await SampleStorage.importSampleString(text);
+              if (!ctx.mounted) return;
+              Navigator.pop(ctx, s);
+            } catch (_) {
+              setLocal(() =>
+                  errorText = AppStrings.t('sample.share.import.invalid'));
+            }
+          }
+
+          return AlertDialog(
+            title: Text(AppStrings.t('sample.share.import.title')),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  AppStrings.t('sample.share.import.hint'),
+                  style:
+                      TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: controller,
+                  autofocus: true,
+                  maxLines: 4,
+                  minLines: 2,
+                  style: const TextStyle(fontSize: 12),
+                  decoration: InputDecoration(
+                    hintText: 'damacalc:p1:…',
+                    errorText: errorText,
+                    isDense: true,
+                  ),
+                  onChanged: (_) {
+                    if (errorText != null) {
+                      setLocal(() => errorText = null);
+                    }
+                  },
+                  onSubmitted: (_) => confirm(),
+                ),
+                const SizedBox(height: 4),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () async {
+                      final c =
+                          await Clipboard.getData(Clipboard.kTextPlain);
+                      final t = c?.text?.trim() ?? '';
+                      controller.text = t;
+                      controller.selection = TextSelection.collapsed(
+                          offset: controller.text.length);
+                      setLocal(() => errorText = null);
+                    },
+                    icon: const Icon(Icons.content_paste, size: 16),
+                    label: Text(
+                        AppStrings.t('sample.share.import.paste')),
+                    style: TextButton.styleFrom(
+                      visualDensity: VisualDensity.compact,
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(AppStrings.t('action.cancel')),
+              ),
+              TextButton(
+                onPressed: confirm,
+                child: Text(AppStrings.t('action.confirm')),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+    controller.dispose();
+    if (imported == null || !mounted) return;
+    await _refresh();
+    final msg = AppStrings.t('sample.share.import.success')
+        .replaceAll('{name}', imported.name);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
   Future<void> _movePokemon(StoredSample s) async {
     final currentTeamId = _store.teamOf(s.id)?.id;
     final pickedAction = await showModalBottomSheet<String>(
@@ -322,7 +446,16 @@ class _SampleListSheetState extends State<SampleListSheet> {
                       onChanged: (v) => setState(() => _query = v),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    onPressed: _importShareCode,
+                    icon: const Icon(Icons.download_outlined, size: 20),
+                    tooltip: AppStrings.t('sample.share.import'),
+                    visualDensity: VisualDensity.compact,
+                    padding: const EdgeInsets.all(6),
+                    constraints: const BoxConstraints(),
+                  ),
+                  const SizedBox(width: 4),
                   TextButton.icon(
                     onPressed: _addTeam,
                     icon: const Icon(Icons.create_new_folder_outlined,
@@ -536,6 +669,7 @@ class _SampleListSheetState extends State<SampleListSheet> {
         onSelected: (v) {
           if (v == 'rename') _renamePokemon(s);
           if (v == 'move') _movePokemon(s);
+          if (v == 'share') _copyShareCode(s);
           if (v == 'delete') _deletePokemon(s);
         },
         itemBuilder: (_) => [
@@ -546,6 +680,10 @@ class _SampleListSheetState extends State<SampleListSheet> {
           PopupMenuItem(
             value: 'move',
             child: Text(AppStrings.t('sample.pokemon.move')),
+          ),
+          PopupMenuItem(
+            value: 'share',
+            child: Text(AppStrings.t('sample.share.copy')),
           ),
           PopupMenuItem(
             value: 'delete',

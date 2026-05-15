@@ -1240,6 +1240,46 @@ class AppStrings {
       AppLanguage.en: 'Overwrite',
       AppLanguage.ja: '上書き',
     },
+    'sample.share.copy': {
+      AppLanguage.ko: '공유 코드 복사',
+      AppLanguage.en: 'Copy share code',
+      AppLanguage.ja: '共有コードをコピー',
+    },
+    'sample.share.copied': {
+      AppLanguage.ko: '공유 코드가 클립보드에 복사되었습니다',
+      AppLanguage.en: 'Share code copied to clipboard',
+      AppLanguage.ja: '共有コードをクリップボードにコピーしました',
+    },
+    'sample.share.import': {
+      AppLanguage.ko: '코드로 가져오기',
+      AppLanguage.en: 'Import code',
+      AppLanguage.ja: 'コードでインポート',
+    },
+    'sample.share.import.title': {
+      AppLanguage.ko: '공유 코드 가져오기',
+      AppLanguage.en: 'Import share code',
+      AppLanguage.ja: '共有コードのインポート',
+    },
+    'sample.share.import.hint': {
+      AppLanguage.ko: 'damacalc:p1:… 으로 시작하는 코드를 붙여넣으십시오.',
+      AppLanguage.en: 'Paste a code starting with damacalc:p1:…',
+      AppLanguage.ja: 'damacalc:p1:… で始まるコードを貼り付けてください。',
+    },
+    'sample.share.import.paste': {
+      AppLanguage.ko: '클립보드에서 붙여넣기',
+      AppLanguage.en: 'Paste from clipboard',
+      AppLanguage.ja: 'クリップボードから貼り付け',
+    },
+    'sample.share.import.invalid': {
+      AppLanguage.ko: '잘못된 공유 코드입니다',
+      AppLanguage.en: 'Invalid share code',
+      AppLanguage.ja: '無効な共有コードです',
+    },
+    'sample.share.import.success': {
+      AppLanguage.ko: '"{name}" 을(를) 가져왔습니다',
+      AppLanguage.en: 'Imported "{name}"',
+      AppLanguage.ja: '「{name}」をインポートしました',
+    },
 
     // === Speed tab ===
     'speed.baseValue': {
