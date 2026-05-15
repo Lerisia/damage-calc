@@ -1604,6 +1604,13 @@ class DamageCalculator {
         // hits and underestimating damage by ~10 %.
         final int singleHitPower = effectiveMove.power;
         perHitAllRolls = List.generate(hitCount, (i) {
+          // Hit 0 vs Disguise/Ice Face: same fixed 1/8-max-HP damage
+          // as for non-escalating multi-hits (Bullet Seed etc.). The
+          // earlier implementation ran the BP calc unconditionally,
+          // which gave a small rolls range instead of the disguise
+          // damage value. Hits 1/2 fall through to the regular path
+          // since by then Disguise has busted.
+          if (i == 0 && disguiseActive) return disguiseRolls;
           final int rawHitBp = singleHitPower * (i + 1);
           int hitPower = math.max(1, _applyChainMod(rawHitBp, bpChain));
           if (teraMinEligible && hitPower < kTeraMinPower && hitPower > 0) {

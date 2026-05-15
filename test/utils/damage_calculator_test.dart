@@ -646,6 +646,78 @@ void main() {
   });
 
   // ---------------------------------------------------------------
+  // Escalating multi-hit moves (Triple Axel / Triple Kick) +
+  // per-hit defender abilities. Until 1.7.11+182, the escalating
+  // branch ran the BP calc unconditionally on hit 0, which meant
+  // Disguise / Ice Face's 1/8-max-HP block didn't trigger on the
+  // first sub-hit.
+  // ---------------------------------------------------------------
+
+  group('Escalating multi-hit (Triple Axel)', () {
+    const tripleAxel = Move(
+      name: 'Triple Axel', nameKo: '트리플액셀', nameJa: 'トリプルアクセル',
+      type: PokemonType.ice, category: MoveCategory.physical,
+      power: 20, accuracy: 90, pp: 10,
+      minHits: 3, maxHits: 3,
+      tags: [MoveTags.escalatingHits, MoveTags.contact],
+    );
+
+    test('Disguise (Disguised) absorbs only the first sub-hit', () {
+      final r = calc(
+        move: tripleAxel,
+        atkType1: PokemonType.ice, atkType2: null,
+        defType1: PokemonType.fairy, defType2: PokemonType.ghost,
+        defAbility: 'Disguise Disguised',
+      );
+      final perHit = r.perHitAllRolls!;
+      // Hit 0: 1/8 of defender max HP, identical across all 16 rolls.
+      final h0Min = perHit[0].first;
+      expect(perHit[0], List.filled(16, h0Min));
+      expect(h0Min, lessThanOrEqualTo(r.defenderHp ~/ 8 + 1));
+      // Hit 1 / Hit 2 should land normally → escalating BP, varying rolls.
+      expect(perHit[1].last, greaterThan(h0Min));
+      expect(perHit[2].last, greaterThan(perHit[1].last));
+    });
+
+    test('Multiscale halves only hit 0', () {
+      final r = calc(
+        move: tripleAxel,
+        atkType1: PokemonType.ice, atkType2: null,
+        defType1: PokemonType.dragon, defType2: PokemonType.flying,
+        defAbility: 'Multiscale',
+      );
+      final perHit = r.perHitAllRolls!;
+      // Each escalating hit's BP doubles/triples roughly. With
+      // Multiscale ×0.5 ONLY on hit 0, hit 1 should be ~4× hit 0
+      // (hit 1 is 2× BP without halving), and hit 2 ~6× hit 0.
+      // Use rough lower bounds — this just guards against the case
+      // where Multiscale wrongly applies to all hits.
+      expect(perHit[1].last, greaterThan(perHit[0].last * 3));
+      expect(perHit[2].last, greaterThan(perHit[0].last * 5));
+    });
+
+    test('Stamina compounds Defense across hits', () {
+      final r = calc(
+        move: tripleAxel,
+        atkType1: PokemonType.ice, atkType2: null,
+        defType1: PokemonType.normal, defType2: null,
+        defAbility: 'Stamina',
+      );
+      final perHit = r.perHitAllRolls!;
+      // Hit 1 sees +1 Def from Stamina trigger after hit 0.
+      // Hit 2 sees +2. So per-hit damage ratio is BELOW the
+      // pure-BP ratio of 2×, 3×.
+      // hit1 / hit0 = (BP×2) / (BP×1) × (D / (D×1.5)) = 2 × 0.667 ≈ 1.33
+      // hit2 / hit0 = 3 × 0.5 = 1.5
+      // Without Stamina compounding it'd be 2.0 and 3.0.
+      final ratio1 = perHit[1].last / perHit[0].last;
+      final ratio2 = perHit[2].last / perHit[0].last;
+      expect(ratio1, lessThan(1.7));
+      expect(ratio2, lessThan(2.0));
+    });
+  });
+
+  // ---------------------------------------------------------------
   // Damage-tab notes for effects not captured by 결정력 / 내구력
   // ---------------------------------------------------------------
 
