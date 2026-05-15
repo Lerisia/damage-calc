@@ -326,9 +326,19 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       ));
       return;
     }
-    final pickedId = await showModalBottomSheet<String>(
+    final pickedId = await showDialog<String>(
       context: context,
-      builder: (ctx) => const _PartyPickerSheet(),
+      barrierDismissible: true,
+      builder: (ctx) => Dialog(
+        insetPadding: const EdgeInsets.all(20),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 400,
+            maxHeight: MediaQuery.sizeOf(ctx).height * 0.8,
+          ),
+          child: const _PartyPickerSheet(),
+        ),
+      ),
     );
     if (pickedId == null || !mounted) return;
     // Re-read store post-sheet so a delete inside the picker doesn't
@@ -649,15 +659,15 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     final pokedex = await loadPokedex();
     if (!mounted) return;
     final byName = {for (final p in pokedex) p.name: p};
-    await showModalBottomSheet(
+    await showDialog(
       context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      // See sample-load call site in damage_calculator_screen.dart —
-      // overscroll-pull on the inner list was accidentally closing
-      // the sheet. Tap outside / back to close instead.
-      enableDrag: false,
-      builder: (ctx) => SampleListSheet(
+      barrierDismissible: true,
+      builder: (ctx) => Dialog(
+        insetPadding: const EdgeInsets.all(12),
+        child: SizedBox(
+          width: double.infinity,
+          height: MediaQuery.sizeOf(ctx).height * 0.9,
+          child: SampleListSheet(
         itemNameMap: _itemNames ?? const {},
         onLoad: (sample) {
           final s = sample.state;
@@ -677,6 +687,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           });
           Navigator.pop(ctx);
         },
+      ),
+        ),
       ),
     );
   }
@@ -2640,30 +2652,48 @@ class _PartyPickerSheetState extends State<_PartyPickerSheet> {
     final candidates = _store.teams
         .where((t) => t.memberIds.isNotEmpty)
         .toList(growable: false);
-    return SafeArea(
-      child: ListView(
-        shrinkWrap: true,
-        children: [
-          ListTile(
-            dense: true,
-            title: Text(
-              AppStrings.t('team.load.title'),
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
-          const Divider(height: 1),
-          if (candidates.isEmpty)
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Center(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 4, 0),
+          child: Row(
+            children: [
+              Expanded(
                 child: Text(
-                  AppStrings.t('team.load.noTeams'),
-                  style: TextStyle(color: Colors.grey.shade600),
+                  AppStrings.t('team.load.title'),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w700),
                 ),
               ),
-            )
-          else
-            for (final t in candidates)
+              IconButton(
+                onPressed: () => Navigator.of(context).maybePop(),
+                icon: const Icon(Icons.close, size: 20),
+                tooltip: AppStrings.t('action.close'),
+                visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.all(6),
+                constraints: const BoxConstraints(),
+              ),
+            ],
+          ),
+        ),
+        const Divider(height: 1),
+        Flexible(
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              if (candidates.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                    child: Text(
+                      AppStrings.t('team.load.noTeams'),
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
+                  ),
+                )
+              else
+                for (final t in candidates)
               ListTile(
                 leading: const Icon(Icons.folder_outlined),
                 title: Text(t.name),
@@ -2693,8 +2723,10 @@ class _PartyPickerSheetState extends State<_PartyPickerSheet> {
                   ],
                 ),
               ),
-        ],
-      ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

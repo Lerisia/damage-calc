@@ -677,19 +677,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   Future<void> _showLoadSheet(int side) async {
-    await showModalBottomSheet(
+    // Snappy dialog instead of slide-up bottom sheet — the in-battle
+    // load flow has to be fast, and the bottom-sheet animation
+    // dragged enough that the user noticed.
+    await showDialog(
       context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      // No swipe-to-dismiss — the inner list spans the whole sheet
-      // and overscroll-pull-down was accidentally closing it while
-      // the user was just trying to scroll the list. Tap outside or
-      // press back to close instead.
-      enableDrag: false,
-      // The sheet now owns its own state — it loads the SampleStore,
-      // mutates teams/pokemon in place, and reloads after each
-      // change. The parent only needs the load callback.
-      builder: (ctx) => SampleListSheet(
+      barrierDismissible: true,
+      builder: (ctx) => Dialog(
+        insetPadding: const EdgeInsets.all(12),
+        child: SizedBox(
+          width: double.infinity,
+          height: MediaQuery.sizeOf(ctx).height * 0.9,
+          child: SampleListSheet(
         itemNameMap: _itemNameMap,
         onLoad: (sample) {
           setState(() {
@@ -709,6 +708,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           });
           Navigator.pop(ctx);
         },
+      ),
+        ),
       ),
     );
   }
@@ -2955,36 +2956,76 @@ class _SaveSampleDialogState extends State<_SaveSampleDialog> {
         ),
       );
     }
-    final items = <DropdownMenuItem<String?>>[
-      DropdownMenuItem(
-        value: null,
-        child: Text(AppStrings.t('sample.save.team.none')),
-      ),
-      for (final t in _store.teams)
-        DropdownMenuItem(
-          value: t.id,
-          enabled: t.memberIds.length < kMaxTeamSize,
-          child: Text(
-            '${t.name}  (${t.memberIds.length}/$kMaxTeamSize)',
-            style: TextStyle(
-              color: t.memberIds.length >= kMaxTeamSize
-                  ? Colors.grey
-                  : null,
-            ),
+    // Tap-to-pick instead of DropdownButton — Material's dropdown
+    // animation is hard-coded to 300 ms, which felt slow inside the
+    // in-battle save flow. A SimpleDialog opens via the standard
+    // showDialog ~150 ms fade and lets us also style full/disabled
+    // teams with a more obvious "full" indicator.
+    final selectedLabel = _selectedTeamId == null
+        ? AppStrings.t('sample.save.team.none')
+        : (_store.teams
+                    .where((t) => t.id == _selectedTeamId)
+                    .firstOrNull
+                    ?.name ??
+                AppStrings.t('sample.save.team.none'));
+    return InkWell(
+      onTap: () async {
+        final picked = await showDialog<_TeamPick>(
+          context: context,
+          barrierDismissible: true,
+          builder: (ctx) => SimpleDialog(
+            title: Text(AppStrings.t('sample.save.team')),
+            children: [
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(ctx, const _TeamPick(null)),
+                child: Text(AppStrings.t('sample.save.team.none')),
+              ),
+              for (final t in _store.teams)
+                SimpleDialogOption(
+                  onPressed: t.memberIds.length >= kMaxTeamSize
+                      ? null
+                      : () => Navigator.pop(ctx, _TeamPick(t.id)),
+                  child: Text(
+                    '${t.name}  (${t.memberIds.length}/$kMaxTeamSize)',
+                    style: TextStyle(
+                      color: t.memberIds.length >= kMaxTeamSize
+                          ? Colors.grey
+                          : null,
+                    ),
+                  ),
+                ),
+            ],
           ),
+        );
+        if (picked == null) return;
+        setState(() => _selectedTeamId = picked.id);
+      },
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: AppStrings.t('sample.save.team'),
+          isDense: true,
         ),
-    ];
-    return DropdownButtonFormField<String?>(
-      value: _selectedTeamId,
-      isExpanded: true,
-      decoration: InputDecoration(
-        labelText: AppStrings.t('sample.save.team'),
-        isDense: true,
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(selectedLabel,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 14)),
+            ),
+            const Icon(Icons.arrow_drop_down, size: 20),
+          ],
+        ),
       ),
-      items: items,
-      onChanged: (v) => setState(() => _selectedTeamId = v),
     );
   }
+}
+
+/// Carrier for the team-picker SimpleDialog return value — using a
+/// dedicated type lets us distinguish "no team selected" (id = null,
+/// returned via tap) from "dismissed" (the dialog returns null).
+class _TeamPick {
+  final String? id;
+  const _TeamPick(this.id);
 }
 
 /// Compact language toggle button for wide AppBar.

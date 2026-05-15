@@ -307,42 +307,32 @@ class _SampleListSheetState extends State<SampleListSheet> {
 
   Future<void> _movePokemon(StoredSample s) async {
     final currentTeamId = _store.teamOf(s.id)?.id;
-    final pickedAction = await showModalBottomSheet<String>(
+    final pickedAction = await showDialog<String>(
       context: context,
-      builder: (ctx) => SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
+      builder: (ctx) => SimpleDialog(
+        title: Text(AppStrings.t('sample.move.title')),
+        children: [
+          ListTile(
+            leading: const Icon(Icons.inbox_outlined),
+            title: Text(AppStrings.t('sample.move.toLoose')),
+            enabled: currentTeamId != null,
+            onTap: () => Navigator.pop(ctx, '__loose__'),
+          ),
+          for (final t in _store.teams)
             ListTile(
-              dense: true,
-              title: Text(
-                AppStrings.t('sample.move.title'),
-                style: const TextStyle(fontWeight: FontWeight.w600),
-              ),
+              leading: const Icon(Icons.folder_outlined),
+              title: Text('${t.name}  (${t.memberIds.length}/$kMaxTeamSize)'),
+              enabled: t.id != currentTeamId &&
+                  t.memberIds.length < kMaxTeamSize,
+              trailing: t.memberIds.length >= kMaxTeamSize &&
+                      t.id != currentTeamId
+                  ? Text(AppStrings.t('sample.team.full'),
+                      style: TextStyle(
+                          fontSize: 11, color: Colors.grey.shade500))
+                  : null,
+              onTap: () => Navigator.pop(ctx, t.id),
             ),
-            const Divider(height: 1),
-            ListTile(
-              leading: const Icon(Icons.inbox_outlined),
-              title: Text(AppStrings.t('sample.move.toLoose')),
-              enabled: currentTeamId != null,
-              onTap: () => Navigator.pop(ctx, '__loose__'),
-            ),
-            for (final t in _store.teams)
-              ListTile(
-                leading: const Icon(Icons.folder_outlined),
-                title: Text('${t.name}  (${t.memberIds.length}/$kMaxTeamSize)'),
-                enabled: t.id != currentTeamId &&
-                    t.memberIds.length < kMaxTeamSize,
-                trailing: t.memberIds.length >= kMaxTeamSize &&
-                        t.id != currentTeamId
-                    ? Text(AppStrings.t('sample.team.full'),
-                        style: TextStyle(
-                            fontSize: 11, color: Colors.grey.shade500))
-                    : null,
-                onTap: () => Navigator.pop(ctx, t.id),
-              ),
-          ],
-        ),
+        ],
       ),
     );
     if (pickedAction == null) return;
@@ -421,69 +411,87 @@ class _SampleListSheetState extends State<SampleListSheet> {
 
   @override
   Widget build(BuildContext context) {
-    // Fixed-height sheet (~92 % of screen). Switched away from
-    // DraggableScrollableSheet because its built-in bridge between
-    // inner-list scroll and sheet drag made the sheet randomly
-    // collapse when the user scrolled the list to its top edge —
-    // resize-via-list-scroll and list-scroll should be distinct
-    // gestures.
-    final screenH = MediaQuery.sizeOf(context).height;
-    return SizedBox(
-      height: screenH * 0.92,
-      child: Column(
-        children: [
-          if (SampleStorage.isWebStorage)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-              child: Text(
-                AppStrings.t('sample.browserWarning'),
-                style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+    // Designed to live inside a `Dialog`, not a bottom sheet — the
+    // bottom-sheet slide-up was too slow for in-battle use, and the
+    // DraggableScrollableSheet bridge between list scroll and sheet
+    // drag was hijacking scrolls. The dialog wrapper handles sizing;
+    // here we just lay out a header (title + X) → search/buttons →
+    // list.
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 4, 0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  AppStrings.t('sample.load'),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w700),
+                ),
               ),
-            ),
+              IconButton(
+                onPressed: () => Navigator.of(context).maybePop(),
+                icon: const Icon(Icons.close, size: 20),
+                tooltip: AppStrings.t('action.close'),
+                visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.all(6),
+                constraints: const BoxConstraints(),
+              ),
+            ],
+          ),
+        ),
+        if (SampleStorage.isWebStorage)
           Padding(
-            padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    autofocus: false,
-                    decoration: InputDecoration(
-                      hintText: AppStrings.t('sample.search'),
-                      prefixIcon: const Icon(Icons.search, size: 20),
-                      isDense: true,
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 8),
-                    ),
-                    onChanged: (v) => setState(() => _query = v),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: _importShareCode,
-                  icon: const Icon(Icons.download_outlined, size: 20),
-                  tooltip: AppStrings.t('sample.share.import'),
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.all(6),
-                  constraints: const BoxConstraints(),
-                ),
-                const SizedBox(width: 4),
-                TextButton.icon(
-                  onPressed: _addTeam,
-                  icon: const Icon(Icons.create_new_folder_outlined,
-                      size: 18),
-                  label: Text(AppStrings.t('sample.team.add')),
-                  style: TextButton.styleFrom(
-                    visualDensity: VisualDensity.compact,
-                  ),
-                ),
-              ],
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+            child: Text(
+              AppStrings.t('sample.browserWarning'),
+              style: TextStyle(fontSize: 11, color: Colors.grey[500]),
             ),
           ),
-          const SizedBox(height: 4),
-          const Divider(height: 1),
-          Expanded(child: _body(_listController)),
-        ],
-      ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: AppStrings.t('sample.search'),
+                    prefixIcon: const Icon(Icons.search, size: 20),
+                    isDense: true,
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8),
+                  ),
+                  onChanged: (v) => setState(() => _query = v),
+                ),
+              ),
+              const SizedBox(width: 4),
+              IconButton(
+                onPressed: _importShareCode,
+                icon: const Icon(Icons.download_outlined, size: 20),
+                tooltip: AppStrings.t('sample.share.import'),
+                visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.all(6),
+                constraints: const BoxConstraints(),
+              ),
+              const SizedBox(width: 4),
+              TextButton.icon(
+                onPressed: _addTeam,
+                icon: const Icon(Icons.create_new_folder_outlined,
+                    size: 18),
+                label: Text(AppStrings.t('sample.team.add')),
+                style: TextButton.styleFrom(
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(height: 1),
+        Expanded(child: _body(_listController)),
+      ],
     );
   }
 
