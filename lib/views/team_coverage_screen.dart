@@ -662,7 +662,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     await showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (ctx) => Dialog(
+      builder: (ctx) => MediaQuery(
+        data: MediaQuery.of(ctx).copyWith(viewInsets: EdgeInsets.zero),
+        child: Dialog(
         insetPadding: const EdgeInsets.all(12),
         child: SizedBox(
           width: double.infinity,
@@ -689,6 +691,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         },
       ),
         ),
+      ),
       ),
     );
   }

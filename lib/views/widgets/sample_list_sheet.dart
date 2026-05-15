@@ -417,7 +417,16 @@ class _SampleListSheetState extends State<SampleListSheet> {
     // drag was hijacking scrolls. The dialog wrapper handles sizing;
     // here we just lay out a header (title + X) → search/buttons →
     // list.
-    return Column(
+    //
+    // The outer GestureDetector dismisses the search keyboard when
+    // the user taps anywhere outside the search field. Without it,
+    // the only way to close the IME was to tap the system back
+    // gesture or actually pick a result, which felt like a trap if
+    // the user just wanted to stop searching.
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
@@ -492,6 +501,7 @@ class _SampleListSheetState extends State<SampleListSheet> {
         const Divider(height: 1),
         Expanded(child: _body(_listController)),
       ],
+      ),
     );
   }
 

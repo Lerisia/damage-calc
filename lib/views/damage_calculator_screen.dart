@@ -680,10 +680,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     // Snappy dialog instead of slide-up bottom sheet — the in-battle
     // load flow has to be fast, and the bottom-sheet animation
     // dragged enough that the user noticed.
+    //
+    // The MediaQuery override zeroes viewInsets.bottom so the dialog
+    // does NOT shrink when the search keyboard appears — users
+    // expect the visible list area to stay constant while they type
+    // (scrolling reveals items the keyboard happens to cover).
     await showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (ctx) => Dialog(
+      builder: (ctx) => MediaQuery(
+        data: MediaQuery.of(ctx).copyWith(viewInsets: EdgeInsets.zero),
+        child: Dialog(
         insetPadding: const EdgeInsets.all(12),
         child: SizedBox(
           width: double.infinity,
@@ -710,6 +717,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         },
       ),
         ),
+      ),
       ),
     );
   }
