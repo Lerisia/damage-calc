@@ -1084,14 +1084,20 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                         value: pct.clamp(0, sliderMax).toDouble(),
                         min: 0,
                         max: sliderMax.toDouble(),
-                        divisions: sliderMax,
+                        // 5 % step — finer than that is rarely needed
+                        // via the slider (sub-5 % chip values are
+                        // entered through tap-to-edit on the label).
+                        divisions: sliderMax ~/ 5,
                         onChanged: (v) {
-                          var rounded = v.round();
-                          // Magnetic snap onto 100 % within ±2 — gives the
-                          // common "full HP" anchor a sticky feel without
-                          // making 99 / 101 unreachable.
-                          if ((rounded - 100).abs() <= 2) rounded = 100;
-                          setState(() => _def.hpPercent = rounded.toDouble());
+                          // Snap to the nearest 5 % step.
+                          var snapped = (v / 5).round() * 5;
+                          // Magnetic snap onto 100 % is preserved even
+                          // though the divisions already pass through
+                          // 100 — keeps the same sticky feel for the
+                          // common full-HP anchor.
+                          if ((snapped - 100).abs() <= 2) snapped = 100;
+                          setState(
+                              () => _def.hpPercent = snapped.toDouble());
                           widget.onChanged();
                         },
                       ),
