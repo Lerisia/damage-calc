@@ -611,10 +611,38 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         ),
       );
       if (overwrite != true) return;
-      // Overwrite preserves the existing pokemon's id and team
-      // membership — switching teams is a separate operation in the
-      // load sheet.
+      // Overwrite the state in place, then honor the dialog's team
+      // selection if the user moved the pokemon to a different party
+      // (or freshly created one). Without this, picking a new party
+      // on the overwrite path silently dropped — the dialog let the
+      // user think it would move, but only the state replacement
+      // ran.
       await SampleStorage.overwriteSample(name, saveState);
+      final overwritten = (await SampleStorage.loadStore())
+          .samples
+          .where((s) => s.name == name)
+          .firstOrNull;
+      if (overwritten != null) {
+        String? targetTeamId = result.teamId;
+        if (result.newTeamName != null) {
+          targetTeamId =
+              await SampleStorage.createTeam(result.newTeamName!);
+        }
+        final currentTeamId = (await SampleStorage.loadStore())
+            .teamOf(overwritten.id)
+            ?.id;
+        if (currentTeamId != targetTeamId) {
+          try {
+            await SampleStorage.movePokemon(overwritten.id, targetTeamId);
+          } on TeamFullException {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(AppStrings.t('sample.team.fullSnack')),
+            ));
+            return;
+          }
+        }
+      }
     } else {
       // Resolve target team: existing pick, or freshly created if the
       // user chose "+ 새 팀". Wrapped in a try so a TeamFullException
