@@ -184,12 +184,7 @@ class _SampleListSheetState extends State<SampleListSheet> {
 
   Future<void> _copyShareCode(StoredSample s) async {
     final code = SampleStorage.exportSampleString(s);
-    await Clipboard.setData(ClipboardData(text: code));
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppStrings.t('sample.share.copied')),
-      duration: const Duration(seconds: 2),
-    ));
+    await _showShareCodeDialog(subject: s.name, code: code);
   }
 
   Future<void> _copyTeamShareCode(TeamFolder t) async {
@@ -199,12 +194,82 @@ class _SampleListSheetState extends State<SampleListSheet> {
     ];
     if (members.isEmpty) return;
     final code = SampleStorage.exportTeamString(t, members);
+    await _showShareCodeDialog(
+      subject: '${t.name} (${members.length})',
+      code: code,
+    );
+  }
+
+  /// Shows the generated share code so the user can see exactly what
+  /// they're handing out (a bare "copied" snackbar gave no feedback
+  /// on *what* was copied). The code is auto-copied on open; a
+  /// re-copy button is provided in case the clipboard got clobbered.
+  Future<void> _showShareCodeDialog({
+    required String subject,
+    required String code,
+  }) async {
     await Clipboard.setData(ClipboardData(text: code));
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppStrings.t('sample.share.copied')),
-      duration: const Duration(seconds: 2),
-    ));
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('sample.share.dialog.title')),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              subject,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              AppStrings.t('sample.share.dialog.desc'),
+              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              constraints: const BoxConstraints(maxHeight: 120),
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Theme.of(ctx).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: SingleChildScrollView(
+                child: SelectableText(
+                  code,
+                  style: const TextStyle(
+                      fontSize: 11, fontFamily: 'monospace'),
+                ),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '${code.length}${AppStrings.t('sample.share.dialog.chars')}',
+              style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton.icon(
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: code));
+              if (!ctx.mounted) return;
+              ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+                content: Text(AppStrings.t('sample.share.copied')),
+                duration: const Duration(seconds: 2),
+              ));
+            },
+            icon: const Icon(Icons.copy, size: 16),
+            label: Text(AppStrings.t('sample.share.dialog.recopy')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.close')),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _importShareCode() async {

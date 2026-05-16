@@ -1250,6 +1250,26 @@ class AppStrings {
       AppLanguage.en: 'Share code copied to clipboard',
       AppLanguage.ja: '共有コードをクリップボードにコピーしました',
     },
+    'sample.share.dialog.title': {
+      AppLanguage.ko: '공유 코드',
+      AppLanguage.en: 'Share code',
+      AppLanguage.ja: '共有コード',
+    },
+    'sample.share.dialog.desc': {
+      AppLanguage.ko: '아래 코드가 클립보드에 복사되었습니다. 붙여넣어 전달하십시오.',
+      AppLanguage.en: 'The code below is on your clipboard — paste it to share.',
+      AppLanguage.ja: '下記のコードをクリップボードにコピーしました。貼り付けて共有してください。',
+    },
+    'sample.share.dialog.chars': {
+      AppLanguage.ko: '자',
+      AppLanguage.en: ' chars',
+      AppLanguage.ja: '文字',
+    },
+    'sample.share.dialog.recopy': {
+      AppLanguage.ko: '다시 복사',
+      AppLanguage.en: 'Copy again',
+      AppLanguage.ja: '再コピー',
+    },
     'sample.share.import': {
       AppLanguage.ko: '코드로 가져오기',
       AppLanguage.en: 'Import code',
