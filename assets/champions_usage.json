@@ -8,6 +8,7 @@
   },
 
   "Garchomp": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 1,
     "abilities": [
       {"name": "Rough Skin"},
@@ -53,6 +54,7 @@
   },
 
   "Primarina": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 2,
     "abilities": [
       {"name": "Torrent"},
@@ -98,6 +100,7 @@
   },
 
   "Charizard": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 3,
     "abilities": [
       {"name": "Blaze"},
@@ -197,6 +200,7 @@
   },
 
   "Corviknight": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 4,
     "abilities": [
       {"name": "Pressure"},
@@ -243,6 +247,7 @@
   },
 
   "Archaludon": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 5,
     "abilities": [
       {"name": "Stamina"},
@@ -289,6 +294,7 @@
   },
 
   "Hippowdon": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 6,
     "abilities": [
       {"name": "Sand Stream"},
@@ -334,6 +340,7 @@
   },
 
   "Gengar": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 7,
     "abilities": [
       {"name": "Cursed Body"}
@@ -412,6 +419,7 @@
   },
 
   "Scizor": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 8,
     "abilities": [
       {"name": "Technician"},
@@ -492,6 +500,7 @@
   },
 
   "Aegislash": {
+    "defaultSp": {"hp": 32, "atk": 29, "def": 0, "spa": 0, "spd": 0, "spe": 5},
     "usageRank": 9,
     "abilities": [
       {"name": "Stance Change"}
@@ -571,6 +580,7 @@
   },
 
   "Dragonite": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 10,
     "abilities": [
       {"name": "Multiscale"},
@@ -650,6 +660,7 @@
   },
 
   "Meowscarada": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 11,
     "abilities": [
       {"name": "Protean"},
@@ -695,6 +706,7 @@
   },
 
   "Basculegion": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 12,
     "abilities": [
       {"name": "Adaptability"},
@@ -741,6 +753,7 @@
   },
 
   "Basculegion (Female)": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 96,
     "abilities": [
       {"name": "Adaptability"},
@@ -787,6 +800,7 @@
   },
 
   "Kingambit": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 13,
     "abilities": [
       {"name": "Supreme Overlord"},
@@ -833,6 +847,7 @@
   },
 
   "Mimikyu": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 14,
     "abilities": [
       {"name": "Disguise"}
@@ -877,6 +892,7 @@
   },
 
   "Lopunny": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 15,
     "abilities": [
       {"name": "Limber"},
@@ -957,6 +973,7 @@
   },
 
   "Hydreigon": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 16,
     "abilities": [
       {"name": "Levitate"}
@@ -1001,6 +1018,7 @@
   },
 
   "Wash Rotom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 18,
     "abilities": [
       {"name": "Levitate"}
@@ -1045,6 +1063,7 @@
   },
 
   "Glimmora": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 17,
     "abilities": [
       {"name": "Toxic Debris"},
@@ -1124,6 +1143,7 @@
   },
 
   "Umbreon": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 19,
     "abilities": [
       {"name": "Inner Focus"},
@@ -1169,6 +1189,7 @@
   },
 
   "Delphox": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 20,
     "abilities": [
       {"name": "Blaze"},
@@ -1248,6 +1269,7 @@
   },
 
   "Lucario": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 21,
     "abilities": [
       {"name": "Inner Focus"},
@@ -1326,6 +1348,7 @@
   },
 
   "Meganium": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 2},
     "usageRank": 23,
     "abilities": [
       {"name": "Overgrow"},
@@ -1405,6 +1428,7 @@
   },
 
   "Gyarados": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 22,
     "abilities": [
       {"name": "Intimidate"},
@@ -1484,6 +1508,7 @@
   },
 
   "Greninja": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 25,
     "abilities": [
       {"name": "Protean"},
@@ -1563,6 +1588,7 @@
   },
 
   "Kangaskhan": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 24,
     "abilities": [
       {"name": "Scrappy"},
@@ -1643,6 +1669,7 @@
   },
 
   "Floette (Eternal Flower)": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Flower Veil"},
       {"name": "Symbiosis"}
@@ -1706,6 +1733,7 @@
   },
 
   "Venusaur": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 27,
     "abilities": [
       {"name": "Chlorophyll"},
@@ -1785,6 +1813,7 @@
   },
 
   "Sneasler": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 28,
     "abilities": [
       {"name": "Unburden"},
@@ -1831,6 +1860,7 @@
   },
 
   "Volcarona": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 29,
     "abilities": [
       {"name": "Flame Body"},
@@ -1876,6 +1906,7 @@
   },
 
   "Clefable": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 30,
     "abilities": [
       {"name": "Unaware"},
@@ -1956,6 +1987,7 @@
   },
 
   "Heat Rotom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 31,
     "abilities": [
       {"name": "Levitate"}
@@ -2000,6 +2032,7 @@
   },
 
   "Tyranitar": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 32,
     "abilities": [
       {"name": "Sand Stream"},
@@ -2079,6 +2112,7 @@
   },
 
   "Starmie": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 33,
     "abilities": [
       {"name": "Natural Cure"},
@@ -2159,6 +2193,7 @@
   },
 
   "Sylveon": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 2},
     "usageRank": 34,
     "abilities": [
       {"name": "Pixilate"},
@@ -2204,6 +2239,7 @@
   },
 
   "Infernape": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 98,
     "abilities": [
       {"name": "Blaze"},
@@ -2249,6 +2285,7 @@
   },
 
   "Alakazam": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 97,
     "abilities": [
       {"name": "Magic Guard"},
@@ -2329,6 +2366,7 @@
   },
 
   "Vaporeon": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 94,
     "abilities": [
       {"name": "Water Absorb"},
@@ -2374,6 +2412,7 @@
   },
 
   "Polteageist": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 92,
     "abilities": [
       {"name": "Cursed Body"},
@@ -2419,6 +2458,7 @@
   },
 
   "Crabominable": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 91,
     "abilities": [
       {"name": "Hyper Cutter"},
@@ -2499,6 +2539,7 @@
   },
 
   "Weavile": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 93,
     "abilities": [
       {"name": "Pressure"},
@@ -2544,6 +2585,7 @@
   },
 
   "Heliolisk": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 89,
     "abilities": [
       {"name": "Dry Skin"},
@@ -2590,6 +2632,7 @@
   },
 
   "Hawlucha": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 90,
     "abilities": [
       {"name": "Mold Breaker"},
@@ -2670,6 +2713,7 @@
   },
 
   "Beedrill": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 88,
     "abilities": [
       {"name": "Swarm"},
@@ -2749,6 +2793,7 @@
   },
 
   "Sharpedo": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 87,
     "abilities": [
       {"name": "Speed Boost"},
@@ -2828,6 +2873,7 @@
   },
 
   "Sableye": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 86,
     "abilities": [
       {"name": "Prankster"},
@@ -2908,6 +2954,7 @@
   },
 
   "Quaquaval": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 85,
     "abilities": [
       {"name": "Moxie"},
@@ -2953,6 +3000,7 @@
   },
 
   "Feraligatr": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 84,
     "abilities": [
       {"name": "Sheer Force"},
@@ -3032,6 +3080,7 @@
   },
 
   "Espeon": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 83,
     "abilities": [
       {"name": "Magic Bounce"},
@@ -3077,6 +3126,7 @@
   },
 
   "Sinistcha": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 14, "spa": 0, "spd": 20, "spe": 0},
     "usageRank": 82,
     "abilities": [
       {"name": "Heatproof"},
@@ -3122,6 +3172,7 @@
   },
 
   "Aggron": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 81,
     "abilities": [
       {"name": "Sturdy"},
@@ -3202,6 +3253,7 @@
   },
 
   "Slowbro": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 80,
     "abilities": [
       {"name": "Regenerator"},
@@ -3282,6 +3334,7 @@
   },
 
   "Orthworm": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 5, "spa": 0, "spd": 29, "spe": 0},
     "usageRank": 78,
     "abilities": [
       {"name": "Earth Eater"},
@@ -3327,6 +3380,7 @@
   },
 
   "Palafin": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 2},
     "usageRank": 79,
     "abilities": [
       {"name": "Zero to Hero"}
@@ -3402,6 +3456,7 @@
   },
 
   "Arcanine": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 2},
     "usageRank": 77,
     "abilities": [
       {"name": "Intimidate"},
@@ -3448,6 +3503,7 @@
   },
 
   "Aerodactyl": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 76,
     "abilities": [
       {"name": "Unnerve"},
@@ -3528,6 +3584,7 @@
   },
 
   "Chesnaught": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 75,
     "abilities": [
       {"name": "Bulletproof"},
@@ -3607,6 +3664,7 @@
   },
 
   "Hisuian Arcanine": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 74,
     "abilities": [
       {"name": "Rock Head"},
@@ -3653,6 +3711,7 @@
   },
 
   "Ditto": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 73,
     "abilities": [
       {"name": "Imposter"},
@@ -3687,6 +3746,7 @@
   },
 
   "Chandelure": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 72,
     "abilities": [
       {"name": "Flash Fire"},
@@ -3767,6 +3827,7 @@
   },
 
   "Armarouge": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 71,
     "abilities": [
       {"name": "Weak Armor"},
@@ -3812,6 +3873,7 @@
   },
 
   "Tinkaton": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 70,
     "abilities": [
       {"name": "Mold Breaker"},
@@ -3858,6 +3920,7 @@
   },
 
   "Galarian Slowking": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 68,
     "abilities": [
       {"name": "Regenerator"},
@@ -3904,6 +3967,7 @@
   },
 
   "Heracross": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 69,
     "abilities": [
       {"name": "Moxie"},
@@ -3984,6 +4048,7 @@
   },
 
   "Hisuian Samurott": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 66,
     "abilities": [
       {"name": "Sharpness"},
@@ -4029,6 +4094,7 @@
   },
 
   "Conkeldurr": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 67,
     "abilities": [
       {"name": "Iron Fist"},
@@ -4074,6 +4140,7 @@
   },
 
   "Milotic": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 21, "spa": 10, "spd": 1, "spe": 2},
     "usageRank": 65,
     "abilities": [
       {"name": "Competitive"},
@@ -4120,6 +4187,7 @@
   },
 
   "Serperior": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 64,
     "abilities": [
       {"name": "Contrary"},
@@ -4165,6 +4233,7 @@
   },
 
   "Banette": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 63,
     "abilities": [
       {"name": "Frisk"},
@@ -4245,6 +4314,7 @@
   },
 
   "Incineroar": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 14, "spa": 0, "spd": 20, "spe": 0},
     "usageRank": 61,
     "abilities": [
       {"name": "Intimidate"},
@@ -4290,6 +4360,7 @@
   },
 
   "Hatterene": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 62,
     "abilities": [
       {"name": "Magic Bounce"},
@@ -4336,6 +4407,7 @@
   },
 
   "Hisuian Zoroark": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 60,
     "abilities": [
       {"name": "Illusion"}
@@ -4380,6 +4452,7 @@
   },
 
   "Gallade": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 59,
     "abilities": [
       {"name": "Sharpness"},
@@ -4460,6 +4533,7 @@
   },
 
   "Araquanid": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 58,
     "abilities": [
       {"name": "Water Bubble"},
@@ -4505,6 +4579,7 @@
   },
 
   "Whimsicott": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 57,
     "abilities": [
       {"name": "Prankster"},
@@ -4551,6 +4626,7 @@
   },
 
   "Kleavor": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 56,
     "abilities": [
       {"name": "Sharpness"},
@@ -4597,6 +4673,7 @@
   },
 
   "Alolan Ninetales": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 54,
     "abilities": [
       {"name": "Snow Warning"},
@@ -4642,6 +4719,7 @@
   },
 
   "Hisuian Goodra": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 55,
     "abilities": [
       {"name": "Gooey"},
@@ -4688,6 +4766,7 @@
   },
 
   "Gardevoir": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 53,
     "abilities": [
       {"name": "Trace"},
@@ -4768,6 +4847,7 @@
   },
 
   "Scovillain": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 19, "spa": 0, "spd": 15, "spe": 0},
     "usageRank": 50,
     "abilities": [
       {"name": "Moody"},
@@ -4848,6 +4928,7 @@
   },
 
   "Froslass": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 52,
     "abilities": [
       {"name": "Cursed Body"},
@@ -4927,6 +5008,7 @@
   },
 
   "Skarmory": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 51,
     "abilities": [
       {"name": "Sturdy"},
@@ -5007,6 +5089,7 @@
   },
 
   "Ceruledge": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 45,
     "abilities": [
       {"name": "Weak Armor"},
@@ -5052,6 +5135,7 @@
   },
 
   "Excadrill": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 49,
     "abilities": [
       {"name": "Mold Breaker"},
@@ -5132,6 +5216,7 @@
   },
 
   "Victreebel": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 2},
     "usageRank": 48,
     "abilities": [
       {"name": "Chlorophyll"},
@@ -5211,6 +5296,7 @@
   },
 
   "Blastoise": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 47,
     "abilities": [
       {"name": "Torrent"},
@@ -5290,6 +5376,7 @@
   },
 
   "Empoleon": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 19, "spd": 0, "spe": 15},
     "usageRank": 46,
     "abilities": [
       {"name": "Competitive"},
@@ -5335,6 +5422,7 @@
   },
 
   "Snorlax": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 44,
     "abilities": [
       {"name": "Thick Fat"},
@@ -5381,6 +5469,7 @@
   },
 
   "Diggersby": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 43,
     "abilities": [
       {"name": "Huge Power"},
@@ -5427,6 +5516,7 @@
   },
 
   "Mamoswine": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 42,
     "abilities": [
       {"name": "Thick Fat"},
@@ -5473,6 +5563,7 @@
   },
 
   "Bellibolt": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 41,
     "abilities": [
       {"name": "Electromorphosis"},
@@ -5519,6 +5610,7 @@
   },
 
   "Pelipper": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 39,
     "abilities": [
       {"name": "Drizzle"},
@@ -5565,6 +5657,7 @@
   },
 
   "Azumarill": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 2},
     "usageRank": 40,
     "abilities": [
       {"name": "Huge Power"},
@@ -5611,6 +5704,7 @@
   },
 
   "Espathra": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 38,
     "abilities": [
       {"name": "Speed Boost"},
@@ -5657,6 +5751,7 @@
   },
 
   "Toxapex": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 37,
     "abilities": [
       {"name": "Regenerator"},
@@ -5703,6 +5798,7 @@
   },
 
   "Skeledirge": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 35,
     "abilities": [
       {"name": "Unaware"},
@@ -5748,6 +5844,7 @@
   },
 
   "Dragapult": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 36,
     "abilities": [
       {"name": "Infiltrator"},
@@ -5839,6 +5936,7 @@
   },
 
   "Toucannon": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 95,
     "abilities": [
       {"name": "Skill Link"},
@@ -5885,6 +5983,7 @@
   },
 
   "Hisuian Typhlosion": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 99,
     "abilities": [
       {"name": "Frisk"},
@@ -5930,6 +6029,7 @@
   },
 
   "Chimecho": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 100,
     "abilities": [
       {"name": "Levitate"}
@@ -5974,6 +6074,7 @@
   },
 
   "Garganacl": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 101,
     "abilities": [
       {"name": "Purifying Salt"},
@@ -6020,6 +6121,7 @@
   },
 
   "Pinsir": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 102,
     "abilities": [
       {"name": "Moxie"},
@@ -6066,6 +6168,7 @@
   },
 
   "Maushold": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 1, "spa": 0, "spd": 1, "spe": 32},
     "usageRank": 103,
     "abilities": [
       {"name": "Technician"},
@@ -6112,6 +6215,7 @@
   },
 
   "Talonflame": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 104,
     "abilities": [
       {"name": "Gale Wings"},
@@ -6157,6 +6261,7 @@
   },
 
   "Vivillon": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 105,
     "abilities": [
       {"name": "Compound Eyes"},
@@ -6203,6 +6308,7 @@
   },
 
   "Abomasnow": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 106,
     "abilities": [
       {"name": "Snow Warning"},
@@ -6248,6 +6354,7 @@
   },
 
   "Galarian Slowbro": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 107,
     "abilities": [
       {"name": "Quick Draw"},
@@ -6294,6 +6401,7 @@
   },
 
   "Lycanroc (Dusk Form)": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 108,
     "abilities": [
       {"name": "Tough Claws"}
@@ -6338,6 +6446,7 @@
   },
 
   "Mudsdale": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 109,
     "abilities": [
       {"name": "Stamina"},
@@ -6384,6 +6493,7 @@
   },
 
   "Emboar": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 110,
     "abilities": [
       {"name": "Reckless"},
@@ -6429,6 +6539,7 @@
   },
 
   "Manectric": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 111,
     "abilities": [
       {"name": "Lightning Rod"},
@@ -6475,6 +6586,7 @@
   },
 
   "Mow Rotom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 112,
     "abilities": [
       {"name": "Levitate"}
@@ -6519,6 +6631,7 @@
   },
 
   "Altaria": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 0, "spd": 32, "spe": 2},
     "usageRank": 113,
     "abilities": [
       {"name": "Natural Cure"},
@@ -6564,6 +6677,7 @@
   },
 
   "Gliscor": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 114,
     "abilities": [
       {"name": "Poison Heal"},
@@ -6610,6 +6724,7 @@
   },
 
   "Paldean Tauros (Blaze Breed)": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 115,
     "abilities": [
       {"name": "Intimidate"},
@@ -6656,6 +6771,7 @@
   },
 
   "Jolteon": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 116,
     "abilities": [
       {"name": "Volt Absorb"},
@@ -6701,6 +6817,7 @@
   },
 
   "Pidgeot": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 117,
     "abilities": [
       {"name": "Big Pecks"},
@@ -6747,6 +6864,7 @@
   },
 
   "Hisuian Decidueye": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 118,
     "abilities": [
       {"name": "Scrappy"},
@@ -6792,6 +6910,7 @@
   },
 
   "Salazzle": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 119,
     "abilities": [
       {"name": "Corrosion"},
@@ -6837,6 +6956,7 @@
   },
 
   "Machamp": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 120,
     "abilities": [
       {"name": "No Guard"},
@@ -6883,6 +7003,7 @@
   },
 
   "Torterra": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 121,
     "abilities": [
       {"name": "Shell Armor"},
@@ -6928,6 +7049,7 @@
   },
 
   "Ampharos": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 122,
     "abilities": [
       {"name": "Static"},
@@ -6973,6 +7095,7 @@
   },
 
   "Runerigus": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 123,
     "abilities": [
       {"name": "Wandering Spirit"}
@@ -7017,6 +7140,7 @@
   },
 
   "Glaceon": {
+    "defaultSp": {"hp": 25, "atk": 0, "def": 1, "spa": 30, "spd": 0, "spe": 10},
     "usageRank": 124,
     "abilities": [
       {"name": "Snow Cloak"},
@@ -7062,6 +7186,7 @@
   },
 
   "Kommo-o": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 125,
     "abilities": [
       {"name": "Bulletproof"},
@@ -7108,6 +7233,7 @@
   },
 
   "Torkoal": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 126,
     "abilities": [
       {"name": "Drought"},
@@ -7154,6 +7280,7 @@
   },
 
   "Forretress": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 127,
     "abilities": [
       {"name": "Sturdy"},
@@ -7199,6 +7326,7 @@
   },
 
   "Krookodile": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 128,
     "abilities": [
       {"name": "Intimidate"},
@@ -7245,6 +7373,7 @@
   },
 
   "Medicham": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 129,
     "abilities": [
       {"name": "Pure Power"},
@@ -7290,6 +7419,7 @@
   },
 
   "Steelix": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 130,
     "abilities": [
       {"name": "Sturdy"},
@@ -7336,6 +7466,7 @@
   },
 
   "Tsareena": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 131,
     "abilities": [
       {"name": "Queenly Majesty"},
@@ -7382,6 +7513,7 @@
   },
 
   "Politoed": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 132,
     "abilities": [
       {"name": "Drizzle"},
@@ -7428,6 +7560,7 @@
   },
 
   "Cofagrigus": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 133,
     "abilities": [
       {"name": "Mummy"}
@@ -7472,6 +7605,7 @@
   },
 
   "Goodra": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 134,
     "abilities": [
       {"name": "Sap Sipper"},
@@ -7518,6 +7652,7 @@
   },
 
   "Drampa": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 135,
     "abilities": [
       {"name": "Berserk"},
@@ -7564,6 +7699,7 @@
   },
 
   "Vanilluxe": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 136,
     "abilities": [
       {"name": "Snow Warning"},
@@ -7610,6 +7746,7 @@
   },
 
   "Slurpuff": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 9, "spa": 0, "spd": 0, "spe": 24},
     "usageRank": 137,
     "abilities": [
       {"name": "Unburden"},
@@ -7655,6 +7792,7 @@
   },
 
   "Noivern": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 138,
     "abilities": [
       {"name": "Frisk"},
@@ -7701,6 +7839,7 @@
   },
 
   "Absol": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 139,
     "abilities": [
       {"name": "Super Luck"},
@@ -7747,6 +7886,7 @@
   },
 
   "Ariados": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 30, "spa": 0, "spd": 4, "spe": 0},
     "usageRank": 140,
     "abilities": [
       {"name": "Insomnia"},
@@ -7793,6 +7933,7 @@
   },
 
   "Glalie": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 141,
     "abilities": [
       {"name": "Moody"},
@@ -7839,6 +7980,7 @@
   },
 
   "Slowking": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 142,
     "abilities": [
       {"name": "Regenerator"},
@@ -7885,6 +8027,7 @@
   },
 
   "Hisuian Avalugg": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 143,
     "abilities": [
       {"name": "Sturdy"},
@@ -7931,6 +8074,7 @@
   },
 
   "Clawitzer": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 144,
     "abilities": [
       {"name": "Mega Launcher"}
@@ -7975,6 +8119,7 @@
   },
 
   "Zoroark": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 145,
     "abilities": [
       {"name": "Illusion"}
@@ -8019,6 +8164,7 @@
   },
 
   "Rhyperior": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 146,
     "abilities": [
       {"name": "Solid Rock"},
@@ -8065,6 +8211,7 @@
   },
 
   "Avalugg": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 32, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 147,
     "abilities": [
       {"name": "Sturdy"},
@@ -8111,6 +8258,7 @@
   },
 
   "Hydrapple": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 148,
     "abilities": [
       {"name": "Regenerator"},
@@ -8157,6 +8305,7 @@
   },
 
   "Klefki": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 149,
     "abilities": [
       {"name": "Prankster"},
@@ -8202,6 +8351,7 @@
   },
 
   "Farigiraf": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 150,
     "abilities": [
       {"name": "Armor Tail"},
@@ -8248,6 +8398,7 @@
   },
 
   "Pikachu": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 151,
     "abilities": [
       {"name": "Lightning Rod"},
@@ -8293,6 +8444,7 @@
   },
 
   "Spiritomb": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 152,
     "abilities": [
       {"name": "Infiltrator"},
@@ -8338,6 +8490,7 @@
   },
 
   "Roserade": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 153,
     "abilities": [
       {"name": "Natural Cure"},
@@ -8384,6 +8537,7 @@
   },
 
   "Morpeko": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 154,
     "abilities": [
       {"name": "Hunger Switch"}
@@ -8428,6 +8582,7 @@
   },
 
   "Golurk": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 155,
     "abilities": [
       {"name": "Iron Fist"},
@@ -8473,6 +8628,7 @@
   },
 
   "Houndoom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 156,
     "abilities": [
       {"name": "Flash Fire"},
@@ -8519,6 +8675,7 @@
   },
 
   "Alcremie": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 157,
     "abilities": [
       {"name": "Aroma Veil"},
@@ -8564,6 +8721,7 @@
   },
 
   "Sandaconda": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 158,
     "abilities": [
       {"name": "Sand Spit"},
@@ -8610,6 +8768,7 @@
   },
 
   "Reuniclus": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 159,
     "abilities": [
       {"name": "Magic Guard"},
@@ -8656,6 +8815,7 @@
   },
 
   "Paldean Tauros (Aqua Breed)": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 160,
     "abilities": [
       {"name": "Intimidate"},
@@ -8702,6 +8862,7 @@
   },
 
   "Frost Rotom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 161,
     "abilities": [
       {"name": "Levitate"}
@@ -8746,6 +8907,7 @@
   },
 
   "Meowstic": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 162,
     "abilities": [
       {"name": "Prankster"},
@@ -8792,6 +8954,7 @@
   },
 
   "Ninetales": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 163,
     "abilities": [
       {"name": "Drought"},
@@ -8837,6 +9000,7 @@
   },
 
   "Typhlosion": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 164,
     "abilities": [
       {"name": "Flash Fire"},
@@ -8882,6 +9046,7 @@
   },
 
   "Toxicroak": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 165,
     "abilities": [
       {"name": "Dry Skin"},
@@ -8928,6 +9093,7 @@
   },
 
   "Aurorus": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 166,
     "abilities": [
       {"name": "Snow Warning"},
@@ -8973,6 +9139,7 @@
   },
 
   "Stunfisk": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 167,
     "abilities": [
       {"name": "Static"},
@@ -9019,6 +9186,7 @@
   },
 
   "Trevenant": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 168,
     "abilities": [
       {"name": "Harvest"},
@@ -9065,6 +9233,7 @@
   },
 
   "Tyrantrum": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 169,
     "abilities": [
       {"name": "Rock Head"},
@@ -9110,6 +9279,7 @@
   },
 
   "Luxray": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 170,
     "abilities": [
       {"name": "Intimidate"},
@@ -9151,6 +9321,7 @@
   },
 
   "Camerupt": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 171,
     "abilities": [
       {"name": "Solid Rock"},
@@ -9197,6 +9368,7 @@
   },
 
   "Pangoro": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 172,
     "abilities": [
       {"name": "Iron Fist"},
@@ -9243,6 +9415,7 @@
   },
 
   "Leafeon": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 173,
     "abilities": [
       {"name": "Chlorophyll"},
@@ -9288,6 +9461,7 @@
   },
 
   "Emolga": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 174,
     "abilities": [
       {"name": "Motor Drive"},
@@ -9333,6 +9507,7 @@
   },
 
   "Flareon": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 175,
     "abilities": [
       {"name": "Flash Fire"},
@@ -9378,6 +9553,7 @@
   },
 
   "Decidueye": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 176,
     "abilities": [
       {"name": "Long Reach"},
@@ -9423,6 +9599,7 @@
   },
 
   "Florges": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 177,
     "abilities": [
       {"name": "Flower Veil"},
@@ -9468,6 +9645,7 @@
   },
 
   "Bastiodon": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 178,
     "abilities": [
       {"name": "Sturdy"},
@@ -9513,6 +9691,7 @@
   },
 
   "Raichu": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 179,
     "abilities": [
       {"name": "Lightning Rod"},
@@ -9558,6 +9737,7 @@
   },
 
   "Alolan Raichu": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 180,
     "abilities": [
       {"name": "Surge Surfer"}
@@ -9602,6 +9782,7 @@
   },
 
   "Meowstic (Female)": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 181,
     "abilities": [
       {"name": "Keen Eye"},
@@ -9648,6 +9829,7 @@
   },
 
   "Gourgeist (Small Size)": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 2},
     "usageRank": 182,
     "abilities": [
       {"name": "Insomnia"},
@@ -9694,6 +9876,7 @@
   },
 
   "Rampardos": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 183,
     "abilities": [
       {"name": "Mold Breaker"},
@@ -9734,6 +9917,7 @@
   },
 
   "Appletun": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 184,
     "abilities": [
       {"name": "Thick Fat"},
@@ -9780,6 +9964,7 @@
   },
 
   "Wyrdeer": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 185,
     "abilities": [
       {"name": "Intimidate"},
@@ -9826,6 +10011,7 @@
   },
 
   "Dedenne": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 186,
     "abilities": [
       {"name": "Cheek Pouch"},
@@ -9867,6 +10053,7 @@
   },
 
   "Audino": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 187,
     "abilities": [
       {"name": "Regenerator"},
@@ -9913,6 +10100,7 @@
   },
 
   "Fan Rotom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 188,
     "abilities": [
       {"name": "Levitate"}
@@ -9957,6 +10145,7 @@
   },
 
   "Galarian Stunfisk": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 32, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 189,
     "abilities": [
       {"name": "Mimicry"}
@@ -10001,6 +10190,7 @@
   },
 
   "Lycanroc": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 190,
     "abilities": [
       {"name": "Steadfast"},
@@ -10047,6 +10237,7 @@
   },
 
   "Mr. Rime": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 191,
     "abilities": [
       {"name": "Screen Cleaner"},
@@ -10093,6 +10284,7 @@
   },
 
   "Arbok": {
+    "defaultSp": {"hp": 0, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 192,
     "abilities": [
       {"name": "Intimidate"},
@@ -10138,6 +10330,7 @@
   },
 
   "Beartic": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 193,
     "abilities": [
       {"name": "Slush Rush"},
@@ -10184,6 +10377,7 @@
   },
 
   "Furfrou": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 194,
     "abilities": [
       {"name": "Fur Coat"}
@@ -10228,6 +10422,7 @@
   },
 
   "Liepard": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 195,
     "abilities": [
       {"name": "Prankster"},
@@ -10274,6 +10469,7 @@
   },
 
   "Flapple": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 196,
     "abilities": [
       {"name": "Hustle"},
@@ -10320,6 +10516,7 @@
   },
 
   "Garbodor": {
+    "defaultSp": {"hp": 0, "atk": 32, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 197,
     "abilities": [
       {"name": "Weak Armor"},
@@ -10366,6 +10563,7 @@
   },
 
   "Lycanroc (Midnight Form)": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 198,
     "abilities": [
       {"name": "No Guard"},
@@ -10412,6 +10610,7 @@
   },
 
   "Samurott": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 199,
     "abilities": [
       {"name": "Shell Armor"},
@@ -10457,6 +10656,7 @@
   },
 
   "Tauros": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 200,
     "abilities": [
       {"name": "Intimidate"},
@@ -10503,6 +10703,7 @@
   },
 
   "Oranguru": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 201,
     "abilities": [
       {"name": "Inner Focus"},
@@ -10549,6 +10750,7 @@
   },
 
   "Simipour": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 203,
     "abilities": [
       {"name": "Torrent"},
@@ -10594,6 +10796,7 @@
   },
 
   "Passimian": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 204,
     "abilities": [
       {"name": "Defiant"},
@@ -10639,6 +10842,7 @@
   },
 
   "Aromatisse": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 205,
     "abilities": [
       {"name": "Aroma Veil"},
@@ -10684,6 +10888,7 @@
   },
 
   "Simisear": {
+    "defaultSp": {"hp": 1, "atk": 0, "def": 1, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 206,
     "abilities": [
       {"name": "Blaze"},
@@ -10729,6 +10934,7 @@
   },
 
   "Watchog": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 208,
     "abilities": [
       {"name": "Analytic"},
@@ -10775,6 +10981,7 @@
   },
 
   "Simisage": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 209,
     "abilities": [
       {"name": "Overgrow"},
@@ -10820,6 +11027,7 @@
   },
 
   "Rotom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 210,
     "abilities": [
       {"name": "Levitate"}
@@ -10864,6 +11072,7 @@
   },
 
   "Castform": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 212,
     "abilities": [
       {"name": "Forecast"}
@@ -10908,6 +11117,7 @@
   },
 
   "Paldean Tauros (Combat Breed)": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "usageRank": 213,
     "abilities": [
       {"name": "Intimidate"},

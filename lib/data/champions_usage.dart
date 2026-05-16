@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import '../models/stats.dart';
 
 /// Usage-stats payload for a single Pokémon species, sourced from the
 /// Pokémon Champions in-game Battle Data (Singles) menu. Curated by
@@ -31,6 +32,13 @@ class ChampionsUsageEntry {
   final List<UsageRow> natures;
   final List<UsageRow> teras;
 
+  /// Most-adopted stat-point spread (Champions SP units, 0–32 per
+  /// stat) from the in-game Battle Data. `null` when the species
+  /// isn't covered — caller should leave EVs at their default (0).
+  /// Stored in SP; convert with `ChampionsMode.spToEvStats` before
+  /// assigning to [BattlePokemonState.ev].
+  final Stats? defaultSp;
+
   const ChampionsUsageEntry({
     this.abilities = const [],
     this.items = const [],
@@ -38,6 +46,7 @@ class ChampionsUsageEntry {
     this.defaultMoves = const [],
     this.natures = const [],
     this.teras = const [],
+    this.defaultSp,
   });
 
   factory ChampionsUsageEntry.fromJson(Map<String, dynamic> json) {
@@ -54,6 +63,22 @@ class ChampionsUsageEntry {
       defaultMoves: list('defaultMoves'),
       natures: list('natures'),
       teras: list('teras'),
+      defaultSp: _parseSp(json['defaultSp']),
+    );
+  }
+
+  /// Parses the `defaultSp` object — keys are the abbreviated stat
+  /// names used in `champions_usage.json` (hp/atk/def/spa/spd/spe).
+  static Stats? _parseSp(dynamic raw) {
+    if (raw is! Map) return null;
+    int v(String k) => (raw[k] as num?)?.toInt() ?? 0;
+    return Stats(
+      hp: v('hp'),
+      attack: v('atk'),
+      defense: v('def'),
+      spAttack: v('spa'),
+      spDefense: v('spd'),
+      speed: v('spe'),
     );
   }
 }

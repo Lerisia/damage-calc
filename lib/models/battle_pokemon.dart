@@ -2,6 +2,7 @@ import '../data/champions_usage.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
 import '../utils/app_strings.dart';
+import '../utils/champions_mode.dart';
 import '../utils/stacking_moves.dart';
 import 'dynamax.dart';
 import 'move_tags.dart';
@@ -415,6 +416,14 @@ class BattlePokemonState {
       } catch (_) {
         // Unknown / non-canonical name — keep the current nature.
       }
+    }
+
+    // EV spread: pull the community's most-adopted SP spread (stored
+    // in Champions SP units) and convert to the EV representation the
+    // calc uses internally. Loading a species now lands on a real
+    // build instead of a blank 0-EV sheet.
+    if (usage.defaultSp != null) {
+      ev = ChampionsMode.spToEvStats(usage.defaultSp!);
     }
 
     _resetMoveSlots();
