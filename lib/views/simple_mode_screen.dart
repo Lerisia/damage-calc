@@ -299,13 +299,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void _applyAttackerPokemon(Pokemon p) {
     setState(() {
       // applyPokemon already seeds curated defaults (ability, item,
-      // nature, default moves) and pins requiredItem for mega forms.
-      // Don't overwrite selectedItem here — that wiped out the curated
-      // top item (Black Glasses on Kingambit, etc.).
+      // nature, default moves, EV spread) and pins requiredItem for
+      // mega forms. Don't overwrite selectedItem here — that wiped
+      // out the curated top item (Black Glasses on Kingambit, etc.).
       _atk.applyPokemon(p);
       _rebuildSortedAbilitiesFor(attacker: true);
-      _atkAbilityCtl.text = _abilityNames[_atk.selectedAbility ?? ''] ?? '';
-      _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
+      // Re-pull every local controller from the freshly-applied state
+      // — applyPokemon now also sets the EV spread, so the SP input
+      // fields would otherwise keep showing the previous Pokémon's
+      // numbers until the user touched them.
+      _hydrateFromState();
     });
     widget.onChanged();
   }
@@ -314,8 +317,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     setState(() {
       _def.applyPokemon(p);
       _rebuildSortedAbilitiesFor(attacker: false);
-      _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
-      _defItemCtl.text = _itemDisplayText(_def.selectedItem);
+      _hydrateFromState();
     });
     widget.onChanged();
   }

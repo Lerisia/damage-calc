@@ -146,6 +146,7 @@
   },
 
   "Mega Charizard Y": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Drought"}
     ],
@@ -173,6 +174,7 @@
   },
 
   "Mega Charizard X": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Tough Claws"}
     ],
@@ -385,6 +387,7 @@
   },
 
   "Mega Gengar": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Shadow Tag"}
     ],
@@ -466,6 +469,7 @@
   },
 
   "Mega Scizor": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "abilities": [
       {"name": "Technician"}
     ],
@@ -626,6 +630,7 @@
   },
 
   "Mega Dragonite": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Multiscale"}
     ],
@@ -939,6 +944,7 @@
   },
 
   "Mega Lopunny": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Scrappy"}
     ],
@@ -1109,6 +1115,7 @@
   },
 
   "Mega Glimmora": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Adaptability"}
     ],
@@ -1235,6 +1242,7 @@
   },
 
   "Mega Delphox": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Levitate"}
     ],
@@ -1315,6 +1323,7 @@
   },
 
   "Mega Lucario": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Adaptability"}
     ],
@@ -1394,6 +1403,7 @@
   },
 
   "Mega Meganium": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 2},
     "abilities": [
       {"name": "Mega Sol"}
     ],
@@ -1474,6 +1484,7 @@
   },
 
   "Mega Gyarados": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Mold Breaker"}
     ],
@@ -1554,6 +1565,7 @@
   },
 
   "Mega Greninja": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Protean"}
     ],
@@ -1635,6 +1647,7 @@
   },
 
   "Mega Kangaskhan": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Parental Bond"}
     ],
@@ -1779,6 +1792,7 @@
   },
 
   "Mega Venusaur": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Thick Fat"}
     ],
@@ -1953,6 +1967,7 @@
   },
 
   "Mega Clefable": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "abilities": [
       {"name": "Magic Bounce"}
     ],
@@ -2078,6 +2093,7 @@
   },
 
   "Mega Tyranitar": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Sand Stream"}
     ],
@@ -2159,6 +2175,7 @@
   },
 
   "Mega Starmie": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Huge Power"}
     ],
@@ -2332,6 +2349,7 @@
   },
 
   "Mega Alakazam": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Trace"}
     ],
@@ -2505,6 +2523,7 @@
   },
 
   "Mega Crabominable": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "abilities": [
       {"name": "Iron Fist"}
     ],
@@ -2679,6 +2698,7 @@
   },
 
   "Mega Hawlucha": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "No Guard"}
     ],
@@ -2759,6 +2779,7 @@
   },
 
   "Mega Beedrill": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Adaptability"}
     ],
@@ -2839,6 +2860,7 @@
   },
 
   "Mega Sharpedo": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Strong Jaw"}
     ],
@@ -2920,6 +2942,7 @@
   },
 
   "Mega Sableye": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "abilities": [
       {"name": "Magic Bounce"}
     ],
@@ -3046,6 +3069,7 @@
   },
 
   "Mega Feraligatr": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Dragonize"}
     ],
@@ -3219,6 +3243,7 @@
   },
 
   "Mega Aggron": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "abilities": [
       {"name": "Filter"}
     ],
@@ -3300,6 +3325,7 @@
   },
 
   "Mega Slowbro": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "abilities": [
       {"name": "Shell Armor"}
     ],
@@ -3550,6 +3576,7 @@
   },
 
   "Mega Aerodactyl": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Tough Claws"}
     ],
@@ -3630,6 +3657,7 @@
   },
 
   "Mega Chesnaught": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
     "abilities": [
       {"name": "Bulletproof"}
     ],
@@ -3793,6 +3821,7 @@
   },
 
   "Mega Chandelure": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Infiltrator"}
     ],
@@ -4014,6 +4043,7 @@
   },
 
   "Mega Heracross": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Skill Link"}
     ],
@@ -4280,6 +4310,7 @@
   },
 
   "Mega Banette": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "abilities": [
       {"name": "Prankster"}
     ],
@@ -4499,6 +4530,7 @@
   },
 
   "Mega Gallade": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "abilities": [
       {"name": "Inner Focus"}
     ],
@@ -4813,6 +4845,7 @@
   },
 
   "Mega Gardevoir": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Pixilate"}
     ],
@@ -4894,6 +4927,7 @@
   },
 
   "Mega Scovillain": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 19, "spa": 0, "spd": 15, "spe": 0},
     "abilities": [
       {"name": "Spicy Spray"}
     ],
@@ -4974,6 +5008,7 @@
   },
 
   "Mega Froslass": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Snow Warning"}
     ],
@@ -5055,6 +5090,7 @@
   },
 
   "Mega Skarmory": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Stalwart"}
     ],
@@ -5182,6 +5218,7 @@
   },
 
   "Mega Excadrill": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Piercing Drill"}
     ],
@@ -5262,6 +5299,7 @@
   },
 
   "Mega Victreebel": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 2},
     "abilities": [
       {"name": "Innards Out"}
     ],
@@ -5342,6 +5380,7 @@
   },
 
   "Mega Blastoise": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "abilities": [
       {"name": "Mega Launcher"}
     ],

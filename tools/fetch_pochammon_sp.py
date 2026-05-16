@@ -116,6 +116,25 @@ def main():
             "spa": t["sp_spa"], "spd": t["sp_spd"], "spe": t["sp_spe"],
         }
 
+    # Mega forms mirror their base species' spread — the in-game
+    # Battle Data doesn't track Megas separately, matching the
+    # existing mega-mirror policy for moves/natures/defaultMoves.
+    # Mega Charizard X is the hand-pinned exception: its physical
+    # build diverges from whatever base Charizard runs.
+    charizard_x = {"hp": 2, "atk": 32, "def": 0,
+                   "spa": 0, "spd": 0, "spe": 32}
+    for key in usage:
+        if key == "_meta" or not key.startswith("Mega "):
+            continue
+        if key == "Mega Charizard X":
+            spreads[key] = charizard_x
+            continue
+        base = key[len("Mega "):]
+        if base.endswith(" X") or base.endswith(" Y"):
+            base = base[:-2]  # Mega Charizard Y → Charizard
+        if base in spreads:
+            spreads[key] = spreads[base]
+
     # Surgical insert: drop a `"defaultSp": {...},` line right after the
     # opening brace of each species object. Strip any pre-existing line
     # first so re-runs stay idempotent.
