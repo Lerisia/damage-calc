@@ -493,7 +493,7 @@ class _DexScreenState extends State<DexScreen> {
   Widget _typeCell(Pokemon p) {
     Widget chip(PokemonType t) => Container(
           margin: const EdgeInsets.symmetric(vertical: 1.5),
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
           decoration: BoxDecoration(
             color: KoStrings.getTypeColor(t),
             borderRadius: BorderRadius.circular(4),
@@ -501,7 +501,7 @@ class _DexScreenState extends State<DexScreen> {
           child: Text(KoStrings.getTypeName(t),
               textAlign: TextAlign.center,
               style: const TextStyle(
-                  fontSize: 11,
+                  fontSize: 13,
                   color: Colors.white,
                   fontWeight: FontWeight.bold)),
         );
