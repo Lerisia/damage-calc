@@ -506,9 +506,10 @@ class _DexScreenState extends State<DexScreen> {
                   fontWeight: FontWeight.bold)),
         );
     return SizedBox(
-      width: 54,
+      width: 46,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        // All chips the same width — sized to fit a 3-character type.
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           chip(p.type1),
@@ -601,7 +602,7 @@ class _DexScreenState extends State<DexScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: [
-          const SizedBox(width: 60), // type column — not sortable
+          const SizedBox(width: 52), // type column — not sortable
           cell(_DexSortKey.name, AppStrings.t('dex.colName'), nameCol: true),
           const SizedBox(width: 4),
           cell(_DexSortKey.hp, AppStrings.t('dex.colHp'), width: 30),
