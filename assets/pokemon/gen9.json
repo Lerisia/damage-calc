@@ -284,7 +284,8 @@
     },
     "abilities": [
       "Insomnia",
-      "Stakeout"
+      "Stakeout Inactive",
+      "Stakeout Active"
     ],
     "weight": 4.0,
     "height": 0.3,
@@ -308,7 +309,8 @@
     },
     "abilities": [
       "Insomnia",
-      "Stakeout"
+      "Stakeout Inactive",
+      "Stakeout Active"
     ],
     "weight": 16.5,
     "height": 1.0,
@@ -909,7 +911,8 @@
     "abilities": [
       "Intimidate",
       "Run Away",
-      "Stakeout"
+      "Stakeout Inactive",
+      "Stakeout Active"
     ],
     "weight": 16.0,
     "height": 0.5,
@@ -934,7 +937,8 @@
     "abilities": [
       "Intimidate",
       "Guard Dog",
-      "Stakeout"
+      "Stakeout Inactive",
+      "Stakeout Active"
     ],
     "weight": 61.0,
     "height": 1.1,

@@ -398,6 +398,49 @@ void main() {
     });
   });
 
+  group('Slow Start', () {
+    // Slow Start (Regigigas): the first 5 turns halve Attack and Speed;
+    // after 5 turns ('Ended') there is no effect.
+    test('Slow Start Active halves Attack and Speed', () {
+      final e = getAbilityEffect('Slow Start Active', move: physicalNormal);
+      expect(e.statModifiers.attack, equals(0.5));
+      expect(e.statModifiers.speed, equals(0.5));
+    });
+
+    test('Slow Start Active leaves Sp.Atk untouched', () {
+      final e = getAbilityEffect('Slow Start Active', move: specialFire);
+      expect(e.statModifiers.spAttack, equals(1.0));
+    });
+
+    test('Slow Start Ended has no effect', () {
+      final e = getAbilityEffect('Slow Start Ended', move: physicalNormal);
+      expect(e.statModifiers.attack, equals(1.0));
+      expect(e.statModifiers.speed, equals(1.0));
+    });
+
+    test('getSpeedAbilityModifier reflects Slow Start state', () {
+      expect(getSpeedAbilityModifier('Slow Start Active'), equals(0.5));
+      expect(getSpeedAbilityModifier('Slow Start Ended'), equals(1.0));
+    });
+  });
+
+  group('Stakeout', () {
+    // Stakeout: ×2 against a target that switched in this turn. Doubles
+    // both Attack and Sp.Atk so it covers physical and special moves.
+    test('Stakeout Active doubles Attack and Sp.Atk', () {
+      final phys = getAbilityEffect('Stakeout Active', move: physicalNormal);
+      final spec = getAbilityEffect('Stakeout Active', move: specialFire);
+      expect(phys.statModifiers.attack, equals(2.0));
+      expect(spec.statModifiers.spAttack, equals(2.0));
+    });
+
+    test('Stakeout Inactive has no effect', () {
+      final e = getAbilityEffect('Stakeout Inactive', move: physicalNormal);
+      expect(e.statModifiers.attack, equals(1.0));
+      expect(e.statModifiers.spAttack, equals(1.0));
+    });
+  });
+
   group('Speed ability modifiers', () {
     test('Swift Swim doubles speed in rain/heavy rain', () {
       expect(getSpeedAbilityModifier('Swift Swim', weather: Weather.rain), equals(2.0));

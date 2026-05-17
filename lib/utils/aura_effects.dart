@@ -10,13 +10,14 @@
 /// - If an Aura Break is present anywhere on the field, all matching
 ///   auras are reversed to [kAuraNerfed] instead.
 ///
-/// 결정력 (offensive-power display) already applies the attacker's own
-/// aura via [getAbilityEffect], so [getAuraCorrection] returns the delta
-/// needed to bring the total up to the target multiplier.
+/// Both the damage calc and 결정력 read the aura from [getAuraEffect]
+/// alone — it is the single source, applied once as a base-power mod.
 import '../models/type.dart';
 
-/// Raw multiplier an active matching aura applies to damage (4/3 ≈ 1.33).
-const double kAuraBoost = 4 / 3;
+/// Raw multiplier an active matching aura applies to damage.
+/// 5448/4096 ≈ 1.330 — the in-game base-power modifier. Showdown
+/// (@smogon/calc) pushes 5448 into the base-power chain for this.
+const double kAuraBoost = 5448 / 4096;
 
 /// Reversed multiplier when Aura Break is active (3/4 = 0.75).
 const double kAuraNerfed = 3 / 4;
@@ -94,10 +95,13 @@ AuraState computeAuraState({
   );
 }
 
-/// Correction applied during damage calc, plus any notes to surface.
-/// 결정력 already includes [kAuraBoost] when the attacker's own ability
-/// matches [moveType]; this delta brings the total to [kAuraBoost] or
-/// [kAuraNerfed] as dictated by the field state.
+/// The single source of the aura modifier for both the damage calc
+/// and 결정력. A matching aura — Fairy Aura on a Fairy move / Dark Aura
+/// on a Dark move, from ANY source on the field (attacker, defender,
+/// or ally toggle) — multiplies damage by [kAuraBoost]; an Aura Break
+/// flips that to [kAuraNerfed]. The attacker's own aura ability is no
+/// longer applied separately via getAbilityEffect, so the multiplier
+/// is computed and applied exactly once.
 ///
 /// Notes are emitted whenever something is worth telling the user:
 /// - Matching aura active → "Fairy/Dark Aura ×1.33" (or ×0.75 if Break)
@@ -105,7 +109,6 @@ AuraState computeAuraState({
 ///   (lets the user see the field state even though nothing applied)
 ({double multiplier, List<String> notes}) getAuraEffect({
   required PokemonType moveType,
-  required String? attackerAbility,
   required AuraState state,
 }) {
   final bool matchingAura =
@@ -121,14 +124,6 @@ AuraState computeAuraState({
     );
   }
 
-  final bool attackerHasMatchingAura =
-      (attackerAbility == kFairyAuraAbility && moveType == PokemonType.fairy) ||
-      (attackerAbility == kDarkAuraAbility && moveType == PokemonType.dark);
-
-  final double target = state.auraBreakOnField ? kAuraNerfed : kAuraBoost;
-  final double alreadyApplied = attackerHasMatchingAura ? kAuraBoost : 1.0;
-  final double correction = target / alreadyApplied;
-
   final String note;
   if (state.auraBreakOnField) {
     note = 'ability:$kAuraBreakAbility:×$kAuraNerfed';
@@ -137,5 +132,8 @@ AuraState computeAuraState({
         ? kFairyAuraAbility : kDarkAuraAbility;
     note = 'ability:$auraName:×1.33';
   }
-  return (multiplier: correction, notes: [note]);
+  return (
+    multiplier: state.auraBreakOnField ? kAuraNerfed : kAuraBoost,
+    notes: [note],
+  );
 }

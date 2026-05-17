@@ -19,6 +19,7 @@ import '../models/weather.dart';
 import '../utils/app_strings.dart';
 import '../utils/battle_facade.dart';
 import '../utils/champions_filter_controller.dart';
+import '../utils/korean_search.dart';
 import '../utils/page_routes.dart';
 import '../utils/localization.dart';
 import '../utils/stacking_moves.dart';
@@ -40,6 +41,10 @@ typedef DexPickResult = ({int side, Pokemon pokemon});
 /// type matchups, and learnable moves. Reuses the calculator's
 /// PokemonSelector for search and KoStrings for type colors / names so
 /// the visual language matches.
+/// Sort column for the Pokémon Dex browse list. A null sort key keeps
+/// dex-number order; tapping a stat header sorts by that stat.
+enum _DexSortKey { name, hp, atk, def, spa, spd, spe, bst }
+
 class DexScreen extends StatefulWidget {
   /// If non-null, opens directly on this Pokemon's page (used by the
   /// "open in dex" button on the calculator panels).
@@ -54,15 +59,32 @@ class DexScreen extends StatefulWidget {
 class _DexScreenState extends State<DexScreen> {
   Pokemon? _selected;
 
+  List<Pokemon> _allPokemon = const [];
+  List<SearchEntry<Pokemon>> _searchEntries = const [];
   Map<String, Ability> _abilityDex = const {};
   Map<String, Move> _moveDex = const {};
   Set<String> _learnable = const {};
   bool _loadingMoves = false;
 
+  // Browse-list state (used only in browse mode — see _buildBrowse).
+  final _searchCtl = TextEditingController();
+  final _searchFocus = FocusNode();
+  PokemonType? _type1;
+  PokemonType? _type2;
+  _DexSortKey? _sortKey;
+  bool _sortAsc = true;
+
   @override
   void initState() {
     super.initState();
     _loadDexes();
+  }
+
+  @override
+  void dispose() {
+    _searchCtl.dispose();
+    _searchFocus.dispose();
+    super.dispose();
   }
 
   Future<void> _loadDexes() async {
@@ -72,25 +94,40 @@ class _DexScreenState extends State<DexScreen> {
       loadPokedex(),
     ]);
     if (!mounted) return;
-    final allPokemon = results[2] as List<Pokemon>;
-    // Auto-select the initial pokemon so the dex opens with data
-    // populated — PokemonSelector shows the initial name in the
-    // text field but doesn't fire onSelected, so the parent stays
-    // uninitialized without this nudge.
-    final initialName = widget.initialPokemonName ?? 'Bulbasaur';
-    final initial = allPokemon.firstWhere(
-      (p) => p.name == initialName,
-      orElse: () => allPokemon.firstWhere(
-        (p) => p.dexNumber == 1,
+    // Stable dex-number order so form variants (Mega / regional) sit
+    // right after their base — they share the base's dex number, and
+    // the pokedex loads base entries before forms.
+    final loaded = results[2] as List<Pokemon>;
+    final indexed = [
+      for (var i = 0; i < loaded.length; i++) (loaded[i], i),
+    ]..sort((a, b) {
+        final c = a.$1.dexNumber.compareTo(b.$1.dexNumber);
+        return c != 0 ? c : a.$2.compareTo(b.$2);
+      });
+    final allPokemon = [for (final e in indexed) e.$1];
+    // Cross-link mode (opened on a specific Pokémon via
+    // initialPokemonName) auto-selects it; browse mode starts with no
+    // selection — the list itself is the entry point.
+    Pokemon? initial;
+    final initialName = widget.initialPokemonName;
+    if (initialName != null) {
+      initial = allPokemon.firstWhere(
+        (p) => p.name == initialName,
         orElse: () => allPokemon.first,
-      ),
-    );
+      );
+    }
     setState(() {
       _abilityDex = results[0] as Map<String, Ability>;
       _moveDex = results[1] as Map<String, Move>;
+      _allPokemon = allPokemon;
+      _searchEntries = [
+        for (final p in allPokemon)
+          SearchEntry(p, p.nameKo, p.name,
+              nameJa: p.nameJa, aliases: p.aliases),
+      ];
       _selected = initial;
     });
-    _loadLearnsetFor(initial);
+    if (initial != null) _loadLearnsetFor(initial);
   }
 
   Future<void> _loadLearnsetFor(Pokemon p) async {
@@ -114,6 +151,13 @@ class _DexScreenState extends State<DexScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Opened on a specific Pokémon → detail-only (cross-link); opened
+    // from the nav menu → the browsable list.
+    if (widget.initialPokemonName != null) return _buildCrossLink();
+    return _buildBrowse();
+  }
+
+  Widget _buildCrossLink() {
     // Wide viewports: show Main + Moves side by side so users don't
     // need to swap tabs. Threshold chosen to roughly match the calc's
     // wide layout switch (1050) — anything narrower is phone/tablet
@@ -236,6 +280,482 @@ class _DexScreenState extends State<DexScreen> {
       ),
       ),
     );
+  }
+
+  // ── Browse mode (list + detail) ──────────────────────────────────
+
+  /// List-based browse layout, reached when the dex is opened without
+  /// a target Pokémon. Wide ≥1400 → list | Main | Moves (3-pane);
+  /// 1050–1400 → list | tabbed detail; narrower → list, tap pushes the
+  /// cross-link detail.
+  Widget _buildBrowse() {
+    final width = MediaQuery.of(context).size.width;
+    final veryWide = width >= 1400;
+    final wide = width >= 1050;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {},
+      child: Scaffold(
+        appBar: cappedAppBar(
+          maxWidth: 1500,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            titleSpacing: 0,
+            title: Row(
+              children: [
+                IconButton(
+                  tooltip:
+                      MaterialLocalizations.of(context).backButtonTooltip,
+                  icon: const BackButtonIcon(),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                Expanded(
+                  child: Text(AppStrings.t('dex.title'),
+                      style: const TextStyle(fontSize: 18)),
+                ),
+                ValueListenableBuilder<bool>(
+                  valueListenable:
+                      ChampionsFilterController.instance.championsOnly,
+                  builder: (context, on, _) => _ChampionsOnlyToggle(
+                    value: on,
+                    onChanged: (v) => ChampionsFilterController.instance
+                        .set(v ?? false),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          behavior: HitTestBehavior.translucent,
+          // Refilter the list when the Champions-only toggle flips.
+          child: ValueListenableBuilder<bool>(
+            valueListenable:
+                ChampionsFilterController.instance.championsOnly,
+            builder: (context, _, __) {
+              if (_allPokemon.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (!wide) return _listPane(pushOnTap: true);
+              return LayoutBuilder(
+                builder: (context, c) {
+                  final w =
+                      c.maxWidth.clamp(0.0, veryWide ? 1500.0 : 1200.0);
+                  final h = c.maxHeight.clamp(0.0, 900.0);
+                  return Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: w,
+                      height: h,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: veryWide
+                            ? [
+                                SizedBox(width: 430, child: _listPane()),
+                                const VerticalDivider(width: 1),
+                                Expanded(
+                                  child: _MainTab(
+                                    pokemon: _selected,
+                                    abilityDex: _abilityDex,
+                                    moveDex: _moveDex,
+                                  ),
+                                ),
+                                const VerticalDivider(width: 1),
+                                Expanded(
+                                  child: _MovesTab(
+                                    pokemon: _selected,
+                                    learnable: _learnable,
+                                    moveDex: _moveDex,
+                                    loading: _loadingMoves,
+                                  ),
+                                ),
+                              ]
+                            : [
+                                SizedBox(width: 460, child: _listPane()),
+                                const VerticalDivider(width: 1),
+                                Expanded(child: _detailTabbed()),
+                              ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Main + Moves under a TabBar — the detail pane for the 2-pane
+  /// (non-very-wide) browse layout.
+  Widget _detailTabbed() {
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          TabBar(
+            tabs: [
+              Tab(text: AppStrings.t('dex.tabMain')),
+              Tab(text: AppStrings.t('dex.tabMoves')),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                _MainTab(
+                  pokemon: _selected,
+                  abilityDex: _abilityDex,
+                  moveDex: _moveDex,
+                ),
+                _MovesTab(
+                  pokemon: _selected,
+                  learnable: _learnable,
+                  moveDex: _moveDex,
+                  loading: _loadingMoves,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _listPane({bool pushOnTap = false}) {
+    final filtered = _filteredPokemon(_searchCtl.text);
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+          child: TextField(
+            controller: _searchCtl,
+            focusNode: _searchFocus,
+            decoration: InputDecoration(
+              hintText: AppStrings.t('search.pokemon'),
+              prefixIcon: const Icon(Icons.search, size: 20),
+              isDense: true,
+              border: const OutlineInputBorder(),
+            ),
+            onChanged: (_) => setState(() {}),
+            onSubmitted: (_) {
+              final r = _filteredPokemon(_searchCtl.text);
+              if (r.isNotEmpty) {
+                _searchFocus.unfocus();
+                _pickPokemon(r.first, pushOnTap);
+              }
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 4, 8, 6),
+          child: Row(
+            children: [
+              Expanded(child: _typeSlot(1)),
+              const SizedBox(width: 6),
+              Expanded(child: _typeSlot(2)),
+            ],
+          ),
+        ),
+        const Divider(height: 1),
+        _dexSortHeader(),
+        const Divider(height: 1),
+        if (filtered.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(AppStrings.t('dex.noMovesMatch'),
+                style: TextStyle(color: Colors.grey.shade600)),
+          )
+        else
+          Expanded(
+            child: ListView.separated(
+              keyboardDismissBehavior:
+                  ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: const EdgeInsets.only(bottom: 120),
+              itemCount: filtered.length,
+              separatorBuilder: (_, __) => const Divider(height: 1),
+              itemBuilder: (_, i) {
+                final p = filtered[i];
+                return _pokemonRow(p,
+                    isSelected: _selected?.name == p.name,
+                    push: pushOnTap);
+              },
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _typeCell(Pokemon p) {
+    Widget chip(PokemonType t) => Container(
+          margin: const EdgeInsets.symmetric(vertical: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+          decoration: BoxDecoration(
+            color: KoStrings.getTypeColor(t),
+            borderRadius: BorderRadius.circular(3),
+          ),
+          child: Text(KoStrings.getTypeName(t),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 9,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold)),
+        );
+    return SizedBox(
+      width: 44,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          chip(p.type1),
+          if (p.type2 != null) chip(p.type2!),
+        ],
+      ),
+    );
+  }
+
+  Widget _pokemonRow(Pokemon p,
+      {required bool isSelected, required bool push}) {
+    final scheme = Theme.of(context).colorScheme;
+    final s = p.baseStats;
+    final bst = s.hp + s.attack + s.defense + s.spAttack + s.spDefense + s.speed;
+    Widget stat(int v) => SizedBox(
+          width: 30,
+          child: Text('$v',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 12,
+                  fontFeatures: [FontFeature.tabularFigures()])),
+        );
+    return InkWell(
+      onTap: () => _pickPokemon(p, push),
+      child: Container(
+        color: isSelected ? scheme.primary.withValues(alpha: 0.08) : null,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+        child: Row(
+          children: [
+            _typeCell(p),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(p.localizedName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 13, fontWeight: FontWeight.w600)),
+            ),
+            const SizedBox(width: 4),
+            stat(s.hp),
+            stat(s.attack),
+            stat(s.defense),
+            stat(s.spAttack),
+            stat(s.spDefense),
+            stat(s.speed),
+            SizedBox(
+              width: 36,
+              child: Text('$bst',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      fontFeatures: [FontFeature.tabularFigures()])),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _dexSortHeader() {
+    Widget cell(_DexSortKey key, String label,
+        {double? width, bool nameCol = false}) {
+      final active = _sortKey == key;
+      final searching = _searchCtl.text.isNotEmpty;
+      final arrow = (active && !searching) ? (_sortAsc ? ' ↑' : ' ↓') : '';
+      final tappable = InkWell(
+        onTap: () => _toggleSort(key),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Text(
+            '$label$arrow',
+            textAlign: nameCol ? TextAlign.left : TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: (active && !searching)
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey.shade700,
+            ),
+          ),
+        ),
+      );
+      return nameCol
+          ? Expanded(child: tappable)
+          : SizedBox(width: width, child: tappable);
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        children: [
+          const SizedBox(width: 50), // type column — not sortable
+          cell(_DexSortKey.name, AppStrings.t('dex.colName'), nameCol: true),
+          const SizedBox(width: 4),
+          cell(_DexSortKey.hp, AppStrings.t('dex.colHp'), width: 30),
+          cell(_DexSortKey.atk, AppStrings.t('dex.colAtk'), width: 30),
+          cell(_DexSortKey.def, AppStrings.t('dex.colDef'), width: 30),
+          cell(_DexSortKey.spa, AppStrings.t('dex.colSpa'), width: 30),
+          cell(_DexSortKey.spd, AppStrings.t('dex.colSpd'), width: 30),
+          cell(_DexSortKey.spe, AppStrings.t('dex.colSpe'), width: 30),
+          cell(_DexSortKey.bst, AppStrings.t('dex.colBst'), width: 36),
+        ],
+      ),
+    );
+  }
+
+  Widget _typeSlot(int slot) {
+    final current = slot == 1 ? _type1 : _type2;
+    const allSentinel = -1;
+    return PopupMenuButton<int>(
+      tooltip: AppStrings.t('dex.allTypes'),
+      popUpAnimationStyle:
+          const AnimationStyle(duration: Duration(milliseconds: 100)),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          current == null
+              ? AppStrings.t('dex.allTypes')
+              : KoStrings.getTypeName(current),
+          style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: current != null
+                  ? KoStrings.getTypeColor(current)
+                  : null),
+        ),
+      ),
+      itemBuilder: (_) => [
+        PopupMenuItem(
+          value: allSentinel,
+          child: Text(AppStrings.t('dex.allTypes'),
+              style: const TextStyle(fontSize: 13)),
+        ),
+        for (final t in PokemonType.values)
+          if (t != PokemonType.typeless)
+            PopupMenuItem(
+              value: t.index,
+              child: Text(KoStrings.getTypeName(t),
+                  style: TextStyle(
+                      fontSize: 13, color: KoStrings.getTypeColor(t))),
+            ),
+      ],
+      onSelected: (v) => setState(() {
+        final picked = v == allSentinel ? null : PokemonType.values[v];
+        if (slot == 1) {
+          _type1 = picked;
+        } else {
+          _type2 = picked;
+        }
+      }),
+    );
+  }
+
+  /// Filters by type slots + Champions toggle; with a query, results
+  /// are relevance-scored (column sort ignored); otherwise sorted by
+  /// the active column, defaulting to dex-number order.
+  List<Pokemon> _filteredPokemon(String query) {
+    final championsOnly =
+        ChampionsFilterController.instance.championsOnly.value;
+    final typeFilters = [_type1, _type2].whereType<PokemonType>().toList();
+    bool ok(Pokemon p) {
+      if (championsOnly && !isInChampions(p.name)) return false;
+      for (final t in typeFilters) {
+        if (p.type1 != t && p.type2 != t) return false;
+      }
+      return true;
+    }
+
+    if (query.isNotEmpty) {
+      final qLower = query.toLowerCase();
+      final qRunes = qLower.runes.toList();
+      final scored = <(Pokemon, int)>[];
+      for (final e in _searchEntries) {
+        if (!ok(e.item)) continue;
+        final s = scoreEntry(qRunes, qLower, e);
+        if (s > 0) scored.add((e.item, s));
+      }
+      scored.sort((a, b) => b.$2.compareTo(a.$2));
+      return [for (final e in scored) e.$1];
+    }
+
+    final out = _allPokemon.where(ok).toList();
+    if (_sortKey != null) out.sort(_compareDex);
+    return out;
+  }
+
+  int _bstOf(Pokemon p) {
+    final s = p.baseStats;
+    return s.hp + s.attack + s.defense + s.spAttack + s.spDefense + s.speed;
+  }
+
+  int _compareDex(Pokemon a, Pokemon b) {
+    int cmp;
+    switch (_sortKey!) {
+      case _DexSortKey.name:
+        cmp = a.localizedName.compareTo(b.localizedName);
+      case _DexSortKey.hp:
+        cmp = a.baseStats.hp.compareTo(b.baseStats.hp);
+      case _DexSortKey.atk:
+        cmp = a.baseStats.attack.compareTo(b.baseStats.attack);
+      case _DexSortKey.def:
+        cmp = a.baseStats.defense.compareTo(b.baseStats.defense);
+      case _DexSortKey.spa:
+        cmp = a.baseStats.spAttack.compareTo(b.baseStats.spAttack);
+      case _DexSortKey.spd:
+        cmp = a.baseStats.spDefense.compareTo(b.baseStats.spDefense);
+      case _DexSortKey.spe:
+        cmp = a.baseStats.speed.compareTo(b.baseStats.speed);
+      case _DexSortKey.bst:
+        cmp = _bstOf(a).compareTo(_bstOf(b));
+    }
+    // Stat ties fall back to dex order so the list stays stable.
+    if (cmp == 0 && _sortKey != _DexSortKey.name) {
+      cmp = a.dexNumber.compareTo(b.dexNumber);
+    }
+    return _sortAsc ? cmp : -cmp;
+  }
+
+  void _toggleSort(_DexSortKey key) {
+    setState(() {
+      // Name sorts A→Z first; stats sort high→low first.
+      final defaultAsc = key == _DexSortKey.name;
+      if (_sortKey != key) {
+        _sortKey = key;
+        _sortAsc = defaultAsc;
+      } else if (_sortAsc == defaultAsc) {
+        _sortAsc = !defaultAsc;
+      } else {
+        // Third tap → back to dex-number order.
+        _sortKey = null;
+        _sortAsc = true;
+      }
+    });
+  }
+
+  void _pickPokemon(Pokemon p, bool push) {
+    if (push) {
+      // Narrow: open the species in its own cross-link detail screen.
+      Navigator.of(context).push(
+        fadeRoute((_) => DexScreen(initialPokemonName: p.name)),
+      );
+    } else {
+      _onSelect(p);
+    }
   }
 }
 
@@ -696,6 +1216,8 @@ class _AbilitiesSection extends StatelessWidget {
     if (key.startsWith('Supreme Overlord ')) return 'Supreme Overlord';
     if (key.startsWith('Disguise ')) return 'Disguise';
     if (key.startsWith('Rivalry ')) return 'Rivalry';
+    if (key.startsWith('Slow Start ')) return 'Slow Start';
+    if (key.startsWith('Stakeout ')) return 'Stakeout';
     return null;
   }
 
@@ -1772,7 +2294,7 @@ class _MovesTabState extends State<_MovesTab> {
     return PopupMenuButton<int>(
       tooltip: AppStrings.t('dex.allTypes'),
       popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
+          const AnimationStyle(duration: Duration(milliseconds: 100)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
@@ -1843,7 +2365,7 @@ class _MovesTabState extends State<_MovesTab> {
     return PopupMenuButton<int>(
       tooltip: AppStrings.t('dex.allCategories'),
       popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
+          const AnimationStyle(duration: Duration(milliseconds: 100)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(

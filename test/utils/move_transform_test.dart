@@ -1059,14 +1059,29 @@ void main() {
       expect(result.move.type, equals(PokemonType.stellar));
     });
 
-    test('becomes physical when Attack > SpAttack for Terapagos-Stellar', () {
+    test('becomes physical when Attack > SpAttack and Terastallized', () {
+      final result = transformMove(teraStarstorm,
+          const MoveContext(
+            pokemonName: 'Terapagos-Stellar',
+            actualAttack: 200, actualSpAttack: 100,
+            terastallized: true,
+          ));
+      expect(result.move.type, equals(PokemonType.stellar));
+      expect(result.move.category, equals(MoveCategory.physical));
+    });
+
+    // The physical/special swap is gated on Terastallization (like
+    // Tera Blast). A non-Terastallized Stellar-form Terapagos keeps
+    // the move Special even with Attack > SpAttack — matches
+    // @smogon/calc, which gates on `attacker.teraType`.
+    test('stays special when Attack > SpAttack but NOT Terastallized', () {
       final result = transformMove(teraStarstorm,
           const MoveContext(
             pokemonName: 'Terapagos-Stellar',
             actualAttack: 200, actualSpAttack: 100,
           ));
       expect(result.move.type, equals(PokemonType.stellar));
-      expect(result.move.category, equals(MoveCategory.physical));
+      expect(result.move.category, equals(MoveCategory.special));
     });
 
     test('stays special for Terapagos-Stellar when SpAttack >= Attack', () {
@@ -1074,6 +1089,7 @@ void main() {
           const MoveContext(
             pokemonName: 'Terapagos-Stellar',
             actualAttack: 100, actualSpAttack: 200,
+            terastallized: true,
           ));
       expect(result.move.category, equals(MoveCategory.special));
     });
@@ -1263,6 +1279,27 @@ void main() {
     test('Paldea Aqua -> Water type', () {
       final result = transformMove(ragingBull,
           const MoveContext(pokemonName: 'Tauros-Paldea-Aqua'));
+      expect(result.move.type, equals(PokemonType.water));
+    });
+
+    // Real pokedex display names — these are what actually reach the
+    // calc (BattlePokemonState.pokemonName == Pokemon.name). The
+    // Showdown-style ids above never occur outside the compare harness.
+    test('display name Combat Breed -> Fighting type', () {
+      final result = transformMove(ragingBull,
+          const MoveContext(pokemonName: 'Paldean Tauros (Combat Breed)'));
+      expect(result.move.type, equals(PokemonType.fighting));
+    });
+
+    test('display name Blaze Breed -> Fire type', () {
+      final result = transformMove(ragingBull,
+          const MoveContext(pokemonName: 'Paldean Tauros (Blaze Breed)'));
+      expect(result.move.type, equals(PokemonType.fire));
+    });
+
+    test('display name Aqua Breed -> Water type', () {
+      final result = transformMove(ragingBull,
+          const MoveContext(pokemonName: 'Paldean Tauros (Aqua Breed)'));
       expect(result.move.type, equals(PokemonType.water));
     });
   });

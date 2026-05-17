@@ -1298,6 +1298,22 @@ class DamageCalculator {
     // 3. Terrain (Electric/Grassy/Psychic boost OR Misty/Grassy
     // halving).
     if (terrainMod != 1.0) bpMods.add(_toFP(terrainMod));
+    // 3b. Aura abilities (Fairy Aura / Dark Aura / Aura Break).
+    // Showdown applies this in the base-power chain (5448 boost /
+    // 3072 break), right after terrain — not as a final-damage mod.
+    final auraState = computeAuraState(
+      attackerAbility: atkAbilityRaw,
+      defenderAbility: defAbilityRaw,
+      allyFairyAura: auras.fairyAura,
+      allyDarkAura: auras.darkAura,
+      allyAuraBreak: auras.auraBreak,
+    );
+    final aura = getAuraEffect(
+      moveType: moveType,
+      state: auraState,
+    );
+    notes.addAll(aura.notes);
+    if (aura.multiplier != 1.0) bpMods.add(_toFP(aura.multiplier));
     // 4. Ability-side power modifiers (Tough Claws / Strong Jaw /
     // Mega Launcher / Technician / Sharpness / Sheer Force / Punk
     // Rock / Iron Fist / Reckless / Steely Spirit / etc.). Showdown
@@ -1381,21 +1397,6 @@ class DamageCalculator {
       baseDmg = (baseDmg * critMod).floor();
     }
 
-    // --- Aura abilities (Fairy Aura / Dark Aura / Aura Break) ---
-    final auraState = computeAuraState(
-      attackerAbility: atkAbilityRaw,
-      defenderAbility: defAbilityRaw,
-      allyFairyAura: auras.fairyAura,
-      allyDarkAura: auras.darkAura,
-      allyAuraBreak: auras.auraBreak,
-    );
-    final aura = getAuraEffect(
-      moveType: moveType,
-      attackerAbility: atkAbilityRaw,
-      state: auraState,
-    );
-    notes.addAll(aura.notes);
-
     // --- Damage chain mirroring Showdown's getFinalDamage ---
     // Showdown applies the post-baseDamage chain as:
     //   baseDamage (already includes spread, parental-bond, weather,
@@ -1436,7 +1437,6 @@ class DamageCalculator {
       }
       if (screenMod != 1.0) finalMods.add(_toFP(screenMod));
       if (berry != 1.0) finalMods.add(_toFP(berry));
-      if (aura.multiplier != 1.0) finalMods.add(_toFP(aura.multiplier));
       if (friendGuardMod != 1.0) finalMods.add(_toFP(friendGuardMod));
       // Sniper: +50 % on critical hits, routed through finalMods so
       // the rounding order matches Showdown (separate from the crit
@@ -1495,10 +1495,12 @@ class DamageCalculator {
     // Single-hit: 16 possible damage values
     final singleHitRolls = allRolls(baseDmg);
 
-    // Disguise (Disguised form): first hit deals exactly 1/8 max HP damage
-    // (Ice Face works the same way). Mold Breaker bypasses this.
+    // Disguise (Disguised form): first hit deals exactly 1/8 max HP
+    // damage. Mold Breaker bypasses this. Ice Face is intentionally
+    // not modelled — matching @smogon/calc, Eiscue takes full damage
+    // and the user accounts for the form break themselves.
     final bool disguiseActive = !moldBreaks &&
-        (defAbilityName == 'Disguise Disguised' || defAbilityName == 'Ice Face');
+        defAbilityName == 'Disguise Disguised';
     final int disguiseDamage = disguiseActive
         ? (defMaxHp / 8).floor().clamp(1, defMaxHp)
         : 0;
@@ -1604,7 +1606,7 @@ class DamageCalculator {
         // hits and underestimating damage by ~10 %.
         final int singleHitPower = effectiveMove.power;
         perHitAllRolls = List.generate(hitCount, (i) {
-          // Hit 0 vs Disguise/Ice Face: same fixed 1/8-max-HP damage
+          // Hit 0 vs Disguise: same fixed 1/8-max-HP damage
           // as for non-escalating multi-hits (Bullet Seed etc.). The
           // earlier implementation ran the BP calc unconditionally,
           // which gave a small rolls range instead of the disguise

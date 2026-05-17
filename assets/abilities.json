@@ -1855,9 +1855,22 @@
     "nameKo": "슬로스타트",
     "nameJa": "スロースタート",
     "nameEn": "Slow Start",
+    "descriptionOnly": true,
     "descKo": "5턴 동안 공격과 스피드가 절반이 된다.",
     "descEn": "For five turns, the Pokémon's Attack and Speed stats are halved.",
     "descJa": "５ターンの　あいだ 攻撃と　素早さが 半分に　なる。"
+  },
+  {
+    "name": "Slow Start Active",
+    "nameKo": "슬로스타트 (5턴 이내)",
+    "nameJa": "スロースタート (5ターン以内)",
+    "nameEn": "Slow Start (Active)"
+  },
+  {
+    "name": "Slow Start Ended",
+    "nameKo": "슬로스타트 (5턴 경과)",
+    "nameJa": "スロースタート (5ターン経過)",
+    "nameEn": "Slow Start (Ended)"
   },
   {
     "name": "Damp",
@@ -2317,9 +2330,22 @@
     "nameKo": "잠복",
     "nameJa": "はりこみ",
     "nameEn": "Stakeout",
+    "descriptionOnly": true,
     "descKo": "교체로 나온 상대에게 2배 데미지로 공격할 수 있다.",
     "descEn": "Doubles the damage dealt to a target that has just switched into battle.",
     "descJa": "交代で　出てきた　相手に ２倍の　ダメージで　攻撃　できる。"
+  },
+  {
+    "name": "Stakeout Active",
+    "nameKo": "잠복 (상대 교체 시)",
+    "nameJa": "はりこみ (交代時)",
+    "nameEn": "Stakeout (Active)"
+  },
+  {
+    "name": "Stakeout Inactive",
+    "nameKo": "잠복 (미발동)",
+    "nameJa": "はりこみ (不発動)",
+    "nameEn": "Stakeout (Inactive)"
   },
   {
     "name": "Regenerator",

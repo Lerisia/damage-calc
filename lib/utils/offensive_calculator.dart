@@ -176,10 +176,9 @@ class OffensiveCalculator {
     // Damage calculator handles the actual per-hit split separately.
     final double parentalBondMod = move.hasTag(MoveTags.parentalBond) ? 1.25 : 1.0;
 
-    // Aura field effect (delta on top of attacker's own aura, already in stat).
+    // Aura field effect — the single source of the aura modifier.
     final aura = getAuraEffect(
       moveType: move.type,
-      attackerAbility: attackerAbility,
       state: auraState,
     );
 

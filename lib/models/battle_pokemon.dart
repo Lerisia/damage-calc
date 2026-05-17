@@ -366,7 +366,12 @@ class BattlePokemonState {
     } else {
       selectedItem = null;
     }
-    if (pokemon.name == 'terapagos-stellar') {
+    // Terapagos's Stellar Form only exists while Terastallized, so
+    // loading it auto-activates Terastal. Match by substring since the
+    // form reaches us under either convention — the kebab id
+    // `terapagos-stellar` or the display name `Terapagos (Stellar Form)`.
+    final loadedName = pokemon.name.toLowerCase();
+    if (loadedName.contains('terapagos') && loadedName.contains('stellar')) {
       terastal = const TerastalState(active: true, teraType: PokemonType.stellar);
     }
 

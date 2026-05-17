@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'aura_effects.dart' show kAuraBoost;
 import '../models/gender.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
@@ -392,6 +391,32 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Rivalry None':
       return _defaultEffect;
 
+    // --- Slow Start (Regigigas) ---
+    // For the first 5 turns after entering battle ('Slow Start Active'),
+    // Attack and Speed are halved; once 5 turns pass ('Slow Start Ended')
+    // there is no effect. The Attack mod rides the category-picked stat
+    // slot, so it only touches physical moves — matching @smogon/calc's
+    // atMod-2048 gate on `move.category === 'Physical'`. Speed feeds the
+    // speed calculator via getSpeedAbilityModifier.
+    case 'Slow Start Active':
+      return const AbilityEffect(
+        statModifiers: AbilityStatModifiers(
+          attack: kHalfStat, speed: kHalfStat));
+    case 'Slow Start Ended':
+      return _defaultEffect;
+
+    // --- Stakeout (Yungoos line, Tarountula line, …) ---
+    // Doubles the offensive stat against a target that switched in
+    // this turn. Doubles BOTH attack and spAttack so it applies to
+    // physical and special moves alike — matches @smogon/calc's
+    // atMod-8192 (no move-category gate).
+    case 'Stakeout Active':
+      return const AbilityEffect(
+        statModifiers: AbilityStatModifiers(
+          attack: kDoubleStatBoost, spAttack: kDoubleStatBoost));
+    case 'Stakeout Inactive':
+      return _defaultEffect;
+
     // --- Speed stat modifiers ---
     case 'Swift Swim':
       return (weather == Weather.rain || weather == Weather.heavyRain)
@@ -430,16 +455,15 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Supreme Overlord 4': return const AbilityEffect(powerModifier: 1.4);
     case 'Supreme Overlord 5': return const AbilityEffect(powerModifier: 1.5);
 
-    // --- Aura abilities (self-boost for 결정력) ---
-    // Aura Break reversal is handled in getAuraModifier() during damage calc.
+    // --- Aura abilities (Fairy Aura / Dark Aura) ---
+    // Aura is a field effect handled entirely by getAuraEffect (in
+    // aura_effects.dart) — it covers the attacker's own aura, the
+    // opponent's, ally toggles, and Aura Break in one place, for both
+    // the damage calc and 결정력. Returning a powerModifier here too
+    // would double-count it.
     case 'Fairy Aura':
-      return move != null && move.type == PokemonType.fairy
-          ? const AbilityEffect(powerModifier: kAuraBoost)
-          : _defaultEffect;
     case 'Dark Aura':
-      return move != null && move.type == PokemonType.dark
-          ? const AbilityEffect(powerModifier: kAuraBoost)
-          : _defaultEffect;
+      return _defaultEffect;
 
     default:
       return _defaultEffect;

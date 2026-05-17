@@ -2492,7 +2492,8 @@
       "speed": 100
     },
     "abilities": [
-      "Slow Start"
+      "Slow Start Active",
+      "Slow Start Ended"
     ],
     "weight": 420.0,
     "height": 3.7,

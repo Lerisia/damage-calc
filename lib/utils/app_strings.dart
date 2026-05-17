@@ -565,6 +565,46 @@ class AppStrings {
       AppLanguage.en: 'Total',
       AppLanguage.ja: '合計',
     },
+    'dex.colName': {
+      AppLanguage.ko: '이름',
+      AppLanguage.en: 'Name',
+      AppLanguage.ja: '名前',
+    },
+    'dex.colHp': {
+      AppLanguage.ko: 'HP',
+      AppLanguage.en: 'HP',
+      AppLanguage.ja: 'HP',
+    },
+    'dex.colAtk': {
+      AppLanguage.ko: '공',
+      AppLanguage.en: 'Atk',
+      AppLanguage.ja: '攻',
+    },
+    'dex.colDef': {
+      AppLanguage.ko: '방',
+      AppLanguage.en: 'Def',
+      AppLanguage.ja: '防',
+    },
+    'dex.colSpa': {
+      AppLanguage.ko: '특공',
+      AppLanguage.en: 'SpA',
+      AppLanguage.ja: '特攻',
+    },
+    'dex.colSpd': {
+      AppLanguage.ko: '특방',
+      AppLanguage.en: 'SpD',
+      AppLanguage.ja: '特防',
+    },
+    'dex.colSpe': {
+      AppLanguage.ko: '스핏',
+      AppLanguage.en: 'Spe',
+      AppLanguage.ja: '速',
+    },
+    'dex.colBst': {
+      AppLanguage.ko: '합',
+      AppLanguage.en: 'BST',
+      AppLanguage.ja: '合',
+    },
     'dex.abilities': {
       AppLanguage.ko: '특성',
       AppLanguage.en: 'Abilities',

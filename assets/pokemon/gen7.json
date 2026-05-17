@@ -313,7 +313,8 @@
       "speed": 45
     },
     "abilities": [
-      "Stakeout",
+      "Stakeout Inactive",
+      "Stakeout Active",
       "Strong Jaw",
       "Adaptability"
     ],
@@ -338,7 +339,8 @@
       "speed": 45
     },
     "abilities": [
-      "Stakeout",
+      "Stakeout Inactive",
+      "Stakeout Active",
       "Strong Jaw",
       "Adaptability"
     ],

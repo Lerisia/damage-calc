@@ -41,6 +41,7 @@ import '../utils/page_routes.dart';
 import '../utils/url_navigator_stub.dart'
     if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
 import 'widgets/mobile_install_banner.dart';
+import 'widgets/modifier_note.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/speed_compare_tab.dart';
@@ -2649,113 +2650,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   /// Format structured modifier notes into localized Korean text.
-  String _formatNote(String note) {
-    // ability:AbilityName:immune
-    // ability:AbilityName:×0.5
-    // item:item-name:×1.2
-    // screen:reflect / screen:bypass_crit
-    // ground:immune / type:immune
-    final parts = note.split(':');
-    if (parts.length < 2) return note;
-
-    switch (parts[0]) {
-      case 'gravity':
-        if (parts.length >= 2 && parts[1] == 'disabled') {
-          return AppStrings.t('note.gravityDisabled');
-        }
-        return note;
-      case 'ability':
-        final name = _abilityNameMap[parts[1]] ?? parts[1];
-        if (parts.length >= 3) {
-          if (parts[2] == 'immune') return '$name ${AppStrings.t('note.abilityImmune')}';
-          final detail = parts[2];
-          // If detail starts with '-', join without space (e.g. 페어리오라-오라브레이크)
-          if (detail.startsWith('-')) return '$name$detail';
-          return '$name $detail';
-        }
-        return name;
-      case 'disguise':
-        final name = _abilityNameMap[parts[1]] ?? parts[1];
-        return '$name: ${AppStrings.t('note.disguiseDamage')}';
-      case 'berryDefBoost':
-        final itemName = _itemNameMap[parts[1]] ?? parts[1];
-        final key = parts[1] == 'kee-berry' ? 'note.keeBerryBoost' : 'note.marangaBerryBoost';
-        return '$itemName: ${AppStrings.t(key)}';
-      case 'abilityDefChange':
-        final abilityName = _abilityNameMap[parts[1]] ?? parts[1];
-        final change = parts.length >= 3 ? parts[2] : '+1';
-        final noteKey = switch (change) {
-          '+2' => 'note.defUp2',
-          '-1' => 'note.defDown1',
-          _ => 'note.defUp1',
-        };
-        return '$abilityName: ${AppStrings.t(noteKey)}';
-      case 'item':
-        final name = _itemNameMap[parts[1]] ?? parts[1];
-        if (parts.length >= 3) return '$name ${parts[2]}';
-        return name;
-      case 'screen':
-        final screenKeys = {
-          'reflect': 'note.reflect',
-          'light_screen': 'note.lightScreen',
-          'bypass_crit': 'note.critBypass',
-          'bypass_infiltrator': 'note.infiltrator',
-        };
-        final key = screenKeys[parts[1]];
-        return key != null ? AppStrings.t(key) : note;
-      case 'move':
-        final moveKeys = {
-          'knock_off': 'note.knockOff',
-          'hex': 'note.hex',
-          'venoshock': 'note.venoshock',
-          'brine': 'note.brine',
-          'collision': 'note.collision',
-          'solar_halve': 'note.solarHalve',
-          'grav_apple': 'note.gravity',
-          'wake_up_slap': 'note.sleep',
-          'smelling_salts': 'note.paralysis',
-          'barb_barrage': 'note.venoshock',
-          'bolt_beak': 'note.boltBeak',
-          'payback': 'note.payback',
-          'spread': 'note.spread',
-          'helpingHand': 'note.helpingHand',
-          'powerSpot': 'note.powerSpot',
-          'battery': 'note.battery',
-          'flowerGift': 'note.flowerGift',
-          'plusMinus': 'note.plusMinus',
-        };
-        final key = parts[1];
-        final noteKey = moveKeys[key];
-        final label = noteKey != null ? AppStrings.t(noteKey) : key;
-        if (parts.length >= 3) return '$label ${parts[2]}';
-        return label;
-      case 'weather_negate':
-        final name = _abilityNameMap[parts[1]] ?? parts[1];
-        return '$name: ${AppStrings.t('note.weatherNegate')}';
-      case 'terrain_negate':
-        final name = _abilityNameMap[parts[1]] ?? parts[1];
-        return '$name: ${AppStrings.t('note.terrainNegate')}';
-      case 'moldbreaker':
-        final name = _abilityNameMap[parts[1]] ?? parts[1];
-        return name;
-      case 'unaware':
-        return _abilityNameMap['Unaware'] ?? 'Unaware';
-      case 'weather':
-        final weatherKeys = {
-          'strong_winds': 'note.strongWinds',
-          'harsh_sun_water': 'note.harshSunWater',
-          'heavy_rain_fire': 'note.heavyRainFire',
-        };
-        final wKey = weatherKeys[parts[1]];
-        return wKey != null ? AppStrings.t(wKey) : note;
-      case 'ground':
-        return AppStrings.t('note.groundImmune');
-      case 'type':
-        return AppStrings.t('note.typeImmune');
-      default:
-        return note;
-    }
-  }
+  /// Delegates to the shared [formatModifierNote] (modifier_note.dart)
+  /// so the Damage tab, the result panel and the 결정력 breakdown popup
+  /// all use one formatter — no stale second copy to drift.
+  String _formatNote(String note) => formatModifierNote(
+        note,
+        abilityNameMap: _abilityNameMap,
+        itemNameMap: _itemNameMap,
+      );
 }
 
 /// Result returned by [_SaveSampleDialog]. Either [teamId] is set
@@ -3144,7 +3046,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.8.0'),
+          const Text('v1.8.1'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

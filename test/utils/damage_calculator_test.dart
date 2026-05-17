@@ -81,6 +81,65 @@ void main() {
     );
   }
 
+  group('Ice Face', () {
+    // Ice Face is intentionally not modelled, matching @smogon/calc:
+    // Eiscue takes full damage from both physical and special moves
+    // (the user accounts for the form break themselves).
+    test('physical move deals full damage (not absorbed)', () {
+      final iceFace = calc(move: tackle, defAbility: 'Ice Face');
+      final plain = calc(move: tackle, defAbility: 'Overgrow');
+      expect(iceFace.maxDamage, greaterThan(0));
+      expect(iceFace.minDamage, equals(plain.minDamage));
+      expect(iceFace.maxDamage, equals(plain.maxDamage));
+    });
+
+    test('special move deals full damage', () {
+      final iceFace = calc(move: ember, defAbility: 'Ice Face');
+      final plain = calc(move: ember, defAbility: 'Overgrow');
+      expect(iceFace.minDamage, equals(plain.minDamage));
+      expect(iceFace.maxDamage, equals(plain.maxDamage));
+    });
+  });
+
+  group('Slow Start', () {
+    // Slow Start Active halves the Attack stat — physical moves do
+    // ~half damage, special moves are untouched.
+    test('Slow Start Active roughly halves physical damage', () {
+      final active = calc(move: tackle, atkAbility: 'Slow Start Active');
+      final ended = calc(move: tackle, atkAbility: 'Slow Start Ended');
+      expect(active.maxDamage, lessThan(ended.maxDamage));
+      expect(active.maxDamage,
+          closeTo(ended.maxDamage / 2, ended.maxDamage * 0.1));
+    });
+
+    test('Slow Start Active does not reduce special damage', () {
+      final active = calc(move: ember, atkAbility: 'Slow Start Active');
+      final ended = calc(move: ember, atkAbility: 'Slow Start Ended');
+      expect(active.minDamage, equals(ended.minDamage));
+      expect(active.maxDamage, equals(ended.maxDamage));
+    });
+  });
+
+  group('Stakeout', () {
+    // Stakeout Active doubles the offensive stat — physical and
+    // special moves both do ~2× damage.
+    test('Stakeout Active roughly doubles physical damage', () {
+      final active = calc(move: tackle, atkAbility: 'Stakeout Active');
+      final inactive = calc(move: tackle, atkAbility: 'Stakeout Inactive');
+      expect(active.maxDamage, greaterThan(inactive.maxDamage));
+      expect(active.maxDamage,
+          closeTo(inactive.maxDamage * 2, inactive.maxDamage * 0.1));
+    });
+
+    test('Stakeout Active roughly doubles special damage', () {
+      final active = calc(move: ember, atkAbility: 'Stakeout Active');
+      final inactive = calc(move: ember, atkAbility: 'Stakeout Inactive');
+      expect(active.maxDamage, greaterThan(inactive.maxDamage));
+      expect(active.maxDamage,
+          closeTo(inactive.maxDamage * 2, inactive.maxDamage * 0.1));
+    });
+  });
+
   group('Basic damage', () {
     test('physical move deals positive damage', () {
       final result = calc();

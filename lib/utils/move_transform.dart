@@ -187,20 +187,22 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // while internal code paths still reference the kebab-case
   // `terapagos-stellar` — we accept both so this works regardless
   // of which form-name convention reaches us.
-  // Also becomes physical if Attack > SpAttack — matches the
-  // Photon-Geyser-style category swap.
+  // The physical/special swap (when Attack > SpAttack) only applies
+  // while the user is Terastallized, like Tera Blast — @smogon/calc
+  // gates this on `attacker.teraType`. The type change to Stellar is
+  // not gated on Terastallization (also matches @smogon/calc).
   if (move.name == 'Tera Starstorm' && context.pokemonName != null) {
     final n = context.pokemonName!.toLowerCase();
     final isStellarForm =
         n == 'terapagos-stellar' || n.contains('stellar form');
     if (isStellarForm) {
-      var newType = PokemonType.stellar;
       var newCategory = move.category;
-      if (context.actualAttack != null && context.actualSpAttack != null &&
+      if (context.terastallized &&
+          context.actualAttack != null && context.actualSpAttack != null &&
           context.actualAttack! > context.actualSpAttack!) {
         newCategory = MoveCategory.physical;
       }
-      move = move.copyWith(type: newType, category: newCategory);
+      move = move.copyWith(type: PokemonType.stellar, category: newCategory);
     }
   }
 
@@ -266,16 +268,24 @@ TransformedMove transformMove(Move move, MoveContext context) {
     }
   }
 
-  // 2.55. Raging Bull (Paldean Tauros): type based on breed
+  // 2.55. Raging Bull (Paldean Tauros): type changes based on breed.
+  // Mirrors Ivy Cudgel — substring match on the breed keyword so it
+  // works for our display names ("Paldean Tauros (Combat Breed)") as
+  // well as Showdown-style ids ("Tauros-Paldea-Combat"). The previous
+  // exact `==` against the kebab id / form id never matched the
+  // display name that actually reaches the calc, so the move stayed
+  // Normal-typed.
   if (move.name == 'Raging Bull' && context.pokemonName != null) {
-    final lower = context.pokemonName!.toLowerCase();
-    if (lower == 'tauros-paldea-combat' || lower == '10250') {
-      move = move.copyWith(type: PokemonType.fighting);
-    } else if (lower == 'tauros-paldea-blaze' || lower == '10251') {
-      move = move.copyWith(type: PokemonType.fire);
-    } else if (lower == 'tauros-paldea-aqua' || lower == '10252') {
-      move = move.copyWith(type: PokemonType.water);
+    final n = context.pokemonName!.toLowerCase();
+    PokemonType? t;
+    if (n.contains('combat')) {
+      t = PokemonType.fighting;
+    } else if (n.contains('blaze')) {
+      t = PokemonType.fire;
+    } else if (n.contains('aqua')) {
+      t = PokemonType.water;
     }
+    if (t != null) move = move.copyWith(type: t);
   }
 
   // 2.6. (Tera Blast moved to step 1.5)
