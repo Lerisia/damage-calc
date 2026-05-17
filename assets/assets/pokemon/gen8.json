@@ -438,7 +438,8 @@
     "abilities": [
       "Run Away",
       "Unburden",
-      "Stakeout"
+      "Stakeout Inactive",
+      "Stakeout Active"
     ],
     "weight": 8.9,
     "height": 0.6,
@@ -463,7 +464,8 @@
     "abilities": [
       "Run Away",
       "Unburden",
-      "Stakeout"
+      "Stakeout Inactive",
+      "Stakeout Active"
     ],
     "weight": 19.9,
     "height": 1.2,
