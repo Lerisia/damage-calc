@@ -28,7 +28,6 @@ import '../utils/type_effectiveness.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
 import 'widgets/move_selector.dart';
-import 'widgets/pokemon_selector.dart';
 
 /// Result produced when the user taps "공격측으로" / "방어측으로" in
 /// the dex header — the dex pops with this payload so the calculator
@@ -37,10 +36,9 @@ import 'widgets/pokemon_selector.dart';
 /// `side`: 0 = attacker, 1 = defender.
 typedef DexPickResult = ({int side, Pokemon pokemon});
 
-/// Pokédex screen — search a Pokemon and see species info, abilities,
-/// type matchups, and learnable moves. Reuses the calculator's
-/// PokemonSelector for search and KoStrings for type colors / names so
-/// the visual language matches.
+/// Pokédex screen — browse Pokémon and see species info, abilities,
+/// type matchups, and learnable moves. Reuses KoStrings for type
+/// colors / names so the visual language matches the calculator.
 /// Sort column for the Pokémon Dex browse list. A null sort key keeps
 /// dex-number order; tapping a stat header sorts by that stat.
 enum _DexSortKey { name, hp, atk, def, spa, spd, spe, bst }
@@ -199,25 +197,13 @@ class _DexScreenState extends State<DexScreen> {
                   icon: const BackButtonIcon(),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
+                // Cross-link mode is pinned to the Pokémon it was opened
+                // on: show its name as a static title instead of a search
+                // field so users can't drift to a different species here.
                 Expanded(
-                  child: PokemonSelector(
-                    // PokemonSelector holds its own _selected state, so
-                    // don't key it by _selected.name — that would remount
-                    // the widget (and flash the typeahead overlay) every
-                    // time auto-selection or a user pick updates state.
-                    initialPokemonName:
-                        widget.initialPokemonName ?? 'Bulbasaur',
-                    onSelected: _onSelect,
-                    filterChampionsOnly: true,
-                  ),
-                ),
-                ValueListenableBuilder<bool>(
-                  valueListenable: ChampionsFilterController
-                      .instance.championsOnly,
-                  builder: (context, on, _) => _ChampionsOnlyToggle(
-                    value: on,
-                    onChanged: (v) => ChampionsFilterController.instance
-                        .set(v ?? false),
+                  child: Text(
+                    _selected?.localizedName ?? '',
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
