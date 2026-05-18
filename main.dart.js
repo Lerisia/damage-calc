@@ -9450,24 +9450,24 @@ if(!i8){if(d1&&o7.R8){o3.r=0.5
 g1.push("screen:reflect")}else if(b5&&o7.RG){o3.r=0.5
 g1.push("screen:light_screen")}}else if(o7.R8||o7.RG){if(d)g1.push("screen:bypass_crit")
 if(e1==="Infiltrator")g1.push("screen:bypass_infiltrator")}o3.w=1
-d=o7.go
-if(d!=null){i9=o3.w=A.bgf(d,g0,b4)
+b6=o7.go
+if(b6!=null){i9=o3.w=A.bgf(b6,g0,b4)
 if(i9!==1)g1.push("item:"+A.t(o7.go)+":\xd7"+A.t(i9))}if(B.b.m(g,"custom:requires_def_item")&&o7.go==null)return new A.dD(0,0,0,f2,0,d1,!1,q,A.b(["\uc0c1\ub300 \uc544\uc774\ud15c \uc5c6\uc74c: \uc2e4\ud328"],r),B.bu,o0)
 o3.x=1
-if(B.b.m(g,"custom:knock_off")){d=o7.go
-d=d!=null&&!A.b1d(d)}else d=!1
-if(d)g1.push("move:knock_off:\xd71.5")
+if(B.b.m(g,"custom:knock_off")){b4=o7.go
+b4=b4!=null&&!A.b1d(b4)}else b4=!1
+if(b4)g1.push("move:knock_off:\xd71.5")
 if(B.b.m(g,"custom:double_on_status")&&o7.p2!==B.cN){o3.x=2
 g1.push("move:hex:\xd72")
-d=2}else d=1
-if(B.b.m(g,o2)){b4=o7.p2
-b4=b4===B.f7||b4===B.f8}else b4=!1
-if(b4){j0=d*2
+b4=2}else b4=1
+if(B.b.m(g,o2)){b6=o7.p2
+b6=b6===B.f7||b6===B.f8}else b6=!1
+if(b6){j0=b4*2
 o3.x=j0
 g1.push("move:venoshock:\xd72")
-d=j0}if(B.b.m(g,"custom:double_on_half_hp")&&o7.p1<=50){d=o3.x=d*2
+b4=j0}if(B.b.m(g,"custom:double_on_half_hp")&&o7.p1<=50){b4=o3.x=b4*2
 g1.push("move:brine:\xd72")}j1=A.b0F(o5,!0,q,i)
-j0=o3.x=d*j1.a
+j0=o3.x=b4*j1.a
 e8=B.c.bk(e8*j1.b)
 o3.b=e8
 B.b.N(g1,j1.c)
@@ -9476,29 +9476,29 @@ B.b.N(g1,j2.c)
 if(B.b.m(g,"custom:double_dynamax")&&o7.id!==B.aw){j0*=2
 o3.x=j0
 g1.push("\ub2e4\uc774\ub9e5\uc2a4 \uc0c1\ub300 \xd72")
-d=j0}else d=j0
-if(B.b.m(g,"custom:double_on_sleep")&&o7.p2===B.jq){j0=d*2
+b4=j0}else b4=j0
+if(B.b.m(g,"custom:double_on_sleep")&&o7.p2===B.jq){j0=b4*2
 o3.x=j0
 g1.push("move:wake_up_slap:\xd72")
-d=j0}if(B.b.m(g,"custom:double_on_paralysis")&&o7.p2===B.jp){j0=d*2
+b4=j0}if(B.b.m(g,"custom:double_on_paralysis")&&o7.p2===B.jp){j0=b4*2
 o3.x=j0
 g1.push("move:smelling_salts:\xd72")
-d=j0}if(B.b.m(g,o2)){b4=o7.p2
-b4=b4===B.f7||b4===B.f8}else b4=!1
-if(b4){d=o3.x=d*2
+b4=j0}if(B.b.m(g,o2)){b6=o7.p2
+b6=b6===B.f7||b6===B.f8}else b6=!1
+if(b6){b4=o3.x=b4*2
 g1.push("move:barb_barrage:\xd72")}j3=h4&&o5.k1.b!==B.br&&q.at<=1&&b2<=0&&s>0&&!B.a3H.m(0,q.a)
 j4=B.i.aN(o5.ay,1,100)
 j5=A.b([],b3)
 if(o5.to)j5.push(6144)
-if(d!==1)j5.push(B.c.aD(d*4096))
+if(b4!==1)j5.push(B.c.aD(b4*4096))
 if(o5.p3&&g0===B.ag)j5.push(8192)
 if(i1!==1)j5.push(B.c.aD(i1*4096))
 j6=A.b0W(g0,A.b0E(o6.c,o6.b,o6.a,p,o))
 B.b.N(g1,j6.b)
-d=j6.a
-if(d!==1)j5.push(B.c.aD(d*4096))
-d=e2.b
-if(d!==1)j5.push(B.c.aD(d*4096))
+b2=j6.a
+if(b2!==1)j5.push(B.c.aD(b2*4096))
+b2=e2.b
+if(b2!==1)j5.push(B.c.aD(b2*4096))
 if(B.b.m(g,"custom:ate_boosted")){j5.push(4915)
 g1.push("ability:"+A.t(o5.ax)+":\xd71.2")}if(o5.x2&&e===B.bM)j5.push(5325)
 if(o5.x1)j5.push(5325)
@@ -9514,17 +9514,18 @@ j7=A.aT7(j5,1,2147483648)
 j8=Math.max(1,B.c.dC(f*j7/4096-0.5))
 if(j3&&j8<60&&j8>0)j8=60
 e=f3===0?o3.c=1:f3
-d=B.i.br(2*j4,5)+2
-a0=d*j8
-j9=B.i.br(B.i.fh(a0*e8,e),50)+2
+a0=B.i.br(2*j4,5)+2
+b2=a0*j8
+j9=B.i.br(B.i.fh(b2*e8,e),50)+2
 if(o5.ry&&B.b.m(g,"custom:spread"))j9=B.c.dC(j9*3072/4096-0.5)
 if(h6!==1)j9=B.c.dC(j9*B.c.aD(h6*4096)/4096-0.5)
 if(i3!==1)j9=B.c.bk(j9*i3)
-k0=new A.a7T(o3,i7,i6,e0,j2.a,p,g1,B.c.aD(h5*4096),i2)
+if(d&&p==="Sniper")g1.push("ability:Sniper:\xd71.5")
+k0=new A.a7T(o3,i7,i6,e0,j2.a,p,B.c.aD(h5*4096),i2)
 k1=k0.$2(j9,100)
 e=q.at
-if(e>1){b2=o5.fr[o8]
-k2=b2==null?e:b2}else k2=1
+if(e>1){d=o5.fr[o8]
+k2=d==null?e:d}else k2=1
 k3=B.b.m(g,"custom:escalating_hits")
 k4=new A.a7S(k0)
 k5=k4.$1(j9)
@@ -9544,19 +9545,19 @@ r=1}else r=0
 if(o7.go==="maranga-berry"&&b5){r=k9.b=r+1
 l2.push("berryDefBoost:maranga-berry")}if(c5==="Stamina"&&e6){k9.a=1
 l2.push("abilityDefChange:Stamina:+1")
-b1=1}else b1=0
-if(c5==="Water Compaction"&&g0===B.R&&e6){l3=b1+2
+d=1}else d=0
+if(c5==="Water Compaction"&&g0===B.R&&e6){l3=d+2
 k9.a=l3
 l2.push("abilityDefChange:Water Compaction:+2")
-b1=l3}if(c5==="Weak Armor"&&d1){b1=k9.a=b1-1
+d=l3}if(c5==="Weak Armor"&&d1){d=k9.a=d-1
 l2.push("abilityDefChange:Weak Armor:-1")}B.b.N(g1,l2)
 l4=new A.a7W(o3)
 l5=k6&&r!==0?2:1
 l6=new A.a7X(k9,l5)
-l7=b1===0&&l5===1
-l8=l4.$1(r+b1)
+l7=d===0&&l5===1
+l8=l4.$1(r+d)
 l9=k9.b!==0||k9.a!==0
-m0=l9?B.i.br(B.i.fh(a0*o3.b,l8),50)+2:j9
+m0=l9?B.i.br(B.i.fh(b2*o3.b,l8),50)+2:j9
 h1=l1?h1:-1
 m1=l0?1:-1
 m2=!e?1:-1
@@ -9566,10 +9567,10 @@ else if(m3){m5=k6?k8:k5
 m6=B.b.m(g,"custom:power_target_hp_120")
 m7=B.b.m(g,"custom:power_target_hp_100")
 if(m6||m7){m8=m6?120:100
-m4=A.b([m5,A.Qq(16,new A.a7V(o3,m5,B.i.aN(B.c.bk(f2*o7.p1/100),1,f2),f2,m8,j4,l8,k0,h1,m1,m2),!0,t.S)],t.Zb)}else m4=A.b([m5,k4.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.i.br(B.i.fh(d*B.i.aN(B.c.bk(B.i.aN(B.c.bk(f*0.25),1,999)*o3.x),1,9999)*o3.b,l8),50)+2,m2,m1,h1)],t.Zb)}else{m5=k6?k8:k5
+m4=A.b([m5,A.Qq(16,new A.a7V(o3,m5,B.i.aN(B.c.bk(f2*o7.p1/100),1,f2),f2,m8,j4,l8,k0,h1,m1,m2),!0,t.S)],t.Zb)}else m4=A.b([m5,k4.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.i.br(B.i.fh(a0*B.i.aN(B.c.bk(B.i.aN(B.c.bk(f*0.25),1,999)*o3.x),1,9999)*o3.b,l8),50)+2,m2,m1,h1)],t.Zb)}else{m5=k6?k8:k5
 if(!l7){m9=A.b([m5],t.Zb)
 for(n0=1;n0<k2;++n0){n1=l4.$1(l6.$1(n0))
-m9.push(k4.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.i.br(B.i.fh(a0*o3.b,n1),50)+2,m2,m1,h1))}m4=m9}else{n2=l0||l1||!e||k6||l9?k4.$4$berryModHit$defAbilityDmgHit$effectivenessHit(m0,m2,m1,h1):k5
+m9.push(k4.$4$berryModHit$defAbilityDmgHit$effectivenessHit(B.i.br(B.i.fh(b2*o3.b,n1),50)+2,m2,m1,h1))}m4=m9}else{n2=l0||l1||!e||k6||l9?k4.$4$berryModHit$defAbilityDmgHit$effectivenessHit(m0,m2,m1,h1):k5
 r=A.b([m5],t.Zb)
 B.b.N(r,A.bg(k2-1,n2,!1,t.Cm))
 m4=r}}}else m4=o0
@@ -9652,7 +9653,7 @@ _.w=h
 _.x=i
 _.y=j
 _.z=k},
-a7T:function a7T(a,b,c,d,e,f,g,h,i){var _=this
+a7T:function a7T(a,b,c,d,e,f,g,h){var _=this
 _.a=a
 _.b=b
 _.c=c
@@ -9660,8 +9661,7 @@ _.d=d
 _.e=e
 _.f=f
 _.r=g
-_.w=h
-_.x=i},
+_.w=h},
 a7S:function a7S(a){this.a=a},
 a7W:function a7W(a){this.a=a},
 a7X:function a7X(a,b){this.a=a
@@ -51585,12 +51585,12 @@ if(k!==1)m.push(B.c.aD(k*4096))
 if(n!==1)m.push(B.c.aD(n*4096))
 k=q.e
 if(k!==1)m.push(B.c.aD(k*4096))
-if(l.a&&q.f==="Sniper"){m.push(6144)
-q.r.push("ability:Sniper:\xd71.5")}s=A.aT7(m,41,131072)
+if(l.a&&q.f==="Sniper")m.push(6144)
+s=A.aT7(m,41,131072)
 r=B.i.br(a*b,100)
-l=q.w
+l=q.r
 r=B.c.bk(B.c.dC((l===4096?r:r*l/4096)-0.5)*p)
-return B.c.dC(Math.max(1,(q.x<1?B.i.br(r,2):r)*s/4096)-0.5)},
+return B.c.dC(Math.max(1,(q.w<1?B.i.br(r,2):r)*s/4096)-0.5)},
 $2(a,b){return this.$5$berryModHit$defAbilityDmgHit$effectivenessHit(a,b,-1,-1,-1)},
 $S:361}
 A.a7S.prototype={
@@ -117280,7 +117280,7 @@ B.a6J=new A.q(!0,B.u,null,".AppleSystemUIFont",null,null,null,null,null,null,nul
 B.aaR=new A.eA(B.a8w,B.a7q,B.a8x,B.a92,B.a77,B.a7f,B.a7L,B.a8W,B.a7Y,B.a9o,B.a6C,B.a6U,B.a9l,B.a9H,B.a6J)
 B.aaS=new A.hI("  \u2192  ",null,B.H1,null,null,null,null,null,null,null)
 B.aaT=new A.hI("By  Elyss",null,null,null,null,null,null,null,null,null)
-B.aaU=new A.hI("v1.8.2",null,null,null,null,null,null,null,null,null)
+B.aaU=new A.hI("v1.8.3",null,null,null,null,null,null,null,null,null)
 B.H8=new A.hI("-",null,null,B.S,null,null,null,null,null,null)
 B.aaV=new A.hI("-",null,B.aO,B.S,null,null,null,null,null,null)
 B.aaW=new A.hI("-",null,B.q4,null,null,null,null,null,null,null)
