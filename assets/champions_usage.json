@@ -53,6 +53,41 @@
     ]
   },
 
+  "Mega Garchomp": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Sand Force"}
+    ],
+    "items": [
+      {"name": "garchompite"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Outrage"},
+      {"name": "Stealth Rock"},
+      {"name": "Rock Tomb"},
+      {"name": "Poison Jab"},
+      {"name": "Scale Shot"},
+      {"name": "Swords Dance"},
+      {"name": "Dragon Tail"},
+      {"name": "Rock Slide"},
+      {"name": "Spikes"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Outrage"},
+      {"name": "Rock Tomb"},
+      {"name": "Stealth Rock"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Impish"},
+      {"name": "Careful"},
+      {"name": "Naive"}
+    ]
+  },
+
   "Primarina": {
     "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
     "usageRank": 2,
@@ -6112,6 +6147,41 @@
     ]
   },
 
+  "Mega Chimecho": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
+    "abilities": [
+      {"name": "Levitate"}
+    ],
+    "items": [
+      {"name": "chimechite"}
+    ],
+    "moves": [
+      {"name": "Recover"},
+      {"name": "Calm Mind"},
+      {"name": "Stored Power"},
+      {"name": "Flash Cannon"},
+      {"name": "Cosmic Power"},
+      {"name": "Psychic"},
+      {"name": "Psychic Noise"},
+      {"name": "Boomburst"},
+      {"name": "Draining Kiss"},
+      {"name": "Taunt"}
+    ],
+    "defaultMoves": [
+      {"name": "Stored Power"},
+      {"name": "Flash Cannon"},
+      {"name": "Recover"},
+      {"name": "Calm Mind"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Calm"},
+      {"name": "Quiet"},
+      {"name": "Timid"}
+    ]
+  },
+
   "Garganacl": {
     "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 0, "spd": 32, "spe": 0},
     "usageRank": 101,
@@ -6178,6 +6248,41 @@
       {"name": "lum-berry"},
       {"name": "light-ball"},
       {"name": "occa-berry"}
+    ],
+    "moves": [
+      {"name": "Quick Attack"},
+      {"name": "Swords Dance"},
+      {"name": "Earthquake"},
+      {"name": "Thrash"},
+      {"name": "Body Slam"},
+      {"name": "Storm Throw"},
+      {"name": "Close Combat"},
+      {"name": "Feint"},
+      {"name": "Guillotine"},
+      {"name": "Lunge"}
+    ],
+    "defaultMoves": [
+      {"name": "Thrash"},
+      {"name": "Quick Attack"},
+      {"name": "Earthquake"},
+      {"name": "Swords Dance"}
+    ],
+    "natures": [
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Impish"},
+      {"name": "Careful"},
+      {"name": "Brave"}
+    ]
+  },
+
+  "Mega Pinsir": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Aerilate"}
+    ],
+    "items": [
+      {"name": "pinsirite"}
     ],
     "moves": [
       {"name": "Quick Attack"},
@@ -6392,6 +6497,41 @@
     ]
   },
 
+  "Mega Abomasnow": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
+    "abilities": [
+      {"name": "Snow Warning"}
+    ],
+    "items": [
+      {"name": "abomasite"}
+    ],
+    "moves": [
+      {"name": "Blizzard"},
+      {"name": "Ice Shard"},
+      {"name": "Giga Drain"},
+      {"name": "Earth Power"},
+      {"name": "Aurora Veil"},
+      {"name": "Leaf Storm"},
+      {"name": "Leech Seed"},
+      {"name": "Focus Blast"},
+      {"name": "Wood Hammer"},
+      {"name": "Earthquake"}
+    ],
+    "defaultMoves": [
+      {"name": "Blizzard"},
+      {"name": "Giga Drain"},
+      {"name": "Ice Shard"},
+      {"name": "Earth Power"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Quiet"},
+      {"name": "Bold"},
+      {"name": "Brave"},
+      {"name": "Relaxed"}
+    ]
+  },
+
   "Galarian Slowbro": {
     "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 32, "spd": 2, "spe": 0},
     "usageRank": 107,
@@ -6577,6 +6717,41 @@
     ]
   },
 
+  "Mega Emboar": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
+    "abilities": [
+      {"name": "Mold Breaker"}
+    ],
+    "items": [
+      {"name": "emboarite"}
+    ],
+    "moves": [
+      {"name": "Flare Blitz"},
+      {"name": "Sucker Punch"},
+      {"name": "Close Combat"},
+      {"name": "Drain Punch"},
+      {"name": "Earthquake"},
+      {"name": "Wild Charge"},
+      {"name": "Bulk Up"},
+      {"name": "Head Smash"},
+      {"name": "Flame Charge"},
+      {"name": "Storm Throw"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Flare Blitz"},
+      {"name": "Sucker Punch"},
+      {"name": "Earthquake"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Brave"},
+      {"name": "Impish"},
+      {"name": "Careful"}
+    ]
+  },
+
   "Manectric": {
     "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 111,
@@ -6596,6 +6771,41 @@
       {"name": "quick-claw"},
       {"name": "bright-powder"},
       {"name": "kings-rock"}
+    ],
+    "moves": [
+      {"name": "Volt Switch"},
+      {"name": "Thunderbolt"},
+      {"name": "Overheat"},
+      {"name": "Snarl"},
+      {"name": "Flamethrower"},
+      {"name": "Ice Fang"},
+      {"name": "Light Screen"},
+      {"name": "Thunder"},
+      {"name": "Hyper Voice"},
+      {"name": "Substitute"}
+    ],
+    "defaultMoves": [
+      {"name": "Thunderbolt"},
+      {"name": "Volt Switch"},
+      {"name": "Overheat"},
+      {"name": "Snarl"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Naive"},
+      {"name": "Hasty"},
+      {"name": "Mild"}
+    ]
+  },
+
+  "Mega Manectric": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Intimidate"}
+    ],
+    "items": [
+      {"name": "manectite"}
     ],
     "moves": [
       {"name": "Volt Switch"},
@@ -6687,6 +6897,41 @@
       {"name": "haban-berry"},
       {"name": "lum-berry"},
       {"name": "quick-claw"}
+    ],
+    "moves": [
+      {"name": "Roost"},
+      {"name": "Hyper Voice"},
+      {"name": "Cotton Guard"},
+      {"name": "Flamethrower"},
+      {"name": "Fire Blast"},
+      {"name": "Dragon Dance"},
+      {"name": "Earthquake"},
+      {"name": "Body Slam"},
+      {"name": "Draco Meteor"},
+      {"name": "Fire Spin"}
+    ],
+    "defaultMoves": [
+      {"name": "Hyper Voice"},
+      {"name": "Flamethrower"},
+      {"name": "Roost"},
+      {"name": "Cotton Guard"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Jolly"},
+      {"name": "Adamant"}
+    ]
+  },
+
+  "Mega Altaria": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 0, "spa": 0, "spd": 32, "spe": 2},
+    "abilities": [
+      {"name": "Pixilate"}
+    ],
+    "items": [
+      {"name": "altarianite"}
     ],
     "moves": [
       {"name": "Roost"},
@@ -6874,6 +7119,41 @@
       {"name": "lum-berry"},
       {"name": "dragoninite"},
       {"name": "quick-claw"}
+    ],
+    "moves": [
+      {"name": "Hurricane"},
+      {"name": "Heat Wave"},
+      {"name": "Hyper Beam"},
+      {"name": "Substitute"},
+      {"name": "U-turn"},
+      {"name": "Roost"},
+      {"name": "Quick Attack"},
+      {"name": "Tailwind"},
+      {"name": "Feather Dance"},
+      {"name": "Uproar"}
+    ],
+    "defaultMoves": [
+      {"name": "Hurricane"},
+      {"name": "Hyper Beam"},
+      {"name": "Heat Wave"},
+      {"name": "Substitute"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Timid"},
+      {"name": "Bold"},
+      {"name": "Hasty"},
+      {"name": "Mild"}
+    ]
+  },
+
+  "Mega Pidgeot": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "No Guard"}
+    ],
+    "items": [
+      {"name": "pidgeotite"}
     ],
     "moves": [
       {"name": "Hurricane"},
@@ -7105,6 +7385,41 @@
       {"name": "lum-berry"},
       {"name": "focus-sash"},
       {"name": "bright-powder"}
+    ],
+    "moves": [
+      {"name": "Dragon Pulse"},
+      {"name": "Thunderbolt"},
+      {"name": "Focus Blast"},
+      {"name": "Parabolic Charge"},
+      {"name": "Cotton Guard"},
+      {"name": "Volt Switch"},
+      {"name": "Power Gem"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Charge"},
+      {"name": "Thunder"}
+    ],
+    "defaultMoves": [
+      {"name": "Thunderbolt"},
+      {"name": "Dragon Pulse"},
+      {"name": "Focus Blast"},
+      {"name": "Cotton Guard"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Quiet"},
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Timid"}
+    ]
+  },
+
+  "Mega Ampharos": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
+    "abilities": [
+      {"name": "Mold Breaker"}
+    ],
+    "items": [
+      {"name": "ampharosite"}
     ],
     "moves": [
       {"name": "Dragon Pulse"},
@@ -7457,6 +7772,41 @@
     ]
   },
 
+  "Mega Medicham": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Pure Power"}
+    ],
+    "items": [
+      {"name": "medichamite"}
+    ],
+    "moves": [
+      {"name": "Close Combat"},
+      {"name": "Bullet Punch"},
+      {"name": "Fake Out"},
+      {"name": "Zen Headbutt"},
+      {"name": "Ice Punch"},
+      {"name": "High Jump Kick"},
+      {"name": "Psycho Cut"},
+      {"name": "Thunder Punch"},
+      {"name": "Poison Jab"},
+      {"name": "Trailblaze"}
+    ],
+    "defaultMoves": [
+      {"name": "Close Combat"},
+      {"name": "Zen Headbutt"},
+      {"name": "Bullet Punch"},
+      {"name": "Fake Out"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Impish"},
+      {"name": "Brave"},
+      {"name": "Naughty"}
+    ]
+  },
+
   "Steelix": {
     "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
     "usageRank": 130,
@@ -7476,6 +7826,41 @@
       {"name": "mental-herb"},
       {"name": "metal-coat"},
       {"name": "shuca-berry"}
+    ],
+    "moves": [
+      {"name": "Earthquake"},
+      {"name": "Body Press"},
+      {"name": "Stealth Rock"},
+      {"name": "Heavy Slam"},
+      {"name": "Iron Defense"},
+      {"name": "Dragon Tail"},
+      {"name": "Gyro Ball"},
+      {"name": "Curse"},
+      {"name": "Fissure"},
+      {"name": "Stone Edge"}
+    ],
+    "defaultMoves": [
+      {"name": "Earthquake"},
+      {"name": "Heavy Slam"},
+      {"name": "Body Press"},
+      {"name": "Stealth Rock"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Impish"},
+      {"name": "Relaxed"},
+      {"name": "Brave"},
+      {"name": "Careful"}
+    ]
+  },
+
+  "Mega Steelix": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
+    "abilities": [
+      {"name": "Sand Force"}
+    ],
+    "items": [
+      {"name": "steelixite"}
     ],
     "moves": [
       {"name": "Earthquake"},
@@ -7737,6 +8122,41 @@
     ]
   },
 
+  "Mega Drampa": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
+    "abilities": [
+      {"name": "Berserk"}
+    ],
+    "items": [
+      {"name": "drampanite"}
+    ],
+    "moves": [
+      {"name": "Draco Meteor"},
+      {"name": "Thunderbolt"},
+      {"name": "Flamethrower"},
+      {"name": "Hyper Voice"},
+      {"name": "Roost"},
+      {"name": "Earth Power"},
+      {"name": "Ice Beam"},
+      {"name": "Dragon Pulse"},
+      {"name": "Fire Blast"},
+      {"name": "Hyper Beam"}
+    ],
+    "defaultMoves": [
+      {"name": "Draco Meteor"},
+      {"name": "Hyper Voice"},
+      {"name": "Flamethrower"},
+      {"name": "Thunderbolt"}
+    ],
+    "natures": [
+      {"name": "Modest"},
+      {"name": "Quiet"},
+      {"name": "Bold"},
+      {"name": "Calm"},
+      {"name": "Timid"}
+    ]
+  },
+
   "Vanilluxe": {
     "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 136,
@@ -7924,6 +8344,41 @@
     ]
   },
 
+  "Mega Absol": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Magic Bounce"}
+    ],
+    "items": [
+      {"name": "absolite"}
+    ],
+    "moves": [
+      {"name": "Sucker Punch"},
+      {"name": "Close Combat"},
+      {"name": "Knock Off"},
+      {"name": "Swords Dance"},
+      {"name": "Ice Beam"},
+      {"name": "Play Rough"},
+      {"name": "Night Slash"},
+      {"name": "Will-O-Wisp"},
+      {"name": "Psycho Cut"},
+      {"name": "Stone Edge"}
+    ],
+    "defaultMoves": [
+      {"name": "Sucker Punch"},
+      {"name": "Knock Off"},
+      {"name": "Close Combat"},
+      {"name": "Swords Dance"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Jolly"},
+      {"name": "Naive"},
+      {"name": "Naughty"},
+      {"name": "Careful"}
+    ]
+  },
+
   "Ariados": {
     "defaultSp": {"hp": 32, "atk": 0, "def": 30, "spa": 0, "spd": 4, "spe": 0},
     "usageRank": 140,
@@ -7990,6 +8445,41 @@
       {"name": "focus-band"},
       {"name": "white-herb"},
       {"name": "lum-berry"}
+    ],
+    "moves": [
+      {"name": "Protect"},
+      {"name": "Substitute"},
+      {"name": "Freeze-Dry"},
+      {"name": "Sheer Cold"},
+      {"name": "Explosion"},
+      {"name": "Earthquake"},
+      {"name": "Ice Shard"},
+      {"name": "Body Slam"},
+      {"name": "Double Team"},
+      {"name": "Frost Breath"}
+    ],
+    "defaultMoves": [
+      {"name": "Freeze-Dry"},
+      {"name": "Sheer Cold"},
+      {"name": "Protect"},
+      {"name": "Substitute"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Jolly"},
+      {"name": "Adamant"},
+      {"name": "Bold"},
+      {"name": "Modest"}
+    ]
+  },
+
+  "Mega Glalie": {
+    "defaultSp": {"hp": 2, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Refrigerate"}
+    ],
+    "items": [
+      {"name": "glalitite"}
     ],
     "moves": [
       {"name": "Protect"},
@@ -8666,6 +9156,40 @@
     ]
   },
 
+  "Mega Golurk": {
+    "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 2, "spe": 0},
+    "abilities": [
+      {"name": "Unseen Fist"}
+    ],
+    "items": [
+      {"name": "golurkite"}
+    ],
+    "moves": [
+      {"name": "Poltergeist"},
+      {"name": "Ice Punch"},
+      {"name": "Headlong Rush"},
+      {"name": "Drain Punch"},
+      {"name": "Close Combat"},
+      {"name": "Dynamic Punch"},
+      {"name": "Stone Edge"},
+      {"name": "Thunder Punch"},
+      {"name": "Shadow Punch"}
+    ],
+    "defaultMoves": [
+      {"name": "Poltergeist"},
+      {"name": "Headlong Rush"},
+      {"name": "Drain Punch"},
+      {"name": "Ice Punch"}
+    ],
+    "natures": [
+      {"name": "Adamant"},
+      {"name": "Brave"},
+      {"name": "Jolly"},
+      {"name": "Impish"},
+      {"name": "Careful"}
+    ]
+  },
+
   "Houndoom": {
     "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "usageRank": 156,
@@ -8685,6 +9209,41 @@
       {"name": "sitrus-berry"},
       {"name": "focus-band"},
       {"name": "leftovers"}
+    ],
+    "moves": [
+      {"name": "Dark Pulse"},
+      {"name": "Flamethrower"},
+      {"name": "Destiny Bond"},
+      {"name": "Sludge Bomb"},
+      {"name": "Sucker Punch"},
+      {"name": "Overheat"},
+      {"name": "Nasty Plot"},
+      {"name": "Counter"},
+      {"name": "Fire Blast"},
+      {"name": "Taunt"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Dark Pulse"},
+      {"name": "Sludge Bomb"},
+      {"name": "Destiny Bond"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Hasty"},
+      {"name": "Mild"},
+      {"name": "Naive"}
+    ]
+  },
+
+  "Mega Houndoom": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Solar Power"}
+    ],
+    "items": [
+      {"name": "houndoominite"}
     ],
     "moves": [
       {"name": "Dark Pulse"},
@@ -9406,6 +9965,41 @@
     ]
   },
 
+  "Mega Camerupt": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 2, "spa": 32, "spd": 0, "spe": 0},
+    "abilities": [
+      {"name": "Sheer Force"}
+    ],
+    "items": [
+      {"name": "cameruptite"}
+    ],
+    "moves": [
+      {"name": "Earth Power"},
+      {"name": "Ancient Power"},
+      {"name": "Flamethrower"},
+      {"name": "Flash Cannon"},
+      {"name": "Eruption"},
+      {"name": "Fire Blast"},
+      {"name": "Rock Slide"},
+      {"name": "Yawn"},
+      {"name": "Stealth Rock"},
+      {"name": "Overheat"}
+    ],
+    "defaultMoves": [
+      {"name": "Flamethrower"},
+      {"name": "Earth Power"},
+      {"name": "Ancient Power"},
+      {"name": "Flash Cannon"}
+    ],
+    "natures": [
+      {"name": "Quiet"},
+      {"name": "Modest"},
+      {"name": "Calm"},
+      {"name": "Brave"},
+      {"name": "Bold"}
+    ]
+  },
+
   "Pangoro": {
     "defaultSp": {"hp": 32, "atk": 32, "def": 2, "spa": 0, "spd": 0, "spe": 0},
     "usageRank": 172,
@@ -9867,6 +10461,41 @@
     ]
   },
 
+  "Mega Meowstic": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
+    "abilities": [
+      {"name": "Trace"}
+    ],
+    "items": [
+      {"name": "meowsticite"}
+    ],
+    "moves": [
+      {"name": "Psychic"},
+      {"name": "Alluring Voice"},
+      {"name": "Thunderbolt"},
+      {"name": "Nasty Plot"},
+      {"name": "Shadow Ball"},
+      {"name": "Dark Pulse"},
+      {"name": "Calm Mind"},
+      {"name": "Energy Ball"},
+      {"name": "Psyshock"},
+      {"name": "Fake Out"}
+    ],
+    "defaultMoves": [
+      {"name": "Psychic"},
+      {"name": "Alluring Voice"},
+      {"name": "Thunderbolt"},
+      {"name": "Nasty Plot"}
+    ],
+    "natures": [
+      {"name": "Timid"},
+      {"name": "Modest"},
+      {"name": "Bold"},
+      {"name": "Hasty"},
+      {"name": "Calm"}
+    ]
+  },
+
   "Gourgeist (Small Size)": {
     "defaultSp": {"hp": 32, "atk": 32, "def": 0, "spa": 0, "spd": 0, "spe": 2},
     "usageRank": 182,
@@ -10110,6 +10739,41 @@
       {"name": "light-ball"},
       {"name": "quick-claw"},
       {"name": "blastoisinite"}
+    ],
+    "moves": [
+      {"name": "Wish"},
+      {"name": "Calm Mind"},
+      {"name": "Draining Kiss"},
+      {"name": "Yawn"},
+      {"name": "Trick Room"},
+      {"name": "Healing Wish"},
+      {"name": "Flamethrower"},
+      {"name": "Dazzling Gleam"},
+      {"name": "Encore"},
+      {"name": "Protect"}
+    ],
+    "defaultMoves": [
+      {"name": "Draining Kiss"},
+      {"name": "Wish"},
+      {"name": "Calm Mind"},
+      {"name": "Yawn"}
+    ],
+    "natures": [
+      {"name": "Bold"},
+      {"name": "Modest"},
+      {"name": "Calm"},
+      {"name": "Relaxed"},
+      {"name": "Sassy"}
+    ]
+  },
+
+  "Mega Audino": {
+    "defaultSp": {"hp": 32, "atk": 0, "def": 32, "spa": 0, "spd": 2, "spe": 0},
+    "abilities": [
+      {"name": "Healer"}
+    ],
+    "items": [
+      {"name": "audinite"}
     ],
     "moves": [
       {"name": "Wish"},
