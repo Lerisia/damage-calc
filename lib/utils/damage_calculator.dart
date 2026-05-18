@@ -1396,6 +1396,12 @@ class DamageCalculator {
       // rather than pokeRound. Match exactly.
       baseDmg = (baseDmg * critMod).floor();
     }
+    // Sniper's extra ×1.5 rides the per-roll finalMods chain inside
+    // applyModifiers; emit its modifier note exactly once here so it
+    // doesn't repeat for each of the 16 rolls.
+    if (isCritical && atkAbilityRaw == 'Sniper') {
+      notes.add('ability:Sniper:×1.5');
+    }
 
     // --- Damage chain mirroring Showdown's getFinalDamage ---
     // Showdown applies the post-baseDamage chain as:
@@ -1440,10 +1446,11 @@ class DamageCalculator {
       if (friendGuardMod != 1.0) finalMods.add(_toFP(friendGuardMod));
       // Sniper: +50 % on critical hits, routed through finalMods so
       // the rounding order matches Showdown (separate from the crit
-      // ×1.5 applied to baseDmg).
+      // ×1.5 applied to baseDmg). The modifier note is emitted once
+      // outside this closure — applyModifiers runs per-roll (17×), so a
+      // notes.add here would stack 17 duplicate notes.
       if (isCritical && atkAbilityRaw == 'Sniper') {
         finalMods.add(_kFP_1_5);
-        notes.add('ability:Sniper:×1.5');
       }
       final int finalModChain = _chainMods(finalMods, 41, 131072);
 

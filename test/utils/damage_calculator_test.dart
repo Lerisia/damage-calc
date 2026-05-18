@@ -882,6 +882,11 @@ void main() {
       final r = calc(critical: false, atkAbility: 'Sniper');
       expect(r.modifierNotes.any((n) => n.startsWith('ability:Sniper')), isFalse);
     });
+    test('emits note exactly once, not per-roll', () {
+      final r = calc(critical: true, atkAbility: 'Sniper');
+      expect(r.modifierNotes.where((n) => n == 'ability:Sniper:×1.5').length,
+          equals(1));
+    });
   });
 
   // ---------------------------------------------------------------
