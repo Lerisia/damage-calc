@@ -1107,6 +1107,15 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
+  /// Neutral placeholder shown in a sprite slot when no image is
+  /// available (pack not downloaded, offline, or a Champions-only form
+  /// Showdown has no sprite for).
+  Widget _spritePlaceholder() => Icon(
+        Icons.catching_pokemon,
+        size: 54,
+        color: Colors.grey.shade300,
+      );
+
   /// Species card. With a dex sprite available it drops the section
   /// title and lays the sprite down the left of a two-line block —
   /// line 1: name + dex shortcut, line 2: type chips + Dynamax +
@@ -1135,7 +1144,9 @@ class PokemonPanelState extends State<PokemonPanel>
     final dexSprite = SpriteService.instance.dexSpriteFor(s.pokemonName);
 
     // No sprite → original single-row titled layout, unchanged.
-    if (dexSprite == null) {
+    // kSpritePreviewMode forces the sprite layout (with a placeholder)
+    // so the arrangement can be previewed before the pack exists.
+    if (dexSprite == null && !kSpritePreviewMode) {
       return _sectionCard(
         title: AppStrings.t('section.species'),
         child: Row(children: [
@@ -1160,12 +1171,15 @@ class PokemonPanelState extends State<PokemonPanel>
           SizedBox(
             width: 68,
             height: 68,
-            child: Image(
-              image: dexSprite,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.medium,
-              gaplessPlayback: true,
-            ),
+            child: dexSprite == null
+                ? _spritePlaceholder()
+                : Image(
+                    image: dexSprite,
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.medium,
+                    gaplessPlayback: true,
+                    errorBuilder: (_, __, ___) => _spritePlaceholder(),
+                  ),
           ),
           const SizedBox(width: 8),
           Expanded(

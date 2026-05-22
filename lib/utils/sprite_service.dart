@@ -23,6 +23,12 @@ String spriteKeyFor(String pokemonName) => pokemonName
     .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
     .replaceAll(RegExp(r'^-+|-+$'), '');
 
+/// TEMPORARY preview flag. When true the sprite layouts render even with
+/// no sprite pack present (with a placeholder), so the new arrangement
+/// can be checked on a TestFlight build before the pack exists. Set back
+/// to false before merging to main / once the real pack is wired in.
+const bool kSpritePreviewMode = true;
+
 /// Resolves Pokémon sprite images for the UI.
 ///
 /// The sprite pack (small box icons for the simple calculator, larger
