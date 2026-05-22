@@ -14,11 +14,11 @@ import '../../models/type.dart';
 import '../../models/weather.dart';
 import '../../models/move_tags.dart';
 import '../../data/pokedex.dart';
-import '../../models/pokemon.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/aura_effects.dart';
 import '../../utils/battle_facade.dart';
 import '../../utils/ruin_effects.dart';
+import '../../utils/sprite_service.dart';
 import '../../utils/stacking_moves.dart';
 import 'type_picker_dialog.dart';
 import '../../utils/grounded.dart';
@@ -216,35 +216,7 @@ class PokemonPanelState extends State<PokemonPanel>
               // Capture header (weather/terrain/room info)
               _captureHeader(),
               const SizedBox(height: 4),
-          _sectionCard(
-            title: AppStrings.t('section.species'),
-            child: Row(children: [
-            Expanded(child: PokemonSelector(
-              key: ValueKey('pokemon_${widget.resetCounter}_${s.pokemonName}'),
-              initialPokemonName: s.pokemonName,
-              onSelected: (pokemon) {
-                setState(() => s.applyPokemon(pokemon));
-                _notifyParent();
-              },
-            )),
-            if (widget.onOpenDex != null) ...[
-              const SizedBox(width: 2),
-              IconButton(
-                tooltip: AppStrings.t('dex.title'),
-                icon: const Icon(Icons.menu_book_outlined, size: 20),
-                onPressed: widget.onOpenDex,
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
-              ),
-            ],
-            const SizedBox(width: 4),
-            ..._effectiveTypeBadges(),
-            const SizedBox(width: 4),
-            _dynamaxIcon(),
-            const SizedBox(width: 4),
-            _terastalIcon(),
-          ]),),
+          _speciesSection(),
           const SizedBox(height: 12),
 
           _sectionCard(
@@ -1135,23 +1107,115 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  Widget _sectionCard({Key? key, required String title, required Widget child, Widget? trailing}) {
-    // Borderless, flat, separated by whitespace. Title uses the attacker/
-    // defender accent color so users always know which side they're editing.
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accent = widget.isAttacker
-        ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
-        : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
+  /// Species card. With a dex sprite available it drops the section
+  /// title and lays the sprite down the left of a two-line block —
+  /// line 1: name + dex shortcut, line 2: type chips + Dynamax +
+  /// Terastal. Without a sprite it falls back to the original
+  /// single-row titled card, unchanged.
+  Widget _speciesSection() {
+    final selector = PokemonSelector(
+      key: ValueKey('pokemon_${widget.resetCounter}_${s.pokemonName}'),
+      initialPokemonName: s.pokemonName,
+      onSelected: (pokemon) {
+        setState(() => s.applyPokemon(pokemon));
+        _notifyParent();
+      },
+    );
+    final dexButton = widget.onOpenDex == null
+        ? null
+        : IconButton(
+            tooltip: AppStrings.t('dex.title'),
+            icon: const Icon(Icons.menu_book_outlined, size: 20),
+            onPressed: widget.onOpenDex,
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+          );
 
-    final titleWidget = Text(
-      title,
-      style: TextStyle(
-        color: accent,
-        fontSize: 13,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.1,
+    final dexSprite = SpriteService.instance.dexSpriteFor(s.pokemonName);
+
+    // No sprite → original single-row titled layout, unchanged.
+    if (dexSprite == null) {
+      return _sectionCard(
+        title: AppStrings.t('section.species'),
+        child: Row(children: [
+          Expanded(child: selector),
+          if (dexButton != null) ...[const SizedBox(width: 2), dexButton],
+          const SizedBox(width: 4),
+          ..._effectiveTypeBadges(),
+          const SizedBox(width: 4),
+          _dynamaxIcon(),
+          const SizedBox(width: 4),
+          _terastalIcon(),
+        ]),
+      );
+    }
+
+    // Sprite available → titleless card; the sprite sits down the left
+    // spanning both lines of the name/type block.
+    return _sectionCard(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 68,
+            height: 68,
+            child: Image(
+              image: dexSprite,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.medium,
+              gaplessPlayback: true,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(children: [
+                  Expanded(child: selector),
+                  if (dexButton != null) ...[
+                    const SizedBox(width: 2),
+                    dexButton,
+                  ],
+                ]),
+                const SizedBox(height: 6),
+                Row(children: [
+                  ..._effectiveTypeBadges(),
+                  const SizedBox(width: 4),
+                  _dynamaxIcon(),
+                  const SizedBox(width: 4),
+                  _terastalIcon(),
+                ]),
+              ],
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _sectionCard({Key? key, String? title, required Widget child, Widget? trailing}) {
+    // Borderless, flat, separated by whitespace. Title uses the attacker/
+    // defender accent color so users always know which side they're editing.
+    // A null title drops the header row entirely (used by the species
+    // card once a sprite makes the section self-evident).
+    Widget? titleWidget;
+    if (title != null) {
+      final isDark = Theme.of(context).brightness == Brightness.dark;
+      final accent = widget.isAttacker
+          ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
+          : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
+      titleWidget = Text(
+        title,
+        style: TextStyle(
+          color: accent,
+          fontSize: 13,
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.1,
+        ),
+      );
+    }
 
     // Each section card lives in its own paint layer so iOS scrolls
     // without re-rasterizing the whole panel every frame — fling
@@ -1163,11 +1227,13 @@ class PokemonPanelState extends State<PokemonPanel>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (trailing != null)
-              Row(children: [titleWidget, const Spacer(), trailing])
-            else
-              titleWidget,
-            const SizedBox(height: 8),
+            if (titleWidget != null) ...[
+              if (trailing != null)
+                Row(children: [titleWidget, const Spacer(), trailing])
+              else
+                titleWidget,
+              const SizedBox(height: 8),
+            ],
             child,
           ],
         ),

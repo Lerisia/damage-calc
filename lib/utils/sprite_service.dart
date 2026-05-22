@@ -48,17 +48,25 @@ class SpriteService {
   /// Small box-style icon for a Pokémon, for the simple calculator.
   /// Returns null when the pack isn't available so the caller can show a
   /// placeholder.
-  ImageProvider? iconFor(String pokemonName) {
+  ImageProvider? iconFor(String pokemonName) => _resolve('icons', pokemonName);
+
+  /// Larger dex sprite for a Pokémon, for the expanded calculator.
+  /// Returns null when the pack isn't available so the caller can fall
+  /// back to the title-only species layout.
+  ImageProvider? dexSpriteFor(String pokemonName) =>
+      _resolve('dex', pokemonName);
+
+  ImageProvider? _resolve(String set, String pokemonName) {
     if (!packReady) return null;
     final key = spriteKeyFor(pokemonName);
     if (kIsWeb) {
       // Served as static files from the site root (Flutter `web/`
-      // folder) — this keeps the sprite assets out of the mobile binary.
-      return NetworkImage('sprites/icons/$key.png');
+      // folder) — keeps the sprite assets out of the mobile binary.
+      return NetworkImage('sprites/$set/$key.png');
     }
     // Mobile: resolved from the downloaded pack cache. Wired together
-    // with the download mechanism (which needs a conditional dart:io
-    // import) in a later step.
+    // with the download mechanism (needs a conditional dart:io import)
+    // in a later step.
     return null;
   }
 }
