@@ -22,12 +22,14 @@ import '../utils/champions_filter_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/page_routes.dart';
 import '../utils/localization.dart';
+import '../utils/sprite_service.dart';
 import '../utils/stacking_moves.dart';
 import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/type_effectiveness.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
 import 'widgets/move_selector.dart';
+import 'widgets/pokemon_sprite.dart';
 
 /// Result produced when the user taps "공격측으로" / "방어측으로" in
 /// the dex header — the dex pops with this payload so the calculator
@@ -505,6 +507,30 @@ class _DexScreenState extends State<DexScreen> {
     );
   }
 
+  /// Type chips laid out horizontally — used on the sprite-layout row
+  /// where the chips sit on a second line under the name.
+  Widget _typeChipsRow(Pokemon p) {
+    Widget chip(PokemonType t) => Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
+          decoration: BoxDecoration(
+            color: KoStrings.getTypeColor(t),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(KoStrings.getTypeName(t),
+              style: const TextStyle(
+                  fontSize: 11,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold)),
+        );
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        chip(p.type1),
+        if (p.type2 != null) ...[const SizedBox(width: 3), chip(p.type2!)],
+      ],
+    );
+  }
+
   Widget _pokemonRow(Pokemon p,
       {required bool isSelected, required bool push}) {
     final scheme = Theme.of(context).colorScheme;
@@ -518,6 +544,44 @@ class _DexScreenState extends State<DexScreen> {
                   fontSize: 12,
                   fontFeatures: [FontFeature.tabularFigures()])),
         );
+
+    // Sprite layout: a box icon takes the leftmost slot and the type
+    // chips drop onto a second line under the name. The row is already
+    // two lines tall (the chips used to stack there), so this costs no
+    // extra space. Falls back to the type-chips column until the sprite
+    // pack is available — applied list-wide so rows stay uniform.
+    final spriteLayout =
+        SpriteService.instance.packReady || kSpritePreviewMode;
+    final Widget leading;
+    final Widget nameBlock;
+    const nameStyle =
+        TextStyle(fontSize: 13, fontWeight: FontWeight.w600);
+    if (spriteLayout) {
+      leading = PokemonSprite(pokemonName: p.name, size: 46);
+      nameBlock = Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(p.localizedName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: nameStyle),
+            const SizedBox(height: 2),
+            _typeChipsRow(p),
+          ],
+        ),
+      );
+    } else {
+      leading = _typeCell(p);
+      nameBlock = Expanded(
+        child: Text(p.localizedName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: nameStyle),
+      );
+    }
+
     return InkWell(
       onTap: () => _pickPokemon(p, push),
       child: Container(
@@ -525,15 +589,9 @@ class _DexScreenState extends State<DexScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
         child: Row(
           children: [
-            _typeCell(p),
+            leading,
             const SizedBox(width: 6),
-            Expanded(
-              child: Text(p.localizedName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w600)),
-            ),
+            nameBlock,
             const SizedBox(width: 4),
             stat(s.hp),
             stat(s.attack),

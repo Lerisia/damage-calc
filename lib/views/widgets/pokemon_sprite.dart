@@ -29,6 +29,7 @@ class PokemonSprite extends StatelessWidget {
       image: provider,
       width: size,
       height: size,
+      fit: BoxFit.contain,
       filterQuality: FilterQuality.medium,
       gaplessPlayback: true,
       errorBuilder: (_, __, ___) => _placeholder(),
