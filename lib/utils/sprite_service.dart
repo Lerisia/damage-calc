@@ -31,9 +31,10 @@ const bool kSpritePreviewMode = true;
 
 /// Resolves Pokémon sprite images for the UI.
 ///
-/// The sprite pack (small box icons for the simple calculator, larger
-/// dex sprites for the expanded calculator — sourced from the Pokémon
-/// Showdown sprite project) is **not bundled in the app binary**: on web
+/// The sprite pack (small box icons for the simple calculator, BW-style
+/// pixel battle sprites for the expanded calculator — sourced from the
+/// Pokémon Showdown sprite project) is **not bundled in the app
+/// binary**: on web
 /// it is served as static files alongside the site, and on mobile it is
 /// downloaded once after install and cached locally. Keeping it out of
 /// the store artifact is deliberate.
@@ -56,11 +57,11 @@ class SpriteService {
   /// placeholder.
   ImageProvider? iconFor(String pokemonName) => _resolve('icons', pokemonName);
 
-  /// Larger dex sprite for a Pokémon, for the expanded calculator.
-  /// Returns null when the pack isn't available so the caller can fall
-  /// back to the title-only species layout.
-  ImageProvider? dexSpriteFor(String pokemonName) =>
-      _resolve('dex', pokemonName);
+  /// BW-style pixel battle sprite for a Pokémon, for the expanded
+  /// calculator. Returns null when the pack isn't available so the
+  /// caller can fall back to the title-only species layout.
+  ImageProvider? battleSpriteFor(String pokemonName) =>
+      _resolve('battle', pokemonName);
 
   ImageProvider? _resolve(String set, String pokemonName) {
     if (!packReady) return null;

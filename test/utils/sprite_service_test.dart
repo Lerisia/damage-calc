@@ -46,9 +46,9 @@ void main() {
       expect(SpriteService.instance.iconFor('Pikachu'), isNull);
     });
 
-    test('dex sprite returns null while the pack is not ready', () {
+    test('battle sprite returns null while the pack is not ready', () {
       SpriteService.instance.packReady = false;
-      expect(SpriteService.instance.dexSpriteFor('Pikachu'), isNull);
+      expect(SpriteService.instance.battleSpriteFor('Pikachu'), isNull);
     });
   });
 }

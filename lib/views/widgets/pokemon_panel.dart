@@ -1141,12 +1141,12 @@ class PokemonPanelState extends State<PokemonPanel>
             constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
           );
 
-    final dexSprite = SpriteService.instance.dexSpriteFor(s.pokemonName);
+    final battleSprite = SpriteService.instance.battleSpriteFor(s.pokemonName);
 
     // No sprite → original single-row titled layout, unchanged.
     // kSpritePreviewMode forces the sprite layout (with a placeholder)
     // so the arrangement can be previewed before the pack exists.
-    if (dexSprite == null && !kSpritePreviewMode) {
+    if (battleSprite == null && !kSpritePreviewMode) {
       return _sectionCard(
         title: AppStrings.t('section.species'),
         child: Row(children: [
@@ -1171,12 +1171,13 @@ class PokemonPanelState extends State<PokemonPanel>
           SizedBox(
             width: 68,
             height: 68,
-            child: dexSprite == null
+            child: battleSprite == null
                 ? _spritePlaceholder()
                 : Image(
-                    image: dexSprite,
+                    image: battleSprite,
                     fit: BoxFit.contain,
-                    filterQuality: FilterQuality.medium,
+                    // Nearest-neighbour keeps the BW pixel art crisp.
+                    filterQuality: FilterQuality.none,
                     gaplessPlayback: true,
                     errorBuilder: (_, __, ___) => _spritePlaceholder(),
                   ),
