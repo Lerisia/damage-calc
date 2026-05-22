@@ -28,6 +28,7 @@ import 'widgets/offensive_power_breakdown.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_panel.dart' show DynamaxPainter, TerastalPainter;
 import 'widgets/pokemon_selector.dart';
+import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
@@ -1630,6 +1631,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final state = attacker ? _atk : _def;
     final onOpenDex = widget.onOpenDexForSide;
     return Row(children: [
+      // Box-style sprite to the left of the name. Shows a neutral
+      // placeholder until the sprite pack is available.
+      PokemonSprite(pokemonName: state.pokemonName, size: 30),
+      const SizedBox(width: 6),
       Expanded(
         child: PokemonSelector(
           // Key includes resetCounter + species name so the selector
