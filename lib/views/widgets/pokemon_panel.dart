@@ -1364,17 +1364,6 @@ class _PowerInputState extends State<_PowerInput> {
 
   void _onFocusChange() {
     _hasFocus = _focusNode.hasFocus;
-    if (_hasFocus) {
-      // Select-all on focus so a tap/click immediately readies the
-      // field for replacement.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted || !_focusNode.hasFocus) return;
-        final text = widget.controller.text;
-        if (text.isEmpty) return;
-        widget.controller.selection =
-            TextSelection(baseOffset: 0, extentOffset: text.length);
-      });
-    }
     if (!_hasFocus && mounted) {
       // When losing focus, commit the value or reset to display power
       final text = widget.controller.text;

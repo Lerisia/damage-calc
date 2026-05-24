@@ -28,7 +28,6 @@ import 'widgets/offensive_power_breakdown.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_panel.dart' show DynamaxPainter, TerastalPainter;
 import 'widgets/pokemon_selector.dart';
-import 'widgets/select_all_on_focus_field.dart';
 import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
@@ -560,12 +559,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // UnfocusDisposition.scope drops focus to the enclosing
-      // FocusScope rather than bouncing it to the previously-focused
-      // child — without this, a tap on a non-focusable area can snap
-      // focus back onto an earlier stat field (e.g. IV after EV).
-      onTap: () => FocusManager.instance.primaryFocus
-          ?.unfocus(disposition: UnfocusDisposition.scope),
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       behavior: HitTestBehavior.translucent,
       child: Align(
         // Horizontally centered, vertically top-aligned: on tall
@@ -1332,7 +1326,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         const SizedBox(width: 4),
         SizedBox(
           width: 40, height: 30,
-          child: SelectAllOnFocusField(
+          child: TextField(
             controller: spCtl,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
@@ -1937,9 +1931,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       abilityNameMap: _abilityNames,
       itemNameMap: _itemNames,
       showHeader: false,
-      // Hide the full 16-roll distribution in Simple Mode so the
-      // result + speed comparison fit on one screen without scrolling.
-      showRolls: false,
     );
     // Tap anywhere on the result block → 결정력 breakdown popup.
     // No affordance (per design) — discoverable via tap, doesn't
