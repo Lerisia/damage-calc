@@ -67,5 +67,29 @@ void main() {
       final containsScore = koreanMatchScore('폭풍', '모래폭풍');
       expect(prefixScore, greaterThan(containsScore));
     });
+
+    // PC Korean IMEs combine consecutive initials in chosung-only input
+    // (ㅂ+ㅅ → ㅄ etc.). Decompose so the user reaches the same target
+    // whether they typed on mobile (ㅂㅅㄹㄹ) or on PC (ㅄㄹㄹ).
+    group('cluster jamo decomposition (PC IME)', () {
+      test('mobile-typed ㅂㅅㄹㄹ matches 보스로라 (regression)', () {
+        expect(koreanMatchScore('ㅂㅅㄹㄹ', '보스로라'), equals(50));
+      });
+      test('PC-typed ㅄㄹㄹ matches 보스로라 (cluster decomposed)', () {
+        expect(koreanMatchScore('ㅄㄹㄹ', '보스로라'), equals(50));
+      });
+      test('ㅄ alone matches 보스 (chosung prefix)', () {
+        expect(koreanMatchScore('ㅄ', '보스'), equals(50));
+      });
+      test('ㄶ decomposes to ㄴㅎ', () {
+        expect(koreanMatchScore('ㄶ', '난호'), equals(50));
+      });
+      test('ㄺ decomposes to ㄹㄱ', () {
+        expect(koreanMatchScore('ㄺ', '락기'), equals(50));
+      });
+      test('cluster does not invent a match — ㅄ vs 가가 stays 0', () {
+        expect(koreanMatchScore('ㅄ', '가가'), equals(0));
+      });
+    });
   });
 }

@@ -30,6 +30,15 @@ class SearchEntry<T> {
 
 /// Scores a pre-computed entry against a pre-computed query.
 int scoreEntry(List<int> qRunes, String qLower, SearchEntry entry) {
+  // PC IMEs collapse successive consonants in chosung-only input
+  // (ㅂ+ㅅ → ㅄ etc.). Decompose any clusters so 보스로라 is reachable
+  // from ㅄㄹㄹ just as it is from ㅂㅅㄹㄹ.
+  final expanded = _expandJamoClusters(qRunes);
+  if (!identical(expanded, qRunes)) {
+    qRunes = expanded;
+    qLower = String.fromCharCodes(expanded);
+  }
+
   // 1. Exact match
   if (qLower == entry.koLower) return 100;
 
@@ -134,6 +143,49 @@ int _jamoToChosungIndex(int code) {
   return map[code] ?? -1;
 }
 
+/// PC Korean IMEs combine successive consonants in chosung-only input
+/// (e.g. typing ㅂ then ㅅ produces ㅄ). Each cluster jamo decomposes
+/// back into its two component initials so the chosung matchers see
+/// what the user *meant* to type — letting `ㅄㄹㄹ` reach `보스로라`
+/// the same way `ㅂㅅㄹㄹ` does on mobile.
+const _clusterDecompose = <int, List<int>>{
+  0x3133: [0x3131, 0x3145], // ㄳ → ㄱ ㅅ
+  0x3135: [0x3134, 0x3148], // ㄵ → ㄴ ㅈ
+  0x3136: [0x3134, 0x314E], // ㄶ → ㄴ ㅎ
+  0x313A: [0x3139, 0x3131], // ㄺ → ㄹ ㄱ
+  0x313B: [0x3139, 0x3141], // ㄻ → ㄹ ㅁ
+  0x313C: [0x3139, 0x3142], // ㄼ → ㄹ ㅂ
+  0x313D: [0x3139, 0x3145], // ㄽ → ㄹ ㅅ
+  0x313E: [0x3139, 0x314C], // ㄾ → ㄹ ㅌ
+  0x313F: [0x3139, 0x314D], // ㄿ → ㄹ ㅍ
+  0x3140: [0x3139, 0x314E], // ㅀ → ㄹ ㅎ
+  0x3144: [0x3142, 0x3145], // ㅄ → ㅂ ㅅ
+};
+
+/// Decompose any cluster jamo in [runes] into its component initials.
+/// Returns the input list unchanged when no clusters are present so the
+/// common case stays allocation-free.
+List<int> _expandJamoClusters(List<int> runes) {
+  bool any = false;
+  for (final c in runes) {
+    if (_clusterDecompose.containsKey(c)) {
+      any = true;
+      break;
+    }
+  }
+  if (!any) return runes;
+  final out = <int>[];
+  for (final c in runes) {
+    final parts = _clusterDecompose[c];
+    if (parts != null) {
+      out.addAll(parts);
+    } else {
+      out.add(c);
+    }
+  }
+  return out;
+}
+
 /// Match score for search ranking. Higher = better match.
 /// Returns 0 for no match.
 ///
@@ -141,8 +193,15 @@ int _jamoToChosungIndex(int code) {
 int koreanMatchScore(String query, String target) {
   if (query.isEmpty) return 0;
 
-  final q = query.toLowerCase();
+  var q = query.toLowerCase();
   final t = target.toLowerCase();
+  // See scoreEntry: PC IMEs combine consecutive consonants in chosung
+  // input — decompose clusters back into their component initials.
+  final qRunes = q.runes.toList();
+  final expanded = _expandJamoClusters(qRunes);
+  if (!identical(expanded, qRunes)) {
+    q = String.fromCharCodes(expanded);
+  }
 
   // 1. Exact match
   if (q == t) return 100;
