@@ -34,6 +34,12 @@ class DamageResultPanel extends StatelessWidget {
   /// visible in the attacker/defender panels.
   final bool showHeader;
 
+  /// When true, renders the 16-roll distribution under the move card.
+  /// Simple Mode passes false so the full result + speed comparison
+  /// fit on one screen without scrolling — full rolls are mainly used
+  /// when crafting samples, which lives in Expanded Mode.
+  final bool showRolls;
+
   const DamageResultPanel({
     super.key,
     required this.attacker,
@@ -47,6 +53,7 @@ class DamageResultPanel extends StatelessWidget {
     required this.abilityNameMap,
     required this.itemNameMap,
     this.showHeader = true,
+    this.showRolls = true,
   });
 
   @override
@@ -206,7 +213,7 @@ class DamageResultPanel extends StatelessWidget {
           // 16-roll distribution (collapsed when every multi-hit row
           // matches; per-hit rows when escalating power or Parental
           // Bond differentiates them).
-          ..._buildDamageRolls(result),
+          if (showRolls) ..._buildDamageRolls(result),
           if (result.modifierNotes.isNotEmpty) ...[
             const SizedBox(height: 6),
             Wrap(

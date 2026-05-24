@@ -1931,6 +1931,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       abilityNameMap: _abilityNames,
       itemNameMap: _itemNames,
       showHeader: false,
+      // Hide the full 16-roll distribution in Simple Mode so the
+      // result + speed comparison fit on one screen without scrolling.
+      showRolls: false,
     );
     // Tap anywhere on the result block → 결정력 breakdown popup.
     // No affordance (per design) — discoverable via tap, doesn't
