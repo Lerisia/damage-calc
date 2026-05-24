@@ -1062,53 +1062,110 @@ class _StatInputState extends State<StatInput> {
     );
   }
 
+  /// Rank stage chip — tap to open a ±6 picker. Same pattern as simple
+  /// mode (users found typing +/- inconvenient on every form factor, so
+  /// no screen-size split). Neutral chip shows a small "랭크/Rnk/段階"
+  /// label; non-zero shows the signed value in red (+) or blue (−).
   Widget _rankControl(int value, ValueChanged<int> onChanged) {
-    // Keying on _evResetCounter (but NOT on value) keeps the same widget
-    // alive while the user types, so the keyboard doesn't collapse on
-    // every keystroke. External resets (sample load, reset button) bump
-    // the counter, which reseeds the display with a signed value.
-    return Focus(
-      onFocusChange: (hasFocus) {
-        _hasFocusedStatField = hasFocus;
-        if (!hasFocus) {
-          setState(() => _evResetCounter++);
-          widget.onStatEditComplete?.call();
-        }
-      },
-      child: SizedBox(
-        height: 32,
-        child: TextFormField(
-        key: ValueKey('rank_$_evResetCounter'),
-        initialValue: value > 0 ? '+$value' : '$value',
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'^[+-]?[0-9]?$')),
-        ],
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: value > 0 ? Colors.red : value < 0 ? Colors.blue : null,
+    final active = value != 0;
+    final activeColor = value > 0 ? Colors.red : Colors.blue;
+    final scheme = Theme.of(context).colorScheme;
+    final String label;
+    final double fontSize;
+    if (!active) {
+      label = AppStrings.t('simple.rankNeutral');
+      fontSize = 11;
+    } else {
+      label = value > 0 ? '+$value' : '$value';
+      fontSize = 14;
+    }
+    return SizedBox(
+      height: 32,
+      child: InkWell(
+        onTap: () => _showRankPicker(value, onChanged),
+        borderRadius: BorderRadius.circular(4),
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active ? activeColor.withValues(alpha: 0.18) : null,
+            border: Border.all(
+              color: active
+                  ? activeColor
+                  : scheme.onSurface.withValues(alpha: 0.5),
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: active ? activeColor : scheme.onSurface,
+            ),
+          ),
         ),
-        decoration: const InputDecoration(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-        ),
-        onChanged: (text) {
-          // Don't commit incomplete inputs like '-' or '+' — wait for digits
-          // (or focus loss, which reseeds from the committed value).
-          if (text.isEmpty) {
-            onChanged(0);
-            return;
-          }
-          if (text == '-' || text == '+') return;
-          final parsed = int.tryParse(text.replaceAll('+', ''));
-          if (parsed != null) {
-            onChanged(parsed.clamp(-6, 6));
-          }
-        },
       ),
+    );
+  }
+
+  void _showRankPicker(int current, ValueChanged<int> onChanged) {
+    showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              for (int v = 6; v >= -6; v--)
+                InkWell(
+                  onTap: () {
+                    onChanged(v);
+                    widget.onStatEditComplete?.call();
+                    Navigator.pop(ctx);
+                  },
+                  child: Container(
+                    width: 44,
+                    height: 36,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: v == current
+                          ? (v > 0
+                                  ? Colors.red
+                                  : v < 0
+                                      ? Colors.blue
+                                      : Colors.grey)
+                              .withValues(alpha: 0.25)
+                          : null,
+                      border: Border.all(
+                        color: v == current
+                            ? (v > 0
+                                ? Colors.red
+                                : v < 0
+                                    ? Colors.blue
+                                    : Colors.grey)
+                            : Colors.grey.withValues(alpha: 0.4),
+                      ),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      v > 0 ? '+$v' : '$v',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: v > 0
+                            ? Colors.red
+                            : v < 0
+                                ? Colors.blue
+                                : null,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
