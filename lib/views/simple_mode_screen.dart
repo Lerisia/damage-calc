@@ -28,6 +28,7 @@ import 'widgets/offensive_power_breakdown.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_panel.dart' show DynamaxPainter, TerastalPainter;
 import 'widgets/pokemon_selector.dart';
+import 'widgets/select_all_on_focus_field.dart';
 import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
@@ -1326,7 +1327,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         const SizedBox(width: 4),
         SizedBox(
           width: 40, height: 30,
-          child: TextField(
+          child: SelectAllOnFocusField(
             controller: spCtl,
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,

@@ -1176,7 +1176,11 @@ class _StatInputState extends State<StatInput> {
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
         if (!hasFocus) {
-          setState(() => _evResetCounter++);
+          // Do NOT bump _evResetCounter here. _evControl is keyed by
+          // that counter, so bumping it during an IV → EV tap rebuilds
+          // (and disposes) the EV widget before the tap can land on
+          // it, leaving the user with no focused field. EV normalizes
+          // its own display on its own focus loss.
           widget.onStatEditComplete?.call();
         }
       },
