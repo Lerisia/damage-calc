@@ -693,7 +693,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         data: MediaQuery.of(ctx).copyWith(viewInsets: EdgeInsets.zero),
         child: Dialog(
         insetPadding: const EdgeInsets.all(12),
-        child: SizedBox(
+        // Cap the dialog width so it doesn't sprawl across the whole
+        // browser window on desktop. Mobile screens stay below the
+        // cap and fill naturally.
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: SizedBox(
           width: double.infinity,
           height: MediaQuery.sizeOf(ctx).height * 0.9,
           child: SampleListSheet(
@@ -717,6 +722,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           Navigator.pop(ctx);
         },
       ),
+        ),
         ),
       ),
       ),
