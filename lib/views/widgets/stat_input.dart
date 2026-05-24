@@ -20,6 +20,7 @@ import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
+import 'select_all_on_focus_field.dart';
 import 'typeahead_helpers.dart';
 
 class _ClampingFormatter extends TextInputFormatter {
@@ -902,7 +903,7 @@ class _StatInputState extends State<StatInput> {
             },
             child: SizedBox(
               height: 28,
-              child: TextFormField(
+              child: SelectAllOnFocusField(
                 key: ValueKey('ev_$_evResetCounter'),
                 initialValue: '$displayValue',
                 textAlign: TextAlign.center,
@@ -1002,7 +1003,7 @@ class _StatInputState extends State<StatInput> {
         Expanded(
           child: SizedBox(
             height: 28,
-            child: TextFormField(
+            child: SelectAllOnFocusField(
               key: const ValueKey('hp_pct'),
               initialValue: _formatHpPct(widget.hpPercent),
               textAlign: TextAlign.center,
@@ -1181,7 +1182,7 @@ class _StatInputState extends State<StatInput> {
       },
       child: SizedBox(
         height: 32,
-        child: TextFormField(
+        child: SelectAllOnFocusField(
           initialValue: '$value',
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
@@ -1261,12 +1262,23 @@ class _LevelInputState extends State<_LevelInput> {
   }
 
   void _onFocusChange() {
-    if (!_focusNode.hasFocus) {
-      final parsed = int.tryParse(_controller.text);
-      final clamped = parsed != null ? parsed.clamp(1, 100) : 1;
-      _controller.text = '$clamped';
-      widget.onChanged(clamped);
+    if (_focusNode.hasFocus) {
+      // Select-all on focus so a tap/click immediately readies the
+      // field for replacement.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_focusNode.hasFocus) return;
+        if (_controller.text.isEmpty) return;
+        _controller.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: _controller.text.length,
+        );
+      });
+      return;
     }
+    final parsed = int.tryParse(_controller.text);
+    final clamped = parsed != null ? parsed.clamp(1, 100) : 1;
+    _controller.text = '$clamped';
+    widget.onChanged(clamped);
   }
 
   @override
