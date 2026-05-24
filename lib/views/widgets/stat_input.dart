@@ -897,7 +897,12 @@ class _StatInputState extends State<StatInput> {
             onFocusChange: (hasFocus) {
               _hasFocusedStatField = hasFocus;
               if (!hasFocus) {
-                setState(() => _evResetCounter++); // normalize display
+                // Do NOT bump _evResetCounter here. This TextFormField
+                // is keyed by that counter — bumping on focus loss
+                // disposes the field mid-blur, and Flutter then restores
+                // focus to the previously-focused stat field (typically
+                // the IV next door). Display normalisation runs via
+                // didUpdateWidget when the parent's value changes.
                 widget.onStatEditComplete?.call();
               }
             },

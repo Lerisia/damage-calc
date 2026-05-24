@@ -560,7 +560,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      // UnfocusDisposition.scope drops focus to the enclosing
+      // FocusScope rather than bouncing it to the previously-focused
+      // child — without this, a tap on a non-focusable area can snap
+      // focus back onto an earlier stat field (e.g. IV after EV).
+      onTap: () => FocusManager.instance.primaryFocus
+          ?.unfocus(disposition: UnfocusDisposition.scope),
       behavior: HitTestBehavior.translucent,
       child: Align(
         // Horizontally centered, vertically top-aligned: on tall
