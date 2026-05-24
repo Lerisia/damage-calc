@@ -183,7 +183,8 @@ class _SampleListSheetState extends State<SampleListSheet> {
   }
 
   Future<void> _copyShareCode(StoredSample s) async {
-    final code = SampleStorage.exportSampleString(s);
+    final code = await SampleStorage.exportSampleString(s);
+    if (!mounted) return;
     await _showShareCodeDialog(subject: s.name, code: code);
   }
 
@@ -193,7 +194,8 @@ class _SampleListSheetState extends State<SampleListSheet> {
         if (_store.sampleById(id) != null) _store.sampleById(id)!
     ];
     if (members.isEmpty) return;
-    final code = SampleStorage.exportTeamString(t, members);
+    final code = await SampleStorage.exportTeamString(t, members);
+    if (!mounted) return;
     await _showShareCodeDialog(
       subject: '${t.name} (${members.length})',
       code: code,

@@ -376,42 +376,46 @@ void main() {
   // sample sheet's share UI (damacalc:p1:<base64-json>).
   // ──────────────────────────────────────────────────────────────
   group('SampleStorage share strings', () {
+    // The current encoder emits PokePaste, which hydrates the decoded
+    // state from the pokedex by species name — so the share-string
+    // tests need real species (not the synthetic 'pikachu' literal the
+    // save/load tests use).
     test('export+decode round-trip preserves name and state', () async {
-      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      await SampleStorage.saveSample('Alpha', makeState('Pikachu'));
       final s = (await SampleStorage.loadStore()).samples.first;
-      final code = SampleStorage.exportSampleString(s);
+      final code = await SampleStorage.exportSampleString(s);
       expect(SampleStorage.isShareString(code), isTrue);
 
-      final decoded = SampleStorage.decodeSampleString(code);
+      final decoded = await SampleStorage.decodeSampleString(code);
       expect(decoded.name, equals('Alpha'));
-      expect(decoded.state.pokemonName, equals('pikachu'));
+      expect(decoded.state.pokemonName, equals('Pikachu'));
       expect(decoded.id, isNot(equals(s.id)),
           reason: 'decode should mint a fresh id');
     });
 
     test('importSampleString persists and auto-renames on collision',
         () async {
-      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      await SampleStorage.saveSample('Alpha', makeState('Pikachu'));
       final s = (await SampleStorage.loadStore()).samples.first;
-      final code = SampleStorage.exportSampleString(s);
+      final code = await SampleStorage.exportSampleString(s);
 
-      // First import collides with existing 'Alpha' → 'Alpha (2)'.
       final imported1 = await SampleStorage.importSampleString(code);
       expect(imported1.name, equals('Alpha (2)'));
 
-      // Second import collides with both → 'Alpha (3)'.
       final imported2 = await SampleStorage.importSampleString(code);
       expect(imported2.name, equals('Alpha (3)'));
 
-      final names =
-          (await SampleStorage.loadStore()).samples.map((s) => s.name).toList();
+      final names = (await SampleStorage.loadStore())
+          .samples
+          .map((s) => s.name)
+          .toList();
       expect(names, containsAll(['Alpha', 'Alpha (2)', 'Alpha (3)']));
     });
 
     test('importSampleString into team adds to memberIds', () async {
-      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      await SampleStorage.saveSample('Alpha', makeState('Pikachu'));
       final s = (await SampleStorage.loadStore()).samples.first;
-      final code = SampleStorage.exportSampleString(s);
+      final code = await SampleStorage.exportSampleString(s);
       final teamId = await SampleStorage.createTeam('T');
 
       final imported =
@@ -426,41 +430,38 @@ void main() {
       expect(SampleStorage.isShareString('damacalc:p3:foo'), isFalse);
     });
 
-    test('decodeSampleString throws on invalid input', () {
-      expect(() => SampleStorage.decodeSampleString('nope'),
-          throwsFormatException);
-      expect(() => SampleStorage.decodeSampleString('damacalc:p2:!!!'),
+    test('decodeSampleString throws on invalid input', () async {
+      await expectLater(
+          SampleStorage.decodeSampleString('nope'), throwsFormatException);
+      await expectLater(SampleStorage.decodeSampleString('damacalc:p2:!!!'),
           throwsFormatException);
       // Valid base64 but missing required keys.
       final badPayload = base64.encode(utf8.encode('{"foo":"bar"}'));
-      expect(
-          () => SampleStorage.decodeSampleString('damacalc:p1:$badPayload'),
+      await expectLater(
+          SampleStorage.decodeSampleString('damacalc:p1:$badPayload'),
           throwsFormatException);
     });
 
-    test('exportSampleString uses gzipped p2 format and is shorter', () async {
-      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+    test('exportSampleString emits PokePaste (not the legacy prefix)',
+        () async {
+      await SampleStorage.saveSample('Alpha', makeState('Pikachu'));
       final s = (await SampleStorage.loadStore()).samples.first;
-      final code = SampleStorage.exportSampleString(s);
-      expect(code.startsWith('damacalc:p2:'), isTrue);
-      // Plain base64 encoding of the same payload would be longer.
-      final plainJson = jsonEncode({'name': s.name, 'state': s.state.toJson()});
-      final plainB64 = base64.encode(utf8.encode(plainJson));
-      expect(code.length, lessThan('damacalc:p1:$plainB64'.length));
+      final code = await SampleStorage.exportSampleString(s);
+      expect(code.startsWith('damacalc:'), isFalse);
+      expect(code, contains('Pikachu'));
+      expect(code, contains('Nature'));
     });
 
-    test('decodeSampleString accepts legacy p1 (uncompressed) payloads',
+    test('decodeSampleString still accepts legacy p1 (uncompressed) payloads',
         () async {
-      // Hand-craft a legacy p1: code so we cover the backward-compat
-      // path even after the encoder switches to p2.
-      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      await SampleStorage.saveSample('Alpha', makeState('Pikachu'));
       final s = (await SampleStorage.loadStore()).samples.first;
       final json = jsonEncode({'name': s.name, 'state': s.state.toJson()});
       final legacy = 'damacalc:p1:${base64.encode(utf8.encode(json))}';
 
-      final decoded = SampleStorage.decodeSampleString(legacy);
+      final decoded = await SampleStorage.decodeSampleString(legacy);
       expect(decoded.name, equals('Alpha'));
-      expect(decoded.state.pokemonName, equals('pikachu'));
+      expect(decoded.state.pokemonName, equals('Pikachu'));
     });
   });
 
@@ -468,11 +469,13 @@ void main() {
   // Team share strings — copy-paste an entire party.
   // ──────────────────────────────────────────────────────────────
   group('SampleStorage team share strings', () {
-    Future<TeamFolder> seedTeam(String name, List<String> members) async {
+    // Members keep distinct user labels but reuse one real species —
+    // PokePaste decode needs every species to resolve in the pokedex.
+    Future<TeamFolder> seedTeam(String name, List<String> memberNames) async {
       final teamId = await SampleStorage.createTeam(name);
-      for (final m in members) {
+      for (final m in memberNames) {
         await SampleStorage.savePokemon(
-            name: m, state: makeState(m.toLowerCase()), teamId: teamId);
+            name: m, state: makeState('Pikachu'), teamId: teamId);
       }
       return (await SampleStorage.loadStore())
           .teams
@@ -486,11 +489,11 @@ void main() {
           (await SampleStorage.loadStore()).sampleById(id)!
       ];
 
-      final code = SampleStorage.exportTeamString(t, members);
+      final code = await SampleStorage.exportTeamString(t, members);
       expect(SampleStorage.isShareString(code), isTrue);
       expect(SampleStorage.isTeamShareString(code), isTrue);
 
-      final decoded = SampleStorage.decodeTeamString(code);
+      final decoded = await SampleStorage.decodeTeamString(code);
       expect(decoded.name, equals('Sweepers'));
       expect(decoded.members.map((m) => m.name).toList(),
           equals(['Alpha', 'Beta', 'Gamma']));
@@ -503,9 +506,8 @@ void main() {
         for (final id in t.memberIds)
           (await SampleStorage.loadStore()).sampleById(id)!
       ];
-      final code = SampleStorage.exportTeamString(t, members);
+      final code = await SampleStorage.exportTeamString(t, members);
 
-      // Wipe and re-import.
       SharedPreferences.setMockInitialValues({});
       final imported = await SampleStorage.importTeamString(code);
       expect(imported.name, equals('Sweepers'));
@@ -524,10 +526,8 @@ void main() {
         for (final id in t.memberIds)
           (await SampleStorage.loadStore()).sampleById(id)!
       ];
-      final code = SampleStorage.exportTeamString(t, members);
+      final code = await SampleStorage.exportTeamString(t, members);
 
-      // Re-import on top of itself: both team name and member names
-      // should get `(2)` suffixes.
       final imported = await SampleStorage.importTeamString(code);
       expect(imported.name, equals('Sweepers (2)'));
       final store = await SampleStorage.loadStore();
@@ -536,10 +536,10 @@ void main() {
     });
 
     test('decodeTeamString rejects single-pokemon codes', () async {
-      await SampleStorage.saveSample('Alpha', makeState('pikachu'));
+      await SampleStorage.saveSample('Alpha', makeState('Pikachu'));
       final s = (await SampleStorage.loadStore()).samples.first;
-      final pokemonCode = SampleStorage.exportSampleString(s);
-      expect(() => SampleStorage.decodeTeamString(pokemonCode),
+      final pokemonCode = await SampleStorage.exportSampleString(s);
+      await expectLater(SampleStorage.decodeTeamString(pokemonCode),
           throwsFormatException);
     });
 

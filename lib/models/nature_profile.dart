@@ -75,6 +75,10 @@ class NatureProfile {
     return parts.join(' ');
   }
 
+  /// Public alias of [_matchingNature] for callers that need the
+  /// canonical [Nature] (e.g. PokePaste export's `<Nature> Nature` line).
+  Nature? asNature() => _matchingNature();
+
   /// Map to one of the 25 canonical [Nature] enums when possible.
   /// - Neutral (no ↑, no ↓) → Hardy.
   /// - Same-stat ↑↓ → the corresponding neutral (Hardy/Docile/
