@@ -179,6 +179,39 @@ class _DexScreenState extends State<DexScreen> {
     return _buildBrowse();
   }
 
+  /// Pop the dex returning the current species for a calc side
+  /// (0 = attacker, 1 = defender). Shared by the app bar's send
+  /// buttons and (in browse mode) the future header tap target.
+  void _sendToSide(int side) {
+    final p = _selected;
+    if (p == null) return;
+    Navigator.of(context).pop<DexPickResult>((side: side, pokemon: p));
+  }
+
+  /// Attacker / defender send buttons for the app bar. Empty list
+  /// when nothing's selected yet — keeps the bar uncluttered before
+  /// the user picks a species. Moved out of the species-info card
+  /// because that card now hosts the 80×80 sprite and the buttons
+  /// were squeezing the name into a 1-char-wide stub on small
+  /// screens.
+  List<Widget> _appBarSendButtons() {
+    if (_selected == null) return const [];
+    return [
+      _dexSendButton(
+        label: AppStrings.t('dex.sendToAttacker'),
+        color: Colors.red.shade600,
+        onPressed: () => _sendToSide(0),
+      ),
+      const SizedBox(width: 6),
+      _dexSendButton(
+        label: AppStrings.t('dex.sendToDefender'),
+        color: Colors.blue.shade600,
+        onPressed: () => _sendToSide(1),
+      ),
+      const SizedBox(width: 4),
+    ];
+  }
+
   Widget _buildCrossLink() {
     // Wide viewports: show Main + Moves side by side so users don't
     // need to swap tabs. Threshold chosen to roughly match the calc's
@@ -221,15 +254,11 @@ class _DexScreenState extends State<DexScreen> {
                   icon: const BackButtonIcon(),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
-                // Cross-link mode is pinned to the Pokémon it was opened
-                // on: show its name as a static title instead of a search
-                // field so users can't drift to a different species here.
-                Expanded(
-                  child: Text(
-                    _selected?.localizedName ?? '',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                // Species name is already shown large in the header
+                // below, so the app bar drops it and uses the freed
+                // space for the attacker / defender send actions.
+                const Spacer(),
+                ..._appBarSendButtons(),
               ],
             ),
             bottom: wide
@@ -323,6 +352,7 @@ class _DexScreenState extends State<DexScreen> {
                   child: Text(AppStrings.t('dex.title'),
                       style: const TextStyle(fontSize: 18)),
                 ),
+                ..._appBarSendButtons(),
                 ValueListenableBuilder<bool>(
                   valueListenable:
                       ChampionsFilterController.instance.championsOnly,
@@ -1013,13 +1043,34 @@ class _CalcAbilityPicker extends StatelessWidget {
   }
 }
 
+/// Tonal pill button for the dex's attacker / defender send actions.
+/// Top-level so both app bars (browse + cross-link) can share it
+/// without each pulling in the entire _Header class.
+Widget _dexSendButton({
+  required String label,
+  required Color color,
+  required VoidCallback onPressed,
+}) {
+  return FilledButton.tonal(
+    onPressed: onPressed,
+    style: FilledButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: color,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      minimumSize: Size.zero,
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+      ),
+    ),
+    child: Text(label,
+        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
+  );
+}
+
 class _Header extends StatelessWidget {
   final Pokemon pokemon;
   const _Header({required this.pokemon});
-
-  void _send(BuildContext context, int side) {
-    Navigator.of(context).pop<DexPickResult>((side: side, pokemon: pokemon));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -1032,7 +1083,9 @@ class _Header extends StatelessWidget {
     // The header gets a sprite slot down the left — the slot is always
     // reserved (pokéball placeholder when no sprite is available) so
     // the layout stays the same shape regardless of platform / cache /
-    // Champions-original coverage.
+    // Champions-original coverage. The send buttons used to share the
+    // name row here but they squeezed the name into a stub on narrow
+    // screens; they now live in the app bar instead.
     final infoColumn = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1049,20 +1102,6 @@ class _Header extends StatelessWidget {
                     fontSize: 20, fontWeight: FontWeight.w700),
                 overflow: TextOverflow.ellipsis,
               ),
-            ),
-            const SizedBox(width: 4),
-            _sendButton(
-              context,
-              label: AppStrings.t('dex.sendToAttacker'),
-              color: Colors.red.shade600,
-              onPressed: () => _send(context, 0),
-            ),
-            const SizedBox(width: 4),
-            _sendButton(
-              context,
-              label: AppStrings.t('dex.sendToDefender'),
-              color: Colors.blue.shade600,
-              onPressed: () => _send(context, 1),
             ),
           ],
         ),
@@ -1139,30 +1178,6 @@ class _Header extends StatelessWidget {
         ),
         Flexible(child: Text(value)),
       ],
-    );
-  }
-
-  static Widget _sendButton(
-    BuildContext context, {
-    required String label,
-    required Color color,
-    required VoidCallback onPressed,
-  }) {
-    return FilledButton.tonal(
-      onPressed: onPressed,
-      style: FilledButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: color,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        minimumSize: Size.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-      ),
-      child: Text(label,
-          style:
-              const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
     );
   }
 
