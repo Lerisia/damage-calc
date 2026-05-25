@@ -406,6 +406,41 @@ class AppStrings {
       AppLanguage.en: 'Dark mode',
       AppLanguage.ja: 'ダークモード',
     },
+    'app.spriteStyle': {
+      AppLanguage.ko: '스프라이트 스타일',
+      AppLanguage.en: 'Sprite style',
+      AppLanguage.ja: 'スプライトスタイル',
+    },
+    'sprite.style.bw': {
+      AppLanguage.ko: 'BW 도트',
+      AppLanguage.en: 'BW Pixel',
+      AppLanguage.ja: 'BWドット',
+    },
+    'sprite.style.ani': {
+      AppLanguage.ko: '애니메이션',
+      AppLanguage.en: 'Animated',
+      AppLanguage.ja: 'アニメーション',
+    },
+    'sprite.style.dex': {
+      AppLanguage.ko: 'HOME 3D',
+      AppLanguage.en: 'HOME 3D',
+      AppLanguage.ja: 'HOME 3D',
+    },
+    'sprite.mobileNotice': {
+      AppLanguage.ko: '※ 모바일에서는 곧 추가될 예정입니다. 현재 웹에서만 동작합니다.',
+      AppLanguage.en: '※ Coming to mobile soon. Currently web-only.',
+      AppLanguage.ja: '※ モバイルは近日対応予定。現在はWeb版のみ。',
+    },
+    'sprite.creditTitle': {
+      AppLanguage.ko: '스프라이트 출처',
+      AppLanguage.en: 'Sprite credit',
+      AppLanguage.ja: 'スプライト出典',
+    },
+    'sprite.creditBody': {
+      AppLanguage.ko: '포켓몬 스프라이트는 Pokémon Showdown CDN(play.pokemonshowdown.com/sprites)에서 직접 불러옵니다. BW 도트는 Smogon Sprite Project 커뮤니티가 제작하여 비영리 사용에 한해 사용을 허용한 것입니다. 본 앱은 어떤 이미지도 자체 호스팅하지 않습니다.',
+      AppLanguage.en: 'Pokémon sprites are streamed directly from the Pokémon Showdown CDN (play.pokemonshowdown.com/sprites). The BW pixel set is produced by the Smogon Sprite Project community and licensed for non-profit use. This app hosts none of the images itself.',
+      AppLanguage.ja: 'ポケモンのスプライトはPokémon ShowdownのCDN（play.pokemonshowdown.com/sprites）から直接読み込みます。BWドットはSmogon Sprite Projectのコミュニティが制作し、非営利利用に限り許諾されたものです。本アプリは画像を自前ホストしていません。',
+    },
 
     // === Tabs ===
     'tab.attacker': {

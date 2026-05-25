@@ -30,20 +30,28 @@ class PokemonSprite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        SpriteService.instance.spriteFor(pokemonName, style: styleOverride);
-    if (provider == null) return _placeholder();
-    return Image(
-      image: provider,
-      width: size,
-      height: size,
-      fit: BoxFit.contain,
-      filterQuality: FilterQuality.medium,
-      gaplessPlayback: true,
-      // Errored loads (404 from Showdown — usually Champions-original
-      // Megas or DLC mons not yet in the CDN) fall back to the same
-      // placeholder so the UI never goes blank.
-      errorBuilder: (_, __, ___) => _placeholder(),
+    // Listen on SpriteService so every sprite slot rebuilds when the
+    // user picks a new style from the menu, regardless of where in
+    // the widget tree the slot lives.
+    return ListenableBuilder(
+      listenable: SpriteService.instance,
+      builder: (context, _) {
+        final provider = SpriteService.instance
+            .spriteFor(pokemonName, style: styleOverride);
+        if (provider == null) return _placeholder();
+        return Image(
+          image: provider,
+          width: size,
+          height: size,
+          fit: BoxFit.contain,
+          filterQuality: FilterQuality.medium,
+          gaplessPlayback: true,
+          // Errored loads (404 from Showdown — usually Champions-original
+          // Megas or DLC mons not yet in the CDN) fall back to the same
+          // placeholder so the UI never goes blank.
+          errorBuilder: (_, __, ___) => _placeholder(),
+        );
+      },
     );
   }
 

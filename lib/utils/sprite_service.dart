@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, ChangeNotifier;
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// The three sprite styles we support, mirroring Pokémon Showdown's
 /// canonical paths under `play.pokemonshowdown.com/sprites/`:
@@ -176,14 +177,42 @@ String spriteKeyFor(String pokemonName) {
 /// be hosted. Mobile callers therefore always fall through to the
 /// pokéball placeholder. The sprite slot is still rendered so the UI
 /// shape stays consistent across platforms.
-class SpriteService {
+class SpriteService extends ChangeNotifier {
   SpriteService._();
   static final SpriteService instance = SpriteService._();
+
+  static const _prefsKey = 'sprite_style';
 
   /// User's currently selected sprite style. Defaults to [SpriteStyle.bw]
   /// — the BW pixel set matches the calc's retro/competitive
   /// aesthetic and is the smallest payload on the wire.
-  SpriteStyle style = SpriteStyle.bw;
+  SpriteStyle _style = SpriteStyle.bw;
+  SpriteStyle get style => _style;
+
+  /// Update the active style and persist the choice. Notifies listeners
+  /// so [PokemonSprite] widgets across the app rebuild on the new style.
+  Future<void> setStyle(SpriteStyle next) async {
+    if (_style == next) return;
+    _style = next;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_prefsKey, next.name);
+  }
+
+  /// Hydrate the persisted style preference at app startup. Called
+  /// from [main]'s preload alongside the other controllers'
+  /// `load()`s. Safe to call before any UI binds, and idempotent.
+  Future<void> load() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getString(_prefsKey);
+    if (saved == null) return;
+    for (final s in SpriteStyle.values) {
+      if (s.name == saved) {
+        _style = s;
+        break;
+      }
+    }
+  }
 
   /// ImageProvider for a Pokémon's sprite in the current [style], or
   /// null when the platform has no sprite source wired up (mobile v1).

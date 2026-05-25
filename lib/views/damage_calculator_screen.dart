@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +18,7 @@ import '../utils/battle_facade.dart';
 import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/simple_mode_controller.dart';
+import '../utils/sprite_service.dart';
 import 'dex_screen.dart';
 import 'move_dex_screen.dart';
 import 'team_coverage_screen.dart';
@@ -817,6 +819,75 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
+  /// Sprite style picker — three radio options matching the
+  /// [SpriteStyle] enum, plus a credit line so the legal context
+  /// (sprites streamed from Showdown's CDN, not hosted here) is
+  /// always one tap away.
+  void _showSpriteStyleDialog() {
+    const styleLabels = {
+      SpriteStyle.bw: 'sprite.style.bw',
+      SpriteStyle.ani: 'sprite.style.ani',
+      SpriteStyle.dex: 'sprite.style.dex',
+    };
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('app.spriteStyle')),
+        contentPadding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+        content: ListenableBuilder(
+          listenable: SpriteService.instance,
+          builder: (ctx, _) {
+            final selected = SpriteService.instance.style;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (final s in SpriteStyle.values)
+                  RadioListTile<SpriteStyle>(
+                    value: s,
+                    groupValue: selected,
+                    onChanged: (v) {
+                      if (v != null) SpriteService.instance.setStyle(v);
+                    },
+                    title: Text(AppStrings.t(styleLabels[s]!)),
+                    dense: true,
+                  ),
+                if (!kIsWeb)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                    child: Text(
+                      AppStrings.t('sprite.mobileNotice'),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(ctx).hintColor,
+                      ),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                  child: Text(
+                    AppStrings.t('sprite.creditBody'),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Theme.of(ctx).hintColor,
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.close')),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// Chip for a field-state ability (aura/ruin) in the battle conditions
   /// dialog. Auto-locked to ON when either the attacker or defender has
   /// the ability — its field-state is then inevitable and user-toggling
@@ -1598,6 +1669,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     ]),
                   ),
                   PopupMenuItem(
+                    value: 'sprites',
+                    child: Row(children: [
+                      const Icon(Icons.catching_pokemon, size: 20),
+                      const SizedBox(width: 8),
+                      Text(AppStrings.t('app.spriteStyle')),
+                    ]),
+                  ),
+                  PopupMenuItem(
                     value: 'about',
                     child: Row(children: [
                       const Icon(Icons.info_outline, size: 20),
@@ -1618,6 +1697,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       _showLanguageDialog();
                     case 'theme':
                       ThemeController.instance.toggle();
+                    case 'sprites':
+                      _showSpriteStyleDialog();
                     case 'about':
                       _showAboutDialog(context);
                   }
@@ -3102,6 +3183,22 @@ class _AboutDialog extends StatelessWidget {
           Text(
             AppStrings.t('about.disclaimer'),
             style: const TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+          const SizedBox(height: 12),
+          // Sprite-credit block — required by the Smogon Sprite
+          // Project's non-profit-use clause and by general fairness
+          // (the BW pixel set is community-made fan art). Pinned in
+          // the About dialog so it stays visible regardless of which
+          // screen the user is on.
+          Text(
+            AppStrings.t('sprite.creditTitle'),
+            style:
+                const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            AppStrings.t('sprite.creditBody'),
+            style: const TextStyle(fontSize: 11, color: Colors.grey),
           ),
         ],
       ),
