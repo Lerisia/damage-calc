@@ -711,6 +711,10 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
 
   Widget _defenseSection() {
     final entries = _draft.defenses;
+    // Cap at 18 since each defending-type row must be a unique type
+    // (no Pokémon is simultaneously weak to AND immune to the same
+    // attacking type, etc.) — disable Add once every type is used.
+    final canAdd = entries.length < _TypeChipGrid._options.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -722,7 +726,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
         Align(
           alignment: Alignment.centerLeft,
           child: TextButton.icon(
-            onPressed: _addDefenseEntry,
+            onPressed: canAdd ? _addDefenseEntry : null,
             icon: const Icon(Icons.add, size: 16),
             label: Text(AppStrings.t('dex.advAddDefense')),
             style: TextButton.styleFrom(
@@ -745,7 +749,11 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () async {
-              final picked = await _pickDefenseType();
+              final exclude = <PokemonType>{
+                for (var i = 0; i < _draft.defenses.length; i++)
+                  if (i != index) _draft.defenses[i].type,
+              };
+              final picked = await _pickDefenseType(exclude: exclude);
               if (picked == null || picked == entry.type) return;
               _updateDefenseEntry(index, entry.copyWith(type: picked));
             },
@@ -803,13 +811,18 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
     );
   }
 
-  Future<PokemonType?> _pickDefenseType() {
+  Future<PokemonType?> _pickDefenseType({
+    Set<PokemonType> exclude = const {},
+  }) {
+    final options =
+        _TypeChipGrid._options.where((t) => !exclude.contains(t)).toList();
+    if (options.isEmpty) return Future.value(null);
     return showDialog<PokemonType>(
       context: context,
       builder: (ctx) => SimpleDialog(
         title: Text(AppStrings.t('dex.advDefenseTypePick')),
         children: [
-          for (final t in _TypeChipGrid._options)
+          for (final t in options)
             SimpleDialogOption(
               onPressed: () => Navigator.pop(ctx, t),
               child: Row(
@@ -833,7 +846,8 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
   }
 
   Future<void> _addDefenseEntry() async {
-    final picked = await _pickDefenseType();
+    final used = _draft.defenses.map((d) => d.type).toSet();
+    final picked = await _pickDefenseType(exclude: used);
     if (picked == null) return;
     setState(() {
       _draft = _draft.copyWith(

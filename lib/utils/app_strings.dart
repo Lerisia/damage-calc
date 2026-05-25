@@ -832,7 +832,7 @@ class AppStrings {
       AppLanguage.ja: '技 (最大4つ)',
     },
     'dex.advMovesMatch': {
-      AppLanguage.ko: '매칭',
+      AppLanguage.ko: '일치',
       AppLanguage.en: 'Match',
       AppLanguage.ja: '一致',
     },
