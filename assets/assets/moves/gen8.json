@@ -14,6 +14,7 @@
     ],
     "nameEn": "Barb Barrage",
     "zPower": 120,
+    "descKo": "독 바늘을 무수히 날려서 공격한다. 상대를 독 상태로 만들 때가 있다. 독 상태의 상대에게는 위력이 2배.",
     "descEn": "The user launches countless toxic barbs to inflict damage. This may also poison the target. This move’s power is doubled if the target is already poisoned."
   },
   {
@@ -30,6 +31,7 @@
     ],
     "nameEn": "Bitter Malice",
     "zPower": 140,
+    "descKo": "쌓인 원한을 부딪쳐서 공격한다. 상대를 화상 상태로 만들 때가 있다. 상태 이상의 상대에게는 위력이 2배.",
     "descEn": "The user attacks the target with spine-chilling resentment. This also lowers the target’s Attack stat."
   },
   {
@@ -48,6 +50,7 @@
     ],
     "nameEn": "Bleakwind Storm",
     "zPower": 180,
+    "descKo": "혹한의 바람을 일으켜서 상대를 공격한다. 상대를 얼음 상태로 만들 때가 있다.",
     "descEn": "The user attacks with savagely cold winds that cause both body and spirit to tremble. This may also lower the Speed stats of opposing Pokémon."
   },
   {
@@ -66,6 +69,7 @@
     ],
     "nameEn": "Ceaseless Edge",
     "zPower": 120,
+    "descKo": "조개껍질 칼날로 상대의 급소를 공격한다. 날카로운 파편이 상대의 필드에 흩뿌려진다.",
     "descEn": "The user slashes its shell blade at the target. Shell splinters left behind by this attack remain scattered under the target as spikes."
   },
   {
@@ -82,6 +86,7 @@
     ],
     "nameEn": "Chloroblast",
     "zPower": 200,
+    "descKo": "모은 엽록소를 상대에게 발사한다. 자신도 상당한 데미지를 입는다.",
     "descEn": "The user launches its amassed chlorophyll to inflict damage on the target. This also damages the user."
   },
   {
@@ -99,6 +104,7 @@
     ],
     "nameEn": "Dire Claw",
     "zPower": 160,
+    "descKo": "강렬한 일격으로 상대를 공격한다. 상대를 독, 마비, 잠듦 중 하나의 상태로 만들 때가 있다.",
     "descEn": "The user lashes out at the target with ruinous claws. This may also leave the target poisoned, paralyzed, or asleep."
   },
   {
@@ -115,6 +121,7 @@
     ],
     "nameEn": "Esper Wing",
     "zPower": 160,
+    "descKo": "오라를 담은 날개로 상대를 벤다. 급소에 맞기 쉽다. 자신의 스피드를 올린다.",
     "descEn": "The user slashes the target with aura-enriched wings. This also boosts the user's Speed stat. This move has a heightened chance of landing a critical hit."
   },
   {
@@ -151,6 +158,7 @@
     ],
     "nameEn": "Headlong Rush",
     "zPower": 190,
+    "descKo": "상대를 향해 전신으로 부딪쳐서 공격한다. 자신의 방어와 특수방어가 떨어진다.",
     "descEn": "The user smashes into the target in a full-body tackle. This also lowers the user’s Defense and Sp. Def stats."
   },
   {
@@ -167,6 +175,7 @@
     ],
     "nameEn": "Infernal Parade",
     "zPower": 120,
+    "descKo": "무수한 불덩이를 부딪쳐서 공격한다. 상대를 화상 상태로 만들 때가 있다. 상태 이상의 상대에게는 위력이 2배.",
     "descEn": "The user attacks with myriad fireballs. This may also leave the target with a burn. This move's power is doubled if the target has a status condition."
   },
   {
@@ -180,6 +189,7 @@
     "pp": 5,
     "tags": [],
     "nameEn": "Lunar Blessing",
+    "descKo": "초승달 빛을 받아 자신의 HP를 회복한다. 상태 이상도 낫고 회피율도 올라간다.",
     "descEn": "The user receives a blessing from the crescent moon, restoring HP and curing status conditions for itself and its ally Pokémon currently in the battle."
   },
   {
@@ -196,6 +206,7 @@
     ],
     "nameEn": "Mountain Gale",
     "zPower": 180,
+    "descKo": "거대한 얼음 덩어리를 상대에게 부딪쳐서 공격한다. 상대를 풀죽게 만들 때가 있다.",
     "descEn": "The user hurls giant chunks of ice at the target to inflict damage. This may also make the target flinch."
   },
   {
@@ -212,6 +223,7 @@
     ],
     "nameEn": "Mystical Power",
     "zPower": 140,
+    "descKo": "자신의 가장 높은 능력을 1단계 올린다.",
     "descEn": "The user attacks by emitting a mysterious power. This also boosts the user’s Sp. Atk stat."
   },
   {
@@ -225,6 +237,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Power Shift",
+    "descKo": "자신의 공격력과 방어력을 바꾼다.",
     "descEn": "The user swaps its Attack and Defense stats."
   },
   {
@@ -242,6 +255,7 @@
     ],
     "nameEn": "Psyshield Bash",
     "zPower": 140,
+    "descKo": "사이코 배리어를 펼치고 상대에게 부딪쳐 공격한다. 자신의 방어와 특수방어가 올라간다.",
     "descEn": "Cloaking itself in psychic energy, the user slams into the target. This also boosts the user’s Defense stat."
   },
   {
@@ -256,6 +270,7 @@
     "tags": [],
     "nameEn": "Raging Fury",
     "zPower": 190,
+    "descKo": "상대에게 격렬한 불꽃을 내뿜어 공격한다. 2-3턴 동안 계속해서 난동 부리고 나서 자신은 혼란에 빠진다.",
     "descEn": "The user rampages around spewing flames for two to three turns. The user then becomes confused."
   },
   {
@@ -274,6 +289,7 @@
     ],
     "nameEn": "Sandsear Storm",
     "zPower": 180,
+    "descKo": "뜨거운 모래 폭풍을 일으켜서 상대를 공격한다. 상대를 화상 상태로 만든다.",
     "descEn": "The user attacks by wrapping opposing Pokémon in fierce winds and searingly hot sand. This may also leave them with a burn."
   },
   {
@@ -287,6 +303,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Shelter",
+    "descKo": "숨어서 몸을 단단하게 지킨다. 자신의 방어와 특수방어와 회피율을 올린다.",
     "descEn": "The user makes its skin as hard as an iron shield, sharply boosting its Defense stat."
   },
   {
@@ -305,6 +322,7 @@
     ],
     "nameEn": "Springtide Storm",
     "zPower": 180,
+    "descKo": "봄의 폭풍을 일으켜서 상대를 공격한다. 러브로스의 모습에 따라 추가 효과가 달라진다.",
     "descEn": "The user attacks by wrapping opposing Pokémon in fierce winds brimming with love and hate. This may also lower their Attack stats."
   },
   {
@@ -323,6 +341,7 @@
     ],
     "nameEn": "Stone Axe",
     "zPower": 120,
+    "descKo": "급소에 맞기 쉽다. 상대 필드에 스텔스록을 뿌린다.",
     "descEn": "The user swings its stone axes at the target. Stone splinters left behind by this attack float around the target."
   },
   {
@@ -336,6 +355,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Take Heart",
+    "descKo": "용기를 북돋아 자신의 상태 이상을 치료한다. 공격, 특수공격, 방어, 특수방어를 올린다.",
     "descEn": "The user lifts its spirits, curing its own status conditions and boosting its Sp. Atk and Sp. Def stats."
   },
   {
@@ -352,6 +372,7 @@
     ],
     "nameEn": "Triple Arrows",
     "zPower": 175,
+    "descKo": "3개의 화살을 쏘아서 공격한다. 급소에 맞기 쉽다. 상대의 방어를 떨어뜨릴 때가 있다.",
     "descEn": "The user kicks, then fires three arrows. This move has a heightened chance of landing a critical hit and may also lower the target’s Defense stat or make it flinch."
   },
   {
@@ -365,6 +386,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Victory Dance",
+    "descKo": "승리를 축하하는 춤을 춘다. 자신의 공격과 방어와 스피드를 올린다.",
     "descEn": "The user performs an intense dance to usher in victory, boosting its Attack, Defense, and Speed stats."
   },
   {
@@ -382,6 +404,7 @@
     ],
     "nameEn": "Wave Crash",
     "zPower": 190,
+    "descKo": "전신을 물로 감싸고 상대에게 부딪쳐서 공격한다. 자신도 조금 데미지를 입는다.",
     "descEn": "The user shrouds itself in water and slams into the target with its whole body to inflict damage. This also damages the user quite a lot."
   },
   {
@@ -400,6 +423,7 @@
     ],
     "nameEn": "Wildbolt Storm",
     "zPower": 180,
+    "descKo": "격렬한 비바람을 일으켜서 상대를 공격한다. 상대를 마비 상태로 만들 때가 있다.",
     "descEn": "The user summons a thunderous tempest and savagely attacks with lightning and wind. This may also leave opposing Pokémon with paralysis."
   },
   {
