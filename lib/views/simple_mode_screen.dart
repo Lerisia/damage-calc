@@ -1971,6 +1971,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       abilityNameMap: _abilityNames,
       itemNameMap: _itemNames,
       showHeader: false,
+      showRolls: false,
     );
     // Tap anywhere on the result block → 결정력 breakdown popup.
     // No affordance (per design) — discoverable via tap, doesn't
