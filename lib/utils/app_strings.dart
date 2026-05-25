@@ -630,6 +630,11 @@ class AppStrings {
       AppLanguage.en: 'All types',
       AppLanguage.ja: '全タイプ',
     },
+    'dex.filterByType': {
+      AppLanguage.ko: '타입으로 검색',
+      AppLanguage.en: 'Filter by type',
+      AppLanguage.ja: 'タイプで検索',
+    },
     'dex.allCategories': {
       AppLanguage.ko: '모든 분류',
       AppLanguage.en: 'All categories',

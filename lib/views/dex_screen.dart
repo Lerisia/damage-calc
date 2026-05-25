@@ -28,6 +28,7 @@ import '../utils/type_effectiveness.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
 import 'widgets/move_selector.dart';
+import 'widgets/type_filter_dialog.dart';
 
 /// Result produced when the user taps "공격측으로" / "방어측으로" in
 /// the dex header — the dex pops with this payload so the calculator
@@ -605,11 +606,24 @@ class _DexScreenState extends State<DexScreen> {
 
   Widget _typeSlot(int slot) {
     final current = slot == 1 ? _type1 : _type2;
-    const allSentinel = -1;
-    return PopupMenuButton<int>(
-      tooltip: AppStrings.t('dex.allTypes'),
-      popUpAnimationStyle:
-          const AnimationStyle(duration: Duration(milliseconds: 100)),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () async {
+        final picked = await showTypeFilterDialog(
+          context: context,
+          current: current,
+        );
+        // Dismissed without picking → leave the slot untouched.
+        if (!mounted || identical(picked, kTypeFilterDismissed)) return;
+        setState(() {
+          final type = picked as PokemonType?;
+          if (slot == 1) {
+            _type1 = type;
+          } else {
+            _type2 = type;
+          }
+        });
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
         decoration: BoxDecoration(
@@ -629,29 +643,6 @@ class _DexScreenState extends State<DexScreen> {
                   : null),
         ),
       ),
-      itemBuilder: (_) => [
-        PopupMenuItem(
-          value: allSentinel,
-          child: Text(AppStrings.t('dex.allTypes'),
-              style: const TextStyle(fontSize: 13)),
-        ),
-        for (final t in PokemonType.values)
-          if (t != PokemonType.typeless)
-            PopupMenuItem(
-              value: t.index,
-              child: Text(KoStrings.getTypeName(t),
-                  style: TextStyle(
-                      fontSize: 13, color: KoStrings.getTypeColor(t))),
-            ),
-      ],
-      onSelected: (v) => setState(() {
-        final picked = v == allSentinel ? null : PokemonType.values[v];
-        if (slot == 1) {
-          _type1 = picked;
-        } else {
-          _type2 = picked;
-        }
-      }),
     );
   }
 
