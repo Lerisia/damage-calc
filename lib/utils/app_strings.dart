@@ -427,9 +427,59 @@ class AppStrings {
       AppLanguage.ja: 'HOME 3D',
     },
     'sprite.mobileNotice': {
-      AppLanguage.ko: '※ 모바일에서는 곧 추가될 예정입니다. 현재 웹에서만 동작합니다.',
-      AppLanguage.en: '※ Coming to mobile soon. Currently web-only.',
-      AppLanguage.ja: '※ モバイルは近日対応予定。現在はWeb版のみ。',
+      AppLanguage.ko: '모바일에서는 스프라이트 팩을 직접 받아 가져와야 표시됩니다. 웹은 자동으로 표시됩니다.',
+      AppLanguage.en: 'Mobile shows sprites only after you import a sprite pack. Web loads them automatically.',
+      AppLanguage.ja: 'モバイルではスプライトパックを取り込むと表示されます。Web版は自動表示。',
+    },
+    'sprite.installed': {
+      AppLanguage.ko: '설치됨',
+      AppLanguage.en: 'Installed',
+      AppLanguage.ja: 'インストール済み',
+    },
+    'sprite.notInstalled': {
+      AppLanguage.ko: '미설치',
+      AppLanguage.en: 'Not installed',
+      AppLanguage.ja: '未インストール',
+    },
+    'sprite.downloadPack': {
+      AppLanguage.ko: '팩 다운로드',
+      AppLanguage.en: 'Download pack',
+      AppLanguage.ja: 'パックをダウンロード',
+    },
+    'sprite.importZip': {
+      AppLanguage.ko: 'ZIP 가져오기',
+      AppLanguage.en: 'Import ZIP',
+      AppLanguage.ja: 'ZIPを取り込み',
+    },
+    'sprite.removePack': {
+      AppLanguage.ko: '팩 제거',
+      AppLanguage.en: 'Remove pack',
+      AppLanguage.ja: 'パックを削除',
+    },
+    'sprite.importHowTo': {
+      AppLanguage.ko: '1) "팩 다운로드"로 ZIP 파일을 받으신 뒤  2) "ZIP 가져오기"로 그 파일을 선택해주세요. 한 번 가져오면 오프라인에서도 표시됩니다.',
+      AppLanguage.en: '1) Tap "Download pack" to get a ZIP, then  2) tap "Import ZIP" and pick that file. Once imported, sprites work offline.',
+      AppLanguage.ja: '1)「パックをダウンロード」でZIPを取得 → 2)「ZIPを取り込み」でファイルを選択。取り込み後はオフラインでも表示されます。',
+    },
+    'sprite.importedCount': {
+      AppLanguage.ko: '{n}개의 스프라이트를 가져왔습니다.',
+      AppLanguage.en: 'Imported {n} sprites.',
+      AppLanguage.ja: '{n}件のスプライトを取り込みました。',
+    },
+    'sprite.importFailed': {
+      AppLanguage.ko: '가져오기 실패: {err}',
+      AppLanguage.en: 'Import failed: {err}',
+      AppLanguage.ja: '取り込みに失敗しました: {err}',
+    },
+    'sprite.importWrongStyle': {
+      AppLanguage.ko: '선택한 ZIP에는 이 스타일에 맞는 이미지가 없습니다. 다른 스타일의 팩을 잘못 고르셨는지 확인해주세요.',
+      AppLanguage.en: 'The selected ZIP contains no images for this style. Did you pick a different style\'s pack by mistake?',
+      AppLanguage.ja: '選択したZIPにこのスタイルの画像がありません。別スタイルのパックを選んでいないか確認してください。',
+    },
+    'sprite.confirmRemove': {
+      AppLanguage.ko: '이 스타일의 스프라이트 팩을 제거하시겠습니까? 다시 사용하려면 새로 가져와야 합니다.',
+      AppLanguage.en: 'Remove this style\'s sprite pack? You\'ll need to re-import it to use again.',
+      AppLanguage.ja: 'このスタイルのスプライトパックを削除しますか？再利用するには再度取り込みが必要です。',
     },
     'sprite.creditTitle': {
       AppLanguage.ko: '스프라이트 출처',

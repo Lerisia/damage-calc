@@ -1,6 +1,10 @@
+import 'dart:io' show File;
+
 import 'package:flutter/foundation.dart' show kIsWeb, ChangeNotifier;
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'sprite_pack_manager.dart';
 
 /// The three sprite styles we support, mirroring Pokémon Showdown's
 /// canonical paths under `play.pokemonshowdown.com/sprites/`:
@@ -279,20 +283,29 @@ class SpriteService extends ChangeNotifier {
   }
 
   /// ImageProvider for a Pokémon's sprite in the current [style], or
-  /// null when the platform has no sprite source wired up (mobile v1).
+  /// null when neither the web fetch nor a local pack covers it.
   ImageProvider? spriteFor(String pokemonName, {SpriteStyle? style}) {
     final s = style ?? this.style;
-    if (!kIsWeb) {
-      // Mobile: offline-first design. Sprite pack import is deferred
-      // to a later feature pass — until then, mobile shows a pokéball
-      // placeholder so the layout still announces "this is where the
-      // sprite belongs".
-      return null;
-    }
     final key = spriteKeyFor(pokemonName);
-    final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
-        '$key.${s.ext}';
-    return NetworkImage(url);
+    if (kIsWeb) {
+      // Web: stream from Showdown's CDN. Browser cache handles
+      // repeat visits; we host nothing.
+      final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
+          '$key.${s.ext}';
+      return NetworkImage(url);
+    }
+    // Mobile: read from the user-imported pack at <docs>/sprite_packs/
+    // <style>/<key>.<ext>. When the pack for this style isn't
+    // installed (or this specific Pokémon isn't in it — common for
+    // new ZA mons before the next pack rebuild), we return null and
+    // the widget falls through to the base-species fallback / pokéball.
+    if (!SpritePackManager.instance.isInstalled(s)) return null;
+    final dir = SpritePackManager.instance.cacheDirFor(s);
+    if (dir == null) return null;
+    final path = '$dir/$key.${s.ext}';
+    final file = File(path);
+    if (!file.existsSync()) return null;
+    return FileImage(file);
   }
 
   /// Fallback sprite for the base species when the form's sprite

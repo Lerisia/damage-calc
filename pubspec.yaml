@@ -1,7 +1,7 @@
 name: damage_calc
 description: Battle damage calculator
 publish_to: 'none'
-version: 1.8.6+208
+version: 1.8.7+209
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -16,6 +16,7 @@ dependencies:
   flutter_typeahead: ^5.2.0
   url_launcher: ^6.3.1
   archive: ^4.0.9
+  file_picker: ^8.1.4
 
 dev_dependencies:
   flutter_test:
