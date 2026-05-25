@@ -81,6 +81,33 @@ jobs:
             File.write(path, content)
           '
 
+      - name: Register PrivacyInfo.xcprivacy in Runner target
+        # Apple's processing pipeline silently drops IPAs that use
+        # required-reason APIs (file timestamps, NSUserDefaults, disk
+        # space, etc.) without a privacy manifest in the bundle. The
+        # file at ios/Runner/PrivacyInfo.xcprivacy needs an explicit
+        # reference in project.pbxproj to actually land in Runner.app.
+        # Idempotent: skips when the resource entry already exists.
+        run: |
+          cd ios
+          gem install xcodeproj --no-document
+          ruby -r xcodeproj -e '
+            project = Xcodeproj::Project.open("Runner.xcodeproj")
+            runner = project.targets.find { |t| t.name == "Runner" }
+            resources = runner.resources_build_phase
+            already = resources.files_references.any? { |r| r.path == "PrivacyInfo.xcprivacy" }
+            unless already
+              runner_group = project.main_group.find_subpath("Runner", false)
+              file_ref = runner_group.new_reference("PrivacyInfo.xcprivacy")
+              file_ref.last_known_file_type = "text.xml"
+              resources.add_file_reference(file_ref)
+              project.save
+              puts "Added PrivacyInfo.xcprivacy to Runner resources."
+            else
+              puts "PrivacyInfo.xcprivacy already registered."
+            end
+          '
+
       - name: Auto-increment build number
         run: |
           BUILD_NUMBER=${{ github.run_number }}
