@@ -1,10 +1,6 @@
-import 'dart:io' show File;
-
 import 'package:flutter/foundation.dart' show kIsWeb, ChangeNotifier;
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'sprite_pack_manager.dart';
 
 /// The three sprite styles we support, mirroring Pokémon Showdown's
 /// canonical paths under `play.pokemonshowdown.com/sprites/`:
@@ -303,30 +299,19 @@ class SpriteService extends ChangeNotifier {
     }
   }
 
-  /// ImageProvider for a Pokémon's sprite in the current [style], or
-  /// null when neither the web fetch nor a local pack covers it.
+  /// ImageProvider for a Pokémon's sprite in the current [style].
+  ///
+  /// Web streams from Showdown's CDN; the browser cache handles
+  /// repeat visits and we host nothing. Mobile returns null —
+  /// sprite-pack import is deferred to a follow-up release. The
+  /// widget falls through to the pokéball placeholder in that case.
   ImageProvider? spriteFor(String pokemonName, {SpriteStyle? style}) {
     final s = style ?? this.style;
+    if (!kIsWeb) return null;
     final key = spriteKeyFor(pokemonName);
-    if (kIsWeb) {
-      // Web: stream from Showdown's CDN. Browser cache handles
-      // repeat visits; we host nothing.
-      final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
-          '$key.${s.ext}';
-      return NetworkImage(url);
-    }
-    // Mobile: read from the user-imported pack at <docs>/sprite_packs/
-    // <style>/<key>.<ext>. When the pack for this style isn't
-    // installed (or this specific Pokémon isn't in it — common for
-    // new ZA mons before the next pack rebuild), we return null and
-    // the widget falls through to the base-species fallback / pokéball.
-    if (!SpritePackManager.instance.isInstalled(s)) return null;
-    final dir = SpritePackManager.instance.cacheDirFor(s);
-    if (dir == null) return null;
-    final path = '$dir/$key.${s.ext}';
-    final file = File(path);
-    if (!file.existsSync()) return null;
-    return FileImage(file);
+    final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
+        '$key.${s.ext}';
+    return NetworkImage(url);
   }
 
   /// Fallback sprite for the base species when the form's sprite
@@ -342,26 +327,11 @@ class SpriteService extends ChangeNotifier {
     return spriteFor(base, style: style);
   }
 
-  /// Box icon (40×30) for compact placements like the dex list row
-  /// or the simple-calculator species row. Style-independent — the
-  /// same icon shows regardless of which sprite style the user has
-  /// active for the larger placements.
-  ///
-  /// On mobile this reads from the icons cache populated by an
-  /// imported pack (the icons block bundled inside any style ZIP).
-  /// On web it's a no-op — the web build streams the larger sprites
-  /// directly from Showdown's CDN, and the small placements scale
-  /// those down rather than introducing a separate sheet-clipping
-  /// path. The caller (PokemonSprite with useBoxIcon=true) falls
-  /// back to the normal sprite chain when this returns null.
-  ImageProvider? iconFor(String pokemonName) {
-    if (kIsWeb) return null;
-    if (!SpritePackManager.instance.iconsInstalled) return null;
-    final dir = SpritePackManager.instance.iconsCacheDir;
-    if (dir == null) return null;
-    final key = spriteKeyFor(pokemonName);
-    final file = File('$dir/$key.png');
-    if (!file.existsSync()) return null;
-    return FileImage(file);
-  }
+  /// Box icon (40×30) — pack-import deferred, so this currently
+  /// returns null on every platform. PokemonSprite with
+  /// useBoxIcon=true treats null as "fall through to the normal
+  /// sprite chain", so removing the icons pack doesn't break any
+  /// caller; box-icon placements just render the regular style
+  /// sprite scaled down.
+  ImageProvider? iconFor(String pokemonName) => null;
 }
