@@ -3403,7 +3403,13 @@ class _SpriteStyleDialogState extends State<_SpriteStyleDialog> {
                     style: TextStyle(fontSize: 12, color: hint, height: 1.4),
                   ),
                 ),
-              for (final s in SpriteStyle.values) _styleRow(s),
+              for (final s in SpriteStyle.values)
+                // Hide styles without a downloadable pack on mobile —
+                // selecting them would just leave the user staring at
+                // pokéballs with no way to fix it. Web stays
+                // unfiltered (it streams from Showdown's CDN
+                // directly, no pack involved).
+                if (kIsWeb || s.hasMobilePack) _styleRow(s),
               const SizedBox(height: 6),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),

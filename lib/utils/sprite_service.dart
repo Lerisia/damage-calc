@@ -15,10 +15,16 @@ import 'sprite_pack_manager.dart';
 ///  * [ani] — modern animated GIFs (`/sprites/ani/`), all generations.
 ///  * [dex] — HOME-style 3D PNG models (`/sprites/dex/`), mostly all
 ///    generations (a few gen-8 box-legends are missing in HOME).
+///
+/// [hasMobilePack] gates whether the mobile import dialog shows
+/// download / import controls for the style. Currently false for
+/// [ani] because the damage-calc-sprite-pack workflow doesn't
+/// publish ani.zip yet — the X/Y Sprite Project community hasn't
+/// OK'd redistribution of their extended-coverage animated work.
 enum SpriteStyle {
-  bw('gen5', 'png'),
-  ani('ani', 'gif'),
-  dex('dex', 'png');
+  bw('gen5', 'png', hasMobilePack: true),
+  ani('ani', 'gif', hasMobilePack: false),
+  dex('dex', 'png', hasMobilePack: true);
 
   /// Showdown CDN directory under `/sprites/`.
   final String dir;
@@ -26,7 +32,12 @@ enum SpriteStyle {
   /// File extension (without the leading dot).
   final String ext;
 
-  const SpriteStyle(this.dir, this.ext);
+  /// Whether damage-calc-sprite-pack publishes a downloadable ZIP
+  /// for this style. Web ignores this — the web build streams from
+  /// Showdown's CDN directly regardless.
+  final bool hasMobilePack;
+
+  const SpriteStyle(this.dir, this.ext, {required this.hasMobilePack});
 }
 
 /// Per-species sprite-key overrides — used when the [spriteKeyFor]
