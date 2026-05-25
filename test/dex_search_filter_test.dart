@@ -43,8 +43,10 @@ void main() {
       const f = DexSearchFilter(
         types: [PokemonType.fire],
         bstMin: 500,
-        hpMin: 80,
-        atkMin: 90,
+        statConstraints: [
+          DexStatConstraint(stat: DexStatKey.hp, min: 80),
+          DexStatConstraint(stat: DexStatKey.attack, min: 90),
+        ],
         defenses: [
           DexDefenseEntry(
               type: PokemonType.water, relation: DexDefenseRelation.weakness),
@@ -54,15 +56,23 @@ void main() {
         abilityKey: 'Blaze',
         moveIds: ['flamethrower'],
       );
-      // types + bst + hp + atk + defense + ability + moves = 7
-      // (multiple defense entries still count as a single section)
-      expect(f.activeCount, 7);
+      // types + bst + stats + defense + ability + moves = 6
+      // (multiple per-section entries still count as a single section)
+      expect(f.activeCount, 6);
       expect(f.isEmpty, false);
     });
 
     test('range counts as one section even if only one bound is set', () {
       const f = DexSearchFilter(bstMin: 500);
       expect(f.activeCount, 1);
+    });
+
+    test('stat row with no bounds is treated as empty', () {
+      const f = DexSearchFilter(statConstraints: [
+        DexStatConstraint(stat: DexStatKey.hp),
+      ]);
+      expect(f.activeCount, 0);
+      expect(f.isEmpty, true);
     });
   });
 
@@ -125,10 +135,46 @@ void main() {
 
     test('per-stat ranges — only those stats are checked', () {
       // defense 200 — passes 200, fails 201
-      expect(matchesDexFilter(tank, const DexSearchFilter(defMin: 200), movesByPokemon: empty), true);
-      expect(matchesDexFilter(tank, const DexSearchFilter(defMin: 201), movesByPokemon: empty), false);
+      expect(
+          matchesDexFilter(
+              tank,
+              const DexSearchFilter(statConstraints: [
+                DexStatConstraint(stat: DexStatKey.defense, min: 200),
+              ]),
+              movesByPokemon: empty),
+          true);
+      expect(
+          matchesDexFilter(
+              tank,
+              const DexSearchFilter(statConstraints: [
+                DexStatConstraint(stat: DexStatKey.defense, min: 201),
+              ]),
+              movesByPokemon: empty),
+          false);
       // speed 30 — fails when asked for ≥100
-      expect(matchesDexFilter(tank, const DexSearchFilter(speMin: 100), movesByPokemon: empty), false);
+      expect(
+          matchesDexFilter(
+              tank,
+              const DexSearchFilter(statConstraints: [
+                DexStatConstraint(stat: DexStatKey.speed, min: 100),
+              ]),
+              movesByPokemon: empty),
+          false);
+    });
+
+    test('multiple stat constraints are ANDed', () {
+      // Tank: hp=100, def=200. Passes hp≥100 AND def≥200.
+      const both = DexSearchFilter(statConstraints: [
+        DexStatConstraint(stat: DexStatKey.hp, min: 100),
+        DexStatConstraint(stat: DexStatKey.defense, min: 200),
+      ]);
+      expect(matchesDexFilter(tank, both, movesByPokemon: empty), true);
+      // Fails when one of the two doesn't hold (speed=30 < 100).
+      const fail = DexSearchFilter(statConstraints: [
+        DexStatConstraint(stat: DexStatKey.hp, min: 100),
+        DexStatConstraint(stat: DexStatKey.speed, min: 100),
+      ]);
+      expect(matchesDexFilter(tank, fail, movesByPokemon: empty), false);
     });
   });
 

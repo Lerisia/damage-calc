@@ -776,6 +776,16 @@ class AppStrings {
       AppLanguage.en: 'Base stat ranges',
       AppLanguage.ja: '種族値の範囲',
     },
+    'dex.advAddStat': {
+      AppLanguage.ko: '능력치 추가',
+      AppLanguage.en: 'Add stat',
+      AppLanguage.ja: '能力値追加',
+    },
+    'dex.advPickStat': {
+      AppLanguage.ko: '능력치 선택',
+      AppLanguage.en: 'Pick stat',
+      AppLanguage.ja: '能力値を選択',
+    },
     'dex.advDefenseType': {
       AppLanguage.ko: '타입 약점 / 내성',
       AppLanguage.en: 'Type weakness / resistance',

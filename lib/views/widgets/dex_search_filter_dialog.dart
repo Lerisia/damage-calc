@@ -48,6 +48,40 @@ class DexDefenseEntry {
 /// AND vs OR for the moves filter (up to 4 moves).
 enum DexMovesMatch { and, or }
 
+/// Which of the 6 base stats a stat constraint applies to.
+enum DexStatKey { hp, attack, defense, spAttack, spDefense, speed }
+
+/// One row of the "종족값 범위" filter — a stat with optional min/max.
+/// Multiple entries are ANDed; the dialog hides stats already used in
+/// other rows from each row's dropdown so the user can't add a
+/// duplicate.
+@immutable
+class DexStatConstraint {
+  final DexStatKey stat;
+  final int? min;
+  final int? max;
+
+  const DexStatConstraint({required this.stat, this.min, this.max});
+
+  /// True when the row has no effect (both bounds are null). The
+  /// dialog keeps these so an empty placeholder row stays visible, but
+  /// the matcher and activeCount ignore them.
+  bool get hasBounds => min != null || max != null;
+
+  DexStatConstraint copyWith({
+    DexStatKey? stat,
+    Object? min = _sentinel,
+    Object? max = _sentinel,
+  }) =>
+      DexStatConstraint(
+        stat: stat ?? this.stat,
+        min: identical(min, _sentinel) ? this.min : min as int?,
+        max: identical(max, _sentinel) ? this.max : max as int?,
+      );
+
+  static const _sentinel = Object();
+}
+
 /// All filter conditions the advanced dex search supports. Immutable —
 /// the dialog mutates a draft and returns the final value via Navigator.
 @immutable
@@ -58,12 +92,10 @@ class DexSearchFilter {
   final List<PokemonType> types;
 
   final int? bstMin, bstMax;
-  final int? hpMin, hpMax;
-  final int? atkMin, atkMax;
-  final int? defMin, defMax;
-  final int? spaMin, spaMax;
-  final int? spdMin, spdMax;
-  final int? speMin, speMax;
+
+  /// Per-stat range filters. Multiple entries are ANDed; each entry's
+  /// stat must be unique (enforced by the dialog UI).
+  final List<DexStatConstraint> statConstraints;
 
   /// Defensive-type filter — list of (type, relation) constraints.
   /// All entries are ANDed; e.g. {fire weakness, grass resistance} →
@@ -81,18 +113,7 @@ class DexSearchFilter {
     this.types = const [],
     this.bstMin,
     this.bstMax,
-    this.hpMin,
-    this.hpMax,
-    this.atkMin,
-    this.atkMax,
-    this.defMin,
-    this.defMax,
-    this.spaMin,
-    this.spaMax,
-    this.spdMin,
-    this.spdMax,
-    this.speMin,
-    this.speMax,
+    this.statConstraints = const [],
     this.defenses = const [],
     this.abilityKey,
     this.moveIds = const [],
@@ -104,17 +125,14 @@ class DexSearchFilter {
   bool get isEmpty => activeCount == 0;
 
   /// How many filter sections are populated. Drives the badge on the
-  /// dex-screen filter button.
+  /// dex-screen filter button. Each section (types, BST, per-stat,
+  /// defense, ability, moves) counts at most once regardless of how
+  /// many entries it has.
   int get activeCount {
     var n = 0;
     if (types.isNotEmpty) n++;
     if (bstMin != null || bstMax != null) n++;
-    if (hpMin != null || hpMax != null) n++;
-    if (atkMin != null || atkMax != null) n++;
-    if (defMin != null || defMax != null) n++;
-    if (spaMin != null || spaMax != null) n++;
-    if (spdMin != null || spdMax != null) n++;
-    if (speMin != null || speMax != null) n++;
+    if (statConstraints.any((c) => c.hasBounds)) n++;
     if (defenses.isNotEmpty) n++;
     if (abilityKey != null) n++;
     if (moveIds.isNotEmpty) n++;
@@ -125,18 +143,7 @@ class DexSearchFilter {
     List<PokemonType>? types,
     Object? bstMin = _sentinel,
     Object? bstMax = _sentinel,
-    Object? hpMin = _sentinel,
-    Object? hpMax = _sentinel,
-    Object? atkMin = _sentinel,
-    Object? atkMax = _sentinel,
-    Object? defMin = _sentinel,
-    Object? defMax = _sentinel,
-    Object? spaMin = _sentinel,
-    Object? spaMax = _sentinel,
-    Object? spdMin = _sentinel,
-    Object? spdMax = _sentinel,
-    Object? speMin = _sentinel,
-    Object? speMax = _sentinel,
+    List<DexStatConstraint>? statConstraints,
     List<DexDefenseEntry>? defenses,
     Object? abilityKey = _sentinel,
     List<String>? moveIds,
@@ -146,18 +153,7 @@ class DexSearchFilter {
       types: types ?? this.types,
       bstMin: identical(bstMin, _sentinel) ? this.bstMin : bstMin as int?,
       bstMax: identical(bstMax, _sentinel) ? this.bstMax : bstMax as int?,
-      hpMin: identical(hpMin, _sentinel) ? this.hpMin : hpMin as int?,
-      hpMax: identical(hpMax, _sentinel) ? this.hpMax : hpMax as int?,
-      atkMin: identical(atkMin, _sentinel) ? this.atkMin : atkMin as int?,
-      atkMax: identical(atkMax, _sentinel) ? this.atkMax : atkMax as int?,
-      defMin: identical(defMin, _sentinel) ? this.defMin : defMin as int?,
-      defMax: identical(defMax, _sentinel) ? this.defMax : defMax as int?,
-      spaMin: identical(spaMin, _sentinel) ? this.spaMin : spaMin as int?,
-      spaMax: identical(spaMax, _sentinel) ? this.spaMax : spaMax as int?,
-      spdMin: identical(spdMin, _sentinel) ? this.spdMin : spdMin as int?,
-      spdMax: identical(spdMax, _sentinel) ? this.spdMax : spdMax as int?,
-      speMin: identical(speMin, _sentinel) ? this.speMin : speMin as int?,
-      speMax: identical(speMax, _sentinel) ? this.speMax : speMax as int?,
+      statConstraints: statConstraints ?? this.statConstraints,
       defenses: defenses ?? this.defenses,
       abilityKey: identical(abilityKey, _sentinel)
           ? this.abilityKey
@@ -195,18 +191,12 @@ bool matchesDexFilter(
   final bst = s.hp + s.attack + s.defense + s.spAttack + s.spDefense + s.speed;
   if (filter.bstMin != null && bst < filter.bstMin!) return false;
   if (filter.bstMax != null && bst > filter.bstMax!) return false;
-  if (filter.hpMin != null && s.hp < filter.hpMin!) return false;
-  if (filter.hpMax != null && s.hp > filter.hpMax!) return false;
-  if (filter.atkMin != null && s.attack < filter.atkMin!) return false;
-  if (filter.atkMax != null && s.attack > filter.atkMax!) return false;
-  if (filter.defMin != null && s.defense < filter.defMin!) return false;
-  if (filter.defMax != null && s.defense > filter.defMax!) return false;
-  if (filter.spaMin != null && s.spAttack < filter.spaMin!) return false;
-  if (filter.spaMax != null && s.spAttack > filter.spaMax!) return false;
-  if (filter.spdMin != null && s.spDefense < filter.spdMin!) return false;
-  if (filter.spdMax != null && s.spDefense > filter.spdMax!) return false;
-  if (filter.speMin != null && s.speed < filter.speMin!) return false;
-  if (filter.speMax != null && s.speed > filter.speMax!) return false;
+  for (final c in filter.statConstraints) {
+    if (!c.hasBounds) continue;
+    final v = _statValue(s, c.stat);
+    if (c.min != null && v < c.min!) return false;
+    if (c.max != null && v > c.max!) return false;
+  }
 
   // Defensive type — all entries are ANDed. Ability effects ignored
   // per spec. Immunity is a separate bucket from resistance — picking
@@ -254,6 +244,42 @@ bool matchesDexFilter(
   return true;
 }
 
+int _statValue(dynamic stats, DexStatKey k) {
+  // `dynamic` because Stats lives in another file but its fields are
+  // typed plain int — switch returns the right one without importing.
+  switch (k) {
+    case DexStatKey.hp:
+      return stats.hp as int;
+    case DexStatKey.attack:
+      return stats.attack as int;
+    case DexStatKey.defense:
+      return stats.defense as int;
+    case DexStatKey.spAttack:
+      return stats.spAttack as int;
+    case DexStatKey.spDefense:
+      return stats.spDefense as int;
+    case DexStatKey.speed:
+      return stats.speed as int;
+  }
+}
+
+String _statLabel(DexStatKey k) {
+  switch (k) {
+    case DexStatKey.hp:
+      return AppStrings.t('stat.hp');
+    case DexStatKey.attack:
+      return AppStrings.t('stat.attack');
+    case DexStatKey.defense:
+      return AppStrings.t('stat.defense');
+    case DexStatKey.spAttack:
+      return AppStrings.t('stat.spAttack');
+    case DexStatKey.spDefense:
+      return AppStrings.t('stat.spDefense');
+    case DexStatKey.speed:
+      return AppStrings.t('stat.speed');
+  }
+}
+
 /// Sentinel returned when the dialog is dismissed without applying —
 /// callers should leave the existing filter untouched.
 const Object kDexFilterDismissed = Object();
@@ -294,16 +320,14 @@ class _DexSearchFilterDialog extends StatefulWidget {
 class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
   late DexSearchFilter _draft;
 
-  // Text controllers for the 14 range inputs + 1 ability slot + 4 move
-  // slots. Kept on the state object so they survive rebuilds while the
-  // user is typing.
+  // Text controllers for BST + 1 ability slot + 4 move slots. Per-stat
+  // range controllers are dynamic (in _statMinCtls / _statMaxCtls),
+  // index-aligned with _draft.statConstraints.
   late final TextEditingController _bstMin, _bstMax;
-  late final TextEditingController _hpMin, _hpMax;
-  late final TextEditingController _atkMin, _atkMax;
-  late final TextEditingController _defMin, _defMax;
-  late final TextEditingController _spaMin, _spaMax;
-  late final TextEditingController _spdMin, _spdMax;
-  late final TextEditingController _speMin, _speMax;
+  // Index-aligned with _draft.statConstraints. Append on add, remove
+  // on row delete, never reordered while the dialog is open.
+  late List<TextEditingController> _statMinCtls;
+  late List<TextEditingController> _statMaxCtls;
   late final TextEditingController _abilityCtl;
   late final List<TextEditingController> _moveCtls;
 
@@ -321,18 +345,23 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
     String s(int? v) => v?.toString() ?? '';
     _bstMin = TextEditingController(text: s(_draft.bstMin));
     _bstMax = TextEditingController(text: s(_draft.bstMax));
-    _hpMin = TextEditingController(text: s(_draft.hpMin));
-    _hpMax = TextEditingController(text: s(_draft.hpMax));
-    _atkMin = TextEditingController(text: s(_draft.atkMin));
-    _atkMax = TextEditingController(text: s(_draft.atkMax));
-    _defMin = TextEditingController(text: s(_draft.defMin));
-    _defMax = TextEditingController(text: s(_draft.defMax));
-    _spaMin = TextEditingController(text: s(_draft.spaMin));
-    _spaMax = TextEditingController(text: s(_draft.spaMax));
-    _spdMin = TextEditingController(text: s(_draft.spdMin));
-    _spdMax = TextEditingController(text: s(_draft.spdMax));
-    _speMin = TextEditingController(text: s(_draft.speMin));
-    _speMax = TextEditingController(text: s(_draft.speMax));
+    // The "Stats" section always shows at least one row so the
+    // dropdown + range fields are discoverable — if the incoming
+    // filter has none, seed an empty HP placeholder. Placeholders
+    // with no bounds get dropped on commit.
+    if (_draft.statConstraints.isEmpty) {
+      _draft = _draft.copyWith(statConstraints: const [
+        DexStatConstraint(stat: DexStatKey.hp),
+      ]);
+    }
+    _statMinCtls = [
+      for (final c in _draft.statConstraints)
+        TextEditingController(text: s(c.min)),
+    ];
+    _statMaxCtls = [
+      for (final c in _draft.statConstraints)
+        TextEditingController(text: s(c.max)),
+    ];
     _abilityCtl = TextEditingController(
       text: _draft.abilityKey != null
           ? (widget.abilityDex[_draft.abilityKey!]?.localizedName ??
@@ -369,8 +398,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
   void dispose() {
     for (final c in [
       _bstMin, _bstMax,
-      _hpMin, _hpMax, _atkMin, _atkMax, _defMin, _defMax,
-      _spaMin, _spaMax, _spdMin, _spdMax, _speMin, _speMax,
+      ..._statMinCtls, ..._statMaxCtls,
       _abilityCtl,
       ..._moveCtls,
     ]) {
@@ -403,38 +431,44 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
 
   void _resetDraft() {
     setState(() {
-      _draft = DexSearchFilter.empty;
+      // Keep the same 1-row HP placeholder as a fresh dialog open.
+      _draft = const DexSearchFilter(statConstraints: [
+        DexStatConstraint(stat: DexStatKey.hp),
+      ]);
       for (final c in [
         _bstMin, _bstMax,
-        _hpMin, _hpMax, _atkMin, _atkMax, _defMin, _defMax,
-        _spaMin, _spaMax, _spdMin, _spdMax, _speMin, _speMax,
         _abilityCtl,
         ..._moveCtls,
       ]) {
         c.clear();
       }
+      // Drop all but one stat row, clear that one.
+      for (var i = _statMinCtls.length - 1; i > 0; i--) {
+        _statMinCtls.removeAt(i).dispose();
+        _statMaxCtls.removeAt(i).dispose();
+      }
+      _statMinCtls[0].clear();
+      _statMaxCtls[0].clear();
     });
   }
 
   /// Snapshot the live text-field values into [_draft] before returning.
   /// We don't run an onChanged per keystroke (cheaper and less janky on
-  /// number pads), so this is the single sync point.
+  /// number pads), so this is the single sync point. Empty stat rows
+  /// (no min and no max) are dropped here so they don't show up as
+  /// active filters.
   DexSearchFilter _commitDraft() {
+    final stats = <DexStatConstraint>[];
+    for (var i = 0; i < _draft.statConstraints.length; i++) {
+      final min = _parseInt(_statMinCtls[i].text);
+      final max = _parseInt(_statMaxCtls[i].text);
+      if (min == null && max == null) continue;
+      stats.add(_draft.statConstraints[i].copyWith(min: min, max: max));
+    }
     return _draft.copyWith(
       bstMin: _parseInt(_bstMin.text),
       bstMax: _parseInt(_bstMax.text),
-      hpMin: _parseInt(_hpMin.text),
-      hpMax: _parseInt(_hpMax.text),
-      atkMin: _parseInt(_atkMin.text),
-      atkMax: _parseInt(_atkMax.text),
-      defMin: _parseInt(_defMin.text),
-      defMax: _parseInt(_defMax.text),
-      spaMin: _parseInt(_spaMin.text),
-      spaMax: _parseInt(_spaMax.text),
-      spdMin: _parseInt(_spdMin.text),
-      spdMax: _parseInt(_spdMax.text),
-      speMin: _parseInt(_speMin.text),
-      speMax: _parseInt(_speMax.text),
+      statConstraints: stats,
     );
   }
 
@@ -487,12 +521,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
                 const SizedBox(height: 6),
                 _rangeRow(AppStrings.t('dex.colBst'), _bstMin, _bstMax),
                 const SizedBox(height: 6),
-                _rangeRow(AppStrings.t('stat.hp'), _hpMin, _hpMax),
-                _rangeRow(AppStrings.t('stat.attack'), _atkMin, _atkMax),
-                _rangeRow(AppStrings.t('stat.defense'), _defMin, _defMax),
-                _rangeRow(AppStrings.t('stat.spAttack'), _spaMin, _spaMax),
-                _rangeRow(AppStrings.t('stat.spDefense'), _spdMin, _spdMax),
-                _rangeRow(AppStrings.t('stat.speed'), _speMin, _speMax),
+                _statSection(),
                 const SizedBox(height: 16),
                 _sectionLabel(AppStrings.t('dex.advDefenseType')),
                 const SizedBox(height: 6),
@@ -532,6 +561,111 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
   Widget _sectionLabel(String text) {
     return Text(text,
         style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700));
+  }
+
+  Widget _statSection() {
+    final rows = _draft.statConstraints;
+    final canAdd = rows.length < DexStatKey.values.length;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < rows.length; i++) ...[
+          _statRow(i, rows[i]),
+          if (i < rows.length - 1) const SizedBox(height: 4),
+        ],
+        const SizedBox(height: 4),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            // Cap at 6 (one per base stat) since the dropdown hides
+            // already-used stats — picking a 7th would have nothing
+            // left to offer.
+            onPressed: canAdd ? _addStatRow : null,
+            icon: const Icon(Icons.add, size: 16),
+            label: Text(AppStrings.t('dex.advAddStat')),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              textStyle: const TextStyle(
+                  fontSize: 12, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _statRow(int index, DexStatConstraint c) {
+    final used = <DexStatKey>{
+      for (var i = 0; i < _draft.statConstraints.length; i++)
+        if (i != index) _draft.statConstraints[i].stat,
+    };
+    final selectable =
+        DexStatKey.values.where((k) => !used.contains(k)).toList();
+    final removable = _draft.statConstraints.length > 1;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 92,
+            child: _StatDropdown(
+              value: c.stat,
+              options: selectable,
+              onChanged: (k) => _changeStatType(index, k),
+            ),
+          ),
+          const SizedBox(width: 6),
+          Expanded(child: _numberField(_statMinCtls[index])),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4),
+            child: Text('~', style: TextStyle(fontSize: 13)),
+          ),
+          Expanded(child: _numberField(_statMaxCtls[index])),
+          // First row can't be removed — the section always shows at
+          // least one stat slot per spec.
+          IconButton(
+            icon: const Icon(Icons.close, size: 16),
+            tooltip: AppStrings.t('action.clear'),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+            onPressed: removable ? () => _removeStatRow(index) : null,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _addStatRow() {
+    final used = _draft.statConstraints.map((c) => c.stat).toSet();
+    final next = DexStatKey.values.firstWhere((k) => !used.contains(k));
+    setState(() {
+      _draft = _draft.copyWith(statConstraints: [
+        ..._draft.statConstraints,
+        DexStatConstraint(stat: next),
+      ]);
+      _statMinCtls.add(TextEditingController());
+      _statMaxCtls.add(TextEditingController());
+    });
+  }
+
+  void _removeStatRow(int index) {
+    setState(() {
+      final list = List<DexStatConstraint>.from(_draft.statConstraints);
+      list.removeAt(index);
+      _draft = _draft.copyWith(statConstraints: list);
+      _statMinCtls.removeAt(index).dispose();
+      _statMaxCtls.removeAt(index).dispose();
+    });
+  }
+
+  void _changeStatType(int index, DexStatKey k) {
+    setState(() {
+      final list = List<DexStatConstraint>.from(_draft.statConstraints);
+      list[index] = list[index].copyWith(stat: k);
+      _draft = _draft.copyWith(statConstraints: list);
+    });
   }
 
   Widget _rangeRow(
@@ -978,6 +1112,64 @@ class _TypeChip extends StatelessWidget {
                 ? Colors.white
                 : color.withValues(alpha: dimmed ? 0.55 : 1.0),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Compact stat picker — opens a popup with only the stats not yet
+/// used in other rows (so each base stat appears in at most one row).
+class _StatDropdown extends StatelessWidget {
+  final DexStatKey value;
+  final List<DexStatKey> options;
+  final ValueChanged<DexStatKey> onChanged;
+
+  const _StatDropdown({
+    required this.value,
+    required this.options,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () async {
+        final picked = await showDialog<DexStatKey>(
+          context: context,
+          builder: (ctx) => SimpleDialog(
+            title: Text(AppStrings.t('dex.advPickStat')),
+            children: [
+              for (final k in options)
+                SimpleDialogOption(
+                  onPressed: () => Navigator.pop(ctx, k),
+                  child: Text(_statLabel(k)),
+                ),
+            ],
+          ),
+        );
+        if (picked != null && picked != value) onChanged(picked);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          border: Border.all(color: scheme.outline.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                _statLabel(value),
+                style: const TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w700),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const Icon(Icons.arrow_drop_down, size: 16),
+          ],
         ),
       ),
     );
