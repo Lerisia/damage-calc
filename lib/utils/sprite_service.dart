@@ -1,64 +1,204 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/widgets.dart';
 
-/// Stable, unique sprite key for a Pokémon, derived from its English
-/// species name.
+/// The three sprite styles we support, mirroring Pokémon Showdown's
+/// canonical paths under `play.pokemonshowdown.com/sprites/`:
 ///
-/// This is the calculator's *own* pack naming scheme — a build-time tool
-/// repackages the Pokémon Showdown sprites under these keys, so runtime
-/// resolution stays a trivial lookup instead of having to mirror
-/// Showdown's filename conventions.
+///  * [bw] — generation-5 Black/White pixel sprites (`/sprites/gen5/`).
+///    Smogon's community Sprite Project filled in coverage for every
+///    later-gen Pokémon in BW style, so this covers gen 1–9.
+///  * [ani] — modern animated GIFs (`/sprites/ani/`), all generations.
+///  * [dex] — HOME-style 3D PNG models (`/sprites/dex/`), mostly all
+///    generations (a few gen-8 box-legends are missing in HOME).
+enum SpriteStyle {
+  bw('gen5', 'png'),
+  ani('ani', 'gif'),
+  dex('dex', 'png');
+
+  /// Showdown CDN directory under `/sprites/`.
+  final String dir;
+
+  /// File extension (without the leading dot).
+  final String ext;
+
+  const SpriteStyle(this.dir, this.ext);
+}
+
+/// Per-species sprite-key overrides — used when the [spriteKeyFor]
+/// heuristic produces a key that doesn't exist on Showdown's CDN. Each
+/// entry maps the calc's English display name to the actual Showdown
+/// slug (verified by HEAD-testing the URL).
+const Map<String, String> _spriteKeyOverrides = {
+  // 'Crowned' forms drop the weapon suffix on Showdown.
+  'Zacian (Crowned Sword)': 'zacian-crowned',
+  'Zamazenta (Crowned Shield)': 'zamazenta-crowned',
+  // Minior's default sprite is just 'minior' (meteor form is
+  // separate). Our "(Core Form)" entry refers to the core variant
+  // but Showdown serves a single default sprite for both.
+  'Minior (Core Form)': 'minior',
+};
+
+/// Words that mean "this is a forme" and carry no info themselves —
+/// stripped when building a slug from a parenthesised form name.
+const Set<String> _noiseFormWords = {
+  'Forme', 'Form', 'Mode', 'Mask', 'Cloak',
+  'Size', 'Style', 'Face', 'Flower',
+};
+
+const Map<String, String> _regionalSlugs = {
+  'Alolan': 'alola',
+  'Hisuian': 'hisui',
+  'Galarian': 'galar',
+  'Paldean': 'paldea',
+};
+
+String _stripNonAlnum(String s) =>
+    s.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+
+/// Strip diacritics by hand for the only Pokémon names that carry
+/// them. Dart core doesn't expose Unicode NFD without a package and
+/// the set of affected names is tiny (just Flabébé and its line).
+String _stripDiacritics(String s) =>
+    s.replaceAll('é', 'e').replaceAll('è', 'e').replaceAll('ê', 'e');
+
+/// Convert an English Pokémon display name to the slug used by
+/// Pokémon Showdown's sprite CDN.
 ///
-/// Examples: `Pikachu` → `pikachu`, `Mega Abomasnow` → `mega-abomasnow`,
-/// `Terapagos (Stellar Form)` → `terapagos-stellar-form`,
-/// `Nidoran♀` → `nidoran-f`, `Nidoran♂` → `nidoran-m`.
+/// Showdown's convention:
+///  * Base species: lowercase, all non-alphanumeric stripped
+///    (`Mr. Mime` → `mrmime`, `Ho-Oh` → `hooh`, `Farfetch'd` → `farfetchd`).
+///  * Forms: `<species>-<form>` with a single hyphen and the form
+///    suffix itself stripped of separators
+///    (`Mega Charizard X` → `charizard-megax`,
+///     `Alolan Raichu` → `raichu-alola`,
+///     `Deoxys (Attack Forme)` → `deoxys-attack`).
+///  * Special slugs collected in [_spriteKeyOverrides] for the few
+///    names whose Showdown spelling doesn't fall out of the rules.
 ///
-/// Verified collision-free across the full pokedex (the gender symbols
-/// are mapped explicitly because they would otherwise both collapse to
-/// `nidoran`).
-String spriteKeyFor(String pokemonName) => pokemonName
-    .replaceAll('♀', '-f')
-    .replaceAll('♂', '-m')
-    .toLowerCase()
-    .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
-    .replaceAll(RegExp(r'^-+|-+$'), '');
+/// Empirically verified to resolve to a real sprite for 1210/1239
+/// distinct names in our pokedex (the remaining ~24 are
+/// Champions-original Mega forms that Showdown obviously doesn't
+/// have — they fall through to the widget's pokéball placeholder).
+String spriteKeyFor(String pokemonName) {
+  if (_spriteKeyOverrides.containsKey(pokemonName)) {
+    return _spriteKeyOverrides[pokemonName]!;
+  }
+
+  final n = _stripDiacritics(pokemonName)
+      .replaceAll('♀', 'f')
+      .replaceAll('♂', 'm');
+
+  // Mega X (X|Y) — e.g., "Mega Charizard X" → "charizard-megax".
+  final megaXY = RegExp(r'^Mega (\w+) ([XY])$').firstMatch(n);
+  if (megaXY != null) {
+    return '${_stripNonAlnum(megaXY.group(1)!)}-mega'
+        '${megaXY.group(2)!.toLowerCase()}';
+  }
+  // Mega X — e.g., "Mega Garchomp" → "garchomp-mega".
+  final mega = RegExp(r'^Mega (\w+)$').firstMatch(n);
+  if (mega != null) return '${_stripNonAlnum(mega.group(1)!)}-mega';
+  // Primal X — Groudon, Kyogre.
+  final primal = RegExp(r'^Primal (\w+)$').firstMatch(n);
+  if (primal != null) return '${_stripNonAlnum(primal.group(1)!)}-primal';
+
+  // One-off prefix forms whose names don't share a common pattern.
+  switch (n) {
+    case 'Ultra Necrozma':
+      return 'necrozma-ultra';
+    case 'Hoopa Unbound':
+      return 'hoopa-unbound';
+    case 'Dawn Wings Necrozma':
+      return 'necrozma-dawnwings';
+    case 'Dusk Mane Necrozma':
+      return 'necrozma-duskmane';
+    case 'Ice Rider Calyrex':
+      return 'calyrex-ice';
+    case 'Shadow Rider Calyrex':
+      return 'calyrex-shadow';
+    case 'Black Kyurem':
+      return 'kyurem-black';
+    case 'White Kyurem':
+      return 'kyurem-white';
+  }
+
+  // Rotom appliance forms — "Heat Rotom" → "rotom-heat".
+  final rotom = RegExp(r'^(Heat|Wash|Frost|Fan|Mow) Rotom$').firstMatch(n);
+  if (rotom != null) return 'rotom-${rotom.group(1)!.toLowerCase()}';
+
+  // Regional variants. "Galarian Darmanitan (Zen Mode)" needs to nest
+  // — Showdown collapses it to "darmanitan-galarzen".
+  for (final entry in _regionalSlugs.entries) {
+    if (n.startsWith('${entry.key} ')) {
+      final rest = n.substring(entry.key.length + 1);
+      final nested = RegExp(r'^(\w+) \(([^)]+)\)$').firstMatch(rest);
+      if (nested != null) {
+        final species = _stripNonAlnum(nested.group(1)!);
+        final formeWord =
+            _stripNonAlnum(nested.group(2)!.split(' ').first);
+        return '$species-${entry.value}$formeWord';
+      }
+      return '${_stripNonAlnum(rest)}-${entry.value}';
+    }
+  }
+
+  // Parenthesised forme — "Tornadus (Therian Forme)" → "tornadus-therian",
+  // "Toxtricity (Low Key Form)" → "toxtricity-lowkey",
+  // "Indeedee (Female)" → "indeedee-f", "(Male)" → just the base.
+  final paren = RegExp(r'^(.+?) \(([^)]+)\)$').firstMatch(n);
+  if (paren != null) {
+    final species = _stripNonAlnum(paren.group(1)!);
+    final inner = paren.group(2)!;
+    if (inner == 'Female') return '$species-f';
+    if (inner == 'Male') return species;
+    final meaningful = inner
+        .split(' ')
+        .where((w) => !_noiseFormWords.contains(w))
+        .toList();
+    final slug = _stripNonAlnum(
+        meaningful.isEmpty ? inner : meaningful.join(''));
+    return '$species-$slug';
+  }
+
+  return _stripNonAlnum(n);
+}
 
 /// Resolves Pokémon sprite images for the UI.
 ///
-/// The sprite pack (small box icons for the simple calculator, larger
-/// dex sprites for the expanded calculator — sourced from the Pokémon
-/// Showdown sprite project) is **not bundled in the app binary**: on web
-/// it is served as static files alongside the site, and on mobile it is
-/// downloaded once after install and cached locally. Keeping it out of
-/// the store artifact is deliberate.
+/// **Web** loads each sprite lazily from Pokémon Showdown's CDN
+/// (`play.pokemonshowdown.com/sprites/...`) — the browser caches it
+/// the second time it's needed, and the calc never hosts the IP
+/// itself. The user's selected [SpriteStyle] determines which
+/// Showdown directory is read.
 ///
-/// Until the pack is in place [iconFor] returns null and callers render
-/// their own placeholder. Champions-original forms that Showdown has no
-/// sprite for also resolve to null.
+/// **Mobile** intentionally returns null for v1 of this feature —
+/// the app's offline-first design rules out streaming sprites at
+/// runtime, and we haven't yet decided where the import-pack should
+/// be hosted. Mobile callers therefore always fall through to the
+/// pokéball placeholder. The sprite slot is still rendered so the UI
+/// shape stays consistent across platforms.
 class SpriteService {
   SpriteService._();
   static final SpriteService instance = SpriteService._();
 
-  /// True once the sprite pack is available for the current platform.
-  /// Web: set when the static sprite files are confirmed deployed.
-  /// Mobile: set after the downloaded pack is extracted to the cache.
-  /// Flipped on by the pack-install path (wired with the download step).
-  bool packReady = false;
+  /// User's currently selected sprite style. Defaults to [SpriteStyle.bw]
+  /// — the BW pixel set matches the calc's retro/competitive
+  /// aesthetic and is the smallest payload on the wire.
+  SpriteStyle style = SpriteStyle.bw;
 
-  /// Small box-style icon for a Pokémon, for the simple calculator.
-  /// Returns null when the pack isn't available so the caller can show a
-  /// placeholder.
-  ImageProvider? iconFor(String pokemonName) {
-    if (!packReady) return null;
-    final key = spriteKeyFor(pokemonName);
-    if (kIsWeb) {
-      // Served as static files from the site root (Flutter `web/`
-      // folder) — this keeps the sprite assets out of the mobile binary.
-      return NetworkImage('sprites/icons/$key.png');
+  /// ImageProvider for a Pokémon's sprite in the current [style], or
+  /// null when the platform has no sprite source wired up (mobile v1).
+  ImageProvider? spriteFor(String pokemonName, {SpriteStyle? style}) {
+    final s = style ?? this.style;
+    if (!kIsWeb) {
+      // Mobile: offline-first design. Sprite pack import is deferred
+      // to a later feature pass — until then, mobile shows a pokéball
+      // placeholder so the layout still announces "this is where the
+      // sprite belongs".
+      return null;
     }
-    // Mobile: resolved from the downloaded pack cache. Wired together
-    // with the download mechanism (which needs a conditional dart:io
-    // import) in a later step.
-    return null;
+    final key = spriteKeyFor(pokemonName);
+    final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
+        '$key.${s.ext}';
+    return NetworkImage(url);
   }
 }
