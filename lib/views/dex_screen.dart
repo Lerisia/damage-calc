@@ -29,6 +29,7 @@ import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
 import 'widgets/dex_search_filter_dialog.dart';
 import 'widgets/move_selector.dart';
+import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_filter_dialog.dart';
 
 /// Result produced when the user taps "공격측으로" / "방어측으로" in
@@ -491,34 +492,28 @@ class _DexScreenState extends State<DexScreen> {
     );
   }
 
-  /// Type badge filling the slot that would hold a sprite in a normal
-  /// Pokédex — we ship no artwork, so the type chips take that space.
-  Widget _typeCell(Pokemon p) {
+  /// Horizontal type chips next to the species name (under it on
+  /// two-line rows). The leftmost slot of each row now holds a sprite,
+  /// so the old vertical type column is gone.
+  Widget _typeChipsRow(Pokemon p) {
     Widget chip(PokemonType t) => Container(
-          margin: const EdgeInsets.symmetric(vertical: 1.5),
-          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
           decoration: BoxDecoration(
             color: KoStrings.getTypeColor(t),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(KoStrings.getTypeName(t),
-              textAlign: TextAlign.center,
               style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 11,
                   color: Colors.white,
                   fontWeight: FontWeight.bold)),
         );
-    return SizedBox(
-      width: 46,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        // All chips the same width — sized to fit a 3-character type.
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          chip(p.type1),
-          if (p.type2 != null) chip(p.type2!),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        chip(p.type1),
+        if (p.type2 != null) ...[const SizedBox(width: 3), chip(p.type2!)],
+      ],
     );
   }
 
@@ -535,6 +530,11 @@ class _DexScreenState extends State<DexScreen> {
                   fontSize: 12,
                   fontFeatures: [FontFeature.tabularFigures()])),
         );
+    // Sprite layout: box icon takes the leftmost slot and the type
+    // chips drop onto a second line under the name. The row is already
+    // two lines tall (the old vertical type column), so this costs no
+    // extra height. The slot is always rendered (pokéball placeholder
+    // when no sprite is available) so every row stays the same shape.
     return InkWell(
       onTap: () => _pickPokemon(p, push),
       child: Container(
@@ -542,14 +542,22 @@ class _DexScreenState extends State<DexScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
         child: Row(
           children: [
-            _typeCell(p),
+            PokemonSprite(pokemonName: p.name, size: 46),
             const SizedBox(width: 6),
             Expanded(
-              child: Text(p.localizedName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w600)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(p.localizedName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 13, fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 2),
+                  _typeChipsRow(p),
+                ],
+              ),
             ),
             const SizedBox(width: 4),
             stat(s.hp),
@@ -1021,6 +1029,57 @@ class _Header extends StatelessWidget {
         : (AppStrings.current == AppLanguage.ja
             ? '${pokemon.nameEn ?? pokemon.name} · ${pokemon.nameKo}'
             : '${pokemon.nameKo} · ${pokemon.nameJa}');
+    // The header gets a sprite slot down the left — the slot is always
+    // reserved (pokéball placeholder when no sprite is available) so
+    // the layout stays the same shape regardless of platform / cache /
+    // Champions-original coverage.
+    final infoColumn = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text('#$dexId',
+                style: TextStyle(
+                    fontSize: 14, color: Colors.grey.shade600)),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                pokemon.localizedName,
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.w700),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: 4),
+            _sendButton(
+              context,
+              label: AppStrings.t('dex.sendToAttacker'),
+              color: Colors.red.shade600,
+              onPressed: () => _send(context, 0),
+            ),
+            const SizedBox(width: 4),
+            _sendButton(
+              context,
+              label: AppStrings.t('dex.sendToDefender'),
+              color: Colors.blue.shade600,
+              onPressed: () => _send(context, 1),
+            ),
+          ],
+        ),
+        const SizedBox(height: 2),
+        Text(altName,
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 6,
+          runSpacing: 4,
+          children: [
+            _typeChip(pokemon.type1),
+            if (pokemon.type2 != null) _typeChip(pokemon.type2!),
+          ],
+        ),
+      ],
+    );
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -1031,45 +1090,11 @@ class _Header extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('#$dexId',
-                  style: TextStyle(
-                      fontSize: 14, color: Colors.grey.shade600)),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  pokemon.localizedName,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w700),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(width: 4),
-              _sendButton(
-                context,
-                label: AppStrings.t('dex.sendToAttacker'),
-                color: Colors.red.shade600,
-                onPressed: () => _send(context, 0),
-              ),
-              const SizedBox(width: 4),
-              _sendButton(
-                context,
-                label: AppStrings.t('dex.sendToDefender'),
-                color: Colors.blue.shade600,
-                onPressed: () => _send(context, 1),
-              ),
-            ],
-          ),
-          const SizedBox(height: 2),
-          Text(altName,
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 6,
-            runSpacing: 4,
-            children: [
-              _typeChip(pokemon.type1),
-              if (pokemon.type2 != null) _typeChip(pokemon.type2!),
+              PokemonSprite(pokemonName: pokemon.name, size: 80),
+              const SizedBox(width: 12),
+              Expanded(child: infoColumn),
             ],
           ),
           const SizedBox(height: 8),
