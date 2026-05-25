@@ -270,6 +270,23 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
                   ),
                 ],
                 const SizedBox(height: 6),
+                // Coverage notice surfaces the gen-cap on BW + box
+                // icons so users don't read the pokéballs they see
+                // for newer mons as 'app bug' instead of 'pack scope'.
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                  child: Text(
+                    AppStrings.t('sprite.coverageNotice'),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .error
+                          .withValues(alpha: 0.85),
+                      height: 1.4,
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                   child: Text(
