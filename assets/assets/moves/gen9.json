@@ -195,7 +195,7 @@
     ],
     "nameEn": "Comeuppance",
     "zPower": 100,
-    "descKo": "기술을 쓰기 전에 마지막으로 받은 기술의 데미지를 1.5배 늘려서 기술을 쓴 상대에게 돌려준다.(우선도 0)",
+    "descKo": "기술을 쓰기 전에 마지막으로 받은 기술의 데미지를 1.5배 늘려서 기술을 쓴 상대에게 돌려준다.",
     "descEn": "The user retaliates with much greater force against the opponent that last inflicted damage on it."
   },
   {
@@ -375,7 +375,7 @@
     ],
     "nameEn": "Jet Punch",
     "zPower": 120,
-    "descKo": "거센 물살을 주먹에 둘러 눈에 보이지 않는 속도로 펀치를 날린다. 반드시 선제공격할 수 있다. (우선도 +1)",
+    "descKo": "거센 물살을 주먹에 둘러 눈에 보이지 않는 속도로 펀치를 날린다. 반드시 선제공격할 수 있다.",
     "descEn": "The user summons a torrent around its fist and punches at blinding speed. This move always goes first."
   },
   {
@@ -676,7 +676,7 @@
     "priority": 4,
     "tags": [],
     "nameEn": "Silk Trap",
-    "descKo": "상대의 공격을 막음과 동시에 방어 태세를 갖춘다. 접촉한 대상의 스피드를 1랭크 내린다. 연속으로 사용하면 실패하기 쉽다. (우선도 +4)",
+    "descKo": "상대의 공격을 막음과 동시에 방어 태세를 갖춘다. 접촉한 대상의 스피드를 1랭크 내린다. 연속으로 사용하면 실패하기 쉽다.",
     "descEn": "The user spins a silken trap, protecting itself from damage while lowering the Speed stat of any attacker that makes direct contact."
   },
   {
@@ -874,7 +874,7 @@
     ],
     "nameEn": "Upper Hand",
     "zPower": 120,
-    "descKo": "움직임에 반응하여 손바닥으로 밀쳐서 상대를 풀죽게 만든다. 상대가 쓴 기술이 선제공격 기술이 아니면 실패한다. (우선도 +3)",
+    "descKo": "움직임에 반응하여 손바닥으로 밀쳐서 상대를 풀죽게 만든다. 상대가 쓴 기술이 선제공격 기술이 아니면 실패한다.",
     "descEn": "The user reacts to the target's movement and strikes with the heel of its palm, making the target flinch. This move fails if the target is not readying a priority move."
   },
   {
@@ -1039,7 +1039,7 @@
     "tags": [],
     "nameEn": "Thunderclap",
     "zPower": 140,
-    "descKo": "상대보다 먼저 전격을 퍼붓는다. 상대가 쓴 기술이 공격기술이 아니면 실패한다.(우선도+1)",
+    "descKo": "상대보다 먼저 전격을 퍼붓는다. 상대가 쓴 기술이 공격기술이 아니면 실패한다.",
     "descEn": "This move enables the user to attack first with a jolt of electricity. This move fails if the target is not readying an attack."
   },
   {
@@ -1141,7 +1141,7 @@
     "priority": 4,
     "tags": [],
     "nameEn": "Burning Bulwark",
-    "descKo": "상대의 공격을 초고열의 털로 방어하는 동시에 접촉한 상대에게 화상 상태로 만든다. (우선도 +4)",
+    "descKo": "상대의 공격을 초고열의 털로 방어하는 동시에 접촉한 상대에게 화상 상태로 만든다.",
     "descEn": "The user's intensely hot fur protects it from attacks and also burns any attacker that makes direct contact with it."
   }
 ]
