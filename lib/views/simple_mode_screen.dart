@@ -138,6 +138,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   final _multCtl = TextEditingController(text: '1.0');
 
+  // Per-controller focus nodes for the SP / multiplier fields. Lazy-
+  // created via [_focusFor] so we don't hard-code one node per
+  // controller; the listener selects the controller's full text on
+  // focus gain so tapping a number readies the field for replacement
+  // (typing a digit wipes the previous value instead of inserting
+  // next to the caret).
+  final Map<TextEditingController, FocusNode> _spFocusNodes = {};
+
   // Parent-owned localized name maps (shared with Normal Mode — one
   // copy per screen, not per panel). Access via these getters instead
   // of re-reading the dex. Typeahead base lists and sorted ability
@@ -282,7 +290,32 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                       _defAbilityFocus, _defItemFocus]) {
       f.dispose();
     }
+    for (final f in _spFocusNodes.values) {
+      f.dispose();
+    }
     super.dispose();
+  }
+
+  /// Returns a long-lived [FocusNode] for [c]. The node's listener
+  /// selects [c]'s full text on focus gain, deferred to post-frame so
+  /// the framework's own caret placement doesn't overwrite our
+  /// selection. Lazy so we don't pre-allocate a node per controller —
+  /// the multiplier and the 9 SP fields each get one on first use.
+  FocusNode _focusFor(TextEditingController c) {
+    return _spFocusNodes.putIfAbsent(c, () {
+      final node = FocusNode();
+      node.addListener(() {
+        if (!node.hasFocus) return;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!node.hasFocus) return;
+          final text = c.text;
+          if (text.isEmpty) return;
+          c.selection =
+              TextSelection(baseOffset: 0, extentOffset: text.length);
+        });
+      });
+      return node;
+    });
   }
 
   int _parseSp(TextEditingController c) {
@@ -559,7 +592,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      // UnfocusDisposition.scope drops focus to the enclosing
+      // FocusScope rather than bouncing it back to the previously-
+      // focused child — without this, a tap on a non-focusable area
+      // can snap focus onto an earlier field instead of releasing it.
+      onTap: () => FocusManager.instance.primaryFocus
+          ?.unfocus(disposition: UnfocusDisposition.scope),
       behavior: HitTestBehavior.translucent,
       child: Align(
         // Horizontally centered, vertically top-aligned: on tall
@@ -1328,6 +1366,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           width: 40, height: 30,
           child: TextField(
             controller: spCtl,
+            focusNode: _focusFor(spCtl),
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             inputFormatters: [
@@ -1580,6 +1619,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // ability/item field styling so the field is self-describing.
     return TextField(
       controller: _multCtl,
+      focusNode: _focusFor(_multCtl),
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(

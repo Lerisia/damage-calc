@@ -1364,21 +1364,35 @@ class _PowerInputState extends State<_PowerInput> {
 
   void _onFocusChange() {
     _hasFocus = _focusNode.hasFocus;
-    if (!_hasFocus && mounted) {
-      // When losing focus, commit the value or reset to display power
-      final text = widget.controller.text;
-      final parsed = int.tryParse(text);
-      if (parsed == null || parsed <= 0 || text.isEmpty) {
-        // Clear override → display power reverts to move's base power
-        widget.onPowerCleared?.call();
-        // Update controller text after parent rebuilds with new displayPower
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) {
-            widget.controller.text = '${widget.displayPower}';
-            widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
-          }
-        });
-      }
+    if (_hasFocus) {
+      // Select-all on focus so a tap/click immediately readies the
+      // field for replacement — typing a digit wipes the previous
+      // power instead of inserting next to the caret. Deferred to
+      // post-frame so the framework's own caret placement doesn't
+      // overwrite our selection.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_focusNode.hasFocus) return;
+        final text = widget.controller.text;
+        if (text.isEmpty) return;
+        widget.controller.selection =
+            TextSelection(baseOffset: 0, extentOffset: text.length);
+      });
+      return;
+    }
+    if (!mounted) return;
+    // When losing focus, commit the value or reset to display power
+    final text = widget.controller.text;
+    final parsed = int.tryParse(text);
+    if (parsed == null || parsed <= 0 || text.isEmpty) {
+      // Clear override → display power reverts to move's base power
+      widget.onPowerCleared?.call();
+      // Update controller text after parent rebuilds with new displayPower
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          widget.controller.text = '${widget.displayPower}';
+          widget.lastDisplayPower[widget.slotIndex] = widget.displayPower;
+        }
+      });
     }
   }
 

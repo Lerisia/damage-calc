@@ -799,10 +799,22 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
   }
 
   void _onFocusChange() {
-    if (!_focusNode.hasFocus) {
-      // Normalize display on blur: strip leading zeros, show current value
-      _controller.text = '${widget.value}';
+    if (_focusNode.hasFocus) {
+      // Select-all on focus so a tap/click immediately readies the
+      // field for replacement. Deferred to post-frame so the
+      // framework's own caret placement doesn't overwrite our
+      // selection.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_focusNode.hasFocus) return;
+        final text = _controller.text;
+        if (text.isEmpty) return;
+        _controller.selection =
+            TextSelection(baseOffset: 0, extentOffset: text.length);
+      });
+      return;
     }
+    // Normalize display on blur: strip leading zeros, show current value
+    _controller.text = '${widget.value}';
   }
 
   @override

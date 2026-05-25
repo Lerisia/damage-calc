@@ -896,15 +896,20 @@ class _StatInputState extends State<StatInput> {
             onFocusChange: (hasFocus) {
               _hasFocusedStatField = hasFocus;
               if (!hasFocus) {
-                setState(() => _evResetCounter++); // normalize display
+                // Do NOT bump _evResetCounter here. This field is keyed
+                // by that counter — bumping on focus loss disposes it
+                // mid-blur, and Flutter then restores focus to the
+                // previously-focused stat field (typically the IV next
+                // door). Display normalisation runs via didUpdateWidget
+                // when the parent's value changes.
                 widget.onStatEditComplete?.call();
               }
             },
             child: SizedBox(
               height: 28,
-              child: TextFormField(
+              child: _SelectAllField(
                 key: ValueKey('ev_$_evResetCounter'),
-                initialValue: '$displayValue',
+                initialText: '$displayValue',
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
@@ -1002,9 +1007,9 @@ class _StatInputState extends State<StatInput> {
         Expanded(
           child: SizedBox(
             height: 28,
-            child: TextFormField(
+            child: _SelectAllField(
               key: const ValueKey('hp_pct'),
-              initialValue: _formatHpPct(widget.hpPercent),
+              initialText: _formatHpPct(widget.hpPercent),
               textAlign: TextAlign.center,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
@@ -1175,14 +1180,20 @@ class _StatInputState extends State<StatInput> {
       onFocusChange: (hasFocus) {
         _hasFocusedStatField = hasFocus;
         if (!hasFocus) {
-          setState(() => _evResetCounter++);
+          // Do NOT bump _evResetCounter here. _evControl's field is
+          // keyed by that counter, so bumping it during an IV → EV
+          // tap rebuilds (and disposes) the EV widget before the tap
+          // can land on it, leaving the user with no focused field.
+          // EV normalises its own display on its own focus loss path
+          // and via didUpdateWidget when the parent value changes.
           widget.onStatEditComplete?.call();
         }
       },
       child: SizedBox(
         height: 32,
-        child: TextFormField(
-          initialValue: '$value',
+        child: _SelectAllField(
+          key: ValueKey('iv_$_evResetCounter'),
+          initialText: '$value',
           textAlign: TextAlign.center,
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
@@ -1261,12 +1272,25 @@ class _LevelInputState extends State<_LevelInput> {
   }
 
   void _onFocusChange() {
-    if (!_focusNode.hasFocus) {
-      final parsed = int.tryParse(_controller.text);
-      final clamped = parsed != null ? parsed.clamp(1, 100) : 1;
-      _controller.text = '$clamped';
-      widget.onChanged(clamped);
+    if (_focusNode.hasFocus) {
+      // Select-all on focus so a tap/click immediately readies the
+      // field for replacement — typing a digit wipes the previous
+      // value instead of inserting next to the caret. Deferred to
+      // post-frame so the framework's own caret placement doesn't
+      // overwrite our selection.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_focusNode.hasFocus) return;
+        final text = _controller.text;
+        if (text.isEmpty) return;
+        _controller.selection =
+            TextSelection(baseOffset: 0, extentOffset: text.length);
+      });
+      return;
     }
+    final parsed = int.tryParse(_controller.text);
+    final clamped = parsed != null ? parsed.clamp(1, 100) : 1;
+    _controller.text = '$clamped';
+    widget.onChanged(clamped);
   }
 
   @override
@@ -1293,6 +1317,87 @@ class _LevelInputState extends State<_LevelInput> {
           widget.onChanged(50);
         }
       },
+    );
+  }
+}
+
+/// Number field that selects all of its content on focus gain.
+///
+/// Self-contained: owns a controller (seeded once from [initialText])
+/// and a focus node. The select-all runs in a post-frame callback so
+/// the framework's own caret placement doesn't overwrite our
+/// selection. Used for the calculator's keyed EV/IV/HP%/mini inputs
+/// — call sites that need a display reset pass a fresh [Key] (e.g.
+/// `ValueKey('ev_$_evResetCounter')`) so the widget remounts with
+/// the new seed.
+class _SelectAllField extends StatefulWidget {
+  final String initialText;
+  final ValueChanged<String> onChanged;
+  final TextInputType keyboardType;
+  final TextInputAction? textInputAction;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextStyle? style;
+  final InputDecoration? decoration;
+  final TextAlign textAlign;
+
+  const _SelectAllField({
+    super.key,
+    required this.initialText,
+    required this.onChanged,
+    required this.keyboardType,
+    this.textInputAction,
+    this.inputFormatters,
+    this.style,
+    this.decoration,
+    this.textAlign = TextAlign.center,
+  });
+
+  @override
+  State<_SelectAllField> createState() => _SelectAllFieldState();
+}
+
+class _SelectAllFieldState extends State<_SelectAllField> {
+  late final TextEditingController _controller;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialText);
+    _focusNode.addListener(_handleFocus);
+  }
+
+  void _handleFocus() {
+    if (!_focusNode.hasFocus) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_focusNode.hasFocus) return;
+      final text = _controller.text;
+      if (text.isEmpty) return;
+      _controller.selection =
+          TextSelection(baseOffset: 0, extentOffset: text.length);
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_handleFocus);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      focusNode: _focusNode,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      inputFormatters: widget.inputFormatters,
+      style: widget.style,
+      decoration: widget.decoration ?? const InputDecoration(),
+      textAlign: widget.textAlign,
+      onChanged: widget.onChanged,
     );
   }
 }
