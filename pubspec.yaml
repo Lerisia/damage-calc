@@ -16,6 +16,13 @@ dependencies:
   flutter_typeahead: ^5.2.0
   url_launcher: ^6.3.1
   archive: ^4.0.9
+  # Validation pass for the deferred mobile sprite-pack import flow.
+  # file_picker 8.1.4 caused Apple to silently drop iOS builds (see
+  # feedback_file_picker_ios_silent_drop.md). file_selector is the
+  # Flutter team's official package and is the safer retry candidate.
+  # No code path uses it yet — first we confirm it doesn't trip the
+  # same silent-drop behaviour on its own.
+  file_selector: ^1.0.4
 
 dev_dependencies:
   flutter_test:
