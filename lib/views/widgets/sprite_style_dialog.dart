@@ -57,9 +57,20 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
       // silently drop our IPAs (see
       // feedback_file_picker_ios_silent_drop.md), so we use this
       // instead.
+      // iOS/macOS require uniformTypeIdentifiers (UTI) on the
+      // XTypeGroup — extensions alone are rejected with "should
+      // either allow all files, or have a non-empty
+      // uniformTypeIdentifiers". 'public.zip-archive' is the
+      // standard UTI for .zip; we also keep the extensions list for
+      // Android / desktop platforms.
       final picked = await openFile(
         acceptedTypeGroups: const [
-          XTypeGroup(label: 'ZIP', extensions: ['zip']),
+          XTypeGroup(
+            label: 'ZIP',
+            extensions: ['zip'],
+            mimeTypes: ['application/zip'],
+            uniformTypeIdentifiers: ['public.zip-archive'],
+          ),
         ],
       );
       if (picked == null) return;
