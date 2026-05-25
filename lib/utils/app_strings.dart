@@ -442,24 +442,24 @@ class AppStrings {
       AppLanguage.ja: '未インストール',
     },
     'sprite.downloadPack': {
-      AppLanguage.ko: '팩 다운로드',
-      AppLanguage.en: 'Download pack',
-      AppLanguage.ja: 'パックをダウンロード',
+      AppLanguage.ko: '이미지팩 다운로드',
+      AppLanguage.en: 'Download sprite pack',
+      AppLanguage.ja: '画像パックをダウンロード',
     },
     'sprite.importZip': {
-      AppLanguage.ko: 'ZIP 가져오기',
-      AppLanguage.en: 'Import ZIP',
-      AppLanguage.ja: 'ZIPを取り込み',
+      AppLanguage.ko: '이미지팩 가져오기',
+      AppLanguage.en: 'Import sprite pack',
+      AppLanguage.ja: '画像パックを取り込み',
     },
     'sprite.removePack': {
-      AppLanguage.ko: '팩 제거',
-      AppLanguage.en: 'Remove pack',
-      AppLanguage.ja: 'パックを削除',
+      AppLanguage.ko: '이미지팩 제거',
+      AppLanguage.en: 'Remove sprite pack',
+      AppLanguage.ja: '画像パックを削除',
     },
     'sprite.importHowTo': {
-      AppLanguage.ko: '1) "팩 다운로드"로 ZIP 파일을 받으신 뒤  2) "ZIP 가져오기"로 그 파일을 선택해주세요. 한 번 가져오면 오프라인에서도 표시됩니다.',
-      AppLanguage.en: '1) Tap "Download pack" to get a ZIP, then  2) tap "Import ZIP" and pick that file. Once imported, sprites work offline.',
-      AppLanguage.ja: '1)「パックをダウンロード」でZIPを取得 → 2)「ZIPを取り込み」でファイルを選択。取り込み後はオフラインでも表示されます。',
+      AppLanguage.ko: '1) "이미지팩 다운로드"로 파일을 받으신 뒤  2) "이미지팩 가져오기"로 그 파일을 선택해주세요. 한 번 가져오면 오프라인에서도 표시됩니다.',
+      AppLanguage.en: '1) Tap "Download sprite pack" to get a ZIP, then  2) tap "Import sprite pack" and pick that file. Once imported, sprites work offline.',
+      AppLanguage.ja: '1)「画像パックをダウンロード」でファイルを取得 → 2)「画像パックを取り込み」でファイルを選択。取り込み後はオフラインでも表示されます。',
     },
     'sprite.importedCount': {
       AppLanguage.ko: '{n}개의 스프라이트를 가져왔습니다.',
@@ -477,9 +477,9 @@ class AppStrings {
       AppLanguage.ja: '選択したZIPにこのスタイルの画像がありません。別スタイルのパックを選んでいないか確認してください。',
     },
     'sprite.confirmRemove': {
-      AppLanguage.ko: '이 스타일의 스프라이트 팩을 제거하시겠습니까? 다시 사용하려면 새로 가져와야 합니다.',
+      AppLanguage.ko: '이 스타일의 이미지팩을 제거하시겠습니까? 다시 사용하려면 새로 가져와야 합니다.',
       AppLanguage.en: 'Remove this style\'s sprite pack? You\'ll need to re-import it to use again.',
-      AppLanguage.ja: 'このスタイルのスプライトパックを削除しますか？再利用するには再度取り込みが必要です。',
+      AppLanguage.ja: 'このスタイルの画像パックを削除しますか？再利用するには再度取り込みが必要です。',
     },
     'sprite.creditTitle': {
       AppLanguage.ko: '스프라이트 출처',

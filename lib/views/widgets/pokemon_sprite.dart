@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/sprite_service.dart';
+import 'sprite_style_dialog.dart';
 
 /// Renders a Pokémon's sprite at the current [SpriteService.style],
 /// always reserving the slot so the UI shape stays consistent across
@@ -71,13 +72,26 @@ class PokemonSprite extends StatelessWidget {
     );
   }
 
-  Widget _placeholder() => SizedBox(
-        width: size,
-        height: size,
-        child: Icon(
-          Icons.catching_pokemon,
-          size: size * 0.8,
-          color: Colors.grey.shade300,
+  Widget _placeholder() => Builder(
+        // Builder so the tap handler can reach a real BuildContext
+        // (the immediate parent Image's errorBuilder doesn't always
+        // give us a usable one across hot-reloads).
+        builder: (context) => GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          // The pokéball is the user's entry point into the sprite
+          // style + pack-management dialog. Without this, the
+          // overflow menu was the only path — discoverability was
+          // poor for users who'd never opened that menu.
+          onTap: () => showSpriteStyleDialog(context),
+          child: SizedBox(
+            width: size,
+            height: size,
+            child: Icon(
+              Icons.catching_pokemon,
+              size: size * 0.8,
+              color: Colors.grey.shade300,
+            ),
+          ),
         ),
       );
 }
