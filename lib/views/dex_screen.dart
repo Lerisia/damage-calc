@@ -2267,15 +2267,18 @@ class _MovesTabState extends State<_MovesTab> {
   }
 
   Widget _typeDropdown() {
-    // PopupMenuButton can't distinguish a selected null-valued item
-    // from dismissal, so we encode "all" as -1 and every real type as
-    // its enum index.
-    const allSentinel = -1;
     final avail = _availableTypes();
-    return PopupMenuButton<int>(
-      tooltip: AppStrings.t('dex.allTypes'),
-      popUpAnimationStyle:
-          const AnimationStyle(duration: Duration(milliseconds: 100)),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () async {
+        final picked = await showTypeFilterDialog(
+          context: context,
+          current: _typeFilter,
+          available: avail,
+        );
+        if (!mounted || identical(picked, kTypeFilterDismissed)) return;
+        setState(() => _typeFilter = picked as PokemonType?);
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
@@ -2308,24 +2311,6 @@ class _MovesTabState extends State<_MovesTab> {
           ],
         ),
       ),
-      itemBuilder: (_) => [
-        PopupMenuItem(
-          value: allSentinel,
-          child: Text(AppStrings.t('dex.allTypes'),
-              style: const TextStyle(fontSize: 13)),
-        ),
-        for (final t in PokemonType.values)
-          if (t != PokemonType.typeless && avail.contains(t))
-            PopupMenuItem(
-              value: t.index,
-              child: Text(KoStrings.getTypeName(t),
-                  style: TextStyle(
-                      fontSize: 13, color: KoStrings.getTypeColor(t))),
-            ),
-      ],
-      onSelected: (v) => setState(() {
-        _typeFilter = v == allSentinel ? null : PokemonType.values[v];
-      }),
     );
   }
 

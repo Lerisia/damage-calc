@@ -106,8 +106,10 @@ class _TypeFilterDialog extends StatelessWidget {
                     _TypeFilterChip(
                       type: t,
                       selected: current == t,
-                      // Dimmed but still tappable — picking a "missing"
-                      // type just yields zero results, same as before.
+                      // Dimmed but still tappable — the grid layout
+                      // stays stable across Pokémon (vs hiding chips
+                      // entirely, which would reflow the rows), and
+                      // picking a missing type just shows zero rows.
                       dimmed: available != null && !available!.contains(t),
                       onTap: () => Navigator.pop(context, t),
                     ),

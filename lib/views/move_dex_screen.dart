@@ -14,6 +14,7 @@ import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import 'dex_screen.dart';
+import 'widgets/type_filter_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
 /// Sort column for the Move Dex list. Mirrors the same enum in
@@ -517,13 +518,16 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   }
 
   Widget _typeDropdown() {
-    // Encode "all types" as -1 — PopupMenuButton can't disambiguate
-    // a null selection from a tap-outside dismissal.
-    const allSentinel = -1;
-    return PopupMenuButton<int>(
-      tooltip: AppStrings.t('dex.allTypes'),
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () async {
+        final picked = await showTypeFilterDialog(
+          context: context,
+          current: _typeFilter,
+        );
+        if (!mounted || identical(picked, kTypeFilterDismissed)) return;
+        setState(() => _typeFilter = picked as PokemonType?);
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
@@ -554,24 +558,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           ],
         ),
       ),
-      itemBuilder: (_) => [
-        PopupMenuItem(
-          value: allSentinel,
-          child: Text(AppStrings.t('dex.allTypes'),
-              style: const TextStyle(fontSize: 13)),
-        ),
-        for (final t in PokemonType.values)
-          if (t != PokemonType.typeless)
-            PopupMenuItem(
-              value: t.index,
-              child: Text(KoStrings.getTypeName(t),
-                  style: TextStyle(
-                      fontSize: 13, color: KoStrings.getTypeColor(t))),
-            ),
-      ],
-      onSelected: (v) => setState(() {
-        _typeFilter = v == allSentinel ? null : PokemonType.values[v];
-      }),
     );
   }
 
