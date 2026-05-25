@@ -11,8 +11,39 @@ import '../../utils/localization.dart';
 import '../../utils/type_effectiveness.dart';
 import 'typeahead_helpers.dart';
 
-/// Defensive-relation toggle used by the "약점/내성" filter row.
-enum DexDefenseRelation { weakness, resistance }
+/// Defensive-relation toggle used by the "약점/내성/면역" filter row.
+/// `immunity` is strictly type-chart 0× (Normal vs Ghost, etc.) — it is
+/// NOT a subset of `resistance` so users can filter for "immune" alone.
+enum DexDefenseRelation { weakness, resistance, immunity }
+
+/// One row of the "타입 약점 / 내성" filter — a (type, relation) pair.
+/// Multiple entries on the same filter are ANDed.
+@immutable
+class DexDefenseEntry {
+  final PokemonType type;
+  final DexDefenseRelation relation;
+
+  const DexDefenseEntry({required this.type, required this.relation});
+
+  DexDefenseEntry copyWith({
+    PokemonType? type,
+    DexDefenseRelation? relation,
+  }) =>
+      DexDefenseEntry(
+        type: type ?? this.type,
+        relation: relation ?? this.relation,
+      );
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DexDefenseEntry &&
+          other.type == type &&
+          other.relation == relation);
+
+  @override
+  int get hashCode => Object.hash(type, relation);
+}
 
 /// AND vs OR for the moves filter (up to 4 moves).
 enum DexMovesMatch { and, or }
@@ -34,10 +65,10 @@ class DexSearchFilter {
   final int? spdMin, spdMax;
   final int? speMin, speMax;
 
-  /// Defensive-type filter ("불꽃 약점 / 내성"). Both fields go together;
-  /// either both null (no filter) or both set.
-  final PokemonType? defenseType;
-  final DexDefenseRelation? defenseRelation;
+  /// Defensive-type filter — list of (type, relation) constraints.
+  /// All entries are ANDed; e.g. {fire weakness, grass resistance} →
+  /// Pokémon weak to fire AND resistant to grass.
+  final List<DexDefenseEntry> defenses;
 
   /// Internal ability key (English, as stored in Pokémon.abilities).
   final String? abilityKey;
@@ -62,8 +93,7 @@ class DexSearchFilter {
     this.spdMax,
     this.speMin,
     this.speMax,
-    this.defenseType,
-    this.defenseRelation,
+    this.defenses = const [],
     this.abilityKey,
     this.moveIds = const [],
     this.movesMatch = DexMovesMatch.and,
@@ -85,7 +115,7 @@ class DexSearchFilter {
     if (spaMin != null || spaMax != null) n++;
     if (spdMin != null || spdMax != null) n++;
     if (speMin != null || speMax != null) n++;
-    if (defenseType != null && defenseRelation != null) n++;
+    if (defenses.isNotEmpty) n++;
     if (abilityKey != null) n++;
     if (moveIds.isNotEmpty) n++;
     return n;
@@ -107,8 +137,7 @@ class DexSearchFilter {
     Object? spdMax = _sentinel,
     Object? speMin = _sentinel,
     Object? speMax = _sentinel,
-    Object? defenseType = _sentinel,
-    Object? defenseRelation = _sentinel,
+    List<DexDefenseEntry>? defenses,
     Object? abilityKey = _sentinel,
     List<String>? moveIds,
     DexMovesMatch? movesMatch,
@@ -129,12 +158,7 @@ class DexSearchFilter {
       spdMax: identical(spdMax, _sentinel) ? this.spdMax : spdMax as int?,
       speMin: identical(speMin, _sentinel) ? this.speMin : speMin as int?,
       speMax: identical(speMax, _sentinel) ? this.speMax : speMax as int?,
-      defenseType: identical(defenseType, _sentinel)
-          ? this.defenseType
-          : defenseType as PokemonType?,
-      defenseRelation: identical(defenseRelation, _sentinel)
-          ? this.defenseRelation
-          : defenseRelation as DexDefenseRelation?,
+      defenses: defenses ?? this.defenses,
       abilityKey: identical(abilityKey, _sentinel)
           ? this.abilityKey
           : abilityKey as String?,
@@ -184,22 +208,21 @@ bool matchesDexFilter(
   if (filter.speMin != null && s.speed < filter.speMin!) return false;
   if (filter.speMax != null && s.speed > filter.speMax!) return false;
 
-  // Defensive type — ability effects intentionally ignored (per spec).
-  // Type-chart immunities (Normal vs Ghost, etc.) count as a resistance
-  // since 0× < 1×.
-  if (filter.defenseType != null && filter.defenseRelation != null) {
-    final atk = filter.defenseType!;
-    final double mult;
-    if (hasTypeImmunity(atk, p.type1, p.type2)) {
-      mult = 0.0;
-    } else {
-      mult = getCombinedEffectiveness(atk, p.type1, p.type2);
-    }
-    switch (filter.defenseRelation!) {
+  // Defensive type — all entries are ANDed. Ability effects ignored
+  // per spec. Immunity is a separate bucket from resistance — picking
+  // "내성" excludes 0× matchups; pick "면역" to find those.
+  for (final d in filter.defenses) {
+    final immune = hasTypeImmunity(d.type, p.type1, p.type2);
+    final double mult = immune
+        ? 0.0
+        : getCombinedEffectiveness(d.type, p.type1, p.type2);
+    switch (d.relation) {
       case DexDefenseRelation.weakness:
         if (mult <= 1.0) return false;
       case DexDefenseRelation.resistance:
-        if (mult >= 1.0) return false;
+        if (mult >= 1.0 || mult == 0.0) return false;
+      case DexDefenseRelation.immunity:
+        if (mult != 0.0) return false;
     }
   }
 
@@ -473,7 +496,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
                 const SizedBox(height: 16),
                 _sectionLabel(AppStrings.t('dex.advDefenseType')),
                 const SizedBox(height: 6),
-                _defenseTypePicker(),
+                _defenseSection(),
                 const SizedBox(height: 16),
                 _sectionLabel(AppStrings.t('dex.advAbility')),
                 const SizedBox(height: 6),
@@ -552,40 +575,157 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
     );
   }
 
-  Widget _defenseTypePicker() {
-    return Row(
+  Widget _defenseSection() {
+    final entries = _draft.defenses;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(
-          child: _TypeDropdown(
-            value: _draft.defenseType,
-            onChanged: (t) => setState(() {
-              if (t == null) {
-                _draft = _draft.copyWith(
-                  defenseType: null,
-                  defenseRelation: null,
-                );
-              } else {
-                _draft = _draft.copyWith(
-                  defenseType: t,
-                  defenseRelation:
-                      _draft.defenseRelation ?? DexDefenseRelation.weakness,
-                );
-              }
-            }),
+        for (var i = 0; i < entries.length; i++) ...[
+          _defenseRow(i, entries[i]),
+          if (i < entries.length - 1) const SizedBox(height: 6),
+        ],
+        if (entries.isNotEmpty) const SizedBox(height: 6),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: _addDefenseEntry,
+            icon: const Icon(Icons.add, size: 16),
+            label: Text(AppStrings.t('dex.advAddDefense')),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              textStyle: const TextStyle(
+                  fontSize: 12, fontWeight: FontWeight.w700),
+            ),
           ),
-        ),
-        const SizedBox(width: 8),
-        _DefenseRelationToggle(
-          value: _draft.defenseType == null ? null : _draft.defenseRelation,
-          onChanged: (r) => setState(() {
-            // Picking a relation without a type yet would be a no-op
-            // filter — only commit if the type is already chosen.
-            if (_draft.defenseType == null) return;
-            _draft = _draft.copyWith(defenseRelation: r);
-          }),
         ),
       ],
     );
+  }
+
+  Widget _defenseRow(int index, DexDefenseEntry entry) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () async {
+              final picked = await _pickDefenseType();
+              if (picked == null || picked == entry.type) return;
+              _updateDefenseEntry(index, entry.copyWith(type: picked));
+            },
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              decoration: BoxDecoration(
+                color: KoStrings.getTypeColor(entry.type)
+                    .withValues(alpha: 0.12),
+                border: Border.all(
+                  color: KoStrings.getTypeColor(entry.type)
+                      .withValues(alpha: 0.6),
+                ),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      KoStrings.getTypeName(entry.type),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: KoStrings.getTypeColor(entry.type),
+                      ),
+                    ),
+                  ),
+                  const Icon(Icons.arrow_drop_down, size: 16),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 6),
+        _SegmentedToggle(
+          selected: DexDefenseRelation.values.indexOf(entry.relation),
+          labels: [
+            AppStrings.t('dex.advWeakness'),
+            AppStrings.t('dex.advResistance'),
+            AppStrings.t('dex.advImmunity'),
+          ],
+          onChanged: (i) => _updateDefenseEntry(
+            index,
+            entry.copyWith(relation: DexDefenseRelation.values[i]),
+          ),
+        ),
+        IconButton(
+          icon: const Icon(Icons.close, size: 16),
+          tooltip: AppStrings.t('action.clear'),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+          onPressed: () => _removeDefenseEntry(index),
+        ),
+      ],
+    );
+  }
+
+  Future<PokemonType?> _pickDefenseType() {
+    return showDialog<PokemonType>(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        title: Text(AppStrings.t('dex.advDefenseTypePick')),
+        children: [
+          for (final t in _TypeChipGrid._options)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(ctx, t),
+              child: Row(
+                children: [
+                  Container(
+                    width: 14,
+                    height: 14,
+                    decoration: BoxDecoration(
+                      color: KoStrings.getTypeColor(t),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(KoStrings.getTypeName(t)),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _addDefenseEntry() async {
+    final picked = await _pickDefenseType();
+    if (picked == null) return;
+    setState(() {
+      _draft = _draft.copyWith(
+        defenses: [
+          ..._draft.defenses,
+          DexDefenseEntry(
+              type: picked, relation: DexDefenseRelation.weakness),
+        ],
+      );
+    });
+  }
+
+  void _updateDefenseEntry(int index, DexDefenseEntry next) {
+    setState(() {
+      final list = List<DexDefenseEntry>.from(_draft.defenses);
+      list[index] = next;
+      _draft = _draft.copyWith(defenses: list);
+    });
+  }
+
+  void _removeDefenseEntry(int index) {
+    setState(() {
+      final list = List<DexDefenseEntry>.from(_draft.defenses);
+      list.removeAt(index);
+      _draft = _draft.copyWith(defenses: list);
+    });
   }
 
   Widget _abilityField() {
@@ -839,115 +979,6 @@ class _TypeChip extends StatelessWidget {
                 : color.withValues(alpha: dimmed ? 0.55 : 1.0),
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// Compact "타입 선택" dropdown for the defensive-type filter row.
-/// Using a popup rather than the chip grid keeps the row short — the
-/// defense filter is single-pick anyway.
-class _TypeDropdown extends StatelessWidget {
-  final PokemonType? value;
-  final ValueChanged<PokemonType?> onChanged;
-
-  const _TypeDropdown({required this.value, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final label = value == null
-        ? AppStrings.t('dex.advDefenseTypeNone')
-        : KoStrings.getTypeName(value!);
-    final color = value == null ? null : KoStrings.getTypeColor(value!);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () async {
-        final picked = await showDialog<PokemonType?>(
-          context: context,
-          builder: (ctx) => SimpleDialog(
-            title: Text(AppStrings.t('dex.advDefenseTypePick')),
-            children: [
-              SimpleDialogOption(
-                onPressed: () => Navigator.pop(ctx, null),
-                child: Text(AppStrings.t('dex.advDefenseTypeNone')),
-              ),
-              for (final t in _TypeChipGrid._options)
-                SimpleDialogOption(
-                  onPressed: () => Navigator.pop(ctx, t),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 14,
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: KoStrings.getTypeColor(t),
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(KoStrings.getTypeName(t)),
-                    ],
-                  ),
-                ),
-            ],
-          ),
-        );
-        if (picked != value) {
-          onChanged(picked);
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(color: scheme.outline.withValues(alpha: 0.5)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: color,
-                ),
-              ),
-            ),
-            const Icon(Icons.arrow_drop_down, size: 18),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _DefenseRelationToggle extends StatelessWidget {
-  /// `null` means the row is disabled (no defense type picked yet).
-  final DexDefenseRelation? value;
-  final ValueChanged<DexDefenseRelation> onChanged;
-
-  const _DefenseRelationToggle(
-      {required this.value, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    final enabled = value != null;
-    return Opacity(
-      opacity: enabled ? 1.0 : 0.35,
-      child: _SegmentedToggle(
-        selected: value == DexDefenseRelation.weakness ? 0 : 1,
-        labels: [
-          AppStrings.t('dex.advWeakness'),
-          AppStrings.t('dex.advResistance'),
-        ],
-        onChanged: (i) {
-          if (!enabled) return;
-          onChanged(i == 0
-              ? DexDefenseRelation.weakness
-              : DexDefenseRelation.resistance);
-        },
       ),
     );
   }

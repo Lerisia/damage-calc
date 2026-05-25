@@ -45,12 +45,17 @@ void main() {
         bstMin: 500,
         hpMin: 80,
         atkMin: 90,
-        defenseType: PokemonType.water,
-        defenseRelation: DexDefenseRelation.weakness,
+        defenses: [
+          DexDefenseEntry(
+              type: PokemonType.water, relation: DexDefenseRelation.weakness),
+          DexDefenseEntry(
+              type: PokemonType.grass, relation: DexDefenseRelation.resistance),
+        ],
         abilityKey: 'Blaze',
         moveIds: ['flamethrower'],
       );
       // types + bst + hp + atk + defense + ability + moves = 7
+      // (multiple defense entries still count as a single section)
       expect(f.activeCount, 7);
       expect(f.isEmpty, false);
     });
@@ -129,41 +134,83 @@ void main() {
 
   group('matchesDexFilter — defense type', () {
     final charizard = _p(name: 'Charizard', t1: PokemonType.fire, t2: PokemonType.flying);
+    final blastoise = _p(name: 'Blastoise', t1: PokemonType.water);
     final empty = <String, Set<String>>{};
 
     test('weakness — fire/flying is 4× weak to rock', () {
-      const f = DexSearchFilter(
-        defenseType: PokemonType.rock,
-        defenseRelation: DexDefenseRelation.weakness,
-      );
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.rock, relation: DexDefenseRelation.weakness),
+      ]);
       expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
     });
 
     test('resistance — fire/flying is 0.5× to fighting', () {
-      const f = DexSearchFilter(
-        defenseType: PokemonType.fighting,
-        defenseRelation: DexDefenseRelation.resistance,
-      );
-      // Wait, charizard is weak to fighting? No — fighting hits fire neutrally (1x)
-      // and fighting vs flying is 0.5x. Net = 0.5x → resistance. ✓
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.fighting,
+            relation: DexDefenseRelation.resistance),
+      ]);
       expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
     });
 
-    test('immunity — flying immune to ground counts as resistance', () {
-      const f = DexSearchFilter(
-        defenseType: PokemonType.ground,
-        defenseRelation: DexDefenseRelation.resistance,
-      );
+    test('immunity bucket — flying is immune to ground (0×)', () {
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.ground, relation: DexDefenseRelation.immunity),
+      ]);
       expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
     });
 
-    test('neutral — water vs fire/flying is 2× (only one ×2 for water vs fire) → weakness', () {
-      // water → fire = 2x, water → flying = 1x. Combined 2x → weakness.
-      const f = DexSearchFilter(
-        defenseType: PokemonType.water,
-        defenseRelation: DexDefenseRelation.weakness,
-      );
+    test('resistance bucket excludes 0× immunity matchups', () {
+      // Charizard is immune (0×) to ground — that's NOT a "resistance"
+      // pick. Selecting resistance should reject it.
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.ground, relation: DexDefenseRelation.resistance),
+      ]);
+      expect(matchesDexFilter(charizard, f, movesByPokemon: empty), false);
+    });
+
+    test('immunity rejects non-immune matchups', () {
+      // Charizard's grass matchup is 0.5× (resistance, not immunity).
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.grass, relation: DexDefenseRelation.immunity),
+      ]);
+      expect(matchesDexFilter(charizard, f, movesByPokemon: empty), false);
+    });
+
+    test('neutral — water vs fire/flying is 2× → weakness', () {
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.water, relation: DexDefenseRelation.weakness),
+      ]);
       expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
+    });
+
+    test('multiple entries are ANDed — all must be satisfied', () {
+      // Charizard: weak to rock (4×), resistant to fighting (0.5×) — both ✓
+      const both = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.rock, relation: DexDefenseRelation.weakness),
+        DexDefenseEntry(
+            type: PokemonType.fighting,
+            relation: DexDefenseRelation.resistance),
+      ]);
+      expect(matchesDexFilter(charizard, both, movesByPokemon: empty), true);
+
+      // Charizard is NOT weak to grass (0.5×) → fails the AND
+      const mixed = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.rock, relation: DexDefenseRelation.weakness),
+        DexDefenseEntry(
+            type: PokemonType.grass, relation: DexDefenseRelation.weakness),
+      ]);
+      expect(matchesDexFilter(charizard, mixed, movesByPokemon: empty), false);
+
+      // Blastoise: not weak to rock → fails first entry
+      expect(matchesDexFilter(blastoise, both, movesByPokemon: empty), false);
     });
   });
 

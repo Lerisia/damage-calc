@@ -781,15 +781,15 @@ class AppStrings {
       AppLanguage.en: 'Type weakness / resistance',
       AppLanguage.ja: 'タイプ弱点 / 耐性',
     },
-    'dex.advDefenseTypeNone': {
-      AppLanguage.ko: '타입 선택 안 함',
-      AppLanguage.en: 'No type selected',
-      AppLanguage.ja: 'タイプ未選択',
-    },
     'dex.advDefenseTypePick': {
       AppLanguage.ko: '공격 타입 선택',
       AppLanguage.en: 'Pick attacking type',
       AppLanguage.ja: '攻撃タイプを選択',
+    },
+    'dex.advAddDefense': {
+      AppLanguage.ko: '타입 추가',
+      AppLanguage.en: 'Add type',
+      AppLanguage.ja: 'タイプ追加',
     },
     'dex.advWeakness': {
       AppLanguage.ko: '약점',
@@ -801,10 +801,15 @@ class AppStrings {
       AppLanguage.en: 'Resists',
       AppLanguage.ja: '耐性',
     },
+    'dex.advImmunity': {
+      AppLanguage.ko: '면역',
+      AppLanguage.en: 'Immune',
+      AppLanguage.ja: '無効',
+    },
     'dex.advAbility': {
-      AppLanguage.ko: '특성 (잠재 보유)',
-      AppLanguage.en: 'Ability (potential)',
-      AppLanguage.ja: '特性 (潜在保有)',
+      AppLanguage.ko: '특성',
+      AppLanguage.en: 'Ability',
+      AppLanguage.ja: '特性',
     },
     'dex.advAbilityHint': {
       AppLanguage.ko: '특성 이름 입력',
