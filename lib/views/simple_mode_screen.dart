@@ -297,22 +297,37 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   /// Returns a long-lived [FocusNode] for [c]. The node's listener
-  /// selects [c]'s full text on focus gain, deferred to post-frame so
+  /// selects [c]'s full text on focus gain (deferred to post-frame so
   /// the framework's own caret placement doesn't overwrite our
-  /// selection. Lazy so we don't pre-allocate a node per controller —
-  /// the multiplier and the 9 SP fields each get one on first use.
-  FocusNode _focusFor(TextEditingController c) {
+  /// selection) and, on focus loss, replaces an empty field with
+  /// [emptyFallback] so deleting all digits doesn't leave the field
+  /// visually blank — the underlying parser already falls back to 0
+  /// for SP, but the display needs to mirror that.
+  ///
+  /// [emptyFallback] is null for the multiplier field (whose hint
+  /// "1.0" already conveys the default visually).
+  ///
+  /// Lazy so we don't pre-allocate a node per controller — the
+  /// multiplier and the 9 SP fields each get one on first use. The
+  /// emptyFallback captured here must match every call site for [c],
+  /// since putIfAbsent locks it in on the first invocation.
+  FocusNode _focusFor(TextEditingController c, {String? emptyFallback}) {
     return _spFocusNodes.putIfAbsent(c, () {
       final node = FocusNode();
       node.addListener(() {
-        if (!node.hasFocus) return;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!node.hasFocus) return;
-          final text = c.text;
-          if (text.isEmpty) return;
-          c.selection =
-              TextSelection(baseOffset: 0, extentOffset: text.length);
-        });
+        if (node.hasFocus) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!node.hasFocus) return;
+            final text = c.text;
+            if (text.isEmpty) return;
+            c.selection =
+                TextSelection(baseOffset: 0, extentOffset: text.length);
+          });
+          return;
+        }
+        if (emptyFallback != null && c.text.isEmpty) {
+          c.text = emptyFallback;
+        }
       });
       return node;
     });
@@ -1366,7 +1381,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
           width: 40, height: 30,
           child: TextField(
             controller: spCtl,
-            focusNode: _focusFor(spCtl),
+            focusNode: _focusFor(spCtl, emptyFallback: '0'),
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             inputFormatters: [

@@ -1368,14 +1368,26 @@ class _SelectAllFieldState extends State<_SelectAllField> {
   }
 
   void _handleFocus() {
-    if (!_focusNode.hasFocus) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_focusNode.hasFocus) return;
-      final text = _controller.text;
-      if (text.isEmpty) return;
-      _controller.selection =
-          TextSelection(baseOffset: 0, extentOffset: text.length);
-    });
+    if (_focusNode.hasFocus) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_focusNode.hasFocus) return;
+        final text = _controller.text;
+        if (text.isEmpty) return;
+        _controller.selection =
+            TextSelection(baseOffset: 0, extentOffset: text.length);
+      });
+      return;
+    }
+    // On blur, snap the display back to the parent's canonical text.
+    // The parent's onChanged already pushed a fallback (e.g. 0 for an
+    // empty EV) into widget state, and the new [widget.initialText]
+    // reflects that — but we never auto-synced into the controller
+    // while the field was focused. Without this, deleting all digits
+    // leaves the field visually blank even though the underlying
+    // value is 0. Also strips leading zeros ("0005" → "5").
+    if (_controller.text != widget.initialText) {
+      _controller.text = widget.initialText;
+    }
   }
 
   @override
