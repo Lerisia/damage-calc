@@ -427,9 +427,9 @@ class AppStrings {
       AppLanguage.ja: 'HOME 3D',
     },
     'sprite.mobileNotice': {
-      AppLanguage.ko: '※ 모바일 지원은 준비 중입니다. 현재는 웹에서만 스프라이트가 표시됩니다.',
-      AppLanguage.en: '※ Mobile support is in progress — sprites currently render on web only.',
-      AppLanguage.ja: '※ モバイル対応は準備中。現在はWebでのみスプライトが表示されます。',
+      AppLanguage.ko: '모바일에서는 이미지팩을 직접 받아 가져와야 표시됩니다. 웹은 자동으로 표시됩니다.',
+      AppLanguage.en: 'Mobile shows sprites only after you import a sprite pack. Web loads them automatically.',
+      AppLanguage.ja: 'モバイルではスプライトパックを取り込むと表示されます。Web版は自動表示。',
     },
     'sprite.installed': {
       AppLanguage.ko: '설치됨',

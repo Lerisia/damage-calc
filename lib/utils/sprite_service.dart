@@ -1,6 +1,10 @@
+import 'dart:io' show File;
+
 import 'package:flutter/foundation.dart' show kIsWeb, ChangeNotifier;
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'sprite_pack_manager.dart';
 
 /// The three sprite styles we support, mirroring Pokémon Showdown's
 /// canonical paths under `play.pokemonshowdown.com/sprites/`:
@@ -299,19 +303,22 @@ class SpriteService extends ChangeNotifier {
     }
   }
 
-  /// ImageProvider for a Pokémon's sprite in the current [style].
-  ///
-  /// Web streams from Showdown's CDN; the browser cache handles
-  /// repeat visits and we host nothing. Mobile returns null —
-  /// sprite-pack import is deferred to a follow-up release. The
-  /// widget falls through to the pokéball placeholder in that case.
+  /// ImageProvider for a Pokémon's sprite in the current [style], or
+  /// null when neither the web fetch nor a local pack covers it.
   ImageProvider? spriteFor(String pokemonName, {SpriteStyle? style}) {
     final s = style ?? this.style;
-    if (!kIsWeb) return null;
     final key = spriteKeyFor(pokemonName);
-    final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
-        '$key.${s.ext}';
-    return NetworkImage(url);
+    if (kIsWeb) {
+      final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
+          '$key.${s.ext}';
+      return NetworkImage(url);
+    }
+    if (!SpritePackManager.instance.isInstalled(s)) return null;
+    final dir = SpritePackManager.instance.cacheDirFor(s);
+    if (dir == null) return null;
+    final file = File('$dir/$key.${s.ext}');
+    if (!file.existsSync()) return null;
+    return FileImage(file);
   }
 
   /// Fallback sprite for the base species when the form's sprite
@@ -327,11 +334,20 @@ class SpriteService extends ChangeNotifier {
     return spriteFor(base, style: style);
   }
 
-  /// Box icon (40×30) — pack-import deferred, so this currently
-  /// returns null on every platform. PokemonSprite with
-  /// useBoxIcon=true treats null as "fall through to the normal
-  /// sprite chain", so removing the icons pack doesn't break any
-  /// caller; box-icon placements just render the regular style
-  /// sprite scaled down.
-  ImageProvider? iconFor(String pokemonName) => null;
+  /// Box icon (40×30) for compact placements (dex list / simple
+  /// calc row). Reads from the icons cache populated by any
+  /// imported style pack (each ZIP bundles an icons/ subdir).
+  /// Returns null on web (no sheet-clipping path implemented; the
+  /// regular style sprite scales down instead) and when no pack is
+  /// installed.
+  ImageProvider? iconFor(String pokemonName) {
+    if (kIsWeb) return null;
+    if (!SpritePackManager.instance.iconsInstalled) return null;
+    final dir = SpritePackManager.instance.iconsCacheDir;
+    if (dir == null) return null;
+    final key = spriteKeyFor(pokemonName);
+    final file = File('$dir/$key.png');
+    if (!file.existsSync()) return null;
+    return FileImage(file);
+  }
 }
