@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/sprite_pack_manager.dart';
 import '../../utils/sprite_service.dart';
 import 'sprite_style_dialog.dart';
 
@@ -39,11 +40,17 @@ class PokemonSprite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Listen on SpriteService so every sprite slot rebuilds when the
-    // user picks a new style from the menu, regardless of where in
-    // the widget tree the slot lives.
+    // Listen on both SpriteService (style switches) AND
+    // SpritePackManager (pack install / remove) so every sprite
+    // slot rebuilds the moment any of those state sources change.
+    // Without the SpritePackManager listen, freshly imported packs
+    // wouldn't show up until the user manually triggered a rebuild
+    // elsewhere — e.g., by relaunching the app.
     return ListenableBuilder(
-      listenable: SpriteService.instance,
+      listenable: Listenable.merge([
+        SpriteService.instance,
+        SpritePackManager.instance,
+      ]),
       builder: (context, _) {
         // Box-icon path: try the gen1-7 icon for this name first.
         // Falls through to the regular sprite chain on miss (no icon
