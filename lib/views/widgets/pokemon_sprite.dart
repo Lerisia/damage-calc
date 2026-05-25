@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/sprite_override_manager.dart';
 import '../../utils/sprite_pack_manager.dart';
 import '../../utils/sprite_service.dart';
 import 'sprite_style_dialog.dart';
@@ -50,6 +51,7 @@ class PokemonSprite extends StatelessWidget {
       listenable: Listenable.merge([
         SpriteService.instance,
         SpritePackManager.instance,
+        SpriteOverrideManager.instance,
       ]),
       builder: (context, _) {
         // Box-icon path: try the gen1-7 icon (own name first, then

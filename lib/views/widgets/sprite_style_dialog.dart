@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart' as ul;
 import '../../utils/app_strings.dart';
 import '../../utils/sprite_pack_manager.dart';
 import '../../utils/sprite_service.dart';
+import 'sprite_override_dialog.dart';
 
 /// Open the sprite style + pack-management dialog. Used both from
 /// the calculator's overflow menu and from the [PokemonSprite]
@@ -184,58 +185,35 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
           if (!kIsWeb)
             Padding(
               padding: const EdgeInsets.fromLTRB(32, 0, 8, 6),
-              child: Row(
+              // Wrap (not Row) so the three buttons reflow onto a
+              // second line on narrow screens instead of overflowing.
+              child: Wrap(
+                spacing: 4,
+                runSpacing: 4,
                 children: [
-                  TextButton.icon(
+                  _PackActionButton(
+                    icon: Icons.download,
+                    labelKey: 'sprite.downloadPack',
                     onPressed: busy
                         ? null
                         : () => ul.launchUrl(
                             Uri.parse(_downloadUrl(s)),
                             mode: ul.LaunchMode.externalApplication),
-                    icon: const Icon(Icons.download, size: 16),
-                    label: Text(AppStrings.t('sprite.downloadPack'),
-                        style: const TextStyle(fontSize: 12)),
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
                   ),
-                  const SizedBox(width: 4),
-                  TextButton.icon(
+                  _PackActionButton(
+                    icon: busy ? null : Icons.folder_open,
+                    busy: busy,
+                    labelKey: 'sprite.importZip',
                     onPressed: busy ? null : () => _pickAndImport(s),
-                    icon: busy
-                        ? const SizedBox(
-                            width: 14, height: 14,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.folder_open, size: 16),
-                    label: Text(AppStrings.t('sprite.importZip'),
-                        style: const TextStyle(fontSize: 12)),
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
                   ),
-                  if (installed) ...[
-                    const SizedBox(width: 4),
-                    TextButton.icon(
-                      onPressed: busy ? null : () => _confirmAndRemove(s),
-                      icon: const Icon(Icons.delete_outline, size: 16),
-                      label: Text(AppStrings.t('sprite.removePack'),
-                          style: const TextStyle(fontSize: 12)),
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        foregroundColor: Colors.redAccent,
-                      ),
+                  if (installed)
+                    _PackActionButton(
+                      icon: Icons.delete_outline,
+                      labelKey: 'sprite.removePack',
+                      foreground: Colors.redAccent,
+                      onPressed:
+                          busy ? null : () => _confirmAndRemove(s),
                     ),
-                  ],
                 ],
               ),
             ),
@@ -247,39 +225,61 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
   @override
   Widget build(BuildContext context) {
     final hint = Theme.of(context).hintColor;
+    // Constrain the dialog content to the viewport — without this,
+    // long button labels (특히 Korean '이미지팩 다운로드' / 'Download
+    // sprite pack') push the row past the dialog's chrome on narrow
+    // phones. ConstrainedBox with the MediaQuery width cap forces
+    // the inner Wrap to actually wrap.
+    final maxWidth = MediaQuery.of(context).size.width - 80;
+    final width = maxWidth.clamp(280.0, 380.0);
     return AlertDialog(
       title: Text(AppStrings.t('app.spriteStyle')),
       contentPadding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
       content: SizedBox(
-        width: 360,
-        child: ListenableBuilder(
-          listenable: Listenable.merge([
-            SpriteService.instance,
-            SpritePackManager.instance,
-          ]),
-          builder: (ctx, _) => Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (!kIsWeb)
+        width: width,
+        child: SingleChildScrollView(
+          child: ListenableBuilder(
+            listenable: Listenable.merge([
+              SpriteService.instance,
+              SpritePackManager.instance,
+            ]),
+            builder: (ctx, _) => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (!kIsWeb)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    child: Text(
+                      AppStrings.t('sprite.importHowTo'),
+                      style:
+                          TextStyle(fontSize: 12, color: hint, height: 1.4),
+                    ),
+                  ),
+                for (final s in SpriteStyle.values)
+                  if (kIsWeb || s.hasMobilePack) _styleRow(s),
+                if (!kIsWeb) ...[
+                  const Divider(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: OutlinedButton.icon(
+                      onPressed: () => showSpriteOverrideDialog(context),
+                      icon: const Icon(Icons.tune, size: 18),
+                      label: Text(AppStrings.t('sprite.override.menu')),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 6),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                   child: Text(
-                    AppStrings.t('sprite.importHowTo'),
-                    style: TextStyle(fontSize: 12, color: hint, height: 1.4),
+                    AppStrings.t('sprite.creditBody'),
+                    style:
+                        TextStyle(fontSize: 11, color: hint, height: 1.4),
                   ),
                 ),
-              for (final s in SpriteStyle.values)
-                if (kIsWeb || s.hasMobilePack) _styleRow(s),
-              const SizedBox(height: 6),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                child: Text(
-                  AppStrings.t('sprite.creditBody'),
-                  style: TextStyle(fontSize: 11, color: hint, height: 1.4),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -289,6 +289,49 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
           child: Text(AppStrings.t('action.close')),
         ),
       ],
+    );
+  }
+}
+
+/// Compact icon+text button used in the style row. Smaller padding +
+/// the optional CircularProgressIndicator-as-icon variant lets the
+/// three actions fit on one or two lines without busting out of the
+/// dialog width.
+class _PackActionButton extends StatelessWidget {
+  final IconData? icon;
+  final String labelKey;
+  final bool busy;
+  final Color? foreground;
+  final VoidCallback? onPressed;
+
+  const _PackActionButton({
+    required this.icon,
+    required this.labelKey,
+    this.busy = false,
+    this.foreground,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final iconWidget = busy
+        ? const SizedBox(
+            width: 14,
+            height: 14,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          )
+        : Icon(icon ?? Icons.help_outline, size: 16);
+    return TextButton.icon(
+      onPressed: onPressed,
+      icon: iconWidget,
+      label: Text(AppStrings.t(labelKey),
+          style: const TextStyle(fontSize: 12)),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        foregroundColor: foreground,
+      ),
     );
   }
 }

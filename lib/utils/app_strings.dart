@@ -481,6 +481,51 @@ class AppStrings {
       AppLanguage.en: 'Remove this style\'s sprite pack? You\'ll need to re-import it to use again.',
       AppLanguage.ja: 'このスタイルの画像パックを削除しますか？再利用するには再度取り込みが必要です。',
     },
+    'sprite.override.title': {
+      AppLanguage.ko: '포켓몬별 이미지 설정',
+      AppLanguage.en: 'Per-Pokémon images',
+      AppLanguage.ja: 'ポケモン別の画像設定',
+    },
+    'sprite.override.menu': {
+      AppLanguage.ko: '포켓몬별 이미지 변경',
+      AppLanguage.en: 'Customize per Pokémon',
+      AppLanguage.ja: 'ポケモン別画像を変更',
+    },
+    'sprite.override.howTo': {
+      AppLanguage.ko: '포켓몬을 추가한 뒤 각 슬롯을 탭하면 이미지 파일을 골라 업로드할 수 있습니다. 길게 누르면 그 슬롯의 이미지가 제거됩니다.',
+      AppLanguage.en: 'Add a Pokémon, then tap a slot to upload a custom image. Long-press a slot to clear just that image.',
+      AppLanguage.ja: 'ポケモンを追加した後、各スロットをタップして画像をアップロードできます。長押しでそのスロットだけ削除。',
+    },
+    'sprite.override.add': {
+      AppLanguage.ko: '포켓몬 추가',
+      AppLanguage.en: 'Add Pokémon',
+      AppLanguage.ja: 'ポケモンを追加',
+    },
+    'sprite.override.large': {
+      AppLanguage.ko: '큰 이미지',
+      AppLanguage.en: 'Large',
+      AppLanguage.ja: '大きな画像',
+    },
+    'sprite.override.small': {
+      AppLanguage.ko: '작은 이미지',
+      AppLanguage.en: 'Small',
+      AppLanguage.ja: '小さな画像',
+    },
+    'sprite.override.tapToUpload': {
+      AppLanguage.ko: '슬롯을 탭해서 업로드하세요',
+      AppLanguage.en: 'Tap a slot to upload',
+      AppLanguage.ja: 'スロットをタップしてアップロード',
+    },
+    'sprite.override.removeRow': {
+      AppLanguage.ko: '이 포켓몬의 모든 이미지 제거',
+      AppLanguage.en: 'Remove both images for this Pokémon',
+      AppLanguage.ja: 'このポケモンの画像をすべて削除',
+    },
+    'sprite.override.empty': {
+      AppLanguage.ko: '아직 개별 이미지를 등록한 포켓몬이 없습니다. "포켓몬 추가"로 시작하세요.',
+      AppLanguage.en: 'No per-Pokémon images yet. Tap "Add Pokémon" to start.',
+      AppLanguage.ja: '個別画像を登録したポケモンはまだありません。「ポケモンを追加」から始めてください。',
+    },
     'sprite.creditTitle': {
       AppLanguage.ko: '스프라이트 출처',
       AppLanguage.en: 'Sprite credit',

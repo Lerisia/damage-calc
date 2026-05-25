@@ -6,6 +6,7 @@ import 'utils/champions_filter_controller.dart';
 import 'utils/coverage_display_controller.dart';
 import 'utils/move_options_controller.dart';
 import 'utils/simple_mode_controller.dart';
+import 'utils/sprite_override_manager.dart';
 import 'utils/sprite_pack_manager.dart';
 import 'utils/sprite_service.dart';
 import 'utils/theme_controller.dart';
@@ -229,6 +230,7 @@ class _AppLoaderState extends State<_AppLoader> {
       ChampionsFilterController.instance.load(),
       SpriteService.instance.load(),
       SpritePackManager.instance.init(),
+      SpriteOverrideManager.instance.init(),
       // Web-only: preload bundled fonts at startup so CanvasKit
       // doesn't lazy-fetch the .otf/.ttf files on first dex render
       // (the dex shows Korean/JP glyphs not used on the calculator,

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb, ChangeNotifier;
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'sprite_override_manager.dart';
 import 'sprite_pack_manager.dart';
 
 /// The three sprite styles we support, mirroring Pokémon Showdown's
@@ -304,10 +305,18 @@ class SpriteService extends ChangeNotifier {
   }
 
   /// ImageProvider for a Pokémon's sprite in the current [style], or
-  /// null when neither the web fetch nor a local pack covers it.
+  /// null when neither a user override, the web fetch, nor a local
+  /// pack covers it. Per-Pokémon overrides win across all three
+  /// styles — the user's custom image always overrides the bundled
+  /// art regardless of which style they've picked.
   ImageProvider? spriteFor(String pokemonName, {SpriteStyle? style}) {
     final s = style ?? this.style;
     final key = spriteKeyFor(pokemonName);
+    if (!kIsWeb) {
+      final override = SpriteOverrideManager.instance
+          .overrideFor(pokemonName, OverrideChannel.large);
+      if (override != null) return FileImage(override);
+    }
     if (kIsWeb) {
       final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
           '$key.${s.ext}';
@@ -342,6 +351,9 @@ class SpriteService extends ChangeNotifier {
   /// installed.
   ImageProvider? iconFor(String pokemonName) {
     if (kIsWeb) return null;
+    final override = SpriteOverrideManager.instance
+        .overrideFor(pokemonName, OverrideChannel.small);
+    if (override != null) return FileImage(override);
     if (!SpritePackManager.instance.iconsInstalled) return null;
     final dir = SpritePackManager.instance.iconsCacheDir;
     if (dir == null) return null;
