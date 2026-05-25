@@ -1,8 +1,7 @@
 import 'dart:io' show File;
 
-import 'package:file_selector/file_selector.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
@@ -93,18 +92,13 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
 
   Future<void> _pickAndSet(String pokemonName, OverrideChannel channel) async {
     try {
-      // public.image is the parent UTI that covers PNG / JPEG / GIF
-      // / HEIC etc. — lets the user upload whatever the iOS image
-      // picker can hand over.
-      final picked = await openFile(
-        acceptedTypeGroups: const [
-          XTypeGroup(
-            label: 'Image',
-            extensions: ['png', 'jpg', 'jpeg', 'gif', 'webp'],
-            mimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
-            uniformTypeIdentifiers: ['public.image'],
-          ),
-        ],
+      // image_picker → PHPicker on iOS 14+ (no NSPhotoLibrary
+      // permission required, Apple-blessed UI) / system gallery on
+      // Android. Right surface for picking a photo; if the user has
+      // images stored only in Files (not Photos), iOS's PHPicker
+      // exposes a Browse tab that reaches there.
+      final picked = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
       );
       if (picked == null) return;
       await SpriteOverrideManager.instance

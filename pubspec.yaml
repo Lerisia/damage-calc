@@ -23,6 +23,11 @@ dependencies:
   # No code path uses it yet — first we confirm it doesn't trip the
   # same silent-drop behaviour on its own.
   file_selector: ^1.0.4
+  # Photo-library picker for per-Pokémon overrides. Same Flutter-team
+  # provenance as file_selector — used for the override flow only;
+  # sprite-pack ZIP imports still go through file_selector (Files
+  # app on iOS).
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

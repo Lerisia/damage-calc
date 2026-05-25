@@ -54,9 +54,9 @@
 		</dict>
 	</dict>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>스크린샷을 사진 앨범에 저장하기 위해 접근 권한이 필요합니다.</string>
+	<string>계산 결과 스크린샷을 사진 앨범에 저장하기 위해 접근 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>스크린샷을 사진 앨범에 저장하기 위해 접근 권한이 필요합니다.</string>
+	<string>포켓몬별 스프라이트 이미지를 사진 앨범에서 가져오기 위해 접근 권한이 필요합니다. 또한 계산 결과 스크린샷 저장에도 사용됩니다.</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
