@@ -13,6 +13,7 @@
     ],
     "nameEn": "Aqua Cutter",
     "zPower": 140,
+    "descKo": "가압한 물을 칼날처럼 방출하여 상대를 베어 가른다. 급소에 맞기 쉽다.",
     "descEn": "The user expels pressurized water to cut at the target like a blade. This move has a heightened chance of landing a critical hit."
   },
   {
@@ -30,6 +31,7 @@
     ],
     "nameEn": "Aqua Step",
     "zPower": 160,
+    "descKo": "경쾌하고 우아한 스텝으로 상대를 농락하며 공격한다. 자신의 스피드가 올라간다.",
     "descEn": "The user toys with the target and attacks it using light and fluid dance steps. This also boosts the user's Speed stat."
   },
   {
@@ -44,6 +46,7 @@
     "tags": [],
     "nameEn": "Armor Cannon",
     "zPower": 190,
+    "descKo": "자신의 아머를 작열하는 탄환으로 발사하여 공격한다. 자신의 방어와 특수방어가 떨어진다.",
     "descEn": "The user shoots its own armor out as blazing projectiles. This also lowers the user’s Defense and Sp. Def stats."
   },
   {
@@ -61,6 +64,7 @@
     ],
     "nameEn": "Axe Kick",
     "zPower": 190,
+    "descKo": "공중으로 올라가 발뒤꿈치로 상대를 내리쳐 공격한다. 상대를 혼란시킬 때가 있다. 빗나가면 자신이 데미지를 입는다.",
     "descEn": "The user attacks by kicking up into the air and slamming its heel down upon the target. This may also confuse the target. If it misses, the user takes damage instead."
   },
   {
@@ -78,6 +82,7 @@
     ],
     "nameEn": "Bitter Blade",
     "zPower": 175,
+    "descKo": "이승에 대한 미련을 칼날에 담아 베어 가른다. 입힌 데미지의 절반에 해당하는 HP를 회복한다.",
     "descEn": "The user focuses its bitter feelings toward the world of the living into a slashing attack. The user's HP is restored by up to half the damage taken by the target."
   },
   {
@@ -107,6 +112,7 @@
     "tags": [],
     "nameEn": "Blood Moon",
     "zPower": 200,
+    "descKo": "핏빛처럼 붉게 빛나는 보름달에서 온 힘을 다해 공격한다. 이 기술은 연속으로 쓸 수 없다.",
     "descEn": "The user unleashes the full brunt of its spirit from a full moon that shines as red as blood. This move can't be used twice in a row."
   },
   {
@@ -123,6 +129,7 @@
     ],
     "nameEn": "Chilling Water",
     "zPower": 100,
+    "descKo": "상대에게 차가운 물을 끼얹어 공격한다. 상대의 공격을 떨어뜨린다.",
     "descEn": "The user attacks the target by showering it with water that's so cold it saps the target's power. This also lowers the target's Attack stat."
   },
   {
@@ -138,6 +145,7 @@
       "custom:switch_out"
     ],
     "nameEn": "Chilly Reception",
+    "descKo": "너무 썰렁한 개그를 하고 나서 교대 포켓몬과 교체한다. 5턴 동안 날씨를 눈으로 만든다.",
     "descEn": "The user tells a chillingly bad joke before switching places with a party Pokémon in waiting. This summons a snowstorm lasting five turns."
   },
   {
@@ -155,6 +163,7 @@
     ],
     "nameEn": "Collision Course",
     "zPower": 180,
+    "descKo": "변형해서 상대에게 격돌하여 아주 오래전의 대폭발을 일으킨다. 효과가 굉장할 때 위력이 더욱 올라간다.",
     "descEn": "The user transforms and crashes to the ground, causing a massive prehistoric explosion. This move's power is boosted more than usual if it’s a supereffective hit."
   },
   {
@@ -186,6 +195,7 @@
     ],
     "nameEn": "Comeuppance",
     "zPower": 100,
+    "descKo": "그 턴에 받은 공격의 데미지를 늘려서 상대에게 되돌려준다.",
     "descEn": "The user retaliates with much greater force against the opponent that last inflicted damage on it."
   },
   {
@@ -199,6 +209,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Doodle",
+    "descKo": "상대의 특징을 베껴 그린다. 자신과 같은 편의 특성을 상대의 특성으로 바꾼다.",
     "descEn": "The user captures the very essence of the target in a sketch. This changes the Abilities of the user and its ally Pokémon to that of the target."
   },
   {
@@ -215,6 +226,7 @@
     ],
     "nameEn": "Double Shock",
     "zPower": 190,
+    "descKo": "전신의 전기를 모두 방출해서 큰 데미지를 준다. 사용하면 자신의 전기타입이 없어진다.",
     "descEn": "The user discharges all the electricity from its body to perform a high-damage attack. After using this move, the user will no longer be Electric type."
   },
   {
@@ -232,6 +244,7 @@
     ],
     "nameEn": "Electro Drift",
     "zPower": 180,
+    "descKo": "초고속으로 달려서 미래의 전기로 상대를 꿰뚫는다. 효과가 굉장할 때 위력이 더욱 올라간다.",
     "descEn": "The user races forward at ultrafast speeds, piercing its target with futuristic electricity. This move's power is boosted more than usual if it's a supereffective hit."
   },
   {
@@ -245,6 +258,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Fillet Away",
+    "descKo": "자신의 HP를 깎아서 공격, 특수공격, 스피드를 크게 올린다.",
     "descEn": "The user sharply boosts its Attack, Sp. Atk, and Speed stats by using its own HP."
   },
   {
@@ -261,6 +275,7 @@
     ],
     "nameEn": "Flower Trick",
     "zPower": 140,
+    "descKo": "장치된 꽃다발을 내던져서 공격한다. 반드시 명중하며 급소에 맞는다.",
     "descEn": "The user throws a rigged bouquet of flowers at the target. This attack never misses and always lands a critical hit."
   },
   {
@@ -275,6 +290,7 @@
     "tags": [],
     "nameEn": "Gigaton Hammer",
     "zPower": 200,
+    "descKo": "전신을 회전시켜 커다란 해머로 공격한다. 이 기술은 연속으로 쓸 수 없다.",
     "descEn": "The user swings its whole body around to attack with its huge hammer. This move can't be used twice in a row."
   },
   {
@@ -291,6 +307,7 @@
     ],
     "nameEn": "Glaive Rush",
     "zPower": 190,
+    "descKo": "몸을 내세워 무모하게 돌격한다. 다음 자신의 턴이 올 때까지 받는 공격이 반드시 명중하고 데미지가 2배가 된다.",
     "descEn": "The user throws its entire body into a reckless charge. After this move is used, attacks on the user cannot miss and will inflict double damage until the user’s next turn."
   },
   {
@@ -307,6 +324,7 @@
     ],
     "nameEn": "Hyper Drill",
     "zPower": 180,
+    "descKo": "뾰족한 신체 부위를 고속으로 회전시켜 상대를 꿰뚫는다. 방어나 판별 등을 사용하고 있어도 공격이 맞는다.",
     "descEn": "The user spins the pointed part of its body at high speed to pierce the target. This attack can hit a target using a move such as Protect or Detect."
   },
   {
@@ -323,6 +341,7 @@
     ],
     "nameEn": "Ice Spinner",
     "zPower": 160,
+    "descKo": "발바닥에 얇은 얼음을 두르고 회전하면서 상대에게 부딪친다. 회전의 기세로 필드를 파괴한다.",
     "descEn": "The user covers its feet in thin ice and twirls around, slamming into the target. This move's spinning motion also destroys the terrain."
   },
   {
@@ -337,6 +356,7 @@
     "tags": [],
     "nameEn": "Ivy Cudgel",
     "zPower": 180,
+    "descKo": "덩굴을 두른 방망이로 상대를 때려눕힌다. 급소에 맞기 쉽다. 기술의 타입은 자신이 가진 가면에 따라 바뀐다.",
     "descEn": "The user strikes with an ivy-wrapped cudgel. This move's type changes depending on the mask worn by the user, and it has a heightened chance of landing a critical hit."
   },
   {
@@ -355,6 +375,7 @@
     ],
     "nameEn": "Jet Punch",
     "zPower": 120,
+    "descKo": "주먹에 물줄기를 둘러 상대를 눈으로 인식할 수 없는 속도로 때린다. 반드시 선제공격할 수 있다.",
     "descEn": "The user summons a torrent around its fist and punches at blinding speed. This move always goes first."
   },
   {
@@ -372,6 +393,7 @@
     ],
     "nameEn": "Kowtow Cleave",
     "zPower": 160,
+    "descKo": "고개 숙여 상대의 틈을 노려 벤다. 공격은 반드시 명중한다.",
     "descEn": "The user slashes at the target after kowtowing to make the target let down its guard. This attack never misses."
   },
   {
@@ -386,6 +408,7 @@
     "tags": [],
     "nameEn": "Last Respects",
     "zPower": 100,
+    "descKo": "동료를 추모하며 공격한다. 동료 중 기절한 포켓몬이 많을수록 기술의 위력이 올라간다.",
     "descEn": "The user attacks to avenge its allies. The more defeated allies there are in the user's party, the greater the move's power."
   },
   {
@@ -402,6 +425,7 @@
     ],
     "nameEn": "Lumina Crash",
     "zPower": 160,
+    "descKo": "정신에도 작용하는 이상한 빛으로 공격한다. 상대의 특수방어를 크게 떨어뜨린다.",
     "descEn": "The user attacks by unleashing a peculiar light that even affects the mind. This also harshly lowers the target's Sp. Def stat."
   },
   {
@@ -433,6 +457,7 @@
     ],
     "nameEn": "Make It Rain",
     "zPower": 190,
+    "descKo": "대량의 코인을 흩뿌려서 공격한다. 자신의 특수공격이 떨어진다. 배틀 후에 돈을 얻을 수 있다.",
     "descEn": "The user attacks by throwing out a mass of coins. This also lowers the user's Sp. Atk stat. Money is earned after the battle."
   },
   {
@@ -450,6 +475,7 @@
     ],
     "nameEn": "Matcha Gotcha",
     "zPower": 160,
+    "descKo": "잘 저은 말차를 상대에게 부딪쳐서 공격한다. 입힌 데미지의 절반에 해당하는 HP를 회복한다. 화상 상태로 만들 때가 있다.",
     "descEn": "The user fires a blast of tea that it mixed. The user's HP is restored by up to half the damage taken by the target. This may also leave the target with a burn."
   },
   {
@@ -468,6 +494,7 @@
     ],
     "nameEn": "Mortal Spin",
     "zPower": 100,
+    "descKo": "회전해서 상대를 공격한다. 독 상태로 만든다. 조이기, 김밥말이, 씨뿌리기 등의 효과도 없앤다.",
     "descEn": "The user performs a spin attack that can also eliminate the effects of such moves as Bind, Wrap, and Leech Seed. This also poisons opposing Pokémon."
   },
   {
@@ -497,6 +524,7 @@
     "tags": [],
     "nameEn": "Order Up",
     "zPower": 160,
+    "descKo": "우아한 동작으로 공격한다. 입안의 타타륜이 어떤 모습이냐에 따라 올라가는 능력이 바뀐다.",
     "descEn": "The user attacks with elegant poise. If the user has a Tatsugiri in its mouth, this move boosts one of the user's stats based on the Tatsugiri's form."
   },
   {
@@ -516,6 +544,7 @@
     "maxHits": 10,
     "nameEn": "Population Bomb",
     "zPower": 200,
+    "descKo": "같은 편 전원이 모여서 연속 공격. 1-10회 동안 연속으로 데미지를 준다.",
     "descEn": "The user’s fellows gather in droves to perform a combo attack that hits the target one to ten times in a row."
   },
   {
@@ -533,6 +562,7 @@
     ],
     "nameEn": "Pounce",
     "zPower": 100,
+    "descKo": "덤벼들어 공격한다. 상대의 스피드를 떨어뜨린다.",
     "descEn": "The user attacks by pouncing on the target. This also lowers the target's Speed stat."
   },
   {
@@ -550,6 +580,7 @@
     ],
     "nameEn": "Rage Fist",
     "zPower": 100,
+    "descKo": "분노를 에너지로 바꿔서 공격한다. 배틀 중에 공격을 받은 횟수가 많을수록 기술의 위력이 올라간다.",
     "descEn": "The user converts its rage into energy to attack. The more times the user has been hit by attacks, the greater the move's power."
   },
   {
@@ -566,6 +597,7 @@
     ],
     "nameEn": "Raging Bull",
     "zPower": 175,
+    "descKo": "사나운 망아지처럼 격렬하게 부딪쳐서 공격한다. 자신의 모습으로 타입이 변하며 리플렉터나 빛의장막도 파괴한다.",
     "descEn": "The user performs a tackle like a raging bull. This move's type depends on the user's form. It can also break barriers, such as Light Screen and Reflect."
   },
   {
@@ -579,6 +611,7 @@
     "pp": 1,
     "tags": [],
     "nameEn": "Revival Blessing",
+    "descKo": "애정이 담긴 축복을 바쳐서 기절한 같은 편의 최대 HP 절반을 회복한다.",
     "descEn": "The user bestows a loving blessing, reviving a party Pokémon that has fainted and restoring half that Pokémon's max HP."
   },
   {
@@ -595,6 +628,7 @@
     ],
     "nameEn": "Ruination",
     "zPower": 100,
+    "descKo": "파멸적인 재앙을 불러와 상대의 남은 HP를 절반으로 만든다.",
     "descEn": "The user summons a ruinous disaster. This cuts the target’s HP in half."
   },
   {
@@ -611,6 +645,7 @@
     ],
     "nameEn": "Salt Cure",
     "zPower": 100,
+    "descKo": "상대를 절인다. 매 턴 데미지를 준다. 강철타입과 물타입은 더 효과가 높다.",
     "descEn": "The user salt cures the target, inflicting damage every turn. Steel and Water types are more strongly affected by this move."
   },
   {
@@ -626,6 +661,7 @@
       "custom:switch_out"
     ],
     "nameEn": "Shed Tail",
+    "descKo": "자신의 HP를 조금 깎아서 대타출동 분신을 만들고 교대 포켓몬과 교체한다.",
     "descEn": "The user creates a substitute for itself using its own HP before switching places with a party Pokémon in waiting."
   },
   {
@@ -640,6 +676,7 @@
     "priority": 4,
     "tags": [],
     "nameEn": "Silk Trap",
+    "descKo": "실로 함정을 설치하고 공격을 막는다. 접촉한 상대의 스피드를 떨어뜨린다.",
     "descEn": "The user spins a silken trap, protecting itself from damage while lowering the Speed stat of any attacker that makes direct contact."
   },
   {
@@ -653,6 +690,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Snowscape",
+    "descKo": "5턴 동안 날씨를 눈으로 만든다. 얼음타입의 방어가 오른다.",
     "descEn": "The user summons a snowstorm lasting five turns. This boosts the Defense stats of Ice types."
   },
   {
@@ -666,6 +704,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Spicy Extract",
+    "descKo": "극도로 매운 추출물을 방출한다. 상대의 공격을 크게 올리지만 방어를 크게 떨어뜨린다.",
     "descEn": "The user emits an incredibly spicy extract, sharply boosting the target's Attack stat and harshly lowering the target's Defense stat."
   },
   {
@@ -682,6 +721,7 @@
     ],
     "nameEn": "Spin Out",
     "zPower": 180,
+    "descKo": "다리에 힘을 주고 격렬하게 회전해서 상대를 공격한다. 자신의 스피드가 크게 떨어진다.",
     "descEn": "The user spins furiously by straining its legs, inflicting damage on the target. This also harshly lowers the user's Speed stat."
   },
   {
@@ -699,6 +739,7 @@
     ],
     "nameEn": "Syrup Bomb",
     "zPower": 120,
+    "descKo": "끈적끈적한 엿을 폭발시켜 상대를 끈적끈적하게 만든다. 3턴 동안 매 턴 종료 시에 상대의 스피드를 떨어뜨린다.",
     "descEn": "The user sets off an explosion of sticky candy syrup, which coats the target and causes the target's Speed stat to drop each turn for three turns."
   },
   {
@@ -713,6 +754,7 @@
     "tags": [],
     "nameEn": "Tera Blast",
     "zPower": 160,
+    "descKo": "테라스탈한 포켓몬이 테라스타입의 에너지를 방출한다. 자신의 공격과 특수공격 중 높은 쪽의 능력으로 데미지를 준다.",
     "descEn": "If the user has Terastallized, it unleashes energy of its Tera Type. This move inflicts damage using the Attack or Sp. Atk stat—whichever is higher for the user."
   },
   {
@@ -726,6 +768,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Tidy Up",
+    "descKo": "정리정돈해서 압정뿌리기, 스텔스록, 끈적끈적네트, 독압정, 대타출동 효과를 없앤다. 자신의 공격과 스피드도 오른다.",
     "descEn": "The user tidies up and removes the effects of Spikes, Stealth Rock, Sticky Web, Toxic Spikes, and Substitute. This also boosts the user’s Attack and Speed stats."
   },
   {
@@ -743,6 +786,7 @@
     ],
     "nameEn": "Torch Song",
     "zPower": 160,
+    "descKo": "노래하듯 격렬한 불꽃을 내뿜어 상대를 태운다. 자신의 특수공격이 올라간다.",
     "descEn": "The user blows out raging flames as if singing a song, scorching the target. This also boosts the user's Sp. Atk stat."
   },
   {
@@ -760,6 +804,7 @@
     ],
     "nameEn": "Trailblaze",
     "zPower": 100,
+    "descKo": "풀숲에서 튀어나오듯이 상대를 급습한다. 가벼운 발걸음으로 자신의 스피드를 올린다.",
     "descEn": "The user attacks suddenly as if leaping out from tall grass. The user's nimble footwork boosts its Speed stat."
   },
   {
@@ -778,6 +823,7 @@
     "maxHits": 3,
     "nameEn": "Triple Dive",
     "zPower": 175,
+    "descKo": "호흡을 맞춘 3단 다이빙으로 물보라를 일으켜 3회 연속으로 상대에게 데미지를 준다.",
     "descEn": "The user performs a perfectly timed triple dive, hitting the target with splashes of water three times in a row."
   },
   {
@@ -794,6 +840,7 @@
     "tags": [],
     "nameEn": "Twin Beam",
     "zPower": 160,
+    "descKo": "눈에서 이상한 빔을 발사하여 공격한다. 2회 연속으로 데미지를 준다.",
     "descEn": "The user shoots mystical beams from its eyes to inflict damage. The target is hit twice in a row."
   },
   {
@@ -827,6 +874,7 @@
     ],
     "nameEn": "Upper Hand",
     "zPower": 120,
+    "descKo": "상대의 움직임에 반응하여 손바닥으로 되받아친다. 상대를 풀죽게 만든다. 선제공격기가 아니면 실패한다.",
     "descEn": "The user reacts to the target's movement and strikes with the heel of its palm, making the target flinch. This move fails if the target is not readying a priority move."
   },
   {
@@ -840,6 +888,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Dragon Cheer",
+    "descKo": "드래곤의 응원으로 같은 편을 응원한다. 같은 편은 기술을 급소에 맞히기 쉬워진다. 드래곤타입은 효과가 더 높다.",
     "descEn": "The user raises its allies’ morale with a draconic cry so that their future attacks have a heightened chance of landing critical hits. This rouses Dragon types more."
   },
   {
@@ -857,6 +906,7 @@
     ],
     "nameEn": "Alluring Voice",
     "zPower": 160,
+    "descKo": "천사 같은 목소리로 상대를 공격한다. 이 턴에 능력이 올라간 상대는 혼란한다.",
     "descEn": "The user attacks the target using its angelic voice. This also confuses the target if its stats have been boosted during the turn."
   },
   {
@@ -871,6 +921,7 @@
     "tags": [],
     "nameEn": "Fickle Beam",
     "zPower": 160,
+    "descKo": "광선을 쏘아 공격한다. 가끔 모든 머리가 일제히 광선을 쏘아 위력이 2배가 된다.",
     "descEn": "The user shoots a beam of light to inflict damage. Sometimes all the user's heads shoot beams in unison, doubling the move's power."
   },
   {
@@ -888,6 +939,7 @@
     ],
     "nameEn": "Psychic Noise",
     "zPower": 140,
+    "descKo": "불쾌한 음파로 상대를 공격한다. 2턴 동안 상대는 기술이나 특성, 도구로 HP를 회복할 수 없게 된다.",
     "descEn": "The user attacks the target with unpleasant sound waves. For two turns, the target is prevented from recovering HP through moves, Abilities, or held items."
   },
   {
@@ -905,6 +957,7 @@
     ],
     "nameEn": "Psyblade",
     "zPower": 160,
+    "descKo": "칼처럼 실체화한 사이코 파워로 상대를 벤다. 일렉트릭필드일 때 기술의 위력이 올라간다.",
     "descEn": "The user rends the target with an ethereal blade. This move's power is boosted by 50 percent if the user is on Electric Terrain."
   },
   {
@@ -921,6 +974,7 @@
     ],
     "nameEn": "Supercell Slam",
     "zPower": 180,
+    "descKo": "몸에 전기를 충전해서 상대에게 덤벼든다. 기술이 빗나가면 자신이 데미지를 입는다.",
     "descEn": "The user electrifies its body and drops onto the target to inflict damage. If this move misses, the user takes damage instead."
   },
   {
@@ -937,6 +991,7 @@
     ],
     "nameEn": "Malignant Chain",
     "zPower": 180,
+    "descKo": "독 사슬로 상대를 감아 독을 흘려보낸다. 상대를 맹독 상태로 만들 때가 있다.",
     "descEn": "The user pours toxins into the target by wrapping them in a toxic, corrosive chain. This may also leave the target badly poisoned."
   },
   {
@@ -953,6 +1008,7 @@
     ],
     "nameEn": "Temper Flare",
     "zPower": 140,
+    "descKo": "자가당착하여 상대를 공격한다. 앞서 쓴 기술이 실패했으면 기술의 위력이 2배가 된다.",
     "descEn": "Spurred by desperation, the user attacks the target. This move's power is doubled if the user's previous move failed."
   },
   {
@@ -967,6 +1023,7 @@
     "tags": [],
     "nameEn": "Electro Shot",
     "zPower": 195,
+    "descKo": "1턴째에 전기를 모아 특수공격을 올리고, 2턴째에 고전압을 쏘아 공격한다. 비가 올 때는 바로 공격할 수 있다.",
     "descEn": "The user gathers electricity on the first turn, boosting its Sp. Atk stat, then fires a high-voltage shot on the next turn. The shot will be fired immediately in rain."
   },
   {
@@ -982,6 +1039,7 @@
     "tags": [],
     "nameEn": "Thunderclap",
     "zPower": 140,
+    "descKo": "상대가 공격 기술을 선택하지 않았다면 실패한다. 상대보다 먼저 전격으로 공격할 수 있다.",
     "descEn": "This move enables the user to attack first with a jolt of electricity. This move fails if the target is not readying an attack."
   },
   {
@@ -1000,6 +1058,7 @@
     "maxHits": 2,
     "nameEn": "Tachyon Cutter",
     "zPower": 180,
+    "descKo": "입자를 칼날 모양으로 잘라내서 상대를 2회 연속으로 공격한다. 공격은 반드시 명중한다.",
     "descEn": "The user attacks by launching particle blades at the target twice in a row. This attack never misses."
   },
   {
@@ -1014,6 +1073,7 @@
     "tags": [],
     "nameEn": "Tera Starstorm",
     "zPower": 190,
+    "descKo": "결정의 힘을 쏘아 공격한다. 테라파고스가 스텔라폼일 때는 상대 전체를 공격할 수 있다.",
     "descEn": "With the power of its crystals, the user bombards and eliminates the target. When used by Terapagos in its Stellar Form, this move damages all opposing Pokémon."
   },
   {
@@ -1031,6 +1091,7 @@
     ],
     "nameEn": "Mighty Cleave",
     "zPower": 175,
+    "descKo": "머리에 축적된 빛으로 절단한다. 기술 방어를 무시하고 공격할 수 있다.",
     "descEn": "The user wields the light that has accumulated atop its head to cleave the target. This move hits even if the target protects itself."
   },
   {
@@ -1048,6 +1109,7 @@
     ],
     "nameEn": "Hard Press",
     "zPower": 180,
+    "descKo": "팔이나 집게발 등으로 상대를 꽉 끼워서 공격한다. 상대의 남은 HP가 많을수록 위력이 올라간다.",
     "descEn": "The target is crushed with an arm, a claw, or the like to inflict damage. The more HP the target has left, the greater the move's power."
   },
   {
@@ -1064,6 +1126,7 @@
     ],
     "nameEn": "Hydro Steam",
     "zPower": 160,
+    "descKo": "펄펄 끓는 열탕으로 상대를 공격한다. 쾌청일 때 위력이 떨어지기는커녕 올라간다.",
     "descEn": "The user blasts the target with boiling-hot water. This move's power is not lowered in harsh sunlight but rather boosted by 50 percent."
   },
   {
@@ -1078,6 +1141,7 @@
     "priority": 4,
     "tags": [],
     "nameEn": "Burning Bulwark",
+    "descKo": "상대의 공격을 받지 않고, 접촉한 상대를 화상 상태로 만든다. 연속으로 쓰면 실패하기 쉽다.",
     "descEn": "The user's intensely hot fur protects it from attacks and also burns any attacker that makes direct contact with it."
   }
 ]
