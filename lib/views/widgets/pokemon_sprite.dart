@@ -36,22 +36,38 @@ class PokemonSprite extends StatelessWidget {
     return ListenableBuilder(
       listenable: SpriteService.instance,
       builder: (context, _) {
-        final provider = SpriteService.instance
+        final main = SpriteService.instance
             .spriteFor(pokemonName, style: styleOverride);
-        if (provider == null) return _placeholder();
-        return Image(
-          image: provider,
-          width: size,
-          height: size,
-          fit: BoxFit.contain,
-          filterQuality: FilterQuality.medium,
-          gaplessPlayback: true,
-          // Errored loads (404 from Showdown — usually Champions-original
-          // Megas or DLC mons not yet in the CDN) fall back to the same
-          // placeholder so the UI never goes blank.
-          errorBuilder: (_, __, ___) => _placeholder(),
+        if (main == null) return _placeholder();
+        final fallback = SpriteService.instance
+            .fallbackSpriteFor(pokemonName, style: styleOverride);
+        return _img(
+          main,
+          // Form sprites that Showdown hasn't gotten community art
+          // for (most often new Legends Z-A Megas) try the base
+          // species sprite next so the user at least sees their
+          // Pokémon — the form name + Mega badge in surrounding UI
+          // still make it clear it's the Mega form, just without
+          // the Mega artwork. Only the truly unknown case (base
+          // species sprite also missing, or input is already a base)
+          // falls all the way to the pokéball placeholder.
+          onError: fallback == null
+              ? _placeholder()
+              : _img(fallback, onError: _placeholder()),
         );
       },
+    );
+  }
+
+  Widget _img(ImageProvider provider, {required Widget onError}) {
+    return Image(
+      image: provider,
+      width: size,
+      height: size,
+      fit: BoxFit.contain,
+      filterQuality: FilterQuality.medium,
+      gaplessPlayback: true,
+      errorBuilder: (_, __, ___) => onError,
     );
   }
 

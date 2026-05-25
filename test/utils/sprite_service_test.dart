@@ -136,6 +136,67 @@ void main() {
     });
   });
 
+  group('baseSpeciesName — form → base species fallback', () {
+    test('Mega forms strip the prefix word', () {
+      expect(baseSpeciesName('Mega Baxcalibur'), 'Baxcalibur');
+      expect(baseSpeciesName('Mega Garchomp'), 'Garchomp');
+      expect(baseSpeciesName('Mega Charizard X'), 'Charizard');
+      expect(baseSpeciesName('Mega Mewtwo Y'), 'Mewtwo');
+    });
+
+    test('Champions-original Z-suffix Megas strip both ends', () {
+      expect(baseSpeciesName('Mega Absol Z'), 'Absol');
+      expect(baseSpeciesName('Mega Garchomp Z'), 'Garchomp');
+      expect(baseSpeciesName('Mega Lucario Z'), 'Lucario');
+    });
+
+    test('Primal / Ultra / Hoopa', () {
+      expect(baseSpeciesName('Primal Groudon'), 'Groudon');
+      expect(baseSpeciesName('Primal Kyogre'), 'Kyogre');
+      expect(baseSpeciesName('Ultra Necrozma'), 'Necrozma');
+      expect(baseSpeciesName('Hoopa Unbound'), 'Hoopa');
+    });
+
+    test('Kyurem / Necrozma / Calyrex compound prefixes', () {
+      expect(baseSpeciesName('Black Kyurem'), 'Kyurem');
+      expect(baseSpeciesName('White Kyurem'), 'Kyurem');
+      expect(baseSpeciesName('Dawn Wings Necrozma'), 'Necrozma');
+      expect(baseSpeciesName('Dusk Mane Necrozma'), 'Necrozma');
+      expect(baseSpeciesName('Ice Rider Calyrex'), 'Calyrex');
+      expect(baseSpeciesName('Shadow Rider Calyrex'), 'Calyrex');
+    });
+
+    test('Rotom appliance forms collapse to Rotom', () {
+      expect(baseSpeciesName('Heat Rotom'), 'Rotom');
+      expect(baseSpeciesName('Wash Rotom'), 'Rotom');
+      expect(baseSpeciesName('Mow Rotom'), 'Rotom');
+    });
+
+    test('Regional variants', () {
+      expect(baseSpeciesName('Alolan Raichu'), 'Raichu');
+      expect(baseSpeciesName('Hisuian Decidueye'), 'Decidueye');
+      expect(baseSpeciesName('Galarian Slowking'), 'Slowking');
+      expect(baseSpeciesName('Paldean Tauros'), 'Tauros');
+    });
+
+    test('Regional + nested forme strips both layers', () {
+      expect(baseSpeciesName('Galarian Darmanitan (Zen Mode)'), 'Darmanitan');
+    });
+
+    test('Parenthesised formes strip the parens block', () {
+      expect(baseSpeciesName('Deoxys (Attack Forme)'), 'Deoxys');
+      expect(baseSpeciesName('Tornadus (Therian Forme)'), 'Tornadus');
+      expect(baseSpeciesName('Indeedee (Female)'), 'Indeedee');
+      expect(baseSpeciesName('Toxtricity (Low Key Form)'), 'Toxtricity');
+    });
+
+    test('Base species names return null (no fallback needed)', () {
+      expect(baseSpeciesName('Pikachu'), isNull);
+      expect(baseSpeciesName('Baxcalibur'), isNull);
+      expect(baseSpeciesName('Mr. Mime'), isNull);
+    });
+  });
+
   group('SpriteService', () {
     test('default style is bw', () {
       expect(SpriteService.instance.style, SpriteStyle.bw);
