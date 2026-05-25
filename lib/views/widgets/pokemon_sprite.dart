@@ -52,24 +52,28 @@ class PokemonSprite extends StatelessWidget {
         SpritePackManager.instance,
       ]),
       builder: (context, _) {
-        // Box-icon path: try the gen1-7 icon for this name first.
-        // Falls through to the regular sprite chain on miss (no icon
-        // for gen8+ species / web / no pack installed yet).
+        // Box-icon path: try the gen1-7 icon (own name first, then
+        // base species for Mega/regional forms). When neither hits
+        // — gen8+ species, no pack installed, web — fall to the
+        // pokéball placeholder directly instead of scaling the
+        // larger style sprite down. Reason: a mixed display where
+        // some rows show crisp icons and others show scaled-down
+        // BW battle sprites hides the fact that the box-icon set
+        // is gen1-7-capped; users who don't see a pokéball don't
+        // realise there's a pack to download.
         if (useBoxIcon) {
           final icon = SpriteService.instance.iconFor(pokemonName);
           if (icon != null) {
-            return _img(icon, onError: _spriteChain());
+            return _img(icon, onError: _placeholder());
           }
-          // Also try the base species' icon — covers Mega/regional
-          // forms whose own slug isn't in the pack but whose base
-          // species is.
           final base = baseSpeciesName(pokemonName);
           if (base != null) {
             final baseIcon = SpriteService.instance.iconFor(base);
             if (baseIcon != null) {
-              return _img(baseIcon, onError: _spriteChain());
+              return _img(baseIcon, onError: _placeholder());
             }
           }
+          return _placeholder();
         }
         return _spriteChain();
       },
