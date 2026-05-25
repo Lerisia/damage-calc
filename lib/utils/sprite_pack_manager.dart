@@ -36,12 +36,27 @@ class SpritePackManager extends ChangeNotifier {
 
   bool isInstalled(SpriteStyle style) => _installed[style] ?? false;
 
+  /// Box-icon pack install state — separate channel from the visual
+  /// styles. Icons are gen7-style box-UI art (40×30 px) used in the
+  /// dex list / simple-mode rows; they're not interchangeable with
+  /// BW / ani / HOME sprites, they're an *additional* asset.
+  bool _iconsInstalled = false;
+  bool get iconsInstalled => _iconsInstalled;
+
   /// Absolute path to the on-disk directory holding extracted sprites
   /// for [style], or null if we haven't initialised yet / on web.
   String? cacheDirFor(SpriteStyle style) {
     final r = _rootDir;
     if (r == null) return null;
     return '${r.path}/${style.name}';
+  }
+
+  /// Absolute path to the box-icons cache directory, or null when
+  /// pre-init / on web.
+  String? get iconsCacheDir {
+    final r = _rootDir;
+    if (r == null) return null;
+    return '${r.path}/icons';
   }
 
   /// Probe the FS to refresh [_installed]. Called from app preload so
@@ -60,19 +75,28 @@ class SpritePackManager extends ChangeNotifier {
       _installed[s] = dir.existsSync() &&
           dir.listSync().any((e) => e is File);
     }
+    final iconsDir = Directory('${_rootDir!.path}/icons');
+    _iconsInstalled =
+        iconsDir.existsSync() && iconsDir.listSync().any((e) => e is File);
     notifyListeners();
   }
 
   /// Extract a downloaded sprite-pack ZIP into the per-style cache
-  /// directory, replacing whatever's there.
+  /// directory, replacing whatever's there. A nested `icons/`
+  /// subdirectory inside the ZIP — bundled by every style pack the
+  /// damage-calc-sprite-pack workflow publishes — is extracted into
+  /// the shared icons cache in the same call, so the user only ever
+  /// imports one ZIP per style and box icons come along for free.
   ///
   /// The ZIP is expected to contain flat-laid `<key>.png` / `.gif`
-  /// files at top level — that's the format produced by
-  /// damage-calc-sprite-pack's nightly workflow. Any nested
-  /// directories or files matching neither extension are ignored.
+  /// files at top level for the style itself, optionally plus
+  /// `icons/<key>.png` for the bundled gen1-7 box icons.
   ///
-  /// Returns the count of sprite files written. Throws if the ZIP is
-  /// unreadable or empty so the caller can surface a clear error.
+  /// Returns the count of style-sprite files written (icons are
+  /// extracted alongside but not counted in the return value —
+  /// callers can read [iconsInstalled] after this completes). Throws
+  /// when the ZIP holds zero matching style sprites (wrong pack
+  /// chosen for this style).
   Future<int> installFromZip(File zipFile, SpriteStyle style) async {
     if (kIsWeb) {
       throw StateError('Sprite-pack import is not used on web — the '
@@ -82,34 +106,55 @@ class SpritePackManager extends ChangeNotifier {
     final target = Directory('${_rootDir!.path}/${style.name}');
     if (target.existsSync()) target.deleteSync(recursive: true);
     target.createSync(recursive: true);
+    final iconsTarget = Directory('${_rootDir!.path}/icons');
+    // Only replace the icons cache when this ZIP actually contains
+    // an icons block — otherwise an older ZIP without icons would
+    // wipe out the user's already-installed icons.
+    bool zipHasIcons = false;
 
     final bytes = await zipFile.readAsBytes();
     final archive = ZipDecoder().decodeBytes(bytes);
-    var written = 0;
+    var styleWritten = 0;
+    var iconsWritten = 0;
     for (final entry in archive) {
       if (!entry.isFile) continue;
       final name = entry.name;
-      // Take only top-level image files in the expected style ext.
-      // Different ZIP toolchains produce '/'-separated paths.
-      final flat = name.split('/').last;
-      if (flat.isEmpty) continue;
-      final ext = style.ext;
-      if (!flat.toLowerCase().endsWith('.$ext')) continue;
-      final out = File('${target.path}/$flat');
-      out.writeAsBytesSync(entry.content as List<int>);
-      written++;
+      if (name.isEmpty) continue;
+      if (name.startsWith('icons/')) {
+        // Nested icons block: gen1-7 box icons, always .png.
+        if (!zipHasIcons) {
+          if (iconsTarget.existsSync()) iconsTarget.deleteSync(recursive: true);
+          iconsTarget.createSync(recursive: true);
+          zipHasIcons = true;
+        }
+        final flat = name.substring('icons/'.length);
+        if (flat.isEmpty || flat.contains('/')) continue;
+        if (!flat.toLowerCase().endsWith('.png')) continue;
+        File('${iconsTarget.path}/$flat')
+            .writeAsBytesSync(entry.content as List<int>);
+        iconsWritten++;
+        continue;
+      }
+      // Top-level style sprites only — ignore any other subdirectory.
+      if (name.contains('/')) continue;
+      if (!name.toLowerCase().endsWith('.${style.ext}')) continue;
+      File('${target.path}/$name')
+          .writeAsBytesSync(entry.content as List<int>);
+      styleWritten++;
     }
-    if (written == 0) {
+    if (styleWritten == 0) {
       // Wrong-pack-for-style is the common failure case (user picked
-      // ani.zip while installing bw, etc.). Wipe the empty dir so
-      // isInstalled stays false.
+      // dex.zip while installing bw, etc.). Wipe the empty dir so
+      // isInstalled stays false; leave any icons block alone (it
+      // was the right pack at least for icons).
       target.deleteSync(recursive: true);
       throw const FormatException(
           'No matching sprite files found in archive');
     }
     _installed[style] = true;
+    if (iconsWritten > 0) _iconsInstalled = true;
     notifyListeners();
-    return written;
+    return styleWritten;
   }
 
   /// Remove the on-disk cache for one style — used by the 'reset
@@ -119,6 +164,14 @@ class SpritePackManager extends ChangeNotifier {
     final dir = Directory('${_rootDir!.path}/${style.name}');
     if (dir.existsSync()) dir.deleteSync(recursive: true);
     _installed[style] = false;
+    notifyListeners();
+  }
+
+  Future<void> clearIcons() async {
+    if (kIsWeb || _rootDir == null) return;
+    final dir = Directory('${_rootDir!.path}/icons');
+    if (dir.existsSync()) dir.deleteSync(recursive: true);
+    _iconsInstalled = false;
     notifyListeners();
   }
 }

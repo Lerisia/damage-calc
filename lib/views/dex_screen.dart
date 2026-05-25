@@ -542,7 +542,7 @@ class _DexScreenState extends State<DexScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
         child: Row(
           children: [
-            PokemonSprite(pokemonName: p.name, size: 46),
+            PokemonSprite(pokemonName: p.name, size: 46, useBoxIcon: true),
             const SizedBox(width: 6),
             Expanded(
               child: Column(

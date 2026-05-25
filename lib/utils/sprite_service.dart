@@ -341,4 +341,27 @@ class SpriteService extends ChangeNotifier {
     if (base == null) return null;
     return spriteFor(base, style: style);
   }
+
+  /// Box icon (40×30) for compact placements like the dex list row
+  /// or the simple-calculator species row. Style-independent — the
+  /// same icon shows regardless of which sprite style the user has
+  /// active for the larger placements.
+  ///
+  /// On mobile this reads from the icons cache populated by an
+  /// imported pack (the icons block bundled inside any style ZIP).
+  /// On web it's a no-op — the web build streams the larger sprites
+  /// directly from Showdown's CDN, and the small placements scale
+  /// those down rather than introducing a separate sheet-clipping
+  /// path. The caller (PokemonSprite with useBoxIcon=true) falls
+  /// back to the normal sprite chain when this returns null.
+  ImageProvider? iconFor(String pokemonName) {
+    if (kIsWeb) return null;
+    if (!SpritePackManager.instance.iconsInstalled) return null;
+    final dir = SpritePackManager.instance.iconsCacheDir;
+    if (dir == null) return null;
+    final key = spriteKeyFor(pokemonName);
+    final file = File('$dir/$key.png');
+    if (!file.existsSync()) return null;
+    return FileImage(file);
+  }
 }

@@ -1688,7 +1688,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return Row(children: [
       // Box-style sprite to the left of the name. Shows a neutral
       // placeholder until the sprite pack is available.
-      PokemonSprite(pokemonName: state.pokemonName, size: 30),
+      PokemonSprite(
+          pokemonName: state.pokemonName, size: 30, useBoxIcon: true),
       const SizedBox(width: 6),
       Expanded(
         child: PokemonSelector(

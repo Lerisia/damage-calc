@@ -22,11 +22,19 @@ class PokemonSprite extends StatelessWidget {
   /// Edge length of the (square) sprite slot in logical pixels.
   final double size;
 
+  /// When true, prefer the gen6-7 box icon over the current style's
+  /// sprite. Used by compact placements (dex list rows, simple-mode
+  /// species row) where a 40×30 icon looks crisper than a scaled-down
+  /// 96×96 BW sprite. Falls through to the regular sprite chain when
+  /// the icons cache isn't populated (web, or pre-import on mobile).
+  final bool useBoxIcon;
+
   const PokemonSprite({
     super.key,
     required this.pokemonName,
     this.styleOverride,
     this.size = 32,
+    this.useBoxIcon = false,
   });
 
   @override
@@ -37,26 +45,44 @@ class PokemonSprite extends StatelessWidget {
     return ListenableBuilder(
       listenable: SpriteService.instance,
       builder: (context, _) {
-        final main = SpriteService.instance
-            .spriteFor(pokemonName, style: styleOverride);
-        if (main == null) return _placeholder();
-        final fallback = SpriteService.instance
-            .fallbackSpriteFor(pokemonName, style: styleOverride);
-        return _img(
-          main,
-          // Form sprites that Showdown hasn't gotten community art
-          // for (most often new Legends Z-A Megas) try the base
-          // species sprite next so the user at least sees their
-          // Pokémon — the form name + Mega badge in surrounding UI
-          // still make it clear it's the Mega form, just without
-          // the Mega artwork. Only the truly unknown case (base
-          // species sprite also missing, or input is already a base)
-          // falls all the way to the pokéball placeholder.
-          onError: fallback == null
-              ? _placeholder()
-              : _img(fallback, onError: _placeholder()),
-        );
+        // Box-icon path: try the gen1-7 icon for this name first.
+        // Falls through to the regular sprite chain on miss (no icon
+        // for gen8+ species / web / no pack installed yet).
+        if (useBoxIcon) {
+          final icon = SpriteService.instance.iconFor(pokemonName);
+          if (icon != null) {
+            return _img(icon, onError: _spriteChain());
+          }
+          // Also try the base species' icon — covers Mega/regional
+          // forms whose own slug isn't in the pack but whose base
+          // species is.
+          final base = baseSpeciesName(pokemonName);
+          if (base != null) {
+            final baseIcon = SpriteService.instance.iconFor(base);
+            if (baseIcon != null) {
+              return _img(baseIcon, onError: _spriteChain());
+            }
+          }
+        }
+        return _spriteChain();
       },
+    );
+  }
+
+  /// Regular sprite-with-fallback chain: style sprite → base species
+  /// sprite → pokéball placeholder. Pulled out so the box-icon path
+  /// can use it as its own onError fallback.
+  Widget _spriteChain() {
+    final main = SpriteService.instance
+        .spriteFor(pokemonName, style: styleOverride);
+    if (main == null) return _placeholder();
+    final fallback = SpriteService.instance
+        .fallbackSpriteFor(pokemonName, style: styleOverride);
+    return _img(
+      main,
+      onError: fallback == null
+          ? _placeholder()
+          : _img(fallback, onError: _placeholder()),
     );
   }
 
