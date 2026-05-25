@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../utils/app_strings.dart';
-import '../../utils/localization.dart';
 import '../../utils/sprite_override_manager.dart';
 import '../../utils/sprite_service.dart';
 import 'pokemon_selector.dart';
@@ -252,24 +251,29 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
 
   @override
   Widget build(BuildContext context) {
+    // Fixed content size — the dialog stays the same shape whether
+    // the user has zero overrides or fifty. The list itself scrolls
+    // internally, so adding rows never pushes the dialog out of the
+    // viewport or rearranges the surrounding UI.
+    final mq = MediaQuery.of(context).size;
+    final width = (mq.width - 80).clamp(280.0, 400.0);
+    final height = (mq.height * 0.6).clamp(360.0, 520.0);
+    final hint = Theme.of(context).hintColor;
     return AlertDialog(
       title: Text(AppStrings.t('sprite.override.title')),
       contentPadding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
       content: SizedBox(
-        width: 380,
+        width: width,
+        height: height,
         child: ListenableBuilder(
           listenable: SpriteOverrideManager.instance,
           builder: (ctx, _) {
-            // Merge already-on-disk keys + this-session picks. Each
-            // disk key gets resolved to its display name via the
-            // pokedex (loaded asynchronously in initState).
             final fromDisk = SpriteOverrideManager.instance
                 .overriddenSpriteKeys()
                 .map((k) => _findByKey(k)?.name ?? k)
                 .toList();
             final all = <String>{...fromDisk, ..._sessionPicks}.toList();
             return Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
@@ -277,10 +281,7 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
                   child: Text(
                     AppStrings.t('sprite.override.howTo'),
                     style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).hintColor,
-                      height: 1.4,
-                    ),
+                        fontSize: 12, color: hint, height: 1.4),
                   ),
                 ),
                 Padding(
@@ -292,26 +293,32 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                if (all.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      AppStrings.t('sprite.override.empty'),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).hintColor),
-                    ),
-                  )
-                else
-                  Flexible(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: all.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
-                      itemBuilder: (_, i) => _row(all[i]),
-                    ),
-                  ),
+                // The list region always fills the remaining dialog
+                // height — Expanded over Flexible so the empty-state
+                // message is centred in a constant frame instead of
+                // a tiny floating block.
+                Expanded(
+                  child: all.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              AppStrings.t('sprite.override.empty'),
+                              textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(fontSize: 12, color: hint),
+                            ),
+                          ),
+                        )
+                      : ListView.separated(
+                          padding: EdgeInsets.zero,
+                          itemCount: all.length,
+                          separatorBuilder: (_, __) =>
+                              const Divider(height: 1),
+                          itemBuilder: (_, i) => _row(all[i]),
+                        ),
+                ),
               ],
             );
           },
