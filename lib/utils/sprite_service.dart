@@ -281,6 +281,13 @@ class SpriteService extends ChangeNotifier {
   /// Hydrate the persisted style preference at app startup. Called
   /// from [main]'s preload alongside the other controllers'
   /// `load()`s. Safe to call before any UI binds, and idempotent.
+  ///
+  /// On mobile we additionally guard against landing on a style whose
+  /// pack the app currently can't ship (hasMobilePack == false) —
+  /// otherwise a user who picked that style on the web build and
+  /// later opens the mobile app would be silently stuck on
+  /// pokéballs with no UI affordance to switch (the picker row is
+  /// hidden on mobile for such styles).
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
     final saved = prefs.getString(_prefsKey);
@@ -290,6 +297,9 @@ class SpriteService extends ChangeNotifier {
         _style = s;
         break;
       }
+    }
+    if (!kIsWeb && !_style.hasMobilePack) {
+      _style = SpriteStyle.bw;
     }
   }
 
