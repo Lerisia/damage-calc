@@ -27,6 +27,7 @@ import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/type_effectiveness.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
+import 'widgets/dex_search_filter_dialog.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/type_filter_dialog.dart';
 
@@ -62,14 +63,18 @@ class _DexScreenState extends State<DexScreen> {
   List<SearchEntry<Pokemon>> _searchEntries = const [];
   Map<String, Ability> _abilityDex = const {};
   Map<String, Move> _moveDex = const {};
+  /// Showdown move IDs each species can learn (form variants resolved).
+  /// Precomputed once on load so the advanced search "기술" filter is a
+  /// sync Set lookup, not an async learnset call per Pokémon per
+  /// filter-refresh.
+  Map<String, Set<String>> _movesByPokemon = const {};
   Set<String> _learnable = const {};
   bool _loadingMoves = false;
 
   // Browse-list state (used only in browse mode — see _buildBrowse).
   final _searchCtl = TextEditingController();
   final _searchFocus = FocusNode();
-  PokemonType? _type1;
-  PokemonType? _type2;
+  DexSearchFilter _filter = DexSearchFilter.empty;
   _DexSortKey? _sortKey;
   bool _sortAsc = true;
 
@@ -91,6 +96,9 @@ class _DexScreenState extends State<DexScreen> {
       loadAbilitydex(),
       loadMovedex(),
       loadPokedex(),
+      // Warm the learnset cache up-front so the per-species lookup
+      // below resolves off the cached map.
+      loadLearnsets(),
     ]);
     if (!mounted) return;
     // Stable dex-number order so form variants (Mega / regional) sit
@@ -104,6 +112,19 @@ class _DexScreenState extends State<DexScreen> {
         return c != 0 ? c : a.$2.compareTo(b.$2);
       });
     final allPokemon = [for (final e in indexed) e.$1];
+    // Precompute moves-per-species so the advanced-search "기술" filter
+    // is fast. getLearnableMoves handles all the regional/form/Mega
+    // name resolution; the underlying cache is warm from the
+    // Future.wait above so each await here is a microtask hop.
+    final movesByPokemon = <String, Set<String>>{};
+    for (final p in allPokemon) {
+      movesByPokemon[p.name] = await getLearnableMoves(
+        p.name,
+        nameKo: p.nameKo,
+        dexNumber: p.dexNumber,
+      );
+    }
+    if (!mounted) return;
     // Cross-link mode (opened on a specific Pokémon via
     // initialPokemonName) auto-selects it; browse mode starts with no
     // selection — the list itself is the entry point.
@@ -119,6 +140,7 @@ class _DexScreenState extends State<DexScreen> {
       _abilityDex = results[0] as Map<String, Ability>;
       _moveDex = results[1] as Map<String, Move>;
       _allPokemon = allPokemon;
+      _movesByPokemon = movesByPokemon;
       _searchEntries = [
         for (final p in allPokemon)
           SearchEntry(p, p.nameKo, p.name,
@@ -438,13 +460,7 @@ class _DexScreenState extends State<DexScreen> {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(8, 4, 8, 6),
-          child: Row(
-            children: [
-              Expanded(child: _typeSlot(1)),
-              const SizedBox(width: 6),
-              Expanded(child: _typeSlot(2)),
-            ],
-          ),
+          child: _advancedSearchButton(),
         ),
         const Divider(height: 1),
         _dexSortHeader(),
@@ -604,59 +620,93 @@ class _DexScreenState extends State<DexScreen> {
     );
   }
 
-  Widget _typeSlot(int slot) {
-    final current = slot == 1 ? _type1 : _type2;
+  /// Single button that opens the advanced search dialog. Shows the
+  /// active-filter count as a "(N)" suffix so users can tell at a
+  /// glance whether any condition is in effect.
+  Widget _advancedSearchButton() {
+    final scheme = Theme.of(context).colorScheme;
+    final n = _filter.activeCount;
+    final label = n == 0
+        ? AppStrings.t('dex.advancedSearch')
+        : '${AppStrings.t('dex.advancedSearch')} ($n)';
+    final highlight = n > 0;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () async {
-        final picked = await showTypeFilterDialog(
+        final allMoves = _moveDex.values
+            .where((m) => m.moveClass == MoveClass.normal)
+            .toList();
+        final result = await showDexSearchFilterDialog(
           context: context,
-          current: current,
+          current: _filter,
+          abilityDex: _abilityDex,
+          allMoves: allMoves,
         );
-        // Dismissed without picking → leave the slot untouched.
-        if (!mounted || identical(picked, kTypeFilterDismissed)) return;
-        setState(() {
-          final type = picked as PokemonType?;
-          if (slot == 1) {
-            _type1 = type;
-          } else {
-            _type2 = type;
-          }
-        });
+        if (!mounted || identical(result, kDexFilterDismissed)) return;
+        if (result is DexSearchFilter) {
+          setState(() => _filter = result);
+        }
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
+          color: highlight
+              ? scheme.primary.withValues(alpha: 0.08)
+              : null,
+          border: Border.all(
+            color: highlight
+                ? scheme.primary.withValues(alpha: 0.6)
+                : Colors.grey.withValues(alpha: 0.5),
+          ),
           borderRadius: BorderRadius.circular(4),
         ),
-        alignment: Alignment.center,
-        child: Text(
-          current == null
-              ? AppStrings.t('dex.allTypes')
-              : KoStrings.getTypeName(current),
-          style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: current != null
-                  ? KoStrings.getTypeColor(current)
-                  : null),
+        child: Row(
+          children: [
+            Icon(Icons.tune,
+                size: 16,
+                color: highlight ? scheme.primary : Colors.grey.shade700),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: highlight ? scheme.primary : null,
+                ),
+              ),
+            ),
+            if (highlight)
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => setState(() => _filter = DexSearchFilter.empty),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Icon(Icons.close,
+                      size: 16,
+                      color: scheme.primary.withValues(alpha: 0.8)),
+                ),
+              ),
+          ],
         ),
       ),
     );
   }
 
-  /// Filters by type slots + Champions toggle; with a query, results
-  /// are relevance-scored (column sort ignored); otherwise sorted by
-  /// the active column, defaulting to dex-number order.
+  /// Filters by the advanced-search [DexSearchFilter] + Champions toggle;
+  /// with a query, results are relevance-scored (column sort ignored);
+  /// otherwise sorted by the active column, defaulting to dex-number
+  /// order.
   List<Pokemon> _filteredPokemon(String query) {
     final championsOnly =
         ChampionsFilterController.instance.championsOnly.value;
-    final typeFilters = [_type1, _type2].whereType<PokemonType>().toList();
+    final filter = _filter;
+    final filterActive = !filter.isEmpty;
     bool ok(Pokemon p) {
       if (championsOnly && !isInChampions(p.name)) return false;
-      for (final t in typeFilters) {
-        if (p.type1 != t && p.type2 != t) return false;
+      if (filterActive &&
+          !matchesDexFilter(p, filter, movesByPokemon: _movesByPokemon)) {
+        return false;
       }
       return true;
     }

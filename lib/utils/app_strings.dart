@@ -756,6 +756,86 @@ class AppStrings {
       AppLanguage.en: 'To defender',
       AppLanguage.ja: '防御側へ',
     },
+    'dex.advancedSearch': {
+      AppLanguage.ko: '상세 검색',
+      AppLanguage.en: 'Advanced search',
+      AppLanguage.ja: '詳細検索',
+    },
+    'dex.advTypes': {
+      AppLanguage.ko: '타입 (최대 2개)',
+      AppLanguage.en: 'Types (up to 2)',
+      AppLanguage.ja: 'タイプ (最大2つ)',
+    },
+    'dex.advTypesHint': {
+      AppLanguage.ko: '2개 선택 시 정확히 일치하는 조합만 검색합니다.',
+      AppLanguage.en: 'With 2 types selected, matches only the exact combo.',
+      AppLanguage.ja: '2つ選択時は完全一致の組み合わせのみ検索します。',
+    },
+    'dex.advStats': {
+      AppLanguage.ko: '종족값 범위',
+      AppLanguage.en: 'Base stat ranges',
+      AppLanguage.ja: '種族値の範囲',
+    },
+    'dex.advDefenseType': {
+      AppLanguage.ko: '타입 약점 / 내성',
+      AppLanguage.en: 'Type weakness / resistance',
+      AppLanguage.ja: 'タイプ弱点 / 耐性',
+    },
+    'dex.advDefenseTypeNone': {
+      AppLanguage.ko: '타입 선택 안 함',
+      AppLanguage.en: 'No type selected',
+      AppLanguage.ja: 'タイプ未選択',
+    },
+    'dex.advDefenseTypePick': {
+      AppLanguage.ko: '공격 타입 선택',
+      AppLanguage.en: 'Pick attacking type',
+      AppLanguage.ja: '攻撃タイプを選択',
+    },
+    'dex.advWeakness': {
+      AppLanguage.ko: '약점',
+      AppLanguage.en: 'Weak to',
+      AppLanguage.ja: '弱点',
+    },
+    'dex.advResistance': {
+      AppLanguage.ko: '내성',
+      AppLanguage.en: 'Resists',
+      AppLanguage.ja: '耐性',
+    },
+    'dex.advAbility': {
+      AppLanguage.ko: '특성 (잠재 보유)',
+      AppLanguage.en: 'Ability (potential)',
+      AppLanguage.ja: '特性 (潜在保有)',
+    },
+    'dex.advAbilityHint': {
+      AppLanguage.ko: '특성 이름 입력',
+      AppLanguage.en: 'Type ability name',
+      AppLanguage.ja: '特性名を入力',
+    },
+    'dex.advMoves': {
+      AppLanguage.ko: '기술 (최대 4개)',
+      AppLanguage.en: 'Moves (up to 4)',
+      AppLanguage.ja: '技 (最大4つ)',
+    },
+    'dex.advMovesMatch': {
+      AppLanguage.ko: '매칭',
+      AppLanguage.en: 'Match',
+      AppLanguage.ja: '一致',
+    },
+    'dex.advMovesAnd': {
+      AppLanguage.ko: '모두',
+      AppLanguage.en: 'All',
+      AppLanguage.ja: 'すべて',
+    },
+    'dex.advMovesOr': {
+      AppLanguage.ko: '하나라도',
+      AppLanguage.en: 'Any',
+      AppLanguage.ja: 'いずれか',
+    },
+    'dex.advMoveSlot': {
+      AppLanguage.ko: '기술 이름 입력',
+      AppLanguage.en: 'Type move name',
+      AppLanguage.ja: '技名を入力',
+    },
 
     // === Panel sections ===
     'section.species': {
@@ -1201,6 +1281,16 @@ class AppStrings {
       AppLanguage.ko: '초기화',
       AppLanguage.en: 'Reset',
       AppLanguage.ja: 'リセット',
+    },
+    'action.apply': {
+      AppLanguage.ko: '적용',
+      AppLanguage.en: 'Apply',
+      AppLanguage.ja: '適用',
+    },
+    'action.clear': {
+      AppLanguage.ko: '지우기',
+      AppLanguage.en: 'Clear',
+      AppLanguage.ja: 'クリア',
     },
 
     'type.picker.title': {
