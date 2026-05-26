@@ -199,12 +199,16 @@ class SpriteService extends ChangeNotifier {
 
   static const _prefsKey = 'sprite_style';
 
-  /// User's currently selected sprite style. Defaults to [SpriteStyle.dex]
-  /// — HOME 3D is the only style with full gen 1–9 coverage right
-  /// now (BW pack scope is held to gen1-5 until Smogon's X/Y Sprite
-  /// Project OKs redistribution), so it's the better out-of-box
-  /// experience for users who haven't picked anything yet.
-  SpriteStyle _style = SpriteStyle.dex;
+  /// User's currently selected sprite style. Per-platform default:
+  ///  * Web → [SpriteStyle.bw]. The gen5 pixel style is the project's
+  ///    aesthetic identity (and the BW pack covers gen1-9 + regional
+  ///    forms + Megas since the X/Y, Sun/Moon, Sword/Shield project
+  ///    OPs all grant non-profit use with credit). Web pulls from
+  ///    jsDelivr so no user-side download is required.
+  ///  * Mobile → [SpriteStyle.dex]. HOME 3D ships with damage-calc's
+  ///    default offline experience; mobile users opt into the BW
+  ///    pack via the import flow if they want it.
+  SpriteStyle _style = kIsWeb ? SpriteStyle.bw : SpriteStyle.dex;
   SpriteStyle get style => _style;
 
   /// Update the active style and persist the choice. Notifies listeners

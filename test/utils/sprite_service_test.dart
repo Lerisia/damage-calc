@@ -137,7 +137,10 @@ void main() {
   });
 
   group('SpriteService', () {
-    test('default style is dex (HOME 3D — full gen 1-9 coverage)', () {
+    test('default style on non-web is dex (mobile ships HOME 3D offline)', () {
+      // Test runner is non-web, so per-platform default resolves to dex.
+      // On web the default is bw — covered by the kIsWeb branch in
+      // sprite_service.dart's `_style` initializer.
       expect(SpriteService.instance.style, SpriteStyle.dex);
     });
 

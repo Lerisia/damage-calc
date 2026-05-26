@@ -536,10 +536,35 @@ class AppStrings {
       AppLanguage.en: 'Pokémon sprites are streamed directly from the Pokémon Showdown CDN (play.pokemonshowdown.com/sprites). The BW pixel set is produced by the Smogon Sprite Project community and licensed for non-profit use. This app hosts none of the images itself.',
       AppLanguage.ja: 'ポケモンのスプライトはPokémon ShowdownのCDN（play.pokemonshowdown.com/sprites）から直接読み込みます。BWドットはSmogon Sprite Projectのコミュニティが制作し、非営利利用に限り許諾されたものです。本アプリは画像を自前ホストしていません。',
     },
-    'sprite.coverageNotice': {
-      AppLanguage.ko: '※ Smogon 측 허가가 아직 확보되지 않아 BW 도트는 1~5세대 기본 포켓몬만, 작은 박스 아이콘은 1~7세대 기본 포켓몬만 지원합니다. 그 외 포켓몬 (메가/지역폼/후세대)은 몬스터볼로 표시되며, 포켓몬별 개별 이미지 설정으로 직접 채울 수 있습니다.',
-      AppLanguage.en: '※ Pending Smogon\'s OK, the BW pack covers only gen 1–5 base species, and the small box icons cover only gen 1–7 base species. Everything else (Megas, regional forms, post-coverage gens) shows the pokéball — fill those in with the per-Pokémon image override.',
-      AppLanguage.ja: '※ Smogonの許諾待ちのため、BWドットは1～5世代の基本ポケモン、小さな箱アイコンは1～7世代の基本ポケモンのみ収録しています。それ以外（メガ・地域フォルム・以降の世代）はモンスターボール表示となり、ポケモン別の画像設定で個別に補えます。',
+    'sprite.credits.title': {
+      AppLanguage.ko: '스프라이트 크레딧',
+      AppLanguage.en: 'Sprite credits',
+      AppLanguage.ja: 'スプライトクレジット',
+    },
+    'sprite.credits.viewCredits': {
+      AppLanguage.ko: '크레딧 보기',
+      AppLanguage.en: 'View credits',
+      AppLanguage.ja: 'クレジットを見る',
+    },
+    'sprite.credits.tabProjects': {
+      AppLanguage.ko: '프로젝트별',
+      AppLanguage.en: 'By project',
+      AppLanguage.ja: 'プロジェクト別',
+    },
+    'sprite.credits.tabArtists': {
+      AppLanguage.ko: '작가별',
+      AppLanguage.en: 'By artist',
+      AppLanguage.ja: '作者別',
+    },
+    'sprite.credits.leadArtists': {
+      AppLanguage.ko: '리드',
+      AppLanguage.en: 'Leads',
+      AppLanguage.ja: 'リード',
+    },
+    'sprite.credits.spriteCount': {
+      AppLanguage.ko: '스프라이트 {n}건',
+      AppLanguage.en: '{n} sprites',
+      AppLanguage.ja: 'スプライト {n}件',
     },
 
     // === Tabs ===
