@@ -1503,6 +1503,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                         fontSize: 16, fontWeight: FontWeight.w600)),
               ),
               const Spacer(),
+              // Wide-layout toolbar didn't have the sprite-style entry
+              // — narrow's overflow menu had it but wide users had no
+              // way to reach the dialog short of leaving Extended Mode.
+              IconButton(
+                tooltip: AppStrings.t('app.spriteStyle'),
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(Icons.catching_pokemon, size: 20),
+                onPressed: () => showSpriteStyleDialog(context),
+              ),
+              const SizedBox(width: 4),
               _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
               const SizedBox(width: 4),
               const _ThemeToggleButton(),
