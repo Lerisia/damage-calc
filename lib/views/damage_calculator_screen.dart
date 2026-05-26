@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:screenshot/screenshot.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
@@ -10,7 +7,6 @@ import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
 import '../utils/theme_controller.dart';
-import '../utils/image_saver.dart' as saver;
 import '../models/move_tags.dart';
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
@@ -89,8 +85,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   final _defenderPanelKey = GlobalKey<PokemonPanelState>();
   int _resetCounter = 0;
 
-  final _damageTabScreenshotController = ScreenshotController();
-  final _wideLayoutScreenshotController = ScreenshotController();
   final _speedTabKey = GlobalKey<SpeedCompareTabState>();
 
   Weather _weather = Weather.none;
@@ -310,6 +304,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _ensureDataCaches();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _maybeShowPartyCoverageAnnouncement();
+      if (!mounted) return;
+      await _maybeShowSpriteAnnouncement();
       // Mobile-web install nudge — fires at most once per browser.
       if (!mounted) return;
       await MobileInstallPrompt.maybeShow(context);
@@ -339,6 +335,39 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       ),
     );
     await prefs.setBool(_partyCoverageAnnounceKey, true);
+  }
+
+  /// Sprite-feature announcement — pops on every launch until the user
+  /// explicitly opts out via "Don't show again". Closing with the X /
+  /// outside tap leaves the flag unset so they see it again next
+  /// session, in case they want to revisit how to find the entry
+  /// point. Separate from the party-coverage announcement because the
+  /// dismissal semantics differ (that one is single-shot).
+  static const _spriteAnnounceDismissedKey = 'spriteAnnounceDismissed_v1';
+  Future<void> _maybeShowSpriteAnnouncement() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(_spriteAnnounceDismissedKey) ?? false) return;
+    if (!mounted) return;
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(AppStrings.t('announce.sprites.title')),
+        content: Text(AppStrings.t('announce.sprites.body')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppStrings.t('action.close')),
+          ),
+          TextButton(
+            onPressed: () async {
+              await prefs.setBool(_spriteAnnounceDismissedKey, true);
+              if (ctx.mounted) Navigator.pop(ctx);
+            },
+            child: Text(AppStrings.t('action.dontShowAgain')),
+          ),
+        ],
+      ),
+    );
   }
 
   static const _spModeKey = 'use_sp_mode';
@@ -416,77 +445,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   bool get _isWideLayout => MediaQuery.of(context).size.width >= 1050;
-
-  Future<void> _capture() async {
-    Uint8List? image;
-
-    // Wide layout: capture entire screen
-    if (_isWideLayout) {
-      try {
-        image = await _wideLayoutScreenshotController.capture(
-          delay: const Duration(milliseconds: 100),
-          pixelRatio: 2.0,
-        );
-      } catch (_) {}
-
-      if (image == null || !mounted) return;
-      try {
-        final filename = 'pokemon_calc_${DateTime.now().millisecondsSinceEpoch}';
-        await saver.saveImage(image, filename);
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppStrings.t('msg.fullScreenSaved')), duration: const Duration(seconds: 2)),
-        );
-      } catch (e) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${AppStrings.t('msg.saveFailed')}: $e'), duration: const Duration(seconds: 2)),
-        );
-      }
-      return;
-    }
-
-    // Narrow layout: capture current tab
-    final currentTab = _tabController.index;
-
-    if (currentTab == 0) {
-      final panelState = _attackerPanelKey.currentState;
-      if (panelState == null) return;
-      image = await panelState.captureScreenshot();
-    } else if (currentTab == 1) {
-      final panelState = _defenderPanelKey.currentState;
-      if (panelState == null) return;
-      image = await panelState.captureScreenshot();
-    } else if (currentTab == 2) {
-      try {
-        image = await _damageTabScreenshotController.capture(
-          delay: const Duration(milliseconds: 100),
-          pixelRatio: 2.0,
-        );
-      } catch (_) {}
-    } else if (currentTab == 3) {
-      final speedState = _speedTabKey.currentState;
-      if (speedState != null) {
-        image = await speedState.captureScreenshot();
-      }
-    }
-
-    if (image == null || !mounted) return;
-
-    try {
-      final filename = 'pokemon_calc_${DateTime.now().millisecondsSinceEpoch}';
-      await saver.saveImage(image, filename);
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppStrings.t('msg.imageSaved')), duration: const Duration(seconds: 2)),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${AppStrings.t('msg.saveFailed')}: $e'), duration: const Duration(seconds: 2)),
-      );
-    }
-  }
 
   void _resetSide(int side) {
     setState(() {
@@ -1702,21 +1660,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         child: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth >= 1400) {
-            return Screenshot(
-              controller: _wideLayoutScreenshotController,
-              child: Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: _buildExtraWideLayout(),
-              ),
-            );
+            return _buildExtraWideLayout();
           } else if (constraints.maxWidth >= 1050) {
-            return Screenshot(
-              controller: _wideLayoutScreenshotController,
-              child: Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: _buildWideLayout(),
-              ),
-            );
+            return _buildWideLayout();
           }
           return _buildNarrowLayout();
         },
@@ -2138,11 +2084,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     // every time they tapped one — broken with each new selection.
     // Footer collapses to a thin hint when empty so the scrollable
     // area gives up almost no vertical space in the common case.
-    //
-    // No Screenshot wrap here: the screenshot button is wide-only and
-    // uses a separate controller, and an extra RepaintBoundary
-    // around the scroll viewport makes iOS flings stutter (the layer
-    // gets re-rasterized every frame as visible content shifts).
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),

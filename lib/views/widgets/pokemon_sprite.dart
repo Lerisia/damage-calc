@@ -27,8 +27,9 @@ class PokemonSprite extends StatelessWidget {
   /// When true, prefer the gen6-7 box icon over the current style's
   /// sprite. Used by compact placements (dex list rows, simple-mode
   /// species row) where a 40×30 icon looks crisper than a scaled-down
-  /// 96×96 BW sprite. Falls through to the regular sprite chain when
-  /// the icons cache isn't populated (web, or pre-import on mobile).
+  /// 96×96 BW sprite. When the icon isn't available (gen8+ species,
+  /// ZA Megas, no pack installed) the slot shows the pokéball
+  /// placeholder — no fallback to the larger style sprite.
   final bool useBoxIcon;
 
   const PokemonSprite({
@@ -54,48 +55,16 @@ class PokemonSprite extends StatelessWidget {
         SpriteOverrideManager.instance,
       ]),
       builder: (context, _) {
-        // Box-icon path: try the gen1-7 icon (own name first, then
-        // base species for Mega/regional forms). When neither hits
-        // — gen8+ species, no pack installed, web — fall to the
-        // pokéball placeholder directly instead of scaling the
-        // larger style sprite down. Reason: a mixed display where
-        // some rows show crisp icons and others show scaled-down
-        // BW battle sprites hides the fact that the box-icon set
-        // is gen1-7-capped; users who don't see a pokéball don't
-        // realise there's a pack to download.
         if (useBoxIcon) {
           final icon = SpriteService.instance.iconFor(pokemonName);
-          if (icon != null) {
-            return _img(icon, onError: _placeholder());
-          }
-          final base = baseSpeciesName(pokemonName);
-          if (base != null) {
-            final baseIcon = SpriteService.instance.iconFor(base);
-            if (baseIcon != null) {
-              return _img(baseIcon, onError: _placeholder());
-            }
-          }
-          return _placeholder();
+          if (icon == null) return _placeholder();
+          return _img(icon, onError: _placeholder());
         }
-        return _spriteChain();
+        final main = SpriteService.instance
+            .spriteFor(pokemonName, style: styleOverride);
+        if (main == null) return _placeholder();
+        return _img(main, onError: _placeholder());
       },
-    );
-  }
-
-  /// Regular sprite-with-fallback chain: style sprite → base species
-  /// sprite → pokéball placeholder. Pulled out so the box-icon path
-  /// can use it as its own onError fallback.
-  Widget _spriteChain() {
-    final main = SpriteService.instance
-        .spriteFor(pokemonName, style: styleOverride);
-    if (main == null) return _placeholder();
-    final fallback = SpriteService.instance
-        .fallbackSpriteFor(pokemonName, style: styleOverride);
-    return _img(
-      main,
-      onError: fallback == null
-          ? _placeholder()
-          : _img(fallback, onError: _placeholder()),
     );
   }
 

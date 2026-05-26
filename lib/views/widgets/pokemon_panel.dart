@@ -1,8 +1,6 @@
 import 'dart:math' as _math;
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:screenshot/screenshot.dart';
 import '../../models/battle_pokemon.dart';
 import '../../models/dynamax.dart';
 import '../../models/gender.dart';
@@ -117,7 +115,6 @@ class PokemonPanelState extends State<PokemonPanel>
   final _movesSectionKey = GlobalKey();
   final _statsSectionKey = GlobalKey();
   final _scrollController = ScrollController();
-  final _screenshotController = ScreenshotController();
   int? _focusedMoveIndex;
   final List<GlobalKey> _moveRowKeys = List.generate(4, (_) => GlobalKey());
 
@@ -143,17 +140,6 @@ class PokemonPanelState extends State<PokemonPanel>
       c.dispose();
     }
     super.dispose();
-  }
-
-  Future<Uint8List?> captureScreenshot() async {
-    try {
-      return await _screenshotController.capture(
-        delay: const Duration(milliseconds: 100),
-        pixelRatio: 2.0,
-      );
-    } catch (e) {
-      return null;
-    }
   }
 
   /// Propagate to parent — triggers full screen rebuild.

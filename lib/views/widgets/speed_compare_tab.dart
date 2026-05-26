@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:screenshot/screenshot.dart';
 import '../../data/abilitydex.dart';
 import '../../data/itemdex.dart';
 import '../../models/ability.dart';
@@ -87,7 +84,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   @override
   bool get wantKeepAlive => true;
 
-  final _screenshotController = ScreenshotController();
   final _scrollController = ScrollController();
   final _atkPanelKey = GlobalKey();
   final _defPanelKey = GlobalKey();
@@ -132,17 +128,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     super.dispose();
   }
 
-
-  Future<Uint8List?> captureScreenshot() async {
-    try {
-      return await _screenshotController.capture(
-        delay: const Duration(milliseconds: 100),
-        pixelRatio: 2.0,
-      );
-    } catch (e) {
-      return null;
-    }
-  }
 
   Map<String, String> get _abilityNameMap => widget.abilityNameMap;
   Map<String, String> get _itemNameMap => widget.itemNameMap;
@@ -256,12 +241,9 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     return SingleChildScrollView(
       controller: _scrollController,
       padding: const EdgeInsets.fromLTRB(4, 4, 4, 120),
-      child: Screenshot(
-        controller: _screenshotController,
-        child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          child: Column(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        child: Column(
             children: [
               // RepaintBoundary lets each side's panel cache its
               // pixels so iOS scroll fling becomes layer translation
@@ -293,7 +275,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             ],
           ),
         ),
-      ),
     );
   }
 

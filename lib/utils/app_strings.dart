@@ -1095,6 +1095,21 @@ class AppStrings {
       AppLanguage.en: 'Open Party Coverage from the menu (top-right ⋮) to see your 6-mon party\'s defensive and offensive matchups.',
       AppLanguage.ja: '右上のメニュー（⋮）からパーティ相性表を開くと、6体パーティの防御/攻撃相性を確認できます。',
     },
+    'announce.sprites.title': {
+      AppLanguage.ko: '포켓몬 스프라이트가 추가되었습니다',
+      AppLanguage.en: 'Pokémon sprites added',
+      AppLanguage.ja: 'ポケモンスプライトが追加されました',
+    },
+    'announce.sprites.body': {
+      AppLanguage.ko: '웹에서는 자동으로 표시되며, 모바일에서는 이미지팩을 받아 사용할 수 있습니다. 스타일 변경과 개별 이미지 등록은 오른쪽 위 메뉴(⋮)의 몬스터볼 아이콘에서 설정합니다.',
+      AppLanguage.en: 'Sprites load automatically on the web; on mobile you can import an image pack. Pick a style or register per-Pokémon images from the Pokéball entry in the menu (top-right ⋮).',
+      AppLanguage.ja: 'Webでは自動表示され、モバイルではイメージパックを取り込んで使えます。スタイル切替と個別画像の登録は右上メニュー（⋮）のモンスターボールから設定できます。',
+    },
+    'action.dontShowAgain': {
+      AppLanguage.ko: '다시 보지 않기',
+      AppLanguage.en: "Don't show again",
+      AppLanguage.ja: '今後表示しない',
+    },
     'simple.extendedAnnounceTitle': {
       AppLanguage.ko: '확장 모드',
       AppLanguage.en: 'Extended Mode',
@@ -1892,23 +1907,6 @@ class AppStrings {
       AppLanguage.ko: '공격측, 방어측과 배틀환경이 모두 초기화됩니다.',
       AppLanguage.en: 'Attacker, defender, and field conditions will all be reset.',
       AppLanguage.ja: '攻撃側・防御側・場の状態がすべてリセットされます。',
-    },
-
-    // === Snackbar messages ===
-    'msg.imageSaved': {
-      AppLanguage.ko: '이미지가 저장되었습니다',
-      AppLanguage.en: 'Image saved',
-      AppLanguage.ja: '画像を保存しました',
-    },
-    'msg.fullScreenSaved': {
-      AppLanguage.ko: '전체 화면이 저장되었습니다',
-      AppLanguage.en: 'Full screen saved',
-      AppLanguage.ja: '全画面を保存しました',
-    },
-    'msg.saveFailed': {
-      AppLanguage.ko: '저장 실패',
-      AppLanguage.en: 'Save failed',
-      AppLanguage.ja: '保存に失敗しました',
     },
 
     // === Modifier notes ===

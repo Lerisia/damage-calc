@@ -78,70 +78,6 @@ String _stripNonAlnum(String s) =>
 String _stripDiacritics(String s) =>
     s.replaceAll('é', 'e').replaceAll('è', 'e').replaceAll('ê', 'e');
 
-/// The base species name for a form/Mega/regional variant, used as
-/// a fallback when the form's own sprite isn't on Showdown's CDN —
-/// e.g., new Legends Z-A Megas Showdown hasn't gotten community
-/// sprites for yet. Returns null when no fallback is meaningful
-/// (already a base species).
-///
-/// Examples:
-///  * `Mega Baxcalibur` → `Baxcalibur`
-///  * `Mega Charizard X` → `Charizard`
-///  * `Primal Groudon` → `Groudon`
-///  * `Alolan Raichu` → `Raichu`
-///  * `Ice Rider Calyrex` → `Calyrex`
-///  * `Heat Rotom` → `Rotom`
-///  * `Black Kyurem` → `Kyurem`
-///  * `Deoxys (Attack Forme)` → `Deoxys`
-///  * `Galarian Darmanitan (Zen Mode)` → `Darmanitan`
-///  * `Pikachu` → null (already base)
-String? baseSpeciesName(String pokemonName) {
-  final n = pokemonName.trim();
-
-  // Mega X / Mega X Y|Z / Primal X / Ultra X — strip the prefix word.
-  final megaXY = RegExp(r'^Mega (\w+) [XYZ]$').firstMatch(n);
-  if (megaXY != null) return megaXY.group(1);
-  final mega = RegExp(r'^Mega (\w+)$').firstMatch(n);
-  if (mega != null) return mega.group(1);
-  final primal = RegExp(r'^Primal (\w+)$').firstMatch(n);
-  if (primal != null) return primal.group(1);
-  if (n == 'Ultra Necrozma') return 'Necrozma';
-  if (n == 'Hoopa Unbound') return 'Hoopa';
-
-  // Compound forms whose first word(s) qualify the species at the end.
-  if (n == 'Black Kyurem' || n == 'White Kyurem') return 'Kyurem';
-  if (n == 'Dawn Wings Necrozma' || n == 'Dusk Mane Necrozma') {
-    return 'Necrozma';
-  }
-  if (n == 'Ice Rider Calyrex' || n == 'Shadow Rider Calyrex') {
-    return 'Calyrex';
-  }
-
-  // Rotom appliances put the form word first.
-  final rotom = RegExp(r'^(Heat|Wash|Frost|Fan|Mow) Rotom$').firstMatch(n);
-  if (rotom != null) return 'Rotom';
-
-  // Regional variants: "Alolan Raichu" → "Raichu",
-  // "Galarian Darmanitan (Zen Mode)" → "Darmanitan".
-  for (final prefix in _regionalSlugs.keys) {
-    if (n.startsWith('$prefix ')) {
-      final rest = n.substring(prefix.length + 1);
-      final nested = RegExp(r'^(\w+) \(').firstMatch(rest);
-      return nested != null ? nested.group(1) : rest;
-    }
-  }
-
-  // Parenthesised forme: "Tornadus (Therian Forme)" → "Tornadus".
-  // Allow dots/hyphens/apostrophes in the species part (Mr. Mime,
-  // Farfetch'd, Ho-Oh). Double-quoted raw string lets the apostrophe
-  // sit inside the character class unescaped.
-  final paren = RegExp(r"^([\w\.\-' ]+?) \([^)]+\)$").firstMatch(n);
-  if (paren != null) return paren.group(1)!.trim();
-
-  // Already a base species — no fallback.
-  return null;
-}
-
 /// Convert an English Pokémon display name to the slug used by
 /// Pokémon Showdown's sprite CDN.
 ///
@@ -325,8 +261,8 @@ class SpriteService extends ChangeNotifier {
       // pipeline requires. Our pack repo's extracted tree at
       // sprites/<style>/ is published with that header automatically.
       // Same scope cap as the mobile pack (bw = gen1-5, dex = full)
-      // — anything outside falls through the fallback chain → base
-      // species → pokéball.
+      // — anything outside resolves to the pokéball placeholder via
+      // the widget's onError.
       final url = 'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
           'sprites/${s.name}/$key.${s.ext}';
       return NetworkImage(url);
@@ -337,19 +273,6 @@ class SpriteService extends ChangeNotifier {
     final file = File('$dir/$key.${s.ext}');
     if (!file.existsSync()) return null;
     return FileImage(file);
-  }
-
-  /// Fallback sprite for the base species when the form's sprite
-  /// isn't available — e.g., Legends Z-A Megas Showdown's community
-  /// hasn't drawn yet (`Mega Baxcalibur` → `Baxcalibur`), or
-  /// Champions-original Z-suffix Megas that will never exist on
-  /// Showdown (`Mega Absol Z` → `Absol`). Returns null when there's
-  /// no meaningful fallback (the input is already a base species, or
-  /// we're on mobile).
-  ImageProvider? fallbackSpriteFor(String pokemonName, {SpriteStyle? style}) {
-    final base = baseSpeciesName(pokemonName);
-    if (base == null) return null;
-    return spriteFor(base, style: style);
   }
 
   /// Box icon (40×30) for compact placements (dex list / simple
