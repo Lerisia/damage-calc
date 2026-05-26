@@ -198,8 +198,8 @@ void main() {
   });
 
   group('SpriteService', () {
-    test('default style is bw', () {
-      expect(SpriteService.instance.style, SpriteStyle.bw);
+    test('default style is dex (HOME 3D — full gen 1-9 coverage)', () {
+      expect(SpriteService.instance.style, SpriteStyle.dex);
     });
 
     test('SpriteStyle.dir / .ext for each enum value', () {

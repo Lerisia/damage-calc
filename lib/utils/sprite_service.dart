@@ -263,10 +263,12 @@ class SpriteService extends ChangeNotifier {
 
   static const _prefsKey = 'sprite_style';
 
-  /// User's currently selected sprite style. Defaults to [SpriteStyle.bw]
-  /// — the BW pixel set matches the calc's retro/competitive
-  /// aesthetic and is the smallest payload on the wire.
-  SpriteStyle _style = SpriteStyle.bw;
+  /// User's currently selected sprite style. Defaults to [SpriteStyle.dex]
+  /// — HOME 3D is the only style with full gen 1–9 coverage right
+  /// now (BW pack scope is held to gen1-5 until Smogon's X/Y Sprite
+  /// Project OKs redistribution), so it's the better out-of-box
+  /// experience for users who haven't picked anything yet.
+  SpriteStyle _style = SpriteStyle.dex;
   SpriteStyle get style => _style;
 
   /// Update the active style and persist the choice. Notifies listeners
@@ -300,7 +302,7 @@ class SpriteService extends ChangeNotifier {
       }
     }
     if (!kIsWeb && !_style.hasMobilePack) {
-      _style = SpriteStyle.bw;
+      _style = SpriteStyle.dex;
     }
   }
 
