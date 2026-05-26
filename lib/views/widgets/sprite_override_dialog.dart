@@ -62,6 +62,12 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
       builder: (ctx) {
         Pokemon? localPick;
         return AlertDialog(
+          // scrollable: true wraps title + content in a scroll view, so
+          // when the keyboard shrinks the dialog (PokemonSelector's
+          // text field has focus → IME pops up), the action row stays
+          // pinned at the bottom instead of being pushed below the
+          // viewport with the rest of the content.
+          scrollable: true,
           title: Text(AppStrings.t('sprite.override.add')),
           contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
           content: SizedBox(
