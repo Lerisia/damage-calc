@@ -476,6 +476,11 @@ class AppStrings {
       AppLanguage.en: 'The selected ZIP contains no images for this style. Did you pick a different style\'s pack by mistake?',
       AppLanguage.ja: '選択したZIPにこのスタイルの画像がありません。別スタイルのパックを選んでいないか確認してください。',
     },
+    'sprite.importNotZip': {
+      AppLanguage.ko: '선택한 파일이 ZIP 형식이 아닙니다. 다운로드한 이미지팩 zip 파일을 선택해주세요.',
+      AppLanguage.en: 'The selected file is not a ZIP archive. Please pick the downloaded sprite-pack zip.',
+      AppLanguage.ja: '選択したファイルはZIP形式ではありません。ダウンロードしたパックのzipファイルを選択してください。',
+    },
     'sprite.confirmRemove': {
       AppLanguage.ko: '이 스타일의 이미지팩을 제거하시겠습니까? 다시 사용하려면 새로 가져와야 합니다.',
       AppLanguage.en: 'Remove this style\'s sprite pack? You\'ll need to re-import it to use again.',

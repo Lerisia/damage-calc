@@ -87,7 +87,12 @@ class SpritePackManager extends ChangeNotifier {
     bool zipHasIcons = false;
 
     final bytes = await zipFile.readAsBytes();
-    final archive = ZipDecoder().decodeBytes(bytes);
+    final Archive archive;
+    try {
+      archive = ZipDecoder().decodeBytes(bytes);
+    } catch (_) {
+      throw const FormatException('Not a ZIP archive');
+    }
     var styleWritten = 0;
     var iconsWritten = 0;
     for (final entry in archive) {

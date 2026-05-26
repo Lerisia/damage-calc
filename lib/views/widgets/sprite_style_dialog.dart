@@ -54,27 +54,19 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
   Future<void> _pickAndImport(SpriteStyle style) async {
     setState(() => _busy[style] = true);
     try {
-      // file_selector is the Flutter team's official picker package
-      // — file_picker 8.x triggered Apple's TestFlight pipeline to
-      // silently drop our IPAs (see
-      // feedback_file_picker_ios_silent_drop.md), so we use this
-      // instead.
-      // iOS/macOS require uniformTypeIdentifiers (UTI) on the
-      // XTypeGroup — extensions alone are rejected with "should
-      // either allow all files, or have a non-empty
-      // uniformTypeIdentifiers". 'public.zip-archive' is the
-      // standard UTI for .zip; we also keep the extensions list for
-      // Android / desktop platforms.
-      final picked = await openFile(
-        acceptedTypeGroups: const [
-          XTypeGroup(
-            label: 'ZIP',
-            extensions: ['zip'],
-            mimeTypes: ['application/zip'],
-            uniformTypeIdentifiers: ['public.zip-archive'],
-          ),
-        ],
-      );
+      // No XTypeGroup filter — both iOS UIDocumentPickerViewController
+      // and Android SAF hide downloaded files from "Recent" when we
+      // restrict to application/zip + public.zip-archive (GitHub
+      // releases sometimes ship as application/octet-stream, and
+      // Safari downloads aren't always tagged with the zip UTI). We
+      // accept any file and validate the ZIP contents inside
+      // installFromZip, which surfaces a clear error for non-zip /
+      // wrong-style picks.
+      // file_selector is the Flutter team's official picker — we
+      // moved off file_picker 8.x after it caused Apple's TestFlight
+      // pipeline to silently drop our IPAs (see
+      // feedback_file_picker_ios_silent_drop.md).
+      final picked = await openFile();
       if (picked == null) return;
       final n = await SpritePackManager.instance
           .installFromZip(File(picked.path), style);
@@ -84,10 +76,13 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
             .replaceAll('{n}', '$n')),
         duration: const Duration(seconds: 3),
       ));
-    } on FormatException {
+    } on FormatException catch (e) {
       if (!mounted) return;
+      final messageKey = e.message == 'Not a ZIP archive'
+          ? 'sprite.importNotZip'
+          : 'sprite.importWrongStyle';
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppStrings.t('sprite.importWrongStyle')),
+        content: Text(AppStrings.t(messageKey)),
         duration: const Duration(seconds: 4),
       ));
     } catch (e) {
