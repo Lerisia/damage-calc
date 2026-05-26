@@ -257,18 +257,18 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
                     ),
                   ),
                 for (final s in SpriteStyle.values)
-                  if (kIsWeb || s.hasMobilePack) _styleRow(s),
-                if (!kIsWeb) ...[
-                  const Divider(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: OutlinedButton.icon(
-                      onPressed: () => showSpriteOverrideDialog(context),
-                      icon: const Icon(Icons.tune, size: 18),
-                      label: Text(AppStrings.t('sprite.override.menu')),
-                    ),
+                  // hasMobilePack==false (only `ani`) → hidden
+                  // everywhere until we ship a source for it.
+                  if (s.hasMobilePack) _styleRow(s),
+                const Divider(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: OutlinedButton.icon(
+                    onPressed: () => showSpriteOverrideDialog(context),
+                    icon: const Icon(Icons.tune, size: 18),
+                    label: Text(AppStrings.t('sprite.override.menu')),
                   ),
-                ],
+                ),
                 const SizedBox(height: 6),
                 // Coverage notice surfaces the gen-cap on BW + box
                 // icons so users don't read the pokéballs they see

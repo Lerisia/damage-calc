@@ -314,11 +314,11 @@ class SpriteService extends ChangeNotifier {
   ImageProvider? spriteFor(String pokemonName, {SpriteStyle? style}) {
     final s = style ?? this.style;
     final key = spriteKeyFor(pokemonName);
-    if (!kIsWeb) {
-      final override = SpriteOverrideManager.instance
-          .overrideFor(pokemonName, OverrideChannel.large);
-      if (override != null) return FileImage(override);
-    }
+    // Overrides win on every platform — the user picking a custom
+    // image trumps whichever style / pack source we'd otherwise hit.
+    final override = SpriteOverrideManager.instance
+        .overrideFor(pokemonName, OverrideChannel.large);
+    if (override != null) return override;
     if (kIsWeb) {
       // jsDelivr-fronted GitHub raw — Showdown's CDN doesn't send
       // access-control-allow-origin, which CanvasKit's image decode
@@ -360,17 +360,14 @@ class SpriteService extends ChangeNotifier {
   /// installed.
   ImageProvider? iconFor(String pokemonName) {
     final key = spriteKeyFor(pokemonName);
+    final override = SpriteOverrideManager.instance
+        .overrideFor(pokemonName, OverrideChannel.small);
+    if (override != null) return override;
     if (kIsWeb) {
-      // Same jsDelivr source as spriteFor; gen1-7 base species only
-      // (matches mobile pack scope). Misses fall through to the
-      // useBoxIcon caller's pokéball.
       return NetworkImage(
           'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
           'sprites/icons/$key.png');
     }
-    final override = SpriteOverrideManager.instance
-        .overrideFor(pokemonName, OverrideChannel.small);
-    if (override != null) return FileImage(override);
     if (!SpritePackManager.instance.iconsInstalled) return null;
     final dir = SpritePackManager.instance.iconsCacheDir;
     if (dir == null) return null;

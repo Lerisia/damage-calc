@@ -1,4 +1,4 @@
-import 'dart:io' show File;
+import 'dart:typed_data' show Uint8List;
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -92,17 +92,22 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
 
   Future<void> _pickAndSet(String pokemonName, OverrideChannel channel) async {
     try {
-      // image_picker → PHPicker on iOS 14+ (no NSPhotoLibrary
-      // permission required, Apple-blessed UI) / system gallery on
-      // Android. Right surface for picking a photo; if the user has
-      // images stored only in Files (not Photos), iOS's PHPicker
-      // exposes a Browse tab that reaches there.
+      // image_picker uses PHPicker on iOS 14+ (no NSPhotoLibrary
+      // permission required), the system gallery on Android, and
+      // an HTML <input type="file"> on web. In every case we read
+      // the bytes via XFile.readAsBytes() and hand them to the
+      // override manager, which picks the right backend (disk file
+      // on mobile, base64-in-prefs on web).
       final picked = await ImagePicker().pickImage(
         source: ImageSource.gallery,
       );
       if (picked == null) return;
+      final bytes = await picked.readAsBytes();
+      final name = picked.name;
+      final dot = name.lastIndexOf('.');
+      final ext = dot > 0 ? name.substring(dot + 1).toLowerCase() : 'png';
       await SpriteOverrideManager.instance
-          .setOverride(pokemonName, channel, File(picked.path));
+          .setOverride(pokemonName, channel, bytes: bytes, ext: ext);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -118,14 +123,15 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
     required OverrideChannel channel,
     required double size,
   }) {
-    final file = SpriteOverrideManager.instance
-        .overrideFor(pokemonName, channel);
+    final Uint8List? bytes = SpriteOverrideManager.instance
+        .overrideBytes(pokemonName, channel);
+    final hasOverride = bytes != null;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
           onTap: () => _pickAndSet(pokemonName, channel),
-          onLongPress: file == null
+          onLongPress: !hasOverride
               ? null
               : () => SpriteOverrideManager.instance
                   .clearOverride(pokemonName, channel),
@@ -134,10 +140,10 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
             height: size,
             decoration: BoxDecoration(
               border: Border.all(
-                color: file == null
+                color: !hasOverride
                     ? Theme.of(context).hintColor.withValues(alpha: 0.4)
                     : Colors.green.withValues(alpha: 0.6),
-                width: file == null ? 1 : 1.5,
+                width: hasOverride ? 1.5 : 1,
               ),
               borderRadius: BorderRadius.circular(6),
               color: Theme.of(context)
@@ -145,19 +151,22 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
                   .surfaceContainerHighest
                   .withValues(alpha: 0.3),
             ),
-            child: file == null
+            child: !hasOverride
                 ? Icon(Icons.add_photo_alternate_outlined,
                     size: size * 0.5,
                     color: Theme.of(context).hintColor)
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(5),
-                    // Key on path so swapping the file replaces the
-                    // displayed image without lingering cache.
-                    child: Image.file(
-                      file,
-                      key: ValueKey(file.path),
+                    // Key on a length+hash proxy so a replaced
+                    // upload swaps the displayed thumbnail instead
+                    // of sticking on the cached version.
+                    child: Image.memory(
+                      bytes,
+                      key: ValueKey(
+                          'override-${pokemonName}-${channel.name}-${bytes.length}'),
                       fit: BoxFit.contain,
                       filterQuality: FilterQuality.medium,
+                      gaplessPlayback: true,
                     ),
                   ),
           ),
@@ -183,10 +192,10 @@ class _SpriteOverrideDialogState extends State<SpriteOverrideDialog> {
     final p = _findByKey(spriteKeyFor(pokemonName));
     final displayName = p?.localizedName ?? pokemonName;
     final hasAny = SpriteOverrideManager.instance
-                .overrideFor(pokemonName, OverrideChannel.large) !=
+                .overrideBytes(pokemonName, OverrideChannel.large) !=
             null ||
         SpriteOverrideManager.instance
-                .overrideFor(pokemonName, OverrideChannel.small) !=
+                .overrideBytes(pokemonName, OverrideChannel.small) !=
             null;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),

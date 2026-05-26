@@ -1,132 +1,216 @@
-import 'dart:io';
+import 'dart:convert' show base64Decode, base64Encode;
+import 'dart:io' show Directory, File;
+import 'dart:typed_data' show Uint8List;
+
 import 'package:flutter/foundation.dart' show ChangeNotifier, kIsWeb;
+import 'package:flutter/widgets.dart' show FileImage, ImageProvider, MemoryImage;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'sprite_service.dart';
 
-/// Channel for a per-Pokémon override: [large] is what
-/// PokemonSprite renders in the calc panels and dex header, [small]
-/// is what useBoxIcon placements (dex list / simple-mode row) show.
 enum OverrideChannel { large, small }
 
-/// Per-Pokémon user-supplied sprite overrides, mobile-only.
+/// Per-Pokémon sprite override storage. Mobile keeps a File on
+/// disk under `<docs>/sprite_packs/overrides/<channel>/<key>.<ext>`;
+/// web base64-encodes the picked image bytes into shared_preferences
+/// (backed by localStorage) so the same dialog code paths work on
+/// both platforms.
 ///
-/// The user can upload one custom image per Pokémon per channel
-/// (large / small) — they sit on top of the imported sprite-pack
-/// cache so the override wins regardless of which style the user
-/// has selected. Files live under
-/// `<docs>/sprite_packs/overrides/<channel>/<spriteKey>.<ext>`,
-/// each <ext> is whatever the user imported (PNG / JPG / GIF —
-/// Flutter's Image widget handles all three).
-///
-/// Singleton ChangeNotifier so the dialog UI and SpriteService's
-/// per-frame reads stay in sync. Web is a no-op (the web build
-/// streams sprites from Showdown's CDN; there's no on-device
-/// override surface to give the user there).
+/// Mobile storage is unbounded by app design. Web storage is
+/// bounded by localStorage's per-origin quota (~5 MB on most
+/// browsers); a handful of compressed PNGs / JPEGs fits, but a
+/// huge upload will throw. The setter surfaces that error so the
+/// dialog can snack-bar it.
 class SpriteOverrideManager extends ChangeNotifier {
   SpriteOverrideManager._();
   static final SpriteOverrideManager instance = SpriteOverrideManager._();
 
+  /// Mobile only — disk root.
   Directory? _rootDir;
 
-  /// Cached map: (channel, spriteKey) → File on disk. Refreshed on
-  /// init() and after each set / clear, so SpriteService's lookup
-  /// stays a cheap map read instead of an FS stat per frame.
-  final Map<OverrideChannel, Map<String, File>> _overrides = {
+  /// Mobile: key → File on disk for each channel.
+  /// Web: key → in-memory Uint8List (rehydrated from prefs on init,
+  /// re-saved on set / clear).
+  final Map<OverrideChannel, Map<String, File>> _fileOverrides = {
+    OverrideChannel.large: {},
+    OverrideChannel.small: {},
+  };
+  final Map<OverrideChannel, Map<String, Uint8List>> _bytesOverrides = {
     OverrideChannel.large: {},
     OverrideChannel.small: {},
   };
 
+  String _prefsKey(OverrideChannel channel, String spriteKey) =>
+      'sprite_override_${channel.name}_$spriteKey';
+
   Future<void> init() async {
-    if (kIsWeb) return;
+    if (kIsWeb) {
+      await _initWeb();
+    } else {
+      await _initMobile();
+    }
+    notifyListeners();
+  }
+
+  Future<void> _initMobile() async {
     final docs = await getApplicationDocumentsDirectory();
     _rootDir = Directory('${docs.path}/sprite_packs/overrides')
       ..createSync(recursive: true);
     for (final channel in OverrideChannel.values) {
       final dir = Directory('${_rootDir!.path}/${channel.name}');
-      _overrides[channel]!.clear();
+      _fileOverrides[channel]!.clear();
       if (!dir.existsSync()) continue;
       for (final entry in dir.listSync()) {
         if (entry is! File) continue;
-        // Filename is '<spriteKey>.<ext>' — strip any extension to
-        // recover the key. Multiple extensions for the same key are
-        // resolved by keeping whichever came last in listSync (the
-        // user can only set one at a time so duplicates shouldn't
-        // happen in practice, but guard anyway).
         final base = entry.uri.pathSegments.last;
         final dot = base.lastIndexOf('.');
         if (dot <= 0) continue;
-        _overrides[channel]![base.substring(0, dot)] = entry;
+        _fileOverrides[channel]![base.substring(0, dot)] = entry;
       }
     }
-    notifyListeners();
   }
 
-  /// Override file for [pokemonName] on [channel], or null when the
-  /// user hasn't set one.
-  File? overrideFor(String pokemonName, OverrideChannel channel) {
+  Future<void> _initWeb() async {
+    final prefs = await SharedPreferences.getInstance();
+    for (final channel in OverrideChannel.values) {
+      _bytesOverrides[channel]!.clear();
+    }
+    for (final k in prefs.getKeys()) {
+      if (!k.startsWith('sprite_override_')) continue;
+      // Format: sprite_override_<channel>_<spriteKey>
+      final tail = k.substring('sprite_override_'.length);
+      OverrideChannel? matchedChannel;
+      String? matchedKey;
+      for (final c in OverrideChannel.values) {
+        final prefix = '${c.name}_';
+        if (tail.startsWith(prefix)) {
+          matchedChannel = c;
+          matchedKey = tail.substring(prefix.length);
+          break;
+        }
+      }
+      if (matchedChannel == null || matchedKey == null) continue;
+      final encoded = prefs.getString(k);
+      if (encoded == null) continue;
+      try {
+        _bytesOverrides[matchedChannel]![matchedKey] = base64Decode(encoded);
+      } catch (_) {
+        // Corrupted entry — silently skip; user can re-upload.
+      }
+    }
+  }
+
+  /// ImageProvider for a Pokémon's override on a channel, or null
+  /// when the user hasn't set one. Same interface regardless of
+  /// storage backend.
+  ImageProvider? overrideFor(String pokemonName, OverrideChannel channel) {
     final key = spriteKeyFor(pokemonName);
-    return _overrides[channel]![key];
-  }
-
-  /// Copy a user-picked image into the overrides cache under the
-  /// derived sprite key. Replaces any prior override on the same
-  /// (channel, name). Returns the persisted File so the dialog
-  /// can preview it.
-  Future<File> setOverride(
-      String pokemonName, OverrideChannel channel, File source) async {
     if (kIsWeb) {
-      throw StateError('Sprite overrides are mobile-only.');
+      final bytes = _bytesOverrides[channel]![key];
+      return bytes == null ? null : MemoryImage(bytes);
     }
-    if (_rootDir == null) await init();
+    final file = _fileOverrides[channel]![key];
+    return file == null ? null : FileImage(file);
+  }
+
+  /// Set an override. [bytes] is the raw image content the dialog
+  /// reads from the picked XFile; [ext] is the original file
+  /// extension (so mobile can name the on-disk file accurately).
+  Future<void> setOverride(
+    String pokemonName,
+    OverrideChannel channel, {
+    required Uint8List bytes,
+    required String ext,
+  }) async {
     final key = spriteKeyFor(pokemonName);
-    final dir = Directory('${_rootDir!.path}/${channel.name}')
-      ..createSync(recursive: true);
-    // Drop any prior file for this key on this channel first — the
-    // extension may differ between the old and new override.
-    for (final entry in dir.listSync()) {
-      if (entry is! File) continue;
-      final base = entry.uri.pathSegments.last;
-      final dot = base.lastIndexOf('.');
-      if (dot > 0 && base.substring(0, dot) == key) entry.deleteSync();
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      try {
+        await prefs.setString(_prefsKey(channel, key), base64Encode(bytes));
+        _bytesOverrides[channel]![key] = bytes;
+      } catch (e) {
+        // QuotaExceededError when localStorage is full. Surface to
+        // caller so it can snackbar the user.
+        rethrow;
+      }
+    } else {
+      if (_rootDir == null) await init();
+      final dir = Directory('${_rootDir!.path}/${channel.name}')
+        ..createSync(recursive: true);
+      for (final entry in dir.listSync()) {
+        if (entry is! File) continue;
+        final base = entry.uri.pathSegments.last;
+        final dot = base.lastIndexOf('.');
+        if (dot > 0 && base.substring(0, dot) == key) entry.deleteSync();
+      }
+      final dst = File('${dir.path}/$key.$ext');
+      await dst.writeAsBytes(bytes);
+      _fileOverrides[channel]![key] = dst;
     }
-    final srcName = source.uri.pathSegments.last;
-    final dot = srcName.lastIndexOf('.');
-    final ext = dot > 0 ? srcName.substring(dot + 1).toLowerCase() : 'png';
-    final dst = File('${dir.path}/$key.$ext');
-    await source.copy(dst.path);
-    _overrides[channel]![key] = dst;
     notifyListeners();
-    return dst;
   }
 
   Future<void> clearOverride(
       String pokemonName, OverrideChannel channel) async {
-    if (kIsWeb || _rootDir == null) return;
     final key = spriteKeyFor(pokemonName);
-    final file = _overrides[channel]!.remove(key);
-    if (file != null && file.existsSync()) file.deleteSync();
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_prefsKey(channel, key));
+      _bytesOverrides[channel]!.remove(key);
+    } else {
+      if (_rootDir == null) return;
+      final file = _fileOverrides[channel]!.remove(key);
+      if (file != null && file.existsSync()) file.deleteSync();
+    }
     notifyListeners();
   }
 
-  /// Distinct Pokémon names (by sprite key) that have at least one
-  /// override on either channel. The UI lists these so the user can
-  /// see and manage their existing customisations.
+  /// Sprite keys that have an override on either channel.
   Set<String> overriddenSpriteKeys() {
+    if (kIsWeb) {
+      return {
+        ..._bytesOverrides[OverrideChannel.large]!.keys,
+        ..._bytesOverrides[OverrideChannel.small]!.keys,
+      };
+    }
     return {
-      ..._overrides[OverrideChannel.large]!.keys,
-      ..._overrides[OverrideChannel.small]!.keys,
+      ..._fileOverrides[OverrideChannel.large]!.keys,
+      ..._fileOverrides[OverrideChannel.small]!.keys,
     };
   }
 
-  /// Wipe every override on every channel — used by the dialog's
-  /// 'reset all overrides' affordance if we ever add one.
+  /// Bytes for the override on this channel, or null. Used by the
+  /// dialog's slot preview so it can show the just-uploaded image
+  /// inline without re-reading a disk file the user can't see.
+  Uint8List? overrideBytes(String pokemonName, OverrideChannel channel) {
+    final key = spriteKeyFor(pokemonName);
+    if (kIsWeb) return _bytesOverrides[channel]![key];
+    final file = _fileOverrides[channel]![key];
+    if (file == null) return null;
+    try {
+      return file.readAsBytesSync();
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<void> clearAll() async {
-    if (kIsWeb || _rootDir == null) return;
-    for (final channel in OverrideChannel.values) {
-      final dir = Directory('${_rootDir!.path}/${channel.name}');
-      if (dir.existsSync()) dir.deleteSync(recursive: true);
-      _overrides[channel]!.clear();
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      for (final k in prefs.getKeys().toList()) {
+        if (k.startsWith('sprite_override_')) await prefs.remove(k);
+      }
+      for (final c in OverrideChannel.values) {
+        _bytesOverrides[c]!.clear();
+      }
+    } else {
+      if (_rootDir == null) return;
+      for (final channel in OverrideChannel.values) {
+        final dir = Directory('${_rootDir!.path}/${channel.name}');
+        if (dir.existsSync()) dir.deleteSync(recursive: true);
+        _fileOverrides[channel]!.clear();
+      }
     }
     notifyListeners();
   }
