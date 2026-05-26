@@ -320,8 +320,15 @@ class SpriteService extends ChangeNotifier {
       if (override != null) return FileImage(override);
     }
     if (kIsWeb) {
-      final url = 'https://play.pokemonshowdown.com/sprites/${s.dir}/'
-          '$key.${s.ext}';
+      // jsDelivr-fronted GitHub raw — Showdown's CDN doesn't send
+      // access-control-allow-origin, which CanvasKit's image decode
+      // pipeline requires. Our pack repo's extracted tree at
+      // sprites/<style>/ is published with that header automatically.
+      // Same scope cap as the mobile pack (bw = gen1-5, dex = full)
+      // — anything outside falls through the fallback chain → base
+      // species → pokéball.
+      final url = 'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
+          'sprites/${s.name}/$key.${s.ext}';
       return NetworkImage(url);
     }
     if (!SpritePackManager.instance.isInstalled(s)) return null;
@@ -352,14 +359,21 @@ class SpriteService extends ChangeNotifier {
   /// regular style sprite scales down instead) and when no pack is
   /// installed.
   ImageProvider? iconFor(String pokemonName) {
-    if (kIsWeb) return null;
+    final key = spriteKeyFor(pokemonName);
+    if (kIsWeb) {
+      // Same jsDelivr source as spriteFor; gen1-7 base species only
+      // (matches mobile pack scope). Misses fall through to the
+      // useBoxIcon caller's pokéball.
+      return NetworkImage(
+          'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
+          'sprites/icons/$key.png');
+    }
     final override = SpriteOverrideManager.instance
         .overrideFor(pokemonName, OverrideChannel.small);
     if (override != null) return FileImage(override);
     if (!SpritePackManager.instance.iconsInstalled) return null;
     final dir = SpritePackManager.instance.iconsCacheDir;
     if (dir == null) return null;
-    final key = spriteKeyFor(pokemonName);
     final file = File('$dir/$key.png');
     if (!file.existsSync()) return null;
     return FileImage(file);
