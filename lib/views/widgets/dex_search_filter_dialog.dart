@@ -295,23 +295,11 @@ Future<Object?> showDexSearchFilterDialog({
 }) {
   return showDialog<Object?>(
     context: context,
-    builder: (ctx) {
-      // Hide the on-screen keyboard's viewInsets from the dialog so
-      // the dialog frame doesn't visibly shrink + jump-scroll every
-      // time a numeric input gains focus. The keyboard appears OVER
-      // the dialog's lower edge instead of pushing it up; the user
-      // can scroll the dialog content to bring a covered input into
-      // view if needed.
-      final mq = MediaQuery.of(ctx);
-      return MediaQuery(
-        data: mq.copyWith(viewInsets: EdgeInsets.zero),
-        child: _DexSearchFilterDialog(
-          initial: current,
-          abilityDex: abilityDex,
-          allMoves: allMoves,
-        ),
-      );
-    },
+    builder: (ctx) => _DexSearchFilterDialog(
+      initial: current,
+      abilityDex: abilityDex,
+      allMoves: allMoves,
+    ),
   );
 }
 
