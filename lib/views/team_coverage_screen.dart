@@ -1089,21 +1089,23 @@ class _SlotSummaryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: empty ? null : scheme.surface,
         ),
-        padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
+        padding: const EdgeInsets.fromLTRB(8, 4, 10, 4),
         child: empty ? _emptyContent(scheme) : _filledContent(context, p, scheme),
       ),
     );
   }
 
   Widget _emptyContent(ColorScheme scheme) {
+    // Matches the filled-card height (~68) so all 6 slots stay the
+    // same size whether populated or not.
     return SizedBox(
-      height: 96,
+      height: 64,
       child: Row(
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Icon(Icons.catching_pokemon,
-                size: 56, color: scheme.outlineVariant),
+                size: 44, color: scheme.outlineVariant),
           ),
           Expanded(
             child: Align(
@@ -1111,7 +1113,7 @@ class _SlotSummaryCard extends StatelessWidget {
               child: Text(
                 AppStrings.t('team.slot.tapToAdd'),
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w500,
                   color: scheme.onSurface.withValues(alpha: 0.55),
                 ),
@@ -1132,22 +1134,18 @@ class _SlotSummaryCard extends StatelessWidget {
     final itemLabel = itemKey == null ? null : (itemNames[itemKey] ?? itemKey);
 
     return Row(
-      // Top-aligned so the name sits at the same Y as the top of the
-      // sprite. The previous center alignment left ~18 px of empty
-      // space above the name (sprite tall, middle column short).
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Sprite — the row's primary visual anchor.
-        PokemonSprite(pokemonName: p.name, size: 96),
-        const SizedBox(width: 12),
+        // Sprite shrunk from 96 → 64 so 6 slot cards can fit a single
+        // phone viewport. Still recognizable at this size for the
+        // box-icon-style art the BW + dex packs ship.
+        PokemonSprite(pokemonName: p.name, size: 64),
+        const SizedBox(width: 8),
         Expanded(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Name + type chips. Slot index removed — the row order
-              // already conveys "1st / 2nd / …" position and the chip
-              // was just stealing width on narrow phones.
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -1157,7 +1155,7 @@ class _SlotSummaryCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -1174,28 +1172,24 @@ class _SlotSummaryCard extends StatelessWidget {
                     const SizedBox(width: 2),
                     _typeChip(slot.effectiveType3!),
                   ],
-                  // Inline sample-load — skips opening the editor
-                  // dialog so users who just want to load a saved
-                  // mon don't pay the form-stack cost. Same callback
-                  // is also wired inside the editor's _SlotCard.
                   IconButton(
                     tooltip: AppStrings.t('team.sample.load'),
-                    icon: const Icon(Icons.folder_open, size: 18),
+                    icon: const Icon(Icons.folder_open, size: 16),
                     onPressed: onLoadSample,
                     visualDensity: VisualDensity.compact,
                     padding: EdgeInsets.zero,
                     constraints:
-                        const BoxConstraints(minWidth: 28, minHeight: 28),
+                        const BoxConstraints(minWidth: 24, minHeight: 24),
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               // Ability + Item on a single inline line — item flows
               // immediately after the ability so a short ability name
               // pulls the item label leftward instead of locking each
               // field to a fixed column.
               _abilityItemLine(scheme, abilityLabel, itemLabel),
-              const SizedBox(height: 6),
+              const SizedBox(height: 4),
               // Move pills — forced to a single line via equal-width
               // Expanded cells. Long move names truncate with the
               // pill's ellipsis style rather than wrapping to a 2nd
