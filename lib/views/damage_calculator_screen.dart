@@ -14,6 +14,7 @@ import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/simple_mode_controller.dart';
 import 'widgets/app_bottom_nav.dart';
+import 'widgets/app_settings_menu.dart';
 import 'widgets/sprite_style_dialog.dart';
 import 'dex_screen.dart';
 import 'move_dex_screen.dart';
@@ -645,7 +646,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void _showAboutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => const _AboutDialog(),
+      builder: (_) => const AppAboutDialog(),
     );
   }
 
@@ -690,50 +691,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  String _languageLabel() {
-    const labels = {
-      AppLanguage.ko: '🇰🇷 한국어',
-      AppLanguage.en: '🇺🇸 English',
-      AppLanguage.ja: '🇯🇵 日本語',
-    };
-    return labels[AppStrings.current]!;
-  }
-
-  void _showLanguageDialog() {
-    const langLabels = {
-      AppLanguage.ko: '🇰🇷 한국어',
-      AppLanguage.en: '🇺🇸 English',
-      AppLanguage.ja: '🇯🇵 日本語',
-    };
-    showDialog(
-      context: context,
-      builder: (ctx) => SimpleDialog(
-        title: Text(AppStrings.t('toolbar.battleConditions').isEmpty ? 'Language' : '🌐'),
-        children: AppLanguage.values.map((lang) => SimpleDialogOption(
-          onPressed: () {
-            AppStrings.setLanguage(lang);
-            _loadAbilities();
-            _loadItems();
-            setState(() { _resetCounter++; });
-            Navigator.pop(ctx);
-          },
-          child: Text(
-            langLabels[lang]!,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: AppStrings.current == lang ? FontWeight.bold : FontWeight.normal,
-              color: AppStrings.current == lang ? Theme.of(ctx).colorScheme.primary : null,
-            ),
-          ),
-        )).toList(),
-      ),
-    );
-  }
-
-  /// Sprite style picker. Same dialog the [PokemonSprite] placeholder
-  /// opens on tap — extracted to widgets/sprite_style_dialog.dart so
-  /// both entry points share the implementation.
-  void _showSpriteStyleDialog() => showSpriteStyleDialog(context);
+  // Language / sprite-style / about helpers moved to AppSettingsMenu.
+  // _showAboutDialog stays — the footer credit-line still opens it.
 
   /// Chip for a field-state ability (aura/ruin) in the battle conditions
   /// dialog. Auto-locked to ON when either the attacker or defender has
@@ -1476,67 +1435,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600),
                 ),
               ),
-              // Settings (preferences only). Top-level destinations
-              // (dex / move dex / team builder) moved to the bottom
-              // nav so this menu now exclusively holds appearance and
-              // app-level settings — gear icon makes the purpose
-              // self-evident.
-              PopupMenuButton<String>(
-                icon: const Icon(Icons.settings),
-                tooltip: '',
-                popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-                itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: 'language',
-                    child: Row(children: [
-                      const Icon(Icons.language, size: 20),
-                      const SizedBox(width: 8),
-                      Text(_languageLabel()),
-                    ]),
-                  ),
-                  PopupMenuItem(
-                    value: 'theme',
-                    child: Row(children: [
-                      Icon(
-                        ThemeController.instance.isDark
-                            ? Icons.light_mode_outlined
-                            : Icons.dark_mode_outlined,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(ThemeController.instance.isDark
-                          ? AppStrings.t('app.themeLight')
-                          : AppStrings.t('app.themeDark')),
-                    ]),
-                  ),
-                  PopupMenuItem(
-                    value: 'sprites',
-                    child: Row(children: [
-                      const Icon(Icons.catching_pokemon, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('app.spriteStyle')),
-                    ]),
-                  ),
-                  PopupMenuItem(
-                    value: 'about',
-                    child: Row(children: [
-                      const Icon(Icons.info_outline, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('app.about')),
-                    ]),
-                  ),
-                ],
-                onSelected: (v) {
-                  switch (v) {
-                    case 'language':
-                      _showLanguageDialog();
-                    case 'theme':
-                      ThemeController.instance.toggle();
-                    case 'sprites':
-                      _showSpriteStyleDialog();
-                    case 'about':
-                      _showAboutDialog(context);
-                  }
+              AppSettingsMenu(
+                onLanguageChanged: () {
+                  // Calc owns localized ability/item name caches that
+                  // have to be re-pulled in the new language; for
+                  // the dex / move dex / team builder screens a
+                  // plain setState is enough.
+                  _loadAbilities();
+                  _loadItems();
+                  setState(() => _resetCounter++);
                 },
               ),
             ],
@@ -2927,8 +2834,8 @@ class _ThemeToggleButton extends StatelessWidget {
 }
 
 /// About dialog.
-class _AboutDialog extends StatelessWidget {
-  const _AboutDialog();
+class AppAboutDialog extends StatelessWidget {
+  const AppAboutDialog({super.key});
 
   static const _playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.elyss.damagecalc';

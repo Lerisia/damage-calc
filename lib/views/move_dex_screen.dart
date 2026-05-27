@@ -15,6 +15,7 @@ import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import 'dex_screen.dart';
 import 'widgets/app_bottom_nav.dart';
+import 'widgets/app_settings_menu.dart';
 import 'widgets/type_filter_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
@@ -313,11 +314,11 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           // (≥1050) suppress the bottom nav, so the back arrow stays.
           automaticallyImplyLeading:
               MediaQuery.sizeOf(context).width >= 1050,
-          titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text(AppStrings.t('dex.move.title')),
-          ),
+          centerTitle: true,
+          title: Text(AppStrings.t('dex.move.title')),
+          actions: [
+            AppSettingsMenu(onLanguageChanged: () => setState(() {})),
+          ],
         ),
       ),
       // Tap anywhere outside the search field → drop focus so the

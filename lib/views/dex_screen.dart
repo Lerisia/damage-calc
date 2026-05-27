@@ -28,6 +28,7 @@ import '../utils/ability_effects.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
 import 'widgets/app_bottom_nav.dart';
+import 'widgets/app_settings_menu.dart';
 import 'widgets/dex_search_filter_dialog.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
@@ -247,24 +248,23 @@ class _DexScreenState extends State<DexScreen> {
         appBar: cappedAppBar(
           maxWidth: 1200,
           appBar: AppBar(
+            // Species name appears large in the body header, so the
+            // app bar drops it and uses send buttons + settings in
+            // actions.
             automaticallyImplyLeading: false,
-            titleSpacing: 0,
-            title: Row(
-              children: [
-                if (MediaQuery.sizeOf(context).width >= 1050)
-                  IconButton(
+            leading: MediaQuery.sizeOf(context).width >= 1050
+                ? IconButton(
                     tooltip: MaterialLocalizations.of(context)
                         .backButtonTooltip,
                     icon: const BackButtonIcon(),
                     onPressed: () => Navigator.of(context).pop(),
-                  ),
-                // Species name is already shown large in the header
-                // below, so the app bar drops it and uses the freed
-                // space for the attacker / defender send actions.
-                const Spacer(),
-                ..._appBarSendButtons(),
-              ],
-            ),
+                  )
+                : null,
+            title: const SizedBox.shrink(),
+            actions: [
+              ..._appBarSendButtons(),
+              AppSettingsMenu(onLanguageChanged: () => setState(() {})),
+            ],
             bottom: wide
                 ? null
                 : TabBar(
@@ -344,37 +344,24 @@ class _DexScreenState extends State<DexScreen> {
         appBar: cappedAppBar(
           maxWidth: 1500,
           appBar: AppBar(
+            // Wide-only back arrow (narrow widths return via the
+            // bottom nav's '계산기' tab).
             automaticallyImplyLeading: false,
-            titleSpacing: 0,
-            title: Row(
-              children: [
-                // Wide-only back arrow — narrow widths use the bottom
-                // nav's '계산기' tab to return, so an extra back chip
-                // would be redundant chrome. Wide hides the nav, so
-                // this is the in-app return path there.
-                if (MediaQuery.sizeOf(context).width >= 1050)
-                  IconButton(
+            leading: MediaQuery.sizeOf(context).width >= 1050
+                ? IconButton(
                     tooltip: MaterialLocalizations.of(context)
                         .backButtonTooltip,
                     icon: const BackButtonIcon(),
                     onPressed: () => Navigator.of(context).pop(),
-                  ),
-                Expanded(
-                  child: Text(AppStrings.t('dex.title'),
-                      style: const TextStyle(fontSize: 18)),
-                ),
-                ..._appBarSendButtons(),
-                ValueListenableBuilder<bool>(
-                  valueListenable:
-                      ChampionsFilterController.instance.championsOnly,
-                  builder: (context, on, _) => _ChampionsOnlyToggle(
-                    value: on,
-                    onChanged: (v) => ChampionsFilterController.instance
-                        .set(v ?? false),
-                  ),
-                ),
-              ],
-            ),
+                  )
+                : null,
+            centerTitle: true,
+            title: Text(AppStrings.t('dex.title'),
+                style: const TextStyle(fontSize: 18)),
+            actions: [
+              ..._appBarSendButtons(),
+              AppSettingsMenu(onLanguageChanged: () => setState(() {})),
+            ],
           ),
         ),
         body: GestureDetector(
@@ -2650,45 +2637,6 @@ class _MovesTabState extends State<_MovesTab> {
   }
 }
 
-/// Compact toggle used in the dex AppBars. Visually a checkbox + short
-/// label; the whole strip is tappable so users don't have to land on
-/// the 18×18 box. Sits inside [AppBar.actions] so we avoid the AppBar
-/// auto-padding on the right edge.
-class _ChampionsOnlyToggle extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool?> onChanged;
-
-  const _ChampionsOnlyToggle({required this.value, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: InkWell(
-        onTap: () => onChanged(!value),
-        borderRadius: BorderRadius.circular(6),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 20,
-                height: 20,
-                child: Checkbox(
-                  value: value,
-                  onChanged: onChanged,
-                  visualDensity: VisualDensity.compact,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ),
-              const SizedBox(width: 4),
-              Text(AppStrings.t('dex.championsOnly'),
-                  style: const TextStyle(fontSize: 12)),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+// _ChampionsOnlyToggle removed — the Champions-only filter is now a
+// global setting accessible from AppSettingsMenu, shared across the
+// calculator, dex, move dex, and team builder screens.

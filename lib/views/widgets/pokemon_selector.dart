@@ -13,18 +13,11 @@ class PokemonSelector extends StatefulWidget {
   /// "pick a Pokemon" state. Empty string is treated the same as
   /// `null` so callers passing `state.pokemonName ?? ''` work.
   final String? initialPokemonName;
-  /// When true, narrow the search list to species curated in
-  /// [championsUsageFor] (Pokémon Champions roster). The selector still
-  /// respects the user's last pick — selected species always shows up
-  /// at the top regardless of filter — so toggling won't strand the
-  /// field on a hidden value.
-  final bool filterChampionsOnly;
 
   const PokemonSelector({
     super.key,
     required this.onSelected,
     this.initialPokemonName = 'Bulbasaur',
-    this.filterChampionsOnly = false,
   });
 
   @override
@@ -79,7 +72,10 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   }
 
   bool _passesFilter(Pokemon p) {
-    if (!widget.filterChampionsOnly) return true;
+    // Global champions-only filter — controlled from AppSettingsMenu.
+    // Selected species always passes (handled by _sortedOptions' pinning
+    // of the current pick at the top) so toggling the filter never
+    // strands the field on a hidden value.
     if (!ChampionsFilterController.instance.championsOnly.value) return true;
     return isInChampions(p.name);
   }
