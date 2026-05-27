@@ -1098,66 +1098,50 @@ class _SlotCardState extends State<_SlotCard> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final p = widget.slot.pokemon;
-    // Card-style layout: sprite | middle (name+types, ability+item) |
-    // moves column (4 stacked). All three columns share the same row
-    // so the slot reads as a single visual unit instead of a
-    // top-to-bottom form. Type chips + sample-load / clear actions
-    // sit on the same line as the species selector to keep the
-    // middle column compact.
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: scheme.outlineVariant),
         borderRadius: BorderRadius.circular(6),
       ),
-      padding: const EdgeInsets.fromLTRB(6, 6, 8, 6),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // ── Sprite column. Vertically centered so it sits opposite
-            // the middle of the form even when the moves column makes
-            // the card taller than the sprite.
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: PokemonSprite(
-                pokemonName: p?.name ?? '',
-                size: 72,
-              ),
+      padding: const EdgeInsets.fromLTRB(6, 4, 10, 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Sprite slot at the left edge of every party card. 80-px
+          // version of the original 56 — bigger sprite reads as the
+          // primary visual anchor of the row without crowding the
+          // form area to its right.
+          Padding(
+            padding: const EdgeInsets.only(right: 6, top: 6),
+            child: PokemonSprite(
+              pokemonName: p?.name ?? '',
+              size: 80,
             ),
-            // ── Middle column: species selector with types/actions on
-            // one line, ability + item on the next.
-            Expanded(child: _slotMiddleColumn(context, p, scheme)),
-            const SizedBox(width: 6),
-            // ── Moves column: 4 stacked move pickers. Fixed width so
-            // the middle column gets predictable space.
-            SizedBox(
-              width: 140,
-              child: _slotMovesColumn(scheme, p),
-            ),
-          ],
-        ),
+          ),
+          Expanded(child: _slotCardBody(context, p)),
+        ],
       ),
     );
   }
 
-  Widget _slotMiddleColumn(
-      BuildContext context, Pokemon? p, ColorScheme scheme) {
+  Widget _slotCardBody(BuildContext context, Pokemon? p) {
+    final scheme = Theme.of(context).colorScheme;
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        // ── Top line: index • selector • type chips • load • clear
+        // ─── Row 1: index | name selector | type chips | load | clear
+        // Fixed height so the card doesn't jump when type chips or
+        // the clear button appear after a pokemon is picked.
         SizedBox(
-          height: 32,
+          height: 36,
           child: Row(
             children: [
               SizedBox(
-                width: 18,
+                width: 24,
                 child: Text(
                   '${widget.index + 1}',
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: scheme.onSurface.withValues(alpha: 0.5),
                   ),
@@ -1172,7 +1156,7 @@ class _SlotCardState extends State<_SlotCard> {
                 ),
               ),
               if (p != null) ...[
-                const SizedBox(width: 4),
+                const SizedBox(width: 6),
                 InkWell(
                   onTap: () => _openTypePicker(p),
                   borderRadius: BorderRadius.circular(4),
@@ -1193,55 +1177,69 @@ class _SlotCardState extends State<_SlotCard> {
                   ),
                 ),
               ],
+              const SizedBox(width: 4),
               IconButton(
                 tooltip: AppStrings.t('team.sample.load'),
-                icon: const Icon(Icons.folder_open, size: 16),
+                icon: const Icon(Icons.folder_open, size: 18),
                 onPressed: widget.onLoadSample,
                 visualDensity: VisualDensity.compact,
                 padding: EdgeInsets.zero,
                 constraints:
-                    const BoxConstraints(minWidth: 24, minHeight: 24),
+                    const BoxConstraints(minWidth: 30, minHeight: 30),
               ),
               if (p != null)
                 IconButton(
                   tooltip: '',
-                  icon: const Icon(Icons.close, size: 16),
+                  icon: const Icon(Icons.close, size: 18),
                   onPressed: widget.onClear,
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
                   constraints:
-                      const BoxConstraints(minWidth: 24, minHeight: 24),
+                      const BoxConstraints(minWidth: 30, minHeight: 30),
                 ),
             ],
           ),
         ),
-        // ── Bottom line: ability + item.
-        const SizedBox(height: 2),
+        // ─── Row 2: ability + item.
+        const SizedBox(height: 4),
         SizedBox(
-          height: 44,
+          height: 50,
           child: Row(
             children: [
-              const SizedBox(width: 18),
+              const SizedBox(width: 24),
               Expanded(child: _abilityField(scheme, p)),
               const SizedBox(width: 6),
               Expanded(child: _itemField(scheme, p)),
             ],
           ),
         ),
+        // ─── Row 3: 4 move pickers in a 2×2 grid.
+        if (widget.showMoves) ...[
+          const SizedBox(height: 4),
+          _moveGrid(scheme, p),
+        ],
       ],
     );
   }
 
-  Widget _slotMovesColumn(ColorScheme scheme, Pokemon? p) {
-    if (!widget.showMoves) return const SizedBox.shrink();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        for (int i = 0; i < 4; i++) ...[
-          SizedBox(height: 28, child: _moveField(scheme, p, i)),
-          if (i < 3) const SizedBox(height: 4),
+  Widget _moveGrid(ColorScheme scheme, Pokemon? p) {
+    Widget cell(int i) {
+      return Expanded(
+        child: SizedBox(
+          height: 50,
+          child: _moveField(scheme, p, i),
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.only(left: 24),
+      child: Column(
+        children: [
+          Row(children: [cell(0), const SizedBox(width: 6), cell(1)]),
+          const SizedBox(height: 4),
+          Row(children: [cell(2), const SizedBox(width: 6), cell(3)]),
         ],
-      ],
+      ),
     );
   }
 
