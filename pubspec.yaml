@@ -1,7 +1,7 @@
 name: damage_calc
 description: Battle damage calculator
 publish_to: 'none'
-version: 1.9.5+235
+version: 1.9.5+236
 
 environment:
   sdk: '>=3.2.0 <4.0.0'

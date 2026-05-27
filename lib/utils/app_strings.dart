@@ -120,6 +120,11 @@ class AppStrings {
       AppLanguage.en: 'Party',
       AppLanguage.ja: 'パーティ',
     },
+    'team.slot.tapToAdd': {
+      AppLanguage.ko: '탭하여 포켓몬 추가',
+      AppLanguage.en: 'Tap to add a Pokémon',
+      AppLanguage.ja: 'タップしてポケモンを追加',
+    },
     'team.tab.defense': {
       AppLanguage.ko: '방어 상성',
       AppLanguage.en: 'Defense',

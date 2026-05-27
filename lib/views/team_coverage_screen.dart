@@ -705,10 +705,52 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // layout phones use.
     final isWide = MediaQuery.of(context).size.width >= 1050;
 
-    // Slot cards always show the move row now — the offensive matrix
-    // lives in its own tab, but it needs move data populated up-front,
-    // so making move entry permanent on the Party tab keeps the
-    // workflow simple (per user direction: "기술 입력란 항상 보이게").
+    // Slot rows are now read-only summary cards (sprite + name +
+    // types + ability/item + 4 move pills). Tap to open the modal
+    // editor sheet that contains the full form (selector, ability,
+    // item, type override, 4 move pickers, sample-load, clear).
+    // Callbacks fire in real time as the user edits, so closing the
+    // sheet doesn't need an explicit commit step.
+    void openEditor(_TeamSlot slot, int displayIndex,
+        VoidCallback onClearOrRemove) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        showDragHandle: true,
+        builder: (sheetCtx) => SafeArea(
+          top: false,
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.viewInsetsOf(sheetCtx).bottom,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+              child: _SlotCard(
+                index: displayIndex,
+                slot: slot,
+                abilityDex: _abilityDex ?? const {},
+                abilityNames: _abilityNames ?? const {},
+                itemDex: _itemDex ?? const {},
+                itemNames: _itemNames ?? const {},
+                onPokemonSelected: (p) => _setPokemon(slot, p),
+                onAbilitySelected: (a) => _setAbility(slot, a),
+                onItemSelected: (it) => _setItem(slot, it),
+                onLoadSample: () => _loadSampleInto(slot),
+                onClear: () {
+                  onClearOrRemove();
+                  Navigator.of(sheetCtx).pop();
+                },
+                showMoves: true,
+                onMoveChanged: (mi, m) => _setMove(slot, mi, m),
+                onTypeOverrideChanged: (override) =>
+                    _setTypeOverride(slot, override),
+              ),
+            ),
+          ),
+        ),
+      ).then((_) => setState(() {})); // refresh summary on close
+    }
+
     Widget buildSlotCard(
       _TeamSlot slot, {
       required int displayIndex,
@@ -716,23 +758,13 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       required VoidCallback onClearOrRemove,
     }) =>
         RepaintBoundary(
-          child: _SlotCard(
+          child: _SlotSummaryCard(
             key: key,
             index: displayIndex,
             slot: slot,
-            abilityDex: _abilityDex ?? const {},
             abilityNames: _abilityNames ?? const {},
-            itemDex: _itemDex ?? const {},
             itemNames: _itemNames ?? const {},
-            onPokemonSelected: (p) => _setPokemon(slot, p),
-            onAbilitySelected: (a) => _setAbility(slot, a),
-            onItemSelected: (it) => _setItem(slot, it),
-            onLoadSample: () => _loadSampleInto(slot),
-            onClear: onClearOrRemove,
-            showMoves: true,
-            onMoveChanged: (mi, m) => _setMove(slot, mi, m),
-            onTypeOverrideChanged: (override) =>
-                _setTypeOverride(slot, override),
+            onTap: () => openEditor(slot, displayIndex, onClearOrRemove),
           ),
         );
 
@@ -977,6 +1009,287 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         ),
       ),
       ),
+    );
+  }
+}
+
+/// Read-only summary of a party slot — sprite + name + type chips +
+/// ability/item labels + 4 move pills. Tapping the card opens the
+/// modal editor that owns the actual form widgets ([_SlotCard]).
+/// Empty slots render a dashed-frame "탭하여 추가" prompt instead.
+class _SlotSummaryCard extends StatelessWidget {
+  final int index;
+  final _TeamSlot slot;
+  final Map<String, String> abilityNames;
+  final Map<String, String> itemNames;
+  final VoidCallback onTap;
+
+  const _SlotSummaryCard({
+    super.key,
+    required this.index,
+    required this.slot,
+    required this.abilityNames,
+    required this.itemNames,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final p = slot.pokemon;
+    final empty = p == null;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: scheme.outlineVariant,
+            style: empty ? BorderStyle.solid : BorderStyle.solid,
+          ),
+          borderRadius: BorderRadius.circular(8),
+          color: empty ? null : scheme.surface,
+        ),
+        padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
+        child: empty ? _emptyContent(scheme) : _filledContent(context, p, scheme),
+      ),
+    );
+  }
+
+  Widget _emptyContent(ColorScheme scheme) {
+    return SizedBox(
+      height: 96,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Icon(Icons.catching_pokemon,
+                size: 56, color: scheme.outlineVariant),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${index + 1}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: scheme.onSurface.withValues(alpha: 0.4),
+                    )),
+                const SizedBox(height: 4),
+                Text(
+                  AppStrings.t('team.slot.tapToAdd'),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: scheme.onSurface.withValues(alpha: 0.55),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _filledContent(BuildContext context, Pokemon p, ColorScheme scheme) {
+    final abilityKey = slot.ability;
+    final abilityLabel = abilityKey == null
+        ? null
+        : (abilityNames[abilityKey] ?? abilityKey);
+    final itemKey = slot.heldItem;
+    final itemLabel = itemKey == null ? null : (itemNames[itemKey] ?? itemKey);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Sprite — the row's primary visual anchor.
+        PokemonSprite(pokemonName: p.name, size: 96),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Name + slot index + type chips.
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('${index + 1}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface.withValues(alpha: 0.4),
+                      )),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      p.localizedName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  if (slot.effectiveType1 != null) ...[
+                    const SizedBox(width: 4),
+                    _typeChip(slot.effectiveType1!),
+                  ],
+                  if (slot.effectiveType2 != null) ...[
+                    const SizedBox(width: 2),
+                    _typeChip(slot.effectiveType2!),
+                  ],
+                  if (slot.effectiveType3 != null) ...[
+                    const SizedBox(width: 2),
+                    _typeChip(slot.effectiveType3!),
+                  ],
+                ],
+              ),
+              const SizedBox(height: 4),
+              // Ability + Item — compact text labels with a leading
+              // glyph so the user can scan the two fields apart at a
+              // glance.
+              _twoFieldLine(
+                scheme,
+                left: _LabeledField(
+                  label: AppStrings.t('label.ability'),
+                  value: abilityLabel,
+                  placeholder: '—',
+                ),
+                right: _LabeledField(
+                  label: AppStrings.t('label.item'),
+                  value: itemLabel,
+                  placeholder: '—',
+                ),
+              ),
+              const SizedBox(height: 6),
+              // Move pills. Each move shows its localized name on the
+              // move's own type color so the row scans like a Showdown
+              // teambuilder card.
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: [
+                  for (int i = 0; i < 4; i++) _movePill(slot.moves[i]),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _twoFieldLine(ColorScheme scheme,
+      {required Widget left, required Widget right}) {
+    return Row(
+      children: [
+        Expanded(child: left),
+        const SizedBox(width: 8),
+        Expanded(child: right),
+      ],
+    );
+  }
+
+  Widget _typeChip(PokemonType t) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: KoStrings.getTypeColor(t),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        KoStrings.getTypeName(t),
+        style: const TextStyle(
+          fontSize: 11,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _movePill(Move? move) {
+    if (move == null) {
+      // Dashed placeholder for an empty move slot — same width band as
+      // the populated pills so the Wrap line lengths stay regular.
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade400, width: 0.5),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(
+          '—',
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.grey.shade500,
+          ),
+        ),
+      );
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: KoStrings.getTypeColor(move.type),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        move.localizedName,
+        style: const TextStyle(
+          fontSize: 11,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+}
+
+/// Compact "label  value" inline field used by [_SlotSummaryCard] for
+/// the ability + item rows. Renders the label in a small muted style
+/// and the value in regular weight so the eye stays on the value.
+class _LabeledField extends StatelessWidget {
+  final String label;
+  final String? value;
+  final String placeholder;
+  const _LabeledField({
+    required this.label,
+    required this.value,
+    this.placeholder = '—',
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final hasValue = value != null && value!.isNotEmpty;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('$label  ',
+            style: TextStyle(
+              fontSize: 11,
+              color: scheme.onSurface.withValues(alpha: 0.5),
+            )),
+        Expanded(
+          child: Text(
+            hasValue ? value! : placeholder,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: hasValue
+                  ? scheme.onSurface
+                  : scheme.onSurface.withValues(alpha: 0.3),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
