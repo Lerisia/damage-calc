@@ -208,14 +208,16 @@ void main() {
       expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
     });
 
-    test('resistance bucket excludes 0× immunity matchups', () {
-      // Charizard is immune (0×) to ground — that's NOT a "resistance"
-      // pick. Selecting resistance should reject it.
+    test('resistance bucket includes 0× immunity matchups', () {
+      // Immunity is a strict-subset of resistance — anything that
+      // takes <1× damage qualifies as "resistant" (per user spec).
+      // Charizard is immune (0×) to ground, so the resistance pick
+      // should accept it. "면역" is the stricter 0×-only bucket.
       const f = DexSearchFilter(defenses: [
         DexDefenseEntry(
             type: PokemonType.ground, relation: DexDefenseRelation.resistance),
       ]);
-      expect(matchesDexFilter(charizard, f, movesByPokemon: empty), false);
+      expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
     });
 
     test('immunity rejects non-immune matchups', () {

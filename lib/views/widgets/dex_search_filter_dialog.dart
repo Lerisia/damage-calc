@@ -199,8 +199,9 @@ bool matchesDexFilter(
   }
 
   // Defensive type — all entries are ANDed. Ability effects ignored
-  // per spec. Immunity is a separate bucket from resistance — picking
-  // "내성" excludes 0× matchups; pick "면역" to find those.
+  // per spec. "내성" picks anything that takes less than 1× damage
+  // (includes 0× / immunity, since immune mons are trivially resistant).
+  // "면역" is the stricter 0×-only bucket.
   for (final d in filter.defenses) {
     final immune = hasTypeImmunity(d.type, p.type1, p.type2);
     final double mult = immune
@@ -210,7 +211,7 @@ bool matchesDexFilter(
       case DexDefenseRelation.weakness:
         if (mult <= 1.0) return false;
       case DexDefenseRelation.resistance:
-        if (mult >= 1.0 || mult == 0.0) return false;
+        if (mult >= 1.0) return false;
       case DexDefenseRelation.immunity:
         if (mult != 0.0) return false;
     }
@@ -294,11 +295,23 @@ Future<Object?> showDexSearchFilterDialog({
 }) {
   return showDialog<Object?>(
     context: context,
-    builder: (ctx) => _DexSearchFilterDialog(
-      initial: current,
-      abilityDex: abilityDex,
-      allMoves: allMoves,
-    ),
+    builder: (ctx) {
+      // Hide the on-screen keyboard's viewInsets from the dialog so
+      // the dialog frame doesn't visibly shrink + jump-scroll every
+      // time a numeric input gains focus. The keyboard appears OVER
+      // the dialog's lower edge instead of pushing it up; the user
+      // can scroll the dialog content to bring a covered input into
+      // view if needed.
+      final mq = MediaQuery.of(ctx);
+      return MediaQuery(
+        data: mq.copyWith(viewInsets: EdgeInsets.zero),
+        child: _DexSearchFilterDialog(
+          initial: current,
+          abilityDex: abilityDex,
+          allMoves: allMoves,
+        ),
+      );
+    },
   );
 }
 
@@ -501,45 +514,54 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
         width: width,
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: maxHeight),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _sectionLabel(AppStrings.t('dex.advTypes')),
-                const SizedBox(height: 4),
-                Text(
-                  AppStrings.t('dex.advTypesHint'),
-                  style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-                ),
-                const SizedBox(height: 8),
-                _TypeChipGrid(
-                  selected: _draft.types,
-                  onTap: _toggleType,
-                ),
-                const SizedBox(height: 16),
-                _sectionLabel(AppStrings.t('dex.advStats')),
-                const SizedBox(height: 6),
-                _rangeRow(AppStrings.t('dex.colBst'), _bstMin, _bstMax),
-                const SizedBox(height: 6),
-                _statSection(),
-                const SizedBox(height: 16),
-                _sectionLabel(AppStrings.t('dex.advDefenseType')),
-                const SizedBox(height: 6),
-                _defenseSection(),
-                const SizedBox(height: 16),
-                _sectionLabel(AppStrings.t('dex.advAbility')),
-                const SizedBox(height: 6),
-                _abilityField(),
-                const SizedBox(height: 16),
-                _sectionLabel(AppStrings.t('dex.advMoves')),
-                const SizedBox(height: 6),
-                _movesMatchToggle(),
-                const SizedBox(height: 6),
-                for (int i = 0; i < 4; i++) ...[
-                  _moveField(i),
-                  if (i < 3) const SizedBox(height: 6),
+          // Tapping any non-input area inside the dialog dismisses the
+          // on-screen keyboard. Without this, numeric range inputs trap
+          // focus and the user has no way out short of closing the
+          // dialog. translucent so the underlying scroll/tap targets
+          // still receive the event.
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _sectionLabel(AppStrings.t('dex.advTypes')),
+                  const SizedBox(height: 4),
+                  Text(
+                    AppStrings.t('dex.advTypesHint'),
+                    style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                  ),
+                  const SizedBox(height: 8),
+                  _TypeChipGrid(
+                    selected: _draft.types,
+                    onTap: _toggleType,
+                  ),
+                  const SizedBox(height: 16),
+                  _sectionLabel(AppStrings.t('dex.advStats')),
+                  const SizedBox(height: 6),
+                  _rangeRow(AppStrings.t('dex.colBst'), _bstMin, _bstMax),
+                  const SizedBox(height: 6),
+                  _statSection(),
+                  const SizedBox(height: 16),
+                  _sectionLabel(AppStrings.t('dex.advDefenseType')),
+                  const SizedBox(height: 6),
+                  _defenseSection(),
+                  const SizedBox(height: 16),
+                  _sectionLabel(AppStrings.t('dex.advAbility')),
+                  const SizedBox(height: 6),
+                  _abilityField(),
+                  const SizedBox(height: 16),
+                  _sectionLabel(AppStrings.t('dex.advMoves')),
+                  const SizedBox(height: 6),
+                  _movesMatchToggle(),
+                  const SizedBox(height: 6),
+                  for (int i = 0; i < 4; i++) ...[
+                    _moveField(i),
+                    if (i < 3) const SizedBox(height: 6),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),

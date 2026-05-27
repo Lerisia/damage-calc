@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../data/abilitydex.dart';
 import '../data/champions_usage.dart';
@@ -16,8 +17,10 @@ import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
+import '../utils/sprite_pack_manager.dart';
 import '../utils/team_coverage.dart';
 import 'widgets/move_selector.dart';
+import 'widgets/pokemon_sprite.dart';
 import 'widgets/status_moves_toggle.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
@@ -1627,6 +1630,16 @@ class _CoverageMatrix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Listen on SpritePackManager so the header switches between name
+    // text and box icons the moment the user imports / removes a pack
+    // on mobile. Web doesn't change state but the listener is cheap.
+    return ListenableBuilder(
+      listenable: SpritePackManager.instance,
+      builder: (ctx, _) => _buildMatrix(ctx),
+    );
+  }
+
+  Widget _buildMatrix(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
 
     // ── Single up-front pass: resolve every slot's moves through
@@ -1787,6 +1800,8 @@ class _CoverageMatrix extends StatelessWidget {
   }
 
   TableRow _headerRow(ColorScheme scheme) {
+    final hasIcons = kIsWeb || SpritePackManager.instance.iconsInstalled;
+    final emptyHeight = hasIcons ? 44.0 : (horizontalNames ? 28.0 : 84.0);
     return TableRow(
       decoration: BoxDecoration(
         color: scheme.surfaceContainerHighest.withValues(alpha: 0.5),
@@ -1803,7 +1818,7 @@ class _CoverageMatrix extends StatelessWidget {
                     type2: team[i].effectiveType2,
                   ),
                 )
-              : SizedBox(height: horizontalNames ? 28 : 84),
+              : SizedBox(height: emptyHeight),
         // Color-coded labels side-by-side, with the same thicker
         // left divider that the data rows carry below.
         Container(
@@ -1856,6 +1871,15 @@ class _CoverageMatrix extends StatelessWidget {
     required PokemonType? type1,
     required PokemonType? type2,
   }) {
+    // When an icon source is available, prefer the 40×30 box icon
+    // over the localized name — it's recognized faster than a Korean
+    // 3-char abbreviation and doesn't fight for column width. Web has
+    // jsDelivr-fronted icons always available; mobile shows icons
+    // only after the user imports a pack.
+    final hasIcons = kIsWeb || SpritePackManager.instance.iconsInstalled;
+    if (hasIcons) {
+      return _iconHeaderCell(rawName, type1: type1, type2: type2);
+    }
     final lang = AppStrings.current;
     // Strip parenthesized form/variant suffixes for the matrix header
     // only — "킬가르도 (블레이드폼)" → "킬가르도", "오거폰 (우물의가면)"
@@ -1955,6 +1979,31 @@ class _CoverageMatrix extends StatelessWidget {
       child: DecoratedBox(
         decoration: _vertNameTint(type1, type2),
         child: content,
+      ),
+    );
+  }
+
+  /// Icon-style header cell used when an image pack is available.
+  /// Renders the 40×30 box icon over the same type-tint background
+  /// that the name cells use, so columns read consistently no matter
+  /// which mode is active. Falls through to the pokéball placeholder
+  /// for keys without an icon (handled inside [PokemonSprite]).
+  Widget _iconHeaderCell(
+    String rawName, {
+    required PokemonType? type1,
+    required PokemonType? type2,
+  }) {
+    return SizedBox(
+      height: 44,
+      child: DecoratedBox(
+        decoration: _vertNameTint(type1, type2),
+        child: Center(
+          child: PokemonSprite(
+            pokemonName: rawName,
+            useBoxIcon: true,
+            size: 40,
+          ),
+        ),
       ),
     );
   }
