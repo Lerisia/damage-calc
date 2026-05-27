@@ -1435,8 +1435,10 @@ class _SlotSummaryCard extends StatelessWidget {
         ));
       }
       if (i < order.length - 1) {
+        // Hyphen separators are the Korean community convention for
+        // EV spreads (252-0-4-252-0-0). With spaces when room allows.
         spans.add(TextSpan(
-          text: ' · ',
+          text: ' - ',
           style: muted.copyWith(color: scheme.outlineVariant),
         ));
       }
