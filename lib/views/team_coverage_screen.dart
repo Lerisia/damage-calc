@@ -1114,6 +1114,12 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
 /// modal editor that owns the actual form widgets ([_SlotCard]).
 /// Empty slots render a dashed-frame "탭하여 추가" prompt instead.
 class _SlotSummaryCard extends StatelessWidget {
+  /// Fixed inner-content height shared by both empty and filled
+  /// cards. Picked just over the natural filled height (sprite 64,
+  /// stacked text rows ~66) so the card outline reads the same size
+  /// across all six slots regardless of whether they're populated.
+  static const _contentHeight = 68.0;
+
   final int index;
   final _TeamSlot slot;
   final Map<String, String> abilityNames;
@@ -1153,10 +1159,8 @@ class _SlotSummaryCard extends StatelessWidget {
   }
 
   Widget _emptyContent(ColorScheme scheme) {
-    // Matches the filled-card height (~68) so all 6 slots stay the
-    // same size whether populated or not.
     return SizedBox(
-      height: 64,
+      height: _contentHeight,
       child: Row(
         children: [
           Padding(
@@ -1190,7 +1194,9 @@ class _SlotSummaryCard extends StatelessWidget {
     final itemKey = slot.heldItem;
     final itemLabel = itemKey == null ? null : (itemNames[itemKey] ?? itemKey);
 
-    return Row(
+    return SizedBox(
+      height: _contentHeight,
+      child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Sprite shrunk from 96 → 64 so 6 slot cards can fit a single
@@ -1253,6 +1259,7 @@ class _SlotSummaryCard extends StatelessWidget {
           ),
         ),
       ],
+      ),
     );
   }
 
