@@ -34,8 +34,14 @@ class MoveSelector extends StatefulWidget {
   /// Mode and the party-coverage grid leave this `true` so the user's
   /// global preference applies.
   final bool allowStatus;
+  /// When true, status moves are always shown regardless of the
+  /// [MoveOptionsController.showStatusMoves] preference. Used by the
+  /// team-builder slot card where the user shouldn't have to flip a
+  /// toggle to pick a status move (per UX direction: "파티창에선
+  /// 무조건 보는 겁니다").
+  final bool forceShowStatus;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true, this.forceShowStatus = false});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -86,7 +92,9 @@ class _MoveSelectorState extends State<MoveSelector> {
   }
 
   bool _showStatus() =>
-      widget.allowStatus && MoveOptionsController.instance.showStatusMoves.value;
+      widget.forceShowStatus ||
+      (widget.allowStatus &&
+          MoveOptionsController.instance.showStatusMoves.value);
 
   Future<void> _loadMoves() async {
     final all = await loadAllMoves();

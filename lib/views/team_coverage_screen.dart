@@ -23,7 +23,6 @@ import 'widgets/app_bottom_nav.dart';
 import 'widgets/app_settings_menu.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
-import 'widgets/status_moves_toggle.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/type_picker_dialog.dart';
@@ -912,24 +911,12 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // Per-tab content. Each tab is its own SingleChildScrollView so
     // scroll position stays independent per tab, like the calculator's
     // attacker / defender / damage tabs.
+    // Party tab — no "변화기 보기" toggle here; the team-builder
+    // MoveSelectors force-show status moves regardless of the global
+    // preference, so the toggle has nothing to gate.
     final partyTab = SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // 변화기 보기 always visible — it affects which moves the
-          // slot's move-picker dropdown surfaces, and users want it
-          // accessible without dipping into another tab.
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, 0, 4, 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [StatusMovesToggle()],
-            ),
-          ),
-          slotList,
-        ],
-      ),
+      child: slotList,
     );
 
     final defenseTab = SingleChildScrollView(
@@ -1145,7 +1132,10 @@ class _SlotSummaryCard extends StatelessWidget {
     final itemLabel = itemKey == null ? null : (itemNames[itemKey] ?? itemKey);
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // Top-aligned so the name sits at the same Y as the top of the
+      // sprite. The previous center alignment left ~18 px of empty
+      // space above the name (sprite tall, middle column short).
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Sprite — the row's primary visual anchor.
         PokemonSprite(pokemonName: p.name, size: 96),
@@ -1206,14 +1196,16 @@ class _SlotSummaryCard extends StatelessWidget {
               // field to a fixed column.
               _abilityItemLine(scheme, abilityLabel, itemLabel),
               const SizedBox(height: 6),
-              // Move pills. Each move shows its localized name on the
-              // move's own type color so the row scans like a Showdown
-              // teambuilder card.
-              Wrap(
-                spacing: 4,
-                runSpacing: 4,
+              // Move pills — forced to a single line via equal-width
+              // Expanded cells. Long move names truncate with the
+              // pill's ellipsis style rather than wrapping to a 2nd
+              // row.
+              Row(
                 children: [
-                  for (int i = 0; i < 4; i++) _movePill(slot.moves[i]),
+                  for (int i = 0; i < 4; i++) ...[
+                    Expanded(child: _movePill(slot.moves[i])),
+                    if (i < 3) const SizedBox(width: 3),
+                  ],
                 ],
               ),
             ],
@@ -1283,33 +1275,36 @@ class _SlotSummaryCard extends StatelessWidget {
 
   Widget _movePill(Move? move) {
     if (move == null) {
-      // Dashed placeholder for an empty move slot — same width band as
-      // the populated pills so the Wrap line lengths stay regular.
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade400, width: 0.5),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           '—',
-          style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade500,
-          ),
+          style: TextStyle(fontSize: 10, color: Colors.grey.shade500),
         ),
       );
     }
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
       decoration: BoxDecoration(
         color: KoStrings.getTypeColor(move.type),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         move.localizedName,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+        // 10 pt + tight horizontal padding lets all 4 pills sit on
+        // the same row even with 5-char names. Longer names ellipsize
+        // — pill stays the same height across the row.
         style: const TextStyle(
-          fontSize: 11,
+          fontSize: 10,
           color: Colors.white,
           fontWeight: FontWeight.w600,
         ),
@@ -1572,6 +1567,10 @@ class _SlotCardState extends State<_SlotCard> {
       onSelected: (m) => widget.onMoveChanged(moveIndex, m),
       // Phone-width grid → drop the type/category/power suffix.
       compact: true,
+      // Team builder always surfaces status moves (no toggle UI on
+      // this screen) so users don't need to flip the global show-
+      // status preference to pick e.g. 자기재생.
+      forceShowStatus: true,
     );
   }
 
