@@ -713,41 +713,45 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     // sheet doesn't need an explicit commit step.
     void openEditor(_TeamSlot slot, int displayIndex,
         VoidCallback onClearOrRemove) {
-      showModalBottomSheet(
+      showDialog(
         context: context,
-        isScrollControlled: true,
-        showDragHandle: true,
-        builder: (sheetCtx) => SafeArea(
-          top: false,
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.viewInsetsOf(sheetCtx).bottom,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-              child: _SlotCard(
-                index: displayIndex,
-                slot: slot,
-                abilityDex: _abilityDex ?? const {},
-                abilityNames: _abilityNames ?? const {},
-                itemDex: _itemDex ?? const {},
-                itemNames: _itemNames ?? const {},
-                onPokemonSelected: (p) => _setPokemon(slot, p),
-                onAbilitySelected: (a) => _setAbility(slot, a),
-                onItemSelected: (it) => _setItem(slot, it),
-                onLoadSample: () => _loadSampleInto(slot),
-                onClear: () {
-                  onClearOrRemove();
-                  Navigator.of(sheetCtx).pop();
-                },
-                showMoves: true,
-                onMoveChanged: (mi, m) => _setMove(slot, mi, m),
-                onTypeOverrideChanged: (override) =>
-                    _setTypeOverride(slot, override),
+        builder: (dialogCtx) {
+          final size = MediaQuery.sizeOf(dialogCtx);
+          final width = (size.width - 32).clamp(280.0, 480.0);
+          return Dialog(
+            insetPadding: const EdgeInsets.symmetric(
+                horizontal: 16, vertical: 24),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: width,
+                maxHeight: size.height * 0.8,
+              ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(12),
+                child: _SlotCard(
+                  index: displayIndex,
+                  slot: slot,
+                  abilityDex: _abilityDex ?? const {},
+                  abilityNames: _abilityNames ?? const {},
+                  itemDex: _itemDex ?? const {},
+                  itemNames: _itemNames ?? const {},
+                  onPokemonSelected: (p) => _setPokemon(slot, p),
+                  onAbilitySelected: (a) => _setAbility(slot, a),
+                  onItemSelected: (it) => _setItem(slot, it),
+                  onLoadSample: () => _loadSampleInto(slot),
+                  onClear: () {
+                    onClearOrRemove();
+                    Navigator.of(dialogCtx).pop();
+                  },
+                  showMoves: true,
+                  onMoveChanged: (mi, m) => _setMove(slot, mi, m),
+                  onTypeOverrideChanged: (override) =>
+                      _setTypeOverride(slot, override),
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ).then((_) => setState(() {})); // refresh summary on close
     }
 

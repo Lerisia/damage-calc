@@ -62,12 +62,22 @@ class PokemonSprite extends StatelessWidget {
         }
         final main = SpriteService.instance
             .spriteFor(pokemonName, style: styleOverride);
-        if (main == null) return _placeholder();
-        // BW-only base-species fallback (ZA Megas etc.). Non-BW
-        // styles return null from fallbackSpriteFor → onError stays
-        // the pokéball placeholder.
+        // BW-only base-species fallback (ZA Megas etc.). Both the
+        // web (404 NetworkImage) and the mobile-pack (missing file →
+        // spriteFor returns null) paths need to reach the fallback,
+        // so we check it BEFORE the placeholder short-circuit.
         final fallback = SpriteService.instance
             .fallbackSpriteFor(pokemonName, style: styleOverride);
+        if (main == null && fallback == null) return _placeholder();
+        if (main == null) {
+          // Mobile pack lookup returned null (file missing). Promote
+          // the fallback to the primary image — there's no main to
+          // chain from.
+          return _img(fallback!, onError: _placeholder());
+        }
+        // Main exists. Chain main → fallback → placeholder so a
+        // missing remote main (web 404) falls through to the base
+        // species before giving up on the pokéball.
         final onError = fallback == null
             ? _placeholder()
             : _img(fallback, onError: _placeholder());
