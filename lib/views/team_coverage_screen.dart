@@ -1228,12 +1228,15 @@ class _SlotSummaryCard extends StatelessWidget {
     return SizedBox(
       height: _contentHeight,
       child: Row(
+      // Content column stays top-aligned (name reads at the top of
+      // the card). Sprite gets its own Center wrapper below so it
+      // sits in the middle of the card vertically — vs floating at
+      // the top with empty space below when content is taller.
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Sprite shrunk from 96 → 64 so 6 slot cards can fit a single
-        // phone viewport. Still recognizable at this size for the
-        // box-icon-style art the BW + dex packs ship.
-        PokemonSprite(pokemonName: p.name, size: 64),
+        Center(
+          child: PokemonSprite(pokemonName: p.name, size: 64),
+        ),
         const SizedBox(width: 8),
         Expanded(
           child: Column(
