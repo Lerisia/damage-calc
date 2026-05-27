@@ -1814,6 +1814,7 @@ class _CoverageMatrix extends StatelessWidget {
                   i,
                   _nameCell(
                     team[i].pokemon!.localizedName,
+                    englishName: team[i].pokemon!.name,
                     type1: team[i].effectiveType1,
                     type2: team[i].effectiveType2,
                   ),
@@ -1868,6 +1869,7 @@ class _CoverageMatrix extends StatelessWidget {
   /// bottom for vertical layouts (each matching the reading flow).
   Widget _nameCell(
     String rawName, {
+    required String englishName,
     required PokemonType? type1,
     required PokemonType? type2,
   }) {
@@ -1875,10 +1877,12 @@ class _CoverageMatrix extends StatelessWidget {
     // over the localized name — it's recognized faster than a Korean
     // 3-char abbreviation and doesn't fight for column width. Web has
     // jsDelivr-fronted icons always available; mobile shows icons
-    // only after the user imports a pack.
+    // only after the user imports a pack. spriteKeyFor only handles
+    // English species names, so we route the canonical English name
+    // separately from the localized display label.
     final hasIcons = kIsWeb || SpritePackManager.instance.iconsInstalled;
     if (hasIcons) {
-      return _iconHeaderCell(rawName, type1: type1, type2: type2);
+      return _iconHeaderCell(englishName, type1: type1, type2: type2);
     }
     final lang = AppStrings.current;
     // Strip parenthesized form/variant suffixes for the matrix header
