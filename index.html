@@ -20,6 +20,16 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- iOS Safari: bypass the 300ms tap-delay heuristic so the first
+       pointer event after a cross-site navigation (Google Search →
+       result) reaches the Flutter canvas immediately. Without this,
+       Safari waits to see if the tap is the start of a double-tap-
+       to-zoom, and the canvas-based hit test silently drops the
+       first tap until the user lands on a true text input. -->
+  <style>
+    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  </style>
+
   <!-- Defeat HTML caching so deploys reach users on the next refresh.
        main.dart.js / asset bundles are already content-hashed, but the
        entry index.html itself was sticking in browser/CDN caches —
@@ -28,15 +38,22 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="description" content="포켓몬스터 실전 배틀 결정력 계산기. 대미지, 스피드 비교, 테라스탈/다이맥스/메가진화 지원. 포켓몬스터 챔피언스 대응.">
+  <!-- Trilingual description: search engines (Bing, Naver, etc. that
+       don't run JS) and the Googlebot first-render see a snippet that
+       has matching keywords for KR / EN / JA queries. Goes in one
+       <meta> rather than three locale-tagged ones because Google
+       treats lang-tagged duplicates as ambiguous. -->
+  <meta name="description" content="Pokémon damage calculator — competitive battle tool. 결정력 계산기, 대미지·스피드 비교, 테라스탈/다이맥스/메가진화/Z-A 지원. ポケモン対戦のダメージ計算機。テラスタル・ダイマックス・メガシンカ対応。">
   <meta name="keywords" content="포켓몬, 포켓몬스터, 포켓몬 계산기, 결정력 계산기, 대미지 계산기, 실전 배틀, VGC, 포켓몬스터 챔피언스, 레전드 ZA, 메가진화, 테라스탈, 다이맥스, 스피드 비교, Pokemon, Pokemon damage calculator, competitive battle, damage calc, VGC calculator, Mega Evolution, Terastal, Dynamax, speed comparison, Legends ZA, Pokemon Champions, ポケモン, ポケットモンスター, ダメージ計算機, 火力計算, 耐久計算, 対戦ツール, メガシンカ, テラスタル, ダイマックス, すばやさ比較, レジェンズZA, ポケモンチャンピオンズ">
   <meta name="author" content="Elyss">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://damage-calc.com/">
 
-  <!-- Open Graph (카카오톡, 디스코드, 페이스북 등) -->
-  <meta property="og:title" content="결정력 계산기 - 실전 배틀 대미지 계산">
-  <meta property="og:description" content="포켓몬스터 실전 배틀 유저를 위한 결정력 계산기. 대미지, 스피드 비교, 테라스탈/다이맥스/메가진화 지원.">
+  <!-- Open Graph: trilingual title to match search-result rendering on
+       Bing/Naver/Yahoo (the EN+JA copy reaches users whose locale
+       doesn't match the JS-based runtime title swap). -->
+  <meta property="og:title" content="Pokémon Damage Calculator | 결정력 계산기 | ダメージ計算機">
+  <meta property="og:description" content="Competitive battle damage calculator — Terastal / Dynamax / Mega Evolution / Z-A. 결정력·스피드 비교. 対戦用ダメージ計算機。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://damage-calc.com/">
   <meta property="og:image" content="https://damage-calc.com/og-image.png">
@@ -44,25 +61,24 @@
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="ja_JP">
 
-  <!-- hreflang for international SEO -->
+  <!-- hreflang: a single-URL SPA serves all three locales via runtime
+       language detection, so all three hreflang entries share the
+       same URL with x-default as the fallback. Misleading hreflang
+       gets ignored by Google, so we only declare what's true. -->
+  <link rel="alternate" hreflang="x-default" href="https://damage-calc.com/">
   <link rel="alternate" hreflang="ko" href="https://damage-calc.com/">
   <link rel="alternate" hreflang="en" href="https://damage-calc.com/">
   <link rel="alternate" hreflang="ja" href="https://damage-calc.com/">
-  <link rel="alternate" hreflang="x-default" href="https://damage-calc.com/">
-
-  <!-- English meta for international search -->
-  <meta name="description" lang="en" content="Competitive battle damage calculator. Damage, speed comparison, Terastal/Dynamax/Mega Evolution support.">
-  <meta name="description" lang="ja" content="対戦プレイヤーのためのダメージ計算機。ダメージ、スピード比較、テラスタル/ダイマックス/メガシンカ対応。">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="결정력 계산기 - 실전 배틀 대미지 계산">
-  <meta name="twitter:description" content="포켓몬스터 실전 배틀 유저를 위한 결정력 계산기. 챔피언스 대응.">
+  <meta name="twitter:title" content="Pokémon Damage Calculator | 결정력 계산기 | ダメージ計算機">
+  <meta name="twitter:description" content="Competitive battle damage calculator — Terastal / Dynamax / Mega Evolution / Z-A.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="결정력 계산기">
+  <meta name="apple-mobile-web-app-title" content="Damage Calc">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Jua Font (preconnect + preload for fast Korean rendering) -->
@@ -97,10 +113,11 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "결정력 계산기",
-    "alternateName": ["Damage Calculator", "ダメージ計算機"],
+    "name": "Pokémon Damage Calculator",
+    "alternateName": ["결정력 계산기", "ダメージ計算機"],
     "url": "https://damage-calc.com/",
-    "description": "포켓몬스터 실전 배틀 결정력 계산기",
+    "description": "Competitive Pokémon battle damage calculator with Terastal, Dynamax, Mega Evolution and Z-A support. Trilingual (Korean / English / Japanese).",
+    "inLanguage": ["ko", "en", "ja"],
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Web, iOS, Android",
     "image": "https://damage-calc.com/icons/Icon-512.png",
@@ -111,11 +128,20 @@
   }
   </script>
 
-  <title>결정력 계산기 - 실전 배틀 대미지 계산</title>
+  <!-- Static <title> stays trilingual so search engines (and crawlers
+       that don't run JS) can match queries in any of the three target
+       languages. The runtime script below trims the title to a single
+       language once the user's browser locale is known — that's the
+       UX-facing copy, not the indexable one. -->
+  <title>Pokémon Damage Calculator | 결정력 계산기 | ダメージ計算機</title>
   <script>
     (function() {
       var lang = (navigator.language || '').substring(0, 2);
-      var titles = { ja: 'ダメージ計算機 - 実戦バトルダメージ計算', en: 'Damage Calculator - Competitive Battle' };
+      var titles = {
+        ko: '결정력 계산기 - 실전 배틀 대미지 계산',
+        ja: 'ダメージ計算機 - 実戦バトルダメージ計算',
+        en: 'Damage Calculator - Competitive Pokémon Battle',
+      };
       if (titles[lang]) document.title = titles[lang];
     })();
   </script>
