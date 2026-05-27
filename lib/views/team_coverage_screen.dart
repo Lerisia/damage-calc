@@ -726,36 +726,71 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 maxWidth: width,
                 maxHeight: size.height * 0.8,
               ),
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(12),
-                child: _SlotCard(
-                  index: displayIndex,
-                  slot: slot,
-                  abilityDex: _abilityDex ?? const {},
-                  abilityNames: _abilityNames ?? const {},
-                  itemDex: _itemDex ?? const {},
-                  itemNames: _itemNames ?? const {},
-                  onPokemonSelected: (p) => _setPokemon(slot, p),
-                  onAbilitySelected: (a) => _setAbility(slot, a),
-                  onItemSelected: (it) => _setItem(slot, it),
-                  onLoadSample: () {
-                    // Close the editor before opening the sample
-                    // sheet — stacking the sample sheet on top of the
-                    // editor made opening visibly sluggish (Material
-                    // animates two barrier dims simultaneously and
-                    // the editor's typeahead overlays sit underneath).
-                    Navigator.of(dialogCtx).pop();
-                    _loadSampleInto(slot);
-                  },
-                  onClear: () {
-                    onClearOrRemove();
-                    Navigator.of(dialogCtx).pop();
-                  },
-                  showMoves: true,
-                  onMoveChanged: (mi, m) => _setMove(slot, mi, m),
-                  onTypeOverrideChanged: (override) =>
-                      _setTypeOverride(slot, override),
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Header row sits outside the form so the form
+                  // itself can use full inner width for the species
+                  // selector (long Korean names were ellipsizing).
+                  // Buttons:
+                  //   📂 = load sample (closes editor first, then
+                  //        opens the sample sheet — avoids the
+                  //        stacked-dialog jank).
+                  //   🗑 = delete the slot.
+                  //   ✕  = close the editor (no destructive action);
+                  //        all in-flight edits are already committed
+                  //        via callbacks, so close just dismisses.
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 4, 0),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          tooltip: AppStrings.t('team.sample.load'),
+                          icon: const Icon(Icons.folder_open, size: 22),
+                          onPressed: () {
+                            Navigator.of(dialogCtx).pop();
+                            _loadSampleInto(slot);
+                          },
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          tooltip: AppStrings.t('team.slot.delete'),
+                          icon: const Icon(Icons.delete_outline, size: 22),
+                          onPressed: () {
+                            onClearOrRemove();
+                            Navigator.of(dialogCtx).pop();
+                          },
+                        ),
+                        IconButton(
+                          tooltip: AppStrings.t('action.close'),
+                          icon: const Icon(Icons.close, size: 22),
+                          onPressed: () => Navigator.of(dialogCtx).pop(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      padding:
+                          const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                      child: _SlotCard(
+                        index: displayIndex,
+                        slot: slot,
+                        abilityDex: _abilityDex ?? const {},
+                        abilityNames: _abilityNames ?? const {},
+                        itemDex: _itemDex ?? const {},
+                        itemNames: _itemNames ?? const {},
+                        onPokemonSelected: (p) => _setPokemon(slot, p),
+                        onAbilitySelected: (a) => _setAbility(slot, a),
+                        onItemSelected: (it) => _setItem(slot, it),
+                        showMoves: true,
+                        onMoveChanged: (mi, m) => _setMove(slot, mi, m),
+                        onTypeOverrideChanged: (override) =>
+                            _setTypeOverride(slot, override),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -1084,26 +1119,16 @@ class _SlotSummaryCard extends StatelessWidget {
                 size: 56, color: scheme.outlineVariant),
           ),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('${index + 1}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: scheme.onSurface.withValues(alpha: 0.4),
-                    )),
-                const SizedBox(height: 4),
-                Text(
-                  AppStrings.t('team.slot.tapToAdd'),
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: scheme.onSurface.withValues(alpha: 0.55),
-                  ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                AppStrings.t('team.slot.tapToAdd'),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: scheme.onSurface.withValues(alpha: 0.55),
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -1130,17 +1155,12 @@ class _SlotSummaryCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Name + slot index + type chips.
+              // Name + type chips. Slot index removed — the row order
+              // already conveys "1st / 2nd / …" position and the chip
+              // was just stealing width on narrow phones.
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('${index + 1}',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: scheme.onSurface.withValues(alpha: 0.4),
-                      )),
-                  const SizedBox(width: 6),
                   Expanded(
                     child: Text(
                       p.localizedName,
@@ -1180,22 +1200,11 @@ class _SlotSummaryCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 4),
-              // Ability + Item — compact text labels with a leading
-              // glyph so the user can scan the two fields apart at a
-              // glance.
-              _twoFieldLine(
-                scheme,
-                left: _LabeledField(
-                  label: AppStrings.t('label.ability'),
-                  value: abilityLabel,
-                  placeholder: '—',
-                ),
-                right: _LabeledField(
-                  label: AppStrings.t('label.item'),
-                  value: itemLabel,
-                  placeholder: '—',
-                ),
-              ),
+              // Ability + Item on a single inline line — item flows
+              // immediately after the ability so a short ability name
+              // pulls the item label leftward instead of locking each
+              // field to a fixed column.
+              _abilityItemLine(scheme, abilityLabel, itemLabel),
               const SizedBox(height: 6),
               // Move pills. Each move shows its localized name on the
               // move's own type color so the row scans like a Showdown
@@ -1214,14 +1223,43 @@ class _SlotSummaryCard extends StatelessWidget {
     );
   }
 
-  Widget _twoFieldLine(ColorScheme scheme,
-      {required Widget left, required Widget right}) {
-    return Row(
-      children: [
-        Expanded(child: left),
-        const SizedBox(width: 8),
-        Expanded(child: right),
-      ],
+  /// "특성 ㅇㅇㅇ  아이템 ㅇㅇㅇ" inline rendering. Uses Text.rich so
+  /// the item label flows immediately after the ability instead of
+  /// being locked to a 50% column. Truncates with a trailing ellipsis
+  /// when the combined string overflows the card width.
+  Widget _abilityItemLine(
+      ColorScheme scheme, String? abilityLabel, String? itemLabel) {
+    final muted = TextStyle(
+      fontSize: 11,
+      color: scheme.onSurface.withValues(alpha: 0.5),
+    );
+    const value = TextStyle(fontSize: 12, fontWeight: FontWeight.w500);
+    final mutedValue = value.copyWith(
+      color: scheme.onSurface.withValues(alpha: 0.3),
+    );
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(text: '${AppStrings.t('label.ability')} ', style: muted),
+          TextSpan(
+            text: (abilityLabel == null || abilityLabel.isEmpty)
+                ? '—'
+                : abilityLabel,
+            style: (abilityLabel == null || abilityLabel.isEmpty)
+                ? mutedValue
+                : value,
+          ),
+          TextSpan(text: '   ${AppStrings.t('label.item')} ', style: muted),
+          TextSpan(
+            text: (itemLabel == null || itemLabel.isEmpty) ? '—' : itemLabel,
+            style: (itemLabel == null || itemLabel.isEmpty)
+                ? mutedValue
+                : value,
+          ),
+        ],
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
@@ -1280,49 +1318,8 @@ class _SlotSummaryCard extends StatelessWidget {
   }
 }
 
-/// Compact "label  value" inline field used by [_SlotSummaryCard] for
-/// the ability + item rows. Renders the label in a small muted style
-/// and the value in regular weight so the eye stays on the value.
-class _LabeledField extends StatelessWidget {
-  final String label;
-  final String? value;
-  final String placeholder;
-  const _LabeledField({
-    required this.label,
-    required this.value,
-    this.placeholder = '—',
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final hasValue = value != null && value!.isNotEmpty;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text('$label  ',
-            style: TextStyle(
-              fontSize: 11,
-              color: scheme.onSurface.withValues(alpha: 0.5),
-            )),
-        Expanded(
-          child: Text(
-            hasValue ? value! : placeholder,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: hasValue
-                  ? scheme.onSurface
-                  : scheme.onSurface.withValues(alpha: 0.3),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+// _LabeledField removed — the ability + item line now uses inline
+// Text.rich rendering (see _abilityItemLine).
 
 class _SlotCard extends StatefulWidget {
   final int index;
@@ -1334,8 +1331,6 @@ class _SlotCard extends StatefulWidget {
   final ValueChanged<Pokemon> onPokemonSelected;
   final ValueChanged<String> onAbilitySelected;
   final ValueChanged<String?> onItemSelected;
-  final VoidCallback onLoadSample;
-  final VoidCallback onClear;
   /// When true, a 3rd row of 4 move pickers is added so the user can
   /// fill in the moves used for the offensive coverage matrix.
   final bool showMoves;
@@ -1357,8 +1352,6 @@ class _SlotCard extends StatefulWidget {
     required this.onPokemonSelected,
     required this.onAbilitySelected,
     required this.onItemSelected,
-    required this.onLoadSample,
-    required this.onClear,
     required this.showMoves,
     required this.onMoveChanged,
     required this.onTypeOverrideChanged,
@@ -1472,24 +1465,12 @@ class _SlotCardState extends State<_SlotCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // ─── Row 1: index | name selector | type chips | load | clear
-        // Fixed height so the card doesn't jump when type chips or
-        // the clear button appear after a pokemon is picked.
+        // ─── Row 1: name selector (full width) | type chips.
+        // Index, load, delete, close all moved out of the row.
         SizedBox(
           height: 36,
           child: Row(
             children: [
-              SizedBox(
-                width: 24,
-                child: Text(
-                  '${widget.index + 1}',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: scheme.onSurface.withValues(alpha: 0.5),
-                  ),
-                ),
-              ),
               Expanded(
                 child: PokemonSelector(
                   key: ValueKey(
@@ -1520,26 +1501,6 @@ class _SlotCardState extends State<_SlotCard> {
                   ),
                 ),
               ],
-              const SizedBox(width: 4),
-              IconButton(
-                tooltip: AppStrings.t('team.sample.load'),
-                icon: const Icon(Icons.folder_open, size: 18),
-                onPressed: widget.onLoadSample,
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints:
-                    const BoxConstraints(minWidth: 30, minHeight: 30),
-              ),
-              if (p != null)
-                IconButton(
-                  tooltip: '',
-                  icon: const Icon(Icons.close, size: 18),
-                  onPressed: widget.onClear,
-                  visualDensity: VisualDensity.compact,
-                  padding: EdgeInsets.zero,
-                  constraints:
-                      const BoxConstraints(minWidth: 30, minHeight: 30),
-                ),
             ],
           ),
         ),
@@ -1549,7 +1510,6 @@ class _SlotCardState extends State<_SlotCard> {
           height: 50,
           child: Row(
             children: [
-              const SizedBox(width: 24),
               Expanded(child: _abilityField(scheme, p)),
               const SizedBox(width: 6),
               Expanded(child: _itemField(scheme, p)),
@@ -1574,15 +1534,12 @@ class _SlotCardState extends State<_SlotCard> {
         ),
       );
     }
-    return Padding(
-      padding: const EdgeInsets.only(left: 24),
-      child: Column(
-        children: [
-          Row(children: [cell(0), const SizedBox(width: 6), cell(1)]),
-          const SizedBox(height: 4),
-          Row(children: [cell(2), const SizedBox(width: 6), cell(3)]),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(children: [cell(0), const SizedBox(width: 6), cell(1)]),
+        const SizedBox(height: 4),
+        Row(children: [cell(2), const SizedBox(width: 6), cell(3)]),
+      ],
     );
   }
 

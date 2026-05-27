@@ -125,6 +125,11 @@ class AppStrings {
       AppLanguage.en: 'Tap to add a Pokémon',
       AppLanguage.ja: 'タップしてポケモンを追加',
     },
+    'team.slot.delete': {
+      AppLanguage.ko: '슬롯 비우기',
+      AppLanguage.en: 'Clear slot',
+      AppLanguage.ja: 'スロットを空に',
+    },
     'team.tab.defense': {
       AppLanguage.ko: '방어 상성',
       AppLanguage.en: 'Defense',
