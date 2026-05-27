@@ -115,6 +115,21 @@ class AppStrings {
       AppLanguage.en: 'Team Builder',
       AppLanguage.ja: 'パーティ構築',
     },
+    'team.tab.party': {
+      AppLanguage.ko: '파티',
+      AppLanguage.en: 'Party',
+      AppLanguage.ja: 'パーティ',
+    },
+    'team.tab.defense': {
+      AppLanguage.ko: '방어 상성',
+      AppLanguage.en: 'Defense',
+      AppLanguage.ja: '防御相性',
+    },
+    'team.tab.offense': {
+      AppLanguage.ko: '공격 상성',
+      AppLanguage.en: 'Offense',
+      AppLanguage.ja: '攻撃相性',
+    },
     'team.slot.empty': {
       AppLanguage.ko: '비어있음',
       AppLanguage.en: 'Empty slot',

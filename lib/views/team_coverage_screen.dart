@@ -276,16 +276,6 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     visualDensity: VisualDensity.compact,
   );
 
-  Widget _matrixSectionHeader(String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4, top: 2),
-      child: Text(
-        label,
-        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-      ),
-    );
-  }
-
   Widget _opponentSectionHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
@@ -708,28 +698,21 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Wide layout splits into two columns: slot list on the left,
-    // matrix on the right. Threshold matches the calculator's wide
-    // breakpoint feel.
-    // Match the calculator's three-tier breakpoints so the two screens
-    // feel consistent on the same device.
-    //   narrow      : <1050 — 1 column scroll
-    //   wide        : 1050~1400 — 2 columns (slot list | matrix)
-    //   extra-wide  : ≥1400 — 3 columns (ally | opp | matrix)
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isExtraWide = screenWidth >= 1400;
-    final isWide = screenWidth >= 1050;
+    // Wide screens get the same 3-tab structure as narrow — the only
+    // wide-specific behaviour left is whether matrix-header names
+    // render horizontally (room to fit them) vs the vertical stacked
+    // layout phones use.
+    final isWide = MediaQuery.of(context).size.width >= 1050;
 
-    // Slot list reacts to the offensive toggle so the move-picker
-    // row appears/disappears in lockstep with the offensive matrix
-    // below.
+    // Slot cards always show the move row now — the offensive matrix
+    // lives in its own tab, but it needs move data populated up-front,
+    // so making move entry permanent on the Party tab keeps the
+    // workflow simple (per user direction: "기술 입력란 항상 보이게").
     Widget buildSlotCard(
       _TeamSlot slot, {
       required int displayIndex,
       required Key key,
       required VoidCallback onClearOrRemove,
-      required bool alwaysShowMoves,
-      required bool showOff,
     }) =>
         RepaintBoundary(
           child: _SlotCard(
@@ -745,39 +728,30 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             onItemSelected: (it) => _setItem(slot, it),
             onLoadSample: () => _loadSampleInto(slot),
             onClear: onClearOrRemove,
-            showMoves: alwaysShowMoves || showOff,
+            showMoves: true,
             onMoveChanged: (mi, m) => _setMove(slot, mi, m),
             onTypeOverrideChanged: (override) =>
                 _setTypeOverride(slot, override),
           ),
         );
 
-    // Ally / opponent column builders, broken out so the wide layout
-    // can place them in separate columns. (Narrow layout stitches them
-    // back together as `slotList` below.)
-    final allyList = ValueListenableBuilder<bool>(
-      valueListenable: CoverageDisplayController.instance.showOffensive,
-      builder: (_, showOff, __) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (int i = 0; i < _maxTeamSize; i++) ...[
-            buildSlotCard(
-              _team[i],
-              displayIndex: i,
-              key: ValueKey('team_slot_card_$i'),
-              onClearOrRemove: () => _clearMySlot(i),
-              alwaysShowMoves: false,
-              showOff: showOff,
-            ),
-            if (i < _maxTeamSize - 1) const SizedBox(height: 4),
-          ],
+    final allyList = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (int i = 0; i < _maxTeamSize; i++) ...[
+          buildSlotCard(
+            _team[i],
+            displayIndex: i,
+            key: ValueKey('team_slot_card_$i'),
+            onClearOrRemove: () => _clearMySlot(i),
+          ),
+          if (i < _maxTeamSize - 1) const SizedBox(height: 4),
         ],
-      ),
+      ],
     );
 
-    final opponentList = ValueListenableBuilder<bool>(
-      valueListenable: CoverageDisplayController.instance.showOffensive,
-      builder: (_, showOff, __) {
+    final opponentList = Builder(
+      builder: (_) {
         final opps = _TeamCoverageStore.opponents;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -790,8 +764,6 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                 displayIndex: i,
                 key: ValueKey('opp_slot_card_${opps[i].hashCode}'),
                 onClearOrRemove: () => _removeOpponent(i),
-                alwaysShowMoves: true,
-                showOff: showOff,
               ),
               if (i < opps.length - 1) const SizedBox(height: 4),
             ],
@@ -802,8 +774,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       },
     );
 
-    // Narrow layout reassembles ally + opponent into a single scroll
-    // column (the existing behaviour).
+    // Single-column slot list used inside the Party tab. The wide-
+    // layout 2-column split (ally | opp) folds back into one column
+    // here because tab-switching costs ~zero on wide too.
     final slotList = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -813,127 +786,89 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       ],
     );
 
-    // Matrix block reacts to BOTH the display mode (numeric/symbol)
-    // and the offensive toggle. When offensive is on, the defensive
-    // matrix gets a section header and the offensive matrix follows
-    // below — single column on phones, side-by-side on very wide
-    // screens (handled at the body level in phase 3).
-    final matrix = ValueListenableBuilder<CoverageDisplayMode>(
-      valueListenable: CoverageDisplayController.instance.mode,
-      builder: (_, mode, __) => ValueListenableBuilder<bool>(
-        valueListenable: CoverageDisplayController.instance.showOffensive,
-        builder: (_, showOff, __) {
-          final symbolic = mode == CoverageDisplayMode.symbolic;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Numeric/symbolic + 선출 toggles move to the top bar
-              // on wide layouts; narrow keeps both here as a single
-              // row above the matrix.
-              if (!isWide) ...[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    _LineupSwitch(
-                      value: _TeamCoverageStore.lineupMode,
-                      onToggle: _toggleLineupMode,
-                    ),
-                    const SizedBox(width: 8),
-                    _DisplayModeToggle(mode: mode),
-                  ],
-                ),
-                const SizedBox(height: 6),
-              ],
-              if (showOff) _matrixSectionHeader(
-                  AppStrings.t('team.matrix.defensive')),
-              RepaintBoundary(
-                child: _CoverageMatrix(
-                  team: _team,
-                  opponents: _TeamCoverageStore.opponents,
-                  abilityNames: _abilityNames ?? const {},
-                  symbolic: symbolic,
-                  offensive: false,
-                  horizontalNames: isWide,
-                  lineupMode: _TeamCoverageStore.lineupMode,
-                  lineup: _TeamCoverageStore.lineup,
-                  onLineupToggle: _toggleLineupSlot,
-                ),
-              ),
-              if (showOff) ...[
-                const SizedBox(height: 16),
-                _matrixSectionHeader(
-                    AppStrings.t('team.matrix.showOffensive')),
-                RepaintBoundary(
-                  child: _CoverageMatrix(
-                    team: _team,
-                    opponents: _TeamCoverageStore.opponents,
-                    abilityNames: _abilityNames ?? const {},
-                    symbolic: symbolic,
-                    offensive: true,
-                    horizontalNames: isWide,
-                    lineupMode: _TeamCoverageStore.lineupMode,
-                    lineup: _TeamCoverageStore.lineup,
-                    onLineupToggle: _toggleLineupSlot,
-                  ),
-                ),
-              ],
-            ],
-          );
-        },
-      ),
-    );
-
-    // Offensive toggle is a screen-level mode (it expands the slot
-    // cards AND adds the second matrix), so it lives at the very top
-    // of the body. On wide layouts there's room next to it for the
-    // numeric/symbolic toggle as well — pulling that out of the
-    // matrix block saves a row inside the table area.
-    final topToggleBar = Padding(
-      padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ValueListenableBuilder<bool>(
-            valueListenable: CoverageDisplayController.instance.showOffensive,
-            builder: (_, showOff, __) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _OffensiveSwitch(value: showOff),
-                // "변화기 보기" only makes sense once the offensive
-                // matrix is on (only then can the user pick moves on
-                // each slot), so it slides in alongside.
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 220),
-                  transitionBuilder: (child, anim) => FadeTransition(
-                    opacity: anim,
-                    child: ScaleTransition(scale: anim, child: child),
-                  ),
-                  child: showOff
-                      ? Padding(
-                          key: const ValueKey('on'),
-                          padding: const EdgeInsets.only(left: 8),
-                          child: StatusMovesToggle(),
-                        )
-                      : const SizedBox.shrink(key: ValueKey('off')),
-                ),
-              ],
-            ),
-          ),
-          if (isWide)
-            Row(
-              mainAxisSize: MainAxisSize.min,
+    // Matrix-tab toolbar: 선출 (lineup) + 숫자/기호 (display mode)
+    // switches. Same control surface for both defense and offense
+    // matrices so users don't relearn anything per tab.
+    Widget matrixTools() => ValueListenableBuilder<CoverageDisplayMode>(
+          valueListenable: CoverageDisplayController.instance.mode,
+          builder: (_, mode, __) => Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 4, 6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 _LineupSwitch(
                   value: _TeamCoverageStore.lineupMode,
                   onToggle: _toggleLineupMode,
                 ),
                 const SizedBox(width: 8),
-                ValueListenableBuilder<CoverageDisplayMode>(
-                  valueListenable: CoverageDisplayController.instance.mode,
-                  builder: (_, mode, __) => _DisplayModeToggle(mode: mode),
-                ),
+                _DisplayModeToggle(mode: mode),
               ],
             ),
+          ),
+        );
+
+    Widget matrixFor({required bool offensive}) =>
+        ValueListenableBuilder<CoverageDisplayMode>(
+          valueListenable: CoverageDisplayController.instance.mode,
+          builder: (_, mode, __) {
+            final symbolic = mode == CoverageDisplayMode.symbolic;
+            return RepaintBoundary(
+              child: _CoverageMatrix(
+                team: _team,
+                opponents: _TeamCoverageStore.opponents,
+                abilityNames: _abilityNames ?? const {},
+                symbolic: symbolic,
+                offensive: offensive,
+                horizontalNames: isWide,
+                lineupMode: _TeamCoverageStore.lineupMode,
+                lineup: _TeamCoverageStore.lineup,
+                onLineupToggle: _toggleLineupSlot,
+              ),
+            );
+          },
+        );
+
+    // Per-tab content. Each tab is its own SingleChildScrollView so
+    // scroll position stays independent per tab, like the calculator's
+    // attacker / defender / damage tabs.
+    final partyTab = SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // 변화기 보기 always visible — it affects which moves the
+          // slot's move-picker dropdown surfaces, and users want it
+          // accessible without dipping into another tab.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 4, 6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [StatusMovesToggle()],
+            ),
+          ),
+          slotList,
+        ],
+      ),
+    );
+
+    final defenseTab = SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          matrixTools(),
+          matrixFor(offensive: false),
+        ],
+      ),
+    );
+
+    final offenseTab = SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          matrixTools(),
+          matrixFor(offensive: true),
         ],
       ),
     );
@@ -1020,85 +955,33 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
-        child: isExtraWide
-          // ─── Extra-wide (≥1400): 3 columns ally | opp | matrix.
-          // Capped at 1600 so on 4K monitors the matrix cells don't
-          // grow to comic-sans size.
-          ? Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1600),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      topToggleBar,
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: SingleChildScrollView(child: allyList),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              flex: 3,
-                              child: SingleChildScrollView(child: opponentList),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              flex: 5,
-                              child: SingleChildScrollView(child: matrix),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+        // 3 internal tabs (parallel to the calculator's 공격/방어/대미지
+        // structure): Party (setup), Defense (defensive matrix),
+        // Offense (offensive matrix). The old offensive on/off toggle
+        // and the wide-screen multi-column layout are folded into this
+        // structure — wide users get the same tabs with extra room
+        // inside each.
+        child: DefaultTabController(
+          length: 3,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TabBar(
+                tabs: [
+                  Tab(text: AppStrings.t('team.tab.party')),
+                  Tab(text: AppStrings.t('team.tab.defense')),
+                  Tab(text: AppStrings.t('team.tab.offense')),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [partyTab, defenseTab, offenseTab],
                 ),
               ),
-            )
-          : isWide
-              // ─── Wide (1050~1400): 2 columns slotList | matrix.
-              // No outer cap — the screen fits naturally in this range.
-              ? Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      topToggleBar,
-                      Expanded(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: SingleChildScrollView(child: slotList),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              flex: 6,
-                              child: SingleChildScrollView(child: matrix),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 120),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      topToggleBar,
-                      slotList,
-                      const SizedBox(height: 20),
-                      matrix,
-                    ],
-                  ),
-                ),
+            ],
+          ),
+        ),
       ),
       ),
     );
@@ -1227,10 +1110,33 @@ class _SlotCardState extends State<_SlotCard> {
         border: Border.all(color: scheme.outlineVariant),
         borderRadius: BorderRadius.circular(6),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      padding: const EdgeInsets.fromLTRB(6, 4, 10, 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Sprite slot at the left edge of every party card. Empty
+          // slots render the pokéball placeholder so the column edge
+          // stays aligned; filled slots show the current style's
+          // sprite (web defaults to bw, mobile to dex unless the user
+          // imported the BW pack).
+          Padding(
+            padding: const EdgeInsets.only(right: 6, top: 6),
+            child: PokemonSprite(
+              pokemonName: p?.name ?? '',
+              size: 56,
+            ),
+          ),
+          Expanded(child: _slotCardBody(context, p)),
+        ],
+      ),
+    );
+  }
+
+  Widget _slotCardBody(BuildContext context, Pokemon? p) {
+    final scheme = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
           // ─── Row 1: index | name selector | type chips | load | clear
           // Fixed height so the card doesn't jump when type chips or
           // the clear button appear after a pokemon is picked.
@@ -1335,8 +1241,7 @@ class _SlotCardState extends State<_SlotCard> {
             const SizedBox(height: 4),
             _moveGrid(scheme, p),
           ],
-        ],
-      ),
+      ],
     );
   }
 
@@ -2533,52 +2438,7 @@ class _DisplayModeToggle extends StatelessWidget {
   }
 }
 
-/// Single-line switch row for the offensive-coverage toggle. Right-
-/// aligned to sit next to the numeric/symbolic segmented above the
-/// matrix; tied to [CoverageDisplayController.showOffensive] which
-/// persists the choice across launches.
-class _OffensiveSwitch extends StatelessWidget {
-  final bool value;
-  const _OffensiveSwitch({required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: InkWell(
-        onTap: () =>
-            CoverageDisplayController.instance.setShowOffensive(!value),
-        borderRadius: BorderRadius.circular(4),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                AppStrings.t('team.matrix.showOffensive'),
-                style: const TextStyle(fontSize: 13),
-              ),
-              const SizedBox(width: 6),
-              // shrinkWrap so the switch doesn't blow up the row
-              // height on Material defaults.
-              SizedBox(
-                height: 24,
-                child: Switch.adaptive(
-                  value: value,
-                  onChanged: (v) =>
-                      CoverageDisplayController.instance.setShowOffensive(v),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// "선출 보기" switch — same shape as [_OffensiveSwitch] but tied
+/// "선출 보기" switch — single-line right-aligned switch row tied
 /// to the lineup-mode flag in [_TeamCoverageStore]. Toggles the
 /// dim-everything / tap-name-to-add behavior in the matrix.
 class _LineupSwitch extends StatelessWidget {
