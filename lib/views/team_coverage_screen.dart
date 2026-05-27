@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../data/abilitydex.dart';
 import '../data/champions_usage.dart';
 import '../data/itemdex.dart';
@@ -24,6 +25,7 @@ import '../utils/team_coverage.dart';
 import 'widgets/app_bottom_nav.dart';
 import 'widgets/app_settings_menu.dart';
 import 'widgets/move_selector.dart';
+import 'widgets/stat_input.dart' show ClampingFormatter, SelectAllField;
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
@@ -794,7 +796,14 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           return Dialog(
             insetPadding: const EdgeInsets.symmetric(
                 horizontal: 16, vertical: 24),
-            child: ConstrainedBox(
+            child: GestureDetector(
+              // Tap anywhere outside an input drops focus so the IME
+              // collapses. Without this, EV / typeahead inputs trap
+              // focus and the user has no way out short of pressing
+              // back. translucent so child taps still reach buttons.
+              behavior: HitTestBehavior.translucent,
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxWidth: width,
                 maxHeight: size.height * 0.8,
@@ -874,6 +883,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                   ),
                 ],
               ),
+            ),
             ),
           );
         },
@@ -1534,23 +1544,38 @@ class _EvCellState extends State<_EvCell> {
       children: [
         Text(widget.label,
             style: TextStyle(
-              fontSize: 10,
+              fontSize: 11,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             )),
+        const SizedBox(height: 2),
         SizedBox(
-          height: 28,
-          child: TextField(
-            controller: _controller,
+          // Match the calculator's EV field height so the two screens
+          // feel like the same input control. Calc's _evControl uses
+          // 28 + paddings; this field is the only thing in the row
+          // (no -/+/0 buttons) so we can be a bit taller for touch.
+          height: 36,
+          // SelectAllField + ClampingFormatter are the same primitives
+          // the main calc uses for EV editing — keeps the clamp logic
+          // (0-252 EV) and select-on-focus behavior consistent across
+          // both screens.
+          child: SelectAllField(
+            key: ValueKey('ev_${widget.label}_${widget.value}'),
+            initialText: '${widget.value}',
             keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13),
+            textInputAction: TextInputAction.next,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              ClampingFormatter(min: 0, max: 252),
+            ],
+            style: const TextStyle(fontSize: 14),
             decoration: const InputDecoration(
               isDense: true,
-              contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 6, horizontal: 4),
             ),
             onChanged: (v) {
               final n = int.tryParse(v) ?? 0;
-              widget.onChanged(n.clamp(0, 252));
+              widget.onChanged(n);
             },
           ),
         ),
@@ -1758,19 +1783,20 @@ class _SlotCardState extends State<_SlotCard> {
             ],
           ),
         ),
-        // ─── Row 3: 4 move pickers in a 2×2 grid.
-        if (widget.showMoves) ...[
-          const SizedBox(height: 4),
-          _moveGrid(scheme, p),
-        ],
-        // ─── Row 4: 6 EV inputs + 2 nature pickers. Only meaningful
-        // when a pokemon is set, so we skip the section entirely for
-        // empty slots.
+        // ─── Row 3: 6 EV inputs + 2 nature pickers. Placed above
+        // the move grid per UX direction so the stat block sits next
+        // to the ability/item field it belongs with. Only meaningful
+        // when a pokemon is set.
         if (p != null) ...[
           const SizedBox(height: 8),
           _evInputsRow(scheme),
           const SizedBox(height: 6),
           _naturePickersRow(scheme),
+        ],
+        // ─── Row 4: 4 move pickers in a 2×2 grid.
+        if (widget.showMoves) ...[
+          const SizedBox(height: 8),
+          _moveGrid(scheme, p),
         ],
       ],
     );
@@ -1871,7 +1897,10 @@ class _SlotCardState extends State<_SlotCard> {
             child: _EvCell(
               label: labels[k]!,
               value: valueOf(k),
-              onChanged: (v) => widget.onEvChanged(withUpdated(k, v)),
+              onChanged: (v) {
+                widget.onEvChanged(withUpdated(k, v));
+                setState(() {});
+              },
             ),
           ),
           if (k != keys.last) const SizedBox(width: 4),
@@ -1920,6 +1949,11 @@ class _SlotCardState extends State<_SlotCard> {
         widget.onNatureChanged(isUp
             ? nature.copyWith(up: stat, clearUp: stat == null)
             : nature.copyWith(down: stat, clearDown: stat == null));
+        // Parent's setState rebuilds the host screen, but the dialog
+        // we're inside lives on the Navigator overlay and doesn't
+        // see that — trigger our own rebuild so the picker label
+        // updates immediately.
+        setState(() {});
       },
       child: InputDecorator(
         decoration: InputDecoration(

@@ -22,12 +22,12 @@ import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import 'typeahead_helpers.dart';
 
-class _ClampingFormatter extends TextInputFormatter {
+class ClampingFormatter extends TextInputFormatter {
   final int min;
   final int max;
   final bool allowNegative;
 
-  _ClampingFormatter({required this.min, required this.max, this.allowNegative = false});
+  ClampingFormatter({required this.min, required this.max, this.allowNegative = false});
 
   @override
   TextEditingValue formatEditUpdate(
@@ -907,7 +907,7 @@ class _StatInputState extends State<StatInput> {
             },
             child: SizedBox(
               height: 28,
-              child: _SelectAllField(
+              child: SelectAllField(
                 key: ValueKey('ev_$_evResetCounter'),
                 initialText: '$displayValue',
                 textAlign: TextAlign.center,
@@ -915,7 +915,7 @@ class _StatInputState extends State<StatInput> {
                 textInputAction: TextInputAction.next,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  _ClampingFormatter(min: 0, max: maxDisplay),
+                  ClampingFormatter(min: 0, max: maxDisplay),
                 ],
                 style: const TextStyle(fontSize: 14),
                 decoration: const InputDecoration(
@@ -1007,7 +1007,7 @@ class _StatInputState extends State<StatInput> {
         Expanded(
           child: SizedBox(
             height: 28,
-            child: _SelectAllField(
+            child: SelectAllField(
               key: const ValueKey('hp_pct'),
               initialText: _formatHpPct(widget.hpPercent),
               textAlign: TextAlign.center,
@@ -1191,7 +1191,7 @@ class _StatInputState extends State<StatInput> {
       },
       child: SizedBox(
         height: 32,
-        child: _SelectAllField(
+        child: SelectAllField(
           key: ValueKey('iv_$_evResetCounter'),
           initialText: '$value',
           textAlign: TextAlign.center,
@@ -1199,7 +1199,7 @@ class _StatInputState extends State<StatInput> {
           textInputAction: TextInputAction.next,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
-            _ClampingFormatter(min: min, max: max),
+            ClampingFormatter(min: min, max: max),
           ],
           style: const TextStyle(fontSize: 14),
           decoration: const InputDecoration(
@@ -1303,7 +1303,7 @@ class _LevelInputState extends State<_LevelInput> {
       textInputAction: TextInputAction.next,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
-        _ClampingFormatter(min: 1, max: 100),
+        ClampingFormatter(min: 1, max: 100),
       ],
       decoration: InputDecoration(
         labelText: AppStrings.t('label.level'),
@@ -1330,7 +1330,7 @@ class _LevelInputState extends State<_LevelInput> {
 /// — call sites that need a display reset pass a fresh [Key] (e.g.
 /// `ValueKey('ev_$_evResetCounter')`) so the widget remounts with
 /// the new seed.
-class _SelectAllField extends StatefulWidget {
+class SelectAllField extends StatefulWidget {
   final String initialText;
   final ValueChanged<String> onChanged;
   final TextInputType keyboardType;
@@ -1340,7 +1340,7 @@ class _SelectAllField extends StatefulWidget {
   final InputDecoration? decoration;
   final TextAlign textAlign;
 
-  const _SelectAllField({
+  const SelectAllField({
     super.key,
     required this.initialText,
     required this.onChanged,
@@ -1353,10 +1353,10 @@ class _SelectAllField extends StatefulWidget {
   });
 
   @override
-  State<_SelectAllField> createState() => _SelectAllFieldState();
+  State<SelectAllField> createState() => SelectAllFieldState();
 }
 
-class _SelectAllFieldState extends State<_SelectAllField> {
+class SelectAllFieldState extends State<SelectAllField> {
   late final TextEditingController _controller;
   final FocusNode _focusNode = FocusNode();
 
