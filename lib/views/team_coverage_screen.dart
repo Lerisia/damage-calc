@@ -10,7 +10,9 @@ import '../models/ability.dart';
 import '../models/battle_pokemon.dart';
 import '../models/item.dart';
 import '../models/move.dart';
+import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
+import '../models/stats.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
 import '../utils/coverage_display_controller.dart';
@@ -53,6 +55,12 @@ class _TeamSlot {
   /// when non-null, all three slots are explicit (type2/type3 may
   /// still be null individually to mean "no second/third type").
   ({PokemonType type1, PokemonType? type2, PokemonType? type3})? typeOverride;
+  /// Effort values + nature, populated when a sample is loaded into
+  /// this slot. Surfaced read-only in the summary card; the team
+  /// builder doesn't expose an EV/nature editor yet, so the only
+  /// path to non-zero values is loading a saved sample.
+  Stats? evs;
+  NatureProfile? nature;
 
   /// Effective type1 — override wins, else species natural type1.
   PokemonType? get effectiveType1 =>
@@ -200,6 +208,11 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       slot.moves[i] = null;
     }
     slot.typeOverride = null;
+    // EVs / nature reset on a fresh species pick — the previous
+    // species' spread / nature don't translate cleanly. Sample loads
+    // re-populate both with the sample's saved values.
+    slot.evs = null;
+    slot.nature = null;
   }
 
   void _setPokemon(_TeamSlot slot, Pokemon p) {
@@ -670,6 +683,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     state.applyPokemon(p);
     if (slot.ability != null) state.selectedAbility = slot.ability!;
     if (slot.heldItem != null) state.selectedItem = slot.heldItem;
+    if (slot.evs != null) state.ev = slot.evs!;
+    if (slot.nature != null) state.nature = slot.nature!;
     for (int i = 0;
         i < state.moves.length && i < slot.moves.length;
         i++) {
@@ -738,6 +753,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             slot.pokemon = p;
             slot.ability = s.selectedAbility;
             slot.heldItem = s.selectedItem;
+            slot.evs = s.ev;
+            slot.nature = s.nature;
             slot.sampleId = sample.id;
             for (int i = 0; i < slot.moves.length; i++) {
               slot.moves[i] = i < s.moves.length ? s.moves[i] : null;
@@ -848,6 +865,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                         onMoveChanged: (mi, m) => _setMove(slot, mi, m),
                         onTypeOverrideChanged: (override) =>
                             _setTypeOverride(slot, override),
+                        onEvChanged: (ev) =>
+                            setState(() => slot.evs = ev),
+                        onNatureChanged: (n) =>
+                            setState(() => slot.nature = n),
                       ),
                     ),
                   ),
@@ -1115,10 +1136,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
 /// Empty slots render a dashed-frame "탭하여 추가" prompt instead.
 class _SlotSummaryCard extends StatelessWidget {
   /// Fixed inner-content height shared by both empty and filled
-  /// cards. Picked just over the natural filled height (sprite 64,
-  /// stacked text rows ~66) so the card outline reads the same size
-  /// across all six slots regardless of whether they're populated.
-  static const _contentHeight = 68.0;
+  /// cards so the 6-row column doesn't jitter as the user populates
+  /// slots. Sized for a 64-px sprite + 4 stacked text rows (name,
+  /// ability/item, moves, EV line).
+  static const _contentHeight = 86.0;
 
   final int index;
   final _TeamSlot slot;
@@ -1255,6 +1276,11 @@ class _SlotSummaryCard extends StatelessWidget {
                   ],
                 ],
               ),
+              const SizedBox(height: 4),
+              // EV row: HP·Atk·Def·SpA·SpD·Spe with a ▲/▼ glyph next
+              // to the nature-boosted / -reduced stat. Read-only on
+              // the summary card; the editor popup is the edit point.
+              _evNatureLine(scheme, slot.evs, slot.nature),
             ],
           ),
         ),
@@ -1321,6 +1347,98 @@ class _SlotSummaryCard extends StatelessWidget {
     );
   }
 
+  /// EV row — six numbers separated by middle dots, with a small ▲
+  /// (nature boost) or ▼ (nature reduction) appended right after
+  /// the affected stat's value. Renders zeroes when the slot has no
+  /// loaded EVs / nature so the row's footprint stays constant.
+  Widget _evNatureLine(
+      ColorScheme scheme, Stats? evs, NatureProfile? nature) {
+    const order = [
+      ('hp', NatureStat.atk /* unused for hp; nature never affects HP */),
+      ('atk', NatureStat.atk),
+      ('def', NatureStat.def),
+      ('spa', NatureStat.spa),
+      ('spd', NatureStat.spd),
+      ('spe', NatureStat.spe),
+    ];
+
+    int valueOf(String key) {
+      if (evs == null) return 0;
+      switch (key) {
+        case 'hp':
+          return evs.hp;
+        case 'atk':
+          return evs.attack;
+        case 'def':
+          return evs.defense;
+        case 'spa':
+          return evs.spAttack;
+        case 'spd':
+          return evs.spDefense;
+        case 'spe':
+          return evs.speed;
+      }
+      return 0;
+    }
+
+    String arrowFor(String key) {
+      if (nature == null || key == 'hp') return '';
+      final stat = switch (key) {
+        'atk' => NatureStat.atk,
+        'def' => NatureStat.def,
+        'spa' => NatureStat.spa,
+        'spd' => NatureStat.spd,
+        'spe' => NatureStat.spe,
+        _ => null,
+      };
+      if (stat == null) return '';
+      if (nature.up == stat) return '▲';
+      if (nature.down == stat) return '▼';
+      return '';
+    }
+
+    final muted = TextStyle(
+      fontSize: 11,
+      color: scheme.onSurface.withValues(alpha: 0.65),
+    );
+    final upStyle = TextStyle(
+      fontSize: 9,
+      color: Colors.red.shade400,
+      fontWeight: FontWeight.w700,
+    );
+    final downStyle = TextStyle(
+      fontSize: 9,
+      color: Colors.blue.shade400,
+      fontWeight: FontWeight.w700,
+    );
+
+    final spans = <InlineSpan>[];
+    for (int i = 0; i < order.length; i++) {
+      final key = order[i].$1;
+      final v = valueOf(key);
+      spans.add(TextSpan(text: '$v', style: muted));
+      final arrow = arrowFor(key);
+      if (arrow.isNotEmpty) {
+        spans.add(TextSpan(
+          text: arrow,
+          style: arrow == '▲' ? upStyle : downStyle,
+        ));
+      }
+      if (i < order.length - 1) {
+        spans.add(TextSpan(
+          text: ' · ',
+          style: muted.copyWith(color: scheme.outlineVariant),
+        ));
+      }
+    }
+
+    return Text.rich(
+      TextSpan(children: spans),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
   Widget _movePill(Move? move) {
     if (move == null) {
       return Container(
@@ -1364,6 +1482,83 @@ class _SlotSummaryCard extends StatelessWidget {
 // _LabeledField removed — the ability + item line now uses inline
 // Text.rich rendering (see _abilityItemLine).
 
+/// Picker enum used by [_naturePicker]. PopupMenuButton.onSelected
+/// is NOT called when the selected value is null — Flutter routes
+/// that to onCanceled instead — so we use a non-null enum and
+/// translate `none` back to a real null when emitting.
+enum _NaturePick { none, atk, def, spa, spd, spe }
+
+/// Compact EV input cell — small number field with a tiny stat
+/// label above. Clamps input to 0-252 and re-emits on every digit
+/// edit so the parent can rebuild the summary card live.
+class _EvCell extends StatefulWidget {
+  final String label;
+  final int value;
+  final ValueChanged<int> onChanged;
+  const _EvCell({
+    required this.label,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  State<_EvCell> createState() => _EvCellState();
+}
+
+class _EvCellState extends State<_EvCell> {
+  late final TextEditingController _controller =
+      TextEditingController(text: widget.value.toString());
+
+  @override
+  void didUpdateWidget(_EvCell old) {
+    super.didUpdateWidget(old);
+    // Only resync the controller if the parent's value diverged from
+    // our last text (e.g. sample load overwrites it). Don't rewrite
+    // the controller on every keystroke — that moves the caret.
+    final current = int.tryParse(_controller.text) ?? 0;
+    if (current != widget.value) {
+      _controller.text = widget.value.toString();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(widget.label,
+            style: TextStyle(
+              fontSize: 10,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            )),
+        SizedBox(
+          height: 28,
+          child: TextField(
+            controller: _controller,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 13),
+            decoration: const InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+            ),
+            onChanged: (v) {
+              final n = int.tryParse(v) ?? 0;
+              widget.onChanged(n.clamp(0, 252));
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _SlotCard extends StatefulWidget {
   final int index;
   final _TeamSlot slot;
@@ -1383,6 +1578,8 @@ class _SlotCard extends StatefulWidget {
   final void Function(
       ({PokemonType type1, PokemonType? type2, PokemonType? type3})?
           override) onTypeOverrideChanged;
+  final ValueChanged<Stats> onEvChanged;
+  final ValueChanged<NatureProfile> onNatureChanged;
 
   const _SlotCard({
     super.key,
@@ -1398,6 +1595,8 @@ class _SlotCard extends StatefulWidget {
     required this.showMoves,
     required this.onMoveChanged,
     required this.onTypeOverrideChanged,
+    required this.onEvChanged,
+    required this.onNatureChanged,
   });
 
   @override
@@ -1564,8 +1763,220 @@ class _SlotCardState extends State<_SlotCard> {
           const SizedBox(height: 4),
           _moveGrid(scheme, p),
         ],
+        // ─── Row 4: 6 EV inputs + 2 nature pickers. Only meaningful
+        // when a pokemon is set, so we skip the section entirely for
+        // empty slots.
+        if (p != null) ...[
+          const SizedBox(height: 8),
+          _evInputsRow(scheme),
+          const SizedBox(height: 6),
+          _naturePickersRow(scheme),
+        ],
       ],
     );
+  }
+
+  Widget _evInputsRow(ColorScheme scheme) {
+    final evs = widget.slot.evs ?? const Stats(
+      hp: 0, attack: 0, defense: 0,
+      spAttack: 0, spDefense: 0, speed: 0,
+    );
+    const keys = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+    final labels = {
+      'hp': AppStrings.t('stat.hp'),
+      'atk': AppStrings.t('stat.attack'),
+      'def': AppStrings.t('stat.defense'),
+      'spa': AppStrings.t('stat.spAttack'),
+      'spd': AppStrings.t('stat.spDefense'),
+      'spe': AppStrings.t('stat.speed'),
+    };
+
+    int valueOf(String k) {
+      switch (k) {
+        case 'hp':
+          return evs.hp;
+        case 'atk':
+          return evs.attack;
+        case 'def':
+          return evs.defense;
+        case 'spa':
+          return evs.spAttack;
+        case 'spd':
+          return evs.spDefense;
+        case 'spe':
+          return evs.speed;
+      }
+      return 0;
+    }
+
+    Stats withUpdated(String k, int v) {
+      v = v.clamp(0, 252);
+      switch (k) {
+        case 'hp':
+          return Stats(
+              hp: v,
+              attack: evs.attack,
+              defense: evs.defense,
+              spAttack: evs.spAttack,
+              spDefense: evs.spDefense,
+              speed: evs.speed);
+        case 'atk':
+          return Stats(
+              hp: evs.hp,
+              attack: v,
+              defense: evs.defense,
+              spAttack: evs.spAttack,
+              spDefense: evs.spDefense,
+              speed: evs.speed);
+        case 'def':
+          return Stats(
+              hp: evs.hp,
+              attack: evs.attack,
+              defense: v,
+              spAttack: evs.spAttack,
+              spDefense: evs.spDefense,
+              speed: evs.speed);
+        case 'spa':
+          return Stats(
+              hp: evs.hp,
+              attack: evs.attack,
+              defense: evs.defense,
+              spAttack: v,
+              spDefense: evs.spDefense,
+              speed: evs.speed);
+        case 'spd':
+          return Stats(
+              hp: evs.hp,
+              attack: evs.attack,
+              defense: evs.defense,
+              spAttack: evs.spAttack,
+              spDefense: v,
+              speed: evs.speed);
+        case 'spe':
+          return Stats(
+              hp: evs.hp,
+              attack: evs.attack,
+              defense: evs.defense,
+              spAttack: evs.spAttack,
+              spDefense: evs.spDefense,
+              speed: v);
+      }
+      return evs;
+    }
+
+    return Row(
+      children: [
+        for (final k in keys) ...[
+          Expanded(
+            child: _EvCell(
+              label: labels[k]!,
+              value: valueOf(k),
+              onChanged: (v) => widget.onEvChanged(withUpdated(k, v)),
+            ),
+          ),
+          if (k != keys.last) const SizedBox(width: 4),
+        ],
+      ],
+    );
+  }
+
+  Widget _naturePickersRow(ColorScheme scheme) {
+    final nature = widget.slot.nature ?? NatureProfile.neutral;
+    return Row(
+      children: [
+        Expanded(child: _naturePicker(nature, isUp: true)),
+        const SizedBox(width: 6),
+        Expanded(child: _naturePicker(nature, isUp: false)),
+      ],
+    );
+  }
+
+  Widget _naturePicker(NatureProfile nature, {required bool isUp}) {
+    final value = isUp ? nature.up : nature.down;
+    final tint = isUp ? Colors.red : Colors.blue;
+    final label = value == null
+        ? AppStrings.t('nature.none')
+        : _natureStatLabel(value);
+    final textColor = value == null ? Colors.grey : tint;
+    return PopupMenuButton<_NaturePick>(
+      tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
+      popUpAnimationStyle:
+          AnimationStyle(duration: const Duration(milliseconds: 100)),
+      itemBuilder: (_) => [
+        PopupMenuItem<_NaturePick>(
+          value: _NaturePick.none,
+          child: Text(AppStrings.t('nature.none'),
+              style: const TextStyle(fontSize: 14, color: Colors.grey)),
+        ),
+        for (final s in NatureStat.values)
+          PopupMenuItem<_NaturePick>(
+            value: _pickFromStat(s),
+            child: Text(_natureStatLabel(s),
+                style: TextStyle(fontSize: 14, color: tint)),
+          ),
+      ],
+      onSelected: (v) {
+        final stat = _statFromPick(v);
+        widget.onNatureChanged(isUp
+            ? nature.copyWith(up: stat, clearUp: stat == null)
+            : nature.copyWith(down: stat, clearDown: stat == null));
+      },
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText:
+              AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
+          isDense: true,
+        ),
+        child: Text(label, style: TextStyle(fontSize: 14, color: textColor)),
+      ),
+    );
+  }
+
+  String _natureStatLabel(NatureStat s) {
+    switch (s) {
+      case NatureStat.atk:
+        return AppStrings.t('stat.attack');
+      case NatureStat.def:
+        return AppStrings.t('stat.defense');
+      case NatureStat.spa:
+        return AppStrings.t('stat.spAttack');
+      case NatureStat.spd:
+        return AppStrings.t('stat.spDefense');
+      case NatureStat.spe:
+        return AppStrings.t('stat.speed');
+    }
+  }
+
+  _NaturePick _pickFromStat(NatureStat s) {
+    switch (s) {
+      case NatureStat.atk:
+        return _NaturePick.atk;
+      case NatureStat.def:
+        return _NaturePick.def;
+      case NatureStat.spa:
+        return _NaturePick.spa;
+      case NatureStat.spd:
+        return _NaturePick.spd;
+      case NatureStat.spe:
+        return _NaturePick.spe;
+    }
+  }
+
+  NatureStat? _statFromPick(_NaturePick p) {
+    switch (p) {
+      case _NaturePick.none:
+        return null;
+      case _NaturePick.atk:
+        return NatureStat.atk;
+      case _NaturePick.def:
+        return NatureStat.def;
+      case _NaturePick.spa:
+        return NatureStat.spa;
+      case _NaturePick.spd:
+        return NatureStat.spd;
+      case _NaturePick.spe:
+        return NatureStat.spe;
+    }
   }
 
   Widget _moveGrid(ColorScheme scheme, Pokemon? p) {
