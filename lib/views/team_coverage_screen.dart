@@ -649,6 +649,63 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   /// same SampleListSheet as the calculator so the load UX (party
   /// folders, expand/collapse, search, rename, move, delete) is
   /// identical across the two screens.
+  /// Save the slot's current contents (pokemon + ability + item + 4
+  /// moves) as a standalone sample. The user picks a name; existing
+  /// samples with the same name are overwritten after a confirm
+  /// dialog. Used by the editor popup's 💾 button.
+  Future<void> _saveSlotAsSample(_TeamSlot slot) async {
+    final p = slot.pokemon;
+    if (p == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.save.empty')),
+      ));
+      return;
+    }
+    final name = await _promptText(
+      title: AppStrings.t('team.save.title'),
+      initial: p.localizedName,
+    );
+    if (name == null || name.isEmpty || !mounted) return;
+    final state = BattlePokemonState();
+    state.applyPokemon(p);
+    if (slot.ability != null) state.selectedAbility = slot.ability!;
+    if (slot.heldItem != null) state.selectedItem = slot.heldItem;
+    for (int i = 0;
+        i < state.moves.length && i < slot.moves.length;
+        i++) {
+      if (slot.moves[i] != null) state.moves[i] = slot.moves[i];
+    }
+    if (await SampleStorage.sampleExists(name)) {
+      if (!mounted) return;
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(AppStrings.t('team.save.overwrite.title')),
+          content: Text(AppStrings.t('team.save.overwrite.body')),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(AppStrings.t('action.cancel')),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(AppStrings.t('action.overwrite')),
+            ),
+          ],
+        ),
+      );
+      if (ok != true || !mounted) return;
+      await SampleStorage.overwriteSample(name, state);
+    } else {
+      await SampleStorage.saveSample(name, state);
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppStrings.t('msg.saved')),
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
   Future<void> _loadSampleInto(_TeamSlot slot) async {
     final pokedex = await loadPokedex();
     if (!mounted) return;
@@ -751,6 +808,11 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                             _loadSampleInto(slot);
                           },
                         ),
+                        IconButton(
+                          tooltip: AppStrings.t('team.slot.save'),
+                          icon: const Icon(Icons.save_outlined, size: 22),
+                          onPressed: () => _saveSlotAsSample(slot),
+                        ),
                         const Spacer(),
                         IconButton(
                           tooltip: AppStrings.t('team.slot.delete'),
@@ -811,7 +873,6 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             abilityNames: _abilityNames ?? const {},
             itemNames: _itemNames ?? const {},
             onTap: () => openEditor(slot, displayIndex, onClearOrRemove),
-            onLoadSample: () => _loadSampleInto(slot),
           ),
         );
 
@@ -1058,9 +1119,6 @@ class _SlotSummaryCard extends StatelessWidget {
   final Map<String, String> abilityNames;
   final Map<String, String> itemNames;
   final VoidCallback onTap;
-  /// Quick-load entry point — bypasses the editor dialog so the user
-  /// can pick a saved sample without an extra tap into the form.
-  final VoidCallback onLoadSample;
 
   const _SlotSummaryCard({
     super.key,
@@ -1069,7 +1127,6 @@ class _SlotSummaryCard extends StatelessWidget {
     required this.abilityNames,
     required this.itemNames,
     required this.onTap,
-    required this.onLoadSample,
   });
 
   @override
@@ -1172,18 +1229,6 @@ class _SlotSummaryCard extends StatelessWidget {
                     const SizedBox(width: 2),
                     _typeChip(slot.effectiveType3!),
                   ],
-                  IconButton(
-                    tooltip: AppStrings.t('team.sample.load'),
-                    icon: const Icon(Icons.folder_open, size: 16),
-                    onPressed: onLoadSample,
-                    visualDensity: VisualDensity.compact,
-                    padding: EdgeInsets.zero,
-                    // Match the icon's own size so the Row's height
-                    // stays text-bound (~20 px) instead of being
-                    // inflated by a 24-px Material tap target.
-                    constraints:
-                        const BoxConstraints(minWidth: 18, minHeight: 18),
-                  ),
                 ],
               ),
               // Ability + Item on a single inline line — item flows

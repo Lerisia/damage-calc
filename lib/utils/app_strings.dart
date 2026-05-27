@@ -130,6 +130,16 @@ class AppStrings {
       AppLanguage.en: 'Clear slot',
       AppLanguage.ja: 'スロットを空に',
     },
+    'team.slot.save': {
+      AppLanguage.ko: '슬롯 저장',
+      AppLanguage.en: 'Save slot',
+      AppLanguage.ja: 'スロットを保存',
+    },
+    'msg.saved': {
+      AppLanguage.ko: '저장되었습니다',
+      AppLanguage.en: 'Saved',
+      AppLanguage.ja: '保存しました',
+    },
     'team.tab.defense': {
       AppLanguage.ko: '방어 상성',
       AppLanguage.en: 'Defense',
