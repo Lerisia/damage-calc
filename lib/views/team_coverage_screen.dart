@@ -738,7 +738,15 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                   onPokemonSelected: (p) => _setPokemon(slot, p),
                   onAbilitySelected: (a) => _setAbility(slot, a),
                   onItemSelected: (it) => _setItem(slot, it),
-                  onLoadSample: () => _loadSampleInto(slot),
+                  onLoadSample: () {
+                    // Close the editor before opening the sample
+                    // sheet — stacking the sample sheet on top of the
+                    // editor made opening visibly sluggish (Material
+                    // animates two barrier dims simultaneously and
+                    // the editor's typeahead overlays sit underneath).
+                    Navigator.of(dialogCtx).pop();
+                    _loadSampleInto(slot);
+                  },
                   onClear: () {
                     onClearOrRemove();
                     Navigator.of(dialogCtx).pop();
@@ -769,6 +777,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             abilityNames: _abilityNames ?? const {},
             itemNames: _itemNames ?? const {},
             onTap: () => openEditor(slot, displayIndex, onClearOrRemove),
+            onLoadSample: () => _loadSampleInto(slot),
           ),
         );
 
@@ -1027,6 +1036,9 @@ class _SlotSummaryCard extends StatelessWidget {
   final Map<String, String> abilityNames;
   final Map<String, String> itemNames;
   final VoidCallback onTap;
+  /// Quick-load entry point — bypasses the editor dialog so the user
+  /// can pick a saved sample without an extra tap into the form.
+  final VoidCallback onLoadSample;
 
   const _SlotSummaryCard({
     super.key,
@@ -1035,6 +1047,7 @@ class _SlotSummaryCard extends StatelessWidget {
     required this.abilityNames,
     required this.itemNames,
     required this.onTap,
+    required this.onLoadSample,
   });
 
   @override
@@ -1151,6 +1164,19 @@ class _SlotSummaryCard extends StatelessWidget {
                     const SizedBox(width: 2),
                     _typeChip(slot.effectiveType3!),
                   ],
+                  // Inline sample-load — skips opening the editor
+                  // dialog so users who just want to load a saved
+                  // mon don't pay the form-stack cost. Same callback
+                  // is also wired inside the editor's _SlotCard.
+                  IconButton(
+                    tooltip: AppStrings.t('team.sample.load'),
+                    icon: const Icon(Icons.folder_open, size: 18),
+                    onPressed: onLoadSample,
+                    visualDensity: VisualDensity.compact,
+                    padding: EdgeInsets.zero,
+                    constraints:
+                        const BoxConstraints(minWidth: 28, minHeight: 28),
+                  ),
                 ],
               ),
               const SizedBox(height: 4),
