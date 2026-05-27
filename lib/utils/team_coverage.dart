@@ -153,7 +153,7 @@ CoverageCell coverageOf(PokemonType attackType, CoverageSlot slot) {
 
   // Step 4: Wonder Guard — only super-effective hits land. We compute
   // the raw multiplier once and gate it.
-  final mult = getCombinedEffectiveness(
+  double mult = getCombinedEffectiveness(
     attackType,
     slot.type1,
     slot.type2,
@@ -162,6 +162,31 @@ CoverageCell coverageOf(PokemonType attackType, CoverageSlot slot) {
 
   if (slot.ability == 'Wonder Guard' && mult <= 1.0) {
     return const CoverageCell(0, immunityReason: 'wonderGuard');
+  }
+
+  // Step 5: damage-modifier abilities that fold into the chart bucket
+  // cleanly. Kept in sync with abilityAdjustedDefensiveMultiplier (the
+  // dex / search-filter side); coverageOf needs its own copy because
+  // it also tracks immunityReason for cell rendering and uses
+  // isGrounded (item-aware) instead of the simple Levitate check.
+  // Type-agnostic abilities (Solid Rock / Filter / Multiscale) and
+  // awkward multipliers (Dry Skin Fire ×1.25) are intentionally not
+  // applied — they don't fit the matrix's 4/2/1/0.5/0.25/0× buckets.
+  if (slot.ability != null) {
+    switch (slot.ability!) {
+      case 'Thick Fat':
+        if (attackType == PokemonType.fire ||
+            attackType == PokemonType.ice) {
+          mult *= 0.5;
+        }
+      case 'Heatproof':
+      case 'Water Bubble':
+        if (attackType == PokemonType.fire) mult *= 0.5;
+      case 'Purifying Salt':
+        if (attackType == PokemonType.ghost) mult *= 0.5;
+      case 'Fluffy':
+        if (attackType == PokemonType.fire) mult *= 2.0;
+    }
   }
 
   return CoverageCell(mult);

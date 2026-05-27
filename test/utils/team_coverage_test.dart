@@ -189,6 +189,84 @@ void main() {
     });
   });
 
+  group('coverageOf — damage-modifier abilities', () {
+    test('Thick Fat halves Fire and Ice (Snorlax Normal)', () {
+      final fire = coverageOf(
+          PokemonType.fire,
+          const CoverageSlot(
+              type1: PokemonType.normal, ability: 'Thick Fat'));
+      final ice = coverageOf(
+          PokemonType.ice,
+          const CoverageSlot(
+              type1: PokemonType.normal, ability: 'Thick Fat'));
+      final neutral = coverageOf(
+          PokemonType.water,
+          const CoverageSlot(
+              type1: PokemonType.normal, ability: 'Thick Fat'));
+      expect(fire.multiplier, 0.5);
+      expect(ice.multiplier, 0.5);
+      expect(neutral.multiplier, 1.0);
+    });
+
+    test('Thick Fat on a Fire-weak type still ends at 1× (2× × 0.5)', () {
+      // Mamoswine-like: Ice/Ground weak to Fire 2× → Thick Fat halves
+      // to 1× (neutral). Tests that the modifier applies on top of
+      // the raw chart multiplier rather than overriding it.
+      final cell = coverageOf(
+          PokemonType.fire,
+          const CoverageSlot(
+              type1: PokemonType.ice,
+              type2: PokemonType.ground,
+              ability: 'Thick Fat'));
+      expect(cell.multiplier, 1.0);
+    });
+
+    test('Heatproof halves Fire', () {
+      final cell = coverageOf(
+          PokemonType.fire,
+          const CoverageSlot(
+              type1: PokemonType.fire, // 0.5× base
+              ability: 'Heatproof'));
+      expect(cell.multiplier, 0.25);
+    });
+
+    test('Water Bubble halves Fire', () {
+      final cell = coverageOf(
+          PokemonType.fire,
+          const CoverageSlot(
+              type1: PokemonType.water, // 0.5× base
+              ability: 'Water Bubble'));
+      expect(cell.multiplier, 0.25);
+    });
+
+    test('Purifying Salt halves Ghost (use non-immune base type)', () {
+      // Normal is immune to Ghost by chart, so use Bug to isolate the
+      // halving effect.
+      final cell = coverageOf(
+          PokemonType.ghost,
+          const CoverageSlot(
+              type1: PokemonType.bug, // 1× base
+              ability: 'Purifying Salt'));
+      expect(cell.multiplier, 0.5);
+    });
+
+    test('Fluffy doubles Fire (creates 2× weakness from neutral)', () {
+      final cell = coverageOf(
+          PokemonType.fire,
+          const CoverageSlot(
+              type1: PokemonType.normal, ability: 'Fluffy'));
+      expect(cell.multiplier, 2.0);
+    });
+
+    test('Fluffy on a Fire-resistant type ends at 1× (0.5× × 2)', () {
+      final cell = coverageOf(
+          PokemonType.fire,
+          const CoverageSlot(
+              type1: PokemonType.water, ability: 'Fluffy'));
+      expect(cell.multiplier, 1.0);
+    });
+  });
+
   group('coverageOf — basic multipliers', () {
     test('Fire vs Grass is 2×', () {
       expect(
