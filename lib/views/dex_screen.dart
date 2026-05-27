@@ -251,12 +251,13 @@ class _DexScreenState extends State<DexScreen> {
             titleSpacing: 0,
             title: Row(
               children: [
-                IconButton(
-                  tooltip:
-                      MaterialLocalizations.of(context).backButtonTooltip,
-                  icon: const BackButtonIcon(),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
+                if (MediaQuery.sizeOf(context).width >= 1050)
+                  IconButton(
+                    tooltip: MaterialLocalizations.of(context)
+                        .backButtonTooltip,
+                    icon: const BackButtonIcon(),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
                 // Species name is already shown large in the header
                 // below, so the app bar drops it and uses the freed
                 // space for the attacker / defender send actions.
@@ -347,12 +348,17 @@ class _DexScreenState extends State<DexScreen> {
             titleSpacing: 0,
             title: Row(
               children: [
-                IconButton(
-                  tooltip:
-                      MaterialLocalizations.of(context).backButtonTooltip,
-                  icon: const BackButtonIcon(),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
+                // Wide-only back arrow — narrow widths use the bottom
+                // nav's '계산기' tab to return, so an extra back chip
+                // would be redundant chrome. Wide hides the nav, so
+                // this is the in-app return path there.
+                if (MediaQuery.sizeOf(context).width >= 1050)
+                  IconButton(
+                    tooltip: MaterialLocalizations.of(context)
+                        .backButtonTooltip,
+                    icon: const BackButtonIcon(),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
                 Expanded(
                   child: Text(AppStrings.t('dex.title'),
                       style: const TextStyle(fontSize: 18)),

@@ -308,6 +308,11 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       appBar: cappedAppBar(
         maxWidth: 1200,
         appBar: AppBar(
+          // Hide the default back arrow at narrow widths — bottom nav
+          // covers the return-to-calc affordance there. Wide screens
+          // (≥1050) suppress the bottom nav, so the back arrow stays.
+          automaticallyImplyLeading:
+              MediaQuery.sizeOf(context).width >= 1050,
           titleSpacing: 0,
           title: Padding(
             padding: const EdgeInsets.only(left: 8),

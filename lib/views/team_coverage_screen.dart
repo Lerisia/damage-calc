@@ -957,14 +957,19 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
           titleSpacing: 0,
           title: Row(
             children: [
-              IconButton(
+              if (MediaQuery.sizeOf(context).width >= 1050)
                 // Override the auto-implied BackButton (which calls
                 // Navigator.maybePop and would be blocked by
                 // canPop:false). Navigator.pop bypasses PopScope.
-                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                icon: const BackButtonIcon(),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
+                // Wide-only — narrow widths return via the bottom
+                // nav's '계산기' tab, so the extra chip would be
+                // redundant chrome.
+                IconButton(
+                  tooltip:
+                      MaterialLocalizations.of(context).backButtonTooltip,
+                  icon: const BackButtonIcon(),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
               Expanded(
                 // Party-level actions (load saved party, save current
                 // party, reset). Wrapped in a horizontal scroll so
