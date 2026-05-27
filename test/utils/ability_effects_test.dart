@@ -761,4 +761,91 @@ void main() {
       expect(transformed.move.power, equals(140));
     });
   });
+
+  group('abilityAdjustedDefensiveMultiplier — for dex chart / search', () {
+    test('no ability → pure type chart (Charizard Fire/Flying vs Rock = 4×)',
+        () {
+      final m = abilityAdjustedDefensiveMultiplier(
+          PokemonType.rock, PokemonType.fire, PokemonType.flying);
+      expect(m, 4.0);
+    });
+
+    test('no ability → ground is immune to flying (Charizard) at 0×', () {
+      final m = abilityAdjustedDefensiveMultiplier(
+          PokemonType.ground, PokemonType.fire, PokemonType.flying);
+      expect(m, 0.0);
+    });
+
+    test('Levitate makes Ground 0× (Gengar baseline already immune via Ghost)',
+        () {
+      // Use a non-ghost type so we can isolate Levitate's effect.
+      final m = abilityAdjustedDefensiveMultiplier(
+          PokemonType.ground, PokemonType.psychic, null,
+          ability: 'Levitate');
+      expect(m, 0.0);
+    });
+
+    test('Thick Fat halves Fire and Ice (Snorlax Normal)', () {
+      final fire = abilityAdjustedDefensiveMultiplier(
+          PokemonType.fire, PokemonType.normal, null,
+          ability: 'Thick Fat');
+      final ice = abilityAdjustedDefensiveMultiplier(
+          PokemonType.ice, PokemonType.normal, null,
+          ability: 'Thick Fat');
+      final other = abilityAdjustedDefensiveMultiplier(
+          PokemonType.water, PokemonType.normal, null,
+          ability: 'Thick Fat');
+      expect(fire, 0.5);
+      expect(ice, 0.5);
+      expect(other, 1.0);
+    });
+
+    test('Flash Fire makes Fire 0× (Heatran Fire/Steel)', () {
+      final m = abilityAdjustedDefensiveMultiplier(
+          PokemonType.fire, PokemonType.fire, PokemonType.steel,
+          ability: 'Flash Fire');
+      expect(m, 0.0);
+    });
+
+    test('Fluffy doubles Fire (creates 2× weakness from neutral)', () {
+      final m = abilityAdjustedDefensiveMultiplier(
+          PokemonType.fire, PokemonType.normal, null,
+          ability: 'Fluffy');
+      expect(m, 2.0);
+    });
+
+    test('Wonder Guard: only super-effective hits land (Shedinja Bug/Ghost)',
+        () {
+      // Bug/Ghost: weak to Fire/Flying/Rock/Ghost/Dark, neutral/resist others.
+      final fire = abilityAdjustedDefensiveMultiplier(
+          PokemonType.fire, PokemonType.bug, PokemonType.ghost,
+          ability: 'Wonder Guard');
+      final normal = abilityAdjustedDefensiveMultiplier(
+          PokemonType.normal, PokemonType.bug, PokemonType.ghost,
+          ability: 'Wonder Guard');
+      final grass = abilityAdjustedDefensiveMultiplier(
+          PokemonType.grass, PokemonType.bug, PokemonType.ghost,
+          ability: 'Wonder Guard');
+      expect(fire, 2.0); // SE — lands at normal multiplier
+      expect(normal, 0.0); // pure-type immune anyway
+      expect(grass, 0.0); // resisted → Wonder Guard zeros it
+    });
+
+    test('Purifying Salt halves Ghost', () {
+      // Use a non-immune defender — Normal is immune to Ghost by the
+      // pure type chart so the halving would never have a chance.
+      final m = abilityAdjustedDefensiveMultiplier(
+          PokemonType.ghost, PokemonType.bug, null,
+          ability: 'Purifying Salt');
+      expect(m, 0.5);
+    });
+
+    test('Water Bubble halves Fire', () {
+      final m = abilityAdjustedDefensiveMultiplier(
+          PokemonType.fire, PokemonType.water, null,
+          ability: 'Water Bubble');
+      // Water resists Fire by 0.5×, then Water Bubble halves again → 0.25.
+      expect(m, 0.25);
+    });
+  });
 }

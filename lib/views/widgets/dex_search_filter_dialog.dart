@@ -5,10 +5,10 @@ import '../../models/ability.dart';
 import '../../models/move.dart';
 import '../../models/pokemon.dart';
 import '../../models/type.dart';
+import '../../utils/ability_effects.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/korean_search.dart';
 import '../../utils/localization.dart';
-import '../../utils/type_effectiveness.dart';
 import 'typeahead_helpers.dart';
 
 /// Defensive-relation toggle used by the "약점/내성/면역" filter row.
@@ -198,23 +198,45 @@ bool matchesDexFilter(
     if (c.max != null && v > c.max!) return false;
   }
 
-  // Defensive type — all entries are ANDed. Ability effects ignored
-  // per spec. "내성" picks anything that takes less than 1× damage
-  // (includes 0× / immunity, since immune mons are trivially resistant).
-  // "면역" is the stricter 0×-only bucket.
+  // Defensive type — all entries are ANDed. Each relation is satisfied
+  // if there's any candidate ability (including "no ability") whose
+  // combined matchup against d.type makes it true. So Snorlax matches
+  // "resists Fire" via Thick Fat, and a Pokémon with Fluffy matches
+  // "weak to Fire" even when its pure type is neutral. "내성" still
+  // includes 0× immunity matchups as a subset; "면역" stays strict 0×.
   for (final d in filter.defenses) {
-    final immune = hasTypeImmunity(d.type, p.type1, p.type2);
-    final double mult = immune
-        ? 0.0
-        : getCombinedEffectiveness(d.type, p.type1, p.type2);
-    switch (d.relation) {
-      case DexDefenseRelation.weakness:
-        if (mult <= 1.0) return false;
-      case DexDefenseRelation.resistance:
-        if (mult >= 1.0) return false;
-      case DexDefenseRelation.immunity:
-        if (mult != 0.0) return false;
+    bool relationHolds(double mult) {
+      switch (d.relation) {
+        case DexDefenseRelation.weakness:
+          return mult > 1.0;
+        case DexDefenseRelation.resistance:
+          return mult < 1.0;
+        case DexDefenseRelation.immunity:
+          return mult == 0.0;
+      }
     }
+
+    bool any = false;
+    // Pure-type baseline (no ability).
+    final baseMult = abilityAdjustedDefensiveMultiplier(
+      d.type, p.type1, p.type2,
+      ability: null,
+    );
+    if (relationHolds(baseMult)) {
+      any = true;
+    } else {
+      for (final ab in p.abilities) {
+        final m = abilityAdjustedDefensiveMultiplier(
+          d.type, p.type1, p.type2,
+          ability: ab,
+        );
+        if (relationHolds(m)) {
+          any = true;
+          break;
+        }
+      }
+    }
+    if (!any) return false;
   }
 
   // Ability — match if any potential ability (regular or hidden) equals.

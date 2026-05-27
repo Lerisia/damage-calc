@@ -776,9 +776,14 @@ class AppStrings {
       AppLanguage.ja: '特性',
     },
     'dex.calcAbility': {
-      AppLanguage.ko: '계산 특성',
-      AppLanguage.en: 'Ability for calc',
-      AppLanguage.ja: '計算用特性',
+      AppLanguage.ko: '특성',
+      AppLanguage.en: 'Ability',
+      AppLanguage.ja: '特性',
+    },
+    'dex.calcAbility.none': {
+      AppLanguage.ko: '특성 없음',
+      AppLanguage.en: 'No ability',
+      AppLanguage.ja: '特性なし',
     },
     'dex.typeMatchups': {
       AppLanguage.ko: '타입 상성',

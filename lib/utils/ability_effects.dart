@@ -9,6 +9,7 @@ import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
+import 'type_effectiveness.dart';
 import 'move_transform.dart';
 
 // ====== Ability modifier constants ======
@@ -622,6 +623,74 @@ bool isAbilityTypeImmune(String abilityName, PokemonType moveType) {
     // Levitate is handled by isGrounded check, not here
   };
   return immunities[abilityName] == moveType;
+}
+
+/// Defensive type-effectiveness for the dex chart and search filter:
+/// pure type matchup adjusted by the defender's ability. Only handles
+/// abilities whose result fits cleanly into the chart buckets
+/// (4/2/1/0.5/0.25/0×) — type-agnostic multipliers (Solid Rock,
+/// Filter, Prism Armor, Multiscale) and awkward multipliers (Dry Skin
+/// Fire ×1.25) are intentionally not applied here.
+///
+/// Effects:
+///   * Levitate → Ground 0×
+///   * `isAbilityTypeImmune` table (Volt Absorb / Flash Fire / Water
+///     Absorb / Dry Skin (water) / Sap Sipper / Earth Eater / etc.) → 0×
+///   * Wonder Guard → 0× for any non-super-effective matchup
+///   * Thick Fat → Fire / Ice ×0.5
+///   * Heatproof, Water Bubble → Fire ×0.5
+///   * Purifying Salt → Ghost ×0.5
+///   * Fluffy → Fire ×2
+///
+/// Returns the same value as the pure type chart when [ability] is
+/// null or doesn't change the result.
+double abilityAdjustedDefensiveMultiplier(
+  PokemonType attackType,
+  PokemonType type1,
+  PokemonType? type2, {
+  String? ability,
+}) {
+  // 1) Ability-granted immunities (always 0×, takes precedence over
+  // anything else).
+  if (ability != null) {
+    if (isAbilityTypeImmune(ability, attackType)) return 0.0;
+    if (ability == 'Levitate' && attackType == PokemonType.ground) return 0.0;
+  }
+
+  // 2) Pure type chart, including type immunities (Ghost vs Normal, etc.).
+  double mult;
+  if (hasTypeImmunity(attackType, type1, type2)) {
+    mult = 0.0;
+  } else {
+    mult = getCombinedEffectiveness(attackType, type1, type2);
+  }
+
+  // 3) Wonder Guard: only super-effective hits land.
+  if (ability == 'Wonder Guard') {
+    if (mult < 2.0) return 0.0;
+    return mult;
+  }
+
+  if (mult == 0.0) return 0.0;
+
+  // 4) Ability damage modifiers that map cleanly to chart buckets.
+  if (ability != null) {
+    switch (ability) {
+      case 'Thick Fat':
+        if (attackType == PokemonType.fire ||
+            attackType == PokemonType.ice) {
+          mult *= 0.5;
+        }
+      case 'Heatproof':
+      case 'Water Bubble':
+        if (attackType == PokemonType.fire) mult *= 0.5;
+      case 'Purifying Salt':
+        if (attackType == PokemonType.ghost) mult *= 0.5;
+      case 'Fluffy':
+        if (attackType == PokemonType.fire) mult *= 2.0;
+    }
+  }
+  return mult;
 }
 
 /// Returns the speed modifier from [abilityName] given battle conditions.

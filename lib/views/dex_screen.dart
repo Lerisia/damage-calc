@@ -24,7 +24,7 @@ import '../utils/page_routes.dart';
 import '../utils/localization.dart';
 import '../utils/stacking_moves.dart';
 import '../utils/terrain_effects.dart' show abilityTerrainMap;
-import '../utils/type_effectiveness.dart';
+import '../utils/ability_effects.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
 import 'widgets/dex_search_filter_dialog.dart';
@@ -912,8 +912,12 @@ class _MainTabState extends State<_MainTab> {
           const SizedBox(height: 16),
           _AbilitiesSection(pokemon: p, abilityDex: widget.abilityDex),
           const SizedBox(height: 16),
-          _TypeMatchupsSection(pokemon: p),
-          const SizedBox(height: 16),
+          // Picker comes BEFORE the type matchup chart so the user
+          // can see the chart change as they switch abilities
+          // (Snorlax + Thick Fat shifts Fire/Ice into the resist
+          // bucket, Levitate moves Ground into the immunity bucket,
+          // Wonder Guard collapses everything that isn't SE to 0×,
+          // etc.). "특성 없음" reverts to the pure-type chart.
           if (p.abilities.isNotEmpty) ...[
             _CalcAbilityPicker(
               pokemon: p,
@@ -923,6 +927,8 @@ class _MainTabState extends State<_MainTab> {
             ),
             const SizedBox(height: 12),
           ],
+          _TypeMatchupsSection(pokemon: p, ability: _selectedAbility),
+          const SizedBox(height: 16),
           _BulkSection(pokemon: p, ability: _selectedAbility),
           const SizedBox(height: 16),
           _DecisivePowerSection(
@@ -988,7 +994,7 @@ class _CalcAbilityPicker extends StatelessWidget {
   final Pokemon pokemon;
   final Map<String, Ability> abilityDex;
   final String? selected;
-  final ValueChanged<String> onChanged;
+  final ValueChanged<String?> onChanged;
 
   const _CalcAbilityPicker({
     required this.pokemon,
@@ -1034,6 +1040,14 @@ class _CalcAbilityPicker extends StatelessWidget {
                     onTap: () => onChanged(
                         BattlePokemonState.expandAbilityKey(raw) ?? raw),
                   ),
+                // "특성 없음" — lets the user remove the ability so
+                // the type matchup chart and downstream calc tables
+                // recompute as if no ability were active.
+                _AbilityChip(
+                  label: AppStrings.t('dex.calcAbility.none'),
+                  selected: selected == null,
+                  onTap: () => onChanged(null),
+                ),
               ],
             ),
           ),
@@ -1396,7 +1410,8 @@ class _AbilitiesSection extends StatelessWidget {
 
 class _TypeMatchupsSection extends StatelessWidget {
   final Pokemon pokemon;
-  const _TypeMatchupsSection({required this.pokemon});
+  final String? ability;
+  const _TypeMatchupsSection({required this.pokemon, this.ability});
 
   @override
   Widget build(BuildContext context) {
@@ -1415,19 +1430,18 @@ class _TypeMatchupsSection extends StatelessWidget {
       // against Terastallized targets; hiding it from the dex chart
       // matches user expectation for "normal" matchups.
       if (atkType == PokemonType.stellar) continue;
-      // The shared type chart leaves type immunities at 1× because the
-      // main damage calculator gates them separately via ability /
-      // ground checks. The dex is a pure species-vs-type reference, so
-      // we re-apply the pure type immunity table here — Normal/Fighting
-      // vs Ghost, Ground vs Flying, Poison vs Steel, etc. all land in
-      // the ×0 bucket.
-      final double mult;
-      if (hasTypeImmunity(atkType, pokemon.type1, pokemon.type2)) {
-        mult = 0.0;
-      } else {
-        mult =
-            getCombinedEffectiveness(atkType, pokemon.type1, pokemon.type2);
-      }
+      // abilityAdjustedDefensiveMultiplier folds the pure type chart,
+      // the type immunity table (Ground vs Flying, Poison vs Steel,
+      // etc.), and any ability-driven changes (Levitate / Thick Fat /
+      // Wonder Guard / Fluffy / …) into one number that lines up with
+      // the chart's bucket keys. Pass ability=null for the pure-type
+      // view.
+      final mult = abilityAdjustedDefensiveMultiplier(
+        atkType,
+        pokemon.type1,
+        pokemon.type2,
+        ability: ability,
+      );
       if (buckets.containsKey(mult)) buckets[mult]!.add(atkType);
     }
     final activeKeys = buckets.entries

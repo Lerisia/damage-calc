@@ -237,6 +237,63 @@ void main() {
       expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
     });
 
+    test('ability expansion — resistance includes ability-driven halving', () {
+      // Snorlax Normal + Thick Fat resists Fire (0.5×) even though
+      // pure Normal/null is neutral to Fire (1×).
+      final snorlax = _p(
+        name: 'Snorlax',
+        t1: PokemonType.normal,
+        abilities: const ['Thick Fat'],
+      );
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.fire, relation: DexDefenseRelation.resistance),
+      ]);
+      expect(matchesDexFilter(snorlax, f, movesByPokemon: empty), true);
+    });
+
+    test('ability expansion — weakness includes Fluffy Fire 2×', () {
+      // A neutral-to-Fire Pokémon with Fluffy becomes 2× weak to Fire.
+      final fluffy = _p(
+        name: 'TestFluffy',
+        t1: PokemonType.normal,
+        abilities: const ['Fluffy'],
+      );
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.fire, relation: DexDefenseRelation.weakness),
+      ]);
+      expect(matchesDexFilter(fluffy, f, movesByPokemon: empty), true);
+    });
+
+    test('ability expansion — immunity matches Levitate vs Ground', () {
+      final psychicLevitate = _p(
+        name: 'TestLevitate',
+        t1: PokemonType.psychic,
+        abilities: const ['Levitate'],
+      );
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.ground, relation: DexDefenseRelation.immunity),
+      ]);
+      expect(matchesDexFilter(psychicLevitate, f, movesByPokemon: empty), true);
+    });
+
+    test('ability expansion — does not falsely match when no ability helps',
+        () {
+      // Pure Normal, no relevant abilities: Fire stays neutral.
+      final p = _p(
+        name: 'NoHelp',
+        t1: PokemonType.normal,
+        abilities: const ['Run Away'],
+      );
+      const f = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.fire, relation: DexDefenseRelation.resistance),
+      ]);
+      expect(matchesDexFilter(p, f, movesByPokemon: empty), false);
+    });
+
     test('multiple entries are ANDed — all must be satisfied', () {
       // Charizard: weak to rock (4×), resistant to fighting (0.5×) — both ✓
       const both = DexSearchFilter(defenses: [
