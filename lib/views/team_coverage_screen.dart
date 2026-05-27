@@ -1274,6 +1274,13 @@ class _SlotSummaryCard extends StatelessWidget {
               // field to a fixed column.
               _abilityItemLine(scheme, abilityLabel, itemLabel),
               const SizedBox(height: 4),
+              // EV row: HP-Atk-Def-SpA-SpD-Spe with a ▲/▼ glyph next
+              // to the nature-boosted / -reduced stat. Sits above the
+              // move pills so the stat block reads next to the
+              // ability/item line it belongs with (same order the
+              // popup editor uses).
+              _evNatureLine(scheme, slot.evs, slot.nature),
+              const SizedBox(height: 4),
               // Move pills — forced to a single line via equal-width
               // Expanded cells. Long move names truncate with the
               // pill's ellipsis style rather than wrapping to a 2nd
@@ -1286,11 +1293,6 @@ class _SlotSummaryCard extends StatelessWidget {
                   ],
                 ],
               ),
-              const SizedBox(height: 4),
-              // EV row: HP·Atk·Def·SpA·SpD·Spe with a ▲/▼ glyph next
-              // to the nature-boosted / -reduced stat. Read-only on
-              // the summary card; the editor popup is the edit point.
-              _evNatureLine(scheme, slot.evs, slot.nature),
             ],
           ),
         ),
