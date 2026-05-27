@@ -99,8 +99,18 @@ class _AppBottomNavState extends State<AppBottomNav> {
     }
   }
 
+  /// Width above which the bottom nav is suppressed. Matches the
+  /// calculator's existing wide-layout threshold so the two stay in
+  /// sync. On wide layouts the user navigates through the in-toolbar
+  /// dex/team entries instead, and the bottom nav would only stretch
+  /// awkwardly with empty space between the 4 tabs.
+  static const double _wideHideThreshold = 1050;
+
   @override
   Widget build(BuildContext context) {
+    if (MediaQuery.sizeOf(context).width >= _wideHideThreshold) {
+      return const SizedBox.shrink();
+    }
     if (!_loaded) return const SizedBox(height: 16);
     final scheme = Theme.of(context).colorScheme;
     return Material(
