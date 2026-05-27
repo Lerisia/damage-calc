@@ -11,11 +11,13 @@ import '../models/ability.dart';
 import '../models/battle_pokemon.dart';
 import '../models/item.dart';
 import '../models/move.dart';
+import '../models/nature.dart';
 import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
 import '../models/stats.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
+import '../utils/champions_mode.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
@@ -205,16 +207,39 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     }
     slot.heldItem = pickedItem;
 
-    // Move slots stay empty on species change. Type overrides too.
-    for (int i = 0; i < slot.moves.length; i++) {
-      slot.moves[i] = null;
-    }
+    // Type overrides reset on species change.
     slot.typeOverride = null;
-    // EVs / nature reset on a fresh species pick — the previous
-    // species' spread / nature don't translate cleanly. Sample loads
-    // re-populate both with the sample's saved values.
-    slot.evs = null;
+
+    // Pull the full curated usage entry once — EVs, nature, and moves
+    // all auto-fill from the same Champions Singles snapshot so the
+    // slot lands on a complete real build instead of blank fields.
+    final usage = championsUsageFor(p.name);
+
+    // EV spread: stored as EVs internally (so the calc-side handoff
+    // stays unchanged); UI converts to SP at the display boundary.
+    final defaultSp = usage?.defaultSp;
+    slot.evs =
+        defaultSp != null ? ChampionsMode.spToEvStats(defaultSp) : null;
+
+    // Nature: parse the curated top pick; keep null on unknown names
+    // so the picker shows blank rather than a wrong guess.
     slot.nature = null;
+    final natureName = usage?.natures.isNotEmpty == true
+        ? usage!.natures.first.name.toLowerCase()
+        : null;
+    if (natureName != null) {
+      try {
+        slot.nature = NatureProfile.fromNature(Nature.values.byName(natureName));
+      } catch (_) {/* unknown nature name — leave null */}
+    }
+
+    // Moves: auto-fill from curated defaultMoves. Empty / unresolved
+    // entries become null so the move grid renders an empty slot.
+    final defaultMoves = usage?.defaultMoves ?? const [];
+    for (int i = 0; i < slot.moves.length; i++) {
+      slot.moves[i] =
+          i < defaultMoves.length ? findMoveByName(defaultMoves[i].name) : null;
+    }
   }
 
   void _setPokemon(_TeamSlot slot, Pokemon p) {
@@ -1366,6 +1391,9 @@ class _SlotSummaryCard extends StatelessWidget {
   /// (nature boost) or ▼ (nature reduction) appended right after
   /// the affected stat's value. Renders zeroes when the slot has no
   /// loaded EVs / nature so the row's footprint stays constant.
+  /// Numbers shown in Champions SP units (0-32), matching the rest
+  /// of the team-builder / simple-mode UI — the calc itself stays
+  /// in EV units, conversion happens here at the display boundary.
   Widget _evNatureLine(
       ColorScheme scheme, Stats? evs, NatureProfile? nature) {
     const order = [
@@ -1377,21 +1405,23 @@ class _SlotSummaryCard extends StatelessWidget {
       ('spe', NatureStat.spe),
     ];
 
+    final sp = evs == null ? null : ChampionsMode.evToSpStats(evs);
+
     int valueOf(String key) {
-      if (evs == null) return 0;
+      if (sp == null) return 0;
       switch (key) {
         case 'hp':
-          return evs.hp;
+          return sp.hp;
         case 'atk':
-          return evs.attack;
+          return sp.attack;
         case 'def':
-          return evs.defense;
+          return sp.defense;
         case 'spa':
-          return evs.spAttack;
+          return sp.spAttack;
         case 'spd':
-          return evs.spDefense;
+          return sp.spDefense;
         case 'spe':
-          return evs.speed;
+          return sp.speed;
       }
       return 0;
     }
@@ -1562,9 +1592,9 @@ class _EvCellState extends State<_EvCell> {
           // (no -/+/0 buttons) so we can be a bit taller for touch.
           height: 36,
           // SelectAllField + ClampingFormatter are the same primitives
-          // the main calc uses for EV editing — keeps the clamp logic
-          // (0-252 EV) and select-on-focus behavior consistent across
-          // both screens.
+          // the main calc uses for EV editing — keeps select-on-focus
+          // and clamp behavior consistent. Bounds switch to SP
+          // (0-32) since the team-builder UI displays in SP units.
           child: SelectAllField(
             key: ValueKey('ev_${widget.label}_${widget.value}'),
             initialText: '${widget.value}',
@@ -1572,7 +1602,7 @@ class _EvCellState extends State<_EvCell> {
             textInputAction: TextInputAction.next,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
-              ClampingFormatter(min: 0, max: 252),
+              ClampingFormatter(min: 0, max: ChampionsMode.maxPerStat),
             ],
             style: const TextStyle(fontSize: 14),
             decoration: const InputDecoration(
@@ -1810,10 +1840,14 @@ class _SlotCardState extends State<_SlotCard> {
   }
 
   Widget _evInputsRow(ColorScheme scheme) {
+    // Slot stores EVs internally (so the calc handoff stays in EV
+    // units), but the team-builder UI works in Champions SP — convert
+    // once for display, convert back inside the onChanged handler.
     final evs = widget.slot.evs ?? const Stats(
       hp: 0, attack: 0, defense: 0,
       spAttack: 0, spDefense: 0, speed: 0,
     );
+    final sp = ChampionsMode.evToSpStats(evs);
     const keys = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
     final labels = {
       'hp': AppStrings.t('stat.hp'),
@@ -1827,74 +1861,74 @@ class _SlotCardState extends State<_SlotCard> {
     int valueOf(String k) {
       switch (k) {
         case 'hp':
-          return evs.hp;
+          return sp.hp;
         case 'atk':
-          return evs.attack;
+          return sp.attack;
         case 'def':
-          return evs.defense;
+          return sp.defense;
         case 'spa':
-          return evs.spAttack;
+          return sp.spAttack;
         case 'spd':
-          return evs.spDefense;
+          return sp.spDefense;
         case 'spe':
-          return evs.speed;
+          return sp.speed;
       }
       return 0;
     }
 
-    Stats withUpdated(String k, int v) {
-      v = v.clamp(0, 252);
+    Stats spWithUpdated(String k, int v) {
+      v = v.clamp(0, ChampionsMode.maxPerStat);
       switch (k) {
         case 'hp':
           return Stats(
               hp: v,
-              attack: evs.attack,
-              defense: evs.defense,
-              spAttack: evs.spAttack,
-              spDefense: evs.spDefense,
-              speed: evs.speed);
+              attack: sp.attack,
+              defense: sp.defense,
+              spAttack: sp.spAttack,
+              spDefense: sp.spDefense,
+              speed: sp.speed);
         case 'atk':
           return Stats(
-              hp: evs.hp,
+              hp: sp.hp,
               attack: v,
-              defense: evs.defense,
-              spAttack: evs.spAttack,
-              spDefense: evs.spDefense,
-              speed: evs.speed);
+              defense: sp.defense,
+              spAttack: sp.spAttack,
+              spDefense: sp.spDefense,
+              speed: sp.speed);
         case 'def':
           return Stats(
-              hp: evs.hp,
-              attack: evs.attack,
+              hp: sp.hp,
+              attack: sp.attack,
               defense: v,
-              spAttack: evs.spAttack,
-              spDefense: evs.spDefense,
-              speed: evs.speed);
+              spAttack: sp.spAttack,
+              spDefense: sp.spDefense,
+              speed: sp.speed);
         case 'spa':
           return Stats(
-              hp: evs.hp,
-              attack: evs.attack,
-              defense: evs.defense,
+              hp: sp.hp,
+              attack: sp.attack,
+              defense: sp.defense,
               spAttack: v,
-              spDefense: evs.spDefense,
-              speed: evs.speed);
+              spDefense: sp.spDefense,
+              speed: sp.speed);
         case 'spd':
           return Stats(
-              hp: evs.hp,
-              attack: evs.attack,
-              defense: evs.defense,
-              spAttack: evs.spAttack,
+              hp: sp.hp,
+              attack: sp.attack,
+              defense: sp.defense,
+              spAttack: sp.spAttack,
               spDefense: v,
-              speed: evs.speed);
+              speed: sp.speed);
         case 'spe':
           return Stats(
-              hp: evs.hp,
-              attack: evs.attack,
-              defense: evs.defense,
-              spAttack: evs.spAttack,
-              spDefense: evs.spDefense,
+              hp: sp.hp,
+              attack: sp.attack,
+              defense: sp.defense,
+              spAttack: sp.spAttack,
+              spDefense: sp.spDefense,
               speed: v);
       }
-      return evs;
+      return sp;
     }
 
     return Row(
@@ -1905,7 +1939,8 @@ class _SlotCardState extends State<_SlotCard> {
               label: labels[k]!,
               value: valueOf(k),
               onChanged: (v) {
-                widget.onEvChanged(withUpdated(k, v));
+                final newSp = spWithUpdated(k, v);
+                widget.onEvChanged(ChampionsMode.spToEvStats(newSp));
                 setState(() {});
               },
             ),
