@@ -1178,12 +1178,14 @@ class _SlotSummaryCard extends StatelessWidget {
                     onPressed: onLoadSample,
                     visualDensity: VisualDensity.compact,
                     padding: EdgeInsets.zero,
+                    // Match the icon's own size so the Row's height
+                    // stays text-bound (~20 px) instead of being
+                    // inflated by a 24-px Material tap target.
                     constraints:
-                        const BoxConstraints(minWidth: 24, minHeight: 24),
+                        const BoxConstraints(minWidth: 18, minHeight: 18),
                   ),
                 ],
               ),
-              const SizedBox(height: 2),
               // Ability + Item on a single inline line — item flows
               // immediately after the ability so a short ability name
               // pulls the item label leftward instead of locking each
