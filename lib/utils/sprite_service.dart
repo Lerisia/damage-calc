@@ -78,6 +78,58 @@ String _stripNonAlnum(String s) =>
 String _stripDiacritics(String s) =>
     s.replaceAll('é', 'e').replaceAll('è', 'e').replaceAll('ê', 'e');
 
+/// Base species for a form/Mega/regional variant — used by the BW
+/// fallback path so a key with no pixel sprite (most commonly ZA
+/// Megas) renders the base species instead of the pokéball. Returns
+/// null when no fallback is meaningful (already a base species).
+///
+/// Re-introduced after the earlier blanket-removal: the original
+/// motivation for ripping it out was that fallback ran on every
+/// style and gave Mega Charizard X a Charizard-shaped HOME render
+/// that looked wrong. Now it's scoped to BW only (see
+/// [SpriteService.fallbackSpriteFor]), where falling back to a
+/// stylistically-matching pixel base species is the lesser evil.
+String? baseSpeciesName(String pokemonName) {
+  final n = pokemonName.trim();
+
+  // Mega Floette is the Mega of AZ's Floette (Eternal Flower), not
+  // the regular Floette line. The fallback target must be the
+  // Eternal Flower variant or we hand the user the wrong base sprite.
+  if (n == 'Mega Floette') return 'Floette (Eternal Flower)';
+
+  final megaXY = RegExp(r'^Mega (\w+) [XYZ]$').firstMatch(n);
+  if (megaXY != null) return megaXY.group(1);
+  final mega = RegExp(r'^Mega (\w+)$').firstMatch(n);
+  if (mega != null) return mega.group(1);
+  final primal = RegExp(r'^Primal (\w+)$').firstMatch(n);
+  if (primal != null) return primal.group(1);
+  if (n == 'Ultra Necrozma') return 'Necrozma';
+  if (n == 'Hoopa Unbound') return 'Hoopa';
+  if (n == 'Black Kyurem' || n == 'White Kyurem') return 'Kyurem';
+  if (n == 'Dawn Wings Necrozma' || n == 'Dusk Mane Necrozma') {
+    return 'Necrozma';
+  }
+  if (n == 'Ice Rider Calyrex' || n == 'Shadow Rider Calyrex') {
+    return 'Calyrex';
+  }
+
+  final rotom = RegExp(r'^(Heat|Wash|Frost|Fan|Mow) Rotom$').firstMatch(n);
+  if (rotom != null) return 'Rotom';
+
+  for (final prefix in _regionalSlugs.keys) {
+    if (n.startsWith('$prefix ')) {
+      final rest = n.substring(prefix.length + 1);
+      final nested = RegExp(r'^(\w+) \(').firstMatch(rest);
+      return nested != null ? nested.group(1) : rest;
+    }
+  }
+
+  final paren = RegExp(r"^([\w\.\-' ]+?) \([^)]+\)$").firstMatch(n);
+  if (paren != null) return paren.group(1)!.trim();
+
+  return null;
+}
+
 /// Convert an English Pokémon display name to the slug used by
 /// Pokémon Showdown's sprite CDN.
 ///
@@ -277,6 +329,24 @@ class SpriteService extends ChangeNotifier {
     final file = File('$dir/$key.${s.ext}');
     if (!file.existsSync()) return null;
     return FileImage(file);
+  }
+
+  /// BW-only fallback: when the requested Pokémon has no pixel sprite
+  /// (most commonly ZA Megas like Mega Krookodile / Mega Feraligatr,
+  /// or Champions-original entries) we render the base species'
+  /// pixel sprite instead of the pokéball placeholder. Returns null
+  /// outside of BW or when no meaningful base species exists.
+  ///
+  /// Dex / HOME 3D stays strict — falling back from "Mega Charizard
+  /// X" to a Charizard render looks wrong, and the pokéball is the
+  /// clearer "this art isn't available" cue there.
+  ImageProvider? fallbackSpriteFor(String pokemonName,
+      {SpriteStyle? style}) {
+    final s = style ?? this.style;
+    if (s != SpriteStyle.bw) return null;
+    final base = baseSpeciesName(pokemonName);
+    if (base == null) return null;
+    return spriteFor(base, style: s);
   }
 
   /// Box icon (40×30) for compact placements (dex list / simple

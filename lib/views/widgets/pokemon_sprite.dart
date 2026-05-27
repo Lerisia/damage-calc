@@ -63,7 +63,15 @@ class PokemonSprite extends StatelessWidget {
         final main = SpriteService.instance
             .spriteFor(pokemonName, style: styleOverride);
         if (main == null) return _placeholder();
-        return _img(main, onError: _placeholder());
+        // BW-only base-species fallback (ZA Megas etc.). Non-BW
+        // styles return null from fallbackSpriteFor → onError stays
+        // the pokéball placeholder.
+        final fallback = SpriteService.instance
+            .fallbackSpriteFor(pokemonName, style: styleOverride);
+        final onError = fallback == null
+            ? _placeholder()
+            : _img(fallback, onError: _placeholder());
+        return _img(main, onError: onError);
       },
     );
   }
