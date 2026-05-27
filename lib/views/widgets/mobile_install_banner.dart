@@ -6,14 +6,14 @@ import '../../utils/app_strings.dart';
 import '../../utils/url_navigator_stub.dart'
     if (dart.library.html) '../../utils/url_navigator_web.dart' as nav;
 
-/// One-shot popup shown to mobile-web visitors nudging them toward
-/// the native app. Fires exactly once per browser (flag persisted in
-/// SharedPreferences); never fires on desktop/wider viewports or on
-/// the native app itself.
+/// Popup shown to mobile-web visitors nudging them toward the native
+/// app. Pops on every launch until the user opts out via "다시 보지
+/// 않기" (mirrors the sprite-announcement dismissal semantics). Never
+/// fires on desktop/wider viewports or on the native app itself.
 class MobileInstallPrompt {
   MobileInstallPrompt._();
 
-  static const _prefKey = 'mobile_install_prompt_shown';
+  static const _dismissedKey = 'mobile_install_prompt_dismissed_v1';
   static const _mobileWidthThreshold = 700.0;
   static const _playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.elyss.damagecalc';
@@ -21,19 +21,24 @@ class MobileInstallPrompt {
       'https://apps.apple.com/kr/app/id6761017449';
 
   /// Call from a screen's first-frame callback. Checks the platform +
-  /// viewport + persistent flag and decides whether to open the
-  /// dialog. Safe to call any number of times — only shows once.
+  /// viewport + dismissed flag and decides whether to open the dialog.
   static Future<void> maybeShow(BuildContext context) async {
     if (!kIsWeb) return;
     if (MediaQuery.sizeOf(context).width >= _mobileWidthThreshold) return;
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool(_prefKey) ?? false) return;
-    await prefs.setBool(_prefKey, true);
+    if (prefs.getBool(_dismissedKey) ?? false) return;
     if (!context.mounted) return;
     await showDialog<void>(
       context: context,
       builder: (ctx) => const _InstallDialog(),
     );
+  }
+
+  /// Mark the prompt as permanently dismissed for this browser. Called
+  /// when the user clicks "다시 보지 않기" inside the dialog.
+  static Future<void> markDismissed() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_dismissedKey, true);
   }
 
   /// Open the store URL in the current tab. Bypasses url_launcher —
@@ -100,7 +105,14 @@ class _InstallDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppStrings.t('banner.dismiss')),
+          child: Text(AppStrings.t('action.close')),
+        ),
+        TextButton(
+          onPressed: () async {
+            await MobileInstallPrompt.markDismissed();
+            if (context.mounted) Navigator.pop(context);
+          },
+          child: Text(AppStrings.t('action.dontShowAgain')),
         ),
       ],
     );

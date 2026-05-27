@@ -906,11 +906,6 @@ class AppStrings {
       AppLanguage.en: 'iOS app',
       AppLanguage.ja: 'iOS版',
     },
-    'banner.dismiss': {
-      AppLanguage.ko: '닫기',
-      AppLanguage.en: 'Dismiss',
-      AppLanguage.ja: '閉じる',
-    },
     'dex.noMovesMatch': {
       AppLanguage.ko: '검색 결과 없음',
       AppLanguage.en: 'No matches',
@@ -1120,16 +1115,6 @@ class AppStrings {
       AppLanguage.en: 'Rnk',
       AppLanguage.ja: '段階',
     },
-    'announce.partyCoverage.title': {
-      AppLanguage.ko: '파티 상성표 추가',
-      AppLanguage.en: 'Party Coverage chart added',
-      AppLanguage.ja: 'パーティ相性表追加',
-    },
-    'announce.partyCoverage.body': {
-      AppLanguage.ko: '오른쪽 위 메뉴(⋮)에서 파티 상성표를 열어 6마리 파티의 방어/공격 상성을 확인할 수 있습니다.',
-      AppLanguage.en: 'Open Party Coverage from the menu (top-right ⋮) to see your 6-mon party\'s defensive and offensive matchups.',
-      AppLanguage.ja: '右上のメニュー（⋮）からパーティ相性表を開くと、6体パーティの防御/攻撃相性を確認できます。',
-    },
     'announce.sprites.title': {
       AppLanguage.ko: '포켓몬 스프라이트가 추가되었습니다',
       AppLanguage.en: 'Pokémon sprites added',
@@ -1144,16 +1129,6 @@ class AppStrings {
       AppLanguage.ko: '다시 보지 않기',
       AppLanguage.en: "Don't show again",
       AppLanguage.ja: '今後表示しない',
-    },
-    'simple.extendedAnnounceTitle': {
-      AppLanguage.ko: '확장 모드',
-      AppLanguage.en: 'Extended Mode',
-      AppLanguage.ja: '拡張モード',
-    },
-    'simple.extendedAnnounceBody': {
-      AppLanguage.ko: '언제든 오른쪽 상단 \'간단\' 버튼으로 간단 모드로 돌아갈 수 있습니다.',
-      AppLanguage.en: 'You can return to Simple Mode anytime with the \'Simple\' button at the top.',
-      AppLanguage.ja: 'いつでも右上の「簡単」ボタンでかんたんモードに戻れます。',
     },
     'simple.shortExtended': {
       AppLanguage.ko: '확장',

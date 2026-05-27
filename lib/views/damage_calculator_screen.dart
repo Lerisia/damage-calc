@@ -303,38 +303,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadDoublesExpanded();
     _ensureDataCaches();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _maybeShowPartyCoverageAnnouncement();
-      if (!mounted) return;
       await _maybeShowSpriteAnnouncement();
-      // Mobile-web install nudge — fires at most once per browser.
       if (!mounted) return;
+      // Mobile-web install nudge — keeps showing until the user opts
+      // out via "Don't show again" (same dismissal semantics as the
+      // sprite announcement above).
       await MobileInstallPrompt.maybeShow(context);
     });
-  }
-
-  /// One-shot "Party coverage chart is here" dialog for existing
-  /// installs — shown after first frame so we're not fighting the
-  /// splash. Tracked via a SharedPreferences flag so it never fires
-  /// twice on the same device.
-  static const _partyCoverageAnnounceKey = 'partyCoverageAnnouncementShown';
-  Future<void> _maybeShowPartyCoverageAnnouncement() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool(_partyCoverageAnnounceKey) ?? false) return;
-    if (!mounted) return;
-    await showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(AppStrings.t('announce.partyCoverage.title')),
-        content: Text(AppStrings.t('announce.partyCoverage.body')),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(AppStrings.t('action.confirm')),
-          ),
-        ],
-      ),
-    );
-    await prefs.setBool(_partyCoverageAnnounceKey, true);
   }
 
   /// Sprite-feature announcement — pops on every launch until the user
@@ -472,28 +447,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final next = !_simpleMode;
     setState(() => _simpleMode = next);
     SimpleModeController.instance.setSimple(next);
-    // First time the user enters Extended Mode, hand them a pointer
-    // back to Simple Mode so they can find the toggle again.
-    if (!next) _maybeShowExtendedModeAnnouncement();
-  }
-
-  Future<void> _maybeShowExtendedModeAnnouncement() async {
-    if (await SimpleModeController.instance.extendedAnnouncementShown()) return;
-    if (!mounted) return;
-    await showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(AppStrings.t('simple.extendedAnnounceTitle')),
-        content: Text(AppStrings.t('simple.extendedAnnounceBody')),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(AppStrings.t('action.confirm')),
-          ),
-        ],
-      ),
-    );
-    await SimpleModeController.instance.markExtendedAnnouncementShown();
   }
 
   Future<void> _resetBothSides() async {
