@@ -623,19 +623,26 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 480),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(12),
+            // Tighter bottom padding so the bottom nav (collapsed = 16
+            // px strip; expanded = ~56 px) doesn't push the speed row
+            // off-screen in simple mode. Outer 12-px padding kept for
+            // top/horizontal so the card edges still breathe.
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _attackerCard(),
-                // A 3px nudge between attacker and defender — small
+                // 3-px nudge between attacker and defender — small
                 // enough to read as a single boundary zone, large
                 // enough to visibly separate the red and blue rules.
                 const SizedBox(height: 3),
                 _defenderCard(),
-                const SizedBox(height: 10),
+                // Inter-card spacing dropped slightly (10→6, 8→4) to
+                // reclaim vertical room for the bottom nav. The two
+                // result blocks still read as visually grouped.
+                const SizedBox(height: 6),
                 _resultCard(),
-                const SizedBox(height: 8),
+                const SizedBox(height: 4),
                 _speedResultRow(),
               ],
             ),
