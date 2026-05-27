@@ -1780,7 +1780,15 @@ class _SlotCardState extends State<_SlotCard> {
                   key: ValueKey(
                       'team_slot_${widget.index}_${p?.name ?? "empty"}'),
                   initialPokemonName: p?.name,
-                  onSelected: widget.onPokemonSelected,
+                  // Host setState fires inside onPokemonSelected, but
+                  // _SlotCard lives in the dialog overlay and doesn't
+                  // see that rebuild — call our own setState so the
+                  // sprite / ability / item / EV / move fields all
+                  // refresh immediately with the new species' defaults.
+                  onSelected: (picked) {
+                    widget.onPokemonSelected(picked);
+                    if (mounted) setState(() {});
+                  },
                 ),
               ),
               if (p != null) ...[
@@ -1822,14 +1830,14 @@ class _SlotCardState extends State<_SlotCard> {
         ),
         // ─── Row 3: 6 EV inputs + 2 nature pickers. Placed above
         // the move grid per UX direction so the stat block sits next
-        // to the ability/item field it belongs with. Only meaningful
-        // when a pokemon is set.
-        if (p != null) ...[
-          const SizedBox(height: 8),
-          _evInputsRow(scheme),
-          const SizedBox(height: 6),
-          _naturePickersRow(scheme),
-        ],
+        // to the ability/item field it belongs with. Always rendered
+        // (even on an empty slot) so the popup's full footprint shows
+        // before selection — picking a species fills the cells with
+        // curated Champions defaults via _applyPokemonToSlot.
+        const SizedBox(height: 8),
+        _evInputsRow(scheme),
+        const SizedBox(height: 6),
+        _naturePickersRow(scheme),
         // ─── Row 4: 4 move pickers in a 2×2 grid.
         if (widget.showMoves) ...[
           const SizedBox(height: 8),
