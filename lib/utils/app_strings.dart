@@ -111,9 +111,9 @@ class AppStrings {
       AppLanguage.ja: 'アプリについて',
     },
     'team.title': {
-      AppLanguage.ko: '파티 상성표',
-      AppLanguage.en: 'Party Coverage',
-      AppLanguage.ja: 'パーティ相性表',
+      AppLanguage.ko: '파티 구축',
+      AppLanguage.en: 'Team Builder',
+      AppLanguage.ja: 'パーティ構築',
     },
     'team.slot.empty': {
       AppLanguage.ko: '비어있음',
@@ -609,6 +609,26 @@ class AppStrings {
       AppLanguage.ko: '도감',
       AppLanguage.en: 'Dex',
       AppLanguage.ja: '図鑑',
+    },
+    'nav.calc': {
+      AppLanguage.ko: '계산기',
+      AppLanguage.en: 'Calc',
+      AppLanguage.ja: '計算機',
+    },
+    'nav.dex': {
+      AppLanguage.ko: '포켓몬 도감',
+      AppLanguage.en: 'Pokédex',
+      AppLanguage.ja: 'ポケモン図鑑',
+    },
+    'nav.moveDex': {
+      AppLanguage.ko: '기술 도감',
+      AppLanguage.en: 'Move Dex',
+      AppLanguage.ja: 'わざ図鑑',
+    },
+    'nav.teamBuilder': {
+      AppLanguage.ko: '파티 구축',
+      AppLanguage.en: 'Team Builder',
+      AppLanguage.ja: 'パーティ構築',
     },
     'dex.championsOnly': {
       AppLanguage.ko: '챔피언스만',

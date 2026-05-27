@@ -14,6 +14,7 @@ import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import 'dex_screen.dart';
+import 'widgets/app_bottom_nav.dart';
 import 'widgets/type_filter_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 
@@ -298,6 +299,8 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     // it stops at iPad-Pro-landscape * a bit.
     final isWide = MediaQuery.of(context).size.width >= 1050;
     return Scaffold(
+      bottomNavigationBar:
+          const AppBottomNav(currentTab: AppNavTab.moveDex),
       // Cap the AppBar's visual chrome (background + shadow + bottom
       // border) at the body width so on wide screens the toolbar
       // sits centered above the panes instead of stretching across

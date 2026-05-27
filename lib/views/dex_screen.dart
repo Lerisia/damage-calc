@@ -27,6 +27,7 @@ import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/ability_effects.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import 'move_dex_screen.dart';
+import 'widgets/app_bottom_nav.dart';
 import 'widgets/dex_search_filter_dialog.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
@@ -238,6 +239,8 @@ class _DexScreenState extends State<DexScreen> {
       child: DefaultTabController(
       length: 2,
       child: Scaffold(
+        bottomNavigationBar:
+            const AppBottomNav(currentTab: AppNavTab.dex),
         // Cap AppBar visual width to match the body. The whole
         // toolbar — chrome, shadow, bottom border, the lot — sits
         // in the same 1200 column the panes live in below.
@@ -335,6 +338,8 @@ class _DexScreenState extends State<DexScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {},
       child: Scaffold(
+        bottomNavigationBar:
+            const AppBottomNav(currentTab: AppNavTab.dex),
         appBar: cappedAppBar(
           maxWidth: 1500,
           appBar: AppBar(

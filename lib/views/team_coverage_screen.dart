@@ -19,6 +19,7 @@ import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import '../utils/sprite_pack_manager.dart';
 import '../utils/team_coverage.dart';
+import 'widgets/app_bottom_nav.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/status_moves_toggle.dart';
@@ -945,6 +946,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {},
       child: Scaffold(
+      bottomNavigationBar:
+          const AppBottomNav(currentTab: AppNavTab.teamBuilder),
       // Cap AppBar visual width to match the body so the toolbar
       // chrome sits centered above the panes on 4K screens.
       appBar: cappedAppBar(

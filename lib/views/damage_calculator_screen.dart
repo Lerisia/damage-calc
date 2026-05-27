@@ -13,6 +13,7 @@ import '../utils/battle_facade.dart';
 import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/simple_mode_controller.dart';
+import 'widgets/app_bottom_nav.dart';
 import 'widgets/sprite_style_dialog.dart';
 import 'dex_screen.dart';
 import 'move_dex_screen.dart';
@@ -1363,56 +1364,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w600)),
               ),
-              // Dex button → popup with both Pokémon Dex and Move Dex.
-              // Single AppBar slot so the toolbar doesn't keep growing.
-              PopupMenuButton<String>(
-                tooltip: AppStrings.t('dex.menu'),
-                popUpAnimationStyle: AnimationStyle(
-                    duration: const Duration(milliseconds: 100)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.menu_book_outlined, size: 18),
-                      const SizedBox(width: 6),
-                      Text(AppStrings.t('dex.menu'),
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600)),
-                      const Icon(Icons.arrow_drop_down, size: 18),
-                    ],
-                  ),
-                ),
-                itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: 'pokemon',
-                    child: Row(children: [
-                      const Icon(Icons.menu_book_outlined, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('dex.title')),
-                    ]),
-                  ),
-                  PopupMenuItem(
-                    value: 'move',
-                    child: Row(children: [
-                      const Icon(Icons.format_list_bulleted, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('dex.move.title')),
-                    ]),
-                  ),
-                ],
-                onSelected: (v) {
-                  if (v == 'pokemon') _openDex();
-                  if (v == 'move') _openMoveDex();
-                },
-              ),
-              TextButton.icon(
-                onPressed: _openTeamCoverage,
-                icon: const Icon(Icons.shield_outlined),
-                label: Text(AppStrings.t('team.title'),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600)),
-              ),
+              // Dex / Move Dex / Team Builder entries moved to the
+              // shared bottom navigation bar — wide layout's toolbar
+              // no longer needs to surface them.
               const Spacer(),
               // Wide-layout toolbar didn't have the sprite-style entry
               // — narrow's overflow menu had it but wide users had no
@@ -1472,35 +1426,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                   style: TextStyle(fontSize: toolbarFontSize, fontWeight: FontWeight.w600),
                 ),
               ),
+              // Settings (preferences only). Top-level destinations
+              // (dex / move dex / team builder) moved to the bottom
+              // nav so this menu now exclusively holds appearance and
+              // app-level settings — gear icon makes the purpose
+              // self-evident.
               PopupMenuButton<String>(
-                icon: const Icon(Icons.more_vert),
+                icon: const Icon(Icons.settings),
                 tooltip: '',
                 popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
                 itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: 'dex',
-                    child: Row(children: [
-                      const Icon(Icons.menu_book_outlined, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('dex.title')),
-                    ]),
-                  ),
-                  PopupMenuItem(
-                    value: 'movedex',
-                    child: Row(children: [
-                      const Icon(Icons.format_list_bulleted, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('dex.move.title')),
-                    ]),
-                  ),
-                  PopupMenuItem(
-                    value: 'team',
-                    child: Row(children: [
-                      const Icon(Icons.shield_outlined, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('team.title')),
-                    ]),
-                  ),
                   PopupMenuItem(
                     value: 'language',
                     child: Row(children: [
@@ -1543,12 +1478,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 ],
                 onSelected: (v) {
                   switch (v) {
-                    case 'dex':
-                      _openDex();
-                    case 'movedex':
-                      _openMoveDex();
-                    case 'team':
-                      _openTeamCoverage();
                     case 'language':
                       _showLanguageDialog();
                     case 'theme':
@@ -1620,6 +1549,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           return _buildNarrowLayout();
         },
       )),
+      bottomNavigationBar: const AppBottomNav(currentTab: AppNavTab.calc),
     );
   }
 
@@ -2972,7 +2902,7 @@ class _AboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.9.3'),
+          const Text('v1.9.4'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
