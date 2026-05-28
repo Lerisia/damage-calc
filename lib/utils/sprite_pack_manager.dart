@@ -113,6 +113,26 @@ class SpritePackManager extends ChangeNotifier {
         iconsWritten++;
         continue;
       }
+      // Shiny variants ship inside the same per-style ZIP under
+      // shiny/<key>.png — extract to <styleCacheDir>/shiny/<key>.png
+      // so SpriteService.spriteFor(..., shiny: true) finds them at
+      // the matching path. Without this branch the generic
+      // `name.contains('/')` skip below silently drops every shiny
+      // file during install, which is why pre-fix pack imports
+      // succeeded but shiny mode still rendered as pokéballs.
+      if (name.startsWith('shiny/')) {
+        final flat = name.substring('shiny/'.length);
+        if (flat.isEmpty || flat.contains('/')) continue;
+        if (!flat.toLowerCase().endsWith('.${style.ext}')) continue;
+        final shinyDir = Directory('${target.path}/shiny');
+        if (!shinyDir.existsSync()) {
+          shinyDir.createSync(recursive: true);
+        }
+        File('${shinyDir.path}/$flat')
+            .writeAsBytesSync(entry.content as List<int>);
+        styleWritten++;
+        continue;
+      }
       if (name.contains('/')) continue;
       if (!name.toLowerCase().endsWith('.${style.ext}')) continue;
       File('${target.path}/$name')
