@@ -106,7 +106,28 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
     final scheme = Theme.of(context).colorScheme;
     final move = widget.attacker.moves[widget.moveIndex];
     return AlertDialog(
-      title: Text(AppStrings.t('reverse.title')),
+      // Two-part title: primary action ("역산") in the headline
+      // weight, subtitle ("상대 노력치 추정") as muted aside so it
+      // doesn't compete with the main label.
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Text(AppStrings.t('reverse.title')),
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              AppStrings.t('reverse.subtitle'),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                color: Colors.grey.shade600,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
       contentPadding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       content: GestureDetector(
         // Tap on empty content area drops focus so the IME collapses

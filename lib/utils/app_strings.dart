@@ -145,9 +145,14 @@ class AppStrings {
     // they type the damage they actually took and we list the
     // attacker (EV, nature) candidates that match it.
     'reverse.title': {
-      AppLanguage.ko: '역산 — 상대 노력치 추정',
-      AppLanguage.en: 'Reverse calc — opponent EV / nature',
-      AppLanguage.ja: '逆算 — 相手の努力値推定',
+      AppLanguage.ko: '역산',
+      AppLanguage.en: 'Reverse calc',
+      AppLanguage.ja: '逆算',
+    },
+    'reverse.subtitle': {
+      AppLanguage.ko: '상대 노력치 추정',
+      AppLanguage.en: 'opponent EV / nature',
+      AppLanguage.ja: '相手の努力値推定',
     },
     'reverse.observed': {
       AppLanguage.ko: '받은 데미지 (HP)',
