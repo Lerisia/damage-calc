@@ -1134,10 +1134,21 @@ class _Header extends StatelessWidget {
       children: [
         Row(
           children: [
-            // Shiny toggle anchored to the left of the species name.
-            // Session-only — `_MainTabState` resets it whenever the
-            // user navigates to a different species. Persisting a
-            // shiny pick is what saved samples are for.
+            Expanded(
+              child: Text(
+                pokemon.localizedName,
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.w700),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: 8),
+            // Shiny toggle anchored to the right of the species name
+            // (per UX direction — easier to spot at the natural end
+            // of the title row). Session-only — `_MainTabState`
+            // resets it whenever the user navigates to a different
+            // species. Persisting a shiny pick is what saved samples
+            // are for.
             InkWell(
               onTap: () => onShinyChanged(!shiny),
               borderRadius: BorderRadius.circular(4),
@@ -1166,15 +1177,6 @@ class _Header extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                pokemon.localizedName,
-                style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.w700),
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

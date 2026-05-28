@@ -456,6 +456,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       }
       _syncWeatherTerrain();
     });
+    // Extended mode hides the non-active side behind a tab — surface
+    // the one we just received so the user sees their handoff land
+    // instead of staring at the wrong side. payload.side maps 1:1 to
+    // tab index (0 = attacker, 1 = defender). Simple mode shows both
+    // sides at once so the tab change is harmless background state.
+    if (payload.side < _tabController.length) {
+      _tabController.animateTo(payload.side);
+    }
   }
 
   bool get _isWideLayout => MediaQuery.of(context).size.width >= 1050;

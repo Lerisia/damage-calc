@@ -71,41 +71,54 @@ class PokemonSprite extends StatelessWidget {
           final main = SpriteService.instance.iconFor(pokemonName);
           final fallback =
               SpriteService.instance.fallbackIconFor(pokemonName);
-          if (main == null && fallback == null) return _placeholder();
-          if (main == null) {
-            return _img(fallback!, onError: _placeholder());
-          }
-          final onError = fallback == null
-              ? _placeholder()
-              : _img(fallback, onError: _placeholder());
-          return _img(main, onError: onError);
+          return _chainProviders([
+            if (main != null) main,
+            if (fallback != null) fallback,
+          ]);
         }
-        final main = SpriteService.instance.spriteFor(pokemonName,
-            style: styleOverride, shiny: shiny);
-        // BW-only base-species fallback (ZA Megas etc.). Both the
-        // web (404 NetworkImage) and the mobile-pack (missing file →
-        // spriteFor returns null) paths need to reach the fallback,
-        // so we check it BEFORE the placeholder short-circuit.
-        final fallback = SpriteService.instance.fallbackSpriteFor(
-            pokemonName,
-            style: styleOverride,
-            shiny: shiny);
-        if (main == null && fallback == null) return _placeholder();
-        if (main == null) {
-          // Mobile pack lookup returned null (file missing). Promote
-          // the fallback to the primary image — there's no main to
-          // chain from.
-          return _img(fallback!, onError: _placeholder());
-        }
-        // Main exists. Chain main → fallback → placeholder so a
-        // missing remote main (web 404) falls through to the base
-        // species before giving up on the pokéball.
-        final onError = fallback == null
-            ? _placeholder()
-            : _img(fallback, onError: _placeholder());
-        return _img(main, onError: onError);
+        // Main-sprite chain. For shiny mode the chain is:
+        //   shiny main → regular main → shiny fallback (base
+        //   species) → regular fallback → placeholder.
+        //
+        // Why both shiny + regular at each level:
+        //   - Mobile users on a pre-shiny pack download have the
+        //     regular files but no shiny files — falling through
+        //     to the regular sprite means they still see the
+        //     species instead of a pokéball.
+        //   - Web users with no shiny art for a specific form
+        //     (rare niche entries that Showdown didn't ship as
+        //     shiny) end up the same way.
+        //
+        // For regular mode we just chain regular main → fallback
+        // → placeholder; the shiny rungs are skipped.
+        ImageProvider? at(bool s) =>
+            SpriteService.instance.spriteFor(pokemonName,
+                style: styleOverride, shiny: s);
+        ImageProvider? fb(bool s) =>
+            SpriteService.instance.fallbackSpriteFor(pokemonName,
+                style: styleOverride, shiny: s);
+        final candidates = <ImageProvider>[
+          if (shiny && at(true) != null) at(true)!,
+          if (at(false) != null) at(false)!,
+          if (shiny && fb(true) != null) fb(true)!,
+          if (fb(false) != null) fb(false)!,
+        ];
+        return _chainProviders(candidates);
       },
     );
+  }
+
+  /// Build an Image chain that tries each provider in order and
+  /// shows the pokéball placeholder if every one of them fails.
+  /// Empty list → placeholder directly. Used by both the
+  /// useBoxIcon path and the main-sprite path so the fallback
+  /// shape stays consistent.
+  Widget _chainProviders(List<ImageProvider> providers) {
+    Widget current = _placeholder();
+    for (final p in providers.reversed) {
+      current = _img(p, onError: current);
+    }
+    return current;
   }
 
   Widget _img(ImageProvider provider, {required Widget onError}) {
