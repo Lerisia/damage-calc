@@ -1749,24 +1749,38 @@ class _SlotCardState extends State<_SlotCard> {
         borderRadius: BorderRadius.circular(6),
       ),
       padding: const EdgeInsets.fromLTRB(6, 4, 10, 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Left rail: sprite + shiny toggle + send-to-calc buttons.
-          // The form column on the right is taller than the sprite,
-          // so we use the otherwise-empty space below the sprite for
-          // the shiny toggle and the two handoff buttons. Width is
-          // fixed (108) so the form column gets a predictable
-          // remainder; matches the visual weight of an 80-px sprite
-          // plus a 4-px breathing margin on each side.
-          Padding(
-            padding: const EdgeInsets.only(right: 6, top: 6),
-            child: SizedBox(
-              width: 108,
-              child: _spriteRail(context, p),
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Left rail: sprite + shiny toggle + send-to-calc
+              // buttons. The form column on the right is taller
+              // than the sprite, so we use the otherwise-empty
+              // space below the sprite for chunkier, spaced-out
+              // controls — the area was empty before, no reason
+              // for the buttons to be cramped.
+              Padding(
+                padding: const EdgeInsets.only(right: 8, top: 6),
+                child: SizedBox(
+                  width: 124,
+                  child: _spriteRail(context, p),
+                ),
+              ),
+              Expanded(child: _slotCardBody(context, p)),
+            ],
           ),
-          Expanded(child: _slotCardBody(context, p)),
+          // Move grid sits BELOW the sprite-rail / form row so each
+          // move picker can use the full popup width instead of
+          // being squeezed into the form column. With a 4 × 1
+          // vertical layout each picker stretches edge-to-edge,
+          // leaving plenty of room for the type/category/power
+          // suffix.
+          if (widget.showMoves) ...[
+            const SizedBox(height: 10),
+            _moveGrid(scheme, p),
+          ],
         ],
       ),
     );
@@ -1788,45 +1802,53 @@ class _SlotCardState extends State<_SlotCard> {
             shiny: widget.slot.shiny,
           ),
         ),
-        const SizedBox(height: 6),
-        InkWell(
-          onTap: hasPokemon
-              ? () {
-                  widget.onShinyChanged(!widget.slot.shiny);
-                  // Host setState updates the slot; we also have to
-                  // rebuild ourselves because we live in the dialog
-                  // overlay.
-                  if (mounted) setState(() {});
-                }
-              : null,
-          borderRadius: BorderRadius.circular(4),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          height: 38,
+          child: OutlinedButton(
+            onPressed: hasPokemon
+                ? () {
+                    widget.onShinyChanged(!widget.slot.shiny);
+                    // Host setState updates the slot; we also have to
+                    // rebuild ourselves because we live in the dialog
+                    // overlay.
+                    if (mounted) setState(() {});
+                  }
+                : null,
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              side: BorderSide(
+                color: !hasPokemon
+                    ? Colors.grey
+                    : (widget.slot.shiny
+                        ? scheme.primary
+                        : Colors.grey.shade500),
+              ),
+              foregroundColor: !hasPokemon
+                  ? Colors.grey
+                  : (widget.slot.shiny
+                      ? scheme.primary
+                      : scheme.onSurface),
+              visualDensity: VisualDensity.compact,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   widget.slot.shiny
                       ? Icons.check_box
                       : Icons.check_box_outline_blank,
-                  size: 16,
-                  color: !hasPokemon
-                      ? Colors.grey.shade400
-                      : (widget.slot.shiny
-                          ? scheme.primary
-                          : Colors.grey.shade600),
+                  size: 18,
                 ),
                 const SizedBox(width: 4),
                 Flexible(
                   child: Text(
                     AppStrings.t('dex.shinyToggle'),
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: hasPokemon
-                          ? scheme.onSurface
-                          : Colors.grey.shade500,
-                    ),
+                    style: const TextStyle(
+                        fontSize: 13, fontWeight: FontWeight.w600),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -1834,14 +1856,18 @@ class _SlotCardState extends State<_SlotCard> {
             ),
           ),
         ),
-        const SizedBox(height: 6),
+        // Wider gap before the destructive(-ish) handoff buttons —
+        // tapping them yanks the user out of the team builder into
+        // the calc, so we want a clear separation from the shiny
+        // toggle above (which is a no-op visual flip).
+        const SizedBox(height: 16),
         _handoffButton(
           label: AppStrings.t('team.slot.toAttacker'),
           color: Colors.red.shade600,
           enabled: hasPokemon,
           onPressed: () => widget.onSendToCalc(0),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 10),
         _handoffButton(
           label: AppStrings.t('team.slot.toDefender'),
           color: Colors.blue.shade600,
@@ -1860,14 +1886,15 @@ class _SlotCardState extends State<_SlotCard> {
   }) {
     return SizedBox(
       width: double.infinity,
-      height: 28,
+      height: 38,
       child: OutlinedButton(
         onPressed: enabled ? onPressed : null,
         style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 6),
           side: BorderSide(
               color:
-                  enabled ? color.withValues(alpha: 0.6) : Colors.grey),
+                  enabled ? color.withValues(alpha: 0.6) : Colors.grey,
+              width: 1.5),
           foregroundColor: enabled ? color : Colors.grey,
           visualDensity: VisualDensity.compact,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -1955,11 +1982,9 @@ class _SlotCardState extends State<_SlotCard> {
         _evInputsRow(scheme),
         const SizedBox(height: 6),
         _naturePickersRow(scheme),
-        // ─── Row 4: 4 move pickers in a 2×2 grid.
-        if (widget.showMoves) ...[
-          const SizedBox(height: 8),
-          _moveGrid(scheme, p),
-        ],
+        // Move grid intentionally NOT here — it's rendered below the
+        // whole sprite-rail / form row so it can span the full popup
+        // width. See build().
       ],
     );
   }
@@ -1980,7 +2005,10 @@ class _SlotCardState extends State<_SlotCard> {
       'def': AppStrings.t('stat.defense'),
       'spa': AppStrings.t('stat.spAttack'),
       'spd': AppStrings.t('stat.spDefense'),
-      'spe': AppStrings.t('stat.speed'),
+      // Slot popup uses the shortened Speed label so the 6-cell
+      // EV row stays balanced (see stat.speedShort comment in
+      // app_strings.dart).
+      'spe': AppStrings.t('stat.speedShort'),
     };
 
     int valueOf(String k) {
@@ -2182,19 +2210,15 @@ class _SlotCardState extends State<_SlotCard> {
   }
 
   Widget _moveGrid(ColorScheme scheme, Pokemon? p) {
-    Widget cell(int i) {
-      return Expanded(
-        child: SizedBox(
-          height: 50,
-          child: _moveField(scheme, p, i),
-        ),
-      );
-    }
+    // Vertical 4 × 1 layout so each picker spans the full popup
+    // width — leaves room for the type/category/power suffix
+    // instead of forcing compact rendering.
     return Column(
       children: [
-        Row(children: [cell(0), const SizedBox(width: 6), cell(1)]),
-        const SizedBox(height: 4),
-        Row(children: [cell(2), const SizedBox(width: 6), cell(3)]),
+        for (int i = 0; i < 4; i++) ...[
+          if (i > 0) const SizedBox(height: 6),
+          SizedBox(height: 50, child: _moveField(scheme, p, i)),
+        ],
       ],
     );
   }
@@ -2226,8 +2250,10 @@ class _SlotCardState extends State<_SlotCard> {
       dexNumber: p.dexNumber,
       initialMoveName: current?.name,
       onSelected: (m) => widget.onMoveChanged(moveIndex, m),
-      // Phone-width grid → drop the type/category/power suffix.
-      compact: true,
+      // 4×1 vertical layout → each picker spans the full popup
+      // width, so we can show the type/category/power suffix in
+      // the suggestion rows (compact: false).
+      compact: false,
       // Team builder always surfaces status moves (no toggle UI on
       // this screen) so users don't need to flip the global show-
       // status preference to pick e.g. 자기재생.

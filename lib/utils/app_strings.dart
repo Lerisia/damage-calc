@@ -160,6 +160,16 @@ class AppStrings {
       AppLanguage.en: 'Send to defender',
       AppLanguage.ja: '防御側へ',
     },
+    // Team-builder-only abbreviation: the slot popup's EV row puts
+    // 6 narrow cells side-by-side, and "스피드" (5 chars) was the
+    // longest label by a wide margin — it wrapped or ellipsized
+    // while the others sat comfortably. "스핏" reads as Speed in
+    // context and fits the same width as the other 2-char labels.
+    'stat.speedShort': {
+      AppLanguage.ko: '스핏',
+      AppLanguage.en: 'Spe',
+      AppLanguage.ja: 'すば',
+    },
     'team.tab.defense': {
       AppLanguage.ko: '방어 상성',
       AppLanguage.en: 'Defense',
@@ -1169,11 +1179,6 @@ class AppStrings {
       AppLanguage.ko: 'HP',
       AppLanguage.en: 'HP',
       AppLanguage.ja: 'HP',
-    },
-    'stat.speedShort': {
-      AppLanguage.ko: '스핏',
-      AppLanguage.en: 'Spe',
-      AppLanguage.ja: 'すば',
     },
     'simple.screens': {
       AppLanguage.ko: '벽',
