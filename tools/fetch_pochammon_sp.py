@@ -123,15 +123,27 @@ def main():
     # build diverges from whatever base Charizard runs.
     charizard_x = {"hp": 2, "atk": 32, "def": 0,
                    "spa": 0, "spd": 0, "spe": 32}
+    # Per-Mega base overrides for cases where the obvious "strip
+    # 'Mega ' prefix" derivation lands on the wrong species. Mega
+    # Floette is exclusively the Mega of Floette (Eternal Flower) —
+    # the regular Floette doesn't get its own competitive build, so
+    # the default derivation would point at an empty entry and leave
+    # Mega Floette with no spread. User explicitly asked that this
+    # link survive every refresh.
+    mega_base_overrides = {
+        "Mega Floette": "Floette (Eternal Flower)",
+    }
     for key in usage:
         if key == "_meta" or not key.startswith("Mega "):
             continue
         if key == "Mega Charizard X":
             spreads[key] = charizard_x
             continue
-        base = key[len("Mega "):]
-        if base.endswith(" X") or base.endswith(" Y"):
-            base = base[:-2]  # Mega Charizard Y → Charizard
+        base = mega_base_overrides.get(key)
+        if base is None:
+            base = key[len("Mega "):]
+            if base.endswith(" X") or base.endswith(" Y"):
+                base = base[:-2]  # Mega Charizard Y → Charizard
         if base in spreads:
             spreads[key] = spreads[base]
 
