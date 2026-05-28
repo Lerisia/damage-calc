@@ -159,6 +159,32 @@ class AppStrings {
       AppLanguage.en: 'Damage taken',
       AppLanguage.ja: '受けたダメージ',
     },
+    // ── Party-image export (camera button on the team builder) ──
+    'team.image.tooltip': {
+      AppLanguage.ko: '파티 사진 저장',
+      AppLanguage.en: 'Save party image',
+      AppLanguage.ja: 'パーティ画像を保存',
+    },
+    'team.image.empty': {
+      AppLanguage.ko: '파티가 비어있어 저장할 사진이 없습니다.',
+      AppLanguage.en: 'Add at least one Pokémon before saving an image.',
+      AppLanguage.ja: 'パーティが空のため保存できる画像がありません。',
+    },
+    'team.image.saved': {
+      AppLanguage.ko: '파티 사진을 저장했습니다.',
+      AppLanguage.en: 'Party image saved.',
+      AppLanguage.ja: 'パーティ画像を保存しました。',
+    },
+    'team.image.failed': {
+      AppLanguage.ko: '저장에 실패했습니다',
+      AppLanguage.en: 'Save failed',
+      AppLanguage.ja: '保存に失敗しました',
+    },
+    'team.image.defaultName': {
+      AppLanguage.ko: '파티',
+      AppLanguage.en: 'Party',
+      AppLanguage.ja: 'パーティ',
+    },
     'reverse.hpBefore': {
       AppLanguage.ko: '맞기 전 HP',
       AppLanguage.en: 'HP before',

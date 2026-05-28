@@ -1,5 +1,8 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import '../data/abilitydex.dart';
 import '../data/champions_usage.dart';
@@ -21,6 +24,7 @@ import '../utils/calc_handoff.dart';
 import '../utils/champions_mode.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
+import '../utils/party_image_save.dart';
 import '../utils/sample_save_flow.dart';
 import 'widgets/ev_sp_cell.dart';
 import '../utils/localization.dart';
@@ -271,6 +275,116 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
 
   void _setMove(_TeamSlot slot, int moveIndex, Move? move) {
     setState(() => slot.moves[moveIndex] = move);
+  }
+
+  /// Capture the current party as a PNG and save it to the user's
+  /// gallery (mobile) or trigger a browser download (web). Image is
+  /// a clean composition — party name top-left, 6 [_SlotSummaryCard]
+  /// instances stacked below — rendered into an off-screen
+  /// [OverlayEntry] so the user doesn't see the snapshot flicker on
+  /// their screen.
+  Future<void> _capturePartyImage() async {
+    final hasAny = _team.any((s) => s.pokemon != null);
+    if (!hasAny) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.image.empty')),
+      ));
+      return;
+    }
+    final partyName = _TeamCoverageStore.loadedPartyName ??
+        AppStrings.t('team.image.defaultName');
+    final scheme = Theme.of(context).colorScheme;
+    final boundaryKey = GlobalKey();
+
+    // Snapshot widget tree. Width is fixed (640 logical px) so the
+    // exported image is a consistent size regardless of the device
+    // it's captured on; pixelRatio 2.0 below gives a 1280-wide PNG.
+    final snapshot = Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: RepaintBoundary(
+        key: boundaryKey,
+        child: Container(
+          width: 640,
+          padding: const EdgeInsets.all(20),
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                partyName,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: scheme.onSurface,
+                ),
+              ),
+              const SizedBox(height: 12),
+              for (int i = 0; i < _team.length; i++) ...[
+                if (i > 0) const SizedBox(height: 6),
+                _SlotSummaryCard(
+                  index: i + 1,
+                  slot: _team[i],
+                  abilityNames: _abilityNames ?? const {},
+                  itemNames: _itemNames ?? const {},
+                  onTap: () {/* unused in snapshot */},
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+
+    // Off-screen positioning instead of Offstage — Offstage skips
+    // paint, and RepaintBoundary.toImage relies on the paint phase
+    // having actually run. -10000 left puts it well past any device
+    // width while keeping it in the painted region.
+    final overlay = Overlay.of(context);
+    final entry = OverlayEntry(
+      builder: (_) => Positioned(left: -10000, top: 0, child: snapshot),
+    );
+    overlay.insert(entry);
+    try {
+      // Give the framework a frame to lay out and paint the
+      // off-screen tree before we ask for its pixels.
+      await Future.delayed(const Duration(milliseconds: 200));
+      final boundary = boundaryKey.currentContext?.findRenderObject()
+          as RenderRepaintBoundary?;
+      if (boundary == null) {
+        throw StateError('RepaintBoundary missing render object');
+      }
+      final image = await boundary.toImage(pixelRatio: 2.0);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      image.dispose();
+      if (byteData == null) {
+        throw StateError('PNG encoding returned no bytes');
+      }
+      final bytes = byteData.buffer.asUint8List();
+      final stamp = DateTime.now().millisecondsSinceEpoch;
+      final filename = '${_sanitizeFilename(partyName)}_$stamp.png';
+      await savePartyImageBytes(bytes, filename);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.image.saved')),
+      ));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('${AppStrings.t('team.image.failed')}: $e'),
+      ));
+    } finally {
+      entry.remove();
+    }
+  }
+
+  static String _sanitizeFilename(String s) {
+    // Conservative filename — strip anything that isn't word /
+    // Hangul / hyphen so iOS Files / Android MediaStore don't
+    // reject the name. Hangul jamo + syllable ranges + 0-9 +
+    // ASCII letters + _ - are kept.
+    return s.replaceAll(
+        RegExp(r'[^\w\-가-힣ㄱ-ㅎㅏ-ㅣ]'), '_');
   }
 
   Future<void> _resetAll() async {
@@ -1190,6 +1304,17 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                   icon: const Icon(Icons.delete_sweep_outlined, size: 18),
                   label: Text(AppStrings.t('team.resetAll')),
                   style: _appBarBtnStyle,
+                ),
+                // Camera button → save the current party as a PNG.
+                // Disabled (greyed) when no slot is filled so the
+                // user doesn't get a confusing snackbar on tap.
+                IconButton(
+                  tooltip: AppStrings.t('team.image.tooltip'),
+                  icon: const Icon(Icons.camera_alt_outlined, size: 20),
+                  onPressed: _team.any((s) => s.pokemon != null)
+                      ? _capturePartyImage
+                      : null,
+                  visualDensity: VisualDensity.compact,
                 ),
               ],
             ),

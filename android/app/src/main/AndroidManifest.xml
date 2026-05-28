@@ -1,4 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+      Gallery save for the party-image export. WRITE_EXTERNAL_STORAGE
+      is only declared up to API 28; API 29+ uses scoped MediaStore
+      (no runtime permission needed for our own files written via
+      gal). Compile-time guard via android:maxSdkVersion keeps the
+      permission off newer installs.
+    -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <application
         android:label="@string/app_name"
         android:name="${applicationName}"

@@ -1,7 +1,7 @@
 name: damage_calc
 description: Battle damage calculator
 publish_to: 'none'
-version: 1.9.10+283
+version: 1.9.10+284
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -27,6 +27,12 @@ dependencies:
   # sprite-pack ZIP imports still go through file_selector (Files
   # app on iOS).
   image_picker: ^1.1.2
+  # Save-to-gallery for the party-image export. iOS Info.plist
+  # already carries NSPhotoLibraryAddUsageDescription from an
+  # earlier version of this feature, so no re-review surface.
+  # Android handles via scoped MediaStore on API 30+, legacy
+  # WRITE_EXTERNAL_STORAGE on lower.
+  gal: ^2.3.0
 
 dev_dependencies:
   flutter_test:
