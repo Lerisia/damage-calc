@@ -1747,6 +1747,7 @@
   },
 
   "Mega Floette": {
+    "defaultSp": {"hp": 2, "atk": 0, "def": 0, "spa": 32, "spd": 0, "spe": 32},
     "abilities": [
       {"name": "Fairy Aura"}
     ],
