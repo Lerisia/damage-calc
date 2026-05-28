@@ -19,7 +19,6 @@ import '../utils/stacking_moves.dart';
 import '../utils/stat_calculator.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/localization.dart';
-import 'widgets/reverse_calc_dialog.dart';
 import '../models/dynamax.dart';
 import '../models/terastal.dart';
 import '../utils/ability_effects.dart' show getAbilityTypeOverride;
@@ -2012,33 +2011,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       itemNameMap: _itemNames,
       showHeader: false,
       showRolls: false,
-      onReverseTap: () {
-        final move = _atk.moves[0];
-        showDialog(
-          context: context,
-          builder: (_) => ReverseCalcDialog(
-            attacker: _atk,
-            defender: _def,
-            // Simple Mode is always move slot 0 — the picker doesn't
-            // expose the other slots.
-            moveIndex: 0,
-            weather: widget.weather,
-            terrain: widget.terrain,
-            room: widget.room,
-            auras: widget.auras,
-            ruins: widget.ruins,
-            onApply: move == null
-                ? null
-                : (candidate) {
-                    setState(() {
-                      applyReverseCalcCandidate(
-                          _atk, candidate, move.category);
-                    });
-                    widget.onChanged();
-                  },
-          ),
-        );
-      },
+      // Reverse-calc affordance deferred to 1.10 — the dialog wiring
+      // (above) is intentionally absent for the 1.9.x line. Module
+      // and dialog code stay on main so re-enabling later is a
+      // one-line change.
     );
     // Tap anywhere on the result block → 결정력 breakdown popup.
     // No affordance (per design) — discoverable via tap, doesn't

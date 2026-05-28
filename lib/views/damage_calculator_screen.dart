@@ -2049,25 +2049,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ? Border.all(color: scheme.primary, width: 1.5)
             : null,
       ),
-      child: Stack(
-        children: [
-          // 역산 chip pinned to the absolute top-right corner of the
-          // card, so it stays clear of the move-name row no matter
-          // how the row's flex children negotiate space. Inline
-          // placement was unreliable — Flexible(move name) and
-          // Spacer both want flex:1 and ended up sharing the gap,
-          // leaving the chip mid-row.
-          Positioned(
-            top: 0,
-            right: 0,
-            child: _reverseChip(index),
-          ),
-          Padding(
-            // Reserve the top-right corner for the chip — without
-            // this padding the move name + effectiveness row could
-            // run under it on long-name species.
-            padding: const EdgeInsets.only(right: 64),
-            child: Column(
+      // 역산 chip + Stack/Positioned scaffolding intentionally
+      // omitted for 1.9.x — the reverse-calc feature is deferred
+      // to 1.10. Module and dialog code (reverse_calc.dart,
+      // reverse_calc_dialog.dart) are kept on main so we can
+      // re-enable later without re-writing.
+      child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Move name + type + effectiveness. Sum selection is shown
@@ -2137,9 +2124,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               )).toList(),
             ),
           ],
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -2610,7 +2594,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.10.0'),
+          const Text('v1.9.10'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
