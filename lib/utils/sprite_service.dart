@@ -303,14 +303,22 @@ class SpriteService extends ChangeNotifier {
   /// pack covers it. Per-Pokémon overrides win across all three
   /// styles — the user's custom image always overrides the bundled
   /// art regardless of which style they've picked.
-  ImageProvider? spriteFor(String pokemonName, {SpriteStyle? style}) {
+  ImageProvider? spriteFor(String pokemonName,
+      {SpriteStyle? style, bool shiny = false}) {
     final s = style ?? this.style;
     final key = spriteKeyFor(pokemonName);
     // Overrides win on every platform — the user picking a custom
     // image trumps whichever style / pack source we'd otherwise hit.
+    // Override is shared across regular/shiny — the user picked one
+    // image, we honour it both ways. (If anyone wants per-shiny
+    // overrides, that's a follow-up.)
     final override = SpriteOverrideManager.instance
         .overrideFor(pokemonName, OverrideChannel.large);
     if (override != null) return override;
+    // Shiny path nests under `shiny/` inside the same style's
+    // tree both on web (sprites/<style>/shiny/<key>.<ext>) and in
+    // the extracted mobile pack (cacheDirFor(s)/shiny/<key>.<ext>).
+    final shinySegment = shiny ? 'shiny/' : '';
     if (kIsWeb) {
       // jsDelivr-fronted GitHub raw — Showdown's CDN doesn't send
       // access-control-allow-origin, which CanvasKit's image decode
@@ -320,13 +328,13 @@ class SpriteService extends ChangeNotifier {
       // — anything outside resolves to the pokéball placeholder via
       // the widget's onError.
       final url = 'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
-          'sprites/${s.name}/$key.${s.ext}';
+          'sprites/${s.name}/$shinySegment$key.${s.ext}';
       return NetworkImage(url);
     }
     if (!SpritePackManager.instance.isInstalled(s)) return null;
     final dir = SpritePackManager.instance.cacheDirFor(s);
     if (dir == null) return null;
-    final file = File('$dir/$key.${s.ext}');
+    final file = File('$dir/$shinySegment$key.${s.ext}');
     if (!file.existsSync()) return null;
     return FileImage(file);
   }
@@ -341,12 +349,12 @@ class SpriteService extends ChangeNotifier {
   /// X" to a Charizard render looks wrong, and the pokéball is the
   /// clearer "this art isn't available" cue there.
   ImageProvider? fallbackSpriteFor(String pokemonName,
-      {SpriteStyle? style}) {
+      {SpriteStyle? style, bool shiny = false}) {
     final s = style ?? this.style;
     if (s != SpriteStyle.bw) return null;
     final base = baseSpeciesName(pokemonName);
     if (base == null) return null;
-    return spriteFor(base, style: s);
+    return spriteFor(base, style: s, shiny: shiny);
   }
 
   /// Box icon (40×30) for compact placements (dex list / simple

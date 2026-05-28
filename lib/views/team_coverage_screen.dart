@@ -17,6 +17,7 @@ import '../models/pokemon.dart';
 import '../models/stats.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
+import '../utils/calc_handoff.dart';
 import '../utils/champions_mode.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
@@ -74,6 +75,12 @@ class _TeamSlot {
   /// path to non-zero values is loading a saved sample.
   Stats? evs;
   NatureProfile? nature;
+
+  /// Show the alternate-color (shiny / 이로치) sprite for this slot.
+  /// Visual only — no calc impact. Persisted across save/load:
+  /// _saveSlotAsSample / _saveAsParty include it in the
+  /// BattlePokemonState; _loadParty / _loadSampleInto rehydrate it.
+  bool shiny = false;
 
   /// Effective type1 — override wins, else species natural type1.
   PokemonType? get effectiveType1 =>
@@ -433,6 +440,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             ..heldItem = s.state.selectedItem
             ..evs = s.state.ev
             ..nature = s.state.nature
+            ..shiny = s.state.shiny
             ..sampleId = s.id
             ..loadedSampleName = s.name;
           for (int mi = 0; mi < newSlot.moves.length; mi++) {
@@ -532,6 +540,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       state.applyPokemon(slot.pokemon!);
       if (slot.ability != null) state.selectedAbility = slot.ability!;
       if (slot.heldItem != null) state.selectedItem = slot.heldItem;
+      if (slot.evs != null) state.ev = slot.evs!;
+      if (slot.nature != null) state.nature = slot.nature!;
+      state.shiny = slot.shiny;
       for (int mi = 0;
           mi < state.moves.length && mi < slot.moves.length;
           mi++) {
@@ -696,6 +707,36 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     setState(() => slot.heldItem = item);
   }
 
+  /// Build a fresh BattlePokemonState from a team slot and push it
+  /// into the calculator via [CalcHandoff]. Pops the navigation
+  /// stack back to the calc (which sits at root) so the user lands
+  /// on whichever mode (simple / extended) they were last using —
+  /// both modes consume the calc-side _attacker/_defender state
+  /// that the handoff replaces.
+  Future<void> _sendSlotToCalc(_TeamSlot slot, int side) async {
+    final p = slot.pokemon;
+    if (p == null || !mounted) return;
+    final state = BattlePokemonState();
+    state.applyPokemon(p);
+    if (slot.ability != null) state.selectedAbility = slot.ability!;
+    if (slot.heldItem != null) state.selectedItem = slot.heldItem;
+    if (slot.evs != null) state.ev = slot.evs!;
+    if (slot.nature != null) state.nature = slot.nature!;
+    state.shiny = slot.shiny;
+    for (int i = 0;
+        i < state.moves.length && i < slot.moves.length;
+        i++) {
+      if (slot.moves[i] != null) state.moves[i] = slot.moves[i];
+    }
+    CalcHandoff.instance.stage(
+      side: side,
+      state: state,
+      loadedSampleName: slot.loadedSampleName,
+    );
+    if (!mounted) return;
+    Navigator.of(context).popUntil((r) => r.isFirst);
+  }
+
   /// Pull a saved sample (from the shared sample storage) and copy
   /// the species + ability + item + moves into [index]. Uses the
   /// same SampleListSheet as the calculator so the load UX (party
@@ -723,6 +764,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     if (slot.heldItem != null) state.selectedItem = slot.heldItem;
     if (slot.evs != null) state.ev = slot.evs!;
     if (slot.nature != null) state.nature = slot.nature!;
+    state.shiny = slot.shiny;
     for (int i = 0;
         i < state.moves.length && i < slot.moves.length;
         i++) {
@@ -778,6 +820,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             slot.heldItem = s.selectedItem;
             slot.evs = s.ev;
             slot.nature = s.nature;
+            slot.shiny = s.shiny;
             slot.sampleId = sample.id;
             slot.loadedSampleName = sample.name;
             for (int i = 0; i < slot.moves.length; i++) {
@@ -927,6 +970,12 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                                 setState(() => slot.evs = ev),
                             onNatureChanged: (n) =>
                                 setState(() => slot.nature = n),
+                            onShinyChanged: (v) =>
+                                setState(() => slot.shiny = v),
+                            onSendToCalc: (side) {
+                              Navigator.of(dialogCtx).pop();
+                              _sendSlotToCalc(slot, side);
+                            },
                           ),
                         ),
                       ),
@@ -1286,7 +1335,8 @@ class _SlotSummaryCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
-          child: PokemonSprite(pokemonName: p.name, size: 64),
+          child: PokemonSprite(
+              pokemonName: p.name, size: 64, shiny: widget.slot.shiny),
         ),
         const SizedBox(width: 8),
         Expanded(
@@ -1585,6 +1635,16 @@ class _SlotCard extends StatefulWidget {
           override) onTypeOverrideChanged;
   final ValueChanged<Stats> onEvChanged;
   final ValueChanged<NatureProfile> onNatureChanged;
+  /// Fires when the user flips the shiny toggle. The slot's storage
+  /// is mutated by the host (so save/load round-trips through the
+  /// same `_TeamSlot.shiny` field); _SlotCard rebuilds via its own
+  /// setState since it lives on the dialog overlay.
+  final ValueChanged<bool> onShinyChanged;
+  /// Fires when the user taps one of the send-to-calc buttons in
+  /// the popup's sprite rail. 0 = attacker, 1 = defender. Host
+  /// stages the payload via [CalcHandoff] and pops the route stack
+  /// back to the calculator.
+  final ValueChanged<int> onSendToCalc;
 
   const _SlotCard({
     super.key,
@@ -1602,6 +1662,8 @@ class _SlotCard extends StatefulWidget {
     required this.onTypeOverrideChanged,
     required this.onEvChanged,
     required this.onNatureChanged,
+    required this.onShinyChanged,
+    required this.onSendToCalc,
   });
 
   @override
@@ -1690,19 +1752,131 @@ class _SlotCardState extends State<_SlotCard> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Sprite slot at the left edge of every party card. 80-px
-          // version of the original 56 — bigger sprite reads as the
-          // primary visual anchor of the row without crowding the
-          // form area to its right.
+          // Left rail: sprite + shiny toggle + send-to-calc buttons.
+          // The form column on the right is taller than the sprite,
+          // so we use the otherwise-empty space below the sprite for
+          // the shiny toggle and the two handoff buttons. Width is
+          // fixed (108) so the form column gets a predictable
+          // remainder; matches the visual weight of an 80-px sprite
+          // plus a 4-px breathing margin on each side.
           Padding(
             padding: const EdgeInsets.only(right: 6, top: 6),
-            child: PokemonSprite(
-              pokemonName: p?.name ?? '',
-              size: 80,
+            child: SizedBox(
+              width: 108,
+              child: _spriteRail(context, p),
             ),
           ),
           Expanded(child: _slotCardBody(context, p)),
         ],
+      ),
+    );
+  }
+
+  /// Left column of the popup: sprite + shiny toggle + send-to-calc
+  /// buttons. The buttons disable themselves on an empty slot so the
+  /// user can't accidentally ship a blank pokemon into the calc.
+  Widget _spriteRail(BuildContext context, Pokemon? p) {
+    final scheme = Theme.of(context).colorScheme;
+    final hasPokemon = p != null;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(
+          child: PokemonSprite(
+            pokemonName: p?.name ?? '',
+            size: 80,
+            shiny: widget.slot.shiny,
+          ),
+        ),
+        const SizedBox(height: 6),
+        InkWell(
+          onTap: hasPokemon
+              ? () {
+                  widget.onShinyChanged(!widget.slot.shiny);
+                  // Host setState updates the slot; we also have to
+                  // rebuild ourselves because we live in the dialog
+                  // overlay.
+                  if (mounted) setState(() {});
+                }
+              : null,
+          borderRadius: BorderRadius.circular(4),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  widget.slot.shiny
+                      ? Icons.check_box
+                      : Icons.check_box_outline_blank,
+                  size: 16,
+                  color: !hasPokemon
+                      ? Colors.grey.shade400
+                      : (widget.slot.shiny
+                          ? scheme.primary
+                          : Colors.grey.shade600),
+                ),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    AppStrings.t('dex.shinyToggle'),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: hasPokemon
+                          ? scheme.onSurface
+                          : Colors.grey.shade500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        _handoffButton(
+          label: AppStrings.t('team.slot.toAttacker'),
+          color: Colors.red.shade600,
+          enabled: hasPokemon,
+          onPressed: () => widget.onSendToCalc(0),
+        ),
+        const SizedBox(height: 4),
+        _handoffButton(
+          label: AppStrings.t('team.slot.toDefender'),
+          color: Colors.blue.shade600,
+          enabled: hasPokemon,
+          onPressed: () => widget.onSendToCalc(1),
+        ),
+      ],
+    );
+  }
+
+  Widget _handoffButton({
+    required String label,
+    required Color color,
+    required bool enabled,
+    required VoidCallback onPressed,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 28,
+      child: OutlinedButton(
+        onPressed: enabled ? onPressed : null,
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          side: BorderSide(
+              color:
+                  enabled ? color.withValues(alpha: 0.6) : Colors.grey),
+          foregroundColor: enabled ? color : Colors.grey,
+          visualDensity: VisualDensity.compact,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }

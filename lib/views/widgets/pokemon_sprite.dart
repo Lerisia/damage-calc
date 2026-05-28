@@ -34,12 +34,18 @@ class PokemonSprite extends StatelessWidget {
   /// species, or no pack installed on mobile).
   final bool useBoxIcon;
 
+  /// Render the alternate-color (shiny / 이로치) variant. Only the
+  /// main sprite path honours this — box icons fall back to the
+  /// regular variant because we don't ship a shiny icon set yet.
+  final bool shiny;
+
   const PokemonSprite({
     super.key,
     required this.pokemonName,
     this.styleOverride,
     this.size = 32,
     this.useBoxIcon = false,
+    this.shiny = false,
   });
 
   @override
@@ -74,14 +80,16 @@ class PokemonSprite extends StatelessWidget {
               : _img(fallback, onError: _placeholder());
           return _img(main, onError: onError);
         }
-        final main = SpriteService.instance
-            .spriteFor(pokemonName, style: styleOverride);
+        final main = SpriteService.instance.spriteFor(pokemonName,
+            style: styleOverride, shiny: shiny);
         // BW-only base-species fallback (ZA Megas etc.). Both the
         // web (404 NetworkImage) and the mobile-pack (missing file →
         // spriteFor returns null) paths need to reach the fallback,
         // so we check it BEFORE the placeholder short-circuit.
-        final fallback = SpriteService.instance
-            .fallbackSpriteFor(pokemonName, style: styleOverride);
+        final fallback = SpriteService.instance.fallbackSpriteFor(
+            pokemonName,
+            style: styleOverride,
+            shiny: shiny);
         if (main == null && fallback == null) return _placeholder();
         if (main == null) {
           // Mobile pack lookup returned null (file missing). Promote

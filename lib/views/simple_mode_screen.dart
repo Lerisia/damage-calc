@@ -1694,9 +1694,20 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final onOpenDex = widget.onOpenDexForSide;
     return Row(children: [
       // Box-style sprite to the left of the name. Shows a neutral
-      // placeholder until the sprite pack is available.
-      PokemonSprite(
-          pokemonName: state.pokemonName, size: 30, useBoxIcon: true),
+      // placeholder until the sprite pack is available. Tap toggles
+      // shiny — visual only, stored on the BattlePokemonState so
+      // saves preserve it. Box icons themselves aren't shiny yet
+      // (regular icon stays); the big sprite at the side panel
+      // honours the flag once one is shown.
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => setState(() => state.shiny = !state.shiny),
+        child: PokemonSprite(
+            pokemonName: state.pokemonName,
+            size: 30,
+            useBoxIcon: true,
+            shiny: state.shiny),
+      ),
       const SizedBox(width: 6),
       Expanded(
         child: PokemonSelector(

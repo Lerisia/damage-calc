@@ -11,6 +11,7 @@ import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
 import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
+import '../utils/calc_handoff.dart';
 import '../utils/sample_save_flow.dart';
 import '../utils/simple_mode_controller.dart';
 import 'widgets/app_bottom_nav.dart';
@@ -304,6 +305,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadSpMode();
     _loadDoublesExpanded();
     _ensureDataCaches();
+    // Listen for cross-screen hand-offs (team builder → calc).
+    // Fires whenever a sibling screen calls CalcHandoff.stage(),
+    // even while we're sitting under another route on the stack.
+    CalcHandoff.instance.addListener(_consumeCalcHandoff);
+    // Drain anything that landed before the listener was attached
+    // (extremely rare — the inbox is normally empty at boot, but
+    // defensive in case a future surface stages during async load).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _consumeCalcHandoff();
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _maybeShowSpriteAnnouncement();
       if (!mounted) return;
@@ -320,7 +331,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// session, in case they want to revisit how to find the entry
   /// point. Separate from the party-coverage announcement because the
   /// dismissal semantics differ (that one is single-shot).
-  static const _spriteAnnounceDismissedKey = 'spriteAnnounceDismissed_v1';
+  // Bumped from _v1 → _v2 with the shiny launch so previously-
+  // dismissed users still see the new announcement once (mobile users
+  // need to know they have to re-download the sprite pack).
+  static const _spriteAnnounceDismissedKey = 'spriteAnnounceDismissed_v2';
   Future<void> _maybeShowSpriteAnnouncement() async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getBool(_spriteAnnounceDismissedKey) ?? false) return;
@@ -418,7 +432,30 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    CalcHandoff.instance.removeListener(_consumeCalcHandoff);
     super.dispose();
+  }
+
+  /// Apply a pending team-builder → calc payload to attacker /
+  /// defender. Runs after the sender pops back to us via
+  /// `popUntil((r) => r.isFirst)`, so the IndexedStack-style
+  /// Simple/Extended view picks the new state up on its next build.
+  void _consumeCalcHandoff() {
+    final payload = CalcHandoff.instance.consume();
+    if (payload == null || !mounted) return;
+    setState(() {
+      _resetCounter++;
+      if (payload.side == 0) {
+        _attacker = payload.state;
+        _attackerLoadedName = payload.loadedSampleName;
+        _prevAtkPokemon = payload.state.pokemonName;
+      } else {
+        _defender = payload.state;
+        _defenderLoadedName = payload.loadedSampleName;
+        _prevDefPokemon = payload.state.pokemonName;
+      }
+      _syncWeatherTerrain();
+    });
   }
 
   bool get _isWideLayout => MediaQuery.of(context).size.width >= 1050;
@@ -2488,7 +2525,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.9.7'),
+          const Text('v1.9.8'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

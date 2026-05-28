@@ -92,6 +92,12 @@ class BattlePokemonState {
   /// Ally has Plus or Minus → attacker with Plus/Minus has SpA × 1.5.
   bool allyPlusMinus;
 
+  /// Render the alternate-color (shiny / 色違い / 이로치) sprite for
+  /// this Pokémon. Visual only — has no effect on damage / stats /
+  /// abilities / anything else the calculator computes. Persisted in
+  /// saved samples so the user's choice survives load/save cycles.
+  bool shiny;
+
   BattlePokemonState({
     this.pokemonName = 'Bulbasaur',
     this.pokemonNameKo = '이상해씨',
@@ -140,6 +146,7 @@ class BattlePokemonState {
     this.allyFriendGuard = false,
     this.allyFlowerGift = false,
     this.allyPlusMinus = false,
+    this.shiny = false,
   })  : baseStats = baseStats ?? const Stats(
             hp: 45, attack: 49, defense: 49,
             spAttack: 65, spDefense: 65, speed: 45),
@@ -206,6 +213,7 @@ class BattlePokemonState {
     'allyFriendGuard': allyFriendGuard,
     'allyFlowerGift': allyFlowerGift,
     'allyPlusMinus': allyPlusMinus,
+    'shiny': shiny,
   };
 
   factory BattlePokemonState.fromJson(Map<String, dynamic> json) {
@@ -268,6 +276,7 @@ class BattlePokemonState {
       allyFriendGuard: json['allyFriendGuard'] as bool? ?? false,
       allyFlowerGift: json['allyFlowerGift'] as bool? ?? false,
       allyPlusMinus: json['allyPlusMinus'] as bool? ?? false,
+      shiny: json['shiny'] as bool? ?? false,
     );
   }
 
@@ -325,6 +334,7 @@ class BattlePokemonState {
     allyFriendGuard = false;
     allyFlowerGift = false;
     allyPlusMinus = false;
+    shiny = false;
   }
 
   /// Apply a Pokemon species selection, updating all relevant fields.

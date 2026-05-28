@@ -251,15 +251,23 @@ class _DexScreenState extends State<DexScreen> {
             // Species name appears large in the body header, so the
             // app bar drops it and uses send buttons + settings in
             // actions.
+            //
+            // Back arrow always shows (width-independent) and routes
+            // to the dex *list* (browse mode), not to whichever
+            // screen pushed the detail. Per user direction the dex
+            // detail should always exit into the list even when the
+            // user came from the calculator — pushReplacement
+            // swaps the cross-link page for a fresh DexScreen with
+            // no initialPokemonName, which builds the browse list.
             automaticallyImplyLeading: false,
-            leading: MediaQuery.sizeOf(context).width >= 1050
-                ? IconButton(
-                    tooltip: MaterialLocalizations.of(context)
-                        .backButtonTooltip,
-                    icon: const BackButtonIcon(),
-                    onPressed: () => Navigator.of(context).pop(),
-                  )
-                : null,
+            leading: IconButton(
+              tooltip:
+                  MaterialLocalizations.of(context).backButtonTooltip,
+              icon: const BackButtonIcon(),
+              onPressed: () => Navigator.of(context).pushReplacement(
+                fadeRoute((_) => const DexScreen()),
+              ),
+            ),
             title: const SizedBox.shrink(),
             actions: [
               ..._appBarSendButtons(),
@@ -851,6 +859,12 @@ class _MainTabState extends State<_MainTab> {
   /// ability) when the species changes.
   String? _selectedAbility;
 
+  /// Show shiny art for the header sprite. Session-only — resets to
+  /// false whenever the user lands on a new species. The dex is a
+  /// browse / inspect surface; users who want a persistent shiny
+  /// pick should save the Pokémon as a sample (carries `shiny`).
+  bool _shiny = false;
+
   @override
   void initState() {
     super.initState();
@@ -862,6 +876,9 @@ class _MainTabState extends State<_MainTab> {
     super.didUpdateWidget(old);
     if (old.pokemon?.name != widget.pokemon?.name) {
       _seedAbility();
+      // Different species → wipe the shiny toggle so the new entry
+      // starts at its default art.
+      _shiny = false;
     }
   }
 
@@ -904,7 +921,11 @@ class _MainTabState extends State<_MainTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Header(pokemon: p),
+          _Header(
+            pokemon: p,
+            shiny: _shiny,
+            onShinyChanged: (v) => setState(() => _shiny = v),
+          ),
           const SizedBox(height: 12),
           _StatRow(pokemon: p),
           const SizedBox(height: 16),
@@ -1082,11 +1103,16 @@ Widget _dexSendButton({
 
 class _Header extends StatelessWidget {
   final Pokemon pokemon;
-  const _Header({required this.pokemon});
+  final bool shiny;
+  final ValueChanged<bool> onShinyChanged;
+  const _Header({
+    required this.pokemon,
+    required this.shiny,
+    required this.onShinyChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final dexId = pokemon.dexNumber.toString().padLeft(3, '0');
     final altName = AppStrings.current == AppLanguage.ko
         ? '${pokemon.nameEn ?? pokemon.name} · ${pokemon.nameJa}'
         : (AppStrings.current == AppLanguage.ja
@@ -1098,14 +1124,50 @@ class _Header extends StatelessWidget {
     // Champions-original coverage. The send buttons used to share the
     // name row here but they squeezed the name into a stub on narrow
     // screens; they now live in the app bar instead.
+    //
+    // Dex number used to live to the left of the name as `#0042`
+    // but that's redundant — list rows already surface it and the
+    // detail page benefits more from giving the name (and the new
+    // shiny toggle) the full row width.
     final infoColumn = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Text('#$dexId',
-                style: TextStyle(
-                    fontSize: 14, color: Colors.grey.shade600)),
+            // Shiny toggle anchored to the left of the species name.
+            // Session-only — `_MainTabState` resets it whenever the
+            // user navigates to a different species. Persisting a
+            // shiny pick is what saved samples are for.
+            InkWell(
+              onTap: () => onShinyChanged(!shiny),
+              borderRadius: BorderRadius.circular(4),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 2, vertical: 2),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      shiny
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      size: 18,
+                      color: shiny
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey.shade600,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      AppStrings.t('dex.shinyToggle'),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -1143,7 +1205,8 @@ class _Header extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              PokemonSprite(pokemonName: pokemon.name, size: 80),
+              PokemonSprite(
+                  pokemonName: pokemon.name, size: 80, shiny: shiny),
               const SizedBox(width: 12),
               Expanded(child: infoColumn),
             ],

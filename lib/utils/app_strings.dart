@@ -140,6 +140,26 @@ class AppStrings {
       AppLanguage.en: 'Saved',
       AppLanguage.ja: '保存しました',
     },
+    'dex.shinyToggle': {
+      AppLanguage.ko: '색이 다른',
+      AppLanguage.en: 'Shiny',
+      AppLanguage.ja: '色違い',
+    },
+    'team.slot.shinyToggle': {
+      AppLanguage.ko: '색이 다른 모습',
+      AppLanguage.en: 'Show shiny',
+      AppLanguage.ja: '色違いを表示',
+    },
+    'team.slot.toAttacker': {
+      AppLanguage.ko: '공격측으로',
+      AppLanguage.en: 'Send to attacker',
+      AppLanguage.ja: '攻撃側へ',
+    },
+    'team.slot.toDefender': {
+      AppLanguage.ko: '방어측으로',
+      AppLanguage.en: 'Send to defender',
+      AppLanguage.ja: '防御側へ',
+    },
     'team.tab.defense': {
       AppLanguage.ko: '방어 상성',
       AppLanguage.en: 'Defense',
@@ -1171,14 +1191,14 @@ class AppStrings {
       AppLanguage.ja: '段階',
     },
     'announce.sprites.title': {
-      AppLanguage.ko: '포켓몬 스프라이트가 추가되었습니다',
-      AppLanguage.en: 'Pokémon sprites added',
-      AppLanguage.ja: 'ポケモンスプライトが追加されました',
+      AppLanguage.ko: '색이 다른 포켓몬 스프라이트가 추가되었습니다',
+      AppLanguage.en: 'Shiny Pokémon sprites added',
+      AppLanguage.ja: '色違いポケモンスプライトが追加されました',
     },
     'announce.sprites.body': {
-      AppLanguage.ko: '웹에서는 자동으로 표시되며, 모바일에서는 이미지팩을 받아 사용할 수 있습니다. 스타일 변경과 개별 이미지 등록은 오른쪽 위 메뉴(⋮)의 몬스터볼 아이콘에서 설정합니다.',
-      AppLanguage.en: 'Sprites load automatically on the web; on mobile you can import an image pack. Pick a style or register per-Pokémon images from the Pokéball entry in the menu (top-right ⋮).',
-      AppLanguage.ja: 'Webでは自動表示され、モバイルではイメージパックを取り込んで使えます。スタイル切替と個別画像の登録は右上メニュー（⋮）のモンスターボールから設定できます。',
+      AppLanguage.ko: '계산기/도감/파티 구축 어디에서나 색이 다른 포켓몬을 켜고 끌 수 있습니다. 웹은 자동으로 적용되지만, 모바일에서는 이미지팩을 반드시 다시 받아주셔야 색이 다른 이미지가 표시됩니다. 스타일 변경과 팩 재다운로드는 오른쪽 위 메뉴(⋮)의 몬스터볼 아이콘에서 설정합니다.',
+      AppLanguage.en: 'Shiny variants are now toggleable everywhere — calculator, dex, and team builder. The web build picks them up automatically; on mobile you must re-import the sprite pack to see shiny art. Re-download from the Pokéball entry in the menu (top-right ⋮).',
+      AppLanguage.ja: '計算機・図鑑・パーティ構築のどこでも色違いに切り替えられます。Web版は自動反映されますが、モバイルでは色違い画像を表示するためにイメージパックの再ダウンロードが必要です。右上メニュー（⋮）のモンスターボールから取り直してください。',
     },
     'action.dontShowAgain': {
       AppLanguage.ko: '다시 보지 않기',

@@ -1127,8 +1127,14 @@ class PokemonPanelState extends State<PokemonPanel>
         children: [
           // Nearest-neighbour preserves the BW pixel crispness when
           // the sprite resolves; the placeholder is a vector icon so
-          // sampling doesn't matter.
-          PokemonSprite(pokemonName: s.pokemonName, size: 60),
+          // sampling doesn't matter. Tap toggles shiny — visual only,
+          // stored on the BattlePokemonState so saves preserve it.
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => setState(() => s.shiny = !s.shiny),
+            child: PokemonSprite(
+                pokemonName: s.pokemonName, size: 60, shiny: s.shiny),
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Column(
