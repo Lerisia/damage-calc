@@ -133,7 +133,8 @@ class TeamCoverageScreen extends StatefulWidget {
   State<TeamCoverageScreen> createState() => _TeamCoverageScreenState();
 }
 
-class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
+class _TeamCoverageScreenState extends State<TeamCoverageScreen>
+    with SingleTickerProviderStateMixin {
   static const int _maxTeamSize = _TeamCoverageStore.maxTeamSize;
   // Backed by the singleton so the picks persist across pushes/pops.
   List<_TeamSlot> get _team => _TeamCoverageStore.team;
@@ -154,10 +155,29 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
   // the move name).
   static Map<String, Move>? _movesByName;
 
+  /// Tab controller shared between the TabBar/TabBarView and the
+  /// camera button — the button reads [_tabController.index] to
+  /// route capture to the right widget (party / defense / offense).
+  late final TabController _tabController =
+      TabController(length: 3, vsync: this)
+        ..addListener(() {
+          // Rebuild the AppBar so the camera button's enabled/disabled
+          // state can react to the active tab (party-empty disables
+          // capture on party tab; coverage tabs only care that
+          // there's at least one slot to chart against).
+          if (mounted) setState(() {});
+        });
+
   @override
   void initState() {
     super.initState();
     _loadDexes();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadDexes() async {
@@ -368,6 +388,111 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       final bytes = byteData.buffer.asUint8List();
       final stamp = DateTime.now().millisecondsSinceEpoch;
       final filename = '${_sanitizeFilename(partyName)}_$stamp.png';
+      await savePartyImageBytes(bytes, filename);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.image.saved')),
+      ));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('${AppStrings.t('team.image.failed')}: $e'),
+      ));
+    } finally {
+      entry.remove();
+    }
+  }
+
+  /// Capture the current coverage matrix (defense or offense) as
+  /// a PNG. Mirrors [_capturePartyImage]'s offscreen-overlay +
+  /// RepaintBoundary pattern; just swaps the contents and uses a
+  /// wider canvas (the matrix has 18 type columns).
+  Future<void> _captureCoverageChart({required bool offensive}) async {
+    if (!_team.any((s) => s.pokemon != null)) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppStrings.t('team.image.empty')),
+      ));
+      return;
+    }
+    final partyName = _TeamCoverageStore.loadedPartyName ??
+        AppStrings.t('team.image.defaultName');
+    final tabLabel = AppStrings.t(
+        offensive ? 'team.tab.offense' : 'team.tab.defense');
+    final title = '$partyName · $tabLabel';
+    final scheme = Theme.of(context).colorScheme;
+    final boundaryKey = GlobalKey();
+    final symbolic = CoverageDisplayController.instance.mode.value ==
+        CoverageDisplayMode.symbolic;
+
+    final snapshot = Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: RepaintBoundary(
+        key: boundaryKey,
+        child: Container(
+          // Matrix is much wider than party cards (slot column +
+          // 18 type columns + headers). Generous width to keep
+          // everything visible without the matrix's own horizontal
+          // scroll kicking in.
+          width: 720,
+          padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: scheme.onSurface,
+                ),
+              ),
+              const SizedBox(height: 14),
+              _CoverageMatrix(
+                team: _team,
+                opponents: _TeamCoverageStore.opponents,
+                abilityNames: _abilityNames ?? const {},
+                symbolic: symbolic,
+                offensive: offensive,
+                // Horizontal type headers read cleanest in a
+                // standalone image; the rotated-text narrow layout
+                // is a small-width concession we don't need here.
+                horizontalNames: true,
+                lineupMode: _TeamCoverageStore.lineupMode,
+                lineup: _TeamCoverageStore.lineup,
+                onLineupToggle: (_) {/* unused in snapshot */},
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    final overlay = Overlay.of(context);
+    final entry = OverlayEntry(
+      builder: (_) => Positioned(left: -10000, top: 0, child: snapshot),
+    );
+    overlay.insert(entry);
+    try {
+      await Future.delayed(const Duration(milliseconds: 200));
+      final boundary = boundaryKey.currentContext?.findRenderObject()
+          as RenderRepaintBoundary?;
+      if (boundary == null) {
+        throw StateError('RepaintBoundary missing render object');
+      }
+      final image = await boundary.toImage(pixelRatio: 3.0);
+      final byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      image.dispose();
+      if (byteData == null) {
+        throw StateError('PNG encoding returned no bytes');
+      }
+      final bytes = byteData.buffer.asUint8List();
+      final stamp = DateTime.now().millisecondsSinceEpoch;
+      final suffix = offensive ? 'offense' : 'defense';
+      final filename =
+          '${_sanitizeFilename(partyName)}_${suffix}_$stamp.png';
       await savePartyImageBytes(bytes, filename);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -1310,14 +1435,24 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
                   label: Text(AppStrings.t('team.resetAll')),
                   style: _appBarBtnStyle,
                 ),
-                // Camera button → save the current party as a PNG.
+                // Camera button → save a PNG of whatever tab the
+                // user is on (party / defense chart / offense chart).
                 // Disabled (greyed) when no slot is filled so the
-                // user doesn't get a confusing snackbar on tap.
+                // user doesn't get an empty capture on tap.
                 IconButton(
                   tooltip: AppStrings.t('team.image.tooltip'),
                   icon: const Icon(Icons.camera_alt_outlined, size: 20),
                   onPressed: _team.any((s) => s.pokemon != null)
-                      ? _capturePartyImage
+                      ? () {
+                          switch (_tabController.index) {
+                            case 0:
+                              _capturePartyImage();
+                            case 1:
+                              _captureCoverageChart(offensive: false);
+                            case 2:
+                              _captureCoverageChart(offensive: true);
+                          }
+                        }
                       : null,
                   visualDensity: VisualDensity.compact,
                 ),
@@ -1343,26 +1478,25 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         // and the wide-screen multi-column layout are folded into this
         // structure — wide users get the same tabs with extra room
         // inside each.
-        child: DefaultTabController(
-          length: 3,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TabBar(
-                tabs: [
-                  Tab(text: AppStrings.t('team.tab.party')),
-                  Tab(text: AppStrings.t('team.tab.defense')),
-                  Tab(text: AppStrings.t('team.tab.offense')),
-                ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TabBar(
+              controller: _tabController,
+              tabs: [
+                Tab(text: AppStrings.t('team.tab.party')),
+                Tab(text: AppStrings.t('team.tab.defense')),
+                Tab(text: AppStrings.t('team.tab.offense')),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [partyTab, defenseTab, offenseTab],
               ),
-              Expanded(
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [partyTab, defenseTab, offenseTab],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       ),
