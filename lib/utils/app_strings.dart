@@ -197,6 +197,16 @@ class AppStrings {
       AppLanguage.en: 'No boost',
       AppLanguage.ja: '無補正',
     },
+    'nature.boostShort': {
+      AppLanguage.ko: '상승 성격',
+      AppLanguage.en: 'Boost',
+      AppLanguage.ja: '上昇補正',
+    },
+    'nature.dropShort': {
+      AppLanguage.ko: '하락 성격',
+      AppLanguage.en: 'Drop',
+      AppLanguage.ja: '下降補正',
+    },
     'dex.shinyToggle': {
       AppLanguage.ko: '색이 다른',
       AppLanguage.en: 'Shiny',

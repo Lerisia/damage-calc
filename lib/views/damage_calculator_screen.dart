@@ -2049,37 +2049,47 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ? Border.all(color: scheme.primary, width: 1.5)
             : null,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          // Move name + type + effectiveness. Sum selection is shown
-          // by the card's accent border + the chips in the sticky
-          // footer below — repeating it here as a "×N" badge just
-          // crowded the row into wrapping.
-          Row(
-            children: [
-              Flexible(
-                child: Text(result.move.localizedName, style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.bold,
-                )),
-              ),
-              const SizedBox(width: 8),
-              Text(effectiveType != null ? KoStrings.getTypeName(effectiveType) : '-',
-                  style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
-              const SizedBox(width: 8),
-              Text(effLabel,
-                  style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
-              const Spacer(),
-              // 역산 chip anchored top-right — most empty real
-              // estate in the card. Defender is assumed to be the
-              // user's pokemon; the dialog asks for the damage they
-              // actually took and lists the attacker (EV, nature)
-              // combos that could produce it. Tap a candidate to
-              // copy it onto the attacker state.
-              _reverseChip(index),
-            ],
+          // 역산 chip pinned to the absolute top-right corner of the
+          // card, so it stays clear of the move-name row no matter
+          // how the row's flex children negotiate space. Inline
+          // placement was unreliable — Flexible(move name) and
+          // Spacer both want flex:1 and ended up sharing the gap,
+          // leaving the chip mid-row.
+          Positioned(
+            top: 0,
+            right: 0,
+            child: _reverseChip(index),
           ),
-          const SizedBox(height: 6),
+          Padding(
+            // Reserve the top-right corner for the chip — without
+            // this padding the move name + effectiveness row could
+            // run under it on long-name species.
+            padding: const EdgeInsets.only(right: 64),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Move name + type + effectiveness. Sum selection is shown
+                // by the card's accent border + the chips in the sticky
+                // footer below — repeating it here as a "×N" badge just
+                // crowded the row into wrapping.
+                Row(
+                  children: [
+                    Flexible(
+                      child: Text(result.move.localizedName, style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold,
+                      )),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(effectiveType != null ? KoStrings.getTypeName(effectiveType) : '-',
+                        style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 8),
+                    Text(effLabel,
+                        style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+                const SizedBox(height: 6),
           // 결정력 / 내구 info (display only)
           Text(
             '$offLabel ${AppStrings.t('move.offensive')} ${offPower ?? '-'} → $defLabel ${AppStrings.t('section.bulk')} $defBulk',
@@ -2127,6 +2137,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               )).toList(),
             ),
           ],
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import '../models/stats.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
 import 'aura_effects.dart';
+import 'champions_mode.dart';
 import 'damage_calculator.dart';
 import 'ruin_effects.dart';
 
@@ -53,11 +54,16 @@ class ReverseCalcResult {
 ///
 /// Search space when ability / item / rank / tera / etc. are all
 /// pinned by the caller:
-///   - EV: 0..252 step 4 → 64 values
+///   - SP (Champions stat-point grid, 0..32) → 33 values. We
+///     iterate SP-not-EV so each row in the UI corresponds to a
+///     visually-distinct spread; iterating raw EVs in step-4 chunks
+///     produced multiple EV values mapping to the same SP after
+///     display conversion (e.g. EV 60 and EV 64 both → SP 8) and
+///     the candidate list showed visible duplicates.
 ///   - Nature: 3 states (boost / neutral / drop on the offensive
 ///     stat)
-///   → 192 combos × 16-roll damage calc each → ~3K simulations.
-///   Effectively instant.
+///   → 99 combos × 16-roll damage calc each. Still effectively
+///   instant.
 ///
 /// The defender state passed in is consumed verbatim — typically
 /// it's the user's own pokemon (fully known). The attacker template
@@ -65,10 +71,6 @@ class ReverseCalcResult {
 /// category (physical / special) decides which stat we iterate.
 class ReverseCalc {
   ReverseCalc._();
-
-  /// EV step matches the in-game grid (0, 4, 8, …, 252).
-  static const int _evStep = 4;
-  static const int _evMax = 252;
 
   static ReverseCalcResult run({
     required BattlePokemonState defender,
@@ -109,7 +111,8 @@ class ReverseCalc {
 
     final candidates = <ReverseCalcCandidate>[];
     int searched = 0;
-    for (int ev = 0; ev <= _evMax; ev += _evStep) {
+    for (int sp = 0; sp <= ChampionsMode.maxPerStat; sp++) {
+      final ev = ChampionsMode.spToEv(sp);
       for (final nature in natureOptions) {
         searched++;
         final candidate = _withEvAndNature(

@@ -261,26 +261,31 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
               style: const TextStyle(
                   fontSize: 15, fontWeight: FontWeight.w700),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: 8),
             // Boost / neutral / drop indicator — ONLY the relevant
             // offensive stat's modifier. The 'down' stat in the
             // candidate's NatureProfile is one of several
             // equally-plausible drops (e.g. an Atk-boost nature
             // could drop SpA, SpD, Def, or Spe), so showing the
-            // specific drop stat would mislead. We surface only what
-            // the damage observation actually distinguishes.
-            if (boost)
-              Icon(Icons.arrow_upward,
-                  size: 14, color: Colors.red.shade600)
-            else if (drop)
-              Icon(Icons.arrow_downward,
-                  size: 14, color: Colors.blue.shade600)
-            else
-              Text(
-                AppStrings.t('nature.neutralShort'),
-                style: TextStyle(
-                    fontSize: 11, color: Colors.grey.shade600),
+            // specific drop stat would mislead. Plain "상승/하락/
+            // 무보정 성격" text instead of arrows because the user
+            // found the bare arrows ambiguous.
+            Text(
+              boost
+                  ? AppStrings.t('nature.boostShort')
+                  : drop
+                      ? AppStrings.t('nature.dropShort')
+                      : AppStrings.t('nature.neutralShort'),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: boost
+                    ? Colors.red.shade600
+                    : drop
+                        ? Colors.blue.shade600
+                        : Colors.grey.shade700,
               ),
+            ),
             const Spacer(),
             // Derived damage range so the user can sanity-check the
             // match against what they observed.

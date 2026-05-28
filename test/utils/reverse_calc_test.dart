@@ -115,8 +115,8 @@ void main() {
         observedMin: groundTruth.minDamage,
         observedMax: groundTruth.maxDamage,
       );
-      expect(result.searched, 192,
-          reason: '64 EV values × 3 nature buckets = 192');
+      expect(result.searched, 99,
+          reason: '33 SP values (0..32) × 3 nature buckets = 99');
       expect(result.candidates, isNotEmpty);
       // 252+ Atk should be SOMEWHERE in the candidate list.
       final matched252Boost = result.candidates.any((c) =>
@@ -171,7 +171,7 @@ void main() {
         observedMax: 200000,
       );
       expect(result.candidates, isEmpty);
-      expect(result.searched, 192,
+      expect(result.searched, 99,
           reason: 'we still try every combo before giving up');
     });
 
