@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../data/champions_usage.dart';
 import '../../data/movedex.dart';
 import '../../data/learnsetdex.dart';
 import '../../models/move.dart';
@@ -162,12 +163,46 @@ class _MoveSelectorState extends State<MoveSelector> {
     return _learnableMoveIds.contains(moveId);
   }
 
+  /// Top-N Champions Singles moves for this species, in usage order,
+  /// restricted to moves visible in the current `_allMoves` pool
+  /// (so the status-move toggle is respected) and excluding the
+  /// already-selected move (which is hoisted separately). Returns an
+  /// empty list for uncurated species.
+  List<Move> _championsPriorityMoves({required int topN}) {
+    final name = widget.pokemonName;
+    if (name == null) return const [];
+    final usage = championsUsageFor(name);
+    if (usage == null || usage.moves.isEmpty) return const [];
+    final byName = {for (final m in _allMoves) m.name: m};
+    final out = <Move>[];
+    for (final row in usage.moves) {
+      if (out.length >= topN) break;
+      final m = byName[row.name];
+      if (m == null) continue;
+      if (m == _selected) continue;
+      out.add(m);
+    }
+    return out;
+  }
+
   List<Move> _sortedOptions(String query) {
     List<Move> results;
     if (query.isEmpty) {
-      results = _selected != null
-          ? [_selected!, ..._allMoves.where((m) => m != _selected)]
-          : List.of(_allMoves);
+      // Empty-query layout: [selected?] → champions top-10 → the rest.
+      // The champions priority surfaces meta picks no matter which
+      // mode the user came from, so e.g. simple-mode users loading
+      // an extended-mode sample don't have to scroll through the
+      // alphabetical pile to find a viable swap.
+      final priority = _championsPriorityMoves(topN: 10);
+      final prioritySet = priority.toSet();
+      final rest = _allMoves
+          .where((m) => m != _selected && !prioritySet.contains(m))
+          .toList();
+      results = [
+        if (_selected != null) _selected!,
+        ...priority,
+        ...rest,
+      ];
     } else {
       final qLower = query.toLowerCase();
       final qRunes = qLower.runes.toList();
