@@ -56,11 +56,16 @@ class ReverseCalcDialog extends StatefulWidget {
 }
 
 class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
-  /// Mirror of the SelectAllField's text. SelectAllField owns its
-  /// own controller; this is a relay updated on every onChanged so
-  /// _run can read the current value without reaching into the
-  /// widget's internals.
-  String _typed = '';
+  // The dialog accepts the damage observation either as a direct
+  // HP number or — more conveniently — as "HP before" / "HP after"
+  // values the user reads off their pokemon. Editing before/after
+  // auto-syncs the damage field; editing the damage field is also
+  // allowed (manual override). SelectAllField owns its own
+  // controllers; these mirrors are updated on every onChanged so
+  // _run / _syncDamage can read without reaching into the widgets.
+  String _beforeText = '';
+  String _afterText = '';
+  String _damageText = '';
   ReverseCalcResult? _result;
   bool _searched = false;
 
@@ -68,12 +73,41 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
+  void _onBeforeChanged(String v) {
+    _beforeText = v;
+    _syncDamageFromHp();
+  }
+
+  void _onAfterChanged(String v) {
+    _afterText = v;
+    _syncDamageFromHp();
+  }
+
+  void _onDamageChanged(String v) {
+    // Direct edit on the damage field — leave the HP-before/after
+    // fields alone. User now has the value they want directly.
+    _damageText = v;
+  }
+
+  void _syncDamageFromHp() {
+    final b = int.tryParse(_beforeText);
+    final a = int.tryParse(_afterText);
+    if (b == null || a == null) return;
+    final d = b - a;
+    if (d < 0) return;
+    // SelectAllField.didUpdateWidget syncs the controller text
+    // from initialText when the field isn't focused. Damage field
+    // is not focused while user is typing in HP fields, so this
+    // propagates correctly without clobbering the active field.
+    setState(() => _damageText = '$d');
+  }
+
   void _run() {
     // Dropping focus on submit lets the IME collapse — otherwise
     // the keyboard sits over the result list and the user has to
     // tap outside to see anything.
     _unfocus();
-    final raw = int.tryParse(_typed);
+    final raw = int.tryParse(_damageText);
     if (raw == null || raw <= 0) {
       setState(() {
         _result = null;
@@ -139,7 +173,7 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
           // Fixed height so the dialog doesn't grow when the result
           // list appears — keeps the position stable on the screen
           // through search → result transitions.
-          height: 420,
+          height: 480,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -153,36 +187,36 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
                     fontSize: 12, color: Colors.grey.shade600),
               ),
               const SizedBox(height: 12),
+              // HP before / after — the most natural way to read the
+              // observation off the screen during a real battle.
+              // When both are filled, the damage field auto-updates.
               Row(
                 children: [
-                  Expanded(
-                    child: SelectAllField(
-                      initialText: _typed,
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: InputDecoration(
-                        labelText: AppStrings.t('reverse.observed'),
-                        hintText: AppStrings.t('reverse.observedHint'),
-                        isDense: true,
-                        border: const OutlineInputBorder(),
-                        // Always-floating label so the field caption +
-                        // hint are both visible before the user taps
-                        // (default behaviour hides the hint until the
-                        // field is focused, which read as confusing).
-                        floatingLabelBehavior:
-                            FloatingLabelBehavior.always,
-                      ),
-                      onChanged: (v) => _typed = v,
-                      // Enter / 완료 키 submission triggers the same
-                      // run + unfocus flow the explicit button does,
-                      // so the user doesn't have to hunt for the
-                      // button after typing.
-                      onSubmitted: (_) => _run(),
-                    ),
-                  ),
+                  Expanded(child: _hpField(
+                    label: AppStrings.t('reverse.hpBefore'),
+                    initial: _beforeText,
+                    onChanged: _onBeforeChanged,
+                  )),
+                  const SizedBox(width: 8),
+                  Expanded(child: _hpField(
+                    label: AppStrings.t('reverse.hpAfter'),
+                    initial: _afterText,
+                    onChanged: _onAfterChanged,
+                  )),
+                ],
+              ),
+              const SizedBox(height: 8),
+              // Damage row — auto-filled from before-after, also
+              // directly editable for users who happen to know the
+              // damage already.
+              Row(
+                children: [
+                  Expanded(child: _hpField(
+                    label: AppStrings.t('reverse.observed'),
+                    initial: _damageText,
+                    onChanged: _onDamageChanged,
+                    onSubmitted: (_) => _run(),
+                  )),
                   const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: _run,
@@ -202,6 +236,33 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
           child: Text(AppStrings.t('action.close')),
         ),
       ],
+    );
+  }
+
+  /// Tiny helper so the three HP-related fields share styling
+  /// without duplicating the SelectAllField scaffolding.
+  Widget _hpField({
+    required String label,
+    required String initial,
+    required ValueChanged<String> onChanged,
+    ValueChanged<String>? onSubmitted,
+  }) {
+    return SelectAllField(
+      initialText: initial,
+      keyboardType: TextInputType.number,
+      textInputAction:
+          onSubmitted != null ? TextInputAction.done : TextInputAction.next,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      decoration: InputDecoration(
+        labelText: label,
+        isDense: true,
+        border: const OutlineInputBorder(),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+      onChanged: onChanged,
+      onSubmitted: onSubmitted,
     );
   }
 

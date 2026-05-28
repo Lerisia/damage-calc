@@ -155,9 +155,19 @@ class AppStrings {
       AppLanguage.ja: '相手の努力値推定',
     },
     'reverse.observed': {
-      AppLanguage.ko: '받은 데미지 (HP)',
-      AppLanguage.en: 'Damage taken (HP)',
-      AppLanguage.ja: '受けたダメージ (HP)',
+      AppLanguage.ko: '받은 대미지',
+      AppLanguage.en: 'Damage taken',
+      AppLanguage.ja: '受けたダメージ',
+    },
+    'reverse.hpBefore': {
+      AppLanguage.ko: '맞기 전 HP',
+      AppLanguage.en: 'HP before',
+      AppLanguage.ja: '被弾前 HP',
+    },
+    'reverse.hpAfter': {
+      AppLanguage.ko: '맞은 후 HP',
+      AppLanguage.en: 'HP after',
+      AppLanguage.ja: '被弾後 HP',
     },
     'reverse.observedHint': {
       AppLanguage.ko: '예: 48',
@@ -170,7 +180,7 @@ class AppStrings {
       AppLanguage.ja: '逆算',
     },
     'reverse.idleHint': {
-      AppLanguage.ko: '실제 받은 데미지를 입력하고 계산을 누르세요.',
+      AppLanguage.ko: '실제 받은 대미지를 입력하고 계산을 누르세요.',
       AppLanguage.en: 'Type the damage you actually took and press Calc.',
       AppLanguage.ja: '実際に受けたダメージを入力して計算を押してください。',
     },
