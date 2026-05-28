@@ -1756,15 +1756,16 @@ class _SlotCardState extends State<_SlotCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Left rail: sprite + shiny toggle + send-to-calc
-              // buttons. The form column on the right is taller
-              // than the sprite, so we use the otherwise-empty
-              // space below the sprite for chunkier, spaced-out
-              // controls — the area was empty before, no reason
-              // for the buttons to be cramped.
+              // buttons. Width locked at 108 — the right column
+              // (ability / item / EV / nature inputs) is much
+              // more important than the sprite, so the rail must
+              // not eat into the form area. The chunkier buttons
+              // grow vertically (into the previously-empty space
+              // below the sprite), never horizontally.
               Padding(
-                padding: const EdgeInsets.only(right: 8, top: 6),
+                padding: const EdgeInsets.only(right: 6, top: 6),
                 child: SizedBox(
-                  width: 124,
+                  width: 108,
                   child: _spriteRail(context, p),
                 ),
               ),
