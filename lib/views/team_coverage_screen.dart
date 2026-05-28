@@ -431,6 +431,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             ..pokemon = p
             ..ability = s.state.selectedAbility
             ..heldItem = s.state.selectedItem
+            ..evs = s.state.ev
+            ..nature = s.state.nature
             ..sampleId = s.id
             ..loadedSampleName = s.name;
           for (int mi = 0; mi < newSlot.moves.length; mi++) {
