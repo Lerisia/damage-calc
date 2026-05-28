@@ -331,12 +331,37 @@ class SpriteService extends ChangeNotifier {
           'sprites/${s.name}/$shinySegment$key.${s.ext}';
       return NetworkImage(url);
     }
-    if (!SpritePackManager.instance.isInstalled(s)) return null;
+    if (!SpritePackManager.instance.isInstalled(s)) {
+      // No pack installed at all — for shiny mode we still try the
+      // CDN (same URL the web build uses) so a fresh mobile install
+      // can browse shinies before any local pack is set up. Non-
+      // shiny stays null so the existing "import a pack" UX still
+      // applies for the main offline experience.
+      if (shiny) {
+        return NetworkImage(
+            'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
+            'sprites/${s.name}/$shinySegment$key.${s.ext}');
+      }
+      return null;
+    }
     final dir = SpritePackManager.instance.cacheDirFor(s);
     if (dir == null) return null;
     final file = File('$dir/$shinySegment$key.${s.ext}');
-    if (!file.existsSync()) return null;
-    return FileImage(file);
+    if (file.existsSync()) return FileImage(file);
+    // Local cache miss. For shiny mode this is the common case after
+    // the shiny launch — users on a pre-shiny pack download have all
+    // the regular files but no shiny/ subdir. Fall back to the CDN
+    // so they see shiny art without re-importing the pack; the
+    // graceful regular fallback in PokemonSprite still kicks in if
+    // the CDN itself 404s (e.g. niche forms Showdown never published
+    // as shiny). Non-shiny missing-file stays null — offline-first
+    // for the primary art set.
+    if (shiny) {
+      return NetworkImage(
+          'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
+          'sprites/${s.name}/$shinySegment$key.${s.ext}');
+    }
+    return null;
   }
 
   /// BW-only fallback: when the requested Pokémon has no pixel sprite
