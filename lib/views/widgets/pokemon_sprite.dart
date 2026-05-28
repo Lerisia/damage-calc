@@ -27,9 +27,11 @@ class PokemonSprite extends StatelessWidget {
   /// When true, prefer the gen6-7 box icon over the current style's
   /// sprite. Used by compact placements (dex list rows, simple-mode
   /// species row) where a 40×30 icon looks crisper than a scaled-down
-  /// 96×96 BW sprite. When the icon isn't available (gen8+ species,
-  /// ZA Megas, no pack installed) the slot shows the pokéball
-  /// placeholder — no fallback to the larger style sprite.
+  /// 96×96 BW sprite. When the Mega-form icon isn't curated (ZA
+  /// Megas), we fall back to the base species icon — same chain as
+  /// the main sprite path. The pokéball shows only when neither the
+  /// form-specific nor the base icon is available (truly uncurated
+  /// species, or no pack installed on mobile).
   final bool useBoxIcon;
 
   const PokemonSprite({
@@ -56,9 +58,21 @@ class PokemonSprite extends StatelessWidget {
       ]),
       builder: (context, _) {
         if (useBoxIcon) {
-          final icon = SpriteService.instance.iconFor(pokemonName);
-          if (icon == null) return _placeholder();
-          return _img(icon, onError: _placeholder());
+          // Mirror the main-sprite chain: form icon → base species
+          // icon → placeholder. Lets uncurated Mega icons (ZA Megas
+          // like Mega Feraligatr) render the base species' icon
+          // instead of the pokéball.
+          final main = SpriteService.instance.iconFor(pokemonName);
+          final fallback =
+              SpriteService.instance.fallbackIconFor(pokemonName);
+          if (main == null && fallback == null) return _placeholder();
+          if (main == null) {
+            return _img(fallback!, onError: _placeholder());
+          }
+          final onError = fallback == null
+              ? _placeholder()
+              : _img(fallback, onError: _placeholder());
+          return _img(main, onError: onError);
         }
         final main = SpriteService.instance
             .spriteFor(pokemonName, style: styleOverride);

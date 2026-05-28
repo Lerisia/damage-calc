@@ -372,4 +372,20 @@ class SpriteService extends ChangeNotifier {
     if (!file.existsSync()) return null;
     return FileImage(file);
   }
+
+  /// Fallback box icon — when a Mega / form key has no curated icon
+  /// (ZA Megas, Champions-original entries), serve the base species'
+  /// icon instead of the pokéball placeholder. Mirrors the same
+  /// chain shape as [fallbackSpriteFor]; safe to call for any name
+  /// (returns null when there's no meaningful base species).
+  ///
+  /// Not scoped to BW like [fallbackSpriteFor] because box icons are
+  /// a single shared style (pokesprite gen6-7 art), so falling back
+  /// from "Mega Feraligatr" to "Feraligatr" doesn't have the
+  /// HOME-vs-pixel mismatch problem.
+  ImageProvider? fallbackIconFor(String pokemonName) {
+    final base = baseSpeciesName(pokemonName);
+    if (base == null) return null;
+    return iconFor(base);
+  }
 }
