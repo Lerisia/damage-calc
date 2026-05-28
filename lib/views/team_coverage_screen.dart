@@ -308,7 +308,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         key: boundaryKey,
         child: Container(
           width: 390,
-          padding: const EdgeInsets.all(16),
+          // Extra bottom padding so the captured image has a bit of
+          // breathing room under the last slot card.
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
           color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1712,19 +1714,23 @@ class _SlotSummaryCard extends StatelessWidget {
         color: KoStrings.getTypeColor(move.type),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(
+      // Long move names auto-shrink instead of ellipsizing — users
+      // would rather read a 7-pt 'Last Respects' than '...'. The
+      // 10-pt size below is the *max*; FittedBox scales down only
+      // when the natural width exceeds the pill.
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Text(
         move.localizedName,
         maxLines: 1,
-        overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
-        // 10 pt + tight horizontal padding lets all 4 pills sit on
-        // the same row even with 5-char names. Longer names ellipsize
-        // — pill stays the same height across the row.
         style: const TextStyle(
           fontSize: 10,
           color: Colors.white,
           fontWeight: FontWeight.w600,
         ),
+      ),
       ),
     );
   }
