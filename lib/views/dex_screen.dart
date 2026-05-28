@@ -53,7 +53,21 @@ class DexScreen extends StatefulWidget {
   /// "open in dex" button on the calculator panels).
   final String? initialPokemonName;
 
-  const DexScreen({super.key, this.initialPokemonName});
+  /// True when this DexScreen was pushed on top of the browse list
+  /// (narrow-width tap on a row). Lets the detail page's PopScope
+  /// allow iOS swipe-back, since the route below is the list and a
+  /// normal pop lands the user back on the list with all state
+  /// preserved via [_DexBrowseStore]. Cross-link mode from the
+  /// calculator keeps canPop=false because the route below is the
+  /// calc, not a list — the back arrow's pushReplacement handles
+  /// that path instead.
+  final bool fromList;
+
+  const DexScreen({
+    super.key,
+    this.initialPokemonName,
+    this.fromList = false,
+  });
 
   @override
   State<DexScreen> createState() => _DexScreenState();
@@ -275,10 +289,14 @@ class _DexScreenState extends State<DexScreen> {
       loading: _loadingMoves,
     );
     return PopScope(
-      // Block iOS swipe-back / Android system back. Users were dismissing
-      // the dex by accident with edge drags while reading — only the
-      // explicit back arrow exits now (Navigator.pop bypasses canPop).
-      canPop: false,
+      // Cross-link from the calc: block swipe-back (canPop=false), so
+      // accidental edge drags don't slingshot the user out of the dex
+      // and back into the calc. Detail-pushed-from-the-list:
+      // canPop=true so the iOS swipe-back gesture lands the user on
+      // the browse list naturally — that IS the route below, and
+      // _DexBrowseStore preserves scroll/search/filter/sort so the
+      // restore is lossless.
+      canPop: widget.fromList,
       onPopInvokedWithResult: (didPop, _) {},
       child: DefaultTabController(
       length: 2,
@@ -877,8 +895,11 @@ class _DexScreenState extends State<DexScreen> {
   void _pickPokemon(Pokemon p, bool push) {
     if (push) {
       // Narrow: open the species in its own cross-link detail screen.
+      // Tagged fromList=true so the detail page's PopScope lets the
+      // user swipe back to the list (this route IS the previous one).
       Navigator.of(context).push(
-        fadeRoute((_) => DexScreen(initialPokemonName: p.name)),
+        fadeRoute(
+            (_) => DexScreen(initialPokemonName: p.name, fromList: true)),
       );
     } else {
       _onSelect(p);
