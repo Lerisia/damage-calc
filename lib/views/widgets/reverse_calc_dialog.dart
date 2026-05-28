@@ -234,6 +234,26 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
         ),
       );
     }
+    // Group by nature bucket so the user reads "this nature → SP
+    // range" instead of scrolling through individual rows. The
+    // 'safest' candidate inside each bucket is the max-SP one
+    // (largest possible offensive investment the observation is
+    // consistent with) — that's what tap-apply installs, because
+    // calculating defensive lines against the worst case is the
+    // safer assumption when prepping for the next turn.
+    final stat = _offenseStat();
+    final boost = <ReverseCalcCandidate>[];
+    final neutral = <ReverseCalcCandidate>[];
+    final drop = <ReverseCalcCandidate>[];
+    for (final c in result.candidates) {
+      if (c.nature.up == stat) {
+        boost.add(c);
+      } else if (c.nature.down == stat) {
+        drop.add(c);
+      } else {
+        neutral.add(c);
+      }
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -244,77 +264,105 @@ class _ReverseCalcDialogState extends State<ReverseCalcDialog> {
         ),
         const SizedBox(height: 6),
         Expanded(
-          child: ListView.separated(
-            itemCount: result.candidates.length,
-            separatorBuilder: (_, __) => const Divider(height: 1),
-            itemBuilder: (_, i) =>
-                _candidateRow(scheme, result.candidates[i]),
+          child: ListView(
+            children: [
+              _bucketRow(
+                scheme,
+                label: AppStrings.t('nature.boostShort'),
+                color: Colors.red.shade600,
+                candidates: boost,
+              ),
+              const Divider(height: 1),
+              _bucketRow(
+                scheme,
+                label: AppStrings.t('nature.neutralShort'),
+                color: Colors.grey.shade700,
+                candidates: neutral,
+              ),
+              const Divider(height: 1),
+              _bucketRow(
+                scheme,
+                label: AppStrings.t('nature.dropShort'),
+                color: Colors.blue.shade600,
+                candidates: drop,
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 
-  Widget _candidateRow(ColorScheme scheme, ReverseCalcCandidate c) {
-    final tapToApply = widget.onApply != null;
+  Widget _bucketRow(
+    ColorScheme scheme, {
+    required String label,
+    required Color color,
+    required List<ReverseCalcCandidate> candidates,
+  }) {
+    final tapToApply = widget.onApply != null && candidates.isNotEmpty;
     final stat = _offenseStat();
-    final boost = c.nature.up == stat;
-    final drop = c.nature.down == stat;
-    // EV displayed in Champions SP units (0-32) per the project's
-    // standard display rule — never raw 0-252 EVs outside the calc's
-    // own input field.
-    final sp = ChampionsMode.evToSp(c.ev);
     final statLabel = _statLabel(stat);
+    // Bucket-wide SP range. Candidates inside a bucket all share
+    // the same nature multiplier, so any SP in [minSp, maxSp]
+    // produces a damage that overlaps the observation.
+    String rangeText;
+    ReverseCalcCandidate? topPick;
+    if (candidates.isEmpty) {
+      rangeText = '—';
+    } else {
+      final sps = candidates.map((c) => ChampionsMode.evToSp(c.ev)).toList();
+      final minSp = sps.reduce((a, b) => a < b ? a : b);
+      final maxSp = sps.reduce((a, b) => a > b ? a : b);
+      rangeText =
+          minSp == maxSp ? '$statLabel $maxSp' : '$statLabel $minSp–$maxSp';
+      // Tap installs the max-SP candidate — the safest defensive
+      // assumption (opponent invested as much as the observation
+      // allows).
+      topPick = candidates.reduce(
+          (a, b) => ChampionsMode.evToSp(a.ev) >= ChampionsMode.evToSp(b.ev)
+              ? a
+              : b);
+    }
     return InkWell(
       onTap: tapToApply
           ? () {
-              widget.onApply!(c);
+              widget.onApply!(topPick!);
               Navigator.pop(context);
             }
           : null,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
         child: Row(
           children: [
-            // Stat + SP value, e.g. "공격 32".
-            Text(
-              '$statLabel $sp',
-              style: const TextStyle(
-                  fontSize: 15, fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(width: 8),
-            // Boost / neutral / drop indicator — ONLY the relevant
-            // offensive stat's modifier. The 'down' stat in the
-            // candidate's NatureProfile is one of several
-            // equally-plausible drops (e.g. an Atk-boost nature
-            // could drop SpA, SpD, Def, or Spe), so showing the
-            // specific drop stat would mislead. Plain "상승/하락/
-            // 무보정 성격" text instead of arrows because the user
-            // found the bare arrows ambiguous.
-            Text(
-              boost
-                  ? AppStrings.t('nature.boostShort')
-                  : drop
-                      ? AppStrings.t('nature.dropShort')
-                      : AppStrings.t('nature.neutralShort'),
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: boost
-                    ? Colors.red.shade600
-                    : drop
-                        ? Colors.blue.shade600
-                        : Colors.grey.shade700,
+            // Nature label, color-coded to match the result's
+            // direction (red boost / grey neutral / blue drop).
+            SizedBox(
+              width: 88,
+              child: Text(
+                label,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: color),
               ),
             ),
-            const Spacer(),
-            // Derived damage range so the user can sanity-check the
-            // match against what they observed.
-            Text(
-              '${c.minDamage}~${c.maxDamage}',
-              style: TextStyle(
-                  fontSize: 12, color: Colors.grey.shade600),
+            Expanded(
+              child: Text(
+                rangeText,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: candidates.isEmpty
+                      ? Colors.grey.shade400
+                      : null,
+                ),
+              ),
             ),
+            // Hint that the row is tappable when we have something
+            // to apply; absent when the bucket has no candidates.
+            if (tapToApply)
+              Icon(Icons.chevron_right,
+                  size: 18, color: Colors.grey.shade500),
           ],
         ),
       ),
