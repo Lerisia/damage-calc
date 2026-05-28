@@ -2217,15 +2217,24 @@ class _SlotCardState extends State<_SlotCard> {
   }
 
   Widget _moveGrid(ColorScheme scheme, Pokemon? p) {
-    // Vertical 4 × 1 layout so each picker spans the full popup
-    // width — leaves room for the type/category/power suffix
-    // instead of forcing compact rendering.
+    // 2 × 2 grid that now spans the full popup width (the grid
+    // sits below the sprite-rail/form Row, not inside the form
+    // column). Each cell gets ~popupWidth/2 — much wider than the
+    // pre-restructure layout where cells competed with the form
+    // column for half of that.
+    Widget cell(int i) {
+      return Expanded(
+        child: SizedBox(
+          height: 50,
+          child: _moveField(scheme, p, i),
+        ),
+      );
+    }
     return Column(
       children: [
-        for (int i = 0; i < 4; i++) ...[
-          if (i > 0) const SizedBox(height: 6),
-          SizedBox(height: 50, child: _moveField(scheme, p, i)),
-        ],
+        Row(children: [cell(0), const SizedBox(width: 8), cell(1)]),
+        const SizedBox(height: 6),
+        Row(children: [cell(2), const SizedBox(width: 8), cell(3)]),
       ],
     );
   }
