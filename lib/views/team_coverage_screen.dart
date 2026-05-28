@@ -429,11 +429,11 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
       child: RepaintBoundary(
         key: boundaryKey,
         child: Container(
-          // Matrix is much wider than party cards (slot column +
-          // 18 type columns + headers). Generous width to keep
-          // everything visible without the matrix's own horizontal
-          // scroll kicking in.
-          width: 720,
+          // Aim for ~square aspect: narrower canvas + rotated type
+          // headers (horizontalNames: false below) compress the 18
+          // type columns into a width that matches the 6-slot stack
+          // height plus title + padding.
+          width: 480,
           padding: const EdgeInsets.fromLTRB(20, 18, 20, 28),
           color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
@@ -455,10 +455,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
                 abilityNames: _abilityNames ?? const {},
                 symbolic: symbolic,
                 offensive: offensive,
-                // Horizontal type headers read cleanest in a
-                // standalone image; the rotated-text narrow layout
-                // is a small-width concession we don't need here.
-                horizontalNames: true,
+                // Rotated type-name headers keep each type column
+                // narrow, which lets the whole matrix fit a roughly
+                // square canvas without horizontal overflow.
+                horizontalNames: false,
                 lineupMode: _TeamCoverageStore.lineupMode,
                 lineup: _TeamCoverageStore.lineup,
                 onLineupToggle: (_) {/* unused in snapshot */},
