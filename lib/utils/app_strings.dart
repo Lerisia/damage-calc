@@ -175,9 +175,14 @@ class AppStrings {
       AppLanguage.ja: '例: 48',
     },
     'reverse.run': {
-      AppLanguage.ko: '역산',
-      AppLanguage.en: 'Reverse',
-      AppLanguage.ja: '逆算',
+      // Inside the popup itself the button reads '계산' — the
+      // popup's own title is '역산', and the idle-hint copy says
+      // "계산을 누르세요", so the verb on the button stays
+      // consistent with the surrounding language. The chip that
+      // opens the popup stays '역산' (reverse.chip).
+      AppLanguage.ko: '계산',
+      AppLanguage.en: 'Calc',
+      AppLanguage.ja: '計算',
     },
     'reverse.idleHint': {
       AppLanguage.ko: '실제 받은 대미지를 입력하고 계산을 누르세요.',
