@@ -40,6 +40,12 @@ class DamageResultPanel extends StatelessWidget {
   /// when crafting samples, which lives in Expanded Mode.
   final bool showRolls;
 
+  /// Fires when the user taps the inline "역산" chip. The chip only
+  /// renders when this is non-null, so callers that don't want the
+  /// affordance (e.g. teams not wiring the reverse-calc dialog yet)
+  /// just don't pass it.
+  final VoidCallback? onReverseTap;
+
   const DamageResultPanel({
     super.key,
     required this.attacker,
@@ -54,6 +60,7 @@ class DamageResultPanel extends StatelessWidget {
     required this.itemNameMap,
     this.showHeader = true,
     this.showRolls = true,
+    this.onReverseTap,
   });
 
   @override
@@ -206,6 +213,31 @@ class DamageResultPanel extends StatelessWidget {
                   Text(koText, style: TextStyle(
                     fontSize: 16, color: koColor, fontWeight: FontWeight.bold,
                   )),
+                ],
+                if (onReverseTap != null) ...[
+                  const SizedBox(width: 12),
+                  // Same 28-pt OutlinedButton shape as the extended
+                  // calc's damage card so the affordance feels
+                  // identical across modes.
+                  SizedBox(
+                    height: 28,
+                    child: OutlinedButton(
+                      onPressed: onReverseTap,
+                      style: OutlinedButton.styleFrom(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 8),
+                        visualDensity: VisualDensity.compact,
+                        tapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        AppStrings.t('reverse.chip'),
+                        style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
                 ],
               ],
             ),

@@ -19,6 +19,7 @@ import '../utils/stacking_moves.dart';
 import '../utils/stat_calculator.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/localization.dart';
+import 'widgets/reverse_calc_dialog.dart';
 import '../models/dynamax.dart';
 import '../models/terastal.dart';
 import '../utils/ability_effects.dart' show getAbilityTypeOverride;
@@ -2011,6 +2012,21 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       itemNameMap: _itemNames,
       showHeader: false,
       showRolls: false,
+      onReverseTap: () => showDialog(
+        context: context,
+        builder: (_) => ReverseCalcDialog(
+          attacker: _atk,
+          defender: _def,
+          // Simple Mode is always move slot 0 — the picker doesn't
+          // expose the other slots.
+          moveIndex: 0,
+          weather: widget.weather,
+          terrain: widget.terrain,
+          room: widget.room,
+          auras: widget.auras,
+          ruins: widget.ruins,
+        ),
+      ),
     );
     // Tap anywhere on the result block → 결정력 breakdown popup.
     // No affordance (per design) — discoverable via tap, doesn't
