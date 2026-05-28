@@ -1367,6 +1367,23 @@ class SelectAllFieldState extends State<SelectAllField> {
     _focusNode.addListener(_handleFocus);
   }
 
+  @override
+  void didUpdateWidget(SelectAllField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // External-change sync: when the parent rebuilds with a new
+    // initialText (sample load, species pick, reset, etc.) AND this
+    // field isn't currently focused, pull the new value into the
+    // controller so the cell reflects what the model says. While the
+    // field IS focused (user actively typing), leave the controller
+    // alone — overwriting it mid-keystroke would clobber input,
+    // move the caret, and dismiss the keyboard.
+    if (widget.initialText != oldWidget.initialText &&
+        !_focusNode.hasFocus &&
+        _controller.text != widget.initialText) {
+      _controller.text = widget.initialText;
+    }
+  }
+
   void _handleFocus() {
     if (_focusNode.hasFocus) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -1618,8 +1618,18 @@ class _EvCellState extends State<_EvCell> {
           // the main calc uses for EV editing — keeps select-on-focus
           // and clamp behavior consistent. Bounds switch to SP
           // (0-32) since the team-builder UI displays in SP units.
+          //
+          // CRITICAL: key MUST NOT include widget.value. Every
+          // keystroke flips the value (parent setState echo), and a
+          // value-keyed widget gets unmounted+remounted, dropping
+          // focus and dismissing the keyboard. See
+          // [[feedback_ev_input_focus_regression]] — this regression
+          // has shipped multiple times. The label-only key is stable
+          // across typing; SelectAllField's didUpdateWidget handles
+          // external-change sync (sample load, species pick) when
+          // the field isn't focused.
           child: SelectAllField(
-            key: ValueKey('ev_${widget.label}_${widget.value}'),
+            key: ValueKey('ev_${widget.label}'),
             initialText: '${widget.value}',
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.next,
