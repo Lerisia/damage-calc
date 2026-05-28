@@ -59,6 +59,17 @@ class DexScreen extends StatefulWidget {
   State<DexScreen> createState() => _DexScreenState();
 }
 
+/// Process-lifetime store for the browse-mode list's scroll offset.
+/// Persists across the cross-link detail flow (which is pushed on
+/// top of the list) AND across the pushReplacement we use when a
+/// user opens the detail straight from the calc — the new browse
+/// list restores from here even though it's a fresh Element tree.
+/// Cleared only on app restart.
+class _DexBrowseScrollStore {
+  _DexBrowseScrollStore._();
+  static double offset = 0.0;
+}
+
 class _DexScreenState extends State<DexScreen> {
   Pokemon? _selected;
 
@@ -77,6 +88,11 @@ class _DexScreenState extends State<DexScreen> {
   // Browse-list state (used only in browse mode — see _buildBrowse).
   final _searchCtl = TextEditingController();
   final _searchFocus = FocusNode();
+  /// Single shared scroll controller for the browse list. Its offset
+  /// is mirrored into [_DexBrowseScrollStore] so the next browse
+  /// instance (whether reached by pop or pushReplacement) can jump
+  /// straight back to where the user was.
+  late final ScrollController _browseListScroll;
   DexSearchFilter _filter = DexSearchFilter.empty;
   _DexSortKey? _sortKey;
   bool _sortAsc = true;
@@ -84,13 +100,24 @@ class _DexScreenState extends State<DexScreen> {
   @override
   void initState() {
     super.initState();
+    _browseListScroll = ScrollController(
+      initialScrollOffset: _DexBrowseScrollStore.offset,
+    );
+    _browseListScroll.addListener(_persistBrowseScroll);
     _loadDexes();
+  }
+
+  void _persistBrowseScroll() {
+    if (!_browseListScroll.hasClients) return;
+    _DexBrowseScrollStore.offset = _browseListScroll.offset;
   }
 
   @override
   void dispose() {
     _searchCtl.dispose();
     _searchFocus.dispose();
+    _browseListScroll.removeListener(_persistBrowseScroll);
+    _browseListScroll.dispose();
     super.dispose();
   }
 
@@ -511,6 +538,7 @@ class _DexScreenState extends State<DexScreen> {
         else
           Expanded(
             child: ListView.separated(
+              controller: _browseListScroll,
               keyboardDismissBehavior:
                   ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.only(bottom: 120),
