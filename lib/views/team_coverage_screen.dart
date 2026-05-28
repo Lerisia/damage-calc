@@ -1336,7 +1336,7 @@ class _SlotSummaryCard extends StatelessWidget {
       children: [
         Center(
           child: PokemonSprite(
-              pokemonName: p.name, size: 64, shiny: widget.slot.shiny),
+              pokemonName: p.name, size: 64, shiny: slot.shiny),
         ),
         const SizedBox(width: 8),
         Expanded(
