@@ -59,15 +59,21 @@ class DexScreen extends StatefulWidget {
   State<DexScreen> createState() => _DexScreenState();
 }
 
-/// Process-lifetime store for the browse-mode list's scroll offset.
-/// Persists across the cross-link detail flow (which is pushed on
-/// top of the list) AND across the pushReplacement we use when a
-/// user opens the detail straight from the calc — the new browse
-/// list restores from here even though it's a fresh Element tree.
-/// Cleared only on app restart.
-class _DexBrowseScrollStore {
-  _DexBrowseScrollStore._();
-  static double offset = 0.0;
+/// Process-lifetime store for the browse-mode list's view state —
+/// scroll offset, name search text, advanced search filter, and
+/// sort. Persists across the cross-link detail flow (pushed on top
+/// of the list) AND across the pushReplacement the dex back-button
+/// uses to land users on the list from the calc cross-link. The
+/// fresh DexScreen seeds its controllers from here in initState so
+/// nothing visible resets when the user pops a detail. Cleared
+/// only on app restart.
+class _DexBrowseStore {
+  _DexBrowseStore._();
+  static double scrollOffset = 0.0;
+  static String searchText = '';
+  static DexSearchFilter filter = DexSearchFilter.empty;
+  static _DexSortKey? sortKey;
+  static bool sortAsc = true;
 }
 
 class _DexScreenState extends State<DexScreen> {
@@ -86,22 +92,27 @@ class _DexScreenState extends State<DexScreen> {
   bool _loadingMoves = false;
 
   // Browse-list state (used only in browse mode — see _buildBrowse).
-  final _searchCtl = TextEditingController();
+  // Search/filter/sort/scroll seed from [_DexBrowseStore] so the
+  // dex back-button's pushReplacement doesn't visibly wipe the
+  // user's typing, advanced filters, or position.
+  late final TextEditingController _searchCtl;
   final _searchFocus = FocusNode();
-  /// Single shared scroll controller for the browse list. Its offset
-  /// is mirrored into [_DexBrowseScrollStore] so the next browse
-  /// instance (whether reached by pop or pushReplacement) can jump
-  /// straight back to where the user was.
   late final ScrollController _browseListScroll;
-  DexSearchFilter _filter = DexSearchFilter.empty;
-  _DexSortKey? _sortKey;
-  bool _sortAsc = true;
+  late DexSearchFilter _filter;
+  late _DexSortKey? _sortKey;
+  late bool _sortAsc;
 
   @override
   void initState() {
     super.initState();
+    _searchCtl =
+        TextEditingController(text: _DexBrowseStore.searchText);
+    _searchCtl.addListener(_persistBrowseSearch);
+    _filter = _DexBrowseStore.filter;
+    _sortKey = _DexBrowseStore.sortKey;
+    _sortAsc = _DexBrowseStore.sortAsc;
     _browseListScroll = ScrollController(
-      initialScrollOffset: _DexBrowseScrollStore.offset,
+      initialScrollOffset: _DexBrowseStore.scrollOffset,
     );
     _browseListScroll.addListener(_persistBrowseScroll);
     _loadDexes();
@@ -109,11 +120,16 @@ class _DexScreenState extends State<DexScreen> {
 
   void _persistBrowseScroll() {
     if (!_browseListScroll.hasClients) return;
-    _DexBrowseScrollStore.offset = _browseListScroll.offset;
+    _DexBrowseStore.scrollOffset = _browseListScroll.offset;
+  }
+
+  void _persistBrowseSearch() {
+    _DexBrowseStore.searchText = _searchCtl.text;
   }
 
   @override
   void dispose() {
+    _searchCtl.removeListener(_persistBrowseSearch);
     _searchCtl.dispose();
     _searchFocus.dispose();
     _browseListScroll.removeListener(_persistBrowseScroll);
@@ -716,7 +732,10 @@ class _DexScreenState extends State<DexScreen> {
         );
         if (!mounted || identical(result, kDexFilterDismissed)) return;
         if (result is DexSearchFilter) {
-          setState(() => _filter = result);
+          setState(() {
+            _filter = result;
+            _DexBrowseStore.filter = result;
+          });
         }
       },
       child: Container(
@@ -751,7 +770,10 @@ class _DexScreenState extends State<DexScreen> {
             if (highlight)
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => setState(() => _filter = DexSearchFilter.empty),
+                onTap: () => setState(() {
+                  _filter = DexSearchFilter.empty;
+                  _DexBrowseStore.filter = DexSearchFilter.empty;
+                }),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Icon(Icons.close,
@@ -847,6 +869,8 @@ class _DexScreenState extends State<DexScreen> {
         _sortKey = null;
         _sortAsc = true;
       }
+      _DexBrowseStore.sortKey = _sortKey;
+      _DexBrowseStore.sortAsc = _sortAsc;
     });
   }
 
