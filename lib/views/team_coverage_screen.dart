@@ -21,6 +21,7 @@ import '../utils/champions_mode.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/sample_save_flow.dart';
+import 'widgets/ev_sp_cell.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import '../utils/sprite_pack_manager.dart';
@@ -1558,101 +1559,8 @@ class _SlotSummaryCard extends StatelessWidget {
 /// translate `none` back to a real null when emitting.
 enum _NaturePick { none, atk, def, spa, spd, spe }
 
-/// Compact EV input cell — small number field with a tiny stat
-/// label above. Clamps input to 0-252 and re-emits on every digit
-/// edit so the parent can rebuild the summary card live.
-class _EvCell extends StatefulWidget {
-  final String label;
-  final int value;
-  final ValueChanged<int> onChanged;
-  const _EvCell({
-    required this.label,
-    required this.value,
-    required this.onChanged,
-  });
-
-  @override
-  State<_EvCell> createState() => _EvCellState();
-}
-
-class _EvCellState extends State<_EvCell> {
-  late final TextEditingController _controller =
-      TextEditingController(text: widget.value.toString());
-
-  @override
-  void didUpdateWidget(_EvCell old) {
-    super.didUpdateWidget(old);
-    // Only resync the controller if the parent's value diverged from
-    // our last text (e.g. sample load overwrites it). Don't rewrite
-    // the controller on every keystroke — that moves the caret.
-    final current = int.tryParse(_controller.text) ?? 0;
-    if (current != widget.value) {
-      _controller.text = widget.value.toString();
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(widget.label,
-            style: TextStyle(
-              fontSize: 11,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            )),
-        const SizedBox(height: 2),
-        SizedBox(
-          // Match the calculator's EV field height so the two screens
-          // feel like the same input control. Calc's _evControl uses
-          // 28 + paddings; this field is the only thing in the row
-          // (no -/+/0 buttons) so we can be a bit taller for touch.
-          height: 36,
-          // SelectAllField + ClampingFormatter are the same primitives
-          // the main calc uses for EV editing — keeps select-on-focus
-          // and clamp behavior consistent. Bounds switch to SP
-          // (0-32) since the team-builder UI displays in SP units.
-          //
-          // CRITICAL: key MUST NOT include widget.value. Every
-          // keystroke flips the value (parent setState echo), and a
-          // value-keyed widget gets unmounted+remounted, dropping
-          // focus and dismissing the keyboard. See
-          // [[feedback_ev_input_focus_regression]] — this regression
-          // has shipped multiple times. The label-only key is stable
-          // across typing; SelectAllField's didUpdateWidget handles
-          // external-change sync (sample load, species pick) when
-          // the field isn't focused.
-          child: SelectAllField(
-            key: ValueKey('ev_${widget.label}'),
-            initialText: '${widget.value}',
-            keyboardType: TextInputType.number,
-            textInputAction: TextInputAction.next,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              ClampingFormatter(min: 0, max: ChampionsMode.maxPerStat),
-            ],
-            style: const TextStyle(fontSize: 14),
-            decoration: const InputDecoration(
-              isDense: true,
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-            ),
-            onChanged: (v) {
-              final n = int.tryParse(v) ?? 0;
-              widget.onChanged(n);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
+// _EvCell extracted to widgets/ev_sp_cell.dart so the focus-
+// persistence contract is covered by a dedicated widget test.
 
 class _SlotCard extends StatefulWidget {
   final int index;
@@ -1976,9 +1884,10 @@ class _SlotCardState extends State<_SlotCard> {
       children: [
         for (final k in keys) ...[
           Expanded(
-            child: _EvCell(
+            child: EvSpCell(
               label: labels[k]!,
               value: valueOf(k),
+              max: ChampionsMode.maxPerStat,
               onChanged: (v) {
                 final newSp = spWithUpdated(k, v);
                 widget.onEvChanged(ChampionsMode.spToEvStats(newSp));
