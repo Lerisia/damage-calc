@@ -1796,9 +1796,16 @@ class _SlotCardState extends State<_SlotCard> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Center(
+          // Sprite gets the full rail width (rail = 124 - 4 inset =
+          // 120 effective). The sprite artwork itself ships with
+          // generous transparent padding around the creature, so
+          // an extra margin here just shrinks the visible
+          // character. Pulling the size up to ~120 lets the
+          // character read at a glance — same touch-area as the
+          // 80-pt version had on screen, but a bigger silhouette.
           child: PokemonSprite(
             pokemonName: p?.name ?? '',
-            size: 80,
+            size: 120,
             shiny: widget.slot.shiny,
           ),
         ),
