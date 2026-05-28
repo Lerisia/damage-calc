@@ -812,98 +812,127 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         builder: (dialogCtx) {
           final size = MediaQuery.sizeOf(dialogCtx);
           final width = (size.width - 32).clamp(280.0, 480.0);
-          return Dialog(
-            insetPadding: const EdgeInsets.symmetric(
-                horizontal: 16, vertical: 24),
-            child: GestureDetector(
-              // Tap anywhere outside an input drops focus so the IME
-              // collapses. Without this, EV / typeahead inputs trap
-              // focus and the user has no way out short of pressing
-              // back. translucent so child taps still reach buttons.
-              behavior: HitTestBehavior.translucent,
-              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-              child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: width,
-                maxHeight: size.height * 0.8,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Header row sits outside the form so the form
-                  // itself can use full inner width for the species
-                  // selector (long Korean names were ellipsizing).
-                  // Buttons:
-                  //   📂 = load sample (closes editor first, then
-                  //        opens the sample sheet — avoids the
-                  //        stacked-dialog jank).
-                  //   🗑 = delete the slot.
-                  //   ✕  = close the editor (no destructive action);
-                  //        all in-flight edits are already committed
-                  //        via callbacks, so close just dismisses.
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 4, 0),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          tooltip: AppStrings.t('team.sample.load'),
-                          icon: const Icon(Icons.folder_open, size: 22),
-                          onPressed: () {
-                            Navigator.of(dialogCtx).pop();
-                            _loadSampleInto(slot);
-                          },
-                        ),
-                        IconButton(
-                          tooltip: AppStrings.t('team.slot.save'),
-                          icon: const Icon(Icons.save_outlined, size: 22),
-                          onPressed: () => _saveSlotAsSample(slot),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          tooltip: AppStrings.t('team.slot.delete'),
-                          icon: const Icon(Icons.delete_outline, size: 22),
-                          onPressed: () {
-                            onClearOrRemove();
-                            Navigator.of(dialogCtx).pop();
-                          },
-                        ),
-                        IconButton(
-                          tooltip: AppStrings.t('action.close'),
-                          icon: const Icon(Icons.close, size: 22),
-                          onPressed: () => Navigator.of(dialogCtx).pop(),
-                        ),
-                      ],
-                    ),
+          // StatefulBuilder so the load handler (and any other async
+          // mutation that bypasses _SlotCard's own setState chain)
+          // can force the popup to repaint without closing it. This
+          // is what lets the sample sheet stack on top of the editor
+          // instead of replacing it.
+          return StatefulBuilder(
+            builder: (statefulCtx, popupSetState) {
+              return Dialog(
+                insetPadding: const EdgeInsets.symmetric(
+                    horizontal: 16, vertical: 24),
+                child: GestureDetector(
+                  // Tap anywhere outside an input drops focus so the
+                  // IME collapses. Without this, EV / typeahead
+                  // inputs trap focus and the user has no way out
+                  // short of pressing back. translucent so child
+                  // taps still reach buttons.
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () =>
+                      FocusManager.instance.primaryFocus?.unfocus(),
+                  child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: width,
+                    maxHeight: size.height * 0.8,
                   ),
-                  Flexible(
-                    child: SingleChildScrollView(
-                      padding:
-                          const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                      child: _SlotCard(
-                        index: displayIndex,
-                        slot: slot,
-                        abilityDex: _abilityDex ?? const {},
-                        abilityNames: _abilityNames ?? const {},
-                        itemDex: _itemDex ?? const {},
-                        itemNames: _itemNames ?? const {},
-                        onPokemonSelected: (p) => _setPokemon(slot, p),
-                        onAbilitySelected: (a) => _setAbility(slot, a),
-                        onItemSelected: (it) => _setItem(slot, it),
-                        showMoves: true,
-                        onMoveChanged: (mi, m) => _setMove(slot, mi, m),
-                        onTypeOverrideChanged: (override) =>
-                            _setTypeOverride(slot, override),
-                        onEvChanged: (ev) =>
-                            setState(() => slot.evs = ev),
-                        onNatureChanged: (n) =>
-                            setState(() => slot.nature = n),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Header row sits outside the form so the form
+                      // itself can use full inner width for the
+                      // species selector (long Korean names were
+                      // ellipsizing). Buttons:
+                      //   📂 = load sample — opens the sample sheet
+                      //        on top of the editor (editor stays
+                      //        open behind), then repaints on return
+                      //        so the loaded species shows up
+                      //        immediately.
+                      //   🗑 = delete the slot.
+                      //   ✕  = close the editor (no destructive
+                      //        action); all in-flight edits are
+                      //        already committed via callbacks, so
+                      //        close just dismisses.
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(8, 8, 4, 0),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              tooltip: AppStrings.t('team.sample.load'),
+                              icon: const Icon(Icons.folder_open,
+                                  size: 22),
+                              onPressed: () async {
+                                await _loadSampleInto(slot);
+                                // Repaint the editor so the loaded
+                                // species' sprite / ability / item /
+                                // moves render immediately — host
+                                // setState doesn't reach the dialog
+                                // overlay.
+                                popupSetState(() {});
+                              },
+                            ),
+                            IconButton(
+                              tooltip: AppStrings.t('team.slot.save'),
+                              icon: const Icon(Icons.save_outlined,
+                                  size: 22),
+                              onPressed: () =>
+                                  _saveSlotAsSample(slot),
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              tooltip: AppStrings.t('team.slot.delete'),
+                              icon: const Icon(Icons.delete_outline,
+                                  size: 22),
+                              onPressed: () {
+                                onClearOrRemove();
+                                Navigator.of(dialogCtx).pop();
+                              },
+                            ),
+                            IconButton(
+                              tooltip: AppStrings.t('action.close'),
+                              icon: const Icon(Icons.close, size: 22),
+                              onPressed: () =>
+                                  Navigator.of(dialogCtx).pop(),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                      Flexible(
+                        child: SingleChildScrollView(
+                          padding:
+                              const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                          child: _SlotCard(
+                            index: displayIndex,
+                            slot: slot,
+                            abilityDex: _abilityDex ?? const {},
+                            abilityNames: _abilityNames ?? const {},
+                            itemDex: _itemDex ?? const {},
+                            itemNames: _itemNames ?? const {},
+                            onPokemonSelected: (p) =>
+                                _setPokemon(slot, p),
+                            onAbilitySelected: (a) =>
+                                _setAbility(slot, a),
+                            onItemSelected: (it) =>
+                                _setItem(slot, it),
+                            showMoves: true,
+                            onMoveChanged: (mi, m) =>
+                                _setMove(slot, mi, m),
+                            onTypeOverrideChanged: (override) =>
+                                _setTypeOverride(slot, override),
+                            onEvChanged: (ev) =>
+                                setState(() => slot.evs = ev),
+                            onNatureChanged: (n) =>
+                                setState(() => slot.nature = n),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            ),
+                ),
+                ),
+              );
+            },
           );
         },
       ).then((_) => setState(() {})); // refresh summary on close
