@@ -16,6 +16,7 @@ import '../utils/sample_save_flow.dart';
 import '../utils/simple_mode_controller.dart';
 import 'widgets/app_bottom_nav.dart';
 import 'widgets/app_settings_menu.dart';
+import 'widgets/reverse_calc_dialog.dart';
 import 'widgets/sprite_style_dialog.dart';
 import 'dex_screen.dart';
 import 'move_dex_screen.dart';
@@ -2098,6 +2099,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     fontSize: 16, color: koColor, fontWeight: FontWeight.bold,
                   )),
                 ],
+                // 역산 chip — one-tap entry into the reverse-calc
+                // dialog. Defender is the calc's defender (assumed
+                // to be the user's pokemon); the dialog asks for the
+                // damage they actually took and lists the attacker
+                // (Atk/SpA EV, nature) combos that could produce it.
+                const SizedBox(width: 12),
+                _reverseChip(index),
               ],
             ),
           ),
@@ -2142,6 +2150,47 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           )
         : card;
     return RepaintBoundary(child: wrapped);
+  }
+
+  /// Inline "역산" chip living in each damage card's percent row.
+  /// Wrapped in a 32-pt OutlinedButton so the row stays vertically
+  /// balanced with the KO text alongside it. Tap → opens the
+  /// [ReverseCalcDialog] with the current attacker/defender/move
+  /// context pre-filled; user types the damage they actually took
+  /// and gets the attacker (Atk/SpA EV, nature) candidates back.
+  Widget _reverseChip(int moveIndex) {
+    return SizedBox(
+      height: 28,
+      child: OutlinedButton(
+        onPressed: () => _openReverseCalc(moveIndex),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          visualDensity: VisualDensity.compact,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: Text(
+          AppStrings.t('reverse.chip'),
+          style:
+              const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        ),
+      ),
+    );
+  }
+
+  void _openReverseCalc(int moveIndex) {
+    showDialog(
+      context: context,
+      builder: (_) => ReverseCalcDialog(
+        attacker: _attacker,
+        defender: _defender,
+        moveIndex: moveIndex,
+        weather: _weather,
+        terrain: _terrain,
+        room: _room,
+        auras: _auras,
+        ruins: _ruins,
+      ),
+    );
   }
 
   /// Compact sticky-feeling footer block at the bottom of the damage
@@ -2533,7 +2582,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.9.9'),
+          const Text('v1.10.0'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

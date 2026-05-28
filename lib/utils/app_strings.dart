@@ -140,6 +140,55 @@ class AppStrings {
       AppLanguage.en: 'Saved',
       AppLanguage.ja: '保存しました',
     },
+    // ── Reverse-calc (역산) dialog ────────────────────────────────
+    // Defender is the user's own pokemon (already in the calc);
+    // they type the damage they actually took and we list the
+    // attacker (EV, nature) candidates that match it.
+    'reverse.title': {
+      AppLanguage.ko: '역산 — 상대 노력치 추정',
+      AppLanguage.en: 'Reverse calc — opponent EV / nature',
+      AppLanguage.ja: '逆算 — 相手の努力値推定',
+    },
+    'reverse.observed': {
+      AppLanguage.ko: '받은 데미지 (HP)',
+      AppLanguage.en: 'Damage taken (HP)',
+      AppLanguage.ja: '受けたダメージ (HP)',
+    },
+    'reverse.observedHint': {
+      AppLanguage.ko: '예: 48',
+      AppLanguage.en: 'e.g., 48',
+      AppLanguage.ja: '例: 48',
+    },
+    'reverse.run': {
+      AppLanguage.ko: '계산',
+      AppLanguage.en: 'Calc',
+      AppLanguage.ja: '計算',
+    },
+    'reverse.idleHint': {
+      AppLanguage.ko: '실제 받은 데미지를 입력하고 계산을 누르세요.',
+      AppLanguage.en: 'Type the damage you actually took and press Calc.',
+      AppLanguage.ja: '実際に受けたダメージを入力して計算を押してください。',
+    },
+    'reverse.invalid': {
+      AppLanguage.ko: '양의 정수만 입력 가능합니다.',
+      AppLanguage.en: 'Positive integers only.',
+      AppLanguage.ja: '正の整数のみ入力可能です。',
+    },
+    'reverse.noMatch': {
+      AppLanguage.ko: '일치하는 노력치 조합이 없습니다. 아이템 / 특성 / 랭크 가정을 점검해 보세요.',
+      AppLanguage.en: 'No EV / nature combo matches. Re-check the item / ability / rank assumptions.',
+      AppLanguage.ja: '一致する努力値の組み合わせがありません。持ち物・特性・ランクの仮定を見直してください。',
+    },
+    'reverse.chip': {
+      AppLanguage.ko: '역산',
+      AppLanguage.en: 'Reverse',
+      AppLanguage.ja: '逆算',
+    },
+    'nature.neutralShort': {
+      AppLanguage.ko: '중성',
+      AppLanguage.en: 'Neutral',
+      AppLanguage.ja: '中性',
+    },
     'dex.shinyToggle': {
       AppLanguage.ko: '색이 다른',
       AppLanguage.en: 'Shiny',
