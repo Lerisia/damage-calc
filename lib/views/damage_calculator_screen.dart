@@ -2069,6 +2069,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               const SizedBox(width: 8),
               Text(effLabel,
                   style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
+              const Spacer(),
+              // 역산 chip anchored top-right — most empty real
+              // estate in the card. Defender is assumed to be the
+              // user's pokemon; the dialog asks for the damage they
+              // actually took and lists the attacker (EV, nature)
+              // combos that could produce it. Tap a candidate to
+              // copy it onto the attacker state.
+              _reverseChip(index),
             ],
           ),
           const SizedBox(height: 6),
@@ -2099,13 +2107,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     fontSize: 16, color: koColor, fontWeight: FontWeight.bold,
                   )),
                 ],
-                // 역산 chip — one-tap entry into the reverse-calc
-                // dialog. Defender is the calc's defender (assumed
-                // to be the user's pokemon); the dialog asks for the
-                // damage they actually took and lists the attacker
-                // (Atk/SpA EV, nature) combos that could produce it.
-                const SizedBox(width: 12),
-                _reverseChip(index),
               ],
             ),
           ),
@@ -2178,6 +2179,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   }
 
   void _openReverseCalc(int moveIndex) {
+    final move = _attacker.moves[moveIndex];
     showDialog(
       context: context,
       builder: (_) => ReverseCalcDialog(
@@ -2189,6 +2191,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         room: _room,
         auras: _auras,
         ruins: _ruins,
+        onApply: move == null
+            ? null
+            : (candidate) {
+                setState(() {
+                  applyReverseCalcCandidate(
+                      _attacker, candidate, move.category);
+                  // Bumping the reset counter forces the attacker
+                  // panel's SelectAllField cells to re-pick up the
+                  // new EV value (their controllers only re-seed
+                  // when their key changes).
+                  _resetCounter++;
+                });
+              },
       ),
     );
   }

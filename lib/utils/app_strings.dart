@@ -160,9 +160,9 @@ class AppStrings {
       AppLanguage.ja: '例: 48',
     },
     'reverse.run': {
-      AppLanguage.ko: '계산',
-      AppLanguage.en: 'Calc',
-      AppLanguage.ja: '計算',
+      AppLanguage.ko: '역산',
+      AppLanguage.en: 'Reverse',
+      AppLanguage.ja: '逆算',
     },
     'reverse.idleHint': {
       AppLanguage.ko: '실제 받은 데미지를 입력하고 계산을 누르세요.',
@@ -184,10 +184,18 @@ class AppStrings {
       AppLanguage.en: 'Reverse',
       AppLanguage.ja: '逆算',
     },
+    // Count line above the candidate list. `{n}` substitutes the
+    // candidate count. Searched-total is intentionally NOT shown —
+    // users found '32/192' confusing.
+    'reverse.countLine': {
+      AppLanguage.ko: '검색 결과 총 {n}건',
+      AppLanguage.en: '{n} matches',
+      AppLanguage.ja: '検索結果 {n} 件',
+    },
     'nature.neutralShort': {
-      AppLanguage.ko: '중성',
-      AppLanguage.en: 'Neutral',
-      AppLanguage.ja: '中性',
+      AppLanguage.ko: '무보정 성격',
+      AppLanguage.en: 'No boost',
+      AppLanguage.ja: '無補正',
     },
     'dex.shinyToggle': {
       AppLanguage.ko: '색이 다른',

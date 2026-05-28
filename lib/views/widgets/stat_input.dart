@@ -1333,6 +1333,10 @@ class _LevelInputState extends State<_LevelInput> {
 class SelectAllField extends StatefulWidget {
   final String initialText;
   final ValueChanged<String> onChanged;
+  /// Fires when the user submits the field via the IME action
+  /// (Enter on a hardware keyboard, "완료" on the soft keyboard).
+  /// Optional — callers that don't care leave it null.
+  final ValueChanged<String>? onSubmitted;
   final TextInputType keyboardType;
   final TextInputAction? textInputAction;
   final List<TextInputFormatter>? inputFormatters;
@@ -1344,6 +1348,7 @@ class SelectAllField extends StatefulWidget {
     super.key,
     required this.initialText,
     required this.onChanged,
+    this.onSubmitted,
     required this.keyboardType,
     this.textInputAction,
     this.inputFormatters,
@@ -1427,6 +1432,7 @@ class SelectAllFieldState extends State<SelectAllField> {
       decoration: widget.decoration ?? const InputDecoration(),
       textAlign: widget.textAlign,
       onChanged: widget.onChanged,
+      onSubmitted: widget.onSubmitted,
     );
   }
 }

@@ -2012,21 +2012,33 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       itemNameMap: _itemNames,
       showHeader: false,
       showRolls: false,
-      onReverseTap: () => showDialog(
-        context: context,
-        builder: (_) => ReverseCalcDialog(
-          attacker: _atk,
-          defender: _def,
-          // Simple Mode is always move slot 0 — the picker doesn't
-          // expose the other slots.
-          moveIndex: 0,
-          weather: widget.weather,
-          terrain: widget.terrain,
-          room: widget.room,
-          auras: widget.auras,
-          ruins: widget.ruins,
-        ),
-      ),
+      onReverseTap: () {
+        final move = _atk.moves[0];
+        showDialog(
+          context: context,
+          builder: (_) => ReverseCalcDialog(
+            attacker: _atk,
+            defender: _def,
+            // Simple Mode is always move slot 0 — the picker doesn't
+            // expose the other slots.
+            moveIndex: 0,
+            weather: widget.weather,
+            terrain: widget.terrain,
+            room: widget.room,
+            auras: widget.auras,
+            ruins: widget.ruins,
+            onApply: move == null
+                ? null
+                : (candidate) {
+                    setState(() {
+                      applyReverseCalcCandidate(
+                          _atk, candidate, move.category);
+                    });
+                    widget.onChanged();
+                  },
+          ),
+        );
+      },
     );
     // Tap anywhere on the result block → 결정력 breakdown popup.
     // No affordance (per design) — discoverable via tap, doesn't
