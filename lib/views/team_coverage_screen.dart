@@ -20,6 +20,7 @@ import '../utils/app_strings.dart';
 import '../utils/champions_mode.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
+import '../utils/sample_save_flow.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import '../utils/sprite_pack_manager.dart';
@@ -54,6 +55,13 @@ class _TeamSlot {
   /// ability / item / move edits (the binding is to the saved
   /// sample, not to its current data).
   String? sampleId;
+
+  /// Display name of the loaded sample (parallel to [sampleId]) —
+  /// surfaced as the default name in the per-slot save dialog so
+  /// re-saves overwrite the same sample by default. Populated by
+  /// both single-slot load and party load, kept in sync with
+  /// [sampleId]. Survives edits like the calc's loaded-name field.
+  String? loadedSampleName;
   /// User-applied type override (Soak / Forest's Curse / Burn Up /
   /// 3-type combos). `null` means "use the species' natural types";
   /// when non-null, all three slots are explicit (type2/type3 may
@@ -422,7 +430,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             ..pokemon = p
             ..ability = s.state.selectedAbility
             ..heldItem = s.state.selectedItem
-            ..sampleId = s.id;
+            ..sampleId = s.id
+            ..loadedSampleName = s.name;
           for (int mi = 0; mi < newSlot.moves.length; mi++) {
             newSlot.moves[mi] =
                 mi < s.state.moves.length ? s.state.moves[mi] : null;
@@ -701,11 +710,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       ));
       return;
     }
-    final name = await _promptText(
-      title: AppStrings.t('team.save.title'),
-      initial: p.localizedName,
-    );
-    if (name == null || name.isEmpty || !mounted) return;
+    // Reuse the calculator's save dialog + overwrite/team-move
+    // pipeline so the per-slot save behaves identically (name field
+    // pre-filled with the loaded sample's name, team picker, "+ 새
+    // 팀" prompt, overwrite confirm, team-full snackbar).
     final state = BattlePokemonState();
     state.applyPokemon(p);
     if (slot.ability != null) state.selectedAbility = slot.ability!;
@@ -717,35 +725,20 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
         i++) {
       if (slot.moves[i] != null) state.moves[i] = slot.moves[i];
     }
-    if (await SampleStorage.sampleExists(name)) {
-      if (!mounted) return;
-      final ok = await showDialog<bool>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(AppStrings.t('team.save.overwrite.title')),
-          content: Text(AppStrings.t('team.save.overwrite.body')),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: Text(AppStrings.t('action.cancel')),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: Text(AppStrings.t('action.overwrite')),
-            ),
-          ],
-        ),
-      );
-      if (ok != true || !mounted) return;
-      await SampleStorage.overwriteSample(name, state);
-    } else {
-      await SampleStorage.saveSample(name, state);
-    }
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppStrings.t('msg.saved')),
-      duration: const Duration(seconds: 2),
-    ));
+    final outcome = await SampleSaveFlow.run(
+      context: context,
+      state: state,
+      loadedName: slot.loadedSampleName,
+    );
+    if (outcome == null || !mounted) return;
+    // Rebind the slot to whatever sample now backs that name —
+    // matches the calc's `_attackerLoadedName = outcome.name`
+    // behaviour, and keeps subsequent `_saveAsParty` runs anchored
+    // to the same sample id.
+    setState(() {
+      slot.loadedSampleName = outcome.name;
+      slot.sampleId = outcome.sampleId;
+    });
   }
 
   Future<void> _loadSampleInto(_TeamSlot slot) async {
@@ -783,6 +776,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
             slot.evs = s.ev;
             slot.nature = s.nature;
             slot.sampleId = sample.id;
+            slot.loadedSampleName = sample.name;
             for (int i = 0; i < slot.moves.length; i++) {
               slot.moves[i] = i < s.moves.length ? s.moves[i] : null;
             }

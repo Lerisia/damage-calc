@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
-import '../data/sample_storage.dart';
 import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
@@ -12,6 +11,7 @@ import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
 import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
+import '../utils/sample_save_flow.dart';
 import '../utils/simple_mode_controller.dart';
 import 'widgets/app_bottom_nav.dart';
 import 'widgets/app_settings_menu.dart';
@@ -483,112 +483,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   Future<void> _showSaveDialog(int side, BattlePokemonState state) async {
     final loadedName = side == 0 ? _attackerLoadedName : _defenderLoadedName;
-    final result = await showDialog<_SaveDialogResult>(
+    final outcome = await SampleSaveFlow.run(
       context: context,
-      builder: (ctx) => _SaveSampleDialog(
-        defaultName: loadedName ?? state.localizedPokemonName,
-        loadedName: loadedName,
-      ),
+      state: state,
+      loadedName: loadedName,
     );
-    if (result == null) return;
-    final name = result.name;
-    if (name.isEmpty) return;
-
-    // Strip transient battle state (Tera, Dynamax, Z-Move flags)
-    // from the snapshot we save — those toggles model the current
-    // turn's situation, not a build property, so persisting them
-    // would resurface old turn-state when the sample is loaded into
-    // another match. Builds the user actually wants to keep
-    // (movesets, EVs, ability, item) survive untouched.
-    final saveState = BattlePokemonState.fromJson(state.toJson())
-      ..terastal = const TerastalState()
-      ..dynamax = DynamaxState.none
-      ..zMoves = [false, false, false, false];
-
-    final exists = await SampleStorage.sampleExists(name);
-    if (exists) {
-      if (!mounted) return;
-      final overwrite = await showDialog<bool>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(AppStrings.t('sample.duplicateTitle')),
-          content: Text(AppStrings.t('sample.duplicateMessage')),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: Text(AppStrings.t('action.cancel')),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: Text(AppStrings.t('action.overwrite')),
-            ),
-          ],
-        ),
-      );
-      if (overwrite != true) return;
-      // Overwrite the state in place, then honor the dialog's team
-      // selection if the user moved the pokemon to a different party
-      // (or freshly created one). Without this, picking a new party
-      // on the overwrite path silently dropped — the dialog let the
-      // user think it would move, but only the state replacement
-      // ran.
-      await SampleStorage.overwriteSample(name, saveState);
-      final overwritten = (await SampleStorage.loadStore())
-          .samples
-          .where((s) => s.name == name)
-          .firstOrNull;
-      if (overwritten != null) {
-        String? targetTeamId = result.teamId;
-        if (result.newTeamName != null) {
-          targetTeamId =
-              await SampleStorage.createTeam(result.newTeamName!);
-        }
-        final currentTeamId = (await SampleStorage.loadStore())
-            .teamOf(overwritten.id)
-            ?.id;
-        if (currentTeamId != targetTeamId) {
-          try {
-            await SampleStorage.movePokemon(overwritten.id, targetTeamId);
-          } on TeamFullException {
-            if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(AppStrings.t('sample.team.fullSnack')),
-            ));
-            return;
-          }
-        }
-      }
-    } else {
-      // Resolve target team: existing pick, or freshly created if the
-      // user chose "+ 새 팀". Wrapped in a try so a TeamFullException
-      // surfaces as a snackbar instead of crashing the calc.
-      String? teamId = result.teamId;
-      if (result.newTeamName != null) {
-        teamId = await SampleStorage.createTeam(result.newTeamName!);
-      }
-      try {
-        await SampleStorage.savePokemon(
-            name: name, state: saveState, teamId: teamId);
-      } on TeamFullException {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppStrings.t('sample.team.fullSnack')),
-        ));
-        return;
-      }
-    }
-
-    if (!mounted) return;
+    if (outcome == null || !mounted) return;
     setState(() {
       if (side == 0) {
-        _attackerLoadedName = name;
+        _attackerLoadedName = outcome.name;
       } else {
-        _defenderLoadedName = name;
+        _defenderLoadedName = outcome.name;
       }
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('"$name" 저장 완료'), duration: const Duration(seconds: 2)),
-    );
   }
 
   Future<void> _showLoadSheet(int side) async {
@@ -2471,284 +2378,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         abilityNameMap: _abilityNameMap,
         itemNameMap: _itemNameMap,
       );
-}
-
-/// Result returned by [_SaveSampleDialog]. Either [teamId] is set
-/// (existing team), or [newTeamName] is set (will be created on
-/// confirm), or both null (loose / 팀 밖).
-class _SaveDialogResult {
-  final String name;
-  final String? teamId;
-  final String? newTeamName;
-  const _SaveDialogResult({
-    required this.name,
-    this.teamId,
-    this.newTeamName,
-  });
-}
-
-/// Save dialog with name field + team picker. The team list shows
-/// each team's fill state ("정공팀 (4/6)") and disables full ones so
-/// the user doesn't try to push a 7th member. A "+ 새 팀" button
-/// next to the dropdown opens a name prompt; the team isn't actually
-/// created until the user confirms the save.
-class _SaveSampleDialog extends StatefulWidget {
-  final String defaultName;
-  /// If the active panel was loaded from a saved sample, its current
-  /// team is used as the dropdown default so re-saving doesn't
-  /// silently move the pokemon out of its team.
-  final String? loadedName;
-
-  const _SaveSampleDialog({
-    required this.defaultName,
-    this.loadedName,
-  });
-
-  @override
-  State<_SaveSampleDialog> createState() => _SaveSampleDialogState();
-}
-
-class _SaveSampleDialogState extends State<_SaveSampleDialog> {
-  late final TextEditingController _nameCtrl =
-      TextEditingController(text: widget.defaultName);
-
-  SampleStore _store = const SampleStore();
-  bool _loading = true;
-  String? _selectedTeamId; // null = loose
-  String? _pendingNewTeamName; // set when "+ 새 팀" provided a name
-
-  @override
-  void initState() {
-    super.initState();
-    _loadStore();
-  }
-
-  Future<void> _loadStore() async {
-    final store = await SampleStorage.loadStore();
-    if (!mounted) return;
-    String? defaultTeam;
-    if (widget.loadedName != null) {
-      // Pre-select the team the existing sample lives in so re-save
-      // keeps it there (most common workflow: tweak then save again).
-      final existing = store.samples
-          .where((s) => s.name == widget.loadedName)
-          .firstOrNull;
-      if (existing != null) {
-        defaultTeam = store.teamOf(existing.id)?.id;
-      }
-    }
-    setState(() {
-      _store = store;
-      _selectedTeamId = defaultTeam;
-      _loading = false;
-    });
-  }
-
-  @override
-  void dispose() {
-    _nameCtrl.dispose();
-    super.dispose();
-  }
-
-  Future<void> _promptNewTeamName() async {
-    final controller = TextEditingController();
-    final name = await showDialog<String>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(AppStrings.t('sample.team.namePrompt')),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          onSubmitted: (v) => Navigator.pop(ctx, v.trim()),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(AppStrings.t('action.cancel')),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
-            child: Text(AppStrings.t('action.confirm')),
-          ),
-        ],
-      ),
-    );
-    controller.dispose();
-    if (name == null || name.isEmpty) return;
-    setState(() {
-      _pendingNewTeamName = name;
-      _selectedTeamId = null; // dropdown unselected; pending name takes over
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(AppStrings.t('sample.save')),
-      content: _loading
-          ? const SizedBox(
-              height: 80,
-              child: Center(child: CircularProgressIndicator(strokeWidth: 2)))
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextField(
-                  controller: _nameCtrl,
-                  maxLength: 50,
-                  decoration: InputDecoration(
-                    labelText: AppStrings.t('sample.name'),
-                  ),
-                  autofocus: true,
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Expanded(child: _teamPickerOrPending()),
-                    const SizedBox(width: 4),
-                    IconButton(
-                      tooltip: AppStrings.t('sample.team.add'),
-                      icon: const Icon(Icons.create_new_folder_outlined,
-                          size: 20),
-                      onPressed: _promptNewTeamName,
-                      visualDensity: VisualDensity.compact,
-                    ),
-                  ],
-                ),
-                if (SampleStorage.isWebStorage)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      AppStrings.t('sample.browserWarning'),
-                      style:
-                          TextStyle(fontSize: 11, color: Colors.grey[500]),
-                    ),
-                  ),
-              ],
-            ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppStrings.t('action.cancel')),
-        ),
-        TextButton(
-          onPressed: _loading
-              ? null
-              : () => Navigator.pop(
-                    context,
-                    _SaveDialogResult(
-                      name: _nameCtrl.text.trim(),
-                      teamId: _pendingNewTeamName == null
-                          ? _selectedTeamId
-                          : null,
-                      newTeamName: _pendingNewTeamName,
-                    ),
-                  ),
-          child: Text(AppStrings.t('action.save')),
-        ),
-      ],
-    );
-  }
-
-  Widget _teamPickerOrPending() {
-    // Pending new-team takes precedence over the dropdown so the user
-    // sees what they just typed; tap the chip to clear it and
-    // re-pick.
-    if (_pendingNewTeamName != null) {
-      return InputDecorator(
-        decoration: InputDecoration(
-          labelText: AppStrings.t('sample.save.team'),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.create_new_folder, size: 16),
-            const SizedBox(width: 6),
-            Expanded(
-              child: Text(_pendingNewTeamName!,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
-            ),
-            InkWell(
-              onTap: () => setState(() => _pendingNewTeamName = null),
-              child: const Padding(
-                padding: EdgeInsets.all(4),
-                child: Icon(Icons.close, size: 14),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    // Tap-to-pick instead of DropdownButton — Material's dropdown
-    // animation is hard-coded to 300 ms, which felt slow inside the
-    // in-battle save flow. A SimpleDialog opens via the standard
-    // showDialog ~150 ms fade and lets us also style full/disabled
-    // teams with a more obvious "full" indicator.
-    final selectedLabel = _selectedTeamId == null
-        ? AppStrings.t('sample.save.team.none')
-        : (_store.teams
-                    .where((t) => t.id == _selectedTeamId)
-                    .firstOrNull
-                    ?.name ??
-                AppStrings.t('sample.save.team.none'));
-    return InkWell(
-      onTap: () async {
-        final picked = await showDialog<_TeamPick>(
-          context: context,
-          barrierDismissible: true,
-          builder: (ctx) => SimpleDialog(
-            title: Text(AppStrings.t('sample.save.team')),
-            children: [
-              SimpleDialogOption(
-                onPressed: () => Navigator.pop(ctx, const _TeamPick(null)),
-                child: Text(AppStrings.t('sample.save.team.none')),
-              ),
-              for (final t in _store.teams)
-                SimpleDialogOption(
-                  onPressed: t.memberIds.length >= kMaxTeamSize
-                      ? null
-                      : () => Navigator.pop(ctx, _TeamPick(t.id)),
-                  child: Text(
-                    '${t.name}  (${t.memberIds.length}/$kMaxTeamSize)',
-                    style: TextStyle(
-                      color: t.memberIds.length >= kMaxTeamSize
-                          ? Colors.grey
-                          : null,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        );
-        if (picked == null) return;
-        setState(() => _selectedTeamId = picked.id);
-      },
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: AppStrings.t('sample.save.team'),
-          isDense: true,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(selectedLabel,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 14)),
-            ),
-            const Icon(Icons.arrow_drop_down, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Carrier for the team-picker SimpleDialog return value — using a
-/// dedicated type lets us distinguish "no team selected" (id = null,
-/// returned via tap) from "dismissed" (the dialog returns null).
-class _TeamPick {
-  final String? id;
-  const _TeamPick(this.id);
 }
 
 /// Compact language toggle button for wide AppBar.
