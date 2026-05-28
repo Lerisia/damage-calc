@@ -296,16 +296,19 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
     final scheme = Theme.of(context).colorScheme;
     final boundaryKey = GlobalKey();
 
-    // Snapshot widget tree. Width is fixed (640 logical px) so the
-    // exported image is a consistent size regardless of the device
-    // it's captured on; pixelRatio 2.0 below gives a 1280-wide PNG.
+    // Snapshot widget tree. Width sized for portrait phone viewing
+    // (~iPhone Pro logical width) so the saved image fits comfortably
+    // when the user re-views or shares it on a phone — earlier
+    // 640-px render came out as a wide rectangle that wasted a lot
+    // of vertical room. pixelRatio 3.0 keeps the PNG sharp at the
+    // smaller logical size.
     final snapshot = Material(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: RepaintBoundary(
         key: boundaryKey,
         child: Container(
-          width: 640,
-          padding: const EdgeInsets.all(20),
+          width: 390,
+          padding: const EdgeInsets.all(16),
           color: Theme.of(context).scaffoldBackgroundColor,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -354,7 +357,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen> {
       if (boundary == null) {
         throw StateError('RepaintBoundary missing render object');
       }
-      final image = await boundary.toImage(pixelRatio: 2.0);
+      final image = await boundary.toImage(pixelRatio: 3.0);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       image.dispose();
       if (byteData == null) {
