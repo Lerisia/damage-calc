@@ -492,9 +492,11 @@ const Map<String, List<String>> trainerAliases = {
   'artist': ['예술가', 'げいじゅつか'],
   'baker': ['파티시에', 'パティシエ'],
   'battlegirl': ['배틀걸', 'バトルガール', 'battle girl'],
-  // beauty (びじん) official KO is 비키니 아가씨; previous 아가씨
-  // was a partial transliteration. 아가씨 alone belongs to lady.
-  'beauty': ['비키니 아가씨', 'びじん'],
+  // beauty (Gen 1+ Beauty class) is 아가씨 in KO localization;
+  // lady (Gen 3+ Ojou-sama) gets the deliberately-coined 아기씨
+  // to disambiguate — both are distinct, official trainer
+  // classes per namu.wiki (NOT a typo of each other).
+  'beauty': ['아가씨', 'びじん'],
   'bellhop': ['벨보이', 'ベルボーイ'],
   'biker': ['폭주족', 'バイカー'],
   'bird-keeper': ['새 조련사', 'とりつかい', 'bird keeper'],
@@ -540,10 +542,12 @@ const Map<String, List<String>> trainerAliases = {
   'jogger': ['조거', 'ジョギング'],
   'juggler': ['저글러', 'ジャグラー'],
   'kindler': ['불놀이꾼', 'ひぶき', 'kindler'],
-  // lady (おじょうさま) is 아가씨. (Previous 아기씨 was a typo,
-  // and beauty was the colliding entry — now disambiguated:
-  // beauty → 비키니 아가씨, lady → 아가씨.)
-  'lady': ['아가씨', 'おじょうさま'],
+  // lady (おじょうさま) is 아기씨 in KO localization — a
+  // deliberately-distinct term from beauty's 아가씨 (single-
+  // jamo difference ㅏ↔ㅣ). The previous round-3 audit wrongly
+  // called this a typo; namu.wiki confirms they are two separate
+  // trainer classes (Gen 1 Beauty vs Gen 3 Lady).
+  'lady': ['아기씨', 'おじょうさま'],
   'lass': ['미니스커트', 'ミニスカート'],
   'maid': ['메이드', 'メイド'],
   'medium': ['무당', 'おばあさん'],
