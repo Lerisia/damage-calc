@@ -11,7 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/trainer_aliases.dart';
 import '../../models/pokemon.dart';
+import '../../models/type.dart';
 import '../../utils/app_strings.dart';
+import '../../utils/localization.dart';
 import '../../utils/party_image_save.dart';
 import 'pokemon_sprite.dart';
 
@@ -257,47 +259,82 @@ class TrainerCardSlot {
 /// per user direction, score should never appear naked: it's
 /// always one of '최종 / 최고 / 현재' so the reader knows what
 /// the number actually represents.
-/// Frame/accent color presets for the trainer card. Mirrors the
-/// 'choose a small set' direction from the user — a curated
-/// palette is faster to pick from than a full color wheel and
-/// keeps the card looking deliberate rather than ad-hoc.
+/// Frame/accent color presets for the trainer card — one per
+/// Pokémon type. Per user direction: instead of a generic
+/// palette ('amber', 'red', 'blue', …) we name the themes after
+/// the 18 main-line types and pull the canonical type color from
+/// [Localization.typeColor]. The selected type's name shows next
+/// to the swatch row so the user knows they're picking "fire"
+/// vs just "orange".
 ///
-/// Each entry maps to a MaterialColor swatch from which the card
-/// pulls three shades:
-///   - shade700 → title pill background, avatar ring, score text
-///   - shade300 → footer border
-///   - shade50  → footer background tint
-/// MaterialColor is already shipped with Flutter, so we get the
-/// shade ramp for free without any color-math.
+/// The card needs three shades for its frame:
+///   - accent → title pill background, avatar ring, score text
+///   - border → footer border
+///   - tint   → footer background fill
+/// Type colors are single values rather than MaterialColor
+/// ramps, so we derive the lighter shades via Color.lerp toward
+/// white — close enough for the card's flat look without per-type
+/// hand-tuning.
 class TrainerCardTheme {
   final String prefsValue;
-  final MaterialColor swatch;
-  const TrainerCardTheme(this.prefsValue, this.swatch);
+  final PokemonType type;
+  final Color base;
 
-  static const amber = TrainerCardTheme('amber', Colors.amber);
-  static const red = TrainerCardTheme('red', Colors.red);
-  static const deepOrange =
-      TrainerCardTheme('deepOrange', Colors.deepOrange);
-  static const pink = TrainerCardTheme('pink', Colors.pink);
-  static const purple = TrainerCardTheme('purple', Colors.purple);
-  static const indigo = TrainerCardTheme('indigo', Colors.indigo);
-  static const blue = TrainerCardTheme('blue', Colors.blue);
-  static const teal = TrainerCardTheme('teal', Colors.teal);
-  static const green = TrainerCardTheme('green', Colors.green);
-  static const brown = TrainerCardTheme('brown', Colors.brown);
-  static const blueGrey = TrainerCardTheme('blueGrey', Colors.blueGrey);
-  static const grey = TrainerCardTheme('grey', Colors.grey);
+  const TrainerCardTheme({
+    required this.prefsValue,
+    required this.type,
+    required this.base,
+  });
 
-  static const List<TrainerCardTheme> all = [
-    amber, red, deepOrange, pink, purple, indigo,
-    blue, teal, green, brown, blueGrey, grey,
+  Color get accent => base;
+  Color get border => Color.lerp(base, Colors.white, 0.55)!;
+  Color get tint => Color.lerp(base, Colors.white, 0.88)!;
+
+  String localizedName() => KoStrings.getTypeName(type);
+
+  /// 18 themes in the canonical Pokédex type order, derived from
+  /// [Localization.typeColor] so any future palette tweak there
+  /// propagates here for free.
+  static final List<TrainerCardTheme> all = [
+    for (final t in const [
+      PokemonType.normal, PokemonType.fire, PokemonType.water,
+      PokemonType.electric, PokemonType.grass, PokemonType.ice,
+      PokemonType.fighting, PokemonType.poison, PokemonType.ground,
+      PokemonType.flying, PokemonType.psychic, PokemonType.bug,
+      PokemonType.rock, PokemonType.ghost, PokemonType.dragon,
+      PokemonType.dark, PokemonType.steel, PokemonType.fairy,
+    ])
+      TrainerCardTheme(
+        prefsValue: t.name,
+        type: t,
+        base: KoStrings.getTypeColor(t),
+      ),
   ];
 
+  /// Map the previous generic-palette prefs values onto their
+  /// closest type theme so users who saved a card under the old
+  /// scheme don't suddenly see a different color on next launch.
+  static const _legacyMapping = {
+    'amber': 'fire',
+    'red': 'fire',
+    'deepOrange': 'fire',
+    'pink': 'fairy',
+    'purple': 'ghost',
+    'indigo': 'dragon',
+    'blue': 'water',
+    'teal': 'water',
+    'green': 'grass',
+    'brown': 'ground',
+    'blueGrey': 'steel',
+    'grey': 'normal',
+  };
+
   static TrainerCardTheme fromPrefs(String? raw) {
+    final mapped = _legacyMapping[raw] ?? raw;
     for (final t in all) {
-      if (t.prefsValue == raw) return t;
+      if (t.prefsValue == mapped) return t;
     }
-    return amber;
+    return all.firstWhere((t) => t.type == PokemonType.fire);
   }
 }
 
@@ -368,7 +405,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   /// the bundled trainer grid. Resolved to AssetImage at render.
   String? _avatarAssetKey;
   TrainerCardScorePrefix _scorePrefix = TrainerCardScorePrefix.finalPrefix;
-  TrainerCardTheme _themeColor = TrainerCardTheme.amber;
+  TrainerCardTheme _themeColor = TrainerCardTheme.fromPrefs(null);
   bool _loading = true;
   bool _busy = false;
   /// All trainer keys loaded from AssetManifest. Populated async
@@ -617,7 +654,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
               padding: const EdgeInsets.symmetric(
                   horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: _themeColor.swatch.shade700,
+                color: _themeColor.accent,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: const Text(
@@ -638,7 +675,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                        color: _themeColor.swatch.shade700, width: 2),
+                        color: _themeColor.accent, width: 2),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -714,10 +751,10 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
               padding: const EdgeInsets.symmetric(
                   horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
-                color: _themeColor.swatch.shade50,
+                color: _themeColor.tint,
                 borderRadius: BorderRadius.circular(6),
                 border:
-                    Border.all(color: _themeColor.swatch.shade300, width: 1),
+                    Border.all(color: _themeColor.border, width: 1),
               ),
               // Center the season+score block as one continuous
               // line instead of pinning to opposite edges. The
@@ -745,7 +782,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: _themeColor.swatch.shade700),
+                            color: _themeColor.accent),
                       ),
                   ],
                 ),
@@ -946,16 +983,29 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                 ],
               ),
               const SizedBox(height: 12),
-              // Theme color picker — circular swatches in a Wrap
-              // so the row reflows on narrow widths. The selected
-              // swatch gets a black ring; unselected swatches are
-              // just the filled circle.
+              // Theme color picker — circular swatches in a Wrap,
+              // one per Pokémon type. The currently selected
+              // type's localized name shows in the header so the
+              // user sees they're picking 'fire / 불꽃' vs just
+              // 'orange'. Tooltip on each swatch surfaces the
+              // name on long-press / hover for the rest.
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.t('trainerCard.themeColor'),
-                  style: TextStyle(
-                      fontSize: 12, color: Colors.grey.shade700),
+                child: Text.rich(
+                  TextSpan(
+                    style: TextStyle(
+                        fontSize: 12, color: Colors.grey.shade700),
+                    children: [
+                      TextSpan(
+                          text: '${AppStrings.t('trainerCard.themeColor')}: '),
+                      TextSpan(
+                        text: _themeColor.localizedName(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: _themeColor.accent),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 6),
@@ -964,24 +1014,27 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                 runSpacing: 8,
                 children: [
                   for (final t in TrainerCardTheme.all)
-                    InkWell(
-                      onTap: _busy
-                          ? null
-                          : () {
-                              _dismissKb();
-                              setState(() => _themeColor = t);
-                            },
-                      borderRadius: BorderRadius.circular(24),
-                      child: Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: t.swatch.shade700,
-                          shape: BoxShape.circle,
-                          border: _themeColor.prefsValue == t.prefsValue
-                              ? Border.all(color: Colors.black, width: 3)
-                              : Border.all(
-                                  color: Colors.grey.shade300, width: 1),
+                    Tooltip(
+                      message: t.localizedName(),
+                      child: InkWell(
+                        onTap: _busy
+                            ? null
+                            : () {
+                                _dismissKb();
+                                setState(() => _themeColor = t);
+                              },
+                        borderRadius: BorderRadius.circular(24),
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: t.accent,
+                            shape: BoxShape.circle,
+                            border: _themeColor.prefsValue == t.prefsValue
+                                ? Border.all(color: Colors.black, width: 3)
+                                : Border.all(
+                                    color: Colors.grey.shade300, width: 1),
+                          ),
                         ),
                       ),
                     ),

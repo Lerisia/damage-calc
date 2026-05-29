@@ -379,9 +379,9 @@ class AppStrings {
       AppLanguage.ja: 'その他',
     },
     'trainerCard.themeColor': {
-      AppLanguage.ko: '카드 색상',
-      AppLanguage.en: 'Card color',
-      AppLanguage.ja: 'カードカラー',
+      AppLanguage.ko: '카드 테마',
+      AppLanguage.en: 'Card theme',
+      AppLanguage.ja: 'カードテーマ',
     },
     'trainerCard.noMatches': {
       AppLanguage.ko: '검색 결과가 없습니다.',
