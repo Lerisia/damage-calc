@@ -48,13 +48,6 @@ class _CuratedTrainerPicker extends StatefulWidget {
 class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
   final _searchCtl = TextEditingController();
   TrainerCategory _category = TrainerCategory.all;
-  /// When false the picker hides every key with a hyphen suffix
-  /// (per-game / spinoff variants of the same character or class).
-  /// 562 canonical sprites vs 893 variants out of 1455 total —
-  /// off-by-default gives a much shorter scroll for users who just
-  /// want 'modern Cynthia' and don't care about her gen-4 vs
-  /// gen-4-DP vs Masters variants. Toggle on to see all.
-  bool _showVariants = false;
 
   @override
   void dispose() {
@@ -86,14 +79,12 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
     final byCategory = _category == TrainerCategory.all
         ? widget.allKeys
         : widget.allKeys
-            .where((k) => trainerCategoryOf(k) == _category)
+            .where((k) =>
+                trainerCategoriesOf(k).contains(_category))
             .toList();
-    final byVariant = _showVariants
-        ? byCategory
-        : byCategory.where((k) => !k.contains('-')).toList();
     final filtered = query.isEmpty
-        ? byVariant
-        : byVariant
+        ? byCategory
+        : byCategory
             .where((k) => trainerSearchCorpus(k).any((s) => s.contains(query)))
             .toList();
     return Dialog(
@@ -143,36 +134,17 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
               ),
             ),
             const SizedBox(height: 4),
-            // Search row + variants toggle. Variants off shows the
-            // canonical (no-suffix) sprite per character/class —
-            // ~562 entries vs 1455 total — which is the right
-            // default for picking a 'modern Cynthia'. Toggle on
-            // to surface every per-game pixel variant.
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _searchCtl,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search, size: 18),
-                        hintText: AppStrings.t('trainerCard.searchHint'),
-                        isDense: true,
-                        border: const OutlineInputBorder(),
-                      ),
-                      onChanged: (_) => setState(() {}),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  FilterChip(
-                    label: Text(
-                        AppStrings.t('trainerCard.showVariants')),
-                    selected: _showVariants,
-                    onSelected: (v) =>
-                        setState(() => _showVariants = v),
-                  ),
-                ],
+              child: TextField(
+                controller: _searchCtl,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search, size: 18),
+                  hintText: AppStrings.t('trainerCard.searchHint'),
+                  isDense: true,
+                  border: const OutlineInputBorder(),
+                ),
+                onChanged: (_) => setState(() {}),
               ),
             ),
             if (widget.allKeys.isEmpty)
@@ -193,12 +165,16 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
               Flexible(
                 child: GridView.builder(
                   padding: const EdgeInsets.all(12),
+                  // childAspectRatio drops from 0.8 → 0.62 to give
+                  // the label a stable two-line slot underneath
+                  // the sprite. Image stays roughly the same on
+                  // screen — it's just less squashed in the tile.
                   gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.62,
                   ),
                   itemCount: filtered.length,
                   itemBuilder: (_, i) {
@@ -212,10 +188,33 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         padding: const EdgeInsets.all(4),
-                        child: Image.asset(
-                          _trainerAssetPath(key),
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.medium,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: Image.asset(
+                                _trainerAssetPath(key),
+                                fit: BoxFit.contain,
+                                filterQuality: FilterQuality.medium,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            // Two lines max so long localized names
+                            // (e.g. '불난집 전문털이범') don't get
+                            // chopped to an unrecognisable ellipsis.
+                            // fontSize 10 stays readable at the
+                            // ~110-pt tile width without crowding.
+                            Text(
+                              trainerDisplayName(key),
+                              style: const TextStyle(
+                                  fontSize: 10,
+                                  height: 1.15,
+                                  fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
                       ),
                     );

@@ -38,10 +38,18 @@ const Map<String, List<String>> trainerAliases = {
   'leon': ['단단', 'ダンデ'],
   'mustard': ['머스타드', 'マスタード'],
   'peony': ['피오니', 'ピオニー'],
-  'geeta': ['오모대', 'オモダカ'],
+  'geeta': ['테사', 'オモダカ'],
   'nemona': ['네모', 'ネモ'],
   'kieran': ['우호이', 'スグリ'],
   'carmine': ['홍모', 'ゼイユ'],
+  // Paldea E4 (SV): hassel/rika/poppy/larry under E4, geeta is
+  // Top Champion above. larry is in Gym Leaders too (dual role).
+  'hassel': ['팔자크', 'ハッサク'],
+  'rika': ['칠리', 'チリ'],
+  'poppy': ['뽀삐', 'ポピー'],
+  // Indigo Disk E4 (SV DLC): lacey added; crispin/amarys/drayton
+  // pending verification, omitted for now to avoid wrong KO.
+  'lacey': ['타로', 'タロ'],
 
   // === Protagonists ========================================
   'ethan': ['금', 'ヒビキ', 'gold'],
@@ -57,8 +65,8 @@ const Map<String, List<String>> trainerAliases = {
   'rosa': ['메이', 'メイ'],
   'calem': ['칼름', 'カルム'],
   'serena': ['세레나', 'セレナ'],
-  'elio': ['해성', 'ヨウ', 'sun'],
-  'selene': ['미온', 'ミヅキ', 'moon'],
+  'elio': ['영태', 'ヨウ', 'sun'],
+  'selene': ['미월', 'ミヅキ', 'moon'],
   'victor': ['빅터', 'マサル'],
   'gloria': ['글로리아', 'ユウリ'],
   'juliana': ['아오이', 'アオイ'],
@@ -66,7 +74,7 @@ const Map<String, List<String>> trainerAliases = {
 
   // === Rivals ==============================================
   'silver': ['실버', 'シルバー'],
-  'wally': ['타로', 'ミツル'],
+  'wally': ['미루', 'ミツル'],
   'barry': ['웅이', 'ジュン'],
   'cheren': ['체렌', 'チェレン'],
   'bianca': ['벨', 'ベル'],
@@ -79,10 +87,17 @@ const Map<String, List<String>> trainerAliases = {
   'lillie': ['릴리에', 'リーリエ'],
   'marnie': ['마리', 'マリィ'],
   'bede': ['비트', 'ビート'],
-  'klara': ['색기', 'シキミ'],
-  'avery': ['미러', 'オニオン'],
+  // Klara (IoA 라이벌). JA was Shauntal's name (シキミ) by mistake.
+  'klara': ['도정', 'クララ'],
+  // Avery (Isle of Armor 라이벌). Previously held Allister's
+  // Japanese name (オニオン) by mistake.
+  'avery': ['세이버리', 'セイボリー'],
   'arven': ['페퍼', 'ペパー'],
   'penny': ['보탄', 'ボタン'],
+  // PLA / BW2 Subway brothers. Korean direct-translation of
+  // ノボリ/クダリ (going up/going down).
+  'ingo': ['상행', 'ノボリ'],
+  'emmet': ['하행', 'クダリ'],
 
   // === Kanto Gym Leaders ==================================
   'brock': ['웅', 'タケシ'],
@@ -129,8 +144,9 @@ const Map<String, List<String>> trainerAliases = {
   'volkner': ['전룡', 'デンジ'],
 
   // === Unova Gym Leaders ==================================
-  'cilan': ['데세루', 'デント'],
-  'chili': ['포드', 'ポッド'],
+  // Striaton brothers (BW Gym Leaders). Verified via namu.wiki.
+  'cilan': ['덴트', 'デント'],
+  'chili': ['팟', 'ポッド'],
   'cress': ['콘', 'コーン'],
   'lenora': ['아로에', 'アロエ'],
   'burgh': ['아티', 'アーティ'],
@@ -161,7 +177,9 @@ const Map<String, List<String>> trainerAliases = {
   'acerola': ['아세롤라', 'アセロラ'],
   'mina': ['미나', 'ミナ'],
   'hala': ['하라', 'ハラ'],
-  'olivia': ['리리이', 'リーリエ'],
+  // Olivia (알로라 Kahuna). Previously held Lillie's Korean name
+  // (리리이) and Lillie's Japanese name (リーリエ) by mistake.
+  'olivia': ['라이치', 'ライチ'],
   'nanu': ['쿠치나시', 'クチナシ'],
   'hapu': ['하푸', 'ハプウ'],
 
@@ -169,8 +187,8 @@ const Map<String, List<String>> trainerAliases = {
   'milo': ['야로', 'ヤロー'],
   'nessa': ['루리나', 'ルリナ'],
   'kabu': ['카부', 'カブ'],
-  'bea': ['사이토', 'サイトウ'],
-  'allister': ['온이', 'オニオン'],
+  'bea': ['채두', 'サイトウ'],
+  'allister': ['어니언', 'オニオン'],
   'opal': ['포플라', 'ポプラ'],
   'gordie': ['마쿠와', 'マクワ'],
   'melony': ['멜론', 'メロン'],
@@ -180,11 +198,12 @@ const Map<String, List<String>> trainerAliases = {
   // === Paldea Gym Leaders =================================
   'katy': ['카지', 'カエデ'],
   'brassius': ['콜사', 'コルサ'],
-  'iono': ['난조', 'ナンジャモ'],
-  'kofu': ['하사쿠', 'ハッサク'],
+  'iono': ['모야모', 'ナンジャモ'],
+  // kofu's JA is ハイダイ (sea kelp). ハッサク is Hassel.
+  'kofu': ['곤포', 'ハイダイ'],
   'larry': ['아오키', 'アオキ'],
-  'ryme': ['리프', 'ライム'],
-  'tulip': ['릴리', 'リップ'],
+  'ryme': ['라임', 'ライム'],
+  'tulip': ['리파', 'リップ'],
   'grusha': ['그루샤', 'グルーシャ'],
 
   // === Elite Four (selected) ==============================
@@ -209,71 +228,83 @@ const Map<String, List<String>> trainerAliases = {
   'siebold': ['지나', 'ジナ'],
   'wikstrom': ['간세키', 'ガンセキ'],
   'drasna': ['도라세나', 'ドラセナ'],
-  'molayne': ['마타도가스', 'マーレイン'],
+  // Molayne (알로라 E4). KO was a Pokémon name (마타도가스 = Weezing).
+  'molayne': ['멀레인', 'マーレイン'],
 
   // === Trainer classes (NPC) ==============================
-  'acetrainer': ['에이스 트레이너', 'エリートトレーナー', 'ace trainer'],
-  'acetrainercouple': ['에이스 커플', 'エリートカップル'],
-  'acetrainerf': ['에이스 트레이너', 'エリートトレーナー', 'ace trainer'],
-  'aromalady': ['아로마 부인', 'アロマなおねえさん', 'aroma lady'],
+  // NPC trainer class names — verified via namu.wiki / Korean
+  // Pokemon Wiki. The previous mapping was largely guessed and
+  // had many misses (검은띠 ≠ 태권왕, 초능력자 ≠ 기도사 — the
+  // former is Psychic and the user would expect Psychic when
+  // searching it, so channeler must NOT use 초능력자).
+  'acetrainer': ['엘리트 트레이너', 'エリートトレーナー', 'ace trainer'],
+  'acetrainercouple': ['엘리트 커플', 'エリートカップル'],
+  'acetrainerf': ['엘리트 트레이너', 'エリートトレーナー', 'ace trainer'],
+  'aromalady': ['아로마 아가씨', 'アロマなおねえさん', 'aroma lady'],
   'artist': ['아티스트', 'アーティスト'],
   'baker': ['파티시에', 'パティシエ'],
   'battlegirl': ['배틀걸', 'バトルガール', 'battle girl'],
   'beauty': ['미녀', 'びじん'],
   'bellhop': ['벨보이', 'ベルボーイ'],
   'biker': ['바이커', 'バイカー'],
-  'bird-keeper': ['새 트레이너', 'とりつかい', 'bird keeper'],
-  'birdkeeper': ['새 트레이너', 'とりつかい', 'bird keeper'],
-  'blackbelt': ['검은띠', 'からておう', 'black belt'],
+  'bird-keeper': ['새 조련사', 'とりつかい', 'bird keeper'],
+  'birdkeeper': ['새 조련사', 'とりつかい', 'bird keeper'],
+  'blackbelt': ['태권왕', 'からておう', 'black belt'],
   'boarder': ['스노보더', 'スノーボーダー'],
   'breeder': ['브리더', 'ポケモンブリーダー'],
   'breederf': ['브리더', 'ポケモンブリーダー'],
-  'bugcatcher': ['벌레잡이', 'むしとりしょうねん', 'bug catcher'],
-  'bugmaniac': ['벌레광', 'むしとりマニア', 'bug maniac'],
-  'burglar': ['도둑', 'どろぼう'],
+  'bugcatcher': ['곤충채집 소년', 'むしとりしょうねん', 'bug catcher'],
+  'bugmaniac': ['곤충마니아', 'むしとりマニア', 'bug maniac'],
+  // burglar's official KO is a famously long phrase verbatim
+  'burglar': ['불난집 전문털이범', 'どろぼう'],
   'cameraman': ['카메라맨', 'カメラマン'],
-  'channeler': ['초능력자', 'チャネラー'],
+  // CRITICAL: channeler is 기도사, NOT 초능력자 — 초능력자 is the
+  // Psychic-type class (likely 'psychic' key elsewhere). Mapping
+  // channeler to 초능력자 would surface Psychic-class sprites for
+  // a Korean user searching for 초능력자, which is wrong.
+  'channeler': ['기도사', 'チャネラー'],
   'cheerleader': ['치어리더', 'チアリーダー'],
   'chef': ['셰프', 'シェフ'],
   'chic': ['멋쟁이', 'おしゃれ'],
-  'cooltrainer': ['에이스 트레이너', 'エリートトレーナー', 'cool trainer'],
+  // cooltrainer and acetrainer collapse to the same Korean class
+  'cooltrainer': ['엘리트 트레이너', 'エリートトレーナー', 'cool trainer'],
   'cyclist': ['사이클리스트', 'サイクリスト'],
   'dancer': ['댄서', 'ダンサー'],
-  'dragontamer': ['용 사용자', 'ドラゴンつかい', 'dragon tamer'],
+  'dragontamer': ['드래곤 조련사', 'ドラゴンつかい', 'dragon tamer'],
   'engineer': ['엔지니어', 'エンジニア'],
   'expertm': ['전문가', 'マスター'],
   'expertf': ['전문가', 'マスター'],
   'fairy': ['요정', '妖精'],
-  'fairytalegirl': ['동화소녀', 'フェアリーガール'],
-  'firebreather': ['불 곡예사', 'ひぶき'],
+  'fairytalegirl': ['메르헨 소녀', 'フェアリーガール'],
+  'firebreather': ['불놀이꾼', 'ひぶき'],
   'fisherman': ['낚시꾼', 'つりびと'],
   'gambler': ['갬블러', 'ばくとし'],
   'gameboy': ['게이머', 'ゲームボーイ'],
   'gentleman': ['신사', 'ジェントルマン'],
   'guitarist': ['기타리스트', 'ギタリスト'],
-  'hexmaniac': ['오컬트 마니아', 'オカルトマニア', 'hex maniac'],
+  'hexmaniac': ['오컬트마니아', 'オカルトマニア', 'hex maniac'],
   'hiker': ['등산가', 'ヤマおとこ'],
   'idol': ['아이돌', 'アイドル'],
   'jogger': ['조거', 'ジョギング'],
   'juggler': ['저글러', 'ジャグラー'],
-  'kindler': ['불 곡예사', 'ひぶき', 'kindler'],
+  'kindler': ['불놀이꾼', 'ひぶき', 'kindler'],
   'lady': ['아가씨', 'おじょうさま'],
   'lass': ['미니스커트', 'ミニスカート'],
   'maid': ['메이드', 'メイド'],
-  'medium': ['영매사', 'おばあさん'],
+  'medium': ['무당', 'おばあさん'],
   'monk': ['수도승', 'おとうさん'],
   'musician': ['뮤지션', 'おんがくか'],
   'ninjaboy': ['닌자보이', 'ニンジャごっこ'],
   'oldcouple': ['노부부', 'ろうふうふ', 'old couple'],
   'parasolady': ['파라솔 부인', 'パラソルおねえさん'],
-  'picknicker': ['피크닉 소녀', 'ピクニックガール'],
+  'picknicker': ['피크닉걸', 'ピクニックガール'],
   'plasmagrunt': ['플라스마단', 'プラズマだんいん', 'plasma grunt'],
   'plasmagruntf': ['플라스마단', 'プラズマだんいん', 'plasma grunt'],
   'pokefan': ['포켓팬', 'ポケファン'],
   'pokefanf': ['포켓팬', 'ポケファン'],
   'pokekid': ['포켓 키드', 'ポケモンキッズ'],
-  'pokemaniac': ['포켓광', 'ポケモンマニア', 'poke maniac'],
-  'pokemanic': ['포켓광', 'ポケモンマニア'],
+  'pokemaniac': ['포켓몬매니아', 'ポケモンマニア', 'poke maniac'],
+  'pokemanic': ['포켓몬매니아', 'ポケモンマニア'],
   'policeman': ['경찰관', 'けいさつかん'],
   'preschoolerm': ['유치원생', 'ようちえんじ'],
   'preschoolerf': ['유치원생', 'ようちえんじ'],
@@ -283,8 +314,8 @@ const Map<String, List<String>> trainerAliases = {
   'punkguy': ['펑크가이', 'パンクボーイ', 'punk guy'],
   'reporter': ['리포터', 'レポーター'],
   'researcher': ['연구원', 'けんきゅうしゃ'],
-  'richboy': ['부잣집 아들', 'ぼっちゃま', 'rich boy'],
-  'roughneck': ['스킨헤드', 'スキンヘッズ'],
+  'richboy': ['부잣집 도련님', 'ぼっちゃま', 'rich boy'],
+  'roughneck': ['빡빡이', 'スキンヘッズ'],
   'rocketgrunt': ['로켓단', 'ロケットだんいん', 'rocket grunt'],
   'rocketgruntf': ['로켓단', 'ロケットだんいん', 'rocket grunt'],
   'magmagrunt': ['마그마단', 'マグマだんいん', 'magma grunt'],
@@ -301,13 +332,13 @@ const Map<String, List<String>> trainerAliases = {
   'rangerm': ['레인저', 'レンジャー'],
   'rangerf': ['레인저', 'レンジャー'],
   'rocker': ['로커', 'ロッカー'],
-  'sage': ['선인', 'せんにん'],
+  'sage': ['수행자', 'せんにん'],
   'sailor': ['선원', 'セーラー'],
   'schoolboy': ['스쿨보이', 'スクールボーイ'],
   'schoolgirl': ['스쿨걸', 'スクールガール'],
   'schoolkid': ['스쿨키드', 'がくしゅうきっず', 'school kid'],
-  'scientist': ['과학자', 'かがくしゃ'],
-  'scientistf': ['과학자', 'かがくしゃ'],
+  'scientist': ['연구원', 'かがくしゃ'],
+  'scientistf': ['연구원', 'かがくしゃ'],
   'sisandbro': ['남매', 'きょうだい'],
   'skierm': ['스키어', 'スキーヤー'],
   'skierf': ['스키어', 'スキーヤー'],
@@ -315,23 +346,23 @@ const Map<String, List<String>> trainerAliases = {
   'sr-and-jr': ['시니어와 주니어', 'おじいさんとまご'],
   'srandjr': ['시니어와 주니어', 'おじいさんとまご'],
   'striker': ['축구선수', 'ストライカー', 'soccer player'],
-  'supernerd': ['오타쿠', 'ものまねむすめ', 'super nerd'],
-  'swimmer': ['스위머', 'すいえいせんしゅ'],
-  'swimmerf': ['스위머', 'すいえいせんしゅ'],
+  'supernerd': ['괴짜 연구원', 'ものまねむすめ', 'super nerd'],
+  'swimmer': ['수영팬티 소년', 'すいえいせんしゅ', 'swimmer'],
+  'swimmerf': ['수영복 소녀', 'すいえいせんしゅ', 'swimmer'],
   'tamer': ['용 사용자', 'ドラゴンつかい'],
   'teacher': ['선생님', 'せんせい'],
   'triathlete': ['트라이애슬릿', 'トライアスロン'],
-  'tuber': ['튜브 키드', 'うきわっこ'],
-  'tuberf': ['튜브 키드', 'うきわっこ'],
+  'tuber': ['튜브보이', 'うきわっこ'],
+  'tuberf': ['튜브보이', 'うきわっこ'],
   'twins': ['쌍둥이', 'ふたごちゃん'],
-  'veteran': ['베테랑', 'ベテラン'],
-  'veteranf': ['베테랑', 'ベテラン'],
+  'veteran': ['베테랑 트레이너', 'ベテラン'],
+  'veteranf': ['베테랑 트레이너', 'ベテラン'],
   'waiter': ['웨이터', 'ウェイター'],
   'waitress': ['웨이트리스', 'ウェイトレス'],
   'worker': ['작업원', 'こうじげんば'],
   'workerice': ['작업원', 'こうじげんば'],
   'workerf': ['작업원', 'こうじげんば'],
-  'youngster': ['소년', 'たんパンこぞう'],
+  'youngster': ['반바지 꼬마', 'たんパンこぞう'],
   'youngcouple': ['젊은 부부', 'カップル'],
 };
 
@@ -353,6 +384,10 @@ enum TrainerCategory {
 
 /// Stems classified as Champions across the main-line games.
 /// Mirrors the 'Champions' block at the top of [trainerAliases].
+/// Many of these stems ALSO appear in other category sets — see
+/// [trainerCategoriesOf] for the multi-membership rule (a single
+/// character can be Champion AND Rival, Champion AND Gym Leader,
+/// etc., and shows up under every applicable tab).
 const Set<String> trainerChampionStems = {
   'red', 'blue', 'lance', 'steven', 'wallace', 'cynthia',
   'alder', 'iris', 'diantha', 'kukui', 'hau', 'leon',
@@ -360,7 +395,9 @@ const Set<String> trainerChampionStems = {
   'blue-leader',
 };
 
-/// Stems classified as Gym Leaders.
+/// Stems classified as Gym Leaders. Includes Alola Trial Captains
+/// and Kahunas under the same bucket — game-mechanic cousins, and
+/// adding a 7th tab just for one region is awkward.
 const Set<String> trainerGymLeaderStems = {
   // Kanto
   'brock', 'misty', 'ltsurge', 'erika', 'koga', 'sabrina',
@@ -368,15 +405,18 @@ const Set<String> trainerGymLeaderStems = {
   // Johto
   'falkner', 'bugsy', 'whitney', 'morty', 'chuck', 'jasmine',
   'pryce', 'clair',
-  // Hoenn
+  // Hoenn (wallace was Sootopolis leader in RSE before Emerald
+  // promoted him to Champion; juan replaced him in Emerald)
   'roxanne', 'brawly', 'wattson', 'flannery', 'norman',
-  'winona', 'tate', 'liza', 'juan',
+  'winona', 'tate', 'liza', 'juan', 'wallace',
   // Sinnoh
   'roark', 'gardenia', 'maylene', 'crasher_wake', 'crasherwake',
   'fantina', 'byron', 'candice', 'volkner',
-  // Unova
+  // Unova (iris was Opelucid leader in BW2 before BW had her
+  // as Champion; both roles applicable depending on the game)
   'cilan', 'chili', 'cress', 'lenora', 'burgh', 'elesa',
   'clay', 'skyla', 'brycen', 'drayden', 'roxie', 'marlon',
+  'iris',
   // Kalos
   'viola', 'grant', 'korrina', 'ramos', 'clemont', 'valerie',
   'olympia', 'wulfric',
@@ -386,27 +426,44 @@ const Set<String> trainerGymLeaderStems = {
   // Paldea
   'katy', 'brassius', 'iono', 'kofu', 'larry', 'ryme',
   'tulip', 'grusha',
-  // Alola Trial Captains / Kahunas — game-mechanic cousins of
-  // gym leaders, grouped here so the picker doesn't need a
-  // 7th tab just for one region.
+  // Alola Trial Captains / Kahunas
   'ilima', 'lana', 'kiawe', 'mallow', 'sophocles', 'acerola',
   'mina', 'hala', 'olivia', 'nanu', 'hapu',
 };
 
-/// Stems classified as Elite Four members.
+/// Stems classified as Elite Four members. Some of these are
+/// also in other sets — koga is a Kanto Gym Leader who became
+/// a Johto E4 member; acerola/olivia/hala are Alola Trial
+/// Captains / Kahunas who also became E4 in USUM / SM.
 const Set<String> trainerEliteFourStems = {
+  // Kanto (gen 1)
   'lorelei', 'bruno', 'agatha',
-  'will', 'karen',
+  // Johto (gen 2 — koga moved from Kanto Gym Leader to E4,
+  // bruno carried over from Kanto)
+  'will', 'karen', 'koga',
+  // Hoenn
   'sidney', 'phoebe', 'glacia', 'drake',
+  // Sinnoh
   'aaron', 'bertha', 'flint', 'lucian',
+  // Unova
   'shauntal', 'grimsley', 'caitlin', 'marshal',
+  // Kalos
   'malva', 'siebold', 'wikstrom', 'drasna',
-  'molayne',
+  // Alola (USUM): molayne replaced hala, and several Trial
+  // Captains / Kahunas show up here too
+  'molayne', 'acerola', 'olivia', 'hala', 'kahili',
+  // Galar's Champion Cup doesn't have a traditional E4 lineup.
+  // Paldea's path-of-titans replaces gyms with an E4-equivalent
+  // (rika, poppy, larry, hassel, geeta as top) — geeta lands
+  // in Champions, the rest here. Some overlap acceptable.
+  'rika', 'poppy', 'hassel',
 };
 
 /// Stems classified as protagonists or rivals — they share a
 /// tab because both fill the 'player surrogate / friendly foil'
-/// role and players tend to recognise them together.
+/// role and players tend to recognise them together. Many
+/// rivals later become Champions (blue/hau/nemona) and are in
+/// both sets.
 const Set<String> trainerProtagonistRivalStems = {
   // Protagonists
   'ethan', 'kris', 'lyra', 'brendan', 'may', 'lucas', 'dawn',
@@ -416,6 +473,13 @@ const Set<String> trainerProtagonistRivalStems = {
   'silver', 'wally', 'barry', 'cheren', 'bianca', 'n', 'hugh',
   'shauna', 'tierno', 'trevor', 'gladion', 'lillie', 'marnie',
   'bede', 'klara', 'avery', 'arven', 'penny',
+  // Rivals who also became Champions — kept in both sets so
+  // they appear under both tabs. The user's example was
+  // blue/시게루 (the prototypical rival-turned-Champion).
+  'blue', 'hau', 'nemona',
+  // SwSh: hop is the main rival; included even though we may
+  // not have a verified alias entry yet
+  'hop',
 };
 
 /// NPC trainer class stems. Mirrors the 'Trainer classes (NPC)'
@@ -535,32 +599,46 @@ TrainerGeneration trainerGenerationOf(String key) {
   return _suffixToGen[suffix] ?? TrainerGeneration.other;
 }
 
-/// Classify a sprite key into one of the picker tabs. Uses the
-/// stem (suffix-stripped key) so e.g. 'cynthia-masters3' and
-/// 'cynthia-gen4' both land in [TrainerCategory.champion].
-TrainerCategory trainerCategoryOf(String key) {
+/// Classify a sprite key into every picker tab it belongs to.
+/// Uses the stem (suffix-stripped key) so e.g. 'cynthia-masters3'
+/// and 'cynthia-gen4' both pick up [TrainerCategory.champion].
+///
+/// A single character can live in multiple categories — blue is
+/// a Rival who became Champion (so {champion, protagonistRival});
+/// koga is a Kanto Gym Leader and Johto E4 (so {gymLeader,
+/// eliteFour}); acerola is an Alola Trial Captain and a USUM E4.
+/// The picker treats 'show category X' as 'show every key whose
+/// classification set contains X', so multi-category characters
+/// appear under every applicable tab without being awkwardly
+/// pinned to one.
+///
+/// Keys with no classification fall back to [TrainerCategory.other]
+/// — the 'All' tab still shows everything either way.
+Set<TrainerCategory> trainerCategoriesOf(String key) {
   final stem = trainerKeyStem(key);
+  final cats = <TrainerCategory>{};
   if (trainerChampionStems.contains(stem) ||
       trainerChampionStems.contains(key)) {
-    return TrainerCategory.champion;
+    cats.add(TrainerCategory.champion);
   }
   if (trainerGymLeaderStems.contains(stem) ||
       trainerGymLeaderStems.contains(key)) {
-    return TrainerCategory.gymLeader;
+    cats.add(TrainerCategory.gymLeader);
   }
   if (trainerEliteFourStems.contains(stem) ||
       trainerEliteFourStems.contains(key)) {
-    return TrainerCategory.eliteFour;
+    cats.add(TrainerCategory.eliteFour);
   }
   if (trainerProtagonistRivalStems.contains(stem) ||
       trainerProtagonistRivalStems.contains(key)) {
-    return TrainerCategory.protagonistRival;
+    cats.add(TrainerCategory.protagonistRival);
   }
   if (trainerNpcClassStems.contains(stem) ||
       trainerNpcClassStems.contains(key)) {
-    return TrainerCategory.npc;
+    cats.add(TrainerCategory.npc);
   }
-  return TrainerCategory.other;
+  if (cats.isEmpty) cats.add(TrainerCategory.other);
+  return cats;
 }
 
 /// Strip generation/format suffixes from an asset key so we can
@@ -592,4 +670,16 @@ List<String> trainerSearchCorpus(String key) {
     if (stem != key) stem.toLowerCase(),
     ...aliases.map((a) => a.toLowerCase()),
   ];
+}
+
+/// Display-friendly name for [key] — used as the label under
+/// each sprite tile in the picker grid. By alias-map convention
+/// the first entry is the Korean form, so this returns it as-is
+/// (preserves casing / spacing, unlike [trainerSearchCorpus]).
+/// Falls back to the raw stem when no alias is registered.
+String trainerDisplayName(String key) {
+  final stem = trainerKeyStem(key);
+  final aliases = trainerAliases[key] ?? trainerAliases[stem];
+  if (aliases != null && aliases.isNotEmpty) return aliases.first;
+  return stem;
 }
