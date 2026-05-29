@@ -258,25 +258,35 @@ class AppStrings {
       AppLanguage.en: 'Back',
       AppLanguage.ja: '戻る',
     },
-    'trainerCard.pickAvatar': {
-      AppLanguage.ko: '아바타 선택',
-      AppLanguage.en: 'Pick avatar',
-      AppLanguage.ja: 'アバター選択',
-    },
     'trainerCard.avatarSource.title': {
-      AppLanguage.ko: '아바타 가져오기',
-      AppLanguage.en: 'Choose avatar source',
-      AppLanguage.ja: 'アバター取得方法',
+      AppLanguage.ko: '아바타 출처를 골라주세요',
+      AppLanguage.en: 'Pick avatar source',
+      AppLanguage.ja: 'アバターの取得元を選んでください',
     },
     'trainerCard.avatarSource.curated': {
       AppLanguage.ko: '트레이너 셋에서 고르기',
       AppLanguage.en: 'Pick from trainer set',
-      AppLanguage.ja: 'トレーナーセットから選択',
+      AppLanguage.ja: 'トレーナーセットから選ぶ',
     },
     'trainerCard.avatarSource.upload': {
       AppLanguage.ko: '사진에서 업로드',
-      AppLanguage.en: 'Upload from gallery',
+      AppLanguage.en: 'Upload from photos',
       AppLanguage.ja: '写真からアップロード',
+    },
+    'trainerCard.searchHint': {
+      AppLanguage.ko: '검색 (예: red, ace, leader)',
+      AppLanguage.en: 'Search (e.g., red, ace, leader)',
+      AppLanguage.ja: '検索 (例: red, ace, leader)',
+    },
+    'trainerCard.noMatches': {
+      AppLanguage.ko: '검색 결과가 없습니다.',
+      AppLanguage.en: 'No matches.',
+      AppLanguage.ja: '一致するものがありません。',
+    },
+    'trainerCard.pickAvatar': {
+      AppLanguage.ko: '아바타 선택',
+      AppLanguage.en: 'Pick avatar',
+      AppLanguage.ja: 'アバター選択',
     },
     'trainerCard.avatarMissing': {
       AppLanguage.ko: '아바타 없음',

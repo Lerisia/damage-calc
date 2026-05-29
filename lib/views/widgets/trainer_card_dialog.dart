@@ -5,7 +5,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show AssetManifest, rootBundle;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,40 +14,142 @@ import '../../utils/app_strings.dart';
 import '../../utils/party_image_save.dart';
 import 'pokemon_sprite.dart';
 
-/// Pre-bundled trainer sprites (assets/trainers/<key>.png) the
-/// user can pick from for their avatar without having to source
-/// their own image. Same Smogon Sprite Project provenance as the
-/// pokemon-side packs — non-profit-with-credit license. Curated
-/// 1 per gen-bracket + iconic champions / rivals / villains so
-/// the picker grid stays browse-able instead of overwhelming.
-const List<String> _kCuratedTrainers = [
-  // Gen 1
-  'red', 'blue', 'giovanni',
-  // Gen 2
-  'ethan', 'kris', 'lyra', 'silver', 'lance',
-  // Gen 3
-  'brendan', 'may', 'wally', 'steven',
-  // Gen 4
-  'dawn', 'lucas', 'cyrus', 'cynthia',
-  // Gen 5
-  'hilbert', 'hilda', 'nate', 'rosa', 'cheren', 'bianca', 'n',
-  'ghetsis', 'alder',
-  // Gen 6
-  'calem', 'serena', 'diantha', 'lysandre',
-  // Gen 7
-  'elio', 'selene', 'hau', 'gladion', 'kukui', 'guzma',
-  // Gen 8
-  'victor', 'gloria', 'hop', 'marnie', 'bede', 'leon', 'rose',
-  // Gen 9
-  'penny', 'geeta', 'sada', 'turo',
-];
-
+/// Pre-bundled trainer sprites under assets/trainers/<key>.png —
+/// 1455 entries mirroring Showdown's full trainer sprite folder.
+/// Same Smogon Sprite Project provenance as the pokemon-side
+/// packs (non-profit-with-credit). The picker loads the actual
+/// list at runtime from [AssetManifest] so we don't have to
+/// hand-maintain a list of that size in source.
 String _trainerAssetPath(String key) => 'assets/trainers/$key.png';
 
 /// Choice between the bundled curated set and a gallery upload.
 /// Surfaced via [_openAvatarPicker] so the user is asked once per
 /// avatar change rather than baking the source into the editor UI.
 enum _AvatarSource { curated, upload }
+
+/// Scrollable grid picker over the 1455 bundled trainer sprites
+/// with a top-of-dialog search bar. Substring-matches on the
+/// asset key (e.g. typing 'ace' surfaces every Ace Trainer
+/// variant) so users don't have to scroll through the full set
+/// when they have something specific in mind. Returns the
+/// selected key via Navigator.pop.
+class _CuratedTrainerPicker extends StatefulWidget {
+  final List<String> allKeys;
+  const _CuratedTrainerPicker({required this.allKeys});
+
+  @override
+  State<_CuratedTrainerPicker> createState() =>
+      _CuratedTrainerPickerState();
+}
+
+class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
+  final _searchCtl = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchCtl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final query = _searchCtl.text.trim().toLowerCase();
+    final filtered = query.isEmpty
+        ? widget.allKeys
+        : widget.allKeys
+            .where((k) => k.toLowerCase().contains(query))
+            .toList();
+    return Dialog(
+      child: ConstrainedBox(
+        constraints:
+            const BoxConstraints(maxWidth: 520, maxHeight: 640),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      AppStrings.t('trainerCard.avatarSource.curated'),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: TextField(
+                controller: _searchCtl,
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search, size: 18),
+                  hintText: AppStrings.t('trainerCard.searchHint'),
+                  isDense: true,
+                  border: const OutlineInputBorder(),
+                ),
+                onChanged: (_) => setState(() {}),
+              ),
+            ),
+            if (widget.allKeys.isEmpty)
+              const Expanded(
+                child: Center(
+                    child: CircularProgressIndicator(strokeWidth: 2)),
+              )
+            else if (filtered.isEmpty)
+              Expanded(
+                child: Center(
+                  child: Text(
+                    AppStrings.t('trainerCard.noMatches'),
+                    style: TextStyle(color: Colors.grey.shade600),
+                  ),
+                ),
+              )
+            else
+              Flexible(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(12),
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemCount: filtered.length,
+                  itemBuilder: (_, i) {
+                    final key = filtered[i];
+                    return InkWell(
+                      onTap: () => Navigator.pop(context, key),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: Image.asset(
+                          _trainerAssetPath(key),
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 /// One party slot worth of trainer-card input. Keeps the trainer
 /// card decoupled from `_TeamSlot` (which is private to the team
@@ -125,6 +227,9 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   TrainerCardScorePrefix _scorePrefix = TrainerCardScorePrefix.finalPrefix;
   bool _loading = true;
   bool _busy = false;
+  /// All trainer keys loaded from AssetManifest. Populated async
+  /// in initState; until then the picker just shows a spinner.
+  List<String> _allTrainerKeys = const [];
 
   @override
   void initState() {
@@ -133,6 +238,23 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     _seasonCtl = TextEditingController();
     _scoreCtl = TextEditingController();
     _loadPrefs();
+    _loadTrainerKeys();
+  }
+
+  Future<void> _loadTrainerKeys() async {
+    final manifest =
+        await AssetManifest.loadFromAssetBundle(rootBundle);
+    final keys = manifest
+        .listAssets()
+        .where((p) =>
+            p.startsWith('assets/trainers/') && p.endsWith('.png'))
+        .map((p) => p
+            .substring('assets/trainers/'.length)
+            .replaceAll(RegExp(r'\.png$'), ''))
+        .toList()
+      ..sort();
+    if (!mounted) return;
+    setState(() => _allTrainerKeys = keys);
   }
 
   Future<void> _loadPrefs() async {
@@ -145,10 +267,13 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
       _scorePrefix =
           TrainerCardScorePrefix.fromPrefs(prefs.getString(_kScorePrefix));
       // Asset key takes priority — if a previous session picked
-      // from the curated set, restore that selection. Falls back
-      // to uploaded bytes when no asset is recorded.
+      // from the curated set, restore that selection. We don't
+      // gate on _allTrainerKeys here (which loads async) because
+      // the asset path is verified at render time anyway; if the
+      // bundle no longer contains it the Image.asset call simply
+      // throws and we fall back to the placeholder.
       final assetKey = prefs.getString(_kAvatarAsset);
-      if (assetKey != null && _kCuratedTrainers.contains(assetKey)) {
+      if (assetKey != null && assetKey.isNotEmpty) {
         _avatarAssetKey = assetKey;
       } else {
         final b64 = prefs.getString(_kAvatarB64);
@@ -204,66 +329,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   Future<void> _pickCuratedAvatar() async {
     final picked = await showDialog<String>(
       context: context,
-      builder: (ctx) => Dialog(
-        child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(maxWidth: 480, maxHeight: 560),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        AppStrings.t('trainerCard.avatarSource.curated'),
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.pop(ctx),
-                    ),
-                  ],
-                ),
-              ),
-              Flexible(
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(12),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.8,
-                  ),
-                  itemCount: _kCuratedTrainers.length,
-                  itemBuilder: (_, i) {
-                    final key = _kCuratedTrainers[i];
-                    return InkWell(
-                      onTap: () => Navigator.pop(ctx, key),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        padding: const EdgeInsets.all(4),
-                        child: Image.asset(
-                          _trainerAssetPath(key),
-                          fit: BoxFit.contain,
-                          filterQuality: FilterQuality.medium,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      builder: (_) => _CuratedTrainerPicker(allKeys: _allTrainerKeys),
     );
     if (picked == null || !mounted) return;
     setState(() {
@@ -579,21 +645,26 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
         ),
         child: slot.pokemon == null
             ? const SizedBox.shrink()
-            : FittedBox(
-                fit: BoxFit.cover,
-                // (0, -0.7) pushes the visible window even higher so
-                // the sprite's head/face dominates the tile. BW
-                // sprites have the face in the upper third, the
-                // body+feet take up the lower two-thirds, and the
-                // bigger zoom amplifies whichever region we centre
-                // on — so the alignment has to be aggressive.
-                alignment: const Alignment(0, -0.7),
+            : OverflowBox(
+                // Render the sprite at 150 logical px (well past
+                // the ~118×90 tile) and let ClipRRect on the
+                // parent crop whatever overflows. alignment picks
+                // which 118×90 window of the 150×150 sprite is
+                // shown — (0, -0.35) puts the face/head region
+                // in frame instead of the chest/feet. Pure
+                // FittedBox-cover only reached ~1.2× zoom because
+                // the source was already close to the tile size;
+                // OverflowBox + oversized source gives a real
+                // ~1.65× zoom without sub-sampling.
+                maxWidth: double.infinity,
+                maxHeight: double.infinity,
+                alignment: const Alignment(0, -0.35),
                 child: SizedBox(
-                  width: 96,
-                  height: 96,
+                  width: 150,
+                  height: 150,
                   child: PokemonSprite(
                     pokemonName: slot.pokemon!.name,
-                    size: 96,
+                    size: 150,
                     shiny: slot.shiny,
                   ),
                 ),
