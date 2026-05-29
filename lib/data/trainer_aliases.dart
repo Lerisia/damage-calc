@@ -409,7 +409,9 @@ const Map<String, List<String>> trainerAliases = {
   // === Kalos Gym Leaders ==================================
   'viola': ['비올라', 'ビオラ'],
   'grant': ['잭', 'ザクロ'],
-  'korrina': ['시트론', 'コルニ'],
+  // korrina (Shalour 격투 관장) was wrongly mapped to 시트론
+  // (which is clemont's KO — different character, same region)
+  'korrina': ['코르니', 'コルニ'],
   'ramos': ['후쿠지', 'フクジ'],
   'clemont': ['시트론', 'シトロン'],
   'valerie': ['마슈', 'マーシュ'],
