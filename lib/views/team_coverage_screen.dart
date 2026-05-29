@@ -1552,32 +1552,46 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,
-        // 3 internal tabs (parallel to the calculator's 공격/방어/대미지
-        // structure): Party (setup), Defense (defensive matrix),
-        // Offense (offensive matrix). The old offensive on/off toggle
-        // and the wide-screen multi-column layout are folded into this
-        // structure — wide users get the same tabs with extra room
-        // inside each.
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TabBar(
-              controller: _tabController,
-              tabs: [
-                Tab(text: AppStrings.t('team.tab.party')),
-                Tab(text: AppStrings.t('team.tab.defense')),
-                Tab(text: AppStrings.t('team.tab.offense')),
-              ],
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [partyTab, defenseTab, offenseTab],
+        // Wide screens (≥1050) get the original 3-column side-by-side
+        // layout that the team-builder used to ship with: Party,
+        // Defense, Offense all visible at once. Restored after the
+        // 3-internal-tab refactor (commit 3ae2f5f) drew user
+        // complaints — users on wide displays want all three panes
+        // open simultaneously without tab-switching, since that's
+        // the whole point of having a wide screen.
+        //
+        // Narrow keeps the tab structure for vertical-phone usage.
+        child: isWide
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(child: partyTab),
+                  const VerticalDivider(width: 1, thickness: 1),
+                  Expanded(child: defenseTab),
+                  const VerticalDivider(width: 1, thickness: 1),
+                  Expanded(child: offenseTab),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TabBar(
+                    controller: _tabController,
+                    tabs: [
+                      Tab(text: AppStrings.t('team.tab.party')),
+                      Tab(text: AppStrings.t('team.tab.defense')),
+                      Tab(text: AppStrings.t('team.tab.offense')),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [partyTab, defenseTab, offenseTab],
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
       ),
     );
