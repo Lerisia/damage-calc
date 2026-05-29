@@ -190,18 +190,30 @@ class _StatInputState extends State<StatInput> {
   @override
   void didUpdateWidget(covariant StatInput old) {
     super.didUpdateWidget(old);
-    // SP/EV toggle always resets display regardless of focus
+    // SP/EV toggle always resets display regardless of focus —
+    // user explicitly toggled the unit, the in-flight controller
+    // value would be in the wrong unit.
     if (widget.useSpMode != old.useSpMode) {
       _hasFocusedStatField = false;
       _evResetCounter++;
     }
-    // Only reset TextFormField when values changed externally
-    // (e.g. from speed tab), NOT during typing (focus is active).
-    else if (!_hasFocusedStatField &&
-        (widget.ev != old.ev || widget.iv != old.iv ||
-         widget.rank != old.rank || widget.hpPercent != old.hpPercent)) {
-      _evResetCounter++;
-    }
+    // External-value rebumps removed (used to bump _evResetCounter
+    // whenever widget.ev/iv/rank/hpPercent changed AND no stat
+    // field was focused). On iOS, rapid typing produces a transient
+    // focus flicker — the outer Focus widget below briefly reports
+    // hasFocus=false between two quick keystrokes. During that
+    // flicker, _hasFocusedStatField becomes false; the parent then
+    // setStates with the new ev (from the first keystroke); this
+    // didUpdateWidget runs while _hasFocusedStatField is still
+    // false; bump remounts the SelectAllField; focus is gone
+    // permanently because the new field never had it. Symptom:
+    // 'keyboard disappears when I type the second character fast'.
+    //
+    // SelectAllField.didUpdateWidget already handles the legitimate
+    // external-value sync (sample load, reset, speed tab) by
+    // re-pulling initialText into its controller when not focused.
+    // The bump was redundant for that path; only the typing race
+    // it caused was unique to this code.
   }
 
   @override
@@ -894,16 +906,29 @@ class _StatInputState extends State<StatInput> {
           flex: 3,
           child: Focus(
             onFocusChange: (hasFocus) {
-              _hasFocusedStatField = hasFocus;
-              if (!hasFocus) {
-                // Do NOT bump _evResetCounter here. This field is keyed
-                // by that counter — bumping on focus loss disposes it
-                // mid-blur, and Flutter then restores focus to the
-                // previously-focused stat field (typically the IV next
-                // door). Display normalisation runs via didUpdateWidget
-                // when the parent's value changes.
-                widget.onStatEditComplete?.call();
+              if (hasFocus) {
+                // Synchronous on focus gain — needed so the next
+                // didUpdateWidget tick correctly treats this as 'user
+                // is typing' (even though that path no longer bumps,
+                // other call sites may consult _hasFocusedStatField).
+                _hasFocusedStatField = true;
+                return;
               }
+              // Blur is deferred to next frame + re-checked. iOS
+              // soft keyboards emit a one-frame blur+refocus pair
+              // between two rapidly-typed characters; we don't want
+              // to fire onStatEditComplete (which cascades a parent
+              // setState) during that flicker.
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted) return;
+                if (_hasFocusedStatField &&
+                    FocusManager.instance.primaryFocus?.context != null) {
+                  // Focus already came back — it was a flicker.
+                  return;
+                }
+                _hasFocusedStatField = false;
+                widget.onStatEditComplete?.call();
+              });
             },
             child: SizedBox(
               height: 28,
