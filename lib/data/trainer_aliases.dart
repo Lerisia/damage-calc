@@ -141,7 +141,9 @@ const Map<String, List<String>> trainerAliases = {
   'clerkf': ['OL', 'OL'],
   'clown': ['피에로', 'ピエロ'],
   'collector': ['포켓몬 컬렉터', 'ポケモンコレクター'],
-  'cook': ['셰프', 'コック'],
+  // cook (Gen 7 SM コック) is 쿡 in KO, distinct from chef
+  // (Gen 9 SV シェフ) which is 셰프.
+  'cook': ['쿡', 'コック'],
   'cowgirl': ['목장걸', 'ぼくじょうギャル'],
   'crushgirl': ['격투가 아가씨', 'かくとうむすめ'],
   'crushkin': ['격투자매', 'かくとうしまい'],
@@ -217,7 +219,10 @@ const Map<String, List<String>> trainerAliases = {
   'skier': ['스키어', 'スキーヤー'],
   'skytrainer': ['스카이 트레이너', 'スカイトレーナー'],
   'skytrainerf': ['스카이 트레이너', 'スカイトレーナー'],
-  'streetthug': ['양아치', 'チンピラ'],
+  // streetthug (Gen 6 こわいおじさん) is 무서운 아저씨 in KO,
+  // distinct from delinquent (Gen 6 ORAS ふりょう) which is
+  // 양아치. Both were wrongly collapsed in round-3.
+  'streetthug': ['무서운 아저씨', 'こわいおじさん'],
   'surfer': ['파도타기맨', 'なみのりやろう'],
   'swimmerf2': ['수영복 소녀', 'すいえいせんしゅ'],
   'swimmerfjp': ['수영복 소녀', 'すいえいせんしゅ'],
