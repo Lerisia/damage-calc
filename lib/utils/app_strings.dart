@@ -308,6 +308,16 @@ class AppStrings {
       AppLanguage.en: 'Protagonist · Rival',
       AppLanguage.ja: '主人公・ライバル',
     },
+    'trainerCard.category.villainBoss': {
+      AppLanguage.ko: '악의 조직',
+      AppLanguage.en: 'Villain teams',
+      AppLanguage.ja: '悪の組織',
+    },
+    'trainerCard.category.professor': {
+      AppLanguage.ko: '박사',
+      AppLanguage.en: 'Professors',
+      AppLanguage.ja: '博士',
+    },
     'trainerCard.category.npc': {
       AppLanguage.ko: '일반 트레이너',
       AppLanguage.en: 'NPC trainers',

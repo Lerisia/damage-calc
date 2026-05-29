@@ -66,6 +66,10 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
           AppStrings.t('trainerCard.category.eliteFour'),
         TrainerCategory.protagonistRival =>
           AppStrings.t('trainerCard.category.protagonistRival'),
+        TrainerCategory.villainBoss =>
+          AppStrings.t('trainerCard.category.villainBoss'),
+        TrainerCategory.professor =>
+          AppStrings.t('trainerCard.category.professor'),
         TrainerCategory.npc =>
           AppStrings.t('trainerCard.category.npc'),
         TrainerCategory.other =>

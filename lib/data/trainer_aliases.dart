@@ -128,6 +128,109 @@ const Map<String, List<String>> trainerAliases = {
   'aetherfoundation2': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether foundation'],
   'aetherfoundationf': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether foundation'],
 
+  // === Villain admins / executives ========================
+  // namu.wiki verified per-character.
+  'mars': ['마스', 'マーズ'],
+  'jupiter': ['주피터', 'ジュピター'],
+  'saturn': ['새턴', 'サターン'],
+  'tabitha': ['호걸', 'ホムラ'],
+  'courtney': ['구열', 'カガリ'],
+  'archer': ['아폴로', 'アポロ'],
+  'ariana': ['아테나', 'アテナ'],
+  'petrel': ['람다', 'ラムダ'],
+  'proton': ['랜스', 'ランス'],
+  'oleana': ['올리브', 'オリーヴ'],
+  'wicke': ['비케', 'ビッケ'],
+  'mela': ['멜로코', 'メロコ'],
+  'ortega': ['오르티가', 'オルティガ'],
+
+  // === Professors =========================================
+  // namu.wiki — all KO professor names end in '박사'.
+  'oak': ['오박사', 'オーキド博士', 'professor oak'],
+  'elm': ['공박사', 'ウツギ博士', 'professor elm'],
+  'birch': ['털보박사', 'オダマキ博士', 'professor birch'],
+  'rowan': ['마박사', 'ナナカマド博士', 'professor rowan'],
+  'juniper': ['주박사', 'アララギ博士', 'professor juniper'],
+  'sycamore': ['플라타느박사', 'プラターヌ博士', 'professor sycamore'],
+  'magnolia': ['매그놀리아박사', 'マグノリア博士', 'professor magnolia'],
+  'burnet': ['버넷박사', 'バーネット博士', 'professor burnet'],
+  'sada': ['사다박사', 'サダ博士', 'professor sada'],
+  'turo': ['투로박사', 'トウロ博士', 'professor turo'],
+  'laventon': ['라벤박사', 'ラベン', 'professor laventon'],
+  'laventon2': ['라벤박사', 'ラベン', 'professor laventon'],
+  'willow': ['윌로우 박사', 'ウィロー博士', 'professor willow'],
+
+  // === Frontier Brains (Hoenn / Sinnoh) ===================
+  'anabel': ['리라', 'リラ', 'salon maiden'],
+  'cheryl': ['모미', 'モミ'],
+  'argenta': ['카틀레야', 'カトレア'],
+  'brandon': ['기선', 'ジンダイ', 'pyramid king'],
+  'lucy': ['다슬', 'アザミ', 'pike queen'],
+
+  // === Pokemon Conquest cast ==============================
+  // namu.wiki/w/포켓몬+노부나가의_야망
+  'nobunaga': ['노부나가', 'ノブナガ'],
+  'oichi': ['오이치', 'オイチ'],
+  'hanbei': ['한베에', 'カンベエ'],
+  'masamune': ['마사무네', 'マサムネ'],
+  'ginchiyo': ['긴치요', 'ギンチヨ'],
+  'ranmaru': ['란마루', 'ランマル'],
+
+  // === Pokemon GO ========================================
+  'blanche': ['블랑쉬', 'ブランシェ'],
+  'candela': ['칸델라', 'キャンデラ'],
+  'spark': ['스파크', 'スパーク'],
+  'arlo': ['알로', 'アルロ'],
+  'cliff': ['클리프', 'クリフ'],
+
+  // === Hisui (PLA) cast ===================================
+  // namu.wiki/w/Pokémon_LEGENDS_아르세우스 + per-character pages
+  'adaman': ['세키', 'セキ'],
+  'irida': ['주혜', 'カイ'],
+  'volo': ['볼로', 'ヴォロ'],
+  'sabi': ['사비', 'サボリ'],
+  'diamondclanmember': ['금강단', 'コンゴウだん', 'diamond clan'],
+  'pearlclanmember': ['진주단', 'シンジュだん', 'pearl clan'],
+
+  // === Team grunt variants (alt sprite keys) ==============
+  'rocket': ['로켓단', 'ロケットだん', 'team rocket'],
+  'teamrocket': ['로켓단', 'ロケットだん', 'team rocket'],
+  'teamrocketgruntm': ['로켓단 조무래기', 'ロケットだんしたっぱ', 'rocket grunt'],
+  'teamrocketgruntf': ['로켓단 조무래기', 'ロケットだんしたっぱ', 'rocket grunt'],
+  'rainbowrocketgrunt': ['레인보우로켓단 조무래기', 'レインボーロケットだんいん', 'rainbow rocket'],
+  'rainbowrocketgruntf': ['레인보우로켓단 조무래기', 'レインボーロケットだんいん', 'rainbow rocket'],
+  'teammagmagruntm': ['마그마단 조무래기', 'マグマだんしたっぱ', 'magma grunt'],
+  'teammagmagruntf': ['마그마단 조무래기', 'マグマだんしたっぱ', 'magma grunt'],
+  'teamaquagruntm': ['아쿠아단 조무래기', 'アクアだんしたっぱ', 'aqua grunt'],
+  'teamaquagruntf': ['아쿠아단 조무래기', 'アクアだんしたっぱ', 'aqua grunt'],
+  'magmasuit': ['마그마슈트', 'マグマスーツ', 'magma suit'],
+  'yellgrunt': ['옐단 조무래기', 'エールだんいん', 'yell grunt'],
+  'yellgruntf': ['옐단 조무래기', 'エールだんいん', 'yell grunt'],
+  'stargrunt': ['스타단 조무래기', 'スターだんいん', 'star grunt'],
+  'stargruntf': ['스타단 조무래기', 'スターだんいん', 'star grunt'],
+
+  // === Other notable named characters =====================
+  'ash': ['한지우', 'サトシ', 'anime protagonist'],
+  'liko': ['리코', 'リコ', 'horizons protagonist'],
+  'toddsnap': ['찰칵이', 'トオル', 'pokemon snap'],
+  'toddsnap2': ['찰칵이', 'トオル', 'pokemon snap'],
+  'leaf': ['리프', 'リーフ', 'frlg female'],
+  'yellow': ['옐로', 'イエロー', 'special manga'],
+  'mom': ['어머니', 'おかあさん', 'mom'],
+  'alain': ['알랭', 'アラン', 'xy anime'],
+  'samsonoak': ['송호 오', 'ナリヤ・オーキド', 'samson oak'],
+  'sonia': ['소니아', 'ソニア', 'galar assistant'],
+  'kahili': ['카일리', 'カヒリ', 'alola e4'],
+  'eusine': ['유시안', 'ミナキ', 'suicune chaser'],
+  'dexio': ['덱시오', 'デクシオ', 'sycamore assistant'],
+  'fennel': ['주리', 'マコモ', 'dream world researcher'],
+  'brycenman': ['담죽맨', 'ハチクマン', 'pokestar movie'],
+  'az': ['AZ', 'AZ', 'kalos ancient king'],
+  // peony exists earlier in Champions block — skipping duplicate
+  'peonia': ['니아', 'シャクヤ', 'peony daughter'],
+  'ryuki': ['용규', 'ドラゴ', 'usum wrestler'],
+  'drayton': ['타로', 'タロ', 'indigo disk e4'],
+
   // === Kanto Gym Leaders ==================================
   'brock': ['웅', 'タケシ'],
   'misty': ['이슬', 'カスミ'],
@@ -414,6 +517,8 @@ enum TrainerCategory {
   gymLeader,
   eliteFour,
   protagonistRival,
+  villainBoss,
+  professor,
   npc,
   other;
 }
@@ -516,6 +621,46 @@ const Set<String> trainerProtagonistRivalStems = {
   // SwSh: hop is the main rival; included even though we may
   // not have a verified alias entry yet
   'hop',
+};
+
+/// Villain organisation bosses + admins + executive sprites.
+/// User direction: anyone clearly tied to a villain team in any
+/// main-line game lands here, including team admins/commanders.
+const Set<String> trainerVillainBossStems = {
+  // Main bosses
+  'maxie', 'archie', 'cyrus', 'ghetsis', 'lysandre', 'guzma',
+  'lusamine', 'rose', 'colress',
+  // Sinnoh Galactic commanders
+  'mars', 'jupiter', 'saturn', 'charon',
+  // Hoenn Magma admins
+  'tabitha', 'courtney', 'mable',
+  // Hoenn Aqua admins
+  'shelly', 'matt',
+  // Johto Rocket executives
+  'archer', 'ariana', 'proton', 'petrel',
+  // Alola Aether / Skull cast
+  'plumeria', 'faba',
+  // SwSh Macro Cosmos
+  'oleana',
+  // Galar GO Rocket leaders (mobile)
+  'cliff', 'arlo', 'sierra',
+  // Paldea Team Star bosses
+  'mela', 'giacomo', 'atticus', 'ortega', 'eri',
+  // Hisui ultimate antagonist
+  'volo',
+  // Generic Rocket sprite labels
+  'rocketexecutive', 'rocketexecutivef', 'rocket', 'teamrocket',
+};
+
+/// Pokemon Professors across all regions. User direction:
+/// separate from villain bosses, given their own browseable tab.
+const Set<String> trainerProfessorStems = {
+  'oak', 'elm', 'birch', 'rowan', 'juniper', 'sycamore',
+  'magnolia', 'burnet', 'sada', 'turo',
+  'laventon', 'laventon2',
+  'cedricjuniper', 'fennel', 'jacq',
+  // Pokemon GO professor
+  'willow',
 };
 
 /// NPC trainer class stems. Mirrors the 'Trainer classes (NPC)'
@@ -671,6 +816,14 @@ Set<TrainerCategory> trainerCategoriesOf(String key) {
   if (trainerProtagonistRivalStems.contains(stem) ||
       trainerProtagonistRivalStems.contains(key)) {
     cats.add(TrainerCategory.protagonistRival);
+  }
+  if (trainerVillainBossStems.contains(stem) ||
+      trainerVillainBossStems.contains(key)) {
+    cats.add(TrainerCategory.villainBoss);
+  }
+  if (trainerProfessorStems.contains(stem) ||
+      trainerProfessorStems.contains(key)) {
+    cats.add(TrainerCategory.professor);
   }
   if (trainerNpcClassStems.contains(stem) ||
       trainerNpcClassStems.contains(key)) {
