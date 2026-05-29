@@ -241,6 +241,199 @@ const Map<String, List<String>> trainerAliases = {
   'worker2': ['작업원', 'こうじげんば'],
   'youngn': ['반바지 꼬마', 'たんパンこぞう'],
 
+  // === Bulk additions round 4 (Bulbapedia + namu mix) ======
+  // ~150 entries pulled from 4 parallel audit agents. Quality
+  // mixed — Korean Pokemon Wiki / namu.wiki where available,
+  // Bulbapedia 'In other languages' / training-data for the
+  // long-tail spinoff / anime / Masters EX cast. Flag any
+  // that look wrong; safest to keep stems searchable even with
+  // approximate KO than to leave them as raw English.
+
+  // Hisui (PLA) cast
+  'arezu': ['성화', 'ヒナツ'],
+  'beni': ['야모', 'ヤモ'],
+  'calaba': ['포화', 'カラハ'],
+  'choy': ['경채', 'チンゲン'],
+  'clover': ['죽희', 'オタケ'],
+  'coin': ['매희', 'オウメ'],
+  'colza': ['평지', 'コルザ'],
+  'gaeric': ['르푸', 'ハマレンゲ'],
+  'iscan': ['시로', 'シロー'],
+  'kamado': ['전목', 'デンボク'],
+  'lian': ['단지', 'キクイ'],
+  'mai': ['마이', 'マイ'],
+  'palina': ['팔리나', 'パリナ'],
+  'sanqua': ['산다화', 'サザンカ'],
+  'taohua': ['타오파', 'タオファ'],
+  'tuli': ['예은', 'ツイリ'],
+  'yukito': ['범모', 'ユキノシタ'],
+  'zisu': ['페릴라', 'ペリーラ'],
+  'cyllene': ['금경', 'シマボシ'],
+
+  // Indigo Disk / SV DLC
+  'amarys': ['네리네', 'ネリネ'],
+  'briar': ['브라이어', 'ブライア'],
+  'crispin': ['하솔', 'アカマツ'],
+  'clavell': ['클라벨', 'クラベル'],
+  'cyrano': ['시아노', 'シアノ'],
+  'dendra': ['운향', 'キハダ'],
+  'jacq': ['지니어', 'ジニア'],
+  'miriam': ['미모사', 'ミモザ'],
+  'raifort': ['레포르', 'レホール'],
+  'saguaro': ['사구아로', 'サワロ'],
+  'salvatore': ['세이지', 'セイジ'],
+  'tyme': ['타임', 'タイム'],
+
+  // Anime / spinoff protagonists
+  'akari': ['윤슬', 'ショウ'],
+  'chase': ['태주', 'カケル'],
+  'elaine': ['보연', 'アユミ'],
+  'green': ['블루', 'ブルー'],
+  'trace': ['진우', 'シン'],
+
+  // Pokemon GO / Mobile
+  'rocketexecutive': ['로켓단 간부', 'ロケットだんかんぶ'],
+  'rocketexecutivef': ['로켓단 여간부', 'ロケットだんかんぶ'],
+
+  // BW / BW2 / DPP
+  'cedricjuniper': ['주누운박사', 'アララギパパ', 'cedric juniper'],
+  'celio': ['서유석', 'ニシキ'],
+  'concordia': ['헬레나', 'ヘレナ'],
+  'curtis': ['철권', 'テツ'],
+  'lanette': ['보은', 'マユミ'],
+  'marley': ['마리', 'マイ'],
+  'mira': ['미루', 'ミル'],
+  'riley': ['현이', 'ゲン'],
+  'rood': ['로트', 'ロット'],
+  'shadowtriad': ['다크 트리니티', 'ダークトリニティ'],
+  'yancy': ['루리', 'ルリ'],
+  'zinnia': ['피아나', 'ヒガナ'],
+  'zinzolin': ['비오', 'ヴィオ'],
+
+  // Hoenn / Sinnoh Battle Frontier Brains (the rest)
+  'darach': ['코크런', 'コクラン'],
+  'noland': ['다투라', 'ダツラ'],
+  'palmer': ['종수', 'クロツグ'],
+  'spenser': ['우근', 'ウコン'],
+  'thorton': ['수철', 'ネジキ'],
+  'tucker': ['하인즈', 'ヒース'],
+  'dahlia': ['달리아', 'ダリア'],
+
+  // Various team admins / story characters
+  'shelly': ['이연', 'イズミ'],
+  'matt': ['우솔', 'ウシオ'],
+  'mable': ['마블', 'モブ'],
+  'bryony': ['바라', 'バラ'],
+  'xerosic': ['크세로시키', 'クセロシキ'],
+  'charon': ['플루토', 'プルート'],
+  'faba': ['자우보', 'ザオボー'],
+  'mohn': ['몬', 'モーン'],
+  'plumeria': ['플루메리', 'プルメリ'],
+  'shielbert': ['실디', 'シルディ'],
+  'sordward': ['소도', 'ソッド'],
+  'sina': ['지나', 'ジーナ'],
+
+  // X/Y cast
+  'daisy': ['남나리', 'ナナミ'],
+  'bill': ['이수재', 'マサキ'],
+  'brigette': ['재인', 'アズサ'],
+  'buck': ['벅', 'バク'],
+  'emma': ['마티에르', 'マチエール'],
+  'essentia': ['에스프리', 'エスプリ'],
+  'evelyn': ['르수아르', 'ルスワール'],
+  'gurkinn': ['콘콤부르', 'コンコンブル'],
+
+  // Mr. / Mrs. characters
+  'mrbriney': ['하기영감', 'ハギろうじん', 'mr briney'],
+  'mrfuji': ['등나무노인', 'フジろうじん', 'mr fuji'],
+  'mrstone': ['나발명', 'ツワブキ', 'mr stone'],
+
+  // SwSh DLC / postgame
+  'hyde': ['하이드', 'ハイド'],
+  'lebanne': ['시온', 'ハルジオ'],
+
+  // USUM Ultra Recon Squad
+  'dulse': ['달스', 'ダルス'],
+  'soliera': ['미린', 'ミリン'],
+  'phyco': ['피카오', 'フウロウ'],
+  'zossie': ['아마모', 'アマモ'],
+
+  // Stadium 2 / minor / generic
+  'baoba': ['바오바', 'バオバ'],
+  'bellepa': ['목장가족', 'ぼくじょうおやこ'],
+  'bellis': ['데이지박사', 'ヒナギク博士'],
+  'benga': ['구아버', 'バンジロウ'],
+  'eri': ['비파', 'ビワ'],
+  'erbie': ['에르비', 'エルビー'],
+  'ginter': ['백은', 'ギンナン'],
+  'grace': ['사키', 'サキ'],
+  'greta': ['나리', 'コゴミ'],
+  'gwynn': ['무쿠', 'ムク'],
+  'harmony': ['새아', 'セイカ'],
+  'heath': ['헤더', 'ヘザー'],
+  'jamie': ['렌', 'レン'],
+  'jacinthe': ['유카리', 'ユカリ'],
+  'jessiejames': ['로사와 로이', 'ムサシとコジロウ'],
+  'johanna': ['진희', 'アヤコ'],
+  'kurt': ['강집', 'ガンテツ'],
+  'li': ['청성', 'コウセイ'],
+  'lida': ['루디', 'デウロ'],
+  'lisia': ['루티아', 'ルチア'],
+  'naveen': ['나빈', 'ナビーン'],
+  'neroli': ['네롤리 박사', 'ネロリ博士'],
+  'nita': ['니타', 'ニーナ'],
+  'paulo': ['고상', 'キリヤ'],
+  'paxton': ['팩스턴', 'パクストン'],
+  'perrin': ['페린', 'ペリン'],
+  'pesselle': ['페셀', 'ペセッレ'],
+  'roy': ['로이', 'ロイ'],
+  'scott': ['금작화', 'エニシダ'],
+  'scottie': ['케이', 'ケイ'],
+  'sbcmember': ['MSBC', 'ＭＳＢＣ'],
+  'sierra': ['시에라', 'シエラ'],
+  'tarragon': ['타라곤', 'タラゴン'],
+  'tateandliza': ['풍과 란', 'フウとラン'],
+  'taunie': ['타니', 'タウニー'],
+  'tina': ['리카', 'リッカ'],
+  'urbain': ['가이', 'ガイ'],
+  'vessa': ['유라', 'ユラ'],
+  'vince': ['빅토르', 'ビクトル'],
+  'zirco': ['지르코', 'ジル'],
+
+  // Missed in pass
+  'rei': ['테루', 'テル', 'pla male protag'],
+  'atticus': ['추명', 'シュウメイ', 'star poison boss'],
+  'giacomo': ['피나', 'ピーニャ', 'star dark boss'],
+
+  // Generic / NPC classes
+  'aarune': ['성한', 'ギリー'],
+  'aquasuit': ['수영복차림', '水着'],
+  'backers': ['팬클럽', 'ファンクラブ'],
+  'backersf': ['팬클럽', 'ファンクラブ'],
+  'cafemaster': ['카페 마스터', 'カフェマスター'],
+  'caretaker': ['관리인', '管理人'],
+  'corbeau': ['카라스바', 'カラスバ'],
+  'courier': ['배달원', '配達員'],
+  'freediver': ['해녀', 'あまさん'],
+  'harlequin': ['어릿광대', 'クラウン'],
+  'hero': ['주인공', '主人公'],
+  'hero2': ['주인공', '主人公'],
+  'heroine': ['주인공', '主人公'],
+  'heroine2': ['주인공', '主人公'],
+  'leaguestaff': ['리그 스태프', 'リーグスタッフ'],
+  'leaguestafff': ['리그 스태프', 'リーグスタッフ'],
+  'linebacker': ['미식축구선수', 'フットボーラー'],
+  'securitycorps': ['은하단 경비대', 'ギンガだんけいびたい'],
+  'securitycorpsf': ['은하단 경비대', 'ギンガだんけいびたい'],
+  'smasher': ['테니스선수', 'テニスプレイヤー'],
+  'teammates': ['선배와 후배', 'センパイとコウハイ'],
+  'theroyal': ['마스크드 로열', 'ロイヤルマスク'],
+  'ultraforestkartenvoy': ['울트라포레스트 종이꾼', 'ウルトラフォレストのかみつかい'],
+  'unknown': ['의문의 트레이너', 'なぞのトレーナー'],
+  'unknownf': ['의문의 트레이너', 'なぞのトレーナー'],
+  'youngathlete': ['스포츠소년', 'スポーツしょうねん'],
+  'youngathletef': ['스포츠소녀', 'スポーツしょうじょ'],
+
   // === Aether Foundation grunts ===========================
   // User specifically flagged that these were untranslated.
   'aetheremployee': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether employee'],
@@ -737,7 +930,10 @@ const Set<String> trainerEliteFourStems = {
   // 9th tab.
   'anabel', 'argenta', 'brandon', 'cheryl', 'lucy',
   // Indigo Disk (SV DLC) BB Academy E4
-  'lacey', 'drayton',
+  'lacey', 'drayton', 'amarys', 'crispin',
+  // Additional Frontier Brains
+  'darach', 'noland', 'palmer', 'spenser', 'thorton',
+  'tucker', 'dahlia', 'greta',
 };
 
 /// Stems classified as protagonists or rivals — they share a
@@ -771,6 +967,18 @@ const Set<String> trainerProtagonistRivalStems = {
   'ingo', 'emmet',
   // PLA clan leaders — antagonists/rivals turned allies.
   'adaman', 'irida',
+  // Additional protagonists / rivals from round-4 batch
+  'chase', 'elaine', 'trace', 'green',
+  // Conquest player avatars (sprite stems hero/hero2/heroine/heroine2)
+  'hero', 'hero2', 'heroine', 'heroine2',
+  // Z-A protagonists / rivals
+  'urbain', 'taunie', 'harmony',
+  // Pokemon Snap photographer protagonists
+  'vince', 'gwynn', 'jamie', 'heath', 'lida',
+  // Pokemon Masters EX protagonists
+  'scottie', 'tina',
+  // PLA / other characters playing protagonist role
+  'arezu', 'evelyn', 'perrin',
 };
 
 /// Villain organisation bosses + admins + executive sprites.
@@ -822,6 +1030,12 @@ const Set<String> trainerVillainBossStems = {
   'aetherfoundation', 'aetherfoundation2', 'aetherfoundationf',
   // Aether secondary cast
   'wicke',
+  // Round-4 additions: Team Flare admins, Plasma sages, Sword/Shield
+  // postgame villains, Conquest main villain, additional admins
+  'bryony', 'xerosic',
+  'rood', 'zinzolin', 'shadowtriad',
+  'sordward', 'shielbert',
+  'nobunaga',
 };
 
 /// Pokemon Professors across all regions. User direction:
@@ -833,6 +1047,9 @@ const Set<String> trainerProfessorStems = {
   'cedricjuniper', 'fennel', 'jacq',
   // Pokemon GO professor
   'willow',
+  // SV school faculty + cross-region professors
+  'raifort', 'miriam', 'dendra', 'saguaro', 'tyme',
+  'salvatore', 'neroli', 'bellis', 'clavell', 'cyrano',
 };
 
 /// NPC trainer class stems. Mirrors the 'Trainer classes (NPC)'
@@ -860,6 +1077,13 @@ const Set<String> trainerNpcClassStems = {
   'aquasuit',
   'aetheremployee', 'aetheremployeef',
   'aetherfoundation', 'aetherfoundation2', 'aetherfoundationf',
+  // round-4 NPC class additions
+  'backers', 'backersf', 'cafemaster',
+  'caretaker', 'courier', 'freediver', 'harlequin',
+  'leaguestaff', 'leaguestafff', 'linebacker',
+  'securitycorps', 'securitycorpsf', 'smasher',
+  'teammates', 'theroyal', 'ultraforestkartenvoy',
+  'unknown', 'unknownf', 'youngathlete', 'youngathletef',
   // round-3 NPC additions
   'acetrainersnow', 'acetrainersnowf', 'artistf', 'ballguy',
   'backpacker', 'backpackerf', 'bodybuilder', 'bodybuilderf',
