@@ -48,6 +48,16 @@ class _CuratedTrainerPicker extends StatefulWidget {
 class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
   final _searchCtl = TextEditingController();
   TrainerCategory _category = TrainerCategory.all;
+  // Stems → list of variant keys. Built once from widget.allKeys
+  // so the filter pass works at the group level instead of the
+  // 1455-leaf level.
+  late Map<String, List<String>> _groups;
+
+  @override
+  void initState() {
+    super.initState();
+    _groups = groupTrainerKeysByStem(widget.allKeys);
+  }
 
   @override
   void dispose() {
@@ -77,19 +87,39 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
       };
 
 
+  /// Open the variant picker for [stem] and forward the user's
+  /// pick (or nothing if they cancelled) up to the parent dialog.
+  Future<void> _openVariantPicker(
+      BuildContext context, String stem, List<String> variants) async {
+    final picked = await showDialog<String>(
+      context: context,
+      builder: (_) => _TrainerVariantPicker(stem: stem, variants: variants),
+    );
+    if (!context.mounted) return;
+    if (picked != null) Navigator.pop(context, picked);
+  }
+
   @override
   Widget build(BuildContext context) {
     final query = _searchCtl.text.trim().toLowerCase();
+    // Filter operates on stems. A stem matches the category if any
+    // of its variants do (handles the multi-class case where a
+    // character/class is registered under more than one tab).
+    // Search match is similar — any variant's corpus contains the
+    // query string. Sorted alphabetically by stem for stable
+    // ordering across rebuilds.
+    final stems = _groups.keys.toList()..sort();
     final byCategory = _category == TrainerCategory.all
-        ? widget.allKeys
-        : widget.allKeys
-            .where((k) =>
-                trainerCategoriesOf(k).contains(_category))
+        ? stems
+        : stems
+            .where((s) => _groups[s]!.any((v) =>
+                trainerCategoriesOf(v).contains(_category)))
             .toList();
     final filtered = query.isEmpty
         ? byCategory
         : byCategory
-            .where((k) => trainerSearchCorpus(k).any((s) => s.contains(query)))
+            .where((s) => _groups[s]!.any((v) =>
+                trainerSearchCorpus(v).any((c) => c.contains(query))))
             .toList();
     return Dialog(
       child: ConstrainedBox(
@@ -190,9 +220,21 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                   ),
                   itemCount: filtered.length,
                   itemBuilder: (_, i) {
-                    final key = filtered[i];
+                    final stem = filtered[i];
+                    final variants = _groups[stem]!;
+                    final rep =
+                        trainerGroupRepresentative(stem, variants);
                     return InkWell(
-                      onTap: () => Navigator.pop(context, key),
+                      onTap: () {
+                        // Single-variant groups skip the sub-dialog
+                        // and select directly; multi-variant groups
+                        // drill into the variant picker.
+                        if (variants.length == 1) {
+                          Navigator.pop(context, variants.first);
+                        } else {
+                          _openVariantPicker(context, stem, variants);
+                        }
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           border:
@@ -200,32 +242,56 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         padding: const EdgeInsets.all(4),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                        child: Stack(
                           children: [
-                            Expanded(
-                              child: Image.asset(
-                                _trainerAssetPath(key),
-                                fit: BoxFit.contain,
-                                filterQuality: FilterQuality.medium,
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: Image.asset(
+                                    _trainerAssetPath(rep),
+                                    fit: BoxFit.contain,
+                                    filterQuality: FilterQuality.medium,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  trainerDisplayName(rep),
+                                  style: const TextStyle(
+                                      fontSize: 10,
+                                      height: 1.15,
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                            // Variant-count badge in the corner so
+                            // the user can see at a glance whether
+                            // tapping will open a sub-picker. Shown
+                            // only when more than one variant exists.
+                            if (variants.length > 1)
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 1),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withValues(alpha: 0.7),
+                                    borderRadius:
+                                        BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '${variants.length}',
+                                    style: const TextStyle(
+                                        fontSize: 9,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 2),
-                            // Two lines max so long localized names
-                            // (e.g. '불난집 전문털이범') don't get
-                            // chopped to an unrecognisable ellipsis.
-                            // fontSize 10 stays readable at the
-                            // ~110-pt tile width without crowding.
-                            Text(
-                              trainerDisplayName(key),
-                              style: const TextStyle(
-                                  fontSize: 10,
-                                  height: 1.15,
-                                  fontWeight: FontWeight.w500),
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
                           ],
                         ),
                       ),
@@ -235,6 +301,113 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
               ),
           ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Sub-dialog shown when the user taps a group with multiple
+/// variants on the main picker (e.g. 'Cynthia' which has
+/// gen4 / gen4pt / masters / masters2 / masters3 sprites).
+/// Returns the chosen variant key via Navigator.pop, or null
+/// if the user cancels.
+class _TrainerVariantPicker extends StatelessWidget {
+  final String stem;
+  final List<String> variants;
+  const _TrainerVariantPicker({
+    required this.stem,
+    required this.variants,
+  });
+
+  /// Render a human-readable variant tag. Bare-stem keys (the
+  /// canonical sprite) get '기본'; per-game suffixes pass through
+  /// raw so the user can recognise 'gen3rs' vs 'gen3'.
+  String _variantLabel(String key) {
+    final tag = trainerVariantTag(key, stem);
+    if (tag == null) return AppStrings.t('trainerCard.variant.default');
+    return tag;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final title = trainerDisplayName(stem);
+    return Dialog(
+      child: ConstrainedBox(
+        constraints:
+            const BoxConstraints(maxWidth: 520, maxHeight: 600),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              child: GridView.builder(
+                padding: const EdgeInsets.all(12),
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 0.62,
+                ),
+                itemCount: variants.length,
+                itemBuilder: (_, i) {
+                  final v = variants[i];
+                  return InkWell(
+                    onTap: () => Navigator.pop(context, v),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.all(4),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                              _trainerAssetPath(v),
+                              fit: BoxFit.contain,
+                              filterQuality: FilterQuality.medium,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            _variantLabel(v),
+                            style: const TextStyle(
+                                fontSize: 10,
+                                height: 1.15,
+                                fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

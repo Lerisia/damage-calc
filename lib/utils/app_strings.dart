@@ -398,6 +398,11 @@ class AppStrings {
       AppLanguage.en: 'Include variants',
       AppLanguage.ja: 'バリエーション込み',
     },
+    'trainerCard.variant.default': {
+      AppLanguage.ko: '기본',
+      AppLanguage.en: 'Default',
+      AppLanguage.ja: '基本',
+    },
     'trainerCard.noMatches': {
       AppLanguage.ko: '검색 결과가 없습니다.',
       AppLanguage.en: 'No matches.',

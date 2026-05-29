@@ -875,3 +875,44 @@ String trainerDisplayName(String key) {
   if (aliases != null && aliases.isNotEmpty) return aliases.first;
   return stem;
 }
+
+/// Group sprite keys by their stem. Used by the two-level picker:
+/// top level shows one tile per group (one per character or NPC
+/// class), tap drills into a sub-dialog that lists every per-game
+/// variant of that group.
+Map<String, List<String>> groupTrainerKeysByStem(List<String> keys) {
+  final groups = <String, List<String>>{};
+  for (final k in keys) {
+    final stem = trainerKeyStem(k);
+    groups.putIfAbsent(stem, () => []).add(k);
+  }
+  // Sort each group: bare stem first (canonical sprite), then by
+  // generation/suffix alphabetical. Makes the sub-dialog's first
+  // tile the 'default' variant.
+  for (final entry in groups.entries) {
+    entry.value.sort((a, b) {
+      if (a == entry.key && b != entry.key) return -1;
+      if (b == entry.key && a != entry.key) return 1;
+      return a.compareTo(b);
+    });
+  }
+  return groups;
+}
+
+/// Pick the sprite key that should represent a group on the
+/// top-level picker tile. Prefers the bare stem (canonical
+/// sprite, no -genN suffix) when available; otherwise falls
+/// back to the alphabetically-first variant.
+String trainerGroupRepresentative(String stem, List<String> variants) {
+  if (variants.contains(stem)) return stem;
+  return variants.first;
+}
+
+/// Extract the variant tag suffix from a key — e.g.
+/// 'red-gen1rb' → 'gen1rb', 'cynthia-masters3' → 'masters3'.
+/// Returns null for bare-stem keys (canonical sprite).
+String? trainerVariantTag(String key, String stem) {
+  if (key == stem) return null;
+  if (key.length <= stem.length + 1) return null;
+  return key.substring(stem.length + 1);
+}
