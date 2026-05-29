@@ -48,7 +48,13 @@ class _CuratedTrainerPicker extends StatefulWidget {
 class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
   final _searchCtl = TextEditingController();
   TrainerCategory _category = TrainerCategory.all;
-  TrainerGeneration _generation = TrainerGeneration.all;
+  /// When false the picker hides every key with a hyphen suffix
+  /// (per-game / spinoff variants of the same character or class).
+  /// 562 canonical sprites vs 893 variants out of 1455 total —
+  /// off-by-default gives a much shorter scroll for users who just
+  /// want 'modern Cynthia' and don't care about her gen-4 vs
+  /// gen-4-DP vs Masters variants. Toggle on to see all.
+  bool _showVariants = false;
 
   @override
   void dispose() {
@@ -73,23 +79,6 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
           AppStrings.t('trainerCard.category.other'),
       };
 
-  String _generationLabel(TrainerGeneration g) => switch (g) {
-        TrainerGeneration.all =>
-          AppStrings.t('trainerCard.gen.all'),
-        TrainerGeneration.gen1 => AppStrings.t('trainerCard.gen.1'),
-        TrainerGeneration.gen2 => AppStrings.t('trainerCard.gen.2'),
-        TrainerGeneration.gen3 => AppStrings.t('trainerCard.gen.3'),
-        TrainerGeneration.gen4 => AppStrings.t('trainerCard.gen.4'),
-        TrainerGeneration.gen5 => AppStrings.t('trainerCard.gen.5'),
-        TrainerGeneration.gen6 => AppStrings.t('trainerCard.gen.6'),
-        TrainerGeneration.gen7 => AppStrings.t('trainerCard.gen.7'),
-        TrainerGeneration.gen8 => AppStrings.t('trainerCard.gen.8'),
-        TrainerGeneration.gen9 => AppStrings.t('trainerCard.gen.9'),
-        TrainerGeneration.masters =>
-          AppStrings.t('trainerCard.gen.masters'),
-        TrainerGeneration.other =>
-          AppStrings.t('trainerCard.gen.other'),
-      };
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +88,12 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
         : widget.allKeys
             .where((k) => trainerCategoryOf(k) == _category)
             .toList();
-    final byGen = _generation == TrainerGeneration.all
+    final byVariant = _showVariants
         ? byCategory
-        : byCategory
-            .where((k) => trainerGenerationOf(k) == _generation)
-            .toList();
+        : byCategory.where((k) => !k.contains('-')).toList();
     final filtered = query.isEmpty
-        ? byGen
-        : byGen
+        ? byVariant
+        : byVariant
             .where((k) => trainerSearchCorpus(k).any((s) => s.contains(query)))
             .toList();
     return Dialog(
@@ -156,40 +143,36 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
               ),
             ),
             const SizedBox(height: 4),
-            // Generation chips — second axis. Often the user knows
-            // 'I want a gen-3 NPC' even when they don't know the
-            // specific class name. Combined with the category row
-            // above, they form a 2-D filter that gets the user to
-            // ~10-50 candidates without typing.
-            SizedBox(
-              height: 40,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                children: [
-                  for (final g in TrainerGeneration.values) ...[
-                    ChoiceChip(
-                      label: Text(_generationLabel(g)),
-                      selected: _generation == g,
-                      onSelected: (_) => setState(() => _generation = g),
-                    ),
-                    const SizedBox(width: 6),
-                  ],
-                ],
-              ),
-            ),
-            const SizedBox(height: 4),
+            // Search row + variants toggle. Variants off shows the
+            // canonical (no-suffix) sprite per character/class —
+            // ~562 entries vs 1455 total — which is the right
+            // default for picking a 'modern Cynthia'. Toggle on
+            // to surface every per-game pixel variant.
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-              child: TextField(
-                controller: _searchCtl,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search, size: 18),
-                  hintText: AppStrings.t('trainerCard.searchHint'),
-                  isDense: true,
-                  border: const OutlineInputBorder(),
-                ),
-                onChanged: (_) => setState(() {}),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchCtl,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search, size: 18),
+                        hintText: AppStrings.t('trainerCard.searchHint'),
+                        isDense: true,
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (_) => setState(() {}),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  FilterChip(
+                    label: Text(
+                        AppStrings.t('trainerCard.showVariants')),
+                    selected: _showVariants,
+                    onSelected: (v) =>
+                        setState(() => _showVariants = v),
+                  ),
+                ],
               ),
             ),
             if (widget.allKeys.isEmpty)

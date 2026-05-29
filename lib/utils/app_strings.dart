@@ -383,6 +383,11 @@ class AppStrings {
       AppLanguage.en: 'Card theme',
       AppLanguage.ja: 'カードテーマ',
     },
+    'trainerCard.showVariants': {
+      AppLanguage.ko: '변종 포함',
+      AppLanguage.en: 'Include variants',
+      AppLanguage.ja: 'バリエーション込み',
+    },
     'trainerCard.noMatches': {
       AppLanguage.ko: '검색 결과가 없습니다.',
       AppLanguage.en: 'No matches.',
