@@ -38,16 +38,18 @@ class ClampingFormatter extends TextInputFormatter {
     final parsed = int.tryParse(newValue.text);
     if (parsed == null) return oldValue;
 
-    // Reject out-of-range edits instead of overwriting the field
-    // text with the clamped value. The previous overwrite path
-    // returned a synthetic TextEditingValue (new text + collapsed
-    // selection), which on iOS can mid-keystroke trip the soft
-    // keyboard's editing-state machine and yank focus from the
-    // input. Reject = keep oldValue verbatim → editing state stays
-    // pristine, keyboard stays up. User sees their over-range
-    // keystroke "do nothing" instead of snapping to the cap, which
-    // is also less surprising than the silent auto-clamp.
-    if (parsed > max || parsed < min) return oldValue;
+    if (parsed > max) {
+      return TextEditingValue(
+        text: '$max',
+        selection: TextSelection.collapsed(offset: '$max'.length),
+      );
+    }
+    if (parsed < min) {
+      return TextEditingValue(
+        text: '$min',
+        selection: TextSelection.collapsed(offset: '$min'.length),
+      );
+    }
     return newValue;
   }
 }
@@ -1398,16 +1400,24 @@ class SelectAllFieldState extends State<SelectAllField> {
       });
       return;
     }
-    // On blur, snap the display back to the parent's canonical text.
-    // The parent's onChanged already pushed a fallback (e.g. 0 for an
-    // empty EV) into widget state, and the new [widget.initialText]
-    // reflects that — but we never auto-synced into the controller
-    // while the field was focused. Without this, deleting all digits
-    // leaves the field visually blank even though the underlying
-    // value is 0. Also strips leading zeros ("0005" → "5").
-    if (_controller.text != widget.initialText) {
-      _controller.text = widget.initialText;
-    }
+    // Blur path — defer to a post-frame callback and re-check
+    // focus before running. iOS soft keyboards can emit a
+    // transient blur+refocus pair when the user types two
+    // characters in rapid succession (focus dips for ~one frame
+    // between the keystrokes). If we snapped the controller text
+    // synchronously here, the snap fires during that transient
+    // blur and either (a) overwrites the half-typed value, or
+    // (b) confuses the keyboard's editing-state machine enough
+    // that it dismisses itself entirely. Deferring + re-checking
+    // means a real blur (user tapped away) still snaps, but a
+    // ~one-frame flicker is ignored.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (_focusNode.hasFocus) return; // it was just a flicker
+      if (_controller.text != widget.initialText) {
+        _controller.text = widget.initialText;
+      }
+    });
   }
 
   @override
@@ -1431,16 +1441,6 @@ class SelectAllFieldState extends State<SelectAllField> {
       textAlign: widget.textAlign,
       onChanged: widget.onChanged,
       onSubmitted: widget.onSubmitted,
-      // iOS-side keyboard niceties off — predictive text /
-      // autocorrect / smart-punctuation occasionally intercept
-      // single-character changes on the numeric keypad and yank
-      // focus mid-keystroke (the calc-side EV input regression
-      // users keep reporting). Numeric stat inputs have no use for
-      // any of these features anyway.
-      enableSuggestions: false,
-      autocorrect: false,
-      smartDashesType: SmartDashesType.disabled,
-      smartQuotesType: SmartQuotesType.disabled,
     );
   }
 }
