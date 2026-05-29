@@ -335,6 +335,148 @@ const Map<String, List<String>> trainerAliases = {
   'youngcouple': ['젊은 부부', 'カップル'],
 };
 
+/// Coarse category for picker browsing. Most users won't know
+/// 'wattson' by name but *will* recognise 'gym leader of generation
+/// 3' — categories let them drill in without typing. Categories
+/// are derived from [trainerKeyStem] against the curated sets
+/// below; anything we haven't classified falls into [other] so the
+/// 'All' tab is always exhaustive even if our hand-curation lags.
+enum TrainerCategory {
+  all,
+  champion,
+  gymLeader,
+  eliteFour,
+  protagonistRival,
+  npc,
+  other;
+}
+
+/// Stems classified as Champions across the main-line games.
+/// Mirrors the 'Champions' block at the top of [trainerAliases].
+const Set<String> trainerChampionStems = {
+  'red', 'blue', 'lance', 'steven', 'wallace', 'cynthia',
+  'alder', 'iris', 'diantha', 'kukui', 'hau', 'leon',
+  'mustard', 'peony', 'geeta', 'nemona', 'kieran', 'carmine',
+  'blue-leader',
+};
+
+/// Stems classified as Gym Leaders.
+const Set<String> trainerGymLeaderStems = {
+  // Kanto
+  'brock', 'misty', 'ltsurge', 'erika', 'koga', 'sabrina',
+  'blaine', 'giovanni', 'janine',
+  // Johto
+  'falkner', 'bugsy', 'whitney', 'morty', 'chuck', 'jasmine',
+  'pryce', 'clair',
+  // Hoenn
+  'roxanne', 'brawly', 'wattson', 'flannery', 'norman',
+  'winona', 'tate', 'liza', 'juan',
+  // Sinnoh
+  'roark', 'gardenia', 'maylene', 'crasher_wake', 'crasherwake',
+  'fantina', 'byron', 'candice', 'volkner',
+  // Unova
+  'cilan', 'chili', 'cress', 'lenora', 'burgh', 'elesa',
+  'clay', 'skyla', 'brycen', 'drayden', 'roxie', 'marlon',
+  // Kalos
+  'viola', 'grant', 'korrina', 'ramos', 'clemont', 'valerie',
+  'olympia', 'wulfric',
+  // Galar
+  'milo', 'nessa', 'kabu', 'bea', 'allister', 'opal',
+  'gordie', 'melony', 'piers', 'raihan',
+  // Paldea
+  'katy', 'brassius', 'iono', 'kofu', 'larry', 'ryme',
+  'tulip', 'grusha',
+  // Alola Trial Captains / Kahunas — game-mechanic cousins of
+  // gym leaders, grouped here so the picker doesn't need a
+  // 7th tab just for one region.
+  'ilima', 'lana', 'kiawe', 'mallow', 'sophocles', 'acerola',
+  'mina', 'hala', 'olivia', 'nanu', 'hapu',
+};
+
+/// Stems classified as Elite Four members.
+const Set<String> trainerEliteFourStems = {
+  'lorelei', 'bruno', 'agatha',
+  'will', 'karen',
+  'sidney', 'phoebe', 'glacia', 'drake',
+  'aaron', 'bertha', 'flint', 'lucian',
+  'shauntal', 'grimsley', 'caitlin', 'marshal',
+  'malva', 'siebold', 'wikstrom', 'drasna',
+  'molayne',
+};
+
+/// Stems classified as protagonists or rivals — they share a
+/// tab because both fill the 'player surrogate / friendly foil'
+/// role and players tend to recognise them together.
+const Set<String> trainerProtagonistRivalStems = {
+  // Protagonists
+  'ethan', 'kris', 'lyra', 'brendan', 'may', 'lucas', 'dawn',
+  'hilbert', 'hilda', 'nate', 'rosa', 'calem', 'serena',
+  'elio', 'selene', 'victor', 'gloria', 'juliana', 'florian',
+  // Rivals
+  'silver', 'wally', 'barry', 'cheren', 'bianca', 'n', 'hugh',
+  'shauna', 'tierno', 'trevor', 'gladion', 'lillie', 'marnie',
+  'bede', 'klara', 'avery', 'arven', 'penny',
+};
+
+/// NPC trainer class stems. Mirrors the 'Trainer classes (NPC)'
+/// block of [trainerAliases]. Anything not in this set and not
+/// in the named-character sets lands in [TrainerCategory.other].
+const Set<String> trainerNpcClassStems = {
+  'acetrainer', 'acetrainercouple', 'acetrainerf', 'aromalady',
+  'artist', 'baker', 'battlegirl', 'beauty', 'bellhop', 'biker',
+  'bird-keeper', 'birdkeeper', 'blackbelt', 'boarder', 'breeder',
+  'breederf', 'bugcatcher', 'bugmaniac', 'burglar', 'cameraman',
+  'channeler', 'cheerleader', 'chef', 'chic', 'cooltrainer',
+  'cyclist', 'dancer', 'dragontamer', 'engineer', 'expertm',
+  'expertf', 'fairy', 'fairytalegirl', 'firebreather', 'fisherman',
+  'gambler', 'gameboy', 'gentleman', 'guitarist', 'hexmaniac',
+  'hiker', 'idol', 'jogger', 'juggler', 'kindler', 'lady', 'lass',
+  'maid', 'medium', 'monk', 'musician', 'ninjaboy', 'oldcouple',
+  'parasolady', 'picknicker', 'plasmagrunt', 'plasmagruntf',
+  'pokefan', 'pokefanf', 'pokekid', 'pokemaniac', 'pokemanic',
+  'policeman', 'preschoolerm', 'preschoolerf', 'pikabro',
+  'pikachu-libre', 'punkgirl', 'punkguy', 'reporter', 'researcher',
+  'richboy', 'roughneck', 'rocketgrunt', 'rocketgruntf',
+  'magmagrunt', 'magmagruntf', 'aquagrunt', 'aquagruntf',
+  'galacticgrunt', 'galacticgruntf', 'flaregrunt', 'flaregruntf',
+  'skullgrunt', 'skullgruntf', 'machogrunt', 'rangerm', 'rangerf',
+  'rocker', 'sage', 'sailor', 'schoolboy', 'schoolgirl', 'schoolkid',
+  'scientist', 'scientistf', 'sisandbro', 'skierm', 'skierf',
+  'skyer', 'sr-and-jr', 'srandjr', 'striker', 'supernerd',
+  'swimmer', 'swimmerf', 'tamer', 'teacher', 'triathlete',
+  'tuber', 'tuberf', 'twins', 'veteran', 'veteranf', 'waiter',
+  'waitress', 'worker', 'workerice', 'workerf', 'youngster',
+  'youngcouple',
+};
+
+/// Classify a sprite key into one of the picker tabs. Uses the
+/// stem (suffix-stripped key) so e.g. 'cynthia-masters3' and
+/// 'cynthia-gen4' both land in [TrainerCategory.champion].
+TrainerCategory trainerCategoryOf(String key) {
+  final stem = trainerKeyStem(key);
+  if (trainerChampionStems.contains(stem) ||
+      trainerChampionStems.contains(key)) {
+    return TrainerCategory.champion;
+  }
+  if (trainerGymLeaderStems.contains(stem) ||
+      trainerGymLeaderStems.contains(key)) {
+    return TrainerCategory.gymLeader;
+  }
+  if (trainerEliteFourStems.contains(stem) ||
+      trainerEliteFourStems.contains(key)) {
+    return TrainerCategory.eliteFour;
+  }
+  if (trainerProtagonistRivalStems.contains(stem) ||
+      trainerProtagonistRivalStems.contains(key)) {
+    return TrainerCategory.protagonistRival;
+  }
+  if (trainerNpcClassStems.contains(stem) ||
+      trainerNpcClassStems.contains(key)) {
+    return TrainerCategory.npc;
+  }
+  return TrainerCategory.other;
+}
+
 /// Strip generation/format suffixes from an asset key so we can
 /// look up the alias of the underlying character/class. Example:
 ///   'red-gen1rb' → 'red'

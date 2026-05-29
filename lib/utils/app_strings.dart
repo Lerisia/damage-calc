@@ -283,6 +283,41 @@ class AppStrings {
       AppLanguage.en: 'Tap the avatar area to change the photo.',
       AppLanguage.ja: 'アバター部分をタップして写真を変更できます。',
     },
+    'trainerCard.category.all': {
+      AppLanguage.ko: '전체',
+      AppLanguage.en: 'All',
+      AppLanguage.ja: 'すべて',
+    },
+    'trainerCard.category.champion': {
+      AppLanguage.ko: '챔피언',
+      AppLanguage.en: 'Champion',
+      AppLanguage.ja: 'チャンピオン',
+    },
+    'trainerCard.category.gymLeader': {
+      AppLanguage.ko: '체육관 관장',
+      AppLanguage.en: 'Gym Leader',
+      AppLanguage.ja: 'ジムリーダー',
+    },
+    'trainerCard.category.eliteFour': {
+      AppLanguage.ko: '사천왕',
+      AppLanguage.en: 'Elite Four',
+      AppLanguage.ja: '四天王',
+    },
+    'trainerCard.category.protagonistRival': {
+      AppLanguage.ko: '주인공·라이벌',
+      AppLanguage.en: 'Protagonist · Rival',
+      AppLanguage.ja: '主人公・ライバル',
+    },
+    'trainerCard.category.npc': {
+      AppLanguage.ko: '일반 트레이너',
+      AppLanguage.en: 'NPC trainers',
+      AppLanguage.ja: '一般トレーナー',
+    },
+    'trainerCard.category.other': {
+      AppLanguage.ko: '기타',
+      AppLanguage.en: 'Other',
+      AppLanguage.ja: 'その他',
+    },
     'trainerCard.noMatches': {
       AppLanguage.ko: '검색 결과가 없습니다.',
       AppLanguage.en: 'No matches.',

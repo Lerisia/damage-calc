@@ -45,6 +45,7 @@ class _CuratedTrainerPicker extends StatefulWidget {
 
 class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
   final _searchCtl = TextEditingController();
+  TrainerCategory _category = TrainerCategory.all;
 
   @override
   void dispose() {
@@ -52,18 +53,40 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
     super.dispose();
   }
 
+  String _categoryLabel(TrainerCategory c) => switch (c) {
+        TrainerCategory.all =>
+          AppStrings.t('trainerCard.category.all'),
+        TrainerCategory.champion =>
+          AppStrings.t('trainerCard.category.champion'),
+        TrainerCategory.gymLeader =>
+          AppStrings.t('trainerCard.category.gymLeader'),
+        TrainerCategory.eliteFour =>
+          AppStrings.t('trainerCard.category.eliteFour'),
+        TrainerCategory.protagonistRival =>
+          AppStrings.t('trainerCard.category.protagonistRival'),
+        TrainerCategory.npc =>
+          AppStrings.t('trainerCard.category.npc'),
+        TrainerCategory.other =>
+          AppStrings.t('trainerCard.category.other'),
+      };
+
   @override
   Widget build(BuildContext context) {
     final query = _searchCtl.text.trim().toLowerCase();
-    final filtered = query.isEmpty
+    final byCategory = _category == TrainerCategory.all
         ? widget.allKeys
         : widget.allKeys
+            .where((k) => trainerCategoryOf(k) == _category)
+            .toList();
+    final filtered = query.isEmpty
+        ? byCategory
+        : byCategory
             .where((k) => trainerSearchCorpus(k).any((s) => s.contains(query)))
             .toList();
     return Dialog(
       child: ConstrainedBox(
         constraints:
-            const BoxConstraints(maxWidth: 520, maxHeight: 640),
+            const BoxConstraints(maxWidth: 520, maxHeight: 700),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -85,6 +108,28 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                 ],
               ),
             ),
+            // Category chips — horizontal-scrollable so they fit on
+            // narrow widths without wrapping. ChoiceChip rather than
+            // a SegmentedButton because we have 7 options (the
+            // material spec caps SegmentedButton at 5).
+            SizedBox(
+              height: 40,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  for (final c in TrainerCategory.values) ...[
+                    ChoiceChip(
+                      label: Text(_categoryLabel(c)),
+                      selected: _category == c,
+                      onSelected: (_) => setState(() => _category = c),
+                    ),
+                    const SizedBox(width: 6),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
               child: TextField(
