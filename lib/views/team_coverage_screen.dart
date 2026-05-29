@@ -27,7 +27,6 @@ import '../utils/korean_search.dart';
 import '../utils/party_image_save.dart';
 import '../utils/sample_save_flow.dart';
 import 'widgets/ev_sp_cell.dart';
-import 'widgets/trainer_card_dialog.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import '../utils/sprite_pack_manager.dart';
@@ -298,79 +297,11 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
     setState(() => slot.moves[moveIndex] = move);
   }
 
-  /// Two-option chooser shown when the user taps the camera button
-  /// on the party tab: plain party list (existing capture flow)
-  /// vs. trainer card (editable name / season / avatar + party).
-  /// Defense / offense tabs skip this picker and capture directly.
+  /// Camera button on the party tab → straight to party capture.
+  /// Trainer-card option pulled pending sprite-licensing review;
+  /// the dialog code + assets were removed from the build.
   Future<void> _showPartyCaptureChoice() async {
-    int? choice = 0;
-    final picked = await showDialog<int>(
-      context: context,
-      builder: (ctx) {
-        return StatefulBuilder(builder: (ctx, setLocalState) {
-          return AlertDialog(
-            title: Text(AppStrings.t('team.captureChoice.title')),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RadioListTile<int>(
-                  value: 0,
-                  groupValue: choice,
-                  onChanged: (v) => setLocalState(() => choice = v),
-                  title: Text(AppStrings.t('team.captureChoice.party')),
-                  contentPadding: EdgeInsets.zero,
-                  visualDensity: VisualDensity.compact,
-                ),
-                RadioListTile<int>(
-                  value: 1,
-                  groupValue: choice,
-                  onChanged: (v) => setLocalState(() => choice = v),
-                  title:
-                      Text(AppStrings.t('team.captureChoice.trainerCard')),
-                  contentPadding: EdgeInsets.zero,
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: Text(AppStrings.t('action.cancel')),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, choice),
-                child: Text(AppStrings.t('team.captureChoice.confirm')),
-              ),
-            ],
-          );
-        });
-      },
-    );
-    if (picked == null || !mounted) return;
-    if (picked == 0) {
-      await _capturePartyImage();
-    } else {
-      await _showTrainerCardDialog();
-    }
-  }
-
-  /// Trainer-card editor + capture entry point. Opens the dialog
-  /// where the user fills in name / season / score / avatar; the
-  /// dialog handles the offscreen render + save itself so this
-  /// screen stays slim.
-  Future<void> _showTrainerCardDialog() async {
-    if (!mounted) return;
-    // Pass both species + shiny flag through TrainerCardSlot so the
-    // generated trainer card honours the user's shiny toggle on each
-    // slot (previously the card always rendered the regular sprite).
-    final party = [
-      for (final s in _team)
-        TrainerCardSlot(pokemon: s.pokemon, shiny: s.shiny),
-    ];
-    await showDialog(
-      context: context,
-      builder: (_) => TrainerCardDialog(party: party),
-    );
+    await _capturePartyImage();
   }
 
   /// Capture the current party as a PNG and save it to the user's

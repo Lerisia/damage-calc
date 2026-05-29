@@ -315,27 +315,34 @@ class SpriteService extends ChangeNotifier {
     final override = SpriteOverrideManager.instance
         .overrideFor(pokemonName, OverrideChannel.large);
     if (override != null) return override;
-    // Shiny path nests under `shiny/` inside the same style's
-    // tree both on web (sprites/<style>/shiny/<key>.<ext>) and in
-    // the extracted mobile pack (cacheDirFor(s)/shiny/<key>.<ext>).
-    final shinySegment = shiny ? 'shiny/' : '';
     if (kIsWeb) {
-      // jsDelivr-fronted GitHub raw — Showdown's CDN doesn't send
-      // access-control-allow-origin, which CanvasKit's image decode
-      // pipeline requires. Our pack repo's extracted tree at
-      // sprites/<style>/ is published with that header automatically.
-      // Same scope cap as the mobile pack (bw = gen1-5, dex = full)
-      // — anything outside resolves to the pokéball placeholder via
-      // the widget's onError.
-      final url = 'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
-          'sprites/${s.name}/$shinySegment$key.${s.ext}';
+      // Web fetches sprites directly from Showdown's own CDN —
+      // play.pokemonshowdown.com hosts the canonical tree and sends
+      // CORS allow-* (their own webapp consumes them in-browser).
+      // We previously re-hosted via a damage-calc-sprite-pack repo
+      // fronted by jsDelivr; that was effectively redistribution of
+      // Smogon Sprite Project art, which the licence asks us not to
+      // do. Linking straight at Showdown keeps us out of the
+      // redistribution chain — Smogon hosts, we just point.
+      //
+      // URL shape per Showdown:
+      //   sprites/<dir>/<key>.<ext>           (regular)
+      //   sprites/<dir>-shiny/<key>.<ext>     (shiny)
+      // NB: Showdown uses a `-shiny` sibling directory, not a
+      // shiny/ subfolder like our old pack tree.
+      final shinySuffix = shiny ? '-shiny' : '';
+      final url =
+          'https://play.pokemonshowdown.com/sprites/${s.dir}$shinySuffix/'
+          '$key.${s.ext}';
       return NetworkImage(url);
     }
     // Mobile path is strictly offline — the iOS / Android builds
     // ship without internet capability and can't fall back to the
     // CDN. See feedback_offline_only_mobile.md. Everything below
-    // is local-file-only; a missing shiny file resolves through
-    // PokemonSprite's chain to the regular variant.
+    // is local-file-only; the extracted mobile pack still uses
+    // shiny/ as a subdirectory (legacy installFromZip layout —
+    // changing that would break already-imported user packs).
+    final shinySegment = shiny ? 'shiny/' : '';
     if (!SpritePackManager.instance.isInstalled(s)) return null;
     final dir = SpritePackManager.instance.cacheDirFor(s);
     if (dir == null) return null;
@@ -374,9 +381,12 @@ class SpriteService extends ChangeNotifier {
         .overrideFor(pokemonName, OverrideChannel.small);
     if (override != null) return override;
     if (kIsWeb) {
+      // Showdown serves individual 40×30 box icons under
+      // /sprites/pokemonicons/. Same redistribution-avoidance
+      // story as the sprite URL above — we point at their CDN
+      // instead of re-hosting the cropped icon set ourselves.
       return NetworkImage(
-          'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
-          'sprites/icons/$key.png');
+          'https://play.pokemonshowdown.com/sprites/pokemonicons/$key.png');
     }
     if (!SpritePackManager.instance.iconsInstalled) return null;
     final dir = SpritePackManager.instance.iconsCacheDir;

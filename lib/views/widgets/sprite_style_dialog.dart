@@ -44,12 +44,30 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
     SpriteStyle.dex: 'sprite.style.dex',
   };
 
-  /// `/releases/latest/download/<name>` always resolves to whatever
-  /// the most-recent release tags as that asset, so the URL stays
-  /// correct as the nightly pack-build workflow re-publishes.
-  String _downloadUrl(SpriteStyle style) =>
-      'https://github.com/Lerisia/damage-calc-sprite-pack/'
-      'releases/latest/download/${style.name}.zip';
+  /// Smogon's own bulk-download shortlinks — these resolve to the
+  /// canonical Sprite Project ZIPs hosted by Smogon themselves.
+  /// Tapping these in a browser starts the download immediately;
+  /// user then hands the file to [_pickAndImport]. Keeps
+  /// damage-calc out of the redistribution chain — Smogon hosts,
+  /// we just point.
+  String _smogonDownloadUrl(SpriteStyle style) {
+    switch (style) {
+      case SpriteStyle.bw:
+        // Sun/Moon Sprite Project bulk ZIP — gen 7 BW-style
+        // sprites. The X/Y project (gens 1-6) doesn't expose a
+        // single ZIP, so this is the most useful out-of-the-box
+        // pixel pack we can hand users.
+        return 'http://spo.ink/al7';
+      case SpriteStyle.dex:
+        // Smogon Sprite Project (SwSh+) bulk ZIP — gens 8-9
+        // modern HD sprites.
+        return 'http://spo.ink/amr';
+      case SpriteStyle.ani:
+        // Animated style has no mobile pack today; left for
+        // completeness — falls through to the SwSh+ link.
+        return 'http://spo.ink/amr';
+    }
+  }
 
   Future<void> _pickAndImport(SpriteStyle style) async {
     setState(() => _busy[style] = true);
@@ -189,11 +207,11 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
                 children: [
                   _PackActionButton(
                     icon: Icons.download,
-                    labelKey: 'sprite.downloadPack',
+                    labelKey: 'sprite.smogonDownload',
                     onPressed: busy
                         ? null
                         : () => ul.launchUrl(
-                            Uri.parse(_downloadUrl(s)),
+                            Uri.parse(_smogonDownloadUrl(s)),
                             mode: ul.LaunchMode.externalApplication),
                   ),
                   _PackActionButton(

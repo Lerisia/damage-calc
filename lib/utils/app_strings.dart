@@ -273,6 +273,11 @@ class AppStrings {
       AppLanguage.en: 'Upload from photos',
       AppLanguage.ja: '写真からアップロード',
     },
+    'sprite.smogonDownload': {
+      AppLanguage.ko: 'Smogon에서 다운로드',
+      AppLanguage.en: 'Download from Smogon',
+      AppLanguage.ja: 'Smogonからダウンロード',
+    },
     'trainerCard.searchHint': {
       AppLanguage.ko: '검색 (예: 레드, 난천, 엘리트)',
       AppLanguage.en: 'Search (e.g., red, cynthia, ace)',
@@ -898,9 +903,9 @@ class AppStrings {
       AppLanguage.ja: '画像パックを削除',
     },
     'sprite.importHowTo': {
-      AppLanguage.ko: '1) "이미지팩 다운로드"로 파일을 받으신 뒤  2) "이미지팩 가져오기"로 그 파일을 선택해주세요. 한 번 가져오면 오프라인에서도 표시됩니다.',
-      AppLanguage.en: '1) Tap "Download sprite pack" to get a ZIP, then  2) tap "Import sprite pack" and pick that file. Once imported, sprites work offline.',
-      AppLanguage.ja: '1)「画像パックをダウンロード」でファイルを取得 → 2)「画像パックを取り込み」でファイルを選択。取り込み後はオフラインでも表示されます。',
+      AppLanguage.ko: '1) "Smogon에서 다운로드"를 누르면 Smogon 스프라이트 ZIP이 바로 받아집니다.  2) "이미지팩 가져오기"로 그 파일을 선택해주세요. 한 번 가져오면 오프라인에서도 표시됩니다.',
+      AppLanguage.en: '1) Tap "Download from Smogon" — the ZIP downloads straight from Smogon.  2) Tap "Import sprite pack" and pick that file. Once imported, sprites work offline.',
+      AppLanguage.ja: '1)「Smogonからダウンロード」をタップするとZIPが直接ダウンロードされます。 2)「画像パックを取り込み」でファイルを選択してください。取り込み後はオフラインでも表示されます。',
     },
     'sprite.importedCount': {
       AppLanguage.ko: '{n}개의 스프라이트를 가져왔습니다.',
