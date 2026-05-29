@@ -449,28 +449,44 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Column-of-Rows instead of GridView. GridView with
+                  // shrinkWrap inside an Expanded inside a Row whose
+                  // height is dominated by the avatar (180 pt) was
+                  // getting a tight vertical constraint of 180 and
+                  // padding the empty space at the TOP of its
+                  // viewport — which is exactly the 'huge gap above
+                  // the pokemon row' the user keeps reporting.
+                  // Explicit Rows with fixed-height tiles size to
+                  // their content unambiguously.
                   Expanded(
                     flex: 5,
-                    child: GridView.count(
-                      crossAxisCount: 3,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      mainAxisSpacing: 6,
-                      crossAxisSpacing: 6,
-                      // Landscape rectangle tiles (was 1.0). Per user:
-                      // wider than tall, sprite zoomed-in even if a
-                      // little clipping happens.
-                      childAspectRatio: 1.55,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        for (int i = 0; i < 6; i++)
-                          _spriteTile(widget.party[i]),
+                        for (int row = 0; row < 2; row++) ...[
+                          if (row > 0) const SizedBox(height: 6),
+                          SizedBox(
+                            height: 90,
+                            child: Row(
+                              children: [
+                                for (int col = 0; col < 3; col++) ...[
+                                  if (col > 0) const SizedBox(width: 6),
+                                  Expanded(
+                                    child:
+                                        _spriteTile(widget.party[row * 3 + col]),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
                   const SizedBox(width: 12),
                   SizedBox(
                     width: 140,
-                    height: 180,
+                    height: 186, // matches the 2 × 90 + 6 grid height
                     child: _avatarImage(fit: BoxFit.cover) ??
                         Container(
                           color: Colors.grey.shade100,
@@ -565,12 +581,13 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
             ? const SizedBox.shrink()
             : FittedBox(
                 fit: BoxFit.cover,
-                // (0, -0.5) shifts the visible window up so the
-                // sprite's head/face is centred in the tile — BW
-                // sprites generally have the face in the upper
-                // third, and the default centred crop was framing
-                // the chest instead.
-                alignment: const Alignment(0, -0.5),
+                // (0, -0.7) pushes the visible window even higher so
+                // the sprite's head/face dominates the tile. BW
+                // sprites have the face in the upper third, the
+                // body+feet take up the lower two-thirds, and the
+                // bigger zoom amplifies whichever region we centre
+                // on — so the alignment has to be aggressive.
+                alignment: const Alignment(0, -0.7),
                 child: SizedBox(
                   width: 96,
                   height: 96,
