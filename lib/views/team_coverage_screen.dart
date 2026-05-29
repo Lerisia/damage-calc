@@ -1466,7 +1466,9 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
       // Cap AppBar visual width to match the body so the toolbar
       // chrome sits centered above the panes on 4K screens.
       appBar: cappedAppBar(
-        maxWidth: 1600,
+        // Matches body cap (1500) so the toolbar centers above
+        // the 3-column body on ultra-wide displays.
+        maxWidth: 1500,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: MediaQuery.sizeOf(context).width >= 1050
@@ -1562,15 +1564,31 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
         //
         // Narrow keeps the tab structure for vertical-phone usage.
         child: isWide
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(child: partyTab),
-                  const VerticalDivider(width: 1, thickness: 1),
-                  Expanded(child: defenseTab),
-                  const VerticalDivider(width: 1, thickness: 1),
-                  Expanded(child: offenseTab),
-                ],
+            ? LayoutBuilder(
+                builder: (context, c) {
+                  // Cap the 3-column layout at 1500-pt wide and
+                  // top-center on larger displays. Matches the dex
+                  // screen's larger cap; without this, ultra-wide
+                  // monitors stretch each column past readable
+                  // width with no extra information to show.
+                  final w = c.maxWidth.clamp(0.0, 1500.0);
+                  return Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: w,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(child: partyTab),
+                          const VerticalDivider(width: 1, thickness: 1),
+                          Expanded(child: defenseTab),
+                          const VerticalDivider(width: 1, thickness: 1),
+                          Expanded(child: offenseTab),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
