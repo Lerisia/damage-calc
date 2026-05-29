@@ -38,18 +38,16 @@ class ClampingFormatter extends TextInputFormatter {
     final parsed = int.tryParse(newValue.text);
     if (parsed == null) return oldValue;
 
-    if (parsed > max) {
-      return TextEditingValue(
-        text: '$max',
-        selection: TextSelection.collapsed(offset: '$max'.length),
-      );
-    }
-    if (parsed < min) {
-      return TextEditingValue(
-        text: '$min',
-        selection: TextSelection.collapsed(offset: '$min'.length),
-      );
-    }
+    // Reject out-of-range edits instead of overwriting the field
+    // text with the clamped value. The previous overwrite path
+    // returned a synthetic TextEditingValue (new text + collapsed
+    // selection), which on iOS can mid-keystroke trip the soft
+    // keyboard's editing-state machine and yank focus from the
+    // input. Reject = keep oldValue verbatim → editing state stays
+    // pristine, keyboard stays up. User sees their over-range
+    // keystroke "do nothing" instead of snapping to the cap, which
+    // is also less surprising than the silent auto-clamp.
+    if (parsed > max || parsed < min) return oldValue;
     return newValue;
   }
 }
@@ -1433,6 +1431,16 @@ class SelectAllFieldState extends State<SelectAllField> {
       textAlign: widget.textAlign,
       onChanged: widget.onChanged,
       onSubmitted: widget.onSubmitted,
+      // iOS-side keyboard niceties off — predictive text /
+      // autocorrect / smart-punctuation occasionally intercept
+      // single-character changes on the numeric keypad and yank
+      // focus mid-keystroke (the calc-side EV input regression
+      // users keep reporting). Numeric stat inputs have no use for
+      // any of these features anyway.
+      enableSuggestions: false,
+      autocorrect: false,
+      smartDashesType: SmartDashesType.disabled,
+      smartQuotesType: SmartQuotesType.disabled,
     );
   }
 }
