@@ -30,18 +30,20 @@ const Map<String, List<String>> trainerAliases = {
   'steven': ['성호', 'ダイゴ', 'steven stone'],
   'wallace': ['윤진', 'ミクリ'],
   'cynthia': ['난천', 'シロナ'],
-  'alder': ['적두', 'アデク'],
+  'alder': ['노간주', 'アデク'],
   'iris': ['아이리스', 'アイリス'],
   'diantha': ['카르네', 'カルネ'],
   'kukui': ['쿠쿠이', 'ククイ'],
   'hau': ['하우', 'ハウ'],
-  'leon': ['단단', 'ダンデ'],
+  'leon': ['단델', 'ダンデ'],
   'mustard': ['머스타드', 'マスタード'],
   'peony': ['피오니', 'ピオニー'],
   'geeta': ['테사', 'オモダカ'],
   'nemona': ['네모', 'ネモ'],
-  'kieran': ['우호이', 'スグリ'],
-  'carmine': ['홍모', 'ゼイユ'],
+  // Kieran's KO is 카지 (collides with Paldea bug leader Katy — both
+  // are 카지 in Korean Pokémon localization)
+  'kieran': ['카지', 'スグリ'],
+  'carmine': ['시유', 'ゼイユ'],
   // Paldea E4 (SV): hassel/rika/poppy/larry under E4, geeta is
   // Top Champion above. larry is in Gym Leaders too (dual role).
   'hassel': ['팔자크', 'ハッサク'],
@@ -56,26 +58,30 @@ const Map<String, List<String>> trainerAliases = {
   'kris': ['크리스', 'クリス'],
   'lyra': ['하트', 'コトネ'],
   'brendan': ['호일', 'ユウキ'],
-  'may': ['미나', 'ハルカ'],
-  'lucas': ['진수', 'コウキ'],
+  // May's previous alias '미나' collided with Alola Trial Captain Mina
+  'may': ['봄이', 'ハルカ'],
+  'lucas': ['광휘', 'コウキ'],
   'dawn': ['빛나', 'ヒカリ'],
-  'hilbert': ['투우', 'トウヤ'],
-  'hilda': ['벨', 'トウコ'],
-  'nate': ['휴이', 'キョウヘイ'],
-  'rosa': ['메이', 'メイ'],
+  'hilbert': ['투지', 'トウヤ'],
+  // Hilda's previous alias '벨' was Bianca's name (collision)
+  'hilda': ['투희', 'トウコ'],
+  // Nate's previous alias '휴이' was Hugh's name (collision)
+  'nate': ['공명', 'キョウヘイ'],
+  // Rosa's previous alias '메이' was the Japanese name verbatim
+  'rosa': ['명희', 'メイ'],
   'calem': ['칼름', 'カルム'],
   'serena': ['세레나', 'セレナ'],
   'elio': ['영태', 'ヨウ', 'sun'],
   'selene': ['미월', 'ミヅキ', 'moon'],
   'victor': ['빅터', 'マサル'],
-  'gloria': ['글로리아', 'ユウリ'],
+  'gloria': ['우리', 'ユウリ'],
   'juliana': ['아오이', 'アオイ'],
   'florian': ['하루토', 'ハルト'],
 
   // === Rivals ==============================================
   'silver': ['실버', 'シルバー'],
   'wally': ['미루', 'ミツル'],
-  'barry': ['웅이', 'ジュン'],
+  'barry': ['용식', 'ジュン'],
   'cheren': ['체렌', 'チェレン'],
   'bianca': ['벨', 'ベル'],
   'n': ['엔', 'N'],
@@ -93,11 +99,34 @@ const Map<String, List<String>> trainerAliases = {
   // Japanese name (オニオン) by mistake.
   'avery': ['세이버리', 'セイボリー'],
   'arven': ['페퍼', 'ペパー'],
-  'penny': ['보탄', 'ボタン'],
+  'penny': ['모란', 'ボタン'],
   // PLA / BW2 Subway brothers. Korean direct-translation of
   // ノボリ/クダリ (going up/going down).
   'ingo': ['상행', 'ノボリ'],
   'emmet': ['하행', 'クダリ'],
+  'hop': ['호브', 'ホップ'],
+
+  // === Villain organisation bosses ========================
+  // Promoted out of 'Other' (user flagged that these all appear
+  // in the games and shouldn't be uncategorised). Verified KO
+  // names via namu.wiki.
+  'maxie': ['마적', 'マツブサ', 'team magma boss'],
+  'archie': ['아강', 'アオギリ', 'team aqua boss'],
+  'cyrus': ['태홍', 'アカギ', 'team galactic boss'],
+  'ghetsis': ['게치스', 'ゲーチス', 'team plasma boss'],
+  'colress': ['아크로마', 'アクロマ', 'team plasma scientist'],
+  'lysandre': ['플라드리', 'フラダリ', 'team flare boss'],
+  'guzma': ['구즈마', 'グズマ', 'team skull boss'],
+  'lusamine': ['루자미네', 'ルザミーネ', 'aether president'],
+  'rose': ['로즈', 'ローズ', 'macro cosmos chairman'],
+
+  // === Aether Foundation grunts ===========================
+  // User specifically flagged that these were untranslated.
+  'aetheremployee': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether employee'],
+  'aetheremployeef': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether employee'],
+  'aetherfoundation': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether foundation'],
+  'aetherfoundation2': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether foundation'],
+  'aetherfoundationf': ['에테르재단 직원', 'エーテルざいだんしょくいん', 'aether foundation'],
 
   // === Kanto Gym Leaders ==================================
   'brock': ['웅', 'タケシ'],
@@ -107,7 +136,7 @@ const Map<String, List<String>> trainerAliases = {
   'koga': ['독수', 'キョウ'],
   'sabrina': ['초련', 'ナツメ'],
   'blaine': ['강연', 'カツラ'],
-  'giovanni': ['관철', 'サカキ'],
+  'giovanni': ['비주기', 'サカキ'],
   'janine': ['아네', 'アンズ'],
   'blue-leader': ['블루', 'グリーン'],
 
@@ -151,12 +180,12 @@ const Map<String, List<String>> trainerAliases = {
   'lenora': ['아로에', 'アロエ'],
   'burgh': ['아티', 'アーティ'],
   'elesa': ['카밋트레', 'カミツレ'],
-  'clay': ['옐로', 'ヤーコン'],
+  'clay': ['야콘', 'ヤーコン'],
   'skyla': ['후우로', 'フウロ'],
   'brycen': ['하치쿠', 'ハチク'],
   'drayden': ['샤가', 'シャガ'],
   'roxie': ['홈이카', 'ホミカ'],
-  'marlon': ['시즈이', 'シズイ'],
+  'marlon': ['시즈', 'シズイ'],
 
   // === Kalos Gym Leaders ==================================
   'viola': ['비올라', 'ビオラ'],
@@ -174,7 +203,7 @@ const Map<String, List<String>> trainerAliases = {
   'kiawe': ['카키', 'カキ'],
   'mallow': ['마오', 'マオ'],
   'sophocles': ['마마네', 'マーマネ'],
-  'acerola': ['아세롤라', 'アセロラ'],
+  'acerola': ['아세로라', 'アセロラ'],
   'mina': ['미나', 'ミナ'],
   'hala': ['하라', 'ハラ'],
   // Olivia (알로라 Kahuna). Previously held Lillie's Korean name
@@ -186,14 +215,14 @@ const Map<String, List<String>> trainerAliases = {
   // === Galar Gym Leaders ==================================
   'milo': ['야로', 'ヤロー'],
   'nessa': ['루리나', 'ルリナ'],
-  'kabu': ['카부', 'カブ'],
+  'kabu': ['순무', 'カブ'],
   'bea': ['채두', 'サイトウ'],
   'allister': ['어니언', 'オニオン'],
   'opal': ['포플라', 'ポプラ'],
   'gordie': ['마쿠와', 'マクワ'],
   'melony': ['멜론', 'メロン'],
   'piers': ['네즈', 'ネズ'],
-  'raihan': ['키바나', 'キバナ'],
+  'raihan': ['금랑', 'キバナ'],
 
   // === Paldea Gym Leaders =================================
   'katy': ['카지', 'カエデ'],
@@ -244,7 +273,8 @@ const Map<String, List<String>> trainerAliases = {
   'artist': ['아티스트', 'アーティスト'],
   'baker': ['파티시에', 'パティシエ'],
   'battlegirl': ['배틀걸', 'バトルガール', 'battle girl'],
-  'beauty': ['미녀', 'びじん'],
+  // 미녀 was a mistranslation of びじん. Official KO is 아가씨.
+  'beauty': ['아가씨', 'びじん'],
   'bellhop': ['벨보이', 'ベルボーイ'],
   'biker': ['바이커', 'バイカー'],
   'bird-keeper': ['새 조련사', 'とりつかい', 'bird keeper'],
@@ -288,7 +318,9 @@ const Map<String, List<String>> trainerAliases = {
   'jogger': ['조거', 'ジョギング'],
   'juggler': ['저글러', 'ジャグラー'],
   'kindler': ['불놀이꾼', 'ひぶき', 'kindler'],
-  'lady': ['아가씨', 'おじょうさま'],
+  // おじょうさま is 아기씨 (diminutive of 아가씨) in KO — beauty got
+  // the bare 아가씨, so lady takes the diminutive form.
+  'lady': ['아기씨', 'おじょうさま'],
   'lass': ['미니스커트', 'ミニスカート'],
   'maid': ['메이드', 'メイド'],
   'medium': ['무당', 'おばあさん'],
@@ -298,8 +330,6 @@ const Map<String, List<String>> trainerAliases = {
   'oldcouple': ['노부부', 'ろうふうふ', 'old couple'],
   'parasolady': ['파라솔 부인', 'パラソルおねえさん'],
   'picknicker': ['피크닉걸', 'ピクニックガール'],
-  'plasmagrunt': ['플라스마단', 'プラズマだんいん', 'plasma grunt'],
-  'plasmagruntf': ['플라스마단', 'プラズマだんいん', 'plasma grunt'],
   'pokefan': ['포켓팬', 'ポケファン'],
   'pokefanf': ['포켓팬', 'ポケファン'],
   'pokekid': ['포켓 키드', 'ポケモンキッズ'],
@@ -316,19 +346,25 @@ const Map<String, List<String>> trainerAliases = {
   'researcher': ['연구원', 'けんきゅうしゃ'],
   'richboy': ['부잣집 도련님', 'ぼっちゃま', 'rich boy'],
   'roughneck': ['빡빡이', 'スキンヘッズ'],
-  'rocketgrunt': ['로켓단', 'ロケットだんいん', 'rocket grunt'],
-  'rocketgruntf': ['로켓단', 'ロケットだんいん', 'rocket grunt'],
-  'magmagrunt': ['마그마단', 'マグマだんいん', 'magma grunt'],
-  'magmagruntf': ['마그마단', 'マグマだんいん', 'magma grunt'],
-  'aquagrunt': ['아쿠아단', 'アクアだんいん', 'aqua grunt'],
-  'aquagruntf': ['아쿠아단', 'アクアだんいん', 'aqua grunt'],
-  'galacticgrunt': ['갤럭틱단', 'ギンガだんいん', 'galactic grunt'],
-  'galacticgruntf': ['갤럭틱단', 'ギンガだんいん', 'galactic grunt'],
-  'flaregrunt': ['플레어단', 'フレアだんいん', 'flare grunt'],
-  'flaregruntf': ['플레어단', 'フレアだんいん', 'flare grunt'],
-  'skullgrunt': ['스컬단', 'スカルだんいん', 'skull grunt'],
-  'skullgruntf': ['스컬단', 'スカルだんいん', 'skull grunt'],
-  'machogrunt': ['마초단', 'マチョだんいん', 'macho grunt'],
+  // KO villain-team grunt classes all follow 'X단 조무래기'. The
+  // previous mapping used the bare team name. Also: Sinnoh team
+  // ギンガ団 is 갤럭시단 in KO (NOT 갤럭틱단 which was a fan
+  // romanization; 은하단 is the unrelated benevolent PLA team).
+  'rocketgrunt': ['로켓단 조무래기', 'ロケットだんいん', 'rocket grunt'],
+  'rocketgruntf': ['로켓단 조무래기', 'ロケットだんいん', 'rocket grunt'],
+  'magmagrunt': ['마그마단 조무래기', 'マグマだんいん', 'magma grunt'],
+  'magmagruntf': ['마그마단 조무래기', 'マグマだんいん', 'magma grunt'],
+  'aquagrunt': ['아쿠아단 조무래기', 'アクアだんいん', 'aqua grunt'],
+  'aquagruntf': ['아쿠아단 조무래기', 'アクアだんいん', 'aqua grunt'],
+  'galacticgrunt': ['갤럭시단 조무래기', 'ギンガだんいん', 'galactic grunt'],
+  'galacticgruntf': ['갤럭시단 조무래기', 'ギンガだんいん', 'galactic grunt'],
+  'plasmagrunt': ['플라스마단 조무래기', 'プラズマだんいん', 'plasma grunt'],
+  'plasmagruntf': ['플라스마단 조무래기', 'プラズマだんいん', 'plasma grunt'],
+  'flaregrunt': ['플레어단 조무래기', 'フレアだんいん', 'flare grunt'],
+  'flaregruntf': ['플레어단 조무래기', 'フレアだんいん', 'flare grunt'],
+  'skullgrunt': ['스컬단 조무래기', 'スカルだんいん', 'skull grunt'],
+  'skullgruntf': ['스컬단 조무래기', 'スカルだんいん', 'skull grunt'],
+  'machogrunt': ['마초 브로', 'マッチョブロ', 'macho bro'],
   'rangerm': ['레인저', 'レンジャー'],
   'rangerf': ['레인저', 'レンジャー'],
   'rocker': ['로커', 'ロッカー'],
@@ -504,6 +540,9 @@ const Set<String> trainerNpcClassStems = {
   'magmagrunt', 'magmagruntf', 'aquagrunt', 'aquagruntf',
   'galacticgrunt', 'galacticgruntf', 'flaregrunt', 'flaregruntf',
   'skullgrunt', 'skullgruntf', 'machogrunt', 'rangerm', 'rangerf',
+  'aquasuit',
+  'aetheremployee', 'aetheremployeef',
+  'aetherfoundation', 'aetherfoundation2', 'aetherfoundationf',
   'rocker', 'sage', 'sailor', 'schoolboy', 'schoolgirl', 'schoolkid',
   'scientist', 'scientistf', 'sisandbro', 'skierm', 'skierf',
   'skyer', 'sr-and-jr', 'srandjr', 'striker', 'supernerd',

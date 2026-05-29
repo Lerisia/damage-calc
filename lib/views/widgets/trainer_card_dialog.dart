@@ -91,7 +91,15 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
       child: ConstrainedBox(
         constraints:
             const BoxConstraints(maxWidth: 520, maxHeight: 700),
-        child: Column(
+        // Same tap-outside-to-unfocus catcher as the editor
+        // dialog. Without this the search keyboard sticks
+        // around when the user taps a category chip or a tile
+        // — non-text taps don't naturally pull focus off a
+        // TextField inside a dialog.
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
@@ -222,6 +230,7 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                 ),
               ),
           ],
+          ),
         ),
       ),
     );
