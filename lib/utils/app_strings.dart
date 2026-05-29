@@ -274,9 +274,14 @@ class AppStrings {
       AppLanguage.ja: '写真からアップロード',
     },
     'trainerCard.searchHint': {
-      AppLanguage.ko: '검색 (예: red, ace, leader)',
-      AppLanguage.en: 'Search (e.g., red, ace, leader)',
-      AppLanguage.ja: '検索 (例: red, ace, leader)',
+      AppLanguage.ko: '검색 (예: 레드, 난천, ace)',
+      AppLanguage.en: 'Search (e.g., red, cynthia, ace)',
+      AppLanguage.ja: '検索 (例: レッド, シロナ, ace)',
+    },
+    'trainerCard.tapAvatarHint': {
+      AppLanguage.ko: '아바타 영역을 눌러 사진을 변경할 수 있습니다.',
+      AppLanguage.en: 'Tap the avatar area to change the photo.',
+      AppLanguage.ja: 'アバター部分をタップして写真を変更できます。',
     },
     'trainerCard.noMatches': {
       AppLanguage.ko: '검색 결과가 없습니다.',
