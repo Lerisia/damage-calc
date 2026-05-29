@@ -165,6 +165,34 @@ class AppStrings {
       AppLanguage.en: 'Save party image',
       AppLanguage.ja: 'パーティ画像を保存',
     },
+    // Party-tab capture flow: ask user whether to save a plain party
+    // list or build a trainer card. Defense/offense tabs skip this
+    // popup and capture directly.
+    'team.captureChoice.title': {
+      AppLanguage.ko: '무엇을 저장할까요?',
+      AppLanguage.en: 'What would you like to save?',
+      AppLanguage.ja: '何を保存しますか?',
+    },
+    'team.captureChoice.party': {
+      AppLanguage.ko: '파티 목록',
+      AppLanguage.en: 'Party list',
+      AppLanguage.ja: 'パーティ一覧',
+    },
+    'team.captureChoice.trainerCard': {
+      AppLanguage.ko: '트레이너 카드',
+      AppLanguage.en: 'Trainer card',
+      AppLanguage.ja: 'トレーナーカード',
+    },
+    'team.captureChoice.confirm': {
+      AppLanguage.ko: '확인',
+      AppLanguage.en: 'OK',
+      AppLanguage.ja: '確認',
+    },
+    'common.comingSoon': {
+      AppLanguage.ko: '곧 추가될 기능입니다.',
+      AppLanguage.en: 'Coming soon.',
+      AppLanguage.ja: '近日公開予定です。',
+    },
     'team.image.empty': {
       AppLanguage.ko: '파티가 비어있어 저장할 사진이 없습니다.',
       AppLanguage.en: 'Add at least one Pokémon before saving an image.',

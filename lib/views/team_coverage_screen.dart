@@ -297,6 +297,74 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
     setState(() => slot.moves[moveIndex] = move);
   }
 
+  /// Two-option chooser shown when the user taps the camera button
+  /// on the party tab: plain party list (existing capture flow)
+  /// vs. trainer card (editable name / season / avatar + party).
+  /// Defense / offense tabs skip this picker and capture directly.
+  Future<void> _showPartyCaptureChoice() async {
+    int? choice = 0;
+    final picked = await showDialog<int>(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(builder: (ctx, setLocalState) {
+          return AlertDialog(
+            title: Text(AppStrings.t('team.captureChoice.title')),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RadioListTile<int>(
+                  value: 0,
+                  groupValue: choice,
+                  onChanged: (v) => setLocalState(() => choice = v),
+                  title: Text(AppStrings.t('team.captureChoice.party')),
+                  contentPadding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                ),
+                RadioListTile<int>(
+                  value: 1,
+                  groupValue: choice,
+                  onChanged: (v) => setLocalState(() => choice = v),
+                  title:
+                      Text(AppStrings.t('team.captureChoice.trainerCard')),
+                  contentPadding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(AppStrings.t('action.cancel')),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, choice),
+                child: Text(AppStrings.t('team.captureChoice.confirm')),
+              ),
+            ],
+          );
+        });
+      },
+    );
+    if (picked == null || !mounted) return;
+    if (picked == 0) {
+      await _capturePartyImage();
+    } else {
+      await _showTrainerCardDialog();
+    }
+  }
+
+  /// Trainer-card editor + capture. MVP stub — full implementation
+  /// (avatar upload via image_picker, name / season / score input,
+  /// preview, capture+save) lands in a follow-up commit so the
+  /// choice-popup change can ship independently.
+  Future<void> _showTrainerCardDialog() async {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppStrings.t('common.comingSoon')),
+      duration: const Duration(seconds: 2),
+    ));
+  }
+
   /// Capture the current party as a PNG and save it to the user's
   /// gallery (mobile) or trigger a browser download (web). Image is
   /// a clean composition — party name top-left, 6 [_SlotSummaryCard]
@@ -1446,7 +1514,11 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
                       ? () {
                           switch (_tabController.index) {
                             case 0:
-                              _capturePartyImage();
+                              // Party tab gives the user a choice —
+                              // a plain party list capture or a
+                              // trainer-card composition with
+                              // editable name / season / avatar.
+                              _showPartyCaptureChoice();
                             case 1:
                               _captureCoverageChart(offensive: false);
                             case 2:
