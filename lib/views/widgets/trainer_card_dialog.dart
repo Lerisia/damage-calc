@@ -395,6 +395,15 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     if (mounted) setState(() {});
   }
 
+  /// Drop focus from whatever text field is active. Called from
+  /// the tap-outside catcher and from every non-text interactive
+  /// (chips, color swatches, dropdown, avatar) so the keyboard
+  /// reliably goes away when the user moves on to a non-text
+  /// control — iOS in particular doesn't auto-dismiss on tap
+  /// outside in dialogs, and numeric keyboards have no native
+  /// Done button.
+  void _dismissKb() => FocusScope.of(context).unfocus();
+
   Future<void> _loadTrainerKeys() async {
     final manifest =
         await AssetManifest.loadFromAssetBundle(rootBundle);
@@ -703,30 +712,43 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.symmetric(
-                  horizontal: 10, vertical: 8),
+                  horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
                 color: _themeColor.swatch.shade50,
                 borderRadius: BorderRadius.circular(6),
                 border:
                     Border.all(color: _themeColor.swatch.shade300, width: 1),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      season,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  if (score.isNotEmpty)
-                    Text(
-                      '${_scorePrefix.localized()} $score'
-                      '${AppStrings.t('trainerCard.scoreSuffix')}',
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                ],
+              // Center the season+score block as one continuous
+              // line instead of pinning to opposite edges. The
+              // previous Row+Expanded layout left a wide empty
+              // band in the middle that made the text look smaller
+              // than it actually was. Wrap drops to a second line
+              // gracefully if both strings get unusually long.
+              child: Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 14,
+                  children: [
+                    if (season.isNotEmpty)
+                      Text(
+                        season,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    if (score.isNotEmpty)
+                      Text(
+                        '${_scorePrefix.localized()} $score'
+                        '${AppStrings.t('trainerCard.scoreSuffix')}',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: _themeColor.swatch.shade700),
+                      ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -820,7 +842,14 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
       contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       content: SizedBox(
         width: 400,
-        child: SingleChildScrollView(
+        // Tap-on-empty-space → unfocus. translucent so the GD
+        // doesn't eat hits that should reach buttons/fields
+        // underneath; onTap only fires for taps that bubble all
+        // the way back here without a child handling them.
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: _dismissKb,
+          child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -829,7 +858,12 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
               // region opens the picker, all other changes flow
               // from the form fields below via controller listeners.
               GestureDetector(
-                onTap: _busy ? null : _openAvatarPicker,
+                onTap: _busy
+                    ? null
+                    : () {
+                        _dismissKb();
+                        _openAvatarPicker();
+                      },
                 child: FittedBox(
                   fit: BoxFit.contain,
                   alignment: Alignment.topCenter,
@@ -889,6 +923,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                           ? null
                           : (v) {
                               if (v == null) return;
+                              _dismissKb();
                               setState(() => _scorePrefix = v);
                             },
                     ),
@@ -932,7 +967,10 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                     InkWell(
                       onTap: _busy
                           ? null
-                          : () => setState(() => _themeColor = t),
+                          : () {
+                              _dismissKb();
+                              setState(() => _themeColor = t);
+                            },
                       borderRadius: BorderRadius.circular(24),
                       child: Container(
                         width: 32,
@@ -952,6 +990,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
               const SizedBox(height: 8),
             ],
           ),
+        ),
         ),
       ),
       actions: [
