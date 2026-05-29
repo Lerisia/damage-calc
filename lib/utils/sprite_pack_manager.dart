@@ -4,6 +4,19 @@ import 'package:flutter/foundation.dart' show ChangeNotifier, kIsWeb;
 import 'package:path_provider/path_provider.dart';
 import 'sprite_service.dart';
 
+/// Latest sprite-pack revision this app build expects on disk.
+///
+/// Bumped in lockstep with PACK_VERSION in the damage-calc-sprite-pack
+/// repo when shipping content the app needs (new shinies, new Pokémon,
+/// etc.). The app has no network permission on mobile, so it can't
+/// fetch this from anywhere — the value travels with the binary.
+///
+/// The install-time VERSION marker extracted from the ZIP is compared
+/// against this constant by [SpritePackManager.isAnyOutOfDate]; any
+/// mismatch (including the legacy `null` case for pre-marker
+/// installs) triggers the update-nag dialog on app launch.
+const String kLatestSpritePackVersion = '1';
+
 /// Per-style sprite-pack install state for mobile.
 ///
 /// The damage-calc app ships no Pokémon sprites in its binary
@@ -34,7 +47,39 @@ class SpritePackManager extends ChangeNotifier {
     for (final s in SpriteStyle.values) s: false,
   };
 
+  /// Version stamp of each style's currently-installed pack. `null`
+  /// means either the style isn't installed or the installed ZIP
+  /// pre-dates the VERSION-marker rollout (legacy installs from
+  /// before the sprite-pack repo started embedding PACK_VERSION).
+  /// Both cases count as "out of date" against any current
+  /// [kLatestSpritePackVersion].
+  final Map<SpriteStyle, String?> _versions = {
+    for (final s in SpriteStyle.values) s: null,
+  };
+
   bool isInstalled(SpriteStyle style) => _installed[style] ?? false;
+
+  String? installedVersion(SpriteStyle style) => _versions[style];
+
+  /// Any style installed at all. Used by the update-nag trigger to
+  /// skip users who haven't onboarded onto a pack yet — they're
+  /// already in pokéball mode and a "your pack is out of date" nag
+  /// would be confusing.
+  bool get hasAnyInstalled =>
+      SpriteStyle.values.any((s) => isInstalled(s));
+
+  /// True if any installed style's stored VERSION differs from
+  /// [latest] — including the legacy null case where no marker was
+  /// ever written. Returns false when nothing is installed (the nag
+  /// shouldn't fire for first-time users; that's the job of the
+  /// install banner inside the style dialog).
+  bool isAnyOutOfDate(String latest) {
+    for (final s in SpriteStyle.values) {
+      if (!isInstalled(s)) continue;
+      if (_versions[s] != latest) return true;
+    }
+    return false;
+  }
 
   bool _iconsInstalled = false;
   bool get iconsInstalled => _iconsInstalled;
@@ -61,8 +106,21 @@ class SpritePackManager extends ChangeNotifier {
       ..createSync(recursive: true);
     for (final s in SpriteStyle.values) {
       final dir = Directory('${_rootDir!.path}/${s.name}');
-      _installed[s] = dir.existsSync() &&
+      final hasFiles = dir.existsSync() &&
           dir.listSync().any((e) => e is File);
+      _installed[s] = hasFiles;
+      if (hasFiles) {
+        // VERSION is written by [installFromZip] alongside the
+        // sprites; a missing file means a legacy pack from before
+        // the marker rollout, kept as null so [isAnyOutOfDate]
+        // treats it as stale.
+        final versionFile = File('${dir.path}/VERSION');
+        if (versionFile.existsSync()) {
+          _versions[s] = versionFile.readAsStringSync().trim();
+        }
+      } else {
+        _versions[s] = null;
+      }
     }
     final iconsDir = Directory('${_rootDir!.path}/icons');
     _iconsInstalled =
@@ -95,10 +153,19 @@ class SpritePackManager extends ChangeNotifier {
     }
     var styleWritten = 0;
     var iconsWritten = 0;
+    String? packVersion;
     for (final entry in archive) {
       if (!entry.isFile) continue;
       final name = entry.name;
       if (name.isEmpty) continue;
+      // Top-level VERSION marker — captured here, written to the
+      // style cache dir below once we know the install hasn't been
+      // rolled back for a 0-sprite ZIP.
+      if (name == 'VERSION') {
+        packVersion =
+            String.fromCharCodes(entry.content as List<int>).trim();
+        continue;
+      }
       if (name.startsWith('icons/')) {
         if (!zipHasIcons) {
           if (iconsTarget.existsSync()) iconsTarget.deleteSync(recursive: true);
@@ -144,6 +211,16 @@ class SpritePackManager extends ChangeNotifier {
       throw const FormatException(
           'No matching sprite files found in archive');
     }
+    if (packVersion != null) {
+      File('${target.path}/VERSION').writeAsStringSync('$packVersion\n');
+      _versions[style] = packVersion;
+    } else {
+      // Pre-marker ZIP — clear any stale stamp from a previous
+      // install so [isAnyOutOfDate] sees this style as stale.
+      final stale = File('${target.path}/VERSION');
+      if (stale.existsSync()) stale.deleteSync();
+      _versions[style] = null;
+    }
     _installed[style] = true;
     if (iconsWritten > 0) _iconsInstalled = true;
     notifyListeners();
@@ -155,6 +232,7 @@ class SpritePackManager extends ChangeNotifier {
     final dir = Directory('${_rootDir!.path}/${style.name}');
     if (dir.existsSync()) dir.deleteSync(recursive: true);
     _installed[style] = false;
+    _versions[style] = null;
     notifyListeners();
   }
 

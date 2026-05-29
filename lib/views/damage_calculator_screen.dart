@@ -18,6 +18,7 @@ import 'widgets/app_bottom_nav.dart';
 import 'widgets/app_settings_menu.dart';
 import 'widgets/reverse_calc_dialog.dart';
 import 'widgets/sprite_style_dialog.dart';
+import '../utils/sprite_pack_manager.dart';
 import 'dex_screen.dart';
 import 'move_dex_screen.dart';
 import 'team_coverage_screen.dart';
@@ -317,7 +318,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       _consumeCalcHandoff();
     });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _maybeShowSpriteAnnouncement();
+      await _maybeShowSpritePackUpdate();
       if (!mounted) return;
       // Mobile-web install nudge — keeps showing until the user opts
       // out via "Don't show again" (same dismissal semantics as the
@@ -326,25 +327,39 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     });
   }
 
-  /// Sprite-feature announcement — pops on every launch until the user
-  /// explicitly opts out via "Don't show again". Closing with the X /
-  /// outside tap leaves the flag unset so they see it again next
-  /// session, in case they want to revisit how to find the entry
-  /// point. Separate from the party-coverage announcement because the
-  /// dismissal semantics differ (that one is single-shot).
-  // Bumped from _v1 → _v2 with the shiny launch so previously-
-  // dismissed users still see the new announcement once (mobile users
-  // need to know they have to re-download the sprite pack).
-  static const _spriteAnnounceDismissedKey = 'spriteAnnounceDismissed_v2';
-  Future<void> _maybeShowSpriteAnnouncement() async {
+  /// Sprite-pack update nag. Fires only when (a) the user has at
+  /// least one pack installed and (b) at least one installed style's
+  /// VERSION marker disagrees with [kLatestSpritePackVersion]. There
+  /// is no permanent dismiss — the user can only snooze for a week
+  /// or a month, by design, so a stale pack eventually surfaces
+  /// again until the user re-imports the latest ZIP.
+  ///
+  /// Skipped on web (no pack management) and for users who haven't
+  /// onboarded onto any pack yet (their initial install banner lives
+  /// inside the style dialog).
+  static const _packNagSnoozeUntilKey = 'spritePackNagSnoozeUntilMs';
+  Future<void> _maybeShowSpritePackUpdate() async {
+    if (kIsWeb) return;
+    final mgr = SpritePackManager.instance;
+    if (!mgr.hasAnyInstalled) return;
+    if (!mgr.isAnyOutOfDate(kLatestSpritePackVersion)) return;
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool(_spriteAnnounceDismissedKey) ?? false) return;
+    final snoozeUntil = prefs.getInt(_packNagSnoozeUntilKey) ?? 0;
+    final now = DateTime.now().millisecondsSinceEpoch;
+    if (now < snoozeUntil) return;
     if (!mounted) return;
+    Future<void> snooze(int days) async {
+      await prefs.setInt(
+        _packNagSnoozeUntilKey,
+        now + days * Duration.millisecondsPerDay,
+      );
+    }
+
     await showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(AppStrings.t('announce.sprites.title')),
-        content: Text(AppStrings.t('announce.sprites.body')),
+        title: Text(AppStrings.t('sprite.update.title')),
+        content: Text(AppStrings.t('sprite.update.body')),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
@@ -352,10 +367,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           TextButton(
             onPressed: () async {
-              await prefs.setBool(_spriteAnnounceDismissedKey, true);
+              await snooze(7);
               if (ctx.mounted) Navigator.pop(ctx);
             },
-            child: Text(AppStrings.t('action.dontShowAgain')),
+            child: Text(AppStrings.t('action.snoozeWeek')),
+          ),
+          TextButton(
+            onPressed: () async {
+              await snooze(30);
+              if (ctx.mounted) Navigator.pop(ctx);
+            },
+            child: Text(AppStrings.t('action.snoozeMonth')),
           ),
         ],
       ),

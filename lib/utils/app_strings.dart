@@ -1586,6 +1586,26 @@ class AppStrings {
       AppLanguage.en: "Don't show again",
       AppLanguage.ja: '今後表示しない',
     },
+    'action.snoozeWeek': {
+      AppLanguage.ko: '일주일 안 보기',
+      AppLanguage.en: 'Hide for a week',
+      AppLanguage.ja: '1週間表示しない',
+    },
+    'action.snoozeMonth': {
+      AppLanguage.ko: '한 달 안 보기',
+      AppLanguage.en: 'Hide for a month',
+      AppLanguage.ja: '1か月表示しない',
+    },
+    'sprite.update.title': {
+      AppLanguage.ko: '이미지팩 업데이트가 있습니다',
+      AppLanguage.en: 'Sprite pack update available',
+      AppLanguage.ja: '画像パックの更新があります',
+    },
+    'sprite.update.body': {
+      AppLanguage.ko: '설치된 이미지팩이 최신 버전이 아닙니다. 오른쪽 위 메뉴(⋮)의 몬스터볼 아이콘에서 새 팩을 받아 가져와주세요.',
+      AppLanguage.en: 'Your installed sprite pack is out of date. Re-download the latest ZIP from the Pokéball entry in the menu (top-right ⋮) and import it again.',
+      AppLanguage.ja: 'インストール済みの画像パックが最新ではありません。右上メニュー（⋮）のモンスターボールから最新のパックを取り直して取り込んでください。',
+    },
     'simple.shortExtended': {
       AppLanguage.ko: '확장',
       AppLanguage.en: 'Ext.',
