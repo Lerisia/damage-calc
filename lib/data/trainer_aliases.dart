@@ -731,6 +731,13 @@ const Set<String> trainerEliteFourStems = {
   // (rika, poppy, larry, hassel, geeta as top) — geeta lands
   // in Champions, the rest here. Some overlap acceptable.
   'rika', 'poppy', 'hassel',
+  // Hoenn / Sinnoh Battle Frontier Brains — same role-
+  // equivalent as E4 in their generations (post-game boss
+  // gauntlet), grouped here so the picker doesn't need a
+  // 9th tab.
+  'anabel', 'argenta', 'brandon', 'cheryl', 'lucy',
+  // Indigo Disk (SV DLC) BB Academy E4
+  'lacey', 'drayton',
 };
 
 /// Stems classified as protagonists or rivals — they share a
@@ -754,6 +761,16 @@ const Set<String> trainerProtagonistRivalStems = {
   // SwSh: hop is the main rival; included even though we may
   // not have a verified alias entry yet
   'hop',
+  // FRLG / cross-region / anime / spinoff protagonists who
+  // were falling into 기타 because they had aliases but no
+  // category. All play the "player surrogate" role.
+  'leaf', 'ash', 'liko', 'toddsnap', 'toddsnap2', 'yellow',
+  'akari', 'rei',
+  // BW2 / PLA Subway Bosses — playable allies in PLA, gym-
+  // adjacent rivals in BW2.
+  'ingo', 'emmet',
+  // PLA clan leaders — antagonists/rivals turned allies.
+  'adaman', 'irida',
 };
 
 /// Villain organisation bosses + admins + executive sprites.
@@ -783,6 +800,28 @@ const Set<String> trainerVillainBossStems = {
   'volo',
   // Generic Rocket sprite labels
   'rocketexecutive', 'rocketexecutivef', 'rocket', 'teamrocket',
+  // Team grunt sprite variants (multi-class with NPC — they're
+  // grunts AND villain-team members)
+  'rocketgrunt', 'rocketgruntf',
+  'teamrocketgruntm', 'teamrocketgruntf',
+  'rainbowrocketgrunt', 'rainbowrocketgruntf',
+  'magmagrunt', 'magmagruntf',
+  'teammagmagruntm', 'teammagmagruntf',
+  'magmasuit',
+  'aquagrunt', 'aquagruntf', 'aquasuit',
+  'teamaquagruntm', 'teamaquagruntf',
+  'galacticgrunt', 'galacticgruntf',
+  'flaregrunt', 'flaregruntf',
+  'skullgrunt', 'skullgruntf',
+  'plasmagrunt', 'plasmagruntf',
+  'yellgrunt', 'yellgruntf',
+  'stargrunt', 'stargruntf',
+  // Aether Foundation employees (treated as villain-org-
+  // adjacent since the Aether plot reveals them as such)
+  'aetheremployee', 'aetheremployeef',
+  'aetherfoundation', 'aetherfoundation2', 'aetherfoundationf',
+  // Aether secondary cast
+  'wicke',
 };
 
 /// Pokemon Professors across all regions. User direction:
@@ -1037,19 +1076,45 @@ String trainerDisplayName(String key) {
   return stem;
 }
 
+/// Normalize gender/variant suffixes on a stem so e.g. 'breederf'
+/// and 'breeder' fold into the same group. Suffix candidates:
+/// `fjp`, `f2`, `jp`, `f`, `m`, `2`. Only strips when the
+/// underlying base form exists in [allStems] AND would still be
+/// at least 4 characters — protects short stems like 'mom' (would
+/// otherwise lose its trailing m) and 'ash' / 'rei'.
+String _normalizeStem(String stem, Set<String> allStems) {
+  const suffixes = ['fjp', 'f2', 'jp', 'f', 'm', '2'];
+  for (final s in suffixes) {
+    if (stem.length > s.length + 3 && stem.endsWith(s)) {
+      final base = stem.substring(0, stem.length - s.length);
+      if (allStems.contains(base)) return base;
+    }
+  }
+  return stem;
+}
+
 /// Group sprite keys by their stem. Used by the two-level picker:
 /// top level shows one tile per group (one per character or NPC
 /// class), tap drills into a sub-dialog that lists every per-game
 /// variant of that group.
+///
+/// Grouping is two-pass: first by hyphen-stripped stem (handles
+/// generation suffixes like -gen3, -masters), then collapse gender
+/// /variant suffixes (breederf → breeder, swimmerm → swimmer) so a
+/// single character/class doesn't get split across multiple tiles.
 Map<String, List<String>> groupTrainerKeysByStem(List<String> keys) {
+  // Pre-compute the set of all base stems so the gender-suffix
+  // collapse can verify the base form actually exists before
+  // merging.
+  final allStems = keys.map(trainerKeyStem).toSet();
   final groups = <String, List<String>>{};
   for (final k in keys) {
     final stem = trainerKeyStem(k);
-    groups.putIfAbsent(stem, () => []).add(k);
+    final groupKey = _normalizeStem(stem, allStems);
+    groups.putIfAbsent(groupKey, () => []).add(k);
   }
-  // Sort each group: bare stem first (canonical sprite), then by
-  // generation/suffix alphabetical. Makes the sub-dialog's first
-  // tile the 'default' variant.
+  // Sort each group: bare stem (canonical sprite) first, then
+  // alphabetical. Makes the sub-dialog's first tile the default.
   for (final entry in groups.entries) {
     entry.value.sort((a, b) {
       if (a == entry.key && b != entry.key) return -1;
