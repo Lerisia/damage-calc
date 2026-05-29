@@ -27,6 +27,7 @@ import '../utils/korean_search.dart';
 import '../utils/party_image_save.dart';
 import '../utils/sample_save_flow.dart';
 import 'widgets/ev_sp_cell.dart';
+import 'widgets/trainer_card_dialog.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import '../utils/sprite_pack_manager.dart';
@@ -353,16 +354,17 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
     }
   }
 
-  /// Trainer-card editor + capture. MVP stub — full implementation
-  /// (avatar upload via image_picker, name / season / score input,
-  /// preview, capture+save) lands in a follow-up commit so the
-  /// choice-popup change can ship independently.
+  /// Trainer-card editor + capture entry point. Opens the dialog
+  /// where the user fills in name / season / score / avatar; the
+  /// dialog handles the offscreen render + save itself so this
+  /// screen stays slim.
   Future<void> _showTrainerCardDialog() async {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppStrings.t('common.comingSoon')),
-      duration: const Duration(seconds: 2),
-    ));
+    final party = [for (final s in _team) s.pokemon];
+    await showDialog(
+      context: context,
+      builder: (_) => TrainerCardDialog(party: party),
+    );
   }
 
   /// Capture the current party as a PNG and save it to the user's

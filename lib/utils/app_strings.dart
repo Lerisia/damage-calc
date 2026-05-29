@@ -193,6 +193,61 @@ class AppStrings {
       AppLanguage.en: 'Coming soon.',
       AppLanguage.ja: '近日公開予定です。',
     },
+    'trainerCard.title': {
+      AppLanguage.ko: '트레이너 카드',
+      AppLanguage.en: 'Trainer card',
+      AppLanguage.ja: 'トレーナーカード',
+    },
+    'trainerCard.nameLabel': {
+      AppLanguage.ko: '이름',
+      AppLanguage.en: 'Name',
+      AppLanguage.ja: '名前',
+    },
+    'trainerCard.seasonLabel': {
+      AppLanguage.ko: '시즌 / 대회',
+      AppLanguage.en: 'Season / event',
+      AppLanguage.ja: 'シーズン / 大会',
+    },
+    'trainerCard.seasonHint': {
+      AppLanguage.ko: '예: 챔피언스 시즌 1 / 자유 입력',
+      AppLanguage.en: 'e.g., Champions Season 1 / free text',
+      AppLanguage.ja: '例: チャンピオンズ シーズン1 / 自由記入',
+    },
+    'trainerCard.scoreLabel': {
+      AppLanguage.ko: '점수 (선택)',
+      AppLanguage.en: 'Score (optional)',
+      AppLanguage.ja: 'スコア (任意)',
+    },
+    'trainerCard.scoreHint': {
+      AppLanguage.ko: '예: 1850',
+      AppLanguage.en: 'e.g., 1850',
+      AppLanguage.ja: '例: 1850',
+    },
+    'trainerCard.scoreSuffix': {
+      AppLanguage.ko: '점',
+      AppLanguage.en: ' pts',
+      AppLanguage.ja: '点',
+    },
+    'trainerCard.pickAvatar': {
+      AppLanguage.ko: '아바타 선택',
+      AppLanguage.en: 'Pick avatar',
+      AppLanguage.ja: 'アバター選択',
+    },
+    'trainerCard.avatarMissing': {
+      AppLanguage.ko: '아바타 없음',
+      AppLanguage.en: 'No avatar',
+      AppLanguage.ja: 'アバターなし',
+    },
+    'trainerCard.save': {
+      AppLanguage.ko: '저장',
+      AppLanguage.en: 'Save',
+      AppLanguage.ja: '保存',
+    },
+    'trainerCard.defaultName': {
+      AppLanguage.ko: '트레이너',
+      AppLanguage.en: 'Trainer',
+      AppLanguage.ja: 'トレーナー',
+    },
     'team.image.empty': {
       AppLanguage.ko: '파티가 비어있어 저장할 사진이 없습니다.',
       AppLanguage.en: 'Add at least one Pokémon before saving an image.',
