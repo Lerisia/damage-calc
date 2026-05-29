@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart' show AssetManifest, rootBundle;
@@ -154,24 +155,26 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                 ],
               ),
             ),
-            // Category chips — horizontal-scrollable so they fit on
-            // narrow widths without wrapping. ChoiceChip rather than
-            // a SegmentedButton because we have 7 options (the
-            // material spec caps SegmentedButton at 5).
-            SizedBox(
-              height: 40,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+            // Category chips — Wrap layout reflows to multiple
+            // rows when there isn't enough horizontal width for all
+            // 9 chips. Earlier this was a horizontal ListView that
+            // forced the user to scroll sideways (broken on web
+            // since mouse-drag doesn't trigger scrollable horizontal
+            // ListViews). With Wrap every category is reachable in
+            // one tap on every form factor.
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Wrap(
+                spacing: 6,
+                runSpacing: 4,
                 children: [
-                  for (final c in TrainerCategory.values) ...[
+                  for (final c in TrainerCategory.values)
                     ChoiceChip(
                       label: Text(_categoryLabel(c)),
                       selected: _category == c,
-                      onSelected: (_) => setState(() => _category = c),
+                      onSelected: (_) =>
+                          setState(() => _category = c),
                     ),
-                    const SizedBox(width: 6),
-                  ],
                 ],
               ),
             ),
