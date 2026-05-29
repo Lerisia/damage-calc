@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +13,41 @@ import '../../models/pokemon.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/party_image_save.dart';
 import 'pokemon_sprite.dart';
+
+/// Pre-bundled trainer sprites (assets/trainers/<key>.png) the
+/// user can pick from for their avatar without having to source
+/// their own image. Same Smogon Sprite Project provenance as the
+/// pokemon-side packs — non-profit-with-credit license. Curated
+/// 1 per gen-bracket + iconic champions / rivals / villains so
+/// the picker grid stays browse-able instead of overwhelming.
+const List<String> _kCuratedTrainers = [
+  // Gen 1
+  'red', 'blue', 'giovanni',
+  // Gen 2
+  'ethan', 'kris', 'lyra', 'silver', 'lance',
+  // Gen 3
+  'brendan', 'may', 'wally', 'steven',
+  // Gen 4
+  'dawn', 'lucas', 'cyrus', 'cynthia',
+  // Gen 5
+  'hilbert', 'hilda', 'nate', 'rosa', 'cheren', 'bianca', 'n',
+  'ghetsis', 'alder',
+  // Gen 6
+  'calem', 'serena', 'diantha', 'lysandre',
+  // Gen 7
+  'elio', 'selene', 'hau', 'gladion', 'kukui', 'guzma',
+  // Gen 8
+  'victor', 'gloria', 'hop', 'marnie', 'bede', 'leon', 'rose',
+  // Gen 9
+  'penny', 'geeta', 'sada', 'turo',
+];
+
+String _trainerAssetPath(String key) => 'assets/trainers/$key.png';
+
+/// Choice between the bundled curated set and a gallery upload.
+/// Surfaced via [_openAvatarPicker] so the user is asked once per
+/// avatar change rather than baking the source into the editor UI.
+enum _AvatarSource { curated, upload }
 
 /// One party slot worth of trainer-card input. Keeps the trainer
 /// card decoupled from `_TeamSlot` (which is private to the team
@@ -74,11 +110,18 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   static const _kScore = 'trainer_card.score';
   static const _kScorePrefix = 'trainer_card.score_prefix';
   static const _kAvatarB64 = 'trainer_card.avatar_b64';
+  static const _kAvatarAsset = 'trainer_card.avatar_asset';
 
   late final TextEditingController _nameCtl;
   late final TextEditingController _seasonCtl;
   late final TextEditingController _scoreCtl;
+  /// Uploaded photo bytes — set when the user picks from gallery.
+  /// Mutually exclusive with [_avatarAssetKey]; whichever was most
+  /// recently chosen is the one that renders.
   Uint8List? _avatarBytes;
+  /// Curated-set key (e.g. 'red'). Set when the user picks from
+  /// the bundled trainer grid. Resolved to AssetImage at render.
+  String? _avatarAssetKey;
   TrainerCardScorePrefix _scorePrefix = TrainerCardScorePrefix.finalPrefix;
   bool _loading = true;
   bool _busy = false;
@@ -101,11 +144,19 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
       _scoreCtl.text = prefs.getString(_kScore) ?? '';
       _scorePrefix =
           TrainerCardScorePrefix.fromPrefs(prefs.getString(_kScorePrefix));
-      final b64 = prefs.getString(_kAvatarB64);
-      if (b64 != null && b64.isNotEmpty) {
-        try {
-          _avatarBytes = base64Decode(b64);
-        } catch (_) {/* corrupt cache — ignore */}
+      // Asset key takes priority — if a previous session picked
+      // from the curated set, restore that selection. Falls back
+      // to uploaded bytes when no asset is recorded.
+      final assetKey = prefs.getString(_kAvatarAsset);
+      if (assetKey != null && _kCuratedTrainers.contains(assetKey)) {
+        _avatarAssetKey = assetKey;
+      } else {
+        final b64 = prefs.getString(_kAvatarB64);
+        if (b64 != null && b64.isNotEmpty) {
+          try {
+            _avatarBytes = base64Decode(b64);
+          } catch (_) {/* corrupt cache — ignore */}
+        }
       }
       _loading = false;
     });
@@ -119,7 +170,109 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     super.dispose();
   }
 
-  Future<void> _pickAvatar() async {
+  /// Avatar picker entry — shows a choice between the bundled
+  /// curated trainer grid and a gallery upload. Users without a
+  /// ready avatar image can always grab a recognisable trainer
+  /// from the curated set; users who want their own photo upload
+  /// it directly.
+  Future<void> _openAvatarPicker() async {
+    final choice = await showDialog<_AvatarSource>(
+      context: context,
+      builder: (ctx) => SimpleDialog(
+        title: Text(AppStrings.t('trainerCard.avatarSource.title')),
+        children: [
+          SimpleDialogOption(
+            onPressed: () => Navigator.pop(ctx, _AvatarSource.curated),
+            child: Text(AppStrings.t('trainerCard.avatarSource.curated')),
+          ),
+          SimpleDialogOption(
+            onPressed: () => Navigator.pop(ctx, _AvatarSource.upload),
+            child: Text(AppStrings.t('trainerCard.avatarSource.upload')),
+          ),
+        ],
+      ),
+    );
+    if (choice == null || !mounted) return;
+    switch (choice) {
+      case _AvatarSource.curated:
+        await _pickCuratedAvatar();
+      case _AvatarSource.upload:
+        await _pickUploadedAvatar();
+    }
+  }
+
+  Future<void> _pickCuratedAvatar() async {
+    final picked = await showDialog<String>(
+      context: context,
+      builder: (ctx) => Dialog(
+        child: ConstrainedBox(
+          constraints:
+              const BoxConstraints(maxWidth: 480, maxHeight: 560),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        AppStrings.t('trainerCard.avatarSource.curated'),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                  ],
+                ),
+              ),
+              Flexible(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(12),
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemCount: _kCuratedTrainers.length,
+                  itemBuilder: (_, i) {
+                    final key = _kCuratedTrainers[i];
+                    return InkWell(
+                      onTap: () => Navigator.pop(ctx, key),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        padding: const EdgeInsets.all(4),
+                        child: Image.asset(
+                          _trainerAssetPath(key),
+                          fit: BoxFit.contain,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (picked == null || !mounted) return;
+    setState(() {
+      _avatarAssetKey = picked;
+      _avatarBytes = null; // mutual-exclusive with upload path
+    });
+  }
+
+  Future<void> _pickUploadedAvatar() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(
       source: ImageSource.gallery,
@@ -130,7 +283,10 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     if (picked == null) return;
     final bytes = await picked.readAsBytes();
     if (!mounted) return;
-    setState(() => _avatarBytes = bytes);
+    setState(() {
+      _avatarBytes = bytes;
+      _avatarAssetKey = null;
+    });
   }
 
   Future<void> _persistFields() async {
@@ -139,9 +295,33 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     await prefs.setString(_kSeason, _seasonCtl.text);
     await prefs.setString(_kScore, _scoreCtl.text);
     await prefs.setString(_kScorePrefix, _scorePrefix.prefsValue);
-    if (_avatarBytes != null) {
+    // Avatar persistence: asset key and uploaded bytes are mutually
+    // exclusive — set whichever the user picked last, clear the
+    // other so a stale value doesn't ghost back on the next open.
+    if (_avatarAssetKey != null) {
+      await prefs.setString(_kAvatarAsset, _avatarAssetKey!);
+      await prefs.remove(_kAvatarB64);
+    } else if (_avatarBytes != null) {
       await prefs.setString(_kAvatarB64, base64Encode(_avatarBytes!));
+      await prefs.remove(_kAvatarAsset);
+    } else {
+      await prefs.remove(_kAvatarAsset);
+      await prefs.remove(_kAvatarB64);
     }
+  }
+
+  /// Avatar widget used in both the editor preview slot and the
+  /// rendered card. Returns null when the user hasn't picked an
+  /// avatar yet so the caller can render a placeholder.
+  Widget? _avatarImage({required BoxFit fit}) {
+    if (_avatarAssetKey != null) {
+      return Image.asset(_trainerAssetPath(_avatarAssetKey!),
+          fit: fit, filterQuality: FilterQuality.medium);
+    }
+    if (_avatarBytes != null) {
+      return Image.memory(_avatarBytes!, fit: fit);
+    }
+    return null;
   }
 
   Future<void> _onPreviewPressed() async {
@@ -261,9 +441,11 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   ),
                 ],
               ),
-              // Tightened gap (was 16) — per user, the name → party
-              // gap was too big.
-              const SizedBox(height: 6),
+              // Name → party row is flush. OverflowBox in the previous
+              // sprite-tile implementation reported phantom intrinsic
+              // height that pushed the grid down even with a 6-pt
+              // spacer; switching to FittedBox below also fixed this.
+              const SizedBox(height: 2),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -289,22 +471,18 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   SizedBox(
                     width: 140,
                     height: 180,
-                    child: _avatarBytes == null
-                        ? Container(
-                            color: Colors.grey.shade100,
-                            alignment: Alignment.center,
-                            child: Text(
-                              AppStrings.t('trainerCard.avatarMissing'),
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.grey.shade500),
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        : Image.memory(
-                            _avatarBytes!,
-                            fit: BoxFit.cover,
+                    child: _avatarImage(fit: BoxFit.cover) ??
+                        Container(
+                          color: Colors.grey.shade100,
+                          alignment: Alignment.center,
+                          child: Text(
+                            AppStrings.t('trainerCard.avatarMissing'),
+                            style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey.shade500),
+                            textAlign: TextAlign.center,
                           ),
+                        ),
                   ),
                 ],
               ),
@@ -368,33 +546,39 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     }
   }
 
-  /// Each pokémon tile: zoomed sprite (BoxFit.cover via FittedBox)
-  /// that fills the landscape rectangle, with shiny applied from
-  /// the source slot.
+  /// Each pokémon tile: sprite scaled via FittedBox(cover) so it
+  /// fills the landscape rectangle edge-to-edge, with the visible
+  /// region biased slightly upward so the face — not the body /
+  /// feet — lands in frame. Shiny forwarded from the source slot.
   Widget _spriteTile(TrainerCardSlot slot) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.grey.shade50,
-          border: Border.all(color: Colors.grey.shade300),
+          // Black border per user direction — the prior shade300
+          // edge was too soft to register as a 'card frame'.
+          border: Border.all(color: Colors.black, width: 1.5),
           borderRadius: BorderRadius.circular(4),
         ),
         child: slot.pokemon == null
             ? const SizedBox.shrink()
-            : OverflowBox(
-                // Enlarge the rendered sprite past the cell bounds
-                // so we get the zoom-in effect the user asked for —
-                // ClipRRect on the parent crops anything that
-                // overflows.
-                minHeight: 120,
-                minWidth: 120,
-                maxHeight: 180,
-                maxWidth: 180,
-                child: PokemonSprite(
-                  pokemonName: slot.pokemon!.name,
-                  size: 160,
-                  shiny: slot.shiny,
+            : FittedBox(
+                fit: BoxFit.cover,
+                // (0, -0.5) shifts the visible window up so the
+                // sprite's head/face is centred in the tile — BW
+                // sprites generally have the face in the upper
+                // third, and the default centred crop was framing
+                // the chest instead.
+                alignment: const Alignment(0, -0.5),
+                child: SizedBox(
+                  width: 96,
+                  height: 96,
+                  child: PokemonSprite(
+                    pokemonName: slot.pokemon!.name,
+                    size: 96,
+                    shiny: slot.shiny,
+                  ),
                 ),
               ),
       ),
@@ -422,7 +606,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
             children: [
               Center(
                 child: GestureDetector(
-                  onTap: _busy ? null : _pickAvatar,
+                  onTap: _busy ? null : _openAvatarPicker,
                   child: Container(
                     width: 120,
                     height: 150,
@@ -431,7 +615,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                       border: Border.all(color: Colors.grey.shade400),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: _avatarBytes == null
+                    child: _avatarImage(fit: BoxFit.cover) == null
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -448,8 +632,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.memory(_avatarBytes!,
-                                fit: BoxFit.cover),
+                            child: _avatarImage(fit: BoxFit.cover),
                           ),
                   ),
                 ),

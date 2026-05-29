@@ -263,6 +263,21 @@ class AppStrings {
       AppLanguage.en: 'Pick avatar',
       AppLanguage.ja: 'アバター選択',
     },
+    'trainerCard.avatarSource.title': {
+      AppLanguage.ko: '아바타 가져오기',
+      AppLanguage.en: 'Choose avatar source',
+      AppLanguage.ja: 'アバター取得方法',
+    },
+    'trainerCard.avatarSource.curated': {
+      AppLanguage.ko: '트레이너 셋에서 고르기',
+      AppLanguage.en: 'Pick from trainer set',
+      AppLanguage.ja: 'トレーナーセットから選択',
+    },
+    'trainerCard.avatarSource.upload': {
+      AppLanguage.ko: '사진에서 업로드',
+      AppLanguage.en: 'Upload from gallery',
+      AppLanguage.ja: '写真からアップロード',
+    },
     'trainerCard.avatarMissing': {
       AppLanguage.ko: '아바타 없음',
       AppLanguage.en: 'No avatar',
