@@ -449,6 +449,92 @@ const Set<String> trainerNpcClassStems = {
   'youngcouple',
 };
 
+/// Generation bucket for the secondary picker filter. Derived
+/// from the trailing suffix on the asset key — Showdown tags
+/// every per-game variant (e.g. 'red-gen1rb' for the FRLG remake
+/// of the gen-1 Red sprite). Plain keys with no suffix are the
+/// canonical 'latest' sprite for that character/class; we file
+/// those under [other] rather than guessing.
+enum TrainerGeneration {
+  all,
+  gen1,
+  gen2,
+  gen3,
+  gen4,
+  gen5,
+  gen6,
+  gen7,
+  gen8,
+  gen9,
+  masters,
+  other;
+}
+
+/// Map raw suffix → generation bucket. Compiled from the actual
+/// suffix histogram of assets/trainers/ — anything not listed
+/// here lands in [TrainerGeneration.other], which keeps the
+/// 'other' tab as a useful catch-all for spinoffs (Conquest,
+/// Unite, Festival Plaza, Pokéstar, anime/isekai variants).
+const Map<String, TrainerGeneration> _suffixToGen = {
+  // Gen 1
+  'gen1': TrainerGeneration.gen1,
+  'gen1rb': TrainerGeneration.gen1,
+  'lgpe': TrainerGeneration.gen1,
+  // Gen 2
+  'gen2': TrainerGeneration.gen2,
+  'gen2jp': TrainerGeneration.gen2,
+  // Gen 3
+  'gen3': TrainerGeneration.gen3,
+  'gen3rs': TrainerGeneration.gen3,
+  'gen3jp': TrainerGeneration.gen3,
+  'rs': TrainerGeneration.gen3,
+  'rse': TrainerGeneration.gen3,
+  // Gen 4
+  'gen4': TrainerGeneration.gen4,
+  'gen4dp': TrainerGeneration.gen4,
+  'gen4pt': TrainerGeneration.gen4,
+  'bdsp': TrainerGeneration.gen4,
+  'pla': TrainerGeneration.gen4,
+  // Gen 5
+  'gen5': TrainerGeneration.gen5,
+  'gen5bw': TrainerGeneration.gen5,
+  'gen5bw2': TrainerGeneration.gen5,
+  'bw': TrainerGeneration.gen5,
+  'bw2': TrainerGeneration.gen5,
+  // Gen 6
+  'gen6': TrainerGeneration.gen6,
+  'gen6xy': TrainerGeneration.gen6,
+  'gen6oras': TrainerGeneration.gen6,
+  'xy': TrainerGeneration.gen6,
+  'oras': TrainerGeneration.gen6,
+  // Gen 7
+  'gen7': TrainerGeneration.gen7,
+  'sm': TrainerGeneration.gen7,
+  'usum': TrainerGeneration.gen7,
+  // Gen 8
+  'gen8': TrainerGeneration.gen8,
+  'swsh': TrainerGeneration.gen8,
+  // Gen 9
+  'gen9': TrainerGeneration.gen9,
+  'sv': TrainerGeneration.gen9,
+  // Pokémon Masters EX
+  'masters': TrainerGeneration.masters,
+  'masters2': TrainerGeneration.masters,
+  'masters3': TrainerGeneration.masters,
+  'masters4': TrainerGeneration.masters,
+};
+
+/// Classify a sprite key into a generation bucket using the
+/// trailing suffix after the last hyphen. Keys without a hyphen
+/// (plain stem files like 'red.png') and keys whose suffix isn't
+/// in [_suffixToGen] land in [TrainerGeneration.other].
+TrainerGeneration trainerGenerationOf(String key) {
+  final dash = key.lastIndexOf('-');
+  if (dash < 0) return TrainerGeneration.other;
+  final suffix = key.substring(dash + 1).toLowerCase();
+  return _suffixToGen[suffix] ?? TrainerGeneration.other;
+}
+
 /// Classify a sprite key into one of the picker tabs. Uses the
 /// stem (suffix-stripped key) so e.g. 'cynthia-masters3' and
 /// 'cynthia-gen4' both land in [TrainerCategory.champion].

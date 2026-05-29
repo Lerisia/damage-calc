@@ -46,6 +46,7 @@ class _CuratedTrainerPicker extends StatefulWidget {
 class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
   final _searchCtl = TextEditingController();
   TrainerCategory _category = TrainerCategory.all;
+  TrainerGeneration _generation = TrainerGeneration.all;
 
   @override
   void dispose() {
@@ -70,6 +71,24 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
           AppStrings.t('trainerCard.category.other'),
       };
 
+  String _generationLabel(TrainerGeneration g) => switch (g) {
+        TrainerGeneration.all =>
+          AppStrings.t('trainerCard.gen.all'),
+        TrainerGeneration.gen1 => AppStrings.t('trainerCard.gen.1'),
+        TrainerGeneration.gen2 => AppStrings.t('trainerCard.gen.2'),
+        TrainerGeneration.gen3 => AppStrings.t('trainerCard.gen.3'),
+        TrainerGeneration.gen4 => AppStrings.t('trainerCard.gen.4'),
+        TrainerGeneration.gen5 => AppStrings.t('trainerCard.gen.5'),
+        TrainerGeneration.gen6 => AppStrings.t('trainerCard.gen.6'),
+        TrainerGeneration.gen7 => AppStrings.t('trainerCard.gen.7'),
+        TrainerGeneration.gen8 => AppStrings.t('trainerCard.gen.8'),
+        TrainerGeneration.gen9 => AppStrings.t('trainerCard.gen.9'),
+        TrainerGeneration.masters =>
+          AppStrings.t('trainerCard.gen.masters'),
+        TrainerGeneration.other =>
+          AppStrings.t('trainerCard.gen.other'),
+      };
+
   @override
   Widget build(BuildContext context) {
     final query = _searchCtl.text.trim().toLowerCase();
@@ -78,9 +97,14 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
         : widget.allKeys
             .where((k) => trainerCategoryOf(k) == _category)
             .toList();
-    final filtered = query.isEmpty
+    final byGen = _generation == TrainerGeneration.all
         ? byCategory
         : byCategory
+            .where((k) => trainerGenerationOf(k) == _generation)
+            .toList();
+    final filtered = query.isEmpty
+        ? byGen
+        : byGen
             .where((k) => trainerSearchCorpus(k).any((s) => s.contains(query)))
             .toList();
     return Dialog(
@@ -123,6 +147,29 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                       label: Text(_categoryLabel(c)),
                       selected: _category == c,
                       onSelected: (_) => setState(() => _category = c),
+                    ),
+                    const SizedBox(width: 6),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(height: 4),
+            // Generation chips — second axis. Often the user knows
+            // 'I want a gen-3 NPC' even when they don't know the
+            // specific class name. Combined with the category row
+            // above, they form a 2-D filter that gets the user to
+            // ~10-50 candidates without typing.
+            SizedBox(
+              height: 40,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  for (final g in TrainerGeneration.values) ...[
+                    ChoiceChip(
+                      label: Text(_generationLabel(g)),
+                      selected: _generation == g,
+                      onSelected: (_) => setState(() => _generation = g),
                     ),
                     const SizedBox(width: 6),
                   ],
@@ -210,6 +257,50 @@ class TrainerCardSlot {
 /// per user direction, score should never appear naked: it's
 /// always one of '최종 / 최고 / 현재' so the reader knows what
 /// the number actually represents.
+/// Frame/accent color presets for the trainer card. Mirrors the
+/// 'choose a small set' direction from the user — a curated
+/// palette is faster to pick from than a full color wheel and
+/// keeps the card looking deliberate rather than ad-hoc.
+///
+/// Each entry maps to a MaterialColor swatch from which the card
+/// pulls three shades:
+///   - shade700 → title pill background, avatar ring, score text
+///   - shade300 → footer border
+///   - shade50  → footer background tint
+/// MaterialColor is already shipped with Flutter, so we get the
+/// shade ramp for free without any color-math.
+class TrainerCardTheme {
+  final String prefsValue;
+  final MaterialColor swatch;
+  const TrainerCardTheme(this.prefsValue, this.swatch);
+
+  static const amber = TrainerCardTheme('amber', Colors.amber);
+  static const red = TrainerCardTheme('red', Colors.red);
+  static const deepOrange =
+      TrainerCardTheme('deepOrange', Colors.deepOrange);
+  static const pink = TrainerCardTheme('pink', Colors.pink);
+  static const purple = TrainerCardTheme('purple', Colors.purple);
+  static const indigo = TrainerCardTheme('indigo', Colors.indigo);
+  static const blue = TrainerCardTheme('blue', Colors.blue);
+  static const teal = TrainerCardTheme('teal', Colors.teal);
+  static const green = TrainerCardTheme('green', Colors.green);
+  static const brown = TrainerCardTheme('brown', Colors.brown);
+  static const blueGrey = TrainerCardTheme('blueGrey', Colors.blueGrey);
+  static const grey = TrainerCardTheme('grey', Colors.grey);
+
+  static const List<TrainerCardTheme> all = [
+    amber, red, deepOrange, pink, purple, indigo,
+    blue, teal, green, brown, blueGrey, grey,
+  ];
+
+  static TrainerCardTheme fromPrefs(String? raw) {
+    for (final t in all) {
+      if (t.prefsValue == raw) return t;
+    }
+    return amber;
+  }
+}
+
 enum TrainerCardScorePrefix {
   finalPrefix('final'),
   best('best'),
@@ -264,6 +355,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   static const _kScorePrefix = 'trainer_card.score_prefix';
   static const _kAvatarB64 = 'trainer_card.avatar_b64';
   static const _kAvatarAsset = 'trainer_card.avatar_asset';
+  static const _kThemeColor = 'trainer_card.theme_color';
 
   late final TextEditingController _nameCtl;
   late final TextEditingController _seasonCtl;
@@ -276,6 +368,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   /// the bundled trainer grid. Resolved to AssetImage at render.
   String? _avatarAssetKey;
   TrainerCardScorePrefix _scorePrefix = TrainerCardScorePrefix.finalPrefix;
+  TrainerCardTheme _themeColor = TrainerCardTheme.amber;
   bool _loading = true;
   bool _busy = false;
   /// All trainer keys loaded from AssetManifest. Populated async
@@ -327,6 +420,8 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
       _scoreCtl.text = prefs.getString(_kScore) ?? '';
       _scorePrefix =
           TrainerCardScorePrefix.fromPrefs(prefs.getString(_kScorePrefix));
+      _themeColor =
+          TrainerCardTheme.fromPrefs(prefs.getString(_kThemeColor));
       // Asset key takes priority — if a previous session picked
       // from the curated set, restore that selection. We don't
       // gate on _allTrainerKeys here (which loads async) because
@@ -425,6 +520,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     await prefs.setString(_kSeason, _seasonCtl.text);
     await prefs.setString(_kScore, _scoreCtl.text);
     await prefs.setString(_kScorePrefix, _scorePrefix.prefsValue);
+    await prefs.setString(_kThemeColor, _themeColor.prefsValue);
     // Avatar persistence: asset key and uploaded bytes are mutually
     // exclusive — set whichever the user picked last, clear the
     // other so a stale value doesn't ghost back on the next open.
@@ -512,7 +608,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
               padding: const EdgeInsets.symmetric(
                   horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: Colors.amber.shade700,
+                color: _themeColor.swatch.shade700,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: const Text(
@@ -533,7 +629,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                        color: Colors.amber.shade700, width: 2),
+                        color: _themeColor.swatch.shade700, width: 2),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -609,10 +705,10 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
               padding: const EdgeInsets.symmetric(
                   horizontal: 10, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.amber.shade50,
+                color: _themeColor.swatch.shade50,
                 borderRadius: BorderRadius.circular(6),
                 border:
-                    Border.all(color: Colors.amber.shade300, width: 1),
+                    Border.all(color: _themeColor.swatch.shade300, width: 1),
               ),
               child: Row(
                 children: [
@@ -814,6 +910,46 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   ),
                 ],
               ),
+              const SizedBox(height: 12),
+              // Theme color picker — circular swatches in a Wrap
+              // so the row reflows on narrow widths. The selected
+              // swatch gets a black ring; unselected swatches are
+              // just the filled circle.
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  AppStrings.t('trainerCard.themeColor'),
+                  style: TextStyle(
+                      fontSize: 12, color: Colors.grey.shade700),
+                ),
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final t in TrainerCardTheme.all)
+                    InkWell(
+                      onTap: _busy
+                          ? null
+                          : () => setState(() => _themeColor = t),
+                      borderRadius: BorderRadius.circular(24),
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: t.swatch.shade700,
+                          shape: BoxShape.circle,
+                          border: _themeColor.prefsValue == t.prefsValue
+                              ? Border.all(color: Colors.black, width: 3)
+                              : Border.all(
+                                  color: Colors.grey.shade300, width: 1),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 8),
             ],
           ),
         ),

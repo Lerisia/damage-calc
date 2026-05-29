@@ -318,6 +318,71 @@ class AppStrings {
       AppLanguage.en: 'Other',
       AppLanguage.ja: 'その他',
     },
+    'trainerCard.gen.all': {
+      AppLanguage.ko: '전 세대',
+      AppLanguage.en: 'All gens',
+      AppLanguage.ja: '全世代',
+    },
+    'trainerCard.gen.1': {
+      AppLanguage.ko: '1세대',
+      AppLanguage.en: 'Gen 1',
+      AppLanguage.ja: '第1世代',
+    },
+    'trainerCard.gen.2': {
+      AppLanguage.ko: '2세대',
+      AppLanguage.en: 'Gen 2',
+      AppLanguage.ja: '第2世代',
+    },
+    'trainerCard.gen.3': {
+      AppLanguage.ko: '3세대',
+      AppLanguage.en: 'Gen 3',
+      AppLanguage.ja: '第3世代',
+    },
+    'trainerCard.gen.4': {
+      AppLanguage.ko: '4세대',
+      AppLanguage.en: 'Gen 4',
+      AppLanguage.ja: '第4世代',
+    },
+    'trainerCard.gen.5': {
+      AppLanguage.ko: '5세대',
+      AppLanguage.en: 'Gen 5',
+      AppLanguage.ja: '第5世代',
+    },
+    'trainerCard.gen.6': {
+      AppLanguage.ko: '6세대',
+      AppLanguage.en: 'Gen 6',
+      AppLanguage.ja: '第6世代',
+    },
+    'trainerCard.gen.7': {
+      AppLanguage.ko: '7세대',
+      AppLanguage.en: 'Gen 7',
+      AppLanguage.ja: '第7世代',
+    },
+    'trainerCard.gen.8': {
+      AppLanguage.ko: '8세대',
+      AppLanguage.en: 'Gen 8',
+      AppLanguage.ja: '第8世代',
+    },
+    'trainerCard.gen.9': {
+      AppLanguage.ko: '9세대',
+      AppLanguage.en: 'Gen 9',
+      AppLanguage.ja: '第9世代',
+    },
+    'trainerCard.gen.masters': {
+      AppLanguage.ko: '마스터즈',
+      AppLanguage.en: 'Masters',
+      AppLanguage.ja: 'マスターズ',
+    },
+    'trainerCard.gen.other': {
+      AppLanguage.ko: '기타',
+      AppLanguage.en: 'Other',
+      AppLanguage.ja: 'その他',
+    },
+    'trainerCard.themeColor': {
+      AppLanguage.ko: '카드 색상',
+      AppLanguage.en: 'Card color',
+      AppLanguage.ja: 'カードカラー',
+    },
     'trainerCard.noMatches': {
       AppLanguage.ko: '검색 결과가 없습니다.',
       AppLanguage.en: 'No matches.',
