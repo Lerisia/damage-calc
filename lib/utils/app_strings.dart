@@ -273,6 +273,21 @@ class AppStrings {
       AppLanguage.en: 'Upload from photos',
       AppLanguage.ja: '写真からアップロード',
     },
+    'sprite.combinedDownload': {
+      AppLanguage.ko: '전체 팩 다운로드',
+      AppLanguage.en: 'Download combined pack',
+      AppLanguage.ja: '統合パックをダウンロード',
+    },
+    'sprite.combinedImport': {
+      AppLanguage.ko: '전체 팩 가져오기',
+      AppLanguage.en: 'Import combined pack',
+      AppLanguage.ja: '統合パックを取り込み',
+    },
+    'sprite.combinedHowTo': {
+      AppLanguage.ko: '"전체 팩 다운로드"를 누르면 브라우저에서 Showdown CDN으로부터 BW/Dex/박스 아이콘/트레이너를 한 번에 받아 ZIP으로 묶어줍니다. 받은 파일을 "전체 팩 가져오기"로 선택해주세요.',
+      AppLanguage.en: 'Tap "Download combined pack" — your browser fetches BW / Dex / box icons / trainer sprites from Showdown\'s CDN and bundles them into one ZIP. Then tap "Import combined pack" and pick that file.',
+      AppLanguage.ja: '「統合パックをダウンロード」をタップするとブラウザがShowdownのCDNからBW/Dex/ボックスアイコン/トレーナーを取得しZIPにまとめます。そのファイルを「統合パックを取り込み」で選択してください。',
+    },
     'sprite.smogonDownload': {
       AppLanguage.ko: 'Smogon에서 다운로드',
       AppLanguage.en: 'Download from Smogon',

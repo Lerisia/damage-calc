@@ -27,6 +27,7 @@ import '../utils/korean_search.dart';
 import '../utils/party_image_save.dart';
 import '../utils/sample_save_flow.dart';
 import 'widgets/ev_sp_cell.dart';
+import 'widgets/trainer_card_dialog.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import '../utils/sprite_pack_manager.dart';
@@ -297,11 +298,72 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
     setState(() => slot.moves[moveIndex] = move);
   }
 
-  /// Camera button on the party tab → straight to party capture.
-  /// Trainer-card option pulled pending sprite-licensing review;
-  /// the dialog code + assets were removed from the build.
+  /// Camera button on the party tab → popup chooser between plain
+  /// party-list capture and the trainer-card editor. Trainer card
+  /// pulls sprites from Showdown's CDN (web) or the imported pack
+  /// cache (mobile); we never bundle or self-host the sprite bytes.
   Future<void> _showPartyCaptureChoice() async {
-    await _capturePartyImage();
+    int? choice = 0;
+    final picked = await showDialog<int>(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(builder: (ctx, setLocalState) {
+          return AlertDialog(
+            title: Text(AppStrings.t('team.captureChoice.title')),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RadioListTile<int>(
+                  value: 0,
+                  groupValue: choice,
+                  onChanged: (v) => setLocalState(() => choice = v),
+                  title: Text(AppStrings.t('team.captureChoice.party')),
+                  contentPadding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                ),
+                RadioListTile<int>(
+                  value: 1,
+                  groupValue: choice,
+                  onChanged: (v) => setLocalState(() => choice = v),
+                  title:
+                      Text(AppStrings.t('team.captureChoice.trainerCard')),
+                  contentPadding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(AppStrings.t('action.cancel')),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx, choice),
+                child: Text(AppStrings.t('team.captureChoice.confirm')),
+              ),
+            ],
+          );
+        });
+      },
+    );
+    if (picked == null || !mounted) return;
+    if (picked == 0) {
+      await _capturePartyImage();
+    } else {
+      await _showTrainerCardDialog();
+    }
+  }
+
+  Future<void> _showTrainerCardDialog() async {
+    if (!mounted) return;
+    final party = [
+      for (final s in _team)
+        TrainerCardSlot(pokemon: s.pokemon, shiny: s.shiny),
+    ];
+    await showDialog(
+      context: context,
+      builder: (_) => TrainerCardDialog(party: party),
+    );
   }
 
   /// Capture the current party as a PNG and save it to the user's

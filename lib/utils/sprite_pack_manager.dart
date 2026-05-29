@@ -96,6 +96,19 @@ class SpritePackManager extends ChangeNotifier {
     return '${r.path}/icons';
   }
 
+  /// Where extracted trainer sprites live. Mirrors [iconsCacheDir]
+  /// — flat folder of `<key>.png` files written by the combined
+  /// pack importer. Returns null on web (the trainer-card dialog
+  /// hits Showdown's CDN directly there).
+  String? get trainerCacheDir {
+    final r = _rootDir;
+    if (r == null) return null;
+    return '${r.path}/trainers';
+  }
+
+  bool _trainersInstalled = false;
+  bool get trainersInstalled => _trainersInstalled;
+
   /// Probe the FS to refresh install state. Called from app preload
   /// so SpriteService.spriteFor returns FileImages immediately on
   /// the first frame, not after an async dance.
@@ -125,7 +138,101 @@ class SpritePackManager extends ChangeNotifier {
     final iconsDir = Directory('${_rootDir!.path}/icons');
     _iconsInstalled =
         iconsDir.existsSync() && iconsDir.listSync().any((e) => e is File);
+    final trainersDir = Directory('${_rootDir!.path}/trainers');
+    _trainersInstalled = trainersDir.existsSync() &&
+        trainersDir.listSync().any((e) => e is File);
     notifyListeners();
+  }
+
+  /// Extract a combined-pack ZIP that may carry sprites for multiple
+  /// categories at once — `gen5/`, `gen5/shiny/`, `dex/`, `dex/shiny/`,
+  /// `pokemonicons/`, `trainers/` — into the matching per-category
+  /// cache directory. Produced by the JS download page at
+  /// damage-calc.com/dl.html which fetches each sprite from
+  /// Showdown's CDN in the user's browser and zips them up locally;
+  /// we never host the bytes ourselves.
+  ///
+  /// Returns a per-category written count so the UI can confirm what
+  /// landed. Throws on a non-ZIP input.
+  Future<Map<String, int>> installCombinedPack(File zipFile) async {
+    if (kIsWeb) {
+      throw StateError('Combined-pack import is not used on web — the '
+          'web build reads from Showdown CDN directly.');
+    }
+    if (_rootDir == null) await init();
+    final root = _rootDir!.path;
+    final bytes = await zipFile.readAsBytes();
+    final Archive archive;
+    try {
+      archive = ZipDecoder().decodeBytes(bytes);
+    } catch (_) {
+      throw const FormatException('Not a ZIP archive');
+    }
+    // Map of zip-path-prefix → on-disk target dir.
+    final categoryTargets = <String, String>{
+      'gen5/shiny/': '$root/bw/shiny',
+      'gen5/': '$root/bw',
+      'dex/shiny/': '$root/dex/shiny',
+      'dex/': '$root/dex',
+      'pokemonicons/': '$root/icons',
+      'trainers/': '$root/trainers',
+    };
+    // Pre-create + clear target dirs so a re-import doesn't leave
+    // stale files from a previous pack.
+    for (final target in categoryTargets.values.toSet()) {
+      final d = Directory(target);
+      if (d.existsSync()) d.deleteSync(recursive: true);
+      d.createSync(recursive: true);
+    }
+    final counts = <String, int>{};
+    String? packVersion;
+    for (final entry in archive) {
+      if (!entry.isFile) continue;
+      final name = entry.name;
+      if (name == 'VERSION') {
+        packVersion =
+            String.fromCharCodes(entry.content as List<int>).trim();
+        continue;
+      }
+      String? targetDir;
+      String? rel;
+      // Match against the longest prefix first (gen5/shiny/ before
+      // gen5/) so the shiny subfolder isn't swallowed by the
+      // top-level category.
+      for (final prefix in categoryTargets.keys) {
+        if (name.startsWith(prefix)) {
+          targetDir = categoryTargets[prefix];
+          rel = name.substring(prefix.length);
+          break;
+        }
+      }
+      if (targetDir == null || rel == null || rel.isEmpty) continue;
+      if (rel.contains('/')) continue; // skip any deeper nesting
+      if (!rel.toLowerCase().endsWith('.png') &&
+          !rel.toLowerCase().endsWith('.gif')) continue;
+      File('$targetDir/$rel').writeAsBytesSync(entry.content as List<int>);
+      counts[targetDir] = (counts[targetDir] ?? 0) + 1;
+    }
+    // Reflect new install state. BW + dex map onto SpriteStyle enum
+    // entries; icons + trainers flip their own booleans.
+    for (final s in SpriteStyle.values) {
+      final dir = Directory('$root/${s.name}');
+      if (dir.existsSync() && dir.listSync().any((e) => e is File)) {
+        _installed[s] = true;
+        if (packVersion != null) {
+          _versions[s] = packVersion;
+          File('${dir.path}/VERSION').writeAsStringSync(packVersion);
+        }
+      }
+    }
+    final iconsDir = Directory('$root/icons');
+    _iconsInstalled =
+        iconsDir.existsSync() && iconsDir.listSync().any((e) => e is File);
+    final trainersDir = Directory('$root/trainers');
+    _trainersInstalled = trainersDir.existsSync() &&
+        trainersDir.listSync().any((e) => e is File);
+    notifyListeners();
+    return counts;
   }
 
   /// Extract a downloaded sprite-pack ZIP into the per-style cache,
