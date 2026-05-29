@@ -274,9 +274,9 @@ class AppStrings {
       AppLanguage.ja: '写真からアップロード',
     },
     'trainerCard.searchHint': {
-      AppLanguage.ko: '검색 (예: 레드, 난천, ace)',
+      AppLanguage.ko: '검색 (예: 레드, 난천, 엘리트)',
       AppLanguage.en: 'Search (e.g., red, cynthia, ace)',
-      AppLanguage.ja: '検索 (例: レッド, シロナ, ace)',
+      AppLanguage.ja: '検索 (例: レッド, シロナ, エリート)',
     },
     'trainerCard.tapAvatarHint': {
       AppLanguage.ko: '아바타 영역을 눌러 사진을 변경할 수 있습니다.',
