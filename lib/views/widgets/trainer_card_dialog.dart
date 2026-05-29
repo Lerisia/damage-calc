@@ -13,25 +13,54 @@ import '../../utils/app_strings.dart';
 import '../../utils/party_image_save.dart';
 import 'pokemon_sprite.dart';
 
-/// Editor + capture flow for the trainer-card image. Layout:
-///
-///   ┌─────────────────────────────────────────┐
-///   │ TRAINER CARD                            │
-///   │ ○ {name}                                │
-///   │                                         │
-///   │ [P1] [P2] [P3]            [avatar]      │
-///   │ [P4] [P5] [P6]                          │
-///   │                                         │
-///   │ 시즌: {season}              {score}점   │
-///   └─────────────────────────────────────────┘
+/// One party slot worth of trainer-card input. Keeps the trainer
+/// card decoupled from `_TeamSlot` (which is private to the team
+/// builder screen) — we only need the species + shiny flag.
+class TrainerCardSlot {
+  final Pokemon? pokemon;
+  final bool shiny;
+  const TrainerCardSlot({required this.pokemon, required this.shiny});
+}
+
+/// Score-prefix choice the user picks before the numeric score —
+/// per user direction, score should never appear naked: it's
+/// always one of '최종 / 최고 / 현재' so the reader knows what
+/// the number actually represents.
+enum TrainerCardScorePrefix {
+  finalPrefix('final'),
+  best('best'),
+  current('current');
+
+  final String prefsValue;
+  const TrainerCardScorePrefix(this.prefsValue);
+
+  static TrainerCardScorePrefix fromPrefs(String? raw) {
+    for (final p in TrainerCardScorePrefix.values) {
+      if (p.prefsValue == raw) return p;
+    }
+    return TrainerCardScorePrefix.finalPrefix;
+  }
+
+  String localized() => switch (this) {
+        TrainerCardScorePrefix.finalPrefix =>
+          AppStrings.t('trainerCard.scorePrefix.final'),
+        TrainerCardScorePrefix.best =>
+          AppStrings.t('trainerCard.scorePrefix.best'),
+        TrainerCardScorePrefix.current =>
+          AppStrings.t('trainerCard.scorePrefix.current'),
+      };
+}
+
+/// Editor + preview-confirm flow for the trainer-card image.
 ///
 /// All fields are user-editable and persisted across launches via
-/// SharedPreferences (name / season / score as strings, avatar bytes
-/// as a base64 string keyed by `trainer_card.avatar_b64`).
+/// SharedPreferences (name / season / score / prefix as strings,
+/// avatar bytes as a base64 string keyed by
+/// `trainer_card.avatar_b64`). Shiny status comes from the party
+/// slots verbatim; toggling shiny on a slot in the team builder
+/// is reflected on the next trainer-card render.
 class TrainerCardDialog extends StatefulWidget {
-  /// 6-slot party — null entries render as empty tiles in the grid.
-  /// Caller passes whatever's currently loaded in the team builder.
-  final List<Pokemon?> party;
+  final List<TrainerCardSlot> party;
 
   const TrainerCardDialog({super.key, required this.party});
 
@@ -43,14 +72,16 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   static const _kName = 'trainer_card.name';
   static const _kSeason = 'trainer_card.season';
   static const _kScore = 'trainer_card.score';
+  static const _kScorePrefix = 'trainer_card.score_prefix';
   static const _kAvatarB64 = 'trainer_card.avatar_b64';
 
   late final TextEditingController _nameCtl;
   late final TextEditingController _seasonCtl;
   late final TextEditingController _scoreCtl;
   Uint8List? _avatarBytes;
+  TrainerCardScorePrefix _scorePrefix = TrainerCardScorePrefix.finalPrefix;
   bool _loading = true;
-  bool _capturing = false;
+  bool _busy = false;
 
   @override
   void initState() {
@@ -68,6 +99,8 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
       _nameCtl.text = prefs.getString(_kName) ?? '';
       _seasonCtl.text = prefs.getString(_kSeason) ?? '';
       _scoreCtl.text = prefs.getString(_kScore) ?? '';
+      _scorePrefix =
+          TrainerCardScorePrefix.fromPrefs(prefs.getString(_kScorePrefix));
       final b64 = prefs.getString(_kAvatarB64);
       if (b64 != null && b64.isNotEmpty) {
         try {
@@ -105,17 +138,44 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     await prefs.setString(_kName, _nameCtl.text);
     await prefs.setString(_kSeason, _seasonCtl.text);
     await prefs.setString(_kScore, _scoreCtl.text);
+    await prefs.setString(_kScorePrefix, _scorePrefix.prefsValue);
     if (_avatarBytes != null) {
       await prefs.setString(_kAvatarB64, base64Encode(_avatarBytes!));
     }
   }
 
-  Future<void> _saveAndCapture() async {
-    if (_capturing) return;
-    setState(() => _capturing = true);
+  Future<void> _onPreviewPressed() async {
+    if (_busy) return;
+    setState(() => _busy = true);
     try {
       await _persistFields();
       final bytes = await _renderCard();
+      if (!mounted) return;
+      // Preview-confirm flow: render the card, show it back to the
+      // user, only download on explicit 'save' confirmation. Per
+      // user: 'show the finished image and only download if they
+      // confirm'.
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(AppStrings.t('trainerCard.preview.title')),
+          contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          content: SingleChildScrollView(
+            child: Image.memory(bytes),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(AppStrings.t('trainerCard.preview.back')),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(AppStrings.t('trainerCard.preview.confirm')),
+            ),
+          ],
+        ),
+      );
+      if (ok != true || !mounted) return;
       final stamp = DateTime.now().millisecondsSinceEpoch;
       final filename = '${_sanitize(_nameCtl.text.isEmpty
               ? AppStrings.t('trainerCard.defaultName')
@@ -132,18 +192,14 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
         content: Text('${AppStrings.t('team.image.failed')}: $e'),
       ));
     } finally {
-      if (mounted) setState(() => _capturing = false);
+      if (mounted) setState(() => _busy = false);
     }
   }
 
   static String _sanitize(String s) =>
       s.replaceAll(RegExp(r'[^\w\-가-힣ㄱ-ㅎㅏ-ㅣ]'), '_');
 
-  /// Renders the trainer-card composition off-screen and returns
-  /// the resulting PNG bytes. Width is fixed (560 logical px) for a
-  /// consistent share-friendly output size on any device.
   Future<Uint8List> _renderCard() async {
-    final scheme = Theme.of(context).colorScheme;
     final boundaryKey = GlobalKey();
     final score = _scoreCtl.text.trim();
     final season = _seasonCtl.text.trim();
@@ -166,8 +222,6 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title band — flat coloured pill, no gradient effects
-              // so the rendering stays predictable across themes.
               Container(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10, vertical: 4),
@@ -184,8 +238,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                       color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 12),
-              // Name row — circle bullet then large name.
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Container(
@@ -208,9 +261,9 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              // Body row — 3x2 sprite grid on the left, avatar on
-              // the right.
+              // Tightened gap (was 16) — per user, the name → party
+              // gap was too big.
+              const SizedBox(height: 6),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -222,17 +275,17 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                       physics: const NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 6,
                       crossAxisSpacing: 6,
-                      childAspectRatio: 1.0,
+                      // Landscape rectangle tiles (was 1.0). Per user:
+                      // wider than tall, sprite zoomed-in even if a
+                      // little clipping happens.
+                      childAspectRatio: 1.55,
                       children: [
                         for (int i = 0; i < 6; i++)
-                          _spriteTile(scheme, widget.party[i]),
+                          _spriteTile(widget.party[i]),
                       ],
                     ),
                   ),
                   const SizedBox(width: 12),
-                  // Avatar slot — fixed 140×180 portrait so the
-                  // user's character image gets the dominant
-                  // visual weight (matches the reference layout).
                   SizedBox(
                     width: 140,
                     height: 180,
@@ -255,8 +308,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              // Footer — season (free text) + optional score.
+              const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10, vertical: 8),
@@ -270,14 +322,15 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                   children: [
                     Expanded(
                       child: Text(
-                        season.isEmpty ? '' : season,
+                        season,
                         style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                     ),
                     if (score.isNotEmpty)
                       Text(
-                        '$score${AppStrings.t('trainerCard.scoreSuffix')}',
+                        '${_scorePrefix.localized()} $score'
+                        '${AppStrings.t('trainerCard.scoreSuffix')}',
                         style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
@@ -290,9 +343,6 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
       ),
     );
 
-    // Off-screen render so the user doesn't see a flash before the
-    // capture. Same OverlayEntry+Positioned(-10000) pattern as the
-    // party-image export.
     final overlay = Overlay.of(context);
     final entry = OverlayEntry(
       builder: (_) => Positioned(left: -10000, top: 0, child: card),
@@ -318,18 +368,36 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     }
   }
 
-  Widget _spriteTile(ColorScheme scheme, Pokemon? p) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(4),
+  /// Each pokémon tile: zoomed sprite (BoxFit.cover via FittedBox)
+  /// that fills the landscape rectangle, with shiny applied from
+  /// the source slot.
+  Widget _spriteTile(TrainerCardSlot slot) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: slot.pokemon == null
+            ? const SizedBox.shrink()
+            : OverflowBox(
+                // Enlarge the rendered sprite past the cell bounds
+                // so we get the zoom-in effect the user asked for —
+                // ClipRRect on the parent crops anything that
+                // overflows.
+                minHeight: 120,
+                minWidth: 120,
+                maxHeight: 180,
+                maxWidth: 180,
+                child: PokemonSprite(
+                  pokemonName: slot.pokemon!.name,
+                  size: 160,
+                  shiny: slot.shiny,
+                ),
+              ),
       ),
-      child: p == null
-          ? const SizedBox.shrink()
-          : Center(
-              child: PokemonSprite(pokemonName: p.name, size: 80),
-            ),
     );
   }
 
@@ -352,10 +420,9 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Avatar picker — preview + tap to choose / change.
               Center(
                 child: GestureDetector(
-                  onTap: _capturing ? null : _pickAvatar,
+                  onTap: _busy ? null : _pickAvatar,
                   child: Container(
                     width: 120,
                     height: 150,
@@ -411,17 +478,49 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                 maxLength: 30,
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: _scoreCtl,
-                decoration: InputDecoration(
-                  labelText: AppStrings.t('trainerCard.scoreLabel'),
-                  hintText: AppStrings.t('trainerCard.scoreHint'),
-                  isDense: true,
-                  border: const OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
-                maxLength: 10,
+              // Score row — required prefix dropdown + numeric input.
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: DropdownButtonFormField<TrainerCardScorePrefix>(
+                      value: _scorePrefix,
+                      isDense: true,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        border: OutlineInputBorder(),
+                      ),
+                      items: [
+                        for (final p in TrainerCardScorePrefix.values)
+                          DropdownMenuItem(
+                            value: p,
+                            child: Text(p.localized()),
+                          ),
+                      ],
+                      onChanged: _busy
+                          ? null
+                          : (v) {
+                              if (v == null) return;
+                              setState(() => _scorePrefix = v);
+                            },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      controller: _scoreCtl,
+                      decoration: InputDecoration(
+                        labelText: AppStrings.t('trainerCard.scoreLabel'),
+                        hintText: AppStrings.t('trainerCard.scoreHint'),
+                        isDense: true,
+                        border: const OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.done,
+                      maxLength: 10,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -429,12 +528,12 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: _capturing ? null : () => Navigator.pop(context),
+          onPressed: _busy ? null : () => Navigator.pop(context),
           child: Text(AppStrings.t('action.cancel')),
         ),
         ElevatedButton(
-          onPressed: _capturing ? null : _saveAndCapture,
-          child: _capturing
+          onPressed: _busy ? null : _onPreviewPressed,
+          child: _busy
               ? const SizedBox(
                   height: 18,
                   width: 18,

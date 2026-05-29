@@ -360,7 +360,13 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
   /// screen stays slim.
   Future<void> _showTrainerCardDialog() async {
     if (!mounted) return;
-    final party = [for (final s in _team) s.pokemon];
+    // Pass both species + shiny flag through TrainerCardSlot so the
+    // generated trainer card honours the user's shiny toggle on each
+    // slot (previously the card always rendered the regular sprite).
+    final party = [
+      for (final s in _team)
+        TrainerCardSlot(pokemon: s.pokemon, shiny: s.shiny),
+    ];
     await showDialog(
       context: context,
       builder: (_) => TrainerCardDialog(party: party),

@@ -228,6 +228,36 @@ class AppStrings {
       AppLanguage.en: ' pts',
       AppLanguage.ja: '点',
     },
+    'trainerCard.scorePrefix.final': {
+      AppLanguage.ko: '최종',
+      AppLanguage.en: 'Final',
+      AppLanguage.ja: '最終',
+    },
+    'trainerCard.scorePrefix.best': {
+      AppLanguage.ko: '최고',
+      AppLanguage.en: 'Best',
+      AppLanguage.ja: '最高',
+    },
+    'trainerCard.scorePrefix.current': {
+      AppLanguage.ko: '현재',
+      AppLanguage.en: 'Current',
+      AppLanguage.ja: '現在',
+    },
+    'trainerCard.preview.title': {
+      AppLanguage.ko: '이대로 저장할까요?',
+      AppLanguage.en: 'Save this image?',
+      AppLanguage.ja: 'この画像を保存しますか?',
+    },
+    'trainerCard.preview.confirm': {
+      AppLanguage.ko: '저장',
+      AppLanguage.en: 'Save',
+      AppLanguage.ja: '保存',
+    },
+    'trainerCard.preview.back': {
+      AppLanguage.ko: '돌아가기',
+      AppLanguage.en: 'Back',
+      AppLanguage.ja: '戻る',
+    },
     'trainerCard.pickAvatar': {
       AppLanguage.ko: '아바타 선택',
       AppLanguage.en: 'Pick avatar',
