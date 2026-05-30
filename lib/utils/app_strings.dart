@@ -903,9 +903,9 @@ class AppStrings {
       AppLanguage.ja: '未インストール',
     },
     'sprite.downloadPack': {
-      AppLanguage.ko: '이미지팩 다운로드',
-      AppLanguage.en: 'Download sprite pack',
-      AppLanguage.ja: '画像パックをダウンロード',
+      AppLanguage.ko: 'Smogon 스프라이트 ZIP 다운로드',
+      AppLanguage.en: 'Download Smogon sprite ZIP',
+      AppLanguage.ja: 'Smogon スプライト ZIP をダウンロード',
     },
     'sprite.importZip': {
       AppLanguage.ko: '이미지팩 가져오기',
@@ -918,9 +918,9 @@ class AppStrings {
       AppLanguage.ja: '画像パックを削除',
     },
     'sprite.importHowTo': {
-      AppLanguage.ko: '1) "Smogon에서 다운로드"를 누르면 Smogon 스프라이트 ZIP이 바로 받아집니다.  2) "이미지팩 가져오기"로 그 파일을 선택해주세요. 한 번 가져오면 오프라인에서도 표시됩니다.',
-      AppLanguage.en: '1) Tap "Download from Smogon" — the ZIP downloads straight from Smogon.  2) Tap "Import sprite pack" and pick that file. Once imported, sprites work offline.',
-      AppLanguage.ja: '1)「Smogonからダウンロード」をタップするとZIPが直接ダウンロードされます。 2)「画像パックを取り込み」でファイルを選択してください。取り込み後はオフラインでも表示されます。',
+      AppLanguage.ko: 'Smogon Sprite Project의 ZIP을 다운받아 가져옵니다 (본 앱이 이미지를 호스팅하지 않습니다).\n1) "Smogon 스프라이트 ZIP 다운로드"로 ZIP을 받으신 뒤  2) "이미지팩 가져오기"로 그 파일을 선택해주세요. 한 번 가져오면 오프라인에서도 표시됩니다.',
+      AppLanguage.en: 'This downloads ZIPs from the Smogon Sprite Project (we do not host sprite images).\n1) Tap "Download Smogon sprite ZIP" to grab the file, then  2) tap "Import sprite pack" and pick it. Once imported, sprites work offline.',
+      AppLanguage.ja: 'Smogon Sprite Project の ZIP をダウンロードして取り込みます (本アプリは画像をホストしていません)。\n1)「Smogon スプライト ZIP をダウンロード」でファイルを取得 → 2)「画像パックを取り込み」でファイルを選択。取り込み後はオフラインでも表示されます。',
     },
     'sprite.importedCount': {
       AppLanguage.ko: '{n}개의 스프라이트를 가져왔습니다.',
