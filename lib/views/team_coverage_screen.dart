@@ -298,10 +298,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
     setState(() => slot.moves[moveIndex] = move);
   }
 
-  /// Camera button on the party tab → popup chooser between plain
-  /// party-list capture and the trainer-card editor. Trainer card
-  /// pulls sprites from Showdown's CDN (web) or the imported pack
-  /// cache (mobile); we never bundle or self-host the sprite bytes.
+  /// Two-option chooser shown when the user taps the camera button
+  /// on the party tab: plain party list (existing capture flow)
+  /// vs. trainer card (editable name / season / avatar + party).
+  /// Defense / offense tabs skip this picker and capture directly.
   Future<void> _showPartyCaptureChoice() async {
     int? choice = 0;
     final picked = await showDialog<int>(
@@ -354,8 +354,15 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
     }
   }
 
+  /// Trainer-card editor + capture entry point. Opens the dialog
+  /// where the user fills in name / season / score / avatar; the
+  /// dialog handles the offscreen render + save itself so this
+  /// screen stays slim.
   Future<void> _showTrainerCardDialog() async {
     if (!mounted) return;
+    // Pass both species + shiny flag through TrainerCardSlot so the
+    // generated trainer card honours the user's shiny toggle on each
+    // slot (previously the card always rendered the regular sprite).
     final party = [
       for (final s in _team)
         TrainerCardSlot(pokemon: s.pokemon, shiny: s.shiny),

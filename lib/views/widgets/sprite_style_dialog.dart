@@ -44,81 +44,12 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
     SpriteStyle.dex: 'sprite.style.dex',
   };
 
-  /// Smogon's own bulk-download shortlinks — these resolve to the
-  /// canonical Sprite Project ZIPs hosted by Smogon themselves.
-  /// Tapping these in a browser starts the download immediately;
-  /// user then hands the file to [_pickAndImport]. Keeps
-  /// damage-calc out of the redistribution chain — Smogon hosts,
-  /// we just point.
-  String _smogonDownloadUrl(SpriteStyle style) {
-    switch (style) {
-      case SpriteStyle.bw:
-        // Sun/Moon Sprite Project bulk ZIP — gen 7 BW-style
-        // sprites. The X/Y project (gens 1-6) doesn't expose a
-        // single ZIP, so this is the most useful out-of-the-box
-        // pixel pack we can hand users.
-        return 'http://spo.ink/al7';
-      case SpriteStyle.dex:
-        // Smogon Sprite Project (SwSh+) bulk ZIP — gens 8-9
-        // modern HD sprites.
-        return 'http://spo.ink/amr';
-      case SpriteStyle.ani:
-        // Animated style has no mobile pack today; left for
-        // completeness — falls through to the SwSh+ link.
-        return 'http://spo.ink/amr';
-    }
-  }
-
-  /// damage-calc.com/dl.html — JS page that fetches every sprite
-  /// category (BW, dex, icons, trainers) from Showdown's CDN in the
-  /// user's browser and bundles them into a single ZIP. We never
-  /// hold the bytes ourselves; the page is the only thing we host.
-  static const _combinedPackUrl = 'https://damage-calc.com/dl.html';
-
-  Future<void> _pickAndImportCombined() async {
-    setState(() {
-      for (final s in SpriteStyle.values) {
-        _busy[s] = true;
-      }
-    });
-    try {
-      final picked = await openFile();
-      if (picked == null) return;
-      final counts = await SpritePackManager.instance
-          .installCombinedPack(File(picked.path));
-      if (!mounted) return;
-      final total = counts.values.fold<int>(0, (a, b) => a + b);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppStrings.t('sprite.importedCount')
-            .replaceAll('{n}', '$total')),
-        duration: const Duration(seconds: 3),
-      ));
-    } on FormatException catch (e) {
-      if (!mounted) return;
-      final messageKey = e.message == 'Not a ZIP archive'
-          ? 'sprite.importNotZip'
-          : 'sprite.importWrongStyle';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppStrings.t(messageKey)),
-        duration: const Duration(seconds: 4),
-      ));
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppStrings.t('sprite.importFailed')
-            .replaceAll('{err}', e.toString())),
-        duration: const Duration(seconds: 5),
-      ));
-    } finally {
-      if (mounted) {
-        setState(() {
-          for (final s in SpriteStyle.values) {
-            _busy[s] = false;
-          }
-        });
-      }
-    }
-  }
+  /// `/releases/latest/download/<name>` always resolves to whatever
+  /// the most-recent release tags as that asset, so the URL stays
+  /// correct as the nightly pack-build workflow re-publishes.
+  String _downloadUrl(SpriteStyle style) =>
+      'https://github.com/Lerisia/damage-calc-sprite-pack/'
+      'releases/latest/download/${style.name}.zip';
 
   Future<void> _pickAndImport(SpriteStyle style) async {
     setState(() => _busy[style] = true);
@@ -258,11 +189,11 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
                 children: [
                   _PackActionButton(
                     icon: Icons.download,
-                    labelKey: 'sprite.smogonDownload',
+                    labelKey: 'sprite.downloadPack',
                     onPressed: busy
                         ? null
                         : () => ul.launchUrl(
-                            Uri.parse(_smogonDownloadUrl(s)),
+                            Uri.parse(_downloadUrl(s)),
                             mode: ul.LaunchMode.externalApplication),
                   ),
                   _PackActionButton(
@@ -312,47 +243,15 @@ class _SpriteStyleDialogState extends State<SpriteStyleDialog> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                if (!kIsWeb) ...[
+                if (!kIsWeb)
                   Padding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                     child: Text(
-                      AppStrings.t('sprite.combinedHowTo'),
+                      AppStrings.t('sprite.importHowTo'),
                       style:
                           TextStyle(fontSize: 12, color: hint, height: 1.4),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: () => ul.launchUrl(
-                                Uri.parse(_combinedPackUrl),
-                                mode: ul.LaunchMode.externalApplication),
-                            icon: const Icon(Icons.download, size: 16),
-                            label: Text(
-                                AppStrings.t('sprite.combinedDownload'),
-                                style: const TextStyle(fontSize: 12)),
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: _busy.values.any((b) => b)
-                                ? null
-                                : _pickAndImportCombined,
-                            icon: const Icon(Icons.folder_open, size: 16),
-                            label: Text(
-                                AppStrings.t('sprite.combinedImport'),
-                                style: const TextStyle(fontSize: 12)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(height: 16),
-                ],
                 for (final s in SpriteStyle.values)
                   // hasMobilePack==false (only `ani`) → hidden
                   // everywhere until we ship a source for it.
