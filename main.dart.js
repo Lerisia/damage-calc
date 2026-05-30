@@ -65895,7 +65895,7 @@ h=A.cF(h,B.r,1)
 f=A.b([],m)
 if(r.length!==0)f.push(A.j(r,a1,a1,a1,a1,B.apy,a1,a1))
 if(s.length!==0)f.push(A.j(a0.x.a6d()+" "+s+A.f("trainerCard.scoreSuffix"),a1,a1,a1,a1,A.a1(a1,a1,a0.y.c,a1,a1,a1,a1,a1,a1,a1,a1,18,a1,a1,B.w,a1,a1,!0,a1,a1,a1,a1,a1,a1,a1,a1),a1,a1))
-return A.eM(!1,B.U,!0,a1,A.aT(a1,A.aM(A.b([n,B.aD,o,B.cJ,l,B.bd,A.aT(a1,A.cB(A.el(B.Kb,f,B.Kc,0,14),a1,a1),B.o,a1,a1,new A.aR(j,a1,h,i,a1,a1,B.y),a1,a1,B.v5,a1)],m),B.Z,B.j,B.J),B.o,a1,a1,new A.aR(B.q,a1,a2,p,a1,a1,B.y),a1,a1,B.b1,560),B.o,B.q,0,a1,a1,a1,a1,a1,B.cq)},
+return A.eM(!1,B.U,!0,a1,A.aT(a1,A.aM(A.b([n,B.aD,o,B.cJ,l,B.bd,A.aT(a1,A.aB(A.cB(A.el(B.Kb,f,B.Kc,0,14),a1,a1),24,a1),B.o,a1,a1,new A.aR(j,a1,h,i,a1,a1,B.y),a1,a1,B.v5,a1)],m),B.Z,B.j,B.J),B.o,a1,a1,new A.aR(B.q,a1,a2,p,a1,a1,B.y),a1,a1,B.b1,560),B.o,B.q,0,a1,a1,a1,a1,a1,B.cq)},
 tJ(){var s=0,r=A.y(t.H3),q,p=2,o=[],n=[],m=this,l,k,j,i,h,g,f,e
 var $async$tJ=A.t(function(a,b){if(a===1){o.push(b)
 s=p}for(;;)switch(s){case 0:g=new A.be(null,t.A)
