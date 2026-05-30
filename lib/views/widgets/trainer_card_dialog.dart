@@ -927,35 +927,39 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
                 border:
                     Border.all(color: _themeColor.border, width: 1),
               ),
-              // Center the season+score block as one continuous
-              // line instead of pinning to opposite edges. The
-              // previous Row+Expanded layout left a wide empty
-              // band in the middle that made the text look smaller
-              // than it actually was. Wrap drops to a second line
-              // gracefully if both strings get unusually long.
-              child: Center(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 14,
-                  children: [
-                    if (season.isNotEmpty)
-                      Text(
-                        season,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    if (score.isNotEmpty)
-                      Text(
-                        '${_scorePrefix.localized()} $score'
-                        '${AppStrings.t('trainerCard.scoreSuffix')}',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: _themeColor.accent),
-                      ),
-                  ],
+              // Footer keeps a fixed inner height (fontSize 18 +
+              // line-height ≈ 22pt visible) regardless of whether
+              // the user has filled in season / score yet. Without
+              // the SizedBox, an empty footer collapses to just the
+              // vertical padding and the card jumps as the user
+              // types — per feedback_ui_stable_size.md, size-on-
+              // input is bad UI.
+              child: SizedBox(
+                height: 24,
+                child: Center(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 14,
+                    children: [
+                      if (season.isNotEmpty)
+                        Text(
+                          season,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      if (score.isNotEmpty)
+                        Text(
+                          '${_scorePrefix.localized()} $score'
+                          '${AppStrings.t('trainerCard.scoreSuffix')}',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: _themeColor.accent),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
