@@ -1210,8 +1210,13 @@ const Map<String, _GmaxMove> _gmaxMoves = {
   'alcremie': _GmaxMove('G-Max Finale', '거다이단원', 'キョダイダンエン', PokemonType.fairy),
   'copperajah': _GmaxMove('G-Max Steelsurge', '거다이강진', 'キョダイコウジン', PokemonType.steel),
   'duraludon': _GmaxMove('G-Max Depletion', '거다이감쇠', 'キョダイゲンスイ', PokemonType.dragon),
-  'venusaur': _GmaxMove('G-Max Vine Lash', '거다이편달', 'キョダイベンタツ', PokemonType.grass, 160),
-  'blastoise': _GmaxMove('G-Max Cannonade', '거다이포격', 'キョダイホウゲキ', PokemonType.water, 160),
+  // Vine Lash and Cannonade use the standard Max Move power table
+  // (their special effect is residual 1/6 HP damage over 4 turns,
+  // NOT a fixed 160 BP — that's a different class of G-Max move).
+  // Per Bulbapedia: only Drum Solo / Fire Ball / Hydrosnipe carry
+  // the fixed 160 BP + ignore-ability behaviour.
+  'venusaur': _GmaxMove('G-Max Vine Lash', '거다이편달', 'キョダイベンタツ', PokemonType.grass),
+  'blastoise': _GmaxMove('G-Max Cannonade', '거다이포격', 'キョダイホウゲキ', PokemonType.water),
   'rillaboom': _GmaxMove('G-Max Drum Solo', '거다이난타', 'キョダイコランダ', PokemonType.grass, 160),
   'cinderace': _GmaxMove('G-Max Fireball', '거다이화염구', 'キョダイカキュウ', PokemonType.fire, 160),
   'inteleon': _GmaxMove('G-Max Hydrosnipe', '거다이저격', 'キョダイソゲキ', PokemonType.water, 160),

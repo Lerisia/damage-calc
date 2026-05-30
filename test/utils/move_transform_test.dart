@@ -909,7 +909,11 @@ void main() {
       expect(result.move.nameKo, equals('다이어택'));
     });
 
-    test('Venusaur grass move -> G-Max Vine Lash at 160 power', () {
+    test('Venusaur grass move -> G-Max Vine Lash via standard Max table', () {
+      // Energy Ball is 90 BP grass — standard Max power table maps
+      // 70-100 BP → 130 (same as Max Overgrowth). G-Max Vine Lash
+      // does NOT have a fixed 160 BP; that's a different class of
+      // G-Max (Drum Solo / Fire Ball / Hydrosnipe).
       const grassMove = Move(
         name: 'Energy Ball', nameKo: '에너지볼', nameJa: 'エナジーボール',
         type: PokemonType.grass, category: MoveCategory.special,
@@ -918,7 +922,7 @@ void main() {
       final result = transformMove(grassMove,
           const MoveContext(dynamax: DynamaxState.gigantamax, pokemonName: 'Venusaur'));
       expect(result.move.nameKo, equals('거다이편달'));
-      expect(result.move.power, equals(160));
+      expect(result.move.power, equals(130));
     });
 
     test('Regular dynamax for Charizard (not gigantamax) -> normal Max Move', () {
