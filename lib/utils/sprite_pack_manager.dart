@@ -96,6 +96,20 @@ class SpritePackManager extends ChangeNotifier {
     return '${r.path}/icons';
   }
 
+  /// Where the trainer-sprite cache lives — written by
+  /// [installFromZip] when the pack ZIP carries a `trainers/`
+  /// subdir (starting PACK_VERSION 2). Used by the trainer-card
+  /// dialog's avatar picker on mobile (web reads from Showdown
+  /// CDN directly via NetworkImage).
+  String? get trainerCacheDir {
+    final r = _rootDir;
+    if (r == null) return null;
+    return '${r.path}/trainers';
+  }
+
+  bool _trainersInstalled = false;
+  bool get trainersInstalled => _trainersInstalled;
+
   /// Probe the FS to refresh install state. Called from app preload
   /// so SpriteService.spriteFor returns FileImages immediately on
   /// the first frame, not after an async dance.
@@ -125,11 +139,15 @@ class SpritePackManager extends ChangeNotifier {
     final iconsDir = Directory('${_rootDir!.path}/icons');
     _iconsInstalled =
         iconsDir.existsSync() && iconsDir.listSync().any((e) => e is File);
+    final trainersDir = Directory('${_rootDir!.path}/trainers');
+    _trainersInstalled = trainersDir.existsSync() &&
+        trainersDir.listSync().any((e) => e is File);
     notifyListeners();
   }
 
   /// Extract a downloaded sprite-pack ZIP into the per-style cache,
-  /// plus any nested icons/ block into the shared icons cache.
+  /// plus any nested icons/ or trainers/ block into the shared
+  /// icons / trainers cache.
   /// Returns the count of style-sprite files written. Throws when
   /// the ZIP holds zero matching style sprites (wrong pack chosen).
   Future<int> installFromZip(File zipFile, SpriteStyle style) async {
@@ -143,6 +161,8 @@ class SpritePackManager extends ChangeNotifier {
     target.createSync(recursive: true);
     final iconsTarget = Directory('${_rootDir!.path}/icons');
     bool zipHasIcons = false;
+    final trainersTarget = Directory('${_rootDir!.path}/trainers');
+    bool zipHasTrainers = false;
 
     final bytes = await zipFile.readAsBytes();
     final Archive archive;
@@ -153,6 +173,7 @@ class SpritePackManager extends ChangeNotifier {
     }
     var styleWritten = 0;
     var iconsWritten = 0;
+    var trainersWritten = 0;
     String? packVersion;
     for (final entry in archive) {
       if (!entry.isFile) continue;
@@ -178,6 +199,26 @@ class SpritePackManager extends ChangeNotifier {
         File('${iconsTarget.path}/$flat')
             .writeAsBytesSync(entry.content as List<int>);
         iconsWritten++;
+        continue;
+      }
+      // trainers/ block — Showdown trainer sprites bundled into
+      // every per-style ZIP from PACK_VERSION 2 onwards. Same
+      // pattern as icons/: clear-then-fill on the first entry,
+      // then drop each .png into the shared trainers cache.
+      if (name.startsWith('trainers/')) {
+        if (!zipHasTrainers) {
+          if (trainersTarget.existsSync()) {
+            trainersTarget.deleteSync(recursive: true);
+          }
+          trainersTarget.createSync(recursive: true);
+          zipHasTrainers = true;
+        }
+        final flat = name.substring('trainers/'.length);
+        if (flat.isEmpty || flat.contains('/')) continue;
+        if (!flat.toLowerCase().endsWith('.png')) continue;
+        File('${trainersTarget.path}/$flat')
+            .writeAsBytesSync(entry.content as List<int>);
+        trainersWritten++;
         continue;
       }
       // Shiny variants ship inside the same per-style ZIP under
@@ -223,6 +264,7 @@ class SpritePackManager extends ChangeNotifier {
     }
     _installed[style] = true;
     if (iconsWritten > 0) _iconsInstalled = true;
+    if (trainersWritten > 0) _trainersInstalled = true;
     notifyListeners();
     return styleWritten;
   }

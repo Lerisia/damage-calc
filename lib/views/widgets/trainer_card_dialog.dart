@@ -1,30 +1,69 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show File;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart' show AssetManifest, rootBundle;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/trainer_aliases.dart';
+import '../../data/trainer_keys.dart';
 import '../../models/pokemon.dart';
 import '../../models/type.dart';
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart';
 import '../../utils/party_image_save.dart';
+import '../../utils/sprite_pack_manager.dart';
 import 'pokemon_sprite.dart';
 
-/// Pre-bundled trainer sprites under assets/trainers/<key>.png —
-/// 1455 entries mirroring Showdown's full trainer sprite folder.
-/// Same Smogon Sprite Project provenance as the pokemon-side
-/// packs (non-profit-with-credit). The picker loads the actual
-/// list at runtime from [AssetManifest] so we don't have to
-/// hand-maintain a list of that size in source.
-String _trainerAssetPath(String key) => 'assets/trainers/$key.png';
+/// Resolve a trainer sprite key to an ImageProvider. We don't bundle
+/// or self-host these — web hits Showdown's CDN directly, mobile
+/// reads from the trainer-pack cache the user populated by
+/// importing the combined sprite pack (which now ships trainers/
+/// alongside the regular sprites from PACK_VERSION 2). Returns
+/// null when no source is available so callers can render a
+/// placeholder.
+ImageProvider? _trainerSpriteProvider(String key) {
+  if (kIsWeb) {
+    return NetworkImage(
+        'https://play.pokemonshowdown.com/sprites/trainers/$key.png');
+  }
+  final dir = SpritePackManager.instance.trainerCacheDir;
+  if (dir == null) return null;
+  final file = File('$dir/$key.png');
+  if (!file.existsSync()) return null;
+  return FileImage(file);
+}
+
+/// Render a trainer sprite with a neutral placeholder fallback for
+/// the no-source case (mobile without imported pack, missing file,
+/// or web network error).
+Widget _trainerSpriteWidget(String key, {BoxFit fit = BoxFit.contain}) {
+  final provider = _trainerSpriteProvider(key);
+  if (provider == null) {
+    return Container(
+      color: Colors.grey.shade100,
+      alignment: Alignment.center,
+      child: Icon(Icons.person_outline,
+          size: 28, color: Colors.grey.shade400),
+    );
+  }
+  return Image(
+    image: provider,
+    fit: fit,
+    filterQuality: FilterQuality.medium,
+    errorBuilder: (_, __, ___) => Container(
+      color: Colors.grey.shade100,
+      alignment: Alignment.center,
+      child: Icon(Icons.broken_image_outlined,
+          size: 28, color: Colors.grey.shade400),
+    ),
+  );
+}
 
 /// Choice between the bundled curated set and a gallery upload.
 /// Surfaced via [_openAvatarPicker] so the user is asked once per
@@ -251,11 +290,7 @@ class _CuratedTrainerPickerState extends State<_CuratedTrainerPicker> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Expanded(
-                                  child: Image.asset(
-                                    _trainerAssetPath(rep),
-                                    fit: BoxFit.contain,
-                                    filterQuality: FilterQuality.medium,
-                                  ),
+                                  child: _trainerSpriteWidget(rep),
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
@@ -386,11 +421,7 @@ class _TrainerVariantPicker extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Expanded(
-                            child: Image.asset(
-                              _trainerAssetPath(v),
-                              fit: BoxFit.contain,
-                              filterQuality: FilterQuality.medium,
-                            ),
+                            child: _trainerSpriteWidget(v),
                           ),
                           const SizedBox(height: 2),
                           Text(
@@ -596,7 +627,11 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
     _seasonCtl.addListener(_rebuild);
     _scoreCtl.addListener(_rebuild);
     _loadPrefs();
-    _loadTrainerKeys();
+    // Static key list — sprites are fetched from Showdown CDN (web)
+    // or the imported sprite pack's trainers/ cache (mobile), so we
+    // don't probe AssetManifest. List ships with the app from
+    // trainer_keys.dart.
+    _allTrainerKeys = trainerSpriteKeys;
   }
 
   void _rebuild() {
@@ -611,22 +646,6 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   /// outside in dialogs, and numeric keyboards have no native
   /// Done button.
   void _dismissKb() => FocusScope.of(context).unfocus();
-
-  Future<void> _loadTrainerKeys() async {
-    final manifest =
-        await AssetManifest.loadFromAssetBundle(rootBundle);
-    final keys = manifest
-        .listAssets()
-        .where((p) =>
-            p.startsWith('assets/trainers/') && p.endsWith('.png'))
-        .map((p) => p
-            .substring('assets/trainers/'.length)
-            .replaceAll(RegExp(r'\.png$'), ''))
-        .toList()
-      ..sort();
-    if (!mounted) return;
-    setState(() => _allTrainerKeys = keys);
-  }
 
   Future<void> _loadPrefs() async {
     final prefs = await SharedPreferences.getInstance();
@@ -758,8 +777,7 @@ class _TrainerCardDialogState extends State<TrainerCardDialog> {
   /// avatar yet so the caller can render a placeholder.
   Widget? _avatarImage({required BoxFit fit}) {
     if (_avatarAssetKey != null) {
-      return Image.asset(_trainerAssetPath(_avatarAssetKey!),
-          fit: fit, filterQuality: FilterQuality.medium);
+      return _trainerSpriteWidget(_avatarAssetKey!, fit: fit);
     }
     if (_avatarBytes != null) {
       return Image.memory(_avatarBytes!, fit: fit);
