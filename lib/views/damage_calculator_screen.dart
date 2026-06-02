@@ -17,6 +17,7 @@ import '../utils/sample_save_flow.dart';
 import '../utils/simple_mode_controller.dart';
 import 'widgets/app_bottom_nav.dart';
 import 'widgets/app_settings_menu.dart';
+import 'widgets/first_launch_scope_dialog.dart';
 import 'widgets/reverse_calc_dialog.dart';
 import 'widgets/sprite_style_dialog.dart';
 import '../utils/sprite_pack_manager.dart';
@@ -308,6 +309,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadSpMode();
     _loadDoublesExpanded();
     _ensureDataCaches();
+    // First-launch (or first-launch-after-update) scope prompt —
+    // shows a non-dismissable dialog until the user picks between
+    // Champions-only and full Pokédex. Existing users see it once
+    // on next launch by design. No-op once the prompt-shown flag
+    // is set.
+    maybeShowFirstLaunchScopePrompt(context);
     // Listen for cross-screen hand-offs (team builder → calc).
     // Fires whenever a sibling screen calls CalcHandoff.stage(),
     // even while we're sitting under another route on the stack.
@@ -2617,7 +2624,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.10.5'),
+          const Text('v1.11.0'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

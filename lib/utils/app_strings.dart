@@ -273,6 +273,36 @@ class AppStrings {
       AppLanguage.en: 'Upload from photos',
       AppLanguage.ja: '写真からアップロード',
     },
+    'firstLaunch.welcomeTitle': {
+      AppLanguage.ko: '결정력 계산기에 오신 것을 환영합니다',
+      AppLanguage.en: 'Welcome to the Damage Calculator',
+      AppLanguage.ja: 'ダメージ計算機へようこそ',
+    },
+    'firstLaunch.welcomeSub': {
+      AppLanguage.ko: '시작하기 전에 한 가지만 정해 주세요!',
+      AppLanguage.en: 'Please choose one option before you start.',
+      AppLanguage.ja: '始める前に一つだけ選んでください。',
+    },
+    'firstLaunch.scopeLabel': {
+      AppLanguage.ko: '계산기에서 다룰 포켓몬',
+      AppLanguage.en: 'Which Pokémon should the calculator handle?',
+      AppLanguage.ja: '計算機で扱うポケモン',
+    },
+    'firstLaunch.scopeChampions': {
+      AppLanguage.ko: '포켓몬 챔피언스 등장 포켓몬만',
+      AppLanguage.en: 'Pokémon Champions roster only',
+      AppLanguage.ja: 'ポケモンチャンピオンズ登場ポケモンのみ',
+    },
+    'firstLaunch.scopeAll': {
+      AppLanguage.ko: '모든 포켓몬',
+      AppLanguage.en: 'All Pokémon',
+      AppLanguage.ja: 'すべてのポケモン',
+    },
+    'firstLaunch.scopeNote': {
+      AppLanguage.ko: '※ 설정에서 언제든지 바꿀 수 있습니다.',
+      AppLanguage.en: 'You can change this anytime in settings.',
+      AppLanguage.ja: '※ 設定からいつでも変更できます。',
+    },
     'sprite.combinedDownload': {
       AppLanguage.ko: '전체 팩 다운로드',
       AppLanguage.en: 'Download combined pack',
