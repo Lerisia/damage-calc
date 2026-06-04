@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemNavigator;
 
 import '../utils/page_routes.dart';
 import 'damage_calculator_screen.dart';
@@ -30,18 +31,30 @@ class RootShell extends StatefulWidget {
     required this.itemNameMap,
   });
 
+  /// Reactive lookup — registers an InheritedWidget dependency so
+  /// the caller rebuilds whenever the active tab changes. Use this
+  /// in widgets that visually depend on currentTab (e.g. the bottom
+  /// nav's active-pill indicator). Call sites that only invoke
+  /// methods (setTab, requestX) also work; they incur a minor
+  /// subscription overhead but stay correct.
   static RootShellState of(BuildContext context) {
-    final state = context.findAncestorStateOfType<RootShellState>();
-    assert(state != null,
-        'RootShell.of() called outside a RootShell — screen must be mounted under RootShell.');
-    return state!;
+    final scope =
+        context.dependOnInheritedWidgetOfExactType<_RootShellScope>();
+    assert(scope != null,
+        'RootShell.of() called outside a RootShell — widget must be mounted under RootShell.');
+    return scope!.state;
   }
 
   /// Soft variant for code that may run outside a RootShell context
   /// (e.g. when DexScreen is opened as a modal picker via the root
-  /// navigator). Returns null when no RootShell is in scope.
-  static RootShellState? maybeOf(BuildContext context) =>
-      context.findAncestorStateOfType<RootShellState>();
+  /// navigator above the IndexedStack). Returns null when no
+  /// RootShell is in scope. Non-reactive (no dependency).
+  static RootShellState? maybeOf(BuildContext context) {
+    final scope = context
+        .getElementForInheritedWidgetOfExactType<_RootShellScope>()
+        ?.widget as _RootShellScope?;
+    return scope?.state;
+  }
 
   @override
   State<RootShell> createState() => RootShellState();
@@ -140,7 +153,9 @@ class RootShellState extends State<RootShell> {
     }
   }
 
-  Future<bool> _handleSystemBack() async {
+  /// Returns true when there's nothing to consume in-app and the
+  /// system back gesture should exit the app.
+  bool _handleSystemBack() {
     // 1. If the active tab's nested navigator can pop, pop it.
     final nav = _navKeys[_current]!.currentState;
     if (nav != null && nav.canPop()) {
@@ -160,21 +175,23 @@ class RootShellState extends State<RootShell> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return _RootShellScope(
+      currentTab: _current,
+      state: this,
+      child: PopScope(
       // canPop: false so PopScope always forwards the back gesture to
       // us via onPopInvokedWithResult; we then decide whether to
       // consume it (pop nested nav / switch tab) or allow the app to
       // exit by re-invoking the system pop ourselves.
       canPop: false,
-      onPopInvokedWithResult: (didPop, _) async {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
-        final shouldExit = await _handleSystemBack();
-        if (shouldExit && mounted) {
-          // No more in-app navigation to consume → exit the app on
-          // mobile. On web/desktop this is a no-op which is fine.
-          if (!kIsWeb) {
-            Navigator.of(context).pop();
-          }
+        final shouldExit = _handleSystemBack();
+        if (shouldExit && !kIsWeb) {
+          // No more in-app navigation to consume → request system
+          // pop (exits app on mobile). On web/desktop this is a
+          // no-op which is fine.
+          SystemNavigator.pop();
         }
       },
       child: Scaffold(
@@ -185,6 +202,25 @@ class RootShellState extends State<RootShell> {
         ),
         bottomNavigationBar: const AppBottomNav(),
       ),
+    ),
     );
   }
+}
+
+/// InheritedWidget that makes the active tab reactive. Without this
+/// the bottom nav (whose widget config is const-stable) would never
+/// rebuild on tab changes — its active-pill indicator would freeze
+/// on whichever tab was active at first mount.
+class _RootShellScope extends InheritedWidget {
+  final AppNavTab currentTab;
+  final RootShellState state;
+
+  const _RootShellScope({
+    required this.currentTab,
+    required this.state,
+    required super.child,
+  });
+
+  @override
+  bool updateShouldNotify(_RootShellScope old) => old.currentTab != currentTab;
 }

@@ -307,6 +307,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadSpMode();
     _loadDoublesExpanded();
     _ensureDataCaches();
+    // Pick up external mode changes (e.g. the first-launch prompt
+    // sets simple/extended via SimpleModeController.setSimple — the
+    // calc has already initialised _simpleMode from the controller's
+    // current value, so without this listener the dialog's choice
+    // would be persisted to prefs but the running calc would not
+    // re-render in the new mode until next restart).
+    SimpleModeController.instance.isSimple.addListener(_onSimpleModeChanged);
     // First-launch (or first-launch-after-update) scope prompt —
     // shows a non-dismissable dialog until the user picks between
     // Champions-only and full Pokédex. Existing users see it once
@@ -462,7 +469,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   void dispose() {
     _tabController.dispose();
     CalcHandoff.instance.removeListener(_consumeCalcHandoff);
+    SimpleModeController.instance.isSimple.removeListener(_onSimpleModeChanged);
     super.dispose();
+  }
+
+  void _onSimpleModeChanged() {
+    final v = SimpleModeController.instance.isSimple.value;
+    if (!mounted || v == _simpleMode) return;
+    setState(() => _simpleMode = v);
   }
 
   /// Apply a pending team-builder → calc payload to attacker /

@@ -10,11 +10,14 @@ class ChampionsFilterController {
       ChampionsFilterController._();
 
   static const _prefsKey = 'dexChampionsOnly';
-  // Bumped from 'dexScopePromptShown' to 'dexScopeModePromptShown'
-  // when the prompt grew a second question (simple/extended mode).
-  // The key rename effectively re-prompts every user who only
-  // answered the scope-only version of the dialog.
-  static const _promptKey = 'dexScopeModePromptShown';
+  // Bumped each time the prompt's behaviour changes in a way that
+  // existing users should re-see it:
+  //   v1: 'dexScopePromptShown'      — scope-only (Champions vs all)
+  //   v2: 'dexScopeModePromptShown'  — added simple/extended mode
+  //   v3: 'dexScopeModePromptShown2' — v2 had a listener bug that
+  //       silently dropped the mode pick on existing users; re-show
+  //       so they can re-pick now that setSimple() propagates.
+  static const _promptKey = 'dexScopeModePromptShown2';
 
   /// Defaults to on — the calc's primary audience plays Pokémon
   /// Champions, so first-launch users see the Champions-only roster
