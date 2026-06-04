@@ -13,8 +13,8 @@ import '../utils/champions_filter_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
-import 'dex_screen.dart';
-import 'widgets/app_bottom_nav.dart';
+import 'root_shell.dart';
+import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/type_filter_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
@@ -300,8 +300,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     // it stops at iPad-Pro-landscape * a bit.
     final isWide = MediaQuery.of(context).size.width >= 1050;
     return Scaffold(
-      bottomNavigationBar:
-          const AppBottomNav(currentTab: AppNavTab.moveDex),
       // Cap the AppBar's visual chrome (background + shadow + bottom
       // border) at the body width so on wide screens the toolbar
       // sits centered above the panes instead of stretching across
@@ -309,11 +307,34 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       appBar: cappedAppBar(
         maxWidth: 1200,
         appBar: AppBar(
-          // Hide the default back arrow at narrow widths — bottom nav
-          // covers the return-to-calc affordance there. Wide screens
-          // (≥1050) suppress the bottom nav, so the back arrow stays.
-          automaticallyImplyLeading:
-              MediaQuery.sizeOf(context).width >= 1050,
+          // Cross-link "detail" mode (entered with a specific move
+          // via Pokémon Dex's moves list): RootShell.requestMoveDex
+          // pushes this route onto the Move Dex tab's nested
+          // navigator, on top of the moves list. Plain pop returns
+          // to that list. Otherwise this IS the moves list (or
+          // wide split-pane that includes it), so on narrow widths
+          // the bottom nav's tabs handle inter-screen navigation —
+          // no back arrow needed. Wide widths suppress the bottom
+          // nav; this is the root route of the move-dex tab so
+          // there's nothing to pop — the back button semantically
+          // switches to calc.
+          automaticallyImplyLeading: false,
+          leading: widget.initialMoveName != null
+              ? IconButton(
+                  tooltip: MaterialLocalizations.of(context)
+                      .backButtonTooltip,
+                  icon: const BackButtonIcon(),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+              : (MediaQuery.sizeOf(context).width >= 1050
+                  ? IconButton(
+                      tooltip: MaterialLocalizations.of(context)
+                          .backButtonTooltip,
+                      icon: const BackButtonIcon(),
+                      onPressed: () =>
+                          RootShell.of(context).setTab(AppNavTab.calc),
+                    )
+                  : null),
           centerTitle: true,
           title: Text(AppStrings.t('dex.move.title')),
           actions: [
@@ -1114,9 +1135,12 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          fadeRoute((_) => DexScreen(initialPokemonName: p.name)),
-        ),
+        // Cross-link to the Pokémon Dex tab's detail of this
+        // learner. Switches to the dex tab and pushes the detail
+        // onto its nested navigator — back returns to the dex list,
+        // and switching back to Move Dex tab restores this move's
+        // detail unchanged.
+        onTap: () => RootShell.of(context).requestDexDetail(p.name),
         borderRadius: BorderRadius.circular(8),
         child: Container(
           decoration: decoration,

@@ -26,8 +26,8 @@ import '../utils/stacking_moves.dart';
 import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/ability_effects.dart';
 import '../utils/weather_effects.dart' show abilityWeatherMap;
-import 'move_dex_screen.dart';
-import 'widgets/app_bottom_nav.dart';
+import 'root_shell.dart';
+import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/dex_search_filter_dialog.dart';
 import 'widgets/move_selector.dart';
@@ -301,8 +301,6 @@ class _DexScreenState extends State<DexScreen> {
       child: DefaultTabController(
       length: 2,
       child: Scaffold(
-        bottomNavigationBar:
-            const AppBottomNav(currentTab: AppNavTab.dex),
         // Cap AppBar visual width to match the body. The whole
         // toolbar — chrome, shadow, bottom border, the lot — sits
         // in the same 1200 column the panes live in below.
@@ -313,21 +311,20 @@ class _DexScreenState extends State<DexScreen> {
             // app bar drops it and uses send buttons + settings in
             // actions.
             //
-            // Back arrow always shows (width-independent) and routes
-            // to the dex *list* (browse mode), not to whichever
-            // screen pushed the detail. Per user direction the dex
-            // detail should always exit into the list even when the
-            // user came from the calculator — pushReplacement
-            // swaps the cross-link page for a fresh DexScreen with
-            // no initialPokemonName, which builds the browse list.
+            // Back arrow always shows. With the RootShell tab
+            // architecture this pops the current route off the
+            // nearest navigator — for cross-tab detail (pushed onto
+            // the dex tab's nested nav over the list) that lands on
+            // the dex list; for the calc-side picker (pushed via
+            // root navigator above the IndexedStack) that returns
+            // to calc with whatever result is on the stack (null if
+            // none).
             automaticallyImplyLeading: false,
             leading: IconButton(
               tooltip:
                   MaterialLocalizations.of(context).backButtonTooltip,
               icon: const BackButtonIcon(),
-              onPressed: () => Navigator.of(context).pushReplacement(
-                fadeRoute((_) => const DexScreen()),
-              ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
             title: const SizedBox.shrink(),
             actions: [
@@ -408,20 +405,22 @@ class _DexScreenState extends State<DexScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {},
       child: Scaffold(
-        bottomNavigationBar:
-            const AppBottomNav(currentTab: AppNavTab.dex),
         appBar: cappedAppBar(
           maxWidth: 1500,
           appBar: AppBar(
             // Wide-only back arrow (narrow widths return via the
-            // bottom nav's '계산기' tab).
+            // bottom nav's '계산기' tab). Wide layouts hide the
+            // bottom nav, and this screen is the root route of the
+            // dex tab's nested navigator so there's nothing to pop
+            // — the back button semantically means "go to calc".
             automaticallyImplyLeading: false,
             leading: MediaQuery.sizeOf(context).width >= 1050
                 ? IconButton(
                     tooltip: MaterialLocalizations.of(context)
                         .backButtonTooltip,
                     icon: const BackButtonIcon(),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () =>
+                        RootShell.of(context).setTab(AppNavTab.calc),
                   )
                 : null,
             centerTitle: true,
@@ -2696,14 +2695,13 @@ class _MovesTabState extends State<_MovesTab> {
       MoveCategory.status => AppStrings.t('damage.status'),
     };
     return InkWell(
-      // Cross-link to Move Dex. We `push` (not pushReplacement) so the
-      // Pokémon Dex stays underneath — one back returns to the moves
-      // tab and the user can tap the next move to compare. Toggling
-      // back-and-forth can theoretically deepen the stack, but in
-      // practice users browse a few moves and back out.
-      onTap: () => Navigator.of(context).push(
-        fadeRoute((_) => MoveDexScreen(initialMoveName: m.name)),
-      ),
+      // Cross-link to the Move Dex tab's detail of this move. With
+      // the RootShell tab architecture this switches to the Move
+      // Dex tab and pushes the detail onto its nested navigator —
+      // back returns to the move list (still on the Move Dex tab),
+      // and switching back to the Pokémon Dex tab restores this
+      // pokemon's detail unchanged.
+      onTap: () => RootShell.of(context).requestMoveDexDetail(m.name),
       child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Column(

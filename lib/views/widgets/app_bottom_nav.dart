@@ -2,42 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/app_strings.dart';
-import '../../utils/page_routes.dart';
-import '../dex_screen.dart' show DexScreen;
-import '../move_dex_screen.dart' show MoveDexScreen;
-import '../team_coverage_screen.dart' show TeamCoverageScreen;
+import '../root_shell.dart';
 
-/// Indices for the bottom-nav tabs — each top-level screen passes the
-/// one that identifies it so the bar can highlight the active tab and
-/// no-op on re-tap of the same destination.
+/// Indices for the bottom-nav tabs — each top-level screen is one
+/// AppNavTab slot in the [RootShell]'s LazyIndexedStack.
 enum AppNavTab { calc, dex, moveDex, teamBuilder }
 
 const _kCollapsedKey = 'bottom_nav_collapsed_v1';
 
-/// Collapsible bottom navigation bar shared by Calculator / Pokédex /
-/// Move Dex / Team Builder. Pure-stateless from a navigation standpoint:
-/// the host screen passes [currentTab] and the bar drives routing via
-/// the standard Navigator stack.
+/// Collapsible bottom navigation bar — lives at the [RootShell]
+/// level (single mount point), not per-screen. Reads the active tab
+/// from `RootShell.of(context).currentTab` and routes taps through
+/// `RootShell.of(context).setTab(...)`, which swaps the IndexedStack
+/// index instead of pushing routes — this is what preserves each
+/// tab's full widget State across switches.
 ///
-/// Routing model (mirrors the user-confirmed design):
-///   * Calculator is the always-alive root. Navigating to it from any
-///     other screen pops back to the first route (so calc state is
-///     preserved automatically by the widget tree).
-///   * Non-calc destinations are pushed on top of calc. Navigating
-///     between non-calc screens uses pushReplacement so the back stack
-///     never grows beyond [calc, currentNonCalcScreen].
-///   * Re-tapping the active tab is a no-op (avoids accidental
-///     teardown of the user's in-flight state).
-///
-/// Collapse:
-///   * Persistent SharedPreferences flag — survives app restart.
-///   * Collapsed state shows a 16-px strip with just the chevron, so
-///     the entry point is always visible (no "where did the menu go?"
-///     dead-end).
+/// Collapse: persistent SharedPreferences flag — survives app
+/// restart. Collapsed shows a 16-px chevron strip so the entry point
+/// stays visible.
 class AppBottomNav extends StatefulWidget {
-  final AppNavTab currentTab;
-
-  const AppBottomNav({super.key, required this.currentTab});
+  const AppBottomNav({super.key});
 
   @override
   State<AppBottomNav> createState() => _AppBottomNavState();
@@ -66,37 +50,6 @@ class _AppBottomNavState extends State<AppBottomNav> {
     setState(() => _collapsed = !_collapsed);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kCollapsedKey, _collapsed);
-  }
-
-  void _onTabTapped(AppNavTab target) {
-    if (target == widget.currentTab) return;
-    final nav = Navigator.of(context);
-    switch (target) {
-      case AppNavTab.calc:
-        // Calc is always at the bottom of the stack — popping until
-        // first route restores it with all its state intact.
-        nav.popUntil((r) => r.isFirst);
-      case AppNavTab.dex:
-        _pushDestination(const DexScreen());
-      case AppNavTab.moveDex:
-        _pushDestination(const MoveDexScreen());
-      case AppNavTab.teamBuilder:
-        _pushDestination(const TeamCoverageScreen());
-    }
-  }
-
-  void _pushDestination(Widget screen) {
-    final nav = Navigator.of(context);
-    final route = fadeRoute((_) => screen);
-    if (widget.currentTab == AppNavTab.calc) {
-      // From calc: push on top so a back-button gesture takes the user
-      // back to the calc (which is the conventional Android pattern).
-      nav.push(route);
-    } else {
-      // Non-calc → non-calc: replace so we never stack a chain of
-      // sibling screens. The back-button still leads back to calc.
-      nav.pushReplacement(route);
-    }
   }
 
   /// Width above which the bottom nav is suppressed. Matches the
@@ -182,17 +135,33 @@ class _AppBottomNavState extends State<AppBottomNav> {
   }
 
   Widget _tabButton(AppNavTab tab, IconData icon, String label) {
+    final shell = RootShell.of(context);
     final scheme = Theme.of(context).colorScheme;
-    final selected = tab == widget.currentTab;
+    final selected = tab == shell.currentTab;
     final color = selected ? scheme.primary : scheme.onSurfaceVariant;
     return InkWell(
-      onTap: () => _onTabTapped(tab),
+      onTap: () => shell.setTab(tab),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 22, color: color),
+            // Pill-shaped active indicator behind the icon —
+            // Material 3 NavigationBar convention. Color/weight on
+            // their own were too subtle for users to register
+            // 'this is the current tab', so we add the tinted
+            // background. Transparent for non-selected so the
+            // surrounding Row keeps consistent dimensions.
+            Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 14, vertical: 2),
+              decoration: BoxDecoration(
+                color:
+                    selected ? scheme.primary.withValues(alpha: 0.14) : null,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Icon(icon, size: 22, color: color),
+            ),
             const SizedBox(height: 2),
             Text(label,
                 maxLines: 1,

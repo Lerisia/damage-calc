@@ -15,15 +15,14 @@ import '../utils/ruin_effects.dart';
 import '../utils/calc_handoff.dart';
 import '../utils/sample_save_flow.dart';
 import '../utils/simple_mode_controller.dart';
-import 'widgets/app_bottom_nav.dart';
+import 'root_shell.dart';
+import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/first_launch_scope_dialog.dart';
 import 'widgets/reverse_calc_dialog.dart';
 import 'widgets/sprite_style_dialog.dart';
 import '../utils/sprite_pack_manager.dart';
-import 'dex_screen.dart';
-import 'move_dex_screen.dart';
-import 'team_coverage_screen.dart';
+import 'dex_screen.dart' show DexPickResult;
 import 'simple_mode_screen.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/speed_calculator.dart';
@@ -41,7 +40,6 @@ import '../utils/terrain_effects.dart' show abilityTerrainMap;
 import '../utils/weather_effects.dart' show abilityWeatherMap;
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
-import '../utils/page_routes.dart';
 import '../utils/url_navigator_stub.dart'
     if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
 import 'widgets/mobile_install_banner.dart';
@@ -644,11 +642,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// the narrow extended layout we also switch the tab so the user
   /// lands on the side they just populated.
   Future<void> _openDex({String? initialName}) async {
-    final result = await Navigator.of(context).push<DexPickResult>(
-      fadeRoute(
-        (_) => DexScreen(initialPokemonName: initialName),
-      ),
-    );
+    // Stays as a root-navigator modal push (NOT a tab switch) because
+    // the user expects to pick a Pokémon and return to calc with the
+    // result, not land on the dex tab. RootShell.openDexAsPicker
+    // pushes on the root navigator above the IndexedStack, so the
+    // dex tab's own state is unaffected by this overlay.
+    final result =
+        await RootShell.of(context).openDexAsPicker(initialName: initialName);
     if (!mounted || result == null) return;
     final target = result.side == 0 ? _attacker : _defender;
     setState(() {
@@ -663,15 +663,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
   }
 
-  Future<void> _openTeamCoverage() async {
-    await Navigator.of(context)
-        .push(fadeRoute((_) => const TeamCoverageScreen()));
+  void _openTeamCoverage() {
+    RootShell.of(context).setTab(AppNavTab.teamBuilder);
   }
 
-  Future<void> _openMoveDex({String? initialMoveName}) async {
-    await Navigator.of(context).push(
-      fadeRoute((_) => MoveDexScreen(initialMoveName: initialMoveName)),
-    );
+  void _openMoveDex({String? initialMoveName}) {
+    final shell = RootShell.of(context);
+    if (initialMoveName != null) {
+      shell.requestMoveDexDetail(initialMoveName);
+    } else {
+      shell.setTab(AppNavTab.moveDex);
+    }
   }
 
   // Language / sprite-style / about helpers moved to AppSettingsMenu.
@@ -1489,7 +1491,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           return _buildNarrowLayout();
         },
       )),
-      bottomNavigationBar: const AppBottomNav(currentTab: AppNavTab.calc),
     );
   }
 
@@ -2624,7 +2625,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.11.0'),
+          const Text('v1.11.1'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

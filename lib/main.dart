@@ -17,7 +17,7 @@ import 'models/item.dart';
 import 'data/movedex.dart';
 import 'data/pokedex.dart';
 import 'data/champions_usage.dart';
-import 'views/damage_calculator_screen.dart';
+import 'views/root_shell.dart';
 
 void main() {
   runApp(const DamageCalcApp());
@@ -278,7 +278,7 @@ class _AppLoaderState extends State<_AppLoader> {
   @override
   Widget build(BuildContext context) {
     if (_ready) {
-      return DamageCalculatorScreen(
+      return RootShell(
         abilityNameMap: _abilityNameMap,
         itemNameMap: _itemNameMap,
       );

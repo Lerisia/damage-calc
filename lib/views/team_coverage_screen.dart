@@ -32,7 +32,8 @@ import '../utils/localization.dart';
 import '../utils/page_routes.dart';
 import '../utils/sprite_pack_manager.dart';
 import '../utils/team_coverage.dart';
-import 'widgets/app_bottom_nav.dart';
+import 'root_shell.dart';
+import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/stat_input.dart' show ClampingFormatter, SelectAllField;
@@ -1054,7 +1055,10 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
       loadedSampleName: slot.loadedSampleName,
     );
     if (!mounted) return;
-    Navigator.of(context).popUntil((r) => r.isFirst);
+    // CalcHandoff already staged — switch to the calc tab so the
+    // user lands on the calculator with their pick applied. The team
+    // tab's state stays intact thanks to RootShell's IndexedStack.
+    RootShell.of(context).setTab(AppNavTab.calc);
   }
 
   /// Pull a saved sample (from the shared sample storage) and copy
@@ -1461,8 +1465,6 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {},
       child: Scaffold(
-      bottomNavigationBar:
-          const AppBottomNav(currentTab: AppNavTab.teamBuilder),
       // Cap AppBar visual width to match the body so the toolbar
       // chrome sits centered above the panes on 4K screens.
       appBar: cappedAppBar(
@@ -1473,13 +1475,16 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
           automaticallyImplyLeading: false,
           leading: MediaQuery.sizeOf(context).width >= 1050
               ? IconButton(
-                  // Navigator.pop bypasses the PopScope canPop:false.
                   // Wide-only — narrow widths return via the bottom
-                  // nav's '계산기' tab.
+                  // nav's '계산기' tab. This is the root route of
+                  // the team-builder tab's nested navigator so
+                  // there's nothing to pop; semantically the back
+                  // button switches to calc.
                   tooltip:
                       MaterialLocalizations.of(context).backButtonTooltip,
                   icon: const BackButtonIcon(),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () =>
+                      RootShell.of(context).setTab(AppNavTab.calc),
                 )
               : null,
           titleSpacing: 0,
