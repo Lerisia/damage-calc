@@ -166,6 +166,17 @@ ThemeData _buildTheme(Brightness brightness) {
   return base.copyWith(textTheme: tt);
 }
 
+/// Scroll behavior that returns ClampingScrollPhysics across all
+/// platforms, suppressing iOS/macOS's default BouncingScrollPhysics.
+/// See main.dart MaterialApp.scrollBehavior for the rationale.
+class _ClampScrollBehavior extends MaterialScrollBehavior {
+  const _ClampScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) =>
+      const ClampingScrollPhysics();
+}
+
 class DamageCalcApp extends StatelessWidget {
   const DamageCalcApp({super.key});
 
@@ -196,6 +207,14 @@ class DamageCalcApp extends StatelessWidget {
         theme: _buildTheme(Brightness.light),
         darkTheme: _buildTheme(Brightness.dark),
         themeMode: themeMode,
+        // Force ClampingScrollPhysics on every platform — Flutter's
+        // default uses BouncingScrollPhysics on iOS/macOS, whose
+        // rubber-band + slow deceleration felt mushy compared to
+        // Android/web in this app's short panel scrolls. The user
+        // values snappy direct response (the calc runs inside a
+        // ~1 minute battle command select), so consistency over the
+        // iOS bounce convention is the right tradeoff here.
+        scrollBehavior: const _ClampScrollBehavior(),
         home: const _AppLoader(),
       ),
     );
