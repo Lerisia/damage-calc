@@ -2126,7 +2126,9 @@
       "spDefense": 95,
       "speed": 110
     },
-    "abilities": [],
+    "abilities": [
+      "Electric Surge"
+    ],
     "weight": 38.0,
     "height": 1.2,
     "dexNumber": 26,
@@ -2135,7 +2137,10 @@
     "requiredItem": "raichunite-x",
     "nameEn": "Mega Raichu X",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "엑스츄"
+    ]
   },
   {
     "name": "Mega Raichu Y",
@@ -2150,7 +2155,9 @@
       "spDefense": 80,
       "speed": 130
     },
-    "abilities": [],
+    "abilities": [
+      "No Guard"
+    ],
     "weight": 26.0,
     "height": 1.0,
     "dexNumber": 26,
@@ -2159,7 +2166,10 @@
     "requiredItem": "raichunite-y",
     "nameEn": "Mega Raichu Y",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "와이츄"
+    ]
   },
   {
     "name": "Mega Chimecho",
