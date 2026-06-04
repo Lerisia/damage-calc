@@ -139,14 +139,36 @@ void preloadChampionsUsage() {
 /// Sync lookup by `Pokemon.name` (English). Returns `null` if the
 /// cache hasn't finished loading yet or if the species is uncurated —
 /// callers should fall back to their existing defaults in either case.
+///
+/// Two-tier match: exact `pokemonName` first, then a parenthesised-
+/// form fallback that strips ` (…)` and re-looks-up. Lets cosmetic
+/// pose forms like "Morpeko (Hangry Mode)" inherit Morpeko's full
+/// usage entry without duplicating data, while still letting
+/// competitively-distinct forms like "Aegislash (Blade Forme)" or
+/// "Paldean Tauros (Blaze Breed)" keep their own dedicated entries
+/// (those win at the exact-match step before fallback runs).
 ChampionsUsageEntry? championsUsageFor(String pokemonName) {
-  return _cache?[pokemonName];
+  final cache = _cache;
+  if (cache == null) return null;
+  final exact = cache[pokemonName];
+  if (exact != null) return exact;
+  return cache[_stripFormSuffix(pokemonName)];
 }
 
 /// O(1) presence test — does this Pokémon have a Champions usage
 /// entry? Used by dex filter UIs ("show only Pokémon in Champions")
-/// to skip full-cache lookups on every visible row.
+/// to skip full-cache lookups on every visible row. Honours the
+/// same parenthesised-form fallback as [championsUsageFor].
 bool isInChampions(String pokemonName) {
   final c = _cache;
-  return c != null && c.containsKey(pokemonName);
+  if (c == null) return false;
+  if (c.containsKey(pokemonName)) return true;
+  return c.containsKey(_stripFormSuffix(pokemonName));
+}
+
+/// "Morpeko (Hangry Mode)" → "Morpeko". Returns [name] unchanged
+/// when there's no ` (…)` suffix.
+String _stripFormSuffix(String name) {
+  final idx = name.indexOf(' (');
+  return idx < 0 ? name : name.substring(0, idx);
 }
