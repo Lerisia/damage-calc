@@ -2126,7 +2126,9 @@
       "spDefense": 95,
       "speed": 110
     },
-    "abilities": [],
+    "abilities": [
+      "Electric Surge"
+    ],
     "weight": 38.0,
     "height": 1.2,
     "dexNumber": 26,
@@ -2150,7 +2152,9 @@
       "spDefense": 80,
       "speed": 130
     },
-    "abilities": [],
+    "abilities": [
+      "No Guard"
+    ],
     "weight": 26.0,
     "height": 1.0,
     "dexNumber": 26,
