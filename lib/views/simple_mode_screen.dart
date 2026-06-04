@@ -1079,8 +1079,48 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
+  /// Damage range (as % of defender's max HP) for the currently
+  /// selected attacking move. Returns null when no move is set or
+  /// the move deals no damage (status / immunity). Same calculation
+  /// path as the result panel; computing it twice per frame is fine
+  /// — simple mode is not on a hot path.
+  ({double minPct, double maxPct})? _defenderDamageRangePct() {
+    final move = _atk.moves[0];
+    if (move == null) return null;
+    final defActualStats = StatCalculator.calculate(
+      baseStats: _def.baseStats, iv: _def.iv, ev: _def.ev,
+      nature: _def.nature, level: _def.level, rank: _def.rank);
+    final atkEffSpeed = BattleFacade.calcSpeed(
+      state: _atk, weather: widget.weather, terrain: widget.terrain, room: widget.room);
+    final defEffSpeed = BattleFacade.calcSpeed(
+      state: _def, weather: widget.weather, terrain: widget.terrain, room: widget.room);
+    final baseResult = DamageCalculator.calculate(
+      attacker: _atk,
+      defender: _def,
+      moveIndex: 0,
+      weather: widget.weather,
+      terrain: widget.terrain,
+      room: widget.room,
+      auras: widget.auras,
+      ruins: widget.ruins,
+      opponentAttack: defActualStats.attack,
+      opponentSpeed: defEffSpeed,
+      myEffectiveSpeed: atkEffSpeed,
+      opponentGender: _def.gender,
+    );
+    final result = _applyMultiplier(baseResult, _parseMultiplier());
+    if (result.maxDamage == 0) return null;
+    final defMaxHp = _defenderHp();
+    if (defMaxHp <= 0) return null;
+    return (
+      minPct: result.minDamage / defMaxHp * 100,
+      maxPct: result.maxDamage / defMaxHp * 100,
+    );
+  }
+
   Widget _hpPercentField() {
     final pct = _def.hpPercent;
+    final dmg = _defenderDamageRangePct();
     // Tint the slider green → orange → red as HP drops, to match
     // what players see in-game at a glance. Above 100 % (e.g.
     // Dynamax HP doubling, Pollen Puff heals, residual mid-turn
@@ -1118,6 +1158,33 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               builder: (ctx, c) {
                 final trackWidth = c.maxWidth - thumbRadius * 2;
                 final markerLeft = thumbRadius + hundredFraction * trackWidth;
+                // Pre-compute damage-range overlay positions on the
+                // slider track so the user can see where the next hit
+                // will leave the defender's HP. The slider's value
+                // axis is 0..sliderMax (150 %); the visible track
+                // occupies [thumbRadius, maxWidth - thumbRadius].
+                // Two-tone overlay:
+                //   - dark red ('confirmed loss'): from
+                //     `current − minDamage%` up to current. The
+                //     defender loses AT LEAST this much in the worst
+                //     roll for them (= smallest damage roll).
+                //   - light red ('uncertain'): from
+                //     `current − maxDamage%` up to
+                //     `current − minDamage%`. Might or might not be
+                //     lost depending on roll.
+                // Certain KO (minDamage >= current HP) collapses
+                // both zones into "0 up to current", showing the
+                // entire active track in dark red — user direction:
+                // 확실한 KO면 전체 빨강.
+                double pAfterMin = 0, pAfterMax = 0;
+                bool hasDmgOverlay = false;
+                if (dmg != null) {
+                  pAfterMin = (pct - dmg.minPct).clamp(0.0, sliderMax.toDouble());
+                  pAfterMax = (pct - dmg.maxPct).clamp(0.0, sliderMax.toDouble());
+                  hasDmgOverlay = pct > 0 && dmg.maxPct > 0;
+                }
+                double slotLeft(double v) =>
+                    thumbRadius + (v / sliderMax) * trackWidth;
                 return Stack(
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
@@ -1161,6 +1228,41 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                         },
                       ),
                     ),
+                    // Damage-range overlays — drawn AFTER the slider
+                    // so they sit on top of its active-track stripe
+                    // but under the thumb. IgnorePointer so they
+                    // don't intercept drags. Skipped entirely when
+                    // there's no usable move / no damage / pct == 0.
+                    if (hasDmgOverlay) ...[
+                      // Uncertain zone (light red) — pAfterMax to
+                      // pAfterMin. Renders nothing when minDamage
+                      // equals maxDamage (one-roll moves like fixed-
+                      // damage), since the two endpoints collapse.
+                      if (pAfterMin > pAfterMax)
+                        Positioned(
+                          left: slotLeft(pAfterMax),
+                          top: (c.maxHeight - 6) / 2,
+                          width: slotLeft(pAfterMin) - slotLeft(pAfterMax),
+                          height: 6,
+                          child: IgnorePointer(
+                            child: ColoredBox(color: const Color(0xFFEF9A9A)),
+                          ),
+                        ),
+                      // Confirmed loss (dark red) — pAfterMin up to
+                      // current. When the move is a certain KO,
+                      // pAfterMin collapses to 0 and this fills the
+                      // entire active track.
+                      Positioned(
+                        left: slotLeft(pAfterMin),
+                        top: (c.maxHeight - 6) / 2,
+                        width: slotLeft(pct.clamp(0, sliderMax).toDouble()) -
+                            slotLeft(pAfterMin),
+                        height: 6,
+                        child: IgnorePointer(
+                          child: ColoredBox(color: const Color(0xFFC62828)),
+                        ),
+                      ),
+                    ],
                   ],
                 );
               },
