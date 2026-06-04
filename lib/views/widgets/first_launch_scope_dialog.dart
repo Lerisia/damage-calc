@@ -2,24 +2,37 @@ import 'package:flutter/material.dart';
 
 import '../../utils/app_strings.dart';
 import '../../utils/champions_filter_controller.dart';
+import '../../utils/simple_mode_controller.dart';
 
-/// First-launch (including existing users) prompt that forces the
-/// user to pick between Champions-only and full-Pokédex scope
-/// before they can interact with the calculator. PopScope blocks
-/// system back; barrierDismissible is off and there is no close
-/// button — selecting one of the two options is the only exit.
+/// First-launch (including existing users) onboarding prompt. Two
+/// blocking questions, no defaults — the user must explicitly pick
+/// both Pokémon scope (Champions-only / all) and calculator mode
+/// (simple / extended) before the calculator becomes interactive.
 ///
-/// The user's pick is persisted via
-/// [ChampionsFilterController.answerPrompt] which sets both the
-/// scope value and a 'prompt shown' flag so the dialog doesn't
-/// pop again on subsequent launches.
-class FirstLaunchScopeDialog extends StatelessWidget {
+/// User direction: every user sees this exactly once after the
+/// update, and there is no preselection — explicit pick required.
+/// PopScope blocks system back; barrierDismissible:false on the
+/// showDialog wrapper handles outside taps.
+class FirstLaunchScopeDialog extends StatefulWidget {
   const FirstLaunchScopeDialog({super.key});
 
-  Future<void> _pick(BuildContext context, bool championsOnly) async {
+  @override
+  State<FirstLaunchScopeDialog> createState() =>
+      _FirstLaunchScopeDialogState();
+}
+
+class _FirstLaunchScopeDialogState extends State<FirstLaunchScopeDialog> {
+  bool? _championsOnly;
+  bool? _simpleMode;
+
+  bool get _canSubmit => _championsOnly != null && _simpleMode != null;
+
+  Future<void> _submit() async {
+    if (!_canSubmit) return;
     await ChampionsFilterController.instance
-        .answerPrompt(championsOnlyChoice: championsOnly);
-    if (context.mounted) Navigator.of(context).pop();
+        .answerPrompt(championsOnlyChoice: _championsOnly!);
+    await SimpleModeController.instance.setSimple(_simpleMode!);
+    if (mounted) Navigator.of(context).pop();
   }
 
   @override
@@ -46,42 +59,90 @@ class FirstLaunchScopeDialog extends StatelessWidget {
             ),
           ],
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _questionHeader(AppStrings.t('firstLaunch.scopeLabel')),
+              _radioTile<bool>(
+                value: true,
+                groupValue: _championsOnly,
+                label: AppStrings.t('firstLaunch.scopeChampions'),
+                onChanged: (v) => setState(() => _championsOnly = v),
+              ),
+              _radioTile<bool>(
+                value: false,
+                groupValue: _championsOnly,
+                label: AppStrings.t('firstLaunch.scopeAll'),
+                onChanged: (v) => setState(() => _championsOnly = v),
+              ),
+              const SizedBox(height: 12),
+              _questionHeader(AppStrings.t('firstLaunch.modeLabel')),
+              _radioTile<bool>(
+                value: true,
+                groupValue: _simpleMode,
+                label: AppStrings.t('firstLaunch.modeSimple'),
+                onChanged: (v) => setState(() => _simpleMode = v),
+              ),
+              _radioTile<bool>(
+                value: false,
+                groupValue: _simpleMode,
+                label: AppStrings.t('firstLaunch.modeExtended'),
+                onChanged: (v) => setState(() => _simpleMode = v),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                AppStrings.t('firstLaunch.scopeNote'),
+                style: TextStyle(
+                    fontSize: 11, color: Colors.grey.shade600),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: _canSubmit ? _submit : null,
+            child: Text(AppStrings.t('firstLaunch.start')),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _questionHeader(String text) => Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Text(text,
+            style: const TextStyle(
+                fontSize: 14, fontWeight: FontWeight.w600)),
+      );
+
+  Widget _radioTile<T>({
+    required T value,
+    required T? groupValue,
+    required String label,
+    required ValueChanged<T?> onChanged,
+  }) {
+    final selected = value == groupValue;
+    return InkWell(
+      onTap: () => onChanged(value),
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: Row(
           children: [
-            Text(
-              AppStrings.t('firstLaunch.scopeLabel'),
-              style: const TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w600),
+            Icon(
+              selected
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_unchecked,
+              size: 20,
+              color: selected
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey.shade500,
             ),
-            const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () => _pick(context, true),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              child: Text(
-                AppStrings.t('firstLaunch.scopeChampions'),
-                style: const TextStyle(fontSize: 14),
-              ),
-            ),
-            const SizedBox(height: 8),
-            OutlinedButton(
-              onPressed: () => _pick(context, false),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              child: Text(
-                AppStrings.t('firstLaunch.scopeAll'),
-                style: const TextStyle(fontSize: 14),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              AppStrings.t('firstLaunch.scopeNote'),
-              style: TextStyle(
-                  fontSize: 11, color: Colors.grey.shade600),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(label, style: const TextStyle(fontSize: 13)),
             ),
           ],
         ),

@@ -303,6 +303,26 @@ class AppStrings {
       AppLanguage.en: 'You can change this anytime in settings.',
       AppLanguage.ja: '※ 設定からいつでも変更できます。',
     },
+    'firstLaunch.modeLabel': {
+      AppLanguage.ko: '어떤 모드를 선호하시나요?',
+      AppLanguage.en: 'Which mode do you prefer?',
+      AppLanguage.ja: 'どちらのモードを使いますか?',
+    },
+    'firstLaunch.modeSimple': {
+      AppLanguage.ko: '간단 모드 — 배틀 중 빠른 대미지 계산',
+      AppLanguage.en: 'Simple mode — quick damage check during battle',
+      AppLanguage.ja: '簡単モード — 対戦中の素早いダメージ計算',
+    },
+    'firstLaunch.modeExtended': {
+      AppLanguage.ko: '확장 모드 — 정교한 샘플 조정',
+      AppLanguage.en: 'Extended mode — fine-tune sample sets',
+      AppLanguage.ja: '拡張モード — 詳細なサンプル調整',
+    },
+    'firstLaunch.start': {
+      AppLanguage.ko: '시작',
+      AppLanguage.en: 'Start',
+      AppLanguage.ja: '開始',
+    },
     'sprite.combinedDownload': {
       AppLanguage.ko: '전체 팩 다운로드',
       AppLanguage.en: 'Download combined pack',
