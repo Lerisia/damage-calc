@@ -1647,5 +1647,30 @@
     "finalEvo": true,
     "genderRate": -1,
     "nameEn": "Minior (Core Form)"
+  },
+  {
+    "dexNumber": 877,
+    "formId": 10278,
+    "name": "Morpeko (Hangry Mode)",
+    "nameKo": "모르페코 (헝그리 모드)",
+    "nameJa": "モルペコ (はらぺこもよう)",
+    "type1": "electric",
+    "type2": "dark",
+    "baseStats": {
+      "hp": 58,
+      "attack": 95,
+      "defense": 58,
+      "spAttack": 70,
+      "spDefense": 58,
+      "speed": 97
+    },
+    "abilities": [
+      "Hunger Switch"
+    ],
+    "weight": 3.0,
+    "height": 0.3,
+    "finalEvo": true,
+    "genderRate": 4,
+    "nameEn": "Morpeko (Hangry Mode)"
   }
 ]

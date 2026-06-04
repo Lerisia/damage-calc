@@ -258,10 +258,16 @@ TransformedMove transformMove(Move move, MoveContext context) {
     move = move.copyWith(type: context.userType1);
   }
 
-  // 2.54. Aura Wheel (Morpeko): Electric for base, Dark for Hangry
+  // 2.54. Aura Wheel (Morpeko): Electric for Full Belly (base),
+  // Dark for Hangry Mode. Substring match on 'hangry' so the
+  // display name "Morpeko (Hangry Mode)" we ship in forms.json
+  // triggers the dark override — the previous `== 'morpeko-hangry'`
+  // (Showdown-style id) never matched the display name that
+  // actually reaches the calc, so Aura Wheel stayed Electric on
+  // both forms. Mirrors the Raging Bull pattern above.
   if (move.name == 'Aura Wheel' && context.pokemonName != null) {
     final lower = context.pokemonName!.toLowerCase();
-    if (lower == 'morpeko-hangry') {
+    if (lower.contains('hangry')) {
       move = move.copyWith(type: PokemonType.dark);
     } else {
       move = move.copyWith(type: PokemonType.electric);
