@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -1149,6 +1151,23 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // padding the slider reserves on each side for the thumb.
     const thumbRadius = 8.0;
     const hundredFraction = 100 / sliderMax;
+    // Damage-range overlay is painted inside the slider's track —
+    // see [_DamageRangeTrackShape]. Painting it as part of the
+    // track means (a) the thumb sits ON TOP of it (user direction:
+    // 원 아래로 뜨게 해주세요 — the active-track region right under
+    // the thumb stays its normal colour, only further-left damage
+    // shows), and (b) the overlay is positioned RELATIVE TO the
+    // thumb's interpolated centre, so during drag the red moves in
+    // lockstep with the thumb instead of jittering one snap-point
+    // behind (the previous Stack/Positioned approach computed
+    // overlay positions from the snapped `pct` while the slider's
+    // thumb visually interpolated between snaps — that's what felt
+    // "기괴").
+    final double minDmgFrac =
+        dmg == null ? 0 : (dmg.minPct / sliderMax).clamp(0.0, 1.0);
+    final double maxDmgFrac =
+        dmg == null ? 0 : (dmg.maxPct / sliderMax).clamp(0.0, 1.0);
+    final bool hasDmgOverlay = dmg != null && pct > 0 && dmg.maxPct > 0;
     return Row(
       children: [
         Expanded(
@@ -1158,33 +1177,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               builder: (ctx, c) {
                 final trackWidth = c.maxWidth - thumbRadius * 2;
                 final markerLeft = thumbRadius + hundredFraction * trackWidth;
-                // Pre-compute damage-range overlay positions on the
-                // slider track so the user can see where the next hit
-                // will leave the defender's HP. The slider's value
-                // axis is 0..sliderMax (150 %); the visible track
-                // occupies [thumbRadius, maxWidth - thumbRadius].
-                // Two-tone overlay:
-                //   - dark red ('confirmed loss'): from
-                //     `current − minDamage%` up to current. The
-                //     defender loses AT LEAST this much in the worst
-                //     roll for them (= smallest damage roll).
-                //   - light red ('uncertain'): from
-                //     `current − maxDamage%` up to
-                //     `current − minDamage%`. Might or might not be
-                //     lost depending on roll.
-                // Certain KO (minDamage >= current HP) collapses
-                // both zones into "0 up to current", showing the
-                // entire active track in dark red — user direction:
-                // 확실한 KO면 전체 빨강.
-                double pAfterMin = 0, pAfterMax = 0;
-                bool hasDmgOverlay = false;
-                if (dmg != null) {
-                  pAfterMin = (pct - dmg.minPct).clamp(0.0, sliderMax.toDouble());
-                  pAfterMax = (pct - dmg.maxPct).clamp(0.0, sliderMax.toDouble());
-                  hasDmgOverlay = pct > 0 && dmg.maxPct > 0;
-                }
-                double slotLeft(double v) =>
-                    thumbRadius + (v / sliderMax) * trackWidth;
                 return Stack(
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
@@ -1209,6 +1201,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                         activeTrackColor: color,
                         inactiveTrackColor: color.withValues(alpha: 0.25),
                         thumbColor: color,
+                        trackShape: hasDmgOverlay
+                            ? _DamageRangeTrackShape(
+                                minDmgFraction: minDmgFrac,
+                                maxDmgFraction: maxDmgFrac,
+                              )
+                            : null,
                       ),
                       child: Slider(
                         value: pct.clamp(0, sliderMax).toDouble(),
@@ -1228,41 +1226,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                         },
                       ),
                     ),
-                    // Damage-range overlays — drawn AFTER the slider
-                    // so they sit on top of its active-track stripe
-                    // but under the thumb. IgnorePointer so they
-                    // don't intercept drags. Skipped entirely when
-                    // there's no usable move / no damage / pct == 0.
-                    if (hasDmgOverlay) ...[
-                      // Uncertain zone (light red) — pAfterMax to
-                      // pAfterMin. Renders nothing when minDamage
-                      // equals maxDamage (one-roll moves like fixed-
-                      // damage), since the two endpoints collapse.
-                      if (pAfterMin > pAfterMax)
-                        Positioned(
-                          left: slotLeft(pAfterMax),
-                          top: (c.maxHeight - 6) / 2,
-                          width: slotLeft(pAfterMin) - slotLeft(pAfterMax),
-                          height: 6,
-                          child: IgnorePointer(
-                            child: ColoredBox(color: const Color(0xFFEF9A9A)),
-                          ),
-                        ),
-                      // Confirmed loss (dark red) — pAfterMin up to
-                      // current. When the move is a certain KO,
-                      // pAfterMin collapses to 0 and this fills the
-                      // entire active track.
-                      Positioned(
-                        left: slotLeft(pAfterMin),
-                        top: (c.maxHeight - 6) / 2,
-                        width: slotLeft(pct.clamp(0, sliderMax).toDouble()) -
-                            slotLeft(pAfterMin),
-                        height: 6,
-                        child: IgnorePointer(
-                          child: ColoredBox(color: const Color(0xFFC62828)),
-                        ),
-                      ),
-                    ],
                   ],
                 );
               },
@@ -2166,5 +2129,92 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final ev = _def.ev.hp;
     final level = _def.level;
     return (((2 * base + iv + ev ~/ 4) * level) ~/ 100) + level + 10;
+  }
+}
+
+/// Slider track shape that paints the standard rounded active/
+/// inactive tracks first, then overlays the defender damage-range
+/// bands on top of the active track.
+///
+/// Two-tone overlay anchored to [thumbCenter] (the slider's
+/// interpolated thumb position — NOT the snapped value) so the red
+/// stays glued to the thumb during drags, no matter how the slider
+/// interpolates between division snap points:
+///   - dark red, width = minDmgFraction × trackWidth, ending at
+///     thumbCenter — the defender loses AT LEAST this much in the
+///     worst roll for them (smallest damage roll).
+///   - light red, width = (maxDmg − minDmg)/sliderMax × trackWidth,
+///     ending where the dark band starts — uncertain zone that may
+///     or may not be lost depending on the roll.
+///
+/// Both bands clamp at the track's left edge so very large damages
+/// (certain KO) collapse into a single dark band covering the full
+/// active region. The slider's thumb paints AFTER this track paint
+/// pass, so it visually sits on top of the overlay — user direction
+/// was to keep the thumb visually unobstructed.
+class _DamageRangeTrackShape extends RoundedRectSliderTrackShape {
+  final double minDmgFraction;
+  final double maxDmgFraction;
+
+  const _DamageRangeTrackShape({
+    required this.minDmgFraction,
+    required this.maxDmgFraction,
+  });
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset offset, {
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required Animation<double> enableAnimation,
+    required Offset thumbCenter,
+    Offset? secondaryOffset,
+    bool isDiscrete = false,
+    bool isEnabled = false,
+    double additionalActiveTrackHeight = 2,
+    required TextDirection textDirection,
+  }) {
+    super.paint(
+      context,
+      offset,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      enableAnimation: enableAnimation,
+      thumbCenter: thumbCenter,
+      secondaryOffset: secondaryOffset,
+      isDiscrete: isDiscrete,
+      isEnabled: isEnabled,
+      additionalActiveTrackHeight: additionalActiveTrackHeight,
+      textDirection: textDirection,
+    );
+
+    final trackRect = getPreferredRect(
+      parentBox: parentBox,
+      offset: offset,
+      sliderTheme: sliderTheme,
+      isEnabled: isEnabled,
+      isDiscrete: isDiscrete,
+    );
+    final maxDmgPx = maxDmgFraction * trackRect.width;
+    final minDmgPx = minDmgFraction * trackRect.width;
+
+    final darkLeft = math.max(trackRect.left, thumbCenter.dx - minDmgPx);
+    final darkRight = math.max(trackRect.left, thumbCenter.dx);
+    if (darkRight > darkLeft) {
+      context.canvas.drawRect(
+        Rect.fromLTRB(darkLeft, trackRect.top, darkRight, trackRect.bottom),
+        Paint()..color = const Color(0xFFC62828),
+      );
+    }
+
+    final lightRight = darkLeft;
+    final lightLeft = math.max(trackRect.left, thumbCenter.dx - maxDmgPx);
+    if (lightRight > lightLeft) {
+      context.canvas.drawRect(
+        Rect.fromLTRB(lightLeft, trackRect.top, lightRight, trackRect.bottom),
+        Paint()..color = const Color(0xFFEF9A9A),
+      );
+    }
   }
 }
