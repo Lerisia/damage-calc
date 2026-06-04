@@ -2137,7 +2137,10 @@
     "requiredItem": "raichunite-x",
     "nameEn": "Mega Raichu X",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "엑스츄"
+    ]
   },
   {
     "name": "Mega Raichu Y",
@@ -2163,7 +2166,10 @@
     "requiredItem": "raichunite-y",
     "nameEn": "Mega Raichu Y",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "와이츄"
+    ]
   },
   {
     "name": "Mega Chimecho",
