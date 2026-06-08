@@ -69,11 +69,26 @@ class _AppBottomNavState extends State<AppBottomNav> {
       color: scheme.surface,
       child: SafeArea(
         top: false,
-        child: AnimatedSize(
-          duration: const Duration(milliseconds: 180),
-          curve: Curves.easeInOut,
-          alignment: Alignment.topCenter,
-          child: _collapsed ? _collapsedStrip() : _expandedBar(),
+        // Centre + LayoutBuilder + SizedBox is the bulletproof way
+        // to cap the interactive content width. The previous
+        // Center+ConstrainedBox-inside-AnimatedSize approach left
+        // the Row with Expanded children unbounded, so it stretched
+        // full-screen on wide windows.
+        child: Center(
+          child: LayoutBuilder(
+            builder: (ctx, c) {
+              final w = c.maxWidth.clamp(0.0, _maxBarContentWidth);
+              return SizedBox(
+                width: w,
+                child: AnimatedSize(
+                  duration: const Duration(milliseconds: 180),
+                  curve: Curves.easeInOut,
+                  alignment: Alignment.topCenter,
+                  child: _collapsed ? _collapsedStrip() : _expandedBar(),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -98,47 +113,39 @@ class _AppBottomNavState extends State<AppBottomNav> {
   }
 
   Widget _expandedBar() {
-    return Center(
-      // Cap the tab Row's width so on wide screens (web, desktop)
-      // the 4 tabs cluster in a comfortable centre band instead of
-      // stretching ~500 px apart. The Material surface still spans
-      // full width via the parent — only the interactive Row stays
-      // bounded.
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: _maxBarContentWidth),
-        child: Row(
-          children: [
-            Expanded(
-              child: _tabButton(AppNavTab.calc, Icons.calculate,
-                  AppStrings.t('nav.calc')),
-            ),
-            Expanded(
-              child: _tabButton(AppNavTab.dex, Icons.catching_pokemon,
-                  AppStrings.t('nav.dex')),
-            ),
-            Expanded(
-              child: _tabButton(AppNavTab.moveDex, Icons.menu_book,
-                  AppStrings.t('nav.moveDex')),
-            ),
-            Expanded(
-              child: _tabButton(AppNavTab.teamBuilder, Icons.groups,
-                  AppStrings.t('nav.teamBuilder')),
-            ),
-            // Collapse chevron — small dedicated tap area so it doesn't
-            // compete with the tab buttons for accidental presses.
-            SizedBox(
-              width: 36,
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                visualDensity: VisualDensity.compact,
-                onPressed: _toggleCollapsed,
-                tooltip: '접기', // intentionally Korean per app convention
-                icon: const Icon(Icons.keyboard_arrow_down, size: 20),
-              ),
-            ),
-          ],
+    // Width cap is handled by the outer LayoutBuilder + SizedBox in
+    // [build]. This Row just fills whatever bounded width it gets.
+    return Row(
+      children: [
+        Expanded(
+          child: _tabButton(AppNavTab.calc, Icons.calculate,
+              AppStrings.t('nav.calc')),
         ),
-      ),
+        Expanded(
+          child: _tabButton(AppNavTab.dex, Icons.catching_pokemon,
+              AppStrings.t('nav.dex')),
+        ),
+        Expanded(
+          child: _tabButton(AppNavTab.moveDex, Icons.menu_book,
+              AppStrings.t('nav.moveDex')),
+        ),
+        Expanded(
+          child: _tabButton(AppNavTab.teamBuilder, Icons.groups,
+              AppStrings.t('nav.teamBuilder')),
+        ),
+        // Collapse chevron — small dedicated tap area so it doesn't
+        // compete with the tab buttons for accidental presses.
+        SizedBox(
+          width: 36,
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            visualDensity: VisualDensity.compact,
+            onPressed: _toggleCollapsed,
+            tooltip: '접기', // intentionally Korean per app convention
+            icon: const Icon(Icons.keyboard_arrow_down, size: 20),
+          ),
+        ),
+      ],
     );
   }
 
