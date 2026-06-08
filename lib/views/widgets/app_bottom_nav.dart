@@ -52,18 +52,16 @@ class _AppBottomNavState extends State<AppBottomNav> {
     await prefs.setBool(_kCollapsedKey, _collapsed);
   }
 
-  /// Width above which the bottom nav is suppressed. Matches the
-  /// calculator's existing wide-layout threshold so the two stay in
-  /// sync. On wide layouts the user navigates through the in-toolbar
-  /// dex/team entries instead, and the bottom nav would only stretch
-  /// awkwardly with empty space between the 4 tabs.
-  static const double _wideHideThreshold = 1050;
+  /// Max content width for the bar's tabs. On wide screens (web,
+  /// tablet landscape, desktop) the 4 tabs would otherwise stretch
+  /// across the full window with ~500 px between each label, which
+  /// reads as broken. Cap at 720 px and centre — the bar's Material
+  /// chrome (surface colour, elevation) still spans the full width,
+  /// only the tab Row stays bounded.
+  static const double _maxBarContentWidth = 720;
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.sizeOf(context).width >= _wideHideThreshold) {
-      return const SizedBox.shrink();
-    }
     if (!_loaded) return const SizedBox(height: 16);
     final scheme = Theme.of(context).colorScheme;
     return Material(
@@ -100,37 +98,47 @@ class _AppBottomNavState extends State<AppBottomNav> {
   }
 
   Widget _expandedBar() {
-    return Row(
-      children: [
-        Expanded(
-          child: _tabButton(AppNavTab.calc, Icons.calculate,
-              AppStrings.t('nav.calc')),
+    return Center(
+      // Cap the tab Row's width so on wide screens (web, desktop)
+      // the 4 tabs cluster in a comfortable centre band instead of
+      // stretching ~500 px apart. The Material surface still spans
+      // full width via the parent — only the interactive Row stays
+      // bounded.
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: _maxBarContentWidth),
+        child: Row(
+          children: [
+            Expanded(
+              child: _tabButton(AppNavTab.calc, Icons.calculate,
+                  AppStrings.t('nav.calc')),
+            ),
+            Expanded(
+              child: _tabButton(AppNavTab.dex, Icons.catching_pokemon,
+                  AppStrings.t('nav.dex')),
+            ),
+            Expanded(
+              child: _tabButton(AppNavTab.moveDex, Icons.menu_book,
+                  AppStrings.t('nav.moveDex')),
+            ),
+            Expanded(
+              child: _tabButton(AppNavTab.teamBuilder, Icons.groups,
+                  AppStrings.t('nav.teamBuilder')),
+            ),
+            // Collapse chevron — small dedicated tap area so it doesn't
+            // compete with the tab buttons for accidental presses.
+            SizedBox(
+              width: 36,
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
+                onPressed: _toggleCollapsed,
+                tooltip: '접기', // intentionally Korean per app convention
+                icon: const Icon(Icons.keyboard_arrow_down, size: 20),
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          child: _tabButton(AppNavTab.dex, Icons.catching_pokemon,
-              AppStrings.t('nav.dex')),
-        ),
-        Expanded(
-          child: _tabButton(AppNavTab.moveDex, Icons.menu_book,
-              AppStrings.t('nav.moveDex')),
-        ),
-        Expanded(
-          child: _tabButton(AppNavTab.teamBuilder, Icons.groups,
-              AppStrings.t('nav.teamBuilder')),
-        ),
-        // Collapse chevron — small dedicated tap area so it doesn't
-        // compete with the tab buttons for accidental presses.
-        SizedBox(
-          width: 36,
-          child: IconButton(
-            padding: EdgeInsets.zero,
-            visualDensity: VisualDensity.compact,
-            onPressed: _toggleCollapsed,
-            tooltip: '접기', // intentionally Korean per app convention
-            icon: const Icon(Icons.keyboard_arrow_down, size: 20),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
