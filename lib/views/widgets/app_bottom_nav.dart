@@ -69,16 +69,21 @@ class _AppBottomNavState extends State<AppBottomNav> {
       color: scheme.surface,
       child: SafeArea(
         top: false,
-        // Centre + LayoutBuilder + SizedBox is the bulletproof way
-        // to cap the interactive content width. The previous
-        // Center+ConstrainedBox-inside-AnimatedSize approach left
-        // the Row with Expanded children unbounded, so it stretched
-        // full-screen on wide windows.
-        child: Center(
-          child: LayoutBuilder(
-            builder: (ctx, c) {
-              final w = c.maxWidth.clamp(0.0, _maxBarContentWidth);
-              return SizedBox(
+        // LayoutBuilder gives us the bar's full width; Align with
+        // heightFactor:1.0 centres the bounded SizedBox
+        // horizontally WITHOUT expanding the bar vertically. A
+        // plain Center would have expanded vertically too — when
+        // Scaffold gives the bottomNavigationBar loose height
+        // constraints, that meant the bar swallowed the entire
+        // screen and the body rendered behind it (= "white screen
+        // with just the 4 tabs").
+        child: LayoutBuilder(
+          builder: (ctx, c) {
+            final w = c.maxWidth.clamp(0.0, _maxBarContentWidth);
+            return Align(
+              alignment: Alignment.center,
+              heightFactor: 1.0,
+              child: SizedBox(
                 width: w,
                 child: AnimatedSize(
                   duration: const Duration(milliseconds: 180),
@@ -86,9 +91,9 @@ class _AppBottomNavState extends State<AppBottomNav> {
                   alignment: Alignment.topCenter,
                   child: _collapsed ? _collapsedStrip() : _expandedBar(),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
