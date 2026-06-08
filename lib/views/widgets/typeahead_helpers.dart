@@ -14,26 +14,32 @@ import '../../utils/app_strings.dart';
 DateTime _lastTypeAheadPickAt = DateTime.fromMillisecondsSinceEpoch(0);
 
 /// Stateful TextField that registers focusNode listener exactly once.
-class _TypeAheadTextField extends StatefulWidget {
+class _TypeAheadTextField<T> extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final InputDecoration decoration;
   final VoidCallback? onTap;
   final ValueChanged<String>? onSubmittedPick;
+  /// Shared suggestions controller — used to distinguish "focus
+  /// moved into the suggestions box for keyboard nav" from
+  /// "user truly left the typeahead", so the focus-loss restore
+  /// doesn't trash the query mid-navigation.
+  final SuggestionsController<T> suggestionsController;
 
   const _TypeAheadTextField({
     required this.controller,
     required this.focusNode,
     required this.decoration,
+    required this.suggestionsController,
     this.onTap,
     this.onSubmittedPick,
   });
 
   @override
-  State<_TypeAheadTextField> createState() => _TypeAheadTextFieldState();
+  State<_TypeAheadTextField<T>> createState() => _TypeAheadTextFieldState<T>();
 }
 
-class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
+class _TypeAheadTextFieldState<T> extends State<_TypeAheadTextField<T>> {
   String? _savedText;
   // Set when the user focuses the field; cleared on focus loss. Used
   // as the cutoff against `_lastTypeAheadPickAt` to decide whether
@@ -48,7 +54,7 @@ class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
   }
 
   @override
-  void didUpdateWidget(_TypeAheadTextField old) {
+  void didUpdateWidget(_TypeAheadTextField<T> old) {
     super.didUpdateWidget(old);
     if (old.focusNode != widget.focusNode) {
       old.focusNode.removeListener(_onFocusChange);
@@ -71,6 +77,14 @@ class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
       widget.controller.clear();
       widget.onTap?.call();
     } else {
+      // Focus moved INTO the suggestions box (user pressed ↓ to
+      // start keyboard nav) — don't restore yet, the user is still
+      // interacting with the typeahead. The restore will run on a
+      // later focus-loss when focusState is back to blur / field.
+      if (widget.suggestionsController.focusState ==
+          SuggestionsFocusState.box) {
+        return;
+      }
       // A pick during *this* focus session means the parent has set
       // controller.text to the picked label; we keep it. Otherwise the
       // user typed (or cleared) and tapped away — restore the saved
@@ -128,7 +142,7 @@ void selectAllOnTap(TextEditingController controller) {
   });
 }
 
-TypeAheadField<T> buildTypeAhead<T>({
+Widget buildTypeAhead<T>({
   required TextEditingController controller,
   required List<T> Function(String) suggestionsCallback,
   required Widget Function(BuildContext, T) itemBuilder,
@@ -150,46 +164,129 @@ TypeAheadField<T> buildTypeAhead<T>({
     onSelected(v);
   }
 
-  return TypeAheadField<T>(
+  // Own the SuggestionsController so the custom text-field builder
+  // can introspect its focusState — needed to distinguish "user
+  // pressed ↓ to start keyboard navigation through the suggestions"
+  // (focusState = box) from "user truly left the typeahead"
+  // (focusState = blur). Without this, focus moving to a suggestion
+  // item fired the field's focus-loss restore and trampled the query.
+  // _TypeAheadFieldHost owns the controller's lifecycle.
+  return _TypeAheadFieldHost<T>(
     controller: controller,
     focusNode: focusNode,
-    debounceDuration: Duration.zero,
-    animationDuration: Duration.zero,
-    autoFlipDirection: true,
-    autoFlipMinHeight: 100,
-    hideOnUnfocus: true,
-    hideOnSelect: true,
-    retainOnLoading: false,
-    hideOnEmpty: hideOnEmpty,
-    emptyBuilder: hideOnEmpty ? null : (context) => Padding(
-      padding: const EdgeInsets.all(12),
-      child: Text(AppStrings.t('search.noResults'), style: const TextStyle(color: Colors.grey)),
-    ),
-    // Don't pass constraints — the package wraps it with a buggy Align
-    // that sends the dropdown to the top of the screen on autoFlip.
-    // Instead, apply maxHeight via decorationBuilder.
-    decorationBuilder: (context, child) {
-      return ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: maxHeight),
-        child: Material(elevation: 4, child: child),
-      );
-    },
     suggestionsCallback: suggestionsCallback,
-    builder: builder ?? (context, controller, focusNode) {
-      return _TypeAheadTextField(
-        controller: controller,
-        focusNode: focusNode,
-        decoration: decoration,
-        onTap: onTap,
-        onSubmittedPick: onSubmittedPick != null
-            ? (text) {
-                final result = onSubmittedPick(text);
-                if (result != null) onSelectedWrapped(result);
-              }
-            : null,
-      );
-    },
     itemBuilder: itemBuilder,
     onSelected: onSelectedWrapped,
+    decoration: decoration,
+    hideOnEmpty: hideOnEmpty,
+    maxHeight: maxHeight,
+    builder: builder,
+    onTap: onTap,
+    onSubmittedPick: onSubmittedPick,
   );
+}
+
+/// Owns the [SuggestionsController] for one typeahead instance so it
+/// can be threaded through to the custom field builder. Pure wrapper —
+/// no behaviour beyond controller lifecycle + glue.
+class _TypeAheadFieldHost<T> extends StatefulWidget {
+  final TextEditingController controller;
+  final FocusNode? focusNode;
+  final List<T> Function(String) suggestionsCallback;
+  final Widget Function(BuildContext, T) itemBuilder;
+  final void Function(T) onSelected;
+  final InputDecoration decoration;
+  final bool hideOnEmpty;
+  final double maxHeight;
+  final Widget Function(BuildContext, TextEditingController, FocusNode)? builder;
+  final VoidCallback? onTap;
+  final T? Function(String)? onSubmittedPick;
+
+  const _TypeAheadFieldHost({
+    required this.controller,
+    required this.focusNode,
+    required this.suggestionsCallback,
+    required this.itemBuilder,
+    required this.onSelected,
+    required this.decoration,
+    required this.hideOnEmpty,
+    required this.maxHeight,
+    required this.builder,
+    required this.onTap,
+    required this.onSubmittedPick,
+  });
+
+  @override
+  State<_TypeAheadFieldHost<T>> createState() => _TypeAheadFieldHostState<T>();
+}
+
+class _TypeAheadFieldHostState<T> extends State<_TypeAheadFieldHost<T>> {
+  late final SuggestionsController<T> _suggestionsController =
+      SuggestionsController<T>();
+
+  @override
+  void dispose() {
+    _suggestionsController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TypeAheadField<T>(
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      suggestionsController: _suggestionsController,
+      debounceDuration: Duration.zero,
+      animationDuration: Duration.zero,
+      autoFlipDirection: true,
+      autoFlipMinHeight: 100,
+      hideOnUnfocus: true,
+      hideOnSelect: true,
+      retainOnLoading: false,
+      hideOnEmpty: widget.hideOnEmpty,
+      emptyBuilder: widget.hideOnEmpty
+          ? null
+          : (context) => Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(AppStrings.t('search.noResults'),
+                    style: const TextStyle(color: Colors.grey)),
+              ),
+      // Don't pass constraints — the package wraps it with a buggy
+      // Align that sends the dropdown to the top of the screen on
+      // autoFlip. Apply maxHeight via decorationBuilder instead.
+      decorationBuilder: (context, child) {
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: widget.maxHeight),
+          child: Material(elevation: 4, child: child),
+        );
+      },
+      suggestionsCallback: widget.suggestionsCallback,
+      builder: widget.builder ??
+          (context, controller, focusNode) {
+            return _TypeAheadTextField<T>(
+              controller: controller,
+              focusNode: focusNode,
+              decoration: widget.decoration,
+              suggestionsController: _suggestionsController,
+              onTap: widget.onTap,
+              onSubmittedPick: widget.onSubmittedPick != null
+                  ? (text) {
+                      // Prefer the highlighted suggestion (keyboard
+                      // ↑↓ navigation lands focus on an InkWell item,
+                      // and a focused InkWell handles its own Enter →
+                      // controller.select — onSubmitted only fires
+                      // here when focus is still on the text field,
+                      // so this branch is the "press Enter without
+                      // navigating" fallback that picks the top
+                      // result.
+                      final result = widget.onSubmittedPick!(text);
+                      if (result != null) widget.onSelected(result);
+                    }
+                  : null,
+            );
+          },
+      itemBuilder: widget.itemBuilder,
+      onSelected: widget.onSelected,
+    );
+  }
 }
