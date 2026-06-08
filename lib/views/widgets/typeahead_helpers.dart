@@ -161,10 +161,18 @@ class _TypeAheadFieldHostState<T> extends State<_TypeAheadFieldHost<T>> {
 
   KeyEventResult _fieldKeyEventFallback(FocusNode node, KeyEvent event) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
-    if (!_suggestionsController.isOpen) return KeyEventResult.ignored;
     final isArrowDown = event.logicalKey == LogicalKeyboardKey.arrowDown;
     final isArrowUp = event.logicalKey == LogicalKeyboardKey.arrowUp;
     if (!(isArrowDown || isArrowUp)) return KeyEventResult.ignored;
+    // TEMP DIAGNOSTIC — print to browser console so we can see if the
+    // handler even runs and what controller state looks like at that
+    // moment. Remove once the keyboard nav is verified working.
+    // ignore: avoid_print
+    print('[typeahead] fallback ${event.logicalKey.keyLabel} '
+        'isOpen=${_suggestionsController.isOpen} '
+        'dir=${_suggestionsController.effectiveDirection} '
+        'state=${_suggestionsController.focusState}');
+    if (!_suggestionsController.isOpen) return KeyEventResult.ignored;
     _suggestionsController.focusBox();
     return KeyEventResult.handled;
   }
@@ -187,6 +195,11 @@ class _TypeAheadFieldHostState<T> extends State<_TypeAheadFieldHost<T>> {
   /// are descendants in the focus tree even though they render in
   /// the overlay layer — so this fires only on true entry / exit.
   void _onSubtreeFocusChange(bool hasFocus) {
+    // TEMP DIAGNOSTIC — see _fieldKeyEventFallback note.
+    // ignore: avoid_print
+    print('[typeahead] subtreeFocus=$hasFocus '
+        'isOpen=${_suggestionsController.isOpen} '
+        'state=${_suggestionsController.focusState}');
     if (hasFocus) {
       _focusGainAt = DateTime.now();
       _savedText = widget.controller.text;
