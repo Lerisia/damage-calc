@@ -1,21 +1,8 @@
-// One-shot kill service worker.
-//
-// Older Flutter builds shipped an offline-first PWA service worker
-// that cached every asset; deploying a fix didn't reach users until
-// their SW noticed the update (usually 2 page-loads of delay), and
-// in the meantime they were stuck on the buggy cached version.
-//
-// All future builds use `flutter build web --pwa-strategy=none`, so
-// no SW is generated. This file replaces the cached SW one final
-// time with a body that:
-//   1. Takes control of open pages immediately (claim()).
-//   2. Deletes every Cache API entry the old SW had populated.
-//   3. Unregisters itself.
-//   4. Triggers a reload so the page re-fetches fresh assets from
-//      the network on the next paint.
-//
-// Once a user has hit this once, they have no SW and no stale
-// caches; future deploys land instantly.
+// One-shot kill service worker — see reference_deploy_procedure.
+// Installs, claims open clients, deletes every Cache API entry, then
+// unregisters itself. Future deploys ship with --pwa-strategy=none
+// so no SW is generated; this file is the migration path for users
+// who still have the old offline-first SW registered.
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
