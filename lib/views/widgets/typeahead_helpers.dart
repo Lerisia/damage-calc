@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 export 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../utils/app_strings.dart';
@@ -134,12 +135,44 @@ class _TypeAheadFieldHost<T> extends StatefulWidget {
 class _TypeAheadFieldHostState<T> extends State<_TypeAheadFieldHost<T>> {
   late final SuggestionsController<T> _suggestionsController =
       SuggestionsController<T>();
+  // We own the field's FocusNode when the caller doesn't pass one so
+  // we can install our own onKeyEvent handler BEFORE the package's
+  // SuggestionsFieldTraversalConnector wraps it. The connector wraps
+  // by replacing focusNode.onKeyEvent with a function that calls
+  // the previous handler on `ignored` — so our handler becomes the
+  // fall-through path when the package's check (direction match,
+  // isOpen, etc.) doesn't trigger focusBox. Practical effect: ↓ and
+  // ↑ always enter the box on a typeahead with an open list,
+  // regardless of the autoFlipDirection / effectiveDirection state.
+  FocusNode? _ownedFocusNode;
   String? _savedText;
   DateTime? _focusGainAt;
+
+  FocusNode get _effectiveFocusNode =>
+      widget.focusNode ?? (_ownedFocusNode ??= FocusNode());
+
+  @override
+  void initState() {
+    super.initState();
+    // Install fallback BEFORE TypeAheadField's first build, so the
+    // package's connector wraps it instead of clobbering.
+    _effectiveFocusNode.onKeyEvent = _fieldKeyEventFallback;
+  }
+
+  KeyEventResult _fieldKeyEventFallback(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent) return KeyEventResult.ignored;
+    if (!_suggestionsController.isOpen) return KeyEventResult.ignored;
+    final isArrowDown = event.logicalKey == LogicalKeyboardKey.arrowDown;
+    final isArrowUp = event.logicalKey == LogicalKeyboardKey.arrowUp;
+    if (!(isArrowDown || isArrowUp)) return KeyEventResult.ignored;
+    _suggestionsController.focusBox();
+    return KeyEventResult.handled;
+  }
 
   @override
   void dispose() {
     _suggestionsController.dispose();
+    _ownedFocusNode?.dispose();
     super.dispose();
   }
 
@@ -185,7 +218,7 @@ class _TypeAheadFieldHostState<T> extends State<_TypeAheadFieldHost<T>> {
       onFocusChange: _onSubtreeFocusChange,
       child: TypeAheadField<T>(
         controller: widget.controller,
-        focusNode: widget.focusNode,
+        focusNode: _effectiveFocusNode,
         suggestionsController: _suggestionsController,
         debounceDuration: Duration.zero,
         animationDuration: Duration.zero,
