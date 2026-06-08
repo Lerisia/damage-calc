@@ -970,7 +970,8 @@
     "accuracy": 95,
     "pp": 15,
     "tags": [
-      "contact"
+      "contact",
+      "recoil"
     ],
     "nameEn": "Supercell Slam",
     "zPower": 180,

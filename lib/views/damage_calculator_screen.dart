@@ -6,7 +6,6 @@ import '../data/pokedex.dart';
 import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
-import '../utils/theme_controller.dart';
 import '../models/move_tags.dart';
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
@@ -16,11 +15,9 @@ import '../utils/calc_handoff.dart';
 import '../utils/sample_save_flow.dart';
 import '../utils/simple_mode_controller.dart';
 import 'root_shell.dart';
-import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/first_launch_scope_dialog.dart';
 import 'widgets/reverse_calc_dialog.dart';
-import 'widgets/sprite_style_dialog.dart';
 import '../utils/sprite_pack_manager.dart';
 import 'dex_screen.dart' show DexPickResult;
 import 'simple_mode_screen.dart';
@@ -638,13 +635,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => const AppAboutDialog(),
-    );
-  }
-
   /// Open the Pokédex screen, optionally focused on a specific
   /// Pokemon. [initialName] mirrors [BattlePokemonState.pokemonName]
   /// when invoked from the per-side panel "open in dex" button.
@@ -677,18 +667,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
   }
 
-  void _openTeamCoverage() {
-    RootShell.of(context).setTab(AppNavTab.teamBuilder);
-  }
-
-  void _openMoveDex({String? initialMoveName}) {
-    final shell = RootShell.of(context);
-    if (initialMoveName != null) {
-      shell.requestMoveDexDetail(initialMoveName);
-    } else {
-      shell.setTab(AppNavTab.moveDex);
-    }
-  }
 
   // Language / sprite-style / about helpers moved to AppSettingsMenu.
   // _showAboutDialog stays — the footer credit-line still opens it.
@@ -1322,87 +1300,27 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w600)),
               ),
-              // Wide layout keeps the in-toolbar dex/team entries
-              // because the shared bottom nav is hidden ≥1050 px (the
-              // bar would stretch into awkward whitespace at those
-              // widths). Narrow layouts get those features from the
-              // bottom nav, so this block is only meaningful here.
-              PopupMenuButton<String>(
-                tooltip: AppStrings.t('dex.menu'),
-                popUpAnimationStyle: AnimationStyle(
-                    duration: const Duration(milliseconds: 100)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.menu_book_outlined, size: 18),
-                      const SizedBox(width: 6),
-                      Text(AppStrings.t('dex.menu'),
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600)),
-                      const Icon(Icons.arrow_drop_down, size: 18),
-                    ],
-                  ),
-                ),
-                itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: 'pokemon',
-                    child: Row(children: [
-                      const Icon(Icons.menu_book_outlined, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('dex.title')),
-                    ]),
-                  ),
-                  PopupMenuItem(
-                    value: 'move',
-                    child: Row(children: [
-                      const Icon(Icons.format_list_bulleted, size: 20),
-                      const SizedBox(width: 8),
-                      Text(AppStrings.t('dex.move.title')),
-                    ]),
-                  ),
-                ],
-                onSelected: (v) {
-                  if (v == 'pokemon') _openDex();
-                  if (v == 'move') _openMoveDex();
+              // Dex / Move Dex / Team Builder toolbar entries lived
+              // here back when the shared bottom nav was hidden on
+              // wide layouts. The bar is now always visible (see
+              // AppBottomNav), so these duplicated the same tab
+              // switches one row apart and were just clutter.
+              const Spacer(),
+              // Single overflow menu — same component the narrow
+              // layout uses below. Wide layout used to surface
+              // sprite-style / language / theme / about as separate
+              // icon buttons; the user asked to consolidate, matching
+              // mobile's "one ⋮ button" affordance.
+              AppSettingsMenu(
+                onLanguageChanged: () {
+                  _loadAbilities();
+                  _loadItems();
+                  setState(() {
+                    _resetCounter++;
+                  });
                 },
               ),
-              TextButton.icon(
-                onPressed: _openTeamCoverage,
-                icon: const Icon(Icons.shield_outlined),
-                label: Text(AppStrings.t('team.title'),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600)),
-              ),
-              const Spacer(),
-              // Wide-layout toolbar didn't have the sprite-style entry
-              // — narrow's overflow menu had it but wide users had no
-              // way to reach the dialog short of leaving Extended Mode.
-              IconButton(
-                tooltip: AppStrings.t('app.spriteStyle'),
-                visualDensity: VisualDensity.compact,
-                icon: const Icon(Icons.catching_pokemon, size: 20),
-                onPressed: () => showSpriteStyleDialog(context),
-              ),
-              const SizedBox(width: 4),
-              _LanguageButton(onChanged: () { _loadAbilities(); _loadItems(); setState(() { _resetCounter++; }); }),
-              const SizedBox(width: 4),
-              const _ThemeToggleButton(),
               const SizedBox(width: 8),
-              GestureDetector(
-                onTap: () => _showAboutDialog(context),
-                child: Text(
-                  AppStrings.t('app.title'),
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.5,
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
             ] else ...[
               // Mobile: battle conditions fills the left-hand gap up to
               // the swap/reset/menu cluster. Expanded + align-left lets
@@ -2529,88 +2447,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         abilityNameMap: _abilityNameMap,
         itemNameMap: _itemNameMap,
       );
-}
-
-/// Compact language toggle button for wide AppBar.
-class _LanguageButton extends StatelessWidget {
-  final VoidCallback onChanged;
-  const _LanguageButton({required this.onChanged});
-
-  static const _langLabels = {
-    AppLanguage.ko: '한국어',
-    AppLanguage.en: 'English',
-    AppLanguage.ja: '日本語',
-  };
-
-  static const _langCodes = {
-    AppLanguage.ko: '🇰🇷',
-    AppLanguage.en: '🇺🇸',
-    AppLanguage.ja: '🇯🇵',
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton<AppLanguage>(
-      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-      onSelected: (lang) {
-        AppStrings.setLanguage(lang);
-        onChanged();
-      },
-      itemBuilder: (_) => AppLanguage.values.map((lang) =>
-        PopupMenuItem(
-          value: lang,
-          child: Row(
-            children: [
-              Text('${_langCodes[lang]!} ', style: const TextStyle(fontSize: 16)),
-              Text(_langLabels[lang]!,
-                style: TextStyle(
-                  fontWeight: AppStrings.current == lang ? FontWeight.bold : FontWeight.normal,
-                  color: AppStrings.current == lang ? Theme.of(context).colorScheme.primary : null,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ).toList(),
-      padding: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        child: Text(_langCodes[AppStrings.current]!,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Theme toggle for wide AppBar. Shows a sun icon in dark mode, moon in light.
-class _ThemeToggleButton extends StatelessWidget {
-  const _ThemeToggleButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: ThemeController.instance.mode,
-      builder: (context, mode, _) {
-        final isDark = mode == ThemeMode.dark;
-        return IconButton(
-          onPressed: () => ThemeController.instance.toggle(),
-          icon: Icon(
-            isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
-            size: 20,
-          ),
-          tooltip: isDark
-              ? AppStrings.t('app.themeLight')
-              : AppStrings.t('app.themeDark'),
-          padding: const EdgeInsets.all(6),
-          constraints: const BoxConstraints(),
-          visualDensity: VisualDensity.compact,
-        );
-      },
-    );
-  }
 }
 
 /// About dialog.
