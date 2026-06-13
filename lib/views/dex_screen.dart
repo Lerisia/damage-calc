@@ -546,13 +546,11 @@ class _DexScreenState extends State<DexScreen> {
               border: const OutlineInputBorder(),
             ),
             onChanged: (_) => setState(() {}),
-            onSubmitted: (_) {
-              final r = _filteredPokemon(_searchCtl.text);
-              if (r.isNotEmpty) {
-                _searchFocus.unfocus();
-                _pickPokemon(r.first, pushOnTap);
-              }
-            },
+            // Dex browse — Enter only dismisses the keyboard. Per
+            // user direction, browsing the dex should NEVER auto-pick
+            // the top result on submit (that's calc-picker behaviour,
+            // not browse). The user explicitly taps a row to view it.
+            onSubmitted: (_) => _searchFocus.unfocus(),
           ),
         ),
         Padding(
