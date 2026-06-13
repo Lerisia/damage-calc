@@ -13,7 +13,7 @@
     "aliases": [
       "가로챔"
     ],
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대가 사용하려고 한 회복 기술이나 능력 변화 기술을 가로채서 자신이 쓴다. 리플렉터·빛의장막·아로마테라피·순풍·전자부유·대타출동 등도 빼앗을 수 있다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -28,7 +28,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Tickle",
-    "descKo": "몸을 간질여 웃게 만들어서 상대의 공격과 방어를 떨어뜨린다.",
+    "descKo": "몸을 간질여 웃게 만들어서 상대의 공격과 방어를 각각 1랭크씩 떨어뜨린다.",
     "descEn": "The user tickles the target into laughing, lowering its Attack and Defense stats.",
     "descJa": "体を　くすぐり　笑わせる　ことで 相手の　攻撃と　防御を　さげる。"
   },
@@ -62,7 +62,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Fake Tears",
-    "descKo": "우는 척을 하며 눈물을 흘린다. 난처하게 만들어 상대의 특수방어를 크게 떨어뜨린다.",
+    "descKo": "우는 척을 하며 눈물을 흘려 상대를 난처하게 만들어 상대의 특수방어를 2랭크 떨어뜨린다.",
     "descEn": "The user feigns crying to fluster the target. This harshly lowers the target's Sp. Def stat.",
     "descJa": "ないた　ふりをして　涙を　流す。 こまらせる　ことで 相手の　特防を　がくっと　さげる。"
   },
@@ -97,7 +97,7 @@
       "sound"
     ],
     "nameEn": "Metal Sound",
-    "descKo": "금속을 긁을 때 나는 듯한 싫은 소리를 들려준다. 상대의 특수방어를 크게 떨어뜨린다.",
+    "descKo": "금속을 긁을 때 나는 듯한 싫은 소리를 들려준다. 상대의 특수방어를 2랭크 떨어뜨린다.",
     "descEn": "A horrible sound like scraping metal harshly lowers the target's Sp. Def stat.",
     "descJa": "金属を　こすって　でるような いやな　音を　聞かせる。 相手の　特防を　がくっと　さげる。"
   },
@@ -135,7 +135,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Feather Dance",
-    "descKo": "깃털을 흩뿌려 상대의 몸에 휘감는다. 상대의 공격을 크게 떨어뜨린다.",
+    "descKo": "깃털을 흩뿌려 상대의 몸에 휘감는다. 상대의 공격을 2랭크 떨어뜨린다.",
     "descEn": "The user covers the target's body with a mass of down that harshly lowers its Attack stat.",
     "descJa": "羽毛を　ふりまいて 相手の　体に　からませる。 相手の　攻撃を　がくっと　さげる。"
   },
@@ -156,7 +156,7 @@
       "깨트리다"
     ],
     "zPower": 140,
-    "descKo": "수도로 기세 좋게 내려쳐서 상대를 공격한다. 빛의장막이나 리플렉터 등도 파괴할 수 있다.",
+    "descKo": "수도로 기세 좋게 내려쳐서 상대를 공격한다. 빛의장막·리플렉터·오로라베일을 부수고 데미지를 준다.",
     "descEn": "The user attacks with a swift chop. This move can also break barriers, such as Light Screen and Reflect.",
     "descJa": "手刀を　勢いよく　振りおろして 相手を　攻撃する。　ひかりのかべや リフレクター　なども　破壊できる。"
   },
@@ -171,7 +171,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Swallow",
-    "descKo": "비축된 힘을 꿀꺽해서 자신의 HP를 회복한다. 비축된 만큼 회복한다.",
+    "descKo": "비축된 힘을 꿀꺽해서 자신의 HP를 회복한다. 비축 1단계는 25%, 2단계는 50%, 3단계는 100% 회복한다.",
     "descEn": "The power stored using the move Stockpile is absorbed by the user to restore its own HP. The more power is stored, the more HP is restored.",
     "descJa": "蓄えた　力を　のみこんで 自分の　ＨＰを　回復する。 蓄えているほど　回復する。"
   },
@@ -187,7 +187,7 @@
     "priority": 2,
     "tags": [],
     "nameEn": "Follow Me",
-    "descKo": "자신에게 주목시켜 상대로부터의 공격을 모두 자신에게 향하게 한다.",
+    "descKo": "자신에게 주목시켜 그 턴 상대의 단일 대상 공격을 모두 자신에게 향하게 한다. 더블/트리플 배틀 전용이다.",
     "descEn": "The user draws attention to itself, making all opposing Pokémon take aim only at the user.",
     "descJa": "自分に　注目させて 相手からの　攻撃を すべて　自分に　むけさせる。"
   },
@@ -202,7 +202,7 @@
     "pp": 40,
     "tags": [],
     "nameEn": "Odor Sleuth",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대의 냄새를 맡아 상대의 회피율 변화를 무효로 한다. 또한 고스트 타입 상대에게 노말·격투 타입 기술이 통하게 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -254,7 +254,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Will-O-Wisp",
-    "descKo": "으스스하고 괴상한 불꽃을 쏘아 상대를 화상 상태로 만든다.",
+    "descKo": "으스스하고 괴상한 불꽃을 쏘아 명중률 85%로 상대를 화상 상태로 만든다.",
     "descEn": "The user shoots a sinister flame at the target to inflict a burn.",
     "descJa": "不気味で　怪しい　炎を　放って 相手を　やけどの　状態に　する。"
   },
@@ -285,7 +285,7 @@
     "priority": 5,
     "tags": [],
     "nameEn": "Helping Hand",
-    "descKo": "동료를 돕는다. 도움받은 포켓몬이 쓰는 기술의 위력은 여느 때보다 커진다.",
+    "descKo": "동료를 돕는다. 도움받은 포켓몬이 그 턴에 쓰는 기술의 위력이 1.5배가 된다. 더블 배틀 전용이다.",
     "descEn": "The user assists an ally by boosting the power of that ally's attack.",
     "descJa": "仲間を　助ける。 てだすけ　された　ポケモンの　技の 威力は　いつもより　大きくなる。"
   },
@@ -308,7 +308,7 @@
       "독엄니"
     ],
     "zPower": 100,
-    "descKo": "독이 있는 이빨로 상대를 물어서 공격한다. 맹독을 주입할 때가 있다.",
+    "descKo": "독이 있는 이빨로 상대를 물어서 공격한다. 50% 확률로 상대를 맹독 상태로 만든다.",
     "descEn": "The user bites the target with toxic fangs. This may also leave the target badly poisoned.",
     "descJa": "毒の　ある　キバで 相手に　かみついて　攻撃する。 猛毒を　おわせる　ことが　ある。"
   },
@@ -353,7 +353,7 @@
       "뛰어오르다"
     ],
     "zPower": 160,
-    "descKo": "하늘 높이 뛰어올라 2턴째에 상대를 공격한다. 마비 상태로 만들 때가 있다.",
+    "descKo": "1턴째에 하늘 높이 뛰어올라 2턴째에 상대를 공격한다. 30% 확률로 상대를 마비 상태로 만든다.",
     "descEn": "The user bounces up high on the first turn, then drops onto the target on the next turn. This may also leave the target with paralysis.",
     "descJa": "空高く　飛び跳ねて ２ターン目に　相手を　攻撃する。 まひ状態に　することが　ある。"
   },
@@ -449,7 +449,7 @@
     "aliases": [
       "리프레쉬"
     ],
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "몸을 쉬게 하여 자신의 독, 마비, 화상 상태이상을 회복한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -524,7 +524,7 @@
     "aliases": [
       "멀리짖음"
     ],
-    "descKo": "큰 소리로 짖고 기합을 높여 자신과 같은 편의 공격을 올린다.",
+    "descKo": "큰 소리로 짖고 기합을 높여 자신의 공격을 1랭크 올린다.",
     "descEn": "The user howls loudly to rouse itself and its allies. This boosts their Attack stats.",
     "descJa": "大声で　ほえて　気合を　高め 自分と　味方の　攻撃を　あげる。"
   },
@@ -589,7 +589,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Water Sport",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "물을 흩뿌려서 5턴 동안 불꽃 타입 기술의 위력을 약하게 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -646,7 +646,7 @@
     ],
     "nameEn": "Needle Arm",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "가시 돋친 팔을 휘둘러서 공격한다. 30% 확률로 상대를 풀죽음 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -661,7 +661,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Tail Glow",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "꼬리의 빛을 응시하여 정신을 집중한다. 자신의 특수공격을 3랭크 올린다.",
     "descEn": "This move can't be used. It's recommended that this move is forgotten. Once forgotten, this move can't be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -691,7 +691,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Camouflage",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "있는 장소에 따라 자신의 타입을 바꾼다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -711,7 +711,7 @@
     ],
     "nameEn": "Volt Tackle",
     "zPower": 190,
-    "descKo": "전기를 한데 모아 돌진한다. 자신도 상당한 데미지를 입는다. 마비 상태로 만들 때가 있다.",
+    "descKo": "전기를 한데 모아 돌진한다. 상대에게 준 데미지의 1/3을 반동으로 입는다. 10% 확률로 상대를 마비 상태로 만든다.",
     "descEn": "The user electrifies itself and charges the target. This also damages the user quite a lot. This attack may leave the target with paralysis.",
     "descJa": "電気を　まとって　突進する。 自分も　かなり　ダメージを　受ける。 まひ状態に　することが　ある。"
   },
@@ -804,7 +804,7 @@
       "브레이크크루"
     ],
     "zPower": 140,
-    "descKo": "단단하고 날카로운 손톱으로 베어 갈라서 공격한다. 상대의 방어를 떨어뜨릴 때가 있다.",
+    "descKo": "단단하고 날카로운 손톱으로 베어 갈라서 공격한다. 50% 확률로 상대의 방어를 1랭크 떨어뜨린다.",
     "descEn": "The user slashes the target with hard and sharp claws. This may also lower the target's Defense stat.",
     "descJa": "硬く　鋭い　ツメで 切り裂いて　攻撃する。 相手の　防御を　さげることが　ある。"
   },
@@ -856,7 +856,7 @@
     ],
     "nameEn": "Secret Power",
     "zPower": 140,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "있는 장소에 따라 추가 효과가 달라지는 공격이다. 30% 확률로 부가 효과가 발동한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -902,7 +902,7 @@
     "tags": [],
     "nameEn": "Psycho Boost",
     "zPower": 200,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "전력을 다해 상대를 공격한다. 사용한 후에는 자신의 특수공격이 2랭크 떨어진다.",
     "descEn": "The user attacks the target with all its might. The recoil from this move harshly lowers the user's Sp. Atk stat.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -939,7 +939,7 @@
     ],
     "nameEn": "Uproar",
     "zPower": 175,
-    "descKo": "3턴 동안 소란 피워 공격한다. 그동안은 아무도 잠들지 않게 된다.",
+    "descKo": "3턴 동안 소란 피워 공격한다. 효과 중에는 모든 포켓몬이 잠들 수 없으며, 사용자는 같은 기술을 강제로 반복한다.",
     "descEn": "The user attacks in an uproar for three turns. During that time, no Pokémon can fall asleep.",
     "descJa": "３ターンの　間 騒いで　相手を　攻撃する。 そのあいだは　だれも　眠れなくなる。"
   },
@@ -1004,7 +1004,7 @@
       "스카이업퍼"
     ],
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "하늘을 찌를 듯한 어퍼컷으로 상대를 후려친다. 공중에 있는 상대에게도 명중한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1040,7 +1040,7 @@
     ],
     "nameEn": "Signal Beam",
     "zPower": 140,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "이상한 빛을 발사하여 공격한다. 10% 확률로 상대를 혼란 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1107,7 +1107,7 @@
     ],
     "nameEn": "Ice Ball",
     "zPower": 100,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "5턴 동안 상대를 공격한다. 맞을 때마다 위력이 올라간다. 웅크리기를 사용한 다음 턴에 쓰면 위력이 2배가 된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1181,7 +1181,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Role Play",
-    "descKo": "상대의 역할을 하여 자신도 상대와 같은 특성으로 변화한다.",
+    "descKo": "상대의 역할을 하여 자신의 특성을 상대의 특성으로 바꾼다.",
     "descEn": "The user mimics the target completely, copying the target's Ability.",
     "descJa": "相手に　なりきって　自分も　相手と 同じ　特性に　変化する。"
   },
@@ -1201,7 +1201,7 @@
     ],
     "nameEn": "Heat Wave",
     "zPower": 175,
-    "descKo": "뜨거운 숨결을 상대에게 내뿜어 공격한다. 화상 상태로 만들 때가 있다.",
+    "descKo": "뜨거운 숨결을 상대에게 내뿜어 공격한다. 10% 확률로 상대를 화상 상태로 만들며, 더블에서는 상대 전체를 공격한다.",
     "descEn": "The user attacks by exhaling hot breath on opposing Pokémon. This may also leave them with a burn.",
     "descJa": "熱い　息を 相手に　吹きつけて　攻撃する。 やけど状態に　することが　ある。"
   },
@@ -1217,7 +1217,7 @@
     "tags": [],
     "nameEn": "Overheat",
     "zPower": 195,
-    "descKo": "풀 파워로 상대를 공격한다. 쓰면 반동으로 자신의 특수공격이 크게 떨어진다.",
+    "descKo": "풀 파워로 상대를 공격한다. 사용 후 자신의 특수공격이 2랭크 떨어진다.",
     "descEn": "The user attacks the target with all its might. The recoil from this move harshly lowers the user's Sp. Atk stat.",
     "descJa": "フルパワーで　相手を　攻撃する。 使うと　反動で 自分の　特攻が　がくっと　さがる。"
   },
@@ -1283,7 +1283,7 @@
     ],
     "nameEn": "Silver Wind",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "비늘가루가 섞인 바람을 날려서 공격한다. 10% 확률로 자신의 모든 능력치가 1랭크씩 올라간다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1333,7 +1333,7 @@
     ],
     "nameEn": "Sheer Cold",
     "zPower": 180,
-    "descKo": "상대를 일격에 기절시킨다. 얼음타입 이외의 포켓몬이 사용하면 잘 맞지 않는다.",
+    "descKo": "상대를 일격에 기절시킨다. 얼음타입 이외의 포켓몬이 사용하면 잘 맞지 않으며, 7세대부터는 얼음타입에 통하지 않는다.",
     "descEn": "The target faints instantly. This move is less likely to hit the target if used by Pokémon other than Ice types.",
     "descJa": "相手を　一撃で　瀕死に　する。 こおりタイプ　以外の　ポケモンが 使うと　当たりにくい。"
   },
@@ -1352,7 +1352,7 @@
     ],
     "nameEn": "Smelling Salts",
     "zPower": 140,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "마비된 상대에게 위력이 2배가 되는 공격이다. 다만 마비 상태를 풀어준다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1386,7 +1386,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Assist",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "동료의 기술 중 하나를 무작위로 사용한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1449,7 +1449,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Charge",
-    "descKo": "다음 턴에 쓸 전기타입 기술의 위력을 올린다. 자신의 특수방어도 올라간다.",
+    "descKo": "다음 턴에 쓸 전기타입 기술의 위력을 2배로 만든다. 자신의 특수방어도 1랭크 올라간다.",
     "descEn": "The user becomes charged, boosting the power of the next Electric-type move it uses. This also boosts the user's Sp. Def stat.",
     "descJa": "次の　ターンに　だす　でんきタイプの 技の　威力を　あげる。 自分の　特防も　あがる。"
   },
@@ -1469,7 +1469,7 @@
     ],
     "nameEn": "Meteor Mash",
     "zPower": 175,
-    "descKo": "혜성과 같은 펀치를 날려서 상대를 공격한다. 자신의 공격이 올라갈 때가 있다.",
+    "descKo": "혜성과 같은 펀치를 날려서 상대를 공격한다. 20% 확률로 자신의 공격이 1랭크 올라간다.",
     "descEn": "The target is hit with a hard punch fired like a meteor. This may also boost the user’s Attack stat.",
     "descJa": "すい星の　ごとく　パンチを　くりだして 相手を　攻撃する。　自分の 攻撃が　あがることが　ある。"
   },
@@ -1503,7 +1503,7 @@
     ],
     "nameEn": "Muddy Water",
     "zPower": 175,
-    "descKo": "탁해진 물을 상대에게 발사하여 공격한다. 명중률을 떨어뜨릴 때가 있다.",
+    "descKo": "탁해진 물을 상대에게 발사하여 공격한다. 30% 확률로 상대의 명중률을 1랭크 떨어뜨린다.",
     "descEn": "The user attacks by shooting muddy water at opposing Pokémon. This may also lower their accuracy.",
     "descJa": "濁った　水を 相手に　発射して　攻撃する。 命中率を　さげることが　ある。"
   },
@@ -1522,7 +1522,7 @@
     ],
     "nameEn": "Knock Off",
     "zPower": 120,
-    "descKo": "상대의 지닌 물건을 탁 쳐서 떨어뜨려 배틀이 끝날 때까지 사용할 수 없게 한다. 물건을 가진 상대에게는 데미지를 더 준다.",
+    "descKo": "상대의 지닌 물건을 탁 쳐서 떨어뜨려 배틀이 끝날 때까지 사용할 수 없게 한다. 도구를 지닌 상대에게는 위력이 1.5배가 된다.",
     "descEn": "The user slaps down the target's held item, making it unusable for that battle. This move does more damage if the target has a held item.",
     "descJa": "相手の　持ち物を　はたき　落として 戦闘が　終わるまで　使えなくする。 物を持つ　相手には　ダメージが増す。"
   },
@@ -1659,7 +1659,7 @@
       "sound"
     ],
     "nameEn": "Grass Whistle",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "기분 좋은 멜로디를 들려주어 상대를 잠들게 한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1777,7 +1777,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Mud Sport",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "주위에 진흙을 발라서 5턴 동안 전기 타입 기술의 위력을 ⅓로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },

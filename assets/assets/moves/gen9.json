@@ -98,7 +98,8 @@
       "custom:has_secondary"
     ],
     "nameEn": "Blazing Torque",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "스타모빌의 전용기. 불꽃을 두른 채 돌진해 상대를 공격한다. 30% 확률로 상대를 화상 상태로 만든다."
   },
   {
     "name": "Blood Moon",
@@ -179,7 +180,8 @@
       "custom:has_secondary"
     ],
     "nameEn": "Combat Torque",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "스타모빌의 전용기. 강렬한 일격으로 상대를 공격하며 30% 확률로 상대를 마비 상태로 만든다."
   },
   {
     "name": "Comeuppance",
@@ -441,7 +443,8 @@
       "custom:has_secondary"
     ],
     "nameEn": "Magical Torque",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "스타모빌의 전용기. 마법의 힘으로 상대를 공격하며 30% 확률로 상대를 혼란 상태로 만든다."
   },
   {
     "name": "Make It Rain",
@@ -510,7 +513,8 @@
       "custom:has_secondary"
     ],
     "nameEn": "Noxious Torque",
-    "zPower": 180
+    "zPower": 180,
+    "descKo": "스타모빌의 전용기. 맹독 공격으로 상대에게 큰 데미지를 주며 30% 확률로 상대를 독 상태로 만든다."
   },
   {
     "name": "Order Up",
@@ -580,7 +584,7 @@
     ],
     "nameEn": "Rage Fist",
     "zPower": 100,
-    "descKo": "분노를 에너지로 바꿔서 공격한다. 받은 공격의 횟수가 많을수록 기술의 위력이 올라간다.",
+    "descKo": "분노를 에너지로 바꿔서 공격한다. 받은 공격 1회당 위력이 50씩 상승하며 최대 위력은 350이다.",
     "descEn": "The user converts its rage into energy to attack. The more times the user has been hit by attacks, the greater the move's power."
   },
   {
@@ -661,7 +665,7 @@
       "custom:switch_out"
     ],
     "nameEn": "Shed Tail",
-    "descKo": "자신의 HP를 깎아서 분신을 만든 뒤 돌아와서 교대 포켓몬과 교체한다.",
+    "descKo": "최대 HP의 1/2을 소비해 대타출동 상태를 만든 뒤 교대 포켓몬과 교체하여 대타출동을 넘겨준다.",
     "descEn": "The user creates a substitute for itself using its own HP before switching places with a party Pokémon in waiting."
   },
   {
@@ -690,7 +694,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Snowscape",
-    "descKo": "5턴 동안 눈을 내리게 한다. 얼음타입의 방어가 올라간다.",
+    "descKo": "5턴 동안 눈 상태로 만든다. 그동안 얼음타입의 방어가 1.5배가 된다.",
     "descEn": "The user summons a snowstorm lasting five turns. This boosts the Defense stats of Ice types."
   },
   {
@@ -856,7 +860,8 @@
       "custom:has_secondary"
     ],
     "nameEn": "Wicked Torque",
-    "zPower": 160
+    "zPower": 160,
+    "descKo": "스타모빌의 전용기. 사악한 기운으로 상대를 공격하며 30% 확률로 상대를 잠듦 상태로 만든다."
   },
   {
     "name": "Upper Hand",

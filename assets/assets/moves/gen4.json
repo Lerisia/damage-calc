@@ -93,7 +93,7 @@
     ],
     "nameEn": "Ominous Wind",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "수상한 바람을 일으켜 상대를 공격한다. 10% 확률로 자신의 모든 능력이 1랭크 올라간다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -108,7 +108,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Embargo",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "5턴 동안 상대가 지닌 도구를 사용할 수 없게 한다. 트레이너도 그 포켓몬에게 도구를 사용할 수 없게 된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -353,7 +353,7 @@
     ],
     "nameEn": "Poison Jab",
     "zPower": 160,
-    "descKo": "독에 물든 촉수나 팔로 상대를 꿰찌른다. 독 상태로 만들 때가 있다.",
+    "descKo": "독에 물든 촉수나 팔로 상대를 꿰찌른다. 30% 확률로 독 상태로 만든다.",
     "descEn": "The target is stabbed with a tentacle, an arm, or the like steeped in poison. This may also poison the target.",
     "descJa": "毒に　そまった　触手や　腕で 相手を　突き刺す。 毒状態に　することが　ある。"
   },
@@ -434,7 +434,7 @@
       "락클라임"
     ],
     "zPower": 175,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "강렬한 태클로 상대에게 부딪쳐서 공격한다. 20% 확률로 상대를 혼란시킨다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -501,7 +501,7 @@
     ],
     "nameEn": "Magnet Bomb",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "강철 폭탄을 발사하여 상대에게 부딪쳐서 공격한다. 반드시 명중한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -535,7 +535,7 @@
     ],
     "nameEn": "Trump Card",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "남은 PP가 적을수록 위력이 올라가는 기술. PP가 1이 되면 위력 200이 되어 강력한 일격을 날린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -586,7 +586,7 @@
     "pp": 40,
     "tags": [],
     "nameEn": "Miracle Eye",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대의 회피율 랭크 변화를 무효화하고 회피할 수 없게 만든다. 또한 악타입 포켓몬에게도 에스퍼타입 기술이 통하게 한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -607,7 +607,7 @@
       "미러숏"
     ],
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "번쩍이는 빛을 발사하여 상대를 공격한다. 30% 확률로 상대의 명중률을 1랭크 떨어뜨린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -641,7 +641,7 @@
     ],
     "nameEn": "Force Palm",
     "zPower": 120,
-    "descKo": "상대의 몸에 충격파를 부딪쳐 공격한다. 마비 상태로 만들 때가 있다.",
+    "descKo": "상대의 몸에 충격파를 부딪쳐 공격한다. 30% 확률로 마비 상태로 만든다.",
     "descEn": "The target is attacked with a shock wave. This may also leave the target with paralysis.",
     "descJa": "相手の　体に 衝撃波を　当てて　攻撃する。 まひ状態に　することが　ある。"
   },
@@ -676,7 +676,7 @@
     ],
     "nameEn": "Discharge",
     "zPower": 160,
-    "descKo": "눈부신 전격으로 자신의 주위에 있는 포켓몬을 공격한다. 마비 상태로 만들 때가 있다.",
+    "descKo": "눈부신 전격으로 자신의 주위에 있는 포켓몬을 공격한다. 30% 확률로 마비 상태로 만든다.",
     "descEn": "The user strikes everything around it by letting loose a flare of electricity. This may also leave those hit by the attack with paralysis.",
     "descJa": "まばゆい　電撃で　自分の 周りに　いるものを　攻撃する。 まひ状態に　することが　ある。"
   },
@@ -774,7 +774,7 @@
     ],
     "nameEn": "Lava Plume",
     "zPower": 160,
-    "descKo": "새빨간 불꽃으로 자신의 주위에 있는 포켓몬을 공격한다. 화상 상태로 만들 때가 있다.",
+    "descKo": "새빨간 불꽃으로 자신의 주위에 있는 포켓몬을 공격한다. 30% 확률로 화상 상태로 만든다.",
     "descEn": "The user torches everything around it in an inferno of scarlet flames. This may also leave those it hits with a burn.",
     "descJa": "真っ赤な　炎で　自分の 周りに　いるものを　攻撃する。 やけど状態に　することが　ある。"
   },
@@ -940,7 +940,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Me First",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대가 사용하려고 한 기술을 한발 앞서 위력 1.5배로 사용한다. 자신의 행동이 먼저여야 하며, 변화기는 사용할 수 없다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -977,7 +977,7 @@
     ],
     "nameEn": "Chatter",
     "zPower": 120,
-    "descKo": "매우 시끄럽고 수다스러운 음파로 상대를 공격한다. 상대를 혼란시킨다.",
+    "descKo": "매우 시끄럽고 수다스러운 음파로 상대를 공격한다. 100% 확률로 상대를 혼란시킨다.",
     "descEn": "The user attacks the target with sound waves of deafening chatter. This confuses the target.",
     "descJa": "とても　うるさい　おしゃべりの 音波で　相手を　攻撃する。 相手を　混乱させる。"
   },
@@ -994,7 +994,7 @@
       "wind"
     ],
     "nameEn": "Tailwind",
-    "descKo": "세차게 불어대는 바람의 소용돌이를 만들어 4턴 동안 같은 편 모두의 스피드를 올린다.",
+    "descKo": "세차게 불어대는 바람의 소용돌이를 만들어 4턴 동안 같은 편 모두의 스피드를 2배로 만든다.",
     "descEn": "The user whips up a turbulent whirlwind that boosts the Speed stats of itself and its allies for four turns.",
     "descJa": "激しく　吹きあれる 風の渦を　つくり　４ターンの　間 味方　全員の　素早さを　あげる。"
   },
@@ -1149,7 +1149,7 @@
     ],
     "nameEn": "Iron Head",
     "zPower": 160,
-    "descKo": "강철과 같은 단단한 머리로 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descKo": "강철과 같은 단단한 머리로 공격한다. 30% 확률로 상대를 풀죽게 만든다.",
     "descEn": "The user slams the target with its steel-hard head. This may also make the target flinch.",
     "descJa": "鋼の　ような 硬い　頭で　攻撃する。 相手を　ひるませることが　ある。"
   },
@@ -1164,7 +1164,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Aqua Ring",
-    "descKo": "자신의 몸 주변을 물로 만든 베일로 덮는다. 매 턴 HP를 회복한다.",
+    "descKo": "자신의 몸 주변을 물로 만든 베일로 덮는다. 매 턴 최대 HP의 1/16을 회복한다.",
     "descEn": "The user envelops itself in a veil made of water. It regains some HP every turn.",
     "descJa": "自分の　体の　周りを 水で　つくった　ベールで　おおう。 毎ターン　ＨＰを　回復する。"
   },
@@ -1220,7 +1220,7 @@
     ],
     "nameEn": "Dark Pulse",
     "zPower": 160,
-    "descKo": "몸에서 악의로 가득한 무서운 오라를 발한다. 상대를 풀죽게 만들 때가 있다.",
+    "descKo": "몸에서 악의로 가득한 무서운 오라를 발한다. 20% 확률로 상대를 풀죽게 만든다.",
     "descEn": "The user releases a horrible aura imbued with ill intent. This may also make the target flinch.",
     "descJa": "体から　悪意に　みちた 恐ろしい　オーラを　発する。 相手を　ひるませることが　ある。"
   },
@@ -1385,7 +1385,7 @@
     ],
     "nameEn": "Air Slash",
     "zPower": 140,
-    "descKo": "하늘까지 베어 가르는 공기의 칼날로 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descKo": "하늘까지 베어 가르는 공기의 칼날로 공격한다. 30% 확률로 상대를 풀죽게 만든다.",
     "descEn": "The user attacks with a blade of air that slices even the sky. This may also make the target flinch.",
     "descJa": "空をも　切り裂く 空気の　刃で　攻撃する。 相手を　ひるませることが　ある。"
   },
@@ -1487,7 +1487,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Captivate",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대가 자신과 다른 성별이라면 매료시켜 특수공격을 2랭크 떨어뜨린다. 성별이 없는 포켓몬에게는 효과가 없다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1521,7 +1521,7 @@
     "tags": [],
     "nameEn": "Natural Gift",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "지니고 있는 나무열매의 힘으로 공격한다. 사용한 열매에 따라 기술 타입과 위력이 달라지며, 한 번 쓰면 열매는 사라진다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1560,7 +1560,7 @@
     ],
     "nameEn": "Wake-Up Slap",
     "zPower": 140,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "잠든 상대에게 사용하면 위력이 2배가 되지만, 잠을 깨우게 된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1590,7 +1590,7 @@
     "pp": 30,
     "tags": [],
     "nameEn": "Lucky Chant",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "하늘을 향해 주술을 외워서 5턴 동안 자신과 아군 포켓몬이 급소에 맞지 않게 한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1624,7 +1624,7 @@
     ],
     "nameEn": "Wring Out",
     "zPower": 190,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대를 강하게 쥐어짜서 공격한다. 상대의 HP가 많을수록 위력이 올라가며 최대 위력은 120이다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1660,7 +1660,7 @@
     ],
     "nameEn": "Mud Bomb",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "단단한 진흙덩어리를 던져서 상대를 공격한다. 30% 확률로 상대의 명중률을 1랭크 떨어뜨린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1696,7 +1696,7 @@
     ],
     "nameEn": "Charge Beam",
     "zPower": 100,
-    "descKo": "전격의 다발을 상대에게 발사한다. 전기를 모아서 자신의 특수공격을 올릴 때가 있다.",
+    "descKo": "전격의 다발을 상대에게 발사한다. 70% 확률로 자신의 특수공격을 1랭크 올린다.",
     "descEn": "The user attacks the target with an electric charge. The residual electricity may also boost the user's Sp. Atk stat.",
     "descJa": "電撃の　束を　相手に 発射する。電気を　ためて　自分の 特攻を　あげることが　ある。"
   },
@@ -1905,7 +1905,7 @@
     ],
     "nameEn": "Flare Blitz",
     "zPower": 190,
-    "descKo": "불꽃을 두르고 돌진한다. 자신도 상당한 데미지를 입는다. 화상 상태로 만들 때가 있다.",
+    "descKo": "불꽃을 두르고 돌진한다. 자신도 상당한 데미지를 입는다. 10% 확률로 화상 상태로 만든다.",
     "descEn": "The user cloaks itself in fire and charges the target to inflict damage. This also damages the user quite a lot and may leave the target with a burn.",
     "descJa": "炎を　まとって　突進する。 自分も　かなり　ダメージを　受ける。 やけど状態に　することが　ある。"
   },
@@ -1923,7 +1923,7 @@
     "aliases": [
       "하트스웹"
     ],
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "염력을 사용하여 자신과 상대의 능력 변화를 서로 교체한다.",
     "descEn": "The user employs its psychic power to switch stat changes with the target.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1941,7 +1941,7 @@
     ],
     "nameEn": "Punishment",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대의 능력이 올라가 있을수록 위력이 올라가는 기술. 기본 위력 60에 상대의 랭크업에 따라 위력이 가산된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1956,7 +1956,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Heal Block",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "5턴 동안 상대가 기술이나 특성, 도구로 HP를 회복할 수 없게 한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1971,7 +1971,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Heal Order",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "부하를 불러서 치료받는다. 자신의 최대 HP의 절반을 회복한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },

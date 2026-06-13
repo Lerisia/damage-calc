@@ -10,7 +10,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "10,000,000 Volt Thunderbolt"
+    "nameEn": "10,000,000 Volt Thunderbolt",
+    "descKo": "지우피카츄가 모자에 모은 전기를 한꺼번에 발사해서 상대에게 강력한 일격을 가하는 Z기술. 급소에 맞기 쉽다."
   },
   {
     "name": "High Horsepower",
@@ -82,7 +83,7 @@
     ],
     "nameEn": "Power Trip",
     "zPower": 160,
-    "descKo": "자신의 강함을 뻐기고 공격한다. 자신의 능력이 올라가 있는 만큼 위력이 오른다.",
+    "descKo": "자신의 강함을 뻐기고 공격한다. 기본 위력 20에 자신의 랭크 상승 합계당 위력이 20씩 더해진다.",
     "descEn": "The user boasts its strength and attacks the target. The more the user's stats are boosted, the greater the move's power.",
     "descJa": "自分の　強さを　鼻高々に 攻撃する。自分の　能力が あがって　いるほど　威力が　あがる。"
   },
@@ -117,7 +118,7 @@
     "tags": [],
     "nameEn": "Freezy Frost",
     "zPower": 180,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "차가운 얼음의 결정으로 상대를 공격한다. 모든 포켓몬의 능력 변화를 원래대로 되돌린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -167,7 +168,7 @@
     "moveClass": "zMove",
     "tags": [],
     "nameEn": "Extreme Evoboost",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "이브이의 진화체들의 힘을 빌려서 자신의 공격, 방어, 특수공격, 특수방어, 스피드를 2랭크씩 올린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -197,7 +198,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Inferno Overdrive"
+    "nameEn": "Inferno Overdrive",
+    "descKo": "Z파워로 강화된 불꽃의 힘을 모은 후 상대에게 발사하여 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Inferno Overdrive",
@@ -210,7 +212,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Inferno Overdrive"
+    "nameEn": "Inferno Overdrive",
+    "descKo": "Z파워로 강화된 불꽃의 힘을 모은 후 상대에게 발사하여 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Double Iron Bash",
@@ -264,7 +267,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Toxic Thread",
-    "descKo": "독이 섞인 실을 뿜어낸다. 상대를 독 상태로 만들고 스피드를 떨어뜨린다.",
+    "descKo": "독이 섞인 실을 뿜어낸다. 상대를 독 상태로 만들고 스피드를 1랭크 떨어뜨린다.",
     "descEn": "The user shoots poisonous threads to poison the target and lower the target's Speed stat.",
     "descJa": "毒の　混じった　糸を　吹き付ける。 相手を　毒にして 素早さを　さげる。"
   },
@@ -283,7 +286,7 @@
     ],
     "nameEn": "Floaty Fall",
     "zPower": 175,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "둥실 떠올랐다가 거꾸로 떨어지면서 상대를 공격한다. 30% 확률로 상대를 풀죽음 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -316,7 +319,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Tectonic Rage"
+    "nameEn": "Tectonic Rage",
+    "descKo": "Z파워로 강화된 땅의 힘으로 상대를 지면 깊숙이 끌어내려 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Tectonic Rage",
@@ -329,7 +333,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Tectonic Rage"
+    "nameEn": "Tectonic Rage",
+    "descKo": "Z파워로 강화된 땅의 힘으로 상대를 지면 깊숙이 끌어내려 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Stoked Sparksurfer",
@@ -345,7 +350,7 @@
       "custom:has_secondary"
     ],
     "nameEn": "Stoked Sparksurfer",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "꼬리를 서핑보드 삼아 전기를 모은 후 상대에게 돌진하여 강력한 전격을 날리는 Z기술. 반드시 상대를 마비 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -360,7 +365,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Twinkle Tackle"
+    "nameEn": "Twinkle Tackle",
+    "descKo": "Z파워로 강화된 페어리의 힘으로 상대를 매료시킨 후 별모양의 에너지로 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Twinkle Tackle",
@@ -373,7 +379,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Twinkle Tackle"
+    "nameEn": "Twinkle Tackle",
+    "descKo": "Z파워로 강화된 페어리의 힘으로 상대를 매료시킨 후 별모양의 에너지로 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Splintered Stormshards",
@@ -387,7 +394,7 @@
     "moveClass": "zMove",
     "tags": [],
     "nameEn": "Splintered Stormshards",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "공중에 띄운 날카로운 바위 조각들을 회전하며 상대에게 일제히 쏟아붓는 Z기술. 필드 상태를 모두 지워버린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -402,7 +409,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Subzero Slammer"
+    "nameEn": "Subzero Slammer",
+    "descKo": "Z파워로 강화된 얼음의 힘으로 상대를 차가운 광선으로 얼려서 부숴버리는 Z기술."
   },
   {
     "name": "Subzero Slammer",
@@ -415,7 +423,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Subzero Slammer"
+    "nameEn": "Subzero Slammer",
+    "descKo": "Z파워로 강화된 얼음의 힘으로 상대를 차가운 광선으로 얼려서 부숴버리는 Z기술."
   },
   {
     "name": "First Impression",
@@ -447,7 +456,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Shattered Psyche"
+    "nameEn": "Shattered Psyche",
+    "descKo": "Z파워로 강화된 사이코 파워로 주변을 이상한 공간으로 만든 후 상대를 깨트려 날려버리는 Z기술."
   },
   {
     "name": "Shattered Psyche",
@@ -460,7 +470,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Shattered Psyche"
+    "nameEn": "Shattered Psyche",
+    "descKo": "Z파워로 강화된 사이코 파워로 주변을 이상한 공간으로 만든 후 상대를 깨트려 날려버리는 Z기술."
   },
   {
     "name": "Multi-Attack",
@@ -525,7 +536,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Never-Ending Nightmare"
+    "nameEn": "Never-Ending Nightmare",
+    "descKo": "Z파워로 강화된 고스트의 힘으로 상대를 끝없는 어둠 속으로 끌어들여 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Never-Ending Nightmare",
@@ -538,7 +550,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Never-Ending Nightmare"
+    "nameEn": "Never-Ending Nightmare",
+    "descKo": "Z파워로 강화된 고스트의 힘으로 상대를 끝없는 어둠 속으로 끌어들여 강력한 일격을 가하는 Z기술."
   },
   {
     "name": "Menacing Moonraze Maelstrom",
@@ -552,7 +565,7 @@
     "moveClass": "zMove",
     "tags": [],
     "nameEn": "Menacing Moonraze Maelstrom",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "울트라홀을 열어 상대를 울트라스페이스로 보낸 후 여섯 갈래의 광선을 발사하는 Z기술. 상대의 능력 변화를 무시한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -573,7 +586,7 @@
     ],
     "nameEn": "Sparkling Aria",
     "zPower": 175,
-    "descKo": "노래 부르는 것으로 많은 벌룬을 방출한다. 기술에 맞으면 화상이 낫는다.",
+    "descKo": "노래 부르며 많은 물풍선을 방출한다. 이 기술에 맞은 상대는 화상이 낫는다.",
     "descEn": "The user bursts into song, emitting many bubbles. Any Pokémon suffering from a burn will be cured by the touch of these bubbles.",
     "descJa": "歌うことによって　たくさんの バルーンを　放出する。 技を　受けると　やけどが　治る。"
   },
@@ -589,7 +602,7 @@
     "moveClass": "zMove",
     "tags": [],
     "nameEn": "Oceanic Operetta",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "Z파워로 강화된 거대한 물의 결정을 만들어 상대에게 떨어뜨려 강력한 일격을 가하는 Z기술.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -605,7 +618,7 @@
     "tags": [],
     "nameEn": "Sparkly Swirl",
     "zPower": 190,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "달콤한 향기에 휘말리게 해서 상대를 공격한다. 자신의 편의 모든 포켓몬의 상태 이상을 회복시킨다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -695,7 +708,7 @@
       "sound"
     ],
     "nameEn": "Clangorous Soulblaze",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "짜랑고우거의 전용 Z기술. 위력 185로 상대 전체를 공격하고 사용 후 자신의 모든 능력을 1랭크씩 올린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -713,7 +726,7 @@
     ],
     "nameEn": "Veevee Volley",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 트레이너와의 친밀도가 높을수록 위력이 올라가는 노말타입 물리기술이다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -728,7 +741,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Black Hole Eclipse"
+    "nameEn": "Black Hole Eclipse",
+    "descKo": "악Z를 장착하고 사용하는 악타입 범용 Z기술. 블랙홀로 상대를 빨아들여 강력한 데미지를 준다."
   },
   {
     "name": "Black Hole Eclipse",
@@ -741,7 +755,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Black Hole Eclipse"
+    "nameEn": "Black Hole Eclipse",
+    "descKo": "악Z를 장착하고 사용하는 악타입 범용 Z기술. 블랙홀로 상대를 빨아들여 강력한 데미지를 준다."
   },
   {
     "name": "Bloom Doom",
@@ -754,7 +769,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Bloom Doom"
+    "nameEn": "Bloom Doom",
+    "descKo": "풀Z를 장착하고 사용하는 풀타입 범용 Z기술. 꽃의 에너지를 모아 거대한 폭발로 상대를 공격한다."
   },
   {
     "name": "Bloom Doom",
@@ -767,7 +783,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Bloom Doom"
+    "nameEn": "Bloom Doom",
+    "descKo": "풀Z를 장착하고 사용하는 풀타입 범용 Z기술. 꽃의 에너지를 모아 거대한 폭발로 상대를 공격한다."
   },
   {
     "name": "Psychic Fangs",
@@ -815,7 +832,7 @@
     "tags": [],
     "nameEn": "Bouncy Bubble",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 물의 거품으로 공격하고 상대에게 준 데미지의 일정량을 자신의 HP로 회복한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -885,7 +902,7 @@
     "moveClass": "zMove",
     "tags": [],
     "nameEn": "Sinister Arrow Raid",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "모크나이퍼의 전용 Z기술. 무수한 깃털 화살을 유도해 상대에게 꽂아 넣고 폭발시킨다. 위력 180으로 강력한 일격을 가한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -903,7 +920,7 @@
       "contact"
     ],
     "nameEn": "Searing Sunraze Smash",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "솔가레오/일식 네크로즈마의 전용 Z기술. 위력 200으로 상대를 공격하며 상대의 특성을 무시한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -958,7 +975,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Hydro Vortex"
+    "nameEn": "Hydro Vortex",
+    "descKo": "물Z를 장착하고 사용하는 물타입 범용 Z기술. 거대한 물의 회오리를 일으켜 상대를 가두고 강력한 데미지를 준다."
   },
   {
     "name": "Hydro Vortex",
@@ -971,7 +989,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Hydro Vortex"
+    "nameEn": "Hydro Vortex",
+    "descKo": "물Z를 장착하고 사용하는 물타입 범용 Z기술. 거대한 물의 회오리를 일으켜 상대를 가두고 강력한 데미지를 준다."
   },
   {
     "name": "Smart Strike",
@@ -1024,7 +1043,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Gigavolt Havoc"
+    "nameEn": "Gigavolt Havoc",
+    "descKo": "전기Z를 장착하고 사용하는 전기타입 범용 Z기술. 강력한 전류를 모아 상대에게 거대한 전격을 내리꽂는다."
   },
   {
     "name": "Gigavolt Havoc",
@@ -1037,7 +1057,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Gigavolt Havoc"
+    "nameEn": "Gigavolt Havoc",
+    "descKo": "전기Z를 장착하고 사용하는 전기타입 범용 Z기술. 강력한 전류를 모아 상대에게 거대한 전격을 내리꽂는다."
   },
   {
     "name": "Spotlight",
@@ -1050,7 +1071,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Spotlight",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "지정한 포켓몬에게 주목이 쏠리게 해서 그 턴에는 그 포켓몬만 노리도록 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1084,7 +1105,7 @@
     "tags": [],
     "nameEn": "Sappy Seed",
     "zPower": 180,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 상대를 공격함과 동시에 씨앗을 심어 매 턴마다 상대의 HP를 흡수한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1100,7 +1121,7 @@
     "tags": [],
     "nameEn": "Baddy Bad",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 상대를 공격함과 동시에 빛의장막을 펼쳐 우리 편이 받는 특수공격 데미지를 줄인다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1154,7 +1175,7 @@
     "moveClass": "zMove",
     "tags": [],
     "nameEn": "Guardian of Alola",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "카푸 시리즈의 전용 Z기술. 거대한 골렘을 소환해 상대의 현재 HP를 3/4만큼 깎아낸다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1169,7 +1190,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Acid Downpour"
+    "nameEn": "Acid Downpour",
+    "descKo": "독Z를 장착하고 사용하는 독타입 범용 Z기술. 산성 비를 퍼부어 상대에게 강력한 데미지를 준다."
   },
   {
     "name": "Acid Downpour",
@@ -1182,7 +1204,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Acid Downpour"
+    "nameEn": "Acid Downpour",
+    "descKo": "독Z를 장착하고 사용하는 독타입 범용 Z기술. 산성 비를 퍼부어 상대에게 강력한 데미지를 준다."
   },
   {
     "name": "Accelerock",
@@ -1251,7 +1274,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Devastating Drake"
+    "nameEn": "Devastating Drake",
+    "descKo": "드래곤Z를 장착하고 사용하는 드래곤타입 범용 Z기술. 드래곤 형태의 에너지체를 날려 거대한 폭발을 일으킨다."
   },
   {
     "name": "Devastating Drake",
@@ -1264,7 +1288,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Devastating Drake"
+    "nameEn": "Devastating Drake",
+    "descKo": "드래곤Z를 장착하고 사용하는 드래곤타입 범용 Z기술. 드래곤 형태의 에너지체를 날려 거대한 폭발을 일으킨다."
   },
   {
     "name": "Laser Focus",
@@ -1310,7 +1335,7 @@
       "custom:has_secondary"
     ],
     "nameEn": "Genesis Supernova",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "뮤의 전용 Z기술. 위력 185로 상대를 공격하며 발동 후 사이코필드가 펼쳐진다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1325,7 +1350,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Breakneck Blitz"
+    "nameEn": "Breakneck Blitz",
+    "descKo": "노말Z를 장착하고 사용하는 노말타입 범용 Z기술. 엄청난 속도로 돌진해 상대를 밟고 지나간다."
   },
   {
     "name": "Breakneck Blitz",
@@ -1338,7 +1364,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Breakneck Blitz"
+    "nameEn": "Breakneck Blitz",
+    "descKo": "노말Z를 장착하고 사용하는 노말타입 범용 Z기술. 엄청난 속도로 돌진해 상대를 밟고 지나간다."
   },
   {
     "name": "Continental Crush",
@@ -1351,7 +1378,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Continental Crush"
+    "nameEn": "Continental Crush",
+    "descKo": "바위Z를 장착하고 사용하는 바위타입 범용 Z기술. 자신이 거대한 바위가 되어 상대를 내려찍는다."
   },
   {
     "name": "Continental Crush",
@@ -1364,7 +1392,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Continental Crush"
+    "nameEn": "Continental Crush",
+    "descKo": "바위Z를 장착하고 사용하는 바위타입 범용 Z기술. 자신이 거대한 바위가 되어 상대를 내려찍는다."
   },
   {
     "name": "Sizzly Slide",
@@ -1381,7 +1410,7 @@
     ],
     "nameEn": "Sizzly Slide",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 불꽃을 두르고 돌진하여 상대를 반드시 화상 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1397,7 +1426,8 @@
     "tags": [
       "custom:fixed_half_hp"
     ],
-    "nameEn": "Nature’s Madness"
+    "nameEn": "Nature’s Madness",
+    "descKo": "자연의 분노를 담은 일격으로 상대의 현재 HP를 절반으로 줄인다."
   },
   {
     "name": "Revelation Dance",
@@ -1426,7 +1456,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "All-Out Pummeling"
+    "nameEn": "All-Out Pummeling",
+    "descKo": "격투Z를 장착하고 사용하는 격투타입 범용 Z기술. 손과 발 모양의 에너지탄을 빠르게 연사한 뒤 최후의 일격을 가한다."
   },
   {
     "name": "All-Out Pummeling",
@@ -1439,7 +1470,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "All-Out Pummeling"
+    "nameEn": "All-Out Pummeling",
+    "descKo": "격투Z를 장착하고 사용하는 격투타입 범용 Z기술. 손과 발 모양의 에너지탄을 빠르게 연사한 뒤 최후의 일격을 가한다."
   },
   {
     "name": "Savage Spin-Out",
@@ -1452,7 +1484,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Savage Spin-Out"
+    "nameEn": "Savage Spin-Out",
+    "descKo": "벌레Z를 장착하고 사용하는 벌레타입 범용 Z기술. 거대한 실로 상대를 휘감고 강력한 회전 공격을 가한다."
   },
   {
     "name": "Savage Spin-Out",
@@ -1465,7 +1498,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Savage Spin-Out"
+    "nameEn": "Savage Spin-Out",
+    "descKo": "벌레Z를 장착하고 사용하는 벌레타입 범용 Z기술. 거대한 실로 상대를 휘감고 강력한 회전 공격을 가한다."
   },
   {
     "name": "Purify",
@@ -1512,7 +1546,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Instruct",
-    "descKo": "상대에게 지시하여 상대가 쓴 기술을 다시 한번 쓰게 할 수 있다.",
+    "descKo": "지정한 같은 편에게 지시하여 직전에 쓴 기술을 한 번 더 쓰게 한다.",
     "descEn": "The user instructs the target to reuse the move last used by the target.",
     "descJa": "相手が　出した　技を 指示して　もう一度 出させることが　できる。"
   },
@@ -1530,7 +1564,7 @@
       "contact"
     ],
     "nameEn": "Pulverizing Pancake",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "잠만보의 전용 Z기술. 잠만보가 진심으로 거구를 움직여 상대에게 위력 210의 일격을 가한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1567,7 +1601,7 @@
     ],
     "nameEn": "Buzzy Buzz",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 전기를 발사하여 상대를 반드시 마비 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1586,7 +1620,7 @@
     ],
     "nameEn": "Splishy Splash",
     "zPower": 175,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 전기를 띤 거대한 파도로 상대를 휩쓸며 30% 확률로 마비 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1601,7 +1635,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Corkscrew Crash"
+    "nameEn": "Corkscrew Crash",
+    "descKo": "강철Z를 장착하고 사용하는 강철타입 범용 Z기술. 몸을 회전시켜 거대한 드릴이 되어 상대를 꿰뚫는다."
   },
   {
     "name": "Corkscrew Crash",
@@ -1614,7 +1649,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Corkscrew Crash"
+    "nameEn": "Corkscrew Crash",
+    "descKo": "강철Z를 장착하고 사용하는 강철타입 범용 Z기술. 몸을 회전시켜 거대한 드릴이 되어 상대를 꿰뚫는다."
   },
   {
     "name": "Soul-Stealing 7-Star Strike",
@@ -1630,7 +1666,7 @@
       "contact"
     ],
     "nameEn": "Soul-Stealing 7-Star Strike",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "마샤도의 전용 Z기술. 정권지르기로 에너지탄을 일곱 번 날린 뒤 거대한 라이더 킥으로 폭발시킨다. 위력 195의 일격이다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1664,7 +1700,7 @@
     "tags": [],
     "nameEn": "Glitzy Glow",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 이브이의 전용기. 신비한 빛으로 상대를 공격함과 동시에 빛의장막을 펼친다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1698,7 +1734,8 @@
       "contact"
     ],
     "nameEn": "Let’s Snuggle Forever",
-    "zPower": 200
+    "zPower": 200,
+    "descKo": "따라큐의 전용 Z기술. 상대를 탈 안에 가두고 흠씬 두들겨 팬 다음 멀리 던져버린다. 위력 190의 강력한 일격이다."
   },
   {
     "name": "Shell Trap",
@@ -1733,7 +1770,7 @@
     ],
     "nameEn": "Trop Kick",
     "zPower": 140,
-    "descKo": "남쪽 나라에서 유래된 뜨거운 킥을 상대에게 날린다. 상대의 공격을 떨어뜨린다.",
+    "descKo": "남쪽 나라에서 유래된 뜨거운 킥을 상대에게 날린다. 100% 확률로 상대의 공격을 1랭크 떨어뜨린다.",
     "descEn": "The user lands an intense kick of tropical origins on the target. This also lowers the target's Attack stat.",
     "descJa": "南国　由来の　熱い キックを　相手に　浴びせる。 相手の　攻撃を　さげる。"
   },
@@ -1748,7 +1785,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Supersonic Skystrike"
+    "nameEn": "Supersonic Skystrike",
+    "descKo": "비행Z를 장착하고 사용하는 비행타입 범용 Z기술. 하늘 끝까지 날아오른 뒤 급강하해 상대에게 돌진한다."
   },
   {
     "name": "Supersonic Skystrike",
@@ -1761,7 +1799,8 @@
     "pp": 1,
     "moveClass": "zMove",
     "tags": [],
-    "nameEn": "Supersonic Skystrike"
+    "nameEn": "Supersonic Skystrike",
+    "descKo": "비행Z를 장착하고 사용하는 비행타입 범용 Z기술. 하늘 끝까지 날아오른 뒤 급강하해 상대에게 돌진한다."
   },
   {
     "name": "Zippy Zap",
@@ -1779,7 +1818,7 @@
     ],
     "nameEn": "Zippy Zap",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 피카츄의 전용기. 우선도 +2로 먼저 공격하며 자신의 회피율을 1랭크 올린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1848,7 +1887,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Floral Healing",
-    "descKo": "최대 HP의 절반만큼 상대의 HP를 회복한다. 그래스필드일 때 효과가 올라간다.",
+    "descKo": "상대의 최대 HP의 절반만큼 HP를 회복시킨다. 그래스필드일 때 회복량이 최대 HP의 2/3로 늘어난다.",
     "descEn": "The user restores the target's HP by up to half its max HP. More HP is restored when the ground is Grassy Terrain.",
     "descJa": "最大ＨＰの　半分 相手の　ＨＰを　回復する。 グラスフィールドの時　効果が　あがる。"
   },
@@ -1864,7 +1903,7 @@
     "tags": [],
     "nameEn": "Fleur Cannon",
     "zPower": 195,
-    "descKo": "강력한 빔을 발산한 후 자신의 특수공격이 크게 떨어진다.",
+    "descKo": "강력한 빔을 발사한다. 사용 후 자신의 특수공격이 2랭크 떨어진다.",
     "descEn": "The user unleashes a strong beam. The recoil from this move harshly lowers the user's Sp. Atk stat.",
     "descJa": "強力な　ビームを　放ったあと 自分の　特攻が　がくっと　さがる。"
   },
@@ -1880,7 +1919,7 @@
     "tags": [],
     "nameEn": "Pika Papow",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "파트너 피카츄의 전용기. 트레이너와의 친밀도가 높을수록 위력이 올라가는 전기타입 특수기술이다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1898,7 +1937,7 @@
       "contact"
     ],
     "nameEn": "Catastropika",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "피카츄의 전용 Z기술. 전력을 다해 강력한 전격을 두르고 상대에게 위력 210의 돌진을 가한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1914,7 +1953,7 @@
     "moveClass": "zMove",
     "tags": [],
     "nameEn": "Light That Burns the Sky",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "울트라네크로즈마의 전용 Z기술. 위력 200으로 자신의 공격과 특공 중 높은 쪽을 사용해 공격하고 상대의 특성을 무시한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1932,7 +1971,7 @@
       "contact"
     ],
     "nameEn": "Malicious Moonsault",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "어흥염의 전용 Z기술. 거대한 몸으로 상대를 짓밟듯 내려찍는다. 작아진 상대에게는 필중에 위력 2배가 된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },

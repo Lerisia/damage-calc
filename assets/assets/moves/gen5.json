@@ -46,7 +46,7 @@
     ],
     "nameEn": "Icicle Crash",
     "zPower": 160,
-    "descKo": "큰 고드름을 격렬하게 부딪쳐서 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descKo": "큰 고드름을 격렬하게 부딪쳐서 공격한다. 30% 확률로 상대를 풀죽게 만든다.",
     "descEn": "The user attacks by crashing large icicles onto the target. This may also make the target flinch.",
     "descJa": "大きな　氷柱を 激しく　ぶつけて　攻撃する。 相手を　ひるませることが　ある。"
   },
@@ -114,7 +114,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Bestow",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "자신이 지닌 도구를 상대에게 건네준다. 상대가 도구를 지니고 있으면 실패한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -181,7 +181,7 @@
     ],
     "nameEn": "Bolt Strike",
     "zPower": 195,
-    "descKo": "방대한 전기를 몸에 둘러 상대에게 돌진해서 공격한다. 마비 상태로 만들 때가 있다.",
+    "descKo": "방대한 전기를 몸에 둘러 상대에게 돌진해서 공격한다. 20% 확률로 마비 상태로 만든다.",
     "descEn": "The user surrounds itself with a great amount of electricity and charges the target. This may also leave the target with paralysis.",
     "descJa": "ぼうだいな　電気を　身に　まとって 相手に　突進して　攻撃する。 まひ状態に　することが　ある。"
   },
@@ -376,7 +376,7 @@
     ],
     "nameEn": "Low Sweep",
     "zPower": 120,
-    "descKo": "재빠른 움직임으로 상대의 다리를 노려 공격한다. 상대의 스피드를 떨어뜨린다.",
+    "descKo": "재빠른 움직임으로 상대의 다리를 노려 공격한다. 100% 확률로 상대의 스피드를 1랭크 떨어뜨린다.",
     "descEn": "The user makes a swift attack on the target's legs, which lowers the target's Speed stat.",
     "descJa": "素早い　動きで　相手の　足を ねらって　攻撃する。 相手の　素早さを　さげる。"
   },
@@ -468,7 +468,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Autotomize",
-    "descKo": "몸의 쓸모없는 부분을 깎는다. 자신의 스피드를 크게 올리고 체중도 가벼워진다.",
+    "descKo": "몸의 쓸모없는 부분을 깎는다. 자신의 스피드를 2랭크 올리고 체중을 100kg 가볍게 만든다.",
     "descEn": "The user sheds part of its body to make itself lighter and sharply raise its Speed stat.",
     "descJa": "体の　ムダな　部分を　削る。 自分の　素早さを　ぐーんと　あげて 体重も　軽くなる。"
   },
@@ -613,7 +613,7 @@
     "pp": 30,
     "tags": [],
     "nameEn": "Work Up",
-    "descKo": "스스로 분발해서 공격과 특수공격을 올린다.",
+    "descKo": "스스로 분발해서 자신의 공격과 특수공격을 1랭크씩 올린다.",
     "descEn": "The user is roused, and its Attack and Sp. Atk stats are boosted.",
     "descJa": "自分を　奮いたてて 攻撃と　特攻を　あげる。"
   },
@@ -663,7 +663,7 @@
     "tags": [],
     "nameEn": "Flame Burst",
     "zPower": 140,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "타오르는 불꽃으로 상대를 공격한다. 더블배틀에서는 튀긴 불꽃이 양옆에 있는 상대에게도 대미지를 준다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -773,7 +773,7 @@
     ],
     "nameEn": "Razor Shell",
     "zPower": 140,
-    "descKo": "날카로운 조개껍질로 베어 공격한다. 상대의 방어를 떨어뜨릴 때가 있다.",
+    "descKo": "날카로운 조개껍질로 베어 공격한다. 50% 확률로 상대의 방어를 1랭크 떨어뜨린다.",
     "descEn": "The user cuts the target with sharp shells to inflict damage. This may also lower the target's Defense stat.",
     "descJa": "鋭い　貝殻で　切りつけて 攻撃する。　相手の　防御を さげることが　ある。"
   },
@@ -807,7 +807,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Hone Claws",
-    "descKo": "손톱을 갈아 날카롭게 한다. 자신의 공격과 명중률을 올린다.",
+    "descKo": "손톱을 갈아 날카롭게 한다. 자신의 공격과 명중률을 1랭크씩 올린다.",
     "descEn": "The user sharpens its claws to boost its Attack stat and accuracy.",
     "descJa": "ツメを　磨いて　鋭く　する。 自分の　攻撃と 命中率を　あげる。"
   },
@@ -895,7 +895,7 @@
     ],
     "nameEn": "Synchronoise",
     "zPower": 190,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "기묘한 전파로 자신과 같은 타입을 가진 상대를 공격한다. 다른 타입의 상대에게는 효과가 없다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -971,7 +971,7 @@
     ],
     "nameEn": "Chip Away",
     "zPower": 140,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대의 빈틈을 노려 공격한다. 상대의 방어 랭크와 회피율 랭크 변화를 무시한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1084,7 +1084,7 @@
     ],
     "nameEn": "Inferno",
     "zPower": 180,
-    "descKo": "격렬한 불꽃으로 상대를 둘러싸 공격한다. 화상 상태로 만든다.",
+    "descKo": "격렬한 불꽃으로 상대를 둘러싸 공격한다. 100% 확률로 상대를 화상 상태로 만든다.",
     "descEn": "The user attacks by engulfing the target in an intense fire. This leaves the target with a burn.",
     "descJa": "激しい　炎で 相手を　包みこみ　攻撃する。 やけど状態に　する。"
   },
@@ -1102,7 +1102,7 @@
     ],
     "nameEn": "Scald",
     "zPower": 160,
-    "descKo": "뜨겁게 끓어오르는 물을 상대에게 발사해서 공격한다. 화상 상태로 만들 때가 있다.",
+    "descKo": "뜨겁게 끓어오르는 물을 상대에게 발사해서 공격한다. 30% 확률로 상대를 화상 상태로 만든다.",
     "descEn": "The user attacks by shooting boiling hot water at the target. This may also leave the target with a burn.",
     "descJa": "熱く　煮えたぎる　水を 相手に　発射して　攻撃する。 やけど状態に　することが　ある。"
   },
@@ -1250,7 +1250,7 @@
     ],
     "nameEn": "Electroweb",
     "zPower": 100,
-    "descKo": "전기 네트로 상대를 붙잡아서 공격한다. 상대의 스피드를 떨어뜨린다.",
+    "descKo": "전기 네트로 상대를 붙잡아서 공격한다. 100% 확률로 상대의 스피드를 1랭크 떨어뜨린다.",
     "descEn": "The user captures opposing Pokémon in an electric net to inflict damage. This also lowers their Speed stats.",
     "descJa": "電気の　ネットで 相手を　捕まえて　攻撃する。 相手の　素早さを　さげる。"
   },
@@ -1398,7 +1398,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Telekinesis",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대를 염력으로 공중에 띄운다. 3턴 동안 상대에게 어떤 기술이라도 명중하게 되지만, 땅타입 기술은 빗나간다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1451,7 +1451,7 @@
     ],
     "nameEn": "Hurricane",
     "zPower": 185,
-    "descKo": "강렬한 바람으로 상대를 둘러싸서 공격한다. 상대를 혼란시킬 때가 있다.",
+    "descKo": "강렬한 바람으로 상대를 둘러싸서 공격한다. 30% 확률로 상대를 혼란시킨다.",
     "descEn": "The user attacks by wrapping its opponent in a fierce wind. This may also confuse the target.",
     "descJa": "強烈な　風で　相手を 包みこんで　攻撃する。 相手を　混乱させることが　ある。"
   },
@@ -1469,7 +1469,7 @@
     ],
     "nameEn": "Blue Flare",
     "zPower": 195,
-    "descKo": "아름다우면서도 격렬한 푸른불꽃으로 상대를 둘러싸서 공격한다. 화상 상태로 만들 때가 있다.",
+    "descKo": "아름다우면서도 격렬한 푸른불꽃으로 상대를 둘러싸서 공격한다. 20% 확률로 상대를 화상 상태로 만든다.",
     "descEn": "The user attacks by engulfing the target in an intense, yet beautiful, blue flame. This may also leave the target with a burn.",
     "descJa": "美しくも　激しい　青い炎で 相手を　包みこんで　攻撃する。 やけど状態に　することが　ある。"
   },
@@ -1521,7 +1521,7 @@
     ],
     "nameEn": "Sky Drop",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "1턴째에 상대를 하늘로 끌고 올라가서 2턴째에 떨어뜨려 공격한다. 끌고 올라가 있는 동안에는 상대가 행동할 수 없다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1540,7 +1540,7 @@
     ],
     "nameEn": "Steamroller",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "회전하며 상대를 깔아뭉개서 공격한다. 30% 확률로 상대를 풀죽음 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1559,7 +1559,7 @@
     ],
     "nameEn": "Heart Stamp",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "귀여운 동작으로 방심을 유도해 상대를 강타한다. 30% 확률로 상대를 풀죽음 상태로 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },

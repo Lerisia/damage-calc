@@ -28,7 +28,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Eerie Impulse",
-    "descKo": "몸에서 발생시킨 괴전파를 상대에게 쏘아 특수공격을 크게 떨어뜨린다.",
+    "descKo": "몸에서 발생시킨 괴전파를 상대에게 쏘아 특수공격을 2랭크 떨어뜨린다.",
     "descEn": "The user's body generates an eerie impulse. Exposing the target to it harshly lowers the target's Sp. Atk stat.",
     "descJa": "体から　かいでんぱを　放ち 相手に　浴びせる　ことによって 特攻を　がくっと　さげる。"
   },
@@ -43,7 +43,8 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Land’s Wrath",
-    "zPower": 185
+    "zPower": 185,
+    "descKo": "땅의 힘을 모아 상대를 공격한다. 더블배틀에서는 적측 모든 상대를 공격한다."
   },
   {
     "name": "Grassy Terrain",
@@ -130,7 +131,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Sticky Web",
-    "descKo": "상대의 주위에 끈적끈적한 네트를 둘러 펼쳐 교체되어 나온 상대의 스피드를 떨어뜨린다.",
+    "descKo": "상대 진영에 끈적끈적한 네트를 깔아 교체되어 나오는 땅에 있는 포켓몬의 스피드를 1랭크 떨어뜨린다.",
     "descEn": "The user weaves a sticky net around the opposing team, which lowers their Speed stats upon switching into battle.",
     "descJa": "相手の　周りに　ねばねばした ネットを　はりめぐらせ　交代で でてきた　相手の　素早さを　さげる。"
   },
@@ -146,7 +147,7 @@
     "priority": 4,
     "tags": [],
     "nameEn": "Spiky Shield",
-    "descKo": "상대의 공격을 막음과 동시에 접촉한 상대의 체력을 떨어뜨린다.",
+    "descKo": "상대의 공격을 막음과 동시에 접촉기로 공격한 상대의 HP를 최대 HP의 1/8만큼 깎는다.",
     "descEn": "In addition to protecting the user from attacks, this move also damages any attacker that makes direct contact.",
     "descJa": "相手の　攻撃を　防ぐと 同時に　触れた　相手の 体力を　削って　しまう。"
   },
@@ -165,7 +166,7 @@
       "다른차원러시"
     ],
     "zPower": 180,
-    "descKo": "많은 팔로 방어와 판별 등을 무시하는 연속 공격이다. 자신의 방어가 떨어진다.",
+    "descKo": "많은 팔로 방어와 판별 등을 무시하는 필중 공격을 한다. 사용 후 자신의 방어가 1랭크 떨어진다.",
     "descEn": "Using its many arms, the user unleashes a barrage of attacks that ignore the effects of moves like Protect and Detect. This also lowers the user's Defense stat.",
     "descJa": "たくさんの　腕で　まもるや　みきり などを　無視した　連続攻撃。 自分の　防御が　さがる。"
   },
@@ -237,7 +238,7 @@
     "tags": [],
     "nameEn": "Oblivion Wing",
     "zPower": 160,
-    "descKo": "조준한 상대로부터 HP를 흡수한다. 준 데미지의 반 이상 HP를 회복한다.",
+    "descKo": "조준한 상대로부터 HP를 흡수한다. 준 데미지의 75%만큼 HP를 회복한다.",
     "descEn": "The user absorbs its target’s HP. The user’s HP is restored by over half of the damage taken by the target.",
     "descJa": "ねらいを　定めた　相手から　ＨＰを 吸い取る。　与えた　ダメージの 半分以上　ＨＰを　回復する。"
   },
@@ -270,7 +271,7 @@
     ],
     "nameEn": "Draining Kiss",
     "zPower": 100,
-    "descKo": "키스로 상대의 HP를 흡수한다. 준 데미지의 반 이상 HP를 회복한다.",
+    "descKo": "키스로 상대의 HP를 흡수한다. 준 데미지의 75%만큼 HP를 회복한다.",
     "descEn": "The user steals the target's HP with a kiss. The user's HP is restored by over half the damage taken by the target.",
     "descJa": "キッスによって　相手から　ＨＰを 吸い取る。　与えた　ダメージの 半分以上　ＨＰを　回復する。"
   },
@@ -358,7 +359,7 @@
     ],
     "nameEn": "Mystical Fire",
     "zPower": 140,
-    "descKo": "입에서 내뱉는 아주 뜨거운 불꽃으로 공격한다. 상대의 특수공격을 떨어뜨린다.",
+    "descKo": "입에서 내뱉는 아주 뜨거운 불꽃으로 공격한다. 상대의 특수공격을 1랭크 떨어뜨린다.",
     "descEn": "The user attacks by breathing a special, hot fire. This also lowers the target's Sp. Atk stat.",
     "descJa": "口から　吐きだす　特別 熱い　炎で　攻撃する。 相手の　特攻を　さげる。"
   },
@@ -376,7 +377,7 @@
     ],
     "nameEn": "Moonblast",
     "zPower": 175,
-    "descKo": "달의 파워를 빌려서 상대를 공격한다. 상대의 특수공격을 떨어뜨릴 때가 있다.",
+    "descKo": "달의 파워를 빌려서 상대를 공격한다. 30% 확률로 상대의 특수공격을 1랭크 떨어뜨린다.",
     "descEn": "Borrowing the power of the moon, the user attacks the target. This may also lower the target's Sp. Atk stat.",
     "descJa": "月の　パワーを　かりて 相手を　攻撃する。　相手の 特攻を　さげる　ことがある。"
   },
@@ -395,7 +396,7 @@
     "maxHits": 5,
     "nameEn": "Water Shuriken",
     "zPower": 100,
-    "descKo": "점액으로 만든 수리검을 2-5회 동안 연속으로 던진다. 반드시 선제공격할 수 있다.",
+    "descKo": "점액으로 만든 수리검을 2~5회 연속으로 던진다. 우선도 +1의 선제공격기다.",
     "descEn": "The user hits the target with throwing stars two to five times in a row. This move always goes first.",
     "descJa": "粘液で　できた　手裏剣を ２ー５回の　間　連続で　だす。 必ず　先制攻撃　できる。"
   },
@@ -444,7 +445,7 @@
     ],
     "nameEn": "Nuzzle",
     "zPower": 100,
-    "descKo": "전기가 흐르는 볼을 비벼서 공격한다. 상대를 마비 상태로 만든다.",
+    "descKo": "전기가 흐르는 볼을 비벼서 공격한다. 100% 확률로 상대를 마비 상태로 만든다.",
     "descEn": "The user attacks by nuzzling its electrified cheeks against the target. This also leaves the target with paralysis.",
     "descJa": "電気を　帯びた　ほっぺを すりつけて　攻撃。 相手を　まひ状態に　する。"
   },
@@ -576,7 +577,8 @@
     "accuracy": 100,
     "pp": 20,
     "tags": [],
-    "nameEn": "Forest’s Curse"
+    "nameEn": "Forest’s Curse",
+    "descKo": "상대에게 풀타입을 추가한다. 이미 풀타입인 상대에게는 효과가 없다."
   },
   {
     "name": "Steam Eruption",
@@ -658,7 +660,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Rototiller",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "땅을 갈아엎어 식물이 자라기 쉽게 한다. 지면에 있는 풀타입 포켓몬의 공격과 특수공격을 1랭크씩 올린다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -820,7 +822,8 @@
     "pp": 10,
     "priority": 4,
     "tags": [],
-    "nameEn": "King’s Shield"
+    "nameEn": "King’s Shield",
+    "descKo": "상대의 공격기로부터 자신을 방어한다. 접촉기로 공격한 상대의 공격을 2랭크 떨어뜨린다."
   },
   {
     "name": "Crafty Shield",
@@ -954,7 +957,7 @@
     "pp": 25,
     "tags": [],
     "nameEn": "Ion Deluge",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "전기를 띤 입자를 흩뿌린다. 그 턴 동안 사용된 노말타입 기술이 전기타입으로 변한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
