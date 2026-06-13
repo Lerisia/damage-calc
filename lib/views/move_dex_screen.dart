@@ -866,23 +866,18 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                        '${AppStrings.t('dex.move.learners')} (${filtered.length})',
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600)),
-                                  ),
-                                  _MoveDexChampionsToggle(
-                                    value: championsOnly,
-                                    onChanged: (v) =>
-                                        ChampionsFilterController.instance
-                                            .set(v ?? false),
-                                  ),
-                                ],
-                              ),
+                              // Inline '챔피언스만' toggle removed —
+                              // the same setting is exposed once via
+                              // AppSettingsMenu and applies globally
+                              // across all screens. No need to repeat
+                              // it here. The ValueListenableBuilder
+                              // above still refilters this list when
+                              // the global value flips.
+                              Text(
+                                  '${AppStrings.t('dex.move.learners')} (${filtered.length})',
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600)),
                               const SizedBox(height: 8),
                               if (filtered.isEmpty)
                                 Text(AppStrings.t(emptyKey),
@@ -1238,38 +1233,3 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
 /// Compact "Champions only" checkbox used inside the Move Dex's
 /// learners-list header. Matches the AppBar variant in dex_screen.dart
 /// but without the right-side AppBar padding.
-class _MoveDexChampionsToggle extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool?> onChanged;
-
-  const _MoveDexChampionsToggle({required this.value, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onChanged(!value),
-      borderRadius: BorderRadius.circular(6),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: Checkbox(
-                value: value,
-                onChanged: onChanged,
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-            const SizedBox(width: 4),
-            Text(AppStrings.t('dex.championsOnly'),
-                style: const TextStyle(fontSize: 12)),
-          ],
-        ),
-      ),
-    );
-  }
-}
