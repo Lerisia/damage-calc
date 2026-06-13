@@ -9,6 +9,7 @@ import '../models/move_tags.dart';
 import '../models/pokemon.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
+import 'widgets/pokemon_sprite.dart';
 import '../utils/champions_filter_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/localization.dart';
@@ -1144,14 +1145,29 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
         borderRadius: BorderRadius.circular(8),
         child: Container(
           decoration: decoration,
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Text(
-            p.localizedName,
-            style: TextStyle(
-              fontSize: 12,
-              color: textColor,
-              fontWeight: FontWeight.w700,
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          // Box icon + name, mirrors the dex-side "(아이콘)파밀리쥐"
+          // shorthand. useBoxIcon: true → Showdown 40×30 box-icon
+          // sheet; for uncurated species the existing fallback chain
+          // (form → base → placeholder) keeps the chip non-empty.
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PokemonSprite(
+                pokemonName: p.name,
+                size: 28,
+                useBoxIcon: true,
+              ),
+              const SizedBox(width: 2),
+              Text(
+                p.localizedName,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: textColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
           ),
         ),
       ),
