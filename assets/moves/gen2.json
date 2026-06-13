@@ -14,7 +14,7 @@
     ],
     "nameEn": "Steel Wing",
     "zPower": 140,
-    "descKo": "단단한 날개를 상대에게 부딪쳐서 공격한다. 자신의 방어가 올라갈 때가 있다.",
+    "descKo": "단단한 날개를 상대에게 부딪쳐서 공격한다. 10% 확률로 자신의 방어가 1랭크 오른다.",
     "descEn": "The target is hit with wings of steel. This may also boost the user's Defense stat.",
     "descJa": "硬い　翼を　相手に　たたきつけて 攻撃する。　自分の　防御が あがることが　ある。"
   },
@@ -29,7 +29,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Spider Web",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "찐득한 거미줄을 상대에게 휘감아서 배틀에서 도망치거나 교체할 수 없게 만든다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -196,7 +196,7 @@
     "pp": 40,
     "tags": [],
     "nameEn": "Foresight",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대를 가만히 응시하여 회피율 변화를 무효로 한다. 고스트 타입에게 노말·격투 타입 기술이 통하게 된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -303,7 +303,7 @@
     ],
     "nameEn": "Pursuit",
     "zPower": 100,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "상대를 추적하여 공격한다. 상대가 교체하려고 할 때 사용하면 위력이 2배가 된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -373,7 +373,8 @@
     ],
     "description": "Power is randomly determined each use. Magnitude 4 (10 BP) 5% / 5 (30) 10% / 6 (50) 20% / 7 (70) 30% / 8 (90) 20% / 9 (110) 10% / 10 (150) 5%.",
     "descriptionKo": "위력이 매번 무작위로 정해집니다. 매그니튜드 4 (위력 10) 5% / 5 (30) 10% / 6 (50) 20% / 7 (70) 30% / 8 (90) 20% / 9 (110) 10% / 10 (150) 5%.",
-    "descriptionJa": "使うたびに威力がランダムに決まる。マグニチュード4 (威力10) 5% / 5 (30) 10% / 6 (50) 20% / 7 (70) 30% / 8 (90) 20% / 9 (110) 10% / 10 (150) 5%。"
+    "descriptionJa": "使うたびに威力がランダムに決まる。マグニチュード4 (威力10) 5% / 5 (30) 10% / 6 (50) 20% / 7 (70) 30% / 8 (90) 20% / 9 (110) 10% / 10 (150) 5%。",
+    "descKo": "땅을 격렬하게 흔들어 주위의 모든 포켓몬을 공격한다. 위력이 매번 달라진다."
   },
   {
     "name": "Magnitude 4",
@@ -526,7 +527,7 @@
       "메탈크로우"
     ],
     "zPower": 100,
-    "descKo": "강철의 발톱으로 상대를 베어 갈라 공격한다. 자신의 공격이 올라갈 때도 있다.",
+    "descKo": "강철의 발톱으로 상대를 베어 갈라 공격한다. 10% 확률로 자신의 공격이 1랭크 오른다.",
     "descEn": "The target is raked with steel claws. This may also boost the user's Attack stat.",
     "descJa": "鋼鉄の　ツメで 相手を　切り裂いて　攻撃する。 自分の　攻撃が　あがることが　ある。"
   },
@@ -856,7 +857,7 @@
     ],
     "nameEn": "Feint Attack",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "방심하게 만들고 가까이 다가가서 후려친다. 이 공격은 반드시 명중한다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -890,7 +891,7 @@
     ],
     "nameEn": "Spark",
     "zPower": 120,
-    "descKo": "전기를 둘러 상대에게 돌진하여 공격한다. 마비 상태로 만들 때가 있다.",
+    "descKo": "전기를 둘러 상대에게 돌진하여 공격한다. 30% 확률로 상대를 마비 상태로 만든다.",
     "descEn": "The user attacks the target with an electrically charged tackle. This may also leave the target with paralysis.",
     "descJa": "電気を　まとい 相手に　突進して　攻撃する。 まひ状態に　することが　ある。"
   },
@@ -988,7 +989,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Nightmare",
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "잠들어 있는 상대에게 악몽을 꾸게 하여 매 턴 최대 HP의 1/4을 깎는다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1003,7 +1004,7 @@
     "pp": 20,
     "tags": [],
     "nameEn": "Spikes",
-    "descKo": "상대의 발밑에 압정을 뿌린다. 교체된 상대 포켓몬에게 데미지를 준다.",
+    "descKo": "상대의 발밑에 압정을 뿌린다. 교체되어 나오는 상대 포켓몬에게 데미지를 주며, 최대 3번까지 겹쳐 1/8, 1/6, 1/4씩 깎는다. 비행 타입과 부유 특성에게는 통하지 않는다.",
     "descEn": "The user lays a trap of spikes at the feet of the opposing team. The spikes will damage opposing Pokémon that switch into battle.",
     "descJa": "相手の　足下に　まきびしを しかける。交代で　でてきた　相手の ポケモンに　ダメージを　与える。"
   },
@@ -1151,7 +1152,7 @@
     ],
     "nameEn": "Dragon Breath",
     "zPower": 120,
-    "descKo": "굉장한 숨결을 상대에게 내뿜어 공격한다. 마비 상태로 만들 때가 있다.",
+    "descKo": "굉장한 숨결을 상대에게 내뿜어 공격한다. 30% 확률로 상대를 마비 상태로 만든다.",
     "descEn": "The user exhales a mighty gust that inflicts damage. This may also leave the target with paralysis.",
     "descJa": "ものすごい　息を 相手に　吹きつけて　攻撃する。 まひ状態に　することが　ある。"
   },
@@ -1184,7 +1185,7 @@
     ],
     "nameEn": "Ancient Power",
     "zPower": 120,
-    "descKo": "원시의 힘으로 공격한다. 자신의 모든 능력이 오를 때가 있다.",
+    "descKo": "원시의 힘으로 공격한다. 10% 확률로 자신의 모든 능력이 1랭크 오른다.",
     "descEn": "The user attacks with a prehistoric power. This may also boost all the user's stats at once.",
     "descJa": "原始の　力で　攻撃する。 自分の　すべての 能力が　あがることが　ある。"
   },
@@ -1217,7 +1218,7 @@
     ],
     "nameEn": "Return",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "트레이너를 향한 마음이 강할수록 위력이 올라가는 공격이다. 친밀도가 최대일 때 위력 102가 된다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1263,7 +1264,7 @@
     "tags": [],
     "nameEn": "Hidden Power",
     "zPower": 120,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "공격하는 포켓몬에 따라 타입이 달라지는 공격이다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1278,7 +1279,7 @@
     "pp": 10,
     "tags": [],
     "nameEn": "Curse",
-    "descKo": "기술을 쓰는 포켓몬이 고스트타입일 때와 그 이외의 타입일 때는 효과가 다르다.",
+    "descKo": "고스트 타입이 쓰면 자신의 HP 절반을 깎고 상대에게 저주를 걸어 매 턴 최대 HP의 1/4을 깎는다. 그 외 타입이 쓰면 자신의 스피드를 1랭크 낮추는 대신 공격과 방어를 1랭크씩 올린다.",
     "descEn": "A move that has different effects depending on whether the user is a Ghost type or not.",
     "descJa": "使う　ポケモンが ゴーストタイプと　それ以外　とでは 効果が　変わる。"
   },
@@ -1400,7 +1401,7 @@
     ],
     "nameEn": "Snore",
     "zPower": 100,
-    "descKo": "자신이 잠들어 있을 때 소음을 내어 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descKo": "자신이 잠들어 있을 때 소음을 내어 공격한다. 30% 확률로 상대를 풀죽게 만든다.",
     "descEn": "This attack can be used only if the user is asleep. The harsh noise may also make the target flinch.",
     "descJa": "自分が　寝ているときに 雑音を　だして　攻撃する。 相手を　ひるませることが　ある。"
   },
@@ -1469,7 +1470,7 @@
     "maxHits": 3,
     "nameEn": "Triple Kick",
     "zPower": 120,
-    "descKo": "3회 연속으로 킥을 날려 공격한다. 기술이 맞을 때마다 위력이 올라간다.",
+    "descKo": "3회 연속으로 킥을 날려 공격한다. 1타 위력 10, 2타 20, 3타 30으로 후속타일수록 위력이 올라가며, 한 번이라도 빗나가면 그 시점에서 멈춘다.",
     "descEn": "A consecutive three-kick attack that becomes more powerful with each successful hit.",
     "descJa": "３回連続で　キックを　くりだして 攻撃する。　技が　当たるたびに 威力は　あがる。"
   },
@@ -1485,7 +1486,7 @@
     "priority": 4,
     "tags": [],
     "nameEn": "Detect",
-    "descKo": "상대의 공격을 전혀 받지 않는다. 연속으로 쓰면 실패하기 쉽다.",
+    "descKo": "우선도 +4로 발동하여 상대의 공격을 막아낸다. 연속으로 쓰면 성공 확률이 1/3로 떨어지고, 실패하거나 다른 기술을 쓰면 다시 100%로 돌아간다.",
     "descEn": "This move enables the user to protect itself from all attacks. Its chance of failing rises if it is used in succession.",
     "descJa": "相手の　攻撃を まったく　受けない。 連続で　だすと　失敗しやすい。"
   },
@@ -1505,7 +1506,7 @@
     ],
     "nameEn": "Dynamic Punch",
     "zPower": 180,
-    "descKo": "혼신의 힘으로 펀치를 날려서 공격한다. 상대를 반드시 혼란시킨다.",
+    "descKo": "혼신의 힘으로 펀치를 날려서 공격한다. 명중하면 100% 확률로 상대를 혼란시키지만, 명중률이 50%로 낮다.",
     "descEn": "The user attacks by punching the target with full concentrated power. This also confuses the target.",
     "descJa": "こん身の　力で パンチを　くりだして　攻撃する。 相手を　必ず　混乱させる。"
   },
@@ -1521,7 +1522,7 @@
     "tags": [],
     "nameEn": "Present",
     "zPower": 100,
-    "descKo": "덫을 설치한 상자를 상대에게 건네어 공격한다. HP가 회복돼버릴 때도 있다.",
+    "descKo": "덫을 설치한 상자를 상대에게 건네어 공격한다. 40% 확률로 위력 40, 30% 확률로 위력 80, 10% 확률로 위력 120 공격이 되고, 20% 확률로 상대의 HP를 최대치의 1/4 회복시킨다.",
     "descEn": "The user attacks by giving the target a gift with a hidden trap. The gift restores HP sometimes, however.",
     "descJa": "わなを　しかけた　箱を 相手に　わたして　攻撃する。ＨＰが 回復して　しまうことも　ある。"
   },
@@ -1536,7 +1537,7 @@
     "pp": 15,
     "tags": [],
     "nameEn": "Attract",
-    "descKo": "수컷은 암컷을 암컷은 수컷을 유혹하여 헤롱헤롱하게 만든다. 상대가 기술을 쓰기 어려워진다.",
+    "descKo": "수컷은 암컷을, 암컷은 수컷을 유혹하여 헤롱헤롱 상태로 만든다. 헤롱헤롱 상태인 동안 상대는 50% 확률로 행동이 봉쇄된다.",
     "descEn": "If the target is of the opposite gender to the user, it becomes infatuated with the user and will sometimes be unable to use its moves.",
     "descJa": "♂なら♀を　♀なら♂を　誘惑して メロメロに　する。 相手は　技が　だしにくくなる。"
   },
@@ -1576,7 +1577,7 @@
     ],
     "nameEn": "Frustration",
     "zPower": 160,
-    "descKo": "사용할 수 없는 기술입니다. 다시 배우게 할 수 없지만 기술을 잊게 하는 것을 권장합니다.",
+    "descKo": "트레이너에 대한 불만으로 상대를 공격한다. 친밀도가 낮을수록 위력이 올라간다.",
     "descEn": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
     "descJa": "この技は　使えません 思い出すことが　できなくなりますが 技を　忘れることを　おすすめします"
   },
@@ -1596,7 +1597,7 @@
     ],
     "nameEn": "Twister",
     "zPower": 100,
-    "descKo": "회오리를 일으켜 상대를 끌어들여 공격한다. 상대를 풀죽게 만들 때가 있다.",
+    "descKo": "회오리를 일으켜 상대를 끌어들여 공격한다. 20% 확률로 상대를 풀죽게 만들며, 공중날기 중인 상대에게도 명중하여 2배 데미지를 준다.",
     "descEn": "The user whips up a vicious tornado to tear at opposing Pokémon. This may also make them flinch.",
     "descJa": "竜巻を　おこして 相手を　まきこみ　攻撃する。 相手を　ひるませることが　ある。"
   }

@@ -121,7 +121,7 @@
     ],
     "nameEn": "Esper Wing",
     "zPower": 160,
-    "descKo": "오라로 강화한 날개로 베어 가른다. 급소에 맞기 쉽다. 자신의 스피드를 1랭크 올린다.",
+    "descKo": "오라로 강화한 날개로 베어 가른다. 100% 확률로 자신의 스피드를 1랭크 올린다.",
     "descEn": "The user slashes the target with aura-enriched wings. This also boosts the user's Speed stat. This move has a heightened chance of landing a critical hit."
   },
   {
@@ -139,7 +139,7 @@
     ],
     "nameEn": "Grav Apple",
     "zPower": 160,
-    "descKo": "높은 곳에서 사과를 떨어뜨려서 데미지를 준다. 상대의 방어를 떨어뜨린다.",
+    "descKo": "높은 곳에서 사과를 떨어뜨려서 데미지를 준다. 100% 확률로 상대의 방어를 1랭크 떨어뜨린다. 중력 상태일 때 위력이 1.5배가 된다.",
     "descEn": "The user inflicts damage by dropping an apple from high above. This also lowers the target's Defense stat.",
     "descJa": "高いところから　りんごを　落として ダメージを　与える。 相手の　防御を　下げる。"
   },
@@ -255,7 +255,7 @@
     ],
     "nameEn": "Psyshield Bash",
     "zPower": 140,
-    "descKo": "사념의 에너지를 두른 채로 상대에게 부딪친다. 자신의 방어를 1랭크 올린다.",
+    "descKo": "사념의 에너지를 두른 채로 상대에게 부딪친다. 100% 확률로 자신의 방어를 1랭크 올린다.",
     "descEn": "Cloaking itself in psychic energy, the user slams into the target. This also boosts the user’s Defense stat."
   },
   {
@@ -341,7 +341,7 @@
     ],
     "nameEn": "Stone Axe",
     "zPower": 120,
-    "descKo": "암석 도끼로 공격한다. 흩어진 암석 파편은 상대의 주위에 떠다니게 된다.",
+    "descKo": "암석 도끼로 공격한다. 상대 필드에 스텔스록을 깐다.",
     "descEn": "The user swings its stone axes at the target. Stone splinters left behind by this attack float around the target."
   },
   {
@@ -514,7 +514,7 @@
     "tags": [],
     "nameEn": "Snipe Shot",
     "zPower": 160,
-    "descKo": "상대의 기술을 끌어모으는 특성이나 기술의 영향을 무시하고 선택한 상대를 공격할 수 있다.",
+    "descKo": "상대의 기술을 끌어모으는 특성이나 기술의 영향을 무시하고 선택한 상대를 공격한다. 급소에 맞기 쉽다.",
     "descEn": "The user ignores the effects of opposing Pokémon's moves and Abilities that draw in moves, allowing this move to hit the chosen target.",
     "descJa": "相手の　技を　引き受ける 特性や　技の　影響を　無視して 選んだ　相手を　攻撃　できる。"
   },
