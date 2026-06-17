@@ -29724,20 +29724,94 @@
     ]
   },
   "Staraptor": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Intimidate"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Substitute"
+      }
+    ],
+    "defaultMoves": [
+      "Brave Bird",
+      "Close Combat",
+      "U-turn",
+      "Substitute"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Mega Staraptor": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Defiant"
+      }
+    ],
+    "items": [
+      {
+        "name": "staraptite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Substitute"
+      }
+    ],
+    "defaultMoves": [
+      "Brave Bird",
+      "Close Combat",
+      "U-turn",
+      "Substitute"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Musharna": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
