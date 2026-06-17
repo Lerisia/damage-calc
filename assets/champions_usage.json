@@ -29274,20 +29274,94 @@
     "natures": []
   },
   "Sceptile": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Unburden"
+      }
+    ],
+    "items": [
+      {
+        "name": "white-herb"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Leaf Storm"
+      },
+      {
+        "name": "Dragon Pulse"
+      },
+      {
+        "name": "Focus Blast"
+      },
+      {
+        "name": "Shed Tail"
+      }
+    ],
+    "defaultMoves": [
+      "Leaf Storm",
+      "Dragon Pulse",
+      "Focus Blast",
+      "Shed Tail"
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      }
+    ]
   },
   "Mega Sceptile": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Lightning Rod"
+      }
+    ],
+    "items": [
+      {
+        "name": "sceptilite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Leaf Storm"
+      },
+      {
+        "name": "Dragon Pulse"
+      },
+      {
+        "name": "Focus Blast"
+      },
+      {
+        "name": "Shed Tail"
+      }
+    ],
+    "defaultMoves": [
+      "Leaf Storm",
+      "Dragon Pulse",
+      "Focus Blast",
+      "Shed Tail"
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      }
+    ]
   },
   "Blaziken": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
