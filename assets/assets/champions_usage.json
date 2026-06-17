@@ -29544,20 +29544,94 @@
     ]
   },
   "Mawile": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Intimidate"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Swords Dance"
+      }
+    ],
+    "defaultMoves": [
+      "Play Rough",
+      "Sucker Punch",
+      "Thunder Punch",
+      "Swords Dance"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Mega Mawile": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Huge Power"
+      }
+    ],
+    "items": [
+      {
+        "name": "mawilite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Swords Dance"
+      }
+    ],
+    "defaultMoves": [
+      "Play Rough",
+      "Sucker Punch",
+      "Thunder Punch",
+      "Swords Dance"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Metagross": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
