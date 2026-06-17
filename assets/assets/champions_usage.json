@@ -30623,20 +30623,110 @@
     ]
   },
   "Falinks": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Defiant"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "High Horsepower"
+      },
+      {
+        "name": "Rock Slide"
+      },
+      {
+        "name": "No Retreat"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "High Horsepower"
+      },
+      {
+        "name": "Rock Slide"
+      },
+      {
+        "name": "No Retreat"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Mega Falinks": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Defiant"
+      }
+    ],
+    "items": [
+      {
+        "name": "falinksite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "High Horsepower"
+      },
+      {
+        "name": "Rock Slide"
+      },
+      {
+        "name": "No Retreat"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "High Horsepower"
+      },
+      {
+        "name": "Rock Slide"
+      },
+      {
+        "name": "No Retreat"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Houndstone": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
