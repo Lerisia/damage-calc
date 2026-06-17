@@ -56378,7 +56378,7 @@ A.aAV.prototype={
 $1(a){return this.a.$1(a===!0)},
 $S:29}
 A.wH.prototype={
-I(a){var s=null,r=A.j(A.f("app.title"),s,s,s,s,B.fJ,s,s),q=t.p,p=A.aK(A.b([B.aqV,B.aD,A.j(A.f("about.description"),s,s,s,s,s,s,s),B.aD,A.j(A.f("about.subtitle"),s,s,s,s,B.b1,s,s),B.b0,B.aqY,B.aiV,B.aiW,B.b0,A.ad(A.b([A.Uf(B.vR,A.j(A.f("banner.getAndroid"),s,s,s,s,B.i5,s,s),new A.a9I(this),A.alG(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hk,s,s,s,s,B.bi,s,s)),B.ad,A.Uf(B.vV,A.j(A.f("banner.getIos"),s,s,s,s,B.i5,s,s),new A.a9J(this),A.alG(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hk,s,s,s,s,B.bi,s,s))],q),B.m,s,B.j,B.l,0,s),B.d5,B.Qv,B.aD,A.j(A.f("about.beta"),s,s,s,s,B.aoW,s,s),B.b0,A.j(A.f("about.disclaimer"),s,s,s,s,B.JB,s,s),B.b0,A.j(A.f("sprite.creditTitle"),s,s,s,s,B.mZ,s,s),B.b4,A.j(A.f("sprite.creditBody"),s,s,s,s,B.aoJ,s,s)],q),B.W,B.j,B.J)
+I(a){var s=null,r=A.j(A.f("app.title"),s,s,s,s,B.fJ,s,s),q=t.p,p=A.aK(A.b([B.aqU,B.aD,A.j(A.f("about.description"),s,s,s,s,s,s,s),B.aD,A.j(A.f("about.subtitle"),s,s,s,s,B.b1,s,s),B.b0,B.aqY,B.aiV,B.aiW,B.b0,A.ad(A.b([A.Uf(B.vR,A.j(A.f("banner.getAndroid"),s,s,s,s,B.i5,s,s),new A.a9I(this),A.alG(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hk,s,s,s,s,B.bi,s,s)),B.ad,A.Uf(B.vV,A.j(A.f("banner.getIos"),s,s,s,s,B.i5,s,s),new A.a9J(this),A.alG(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hk,s,s,s,s,B.bi,s,s))],q),B.m,s,B.j,B.l,0,s),B.d5,B.Qv,B.aD,A.j(A.f("about.beta"),s,s,s,s,B.aoW,s,s),B.b0,A.j(A.f("about.disclaimer"),s,s,s,s,B.JB,s,s),B.b0,A.j(A.f("sprite.creditTitle"),s,s,s,s,B.mZ,s,s),B.b4,A.j(A.f("sprite.creditBody"),s,s,s,s,B.aoJ,s,s)],q),B.W,B.j,B.J)
 return A.dJ(A.b([A.bR(A.j(A.f("action.close"),s,s,s,s,s,s,s),new A.a9K(a),s)],q),s,p,s,!1,r,s)}}
 A.a9I.prototype={
 $0(){window.location.assign(u.H)
@@ -126468,8 +126468,8 @@ B.WY=s([B.nQ],t.p)
 B.aiH=new A.H_(B.bT,B.eF,B.l,B.m,null,B.cy,null,0,B.WY,null)
 B.agD=new A.a6(B.R3,B.aiH,null)
 B.b1=new A.z(!0,null,null,null,null,null,13,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.aqU=new A.h1("~",null,B.b1,null,null,null,null,null,null,null)
-B.DL=new A.a6(B.d8,B.aqU,null)
+B.aqV=new A.h1("~",null,B.b1,null,null,null,null,null,null,null)
+B.DL=new A.a6(B.d8,B.aqV,null)
 B.ql=new A.ud(null)
 B.bJ=new A.Uq(0,"fill")
 B.bj=new A.Uq(1,"stroke")
@@ -127373,7 +127373,7 @@ B.apn=new A.z(!0,B.aH,null,".AppleSystemUIFont",null,null,null,null,null,null,nu
 B.apJ=new A.z(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelMedium",null,null,null,null)
 B.amG=new A.z(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.aqT=new A.eS(B.aou,B.ann,B.aov,B.ap1,B.an4,B.anc,B.anI,B.aoV,B.anV,B.apq,B.amz,B.amR,B.apn,B.apJ,B.amG)
-B.aqV=new A.h1("v1.11.4",null,null,null,null,null,null,null,null,null)
+B.aqU=new A.h1("v1.12.1",null,null,null,null,null,null,null,null,null)
 B.aqW=new A.h1("  \u2192  ",null,B.JB,null,null,null,null,null,null,null)
 B.aqX=new A.h1("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
 B.aqY=new A.h1("By  Elyss",null,null,null,null,null,null,null,null,null)
