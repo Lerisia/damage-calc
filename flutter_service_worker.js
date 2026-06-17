@@ -1,4 +1,3 @@
-// One-shot kill service worker — see reference_deploy_procedure.
 self.addEventListener('install', (event) => { self.skipWaiting(); });
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {

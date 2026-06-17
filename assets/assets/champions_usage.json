@@ -29364,20 +29364,94 @@
     ]
   },
   "Blaziken": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Speed Boost"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Flare Blitz"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      "Flare Blitz",
+      "Close Combat",
+      "Thunder Punch",
+      "Protect"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Mega Blaziken": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Speed Boost"
+      }
+    ],
+    "items": [
+      {
+        "name": "blazikenite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Flare Blitz"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      "Flare Blitz",
+      "Close Combat",
+      "Thunder Punch",
+      "Protect"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Swampert": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
