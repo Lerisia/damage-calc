@@ -1412,10 +1412,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 side, side == 0 ? _attacker : _defender),
               onLoadSide: (side) => _showLoadSheet(side),
               onResetSide: (side) => _resetSide(side),
-              onOpenDexForSide: (side) => _openDex(
-                initialName:
-                    (side == 0 ? _attacker : _defender).pokemonName,
-              ),
+              onOpenDexForSide: (side) {
+                // Cross-tab nav: land on the Dex tab with this
+                // species' detail page pushed (NOT a modal picker —
+                // the per-species dex button is "view in dex", not
+                // "pick another Pokémon").
+                final name =
+                    (side == 0 ? _attacker : _defender).pokemonName;
+                RootShell.of(context).requestDexDetail(name);
+              },
             )
           : GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -1591,7 +1596,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             onSave: () => _showSaveDialog(side, state),
             onLoad: () => _showLoadSheet(side),
             onReset: () => _resetSide(side),
-            onOpenDex: () => _openDex(initialName: state.pokemonName),
+            onOpenDex: () =>
+                RootShell.of(context).requestDexDetail(state.pokemonName),
             resetCounter: _resetCounter,
             isAttacker: isAttacker,
             opponentSpeed: opponentSpeed,

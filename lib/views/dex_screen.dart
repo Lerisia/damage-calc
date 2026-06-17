@@ -890,6 +890,11 @@ class _DexScreenState extends State<DexScreen> {
   }
 
   void _pickPokemon(Pokemon p, bool push) {
+    // Drop the search-bar focus before navigating — otherwise the
+    // soft keyboard pops back up the moment the user swipes back to
+    // the list, which is jarring on mobile (the list itself never
+    // needs the keyboard up). Same intent as MoveDex's _pickMove.
+    _searchFocus.unfocus();
     if (push) {
       // Narrow: open the species in its own cross-link detail screen.
       // Tagged fromList=true so the detail page's PopScope lets the

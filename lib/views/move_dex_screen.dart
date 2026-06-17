@@ -1170,6 +1170,11 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   }
 
   void _pickMove(Move m, bool push) {
+    // Drop the search-bar focus before navigating — otherwise the
+    // soft keyboard pops back up the moment the user swipes back to
+    // the list, which is jarring on mobile (the list itself never
+    // needs the keyboard up).
+    _searchFocus.unfocus();
     // Reset the per-move learner-search filter when the user moves
     // to a different move — the previous query is meaningless in the
     // new move's learner list. Same for the "also learns" AND-filter:

@@ -10,6 +10,7 @@ import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
 import '../models/room.dart';
 import '../models/stats.dart';
+import '../models/status.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
@@ -697,11 +698,15 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         children: [
           _speciesHeader(attacker: true),
           const SizedBox(height: 8),
-          // Ability | Item
+          // Ability | Item | Burn check (attacker only — burn halves
+          // physical Atk and is the most-toggled in-battle condition,
+          // so it's the only status promoted to the main row here).
           Row(children: [
             Expanded(child: _abilityField(attacker: true)),
             const SizedBox(width: 8),
             Expanded(child: _itemField(attacker: true)),
+            const SizedBox(width: 4),
+            _burnCheck(),
           ]),
           const SizedBox(height: 6),
           // Move | Critical | × multiplier — sits above the stat row
@@ -964,6 +969,46 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _burnCheck() {
+    final burn = _atk.status == StatusCondition.burn;
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _atk.status = burn ? StatusCondition.none : StatusCondition.burn;
+        });
+        widget.onChanged();
+      },
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 20, height: 20,
+              child: Checkbox(
+                value: burn,
+                onChanged: (v) {
+                  setState(() {
+                    _atk.status = (v ?? false)
+                        ? StatusCondition.burn
+                        : StatusCondition.none;
+                  });
+                  widget.onChanged();
+                },
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(AppStrings.t('status.burn'),
+                style: const TextStyle(fontSize: 13)),
+          ],
         ),
       ),
     );
