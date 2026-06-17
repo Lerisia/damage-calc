@@ -1701,7 +1701,7 @@
       "spDefense": 99,
       "speed": 62
     },
-    "abilities": [],
+    "abilities": ["Shell Armor"],
     "weight": 230.5,
     "height": 3.2,
     "dexNumber": 545,
@@ -1726,7 +1726,7 @@
       "spDefense": 135,
       "speed": 68
     },
-    "abilities": [],
+    "abilities": ["Intimidate"],
     "weight": 31.0,
     "height": 1.1,
     "dexNumber": 560,
@@ -1950,7 +1950,7 @@
       "spDefense": 120,
       "speed": 88
     },
-    "abilities": [],
+    "abilities": ["Defiant"],
     "weight": 69.8,
     "height": 2.9,
     "dexNumber": 687,
@@ -1975,7 +1975,7 @@
       "spDefense": 106,
       "speed": 88
     },
-    "abilities": [],
+    "abilities": ["Tough Claws"],
     "weight": 100.0,
     "height": 2.2,
     "dexNumber": 689,
@@ -2000,7 +2000,7 @@
       "spDefense": 163,
       "speed": 44
     },
-    "abilities": [],
+    "abilities": ["Regenerator"],
     "weight": 100.3,
     "height": 2.1,
     "dexNumber": 691,
@@ -2106,7 +2106,7 @@
       "spDefense": 65,
       "speed": 100
     },
-    "abilities": [],
+    "abilities": ["Guts"],
     "weight": 99.0,
     "height": 1.6,
     "dexNumber": 870,
@@ -2241,7 +2241,7 @@
       "spDefense": 90,
       "speed": 110
     },
-    "abilities": [],
+    "abilities": ["Defiant"],
     "weight": 50.0,
     "height": 1.9,
     "dexNumber": 398,
