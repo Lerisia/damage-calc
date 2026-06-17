@@ -29454,20 +29454,94 @@
     ]
   },
   "Swampert": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Damp"
+      }
+    ],
+    "items": [
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Wave Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Substitute"
+      }
+    ],
+    "defaultMoves": [
+      "Wave Crash",
+      "Earthquake",
+      "Ice Punch",
+      "Substitute"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Mega Swampert": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Swift Swim"
+      }
+    ],
+    "items": [
+      {
+        "name": "swampertite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Wave Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Substitute"
+      }
+    ],
+    "defaultMoves": [
+      "Wave Crash",
+      "Earthquake",
+      "Ice Punch",
+      "Substitute"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Mawile": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
