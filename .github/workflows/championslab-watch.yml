@@ -40,34 +40,21 @@ jobs:
           SHA=$(sha256sum /tmp/upstream.ts | cut -c1-12)
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
 
-          HIT=0
-          HITS=""
-
-          # User-confirmed signature: Swampert gains Wave Crash in
-          # the new roster. If we see that combination upstream,
-          # the new dataset has landed.
+          # Single, high-precision signature: Swampert + Wave Crash.
+          # User-confirmed: Swampert gains Wave Crash with the
+          # 2026-06-17 in-game roster expansion. The combination
+          # exists nowhere else in the Champions dataset, so a
+          # single positive grep is reliable. Listing the new
+          # mega keys is too noisy — some (e.g. Mega Metagross)
+          # already have stray references in upstream.
           if grep -q '"Swampert"' /tmp/upstream.ts && \
              grep -qiE 'wavecrash|wave[ _]crash' /tmp/upstream.ts; then
-            HIT=1
-            HITS="$HITS swampert+wavecrash"
+            echo "hit=1" >> "$GITHUB_OUTPUT"
+            echo "Signal HIT: Swampert + Wave Crash present (sha=$SHA)"
+          else
+            echo "hit=0" >> "$GITHUB_OUTPUT"
+            echo "No signal (sha=$SHA)"
           fi
-
-          # New megas in the 2026-06-17 roster expansion.
-          for MEGA in \
-            "Mega Pyroar" "Mega Scolipede" "Mega Eelektross" \
-            "Mega Staraptor" "Mega Scrafty" "Mega Malamar" \
-            "Mega Barbaracle" "Mega Falinks" "Mega Dragalge" \
-            "Mega Mawile" "Mega Sceptile" "Mega Blaziken" \
-            "Mega Swampert" "Mega Metagross" "Mega Raichu"; do
-            if grep -qF "$MEGA" /tmp/upstream.ts; then
-              HIT=1
-              HITS="$HITS [$MEGA]"
-            fi
-          done
-
-          echo "hit=$HIT" >> "$GITHUB_OUTPUT"
-          echo "hits=$HITS" >> "$GITHUB_OUTPUT"
-          echo "Result: hit=$HIT signals=$HITS sha=$SHA"
 
       - name: No signals — exit
         if: steps.probe.outputs.hit != '1'
@@ -96,7 +83,7 @@ jobs:
         if: steps.probe.outputs.hit == '1' && steps.branch_check.outputs.skip == '0'
         run: python3 tools/apply_championslab_learnsets.py --refresh
 
-      - name: Open PR if learnsets changed
+      - name: Push branch + surface PR link
         if: steps.probe.outputs.hit == '1' && steps.branch_check.outputs.skip == '0'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -113,10 +100,25 @@ jobs:
           git add tools/data/championslab.json assets/learnsets.json
           git commit -m "chore(learnsets): pull ChampionsLab refresh ${{ steps.probe.outputs.sha }}"
           git push origin "$BRANCH"
-          gh pr create \
+          # Try to create the PR. The default GITHUB_TOKEN often
+          # can't because "Allow GitHub Actions to create and
+          # approve pull requests" is off — in that case the
+          # branch is still pushed and we surface a clickable
+          # link in the run summary instead.
+          PR_URL=""
+          if gh pr create \
             --title "ChampionsLab learnset refresh (auto, ${{ steps.probe.outputs.sha }})" \
-            --body  "Automated pull from upstream pokemon-data.ts. Triggered by signal:${{ steps.probe.outputs.hits }}.
-
-          Review the diff in \`assets/learnsets.json\` (and \`tools/data/championslab.json\`), then merge to drop the v1.12.5 \"learnset data not yet accurate\" notice for the new roster." \
-            --base main \
-            --head "$BRANCH"
+            --body  "Automated pull from upstream pokemon-data.ts (Swampert + Wave Crash signature triggered — new Champions roster has landed). Review the diff in assets/learnsets.json, then merge to drop the v1.12.5 \"learnset data not yet accurate\" notice." \
+            --base main --head "$BRANCH" 2>/tmp/pr_err; then
+            PR_URL=$(gh pr view "$BRANCH" --json url --jq .url)
+          else
+            echo "::warning::Auto PR creation blocked — enable 'Allow GitHub Actions to create and approve pull requests' under Settings → Actions → General."
+            PR_URL="https://github.com/${{ github.repository }}/compare/main...${BRANCH}?expand=1"
+          fi
+          {
+            echo "## ChampionsLab refresh ready"
+            echo ""
+            echo "Upstream signature hit (sha \`${{ steps.probe.outputs.sha }}\`). Branch pushed:"
+            echo "- Branch: \`$BRANCH\`"
+            echo "- Open / create PR: $PR_URL"
+          } >> "$GITHUB_STEP_SUMMARY"
