@@ -1950,7 +1950,7 @@
       "spDefense": 120,
       "speed": 88
     },
-    "abilities": ["Defiant"],
+    "abilities": ["Contrary"],
     "weight": 69.8,
     "height": 2.9,
     "dexNumber": 687,
@@ -2106,7 +2106,7 @@
       "spDefense": 65,
       "speed": 100
     },
-    "abilities": ["Guts"],
+    "abilities": ["Defiant"],
     "weight": 99.0,
     "height": 1.6,
     "dexNumber": 870,
@@ -2241,7 +2241,7 @@
       "spDefense": 90,
       "speed": 110
     },
-    "abilities": ["Defiant"],
+    "abilities": ["Contrary"],
     "weight": 50.0,
     "height": 1.9,
     "dexNumber": 398,
