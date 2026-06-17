@@ -30362,12 +30362,49 @@
     ]
   },
   "Grimmsnarl": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Prankster"
+      }
+    ],
+    "items": [
+      {
+        "name": "light-clay"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Spirit Break"
+      },
+      {
+        "name": "Reflect"
+      },
+      {
+        "name": "Light Screen"
+      },
+      {
+        "name": "Parting Shot"
+      }
+    ],
+    "defaultMoves": [
+      "Spirit Break",
+      "Reflect",
+      "Light Screen",
+      "Parting Shot"
+    ],
+    "natures": [
+      {
+        "name": "Impish"
+      }
+    ]
   },
   "Falinks": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
