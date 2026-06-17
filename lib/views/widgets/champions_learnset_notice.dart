@@ -56,7 +56,7 @@ class _NoticeDialog extends StatelessWidget {
         ),
         FilledButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(AppStrings.t('common.ok')),
+          child: Text(AppStrings.t('action.ok')),
         ),
       ],
     );
