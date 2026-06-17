@@ -533,7 +533,11 @@
     "genderRate": 1,
     "canDynamax": false,
     "nameEn": "Mega Blaziken",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메번코",
+      "메치코"
+    ]
   },
   {
     "dexNumber": 282,
@@ -589,7 +593,10 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Mawile",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메치트"
+    ]
   },
   {
     "dexNumber": 306,
@@ -899,7 +906,10 @@
     "genderRate": 1,
     "canDynamax": false,
     "nameEn": "Mega Swampert",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메짱이"
+    ]
   },
   {
     "dexNumber": 254,
@@ -927,7 +937,10 @@
     "genderRate": 1,
     "canDynamax": false,
     "nameEn": "Mega Sceptile",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메무킹"
+    ]
   },
   {
     "dexNumber": 302,
@@ -1246,7 +1259,10 @@
     "genderRate": -1,
     "canDynamax": false,
     "nameEn": "Mega Metagross",
-    "isMega": true
+    "isMega": true,
+    "aliases": [
+      "메메타"
+    ]
   },
   {
     "dexNumber": 384,
@@ -1735,7 +1751,10 @@
     "requiredItem": "scraftinite",
     "nameEn": "Mega Scrafty",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "메곤율"
+    ]
   },
   {
     "name": "Mega Eelektross",
@@ -2250,7 +2269,10 @@
     "requiredItem": "staraptite",
     "nameEn": "Mega Staraptor",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "aliases": [
+      "메찌호"
+    ]
   },
   {
     "name": "Mega Garchomp Z",
