@@ -29822,20 +29822,94 @@
     "natures": []
   },
   "Scolipede": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Speed Boost"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Megahorn"
+      },
+      {
+        "name": "Gunk Shot"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      "Megahorn",
+      "Gunk Shot",
+      "Earthquake",
+      "Protect"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Mega Scolipede": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Shell Armor"
+      }
+    ],
+    "items": [
+      {
+        "name": "scolipite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Megahorn"
+      },
+      {
+        "name": "Gunk Shot"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      "Megahorn",
+      "Gunk Shot",
+      "Earthquake",
+      "Protect"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Scrafty": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
