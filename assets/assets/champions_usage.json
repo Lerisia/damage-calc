@@ -30002,20 +30002,94 @@
     ]
   },
   "Eelektross": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Levitate"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Supercell Slam"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Fire Punch"
+      },
+      {
+        "name": "Coil"
+      }
+    ],
+    "defaultMoves": [
+      "Supercell Slam",
+      "Liquidation",
+      "Fire Punch",
+      "Coil"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Mega Eelektross": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Eelevate"
+      }
+    ],
+    "items": [
+      {
+        "name": "eelektrossite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Supercell Slam"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Fire Punch"
+      },
+      {
+        "name": "Coil"
+      }
+    ],
+    "defaultMoves": [
+      "Supercell Slam",
+      "Liquidation",
+      "Fire Punch",
+      "Coil"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Pyroar": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
