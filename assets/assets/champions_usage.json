@@ -29634,20 +29634,94 @@
     ]
   },
   "Metagross": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Clear Body"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Iron Head"
+      },
+      {
+        "name": "Bullet Punch"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      }
+    ],
+    "defaultMoves": [
+      "Iron Head",
+      "Bullet Punch",
+      "Earthquake",
+      "Ice Punch"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Mega Metagross": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Tough Claws"
+      }
+    ],
+    "items": [
+      {
+        "name": "metagrossite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Iron Head"
+      },
+      {
+        "name": "Bullet Punch"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      }
+    ],
+    "defaultMoves": [
+      "Iron Head",
+      "Bullet Punch",
+      "Earthquake",
+      "Ice Punch"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Staraptor": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
