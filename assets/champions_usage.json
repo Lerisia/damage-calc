@@ -30737,12 +30737,57 @@
     "natures": []
   },
   "Annihilape": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 2,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Vital Spirit"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Rage Fist"
+      },
+      {
+        "name": "Drain Punch"
+      },
+      {
+        "name": "Bulk Up"
+      },
+      {
+        "name": "Taunt"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Rage Fist"
+      },
+      {
+        "name": "Drain Punch"
+      },
+      {
+        "name": "Bulk Up"
+      },
+      {
+        "name": "Taunt"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Gholdengo": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
