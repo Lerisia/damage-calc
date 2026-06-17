@@ -61176,7 +61176,7 @@ $1(a){return B.av2},
 $S:324}
 A.B5.prototype={
 I(a){var s=null,r=A.j(A.f("notice.championsLearnsetTitle"),s,s,s,s,s,s,s),q=A.j(A.f("notice.championsLearnsetBody"),s,s,s,s,B.aoY,s,s)
-return A.dB(A.b([A.bQ(A.j(A.f("action.dontShowAgain"),s,s,s,s,s,s,s),new A.aKf(a),s),A.b5j(A.j(A.f("common.ok"),s,s,s,s,s,s,s),new A.aKg(a))],t.p),s,q,s,!1,r,s)}}
+return A.dB(A.b([A.bQ(A.j(A.f("action.dontShowAgain"),s,s,s,s,s,s,s),new A.aKf(a),s),A.b5j(A.j(A.f("action.ok"),s,s,s,s,s,s,s),new A.aKg(a))],t.p),s,q,s,!1,r,s)}}
 A.aKf.prototype={
 $0(){var s=0,r=A.x(t.H),q=this,p
 var $async$$0=A.t(function(a,b){if(a===1)return A.u(b,r)
