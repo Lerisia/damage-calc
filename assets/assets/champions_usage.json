@@ -29168,20 +29168,94 @@
     ]
   },
   "Mega Raichu X": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Electric Surge"
+      }
+    ],
+    "items": [
+      {
+        "name": "raichunite-x"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Volt Tackle"
+      },
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Drain Punch"
+      },
+      {
+        "name": "Nuzzle"
+      }
+    ],
+    "defaultMoves": [
+      "Volt Tackle",
+      "Play Rough",
+      "Drain Punch",
+      "Nuzzle"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Mega Raichu Y": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "No Guard"
+      }
+    ],
+    "items": [
+      {
+        "name": "raichunite-y"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Zap Cannon"
+      },
+      {
+        "name": "Focus Blast"
+      },
+      {
+        "name": "Substitute"
+      },
+      {
+        "name": "Encore"
+      }
+    ],
+    "defaultMoves": [
+      "Zap Cannon",
+      "Focus Blast",
+      "Substitute",
+      "Encore"
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      }
+    ]
   },
   "Vileplume": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
