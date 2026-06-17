@@ -22,6 +22,7 @@ import '../models/type.dart';
 import '../utils/app_strings.dart';
 import '../utils/calc_handoff.dart';
 import '../utils/champions_mode.dart';
+import '../utils/stat_calculator.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/party_image_save.dart';
@@ -1759,12 +1760,13 @@ class _SlotSummaryCard extends StatelessWidget {
               // field to a fixed column.
               _abilityItemLine(scheme, abilityLabel, itemLabel),
               const SizedBox(height: 4),
-              // EV row: HP-Atk-Def-SpA-SpD-Spe with a ▲/▼ glyph next
-              // to the nature-boosted / -reduced stat. Sits above the
-              // move pills so the stat block reads next to the
-              // ability/item line it belongs with (same order the
-              // popup editor uses).
-              _evNatureLine(scheme, slot.evs, slot.nature),
+              // Stat row: HP-Atk-Def-SpA-SpD-Spe shown as real
+              // (Lv50, IV 31) numbers with the SP investment and
+              // nature glyph carried in parens. Parens drop entirely
+              // when the stat is uninvested + nature-neutral so a
+              // plain spread reads with minimum noise. Same Pokémon
+              // order as the popup editor.
+              _statRealLine(scheme, p, slot.evs, slot.nature),
               const SizedBox(height: 4),
               // Move pills — forced to a single line via equal-width
               // Expanded cells. Long move names truncate with the
@@ -1851,57 +1853,59 @@ class _SlotSummaryCard extends StatelessWidget {
   /// Numbers shown in Champions SP units (0-32), matching the rest
   /// of the team-builder / simple-mode UI — the calc itself stays
   /// in EV units, conversion happens here at the display boundary.
-  Widget _evNatureLine(
-      ColorScheme scheme, Stats? evs, NatureProfile? nature) {
-    const order = [
-      ('hp', NatureStat.atk /* unused for hp; nature never affects HP */),
-      ('atk', NatureStat.atk),
-      ('def', NatureStat.def),
-      ('spa', NatureStat.spa),
-      ('spd', NatureStat.spd),
-      ('spe', NatureStat.spe),
-    ];
+  Widget _statRealLine(ColorScheme scheme, Pokemon? pokemon,
+      Stats? evs, NatureProfile? nature) {
+    if (pokemon == null) return const SizedBox.shrink();
 
-    final sp = evs == null ? null : ChampionsMode.evToSpStats(evs);
+    // Compute Lv50 / IV-31 real stats from this slot's EVs + nature.
+    // Mirrors the calculator's StatCalculator so the numbers shown
+    // here are the same numbers used in damage calcs downstream.
+    final evStats = evs ?? ChampionsMode.spToEvStats(ChampionsMode.zeroSp);
+    final natureProfile = nature ?? NatureProfile.neutral;
+    final real = StatCalculator.calculate(
+      baseStats: pokemon.baseStats,
+      iv: ChampionsMode.fixedIv,
+      ev: evStats,
+      nature: natureProfile,
+      level: ChampionsMode.level,
+    );
+    final sp = ChampionsMode.evToSpStats(evStats);
 
-    int valueOf(String key) {
-      if (sp == null) return 0;
-      switch (key) {
-        case 'hp':
-          return sp.hp;
-        case 'atk':
-          return sp.attack;
-        case 'def':
-          return sp.defense;
-        case 'spa':
-          return sp.spAttack;
-        case 'spd':
-          return sp.spDefense;
-        case 'spe':
-          return sp.speed;
-      }
-      return 0;
-    }
+    const keys = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+    int realOf(String k) => switch (k) {
+          'hp' => real.hp,
+          'atk' => real.attack,
+          'def' => real.defense,
+          'spa' => real.spAttack,
+          'spd' => real.spDefense,
+          'spe' => real.speed,
+          _ => 0,
+        };
+    int spOf(String k) => switch (k) {
+          'hp' => sp.hp,
+          'atk' => sp.attack,
+          'def' => sp.defense,
+          'spa' => sp.spAttack,
+          'spd' => sp.spDefense,
+          'spe' => sp.speed,
+          _ => 0,
+        };
+    NatureStat? statFor(String k) => switch (k) {
+          'atk' => NatureStat.atk,
+          'def' => NatureStat.def,
+          'spa' => NatureStat.spa,
+          'spd' => NatureStat.spd,
+          'spe' => NatureStat.spe,
+          _ => null, // HP never has a nature glyph.
+        };
 
-    String arrowFor(String key) {
-      if (nature == null || key == 'hp') return '';
-      final stat = switch (key) {
-        'atk' => NatureStat.atk,
-        'def' => NatureStat.def,
-        'spa' => NatureStat.spa,
-        'spd' => NatureStat.spd,
-        'spe' => NatureStat.spe,
-        _ => null,
-      };
-      if (stat == null) return '';
-      if (nature.up == stat) return '▲';
-      if (nature.down == stat) return '▼';
-      return '';
-    }
-
+    final base = TextStyle(
+      fontSize: 11,
+      color: scheme.onSurface.withValues(alpha: 0.85),
+    );
     final muted = TextStyle(
       fontSize: 11,
-      color: scheme.onSurface.withValues(alpha: 0.65),
+      color: scheme.onSurface.withValues(alpha: 0.55),
     );
     final upStyle = TextStyle(
       fontSize: 9,
@@ -1913,26 +1917,41 @@ class _SlotSummaryCard extends StatelessWidget {
       color: Colors.blue.shade400,
       fontWeight: FontWeight.w700,
     );
+    final sepStyle = muted.copyWith(color: scheme.outlineVariant);
 
     final spans = <InlineSpan>[];
-    for (int i = 0; i < order.length; i++) {
-      final key = order[i].$1;
-      final v = valueOf(key);
-      spans.add(TextSpan(text: '$v', style: muted));
-      final arrow = arrowFor(key);
-      if (arrow.isNotEmpty) {
-        spans.add(TextSpan(
-          text: arrow,
-          style: arrow == '▲' ? upStyle : downStyle,
-        ));
+    for (int i = 0; i < keys.length; i++) {
+      final k = keys[i];
+      spans.add(TextSpan(text: '${realOf(k)}', style: base));
+
+      final spVal = spOf(k);
+      final ns = statFor(k);
+      String? arrow;
+      TextStyle? arrowStyle;
+      if (ns != null) {
+        if (natureProfile.up == ns) {
+          arrow = '▲';
+          arrowStyle = upStyle;
+        } else if (natureProfile.down == ns) {
+          arrow = '▼';
+          arrowStyle = downStyle;
+        }
       }
-      if (i < order.length - 1) {
-        // Hyphen separators are the Korean community convention for
-        // EV spreads (252-0-4-252-0-0). With spaces when room allows.
-        spans.add(TextSpan(
-          text: ' - ',
-          style: muted.copyWith(color: scheme.outlineVariant),
-        ));
+      // Parens drop entirely when there's nothing to annotate
+      // (uninvested + nature-neutral on this stat).
+      if (spVal > 0 || arrow != null) {
+        spans.add(TextSpan(text: '(', style: muted));
+        if (spVal > 0) {
+          spans.add(TextSpan(text: '$spVal', style: muted));
+        }
+        if (arrow != null) {
+          spans.add(TextSpan(text: arrow, style: arrowStyle));
+        }
+        spans.add(TextSpan(text: ')', style: muted));
+      }
+
+      if (i < keys.length - 1) {
+        spans.add(TextSpan(text: ' - ', style: sepStyle));
       }
     }
 
