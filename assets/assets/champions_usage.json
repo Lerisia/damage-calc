@@ -29201,10 +29201,18 @@
       }
     ],
     "defaultMoves": [
-      "Volt Tackle",
-      "Play Rough",
-      "Drain Punch",
-      "Nuzzle"
+      {
+        "name": "Volt Tackle"
+      },
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Drain Punch"
+      },
+      {
+        "name": "Nuzzle"
+      }
     ],
     "natures": [
       {
@@ -29246,10 +29254,18 @@
       }
     ],
     "defaultMoves": [
-      "Zap Cannon",
-      "Focus Blast",
-      "Substitute",
-      "Encore"
+      {
+        "name": "Zap Cannon"
+      },
+      {
+        "name": "Focus Blast"
+      },
+      {
+        "name": "Substitute"
+      },
+      {
+        "name": "Encore"
+      }
     ],
     "natures": [
       {
@@ -29307,10 +29323,18 @@
       }
     ],
     "defaultMoves": [
-      "Leaf Storm",
-      "Dragon Pulse",
-      "Focus Blast",
-      "Shed Tail"
+      {
+        "name": "Leaf Storm"
+      },
+      {
+        "name": "Dragon Pulse"
+      },
+      {
+        "name": "Focus Blast"
+      },
+      {
+        "name": "Shed Tail"
+      }
     ],
     "natures": [
       {
@@ -29352,10 +29376,18 @@
       }
     ],
     "defaultMoves": [
-      "Leaf Storm",
-      "Dragon Pulse",
-      "Focus Blast",
-      "Shed Tail"
+      {
+        "name": "Leaf Storm"
+      },
+      {
+        "name": "Dragon Pulse"
+      },
+      {
+        "name": "Focus Blast"
+      },
+      {
+        "name": "Shed Tail"
+      }
     ],
     "natures": [
       {
@@ -29397,10 +29429,18 @@
       }
     ],
     "defaultMoves": [
-      "Flare Blitz",
-      "Close Combat",
-      "Thunder Punch",
-      "Protect"
+      {
+        "name": "Flare Blitz"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Protect"
+      }
     ],
     "natures": [
       {
@@ -29442,10 +29482,18 @@
       }
     ],
     "defaultMoves": [
-      "Flare Blitz",
-      "Close Combat",
-      "Thunder Punch",
-      "Protect"
+      {
+        "name": "Flare Blitz"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Protect"
+      }
     ],
     "natures": [
       {
@@ -29487,10 +29535,18 @@
       }
     ],
     "defaultMoves": [
-      "Wave Crash",
-      "Earthquake",
-      "Ice Punch",
-      "Substitute"
+      {
+        "name": "Wave Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Substitute"
+      }
     ],
     "natures": [
       {
@@ -29532,10 +29588,18 @@
       }
     ],
     "defaultMoves": [
-      "Wave Crash",
-      "Earthquake",
-      "Ice Punch",
-      "Substitute"
+      {
+        "name": "Wave Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Substitute"
+      }
     ],
     "natures": [
       {
@@ -29577,10 +29641,18 @@
       }
     ],
     "defaultMoves": [
-      "Play Rough",
-      "Sucker Punch",
-      "Thunder Punch",
-      "Swords Dance"
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Swords Dance"
+      }
     ],
     "natures": [
       {
@@ -29622,10 +29694,18 @@
       }
     ],
     "defaultMoves": [
-      "Play Rough",
-      "Sucker Punch",
-      "Thunder Punch",
-      "Swords Dance"
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Thunder Punch"
+      },
+      {
+        "name": "Swords Dance"
+      }
     ],
     "natures": [
       {
@@ -29667,10 +29747,18 @@
       }
     ],
     "defaultMoves": [
-      "Iron Head",
-      "Bullet Punch",
-      "Earthquake",
-      "Ice Punch"
+      {
+        "name": "Iron Head"
+      },
+      {
+        "name": "Bullet Punch"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      }
     ],
     "natures": [
       {
@@ -29712,10 +29800,18 @@
       }
     ],
     "defaultMoves": [
-      "Iron Head",
-      "Bullet Punch",
-      "Earthquake",
-      "Ice Punch"
+      {
+        "name": "Iron Head"
+      },
+      {
+        "name": "Bullet Punch"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Punch"
+      }
     ],
     "natures": [
       {
@@ -29757,10 +29853,18 @@
       }
     ],
     "defaultMoves": [
-      "Brave Bird",
-      "Close Combat",
-      "U-turn",
-      "Substitute"
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Substitute"
+      }
     ],
     "natures": [
       {
@@ -29802,10 +29906,18 @@
       }
     ],
     "defaultMoves": [
-      "Brave Bird",
-      "Close Combat",
-      "U-turn",
-      "Substitute"
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Substitute"
+      }
     ],
     "natures": [
       {
@@ -29855,10 +29967,18 @@
       }
     ],
     "defaultMoves": [
-      "Megahorn",
-      "Gunk Shot",
-      "Earthquake",
-      "Protect"
+      {
+        "name": "Megahorn"
+      },
+      {
+        "name": "Gunk Shot"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Protect"
+      }
     ],
     "natures": [
       {
@@ -29900,10 +30020,18 @@
       }
     ],
     "defaultMoves": [
-      "Megahorn",
-      "Gunk Shot",
-      "Earthquake",
-      "Protect"
+      {
+        "name": "Megahorn"
+      },
+      {
+        "name": "Gunk Shot"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Protect"
+      }
     ],
     "natures": [
       {
@@ -29945,10 +30073,18 @@
       }
     ],
     "defaultMoves": [
-      "Close Combat",
-      "Crunch",
-      "Ice Punch",
-      "Dragon Dance"
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Dragon Dance"
+      }
     ],
     "natures": [
       {
@@ -29990,10 +30126,18 @@
       }
     ],
     "defaultMoves": [
-      "Close Combat",
-      "Crunch",
-      "Ice Punch",
-      "Dragon Dance"
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Dragon Dance"
+      }
     ],
     "natures": [
       {
@@ -30035,10 +30179,18 @@
       }
     ],
     "defaultMoves": [
-      "Supercell Slam",
-      "Liquidation",
-      "Fire Punch",
-      "Coil"
+      {
+        "name": "Supercell Slam"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Fire Punch"
+      },
+      {
+        "name": "Coil"
+      }
     ],
     "natures": [
       {
@@ -30080,10 +30232,18 @@
       }
     ],
     "defaultMoves": [
-      "Supercell Slam",
-      "Liquidation",
-      "Fire Punch",
-      "Coil"
+      {
+        "name": "Supercell Slam"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Fire Punch"
+      },
+      {
+        "name": "Coil"
+      }
     ],
     "natures": [
       {
@@ -30125,10 +30285,18 @@
       }
     ],
     "defaultMoves": [
-      "Flamethrower",
-      "Hyper Voice",
-      "Dark Pulse",
-      "Will-O-Wisp"
+      {
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "Will-O-Wisp"
+      }
     ],
     "natures": [
       {
@@ -30170,10 +30338,18 @@
       }
     ],
     "defaultMoves": [
-      "Flamethrower",
-      "Hyper Voice",
-      "Dark Pulse",
-      "Will-O-Wisp"
+      {
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "Will-O-Wisp"
+      }
     ],
     "natures": [
       {
@@ -30215,10 +30391,18 @@
       }
     ],
     "defaultMoves": [
-      "Throat Chop",
-      "Psycho Cut",
-      "Superpower",
-      "Liquidation"
+      {
+        "name": "Throat Chop"
+      },
+      {
+        "name": "Psycho Cut"
+      },
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      }
     ],
     "natures": [
       {
@@ -30260,10 +30444,18 @@
       }
     ],
     "defaultMoves": [
-      "Throat Chop",
-      "Psycho Cut",
-      "Superpower",
-      "Liquidation"
+      {
+        "name": "Throat Chop"
+      },
+      {
+        "name": "Psycho Cut"
+      },
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      }
     ],
     "natures": [
       {
@@ -30305,10 +30497,18 @@
       }
     ],
     "defaultMoves": [
-      "Superpower",
-      "Liquidation",
-      "Earthquake",
-      "Poison Jab"
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Poison Jab"
+      }
     ],
     "natures": [
       {
@@ -30350,10 +30550,18 @@
       }
     ],
     "defaultMoves": [
-      "Superpower",
-      "Liquidation",
-      "Earthquake",
-      "Poison Jab"
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Poison Jab"
+      }
     ],
     "natures": [
       {
@@ -30395,10 +30603,18 @@
       }
     ],
     "defaultMoves": [
-      "Spirit Break",
-      "Reflect",
-      "Light Screen",
-      "Parting Shot"
+      {
+        "name": "Spirit Break"
+      },
+      {
+        "name": "Reflect"
+      },
+      {
+        "name": "Light Screen"
+      },
+      {
+        "name": "Parting Shot"
+      }
     ],
     "natures": [
       {
