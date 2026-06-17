@@ -18,6 +18,10 @@ bool isGrounded({
       type2 == PokemonType.flying ||
       type3 == PokemonType.flying) return false;
   if (ability == 'Levitate') return false;
+  // Eelevate (Pokémon Champions Mega Eelektross) shares Levitate's
+  // grounded behavior for damage-calc purposes — the secondary
+  // effects differ but don't affect calc.
+  if (ability == 'Eelevate') return false;
   if (item == 'air-balloon') return false;
   return true;
 }
@@ -39,5 +43,6 @@ String groundImmunityNote({
       type2 == PokemonType.flying ||
       type3 == PokemonType.flying;
   if (!flying && ability == 'Levitate') return 'ability:Levitate:immune';
+  if (!flying && ability == 'Eelevate') return 'ability:Eelevate:immune';
   return 'ground:ungrounded';
 }

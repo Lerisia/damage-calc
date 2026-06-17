@@ -656,6 +656,9 @@ double abilityAdjustedDefensiveMultiplier(
   if (ability != null) {
     if (isAbilityTypeImmune(ability, attackType)) return 0.0;
     if (ability == 'Levitate' && attackType == PokemonType.ground) return 0.0;
+    // Eelevate (Mega Eelektross): same Ground immunity as Levitate
+    // for damage-calc purposes.
+    if (ability == 'Eelevate' && attackType == PokemonType.ground) return 0.0;
   }
 
   // 2) Pure type chart, including type immunities (Ghost vs Normal, etc.).
@@ -850,7 +853,7 @@ String? resolveAbilityWithGas({
 /// This covers immunities, damage reduction, and defensive stat boosts.
 const Set<String> ignorableAbilities = {
   // Type immunities
-  'Levitate', 'Flash Fire', 'Lightning Rod', 'Motor Drive',
+  'Levitate', 'Eelevate', 'Flash Fire', 'Lightning Rod', 'Motor Drive',
   'Volt Absorb', 'Water Absorb', 'Sap Sipper', 'Storm Drain',
   'Dry Skin', 'Wonder Guard',
   // Move-based immunities

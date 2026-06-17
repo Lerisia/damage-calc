@@ -1750,7 +1750,9 @@
       "spDefense": 90,
       "speed": 80
     },
-    "abilities": [],
+    "abilities": [
+      "Eelevate"
+    ],
     "weight": 180.0,
     "height": 3.0,
     "dexNumber": 604,
