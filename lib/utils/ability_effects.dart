@@ -224,6 +224,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Transistor':
     case "Dragon's Maw":
     case 'Rocky Payload':
+    case 'Fire Mane':
       final typeBoost = _typePowerBoosts[abilityName];
       if (typeBoost != null && move != null && move.type == typeBoost.$1) {
         return AbilityEffect(
@@ -1200,6 +1201,7 @@ const _typePowerBoosts = <String, (PokemonType, double)>{
   'Transistor': (PokemonType.electric, kMediumPowerBoost),
   "Dragon's Maw": (PokemonType.dragon, kMajorPowerBoost),
   'Rocky Payload': (PokemonType.rock, kMajorPowerBoost),
+  'Fire Mane': (PokemonType.fire, kMajorPowerBoost),
 };
 
 /// Pinch abilities: ability → type that gets boosted at ≤33% HP
