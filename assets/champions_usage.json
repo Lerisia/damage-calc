@@ -29912,20 +29912,94 @@
     ]
   },
   "Scrafty": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Intimidate"
+      }
+    ],
+    "items": [
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Dragon Dance"
+      }
+    ],
+    "defaultMoves": [
+      "Close Combat",
+      "Crunch",
+      "Ice Punch",
+      "Dragon Dance"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Mega Scrafty": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Intimidate"
+      }
+    ],
+    "items": [
+      {
+        "name": "scraftinite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Dragon Dance"
+      }
+    ],
+    "defaultMoves": [
+      "Close Combat",
+      "Crunch",
+      "Ice Punch",
+      "Dragon Dance"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Eelektross": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
