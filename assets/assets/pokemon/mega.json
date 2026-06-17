@@ -1892,7 +1892,9 @@
       "spDefense": 86,
       "speed": 126
     },
-    "abilities": [],
+    "abilities": [
+      "Fire Mane"
+    ],
     "weight": 93.3,
     "height": 1.5,
     "dexNumber": 668,
