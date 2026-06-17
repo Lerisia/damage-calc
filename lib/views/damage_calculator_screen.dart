@@ -39,6 +39,7 @@ import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
 import '../utils/url_navigator_stub.dart'
     if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
+import 'widgets/champions_learnset_notice.dart';
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/modifier_note.dart';
 import 'widgets/pokemon_panel.dart';
@@ -334,6 +335,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       // out via "Don't show again" (same dismissal semantics as the
       // sprite announcement above).
       await MobileInstallPrompt.maybeShow(context);
+      if (!mounted) return;
+      // One-shot notice for the 2026-06-17 Champions roster
+      // expansion — learnsets for new roster members are still
+      // inherited from Showdown and may not match the in-game
+      // pool until ChampionsLab refreshes upstream.
+      await ChampionsLearnsetNotice.maybeShow(context);
     });
   }
 
@@ -2475,7 +2482,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.12.4'),
+          const Text('v1.12.5'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),

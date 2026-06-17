@@ -1651,10 +1651,30 @@ class AppStrings {
       AppLanguage.en: 'Shiny variants are now toggleable everywhere — calculator, dex, and team builder. The web build picks them up automatically; on mobile you must re-import the sprite pack to see shiny art. Re-download from the Pokéball entry in the menu (top-right ⋮).',
       AppLanguage.ja: '計算機・図鑑・パーティ構築のどこでも色違いに切り替えられます。Web版は自動反映されますが、モバイルでは色違い画像を表示するためにイメージパックの再ダウンロードが必要です。右上メニュー（⋮）のモンスターボールから取り直してください。',
     },
+    // One-shot notice for the in-game roster expansion shipped on
+    // 2026-06-17 — learnsets for the new Champions Pokémon haven't
+    // been datamined upstream yet, so the move pool we show may
+    // include moves that are no longer learnable, or miss moves
+    // that are. Cleared once ChampionsLab refreshes.
+    'notice.championsLearnsetTitle': {
+      AppLanguage.ko: '챔피언스 신규 포켓몬 안내',
+      AppLanguage.en: 'New Champions Pokémon',
+      AppLanguage.ja: 'チャンピオンズ 新規ポケモンのご案内',
+    },
+    'notice.championsLearnsetBody': {
+      AppLanguage.ko: '오늘 추가된 챔피언스 신규 포켓몬의 학습 가능 기술 목록은 아직 정확하지 않습니다. 데이터가 확보되는 대로 업데이트할 예정입니다.',
+      AppLanguage.en: 'The learnable-move data for today\'s newly added Champions Pokémon is not yet accurate. It will be updated as soon as proper data becomes available.',
+      AppLanguage.ja: '本日追加されたチャンピオンズの新規ポケモンの覚える技データはまだ正確ではありません。正しいデータが入り次第更新する予定です。',
+    },
     'action.dontShowAgain': {
       AppLanguage.ko: '다시 보지 않기',
       AppLanguage.en: "Don't show again",
       AppLanguage.ja: '今後表示しない',
+    },
+    'action.ok': {
+      AppLanguage.ko: '확인',
+      AppLanguage.en: 'OK',
+      AppLanguage.ja: '確認',
     },
     'action.snoozeWeek': {
       AppLanguage.ko: '일주일 안 보기',
