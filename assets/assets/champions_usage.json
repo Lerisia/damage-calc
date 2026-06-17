@@ -30843,19 +30843,109 @@
     ]
   },
   "Dragalge": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Adaptability"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Sludge Wave"
+      },
+      {
+        "name": "Draco Meteor"
+      },
+      {
+        "name": "Toxic"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Sludge Wave"
+      },
+      {
+        "name": "Draco Meteor"
+      },
+      {
+        "name": "Toxic"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Impish"
+      }
+    ]
   },
   "Mega Dragalge": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Regenerator"
+      }
+    ],
+    "items": [
+      {
+        "name": "dragalgite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Sludge Wave"
+      },
+      {
+        "name": "Draco Meteor"
+      },
+      {
+        "name": "Toxic"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Sludge Wave"
+      },
+      {
+        "name": "Draco Meteor"
+      },
+      {
+        "name": "Toxic"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Impish"
+      }
+    ]
   }
 }
