@@ -30790,12 +30790,57 @@
     ]
   },
   "Gholdengo": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 2
+    },
+    "abilities": [
+      {
+        "name": "Good as Gold"
+      }
+    ],
+    "items": [
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Make It Rain"
+      },
+      {
+        "name": "Shadow Ball"
+      },
+      {
+        "name": "Nasty Plot"
+      },
+      {
+        "name": "Recover"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Make It Rain"
+      },
+      {
+        "name": "Shadow Ball"
+      },
+      {
+        "name": "Nasty Plot"
+      },
+      {
+        "name": "Recover"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Modest"
+      }
+    ]
   },
   "Dragalge": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
