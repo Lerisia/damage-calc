@@ -30272,20 +30272,94 @@
     ]
   },
   "Barbaracle": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Tough Claws"
+      }
+    ],
+    "items": [
+      {
+        "name": "white-herb"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Poison Jab"
+      }
+    ],
+    "defaultMoves": [
+      "Superpower",
+      "Liquidation",
+      "Earthquake",
+      "Poison Jab"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Mega Barbaracle": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Tough Claws"
+      }
+    ],
+    "items": [
+      {
+        "name": "barbaracite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Poison Jab"
+      }
+    ],
+    "defaultMoves": [
+      "Superpower",
+      "Liquidation",
+      "Earthquake",
+      "Poison Jab"
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      }
+    ]
   },
   "Grimmsnarl": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
