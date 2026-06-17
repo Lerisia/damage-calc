@@ -30092,20 +30092,94 @@
     ]
   },
   "Pyroar": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Moxie"
+      }
+    ],
+    "items": [
+      {
+        "name": "life-orb"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "Will-O-Wisp"
+      }
+    ],
+    "defaultMoves": [
+      "Flamethrower",
+      "Hyper Voice",
+      "Dark Pulse",
+      "Will-O-Wisp"
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      }
+    ]
   },
   "Mega Pyroar": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Fire Mane"
+      }
+    ],
+    "items": [
+      {
+        "name": "pyroarite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "Will-O-Wisp"
+      }
+    ],
+    "defaultMoves": [
+      "Flamethrower",
+      "Hyper Voice",
+      "Dark Pulse",
+      "Will-O-Wisp"
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      }
+    ]
   },
   "Malamar": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
