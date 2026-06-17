@@ -29446,5 +29446,21 @@
     "moves": [],
     "defaultMoves": [],
     "natures": []
+  },
+  "Dragalge": {
+    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
+    "abilities": [],
+    "items": [],
+    "moves": [],
+    "defaultMoves": [],
+    "natures": []
+  },
+  "Mega Dragalge": {
+    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
+    "abilities": [],
+    "items": [],
+    "moves": [],
+    "defaultMoves": [],
+    "natures": []
   }
 }
