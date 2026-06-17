@@ -30182,20 +30182,94 @@
     ]
   },
   "Malamar": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Contrary"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Throat Chop"
+      },
+      {
+        "name": "Psycho Cut"
+      },
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      }
+    ],
+    "defaultMoves": [
+      "Throat Chop",
+      "Psycho Cut",
+      "Superpower",
+      "Liquidation"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Mega Malamar": {
-    "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
-    "abilities": [],
-    "items": [],
-    "moves": [],
-    "defaultMoves": [],
-    "natures": []
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    },
+    "abilities": [
+      {
+        "name": "Contrary"
+      }
+    ],
+    "items": [
+      {
+        "name": "malamarite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Throat Chop"
+      },
+      {
+        "name": "Psycho Cut"
+      },
+      {
+        "name": "Superpower"
+      },
+      {
+        "name": "Liquidation"
+      }
+    ],
+    "defaultMoves": [
+      "Throat Chop",
+      "Psycho Cut",
+      "Superpower",
+      "Liquidation"
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      }
+    ]
   },
   "Barbaracle": {
     "_note": "added 2026-06-17 for incoming Pokémon Champions roster expansion; real usage stats pending",
