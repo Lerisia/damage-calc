@@ -329,6 +329,68 @@ def to_usage_entry(parsed: dict, existing: dict | None) -> dict:
     return out
 
 
+# ─── Mega-mirror policy ──────────────────────────────────────────────
+# pokedb doesn't rank Mega forms separately. Per project_mega_mirror_policy,
+# single-Mega entries (no X/Y/Z suffix) mirror moves/natures/defaultMoves/
+# defaultSp from their base form, keeping their own ability+item (from
+# mega.json). Multi-form Megas (X/Y/Z) are full-frozen — manual curation.
+
+_XYZ_SUFFIX_RE = re.compile(r"\s+[XYZ]$")
+
+
+def is_xyz_split(mega_name: str) -> bool:
+    return bool(_XYZ_SUFFIX_RE.search(mega_name))
+
+
+def load_mega_index(repo_root: Path) -> dict[str, dict]:
+    """Map mega English name → its mega.json entry (for ability + stone)."""
+    megas = json.loads((repo_root / "assets/pokemon/mega.json").read_text(encoding="utf-8"))
+    out: dict[str, dict] = {}
+    for m in megas:
+        if m.get("name", "").startswith("Mega "):
+            out[m["name"]] = m
+    return out
+
+
+def base_name_for(mega_name: str) -> str:
+    """Strip the 'Mega ' prefix to get the base species name."""
+    return mega_name[5:].strip() if mega_name.startswith("Mega ") else mega_name
+
+
+def mirror_megas_from_base(
+    usage: dict, mega_index: dict[str, dict]
+) -> tuple[int, int]:
+    """For every single-Mega (non X/Y/Z), copy moves/defaultMoves/
+    natures/defaultSp from its base form in `usage`. Preserve the
+    Mega's own ability + item (from mega.json). Returns (mirrored,
+    skipped_xyz)."""
+    mirrored = skipped = 0
+    for mega_name, mega_meta in mega_index.items():
+        if is_xyz_split(mega_name):
+            skipped += 1
+            continue
+        base = base_name_for(mega_name)
+        if base not in usage:
+            continue  # base lacks data, skip
+        base_entry = usage[base]
+        mirrored_entry: dict = {}
+        if base_entry.get("defaultSp"):
+            mirrored_entry["defaultSp"] = base_entry["defaultSp"]
+        # Mega's ability: from mega.json's `abilities` (usually 1 entry)
+        mega_abilities = mega_meta.get("abilities") or []
+        mirrored_entry["abilities"] = [{"name": a} for a in mega_abilities]
+        # Mega's item: the required mega stone
+        stone = mega_meta.get("requiredItem")
+        mirrored_entry["items"] = [{"name": stone}] if stone else []
+        # Mirror moves / defaultMoves / natures from base
+        mirrored_entry["moves"] = base_entry.get("moves", [])
+        mirrored_entry["defaultMoves"] = base_entry.get("defaultMoves", [])
+        mirrored_entry["natures"] = base_entry.get("natures", [])
+        usage[mega_name] = mirrored_entry
+        mirrored += 1
+    return mirrored, skipped
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--season", type=int, default=3,
@@ -392,6 +454,12 @@ def main() -> int:
         else:
             replaced += 1
         usage[en] = new_entry
+
+    # Mirror single-Mega entries from their refreshed base forms.
+    # X/Y/Z split megas (user-curated) are left alone.
+    mega_index = load_mega_index(REPO)
+    mirrored, skipped_xyz = mirror_megas_from_base(usage, mega_index)
+    print(f"mega mirror: mirrored={mirrored} skipped_xyz={skipped_xyz}")
 
     if "_meta" in usage:
         usage["_meta"]["source"] = (
