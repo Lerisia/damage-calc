@@ -188,34 +188,44 @@
     ],
     "moves": [
       {
-        "name": "Earthquake"
+        "name": "Earthquake",
+        "pct": 99.6
       },
       {
-        "name": "Outrage"
+        "name": "Outrage",
+        "pct": 53.1
       },
       {
-        "name": "Stealth Rock"
+        "name": "Stealth Rock",
+        "pct": 45.5
       },
       {
-        "name": "Rock Tomb"
+        "name": "Rock Tomb",
+        "pct": 37.8
       },
       {
-        "name": "Poison Jab"
+        "name": "Scale Shot",
+        "pct": 36.5
       },
       {
-        "name": "Scale Shot"
+        "name": "Swords Dance",
+        "pct": 24.4
       },
       {
-        "name": "Swords Dance"
+        "name": "Rock Slide",
+        "pct": 24.4
       },
       {
-        "name": "Dragon Tail"
+        "name": "Poison Jab",
+        "pct": 20.1
       },
       {
-        "name": "Rock Slide"
+        "name": "Fire Fang",
+        "pct": 15.2
       },
       {
-        "name": "Spikes"
+        "name": "Dragon Tail",
+        "pct": 12.9
       }
     ],
     "defaultMoves": [
@@ -226,27 +236,52 @@
         "name": "Outrage"
       },
       {
-        "name": "Rock Tomb"
+        "name": "Stealth Rock"
       },
       {
-        "name": "Stealth Rock"
+        "name": "Rock Tomb"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 56.9
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 32.8
       },
       {
-        "name": "Impish"
+        "name": "Impish",
+        "pct": 8.5
       },
       {
-        "name": "Careful"
+        "name": "Careful",
+        "pct": 0.9
       },
       {
-        "name": "Naive"
+        "name": "Naive",
+        "pct": 0.2
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.1
+      },
+      {
+        "name": "Bold",
+        "pct": 0.1
+      },
+      {
+        "name": "Naughty",
+        "pct": 0.1
+      },
+      {
+        "name": "Serious",
+        "pct": 0.1
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.1
       }
     ]
   },
@@ -1345,45 +1380,55 @@
     ],
     "moves": [
       {
-        "name": "Shadow Ball"
+        "name": "Sludge Wave",
+        "pct": 86.7
       },
       {
-        "name": "Sludge Wave"
+        "name": "Shadow Ball",
+        "pct": 76.2
       },
       {
-        "name": "Destiny Bond"
+        "name": "Icy Wind",
+        "pct": 48.5
       },
       {
-        "name": "Focus Blast"
+        "name": "Destiny Bond",
+        "pct": 45.9
       },
       {
-        "name": "Icy Wind"
+        "name": "Will-O-Wisp",
+        "pct": 24.3
       },
       {
-        "name": "Substitute"
+        "name": "Focus Blast",
+        "pct": 23.7
       },
       {
-        "name": "Protect"
+        "name": "Hex",
+        "pct": 22.4
       },
       {
-        "name": "Thunderbolt"
+        "name": "Thunderbolt",
+        "pct": 13.1
       },
       {
-        "name": "Hex"
+        "name": "Protect",
+        "pct": 10
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Sludge Bomb",
+        "pct": 7
       }
     ],
     "defaultMoves": [
       {
-        "name": "Shadow Ball"
-      },
-      {
         "name": "Sludge Wave"
       },
       {
-        "name": "Focus Blast"
+        "name": "Shadow Ball"
+      },
+      {
+        "name": "Icy Wind"
       },
       {
         "name": "Destiny Bond"
@@ -1391,19 +1436,36 @@
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 74.7
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 24.1
       },
       {
-        "name": "Calm"
+        "name": "Hasty",
+        "pct": 0.3
       },
       {
-        "name": "Hasty"
+        "name": "Quiet",
+        "pct": 0.3
       },
       {
-        "name": "Bold"
+        "name": "Naive",
+        "pct": 0.2
+      },
+      {
+        "name": "Jolly",
+        "pct": 0.1
+      },
+      {
+        "name": "Rash",
+        "pct": 0.1
+      },
+      {
+        "name": "Mild",
+        "pct": 0.0
       }
     ]
   },
@@ -1572,9 +1634,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 32,
-      "def": 0,
+      "def": 2,
       "spa": 0,
-      "spd": 2,
+      "spd": 0,
       "spe": 0
     },
     "abilities": [
@@ -1589,34 +1651,44 @@
     ],
     "moves": [
       {
-        "name": "Bullet Punch"
+        "name": "Bullet Punch",
+        "pct": 100
       },
       {
-        "name": "Swords Dance"
+        "name": "Swords Dance",
+        "pct": 87.8
       },
       {
-        "name": "Close Combat"
+        "name": "Close Combat",
+        "pct": 63.9
       },
       {
-        "name": "Knock Off"
+        "name": "Knock Off",
+        "pct": 55.7
       },
       {
-        "name": "Roost"
+        "name": "U-turn",
+        "pct": 28.8
       },
       {
-        "name": "U-turn"
+        "name": "Roost",
+        "pct": 26.4
       },
       {
-        "name": "Dual Wingbeat"
+        "name": "Dual Wingbeat",
+        "pct": 14.4
       },
       {
-        "name": "Bug Bite"
+        "name": "Bug Bite",
+        "pct": 5.7
       },
       {
-        "name": "Thief"
+        "name": "Trailblaze",
+        "pct": 3.1
       },
       {
-        "name": "Trailblaze"
+        "name": "Brick Break",
+        "pct": 2.9
       }
     ],
     "defaultMoves": [
@@ -1624,30 +1696,55 @@
         "name": "Bullet Punch"
       },
       {
+        "name": "Swords Dance"
+      },
+      {
         "name": "Close Combat"
       },
       {
         "name": "Knock Off"
-      },
-      {
-        "name": "Swords Dance"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 91.4
       },
       {
-        "name": "Impish"
+        "name": "Impish",
+        "pct": 2.6
       },
       {
-        "name": "Careful"
+        "name": "Brave",
+        "pct": 2.0
       },
       {
-        "name": "Jolly"
+        "name": "Careful",
+        "pct": 1.8
       },
       {
-        "name": "Brave"
+        "name": "Jolly",
+        "pct": 0.6
+      },
+      {
+        "name": "Lax",
+        "pct": 0.4
+      },
+      {
+        "name": "Bold",
+        "pct": 0.4
+      },
+      {
+        "name": "Rash",
+        "pct": 0.3
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.3
+      },
+      {
+        "name": "Hardy",
+        "pct": 0.2
       }
     ]
   },
@@ -2096,34 +2193,44 @@
     ],
     "moves": [
       {
-        "name": "Draco Meteor"
+        "name": "Draco Meteor",
+        "pct": 59.2
       },
       {
-        "name": "Extreme Speed"
+        "name": "Extreme Speed",
+        "pct": 55.3
       },
       {
-        "name": "Thunderbolt"
+        "name": "Air Slash",
+        "pct": 44.6
       },
       {
-        "name": "Flamethrower"
+        "name": "Thunderbolt",
+        "pct": 38.9
       },
       {
-        "name": "Air Slash"
+        "name": "Flamethrower",
+        "pct": 35.7
       },
       {
-        "name": "Ice Beam"
+        "name": "Roost",
+        "pct": 31.3
       },
       {
-        "name": "Roost"
+        "name": "Earthquake",
+        "pct": 21.6
       },
       {
-        "name": "Fire Blast"
+        "name": "Ice Beam",
+        "pct": 19.8
       },
       {
-        "name": "Dragon Dance"
+        "name": "Dragon Dance",
+        "pct": 19.7
       },
       {
-        "name": "Earthquake"
+        "name": "Outrage",
+        "pct": 15.5
       }
     ],
     "defaultMoves": [
@@ -2134,7 +2241,7 @@
         "name": "Extreme Speed"
       },
       {
-        "name": "Flamethrower"
+        "name": "Air Slash"
       },
       {
         "name": "Thunderbolt"
@@ -2142,19 +2249,44 @@
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 65.5
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 11.7
       },
       {
-        "name": "Timid"
+        "name": "Jolly",
+        "pct": 9.7
       },
       {
-        "name": "Jolly"
+        "name": "Timid",
+        "pct": 7.9
       },
       {
-        "name": "Quiet"
+        "name": "Rash",
+        "pct": 1.1
+      },
+      {
+        "name": "Calm",
+        "pct": 0.9
+      },
+      {
+        "name": "Quiet",
+        "pct": 0.8
+      },
+      {
+        "name": "Impish",
+        "pct": 0.7
+      },
+      {
+        "name": "Naive",
+        "pct": 0.5
+      },
+      {
+        "name": "Bold",
+        "pct": 0.5
       }
     ]
   },
@@ -3050,9 +3182,9 @@
   },
   "Mega Lopunny": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 1,
       "atk": 32,
-      "def": 0,
+      "def": 1,
       "spa": 0,
       "spd": 0,
       "spe": 32
@@ -3069,34 +3201,44 @@
     ],
     "moves": [
       {
-        "name": "Close Combat"
+        "name": "Fake Out",
+        "pct": 72.1
       },
       {
-        "name": "Fake Out"
+        "name": "Close Combat",
+        "pct": 50.1
       },
       {
-        "name": "Triple Axel"
+        "name": "Triple Axel",
+        "pct": 48.2
       },
       {
-        "name": "U-turn"
+        "name": "High Jump Kick",
+        "pct": 45.4
       },
       {
-        "name": "Swords Dance"
+        "name": "Mach Punch",
+        "pct": 36.8
       },
       {
-        "name": "Mach Punch"
+        "name": "Swords Dance",
+        "pct": 35
       },
       {
-        "name": "Encore"
+        "name": "Mega Kick",
+        "pct": 22.6
       },
       {
-        "name": "Ice Punch"
+        "name": "U-turn",
+        "pct": 19.4
       },
       {
-        "name": "Thunder Punch"
+        "name": "Ice Punch",
+        "pct": 15.9
       },
       {
-        "name": "Facade"
+        "name": "Giga Impact",
+        "pct": 13.1
       }
     ],
     "defaultMoves": [
@@ -3110,24 +3252,33 @@
         "name": "Triple Axel"
       },
       {
-        "name": "U-turn"
+        "name": "High Jump Kick"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 63.0
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 34.9
       },
       {
-        "name": "Timid"
+        "name": "Impish",
+        "pct": 1.4
       },
       {
-        "name": "Impish"
+        "name": "Careful",
+        "pct": 0.6
       },
       {
-        "name": "Naive"
+        "name": "Timid",
+        "pct": 0.0
+      },
+      {
+        "name": "Naive",
+        "pct": 0.0
       }
     ]
   },
@@ -3604,9 +3755,9 @@
   },
   "Mega Glimmora": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 1,
       "atk": 0,
-      "def": 0,
+      "def": 1,
       "spa": 32,
       "spd": 0,
       "spe": 32
@@ -3623,34 +3774,44 @@
     ],
     "moves": [
       {
-        "name": "Power Gem"
+        "name": "Power Gem",
+        "pct": 85.7
       },
       {
-        "name": "Stealth Rock"
+        "name": "Sludge Wave",
+        "pct": 59.9
       },
       {
-        "name": "Mortal Spin"
+        "name": "Earth Power",
+        "pct": 59.6
       },
       {
-        "name": "Sludge Wave"
+        "name": "Stealth Rock",
+        "pct": 53.9
       },
       {
-        "name": "Mud Shot"
+        "name": "Mud Shot",
+        "pct": 32
       },
       {
-        "name": "Earth Power"
+        "name": "Energy Ball",
+        "pct": 29.6
       },
       {
-        "name": "Energy Ball"
+        "name": "Mortal Spin",
+        "pct": 25.2
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Spiky Shield",
+        "pct": 14.8
       },
       {
-        "name": "Spiky Shield"
+        "name": "Sludge Bomb",
+        "pct": 8.4
       },
       {
-        "name": "Toxic"
+        "name": "Toxic",
+        "pct": 6.1
       }
     ],
     "defaultMoves": [
@@ -3658,10 +3819,10 @@
         "name": "Power Gem"
       },
       {
-        "name": "Mortal Spin"
+        "name": "Sludge Wave"
       },
       {
-        "name": "Sludge Wave"
+        "name": "Earth Power"
       },
       {
         "name": "Stealth Rock"
@@ -3669,19 +3830,44 @@
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 58.7
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 35.9
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 3.3
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 0.6
       },
       {
-        "name": "Jolly"
+        "name": "Naive",
+        "pct": 0.4
+      },
+      {
+        "name": "Careful",
+        "pct": 0.3
+      },
+      {
+        "name": "Jolly",
+        "pct": 0.3
+      },
+      {
+        "name": "Impish",
+        "pct": 0.3
+      },
+      {
+        "name": "Brave",
+        "pct": 0.1
+      },
+      {
+        "name": "Gentle",
+        "pct": 0.0
       }
     ]
   },
@@ -3984,16 +4170,49 @@
     ],
     "moves": [
       {
+        "name": "Flamethrower",
+        "pct": 64.5
+      },
+      {
+        "name": "Nasty Plot",
+        "pct": 55.5
+      },
+      {
+        "name": "Psyshock",
+        "pct": 52
+      },
+      {
+        "name": "Psychic",
+        "pct": 40.4
+      },
+      {
+        "name": "Encore",
+        "pct": 37.7
+      },
+      {
+        "name": "Mystical Fire",
+        "pct": 28.1
+      },
+      {
+        "name": "Substitute",
+        "pct": 27.2
+      },
+      {
+        "name": "Dazzling Gleam",
+        "pct": 25.2
+      },
+      {
+        "name": "Will-O-Wisp",
+        "pct": 17.1
+      },
+      {
+        "name": "Grass Knot",
+        "pct": 12.9
+      }
+    ],
+    "defaultMoves": [
+      {
         "name": "Flamethrower"
-      },
-      {
-        "name": "Psychic"
-      },
-      {
-        "name": "Dazzling Gleam"
-      },
-      {
-        "name": "Encore"
       },
       {
         "name": "Nasty Plot"
@@ -4002,47 +4221,37 @@
         "name": "Psyshock"
       },
       {
-        "name": "Substitute"
-      },
-      {
-        "name": "Calm Mind"
-      },
-      {
-        "name": "Grass Knot"
-      },
-      {
-        "name": "Mystical Fire"
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Flamethrower"
-      },
-      {
         "name": "Psychic"
-      },
-      {
-        "name": "Dazzling Gleam"
-      },
-      {
-        "name": "Encore"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 90.6
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 8.5
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 0.2
       },
       {
-        "name": "Jolly"
+        "name": "Mild",
+        "pct": 0.2
       },
       {
-        "name": "Calm"
+        "name": "Impish",
+        "pct": 0.2
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.1
+      },
+      {
+        "name": "Calm",
+        "pct": 0.1
       }
     ]
   },
@@ -4204,31 +4413,44 @@
     ],
     "moves": [
       {
-        "name": "Close Combat"
+        "name": "Close Combat",
+        "pct": 55.4
       },
       {
-        "name": "Bullet Punch"
+        "name": "Vacuum Wave",
+        "pct": 41.3
       },
       {
-        "name": "Swords Dance"
+        "name": "Bullet Punch",
+        "pct": 41
       },
       {
-        "name": "Meteor Mash"
+        "name": "Aura Sphere",
+        "pct": 37
       },
       {
-        "name": "Extreme Speed"
+        "name": "Meteor Mash",
+        "pct": 35.8
       },
       {
-        "name": "Vacuum Wave"
+        "name": "Flash Cannon",
+        "pct": 35.3
       },
       {
-        "name": "Flash Cannon"
+        "name": "Swords Dance",
+        "pct": 34.1
       },
       {
-        "name": "Aura Sphere"
+        "name": "Nasty Plot",
+        "pct": 22.6
       },
       {
-        "name": "Nasty Plot"
+        "name": "Extreme Speed",
+        "pct": 20.9
+      },
+      {
+        "name": "Steel Beam",
+        "pct": 15.5
       }
     ],
     "defaultMoves": [
@@ -4236,30 +4458,43 @@
         "name": "Close Combat"
       },
       {
+        "name": "Vacuum Wave"
+      },
+      {
         "name": "Bullet Punch"
       },
       {
-        "name": "Meteor Mash"
-      },
-      {
-        "name": "Swords Dance"
+        "name": "Aura Sphere"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 49.5
       },
       {
-        "name": "Adamant"
+        "name": "Timid",
+        "pct": 34.8
       },
       {
-        "name": "Timid"
+        "name": "Modest",
+        "pct": 7.0
       },
       {
-        "name": "Modest"
+        "name": "Adamant",
+        "pct": 4.3
       },
       {
-        "name": "Naive"
+        "name": "Naive",
+        "pct": 3.1
+      },
+      {
+        "name": "Naughty",
+        "pct": 0.8
+      },
+      {
+        "name": "Brave",
+        "pct": 0.5
       }
     ]
   },
@@ -4397,34 +4632,44 @@
     ],
     "moves": [
       {
-        "name": "Solar Beam"
+        "name": "Solar Beam",
+        "pct": 99.3
       },
       {
-        "name": "Weather Ball"
+        "name": "Weather Ball",
+        "pct": 97.4
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Synthesis",
+        "pct": 85.5
       },
       {
-        "name": "Synthesis"
+        "name": "Dazzling Gleam",
+        "pct": 74
       },
       {
-        "name": "Earth Power"
+        "name": "Earth Power",
+        "pct": 16.2
       },
       {
-        "name": "Leech Seed"
+        "name": "Substitute",
+        "pct": 14.1
       },
       {
-        "name": "Ancient Power"
+        "name": "Ancient Power",
+        "pct": 4.6
       },
       {
-        "name": "Substitute"
+        "name": "Leech Seed",
+        "pct": 4.6
       },
       {
-        "name": "Giga Drain"
+        "name": "Trailblaze",
+        "pct": 0.9
       },
       {
-        "name": "Trailblaze"
+        "name": "Giga Drain",
+        "pct": 0.8
       }
     ],
     "defaultMoves": [
@@ -4435,27 +4680,40 @@
         "name": "Weather Ball"
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Synthesis"
       },
       {
-        "name": "Synthesis"
+        "name": "Dazzling Gleam"
       }
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 91.1
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 5.4
       },
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 2.0
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 0.7
       },
       {
-        "name": "Quiet"
+        "name": "Quiet",
+        "pct": 0.5
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.2
+      },
+      {
+        "name": "Mild",
+        "pct": 0.0
       }
     ]
   },
@@ -4637,34 +4895,44 @@
     ],
     "moves": [
       {
-        "name": "Waterfall"
+        "name": "Waterfall",
+        "pct": 89.1
       },
       {
-        "name": "Dragon Dance"
+        "name": "Earthquake",
+        "pct": 64.4
       },
       {
-        "name": "Earthquake"
+        "name": "Dragon Dance",
+        "pct": 64
       },
       {
-        "name": "Ice Fang"
+        "name": "Power Whip",
+        "pct": 55.4
       },
       {
-        "name": "Power Gem"
+        "name": "Ice Fang",
+        "pct": 43.7
       },
       {
-        "name": "Taunt"
+        "name": "Taunt",
+        "pct": 31.9
       },
       {
-        "name": "Crunch"
+        "name": "Avalanche",
+        "pct": 26.7
       },
       {
-        "name": "Temper Flare"
+        "name": "Crunch",
+        "pct": 7.8
       },
       {
-        "name": "Avalanche"
+        "name": "Thunder Wave",
+        "pct": 5.2
       },
       {
-        "name": "Aqua Tail"
+        "name": "Temper Flare",
+        "pct": 3.3
       }
     ],
     "defaultMoves": [
@@ -4675,27 +4943,48 @@
         "name": "Earthquake"
       },
       {
-        "name": "Ice Fang"
+        "name": "Dragon Dance"
       },
       {
-        "name": "Dragon Dance"
+        "name": "Power Whip"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Adamant",
+        "pct": 44.7
       },
       {
-        "name": "Adamant"
+        "name": "Jolly",
+        "pct": 35.0
       },
       {
-        "name": "Impish"
+        "name": "Impish",
+        "pct": 18.4
       },
       {
-        "name": "Careful"
+        "name": "Careful",
+        "pct": 1.2
       },
       {
-        "name": "Brave"
+        "name": "Bold",
+        "pct": 0.5
+      },
+      {
+        "name": "Timid",
+        "pct": 0.1
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.0
+      },
+      {
+        "name": "Brave",
+        "pct": 0.0
+      },
+      {
+        "name": "Naive",
+        "pct": 0.0
       }
     ]
   },
@@ -4881,65 +5170,100 @@
     ],
     "moves": [
       {
-        "name": "Ice Beam"
+        "name": "Ice Beam",
+        "pct": 90.3
       },
       {
-        "name": "Dark Pulse"
+        "name": "Dark Pulse",
+        "pct": 72.8
       },
       {
-        "name": "Sludge Wave"
+        "name": "Sludge Wave",
+        "pct": 64.7
       },
       {
-        "name": "Surf"
+        "name": "Water Shuriken",
+        "pct": 39.9
       },
       {
-        "name": "Water Shuriken"
+        "name": "Surf",
+        "pct": 39
       },
       {
-        "name": "Hydro Pump"
+        "name": "Grass Knot",
+        "pct": 23.8
       },
       {
-        "name": "U-turn"
+        "name": "Hydro Pump",
+        "pct": 17.7
       },
       {
-        "name": "Taunt"
+        "name": "Mud Shot",
+        "pct": 13.2
       },
       {
-        "name": "Gunk Shot"
+        "name": "Taunt",
+        "pct": 5.6
       },
       {
-        "name": "Toxic Spikes"
+        "name": "Toxic Spikes",
+        "pct": 5.3
       }
     ],
     "defaultMoves": [
       {
-        "name": "Dark Pulse"
-      },
-      {
-        "name": "Surf"
-      },
-      {
         "name": "Ice Beam"
       },
       {
+        "name": "Dark Pulse"
+      },
+      {
         "name": "Sludge Wave"
+      },
+      {
+        "name": "Water Shuriken"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 46.5
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 45.6
       },
       {
-        "name": "Naive"
+        "name": "Naive",
+        "pct": 3.2
       },
       {
-        "name": "Hasty"
+        "name": "Mild",
+        "pct": 2.1
       },
       {
-        "name": "Jolly"
+        "name": "Rash",
+        "pct": 1.1
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.7
+      },
+      {
+        "name": "Jolly",
+        "pct": 0.3
+      },
+      {
+        "name": "Gentle",
+        "pct": 0.2
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.1
+      },
+      {
+        "name": "Quiet",
+        "pct": 0.1
       }
     ]
   },
@@ -5082,9 +5406,9 @@
   },
   "Mega Kangaskhan": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 1,
       "atk": 32,
-      "def": 0,
+      "def": 1,
       "spa": 0,
       "spd": 0,
       "spe": 32
@@ -5101,65 +5425,88 @@
     ],
     "moves": [
       {
-        "name": "Fake Out"
+        "name": "Ice Punch",
+        "pct": 84.5
       },
+      {
+        "name": "Earthquake",
+        "pct": 73.1
+      },
+      {
+        "name": "Double-Edge",
+        "pct": 64.2
+      },
+      {
+        "name": "Fake Out",
+        "pct": 47.7
+      },
+      {
+        "name": "Sucker Punch",
+        "pct": 46.2
+      },
+      {
+        "name": "Fire Punch",
+        "pct": 25.9
+      },
+      {
+        "name": "Body Slam",
+        "pct": 23.4
+      },
+      {
+        "name": "Rock Slide",
+        "pct": 6.8
+      },
+      {
+        "name": "Thunder Punch",
+        "pct": 6.1
+      },
+      {
+        "name": "Brick Break",
+        "pct": 3
+      }
+    ],
+    "defaultMoves": [
       {
         "name": "Ice Punch"
       },
       {
         "name": "Earthquake"
-      },
-      {
-        "name": "Sucker Punch"
       },
       {
         "name": "Double-Edge"
       },
       {
-        "name": "Fire Punch"
-      },
-      {
-        "name": "Body Slam"
-      },
-      {
-        "name": "Drain Punch"
-      },
-      {
-        "name": "Last Resort"
-      },
-      {
-        "name": "Thunder Punch"
-      }
-    ],
-    "defaultMoves": [
-      {
         "name": "Fake Out"
-      },
-      {
-        "name": "Ice Punch"
-      },
-      {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Sucker Punch"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 83.9
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 13.2
       },
       {
-        "name": "Naughty"
+        "name": "Impish",
+        "pct": 1.4
       },
       {
-        "name": "Brave"
+        "name": "Naive",
+        "pct": 0.8
       },
       {
-        "name": "Impish"
+        "name": "Quirky",
+        "pct": 0.4
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.2
+      },
+      {
+        "name": "Brave",
+        "pct": 0.1
       }
     ]
   },
@@ -5280,14 +5627,6 @@
     ]
   },
   "Mega Floette": {
-    "defaultSp": {
-      "hp": 2,
-      "atk": 0,
-      "def": 0,
-      "spa": 32,
-      "spd": 0,
-      "spe": 32
-    },
     "abilities": [
       {
         "name": "Fairy Aura"
@@ -5525,12 +5864,12 @@
   },
   "Mega Venusaur": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 32,
       "atk": 0,
-      "def": 0,
-      "spa": 32,
-      "spd": 0,
-      "spe": 32
+      "def": 2,
+      "spa": 0,
+      "spd": 32,
+      "spe": 0
     },
     "abilities": [
       {
@@ -5544,65 +5883,100 @@
     ],
     "moves": [
       {
-        "name": "Earth Power"
+        "name": "Earth Power",
+        "pct": 92.9
       },
       {
-        "name": "Synthesis"
+        "name": "Giga Drain",
+        "pct": 74.4
       },
       {
-        "name": "Giga Drain"
+        "name": "Synthesis",
+        "pct": 67.4
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Sludge Bomb",
+        "pct": 49.8
       },
       {
-        "name": "Leech Seed"
+        "name": "Leech Seed",
+        "pct": 49.1
       },
       {
-        "name": "Sludge Wave"
+        "name": "Sludge Wave",
+        "pct": 24.5
       },
       {
-        "name": "Toxic"
+        "name": "Toxic",
+        "pct": 9.1
       },
       {
-        "name": "Sleep Powder"
+        "name": "Acid Spray",
+        "pct": 7.9
       },
       {
-        "name": "Acid Spray"
+        "name": "Sleep Powder",
+        "pct": 7
       },
       {
-        "name": "Energy Ball"
+        "name": "Leaf Storm",
+        "pct": 3.6
       }
     ],
     "defaultMoves": [
       {
-        "name": "Sludge Bomb"
+        "name": "Earth Power"
       },
       {
         "name": "Giga Drain"
       },
       {
-        "name": "Earth Power"
+        "name": "Synthesis"
       },
       {
-        "name": "Synthesis"
+        "name": "Sludge Bomb"
       }
     ],
     "natures": [
       {
-        "name": "Calm"
+        "name": "Bold",
+        "pct": 34.7
       },
       {
-        "name": "Modest"
+        "name": "Calm",
+        "pct": 33.6
       },
       {
-        "name": "Bold"
+        "name": "Modest",
+        "pct": 28.8
       },
       {
-        "name": "Timid"
+        "name": "Sassy",
+        "pct": 0.9
       },
       {
-        "name": "Quiet"
+        "name": "Timid",
+        "pct": 0.7
+      },
+      {
+        "name": "Gentle",
+        "pct": 0.6
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.4
+      },
+      {
+        "name": "Adamant",
+        "pct": 0.1
+      },
+      {
+        "name": "Mild",
+        "pct": 0.1
+      },
+      {
+        "name": "Hardy",
+        "pct": 0.0
       }
     ]
   },
@@ -6086,34 +6460,44 @@
     ],
     "moves": [
       {
-        "name": "Moonlight"
+        "name": "Moonblast",
+        "pct": 81.6
       },
       {
-        "name": "Moonblast"
+        "name": "Moonlight",
+        "pct": 78.6
       },
       {
-        "name": "Cosmic Power"
+        "name": "Cosmic Power",
+        "pct": 59
       },
       {
-        "name": "Stored Power"
+        "name": "Stored Power",
+        "pct": 37.4
       },
       {
-        "name": "Calm Mind"
+        "name": "Calm Mind",
+        "pct": 26.4
       },
       {
-        "name": "Flamethrower"
+        "name": "Flamethrower",
+        "pct": 25.7
       },
       {
-        "name": "Psyshock"
+        "name": "Baton Pass",
+        "pct": 12.3
       },
       {
-        "name": "Mystical Fire"
+        "name": "Stealth Rock",
+        "pct": 11.3
       },
       {
-        "name": "Baton Pass"
+        "name": "Fire Blast",
+        "pct": 9.4
       },
       {
-        "name": "Draining Kiss"
+        "name": "Thunder Wave",
+        "pct": 9
       }
     ],
     "defaultMoves": [
@@ -6121,30 +6505,39 @@
         "name": "Moonblast"
       },
       {
-        "name": "Stored Power"
-      },
-      {
         "name": "Moonlight"
       },
       {
         "name": "Cosmic Power"
+      },
+      {
+        "name": "Stored Power"
       }
     ],
     "natures": [
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 67.3
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 16.7
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 12.3
       },
       {
-        "name": "Timid"
+        "name": "Relaxed",
+        "pct": 2.3
       },
       {
-        "name": "Relaxed"
+        "name": "Timid",
+        "pct": 1.1
+      },
+      {
+        "name": "Sassy",
+        "pct": 0.2
       }
     ]
   },
@@ -6479,65 +6872,92 @@
     ],
     "moves": [
       {
+        "name": "Knock Off",
+        "pct": 71.8
+      },
+      {
+        "name": "Stealth Rock",
+        "pct": 48.9
+      },
+      {
+        "name": "Earthquake",
+        "pct": 45.2
+      },
+      {
+        "name": "Stone Edge",
+        "pct": 41.4
+      },
+      {
+        "name": "Ice Punch",
+        "pct": 29.7
+      },
+      {
+        "name": "Dragon Dance",
+        "pct": 25.6
+      },
+      {
+        "name": "Rock Tomb",
+        "pct": 23.7
+      },
+      {
+        "name": "Rock Slide",
+        "pct": 11.7
+      },
+      {
+        "name": "Rock Blast",
+        "pct": 9.9
+      },
+      {
+        "name": "Crunch",
+        "pct": 7.9
+      }
+    ],
+    "defaultMoves": [
+      {
         "name": "Knock Off"
-      },
-      {
-        "name": "Stone Edge"
-      },
-      {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Dragon Dance"
       },
       {
         "name": "Stealth Rock"
       },
       {
-        "name": "Ice Punch"
-      },
-      {
-        "name": "Crunch"
-      },
-      {
-        "name": "Rock Slide"
-      },
-      {
-        "name": "Rock Tomb"
-      },
-      {
-        "name": "Rock Blast"
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Stone Edge"
-      },
-      {
-        "name": "Knock Off"
-      },
-      {
         "name": "Earthquake"
       },
       {
-        "name": "Dragon Dance"
+        "name": "Stone Edge"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 35.8
       },
       {
-        "name": "Careful"
+        "name": "Careful",
+        "pct": 27.0
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 21.0
       },
       {
-        "name": "Impish"
+        "name": "Impish",
+        "pct": 7.3
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 5.5
+      },
+      {
+        "name": "Relaxed",
+        "pct": 1.8
+      },
+      {
+        "name": "Brave",
+        "pct": 1.0
+      },
+      {
+        "name": "Sassy",
+        "pct": 0.6
       }
     ]
   },
@@ -6711,34 +7131,44 @@
     ],
     "moves": [
       {
-        "name": "Aqua Jet"
+        "name": "Liquidation",
+        "pct": 89.5
       },
       {
-        "name": "Liquidation"
+        "name": "Aqua Jet",
+        "pct": 87.6
       },
       {
-        "name": "Zen Headbutt"
+        "name": "Ice Spinner",
+        "pct": 69.5
       },
       {
-        "name": "Ice Spinner"
+        "name": "Flip Turn",
+        "pct": 62
       },
       {
-        "name": "Flip Turn"
+        "name": "Zen Headbutt",
+        "pct": 34.7
       },
       {
-        "name": "Psycho Cut"
+        "name": "Psycho Cut",
+        "pct": 22.1
       },
       {
-        "name": "Waterfall"
+        "name": "Bulk Up",
+        "pct": 8.7
       },
       {
-        "name": "Rapid Spin"
+        "name": "Thunderbolt",
+        "pct": 5.6
       },
       {
-        "name": "Thunderbolt"
+        "name": "Recover",
+        "pct": 2.9
       },
       {
-        "name": "Bulk Up"
+        "name": "Grass Knot",
+        "pct": 2.7
       }
     ],
     "defaultMoves": [
@@ -6749,27 +7179,48 @@
         "name": "Aqua Jet"
       },
       {
-        "name": "Zen Headbutt"
+        "name": "Ice Spinner"
       },
       {
-        "name": "Ice Spinner"
+        "name": "Flip Turn"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 65.5
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 25.9
       },
       {
-        "name": "Timid"
+        "name": "Naive",
+        "pct": 3.8
       },
       {
-        "name": "Naive"
+        "name": "Timid",
+        "pct": 1.9
       },
       {
-        "name": "Modest"
+        "name": "Naughty",
+        "pct": 1.7
+      },
+      {
+        "name": "Modest",
+        "pct": 0.8
+      },
+      {
+        "name": "Mild",
+        "pct": 0.2
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.1
+      },
+      {
+        "name": "Careful",
+        "pct": 0.0
       }
     ]
   },
@@ -7154,9 +7605,9 @@
   },
   "Mega Alakazam": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 1,
       "atk": 0,
-      "def": 0,
+      "def": 1,
       "spa": 32,
       "spd": 0,
       "spe": 32
@@ -7173,45 +7624,55 @@
     ],
     "moves": [
       {
-        "name": "Psychic"
+        "name": "Focus Blast",
+        "pct": 82.4
       },
       {
-        "name": "Focus Blast"
+        "name": "Psychic",
+        "pct": 68.6
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Energy Ball",
+        "pct": 43.8
       },
       {
-        "name": "Shadow Ball"
+        "name": "Shadow Ball",
+        "pct": 41.2
       },
       {
-        "name": "Encore"
+        "name": "Expanding Force",
+        "pct": 30.7
       },
       {
-        "name": "Energy Ball"
+        "name": "Nasty Plot",
+        "pct": 28.1
       },
       {
-        "name": "Nasty Plot"
+        "name": "Psychic Terrain",
+        "pct": 22.2
       },
       {
-        "name": "Substitute"
+        "name": "Encore",
+        "pct": 17.6
       },
       {
-        "name": "Protect"
+        "name": "Protect",
+        "pct": 14.4
       },
       {
-        "name": "Psyshock"
+        "name": "Dazzling Gleam",
+        "pct": 13.7
       }
     ],
     "defaultMoves": [
       {
-        "name": "Psychic"
-      },
-      {
         "name": "Focus Blast"
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Psychic"
+      },
+      {
+        "name": "Energy Ball"
       },
       {
         "name": "Shadow Ball"
@@ -7219,19 +7680,12 @@
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 76.5
       },
       {
-        "name": "Modest"
-      },
-      {
-        "name": "Hasty"
-      },
-      {
-        "name": "Mild"
-      },
-      {
-        "name": "Bold"
+        "name": "Modest",
+        "pct": 23.5
       }
     ]
   },
@@ -7586,9 +8040,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 32,
-      "def": 0,
+      "def": 2,
       "spa": 0,
-      "spd": 2,
+      "spd": 0,
       "spe": 0
     },
     "abilities": [
@@ -7603,34 +8057,44 @@
     ],
     "moves": [
       {
-        "name": "Mach Punch"
+        "name": "Ice Hammer",
+        "pct": 96.3
       },
       {
-        "name": "Ice Hammer"
+        "name": "Thunder Punch",
+        "pct": 89.6
       },
       {
-        "name": "Drain Punch"
+        "name": "Drain Punch",
+        "pct": 81.3
       },
       {
-        "name": "Thunder Punch"
+        "name": "Mach Punch",
+        "pct": 73.1
       },
       {
-        "name": "Close Combat"
+        "name": "Bulk Up",
+        "pct": 20.9
       },
       {
-        "name": "Earthquake"
+        "name": "Close Combat",
+        "pct": 18.7
       },
       {
-        "name": "Ice Punch"
+        "name": "Earthquake",
+        "pct": 10.4
       },
       {
-        "name": "Bulk Up"
+        "name": "Ice Punch",
+        "pct": 3.7
       },
       {
-        "name": "Crabhammer"
+        "name": "Crabhammer",
+        "pct": 2.2
       },
       {
-        "name": "Knock Off"
+        "name": "Knock Off",
+        "pct": 2.2
       }
     ],
     "defaultMoves": [
@@ -7638,30 +8102,35 @@
         "name": "Ice Hammer"
       },
       {
+        "name": "Thunder Punch"
+      },
+      {
         "name": "Drain Punch"
       },
       {
         "name": "Mach Punch"
-      },
-      {
-        "name": "Thunder Punch"
       }
     ],
     "natures": [
       {
-        "name": "Brave"
+        "name": "Brave",
+        "pct": 48.5
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 47.0
       },
       {
-        "name": "Impish"
+        "name": "Careful",
+        "pct": 3.0
       },
       {
-        "name": "Jolly"
+        "name": "Lonely",
+        "pct": 0.7
       },
       {
-        "name": "Relaxed"
+        "name": "Impish",
+        "pct": 0.7
       }
     ]
   },
@@ -8049,65 +8518,68 @@
     ],
     "moves": [
       {
-        "name": "High Jump Kick"
+        "name": "Swords Dance",
+        "pct": 82.3
       },
       {
-        "name": "Brave Bird"
+        "name": "Brave Bird",
+        "pct": 76.2
       },
       {
-        "name": "Stone Edge"
+        "name": "High Jump Kick",
+        "pct": 55.8
       },
       {
-        "name": "Swords Dance"
+        "name": "Encore",
+        "pct": 45.6
       },
       {
-        "name": "Encore"
+        "name": "Close Combat",
+        "pct": 39.5
       },
       {
-        "name": "Close Combat"
+        "name": "Stone Edge",
+        "pct": 31.3
       },
       {
-        "name": "Dual Wingbeat"
+        "name": "Substitute",
+        "pct": 17
       },
       {
-        "name": "Acrobatics"
+        "name": "Roost",
+        "pct": 12.9
       },
       {
-        "name": "Bulk Up"
+        "name": "Dual Wingbeat",
+        "pct": 12.2
       },
       {
-        "name": "Taunt"
+        "name": "Acrobatics",
+        "pct": 8.8
       }
     ],
     "defaultMoves": [
       {
-        "name": "High Jump Kick"
+        "name": "Swords Dance"
       },
       {
         "name": "Brave Bird"
       },
       {
-        "name": "Stone Edge"
+        "name": "High Jump Kick"
       },
       {
-        "name": "Swords Dance"
+        "name": "Encore"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 55.8
       },
       {
-        "name": "Jolly"
-      },
-      {
-        "name": "Impish"
-      },
-      {
-        "name": "Lonely"
-      },
-      {
-        "name": "Naughty"
+        "name": "Jolly",
+        "pct": 44.2
       }
     ]
   },
@@ -8225,65 +8697,68 @@
     ],
     "moves": [
       {
-        "name": "Poison Jab"
+        "name": "Drill Run",
+        "pct": 97.5
       },
       {
-        "name": "Drill Run"
+        "name": "Poison Jab",
+        "pct": 95.9
       },
       {
-        "name": "U-turn"
+        "name": "U-turn",
+        "pct": 93.4
       },
       {
-        "name": "Fell Stinger"
+        "name": "Knock Off",
+        "pct": 50.8
       },
       {
-        "name": "Knock Off"
+        "name": "Fell Stinger",
+        "pct": 50.8
       },
       {
-        "name": "Lunge"
+        "name": "Protect",
+        "pct": 4.1
       },
       {
-        "name": "Protect"
+        "name": "Cross Poison",
+        "pct": 4.1
       },
       {
-        "name": "Swords Dance"
+        "name": "Thief",
+        "pct": 1.6
       },
       {
-        "name": "Brick Break"
-      },
-      {
-        "name": "Throat Chop"
+        "name": "Aerial Ace",
+        "pct": 1.6
       }
     ],
     "defaultMoves": [
       {
+        "name": "Drill Run"
+      },
+      {
         "name": "Poison Jab"
       },
       {
         "name": "U-turn"
       },
       {
-        "name": "Fell Stinger"
-      },
-      {
-        "name": "Drill Run"
+        "name": "Knock Off"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 82.8
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 15.6
       },
       {
-        "name": "Hasty"
-      },
-      {
-        "name": "Naive"
-      },
-      {
-        "name": "Lonely"
+        "name": "Brave",
+        "pct": 1.6
       }
     ]
   },
@@ -8433,65 +8908,88 @@
     ],
     "moves": [
       {
-        "name": "Crunch"
+        "name": "Destiny Bond",
+        "pct": 77.8
       },
       {
-        "name": "Protect"
+        "name": "Protect",
+        "pct": 65.5
       },
       {
-        "name": "Destiny Bond"
+        "name": "Crunch",
+        "pct": 54.1
       },
       {
-        "name": "Ice Fang"
+        "name": "Close Combat",
+        "pct": 46.9
       },
       {
-        "name": "Close Combat"
+        "name": "Ice Beam",
+        "pct": 39.2
       },
       {
-        "name": "Liquidation"
+        "name": "Liquidation",
+        "pct": 26.3
       },
       {
-        "name": "Waterfall"
+        "name": "Ice Fang",
+        "pct": 25.8
       },
       {
-        "name": "Psychic Fangs"
+        "name": "Dark Pulse",
+        "pct": 18.6
       },
       {
-        "name": "Ice Beam"
+        "name": "Waterfall",
+        "pct": 17
       },
       {
-        "name": "Avalanche"
+        "name": "Psychic Fangs",
+        "pct": 12.4
       }
     ],
     "defaultMoves": [
       {
-        "name": "Crunch"
-      },
-      {
-        "name": "Ice Fang"
+        "name": "Destiny Bond"
       },
       {
         "name": "Protect"
       },
       {
-        "name": "Destiny Bond"
+        "name": "Crunch"
+      },
+      {
+        "name": "Close Combat"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 38.7
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 18.6
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 18.6
       },
       {
-        "name": "Naughty"
+        "name": "Hasty",
+        "pct": 18.0
       },
       {
-        "name": "Naive"
+        "name": "Naive",
+        "pct": 2.6
+      },
+      {
+        "name": "Lonely",
+        "pct": 2.1
+      },
+      {
+        "name": "Naughty",
+        "pct": 1.5
       }
     ]
   },
@@ -8644,9 +9142,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 0,
-      "def": 2,
+      "def": 32,
       "spa": 0,
-      "spd": 32,
+      "spd": 2,
       "spe": 0
     },
     "abilities": [
@@ -8661,42 +9159,52 @@
     ],
     "moves": [
       {
-        "name": "Will-O-Wisp"
+        "name": "Will-O-Wisp",
+        "pct": 74
       },
       {
-        "name": "Recover"
+        "name": "Foul Play",
+        "pct": 66.7
       },
       {
-        "name": "Foul Play"
+        "name": "Recover",
+        "pct": 63.5
       },
       {
-        "name": "Encore"
+        "name": "Encore",
+        "pct": 40.3
       },
       {
-        "name": "Knock Off"
+        "name": "Light Screen",
+        "pct": 29.6
       },
       {
-        "name": "Taunt"
+        "name": "Reflect",
+        "pct": 28.6
       },
       {
-        "name": "Poltergeist"
+        "name": "Calm Mind",
+        "pct": 22.5
       },
       {
-        "name": "Metal Burst"
+        "name": "Taunt",
+        "pct": 19
       },
       {
-        "name": "Light Screen"
+        "name": "Hex",
+        "pct": 7.8
       },
       {
-        "name": "Disable"
+        "name": "Metal Burst",
+        "pct": 6.1
       }
     ],
     "defaultMoves": [
       {
-        "name": "Foul Play"
+        "name": "Will-O-Wisp"
       },
       {
-        "name": "Will-O-Wisp"
+        "name": "Foul Play"
       },
       {
         "name": "Recover"
@@ -8707,19 +9215,32 @@
     ],
     "natures": [
       {
-        "name": "Impish"
+        "name": "Bold",
+        "pct": 44.2
       },
       {
-        "name": "Bold"
+        "name": "Impish",
+        "pct": 30.2
       },
       {
-        "name": "Careful"
+        "name": "Calm",
+        "pct": 14.4
       },
       {
-        "name": "Relaxed"
+        "name": "Careful",
+        "pct": 8.4
       },
       {
-        "name": "Calm"
+        "name": "Modest",
+        "pct": 1.1
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.9
+      },
+      {
+        "name": "Sassy",
+        "pct": 0.8
       }
     ]
   },
@@ -8978,65 +9499,76 @@
     ],
     "moves": [
       {
-        "name": "Liquidation"
+        "name": "Aqua Jet",
+        "pct": 63
       },
       {
-        "name": "Dragon Dance"
+        "name": "Liquidation",
+        "pct": 61.7
       },
       {
-        "name": "Double-Edge"
+        "name": "Dragon Dance",
+        "pct": 56.5
       },
       {
-        "name": "Aqua Jet"
+        "name": "Ice Punch",
+        "pct": 43.5
       },
       {
-        "name": "Ice Punch"
+        "name": "Muddy Water",
+        "pct": 22.1
       },
       {
-        "name": "Body Slam"
+        "name": "Focus Blast",
+        "pct": 22.1
       },
       {
-        "name": "Earthquake"
+        "name": "Ice Beam",
+        "pct": 22.1
       },
       {
-        "name": "Waterfall"
+        "name": "Earthquake",
+        "pct": 22.1
       },
       {
-        "name": "Swords Dance"
+        "name": "Body Slam",
+        "pct": 20.8
       },
       {
-        "name": "Thrash"
+        "name": "Double-Edge",
+        "pct": 20.1
       }
     ],
     "defaultMoves": [
       {
-        "name": "Liquidation"
-      },
-      {
         "name": "Aqua Jet"
       },
       {
-        "name": "Double-Edge"
+        "name": "Liquidation"
       },
       {
         "name": "Dragon Dance"
+      },
+      {
+        "name": "Ice Punch"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 40.3
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 37.0
       },
       {
-        "name": "Impish"
+        "name": "Modest",
+        "pct": 22.1
       },
       {
-        "name": "Brave"
-      },
-      {
-        "name": "Careful"
+        "name": "Naive",
+        "pct": 0.6
       }
     ]
   },
@@ -9438,8 +9970,8 @@
   "Mega Aggron": {
     "defaultSp": {
       "hp": 32,
-      "atk": 0,
-      "def": 2,
+      "atk": 2,
+      "def": 0,
       "spa": 0,
       "spd": 32,
       "spe": 0
@@ -9456,65 +9988,76 @@
     ],
     "moves": [
       {
-        "name": "Body Press"
+        "name": "Body Press",
+        "pct": 99
       },
       {
-        "name": "Heavy Slam"
+        "name": "Iron Defense",
+        "pct": 85.7
       },
       {
-        "name": "Iron Defense"
+        "name": "Heavy Slam",
+        "pct": 83.7
       },
       {
-        "name": "Earthquake"
+        "name": "Stealth Rock",
+        "pct": 30.6
       },
       {
-        "name": "Metal Burst"
+        "name": "Metal Burst",
+        "pct": 20.4
       },
       {
-        "name": "Stealth Rock"
+        "name": "Earthquake",
+        "pct": 19.4
       },
       {
-        "name": "Iron Head"
+        "name": "Ice Punch",
+        "pct": 18.4
       },
       {
-        "name": "Stone Edge"
+        "name": "Crunch",
+        "pct": 11.2
       },
       {
-        "name": "Ice Punch"
+        "name": "Rock Tomb",
+        "pct": 8.2
       },
       {
-        "name": "Avalanche"
+        "name": "Thunder Punch",
+        "pct": 8.2
       }
     ],
     "defaultMoves": [
       {
-        "name": "Heavy Slam"
-      },
-      {
         "name": "Body Press"
       },
       {
-        "name": "Earthquake"
+        "name": "Iron Defense"
       },
       {
-        "name": "Iron Defense"
+        "name": "Heavy Slam"
+      },
+      {
+        "name": "Stealth Rock"
       }
     ],
     "natures": [
       {
-        "name": "Impish"
+        "name": "Careful",
+        "pct": 58.2
       },
       {
-        "name": "Adamant"
+        "name": "Relaxed",
+        "pct": 20.4
       },
       {
-        "name": "Careful"
+        "name": "Impish",
+        "pct": 20.4
       },
       {
-        "name": "Relaxed"
-      },
-      {
-        "name": "Brave"
+        "name": "Brave",
+        "pct": 1.0
       }
     ]
   },
@@ -9675,9 +10218,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 0,
-      "def": 2,
+      "def": 32,
       "spa": 0,
-      "spd": 32,
+      "spd": 2,
       "spe": 0
     },
     "abilities": [
@@ -9692,65 +10235,88 @@
     ],
     "moves": [
       {
-        "name": "Slack Off"
+        "name": "Slack Off",
+        "pct": 84.9
       },
       {
-        "name": "Scald"
+        "name": "Scald",
+        "pct": 80.6
       },
       {
-        "name": "Iron Defense"
+        "name": "Iron Defense",
+        "pct": 49.1
       },
       {
-        "name": "Calm Mind"
+        "name": "Body Press",
+        "pct": 39.1
       },
       {
-        "name": "Body Press"
+        "name": "Ice Beam",
+        "pct": 24
       },
       {
-        "name": "Ice Beam"
+        "name": "Calm Mind",
+        "pct": 23.2
       },
       {
-        "name": "Psychic"
+        "name": "Psychic",
+        "pct": 15.6
       },
       {
-        "name": "Flamethrower"
+        "name": "Trick Room",
+        "pct": 13.3
       },
       {
-        "name": "Yawn"
+        "name": "Flamethrower",
+        "pct": 9.5
       },
       {
-        "name": "Stored Power"
+        "name": "Psychic Noise",
+        "pct": 9.3
       }
     ],
     "defaultMoves": [
       {
-        "name": "Scald"
+        "name": "Slack Off"
       },
       {
-        "name": "Slack Off"
+        "name": "Scald"
       },
       {
         "name": "Iron Defense"
       },
       {
-        "name": "Calm Mind"
+        "name": "Body Press"
       }
     ],
     "natures": [
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 67.5
       },
       {
-        "name": "Calm"
+        "name": "Relaxed",
+        "pct": 12.5
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 7.3
       },
       {
-        "name": "Relaxed"
+        "name": "Quiet",
+        "pct": 5.9
       },
       {
-        "name": "Quiet"
+        "name": "Calm",
+        "pct": 5.5
+      },
+      {
+        "name": "Sassy",
+        "pct": 0.7
+      },
+      {
+        "name": "Impish",
+        "pct": 0.7
       }
     ]
   },
@@ -10401,34 +10967,44 @@
     ],
     "moves": [
       {
-        "name": "Dual Wingbeat"
+        "name": "Dual Wingbeat",
+        "pct": 97.8
       },
       {
-        "name": "Ice Fang"
+        "name": "Earthquake",
+        "pct": 71.4
       },
       {
-        "name": "Earthquake"
+        "name": "Rock Slide",
+        "pct": 54.4
       },
       {
-        "name": "Rock Slide"
+        "name": "Ice Fang",
+        "pct": 51.1
       },
       {
-        "name": "Taunt"
+        "name": "Dragon Dance",
+        "pct": 34.6
       },
       {
-        "name": "Stone Edge"
+        "name": "Taunt",
+        "pct": 26.9
       },
       {
-        "name": "Dragon Dance"
+        "name": "Stone Edge",
+        "pct": 19.8
       },
       {
-        "name": "Stealth Rock"
+        "name": "Fire Fang",
+        "pct": 12.6
       },
       {
-        "name": "Iron Head"
+        "name": "Tailwind",
+        "pct": 11
       },
       {
-        "name": "Crunch"
+        "name": "Crunch",
+        "pct": 8.2
       }
     ],
     "defaultMoves": [
@@ -10436,30 +11012,27 @@
         "name": "Dual Wingbeat"
       },
       {
+        "name": "Earthquake"
+      },
+      {
         "name": "Rock Slide"
       },
       {
         "name": "Ice Fang"
-      },
-      {
-        "name": "Earthquake"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Adamant",
+        "pct": 63.2
       },
       {
-        "name": "Adamant"
+        "name": "Jolly",
+        "pct": 36.3
       },
       {
-        "name": "Naive"
-      },
-      {
-        "name": "Lonely"
-      },
-      {
-        "name": "Hasty"
+        "name": "Hasty",
+        "pct": 0.5
       }
     ]
   },
@@ -10613,34 +11186,44 @@
     ],
     "moves": [
       {
-        "name": "Body Press"
+        "name": "Body Press",
+        "pct": 82.6
       },
       {
-        "name": "Synthesis"
+        "name": "Synthesis",
+        "pct": 74.5
       },
       {
-        "name": "Iron Defense"
+        "name": "Iron Defense",
+        "pct": 65.2
       },
       {
-        "name": "Leech Seed"
+        "name": "Leech Seed",
+        "pct": 46.1
       },
       {
-        "name": "Knock Off"
+        "name": "Earthquake",
+        "pct": 31
       },
       {
-        "name": "Spiky Shield"
+        "name": "Wood Hammer",
+        "pct": 18.3
       },
       {
-        "name": "Seed Bomb"
+        "name": "Knock Off",
+        "pct": 15.8
       },
       {
-        "name": "Wood Hammer"
+        "name": "Drain Punch",
+        "pct": 15.6
       },
       {
-        "name": "Drain Punch"
+        "name": "Seed Bomb",
+        "pct": 12.4
       },
       {
-        "name": "Earthquake"
+        "name": "Spiky Shield",
+        "pct": 12.1
       }
     ],
     "defaultMoves": [
@@ -10659,19 +11242,28 @@
     ],
     "natures": [
       {
-        "name": "Impish"
+        "name": "Impish",
+        "pct": 78.7
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 12.8
       },
       {
-        "name": "Careful"
+        "name": "Careful",
+        "pct": 6.9
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 0.9
       },
       {
-        "name": "Relaxed"
+        "name": "Relaxed",
+        "pct": 0.5
+      },
+      {
+        "name": "Brave",
+        "pct": 0.2
       }
     ]
   },
@@ -11058,10 +11650,49 @@
     ],
     "moves": [
       {
-        "name": "Shadow Ball"
+        "name": "Shadow Ball",
+        "pct": 93.1
       },
       {
-        "name": "Energy Ball"
+        "name": "Flamethrower",
+        "pct": 63.4
+      },
+      {
+        "name": "Overheat",
+        "pct": 34.8
+      },
+      {
+        "name": "Energy Ball",
+        "pct": 33.6
+      },
+      {
+        "name": "Trick",
+        "pct": 23.9
+      },
+      {
+        "name": "Will-O-Wisp",
+        "pct": 21.7
+      },
+      {
+        "name": "Trick Room",
+        "pct": 20
+      },
+      {
+        "name": "Curse",
+        "pct": 18.7
+      },
+      {
+        "name": "Calm Mind",
+        "pct": 17.8
+      },
+      {
+        "name": "Psychic",
+        "pct": 13
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Shadow Ball"
       },
       {
         "name": "Flamethrower"
@@ -11070,53 +11701,25 @@
         "name": "Overheat"
       },
       {
-        "name": "Trick"
-      },
-      {
-        "name": "Psychic"
-      },
-      {
-        "name": "Will-O-Wisp"
-      },
-      {
-        "name": "Minimize"
-      },
-      {
-        "name": "Fire Blast"
-      },
-      {
-        "name": "Calm Mind"
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Flamethrower"
-      },
-      {
-        "name": "Shadow Ball"
-      },
-      {
         "name": "Energy Ball"
-      },
-      {
-        "name": "Trick"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Modest",
+        "pct": 44.9
       },
       {
-        "name": "Modest"
+        "name": "Timid",
+        "pct": 42.8
       },
       {
-        "name": "Calm"
+        "name": "Bold",
+        "pct": 12.2
       },
       {
-        "name": "Bold"
-      },
-      {
-        "name": "Quiet"
+        "name": "Quiet",
+        "pct": 0.2
       }
     ]
   },
@@ -11685,65 +12288,76 @@
     ],
     "moves": [
       {
-        "name": "Close Combat"
+        "name": "Bullet Seed",
+        "pct": 85.3
       },
       {
-        "name": "Rock Blast"
+        "name": "Rock Blast",
+        "pct": 84.2
       },
       {
-        "name": "Bullet Seed"
+        "name": "Close Combat",
+        "pct": 81.1
       },
       {
-        "name": "Pin Missile"
+        "name": "Earthquake",
+        "pct": 54.8
       },
       {
-        "name": "Earthquake"
+        "name": "Pin Missile",
+        "pct": 43.6
       },
       {
-        "name": "Trailblaze"
+        "name": "Trailblaze",
+        "pct": 13.1
       },
       {
-        "name": "Swords Dance"
+        "name": "Rock Slide",
+        "pct": 6.6
       },
       {
-        "name": "Megahorn"
+        "name": "Megahorn",
+        "pct": 5
       },
       {
-        "name": "Knock Off"
+        "name": "Reversal",
+        "pct": 4.2
       },
       {
-        "name": "Feint"
+        "name": "Endure",
+        "pct": 4.2
       }
     ],
     "defaultMoves": [
       {
-        "name": "Close Combat"
-      },
-      {
-        "name": "Pin Missile"
+        "name": "Bullet Seed"
       },
       {
         "name": "Rock Blast"
       },
       {
-        "name": "Bullet Seed"
+        "name": "Close Combat"
+      },
+      {
+        "name": "Earthquake"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 63.7
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 23.2
       },
       {
-        "name": "Brave"
+        "name": "Brave",
+        "pct": 9.7
       },
       {
-        "name": "Impish"
-      },
-      {
-        "name": "Naughty"
+        "name": "Impish",
+        "pct": 3.5
       }
     ]
   },
@@ -12464,9 +13078,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 32,
-      "def": 0,
+      "def": 2,
       "spa": 0,
-      "spd": 2,
+      "spd": 0,
       "spe": 0
     },
     "abilities": [
@@ -12481,65 +13095,80 @@
     ],
     "moves": [
       {
-        "name": "Destiny Bond"
+        "name": "Destiny Bond",
+        "pct": 99.7
       },
       {
-        "name": "Poltergeist"
+        "name": "Poltergeist",
+        "pct": 97.2
       },
       {
-        "name": "Encore"
+        "name": "Encore",
+        "pct": 71.9
       },
       {
-        "name": "Shadow Sneak"
+        "name": "Shadow Sneak",
+        "pct": 65.9
       },
       {
-        "name": "Will-O-Wisp"
+        "name": "Gunk Shot",
+        "pct": 21
       },
       {
-        "name": "Gunk Shot"
+        "name": "Taunt",
+        "pct": 18.1
       },
       {
-        "name": "Taunt"
+        "name": "Will-O-Wisp",
+        "pct": 9
       },
       {
-        "name": "Sucker Punch"
+        "name": "Sucker Punch",
+        "pct": 5.9
       },
       {
-        "name": "Swords Dance"
+        "name": "Substitute",
+        "pct": 2.4
       },
       {
-        "name": "Shadow Claw"
+        "name": "Pain Split",
+        "pct": 2.2
       }
     ],
     "defaultMoves": [
       {
-        "name": "Poltergeist"
-      },
-      {
-        "name": "Shadow Sneak"
-      },
-      {
         "name": "Destiny Bond"
       },
       {
+        "name": "Poltergeist"
+      },
+      {
         "name": "Encore"
+      },
+      {
+        "name": "Shadow Sneak"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 85.0
       },
       {
-        "name": "Brave"
+        "name": "Brave",
+        "pct": 13.2
       },
       {
-        "name": "Jolly"
+        "name": "Lonely",
+        "pct": 0.8
       },
       {
-        "name": "Impish"
+        "name": "Naughty",
+        "pct": 0.8
       },
       {
-        "name": "Careful"
+        "name": "Impish",
+        "pct": 0.1
       }
     ]
   },
@@ -13125,12 +13754,12 @@
   },
   "Mega Gallade": {
     "defaultSp": {
-      "hp": 32,
+      "hp": 2,
       "atk": 32,
-      "def": 2,
+      "def": 0,
       "spa": 0,
       "spd": 0,
-      "spe": 0
+      "spe": 32
     },
     "abilities": [
       {
@@ -13144,34 +13773,44 @@
     ],
     "moves": [
       {
-        "name": "Sacred Sword"
+        "name": "Sacred Sword",
+        "pct": 99.5
       },
       {
-        "name": "Psycho Cut"
+        "name": "Psycho Cut",
+        "pct": 88.7
       },
       {
-        "name": "Leaf Blade"
+        "name": "Leaf Blade",
+        "pct": 87.3
       },
       {
-        "name": "Shadow Sneak"
+        "name": "Shadow Sneak",
+        "pct": 54.4
       },
       {
-        "name": "Triple Axel"
+        "name": "Triple Axel",
+        "pct": 25.1
       },
       {
-        "name": "Night Slash"
+        "name": "Night Slash",
+        "pct": 22.8
       },
       {
-        "name": "Swords Dance"
+        "name": "Thunder Punch",
+        "pct": 6.7
       },
       {
-        "name": "Shadow Claw"
+        "name": "Trick Room",
+        "pct": 3.4
       },
       {
-        "name": "Close Combat"
+        "name": "Aqua Cutter",
+        "pct": 3.2
       },
       {
-        "name": "Ice Punch"
+        "name": "Rock Slide",
+        "pct": 1.8
       }
     ],
     "defaultMoves": [
@@ -13190,19 +13829,20 @@
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Adamant",
+        "pct": 62.8
       },
       {
-        "name": "Adamant"
+        "name": "Jolly",
+        "pct": 35.2
       },
       {
-        "name": "Careful"
+        "name": "Brave",
+        "pct": 1.7
       },
       {
-        "name": "Impish"
-      },
-      {
-        "name": "Brave"
+        "name": "Naive",
+        "pct": 0.3
       }
     ]
   },
@@ -14117,65 +14757,80 @@
     ],
     "moves": [
       {
-        "name": "Hyper Voice"
+        "name": "Vacuum Wave",
+        "pct": 74.1
       },
+      {
+        "name": "Hyper Voice",
+        "pct": 68.8
+      },
+      {
+        "name": "Thunderbolt",
+        "pct": 43.2
+      },
+      {
+        "name": "Psyshock",
+        "pct": 38.6
+      },
+      {
+        "name": "Mystical Fire",
+        "pct": 30.8
+      },
+      {
+        "name": "Moonblast",
+        "pct": 30.1
+      },
+      {
+        "name": "Calm Mind",
+        "pct": 23.9
+      },
+      {
+        "name": "Psychic",
+        "pct": 23.9
+      },
+      {
+        "name": "Psychic Noise",
+        "pct": 19.3
+      },
+      {
+        "name": "Energy Ball",
+        "pct": 12.2
+      }
+    ],
+    "defaultMoves": [
       {
         "name": "Vacuum Wave"
       },
       {
-        "name": "Psychic"
-      },
-      {
-        "name": "Mystical Fire"
-      },
-      {
-        "name": "Calm Mind"
-      },
-      {
-        "name": "Moonblast"
-      },
-      {
-        "name": "Psyshock"
+        "name": "Hyper Voice"
       },
       {
         "name": "Thunderbolt"
       },
       {
-        "name": "Psychic Noise"
-      },
-      {
-        "name": "Trick"
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Psychic"
-      },
-      {
-        "name": "Hyper Voice"
-      },
-      {
-        "name": "Vacuum Wave"
-      },
-      {
-        "name": "Mystical Fire"
+        "name": "Psyshock"
       }
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 70.2
       },
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 25.8
       },
       {
-        "name": "Calm"
+        "name": "Bold",
+        "pct": 2.1
       },
       {
-        "name": "Bold"
+        "name": "Quiet",
+        "pct": 1.4
       },
       {
-        "name": "Quiet"
+        "name": "Calm",
+        "pct": 0.5
       }
     ]
   },
@@ -14320,9 +14975,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 0,
-      "def": 19,
+      "def": 32,
       "spa": 0,
-      "spd": 15,
+      "spd": 2,
       "spe": 0
     },
     "abilities": [
@@ -14337,65 +14992,92 @@
     ],
     "moves": [
       {
-        "name": "Leech Seed"
+        "name": "Leech Seed",
+        "pct": 88.1
       },
       {
-        "name": "Protect"
+        "name": "Protect",
+        "pct": 85
       },
       {
-        "name": "Giga Drain"
+        "name": "Flamethrower",
+        "pct": 78.4
       },
       {
-        "name": "Flamethrower"
+        "name": "Giga Drain",
+        "pct": 63.1
       },
       {
-        "name": "Burning Jealousy"
+        "name": "Substitute",
+        "pct": 30.7
       },
       {
-        "name": "Leaf Storm"
+        "name": "Burning Jealousy",
+        "pct": 14.6
       },
       {
-        "name": "Substitute"
+        "name": "Leaf Storm",
+        "pct": 8.2
       },
       {
-        "name": "Overheat"
+        "name": "Energy Ball",
+        "pct": 7.5
       },
       {
-        "name": "Fire Spin"
+        "name": "Overheat",
+        "pct": 3.8
       },
       {
-        "name": "Flare Blitz"
+        "name": "Rage Powder",
+        "pct": 3.7
       }
     ],
     "defaultMoves": [
       {
-        "name": "Flamethrower"
-      },
-      {
-        "name": "Giga Drain"
-      },
-      {
         "name": "Leech Seed"
       },
       {
         "name": "Protect"
+      },
+      {
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Giga Drain"
       }
     ],
     "natures": [
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 55.9
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 16.8
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 12.6
       },
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 11.6
       },
       {
-        "name": "Relaxed"
+        "name": "Adamant",
+        "pct": 2.7
+      },
+      {
+        "name": "Careful",
+        "pct": 0.2
+      },
+      {
+        "name": "Sassy",
+        "pct": 0.1
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.1
       }
     ]
   },
@@ -14549,34 +15231,44 @@
     ],
     "moves": [
       {
-        "name": "Blizzard"
+        "name": "Blizzard",
+        "pct": 98.1
       },
       {
-        "name": "Shadow Ball"
+        "name": "Shadow Ball",
+        "pct": 83.6
       },
       {
-        "name": "Aurora Veil"
+        "name": "Aurora Veil",
+        "pct": 67.6
       },
       {
-        "name": "Destiny Bond"
+        "name": "Thunderbolt",
+        "pct": 58.5
       },
       {
-        "name": "Thunderbolt"
+        "name": "Nasty Plot",
+        "pct": 17.6
       },
       {
-        "name": "Will-O-Wisp"
+        "name": "Destiny Bond",
+        "pct": 15.5
       },
       {
-        "name": "Taunt"
+        "name": "Will-O-Wisp",
+        "pct": 13.3
       },
       {
-        "name": "Ice Shard"
+        "name": "Ice Shard",
+        "pct": 12.7
       },
       {
-        "name": "Nasty Plot"
+        "name": "Taunt",
+        "pct": 8.5
       },
       {
-        "name": "Hex"
+        "name": "Hex",
+        "pct": 8.3
       }
     ],
     "defaultMoves": [
@@ -14590,24 +15282,33 @@
         "name": "Aurora Veil"
       },
       {
-        "name": "Destiny Bond"
+        "name": "Thunderbolt"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 82.1
       },
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 17.1
       },
       {
-        "name": "Bold"
+        "name": "Gentle",
+        "pct": 0.5
       },
       {
-        "name": "Jolly"
+        "name": "Adamant",
+        "pct": 0.2
       },
       {
-        "name": "Calm"
+        "name": "Mild",
+        "pct": 0.1
+      },
+      {
+        "name": "Bold",
+        "pct": 0.1
       }
     ]
   },
@@ -14778,12 +15479,12 @@
   },
   "Mega Skarmory": {
     "defaultSp": {
-      "hp": 2,
-      "atk": 32,
-      "def": 0,
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
       "spa": 0,
-      "spd": 0,
-      "spe": 32
+      "spd": 2,
+      "spe": 0
     },
     "abilities": [
       {
@@ -14797,65 +15498,100 @@
     ],
     "moves": [
       {
-        "name": "Roost"
+        "name": "Roost",
+        "pct": 64
       },
       {
-        "name": "Stealth Rock"
+        "name": "Brave Bird",
+        "pct": 46.2
       },
       {
-        "name": "Brave Bird"
+        "name": "Stealth Rock",
+        "pct": 44.5
       },
       {
-        "name": "Body Press"
+        "name": "Whirlwind",
+        "pct": 40.5
       },
       {
-        "name": "Swords Dance"
+        "name": "Swords Dance",
+        "pct": 32.3
       },
       {
-        "name": "Iron Head"
+        "name": "Iron Head",
+        "pct": 31.9
       },
       {
-        "name": "Drill Run"
+        "name": "Body Press",
+        "pct": 28.2
       },
       {
-        "name": "Whirlwind"
+        "name": "Drill Run",
+        "pct": 27.3
       },
       {
-        "name": "Taunt"
+        "name": "Taunt",
+        "pct": 25.7
       },
       {
-        "name": "Iron Defense"
+        "name": "Spikes",
+        "pct": 22.9
       }
     ],
     "defaultMoves": [
       {
-        "name": "Brave Bird"
-      },
-      {
-        "name": "Body Press"
-      },
-      {
         "name": "Roost"
       },
       {
+        "name": "Brave Bird"
+      },
+      {
         "name": "Stealth Rock"
+      },
+      {
+        "name": "Whirlwind"
       }
     ],
     "natures": [
       {
-        "name": "Impish"
+        "name": "Impish",
+        "pct": 42.0
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 27.1
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 12.7
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 8.9
       },
       {
-        "name": "Careful"
+        "name": "Careful",
+        "pct": 4.8
+      },
+      {
+        "name": "Calm",
+        "pct": 2.5
+      },
+      {
+        "name": "Mild",
+        "pct": 0.7
+      },
+      {
+        "name": "Bashful",
+        "pct": 0.6
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.5
+      },
+      {
+        "name": "Naive",
+        "pct": 0.2
       }
     ]
   },
@@ -15170,34 +15906,44 @@
     ],
     "moves": [
       {
-        "name": "Earthquake"
+        "name": "Earthquake",
+        "pct": 97.8
       },
       {
-        "name": "Iron Head"
+        "name": "Iron Head",
+        "pct": 97.4
       },
       {
-        "name": "Rock Slide"
+        "name": "Rock Slide",
+        "pct": 64.8
       },
       {
-        "name": "Horn Drill"
+        "name": "Swords Dance",
+        "pct": 34.2
       },
       {
-        "name": "Swords Dance"
+        "name": "Horn Drill",
+        "pct": 31.1
       },
       {
-        "name": "Rock Tomb"
+        "name": "Rock Tomb",
+        "pct": 20.2
       },
       {
-        "name": "Rapid Spin"
+        "name": "Rapid Spin",
+        "pct": 14.3
       },
       {
-        "name": "Stealth Rock"
+        "name": "Stealth Rock",
+        "pct": 11.1
       },
       {
-        "name": "Poison Jab"
+        "name": "Brick Break",
+        "pct": 9
       },
       {
-        "name": "Brick Break"
+        "name": "Throat Chop",
+        "pct": 5.9
       }
     ],
     "defaultMoves": [
@@ -15211,24 +15957,25 @@
         "name": "Rock Slide"
       },
       {
-        "name": "Horn Drill"
+        "name": "Swords Dance"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 53.0
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 46.8
       },
       {
-        "name": "Careful"
+        "name": "Lonely",
+        "pct": 0.1
       },
       {
-        "name": "Impish"
-      },
-      {
-        "name": "Lonely"
+        "name": "Serious",
+        "pct": 0.1
       }
     ]
   },
@@ -15386,39 +16133,49 @@
     ],
     "moves": [
       {
-        "name": "Strength Sap"
+        "name": "Strength Sap",
+        "pct": 99.8
       },
       {
-        "name": "Sucker Punch"
+        "name": "Giga Drain",
+        "pct": 51.9
       },
       {
-        "name": "Giga Drain"
+        "name": "Sucker Punch",
+        "pct": 51.3
       },
       {
-        "name": "Sludge Wave"
+        "name": "Sludge Wave",
+        "pct": 44
       },
       {
-        "name": "Poison Jab"
+        "name": "Encore",
+        "pct": 33.7
       },
       {
-        "name": "Encore"
+        "name": "Poison Jab",
+        "pct": 27.5
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Power Whip",
+        "pct": 19.9
       },
       {
-        "name": "Power Gem"
+        "name": "Wrap",
+        "pct": 16
       },
       {
-        "name": "Toxic"
+        "name": "Toxic",
+        "pct": 11.7
       },
       {
-        "name": "Knock Off"
+        "name": "Sludge Bomb",
+        "pct": 8.7
       }
     ],
     "defaultMoves": [
       {
-        "name": "Sludge Wave"
+        "name": "Strength Sap"
       },
       {
         "name": "Giga Drain"
@@ -15427,24 +16184,49 @@
         "name": "Sucker Punch"
       },
       {
-        "name": "Strength Sap"
+        "name": "Sludge Wave"
       }
     ],
     "natures": [
       {
-        "name": "Quiet"
+        "name": "Modest",
+        "pct": 28.6
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 18.3
       },
       {
-        "name": "Modest"
+        "name": "Impish",
+        "pct": 9.1
       },
       {
-        "name": "Bold"
+        "name": "Lax",
+        "pct": 8.3
       },
       {
-        "name": "Rash"
+        "name": "Bold",
+        "pct": 7.8
+      },
+      {
+        "name": "Quiet",
+        "pct": 6.6
+      },
+      {
+        "name": "Rash",
+        "pct": 5.3
+      },
+      {
+        "name": "Naughty",
+        "pct": 5.0
+      },
+      {
+        "name": "Serious",
+        "pct": 2.7
+      },
+      {
+        "name": "Calm",
+        "pct": 2.7
       }
     ]
   },
@@ -15599,12 +16381,12 @@
   },
   "Mega Blastoise": {
     "defaultSp": {
-      "hp": 32,
+      "hp": 2,
       "atk": 0,
-      "def": 2,
+      "def": 0,
       "spa": 32,
       "spd": 0,
-      "spe": 0
+      "spe": 32
     },
     "abilities": [
       {
@@ -15618,65 +16400,96 @@
     ],
     "moves": [
       {
-        "name": "Shell Smash"
+        "name": "Aura Sphere",
+        "pct": 89.8
       },
       {
-        "name": "Water Pulse"
+        "name": "Water Pulse",
+        "pct": 80.2
       },
       {
-        "name": "Aura Sphere"
+        "name": "Shell Smash",
+        "pct": 79.6
       },
       {
-        "name": "Ice Beam"
+        "name": "Dark Pulse",
+        "pct": 77.8
       },
       {
-        "name": "Dark Pulse"
+        "name": "Ice Beam",
+        "pct": 24.1
       },
       {
-        "name": "Dragon Pulse"
+        "name": "Aqua Jet",
+        "pct": 12.6
       },
       {
-        "name": "Surf"
+        "name": "Surf",
+        "pct": 7.3
       },
       {
-        "name": "Substitute"
+        "name": "Hydro Pump",
+        "pct": 6.3
       },
       {
-        "name": "Hydro Pump"
+        "name": "Mirror Coat",
+        "pct": 4.4
       },
       {
-        "name": "Flash Cannon"
+        "name": "Water Spout",
+        "pct": 3.9
       }
     ],
     "defaultMoves": [
       {
-        "name": "Water Pulse"
-      },
-      {
         "name": "Aura Sphere"
       },
       {
-        "name": "Ice Beam"
+        "name": "Water Pulse"
       },
       {
         "name": "Shell Smash"
+      },
+      {
+        "name": "Dark Pulse"
       }
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 70.6
       },
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 25.3
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 2.2
       },
       {
-        "name": "Adamant"
+        "name": "Quiet",
+        "pct": 0.7
       },
       {
-        "name": "Calm"
+        "name": "Gentle",
+        "pct": 0.4
+      },
+      {
+        "name": "Impish",
+        "pct": 0.4
+      },
+      {
+        "name": "Calm",
+        "pct": 0.3
+      },
+      {
+        "name": "Adamant",
+        "pct": 0.0
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.0
       }
     ]
   },
@@ -17825,14 +18638,6 @@
     ]
   },
   "Mega Chimecho": {
-    "defaultSp": {
-      "hp": 32,
-      "atk": 0,
-      "def": 2,
-      "spa": 32,
-      "spd": 0,
-      "spe": 0
-    },
     "abilities": [
       {
         "name": "Levitate"
@@ -17845,65 +18650,76 @@
     ],
     "moves": [
       {
-        "name": "Recover"
+        "name": "Recover",
+        "pct": 89.4
       },
       {
-        "name": "Calm Mind"
+        "name": "Encore",
+        "pct": 58.7
       },
       {
-        "name": "Stored Power"
+        "name": "Thunder Wave",
+        "pct": 38.5
       },
       {
-        "name": "Flash Cannon"
+        "name": "Psychic",
+        "pct": 38.5
       },
       {
-        "name": "Cosmic Power"
+        "name": "Psychic Noise",
+        "pct": 25
       },
       {
-        "name": "Psychic"
+        "name": "Stored Power",
+        "pct": 18.3
       },
       {
-        "name": "Psychic Noise"
+        "name": "Taunt",
+        "pct": 15.4
       },
       {
-        "name": "Boomburst"
+        "name": "Cosmic Power",
+        "pct": 15.4
       },
       {
-        "name": "Draining Kiss"
+        "name": "Hyper Voice",
+        "pct": 14.4
       },
       {
-        "name": "Taunt"
+        "name": "Calm Mind",
+        "pct": 14.4
       }
     ],
     "defaultMoves": [
       {
-        "name": "Stored Power"
-      },
-      {
-        "name": "Flash Cannon"
-      },
-      {
         "name": "Recover"
       },
       {
-        "name": "Calm Mind"
+        "name": "Encore"
+      },
+      {
+        "name": "Thunder Wave"
+      },
+      {
+        "name": "Psychic"
       }
     ],
     "natures": [
       {
-        "name": "Bold"
+        "name": "Modest",
+        "pct": 70.2
       },
       {
-        "name": "Modest"
+        "name": "Bold",
+        "pct": 16.3
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 12.5
       },
       {
-        "name": "Quiet"
-      },
-      {
-        "name": "Timid"
+        "name": "Relaxed",
+        "pct": 1.0
       }
     ]
   },
@@ -18131,9 +18947,9 @@
   },
   "Mega Pinsir": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 1,
       "atk": 32,
-      "def": 0,
+      "def": 1,
       "spa": 0,
       "spd": 0,
       "spe": 32
@@ -18150,65 +18966,76 @@
     ],
     "moves": [
       {
+        "name": "Quick Attack",
+        "pct": 76.9
+      },
+      {
+        "name": "Swords Dance",
+        "pct": 60.9
+      },
+      {
+        "name": "Storm Throw",
+        "pct": 56.2
+      },
+      {
+        "name": "Body Slam",
+        "pct": 50.9
+      },
+      {
+        "name": "Thrash",
+        "pct": 35.5
+      },
+      {
+        "name": "Guillotine",
+        "pct": 23.7
+      },
+      {
+        "name": "Earthquake",
+        "pct": 21.9
+      },
+      {
+        "name": "Rest",
+        "pct": 12.4
+      },
+      {
+        "name": "Iron Defense",
+        "pct": 12.4
+      },
+      {
+        "name": "Substitute",
+        "pct": 11.8
+      }
+    ],
+    "defaultMoves": [
+      {
         "name": "Quick Attack"
       },
       {
         "name": "Swords Dance"
-      },
-      {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Thrash"
-      },
-      {
-        "name": "Body Slam"
       },
       {
         "name": "Storm Throw"
       },
       {
-        "name": "Close Combat"
-      },
-      {
-        "name": "Feint"
-      },
-      {
-        "name": "Guillotine"
-      },
-      {
-        "name": "Lunge"
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Thrash"
-      },
-      {
-        "name": "Quick Attack"
-      },
-      {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Swords Dance"
+        "name": "Body Slam"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 69.2
       },
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 13.0
       },
       {
-        "name": "Impish"
+        "name": "Impish",
+        "pct": 12.4
       },
       {
-        "name": "Careful"
-      },
-      {
-        "name": "Brave"
+        "name": "Lonely",
+        "pct": 5.3
       }
     ]
   },
@@ -18777,34 +19604,44 @@
     ],
     "moves": [
       {
-        "name": "Blizzard"
+        "name": "Blizzard",
+        "pct": 96.6
       },
       {
-        "name": "Ice Shard"
+        "name": "Ice Shard",
+        "pct": 76.9
       },
       {
-        "name": "Giga Drain"
+        "name": "Giga Drain",
+        "pct": 67.7
       },
       {
-        "name": "Earth Power"
+        "name": "Earth Power",
+        "pct": 54.1
       },
       {
-        "name": "Aurora Veil"
+        "name": "Aurora Veil",
+        "pct": 27.4
       },
       {
-        "name": "Leaf Storm"
+        "name": "Leech Seed",
+        "pct": 23.8
       },
       {
-        "name": "Leech Seed"
+        "name": "Leaf Storm",
+        "pct": 13.8
       },
       {
-        "name": "Focus Blast"
+        "name": "Energy Ball",
+        "pct": 10.1
       },
       {
-        "name": "Wood Hammer"
+        "name": "Sheer Cold",
+        "pct": 6.9
       },
       {
-        "name": "Earthquake"
+        "name": "Earthquake",
+        "pct": 3.7
       }
     ],
     "defaultMoves": [
@@ -18812,10 +19649,10 @@
         "name": "Blizzard"
       },
       {
-        "name": "Giga Drain"
+        "name": "Ice Shard"
       },
       {
-        "name": "Ice Shard"
+        "name": "Giga Drain"
       },
       {
         "name": "Earth Power"
@@ -18823,19 +19660,44 @@
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Quiet",
+        "pct": 39.0
       },
       {
-        "name": "Quiet"
+        "name": "Modest",
+        "pct": 21.8
       },
       {
-        "name": "Bold"
+        "name": "Relaxed",
+        "pct": 11.0
       },
       {
-        "name": "Brave"
+        "name": "Bold",
+        "pct": 9.0
       },
       {
-        "name": "Relaxed"
+        "name": "Naive",
+        "pct": 5.5
+      },
+      {
+        "name": "Calm",
+        "pct": 3.2
+      },
+      {
+        "name": "Mild",
+        "pct": 3.1
+      },
+      {
+        "name": "Brave",
+        "pct": 2.3
+      },
+      {
+        "name": "Impish",
+        "pct": 1.8
+      },
+      {
+        "name": "Timid",
+        "pct": 1.3
       }
     ]
   },
@@ -19271,12 +20133,12 @@
   },
   "Mega Emboar": {
     "defaultSp": {
-      "hp": 32,
+      "hp": 2,
       "atk": 32,
       "def": 0,
       "spa": 0,
-      "spd": 2,
-      "spe": 0
+      "spd": 0,
+      "spe": 32
     },
     "abilities": [
       {
@@ -19290,65 +20152,68 @@
     ],
     "moves": [
       {
+        "name": "Flare Blitz",
+        "pct": 97.9
+      },
+      {
+        "name": "Drain Punch",
+        "pct": 80.9
+      },
+      {
+        "name": "Sucker Punch",
+        "pct": 78.7
+      },
+      {
+        "name": "Wild Charge",
+        "pct": 66
+      },
+      {
+        "name": "Stone Edge",
+        "pct": 23.4
+      },
+      {
+        "name": "Close Combat",
+        "pct": 17
+      },
+      {
+        "name": "Earthquake",
+        "pct": 14.9
+      },
+      {
+        "name": "Head Smash",
+        "pct": 6.4
+      },
+      {
+        "name": "Bulk Up",
+        "pct": 4.3
+      },
+      {
+        "name": "Will-O-Wisp",
+        "pct": 2.1
+      }
+    ],
+    "defaultMoves": [
+      {
         "name": "Flare Blitz"
-      },
-      {
-        "name": "Sucker Punch"
-      },
-      {
-        "name": "Close Combat"
       },
       {
         "name": "Drain Punch"
       },
       {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Wild Charge"
-      },
-      {
-        "name": "Bulk Up"
-      },
-      {
-        "name": "Head Smash"
-      },
-      {
-        "name": "Flame Charge"
-      },
-      {
-        "name": "Storm Throw"
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Close Combat"
-      },
-      {
-        "name": "Flare Blitz"
-      },
-      {
         "name": "Sucker Punch"
       },
       {
-        "name": "Earthquake"
+        "name": "Wild Charge"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 95.7
       },
       {
-        "name": "Jolly"
-      },
-      {
-        "name": "Brave"
-      },
-      {
-        "name": "Impish"
-      },
-      {
-        "name": "Careful"
+        "name": "Jolly",
+        "pct": 4.3
       }
     ]
   },
@@ -19486,42 +20351,52 @@
     ],
     "moves": [
       {
-        "name": "Volt Switch"
+        "name": "Volt Switch",
+        "pct": 96.6
       },
       {
-        "name": "Thunderbolt"
+        "name": "Thunderbolt",
+        "pct": 93.1
       },
       {
-        "name": "Overheat"
+        "name": "Overheat",
+        "pct": 89.7
       },
       {
-        "name": "Snarl"
+        "name": "Snarl",
+        "pct": 69
       },
       {
-        "name": "Flamethrower"
+        "name": "Ice Fang",
+        "pct": 20.7
       },
       {
-        "name": "Ice Fang"
+        "name": "Flamethrower",
+        "pct": 10.3
       },
       {
-        "name": "Light Screen"
+        "name": "Substitute",
+        "pct": 3.4
       },
       {
-        "name": "Thunder"
+        "name": "Switcheroo",
+        "pct": 3.4
       },
       {
-        "name": "Hyper Voice"
+        "name": "Discharge",
+        "pct": 3.4
       },
       {
-        "name": "Substitute"
+        "name": "Hyper Beam",
+        "pct": 3.4
       }
     ],
     "defaultMoves": [
       {
-        "name": "Thunderbolt"
+        "name": "Volt Switch"
       },
       {
-        "name": "Volt Switch"
+        "name": "Thunderbolt"
       },
       {
         "name": "Overheat"
@@ -19532,19 +20407,16 @@
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 72.4
       },
       {
-        "name": "Modest"
+        "name": "Naive",
+        "pct": 20.7
       },
       {
-        "name": "Naive"
-      },
-      {
-        "name": "Hasty"
-      },
-      {
-        "name": "Mild"
+        "name": "Mild",
+        "pct": 6.9
       }
     ]
   },
@@ -19806,10 +20678,10 @@
     "defaultSp": {
       "hp": 32,
       "atk": 0,
-      "def": 0,
-      "spa": 0,
-      "spd": 32,
-      "spe": 2
+      "def": 2,
+      "spa": 32,
+      "spd": 0,
+      "spe": 0
     },
     "abilities": [
       {
@@ -19823,65 +20695,84 @@
     ],
     "moves": [
       {
-        "name": "Roost"
+        "name": "Roost",
+        "pct": 100
       },
       {
-        "name": "Hyper Voice"
+        "name": "Cotton Guard",
+        "pct": 89.4
       },
       {
-        "name": "Cotton Guard"
+        "name": "Hyper Voice",
+        "pct": 82.9
       },
       {
-        "name": "Flamethrower"
+        "name": "Flamethrower",
+        "pct": 76.4
       },
       {
-        "name": "Fire Blast"
+        "name": "Will-O-Wisp",
+        "pct": 9.8
       },
       {
-        "name": "Dragon Dance"
+        "name": "Draco Meteor",
+        "pct": 8.9
       },
       {
-        "name": "Earthquake"
+        "name": "Acrobatics",
+        "pct": 8.9
       },
       {
-        "name": "Body Slam"
+        "name": "Body Slam",
+        "pct": 7.3
       },
       {
-        "name": "Draco Meteor"
+        "name": "Fire Spin",
+        "pct": 4.9
       },
       {
-        "name": "Fire Spin"
+        "name": "Roar",
+        "pct": 4.1
       }
     ],
     "defaultMoves": [
       {
-        "name": "Hyper Voice"
-      },
-      {
-        "name": "Flamethrower"
-      },
-      {
         "name": "Roost"
       },
       {
         "name": "Cotton Guard"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Flamethrower"
       }
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 35.0
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 26.8
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 22.0
       },
       {
-        "name": "Jolly"
+        "name": "Relaxed",
+        "pct": 8.9
       },
       {
-        "name": "Adamant"
+        "name": "Careful",
+        "pct": 6.5
+      },
+      {
+        "name": "Impish",
+        "pct": 0.8
       }
     ]
   },
@@ -20402,65 +21293,64 @@
     ],
     "moves": [
       {
-        "name": "Hurricane"
+        "name": "Heat Wave",
+        "pct": 100
       },
       {
-        "name": "Heat Wave"
+        "name": "Hurricane",
+        "pct": 100
       },
       {
-        "name": "Hyper Beam"
+        "name": "Hyper Beam",
+        "pct": 94.6
       },
       {
-        "name": "Substitute"
+        "name": "Tailwind",
+        "pct": 37.8
       },
       {
-        "name": "U-turn"
+        "name": "Quick Attack",
+        "pct": 37.8
       },
       {
-        "name": "Roost"
+        "name": "Substitute",
+        "pct": 13.5
       },
       {
-        "name": "Quick Attack"
+        "name": "Roost",
+        "pct": 10.8
       },
       {
-        "name": "Tailwind"
+        "name": "Rain Dance",
+        "pct": 2.7
       },
       {
-        "name": "Feather Dance"
-      },
-      {
-        "name": "Uproar"
+        "name": "U-turn",
+        "pct": 2.7
       }
     ],
     "defaultMoves": [
       {
+        "name": "Heat Wave"
+      },
+      {
         "name": "Hurricane"
       },
       {
         "name": "Hyper Beam"
       },
       {
-        "name": "Heat Wave"
-      },
-      {
-        "name": "Substitute"
+        "name": "Tailwind"
       }
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Timid",
+        "pct": 51.4
       },
       {
-        "name": "Timid"
-      },
-      {
-        "name": "Bold"
-      },
-      {
-        "name": "Hasty"
-      },
-      {
-        "name": "Mild"
+        "name": "Modest",
+        "pct": 48.6
       }
     ]
   },
@@ -21094,42 +21984,52 @@
     ],
     "moves": [
       {
-        "name": "Dragon Pulse"
+        "name": "Dragon Pulse",
+        "pct": 98.9
       },
       {
-        "name": "Thunderbolt"
+        "name": "Parabolic Charge",
+        "pct": 66.7
       },
       {
-        "name": "Focus Blast"
+        "name": "Focus Blast",
+        "pct": 52.7
       },
       {
-        "name": "Parabolic Charge"
+        "name": "Cotton Guard",
+        "pct": 46.2
       },
       {
-        "name": "Cotton Guard"
+        "name": "Agility",
+        "pct": 41.9
       },
       {
-        "name": "Volt Switch"
+        "name": "Thunderbolt",
+        "pct": 33.3
       },
       {
-        "name": "Power Gem"
+        "name": "Charge",
+        "pct": 30.1
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Substitute",
+        "pct": 14
       },
       {
-        "name": "Charge"
+        "name": "Power Gem",
+        "pct": 10.8
       },
       {
-        "name": "Thunder"
+        "name": "Dazzling Gleam",
+        "pct": 3.2
       }
     ],
     "defaultMoves": [
       {
-        "name": "Thunderbolt"
+        "name": "Dragon Pulse"
       },
       {
-        "name": "Dragon Pulse"
+        "name": "Parabolic Charge"
       },
       {
         "name": "Focus Blast"
@@ -21140,19 +22040,24 @@
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 45.2
       },
       {
-        "name": "Quiet"
+        "name": "Timid",
+        "pct": 41.9
       },
       {
-        "name": "Bold"
+        "name": "Quiet",
+        "pct": 8.6
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 3.2
       },
       {
-        "name": "Timid"
+        "name": "Relaxed",
+        "pct": 1.1
       }
     ]
   },
@@ -22021,11 +22926,11 @@
   },
   "Mega Medicham": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 0,
       "atk": 32,
       "def": 0,
       "spa": 0,
-      "spd": 0,
+      "spd": 2,
       "spe": 32
     },
     "abilities": [
@@ -22040,34 +22945,40 @@
     ],
     "moves": [
       {
-        "name": "Close Combat"
+        "name": "Close Combat",
+        "pct": 100
       },
       {
-        "name": "Bullet Punch"
+        "name": "Bullet Punch",
+        "pct": 99.3
       },
       {
-        "name": "Fake Out"
+        "name": "Fake Out",
+        "pct": 88
       },
       {
-        "name": "Zen Headbutt"
+        "name": "Zen Headbutt",
+        "pct": 51.4
       },
       {
-        "name": "Ice Punch"
+        "name": "Psycho Cut",
+        "pct": 40.8
       },
       {
-        "name": "High Jump Kick"
+        "name": "Upper Hand",
+        "pct": 10.6
       },
       {
-        "name": "Psycho Cut"
+        "name": "Thunder Punch",
+        "pct": 7
       },
       {
-        "name": "Thunder Punch"
+        "name": "Ice Punch",
+        "pct": 2.1
       },
       {
-        "name": "Poison Jab"
-      },
-      {
-        "name": "Trailblaze"
+        "name": "Agility",
+        "pct": 0.7
       }
     ],
     "defaultMoves": [
@@ -22075,30 +22986,27 @@
         "name": "Close Combat"
       },
       {
-        "name": "Zen Headbutt"
-      },
-      {
         "name": "Bullet Punch"
       },
       {
         "name": "Fake Out"
+      },
+      {
+        "name": "Zen Headbutt"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 53.5
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 45.1
       },
       {
-        "name": "Impish"
-      },
-      {
-        "name": "Brave"
-      },
-      {
-        "name": "Naughty"
+        "name": "Careful",
+        "pct": 1.4
       }
     ]
   },
@@ -22210,10 +23118,10 @@
   "Mega Steelix": {
     "defaultSp": {
       "hp": 32,
-      "atk": 32,
+      "atk": 2,
       "def": 0,
       "spa": 0,
-      "spd": 2,
+      "spd": 32,
       "spe": 0
     },
     "abilities": [
@@ -22228,34 +23136,44 @@
     ],
     "moves": [
       {
-        "name": "Earthquake"
+        "name": "Earthquake",
+        "pct": 86.4
       },
       {
-        "name": "Body Press"
+        "name": "Stealth Rock",
+        "pct": 77.3
       },
       {
-        "name": "Stealth Rock"
+        "name": "Heavy Slam",
+        "pct": 77.3
       },
       {
-        "name": "Heavy Slam"
+        "name": "Body Press",
+        "pct": 72.7
       },
       {
-        "name": "Iron Defense"
+        "name": "Stone Edge",
+        "pct": 29.5
       },
       {
-        "name": "Dragon Tail"
+        "name": "Dragon Tail",
+        "pct": 13.6
       },
       {
-        "name": "Gyro Ball"
+        "name": "Rest",
+        "pct": 11.4
       },
       {
-        "name": "Curse"
+        "name": "Sleep Talk",
+        "pct": 11.4
       },
       {
-        "name": "Fissure"
+        "name": "Iron Defense",
+        "pct": 11.4
       },
       {
-        "name": "Stone Edge"
+        "name": "Protect",
+        "pct": 9.1
       }
     ],
     "defaultMoves": [
@@ -22263,30 +23181,27 @@
         "name": "Earthquake"
       },
       {
+        "name": "Stealth Rock"
+      },
+      {
         "name": "Heavy Slam"
       },
       {
         "name": "Body Press"
-      },
-      {
-        "name": "Stealth Rock"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 50.0
       },
       {
-        "name": "Impish"
+        "name": "Careful",
+        "pct": 25.0
       },
       {
-        "name": "Relaxed"
-      },
-      {
-        "name": "Brave"
-      },
-      {
-        "name": "Careful"
+        "name": "Impish",
+        "pct": 25.0
       }
     ]
   },
@@ -22899,10 +23814,10 @@
     "defaultSp": {
       "hp": 32,
       "atk": 0,
-      "def": 2,
+      "def": 0,
       "spa": 32,
       "spd": 0,
-      "spe": 0
+      "spe": 2
     },
     "abilities": [
       {
@@ -22916,65 +23831,68 @@
     ],
     "moves": [
       {
-        "name": "Draco Meteor"
+        "name": "Thunderbolt",
+        "pct": 90.9
       },
       {
-        "name": "Thunderbolt"
+        "name": "Flamethrower",
+        "pct": 87.9
       },
       {
-        "name": "Flamethrower"
+        "name": "Hyper Voice",
+        "pct": 84.8
       },
       {
-        "name": "Hyper Voice"
+        "name": "Draco Meteor",
+        "pct": 78.8
       },
       {
-        "name": "Roost"
+        "name": "Ice Beam",
+        "pct": 15.2
       },
       {
-        "name": "Earth Power"
+        "name": "Earth Power",
+        "pct": 12.1
       },
       {
-        "name": "Ice Beam"
+        "name": "Fire Blast",
+        "pct": 6.1
       },
       {
-        "name": "Dragon Pulse"
+        "name": "Roost",
+        "pct": 6.1
       },
       {
-        "name": "Fire Blast"
+        "name": "Dragon Pulse",
+        "pct": 6.1
       },
       {
-        "name": "Hyper Beam"
+        "name": "Energy Ball",
+        "pct": 6.1
       }
     ],
     "defaultMoves": [
       {
-        "name": "Draco Meteor"
-      },
-      {
-        "name": "Hyper Voice"
+        "name": "Thunderbolt"
       },
       {
         "name": "Flamethrower"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Draco Meteor"
       }
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Modest",
+        "pct": 72.7
       },
       {
-        "name": "Quiet"
-      },
-      {
-        "name": "Bold"
-      },
-      {
-        "name": "Calm"
-      },
-      {
-        "name": "Timid"
+        "name": "Quiet",
+        "pct": 27.3
       }
     ]
   },
@@ -23439,14 +24357,6 @@
     ]
   },
   "Mega Absol": {
-    "defaultSp": {
-      "hp": 2,
-      "atk": 32,
-      "def": 0,
-      "spa": 0,
-      "spd": 0,
-      "spe": 32
-    },
     "abilities": [
       {
         "name": "Magic Bounce"
@@ -23459,28 +24369,36 @@
     ],
     "moves": [
       {
-        "name": "Sucker Punch"
+        "name": "Close Combat",
+        "pct": 100
       },
+      {
+        "name": "Sucker Punch",
+        "pct": 100
+      },
+      {
+        "name": "Psycho Cut",
+        "pct": 85.7
+      },
+      {
+        "name": "Stone Edge",
+        "pct": 85.7
+      },
+      {
+        "name": "Swords Dance",
+        "pct": 14.3
+      },
+      {
+        "name": "Knock Off",
+        "pct": 14.3
+      }
+    ],
+    "defaultMoves": [
       {
         "name": "Close Combat"
       },
       {
-        "name": "Knock Off"
-      },
-      {
-        "name": "Swords Dance"
-      },
-      {
-        "name": "Ice Beam"
-      },
-      {
-        "name": "Play Rough"
-      },
-      {
-        "name": "Night Slash"
-      },
-      {
-        "name": "Will-O-Wisp"
+        "name": "Sucker Punch"
       },
       {
         "name": "Psycho Cut"
@@ -23489,35 +24407,10 @@
         "name": "Stone Edge"
       }
     ],
-    "defaultMoves": [
-      {
-        "name": "Sucker Punch"
-      },
-      {
-        "name": "Knock Off"
-      },
-      {
-        "name": "Close Combat"
-      },
-      {
-        "name": "Swords Dance"
-      }
-    ],
     "natures": [
       {
-        "name": "Adamant"
-      },
-      {
-        "name": "Jolly"
-      },
-      {
-        "name": "Naive"
-      },
-      {
-        "name": "Naughty"
-      },
-      {
-        "name": "Careful"
+        "name": "Adamant",
+        "pct": 100.0
       }
     ]
   },
@@ -23749,12 +24642,12 @@
   },
   "Mega Glalie": {
     "defaultSp": {
-      "hp": 2,
-      "atk": 32,
-      "def": 0,
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
       "spa": 0,
       "spd": 0,
-      "spe": 32
+      "spe": 2
     },
     "abilities": [
       {
@@ -23768,65 +24661,80 @@
     ],
     "moves": [
       {
-        "name": "Protect"
+        "name": "Substitute",
+        "pct": 98.4
       },
       {
-        "name": "Substitute"
+        "name": "Protect",
+        "pct": 97.7
       },
       {
-        "name": "Freeze-Dry"
+        "name": "Freeze-Dry",
+        "pct": 97.7
       },
       {
-        "name": "Sheer Cold"
+        "name": "Sheer Cold",
+        "pct": 74.4
       },
       {
-        "name": "Explosion"
+        "name": "Earthquake",
+        "pct": 21.7
       },
       {
-        "name": "Earthquake"
+        "name": "Ice Shard",
+        "pct": 3.1
       },
       {
-        "name": "Ice Shard"
+        "name": "Explosion",
+        "pct": 2.3
       },
       {
-        "name": "Body Slam"
+        "name": "Taunt",
+        "pct": 1.6
       },
       {
-        "name": "Double Team"
+        "name": "Body Slam",
+        "pct": 1.6
       },
       {
-        "name": "Frost Breath"
+        "name": "Shadow Ball",
+        "pct": 0.8
       }
     ],
     "defaultMoves": [
       {
-        "name": "Freeze-Dry"
-      },
-      {
-        "name": "Sheer Cold"
+        "name": "Substitute"
       },
       {
         "name": "Protect"
       },
       {
-        "name": "Substitute"
+        "name": "Freeze-Dry"
+      },
+      {
+        "name": "Sheer Cold"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 62.8
       },
       {
-        "name": "Jolly"
+        "name": "Bold",
+        "pct": 18.6
       },
       {
-        "name": "Adamant"
+        "name": "Calm",
+        "pct": 15.5
       },
       {
-        "name": "Bold"
+        "name": "Adamant",
+        "pct": 2.3
       },
       {
-        "name": "Modest"
+        "name": "Jolly",
+        "pct": 0.8
       }
     ]
   },
@@ -25406,9 +26314,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 32,
-      "def": 0,
+      "def": 2,
       "spa": 0,
-      "spd": 2,
+      "spd": 0,
       "spe": 0
     },
     "abilities": [
@@ -25423,31 +26331,40 @@
     ],
     "moves": [
       {
-        "name": "Poltergeist"
+        "name": "Poltergeist",
+        "pct": 100
       },
       {
-        "name": "Ice Punch"
+        "name": "Ice Punch",
+        "pct": 81.8
       },
       {
-        "name": "Headlong Rush"
+        "name": "Drain Punch",
+        "pct": 72.7
       },
       {
-        "name": "Drain Punch"
+        "name": "Earthquake",
+        "pct": 68.2
       },
       {
-        "name": "Close Combat"
+        "name": "Headlong Rush",
+        "pct": 31.8
       },
       {
-        "name": "Dynamic Punch"
+        "name": "Close Combat",
+        "pct": 18.2
       },
       {
-        "name": "Stone Edge"
+        "name": "Stone Edge",
+        "pct": 18.2
       },
       {
-        "name": "Thunder Punch"
+        "name": "Stealth Rock",
+        "pct": 4.5
       },
       {
-        "name": "Shadow Punch"
+        "name": "Heat Crash",
+        "pct": 4.5
       }
     ],
     "defaultMoves": [
@@ -25455,30 +26372,23 @@
         "name": "Poltergeist"
       },
       {
-        "name": "Headlong Rush"
+        "name": "Ice Punch"
       },
       {
         "name": "Drain Punch"
       },
       {
-        "name": "Ice Punch"
+        "name": "Earthquake"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 72.7
       },
       {
-        "name": "Brave"
-      },
-      {
-        "name": "Jolly"
-      },
-      {
-        "name": "Impish"
-      },
-      {
-        "name": "Careful"
+        "name": "Brave",
+        "pct": 27.3
       }
     ]
   },
@@ -25608,65 +26518,76 @@
     ],
     "moves": [
       {
-        "name": "Dark Pulse"
+        "name": "Sucker Punch",
+        "pct": 97.2
       },
       {
-        "name": "Flamethrower"
+        "name": "Dark Pulse",
+        "pct": 88.9
       },
       {
-        "name": "Destiny Bond"
+        "name": "Flamethrower",
+        "pct": 86.1
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Sludge Bomb",
+        "pct": 61.1
       },
       {
-        "name": "Sucker Punch"
+        "name": "Flame Charge",
+        "pct": 16.7
       },
       {
-        "name": "Overheat"
+        "name": "Destiny Bond",
+        "pct": 13.9
       },
       {
-        "name": "Nasty Plot"
+        "name": "Counter",
+        "pct": 11.1
       },
       {
-        "name": "Counter"
+        "name": "Comeuppance",
+        "pct": 11.1
       },
       {
-        "name": "Fire Blast"
+        "name": "Solar Beam",
+        "pct": 8.3
       },
       {
-        "name": "Taunt"
+        "name": "Heat Wave",
+        "pct": 2.8
       }
     ],
     "defaultMoves": [
       {
-        "name": "Flamethrower"
+        "name": "Sucker Punch"
       },
       {
         "name": "Dark Pulse"
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Flamethrower"
       },
       {
-        "name": "Destiny Bond"
+        "name": "Sludge Bomb"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Modest",
+        "pct": 58.3
       },
       {
-        "name": "Modest"
+        "name": "Timid",
+        "pct": 27.8
       },
       {
-        "name": "Hasty"
+        "name": "Naive",
+        "pct": 11.1
       },
       {
-        "name": "Mild"
-      },
-      {
-        "name": "Naive"
+        "name": "Hasty",
+        "pct": 2.8
       }
     ]
   },
@@ -27174,9 +28095,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 0,
-      "def": 2,
+      "def": 1,
       "spa": 32,
-      "spd": 0,
+      "spd": 1,
       "spe": 0
     },
     "abilities": [
@@ -27191,65 +28112,72 @@
     ],
     "moves": [
       {
-        "name": "Earth Power"
+        "name": "Eruption",
+        "pct": 100
       },
       {
-        "name": "Ancient Power"
+        "name": "Earth Power",
+        "pct": 100
       },
       {
-        "name": "Flamethrower"
+        "name": "Fire Blast",
+        "pct": 47.4
       },
       {
-        "name": "Flash Cannon"
+        "name": "Flamethrower",
+        "pct": 47.4
       },
+      {
+        "name": "Ancient Power",
+        "pct": 42.1
+      },
+      {
+        "name": "Flash Cannon",
+        "pct": 36.8
+      },
+      {
+        "name": "Stone Edge",
+        "pct": 10.5
+      },
+      {
+        "name": "Protect",
+        "pct": 5.3
+      },
+      {
+        "name": "Heat Wave",
+        "pct": 5.3
+      },
+      {
+        "name": "Iron Head",
+        "pct": 5.3
+      }
+    ],
+    "defaultMoves": [
       {
         "name": "Eruption"
+      },
+      {
+        "name": "Earth Power"
       },
       {
         "name": "Fire Blast"
       },
       {
-        "name": "Rock Slide"
-      },
-      {
-        "name": "Yawn"
-      },
-      {
-        "name": "Stealth Rock"
-      },
-      {
-        "name": "Overheat"
-      }
-    ],
-    "defaultMoves": [
-      {
         "name": "Flamethrower"
-      },
-      {
-        "name": "Earth Power"
-      },
-      {
-        "name": "Ancient Power"
-      },
-      {
-        "name": "Flash Cannon"
       }
     ],
     "natures": [
       {
-        "name": "Quiet"
+        "name": "Quiet",
+        "pct": 63.2
       },
       {
-        "name": "Modest"
+        "name": "Bold",
+        "pct": 26.3
       },
       {
-        "name": "Calm"
-      },
-      {
-        "name": "Brave"
-      },
-      {
-        "name": "Bold"
+        "name": "Sassy",
+        "pct": 10.5
       }
     ]
   },
@@ -28161,12 +29089,12 @@
   },
   "Mega Meowstic": {
     "defaultSp": {
-      "hp": 2,
+      "hp": 32,
       "atk": 0,
-      "def": 0,
-      "spa": 32,
-      "spd": 0,
-      "spe": 32
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
     },
     "abilities": [
       {
@@ -28186,28 +29114,28 @@
         "name": "Alluring Voice"
       },
       {
+        "name": "Reflect"
+      },
+      {
+        "name": "Light Screen"
+      },
+      {
+        "name": "Yawn"
+      },
+      {
         "name": "Thunderbolt"
+      },
+      {
+        "name": "Calm Mind"
+      },
+      {
+        "name": "Baton Pass"
       },
       {
         "name": "Nasty Plot"
       },
       {
         "name": "Shadow Ball"
-      },
-      {
-        "name": "Dark Pulse"
-      },
-      {
-        "name": "Calm Mind"
-      },
-      {
-        "name": "Energy Ball"
-      },
-      {
-        "name": "Psyshock"
-      },
-      {
-        "name": "Fake Out"
       }
     ],
     "defaultMoves": [
@@ -28218,10 +29146,10 @@
         "name": "Alluring Voice"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Reflect"
       },
       {
-        "name": "Nasty Plot"
+        "name": "Light Screen"
       }
     ],
     "natures": [
@@ -28229,16 +29157,16 @@
         "name": "Timid"
       },
       {
-        "name": "Modest"
-      },
-      {
         "name": "Bold"
       },
       {
-        "name": "Hasty"
+        "name": "Modest"
       },
       {
         "name": "Calm"
+      },
+      {
+        "name": "Relaxed"
       }
     ]
   },
@@ -28773,14 +29701,6 @@
     ]
   },
   "Mega Audino": {
-    "defaultSp": {
-      "hp": 32,
-      "atk": 0,
-      "def": 32,
-      "spa": 0,
-      "spd": 2,
-      "spe": 0
-    },
     "abilities": [
       {
         "name": "Healer"
@@ -28793,65 +29713,76 @@
     ],
     "moves": [
       {
-        "name": "Wish"
+        "name": "Healing Wish",
+        "pct": 90
       },
       {
-        "name": "Calm Mind"
+        "name": "Trick Room",
+        "pct": 90
       },
       {
-        "name": "Draining Kiss"
+        "name": "Flamethrower",
+        "pct": 70
       },
       {
-        "name": "Yawn"
+        "name": "Encore",
+        "pct": 60
+      },
+      {
+        "name": "Wish",
+        "pct": 30
+      },
+      {
+        "name": "Yawn",
+        "pct": 20
+      },
+      {
+        "name": "Fire Blast",
+        "pct": 10
+      },
+      {
+        "name": "Substitute",
+        "pct": 10
+      },
+      {
+        "name": "Protect",
+        "pct": 10
+      },
+      {
+        "name": "Ice Beam",
+        "pct": 10
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Healing Wish"
       },
       {
         "name": "Trick Room"
       },
       {
-        "name": "Healing Wish"
-      },
-      {
         "name": "Flamethrower"
       },
       {
-        "name": "Dazzling Gleam"
-      },
-      {
         "name": "Encore"
-      },
-      {
-        "name": "Protect"
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Draining Kiss"
-      },
-      {
-        "name": "Wish"
-      },
-      {
-        "name": "Calm Mind"
-      },
-      {
-        "name": "Yawn"
       }
     ],
     "natures": [
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 60.0
       },
       {
-        "name": "Modest"
+        "name": "Calm",
+        "pct": 20.0
       },
       {
-        "name": "Calm"
+        "name": "Sassy",
+        "pct": 10.0
       },
       {
-        "name": "Relaxed"
-      },
-      {
-        "name": "Sassy"
+        "name": "Relaxed",
+        "pct": 10.0
       }
     ]
   },
@@ -31268,35 +32199,100 @@
     ],
     "moves": [
       {
-        "name": "Leaf Storm"
+        "name": "Earth Power",
+        "pct": 86.8
       },
       {
-        "name": "Dragon Pulse"
+        "name": "Dragon Pulse",
+        "pct": 81.5
       },
       {
-        "name": "Focus Blast"
+        "name": "Leaf Storm",
+        "pct": 66.1
       },
       {
-        "name": "Shed Tail"
+        "name": "Vacuum Wave",
+        "pct": 46.3
+      },
+      {
+        "name": "Shed Tail",
+        "pct": 32.9
+      },
+      {
+        "name": "Energy Ball",
+        "pct": 26
+      },
+      {
+        "name": "Endeavor",
+        "pct": 9.6
+      },
+      {
+        "name": "Focus Blast",
+        "pct": 9.5
+      },
+      {
+        "name": "Substitute",
+        "pct": 4.6
+      },
+      {
+        "name": "Giga Drain",
+        "pct": 4.1
       }
     ],
     "defaultMoves": [
       {
-        "name": "Leaf Storm"
+        "name": "Earth Power"
       },
       {
         "name": "Dragon Pulse"
       },
       {
-        "name": "Focus Blast"
+        "name": "Leaf Storm"
       },
       {
-        "name": "Shed Tail"
+        "name": "Vacuum Wave"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 72.5
+      },
+      {
+        "name": "Modest",
+        "pct": 11.2
+      },
+      {
+        "name": "Rash",
+        "pct": 3.8
+      },
+      {
+        "name": "Naive",
+        "pct": 3.7
+      },
+      {
+        "name": "Jolly",
+        "pct": 2.7
+      },
+      {
+        "name": "Adamant",
+        "pct": 1.9
+      },
+      {
+        "name": "Brave",
+        "pct": 1.7
+      },
+      {
+        "name": "Hasty",
+        "pct": 1.4
+      },
+      {
+        "name": "Calm",
+        "pct": 0.5
+      },
+      {
+        "name": "Bashful",
+        "pct": 0.3
       }
     ]
   },
@@ -31481,16 +32477,44 @@
     ],
     "moves": [
       {
-        "name": "Flare Blitz"
+        "name": "Flare Blitz",
+        "pct": 78.1
       },
       {
-        "name": "Close Combat"
+        "name": "Close Combat",
+        "pct": 60
       },
       {
-        "name": "Thunder Punch"
+        "name": "Protect",
+        "pct": 59.1
       },
       {
-        "name": "Protect"
+        "name": "Swords Dance",
+        "pct": 46.5
+      },
+      {
+        "name": "Thunder Punch",
+        "pct": 36.4
+      },
+      {
+        "name": "High Jump Kick",
+        "pct": 23.3
+      },
+      {
+        "name": "Baton Pass",
+        "pct": 20.3
+      },
+      {
+        "name": "Detect",
+        "pct": 16.4
+      },
+      {
+        "name": "Bulk Up",
+        "pct": 7.8
+      },
+      {
+        "name": "Blaze Kick",
+        "pct": 5.8
       }
     ],
     "defaultMoves": [
@@ -31501,15 +32525,52 @@
         "name": "Close Combat"
       },
       {
-        "name": "Thunder Punch"
+        "name": "Protect"
       },
       {
-        "name": "Protect"
+        "name": "Swords Dance"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Adamant",
+        "pct": 65.2
+      },
+      {
+        "name": "Jolly",
+        "pct": 24.5
+      },
+      {
+        "name": "Impish",
+        "pct": 3.2
+      },
+      {
+        "name": "Modest",
+        "pct": 1.4
+      },
+      {
+        "name": "Naughty",
+        "pct": 1.3
+      },
+      {
+        "name": "Naive",
+        "pct": 1.3
+      },
+      {
+        "name": "Careful",
+        "pct": 0.7
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.6
+      },
+      {
+        "name": "Timid",
+        "pct": 0.6
+      },
+      {
+        "name": "Bold",
+        "pct": 0.3
       }
     ]
   },
@@ -31694,35 +32755,100 @@
     ],
     "moves": [
       {
-        "name": "Wave Crash"
+        "name": "Earthquake",
+        "pct": 92.6
       },
       {
-        "name": "Earthquake"
+        "name": "Wave Crash",
+        "pct": 74.4
       },
       {
-        "name": "Ice Punch"
+        "name": "Ice Punch",
+        "pct": 72.2
       },
       {
-        "name": "Substitute"
+        "name": "Flip Turn",
+        "pct": 69.2
+      },
+      {
+        "name": "Stealth Rock",
+        "pct": 22.3
+      },
+      {
+        "name": "Yawn",
+        "pct": 20.6
+      },
+      {
+        "name": "Bulk Up",
+        "pct": 7
+      },
+      {
+        "name": "Knock Off",
+        "pct": 6.8
+      },
+      {
+        "name": "Substitute",
+        "pct": 4.2
+      },
+      {
+        "name": "Poison Jab",
+        "pct": 3.9
       }
     ],
     "defaultMoves": [
       {
-        "name": "Wave Crash"
+        "name": "Earthquake"
       },
       {
-        "name": "Earthquake"
+        "name": "Wave Crash"
       },
       {
         "name": "Ice Punch"
       },
       {
-        "name": "Substitute"
+        "name": "Flip Turn"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 58.0
+      },
+      {
+        "name": "Jolly",
+        "pct": 20.3
+      },
+      {
+        "name": "Relaxed",
+        "pct": 8.0
+      },
+      {
+        "name": "Impish",
+        "pct": 7.0
+      },
+      {
+        "name": "Sassy",
+        "pct": 2.6
+      },
+      {
+        "name": "Careful",
+        "pct": 2.0
+      },
+      {
+        "name": "Brave",
+        "pct": 0.5
+      },
+      {
+        "name": "Bold",
+        "pct": 0.4
+      },
+      {
+        "name": "Modest",
+        "pct": 0.3
+      },
+      {
+        "name": "Timid",
+        "pct": 0.2
       }
     ]
   },
@@ -31871,16 +32997,44 @@
     ],
     "moves": [
       {
-        "name": "Play Rough"
+        "name": "Play Rough",
+        "pct": 98.2
       },
       {
-        "name": "Sucker Punch"
+        "name": "Sucker Punch",
+        "pct": 97.8
       },
       {
-        "name": "Thunder Punch"
+        "name": "Swords Dance",
+        "pct": 78.7
       },
       {
-        "name": "Swords Dance"
+        "name": "Iron Head",
+        "pct": 52.3
+      },
+      {
+        "name": "Knock Off",
+        "pct": 28.5
+      },
+      {
+        "name": "Fire Fang",
+        "pct": 18.1
+      },
+      {
+        "name": "Thunder Punch",
+        "pct": 14.1
+      },
+      {
+        "name": "Brick Break",
+        "pct": 3.6
+      },
+      {
+        "name": "Ice Punch",
+        "pct": 3
+      },
+      {
+        "name": "Rock Slide",
+        "pct": 1.7
       }
     ],
     "defaultMoves": [
@@ -31891,15 +33045,48 @@
         "name": "Sucker Punch"
       },
       {
-        "name": "Thunder Punch"
+        "name": "Swords Dance"
       },
       {
-        "name": "Swords Dance"
+        "name": "Iron Head"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 83.5
+      },
+      {
+        "name": "Brave",
+        "pct": 14.1
+      },
+      {
+        "name": "Careful",
+        "pct": 0.9
+      },
+      {
+        "name": "Jolly",
+        "pct": 0.6
+      },
+      {
+        "name": "Impish",
+        "pct": 0.6
+      },
+      {
+        "name": "Naughty",
+        "pct": 0.2
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.0
+      },
+      {
+        "name": "Serious",
+        "pct": 0.0
+      },
+      {
+        "name": "Gentle",
+        "pct": 0.0
       }
     ]
   },
@@ -32084,27 +33271,55 @@
     ],
     "moves": [
       {
-        "name": "Iron Head"
+        "name": "Bullet Punch",
+        "pct": 75.8
       },
       {
-        "name": "Bullet Punch"
+        "name": "Earthquake",
+        "pct": 66.6
       },
       {
-        "name": "Earthquake"
+        "name": "Psychic Fangs",
+        "pct": 61.6
       },
       {
-        "name": "Ice Punch"
+        "name": "Ice Punch",
+        "pct": 57.2
+      },
+      {
+        "name": "Iron Head",
+        "pct": 45.9
+      },
+      {
+        "name": "Meteor Mash",
+        "pct": 30.2
+      },
+      {
+        "name": "Thunder Punch",
+        "pct": 23.4
+      },
+      {
+        "name": "Trailblaze",
+        "pct": 6.3
+      },
+      {
+        "name": "Grass Knot",
+        "pct": 5.5
+      },
+      {
+        "name": "Zen Headbutt",
+        "pct": 5.3
       }
     ],
     "defaultMoves": [
       {
-        "name": "Iron Head"
-      },
-      {
         "name": "Bullet Punch"
       },
       {
         "name": "Earthquake"
+      },
+      {
+        "name": "Psychic Fangs"
       },
       {
         "name": "Ice Punch"
@@ -32112,7 +33327,44 @@
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 58.7
+      },
+      {
+        "name": "Adamant",
+        "pct": 37.8
+      },
+      {
+        "name": "Naive",
+        "pct": 0.7
+      },
+      {
+        "name": "Impish",
+        "pct": 0.7
+      },
+      {
+        "name": "Careful",
+        "pct": 0.6
+      },
+      {
+        "name": "Brave",
+        "pct": 0.5
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.4
+      },
+      {
+        "name": "Naughty",
+        "pct": 0.2
+      },
+      {
+        "name": "Timid",
+        "pct": 0.1
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.1
       }
     ]
   },
@@ -32289,35 +33541,100 @@
     ],
     "moves": [
       {
-        "name": "Brave Bird"
+        "name": "Close Combat",
+        "pct": 99.4
       },
       {
-        "name": "Close Combat"
+        "name": "Brave Bird",
+        "pct": 90.1
       },
       {
-        "name": "U-turn"
+        "name": "Roost",
+        "pct": 88.8
       },
       {
-        "name": "Substitute"
+        "name": "Blaze Kick",
+        "pct": 55.8
+      },
+      {
+        "name": "U-turn",
+        "pct": 17.7
+      },
+      {
+        "name": "Substitute",
+        "pct": 10
+      },
+      {
+        "name": "Quick Attack",
+        "pct": 10
+      },
+      {
+        "name": "Dual Wingbeat",
+        "pct": 7.8
+      },
+      {
+        "name": "Whirlwind",
+        "pct": 5.4
+      },
+      {
+        "name": "Double-Edge",
+        "pct": 2.7
       }
     ],
     "defaultMoves": [
       {
-        "name": "Brave Bird"
-      },
-      {
         "name": "Close Combat"
       },
       {
-        "name": "U-turn"
+        "name": "Brave Bird"
       },
       {
-        "name": "Substitute"
+        "name": "Roost"
+      },
+      {
+        "name": "Blaze Kick"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 67.6
+      },
+      {
+        "name": "Adamant",
+        "pct": 26.9
+      },
+      {
+        "name": "Impish",
+        "pct": 3.1
+      },
+      {
+        "name": "Careful",
+        "pct": 1.1
+      },
+      {
+        "name": "Naive",
+        "pct": 0.3
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.2
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.2
+      },
+      {
+        "name": "Timid",
+        "pct": 0.2
+      },
+      {
+        "name": "Naughty",
+        "pct": 0.1
+      },
+      {
+        "name": "Sassy",
+        "pct": 0.0
       }
     ]
   },
@@ -32614,35 +33931,92 @@
     ],
     "moves": [
       {
-        "name": "Megahorn"
+        "name": "Earthquake",
+        "pct": 66.2
       },
       {
-        "name": "Gunk Shot"
+        "name": "Swords Dance",
+        "pct": 62.2
       },
       {
-        "name": "Earthquake"
+        "name": "Protect",
+        "pct": 49.5
       },
       {
-        "name": "Protect"
+        "name": "Baton Pass",
+        "pct": 46.4
+      },
+      {
+        "name": "Leech Life",
+        "pct": 41.4
+      },
+      {
+        "name": "Iron Defense",
+        "pct": 29.5
+      },
+      {
+        "name": "Gunk Shot",
+        "pct": 25.9
+      },
+      {
+        "name": "Poison Jab",
+        "pct": 15.4
+      },
+      {
+        "name": "Toxic",
+        "pct": 13.7
+      },
+      {
+        "name": "Substitute",
+        "pct": 13.2
       }
     ],
     "defaultMoves": [
       {
-        "name": "Megahorn"
-      },
-      {
-        "name": "Gunk Shot"
-      },
-      {
         "name": "Earthquake"
       },
       {
+        "name": "Swords Dance"
+      },
+      {
         "name": "Protect"
+      },
+      {
+        "name": "Baton Pass"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 46.4
+      },
+      {
+        "name": "Adamant",
+        "pct": 28.7
+      },
+      {
+        "name": "Impish",
+        "pct": 15.4
+      },
+      {
+        "name": "Careful",
+        "pct": 8.6
+      },
+      {
+        "name": "Calm",
+        "pct": 0.3
+      },
+      {
+        "name": "Bold",
+        "pct": 0.3
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.1
+      },
+      {
+        "name": "Timid",
+        "pct": 0.1
       }
     ]
   },
@@ -32757,8 +34131,8 @@
   "Mega Scrafty": {
     "defaultSp": {
       "hp": 32,
-      "atk": 32,
-      "def": 2,
+      "atk": 2,
+      "def": 32,
       "spa": 0,
       "spd": 0,
       "spe": 0
@@ -32775,35 +34149,76 @@
     ],
     "moves": [
       {
-        "name": "Close Combat"
+        "name": "Drain Punch",
+        "pct": 83.8
       },
       {
-        "name": "Crunch"
+        "name": "Knock Off",
+        "pct": 65
       },
       {
-        "name": "Ice Punch"
+        "name": "Dragon Dance",
+        "pct": 39.7
       },
       {
-        "name": "Dragon Dance"
+        "name": "Ice Punch",
+        "pct": 33.6
+      },
+      {
+        "name": "Bulk Up",
+        "pct": 30.1
+      },
+      {
+        "name": "Poison Jab",
+        "pct": 24
+      },
+      {
+        "name": "Throat Chop",
+        "pct": 18.6
+      },
+      {
+        "name": "Swords Dance",
+        "pct": 15.7
+      },
+      {
+        "name": "Taunt",
+        "pct": 13.8
+      },
+      {
+        "name": "Thunder Punch",
+        "pct": 13.1
       }
     ],
     "defaultMoves": [
       {
-        "name": "Close Combat"
+        "name": "Drain Punch"
       },
       {
-        "name": "Crunch"
-      },
-      {
-        "name": "Ice Punch"
+        "name": "Knock Off"
       },
       {
         "name": "Dragon Dance"
+      },
+      {
+        "name": "Ice Punch"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 55.6
+      },
+      {
+        "name": "Jolly",
+        "pct": 21.5
+      },
+      {
+        "name": "Impish",
+        "pct": 17.0
+      },
+      {
+        "name": "Careful",
+        "pct": 5.9
       }
     ]
   },
@@ -32955,10 +34370,10 @@
     "defaultSp": {
       "hp": 32,
       "atk": 32,
-      "def": 2,
+      "def": 0,
       "spa": 0,
       "spd": 0,
-      "spe": 0
+      "spe": 2
     },
     "abilities": [
       {
@@ -32972,16 +34387,44 @@
     ],
     "moves": [
       {
-        "name": "Supercell Slam"
+        "name": "Supercell Slam",
+        "pct": 52.1
       },
       {
-        "name": "Liquidation"
+        "name": "Drain Punch",
+        "pct": 49.7
       },
       {
-        "name": "Fire Punch"
+        "name": "Coil",
+        "pct": 41.6
       },
       {
-        "name": "Coil"
+        "name": "Thunderbolt",
+        "pct": 37.6
+      },
+      {
+        "name": "Flamethrower",
+        "pct": 32.3
+      },
+      {
+        "name": "Giga Drain",
+        "pct": 31.3
+      },
+      {
+        "name": "Dragon Pulse",
+        "pct": 22.4
+      },
+      {
+        "name": "Grass Knot",
+        "pct": 18.3
+      },
+      {
+        "name": "Liquidation",
+        "pct": 16.7
+      },
+      {
+        "name": "Volt Switch",
+        "pct": 12.2
       }
     ],
     "defaultMoves": [
@@ -32989,18 +34432,55 @@
         "name": "Supercell Slam"
       },
       {
-        "name": "Liquidation"
-      },
-      {
-        "name": "Fire Punch"
+        "name": "Drain Punch"
       },
       {
         "name": "Coil"
+      },
+      {
+        "name": "Thunderbolt"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Modest",
+        "pct": 33.8
+      },
+      {
+        "name": "Adamant",
+        "pct": 32.1
+      },
+      {
+        "name": "Jolly",
+        "pct": 6.9
+      },
+      {
+        "name": "Brave",
+        "pct": 5.9
+      },
+      {
+        "name": "Careful",
+        "pct": 5.0
+      },
+      {
+        "name": "Timid",
+        "pct": 4.6
+      },
+      {
+        "name": "Quiet",
+        "pct": 3.2
+      },
+      {
+        "name": "Impish",
+        "pct": 2.9
+      },
+      {
+        "name": "Bold",
+        "pct": 2.6
+      },
+      {
+        "name": "Serious",
+        "pct": 1.0
       }
     ]
   },
@@ -33153,16 +34633,44 @@
     ],
     "moves": [
       {
-        "name": "Flamethrower"
+        "name": "Flamethrower",
+        "pct": 87
       },
       {
-        "name": "Hyper Voice"
+        "name": "Overheat",
+        "pct": 71.5
       },
       {
-        "name": "Dark Pulse"
+        "name": "Hyper Voice",
+        "pct": 52.7
       },
       {
-        "name": "Will-O-Wisp"
+        "name": "Scorching Sands",
+        "pct": 45.8
+      },
+      {
+        "name": "Flame Charge",
+        "pct": 40.8
+      },
+      {
+        "name": "Yawn",
+        "pct": 16.8
+      },
+      {
+        "name": "Taunt",
+        "pct": 13.8
+      },
+      {
+        "name": "Dark Pulse",
+        "pct": 13.3
+      },
+      {
+        "name": "Will-O-Wisp",
+        "pct": 12.9
+      },
+      {
+        "name": "Hyper Beam",
+        "pct": 8.2
       }
     ],
     "defaultMoves": [
@@ -33170,18 +34678,43 @@
         "name": "Flamethrower"
       },
       {
+        "name": "Overheat"
+      },
+      {
         "name": "Hyper Voice"
       },
       {
-        "name": "Dark Pulse"
-      },
-      {
-        "name": "Will-O-Wisp"
+        "name": "Scorching Sands"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 70.7
+      },
+      {
+        "name": "Modest",
+        "pct": 28.1
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.4
+      },
+      {
+        "name": "Adamant",
+        "pct": 0.3
+      },
+      {
+        "name": "Jolly",
+        "pct": 0.2
+      },
+      {
+        "name": "Naive",
+        "pct": 0.1
+      },
+      {
+        "name": "Mild",
+        "pct": 0.1
       }
     ]
   },
@@ -33330,35 +34863,80 @@
     ],
     "moves": [
       {
-        "name": "Throat Chop"
+        "name": "Superpower",
+        "pct": 100
       },
       {
-        "name": "Psycho Cut"
+        "name": "Knock Off",
+        "pct": 83.6
       },
       {
-        "name": "Superpower"
+        "name": "Taunt",
+        "pct": 52
       },
       {
-        "name": "Liquidation"
+        "name": "Zen Headbutt",
+        "pct": 27.6
+      },
+      {
+        "name": "Psycho Cut",
+        "pct": 27
+      },
+      {
+        "name": "Baton Pass",
+        "pct": 19.7
+      },
+      {
+        "name": "Poison Jab",
+        "pct": 19.1
+      },
+      {
+        "name": "Topsy-Turvy",
+        "pct": 13.8
+      },
+      {
+        "name": "Destiny Bond",
+        "pct": 10.5
+      },
+      {
+        "name": "Trick Room",
+        "pct": 10.5
       }
     ],
     "defaultMoves": [
       {
-        "name": "Throat Chop"
-      },
-      {
-        "name": "Psycho Cut"
-      },
-      {
         "name": "Superpower"
       },
       {
-        "name": "Liquidation"
+        "name": "Knock Off"
+      },
+      {
+        "name": "Taunt"
+      },
+      {
+        "name": "Zen Headbutt"
       }
     ],
     "natures": [
       {
-        "name": "Adamant"
+        "name": "Adamant",
+        "pct": 76.3
+      },
+      {
+        "name": "Careful",
+        "pct": 9.2
+      },
+      {
+        "name": "Impish",
+        "pct": 5.9
+      },
+      {
+        "name": "Jolly",
+        "pct": 4.6
+      },
+      {
+        "name": "Sassy",
+        "pct": 3.9
       }
     ]
   },
@@ -33503,35 +35081,84 @@
     ],
     "moves": [
       {
-        "name": "Superpower"
+        "name": "Shell Smash",
+        "pct": 99.5
       },
       {
-        "name": "Liquidation"
+        "name": "Close Combat",
+        "pct": 97.3
       },
       {
-        "name": "Earthquake"
+        "name": "Rock Blast",
+        "pct": 47.1
       },
       {
-        "name": "Poison Jab"
+        "name": "Earthquake",
+        "pct": 41
+      },
+      {
+        "name": "Liquidation",
+        "pct": 36.3
+      },
+      {
+        "name": "Rock Slide",
+        "pct": 18.6
+      },
+      {
+        "name": "Stone Edge",
+        "pct": 15.9
+      },
+      {
+        "name": "Poison Jab",
+        "pct": 14.7
+      },
+      {
+        "name": "Night Slash",
+        "pct": 8.3
+      },
+      {
+        "name": "Shadow Claw",
+        "pct": 7.8
       }
     ],
     "defaultMoves": [
       {
-        "name": "Superpower"
+        "name": "Shell Smash"
       },
       {
-        "name": "Liquidation"
+        "name": "Close Combat"
+      },
+      {
+        "name": "Rock Blast"
       },
       {
         "name": "Earthquake"
-      },
-      {
-        "name": "Poison Jab"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Adamant",
+        "pct": 52.8
+      },
+      {
+        "name": "Jolly",
+        "pct": 44.7
+      },
+      {
+        "name": "Hasty",
+        "pct": 1.0
+      },
+      {
+        "name": "Careful",
+        "pct": 0.6
+      },
+      {
+        "name": "Rash",
+        "pct": 0.5
+      },
+      {
+        "name": "Brave",
+        "pct": 0.5
       }
     ]
   },
@@ -33820,35 +35447,72 @@
     ],
     "moves": [
       {
-        "name": "Close Combat"
+        "name": "No Retreat",
+        "pct": 95.9
       },
       {
-        "name": "High Horsepower"
+        "name": "Close Combat",
+        "pct": 94.5
       },
       {
-        "name": "Rock Slide"
+        "name": "Knock Off",
+        "pct": 49.3
       },
       {
-        "name": "No Retreat"
+        "name": "Rock Slide",
+        "pct": 42.4
+      },
+      {
+        "name": "High Horsepower",
+        "pct": 33.6
+      },
+      {
+        "name": "Iron Head",
+        "pct": 33.2
+      },
+      {
+        "name": "Poison Jab",
+        "pct": 14.3
+      },
+      {
+        "name": "Rock Tomb",
+        "pct": 11.5
+      },
+      {
+        "name": "Substitute",
+        "pct": 6.9
+      },
+      {
+        "name": "Body Press",
+        "pct": 5.5
       }
     ],
     "defaultMoves": [
       {
+        "name": "No Retreat"
+      },
+      {
         "name": "Close Combat"
       },
       {
-        "name": "High Horsepower"
+        "name": "Knock Off"
       },
       {
         "name": "Rock Slide"
-      },
-      {
-        "name": "No Retreat"
       }
     ],
     "natures": [
       {
-        "name": "Jolly"
+        "name": "Adamant",
+        "pct": 56.2
+      },
+      {
+        "name": "Jolly",
+        "pct": 41.9
+      },
+      {
+        "name": "Impish",
+        "pct": 1.8
       }
     ]
   },
@@ -34448,9 +36112,9 @@
     "defaultSp": {
       "hp": 32,
       "atk": 0,
-      "def": 32,
+      "def": 2,
       "spa": 0,
-      "spd": 2,
+      "spd": 32,
       "spe": 0
     },
     "abilities": [
@@ -34465,21 +36129,49 @@
     ],
     "moves": [
       {
-        "name": "Sludge Wave"
+        "name": "Flip Turn",
+        "pct": 80
       },
       {
-        "name": "Draco Meteor"
+        "name": "Draco Meteor",
+        "pct": 79.7
       },
       {
-        "name": "Toxic"
+        "name": "Toxic",
+        "pct": 43.9
       },
       {
-        "name": "Protect"
+        "name": "Sludge Wave",
+        "pct": 41.5
+      },
+      {
+        "name": "Toxic Spikes",
+        "pct": 37.6
+      },
+      {
+        "name": "Thunderbolt",
+        "pct": 31.5
+      },
+      {
+        "name": "Sludge Bomb",
+        "pct": 29.3
+      },
+      {
+        "name": "Scald",
+        "pct": 14.3
+      },
+      {
+        "name": "Haze",
+        "pct": 5.8
+      },
+      {
+        "name": "Dragon Pulse",
+        "pct": 5.4
       }
     ],
     "defaultMoves": [
       {
-        "name": "Sludge Wave"
+        "name": "Flip Turn"
       },
       {
         "name": "Draco Meteor"
@@ -34488,12 +36180,49 @@
         "name": "Toxic"
       },
       {
-        "name": "Protect"
+        "name": "Sludge Wave"
       }
     ],
     "natures": [
       {
-        "name": "Impish"
+        "name": "Sassy",
+        "pct": 27.7
+      },
+      {
+        "name": "Calm",
+        "pct": 20.7
+      },
+      {
+        "name": "Modest",
+        "pct": 18.5
+      },
+      {
+        "name": "Quiet",
+        "pct": 12.5
+      },
+      {
+        "name": "Bold",
+        "pct": 12.4
+      },
+      {
+        "name": "Relaxed",
+        "pct": 7.6
+      },
+      {
+        "name": "Rash",
+        "pct": 0.2
+      },
+      {
+        "name": "Careful",
+        "pct": 0.2
+      },
+      {
+        "name": "Gentle",
+        "pct": 0.1
+      },
+      {
+        "name": "Hardy",
+        "pct": 0.1
       }
     ]
   },
