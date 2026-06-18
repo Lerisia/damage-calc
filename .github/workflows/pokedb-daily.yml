@@ -1,0 +1,90 @@
+name: Pokedb usage daily
+
+# Pulls Champions in-game singles usage stats from champs.pokedb.tokyo
+# once a day, merges them into assets/champions_usage.json, and opens a
+# PR if anything changed. Idempotent: per-day branch name short-circuits
+# repeat runs against the same upstream snapshot.
+
+on:
+  schedule:
+    # 18:00 UTC = 03:00 KST (next-day local). pokedb's daily refresh
+    # usually lands well before this — picks up the freshest snapshot.
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pokedb-daily
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Pull + merge pokedb usage
+        run: python3 tools/fetch_pokedb_usage.py --sleep 2
+
+      - name: Detect diff
+        id: diff
+        run: |
+          if git diff --quiet assets/champions_usage.json; then
+            echo "Nothing to do — pokedb returned the same data we already have."
+            echo "has_diff=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_diff=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip if a branch already exists for today's snapshot
+        if: steps.diff.outputs.has_diff == '1'
+        id: branch_check
+        run: |
+          DATE=$(date -u +%Y%m%d)
+          BRANCH="auto/pokedb-$DATE"
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
+            echo "branch $BRANCH already exists — earlier run today handled this."
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=0" >> "$GITHUB_OUTPUT"
+            echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push branch + surface PR link
+        if: steps.diff.outputs.has_diff == '1' && steps.branch_check.outputs.skip == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.branch_check.outputs.branch }}"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git checkout -b "$BRANCH"
+          git add assets/champions_usage.json
+          git commit -m "chore(champions): daily pokedb usage refresh ($(date -u +%Y-%m-%d))"
+          git push origin "$BRANCH"
+
+          PR_URL=""
+          if gh pr create \
+            --title "Daily pokedb usage refresh ($(date -u +%Y-%m-%d))" \
+            --body  "Automated pull from champs.pokedb.tokyo M-3 singles ranking. Review the per-Pokémon diff before merging." \
+            --base main --head "$BRANCH" 2>/tmp/pr_err; then
+            PR_URL=$(gh pr view "$BRANCH" --json url --jq .url)
+          else
+            echo "::warning::Auto PR creation blocked — enable 'Allow GitHub Actions to create and approve pull requests' under Settings → Actions → General."
+            PR_URL="https://github.com/${{ github.repository }}/compare/main...${BRANCH}?expand=1"
+          fi
+          {
+            echo "## pokedb usage refresh ready"
+            echo ""
+            echo "- Branch: \`$BRANCH\`"
+            echo "- Open / create PR: $PR_URL"
+          } >> "$GITHUB_STEP_SUMMARY"
