@@ -2488,7 +2488,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.12.7'),
+          const Text('v1.12.8'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
