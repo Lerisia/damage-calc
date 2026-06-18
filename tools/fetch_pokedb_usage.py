@@ -198,10 +198,13 @@ def _ev_spreads(section_html: str) -> list[dict]:
 def build_lookups(repo_root: Path) -> dict[str, dict[str, str]]:
     import glob
     moves_ja2en: dict[str, str] = {}
+    move_category: dict[str, str] = {}   # English name → 'physical'/'special'/'status'
     for path in glob.glob(str(repo_root / "assets/moves/*.json")):
         for e in json.load(open(path)):
             if e.get("nameJa") and e.get("name"):
                 moves_ja2en[e["nameJa"]] = e["name"]
+            if e.get("name") and e.get("category"):
+                move_category[e["name"]] = e["category"]
 
     abi_ja2en: dict[str, str] = {}
     for e in json.load(open(repo_root / "assets/abilities.json")):
@@ -248,6 +251,7 @@ def build_lookups(repo_root: Path) -> dict[str, dict[str, str]]:
 
     return {
         "moves": moves_ja2en,
+        "move_category": move_category,
         "abilities": abi_ja2en,
         "items": items_ja2en,
         "natures": nat_ja2en,
@@ -296,12 +300,24 @@ def parse_detail(html: str, maps: dict) -> dict | None:
     if not moves_en and not abilities_en:
         return None  # pokedb page had no usage data for this Pokémon
 
+    # defaultMoves: take top 4 by use rate, THEN reorder so damaging
+    # moves appear before status moves (within each group, keep the
+    # use-rate order). See project_default_moves_order memory.
+    # Example: Staraptor's top 4 by rate are Close Combat / Brave Bird /
+    # Roost / Blaze Kick; the displayed order should be Close Combat /
+    # Brave Bird / Blaze Kick / Roost (Roost last because it's status).
+    cat = maps.get("move_category", {})
+    top4 = moves_en[:4]
+    damaging = [m for m in top4 if cat.get(m["name"]) in ("physical", "special")]
+    status = [m for m in top4 if cat.get(m["name"]) == "status"]
+    ordered_defaults = damaging + status
+
     return {
         "defaultSp": default_sp,
         "abilities": abilities_en,
         "items": items_en,
         "moves": moves_en,
-        "defaultMoves": [{"name": m["name"]} for m in moves_en[:4]],
+        "defaultMoves": [{"name": m["name"]} for m in ordered_defaults],
         "natures": natures_en,
     }
 
