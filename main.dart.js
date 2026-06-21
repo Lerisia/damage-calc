@@ -55127,7 +55127,7 @@ return A.w($async$cz,r)},
 S9(a,b,c){var s,r=c==null?this.a:c,q=A.wt(a),p=$.lD().a6H(a,B.eh)
 if(p!=null)return p
 s=b?"shiny/":""
-return new A.pZ("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/"+r.b+"/"+s+q+"."+r.d)},
+return new A.pZ("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/"+r.b+"/"+s+q+"."+r.d+"?v=3")},
 aEw(a,b,c){var s,r=this.a
 if(r!==B.mR)return null
 s=A.bbl(a)
