@@ -56472,7 +56472,7 @@ A.aBj.prototype={
 $1(a){return this.a.$1(a===!0)},
 $S:27}
 A.wJ.prototype={
-H(a){var s=null,r=A.i(A.f("app.title"),s,s,s,s,B.fN,s,s),q=t.p,p=A.aG(A.b([B.arh,B.aD,A.i(A.f("about.description"),s,s,s,s,s,s,s),B.aD,A.i(A.f("about.subtitle"),s,s,s,s,B.aV,s,s),B.b2,B.arf,B.aja,B.ajb,B.b2,A.a8(A.b([A.Up(B.vX,A.i(A.f("banner.getAndroid"),s,s,s,s,B.i8,s,s),new A.a9V(this),A.am2(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hn,s,s,s,s,B.bc,s,s)),B.a7,A.Up(B.w0,A.i(A.f("banner.getIos"),s,s,s,s,B.i8,s,s),new A.a9W(this),A.am2(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hn,s,s,s,s,B.bc,s,s))],q),B.m,s,B.j,B.l,0,s),B.d5,B.Qz,B.aD,A.i(A.f("about.beta"),s,s,s,s,B.apd,s,s),B.b2,A.i(A.f("about.disclaimer"),s,s,s,s,B.JF,s,s),B.b2,A.i(A.f("sprite.creditTitle"),s,s,s,s,B.n0,s,s),B.b6,A.i(A.f("sprite.creditBody"),s,s,s,s,B.ap_,s,s)],q),B.V,B.j,B.F)
+H(a){var s=null,r=A.i(A.f("app.title"),s,s,s,s,B.fN,s,s),q=t.p,p=A.aG(A.b([B.arg,B.aD,A.i(A.f("about.description"),s,s,s,s,s,s,s),B.aD,A.i(A.f("about.subtitle"),s,s,s,s,B.aV,s,s),B.b2,B.arf,B.aja,B.ajb,B.b2,A.a8(A.b([A.Up(B.vX,A.i(A.f("banner.getAndroid"),s,s,s,s,B.i8,s,s),new A.a9V(this),A.am2(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hn,s,s,s,s,B.bc,s,s)),B.a7,A.Up(B.w0,A.i(A.f("banner.getIos"),s,s,s,s,B.i8,s,s),new A.a9W(this),A.am2(s,s,s,s,s,s,s,s,s,s,s,B.N,B.hn,s,s,s,s,B.bc,s,s))],q),B.m,s,B.j,B.l,0,s),B.d5,B.Qz,B.aD,A.i(A.f("about.beta"),s,s,s,s,B.apd,s,s),B.b2,A.i(A.f("about.disclaimer"),s,s,s,s,B.JF,s,s),B.b2,A.i(A.f("sprite.creditTitle"),s,s,s,s,B.n0,s,s),B.b6,A.i(A.f("sprite.creditBody"),s,s,s,s,B.ap_,s,s)],q),B.V,B.j,B.F)
 return A.dB(A.b([A.bQ(A.i(A.f("action.close"),s,s,s,s,s,s,s),new A.a9X(a),s)],q),s,p,s,!1,r,s)}}
 A.a9V.prototype={
 $0(){window.location.assign(u.H)
@@ -66156,7 +66156,7 @@ if(q.length===0)q=A.f("trainerCard.defaultName")
 a2=A.cH(B.ey,B.q,2)
 p=A.aW(12)
 o=a0.y.c
-n=A.aR(a1,B.arg,B.o,a1,a1,new A.aQ(o,a1,a1,A.aW(4),a1,a1,B.x),a1,a1,B.hn,a1)
+n=A.aR(a1,B.arh,B.o,a1,a1,new A.aQ(o,a1,a1,A.aW(4),a1,a1,B.x),a1,a1,B.hn,a1)
 m=t.p
 o=A.a8(A.b([A.aR(a1,a1,B.o,a1,a1,new A.aQ(a1,a1,A.cH(o,B.q,2),a1,a1,a1,B.h7),10,a1,a1,10),B.a7,A.ae(A.i(q,a1,B.an,a1,a1,B.JG,a1,a1),1)],m),B.m,a1,B.j,B.l,0,a1)
 l=A.b([],m)
@@ -127631,10 +127631,10 @@ B.arb=new A.eV(B.aoL,B.anE,B.aoM,B.apj,B.anl,B.ant,B.anZ,B.apc,B.aob,B.apJ,B.amQ
 B.ard=new A.fN("  \u2192  ",null,B.JF,null,null,null,null,null,null,null)
 B.are=new A.fN("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
 B.arf=new A.fN("By  Elyss",null,null,null,null,null,null,null,null,null)
+B.arg=new A.fN("v1.13.0",null,null,null,null,null,null,null,null,null)
 B.aoG=new A.z(!0,B.r,null,null,null,null,18,B.w,null,1.5,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.arg=new A.fN("TRAINER CARD",null,B.aoG,null,null,null,null,null,null,null)
+B.arh=new A.fN("TRAINER CARD",null,B.aoG,null,null,null,null,null,null,null)
 B.JM=new A.fN("-",null,null,B.Q,null,null,null,null,null,null)
-B.arh=new A.fN("v1.12.8",null,null,null,null,null,null,null,null,null)
 B.ari=new A.fN("-",null,B.aV,B.Q,null,null,null,null,null,null)
 B.ark=new A.fN("-",null,B.n2,null,null,null,null,null,null,null)
 B.arl=new A.qJ(0,"system")
