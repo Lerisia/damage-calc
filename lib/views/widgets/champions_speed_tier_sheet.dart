@@ -26,10 +26,7 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
       showDragHandle: true,
       builder: (_) => const SafeArea(
         top: false,
-        child: SizedBox(
-          height: 0,
-          child: ChampionsSpeedTierSheet(),
-        ),
+        child: ChampionsSpeedTierSheet(),
       ),
       constraints: const BoxConstraints(maxWidth: 720),
     );
