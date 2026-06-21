@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
 import '../../utils/app_strings.dart';
-import '../../utils/champions_mode.dart';
-import '../../utils/stat_calculator.dart';
-import '../../models/nature_profile.dart';
 import 'pokemon_sprite.dart';
 
 /// Quick-reference Champions speed tier table — left column is the
@@ -73,41 +70,20 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
     );
   }
 
-  /// Build the rendered rows: one per unique speed value that has at
-  /// least one Champions Pokémon, sorted descending. Each Pokémon's
-  /// effective Lv50 speed is computed from its base + most-popular SP
-  /// spread + nature (or base + neutral when no usage data exists).
+  /// Build the rendered rows: one per unique BASE speed value that
+  /// has at least one Champions Pokémon, sorted descending. Speed
+  /// shown is the species base stat (종족값), not a Lv50 realized
+  /// value — players compare in base terms, and a realized number
+  /// confusingly mixes in the popular spread / nature.
   static Future<List<_SpeedRow>> _buildRows() async {
     final pokedex = await loadPokedex();
-    // Prime the usage cache so the synchronous championsUsageFor /
-    // isInChampions lookups below return populated data.
-    await loadChampionsUsage();
+    await loadChampionsUsage(); // prime cache for isInChampions
     final bySpeed = <int, List<_PokeOnTier>>{};
 
     for (final p in pokedex) {
       if (!isInChampions(p.name)) continue;
-      // Megas keep their own base stats (different speed from base
-      // form) so they DO belong on the table — only filter non-Champions.
-      final entry = championsUsageFor(p.name);
-      final ev = entry?.defaultSp == null
-          ? ChampionsMode.evToSpStats(ChampionsMode.zeroSp)
-          : ChampionsMode.spToEvStats(entry!.defaultSp!);
-      // Take the top-rate nature from usage; fall back to neutral.
-      final natureRow = entry?.natures.isNotEmpty ?? false
-          ? entry!.natures.first
-          : null;
-      final natureProfile = natureRow == null
-          ? NatureProfile.neutral
-          : (NatureProfile.fromAny(natureRow.name));
-
-      final stats = StatCalculator.calculate(
-        baseStats: p.baseStats,
-        iv: ChampionsMode.fixedIv,
-        ev: ev,
-        nature: natureProfile,
-        level: ChampionsMode.level,
-      );
-      bySpeed.putIfAbsent(stats.speed, () => []).add(_PokeOnTier(
+      final baseSpeed = p.baseStats.speed;
+      bySpeed.putIfAbsent(baseSpeed, () => []).add(_PokeOnTier(
             name: p.name,
             localizedName: p.localizedName,
             dexNumber: p.dexNumber,
