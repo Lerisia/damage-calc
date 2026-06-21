@@ -11,6 +11,7 @@ import '../models/pokemon.dart';
 import '../models/room.dart';
 import '../models/stats.dart';
 import '../models/status.dart';
+import '../utils/korean_search.dart' show triLanguageScore;
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
@@ -1632,11 +1633,19 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       focusNode: focus,
       suggestionsCallback: (query) {
         if (query.isEmpty) return sorted;
-        final q = query.toLowerCase();
+        // Mirror Extended Mode's tri-language search so the chosung
+        // shortcut ("ㅅㅁㄲㄹㄱ" → 심술꾸러기) works here too. The
+        // internal key (English) and the localized display name carry
+        // the EN/KO matching; nameJa is left empty (we don't have it
+        // here without re-loading abilitydex, and the Korean chosung
+        // matcher only needs nameKo).
         return sorted
-            .where((a) =>
-                a.toLowerCase().contains(q) ||
-                (_abilityNames[a] ?? '').toLowerCase().contains(q))
+            .where((a) => triLanguageScore(
+                  query,
+                  nameKo: _abilityNames[a] ?? a,
+                  nameEn: a,
+                  internalKey: a,
+                ) > 0)
             .toList();
       },
       decoration: InputDecoration(
@@ -1677,10 +1686,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       // ability (mirrors Extended Mode's behaviour). Saves a tap.
       onSubmittedPick: (text) {
         if (text.isEmpty) return null;
-        final q = text.toLowerCase();
-        final matches = sorted.where((a) =>
-            a.toLowerCase().contains(q) ||
-            (_abilityNames[a] ?? '').toLowerCase().contains(q));
+        final matches = sorted.where((a) => triLanguageScore(
+              text,
+              nameKo: _abilityNames[a] ?? a,
+              nameEn: a,
+              internalKey: a,
+            ) > 0);
         return matches.isNotEmpty ? matches.first : null;
       },
     ),
@@ -1699,10 +1710,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       focusNode: focus,
       suggestionsCallback: (query) {
         if (query.isEmpty) return ['', ...allItems];
-        final q = query.toLowerCase();
-        return allItems.where((k) =>
-            k.toLowerCase().contains(q) ||
-            (_itemNames[k] ?? '').toLowerCase().contains(q)).toList();
+        // Same tri-language search as the ability field — pulls
+        // chosung shortcuts ("ㅊㄱㅂㄹ" → 차가운바위) in line with
+        // Extended Mode.
+        return allItems.where((k) => triLanguageScore(
+              query,
+              nameKo: _itemNames[k] ?? k,
+              internalKey: k,
+            ) > 0).toList();
       },
       decoration: InputDecoration(
         labelText: AppStrings.t('label.item'),
@@ -1736,10 +1751,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       // (mirrors Extended Mode + the ability field above).
       onSubmittedPick: (text) {
         if (text.isEmpty) return null;
-        final q = text.toLowerCase();
-        final matches = allItems.where((k) =>
-            k.toLowerCase().contains(q) ||
-            (_itemNames[k] ?? '').toLowerCase().contains(q));
+        final matches = allItems.where((k) => triLanguageScore(
+              text,
+              nameKo: _itemNames[k] ?? k,
+              internalKey: k,
+            ) > 0);
         return matches.isNotEmpty ? matches.first : null;
       },
     ),
