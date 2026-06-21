@@ -1647,9 +1647,9 @@ class AppStrings {
       AppLanguage.ja: '色違いポケモンスプライトが追加されました',
     },
     'announce.sprites.body': {
-      AppLanguage.ko: '계산기/도감/파티 구축 어디에서나 색이 다른 포켓몬을 켜고 끌 수 있습니다. 웹은 자동으로 적용되지만, 모바일에서는 이미지팩을 반드시 다시 받아주셔야 색이 다른 이미지가 표시됩니다. 스타일 변경과 팩 재다운로드는 오른쪽 위 메뉴(⋮)의 몬스터볼 아이콘에서 설정합니다.',
-      AppLanguage.en: 'Shiny variants are now toggleable everywhere — calculator, dex, and team builder. The web build picks them up automatically; on mobile you must re-import the sprite pack to see shiny art. Re-download from the Pokéball entry in the menu (top-right ⋮).',
-      AppLanguage.ja: '計算機・図鑑・パーティ構築のどこでも色違いに切り替えられます。Web版は自動反映されますが、モバイルでは色違い画像を表示するためにイメージパックの再ダウンロードが必要です。右上メニュー（⋮）のモンスターボールから取り直してください。',
+      AppLanguage.ko: '계산기/도감/파티 구축 어디에서나 색이 다른 포켓몬을 켜고 끌 수 있습니다. 웹은 자동으로 적용되지만, 모바일에서는 이미지팩을 반드시 다시 받아주셔야 색이 다른 이미지가 표시됩니다. 스타일 변경과 팩 재다운로드는 설정(⚙️)의 스프라이트 스타일에서 합니다.',
+      AppLanguage.en: 'Shiny variants are now toggleable everywhere — calculator, dex, and team builder. The web build picks them up automatically; on mobile you must re-import the sprite pack to see shiny art. Change style and re-download from Settings (⚙️) → Sprite style.',
+      AppLanguage.ja: '計算機・図鑑・パーティ構築のどこでも色違いに切り替えられます。Web版は自動反映されますが、モバイルでは色違い画像を表示するためにイメージパックの再ダウンロードが必要です。スタイル変更とパック再取得は設定（⚙️）のスプライトスタイルから行います。',
     },
     // One-shot notice for the in-game roster expansion shipped on
     // 2026-06-17 — learnsets for the new Champions Pokémon haven't
@@ -1682,9 +1682,9 @@ class AppStrings {
       AppLanguage.ja: '画像パックの更新があります',
     },
     'sprite.update.body': {
-      AppLanguage.ko: '설치된 이미지팩이 최신 버전이 아닙니다. 오른쪽 위 메뉴(⋮)의 몬스터볼 아이콘에서 새 팩을 받아 가져와주세요.',
-      AppLanguage.en: 'Your installed sprite pack is out of date. Re-download the latest ZIP from the Pokéball entry in the menu (top-right ⋮) and import it again.',
-      AppLanguage.ja: 'インストール済みの画像パックが最新ではありません。右上メニュー（⋮）のモンスターボールから最新のパックを取り直して取り込んでください。',
+      AppLanguage.ko: '설치된 이미지팩이 최신 버전이 아닙니다. 설정(⚙️)의 스프라이트 스타일에서 새 팩을 받아 가져와주세요.',
+      AppLanguage.en: 'Your installed sprite pack is out of date. Open Settings (⚙️) → Sprite style and re-download the latest pack.',
+      AppLanguage.ja: 'インストール済みの画像パックが最新ではありません。設定（⚙️）のスプライトスタイルから最新のパックを取り直して取り込んでください。',
     },
     'simple.shortExtended': {
       AppLanguage.ko: '확장',
