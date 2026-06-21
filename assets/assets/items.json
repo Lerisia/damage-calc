@@ -643,7 +643,8 @@
     "name": "heat-rock",
     "nameKo": "뜨거운바위",
     "nameJa": "あついいわ",
-    "nameEn": "Heat Rock"
+    "nameEn": "Heat Rock",
+    "battle": true
   },
   {
     "name": "latiasite",
@@ -1202,7 +1203,8 @@
     "name": "smooth-rock",
     "nameKo": "보송보송바위",
     "nameJa": "さらさらいわ",
-    "nameEn": "Smooth Rock"
+    "nameEn": "Smooth Rock",
+    "battle": true
   },
   {
     "name": "aggronite",
@@ -2184,7 +2186,8 @@
     "name": "icy-rock",
     "nameKo": "차가운바위",
     "nameJa": "つめたいいわ",
-    "nameEn": "Icy Rock"
+    "nameEn": "Icy Rock",
+    "battle": true
   },
   {
     "name": "wacan-berry",
@@ -2217,7 +2220,8 @@
     "name": "damp-rock",
     "nameKo": "축축한바위",
     "nameJa": "しめったいわ",
-    "nameEn": "Damp Rock"
+    "nameEn": "Damp Rock",
+    "battle": true
   },
   {
     "name": "liechi-berry",
@@ -3534,6 +3538,13 @@
     "nameKo": "대파",
     "nameJa": "ながねぎ",
     "nameEn": "Leek",
+    "battle": true
+  },
+  {
+    "name": "terrain-extender",
+    "nameKo": "그라운드코트",
+    "nameJa": "グラウンドコート",
+    "nameEn": "Terrain Extender",
     "battle": true
   }
 ]
