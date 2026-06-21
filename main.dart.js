@@ -12879,7 +12879,6 @@ case 4:p=A.E(t.S,t.pD)
 for(o=J.b4(c);o.v();){n=o.gR(o)
 m=n.b
 if(!A.aZT(m))continue
-if(B.f.aU(m,"Mega "))continue
 l=A.wo(m)
 k=l==null
 if((k?null:l.r)==null)j=A.QG(B.ca)
