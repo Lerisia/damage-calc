@@ -1,0 +1,94 @@
+name: Champout learnsets daily
+
+# Pulls the projectpokemon/champout ROM-direct learnset dump and
+# merges it into assets/learnsets.json. champout is updated whenever
+# ProjectPokemon re-dumps the game (usually within a day of a game
+# patch), so a daily poll catches every refresh promptly without
+# burning credits when nothing's new.
+#
+# Idempotent: the apply tool writes the file regardless, and we
+# only open a PR when git sees an actual diff.
+
+on:
+  schedule:
+    # 18:30 UTC = 03:30 KST. Offset 30 min after pokedb-daily so the
+    # two PRs don't pile up at the exact same moment.
+    - cron: '30 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: champout-daily
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Apply champout learnsets
+        run: python3 tools/apply_champout_learnsets.py
+
+      - name: Detect diff
+        id: diff
+        run: |
+          if git diff --quiet assets/learnsets.json; then
+            echo "Nothing to do — champout returned the same data we already have."
+            echo "has_diff=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_diff=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip if a branch already exists for today's snapshot
+        if: steps.diff.outputs.has_diff == '1'
+        id: branch_check
+        run: |
+          DATE=$(date -u +%Y%m%d)
+          BRANCH="auto/champout-$DATE"
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null; then
+            echo "branch $BRANCH already exists — earlier run today handled this."
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=0" >> "$GITHUB_OUTPUT"
+            echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push branch + surface PR link
+        if: steps.diff.outputs.has_diff == '1' && steps.branch_check.outputs.skip == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BRANCH="${{ steps.branch_check.outputs.branch }}"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
+          git checkout -b "$BRANCH"
+          git add assets/learnsets.json
+          git commit -m "chore(learnsets): daily champout refresh ($(date -u +%Y-%m-%d))"
+          git push origin "$BRANCH"
+
+          PR_URL=""
+          if gh pr create \
+            --title "Daily champout learnset refresh ($(date -u +%Y-%m-%d))" \
+            --body  "Automated pull from projectpokemon/champout. Review the diff in assets/learnsets.json before merging." \
+            --base main --head "$BRANCH" 2>/tmp/pr_err; then
+            PR_URL=$(gh pr view "$BRANCH" --json url --jq .url)
+          else
+            echo "::warning::Auto PR creation blocked — enable 'Allow GitHub Actions to create and approve pull requests' under Settings → Actions → General."
+            PR_URL="https://github.com/${{ github.repository }}/compare/main...${BRANCH}?expand=1"
+          fi
+          {
+            echo "## champout learnset refresh ready"
+            echo ""
+            echo "- Branch: \`$BRANCH\`"
+            echo "- Open / create PR: $PR_URL"
+          } >> "$GITHUB_STEP_SUMMARY"
