@@ -2194,6 +2194,23 @@ class AppStrings {
       AppLanguage.ja: 'データ読み込み中です。',
     },
 
+    // === Type chart sheet ===
+    'typeChart.title': {
+      AppLanguage.ko: '타입 상성표',
+      AppLanguage.en: 'Type Effectiveness',
+      AppLanguage.ja: 'タイプ相性表',
+    },
+    'typeChart.menuLabel': {
+      AppLanguage.ko: '상성표',
+      AppLanguage.en: 'Type chart',
+      AppLanguage.ja: '相性表',
+    },
+    'typeChart.defender': {
+      AppLanguage.ko: '방어',
+      AppLanguage.en: 'Defender',
+      AppLanguage.ja: '防御',
+    },
+
     // === Speed tab ===
     'speed.baseValue': {
       AppLanguage.ko: '종족값',
