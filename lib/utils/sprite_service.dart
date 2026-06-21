@@ -327,8 +327,20 @@ class SpriteService extends ChangeNotifier {
       // Same scope cap as the mobile pack (bw = gen1-5, dex = full)
       // — anything outside resolves to the pokéball placeholder via
       // the widget's onError.
+      // ?v=$kLatestSpritePackVersion cache-busts the browser HTTP
+      // cache when sprite content changes for an existing key —
+      // e.g., the auto-downscaled HOME render that gen5/ CDN used
+      // to leak for ZA Megas got replaced with RetroNC's pixel
+      // sprite, but users who'd already loaded the bad URL kept
+      // seeing it from local cache. Tying the cache key to the
+      // pack version means a bump (which already accompanies any
+      // sprite-content change) forces a fresh fetch worldwide
+      // without manual purge. jsdelivr respects query strings as
+      // distinct cache keys, so the new value misses their edge
+      // and re-pulls from raw GitHub.
       final url = 'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
-          'sprites/${s.name}/$shinySegment$key.${s.ext}';
+          'sprites/${s.name}/$shinySegment$key.${s.ext}'
+          '?v=$kLatestSpritePackVersion';
       return NetworkImage(url);
     }
     // Mobile path is strictly offline — the iOS / Android builds
