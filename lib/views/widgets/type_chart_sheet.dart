@@ -19,11 +19,15 @@ class TypeChartSheet extends StatelessWidget {
       context: context,
       builder: (ctx) {
         final size = MediaQuery.sizeOf(ctx);
+        // Snug width = label col + 18 data cols + scroll/padding
+        // gutter. Wider dialogs leave dead space on desktop because
+        // the inner Table has a fixed total width.
+        const tableWidth = _labelCol + 18 * _cellCol + 24;
         return Dialog(
           insetPadding: const EdgeInsets.all(16),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: 1100,
+              maxWidth: tableWidth,
               maxHeight: size.height * 0.85,
             ),
             child: const TypeChartSheet(),
