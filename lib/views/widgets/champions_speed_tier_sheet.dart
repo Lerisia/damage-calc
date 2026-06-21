@@ -88,11 +88,9 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
     final bySpeed = <int, List<_PokeOnTier>>{};
 
     for (final p in pokedex) {
-      // Skip non-Champions and Megas (Megas inherit base — listing
-      // both would clutter the table with near-duplicates).
       if (!isInChampions(p.name)) continue;
-      if (p.name.startsWith('Mega ')) continue;
-
+      // Megas keep their own base stats (different speed from base
+      // form) so they DO belong on the table — only filter non-Champions.
       final entry = championsUsageFor(p.name);
       final ev = entry?.defaultSp == null
           ? ChampionsMode.evToSpStats(ChampionsMode.zeroSp)
