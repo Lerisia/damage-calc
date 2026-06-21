@@ -4,13 +4,13 @@ import '../../utils/ability_effects.dart' show abilityAdjustedDefensiveMultiplie
 import '../../utils/app_strings.dart';
 import '../../utils/localization.dart' show KoStrings;
 
-/// Classic Pokémon 18×18 type-effectiveness matrix.
-/// Rows = attacking type, columns = defending type. Cells colour-
-/// coded: red ×2, green ×½, yellow ×0, blank ×1.
+/// Classic Pokémon 18×18 type-effectiveness matrix in the same
+/// `Table` form the team-coverage matrix uses: type labels in the
+/// header row/column with cells coloured by multiplier.
 ///
-/// Single-type defender chart only — dual-type matchups already
-/// surface on the per-Pokémon dex page (this widget is the quick
-/// reference table competitive players keep open in a tab).
+/// Rows = attacking type, columns = defending type. Labels use
+/// `KoStrings.getTypeName` so they pick up the user's locale
+/// (한국어 / English / 日本語).
 class TypeChartSheet extends StatelessWidget {
   const TypeChartSheet({super.key});
 
@@ -20,7 +20,7 @@ class TypeChartSheet extends StatelessWidget {
       isScrollControlled: true,
       showDragHandle: true,
       builder: (_) => const SafeArea(top: false, child: TypeChartSheet()),
-      constraints: const BoxConstraints(maxWidth: 720),
+      constraints: const BoxConstraints(maxWidth: 1100),
     );
   }
 
@@ -32,18 +32,19 @@ class TypeChartSheet extends StatelessWidget {
     PokemonType.steel, PokemonType.fairy,
   ];
 
-  static const _cell = 28.0;
-  static const _headerCell = 32.0;
+  static const _labelCol = 52.0;
+  static const _cellCol = 36.0;
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return FractionallySizedBox(
       heightFactor: 0.85,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
             child: Text(
               AppStrings.t('typeChart.title'),
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
@@ -53,11 +54,10 @@ class TypeChartSheet extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
             child: Text(
               AppStrings.t('typeChart.legend'),
-              style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+              style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
             ),
           ),
           const Divider(height: 1),
-          // Horizontally + vertically scrollable matrix
           Expanded(
             child: Scrollbar(
               child: SingleChildScrollView(
@@ -65,7 +65,7 @@ class TypeChartSheet extends StatelessWidget {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.all(8),
-                  child: _Matrix(),
+                  child: _buildTable(scheme),
                 ),
               ),
             ),
@@ -74,32 +74,38 @@ class TypeChartSheet extends StatelessWidget {
       ),
     );
   }
-}
 
-class _Matrix extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+  Widget _buildTable(ColorScheme scheme) {
+    return Table(
+      columnWidths: {
+        0: const FixedColumnWidth(_labelCol),
+        for (int i = 0; i < _types.length; i++)
+          i + 1: const FixedColumnWidth(_cellCol),
+      },
+      border: TableBorder(
+        top:    BorderSide(color: scheme.outlineVariant, width: 0.6),
+        bottom: BorderSide(color: scheme.outlineVariant, width: 0.6),
+        left:   BorderSide(color: scheme.outlineVariant, width: 0.6),
+        right:  BorderSide(color: scheme.outlineVariant, width: 0.6),
+        horizontalInside: BorderSide(color: scheme.outlineVariant, width: 0.5),
+        verticalInside:   BorderSide(color: scheme.outlineVariant, width: 0.5),
+      ),
+      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
-        // Top header row: corner cell + 18 defender chips
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _CornerHeader(),
-            for (final d in TypeChartSheet._types) _DefenderHeader(type: d),
-          ],
-        ),
+        // Header row — defender types
+        TableRow(children: [
+          _CornerHeader(),
+          for (final d in _types) _TypeLabelCell(type: d, horizontal: false),
+        ]),
         // 18 attacker rows
-        for (final atk in TypeChartSheet._types)
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _AttackerHeader(type: atk),
-              for (final def in TypeChartSheet._types)
-                _Cell(mult: abilityAdjustedDefensiveMultiplier(atk, def, null)),
-            ],
-          ),
+        for (final atk in _types)
+          TableRow(children: [
+            _TypeLabelCell(type: atk, horizontal: true),
+            for (final def in _types)
+              _MultCell(
+                mult: abilityAdjustedDefensiveMultiplier(atk, def, null),
+              ),
+          ]),
       ],
     );
   }
@@ -108,122 +114,63 @@ class _Matrix extends StatelessWidget {
 class _CornerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: TypeChartSheet._headerCell,
-      height: TypeChartSheet._headerCell,
+    return const SizedBox(
+      height: 32,
       child: Center(
-        child: Text(
-          '↘',
-          style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-        ),
+        child: Text('↘', style: TextStyle(color: Colors.grey)),
       ),
     );
   }
 }
 
-class _DefenderHeader extends StatelessWidget {
+class _TypeLabelCell extends StatelessWidget {
   final PokemonType type;
-  const _DefenderHeader({required this.type});
+  /// `true` when this cell sits in the leftmost column (row label);
+  /// `false` for the top-row (column label). Visual only — both use
+  /// the type colour as background.
+  final bool horizontal;
+  const _TypeLabelCell({required this.type, required this.horizontal});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: TypeChartSheet._cell,
-      height: TypeChartSheet._headerCell,
-      decoration: BoxDecoration(
-        color: KoStrings.getTypeColor(type),
-        border: Border.all(color: Colors.white, width: 0.5),
-      ),
+      height: horizontal ? 32 : 32,
+      color: KoStrings.getTypeColor(type),
       alignment: Alignment.center,
       child: Text(
-        _abbrev(type),
+        KoStrings.getTypeName(type),
         style: const TextStyle(
-            color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
+            color: Colors.white, fontSize: 11, fontWeight: FontWeight.w700),
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.clip,
       ),
     );
   }
 }
 
-class _AttackerHeader extends StatelessWidget {
-  final PokemonType type;
-  const _AttackerHeader({required this.type});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: TypeChartSheet._headerCell,
-      height: TypeChartSheet._cell,
-      decoration: BoxDecoration(
-        color: KoStrings.getTypeColor(type),
-        border: Border.all(color: Colors.white, width: 0.5),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        _abbrev(type),
-        style: const TextStyle(
-            color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
-      ),
-    );
-  }
-}
-
-class _Cell extends StatelessWidget {
+class _MultCell extends StatelessWidget {
   final double mult;
-  const _Cell({required this.mult});
+  const _MultCell({required this.mult});
 
   @override
   Widget build(BuildContext context) {
-    final (bg, label) = _styleFor(mult);
+    final (bg, label, fg) = _styleFor(mult);
     return Container(
-      width: TypeChartSheet._cell,
-      height: TypeChartSheet._cell,
-      decoration: BoxDecoration(
-        color: bg,
-        border: Border.all(color: Colors.white, width: 0.5),
-      ),
+      height: 32,
+      color: bg,
       alignment: Alignment.center,
-      child: label.isEmpty
-          ? const SizedBox.shrink()
-          : Text(
-              label,
-              style: const TextStyle(
-                  color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
-            ),
+      child: Text(
+        label,
+        style: TextStyle(color: fg, fontSize: 13, fontWeight: FontWeight.w700),
+      ),
     );
   }
 
-  static (Color, String) _styleFor(double m) {
-    if (m == 0.0) return (Colors.grey.shade700, '0');
-    if (m == 0.5) return (Colors.green.shade600, '½');
-    if (m == 2.0) return (Colors.red.shade600, '2');
-    return (Colors.grey.shade100, ''); // neutral ×1
-  }
-}
-
-/// Short 2-character type abbreviation rendered into the header cells.
-/// Matches Bulbapedia / Serebii / community charts so the cells stay
-/// readable inside ~28-px squares (full Korean / Japanese / English
-/// names won't fit at that size).
-String _abbrev(PokemonType t) {
-  switch (t) {
-    case PokemonType.normal:   return 'NOR';
-    case PokemonType.fire:     return 'FIR';
-    case PokemonType.water:    return 'WAT';
-    case PokemonType.electric: return 'ELE';
-    case PokemonType.grass:    return 'GRA';
-    case PokemonType.ice:      return 'ICE';
-    case PokemonType.fighting: return 'FIG';
-    case PokemonType.poison:   return 'POI';
-    case PokemonType.ground:   return 'GRD';
-    case PokemonType.flying:   return 'FLY';
-    case PokemonType.psychic:  return 'PSY';
-    case PokemonType.bug:      return 'BUG';
-    case PokemonType.rock:     return 'ROC';
-    case PokemonType.ghost:    return 'GHO';
-    case PokemonType.dragon:   return 'DRA';
-    case PokemonType.dark:     return 'DRK';
-    case PokemonType.steel:    return 'STL';
-    case PokemonType.fairy:    return 'FAI';
-    default:                   return '?';
+  static (Color, String, Color) _styleFor(double m) {
+    if (m == 0.0) return (Colors.grey.shade800, '0', Colors.white);
+    if (m == 0.5) return (Colors.green.shade600, '½', Colors.white);
+    if (m == 2.0) return (Colors.red.shade600,   '2', Colors.white);
+    return (Colors.transparent, '', Colors.black);
   }
 }
