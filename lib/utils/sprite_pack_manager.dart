@@ -15,7 +15,7 @@ import 'sprite_service.dart';
 /// against this constant by [SpritePackManager.isAnyOutOfDate]; any
 /// mismatch (including the legacy `null` case for pre-marker
 /// installs) triggers the update-nag dialog on app launch.
-const String kLatestSpritePackVersion = '2';
+const String kLatestSpritePackVersion = '3';
 
 /// Per-style sprite-pack install state for mobile.
 ///

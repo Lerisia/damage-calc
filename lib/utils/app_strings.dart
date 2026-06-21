@@ -1656,16 +1656,6 @@ class AppStrings {
     // been datamined upstream yet, so the move pool we show may
     // include moves that are no longer learnable, or miss moves
     // that are. Cleared once ChampionsLab refreshes.
-    'notice.championsLearnsetTitle': {
-      AppLanguage.ko: '챔피언스 신규 포켓몬 안내',
-      AppLanguage.en: 'New Champions Pokémon',
-      AppLanguage.ja: 'チャンピオンズ 新規ポケモンのご案内',
-    },
-    'notice.championsLearnsetBody': {
-      AppLanguage.ko: '오늘 추가된 챔피언스 신규 포켓몬의 학습 가능 기술 목록은 아직 정확하지 않습니다. 데이터가 확보되는 대로 업데이트할 예정입니다.',
-      AppLanguage.en: 'The learnable-move data for today\'s newly added Champions Pokémon is not yet accurate. It will be updated as soon as proper data becomes available.',
-      AppLanguage.ja: '本日追加されたチャンピオンズの新規ポケモンの覚える技データはまだ正確ではありません。正しいデータが入り次第更新する予定です。',
-    },
     'action.dontShowAgain': {
       AppLanguage.ko: '다시 보지 않기',
       AppLanguage.en: "Don't show again",
