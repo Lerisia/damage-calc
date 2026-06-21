@@ -40,6 +40,7 @@ import '../data/itemdex.dart';
 import '../utils/url_navigator_stub.dart'
     if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
 import 'widgets/champions_learnset_notice.dart';
+import 'widgets/champions_speed_tier_sheet.dart';
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/modifier_note.dart';
 import 'widgets/pokemon_panel.dart';
@@ -1313,6 +1314,19 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               // AppBottomNav), so these duplicated the same tab
               // switches one row apart and were just clutter.
               const Spacer(),
+              // Wide-only Champions speed-tier quick access — the
+              // narrow layout reaches it via the settings menu (see
+              // AppSettingsMenu). Promoting it to a visible toolbar
+              // button on wide is fine because there's room to spare.
+              TextButton.icon(
+                onPressed: () => ChampionsSpeedTierSheet.show(context),
+                icon: const Icon(Icons.speed, size: 20),
+                label: Text(
+                  AppStrings.t('speedTier.menuLabel'),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ),
               // Single overflow menu — same component the narrow
               // layout uses below. Wide layout used to surface
               // sprite-style / language / theme / about as separate

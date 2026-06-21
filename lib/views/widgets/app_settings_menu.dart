@@ -4,6 +4,7 @@ import '../../utils/app_strings.dart';
 import '../../utils/champions_filter_controller.dart';
 import '../../utils/theme_controller.dart';
 import '../damage_calculator_screen.dart' show AppAboutDialog;
+import 'champions_speed_tier_sheet.dart';
 import 'sprite_style_dialog.dart';
 
 /// Shared settings (⚙️) PopupMenuButton used by every top-level
@@ -136,6 +137,14 @@ class AppSettingsMenu extends StatelessWidget {
               ]),
             ),
             PopupMenuItem(
+              value: 'speedTier',
+              child: Row(children: [
+                const Icon(Icons.speed, size: 20),
+                const SizedBox(width: 8),
+                Text(AppStrings.t('speedTier.menuLabel')),
+              ]),
+            ),
+            PopupMenuItem(
               value: 'about',
               child: Row(children: [
                 const Icon(Icons.info_outline, size: 20),
@@ -154,6 +163,8 @@ class AppSettingsMenu extends StatelessWidget {
                 showSpriteStyleDialog(context);
               case 'championsOnly':
                 ChampionsFilterController.instance.set(!champOn);
+              case 'speedTier':
+                ChampionsSpeedTierSheet.show(context);
               case 'about':
                 showDialog(
                   context: context,

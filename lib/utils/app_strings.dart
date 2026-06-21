@@ -2177,6 +2177,23 @@ class AppStrings {
       AppLanguage.ja: '「{name}」をインポートしました',
     },
 
+    // === Champions speed tier sheet ===
+    'speedTier.title': {
+      AppLanguage.ko: '챔피언스 스피드표',
+      AppLanguage.en: 'Champions Speed Tier',
+      AppLanguage.ja: 'チャンピオンズ スピード表',
+    },
+    'speedTier.menuLabel': {
+      AppLanguage.ko: '스피드표',
+      AppLanguage.en: 'Speed tier',
+      AppLanguage.ja: 'スピード表',
+    },
+    'speedTier.empty': {
+      AppLanguage.ko: '데이터가 아직 로드되지 않았습니다.',
+      AppLanguage.en: 'Data is still loading.',
+      AppLanguage.ja: 'データ読み込み中です。',
+    },
+
     // === Speed tab ===
     'speed.baseValue': {
       AppLanguage.ko: '종족값',
