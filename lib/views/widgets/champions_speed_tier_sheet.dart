@@ -17,56 +17,76 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
   const ChampionsSpeedTierSheet({super.key});
 
   static void show(BuildContext context) {
-    showModalBottomSheet<void>(
+    showDialog<void>(
       context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (_) => const SafeArea(
-        top: false,
-        child: ChampionsSpeedTierSheet(),
-      ),
-      constraints: const BoxConstraints(maxWidth: 720),
+      builder: (ctx) {
+        final size = MediaQuery.sizeOf(ctx);
+        return Dialog(
+          insetPadding: const EdgeInsets.all(16),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 720,
+              maxHeight: size.height * 0.85,
+            ),
+            child: const ChampionsSpeedTierSheet(),
+          ),
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      heightFactor: 0.85,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Text(
-              AppStrings.t('speedTier.title'),
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Row(children: [
+            Expanded(
+              child: Text(
+                AppStrings.t('speedTier.title'),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
             ),
-          ),
-          const Divider(height: 1),
-          Expanded(
-            child: FutureBuilder<List<_SpeedRow>>(
-              future: _buildRows(),
-              builder: (context, snap) {
-                if (!snap.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                final rows = snap.data!;
-                if (rows.isEmpty) {
-                  return Center(
-                    child: Text(AppStrings.t('speedTier.empty')),
-                  );
-                }
-                return ListView.separated(
-                  itemCount: rows.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                  itemBuilder: (_, i) => _SpeedRowTile(row: rows[i]),
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop(),
+              visualDensity: VisualDensity.compact,
+            ),
+          ]),
+        ),
+        const Divider(height: 1),
+        Flexible(
+          child: FutureBuilder<List<_SpeedRow>>(
+            future: _buildRows(),
+            builder: (context, snap) {
+              if (!snap.hasData) {
+                return const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Center(child: CircularProgressIndicator()),
                 );
-              },
-            ),
+              }
+              final rows = snap.data!;
+              if (rows.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                    child: Text(AppStrings.t('speedTier.empty')),
+                  ),
+                );
+              }
+              return ListView.separated(
+                shrinkWrap: true,
+                itemCount: rows.length,
+                separatorBuilder: (_, __) => const Divider(height: 1),
+                itemBuilder: (_, i) => _SpeedRowTile(row: rows[i]),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

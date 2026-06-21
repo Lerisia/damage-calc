@@ -15,12 +15,21 @@ class TypeChartSheet extends StatelessWidget {
   const TypeChartSheet({super.key});
 
   static void show(BuildContext context) {
-    showModalBottomSheet<void>(
+    showDialog<void>(
       context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (_) => const SafeArea(top: false, child: TypeChartSheet()),
-      constraints: const BoxConstraints(maxWidth: 1100),
+      builder: (ctx) {
+        final size = MediaQuery.sizeOf(ctx);
+        return Dialog(
+          insetPadding: const EdgeInsets.all(16),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 1100,
+              maxHeight: size.height * 0.85,
+            ),
+            child: const TypeChartSheet(),
+          ),
+        );
+      },
     );
   }
 
@@ -38,40 +47,48 @@ class TypeChartSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return FractionallySizedBox(
-      heightFactor: 0.85,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
-            child: Text(
-              AppStrings.t('typeChart.title'),
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 8, 4),
+          child: Row(children: [
+            Expanded(
+              child: Text(
+                AppStrings.t('typeChart.title'),
+                style: const TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.w700),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
-            child: Text(
-              AppStrings.t('typeChart.legend'),
-              style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop(),
+              visualDensity: VisualDensity.compact,
             ),
+          ]),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+          child: Text(
+            AppStrings.t('typeChart.legend'),
+            style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
           ),
-          const Divider(height: 1),
-          Expanded(
-            child: Scrollbar(
+        ),
+        const Divider(height: 1),
+        Flexible(
+          child: Scrollbar(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.all(8),
-                  child: _buildTable(scheme),
-                ),
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.all(8),
+                child: _buildTable(scheme),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
