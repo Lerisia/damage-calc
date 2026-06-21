@@ -350,6 +350,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// onboarded onto any pack yet (their initial install banner lives
   /// inside the style dialog).
   static const _packNagSnoozeUntilKey = 'spritePackNagSnoozeUntilMs';
+  // Pack version that the active snooze was set for. When
+  // kLatestSpritePackVersion bumps past this value, the snooze is
+  // ignored — the user opted to defer one stale-pack reminder, not
+  // every reminder including ones for *new* content shipped after
+  // the snooze. Without this guard, a 30-day snooze masks the next
+  // sprite refresh too.
+  static const _packNagSnoozeForVersionKey = 'spritePackNagSnoozeForVersion';
   Future<void> _maybeShowSpritePackUpdate() async {
     if (kIsWeb) return;
     final mgr = SpritePackManager.instance;
@@ -357,14 +364,17 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     if (!mgr.isAnyOutOfDate(kLatestSpritePackVersion)) return;
     final prefs = await SharedPreferences.getInstance();
     final snoozeUntil = prefs.getInt(_packNagSnoozeUntilKey) ?? 0;
+    final snoozeFor = prefs.getString(_packNagSnoozeForVersionKey);
     final now = DateTime.now().millisecondsSinceEpoch;
-    if (now < snoozeUntil) return;
+    if (snoozeFor == kLatestSpritePackVersion && now < snoozeUntil) return;
     if (!mounted) return;
     Future<void> snooze(int days) async {
       await prefs.setInt(
         _packNagSnoozeUntilKey,
         now + days * Duration.millisecondsPerDay,
       );
+      await prefs.setString(
+        _packNagSnoozeForVersionKey, kLatestSpritePackVersion);
     }
 
     await showDialog(
@@ -2504,7 +2514,7 @@ class AppAboutDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('v1.13.1'),
+          const Text('v1.13.2'),
           const SizedBox(height: 8),
           Text(AppStrings.t('about.description')),
           const SizedBox(height: 8),
