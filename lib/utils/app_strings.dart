@@ -2210,6 +2210,11 @@ class AppStrings {
       AppLanguage.en: 'Defender',
       AppLanguage.ja: '防御',
     },
+    'typeChart.legend': {
+      AppLanguage.ko: '행: 공격 / 열: 방어 · 빨강 ×2, 초록 ×½, 회색 ×0',
+      AppLanguage.en: 'Rows: attacker · Cols: defender · Red ×2, Green ×½, Grey ×0',
+      AppLanguage.ja: '行: 攻撃 / 列: 防御 · 赤 ×2, 緑 ×½, グレー ×0',
+    },
 
     // === Speed tab ===
     'speed.baseValue': {

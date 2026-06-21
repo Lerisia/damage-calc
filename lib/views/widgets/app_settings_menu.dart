@@ -6,6 +6,7 @@ import '../../utils/theme_controller.dart';
 import '../damage_calculator_screen.dart' show AppAboutDialog;
 import 'champions_speed_tier_sheet.dart';
 import 'sprite_style_dialog.dart';
+import 'type_chart_sheet.dart';
 
 /// Shared settings (⚙️) PopupMenuButton used by every top-level
 /// screen (Calculator / Pokédex / Move Dex / Team Builder). Pulls
@@ -145,6 +146,14 @@ class AppSettingsMenu extends StatelessWidget {
               ]),
             ),
             PopupMenuItem(
+              value: 'typeChart',
+              child: Row(children: [
+                const Icon(Icons.grid_on, size: 20),
+                const SizedBox(width: 8),
+                Text(AppStrings.t('typeChart.menuLabel')),
+              ]),
+            ),
+            PopupMenuItem(
               value: 'about',
               child: Row(children: [
                 const Icon(Icons.info_outline, size: 20),
@@ -165,6 +174,8 @@ class AppSettingsMenu extends StatelessWidget {
                 ChampionsFilterController.instance.set(!champOn);
               case 'speedTier':
                 ChampionsSpeedTierSheet.show(context);
+              case 'typeChart':
+                TypeChartSheet.show(context);
               case 'about':
                 showDialog(
                   context: context,
