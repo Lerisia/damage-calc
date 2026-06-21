@@ -110,9 +110,11 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
         nature: natureProfile,
         level: ChampionsMode.level,
       );
-      bySpeed
-          .putIfAbsent(stats.speed, () => [])
-          .add(_PokeOnTier(name: p.name, localizedName: p.localizedName));
+      bySpeed.putIfAbsent(stats.speed, () => []).add(_PokeOnTier(
+            name: p.name,
+            localizedName: p.localizedName,
+            dexNumber: p.dexNumber,
+          ));
     }
 
     final speeds = bySpeed.keys.toList()..sort((a, b) => b.compareTo(a));
@@ -120,8 +122,10 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
       for (final s in speeds)
         _SpeedRow(
           speed: s,
-          pokemon: bySpeed[s]!
-            ..sort((a, b) => a.localizedName.compareTo(b.localizedName)),
+          // Within each tier, dex-number order is what users expect
+          // (mirrors any other species list in the app). Localized
+          // alphabetic order shuffles families apart.
+          pokemon: bySpeed[s]!..sort((a, b) => a.dexNumber.compareTo(b.dexNumber)),
         ),
     ];
   }
@@ -136,7 +140,12 @@ class _SpeedRow {
 class _PokeOnTier {
   final String name;            // English internal name
   final String localizedName;   // User-facing
-  _PokeOnTier({required this.name, required this.localizedName});
+  final int dexNumber;          // For intra-tier sort
+  _PokeOnTier({
+    required this.name,
+    required this.localizedName,
+    required this.dexNumber,
+  });
 }
 
 class _SpeedRowTile extends StatelessWidget {
