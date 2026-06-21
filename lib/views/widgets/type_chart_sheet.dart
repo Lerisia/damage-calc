@@ -19,15 +19,16 @@ class TypeChartSheet extends StatelessWidget {
       context: context,
       builder: (ctx) {
         final size = MediaQuery.sizeOf(ctx);
-        // Snug width = label col + 18 data cols + scroll/padding
-        // gutter. Wider dialogs leave dead space on desktop because
-        // the inner Table has a fixed total width.
-        const tableWidth = _labelCol + 18 * _cellCol + 24;
+        // Cap width at the table's natural size on desktop so the
+        // dialog doesn't waste horizontal space, but let it shrink
+        // to whatever the screen offers on mobile — the inner Table
+        // is responsive (cells/font scale with available width).
+        const naturalWidth = _labelColMax + 18 * _cellColMax + 24;
         return Dialog(
           insetPadding: const EdgeInsets.all(16),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: tableWidth,
+              maxWidth: naturalWidth,
               maxHeight: size.height * 0.85,
             ),
             child: const TypeChartSheet(),
@@ -45,8 +46,15 @@ class TypeChartSheet extends StatelessWidget {
     PokemonType.steel, PokemonType.fairy,
   ];
 
-  static const _labelCol = 52.0;
-  static const _cellCol = 36.0;
+  // Desktop-natural column widths; the Table actually paints at
+  // whatever width the parent gives it (responsive — see _buildTable).
+  static const _labelColMax = 52.0;
+  static const _cellColMax = 36.0;
+  // Lower bound: a 14-px cell still leaves room for a 1-char
+  // multiplier glyph (½/2/0) at ~9 pt without clipping. Anything
+  // tighter and the matrix becomes unreadable; horizontal scroll
+  // would be the lesser evil.
+  static const _cellColMin = 14.0;
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +92,26 @@ class TypeChartSheet extends StatelessWidget {
           child: Scrollbar(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(8),
-                child: _buildTable(scheme),
+              padding: const EdgeInsets.all(8),
+              child: LayoutBuilder(
+                builder: (ctx, c) {
+                  // Hand the full available width to the Table and
+                  // size cells against it. Below the readable floor
+                  // we let the Table overflow into a horizontal
+                  // scroll instead of squeezing glyphs.
+                  final fitCellCol =
+                      (c.maxWidth - _labelColMax) / _types.length;
+                  if (fitCellCol >= _cellColMin) {
+                    final cellCol = fitCellCol.clamp(_cellColMin, _cellColMax);
+                    return _buildTable(scheme,
+                        labelCol: _labelColMax, cellCol: cellCol);
+                  }
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: _buildTable(scheme,
+                        labelCol: _labelColMax, cellCol: _cellColMin),
+                  );
+                },
               ),
             ),
           ),
@@ -96,12 +120,19 @@ class TypeChartSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildTable(ColorScheme scheme) {
+  Widget _buildTable(ColorScheme scheme,
+      {required double labelCol, required double cellCol}) {
+    // Cell font shrinks with width once we're below the natural cell
+    // size — keeps the glyph centred and readable instead of clipping.
+    final shrink = (cellCol / _cellColMax).clamp(0.45, 1.0);
+    final cellFont = (13 * shrink).clamp(8.5, 13).toDouble();
+    final headerFont = (11 * shrink).clamp(8.0, 11).toDouble();
+    final rowH = (cellCol * 0.9).clamp(20.0, 32.0);
     return Table(
       columnWidths: {
-        0: const FixedColumnWidth(_labelCol),
+        0: FixedColumnWidth(labelCol),
         for (int i = 0; i < _types.length; i++)
-          i + 1: const FixedColumnWidth(_cellCol),
+          i + 1: FixedColumnWidth(cellCol),
       },
       border: TableBorder(
         top:    BorderSide(color: scheme.outlineVariant, width: 0.6),
@@ -115,16 +146,19 @@ class TypeChartSheet extends StatelessWidget {
       children: [
         // Header row — defender types
         TableRow(children: [
-          _CornerHeader(),
-          for (final d in _types) _TypeLabelCell(type: d, horizontal: false),
+          _CornerHeader(height: rowH),
+          for (final d in _types)
+            _TypeLabelCell(type: d, height: rowH, fontSize: headerFont),
         ]),
         // 18 attacker rows
         for (final atk in _types)
           TableRow(children: [
-            _TypeLabelCell(type: atk, horizontal: true),
+            _TypeLabelCell(type: atk, height: rowH, fontSize: headerFont),
             for (final def in _types)
               _MultCell(
                 mult: abilityAdjustedDefensiveMultiplier(atk, def, null),
+                height: rowH,
+                fontSize: cellFont,
               ),
           ]),
       ],
@@ -133,11 +167,13 @@ class TypeChartSheet extends StatelessWidget {
 }
 
 class _CornerHeader extends StatelessWidget {
+  final double height;
+  const _CornerHeader({required this.height});
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 32,
-      child: Center(
+    return SizedBox(
+      height: height,
+      child: const Center(
         child: Text('↘', style: TextStyle(color: Colors.grey)),
       ),
     );
@@ -146,22 +182,23 @@ class _CornerHeader extends StatelessWidget {
 
 class _TypeLabelCell extends StatelessWidget {
   final PokemonType type;
-  /// `true` when this cell sits in the leftmost column (row label);
-  /// `false` for the top-row (column label). Visual only — both use
-  /// the type colour as background.
-  final bool horizontal;
-  const _TypeLabelCell({required this.type, required this.horizontal});
+  final double height;
+  final double fontSize;
+  const _TypeLabelCell(
+      {required this.type, required this.height, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: horizontal ? 32 : 32,
+      height: height,
       color: KoStrings.getTypeColor(type),
       alignment: Alignment.center,
       child: Text(
         KoStrings.getTypeName(type),
-        style: const TextStyle(
-            color: Colors.white, fontSize: 11, fontWeight: FontWeight.w700),
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: fontSize,
+            fontWeight: FontWeight.w700),
         textAlign: TextAlign.center,
         maxLines: 1,
         overflow: TextOverflow.clip,
@@ -172,18 +209,22 @@ class _TypeLabelCell extends StatelessWidget {
 
 class _MultCell extends StatelessWidget {
   final double mult;
-  const _MultCell({required this.mult});
+  final double height;
+  final double fontSize;
+  const _MultCell(
+      {required this.mult, required this.height, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     final (bg, label, fg) = _styleFor(mult);
     return Container(
-      height: 32,
+      height: height,
       color: bg,
       alignment: Alignment.center,
       child: Text(
         label,
-        style: TextStyle(color: fg, fontSize: 13, fontWeight: FontWeight.w700),
+        style: TextStyle(
+            color: fg, fontSize: fontSize, fontWeight: FontWeight.w700),
       ),
     );
   }
