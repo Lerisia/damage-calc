@@ -41,7 +41,6 @@ import '../utils/url_navigator_stub.dart'
     if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
 import 'widgets/champions_learnset_notice.dart';
 import 'widgets/champions_speed_tier_sheet.dart';
-import 'widgets/type_chart_sheet.dart';
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/modifier_note.dart';
 import 'widgets/pokemon_panel.dart';
@@ -1323,15 +1322,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                 icon: const Icon(Icons.speed, size: 20),
                 label: Text(
                   AppStrings.t('speedTier.menuLabel'),
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ),
-              TextButton.icon(
-                onPressed: () => TypeChartSheet.show(context),
-                icon: const Icon(Icons.grid_on, size: 20),
-                label: Text(
-                  AppStrings.t('typeChart.menuLabel'),
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w600),
                 ),

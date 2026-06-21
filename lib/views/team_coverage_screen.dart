@@ -37,7 +37,6 @@ import 'root_shell.dart';
 import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/champions_speed_tier_sheet.dart';
-import 'widgets/type_chart_sheet.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/stat_input.dart' show ClampingFormatter, SelectAllField;
 import 'widgets/pokemon_sprite.dart';
@@ -1554,18 +1553,12 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
             // reach the same sheet via AppSettingsMenu's "스피드표"
             // entry below — sliced this way so narrow's tight app bar
             // doesn't pick up another button it can't comfortably fit.
-            if (isWide) ...[
+            if (isWide)
               TextButton.icon(
                 onPressed: () => ChampionsSpeedTierSheet.show(context),
                 icon: const Icon(Icons.speed, size: 20),
                 label: Text(AppStrings.t('speedTier.menuLabel')),
               ),
-              TextButton.icon(
-                onPressed: () => TypeChartSheet.show(context),
-                icon: const Icon(Icons.grid_on, size: 20),
-                label: Text(AppStrings.t('typeChart.menuLabel')),
-              ),
-            ],
             AppSettingsMenu(onLanguageChanged: () => setState(() {})),
           ],
         ),
