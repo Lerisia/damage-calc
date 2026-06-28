@@ -2205,6 +2205,11 @@ class AppStrings {
       AppLanguage.en: 'Ranking data is still loading.',
       AppLanguage.ja: 'ランキングデータ読み込み中です。',
     },
+    'usageRank.bigSprites': {
+      AppLanguage.ko: '큰 그림',
+      AppLanguage.en: 'Big sprite',
+      AppLanguage.ja: '大きい絵',
+    },
 
     // === Type chart sheet ===
     'typeChart.title': {

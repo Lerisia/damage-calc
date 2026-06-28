@@ -18,7 +18,7 @@ import 'pokemon_sprite.dart';
 /// Tap a row → pops the sheet and dispatches a dex cross-link via
 /// [RootShellState.requestDexDetail] so the user lands on that
 /// species' dex page with all browse-state preserved.
-class ChampionsUsageRankSheet extends StatelessWidget {
+class ChampionsUsageRankSheet extends StatefulWidget {
   /// Cross-tab dispatcher captured at [show] time. The dialog is
   /// mounted via `showDialog` on the ROOT navigator, which sits ABOVE
   /// the per-tab Navigator that RootShell installs — so looking the
@@ -28,6 +28,13 @@ class ChampionsUsageRankSheet extends StatelessWidget {
   final RootShellState? shell;
 
   const ChampionsUsageRankSheet({super.key, this.shell});
+
+  /// Sprite-size preference, persisted across reopens within a single
+  /// session. Static field instead of SharedPreferences because (a)
+  /// the dialog is opened often, and async pref reads would flash a
+  /// small→large switch on first paint, and (b) the toggle is cheap
+  /// enough that users don't expect cross-launch persistence here.
+  static bool _bigSprites = false;
 
   static void show(BuildContext context) {
     final shell = RootShell.maybeOf(context);
@@ -50,88 +57,8 @@ class ChampionsUsageRankSheet extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-          child: Row(children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.t('usageRank.title'),
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 2),
-                  // Update date pulled live from champions_usage.json's
-                  // `_meta.updatedAt`. Stays empty if the field's
-                  // missing rather than rendering "Updated: null".
-                  FutureBuilder<String?>(
-                    future: _loadUpdatedAt(),
-                    builder: (context, snap) {
-                      final date = snap.data;
-                      if (date == null || date.isEmpty) {
-                        return const SizedBox.shrink();
-                      }
-                      return Text(
-                        AppStrings.t('usageRank.updatedAt')
-                            .replaceFirst('{date}', date),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurface
-                              .withValues(alpha: 0.6),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () => Navigator.of(context).pop(),
-              visualDensity: VisualDensity.compact,
-            ),
-          ]),
-        ),
-        const Divider(height: 1),
-        Flexible(
-          child: FutureBuilder<List<_RankRow>>(
-            future: _buildRows(),
-            builder: (context, snap) {
-              if (!snap.hasData) {
-                return const Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-              final rows = snap.data!;
-              if (rows.isEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Center(
-                    child: Text(AppStrings.t('usageRank.empty')),
-                  ),
-                );
-              }
-              return ListView.separated(
-                shrinkWrap: true,
-                itemCount: rows.length,
-                separatorBuilder: (_, __) => const Divider(height: 1),
-                itemBuilder: (_, i) =>
-                    _RankRowTile(row: rows[i], shell: shell),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
+  State<ChampionsUsageRankSheet> createState() =>
+      _ChampionsUsageRankSheetState();
 
   /// One-shot read of `_meta.updatedAt` straight from
   /// `champions_usage.json`. The raw map is cached on first call so
@@ -178,6 +105,137 @@ class ChampionsUsageRankSheet extends StatelessWidget {
   }
 }
 
+class _ChampionsUsageRankSheetState extends State<ChampionsUsageRankSheet> {
+  late bool _big = ChampionsUsageRankSheet._bigSprites;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Row(children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.t('usageRank.title'),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 2),
+                  // Update date pulled live from champions_usage.json's
+                  // `_meta.updatedAt`. Stays empty if the field's
+                  // missing rather than rendering "Updated: null".
+                  FutureBuilder<String?>(
+                    future: ChampionsUsageRankSheet._loadUpdatedAt(),
+                    builder: (context, snap) {
+                      final date = snap.data;
+                      if (date == null || date.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
+                      return Text(
+                        AppStrings.t('usageRank.updatedAt')
+                            .replaceFirst('{date}', date),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurface
+                              .withValues(alpha: 0.6),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            // Sprite-size toggle — between the date and the close X
+            // so it reads as a view-mode control, not a destructive
+            // action. The label sits to the left of the checkbox so
+            // the tap target reaches both.
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _big = !_big;
+                  ChampionsUsageRankSheet._bigSprites = _big;
+                });
+              },
+              borderRadius: BorderRadius.circular(4),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Text(
+                    AppStrings.t('usageRank.bigSprites'),
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                  const SizedBox(width: 2),
+                  SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: Checkbox(
+                      value: _big,
+                      onChanged: (v) {
+                        setState(() {
+                          _big = v ?? false;
+                          ChampionsUsageRankSheet._bigSprites = _big;
+                        });
+                      },
+                      visualDensity: VisualDensity.compact,
+                      materialTapTargetSize:
+                          MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+                ]),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop(),
+              visualDensity: VisualDensity.compact,
+            ),
+          ]),
+        ),
+        const Divider(height: 1),
+        Flexible(
+          child: FutureBuilder<List<_RankRow>>(
+            future: ChampionsUsageRankSheet._buildRows(),
+            builder: (context, snap) {
+              if (!snap.hasData) {
+                return const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+              final rows = snap.data!;
+              if (rows.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Center(
+                    child: Text(AppStrings.t('usageRank.empty')),
+                  ),
+                );
+              }
+              return ListView.separated(
+                shrinkWrap: true,
+                itemCount: rows.length,
+                separatorBuilder: (_, __) => const Divider(height: 1),
+                itemBuilder: (_, i) => _RankRowTile(
+                  row: rows[i],
+                  shell: widget.shell,
+                  big: _big,
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _RankRow {
   final int rank;
   final String name;            // English internal name
@@ -194,10 +252,16 @@ class _RankRowTile extends StatelessWidget {
   /// Pre-captured shell ref (the dialog can't look it up itself —
   /// see [ChampionsUsageRankSheet.shell] for the why).
   final RootShellState? shell;
-  const _RankRowTile({required this.row, this.shell});
+  /// `true` → render the dex-style BW battle sprite (no box icon),
+  /// roughly 2× the compact box-icon row. Toggled via the header
+  /// checkbox; same source the dex header uses so the two views
+  /// read as the same image.
+  final bool big;
+  const _RankRowTile({required this.row, this.shell, this.big = false});
 
   @override
   Widget build(BuildContext context) {
+    final spriteSize = big ? 64.0 : 32.0;
     return InkWell(
       onTap: shell == null ? null : () {
         // Close the sheet first so the user lands on a clean dex stack,
@@ -207,7 +271,13 @@ class _RankRowTile extends StatelessWidget {
         shell!.requestDexDetail(row.name);
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: EdgeInsets.symmetric(
+          horizontal: 12,
+          // Tighter vertical padding in box-icon mode keeps the row
+          // dense; the BW sprite is twice as tall so it needs less
+          // padding to feel balanced.
+          vertical: big ? 4 : 8,
+        ),
         child: Row(
           children: [
             // Fixed-width rank column so sprites line up across single,
@@ -225,7 +295,10 @@ class _RankRowTile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             PokemonSprite(
-                pokemonName: row.name, size: 32, useBoxIcon: true),
+              pokemonName: row.name,
+              size: spriteSize,
+              useBoxIcon: !big,
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
