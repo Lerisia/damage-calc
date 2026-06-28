@@ -1973,10 +1973,17 @@ class _SlotSummaryCard extends StatelessWidget {
       }
     }
 
-    return Text.rich(
-      TextSpan(children: spans),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
+    // FittedBox keeps the line single-row no matter how narrow the
+    // card gets — text auto-scales down on phone widths instead of
+    // ellipsizing the rightmost stats. Card height stays stable.
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.centerLeft,
+      child: Text.rich(
+        TextSpan(children: spans),
+        maxLines: 1,
+        softWrap: false,
+      ),
     );
   }
 
