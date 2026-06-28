@@ -2,7 +2,7 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via champs.pokedb.tokyo",
     "format": "Regulation M-B / Season M-3",
-    "updatedAt": "2026-06-28",
+    "updatedAt": "2026-06-29",
     "curatedBy": "auto: champs.pokedb.tokyo (defaultMoves = top 4 by usage)",
     "notes": "Entries are ordered by descending in-game usage. pct is optional and left null when only rank order was recorded. Items/moves/natures with <1% usage are omitted from newer entries to reduce noise."
   },
