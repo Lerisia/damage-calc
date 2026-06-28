@@ -723,6 +723,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                   pokemonName: _atk.pokemonName,
                   pokemonNameKo: _atk.pokemonNameKo,
                   dexNumber: _atk.dexNumber,
+                  // Floating label so the field reads the same way as
+                  // 특성 / 아이템 / 상태이상 above (those use
+                  // InputDecoration.labelText). Without this, the move
+                  // row looks anonymous compared to the rest.
+                  labelText: AppStrings.t('label.move'),
                   // Simple Mode never surfaces status moves regardless
                   // of the global toggle — its layout has no slot for
                   // them and they'd just clutter the search.
@@ -792,7 +797,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                   ))
                 : const SizedBox.shrink(),
           ),
-          const SizedBox(height: 10),
+          // Tighter gap below the move-info row (풀 특수 120 etc.) —
+          // user feedback: the previous 10px of slack made the move
+          // group feel detached from the stats below.
+          const SizedBox(height: 2),
           // Offensive stat (Atk↔SpA auto) + Speed share one row. Extra
           // vertical padding around the row enlarges the vertical tap
           // zone around each mini-button without growing the row

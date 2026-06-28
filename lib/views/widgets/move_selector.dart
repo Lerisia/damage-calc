@@ -41,8 +41,13 @@ class MoveSelector extends StatefulWidget {
   /// toggle to pick a status move (per UX direction: "파티창에선
   /// 무조건 보는 겁니다").
   final bool forceShowStatus;
+  /// Optional floating label rendered on the field. Used by Simple
+  /// Mode to surface "기술" the same way ability/item/상태이상 carry
+  /// their own labels. Most other call sites omit this and rely on
+  /// context (no label).
+  final String? labelText;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true, this.forceShowStatus = false});
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true, this.forceShowStatus = false, this.labelText});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -245,6 +250,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         return _sortedOptions(query);
       },
       decoration: InputDecoration(
+        labelText: widget.labelText,
         hintText: _selected?.localizedName ?? AppStrings.t('search.move'),
         hintStyle: const TextStyle(fontSize: 14),
         isDense: true,
