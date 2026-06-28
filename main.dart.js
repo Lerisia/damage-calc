@@ -56608,7 +56608,7 @@ A.aBC.prototype={
 $1(a){return this.a.$1(a===!0)},
 $S:25}
 A.wL.prototype={
-G(a){var s=null,r=A.i(A.f("app.title"),s,s,s,s,B.fL,s,s),q=t.p,p=A.aE(A.b([B.arl,B.aC,A.i(A.f("about.description"),s,s,s,s,s,s,s),B.aC,A.i(A.f("about.subtitle"),s,s,s,s,B.aQ,s,s),B.b2,B.arh,B.aje,B.ajf,B.b2,A.a8(A.b([A.Ur(B.w2,A.i(A.f("banner.getAndroid"),s,s,s,s,B.km,s,s),new A.aa_(this),A.amb(s,s,s,s,s,s,s,s,s,s,s,B.M,B.hn,s,s,s,s,B.b4,s,s)),B.Y,A.Ur(B.w6,A.i(A.f("banner.getIos"),s,s,s,s,B.km,s,s),new A.aa0(this),A.amb(s,s,s,s,s,s,s,s,s,s,s,B.M,B.hn,s,s,s,s,B.b4,s,s))],q),B.m,s,B.j,B.l,0,s),B.d5,B.QD,B.aC,A.i(A.f("about.beta"),s,s,s,s,B.apf,s,s),B.b2,A.i(A.f("about.disclaimer"),s,s,s,s,B.JL,s,s),B.b2,A.i(A.f("sprite.creditTitle"),s,s,s,s,B.n3,s,s),B.b5,A.i(A.f("sprite.creditBody"),s,s,s,s,B.ap2,s,s)],q),B.U,B.j,B.D)
+G(a){var s=null,r=A.i(A.f("app.title"),s,s,s,s,B.fL,s,s),q=t.p,p=A.aE(A.b([B.arg,B.aC,A.i(A.f("about.description"),s,s,s,s,s,s,s),B.aC,A.i(A.f("about.subtitle"),s,s,s,s,B.aQ,s,s),B.b2,B.ari,B.aje,B.ajf,B.b2,A.a8(A.b([A.Ur(B.w2,A.i(A.f("banner.getAndroid"),s,s,s,s,B.km,s,s),new A.aa_(this),A.amb(s,s,s,s,s,s,s,s,s,s,s,B.M,B.hn,s,s,s,s,B.b4,s,s)),B.Y,A.Ur(B.w6,A.i(A.f("banner.getIos"),s,s,s,s,B.km,s,s),new A.aa0(this),A.amb(s,s,s,s,s,s,s,s,s,s,s,B.M,B.hn,s,s,s,s,B.b4,s,s))],q),B.m,s,B.j,B.l,0,s),B.d5,B.QD,B.aC,A.i(A.f("about.beta"),s,s,s,s,B.apf,s,s),B.b2,A.i(A.f("about.disclaimer"),s,s,s,s,B.JL,s,s),B.b2,A.i(A.f("sprite.creditTitle"),s,s,s,s,B.n3,s,s),B.b5,A.i(A.f("sprite.creditBody"),s,s,s,s,B.ap2,s,s)],q),B.U,B.j,B.D)
 return A.dL(A.b([A.bT(A.i(A.f("action.close"),s,s,s,s,s,s,s),new A.aa1(a),s)],q),s,p,s,!1,r,s)}}
 A.aa_.prototype={
 $0(){window.location.assign(u.H)
@@ -61358,7 +61358,7 @@ G(a){return new A.i2(new A.aag(this,a),null,new A.kH(A.b([$.jO().a],t.bA)),null)
 A.aac.prototype={
 $1(a){var s=t.s3
 s=A.L(new A.X(B.wU,new A.aab(this.a,a),s),s.i("ag.E"))
-return A.oj(s,B.arg)},
+return A.oj(s,B.arh)},
 $S:41}
 A.aab.prototype={
 $1(a){var s,r,q=null,p=this.b,o=B.Dg.h(0,a)
@@ -62751,7 +62751,7 @@ g.push(A.az(d,i,32))}if(h){if(f!=null)if(p.f)e=A.i(A.f("move.fixed"),i,i,i,i,B.a
 else if(f.at>1)e=A.i(""+l,i,i,i,i,A.a0(i,i,B.b3,i,i,i,i,i,i,i,i,13,i,i,B.a6,i,i,!0,i,i,i,i,i,i,i,i),B.Q,i)
 else{d=f.a
 a2=new A.LT(l,j.x[a9],j.y,a9,new A.anV(j,a9),new A.anW(j,a9),new A.cc("power_"+e+"_"+d,a2))
-e=a2}else e=B.arj
+e=a2}else e=B.ark
 g.push(A.az(e,i,44))}if(h)g.push(A.az(A.ph(B.b4,new A.anX(j,a9),j.a.c.fx[a9],B.ac),i,28))
 if(h){e=j.a.c
 d=e.fy[a9]
@@ -66350,7 +66350,7 @@ if(q.length===0)q=A.f("trainerCard.defaultName")
 a2=A.cH(B.eA,B.q,2)
 p=A.aW(12)
 o=a0.y.c
-n=A.aS(a1,B.ari,B.o,a1,a1,new A.aR(o,a1,a1,A.aW(4),a1,a1,B.x),a1,a1,B.hn,a1)
+n=A.aS(a1,B.arj,B.o,a1,a1,new A.aR(o,a1,a1,A.aW(4),a1,a1,B.x),a1,a1,B.hn,a1)
 m=t.p
 o=A.a8(A.b([A.aS(a1,a1,B.o,a1,a1,new A.aR(a1,a1,A.cH(o,B.q,2),a1,a1,a1,B.h6),10,a1,a1,10),B.Y,A.ac(A.i(q,a1,B.an,a1,a1,B.JM,a1,a1),1)],m),B.m,a1,B.j,B.l,0,a1)
 l=A.b([],m)
@@ -123310,8 +123310,8 @@ B.O2=new A.Df(null,null,null,null,null,null)
 B.nW=new A.rQ(null,null,null)
 B.iv=new A.jX(B.K,null,null,B.nW,null)
 B.n5=new A.z(!0,B.P,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.ark=new A.fN("\u2198",null,B.n5,null,null,null,null,null,null,null)
-B.O3=new A.jX(B.K,null,null,B.ark,null)
+B.arl=new A.fN("\u2198",null,B.n5,null,null,null,null,null,null,null)
+B.O3=new A.jX(B.K,null,null,B.arl,null)
 B.O4=new A.Qy(null)
 B.O5=new A.wZ(null,null,null,null,null,null,null,null,null)
 B.hb=new A.x_(0,0,"none")
@@ -127813,13 +127813,13 @@ B.aq3=new A.z(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,nul
 B.an0=new A.z(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.ard=new A.eU(B.aoO,B.anI,B.aoP,B.apl,B.anp,B.anx,B.ao1,B.ape,B.aoe,B.apL,B.amU,B.anb,B.apI,B.aq3,B.an0)
 B.arf=new A.fN("  \u2192  ",null,B.JL,null,null,null,null,null,null,null)
-B.arg=new A.fN("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
-B.arh=new A.fN("By  Elyss",null,null,null,null,null,null,null,null,null)
+B.arg=new A.fN("v1.15.0",null,null,null,null,null,null,null,null,null)
+B.arh=new A.fN("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
+B.ari=new A.fN("By  Elyss",null,null,null,null,null,null,null,null,null)
 B.aoJ=new A.z(!0,B.r,null,null,null,null,18,B.w,null,1.5,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.ari=new A.fN("TRAINER CARD",null,B.aoJ,null,null,null,null,null,null,null)
+B.arj=new A.fN("TRAINER CARD",null,B.aoJ,null,null,null,null,null,null,null)
 B.JR=new A.fN("-",null,null,B.Q,null,null,null,null,null,null)
-B.arj=new A.fN("-",null,B.aQ,B.Q,null,null,null,null,null,null)
-B.arl=new A.fN("v1.14.0",null,null,null,null,null,null,null,null,null)
+B.ark=new A.fN("-",null,B.aQ,B.Q,null,null,null,null,null,null)
 B.arm=new A.fN("-",null,B.n5,null,null,null,null,null,null,null)
 B.arn=new A.qM(0,"system")
 B.ru=new A.qM(1,"light")
