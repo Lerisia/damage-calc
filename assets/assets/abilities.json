@@ -41,7 +41,8 @@
     "nameJa": "Eelevate",
     "nameEn": "Eelevate",
     "descJa": "地面にいないことになり じめんタイプのわざ まきびし どくびし ねばねばネット状態が効かない。攻撃で相手を倒すと 自分の最も高い能力が1段階上がる。",
-    "descEn": "The Pokémon floats off the ground, making it immune to Ground-type moves, as well as the Spikes, Toxic Spikes, and Sticky Web statuses. When the Pokémon knocks out a target with an attack, its highest stat is boosted by 1 stage."
+    "descEn": "The Pokémon floats off the ground, making it immune to Ground-type moves, as well as the Spikes, Toxic Spikes, and Sticky Web statuses. When the Pokémon knocks out a target with an attack, its highest stat is boosted by 1 stage.",
+    "descKo": "땅타입 기술의 효과를 받지 않는다. 기술로 상대를 쓰러뜨렸을 때 자신의 가장 높은 능력을 1랭크 올린다."
   },
   {
     "name": "Drought",
