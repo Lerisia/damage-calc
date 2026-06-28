@@ -70,15 +70,15 @@ SPECIAL_FORMS: dict[str, str] = {
     "0618-01": "Galarian Stunfisk",
     "0666-18": "Vivillon",  # pattern variation; use base
     "0670-05": "Floette (Eternal Flower)",
-    "0678-01": "Female Meowstic",
+    "0678-01": "Meowstic (Female)",
     "0706-01": "Hisuian Goodra",
     "0711-01": "Gourgeist (Small Size)",
     "0711-02": "Gourgeist (Large Size)",
     "0711-03": "Gourgeist (Super Size)",
     "0713-01": "Hisuian Avalugg",
     "0724-01": "Hisuian Decidueye",
-    "0745-01": "Midnight Lycanroc",
-    "0745-02": "Dusk Lycanroc",
+    "0745-01": "Lycanroc (Midnight Form)",
+    "0745-02": "Lycanroc (Dusk Form)",
     "0902-01": "Basculegion (Female)",
 }
 
@@ -231,7 +231,6 @@ def build_lookups(repo_root: Path) -> dict[str, dict[str, str]]:
     skip_prefixes = (
         "Mega ", "Alolan ", "Galarian ", "Hisuian ", "Paldean ",
         "Heat ", "Wash ", "Frost ", "Fan ", "Mow ",
-        "Midnight ", "Dusk ",
     )
     for path in sorted(glob.glob(str(repo_root / "assets/pokemon/*.json"))):
         try:
@@ -245,6 +244,12 @@ def build_lookups(repo_root: Path) -> dict[str, dict[str, str]]:
             name = e.get("name", "")
             dex = e.get("dexNumber")
             if dex is None or name.startswith(skip_prefixes):
+                continue
+            # forms.json contains parenthesized regional/morph names
+            # (e.g. "Lycanroc (Midnight Form)", "Meowstic (Female)"). Skip
+            # them so dex_to_base resolves to the canonical base species
+            # (covered separately by SPECIAL_FORMS where pokedb ranks them).
+            if "(" in name:
                 continue
             d_int = int(dex)
             dex_to_base.setdefault(d_int, name)
@@ -324,11 +329,15 @@ def parse_detail(html: str, maps: dict) -> dict | None:
 
 # ─── Merge into champions_usage.json ─────────────────────────────────
 
-def to_usage_entry(parsed: dict, existing: dict | None) -> dict:
+def to_usage_entry(parsed: dict, existing: dict | None, rank: int | None = None) -> dict:
     out: dict = {}
     if parsed.get("defaultSp"):
         out["defaultSp"] = parsed["defaultSp"]
-    if existing and "usageRank" in existing:
+    # Prefer the freshly-scraped rank from the ranking page; fall back to
+    # the previously-stored rank if the caller didn't supply one.
+    if rank is not None:
+        out["usageRank"] = rank
+    elif existing and "usageRank" in existing:
         out["usageRank"] = existing["usageRank"]
 
     def with_pct(rows):
@@ -433,6 +442,9 @@ def main() -> int:
     if unmapped:
         print(f"WARN unmapped IDs (will skip): {unmapped[:5]}{'...' if len(unmapped) > 5 else ''}")
 
+    # pid → 1-based rank in the live ranking page
+    pid_to_rank: dict[str, int] = {pid: i for i, pid in enumerate(ids.keys(), 1)}
+
     # Fetch detail pages
     parsed: dict[str, dict] = {}
     for i, (pid, jp) in enumerate(ids.items(), 1):
@@ -459,10 +471,15 @@ def main() -> int:
     # Merge into champions_usage.json
     usage = json.loads(USAGE_PATH.read_text(encoding="utf-8"))
     replaced = added = skipped = 0
+    # Names freshly ranked this run (used to detect dropouts below).
+    ranked_en: set[str] = {
+        id_to_en[pid] for pid in parsed.keys() if id_to_en[pid]
+    }
+
     for pid, entry in parsed.items():
         en = id_to_en[pid]
         existing = usage.get(en)
-        new_entry = to_usage_entry(entry, existing)
+        new_entry = to_usage_entry(entry, existing, rank=pid_to_rank.get(pid))
         if existing is None:
             added += 1
         elif existing == new_entry:
@@ -470,6 +487,22 @@ def main() -> int:
         else:
             replaced += 1
         usage[en] = new_entry
+
+    # Strip stale usageRank from preserved entries that dropped out of the
+    # current ranking (their old rank is provably wrong now). Skip Megas —
+    # pokedb never ranks them, so they never had a "real" rank anyway.
+    dropped_rank = 0
+    for en, ent in usage.items():
+        if en == "_meta" or not isinstance(ent, dict):
+            continue
+        if en.startswith("Mega "):
+            continue
+        if en in ranked_en:
+            continue
+        if "usageRank" in ent:
+            del ent["usageRank"]
+            dropped_rank += 1
+    print(f"dropped stale usageRank from {dropped_rank} dropout entries")
 
     # Mirror single-Mega entries from their refreshed base forms.
     # X/Y/Z split megas (user-curated) are left alone.
@@ -485,6 +518,12 @@ def main() -> int:
         usage["_meta"]["updatedAt"] = time.strftime("%Y-%m-%d")
         usage["_meta"]["curatedBy"] = (
             "auto: champs.pokedb.tokyo (defaultMoves = top 4 by usage)"
+        )
+        usage["_meta"]["notes"] = (
+            "Entries are ordered by descending in-game usage. pct is "
+            "optional and left null when only rank order was recorded. "
+            "Items/moves/natures with <1% usage are omitted from newer "
+            "entries to reduce noise."
         )
 
     USAGE_PATH.write_text(
