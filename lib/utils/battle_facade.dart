@@ -599,6 +599,17 @@ class BattleFacade {
     if (notesOut != null) {
       notesOut.addAll(doublesMods.notes);
     }
+    // Spread reduction is owned by damage_calculator (applied to
+    // baseDamage to match Showdown's pokeRound timing), so
+    // `doublesMods.powerMod` stays 1.0 for it. The offensive
+    // calculator has no baseDamage stage to inject into, so collapse
+    // the ×0.75 into the power chain here — without this, the 결정력
+    // tab ignores the 분산 toggle even though the damage tab honours
+    // it. Note for the modifier list is already emitted by
+    // computeDoublesModifiers above.
+    if (state.spreadTargets && transformed.move.hasTag(MoveTags.spread)) {
+      powerMod *= kSpreadMultiplier;
+    }
 
     // Field-state ability effects (auras + ruins). The toggles live on
     // RoomConditions; attacker/defender abilities also count as sources.
