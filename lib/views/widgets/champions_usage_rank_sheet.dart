@@ -19,9 +19,18 @@ import 'pokemon_sprite.dart';
 /// [RootShellState.requestDexDetail] so the user lands on that
 /// species' dex page with all browse-state preserved.
 class ChampionsUsageRankSheet extends StatelessWidget {
-  const ChampionsUsageRankSheet({super.key});
+  /// Cross-tab dispatcher captured at [show] time. The dialog is
+  /// mounted via `showDialog` on the ROOT navigator, which sits ABOVE
+  /// the per-tab Navigator that RootShell installs — so looking the
+  /// shell up from inside the dialog's BuildContext returns null.
+  /// Resolving it here on the trigger's context (which IS under
+  /// RootShell) and threading it down is the standard fix.
+  final RootShellState? shell;
+
+  const ChampionsUsageRankSheet({super.key, this.shell});
 
   static void show(BuildContext context) {
+    final shell = RootShell.maybeOf(context);
     showDialog<void>(
       context: context,
       builder: (ctx) {
@@ -33,7 +42,7 @@ class ChampionsUsageRankSheet extends StatelessWidget {
               maxWidth: 480,
               maxHeight: size.height * 0.85,
             ),
-            child: const ChampionsUsageRankSheet(),
+            child: ChampionsUsageRankSheet(shell: shell),
           ),
         );
       },
@@ -114,7 +123,8 @@ class ChampionsUsageRankSheet extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: rows.length,
                 separatorBuilder: (_, __) => const Divider(height: 1),
-                itemBuilder: (_, i) => _RankRowTile(row: rows[i]),
+                itemBuilder: (_, i) =>
+                    _RankRowTile(row: rows[i], shell: shell),
               );
             },
           ),
@@ -181,16 +191,20 @@ class _RankRow {
 
 class _RankRowTile extends StatelessWidget {
   final _RankRow row;
-  const _RankRowTile({required this.row});
+  /// Pre-captured shell ref (the dialog can't look it up itself —
+  /// see [ChampionsUsageRankSheet.shell] for the why).
+  final RootShellState? shell;
+  const _RankRowTile({required this.row, this.shell});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // Close the sheet first so the user lands on a clean dex stack.
+      onTap: shell == null ? null : () {
+        // Close the sheet first so the user lands on a clean dex stack,
+        // then dispatch the cross-tab dex jump on the captured shell
+        // (NOT a fresh lookup — context after pop is stale).
         Navigator.of(context).pop();
-        final shell = RootShell.maybeOf(context);
-        shell?.requestDexDetail(row.name);
+        shell!.requestDexDetail(row.name);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
