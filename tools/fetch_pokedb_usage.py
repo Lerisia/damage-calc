@@ -39,7 +39,17 @@ import urllib.request
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-USAGE_PATH = REPO / "assets" / "champions_usage.json"
+SINGLES_USAGE_PATH = REPO / "assets" / "champions_usage.json"
+DOUBLES_USAGE_PATH = REPO / "assets" / "champions_usage_doubles.json"
+
+
+def usage_path_for(rule: int) -> Path:
+    """Pick the on-disk JSON for the given rule. Singles and doubles
+    have parallel schemas but distinct files so the app can swap them
+    based on the user's chosen format."""
+    return DOUBLES_USAGE_PATH if rule == 1 else SINGLES_USAGE_PATH
+
+
 BASE = "https://champs.pokedb.tokyo"
 UA = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
@@ -484,8 +494,14 @@ def main() -> int:
         if i % 25 == 0 or i == len(ids):
             print(f"  [{i:>3}/{len(ids)}] parsed={len(parsed)}")
 
-    # Merge into champions_usage.json
-    usage = json.loads(USAGE_PATH.read_text(encoding="utf-8"))
+    # Merge into the format-specific JSON.
+    out_path = usage_path_for(args.rule)
+    if out_path.exists():
+        usage = json.loads(out_path.read_text(encoding="utf-8"))
+    else:
+        # First-ever doubles run — start from a bare scaffold; X/Y/Z
+        # megas + meta will be copied/filled below.
+        usage = {"_meta": {}}
     replaced = added = skipped = 0
     # Names freshly ranked this run (used to detect dropouts below).
     ranked_en: set[str] = {
@@ -520,8 +536,26 @@ def main() -> int:
             dropped_rank += 1
     print(f"dropped stale usageRank from {dropped_rank} dropout entries")
 
+    # X/Y/Z split megas are always user-curated, and per user request
+    # they should be identical across formats. Singles is the source
+    # of truth — for a doubles refresh, copy them verbatim. For
+    # singles, this loop is a no-op since the entries are already in
+    # `usage`.
+    if args.rule == 1 and SINGLES_USAGE_PATH.exists():
+        singles_src = json.loads(SINGLES_USAGE_PATH.read_text(encoding="utf-8"))
+        xyz_copied = 0
+        for name, ent in singles_src.items():
+            if name == "_meta" or not isinstance(ent, dict):
+                continue
+            if not name.startswith("Mega ") or not is_xyz_split(name):
+                continue
+            usage[name] = ent
+            xyz_copied += 1
+        print(f"X/Y/Z mega copied from singles: {xyz_copied}")
+
     # Mirror single-Mega entries from their refreshed base forms.
-    # X/Y/Z split megas (user-curated) are left alone.
+    # X/Y/Z split megas (user-curated, mirrored from singles above)
+    # are left alone.
     mega_index = load_mega_index(REPO)
     mirrored, skipped_xyz = mirror_megas_from_base(usage, mega_index)
     print(f"mega mirror: mirrored={mirrored} skipped_xyz={skipped_xyz}")
@@ -542,7 +576,7 @@ def main() -> int:
             "entries to reduce noise."
         )
 
-    USAGE_PATH.write_text(
+    out_path.write_text(
         json.dumps(usage, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )

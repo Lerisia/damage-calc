@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/app_strings.dart';
 import '../../utils/champions_filter_controller.dart';
+import '../../utils/champions_format_controller.dart';
 import '../../utils/theme_controller.dart';
 import '../damage_calculator_screen.dart' show AppAboutDialog;
 import 'champions_speed_tier_sheet.dart';
@@ -83,11 +84,17 @@ class AppSettingsMenu extends StatelessWidget {
       // Listen on ChampionsFilterController so the toggle item's
       // checkmark reflects current state without each invocation
       // hand-wiring a ValueListenableBuilder.
-      listenable:
-          Listenable.merge([ChampionsFilterController.instance.championsOnly]),
+      listenable: Listenable.merge([
+        ChampionsFilterController.instance.championsOnly,
+        ChampionsFormatController.instance.format,
+      ]),
       builder: (ctx, _) {
         final champOn =
             ChampionsFilterController.instance.championsOnly.value;
+        final fmt = ChampionsFormatController.instance.format.value;
+        final fmtLabel = AppStrings.t(fmt == ChampionsFormat.doubles
+            ? 'championsFormat.doubles'
+            : 'championsFormat.singles');
         return PopupMenuButton<String>(
           icon: const Icon(Icons.settings),
           tooltip: '',
@@ -138,6 +145,20 @@ class AppSettingsMenu extends StatelessWidget {
                 Text(AppStrings.t('dex.championsOnly')),
               ]),
             ),
+            // Singles / doubles format toggle. Tapping flips between
+            // the two values — same source of truth as the rank
+            // sheet's segmented control. Shows the current value
+            // inline ("Champions format: Singles") so the user can
+            // see which side they're on without opening another UI.
+            PopupMenuItem(
+              value: 'championsFormat',
+              child: Row(children: [
+                const Icon(Icons.swap_horiz, size: 20),
+                const SizedBox(width: 8),
+                Text('${AppStrings.t('championsFormat.settingLabel')}'
+                    ': $fmtLabel'),
+              ]),
+            ),
             PopupMenuItem(
               value: 'usageRank',
               child: Row(children: [
@@ -181,6 +202,12 @@ class AppSettingsMenu extends StatelessWidget {
                 showSpriteStyleDialog(context);
               case 'championsOnly':
                 ChampionsFilterController.instance.set(!champOn);
+              case 'championsFormat':
+                ChampionsFormatController.instance.set(
+                  fmt == ChampionsFormat.doubles
+                      ? ChampionsFormat.singles
+                      : ChampionsFormat.doubles,
+                );
               case 'usageRank':
                 ChampionsUsageRankSheet.show(context);
               case 'speedTier':

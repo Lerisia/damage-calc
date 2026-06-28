@@ -4,16 +4,17 @@ name: Web deploy on data refresh
 # home server (see tools/cron_daily_refresh.sh) — champs.pokedb.tokyo
 # Cloudflare-blocks any datacenter IP that GitHub Actions would have.
 # This workflow only handles the BUILD + PUBLISH half: whenever the
-# cron pushes a new assets/champions_usage.json or assets/learnsets.json
-# to main, rebuild the Flutter web bundle and ship it to gh-pages.
-# Also runs on manual dispatch so a release can re-deploy without
-# waiting for a data refresh.
+# cron pushes a new assets/champions_usage*.json or
+# assets/learnsets.json to main, rebuild the Flutter web bundle and
+# ship it to gh-pages. Also runs on manual dispatch so a release can
+# re-deploy without waiting for a data refresh.
 
 on:
   push:
     branches: [main]
     paths:
       - 'assets/champions_usage.json'
+      - 'assets/champions_usage_doubles.json'
       - 'assets/learnsets.json'
   workflow_dispatch:
 

@@ -45,9 +45,12 @@ if ! git merge-base --is-ancestor HEAD origin/main; then
 fi
 git reset --hard origin/main
 
-# Refresh from upstream sources. Both tools mutate the asset files
+# Refresh from upstream sources. All three tools mutate asset files
 # in place. Network failures bubble up — cron mails the error.
-python3 tools/fetch_pokedb_usage.py --sleep 2
+# Singles pulls first so that the doubles run can copy X/Y/Z mega
+# entries from the just-refreshed singles file.
+python3 tools/fetch_pokedb_usage.py --rule 0 --sleep 2
+python3 tools/fetch_pokedb_usage.py --rule 1 --sleep 2
 python3 tools/apply_champout_learnsets.py
 
 if git diff --quiet assets/; then
@@ -57,7 +60,7 @@ fi
 
 # Stage only the files this pipeline owns so a stray edit in the
 # tree (somehow snuck in despite the reset above) can't tag along.
-git add assets/champions_usage.json assets/learnsets.json
+git add assets/champions_usage.json assets/champions_usage_doubles.json assets/learnsets.json
 git -c user.email="cron@home" -c user.name="home-cron" \
   commit -m "chore(data): daily auto-refresh ($(date -u +%Y-%m-%d))"
 git push origin main

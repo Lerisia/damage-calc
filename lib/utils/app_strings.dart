@@ -2211,6 +2211,23 @@ class AppStrings {
       AppLanguage.ja: '大きい絵',
     },
 
+    // === Champions format (Singles / Doubles) ===
+    'championsFormat.singles': {
+      AppLanguage.ko: '싱글',
+      AppLanguage.en: 'Singles',
+      AppLanguage.ja: 'シングル',
+    },
+    'championsFormat.doubles': {
+      AppLanguage.ko: '더블',
+      AppLanguage.en: 'Doubles',
+      AppLanguage.ja: 'ダブル',
+    },
+    'championsFormat.settingLabel': {
+      AppLanguage.ko: '챔피언스 룰',
+      AppLanguage.en: 'Champions format',
+      AppLanguage.ja: 'チャンピオンズ ルール',
+    },
+
     // === Type chart sheet ===
     'typeChart.title': {
       AppLanguage.ko: '타입 상성표',

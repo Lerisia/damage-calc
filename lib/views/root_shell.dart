@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemNavigator;
 
+import '../utils/champions_format_controller.dart';
 import '../utils/page_routes.dart';
 import 'damage_calculator_screen.dart';
 import 'dex_screen.dart';
@@ -71,6 +72,27 @@ class RootShellState extends State<RootShell> {
   };
 
   AppNavTab get currentTab => _current;
+
+  @override
+  void initState() {
+    super.initState();
+    // Flipping singles ↔ doubles changes every `championsUsageFor`
+    // result downstream. Rebuilding the whole shell is the cheap fix:
+    // build methods re-run, but the LazyIndexedStack's child State
+    // objects (DexScreen, TeamCoverage, …) persist so search queries,
+    // scroll positions, etc. survive the flip.
+    ChampionsFormatController.instance.format.addListener(_onFormatChanged);
+  }
+
+  @override
+  void dispose() {
+    ChampionsFormatController.instance.format.removeListener(_onFormatChanged);
+    super.dispose();
+  }
+
+  void _onFormatChanged() {
+    if (mounted) setState(() {});
+  }
 
   /// Set the active tab. Re-tapping the active tab pops that tab's
   /// nested stack to its root (iOS tab-bar convention) — replaces

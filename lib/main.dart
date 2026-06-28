@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show FontLoader, rootBundle;
 import 'utils/app_strings.dart';
 import 'utils/champions_filter_controller.dart';
+import 'utils/champions_format_controller.dart';
 import 'utils/coverage_display_controller.dart';
 import 'utils/move_options_controller.dart';
 import 'utils/simple_mode_controller.dart';
@@ -248,6 +249,7 @@ class _AppLoaderState extends State<_AppLoader> {
       CoverageDisplayController.instance.load(),
       MoveOptionsController.instance.load(),
       ChampionsFilterController.instance.load(),
+      ChampionsFormatController.instance.load(),
       ChampionsUsageRankSheet.load(),
       SpriteService.instance.load(),
       SpritePackManager.instance.init(),
@@ -266,7 +268,8 @@ class _AppLoaderState extends State<_AppLoader> {
       loadAllMoves(),
       loadAbilitydex(),
       loadItemdex(),
-      loadChampionsUsage(),
+      loadChampionsUsage(format: ChampionsFormat.singles),
+      loadChampionsUsage(format: ChampionsFormat.doubles),
     ]);
 
     // Build name maps from loaded data
