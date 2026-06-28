@@ -141,7 +141,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   final _defSpdSpCtl = TextEditingController(text: '0');
   final _defSpeSpCtl = TextEditingController(text: '0');
 
-  final _multCtl = TextEditingController(text: '1.0');
 
   // Per-controller focus nodes for the SP / multiplier fields. Lazy-
   // created via [_focusFor] so we don't hard-code one node per
@@ -287,7 +286,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
-                      _multCtl, _atkAbilityCtl, _atkItemCtl,
+                      _atkAbilityCtl, _atkItemCtl,
                       _defAbilityCtl, _defItemCtl]) {
       c.dispose();
     }
@@ -341,12 +340,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   int _parseSp(TextEditingController c) {
     final v = int.tryParse(c.text) ?? 0;
     return v.clamp(0, ChampionsMode.maxPerStat);
-  }
-
-  double _parseMultiplier() {
-    final v = double.tryParse(_multCtl.text);
-    if (v == null || v.isNaN || v.isInfinite) return 1.0;
-    return v.clamp(0.0, 100.0);
   }
 
   void _applyAttackerPokemon(Pokemon p) {
@@ -699,15 +692,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         children: [
           _speciesHeader(attacker: true),
           const SizedBox(height: 8),
-          // Ability | Item | Burn check (attacker only — burn halves
-          // physical Atk and is the most-toggled in-battle condition,
-          // so it's the only status promoted to the main row here).
+          // Ability | Item | Status picker — full status condition
+          // (burn / poison / paralysis / sleep / freeze) instead of
+          // the prior burn-only checkbox. Layout matches the Extended
+          // Mode StatInput so users see the same control in both modes.
           Row(children: [
             Expanded(child: _abilityField(attacker: true)),
             const SizedBox(width: 8),
             Expanded(child: _itemField(attacker: true)),
-            const SizedBox(width: 4),
-            _burnCheck(),
+            const SizedBox(width: 8),
+            Expanded(child: _statusField(attacker: true)),
           ]),
           const SizedBox(height: 6),
           // Move | Critical | × multiplier — sits above the stat row
@@ -760,9 +754,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               ),
               const SizedBox(width: 6),
               _hitCountChip(),
-              SizedBox(width: 70, child: _multiplierField()),
               const SizedBox(width: 6),
               _criticalCheck(),
+              const SizedBox(width: 4),
+              _spreadCheck(),
             ],
           ),
           // Reserve a fixed slot for move-info so picking a move doesn't
@@ -975,43 +970,53 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  Widget _burnCheck() {
-    final burn = _atk.status == StatusCondition.burn;
-    return InkWell(
-      onTap: () {
+  /// Status picker matching the Extended Mode StatInput dropdown —
+  /// sits in the ability/item row of either side. Attacker burn used to
+  /// be a single checkbox here; promoted to a full picker so Simple
+  /// Mode can express poison, paralysis, sleep, freeze too (each one
+  /// folds into the calc the same way as Extended).
+  Widget _statusField({required bool attacker}) {
+    final state = attacker ? _atk : _def;
+    return PopupMenuButton<StatusCondition>(
+      initialValue: state.status,
+      tooltip: AppStrings.t('label.status'),
+      popUpAnimationStyle:
+          const AnimationStyle(duration: Duration(milliseconds: 100)),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: AppStrings.t('label.status'),
+          isDense: true,
+        ),
+        child: Text(
+          '${KoStrings.statusIcon[state.status]!} '
+          '${state.status.localizedName}',
+          style: const TextStyle(fontSize: 15),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      itemBuilder: (_) => StatusCondition.values
+          .map((st) => PopupMenuItem(
+                value: st,
+                child: Row(
+                  children: [
+                    Text(KoStrings.statusIcon[st]!,
+                        style: const TextStyle(fontSize: 18)),
+                    const SizedBox(width: 8),
+                    Text(st.localizedName),
+                  ],
+                ),
+              ))
+          .toList(),
+      onSelected: (v) {
         setState(() {
-          _atk.status = burn ? StatusCondition.none : StatusCondition.burn;
+          if (attacker) {
+            _atk.status = v;
+          } else {
+            _def.status = v;
+          }
         });
         widget.onChanged();
       },
-      borderRadius: BorderRadius.circular(4),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 20, height: 20,
-              child: Checkbox(
-                value: burn,
-                onChanged: (v) {
-                  setState(() {
-                    _atk.status = (v ?? false)
-                        ? StatusCondition.burn
-                        : StatusCondition.none;
-                  });
-                  widget.onChanged();
-                },
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
-            const SizedBox(width: 4),
-            Text(AppStrings.t('status.burn'),
-                style: const TextStyle(fontSize: 13)),
-          ],
-        ),
-      ),
     );
   }
 
@@ -1049,6 +1054,45 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
+  /// Doubles-spread toggle. Only matters when the active move is a
+  /// spread move in a doubles scenario — the calc applies ×0.75 to
+  /// base damage (and now also to 결정력 via the same flag). Renders
+  /// regardless of move because Simple Mode users picking different
+  /// moves don't want the chip flickering in and out of layout.
+  Widget _spreadCheck() {
+    final spread = _atk.spreadTargets;
+    return InkWell(
+      onTap: () {
+        setState(() => _atk.spreadTargets = !spread);
+        widget.onChanged();
+      },
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 20, height: 20,
+              child: Checkbox(
+                value: spread,
+                onChanged: (v) {
+                  setState(() => _atk.spreadTargets = v ?? false);
+                  widget.onChanged();
+                },
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Text(AppStrings.t('damage.spread'),
+                style: const TextStyle(fontSize: 13)),
+          ],
+        ),
+      ),
+    );
+  }
+
   // ────────────────────────────────────────────────────────────────────────
   // Defender side
   // ────────────────────────────────────────────────────────────────────────
@@ -1077,6 +1121,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             Expanded(child: _abilityField(attacker: false)),
             const SizedBox(width: 8),
             Expanded(child: _itemField(attacker: false)),
+            const SizedBox(width: 8),
+            Expanded(child: _statusField(attacker: false)),
           ]),
           const SizedBox(height: 14),
           // HP on its own row — label+SP+flip on the left, residual HP
@@ -1156,7 +1202,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       myEffectiveSpeed: atkEffSpeed,
       opponentGender: _def.gender,
     );
-    final result = _applyMultiplier(baseResult, _parseMultiplier());
+    // 기타 보정 multiplier field was removed; pass 1.0 so the
+    // helper is a no-op until/unless we ever bring back a custom mod.
+    final result = _applyMultiplier(baseResult, 1.0);
     if (result.maxDamage == 0) return null;
     final defMaxHp = _defenderHp();
     if (defMaxHp <= 0) return null;
@@ -1762,28 +1810,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  Widget _multiplierField() {
-    // Persistent '×' prefix so the field always reads as a multiplier,
-    // even before anything's typed. Floating labelText mirrors the
-    // ability/item field styling so the field is self-describing.
-    return TextField(
-      controller: _multCtl,
-      focusNode: _focusFor(_multCtl),
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      style: const TextStyle(fontSize: 14),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.otherModifier'),
-        labelStyle: const TextStyle(fontSize: 12),
-        prefixText: '× ',
-        prefixStyle: const TextStyle(fontSize: 14),
-        hintText: '1.0',
-        hintStyle: const TextStyle(fontSize: 14),
-        isDense: true,
-      ),
-      onChanged: (_) => setState(() {}),
-    );
-  }
-
   Widget _moveInfoRow(MoveSlotInfo slot) {
     final type = slot.effectiveType;
     final category = slot.effectiveCategory;
@@ -2056,7 +2082,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       );
     }
 
-    final mult = _parseMultiplier();
+    // 기타 보정 field gone — fixed at 1.0 (no-op through _applyMultiplier).
+    const mult = 1.0;
 
     // Full opponent context — same inputs Normal Mode feeds the
     // calculators, so moves whose power scales with the opponent
