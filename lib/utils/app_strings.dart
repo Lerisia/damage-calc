@@ -1951,7 +1951,7 @@ class AppStrings {
       AppLanguage.ja: 'ルーム',
     },
     'toolbar.battleConditions': {
-      AppLanguage.ko: '배틀환경',
+      AppLanguage.ko: '환경',
       AppLanguage.en: 'Field',
       AppLanguage.ja: '場の状態',
     },
