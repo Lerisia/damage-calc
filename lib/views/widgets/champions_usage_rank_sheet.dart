@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
@@ -29,12 +30,36 @@ class ChampionsUsageRankSheet extends StatefulWidget {
 
   const ChampionsUsageRankSheet({super.key, this.shell});
 
-  /// Sprite-size preference, persisted across reopens within a single
-  /// session. Static field instead of SharedPreferences because (a)
-  /// the dialog is opened often, and async pref reads would flash a
-  /// small→large switch on first paint, and (b) the toggle is cheap
-  /// enough that users don't expect cross-launch persistence here.
-  static bool _bigSprites = false;
+  /// Sprite-size preference. Default `true` (BW battle sprite) per
+  /// user preference; persisted across sessions via
+  /// SharedPreferences. The static field is the in-memory cache —
+  /// reads sync, writes flush to disk on every toggle. Preload at
+  /// app startup with [load] so the first sheet open has the saved
+  /// value already in hand and doesn't flash on hydrate.
+  static bool _bigSprites = true;
+  static const String _bigSpritesKey = 'usageRankBigSprites';
+
+  /// Reads the persisted [_bigSprites] preference into memory. Call
+  /// from `main.dart`'s preload chain alongside the other
+  /// controllers' `.load()` calls.
+  static Future<void> load() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _bigSprites = prefs.getBool(_bigSpritesKey) ?? true;
+    } catch (_) {
+      // Pref-store unavailable (private mode? denied storage?) →
+      // stay on default. The toggle still works in-memory for the
+      // rest of the session.
+    }
+  }
+
+  static Future<void> _saveBigSprites(bool v) async {
+    _bigSprites = v;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_bigSpritesKey, v);
+    } catch (_) { /* swallow — in-memory toggle still works */ }
+  }
 
   static void show(BuildContext context) {
     final shell = RootShell.maybeOf(context);
@@ -159,7 +184,7 @@ class _ChampionsUsageRankSheetState extends State<ChampionsUsageRankSheet> {
               onTap: () {
                 setState(() {
                   _big = !_big;
-                  ChampionsUsageRankSheet._bigSprites = _big;
+                  ChampionsUsageRankSheet._saveBigSprites(_big);
                 });
               },
               borderRadius: BorderRadius.circular(4),
@@ -180,7 +205,7 @@ class _ChampionsUsageRankSheetState extends State<ChampionsUsageRankSheet> {
                       onChanged: (v) {
                         setState(() {
                           _big = v ?? false;
-                          ChampionsUsageRankSheet._bigSprites = _big;
+                          ChampionsUsageRankSheet._saveBigSprites(_big);
                         });
                       },
                       visualDensity: VisualDensity.compact,

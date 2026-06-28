@@ -18,6 +18,7 @@ import 'data/movedex.dart';
 import 'data/pokedex.dart';
 import 'data/champions_usage.dart';
 import 'views/root_shell.dart';
+import 'views/widgets/champions_usage_rank_sheet.dart';
 
 void main() {
   runApp(const DamageCalcApp());
@@ -247,6 +248,7 @@ class _AppLoaderState extends State<_AppLoader> {
       CoverageDisplayController.instance.load(),
       MoveOptionsController.instance.load(),
       ChampionsFilterController.instance.load(),
+      ChampionsUsageRankSheet.load(),
       SpriteService.instance.load(),
       SpritePackManager.instance.init(),
       SpriteOverrideManager.instance.init(),
