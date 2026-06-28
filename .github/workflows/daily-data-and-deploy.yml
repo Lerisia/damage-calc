@@ -1,99 +1,53 @@
-name: Daily data refresh + web deploy
+name: Web deploy on data refresh
 
-# Pulls both upstream data sources (champs.pokedb.tokyo for usage
-# stats, projectpokemon/champout for learnsets), commits directly to
-# main when either changed, then rebuilds the Flutter web bundle and
-# publishes to gh-pages. Mobile (APK / AAB / iOS) is intentionally
-# OUT of scope — those stay on the explicit release flow per user
-# direction ("앱은 업데이트 때마다 수정"); this loop is purely the
-# web-side data + bundle refresh.
-#
-# Replaces the previous `pokedb-daily.yml` + `champout-daily.yml`
-# pair, which only opened PRs and required manual merge — the
-# unmerged PRs were the reason on-site data went stale.
+# The data REFRESH itself runs from a residential-IP cron on the
+# home server (see tools/cron_daily_refresh.sh) — champs.pokedb.tokyo
+# Cloudflare-blocks any datacenter IP that GitHub Actions would have.
+# This workflow only handles the BUILD + PUBLISH half: whenever the
+# cron pushes a new assets/champions_usage.json or assets/learnsets.json
+# to main, rebuild the Flutter web bundle and ship it to gh-pages.
+# Also runs on manual dispatch so a release can re-deploy without
+# waiting for a data refresh.
 
 on:
-  schedule:
-    # 18:00 UTC = 03:00 KST. Both upstreams normally publish their
-    # daily snapshot before this so we always get the freshest one.
-    - cron: '0 18 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'assets/champions_usage.json'
+      - 'assets/learnsets.json'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: daily-data-and-deploy
-  # Queue, don't cancel — if a manual run overlaps the schedule we'd
-  # rather both complete cleanly than have one drop a half-deploy.
+  group: web-deploy
+  # Queue, don't cancel — overlapping deploys would race on gh-pages.
   cancel-in-progress: false
 
 jobs:
-  refresh-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          # Full history so the worktree-based gh-pages deploy below
-          # can branch-check the existing remote ref without a 2nd fetch.
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      # Both tools are stdlib-only (urllib / json / re) — no pip step
-      # needed. Sleeping 2 s between pokedb fetches matches what the
-      # 06-18 manual refresh used (well under rate-limit territory).
-      - name: Refresh Champions usage stats (pokedb)
-        run: python3 tools/fetch_pokedb_usage.py --sleep 2
-
-      - name: Refresh Champions learnsets (champout)
-        run: python3 tools/apply_champout_learnsets.py
-
-      - name: Commit + push to main if changed
-        id: commit
-        run: |
-          set -euo pipefail
-          if git diff --quiet assets/; then
-            echo "No upstream changes — nothing to deploy."
-            echo "changed=0" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name  "github-actions[bot]"
-          # Stage only the asset files we expect to mutate so a stray
-          # workspace edit can't slip in via a wildcard add.
-          git add assets/champions_usage.json assets/learnsets.json
-          git commit -m "chore(data): daily auto-refresh ($(date -u +%Y-%m-%d))"
-          git push origin HEAD:main
-          echo "changed=1" >> "$GITHUB_OUTPUT"
-
-      # Everything below is gated on `changed == 1` so a no-op day
-      # exits without spinning up Flutter (saves ~90 s of runner time).
-
       - name: Set up Flutter
-        if: steps.commit.outputs.changed == '1'
         uses: subosito/flutter-action@v2
         with:
           channel: stable
 
       - name: Build web (release)
-        if: steps.commit.outputs.changed == '1'
-        # `--pwa-strategy=none` because we ship a service-worker kill
-        # script (see SW killer step below), not Flutter's offline-
-        # first SW. `--base-href /` because the site serves at
-        # damage-calc.com root via CNAME, not a /damage-calc/ subpath.
+        # `--pwa-strategy=none` because we ship a SW killer (next step),
+        # not Flutter's offline-first service worker. `--base-href /`
+        # because the site serves at damage-calc.com root via CNAME.
         run: flutter build web --release --base-href "/" --pwa-strategy=none
 
       - name: Apply SW killer
-        if: steps.commit.outputs.changed == '1'
         # Replace Flutter's generated SW with one that unregisters
-        # itself and purges all caches on activate. Migrates users
-        # who still have the old offline-first SW cached from before
-        # we removed PWA support, so they never get stuck on a stale
-        # build for hours.
+        # itself and purges all caches on activate. Migrates legacy
+        # users who still have the old PWA SW cached.
         run: |
           cat > build/web/flutter_service_worker.js <<'EOF'
           self.addEventListener('install', (event) => { self.skipWaiting(); });
@@ -108,12 +62,10 @@ jobs:
           EOF
 
       - name: Publish to gh-pages
-        if: steps.commit.outputs.changed == '1'
         # Worktree-based deploy that preserves CNAME. NEVER let
         # android/ ios/ build/ pubspec.lock leak into the gh-pages
-        # branch — only the contents of build/web/ + the CNAME file
-        # belong there. Mirrors the local deploy procedure documented
-        # in `reference_deploy_procedure`.
+        # branch — only build/web/ contents + CNAME belong there.
+        # Mirrors reference_deploy_procedure.
         run: |
           set -euo pipefail
           git fetch origin gh-pages
@@ -123,14 +75,14 @@ jobs:
           cp -r build/web/. /tmp/ghpages-deploy/
           cp /tmp/CNAME-backup /tmp/ghpages-deploy/CNAME
           ( cd /tmp/ghpages-deploy
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name  "github-actions[bot]"
             git add -A
-            git commit -m "deploy: daily data refresh ($(date -u +%Y-%m-%d))"
+            git commit -m "deploy: from ${GITHUB_SHA:0:7}"
             git push origin gh-pages )
-          # Mark the workflow summary with a deploy-result line so the
-          # actions dashboard reads at-a-glance.
           {
-            echo "## ✅ Daily refresh deployed"
+            echo "## ✅ Web deployed"
             echo ""
-            echo "- Source push: \`$(git rev-parse --short HEAD)\`"
-            echo "- gh-pages push:  \`$(cd /tmp/ghpages-deploy && git rev-parse --short HEAD)\`"
+            echo "- Source: \`${GITHUB_SHA:0:7}\` (\`${GITHUB_REF_NAME}\`)"
+            echo "- gh-pages: \`$(cd /tmp/ghpages-deploy && git rev-parse --short HEAD)\`"
           } >> "$GITHUB_STEP_SUMMARY"
