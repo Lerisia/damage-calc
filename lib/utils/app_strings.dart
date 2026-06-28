@@ -2223,9 +2223,9 @@ class AppStrings {
       AppLanguage.ja: 'ダブル',
     },
     'championsFormat.settingLabel': {
-      AppLanguage.ko: '챔피언스 룰',
-      AppLanguage.en: 'Champions format',
-      AppLanguage.ja: 'チャンピオンズ ルール',
+      AppLanguage.ko: '통계',
+      AppLanguage.en: 'Stats',
+      AppLanguage.ja: '統計',
     },
 
     // === Type chart sheet ===

@@ -92,9 +92,6 @@ class AppSettingsMenu extends StatelessWidget {
         final champOn =
             ChampionsFilterController.instance.championsOnly.value;
         final fmt = ChampionsFormatController.instance.format.value;
-        final fmtLabel = AppStrings.t(fmt == ChampionsFormat.doubles
-            ? 'championsFormat.doubles'
-            : 'championsFormat.singles');
         return PopupMenuButton<String>(
           icon: const Icon(Icons.settings),
           tooltip: '',
@@ -145,18 +142,39 @@ class AppSettingsMenu extends StatelessWidget {
                 Text(AppStrings.t('dex.championsOnly')),
               ]),
             ),
-            // Singles / doubles format toggle. Tapping flips between
-            // the two values — same source of truth as the rank
-            // sheet's segmented control. Shows the current value
-            // inline ("Champions format: Singles") so the user can
-            // see which side they're on without opening another UI.
+            // Singles / doubles format selector. Split into two
+            // radio-style items so the active format is unambiguous
+            // — a single toggling item read as "label = current
+            // value" but it wasn't clear whether tapping FLIPS the
+            // value or SETS it to the displayed value. Matching the
+            // checkmark idiom already used by `championsOnly` keeps
+            // this consistent with the rest of the menu.
             PopupMenuItem(
-              value: 'championsFormat',
+              value: 'championsFormatSingles',
               child: Row(children: [
-                const Icon(Icons.swap_horiz, size: 20),
+                Icon(
+                  fmt == ChampionsFormat.singles
+                      ? Icons.check_box
+                      : Icons.check_box_outline_blank,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text('${AppStrings.t('championsFormat.settingLabel')}'
-                    ': $fmtLabel'),
+                    ': ${AppStrings.t('championsFormat.singles')}'),
+              ]),
+            ),
+            PopupMenuItem(
+              value: 'championsFormatDoubles',
+              child: Row(children: [
+                Icon(
+                  fmt == ChampionsFormat.doubles
+                      ? Icons.check_box
+                      : Icons.check_box_outline_blank,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text('${AppStrings.t('championsFormat.settingLabel')}'
+                    ': ${AppStrings.t('championsFormat.doubles')}'),
               ]),
             ),
             PopupMenuItem(
@@ -202,12 +220,12 @@ class AppSettingsMenu extends StatelessWidget {
                 showSpriteStyleDialog(context);
               case 'championsOnly':
                 ChampionsFilterController.instance.set(!champOn);
-              case 'championsFormat':
-                ChampionsFormatController.instance.set(
-                  fmt == ChampionsFormat.doubles
-                      ? ChampionsFormat.singles
-                      : ChampionsFormat.doubles,
-                );
+              case 'championsFormatSingles':
+                ChampionsFormatController.instance
+                    .set(ChampionsFormat.singles);
+              case 'championsFormatDoubles':
+                ChampionsFormatController.instance
+                    .set(ChampionsFormat.doubles);
               case 'usageRank':
                 ChampionsUsageRankSheet.show(context);
               case 'speedTier':
