@@ -1647,23 +1647,15 @@ class _TypeMatchupsSection extends StatelessWidget {
           children: [
             _SectionTitle(AppStrings.t('dex.typeMatchups')),
             const SizedBox(height: 8),
-            // FittedBox(scaleDown) only kicks in when the row's
-            // natural width would overflow the parent — phones too
-            // narrow to fit the full chart get proportional shrink,
-            // PC/tablet where the row already fits stays at native
-            // size. Earlier wrapped this in a ConstrainedBox that
-            // forced minWidth to viewport-32, which made the chart
-            // shrink even on wide screens because parent (dex column
-            // ~600px) was narrower than the forced minimum.
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.topLeft,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (final k in activeKeys) column(k, symbolic)
-                ],
-              ),
+            // Per-pokemon matchup chart renders at its natural size
+            // on every breakpoint. Mobile fit is handled by the
+            // per-chip `tightFactor` font/padding scaler above —
+            // NO FittedBox here. (Earlier I wrapped this in one
+            // mistakenly thinking the "mobile shrink to fit" ask
+            // applied here; it was scoped to TypeChartSheet only.)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [for (final k in activeKeys) column(k, symbolic)],
             ),
           ],
         );

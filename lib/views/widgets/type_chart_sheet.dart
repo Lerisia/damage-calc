@@ -46,15 +46,11 @@ class TypeChartSheet extends StatelessWidget {
     PokemonType.steel, PokemonType.fairy,
   ];
 
-  // Desktop-natural column widths; the Table actually paints at
-  // whatever width the parent gives it (responsive — see _buildTable).
+  // Natural column widths — the Table always renders at these sizes;
+  // FittedBox(scaleDown) handles narrow viewports by scaling the
+  // whole matrix proportionally.
   static const _labelColMax = 52.0;
   static const _cellColMax = 36.0;
-  // Lower bound: a 14-px cell still leaves room for a 1-char
-  // multiplier glyph (½/2/0) at ~9 pt without clipping. Anything
-  // tighter and the matrix becomes unreadable; horizontal scroll
-  // would be the lesser evil.
-  static const _cellColMin = 14.0;
 
   @override
   Widget build(BuildContext context) {
@@ -93,25 +89,21 @@ class TypeChartSheet extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               padding: const EdgeInsets.all(8),
-              child: LayoutBuilder(
-                builder: (ctx, c) {
-                  // Hand the full available width to the Table and
-                  // size cells against it. Below the readable floor
-                  // we let the Table overflow into a horizontal
-                  // scroll instead of squeezing glyphs.
-                  final fitCellCol =
-                      (c.maxWidth - _labelColMax) / _types.length;
-                  if (fitCellCol >= _cellColMin) {
-                    final cellCol = fitCellCol.clamp(_cellColMin, _cellColMax);
-                    return _buildTable(scheme,
-                        labelCol: _labelColMax, cellCol: cellCol);
-                  }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: _buildTable(scheme,
-                        labelCol: _labelColMax, cellCol: _cellColMin),
-                  );
-                },
+              // Image-style scale-down on mobile: build the table at
+              // its native column sizes (the wide-screen layout) and
+              // let FittedBox shrink the whole matrix proportionally
+              // when the dialog is narrower than ~720 px. Cleaner
+              // than per-cell tightening — fonts/borders/cell aspect
+              // ratios all shrink together so the chart reads as one
+              // image at any width.
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.topCenter,
+                child: _buildTable(
+                  scheme,
+                  labelCol: _labelColMax,
+                  cellCol: _cellColMax,
+                ),
               ),
             ),
           ),
