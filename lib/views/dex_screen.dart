@@ -1642,34 +1642,27 @@ class _TypeMatchupsSection extends StatelessWidget {
       valueListenable: CoverageDisplayController.instance.mode,
       builder: (context, mode, _) {
         final symbolic = mode == CoverageDisplayMode.symbolic;
-        // Wrap the chart Row in a SingleChildScrollView so that even
-        // if the bucket count + chips exceed the viewport width on a
-        // phone, the user can swipe sideways instead of overflowing —
-        // the column layout itself stays consistent across breakpoints.
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _SectionTitle(AppStrings.t('dex.typeMatchups')),
             const SizedBox(height: 8),
-            // FittedBox(scaleDown) shrinks the whole chart proportionally
-            // on phones too narrow to fit it at native size. Pairs with
-            // the existing per-chip `tightFactor` font scaler — small
-            // overrun gets absorbed by tightFactor, anything beyond
-            // that falls through to FittedBox's image-style scale.
+            // FittedBox(scaleDown) only kicks in when the row's
+            // natural width would overflow the parent — phones too
+            // narrow to fit the full chart get proportional shrink,
+            // PC/tablet where the row already fits stays at native
+            // size. Earlier wrapped this in a ConstrainedBox that
+            // forced minWidth to viewport-32, which made the chart
+            // shrink even on wide screens because parent (dex column
+            // ~600px) was narrower than the forced minimum.
             FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.topLeft,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: MediaQuery.of(context).size.width
-                      - 32,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    for (final k in activeKeys) column(k, symbolic)
-                  ],
-                ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (final k in activeKeys) column(k, symbolic)
+                ],
               ),
             ),
           ],
