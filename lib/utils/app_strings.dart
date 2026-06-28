@@ -2184,6 +2184,28 @@ class AppStrings {
       AppLanguage.ja: 'データ読み込み中です。',
     },
 
+    // === Champions usage-rank sheet ===
+    'usageRank.title': {
+      AppLanguage.ko: '챔피언스 채용 순위',
+      AppLanguage.en: 'Champions Usage Ranking',
+      AppLanguage.ja: 'チャンピオンズ 採用ランキング',
+    },
+    'usageRank.menuLabel': {
+      AppLanguage.ko: '순위표',
+      AppLanguage.en: 'Usage rank',
+      AppLanguage.ja: '採用ランキング',
+    },
+    'usageRank.updatedAt': {
+      AppLanguage.ko: '갱신: {date}',
+      AppLanguage.en: 'Updated: {date}',
+      AppLanguage.ja: '更新: {date}',
+    },
+    'usageRank.empty': {
+      AppLanguage.ko: '순위 데이터가 아직 로드되지 않았습니다.',
+      AppLanguage.en: 'Ranking data is still loading.',
+      AppLanguage.ja: 'ランキングデータ読み込み中です。',
+    },
+
     // === Type chart sheet ===
     'typeChart.title': {
       AppLanguage.ko: '타입 상성표',

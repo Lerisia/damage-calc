@@ -39,6 +39,11 @@ class ChampionsUsageEntry {
   /// assigning to [BattlePokemonState.ev].
   final Stats? defaultSp;
 
+  /// Singles in-game usage rank (1 = most-used). `null` for species
+  /// outside the ranked roster. Used by the dex's usage-ranking
+  /// quick-reference sheet — never affects damage or speed math.
+  final int? usageRank;
+
   const ChampionsUsageEntry({
     this.abilities = const [],
     this.items = const [],
@@ -47,6 +52,7 @@ class ChampionsUsageEntry {
     this.natures = const [],
     this.teras = const [],
     this.defaultSp,
+    this.usageRank,
   });
 
   factory ChampionsUsageEntry.fromJson(Map<String, dynamic> json) {
@@ -64,6 +70,7 @@ class ChampionsUsageEntry {
       natures: list('natures'),
       teras: list('teras'),
       defaultSp: _parseSp(json['defaultSp']),
+      usageRank: (json['usageRank'] as num?)?.toInt(),
     );
   }
 

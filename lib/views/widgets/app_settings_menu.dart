@@ -5,6 +5,7 @@ import '../../utils/champions_filter_controller.dart';
 import '../../utils/theme_controller.dart';
 import '../damage_calculator_screen.dart' show AppAboutDialog;
 import 'champions_speed_tier_sheet.dart';
+import 'champions_usage_rank_sheet.dart';
 import 'sprite_style_dialog.dart';
 import 'type_chart_sheet.dart';
 
@@ -138,6 +139,14 @@ class AppSettingsMenu extends StatelessWidget {
               ]),
             ),
             PopupMenuItem(
+              value: 'usageRank',
+              child: Row(children: [
+                const Icon(Icons.leaderboard, size: 20),
+                const SizedBox(width: 8),
+                Text(AppStrings.t('usageRank.menuLabel')),
+              ]),
+            ),
+            PopupMenuItem(
               value: 'speedTier',
               child: Row(children: [
                 const Icon(Icons.speed, size: 20),
@@ -172,6 +181,8 @@ class AppSettingsMenu extends StatelessWidget {
                 showSpriteStyleDialog(context);
               case 'championsOnly':
                 ChampionsFilterController.instance.set(!champOn);
+              case 'usageRank':
+                ChampionsUsageRankSheet.show(context);
               case 'speedTier':
                 ChampionsSpeedTierSheet.show(context);
               case 'typeChart':

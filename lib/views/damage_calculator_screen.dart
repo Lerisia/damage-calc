@@ -40,6 +40,7 @@ import '../data/itemdex.dart';
 import '../utils/url_navigator_stub.dart'
     if (dart.library.html) '../utils/url_navigator_web.dart' as nav;
 import 'widgets/champions_speed_tier_sheet.dart';
+import 'widgets/champions_usage_rank_sheet.dart';
 import 'widgets/type_chart_sheet.dart';
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/modifier_note.dart';
@@ -1321,6 +1322,15 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
               // Wide-only quick-reference toolbar buttons. Narrow
               // layouts reach the same sheets via AppSettingsMenu's
               // entries below.
+              TextButton.icon(
+                onPressed: () => ChampionsUsageRankSheet.show(context),
+                icon: const Icon(Icons.leaderboard, size: 20),
+                label: Text(
+                  AppStrings.t('usageRank.menuLabel'),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ),
               TextButton.icon(
                 onPressed: () => ChampionsSpeedTierSheet.show(context),
                 icon: const Icon(Icons.speed, size: 20),

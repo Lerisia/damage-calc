@@ -28,6 +28,7 @@ import '../utils/korean_search.dart';
 import '../utils/party_image_save.dart';
 import '../utils/sample_save_flow.dart';
 import 'widgets/ev_sp_cell.dart';
+import 'widgets/matchup_badge.dart';
 import 'widgets/trainer_card_dialog.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
@@ -37,6 +38,7 @@ import 'root_shell.dart';
 import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/champions_speed_tier_sheet.dart';
+import 'widgets/champions_usage_rank_sheet.dart';
 import 'widgets/type_chart_sheet.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/stat_input.dart' show ClampingFormatter, SelectAllField;
@@ -1555,6 +1557,11 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
             // entry below — sliced this way so narrow's tight app bar
             // doesn't pick up another button it can't comfortably fit.
             if (isWide) ...[
+              TextButton.icon(
+                onPressed: () => ChampionsUsageRankSheet.show(context),
+                icon: const Icon(Icons.leaderboard, size: 20),
+                label: Text(AppStrings.t('usageRank.menuLabel')),
+              ),
               TextButton.icon(
                 onPressed: () => ChampionsSpeedTierSheet.show(context),
                 icon: const Icon(Icons.speed, size: 20),
@@ -3686,54 +3693,13 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
-  /// One matrix cell. Common matchups (2×, ½) read as colored text
-  /// only so the chart doesn't go busy. The three decisive tiers —
-  /// 4× quad-weak, ¼ quad-resist, and 무 immune — get a small filled
-  /// pill behind the glyph so they pop on a column scan. The pill
-  /// fits inside the existing 22 px row (no height change); it's just
-  /// a contained badge, not a full-cell tint. Symbol mode swaps the
-  /// glyphs to the standard Pokemon-game set (◎ / ○ / △ / ▲ / ✕)
-  /// while keeping the same colors and pills.
-  ///   numeric:        symbolic:
-  ///   - 4×  "4×"      ◎     — light red pill, dark red text
-  ///   - 2×  "2×"      ○     — red text only
-  ///   - 1×  (blank)   (blank)
-  ///   - ½   "½"       △     — blue text only
-  ///   - ¼   "¼"       ▲     — light blue pill, dark blue text
-  ///   - 무  "무"      ✕     — light gray pill, gray text
+  /// One matrix cell — thin wrapper around [MatchupBadge] (shared
+  /// with the dex's per-Pokemon matchup chart). The badge owns the
+  /// label/colour/pill mapping; this wrapper just sizes the cell to
+  /// the matrix row height and shrinks the badge if it overflows the
+  /// column. See [MatchupBadge] for the full visual spec.
   Widget _multCell(CoverageCell cell, ColorScheme scheme) {
-    String label;
-    Color fg;
-    Color? pillBg;
-    FontWeight weight = FontWeight.w800;
-    if (cell.isImmune) {
-      label = symbolic ? '✕' : AppStrings.t('team.matrix.immune');
-      fg = scheme.onSurface.withValues(alpha: 0.55);
-      pillBg = scheme.onSurface.withValues(alpha: 0.10);
-      weight = FontWeight.w700;
-    } else {
-      final m = cell.multiplier;
-      if (m == 4) {
-        label = symbolic ? '◎' : '4×';
-        fg = Colors.red.shade900;
-        pillBg = Colors.red.shade100;
-        weight = FontWeight.w900;
-      } else if (m == 2) {
-        label = symbolic ? '○' : '2×';
-        fg = Colors.red.shade600;
-      } else if (m == 0.5) {
-        label = symbolic ? '△' : '½';
-        fg = Colors.blue.shade600;
-      } else if (m == 0.25) {
-        label = symbolic ? '▲' : '¼';
-        fg = Colors.blue.shade900;
-        pillBg = Colors.blue.shade100;
-        weight = FontWeight.w900;
-      } else {
-        label = '';
-        fg = scheme.onSurface;
-      }
-    }
+    final multiplier = cell.isImmune ? 0.0 : cell.multiplier;
     // Per-label fontSize so the column doesn't read as lopsided.
     // Precomposed fractions (½ ¼) and the symbol-mode glyphs render
     // at sub-digit visual size in most fonts, while digit-glyph
@@ -3741,31 +3707,19 @@ class _CoverageMatrix extends StatelessWidget {
     // out full-height. Trim the full-height ones a touch so the row
     // feels balanced. FittedBox(scaleDown) still kicks in for narrow
     // columns regardless.
-    final isFullHeight =
-        label == '4×' || label == '2×' || label == AppStrings.t('team.matrix.immune');
+    final isFullHeight = !symbolic
+        && (multiplier == 4 || multiplier == 2 || cell.isImmune);
     final fontSize = isFullHeight ? 15.0 : 17.0;
-    final text = Text(
-      label,
-      maxLines: 1,
-      softWrap: false,
-      style: TextStyle(
-          fontSize: fontSize, fontWeight: weight, color: fg, height: 1.0),
-    );
     return Container(
       height: 28,
       alignment: Alignment.center,
       child: FittedBox(
         fit: BoxFit.scaleDown,
-        child: pillBg == null
-            ? text
-            : Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                decoration: BoxDecoration(
-                  color: pillBg,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: text,
-              ),
+        child: MatchupBadge(
+          multiplier: multiplier,
+          symbolic: symbolic,
+          fontSize: fontSize,
+        ),
       ),
     );
   }

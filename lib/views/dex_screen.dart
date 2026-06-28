@@ -19,6 +19,7 @@ import '../models/weather.dart';
 import '../utils/app_strings.dart';
 import '../utils/battle_facade.dart';
 import '../utils/champions_filter_controller.dart';
+import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/page_routes.dart';
 import '../utils/localization.dart';
@@ -30,6 +31,7 @@ import 'root_shell.dart';
 import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
 import 'widgets/dex_search_filter_dialog.dart';
+import 'widgets/matchup_badge.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_filter_dialog.dart';
@@ -1610,17 +1612,22 @@ class _TypeMatchupsSection extends StatelessWidget {
                   fontWeight: FontWeight.bold)),
         );
 
-    Widget column(double key) {
+    Widget column(double key, bool symbolic) {
       final types = buckets[key]!;
       return Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(_multLabel(key),
-                style: TextStyle(
-                    fontSize: 12,
-                    color: _multColor(key),
-                    fontWeight: FontWeight.w700)),
+            // Shared label/colour/pill spec with the team-coverage
+            // matrix — same widget, same palette, optional ◎/○/△/▲/✕
+            // symbols when the user opted into symbolic mode in the
+            // team tab. 16pt > the matrix's 15-17 because here the
+            // badge is a column heading, not a packed cell.
+            MatchupBadge(
+              multiplier: key,
+              symbolic: symbolic,
+              fontSize: 16,
+            ),
             const SizedBox(height: 6),
             for (final t in types) ...[
               chip(t),
@@ -1631,34 +1638,44 @@ class _TypeMatchupsSection extends StatelessWidget {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _SectionTitle(AppStrings.t('dex.typeMatchups')),
-        const SizedBox(height: 8),
-        Row(
+    return ValueListenableBuilder<CoverageDisplayMode>(
+      valueListenable: CoverageDisplayController.instance.mode,
+      builder: (context, mode, _) {
+        final symbolic = mode == CoverageDisplayMode.symbolic;
+        // Wrap the chart Row in a SingleChildScrollView so that even
+        // if the bucket count + chips exceed the viewport width on a
+        // phone, the user can swipe sideways instead of overflowing —
+        // the column layout itself stays consistent across breakpoints.
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [for (final k in activeKeys) column(k)],
-        ),
-      ],
+          children: [
+            _SectionTitle(AppStrings.t('dex.typeMatchups')),
+            const SizedBox(height: 8),
+            // FittedBox(scaleDown) shrinks the whole chart proportionally
+            // on phones too narrow to fit it at native size. Pairs with
+            // the existing per-chip `tightFactor` font scaler — small
+            // overrun gets absorbed by tightFactor, anything beyond
+            // that falls through to FittedBox's image-style scale.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topLeft,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width
+                      - 32,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (final k in activeKeys) column(k, symbolic)
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
-  }
-
-  static String _multLabel(double mult) {
-    if (mult == 4.0) return '×4';
-    if (mult == 2.0) return '×2';
-    if (mult == 1.0) return '×1';
-    if (mult == 0.5) return '×½';
-    if (mult == 0.25) return '×¼';
-    if (mult == 0.0) return '×0';
-    return '×$mult';
-  }
-
-  static Color _multColor(double mult) {
-    if (mult >= 2.0) return Colors.red;
-    if (mult > 0 && mult < 1) return Colors.green;
-    if (mult == 0) return Colors.grey;
-    return Colors.black;
   }
 }
 
