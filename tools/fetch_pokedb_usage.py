@@ -88,7 +88,23 @@ STAT_LETTER_TO_KEY = {"H": "hp", "A": "atk", "B": "def", "C": "spa", "D": "spd",
 # ─── HTTP helpers ─────────────────────────────────────────────────────
 
 def http_get(url: str, timeout: int = 15) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    # pokedb gates by Cloudflare; datacenter UAs (GitHub Actions, etc.)
+    # get an instant 403 with just the bare UA header. The fuller set
+    # below — language, accept, referer — is what an actual browser
+    # sends and is enough to pass under bot-fight-mode-off. Keep the
+    # values consistent (ja-JP since the site is Japanese-only) so
+    # they don't read as a header soup synthesised at random.
+    req = urllib.request.Request(url, headers={
+        "User-Agent": UA,
+        "Accept": ("text/html,application/xhtml+xml,application/xml;"
+                   "q=0.9,image/avif,image/webp,*/*;q=0.8"),
+        "Accept-Language": "ja-JP,ja;q=0.9,en-US;q=0.6,en;q=0.5",
+        "Accept-Encoding": "identity",
+        "Referer": "https://champs.pokedb.tokyo/",
+        "DNT": "1",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
+    })
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.read()
 
