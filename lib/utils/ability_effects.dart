@@ -554,11 +554,15 @@ double getDefensiveAbilityDamageMultiplier(String abilityName, {
     case 'Ice Scales':
       return move.category == MoveCategory.special ? 0.5 : 1.0;
     case 'Fluffy':
-      // Fire moves deal double damage
-      if (moveType == PokemonType.fire) return 2.0;
-      // Contact moves deal half damage
-      if (move.hasTag(MoveTags.contact)) return 0.5;
-      return 1.0;
+      // Fire ×2 and contact ×0.5 apply INDEPENDENTLY — a Fire-type
+      // contact move (Fire Punch, Flare Blitz, Flame Charge, …)
+      // lands the two modifiers together and comes out at ×1.0.
+      // The previous early-return on Fire skipped the contact halving
+      // and left those moves at ×2.
+      double m = 1.0;
+      if (moveType == PokemonType.fire) m *= 2.0;
+      if (move.hasTag(MoveTags.contact)) m *= 0.5;
+      return m;
     case 'Punk Rock':
       return move.hasTag(MoveTags.sound) ? 0.5 : 1.0;
     default:

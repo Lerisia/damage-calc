@@ -352,6 +352,35 @@ void main() {
       expect(mult, equals(0.5));
     });
 
+    test('Fluffy doubles Fire damage (non-contact special)', () {
+      // Flamethrower — Fire, non-contact → straight ×2.
+      final mult = getDefensiveAbilityDamageMultiplier(
+          'Fluffy', move: specialFire);
+      expect(mult, equals(2.0));
+    });
+
+    test('Fluffy cancels on Fire-type contact moves (×2 × ×0.5 = ×1)', () {
+      // Fire Punch is Fire-type AND makes contact — the two Fluffy
+      // modifiers apply independently and cancel to ×1.0. This is
+      // the case the prior early-return-on-Fire logic mishandled.
+      const firePunch = Move(
+        name: 'Fire Punch', nameKo: '불꽃펀치', nameJa: 'ほのおのパンチ',
+        type: PokemonType.fire, category: MoveCategory.physical,
+        power: 75, accuracy: 100, pp: 15,
+        tags: [MoveTags.punch, MoveTags.contact],
+      );
+      final mult = getDefensiveAbilityDamageMultiplier(
+          'Fluffy', move: firePunch);
+      expect(mult, equals(1.0));
+    });
+
+    test('Fluffy is a no-op on non-Fire non-contact moves', () {
+      // Earthquake — Ground, non-contact → ×1.0.
+      final mult = getDefensiveAbilityDamageMultiplier(
+          'Fluffy', move: physicalGround);
+      expect(mult, equals(1.0));
+    });
+
     test('Marvel Scale boosts defense when statused', () {
       expect(getDefensiveAbilityEffect('Marvel Scale', status: StatusCondition.burn).defModifier, equals(1.5));
       expect(getDefensiveAbilityEffect('Marvel Scale', status: StatusCondition.none).defModifier, equals(1.0));
