@@ -237,6 +237,40 @@ void main() {
       expect(matchesDexFilter(charizard, f, movesByPokemon: empty), true);
     });
 
+    test('neutral bucket — matches when the matchup is exactly 1×', () {
+      // Charizard (Fire/Flying) takes Fighting at 0.5× — NOT neutral.
+      const notNeutral = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.fighting, relation: DexDefenseRelation.neutral),
+      ]);
+      expect(
+          matchesDexFilter(charizard, notNeutral, movesByPokemon: empty), false);
+      // Charizard takes Normal at 1× (Normal is neutral vs Fire and Flying).
+      const neutralHit = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.normal, relation: DexDefenseRelation.neutral),
+      ]);
+      expect(
+          matchesDexFilter(charizard, neutralHit, movesByPokemon: empty), true);
+    });
+
+    test('neutral bucket — excludes strict weakness and immunity', () {
+      // Charizard is 4× weak to Rock → NOT neutral.
+      const rockFilter = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.rock, relation: DexDefenseRelation.neutral),
+      ]);
+      expect(
+          matchesDexFilter(charizard, rockFilter, movesByPokemon: empty), false);
+      // Charizard is immune (0×) to Ground → NOT neutral.
+      const groundFilter = DexSearchFilter(defenses: [
+        DexDefenseEntry(
+            type: PokemonType.ground, relation: DexDefenseRelation.neutral),
+      ]);
+      expect(matchesDexFilter(charizard, groundFilter, movesByPokemon: empty),
+          false);
+    });
+
     test('ability expansion — resistance includes ability-driven halving', () {
       // Snorlax Normal + Thick Fat resists Fire (0.5×) even though
       // pure Normal/null is neutral to Fire (1×).

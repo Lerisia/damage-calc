@@ -11,10 +11,15 @@ import '../../utils/korean_search.dart';
 import '../../utils/localization.dart';
 import 'typeahead_helpers.dart';
 
-/// Defensive-relation toggle used by the "약점/내성/면역" filter row.
+/// Defensive-relation toggle used by the "약점/등배/내성/면역" filter row.
 /// `immunity` is strictly type-chart 0× (Normal vs Ghost, etc.) — it is
 /// NOT a subset of `resistance` so users can filter for "immune" alone.
-enum DexDefenseRelation { weakness, resistance, immunity }
+/// `neutral` is strict 1× (also NOT a subset of resistance) so users
+/// can find Pokémon that take exactly neutral damage from a type.
+///
+/// Enum order matches the UI segmented control (약점 → 등배 → 내성
+/// → 면역, damage taken from high to low).
+enum DexDefenseRelation { weakness, neutral, resistance, immunity }
 
 /// One row of the "타입 약점 / 내성" filter — a (type, relation) pair.
 /// Multiple entries on the same filter are ANDed.
@@ -209,7 +214,13 @@ bool matchesDexFilter(
       switch (d.relation) {
         case DexDefenseRelation.weakness:
           return mult > 1.0;
+        case DexDefenseRelation.neutral:
+          return mult == 1.0;
         case DexDefenseRelation.resistance:
+          // Preserves existing behavior — 내성 subsumes 면역 so
+          // "Ghost resistance" still finds Dark types. Users who
+          // want strict "not immune, but resistant" combine 내성
+          // with a NOT filter — beyond this dialog's scope for now.
           return mult < 1.0;
         case DexDefenseRelation.immunity:
           return mult == 0.0;
@@ -824,6 +835,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
           selected: DexDefenseRelation.values.indexOf(entry.relation),
           labels: [
             AppStrings.t('dex.advWeakness'),
+            AppStrings.t('dex.advNeutral'),
             AppStrings.t('dex.advResistance'),
             AppStrings.t('dex.advImmunity'),
           ],

@@ -1502,6 +1502,11 @@ class AppStrings {
       AppLanguage.en: 'Weak to',
       AppLanguage.ja: '弱点',
     },
+    'dex.advNeutral': {
+      AppLanguage.ko: '등배',
+      AppLanguage.en: 'Neutral',
+      AppLanguage.ja: '等倍',
+    },
     'dex.advResistance': {
       AppLanguage.ko: '내성',
       AppLanguage.en: 'Resists',
