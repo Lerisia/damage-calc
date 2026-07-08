@@ -767,11 +767,17 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               const SizedBox(width: 6),
               _hitCountChip(),
               const SizedBox(width: 6),
+              // Boxed to signal it's a "free-form" numeric input, not
+              // a checkbox or one-tap chip like 급소/분산 next to it.
+              // The border makes the field pop even when empty (its
+              // hint text is a low-contrast '1.0'), so the user sees
+              // the modifier slot at a glance instead of mistaking it
+              // for whitespace between the crit/spread checks.
+              SizedBox(width: 70, child: _multiplierField()),
+              const SizedBox(width: 6),
               _criticalCheck(),
               const SizedBox(width: 4),
               _spreadCheck(),
-              const SizedBox(width: 6),
-              SizedBox(width: 70, child: _multiplierField()),
             ],
           ),
           // Reserve a fixed slot for move-info so picking a move doesn't
@@ -1116,6 +1122,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// before anything's typed; floating `기타 보정` label mirrors
   /// the ability/item/status fields above so the widget is
   /// self-describing at a glance.
+  ///
+  /// Rendered with a full outline border rather than the default
+  /// underline so it stands out against the 급소/분산 checkboxes
+  /// next to it — this is the row's only numeric input and the
+  /// user asked for it to visually flag itself.
   Widget _multiplierField() {
     return TextField(
       controller: _multCtl,
@@ -1124,12 +1135,15 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
         labelText: AppStrings.t('label.otherModifier'),
-        labelStyle: const TextStyle(fontSize: 12),
+        labelStyle: const TextStyle(fontSize: 11),
         prefixText: '× ',
         prefixStyle: const TextStyle(fontSize: 14),
         hintText: '1.0',
         hintStyle: const TextStyle(fontSize: 14),
         isDense: true,
+        border: const OutlineInputBorder(),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
       ),
       onChanged: (_) => setState(() {}),
     );
