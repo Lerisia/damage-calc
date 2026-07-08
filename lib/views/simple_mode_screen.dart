@@ -141,6 +141,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   final _defSpdSpCtl = TextEditingController(text: '0');
   final _defSpeSpCtl = TextEditingController(text: '0');
 
+  final _multCtl = TextEditingController(text: '1.0');
 
   // Per-controller focus nodes for the SP / multiplier fields. Lazy-
   // created via [_focusFor] so we don't hard-code one node per
@@ -286,7 +287,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
-                      _atkAbilityCtl, _atkItemCtl,
+                      _multCtl, _atkAbilityCtl, _atkItemCtl,
                       _defAbilityCtl, _defItemCtl]) {
       c.dispose();
     }
@@ -340,6 +341,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   int _parseSp(TextEditingController c) {
     final v = int.tryParse(c.text) ?? 0;
     return v.clamp(0, ChampionsMode.maxPerStat);
+  }
+
+  double _parseMultiplier() {
+    final v = double.tryParse(_multCtl.text);
+    if (v == null || v.isNaN || v.isInfinite) return 1.0;
+    return v.clamp(0.0, 100.0);
   }
 
   void _applyAttackerPokemon(Pokemon p) {
@@ -763,6 +770,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               _criticalCheck(),
               const SizedBox(width: 4),
               _spreadCheck(),
+              const SizedBox(width: 6),
+              SizedBox(width: 70, child: _multiplierField()),
             ],
           ),
           // Reserve a fixed slot for move-info so picking a move doesn't
@@ -1101,6 +1110,31 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
+  /// Free-form damage multiplier (Helping Hand, Charge, Metronome
+  /// item stacks — anything the calc doesn't model). Persistent
+  /// `× ` prefix so the field always reads as a multiplier even
+  /// before anything's typed; floating `기타 보정` label mirrors
+  /// the ability/item/status fields above so the widget is
+  /// self-describing at a glance.
+  Widget _multiplierField() {
+    return TextField(
+      controller: _multCtl,
+      focusNode: _focusFor(_multCtl),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      style: const TextStyle(fontSize: 14),
+      decoration: InputDecoration(
+        labelText: AppStrings.t('label.otherModifier'),
+        labelStyle: const TextStyle(fontSize: 12),
+        prefixText: '× ',
+        prefixStyle: const TextStyle(fontSize: 14),
+        hintText: '1.0',
+        hintStyle: const TextStyle(fontSize: 14),
+        isDense: true,
+      ),
+      onChanged: (_) => setState(() {}),
+    );
+  }
+
   // ────────────────────────────────────────────────────────────────────────
   // Defender side
   // ────────────────────────────────────────────────────────────────────────
@@ -1210,9 +1244,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       myEffectiveSpeed: atkEffSpeed,
       opponentGender: _def.gender,
     );
-    // 기타 보정 multiplier field was removed; pass 1.0 so the
-    // helper is a no-op until/unless we ever bring back a custom mod.
-    final result = _applyMultiplier(baseResult, 1.0);
+    // Apply the user's 기타 보정 (Helping Hand / Charge / anything
+    // the calc doesn't model). Feeds both this damage-range readout
+    // and the main result panel below via the same _applyMultiplier
+    // path so they always agree.
+    final result = _applyMultiplier(baseResult, _parseMultiplier());
     if (result.maxDamage == 0) return null;
     final defMaxHp = _defenderHp();
     if (defMaxHp <= 0) return null;
@@ -2090,8 +2126,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       );
     }
 
-    // 기타 보정 field gone — fixed at 1.0 (no-op through _applyMultiplier).
-    const mult = 1.0;
+    // 기타 보정 field — feeds both the damage panel rolls and the
+    // displayed 결정력 so both numbers stay consistent with the
+    // user's typed-in adjustment.
+    final mult = _parseMultiplier();
 
     // Full opponent context — same inputs Normal Mode feeds the
     // calculators, so moves whose power scales with the opponent
