@@ -1143,33 +1143,28 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   /// Free-form damage multiplier (Helping Hand, Charge, Metronome
-  /// item stacks — anything the calc doesn't model). Persistent
-  /// `× ` prefix so the field always reads as a multiplier even
-  /// before anything's typed; floating `기타 보정` label mirrors
-  /// the ability/item/status fields above so the widget is
-  /// self-describing at a glance.
+  /// item stacks — anything the calc doesn't model).
   ///
-  /// Rendered with a full outline border rather than the default
-  /// underline so it stands out against the 급소/분산 checkboxes
-  /// next to it — this is the row's only numeric input and the
-  /// user asked for it to visually flag itself.
+  /// No floating label — the `× ` prefix + '1.0' hint on the empty
+  /// state already convey the field's purpose, and the label was
+  /// making the row visibly taller than the neighbouring underline
+  /// fields. Keeping just the outline box (per user ask: 네모박스는
+  /// 유지, 위아래 압박은 제거).
   Widget _multiplierField() {
     return TextField(
       controller: _multCtl,
       focusNode: _focusFor(_multCtl),
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       style: const TextStyle(fontSize: 14),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.otherModifier'),
-        labelStyle: const TextStyle(fontSize: 11),
+      textAlignVertical: TextAlignVertical.center,
+      decoration: const InputDecoration(
         prefixText: '× ',
-        prefixStyle: const TextStyle(fontSize: 14),
+        prefixStyle: TextStyle(fontSize: 14),
         hintText: '1.0',
-        hintStyle: const TextStyle(fontSize: 14),
+        hintStyle: TextStyle(fontSize: 14),
         isDense: true,
-        border: const OutlineInputBorder(),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+        border: OutlineInputBorder(),
+        contentPadding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       ),
       onChanged: (_) => setState(() {}),
     );
