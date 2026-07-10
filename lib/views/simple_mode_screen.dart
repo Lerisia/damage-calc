@@ -143,6 +143,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   final _multCtl = TextEditingController(text: '1.0');
 
+  // True while the attacker's move field has focus (user is typing to
+  // search). Drives the hit-count chip's collapse — that chip only
+  // renders for multi-hit / stacking-power moves, and when a search
+  // is in progress it eats the width the user needs to see suggestions.
+  bool _atkMoveSearching = false;
+
   // Per-controller focus nodes for the SP / multiplier fields. Lazy-
   // created via [_focusFor] so we don't hard-code one node per
   // controller; the listener selects the controller's full text on
@@ -739,6 +745,15 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                   // of the global toggle — its layout has no slot for
                   // them and they'd just clutter the search.
                   allowStatus: false,
+                  // Collapse the hit-count chip while the field is
+                  // focused so the ×N pill doesn't eat search width
+                  // on multi-hit moves like Rock Blast / Bullet Seed.
+                  // Setting this every focus in/out is cheap and
+                  // scoped to the attacker row only.
+                  onFocusChanged: (hasFocus) {
+                    if (_atkMoveSearching == hasFocus) return;
+                    setState(() => _atkMoveSearching = hasFocus);
+                  },
                   onSelected: (m) {
                     setState(() {
                       _atk.moves[0] = m;
@@ -902,6 +917,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// [BattlePokemonState.powerOverrides] so the calc picks up the
   /// boosted power without having to teach transformMove a new case.
   Widget _hitCountChip() {
+    // Hide while the move field is focused so the typeahead search
+    // slot gets full width. The chip reappears the moment the user
+    // picks a suggestion / taps out. Without this, multi-hit moves
+    // (Rock Blast / Bullet Seed / …) permanently reserved a ~40px
+    // slice that the search visibly needed on narrow phones.
+    if (_atkMoveSearching) return const SizedBox.shrink();
     final move = _atk.moves[0];
     if (move == null) return const SizedBox.shrink();
     final stacking = isStackingPower(move);
