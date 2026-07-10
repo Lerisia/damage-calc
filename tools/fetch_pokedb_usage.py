@@ -403,8 +403,22 @@ def load_mega_index(repo_root: Path) -> dict[str, dict]:
     return out
 
 
+# Mega forms whose competitive base ISN'T the plain "Mega X" → "X"
+# stripping. Champions doesn't Mega-evolve regular Floette — only
+# "Floette (Eternal Flower)" carries the mega-worthy stat spread and
+# signature Light of Ruin. Keep this map narrow; new entries here need
+# a real in-game reason, not just naming symmetry.
+MEGA_BASE_OVERRIDES: dict[str, str] = {
+    "Mega Floette": "Floette (Eternal Flower)",
+}
+
+
 def base_name_for(mega_name: str) -> str:
-    """Strip the 'Mega ' prefix to get the base species name."""
+    """The champions_usage key whose data a single-Mega should mirror.
+    Defaults to stripping the 'Mega ' prefix; overrides in
+    [MEGA_BASE_OVERRIDES] win when present."""
+    if mega_name in MEGA_BASE_OVERRIDES:
+        return MEGA_BASE_OVERRIDES[mega_name]
     return mega_name[5:].strip() if mega_name.startswith("Mega ") else mega_name
 
 
