@@ -788,7 +788,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
               // hint text is a low-contrast '1.0'), so the user sees
               // the modifier slot at a glance instead of mistaking it
               // for whitespace between the crit/spread checks.
-              SizedBox(width: 70, child: _multiplierField()),
+              // Collapse the mult field during move search too — it's
+              // useless while the user is typing to find a new move
+              // and eats width the typeahead needs to show suggestions.
+              _atkMoveSearching
+                  ? const SizedBox.shrink()
+                  : SizedBox(width: 70, child: _multiplierField()),
               const SizedBox(width: 6),
               _criticalCheck(),
               const SizedBox(width: 4),
