@@ -1903,6 +1903,14 @@ class AppStrings {
       AppLanguage.en: 'Other mod',
       AppLanguage.ja: 'その他補正',
     },
+    // Label used when a user-entered custom multiplier surfaces in
+    // the damage-panel modifier list (Simple Mode's 기타 보정 field
+    // feeds the calc via `custom:×N` notes).
+    'note.customMod': {
+      AppLanguage.ko: '기타 보정',
+      AppLanguage.en: 'Other mod',
+      AppLanguage.ja: 'その他補正',
+    },
     'label.nature': {
       AppLanguage.ko: '성격',
       AppLanguage.en: 'Nature',

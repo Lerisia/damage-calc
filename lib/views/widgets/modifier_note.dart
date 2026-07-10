@@ -177,6 +177,11 @@ String formatModifierNote(
         return '$name ${parts[2]}';
       }
       return note;
+    case 'custom':
+      // Simple Mode's 기타 보정 field emits `custom:×N` when the
+      // user typed a non-1.0 multiplier. Render as "기타 보정 ×N"
+      // (localized) instead of leaking the raw internal token.
+      return '${AppStrings.t('note.customMod')} ${parts[1]}';
     default:
       return note;
   }
