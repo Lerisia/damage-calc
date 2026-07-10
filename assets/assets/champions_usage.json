@@ -6042,6 +6042,14 @@
     ]
   },
   "Mega Floette": {
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
     "abilities": [
       {
         "name": "Fairy Aura"
@@ -6054,34 +6062,44 @@
     ],
     "moves": [
       {
-        "name": "Calm Mind"
+        "name": "Moonblast",
+        "pct": 85.2
       },
       {
-        "name": "Draining Kiss"
+        "name": "Calm Mind",
+        "pct": 85
       },
       {
-        "name": "Moonblast"
+        "name": "Draining Kiss",
+        "pct": 76.2
       },
       {
-        "name": "Synthesis"
+        "name": "Light of Ruin",
+        "pct": 59.2
       },
       {
-        "name": "Light of Ruin"
+        "name": "Psychic",
+        "pct": 29
       },
       {
-        "name": "Substitute"
+        "name": "Synthesis",
+        "pct": 18.3
       },
       {
-        "name": "Psychic"
+        "name": "Substitute",
+        "pct": 8.4
       },
       {
-        "name": "Giga Drain"
+        "name": "Giga Drain",
+        "pct": 6.6
       },
       {
-        "name": "Charm"
+        "name": "Protect",
+        "pct": 4.6
       },
       {
-        "name": "Energy Ball"
+        "name": "Charm",
+        "pct": 4.3
       }
     ],
     "defaultMoves": [
@@ -6092,27 +6110,52 @@
         "name": "Draining Kiss"
       },
       {
-        "name": "Calm Mind"
+        "name": "Light of Ruin"
       },
       {
-        "name": "Synthesis"
+        "name": "Calm Mind"
       }
     ],
     "natures": [
       {
-        "name": "Modest"
+        "name": "Timid",
+        "pct": 53.1
       },
       {
-        "name": "Timid"
+        "name": "Modest",
+        "pct": 41.2
       },
       {
-        "name": "Bold"
+        "name": "Bold",
+        "pct": 4.9
       },
       {
-        "name": "Calm"
+        "name": "Calm",
+        "pct": 0.5
       },
       {
-        "name": "Jolly"
+        "name": "Jolly",
+        "pct": 0.1
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.1
+      },
+      {
+        "name": "Quiet",
+        "pct": 0.0
+      },
+      {
+        "name": "Naive",
+        "pct": 0.0
+      },
+      {
+        "name": "Rash",
+        "pct": 0.0
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.0
       }
     ]
   },

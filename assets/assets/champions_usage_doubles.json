@@ -46549,5 +46549,123 @@
         "pct": 0.2
       }
     ]
+  },
+  "Mega Floette": {
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Fairy Aura"
+      }
+    ],
+    "items": [
+      {
+        "name": "floettite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Protect",
+        "pct": 98.3
+      },
+      {
+        "name": "Dazzling Gleam",
+        "pct": 92.9
+      },
+      {
+        "name": "Moonblast",
+        "pct": 77.2
+      },
+      {
+        "name": "Light of Ruin",
+        "pct": 58.7
+      },
+      {
+        "name": "Calm Mind",
+        "pct": 41.5
+      },
+      {
+        "name": "Draining Kiss",
+        "pct": 22.5
+      },
+      {
+        "name": "Psychic",
+        "pct": 2.6
+      },
+      {
+        "name": "Giga Drain",
+        "pct": 2
+      },
+      {
+        "name": "Energy Ball",
+        "pct": 1.7
+      },
+      {
+        "name": "Synthesis",
+        "pct": 0.6
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Moonblast"
+      },
+      {
+        "name": "Light of Ruin"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Modest",
+        "pct": 75.5
+      },
+      {
+        "name": "Timid",
+        "pct": 22.8
+      },
+      {
+        "name": "Bold",
+        "pct": 1.0
+      },
+      {
+        "name": "Quiet",
+        "pct": 0.4
+      },
+      {
+        "name": "Calm",
+        "pct": 0.1
+      },
+      {
+        "name": "Relaxed",
+        "pct": 0.0
+      },
+      {
+        "name": "Naive",
+        "pct": 0.0
+      },
+      {
+        "name": "Jolly",
+        "pct": 0.0
+      },
+      {
+        "name": "Sassy",
+        "pct": 0.0
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.0
+      }
+    ]
   }
 }
