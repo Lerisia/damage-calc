@@ -55,7 +55,9 @@ double getCombinedEffectiveness(
 
 /// Type immunity pairs: attack type → defender type that would be immune.
 /// These are checked separately from the effectiveness chart because
-/// various mechanics can override them (Scrappy, grounding, Corrosion, etc.)
+/// various mechanics can override them (Scrappy, Ground grounding, etc.).
+/// Note: Corrosion is NOT one — it only enables poison STATUS on
+/// Steel/Poison targets, damaging Poison moves still deal 0.
 const Map<PokemonType, Set<PokemonType>> typeImmunities = {
   PokemonType.normal: {PokemonType.ghost},
   PokemonType.fighting: {PokemonType.ghost},

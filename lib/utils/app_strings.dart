@@ -2577,10 +2577,23 @@ class AppStrings {
       AppLanguage.en: 'Reflect ×0.5',
       AppLanguage.ja: 'リフレクター ×0.5',
     },
+    // Doubles variant — the multiplier changes to 2/3 in doubles
+    // (0.5 is singles-only). Emitted as `screen:reflect_doubles`
+    // by damage_calculator when calculate(doubles: true).
+    'note.reflect_doubles': {
+      AppLanguage.ko: '리플렉터 ×2/3',
+      AppLanguage.en: 'Reflect ×2/3',
+      AppLanguage.ja: 'リフレクター ×2/3',
+    },
     'note.lightScreen': {
       AppLanguage.ko: '빛의장막 ×0.5',
       AppLanguage.en: 'Light Screen ×0.5',
       AppLanguage.ja: 'ひかりのかべ ×0.5',
+    },
+    'note.lightScreen_doubles': {
+      AppLanguage.ko: '빛의장막 ×2/3',
+      AppLanguage.en: 'Light Screen ×2/3',
+      AppLanguage.ja: 'ひかりのかべ ×2/3',
     },
     'note.critBypass': {
       AppLanguage.ko: '급소: 벽 무시',

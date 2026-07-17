@@ -37,6 +37,11 @@ const double kTeraStabBonus = 0.5;
 const double kBurnDamageReduction = 0.5;
 const double kCriticalMultiplier = 1.5;
 const double kScreenReduction = 0.5;
+// In doubles / triples the screen multiplier is 2/3 (not 1/2) — one
+// of the classic singles-vs-doubles calc divergences. Gated on the
+// user's Champions format setting so the same battle state produces
+// singles-correct or doubles-correct numbers depending on scope.
+const double kScreenReductionDoubles = 2 / 3;
 const double kExpertBeltBoost = 1.2;
 const double kTeraShellReduction = 0.5;
 const double kChargePowerBoost = 2.0;
@@ -287,6 +292,12 @@ class DamageCalculator {
     int? opponentSpeed,
     int? myEffectiveSpeed,
     Gender opponentGender = Gender.unset,
+    /// Doubles-scope math where it diverges from singles. Callers
+    /// pass in whatever `ChampionsFormat` the user has active so
+    /// the same battle state produces the format-correct numbers.
+    /// Currently affects: screen reduction (1/2 → 2/3). More
+    /// singles-vs-doubles divergences can slot into this flag.
+    bool doubles = false,
   }) {
     final move = attacker.moves[moveIndex];
     if (move == null) return DamageResult.empty;
@@ -926,15 +937,13 @@ class DamageCalculator {
         notes.add('ability:$effectiveAbility:고스트에게 적중');
       }
 
-      // Poison → Steel: overridden by Corrosion
-      if (moveType == PokemonType.poison &&
-          (defType1 == PokemonType.steel ||
-           defType2 == PokemonType.steel ||
-           defType3 == PokemonType.steel) &&
-          canPoisonSteel(effectiveAbility)) {
-        immune = false;
-        notes.add('ability:Corrosion:강철에게 적중');
-      }
+      // NOTE: Corrosion does NOT belong here. The ability only lets
+      // the poisoned STATUS be inflicted on Steel/Poison targets
+      // (via Toxic / Poison Powder / …); Poison-type damaging moves
+      // still deal 0 damage to Steel-type targets. Salazzle's Sludge
+      // Bomb into a Steel is still a whiff. Previously this block
+      // treated Corrosion like Scrappy vs Ghost and let Poison
+      // damage through — that was wrong. Removed.
 
       if (immune) {
         return DamageResult(
@@ -972,8 +981,9 @@ class DamageCalculator {
       notes.add('weather:strong_winds');
     }
 
-    // Note: Scrappy, Ground→Flying, Corrosion immunity overrides
-    // are handled above in the type immunity check section.
+    // Note: Scrappy and Ground→Flying immunity overrides are handled
+    // above in the type immunity check section. Corrosion is NOT one
+    // of them — it's a status-only ability and never affects damage.
 
     // Stellar-type Tera Starstorm: super effective vs Terastallized targets
     if (moveType == PokemonType.stellar && defender.terastal.active) {
@@ -1120,12 +1130,19 @@ class DamageCalculator {
     final bool bypassScreens = isCritical || bypassesScreens(effectiveAbility);
     double screenMod = 1.0;
     if (!bypassScreens) {
+      final double screenValue =
+          doubles ? kScreenReductionDoubles : kScreenReduction;
+      // Suffix keeps the note key stable while letting the panel
+      // render the correct multiplier text (×0.5 in singles vs ×2/3
+      // in doubles). See `note.reflect(_doubles)?` / `note.lightScreen(_doubles)?`
+      // in app_strings.dart.
+      final String noteSuffix = doubles ? '_doubles' : '';
       if (isPhysical && defender.reflect) {
-        screenMod = kScreenReduction;
-        notes.add('screen:reflect');
+        screenMod = screenValue;
+        notes.add('screen:reflect$noteSuffix');
       } else if (!isPhysical && defender.lightScreen) {
-        screenMod = kScreenReduction;
-        notes.add('screen:light_screen');
+        screenMod = screenValue;
+        notes.add('screen:light_screen$noteSuffix');
       }
     } else if (defender.reflect || defender.lightScreen) {
       if (isCritical) notes.add('screen:bypass_crit');

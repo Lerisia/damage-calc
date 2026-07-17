@@ -18,6 +18,7 @@ import '../models/weather.dart';
 import '../utils/app_strings.dart';
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
+import '../utils/champions_format_controller.dart';
 import '../utils/champions_mode.dart';
 import '../utils/stacking_moves.dart';
 import '../utils/stat_calculator.dart';
@@ -1278,6 +1279,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       opponentSpeed: defEffSpeed,
       myEffectiveSpeed: atkEffSpeed,
       opponentGender: _def.gender,
+      doubles: ChampionsFormatController.instance.format.value
+          == ChampionsFormat.doubles,
     );
     // Apply the user's 기타 보정 (Helping Hand / Charge / anything
     // the calc doesn't model). Feeds both this damage-range readout
@@ -2191,6 +2194,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       opponentSpeed: defEffSpeed,
       myEffectiveSpeed: atkEffSpeed,
       opponentGender: _def.gender,
+      doubles: ChampionsFormatController.instance.format.value
+          == ChampionsFormat.doubles,
     );
     // Apply extra multiplier by rescaling min/max; rebuilds a
     // DamageResult so the shared panel's KO / percent rendering stays

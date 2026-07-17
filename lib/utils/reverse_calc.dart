@@ -3,6 +3,7 @@ import '../models/move.dart';
 import '../models/nature_profile.dart';
 import '../models/room.dart';
 import '../models/stats.dart';
+import 'champions_format_controller.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
 import 'aura_effects.dart';
@@ -126,6 +127,8 @@ class ReverseCalc {
           room: room,
           auras: auras,
           ruins: ruins,
+          doubles: ChampionsFormatController.instance.format.value
+              == ChampionsFormat.doubles,
         );
         if (result.allRolls.isEmpty) continue;
         // Overlap check: any roll in [result.min, result.max] falls

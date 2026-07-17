@@ -1140,9 +1140,10 @@ bool isPriorityImmune(String? defenderAbility) =>
 bool canHitGhost(String? attackerAbility) =>
     attackerAbility == 'Scrappy' || attackerAbility == "Mind's Eye";
 
-/// Returns true if [attackerAbility] allows Poison to hit Steel.
-bool canPoisonSteel(String? attackerAbility) =>
-    attackerAbility == 'Corrosion';
+// Corrosion has no damage-calc surface — it only unlocks poison
+// status on Steel/Poison targets, which is a battle-flow concern,
+// not a type-effectiveness one. No helper needed here; damage
+// calculation ignores the ability entirely.
 
 // ====== Tera Shell ======
 

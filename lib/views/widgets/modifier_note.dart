@@ -63,9 +63,15 @@ String formatModifierNote(
       if (parts.length >= 3) return '$name ${parts[2]}';
       return name;
     case 'screen':
+      // Screens carry a `_doubles` variant emitted by damage_calculator
+      // when `calculate(doubles: true)` — same label, different
+      // multiplier text (×0.5 → ×2/3) so the panel reflects the actual
+      // math applied.
       const screenKeys = {
         'reflect': 'note.reflect',
+        'reflect_doubles': 'note.reflect_doubles',
         'light_screen': 'note.lightScreen',
+        'light_screen_doubles': 'note.lightScreen_doubles',
         'bypass_crit': 'note.critBypass',
         'bypass_infiltrator': 'note.infiltrator',
       };

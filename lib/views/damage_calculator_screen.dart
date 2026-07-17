@@ -9,6 +9,7 @@ import '../utils/app_strings.dart';
 import '../models/move_tags.dart';
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
+import '../utils/champions_format_controller.dart';
 import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/calc_handoff.dart';
@@ -1709,6 +1710,11 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       opponentSpeed: defSpeed,
       myEffectiveSpeed: atkSpeed,
       opponentGender: _defender.gender,
+      // Format-scope math (currently: screen reduction 1/2 → 2/3).
+      // RootShell listens on the format controller and setStates on
+      // flip, so the calc re-runs with the fresh value automatically.
+      doubles: ChampionsFormatController.instance.format.value
+          == ChampionsFormat.doubles,
     );
   }
 

@@ -58,6 +58,7 @@ void main() {
     Terrain terrain = Terrain.none,
     RoomConditions room = const RoomConditions(),
     TerastalState atkTerastal = const TerastalState(),
+    bool doubles = false,
   }) {
     final atk = BattlePokemonState(
       type1: atkType1, type2: atkType2,
@@ -78,6 +79,7 @@ void main() {
     return DamageCalculator.calculate(
       attacker: atk, defender: def, moveIndex: 0,
       weather: weather, terrain: terrain, room: room,
+      doubles: doubles,
     );
   }
 
@@ -352,6 +354,46 @@ void main() {
         critical: true, reflect: true,
       );
       expect(critReflect.maxDamage, equals(critNoReflect.maxDamage));
+    });
+
+    test('doubles Reflect reduces to ~2/3 (vs singles ~1/2)', () {
+      // Same defender, same attacker — only the format flag differs.
+      // Doubles screens are 2/3 (0.667), singles screens are 1/2.
+      final singles = calc(
+        move: tackle,
+        defType1: PokemonType.normal, defType2: null,
+        reflect: true,
+      );
+      final doubles = calc(
+        move: tackle,
+        defType1: PokemonType.normal, defType2: null,
+        reflect: true, doubles: true,
+      );
+      // Doubles number must be strictly larger — more damage gets
+      // through because 2/3 > 1/2.
+      expect(doubles.maxDamage, greaterThan(singles.maxDamage));
+      // Ratio between the two rolls should be roughly (2/3) / (1/2)
+      // = 4/3 ≈ 1.33, but Showdown's ×4096 fixed-point chain floor-
+      // rounds at multiple stages so the observed ratio varies with
+      // the raw pre-mod damage. Bound loosely: between +10% and +60%.
+      final ratio = doubles.maxDamage / singles.maxDamage;
+      expect(ratio, inInclusiveRange(1.10, 1.60));
+    });
+
+    test('doubles Light Screen reduces to ~2/3', () {
+      final singles = calc(
+        move: ember,
+        defType1: PokemonType.normal, defType2: null,
+        lightScreen: true,
+      );
+      final doubles = calc(
+        move: ember,
+        defType1: PokemonType.normal, defType2: null,
+        lightScreen: true, doubles: true,
+      );
+      expect(doubles.maxDamage, greaterThan(singles.maxDamage));
+      final ratio = doubles.maxDamage / singles.maxDamage;
+      expect(ratio, inInclusiveRange(1.10, 1.60));
     });
   });
 
@@ -1257,17 +1299,22 @@ void main() {
   });
 
   // ---------------------------------------------------------------
-  // Corrosion (Poison hits Steel)
+  // Corrosion — status-only, must NOT let Poison damage hit Steel
   // ---------------------------------------------------------------
 
   group('Corrosion', () {
-    test('Poison hits Steel', () {
+    test('Poison damaging moves still deal 0 to Steel', () {
+      // Bulbapedia: Corrosion allows poison / bad poison STATUS to be
+      // inflicted on Steel- and Poison-type Pokémon, but damaging
+      // Poison moves still deal no damage to Steel. Salazzle's Sludge
+      // Bomb into a Steel target is still a whiff.
       final r = calc(
         move: sludgeBomb,
         atkAbility: 'Corrosion',
         defType1: PokemonType.steel, defType2: null,
       );
-      expect(r.maxDamage, greaterThan(0));
+      expect(r.maxDamage, equals(0));
+      expect(r.effectiveness, equals(0.0));
     });
   });
 
