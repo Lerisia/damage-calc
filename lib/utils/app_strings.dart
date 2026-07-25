@@ -2235,10 +2235,18 @@ class AppStrings {
       AppLanguage.en: 'Doubles',
       AppLanguage.ja: 'ダブル',
     },
-    'championsFormat.settingLabel': {
-      AppLanguage.ko: '통계',
-      AppLanguage.en: 'Stats',
-      AppLanguage.ja: '統計',
+    // Verb-style destinations for the settings-menu switcher —
+    // labelled as "switch TO the other mode" so the current state
+    // is inferable from the label alone.
+    'championsFormat.switchToSingles': {
+      AppLanguage.ko: '싱글 모드로',
+      AppLanguage.en: 'Switch to Singles',
+      AppLanguage.ja: 'シングルモードへ',
+    },
+    'championsFormat.switchToDoubles': {
+      AppLanguage.ko: '더블 모드로',
+      AppLanguage.en: 'Switch to Doubles',
+      AppLanguage.ja: 'ダブルモードへ',
     },
 
     // === Type chart sheet ===

@@ -142,39 +142,20 @@ class AppSettingsMenu extends StatelessWidget {
                 Text(AppStrings.t('dex.championsOnly')),
               ]),
             ),
-            // Singles / doubles format selector. Split into two
-            // radio-style items so the active format is unambiguous
-            // — a single toggling item read as "label = current
-            // value" but it wasn't clear whether tapping FLIPS the
-            // value or SETS it to the displayed value. Matching the
-            // checkmark idiom already used by `championsOnly` keeps
-            // this consistent with the rest of the menu.
+            // Format switcher — labels itself with the DESTINATION
+            // ("싱글 모드로 / 더블 모드로") so the current state is
+            // self-evident (if the item offers "더블 모드로", you're
+            // in singles right now). Cleaner than a radio pair and
+            // eliminates the "does tap flip or set?" ambiguity of
+            // the earlier "통계: 싱글" single-item form.
             PopupMenuItem(
-              value: 'championsFormatSingles',
+              value: 'championsFormatToggle',
               child: Row(children: [
-                Icon(
-                  fmt == ChampionsFormat.singles
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank,
-                  size: 20,
-                ),
+                const Icon(Icons.swap_horiz, size: 20),
                 const SizedBox(width: 8),
-                Text('${AppStrings.t('championsFormat.settingLabel')}'
-                    ': ${AppStrings.t('championsFormat.singles')}'),
-              ]),
-            ),
-            PopupMenuItem(
-              value: 'championsFormatDoubles',
-              child: Row(children: [
-                Icon(
-                  fmt == ChampionsFormat.doubles
-                      ? Icons.check_box
-                      : Icons.check_box_outline_blank,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Text('${AppStrings.t('championsFormat.settingLabel')}'
-                    ': ${AppStrings.t('championsFormat.doubles')}'),
+                Text(fmt == ChampionsFormat.doubles
+                    ? AppStrings.t('championsFormat.switchToSingles')
+                    : AppStrings.t('championsFormat.switchToDoubles')),
               ]),
             ),
             PopupMenuItem(
@@ -220,12 +201,12 @@ class AppSettingsMenu extends StatelessWidget {
                 showSpriteStyleDialog(context);
               case 'championsOnly':
                 ChampionsFilterController.instance.set(!champOn);
-              case 'championsFormatSingles':
-                ChampionsFormatController.instance
-                    .set(ChampionsFormat.singles);
-              case 'championsFormatDoubles':
-                ChampionsFormatController.instance
-                    .set(ChampionsFormat.doubles);
+              case 'championsFormatToggle':
+                ChampionsFormatController.instance.set(
+                  fmt == ChampionsFormat.doubles
+                      ? ChampionsFormat.singles
+                      : ChampionsFormat.doubles,
+                );
               case 'usageRank':
                 ChampionsUsageRankSheet.show(context);
               case 'speedTier':
