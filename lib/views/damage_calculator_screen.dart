@@ -99,9 +99,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   AuraToggles _auras = const AuraToggles();
   RuinToggles _ruins = const RuinToggles();
   bool _useSpMode = true;
-  /// Shared expansion state for the per-side "Doubles-only options"
-  /// section — when the user expands one panel, the other also shows.
-  bool _doublesExpanded = false;
 
   /// When true, the normal tabs are replaced with the compact Simple
   /// Mode view. Each mode owns its own per-side state and both stay
@@ -306,7 +303,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadAbilities();
     _loadItems();
     _loadSpMode();
-    _loadDoublesExpanded();
     _ensureDataCaches();
     // Pick up external mode changes (e.g. the first-launch prompt
     // sets simple/extended via SimpleModeController.setSimple — the
@@ -427,23 +423,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     setState(() => _useSpMode = v);
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool(_spModeKey, v);
-    });
-  }
-
-  static const _doublesExpandedKey = 'doubles_expanded';
-
-  Future<void> _loadDoublesExpanded() async {
-    final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getBool(_doublesExpandedKey) ?? false;
-    if (mounted && saved != _doublesExpanded) {
-      setState(() => _doublesExpanded = saved);
-    }
-  }
-
-  void _setDoublesExpanded(bool v) {
-    setState(() => _doublesExpanded = v);
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(_doublesExpandedKey, v);
     });
   }
 
@@ -1647,9 +1626,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentHpPercent: opponent.hpPercent,
             opponentItem: opponent.selectedItem,
             opponentAbility: opponent.selectedAbility,
-            doublesExpanded: _doublesExpanded,
-            onDoublesExpandToggle: () =>
-                _setDoublesExpanded(!_doublesExpanded),
             useSpMode: _useSpMode,
             onSpModeChanged: _setSpMode,
             abilityNameMap: _abilityNameMap,

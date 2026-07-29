@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/app_strings.dart';
 import '../../utils/champions_filter_controller.dart';
+import '../../utils/champions_format_controller.dart';
 import '../../utils/simple_mode_controller.dart';
 
 /// First-launch (including existing users) onboarding prompt. Two
@@ -24,14 +25,17 @@ class FirstLaunchScopeDialog extends StatefulWidget {
 class _FirstLaunchScopeDialogState extends State<FirstLaunchScopeDialog> {
   bool? _championsOnly;
   bool? _simpleMode;
+  ChampionsFormat? _format;
 
-  bool get _canSubmit => _championsOnly != null && _simpleMode != null;
+  bool get _canSubmit =>
+      _championsOnly != null && _simpleMode != null && _format != null;
 
   Future<void> _submit() async {
     if (!_canSubmit) return;
     await ChampionsFilterController.instance
         .answerPrompt(championsOnlyChoice: _championsOnly!);
     await SimpleModeController.instance.setSimple(_simpleMode!);
+    await ChampionsFormatController.instance.set(_format!);
     if (mounted) Navigator.of(context).pop();
   }
 
@@ -90,6 +94,20 @@ class _FirstLaunchScopeDialogState extends State<FirstLaunchScopeDialog> {
                 groupValue: _simpleMode,
                 label: AppStrings.t('firstLaunch.modeExtended'),
                 onChanged: (v) => setState(() => _simpleMode = v),
+              ),
+              const SizedBox(height: 12),
+              _questionHeader(AppStrings.t('firstLaunch.formatLabel')),
+              _radioTile<ChampionsFormat>(
+                value: ChampionsFormat.singles,
+                groupValue: _format,
+                label: AppStrings.t('firstLaunch.formatSingles'),
+                onChanged: (v) => setState(() => _format = v),
+              ),
+              _radioTile<ChampionsFormat>(
+                value: ChampionsFormat.doubles,
+                groupValue: _format,
+                label: AppStrings.t('firstLaunch.formatDoubles'),
+                onChanged: (v) => setState(() => _format = v),
               ),
               const SizedBox(height: 12),
               Text(

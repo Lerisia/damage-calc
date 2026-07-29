@@ -15,6 +15,7 @@ import '../../data/pokedex.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/aura_effects.dart';
 import '../../utils/battle_facade.dart';
+import '../../utils/champions_format_controller.dart';
 import '../../utils/ruin_effects.dart';
 import '../../utils/sprite_service.dart';
 import '../../utils/stacking_moves.dart';
@@ -51,10 +52,6 @@ class PokemonPanel extends StatefulWidget {
   final double? opponentHpPercent;
   final String? opponentItem;
   final String? opponentAbility;
-  /// Shared expansion state for the Doubles-only options section, synced
-  /// across attacker/defender panels.
-  final bool doublesExpanded;
-  final VoidCallback? onDoublesExpandToggle;
   final VoidCallback? onSave;
   final VoidCallback? onLoad;
   final VoidCallback? onReset;
@@ -91,8 +88,6 @@ class PokemonPanel extends StatefulWidget {
     this.opponentHpPercent,
     this.opponentItem,
     this.opponentAbility,
-    this.doublesExpanded = false,
-    this.onDoublesExpandToggle,
     this.opponentGender,
     this.onSave,
     this.onLoad,
@@ -960,13 +955,22 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  /// Doubles-only attacker scenario toggles. Always shown (collapsed by
-  /// default) — singles users simply leave it closed.
+  /// Doubles-only attacker scenario toggles. Visibility is driven by
+  /// the user's global Champions format:
+  ///   * Doubles → always shown (no collapse toggle; user explicitly
+  ///     picked doubles, they want the toggles readily accessible).
+  ///   * Singles → hidden entirely — spread / Helping Hand / Battery
+  ///     etc. have no meaning in singles and just add clutter.
+  ///
+  /// Replaces the earlier "always collapsible" pattern that put a
+  /// disclosure arrow on every panel regardless of format.
   Widget _doublesSection() {
-    return _collapsibleSectionCard(
+    if (ChampionsFormatController.instance.format.value
+        != ChampionsFormat.doubles) {
+      return const SizedBox.shrink();
+    }
+    return _sectionCard(
       title: AppStrings.t('section.doubles'),
-      expanded: widget.doublesExpanded,
-      onToggle: () => widget.onDoublesExpandToggle?.call(),
       child: Wrap(
         spacing: 12,
         runSpacing: 4,
@@ -1028,66 +1032,6 @@ class PokemonPanelState extends State<PokemonPanel>
             ),
             const SizedBox(width: 4),
             Text(label, style: const TextStyle(fontSize: 13)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Variant of [_sectionCard] with a tappable title that expands or
-  /// collapses [child]. Used for the Doubles-only options so it stays
-  /// hidden by default.
-  Widget _collapsibleSectionCard({
-    Key? key,
-    required String title,
-    required bool expanded,
-    required VoidCallback onToggle,
-    required Widget child,
-  }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accent = widget.isAttacker
-        ? (isDark ? const Color(0xFFF87171) : const Color(0xFFEF4444))
-        : (isDark ? const Color(0xFF60A5FA) : const Color(0xFF3B82F6));
-
-    // Same RepaintBoundary isolation as [_sectionCard] — keeps the
-    // toggleable section's paint independent from its scroll neighbors.
-    return RepaintBoundary(
-      child: Padding(
-        key: key,
-        padding: const EdgeInsets.fromLTRB(4, 14, 4, 2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InkWell(
-              onTap: onToggle,
-              borderRadius: BorderRadius.circular(4),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: accent,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.1,
-                      ),
-                    ),
-                    Icon(
-                      expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                      size: 18,
-                      color: accent,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            if (expanded) ...[
-              const SizedBox(height: 8),
-              child,
-            ],
           ],
         ),
       ),

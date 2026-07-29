@@ -17,7 +17,10 @@ class ChampionsFilterController {
   //   v3: 'dexScopeModePromptShown2' — v2 had a listener bug that
   //       silently dropped the mode pick on existing users; re-show
   //       so they can re-pick now that setSimple() propagates.
-  static const _promptKey = 'dexScopeModePromptShown2';
+  //   v4: 'dexScopeModeFormatPrompt' — added the singles/doubles
+  //       Champions-format question so new users pick their battle
+  //       format upfront instead of hunting for it in settings.
+  static const _promptKey = 'dexScopeModeFormatPrompt';
 
   /// Defaults to on — the calc's primary audience plays Pokémon
   /// Champions, so first-launch users see the Champions-only roster

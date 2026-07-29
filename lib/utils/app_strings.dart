@@ -318,6 +318,21 @@ class AppStrings {
       AppLanguage.en: 'Extended mode — fine-tune sample sets',
       AppLanguage.ja: '拡張モード — 詳細なサンプル調整',
     },
+    'firstLaunch.formatLabel': {
+      AppLanguage.ko: '주로 어떤 배틀을 하시나요?',
+      AppLanguage.en: 'Which format do you play?',
+      AppLanguage.ja: 'どのルールで対戦しますか?',
+    },
+    'firstLaunch.formatSingles': {
+      AppLanguage.ko: '싱글 배틀',
+      AppLanguage.en: 'Singles',
+      AppLanguage.ja: 'シングルバトル',
+    },
+    'firstLaunch.formatDoubles': {
+      AppLanguage.ko: '더블 배틀',
+      AppLanguage.en: 'Doubles',
+      AppLanguage.ja: 'ダブルバトル',
+    },
     'firstLaunch.start': {
       AppLanguage.ko: '시작',
       AppLanguage.en: 'Start',
