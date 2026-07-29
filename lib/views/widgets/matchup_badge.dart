@@ -38,18 +38,31 @@ class MatchupBadge extends StatelessWidget {
   /// surface that already has a background.
   final bool withPill;
 
+  /// Whether the trivial 1× tier should render a "1×" label
+  /// instead of collapsing to blank. False by default so the
+  /// team-coverage matrix keeps its clean per-cell look, true for
+  /// callers (dex column headers) that need every column to carry
+  /// an explicit label.
+  final bool showNeutral;
+
   const MatchupBadge({
     super.key,
     required this.multiplier,
     this.symbolic = false,
     this.fontSize = 15,
     this.withPill = true,
+    this.showNeutral = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final spec = _specFor(multiplier, symbolic: symbolic, scheme: scheme);
+    final spec = _specFor(
+      multiplier,
+      symbolic: symbolic,
+      scheme: scheme,
+      showNeutral: showNeutral,
+    );
     if (spec.label.isEmpty) return const SizedBox.shrink();
     final text = Text(
       spec.label,
@@ -78,7 +91,9 @@ class MatchupBadge extends StatelessWidget {
   /// the switch. Returns null for the trivial 1× case.
   static Color? foregroundFor(double multiplier,
       {required ColorScheme scheme}) {
-    return _specFor(multiplier, symbolic: false, scheme: scheme).fg;
+    return _specFor(multiplier,
+            symbolic: false, scheme: scheme, showNeutral: false)
+        .fg;
   }
 }
 
@@ -96,7 +111,9 @@ class _MatchupSpec {
 }
 
 _MatchupSpec _specFor(double m,
-    {required bool symbolic, required ColorScheme scheme}) {
+    {required bool symbolic,
+    required ColorScheme scheme,
+    required bool showNeutral}) {
   if (m == 0) {
     return _MatchupSpec(
       label: symbolic ? '✕' : AppStrings.t('team.matrix.immune'),
@@ -134,7 +151,13 @@ _MatchupSpec _specFor(double m,
     );
   }
   if (m == 1) {
-    return _MatchupSpec(label: '', fg: scheme.onSurface);
+    // Callers that want an explicit neutral header (dex column
+    // titles) opt in via [showNeutral]; matrix cells stay blank so
+    // the grid doesn't get busy with "1×" in every neutral square.
+    return _MatchupSpec(
+      label: showNeutral ? '1×' : '',
+      fg: scheme.onSurface,
+    );
   }
   // Fallback — should not occur with canonical type-chart math.
   return _MatchupSpec(label: '×$m', fg: scheme.onSurface);

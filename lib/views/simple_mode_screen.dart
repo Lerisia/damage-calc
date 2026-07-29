@@ -1106,10 +1106,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   /// Doubles-spread toggle. Only matters when the active move is a
   /// spread move in a doubles scenario — the calc applies ×0.75 to
-  /// base damage (and now also to 결정력 via the same flag). Renders
-  /// regardless of move because Simple Mode users picking different
-  /// moves don't want the chip flickering in and out of layout.
+  /// base damage (and now also to 결정력 via the same flag). Hidden
+  /// entirely when the user's global format is Singles, since a
+  /// singles battle has no spread concept.
   Widget _spreadCheck() {
+    if (ChampionsFormatController.instance.format.value
+        != ChampionsFormat.doubles) {
+      return const SizedBox.shrink();
+    }
     final spread = _atk.spreadTargets;
     return InkWell(
       onTap: () {

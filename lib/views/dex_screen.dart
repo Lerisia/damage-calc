@@ -19,7 +19,6 @@ import '../models/weather.dart';
 import '../utils/app_strings.dart';
 import '../utils/battle_facade.dart';
 import '../utils/champions_filter_controller.dart';
-import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
 import '../utils/page_routes.dart';
 import '../utils/localization.dart';
@@ -1612,20 +1611,21 @@ class _TypeMatchupsSection extends StatelessWidget {
                   fontWeight: FontWeight.bold)),
         );
 
-    Widget column(double key, bool symbolic) {
+    Widget column(double key) {
       final types = buckets[key]!;
       return Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Shared label/colour/pill spec with the team-coverage
-            // matrix — same widget, same palette, optional ◎/○/△/▲/✕
-            // symbols when the user opted into symbolic mode in the
-            // team tab. 16pt > the matrix's 15-17 because here the
-            // badge is a column heading, not a packed cell.
+            // Dex chart is hard-pinned to numeric labels regardless
+            // of the global CoverageDisplayController (symbolic mode
+            // is a team-tab affordance — dex users expect numbers).
+            // showNeutral: true so the 1× column carries an explicit
+            // header instead of a blank slot next to 2×/½/등.
             MatchupBadge(
               multiplier: key,
-              symbolic: symbolic,
+              symbolic: false,
+              showNeutral: true,
               fontSize: 16,
             ),
             const SizedBox(height: 6),
@@ -1638,28 +1638,22 @@ class _TypeMatchupsSection extends StatelessWidget {
       );
     }
 
-    return ValueListenableBuilder<CoverageDisplayMode>(
-      valueListenable: CoverageDisplayController.instance.mode,
-      builder: (context, mode, _) {
-        final symbolic = mode == CoverageDisplayMode.symbolic;
-        return Column(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _SectionTitle(AppStrings.t('dex.typeMatchups')),
+        const SizedBox(height: 8),
+        // Per-pokemon matchup chart renders at its natural size
+        // on every breakpoint. Mobile fit is handled by the
+        // per-chip `tightFactor` font/padding scaler above —
+        // NO FittedBox here. (Earlier I wrapped this in one
+        // mistakenly thinking the "mobile shrink to fit" ask
+        // applied here; it was scoped to TypeChartSheet only.)
+        Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _SectionTitle(AppStrings.t('dex.typeMatchups')),
-            const SizedBox(height: 8),
-            // Per-pokemon matchup chart renders at its natural size
-            // on every breakpoint. Mobile fit is handled by the
-            // per-chip `tightFactor` font/padding scaler above —
-            // NO FittedBox here. (Earlier I wrapped this in one
-            // mistakenly thinking the "mobile shrink to fit" ask
-            // applied here; it was scoped to TypeChartSheet only.)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [for (final k in activeKeys) column(k, symbolic)],
-            ),
-          ],
-        );
-      },
+          children: [for (final k in activeKeys) column(k)],
+        ),
+      ],
     );
   }
 }

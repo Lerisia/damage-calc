@@ -1402,7 +1402,12 @@ class DamageCalculator {
     // / weather / crit modifications *to the base damage* before the
     // random-factor loop. Spread happens FIRST (pokeRound(base ×
     // 3072 / 4096) for doubles allAdjacent / allAdjacentFoes moves).
-    if (attacker.spreadTargets && effectiveMove.hasTag(MoveTags.spread)) {
+    // Spread only fires in doubles — in singles there's no spread
+    // concept. Guarding on the format flag prevents stale
+    // `spreadTargets = true` state from a prior doubles session
+    // silently docking 25% off singles-mode damage.
+    if (doubles && attacker.spreadTargets &&
+        effectiveMove.hasTag(MoveTags.spread)) {
       baseDmg = _applyChainMod(baseDmg, _kFP_0_75);
     }
     if (weatherMod != 1.0) {
