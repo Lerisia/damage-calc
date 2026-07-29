@@ -12,10 +12,12 @@ import 'sprite_service.dart';
 /// fetch this from anywhere — the value travels with the binary.
 ///
 /// The install-time VERSION marker extracted from the ZIP is compared
-/// against this constant by [SpritePackManager.isAnyOutOfDate]; any
-/// mismatch (including the legacy `null` case for pre-marker
-/// installs) triggers the update-nag dialog on app launch.
-const String kLatestSpritePackVersion = '3';
+/// against this constant by [SpritePackManager.isAnyOutOfDate]; the
+/// nag only fires when the installed pack is STRICTLY OLDER (or has
+/// no marker at all — legacy pre-marker installs), so a user who's
+/// grabbed a newer pack than this build knows about doesn't get
+/// pestered until the app catches up.
+const String kLatestSpritePackVersion = '4';
 
 /// Per-style sprite-pack install state for mobile.
 ///
@@ -68,15 +70,31 @@ class SpritePackManager extends ChangeNotifier {
   bool get hasAnyInstalled =>
       SpriteStyle.values.any((s) => isInstalled(s));
 
-  /// True if any installed style's stored VERSION differs from
-  /// [latest] — including the legacy null case where no marker was
-  /// ever written. Returns false when nothing is installed (the nag
-  /// shouldn't fire for first-time users; that's the job of the
-  /// install banner inside the style dialog).
+  /// True if any installed style is STRICTLY OLDER than [latest] —
+  /// including the legacy null case where no marker was ever written
+  /// (those count as "unknown-old" and always trigger). Returns false
+  /// when nothing is installed (the nag shouldn't fire for first-time
+  /// users; that's the job of the install banner inside the style
+  /// dialog) AND false when the installed pack is newer than [latest]
+  /// (user got ahead of the app build — no reason to nag).
+  ///
+  /// Version strings are compared numerically. Anything that doesn't
+  /// parse as an int falls through to string-inequality (still-stale)
+  /// so a malformed marker doesn't silently pass a fresh check.
   bool isAnyOutOfDate(String latest) {
+    final latestInt = int.tryParse(latest);
     for (final s in SpriteStyle.values) {
       if (!isInstalled(s)) continue;
-      if (_versions[s] != latest) return true;
+      final installed = _versions[s];
+      if (installed == null) return true; // legacy pre-marker install
+      if (installed == latest) continue;
+      final installedInt = int.tryParse(installed);
+      if (installedInt != null && latestInt != null) {
+        if (installedInt < latestInt) return true;
+        continue; // user ahead of us — quietly OK
+      }
+      // Fallback for non-numeric versions: treat any mismatch as stale.
+      return true;
     }
     return false;
   }
