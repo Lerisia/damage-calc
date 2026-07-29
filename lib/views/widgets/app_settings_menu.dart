@@ -109,6 +109,9 @@ class AppSettingsMenu extends StatelessWidget {
             PopupMenuItem(
               value: 'theme',
               child: Row(children: [
+                // Icon mirrors the DESTINATION action too: filled
+                // dark-mode icon = "will turn dark mode on", filled
+                // light-mode icon = "will turn dark mode off".
                 Icon(
                   ThemeController.instance.isDark
                       ? Icons.light_mode_outlined
@@ -117,7 +120,7 @@ class AppSettingsMenu extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(ThemeController.instance.isDark
-                    ? AppStrings.t('app.themeLight')
+                    ? AppStrings.t('app.themeDarkOff')
                     : AppStrings.t('app.themeDark')),
               ]),
             ),

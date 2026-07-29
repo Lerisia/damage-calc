@@ -907,15 +907,21 @@ class AppStrings {
       AppLanguage.en: 'All entered data will be reset. Continue?',
       AppLanguage.ja: '入力した内容がすべてリセットされます。続けますか？',
     },
-    'app.themeLight': {
-      AppLanguage.ko: '라이트 모드',
-      AppLanguage.en: 'Light mode',
-      AppLanguage.ja: 'ライトモード',
-    },
+    // Settings-menu labels for the theme toggle — verb-style so the
+    // current state is inferable from the label alone (see the same
+    // pattern on the champions-format toggle). In light mode the
+    // item invites turning dark mode ON; in dark mode it invites
+    // turning it OFF, so the user always knows which state they're
+    // in without a separate indicator.
     'app.themeDark': {
       AppLanguage.ko: '다크 모드',
-      AppLanguage.en: 'Dark mode',
-      AppLanguage.ja: 'ダークモード',
+      AppLanguage.en: 'Enable dark mode',
+      AppLanguage.ja: 'ダークモードにする',
+    },
+    'app.themeDarkOff': {
+      AppLanguage.ko: '다크 모드 해제',
+      AppLanguage.en: 'Disable dark mode',
+      AppLanguage.ja: 'ダークモード解除',
     },
     'app.spriteStyle': {
       AppLanguage.ko: '스프라이트 스타일',
