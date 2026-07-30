@@ -35,22 +35,38 @@ echo "──── $(date -u +%Y-%m-%dT%H:%M:%SZ) cron refresh start"
 
 cd "$REPO"
 
-# Fast-forward main — if local has diverged (manual commits in the
-# tree before the cron ran), bail rather than overwriting work. The
-# script never auto-resolves; that's a person's job.
+# Sync main with origin. Three states to handle cleanly:
+#   * local behind or equal → hard-reset onto origin/main to pick up
+#     anything session work missed.
+#   * local ahead (session commits made locally but not yet pushed):
+#     leave HEAD alone so we don't clobber unpushed work; the cron
+#     data commit will layer on top and push everything together.
+#   * true divergence (both sides have commits that aren't in the
+#     other's ancestry): rare — bail so a human can resolve.
 git fetch --quiet origin main
-if ! git merge-base --is-ancestor HEAD origin/main; then
-  echo "ERROR: local main diverged from origin/main. Resolve manually."
+if git merge-base --is-ancestor HEAD origin/main; then
+  # Local at or behind origin — fast-forward.
+  git reset --hard origin/main
+elif git merge-base --is-ancestor origin/main HEAD; then
+  # Local strictly ahead — keep the unpushed commits, don't overwrite.
+  echo "note: local ahead of origin by " \
+       "$(git rev-list --count origin/main..HEAD) commits — keeping them"
+else
+  echo "ERROR: local main truly diverged from origin/main. Resolve manually."
   exit 2
 fi
-git reset --hard origin/main
 
 # Refresh from upstream sources. All three tools mutate asset files
 # in place. Network failures bubble up — cron mails the error.
 # Singles pulls first so that the doubles run can copy X/Y/Z mega
 # entries from the just-refreshed singles file.
-python3 tools/fetch_pokedb_usage.py --rule 0 --sleep 2
-python3 tools/fetch_pokedb_usage.py --rule 1 --sleep 2
+#
+# Data source: pkmnchamps.com (see fetch_pkmnchamps.py header).
+# Previously used champs.pokedb.tokyo but that origin nginx-banned our
+# home IP in July 2026; fetch_pokedb_usage.py is kept as .bak in case
+# access is later restored via the operator contact still in flight.
+python3 tools/fetch_pkmnchamps.py --rule 0
+python3 tools/fetch_pkmnchamps.py --rule 1
 python3 tools/apply_champout_learnsets.py
 
 if git diff --quiet assets/; then
