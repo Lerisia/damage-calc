@@ -13,6 +13,7 @@ import '../utils/champions_format_controller.dart';
 import '../utils/random_factor.dart';
 import '../utils/ruin_effects.dart';
 import '../utils/calc_handoff.dart';
+import '../utils/calc_session_store.dart';
 import '../utils/sample_save_flow.dart';
 import '../utils/simple_mode_controller.dart';
 import 'root_shell.dart';
@@ -82,7 +83,7 @@ class DamageCalculatorScreen extends StatefulWidget {
 }
 
 class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late final TabController _tabController;
 
   var _attacker = BattlePokemonState();
@@ -304,6 +305,14 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     _loadItems();
     _loadSpMode();
     _ensureDataCaches();
+    // Kill-safe session restore: Champions' mobile release has users
+    // flipping between the game and this calc, and the OS routinely
+    // kills the backgrounded calc. Rehydrate the last autosaved
+    // attacker/defender/field state so nothing is lost. Observer
+    // registration comes first so a pause during the async load
+    // still flushes whatever's pending.
+    WidgetsBinding.instance.addObserver(this);
+    _restoreSession();
     // Pick up external mode changes (e.g. the first-launch prompt
     // sets simple/extended via SimpleModeController.setSimple — the
     // calc has already initialised _simpleMode from the controller's
@@ -457,10 +466,54 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _tabController.dispose();
     CalcHandoff.instance.removeListener(_consumeCalcHandoff);
     SimpleModeController.instance.isSimple.removeListener(_onSimpleModeChanged);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // paused = backgrounded (the state we're usually in right before
+    // the OS kills us for memory); inactive/hidden are the transitions
+    // into it. Flush the autosave on all three — the debounce timer
+    // may never fire once we're frozen.
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden) {
+      CalcSessionStore.flush();
+    }
+  }
+
+  /// Restore the autosaved session (if any) after the data caches are
+  /// warm, so [_repairPresetData] can refresh restored moves/species
+  /// against the current dex. `_resetCounter++` re-keys the panels /
+  /// Simple Mode so their text controllers hydrate from the restored
+  /// state instead of showing stale defaults.
+  Future<void> _restoreSession() async {
+    final session = await CalcSessionStore.load();
+    if (session == null || !mounted) return;
+    await _ensureDataCaches();
+    if (!mounted) return;
+    setState(() {
+      _attacker = session.attacker;
+      _defender = session.defender;
+      _repairPresetData(_attacker);
+      _repairPresetData(_defender);
+      _weather = session.weather;
+      _terrain = session.terrain;
+      _room = session.room;
+      _auras = session.auras;
+      _ruins = session.ruins;
+      // Seed the species-change trackers so the first _onPanelChanged
+      // doesn't mistake the restored species for a user-driven swap.
+      _prevAtkPokemon = _attacker.pokemonName;
+      _prevDefPokemon = _defender.pokemonName;
+      _prevAtkAbility = _attacker.selectedAbility;
+      _prevDefAbility = _defender.selectedAbility;
+      _resetCounter++;
+    });
   }
 
   void _onSimpleModeChanged() {
@@ -1245,6 +1298,21 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Autosave choke point: every mutation to the calc — panel edits,
+    // toolbar weather/terrain/room changes, mode switches, sample
+    // loads, handoffs — flows through a setState on this State, so a
+    // debounced schedule() here covers all of them without chasing
+    // each setter individually. The 1s debounce collapses typing
+    // bursts to one prefs write; lifecycle-pause flushes the rest.
+    CalcSessionStore.schedule(
+      attacker: _attacker,
+      defender: _defender,
+      weather: _weather,
+      terrain: _terrain,
+      room: _room,
+      auras: _auras,
+      ruins: _ruins,
+    );
     final isWide = _isWideLayout;
     final maxAppBarWidth = MediaQuery.of(context).size.width >= 1400 ? 1920.0 : 1440.0;
     final toolbarFontSize = isWide ? 16.0 : 14.0;
