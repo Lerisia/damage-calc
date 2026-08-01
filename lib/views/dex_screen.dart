@@ -680,9 +680,11 @@ class _DexScreenState extends State<DexScreen> {
   Widget _dexSortHeader() {
     Widget cell(_DexSortKey key, String label,
         {double? width, bool nameCol = false}) {
+      // Sort state renders during search too — column sort now
+      // applies on top of search results (it used to be ignored,
+      // which is why the arrow was hidden while a query was live).
       final active = _sortKey == key;
-      final searching = _searchCtl.text.isNotEmpty;
-      final arrow = (active && !searching) ? (_sortAsc ? ' ↑' : ' ↓') : '';
+      final arrow = active ? (_sortAsc ? ' ↑' : ' ↓') : '';
       final tappable = InkWell(
         onTap: () => _toggleSort(key),
         child: Padding(
@@ -693,7 +695,7 @@ class _DexScreenState extends State<DexScreen> {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: (active && !searching)
+              color: active
                   ? Theme.of(context).colorScheme.primary
                   : Colors.grey.shade700,
             ),
@@ -803,10 +805,15 @@ class _DexScreenState extends State<DexScreen> {
     );
   }
 
-  /// Filters by the advanced-search [DexSearchFilter] + Champions toggle;
-  /// with a query, results are relevance-scored (column sort ignored);
-  /// otherwise sorted by the active column, defaulting to dex-number
-  /// order.
+  /// Filters by the advanced-search [DexSearchFilter] + Champions toggle.
+  /// Ordering:
+  ///   * query + no active sort column → relevance-scored (exact >
+  ///     prefix > chosung), so typing "리자" surfaces 리자몽 first.
+  ///   * query + active sort column → the matched set sorted by that
+  ///     column. The user explicitly asked for a column order; honor
+  ///     it over relevance. (Previously column sort was ignored during
+  ///     search entirely — reported as "search breaks sorting".)
+  ///   * no query → active column sort, else dex-number order.
   List<Pokemon> _filteredPokemon(String query) {
     final championsOnly =
         ChampionsFilterController.instance.championsOnly.value;
@@ -831,7 +838,10 @@ class _DexScreenState extends State<DexScreen> {
         if (s > 0) scored.add((e.item, s));
       }
       scored.sort((a, b) => b.$2.compareTo(a.$2));
-      return [for (final e in scored) e.$1];
+      final matched = [for (final e in scored) e.$1];
+      // An explicitly-picked sort column wins over relevance order.
+      if (_sortKey != null) matched.sort(_compareDex);
+      return matched;
     }
 
     final out = _allPokemon.where(ok).toList();
