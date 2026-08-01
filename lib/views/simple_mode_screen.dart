@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
@@ -465,10 +466,42 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _effectiveIsSpecial;
   }
 
+  /// One-time discoverability hint for the long-press-↓ gesture —
+  /// shown on the FIRST nature-chip tap ever, then never again.
+  /// Static so the flag survives widget rebuilds; persisted so it
+  /// survives restarts. A long-press marks it seen without showing
+  /// (the user evidently already knows the gesture).
+  static bool? _natureHintShown;
+  static const _natureHintKey = 'natureLongPressHintShown';
+
+  Future<void> _maybeShowNatureHint() async {
+    if (_natureHintShown == true) return;
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(_natureHintKey) ?? false) {
+      _natureHintShown = true;
+      return;
+    }
+    _natureHintShown = true;
+    await prefs.setBool(_natureHintKey, true);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppStrings.t('simple.natureLongPressHint')),
+      duration: const Duration(seconds: 3),
+    ));
+  }
+
+  void _markNatureHintSeen() {
+    if (_natureHintShown == true) return;
+    _natureHintShown = true;
+    SharedPreferences.getInstance()
+        .then((p) => p.setBool(_natureHintKey, true));
+  }
+
   /// Toggle a stat's nature chip between neutral and ↑ on tap. The ↓
   /// state is reachable via long-press ([_longPressNature]) — a tap
   /// on a ↓ chip clears it back to neutral, same as ↑.
   void _cycleNature(NatureStat s, {required bool attacker}) {
+    _maybeShowNatureHint();
     final current = _natureDir(s, attacker: attacker);
     setState(() {
       final state = attacker ? _atk : _def;
@@ -494,6 +527,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// since a long-press has no visual affordance of its own.
   void _longPressNature(NatureStat s, {required bool attacker}) {
     HapticFeedback.mediumImpact();
+    _markNatureHintSeen();
     final current = _natureDir(s, attacker: attacker);
     setState(() {
       final state = attacker ? _atk : _def;

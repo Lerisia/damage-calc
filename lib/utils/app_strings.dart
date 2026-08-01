@@ -1662,6 +1662,13 @@ class AppStrings {
       AppLanguage.en: 'Nat',
       AppLanguage.ja: '性格',
     },
+    // One-time snackbar teaching the long-press-↓ gesture, shown on
+    // the user's first-ever nature-chip tap in Simple Mode.
+    'simple.natureLongPressHint': {
+      AppLanguage.ko: '성격 칩을 길게 누르면 하락 성격(↓)으로 설정됩니다.',
+      AppLanguage.en: 'Long-press a nature chip to set a lowering nature (↓).',
+      AppLanguage.ja: '性格チップを長押しすると下降補正(↓)になります。',
+    },
     'simple.rankNeutral': {
       AppLanguage.ko: '랭크',
       AppLanguage.en: 'Rnk',
