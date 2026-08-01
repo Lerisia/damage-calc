@@ -47,7 +47,17 @@ class MoveSelector extends StatefulWidget {
   /// context (no label).
   final String? labelText;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true, this.forceShowStatus = false, this.labelText});
+  /// The Pokémon's configured move slots, hoisted to the top of the
+  /// empty-query suggestion list in slot order. Simple Mode passes
+  /// the attacker's 4-slot `moves` list here — since Extended and
+  /// Simple share one BattlePokemonState, whatever set the user built
+  /// in Extended Mode (or the auto-seeded champions defaults) surfaces
+  /// first without scrolling. Status moves and empty slots are
+  /// skipped; the currently-selected move isn't duplicated. Null →
+  /// no pinning (all other call sites).
+  final List<Move?>? pinnedMoves;
+
+  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true, this.forceShowStatus = false, this.labelText, this.pinnedMoves});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -190,21 +200,50 @@ class _MoveSelectorState extends State<MoveSelector> {
     return out;
   }
 
+  /// The caller-provided slot moves resolved against the current
+  /// `_allMoves` pool: canonical instances, slot order preserved,
+  /// nulls/status/dupes-of-selected dropped. Matching by name (not
+  /// identity) because the slots' Move objects may predate this
+  /// selector's own movedex load.
+  List<Move> _resolvedPinnedMoves() {
+    final slots = widget.pinnedMoves;
+    if (slots == null) return const [];
+    final byName = {for (final m in _allMoves) m.name: m};
+    final out = <Move>[];
+    for (final slot in slots) {
+      if (slot == null) continue;
+      if (slot.category == MoveCategory.status) continue; // 변화기 제외
+      final m = byName[slot.name];
+      if (m == null || m == _selected) continue;
+      if (out.contains(m)) continue;
+      out.add(m);
+    }
+    return out;
+  }
+
   List<Move> _sortedOptions(String query) {
     List<Move> results;
     if (query.isEmpty) {
-      // Empty-query layout: [selected?] → champions top-10 → the rest.
-      // The champions priority surfaces meta picks no matter which
-      // mode the user came from, so e.g. simple-mode users loading
-      // an extended-mode sample don't have to scroll through the
-      // alphabetical pile to find a viable swap.
-      final priority = _championsPriorityMoves(topN: 10);
+      // Empty-query layout:
+      //   [selected?] → pinned slot moves → champions top-10 → rest.
+      // Pinned = the Pokémon's own configured 4 slots (Simple Mode
+      // passes them); champions priority then surfaces meta picks
+      // beyond the user's current set.
+      final pinned = _resolvedPinnedMoves();
+      final pinnedSet = pinned.toSet();
+      final priority = _championsPriorityMoves(topN: 10)
+          .where((m) => !pinnedSet.contains(m))
+          .toList();
       final prioritySet = priority.toSet();
       final rest = _allMoves
-          .where((m) => m != _selected && !prioritySet.contains(m))
+          .where((m) =>
+              m != _selected &&
+              !pinnedSet.contains(m) &&
+              !prioritySet.contains(m))
           .toList();
       results = [
         if (_selected != null) _selected!,
+        ...pinned,
         ...priority,
         ...rest,
       ];

@@ -746,6 +746,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                   // of the global toggle — its layout has no slot for
                   // them and they'd just clutter the search.
                   allowStatus: false,
+                  // Hoist the attacker's configured 4 slots to the top
+                  // of the suggestion list, in slot order. Extended
+                  // and Simple share this BattlePokemonState, so an
+                  // Extended-built moveset (or the auto-seeded
+                  // champions defaults) is one tap away here.
+                  pinnedMoves: _atk.moves,
                   // Collapse the hit-count chip while the field is
                   // focused so the ×N pill doesn't eat search width
                   // on multi-hit moves like Rock Blast / Bullet Seed.
