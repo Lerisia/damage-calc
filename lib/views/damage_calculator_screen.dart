@@ -21,6 +21,7 @@ import 'widgets/app_settings_menu.dart';
 import 'widgets/first_launch_scope_dialog.dart';
 import 'widgets/reverse_calc_dialog.dart';
 import '../utils/sprite_pack_manager.dart';
+import '../utils/sprite_service.dart';
 import 'dex_screen.dart' show DexPickResult;
 import 'simple_mode_screen.dart';
 import '../utils/damage_calculator.dart';
@@ -368,7 +369,13 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     if (kIsWeb) return;
     final mgr = SpritePackManager.instance;
     if (!mgr.hasAnyInstalled) return;
-    if (!mgr.isAnyOutOfDate(kLatestSpritePackVersion)) return;
+    // Only nag about the style the user is actually viewing. Checking
+    // every installed style meant a stale pack for an abandoned style
+    // (e.g. an old dex pack left behind after the user switched to bw
+    // and imported bw fresh) nagged on every launch forever — the
+    // user would never re-import a style they no longer use.
+    final activeStyle = SpriteService.instance.style;
+    if (!mgr.isStyleOutOfDate(activeStyle, kLatestSpritePackVersion)) return;
     final prefs = await SharedPreferences.getInstance();
     final snoozeUntil = prefs.getInt(_packNagSnoozeUntilKey) ?? 0;
     final snoozeFor = prefs.getString(_packNagSnoozeForVersionKey);

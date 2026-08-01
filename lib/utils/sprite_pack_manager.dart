@@ -70,31 +70,39 @@ class SpritePackManager extends ChangeNotifier {
   bool get hasAnyInstalled =>
       SpriteStyle.values.any((s) => isInstalled(s));
 
-  /// True if any installed style is STRICTLY OLDER than [latest] —
+  /// True if [style] is installed and STRICTLY OLDER than [latest] —
   /// including the legacy null case where no marker was ever written
-  /// (those count as "unknown-old" and always trigger). Returns false
-  /// when nothing is installed (the nag shouldn't fire for first-time
-  /// users; that's the job of the install banner inside the style
-  /// dialog) AND false when the installed pack is newer than [latest]
-  /// (user got ahead of the app build — no reason to nag).
+  /// (counts as "unknown-old"). False when the style isn't installed
+  /// (nothing to update), when it matches, or when it's NEWER than
+  /// [latest] (user got ahead of the app build).
   ///
-  /// Version strings are compared numerically. Anything that doesn't
-  /// parse as an int falls through to string-inequality (still-stale)
-  /// so a malformed marker doesn't silently pass a fresh check.
-  bool isAnyOutOfDate(String latest) {
+  /// Version strings compare numerically; a non-numeric marker falls
+  /// through to string-inequality so a malformed value doesn't
+  /// silently pass a fresh check.
+  bool isStyleOutOfDate(SpriteStyle style, String latest) {
+    if (!isInstalled(style)) return false;
+    final installed = _versions[style];
+    if (installed == null) return true; // legacy pre-marker install
+    if (installed == latest) return false;
+    final installedInt = int.tryParse(installed);
     final latestInt = int.tryParse(latest);
+    if (installedInt != null && latestInt != null) {
+      return installedInt < latestInt; // ahead-of-us → not stale
+    }
+    return true; // non-numeric mismatch → treat as stale
+  }
+
+  /// True if ANY installed style is strictly older than [latest].
+  ///
+  /// Prefer [isStyleOutOfDate] for the update nag — checking every
+  /// installed style means a stale pack for a style the user no
+  /// longer views (e.g. an old dex pack left behind after switching
+  /// to bw) nags forever, since they'll never re-import a style they
+  /// don't use. Retained for callers that genuinely need the
+  /// any-of-all semantics.
+  bool isAnyOutOfDate(String latest) {
     for (final s in SpriteStyle.values) {
-      if (!isInstalled(s)) continue;
-      final installed = _versions[s];
-      if (installed == null) return true; // legacy pre-marker install
-      if (installed == latest) continue;
-      final installedInt = int.tryParse(installed);
-      if (installedInt != null && latestInt != null) {
-        if (installedInt < latestInt) return true;
-        continue; // user ahead of us — quietly OK
-      }
-      // Fallback for non-numeric versions: treat any mismatch as stale.
-      return true;
+      if (isStyleOutOfDate(s, latest)) return true;
     }
     return false;
   }
