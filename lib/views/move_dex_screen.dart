@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/champions_moves.dart';
 import '../data/champions_usage.dart';
 import '../data/learnsetdex.dart';
 import '../data/movedex.dart';
@@ -103,10 +104,22 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   void initState() {
     super.initState();
     _load();
+    // The browse list reads the Champions filter inside _filteredMoves
+    // but isn't otherwise wrapped in a listener for it — rebuild the
+    // whole screen when the toggle flips (from the settings menu) so
+    // non-Champions moves drop out of the list live.
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_onChampionsFilterChanged);
+  }
+
+  void _onChampionsFilterChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_onChampionsFilterChanged);
     _searchCtl.dispose();
     _searchFocus.dispose();
     _learnersSearchCtl.dispose();
@@ -182,6 +195,10 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
         _typeFilter == null || m.type == _typeFilter;
     bool catOk(Move m) =>
         _categoryFilter == null || m.category == _categoryFilter;
+    // Champions-only hides moves the game doesn't include.
+    final champOnly =
+        ChampionsFilterController.instance.championsOnly.value;
+    bool champOk(Move m) => !champOnly || isChampionsMove(m.name);
 
     if (query.isNotEmpty) {
       final qLower = query.toLowerCase();
@@ -189,7 +206,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       final scored = <(Move, int)>[];
       for (final e in _searchEntries) {
         final m = e.item;
-        if (!typeOk(m) || !catOk(m)) continue;
+        if (!typeOk(m) || !catOk(m) || !champOk(m)) continue;
         final s = scoreEntry(qRunes, qLower, e);
         if (s > 0) scored.add((m, s));
       }
@@ -197,7 +214,8 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       return scored.map((e) => e.$1).toList();
     }
 
-    final out = _allMoves.where((m) => typeOk(m) && catOk(m)).toList();
+    final out =
+        _allMoves.where((m) => typeOk(m) && catOk(m) && champOk(m)).toList();
     if (_sortKey != null) out.sort(_compare);
     return out;
   }

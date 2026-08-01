@@ -17,6 +17,7 @@ import 'models/ability.dart';
 import 'models/item.dart';
 import 'data/movedex.dart';
 import 'data/pokedex.dart';
+import 'data/champions_moves.dart';
 import 'data/champions_usage.dart';
 import 'views/root_shell.dart';
 import 'views/widgets/champions_usage_rank_sheet.dart';
@@ -270,6 +271,7 @@ class _AppLoaderState extends State<_AppLoader> {
       loadItemdex(),
       loadChampionsUsage(format: ChampionsFormat.singles),
       loadChampionsUsage(format: ChampionsFormat.doubles),
+      loadChampionsMoves(),
     ]);
 
     // Build name maps from loaded data

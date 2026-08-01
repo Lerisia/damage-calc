@@ -68,6 +68,13 @@ fi
 python3 tools/fetch_pkmnchamps.py --rule 0
 python3 tools/fetch_pkmnchamps.py --rule 1
 python3 tools/apply_champout_learnsets.py
+# Champions-legal move allowlist (yakkun scrape). Low-churn — the move
+# roster only shifts on a Champions patch — but re-running daily keeps
+# it current for free. Self-aborts (non-zero, no write) if the scrape
+# yields an implausibly small set, so a yakkun markup change can't ship
+# a truncated allowlist that would hide legal moves.
+python3 tools/fetch_champions_moves.py || \
+  echo "champions moves refresh failed (non-fatal) — keeping existing allowlist"
 
 if git diff --quiet assets/; then
   echo "No upstream changes — done."
@@ -76,7 +83,8 @@ fi
 
 # Stage only the files this pipeline owns so a stray edit in the
 # tree (somehow snuck in despite the reset above) can't tag along.
-git add assets/champions_usage.json assets/champions_usage_doubles.json assets/learnsets.json
+git add assets/champions_usage.json assets/champions_usage_doubles.json \
+        assets/champions_moves.json assets/learnsets.json
 git -c user.email="cron@home" -c user.name="home-cron" \
   commit -m "chore(data): daily auto-refresh ($(date -u +%Y-%m-%d))"
 git push origin main

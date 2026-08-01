@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../data/champions_moves.dart';
 import '../../data/champions_usage.dart';
+import '../../utils/champions_filter_controller.dart';
 import '../../data/movedex.dart';
 import '../../data/learnsetdex.dart';
 import '../../models/move.dart';
@@ -87,6 +89,11 @@ class _MoveSelectorState extends State<MoveSelector> {
       MoveOptionsController.instance.showStatusMoves
           .addListener(_rebuildEntries);
     }
+    // Rebuild the pool when the global Champions filter flips so
+    // non-Champions moves drop out (or reappear) live, same as the
+    // status-move toggle above.
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_rebuildEntries);
   }
 
   @override
@@ -103,6 +110,8 @@ class _MoveSelectorState extends State<MoveSelector> {
       MoveOptionsController.instance.showStatusMoves
           .removeListener(_rebuildEntries);
     }
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_rebuildEntries);
     _controller.dispose();
     super.dispose();
   }
@@ -128,11 +137,18 @@ class _MoveSelectorState extends State<MoveSelector> {
 
   void _rebuildEntries() {
     if (!mounted) return;
-    final filtered = _showStatus()
-        ? _baseMoves
-        : _baseMoves
-            .where((m) => m.category != MoveCategory.status)
-            .toList();
+    final champOnly =
+        ChampionsFilterController.instance.championsOnly.value;
+    final filtered = _baseMoves.where((m) {
+      if (!_showStatus() && m.category == MoveCategory.status) return false;
+      // Champions-only: drop moves the game doesn't include. The
+      // currently-selected move is exempt so a legal pick loaded
+      // from a sample / handoff never vanishes from its own field.
+      if (champOnly && m != _selected && !isChampionsMove(m.name)) {
+        return false;
+      }
+      return true;
+    }).toList();
     setState(() {
       _allMoves = filtered;
       _searchEntries = filtered

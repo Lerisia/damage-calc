@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/abilitydex.dart';
+import '../data/champions_moves.dart';
 import '../data/champions_usage.dart';
 import '../data/learnsetdex.dart';
 import '../data/movedex.dart';
@@ -2350,6 +2351,26 @@ class _MovesTabState extends State<_MovesTab> {
   bool _sortAsc = true;
 
   @override
+  void initState() {
+    super.initState();
+    // Rebuild the move list when the Champions filter flips so
+    // non-Champions moves drop out live.
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_onChampionsFilterChanged);
+  }
+
+  void _onChampionsFilterChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  void dispose() {
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_onChampionsFilterChanged);
+    super.dispose();
+  }
+
+  @override
   void didUpdateWidget(_MovesTab old) {
     super.didUpdateWidget(old);
     // When the pokemon (and so the learnable set) changes, drop any
@@ -2368,10 +2389,15 @@ class _MovesTabState extends State<_MovesTab> {
     }
   }
 
+  bool _champOk(Move m) =>
+      !ChampionsFilterController.instance.championsOnly.value ||
+      isChampionsMove(m.name);
+
   Set<PokemonType> _availableTypes() {
     final out = <PokemonType>{};
     for (final m in widget.moveDex.values) {
-      if (widget.learnable.contains(toShowdownMoveId(m.name))) {
+      if (widget.learnable.contains(toShowdownMoveId(m.name)) &&
+          _champOk(m)) {
         out.add(m.type);
       }
     }
@@ -2381,7 +2407,8 @@ class _MovesTabState extends State<_MovesTab> {
   Set<MoveCategory> _availableCategories() {
     final out = <MoveCategory>{};
     for (final m in widget.moveDex.values) {
-      if (widget.learnable.contains(toShowdownMoveId(m.name))) {
+      if (widget.learnable.contains(toShowdownMoveId(m.name)) &&
+          _champOk(m)) {
         out.add(m.category);
       }
     }
@@ -2427,6 +2454,8 @@ class _MovesTabState extends State<_MovesTab> {
   List<Move> _filtered() {
     if (widget.pokemon == null) return [];
     final ids = widget.learnable;
+    final champOnly =
+        ChampionsFilterController.instance.championsOnly.value;
     final out = <Move>[];
     for (final m in widget.moveDex.values) {
       // Skip calc-only variants (Magnitude 4-10 etc.) — the canonical
@@ -2434,6 +2463,8 @@ class _MovesTabState extends State<_MovesTab> {
       if (m.hasTag(MoveTags.dexHidden)) continue;
       final mid = toShowdownMoveId(m.name);
       if (!ids.contains(mid)) continue;
+      // Champions-only: hide moves the game doesn't include.
+      if (champOnly && !isChampionsMove(m.name)) continue;
       if (_typeFilter != null && m.type != _typeFilter) continue;
       if (_categoryFilter != null && m.category != _categoryFilter) continue;
       if (_query.isNotEmpty) {
