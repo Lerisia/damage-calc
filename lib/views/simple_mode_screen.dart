@@ -465,18 +465,16 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     return _effectiveIsSpecial;
   }
 
-  /// Toggle a stat's nature chip between neutral and ↑ (no ↓ state in
-  /// Simple Mode). Going up auto-fills the ↓ slot with the opposite so
-  /// the applied Nature is a real one; going back to neutral clears
-  /// both slots.
+  /// Toggle a stat's nature chip between neutral and ↑ on tap. The ↓
+  /// state is reachable via long-press ([_longPressNature]) — a tap
+  /// on a ↓ chip clears it back to neutral, same as ↑.
   void _cycleNature(NatureStat s, {required bool attacker}) {
     final current = _natureDir(s, attacker: attacker);
     setState(() {
       final state = attacker ? _atk : _def;
       // Each chip now only touches its own stat — no auto-pairing.
-      // Neutral → ↑ on this stat. ↑ → neutral. ↓ (which can only
-      // appear if loaded from Extended Mode) → neutral. Every other
-      // stat's slot is preserved.
+      // Neutral → ↑ on this stat. ↑ → neutral. ↓ → neutral. Every
+      // other stat's slot is preserved.
       if (current == _NatureDir.up) {
         state.nature = state.nature.copyWith(clearUp: true);
       } else if (current == _NatureDir.down) {
@@ -484,6 +482,28 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       } else {
         // Neutral tap — set this stat as ↑, leave ↓ slot alone.
         state.nature = state.nature.copyWith(up: s);
+      }
+    });
+    widget.onChanged();
+  }
+
+  /// Long-press: set this stat's chip to ↓ (하락 성격). Long-pressing
+  /// an already-↓ chip clears it. If the stat was ↑, the ↑ slot is
+  /// cleared in the same write — one stat can't be boosted and
+  /// dropped by the same nature. Haptic tick confirms the gesture
+  /// since a long-press has no visual affordance of its own.
+  void _longPressNature(NatureStat s, {required bool attacker}) {
+    HapticFeedback.mediumImpact();
+    final current = _natureDir(s, attacker: attacker);
+    setState(() {
+      final state = attacker ? _atk : _def;
+      if (current == _NatureDir.down) {
+        state.nature = state.nature.copyWith(clearDown: true);
+      } else {
+        state.nature = state.nature.copyWith(
+          down: s,
+          clearUp: state.nature.up == s,
+        );
       }
     });
     widget.onChanged();
@@ -1722,6 +1742,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final s = _chipScale;
     return InkWell(
       onTap: () => _cycleNature(stat, attacker: attacker),
+      // 꾹 누르면 하락 성격(↓) — tap cycling stays a clean 무 ↔ ↑
+      // two-state, so the rarely-needed ↓ doesn't tax every toggle.
+      onLongPress: () => _longPressNature(stat, attacker: attacker),
       borderRadius: BorderRadius.circular(4),
       child: Container(
         width: 30 * s, height: 28 * s,
