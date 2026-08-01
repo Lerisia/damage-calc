@@ -599,17 +599,14 @@ class BattleFacade {
     if (notesOut != null) {
       notesOut.addAll(doublesMods.notes);
     }
-    // Spread reduction is owned by damage_calculator (applied to
-    // baseDamage to match Showdown's pokeRound timing), so
-    // `doublesMods.powerMod` stays 1.0 for it. The offensive
-    // calculator has no baseDamage stage to inject into, so collapse
-    // the ×0.75 into the power chain here — without this, the 결정력
-    // tab ignores the 분산 toggle even though the damage tab honours
-    // it. Note for the modifier list is already emitted by
-    // computeDoublesModifiers above.
-    if (state.spreadTargets && transformed.move.hasTag(MoveTags.spread)) {
-      powerMod *= kSpreadMultiplier;
-    }
+    // The damage path applies spread / Helping Hand / Power Spot /
+    // Battery itself, fp-exact, so `doublesMods.powerMod` is
+    // permanently 1.0 for them. This float chain has no fp stage —
+    // apply the collapsed product instead. (Previously only spread
+    // was special-cased here, which left HH / Power Spot / Battery
+    // silently missing from 결정력 while the damage tab honoured
+    // them — user-reported mismatch.)
+    powerMod *= doublesMods.offensivePowerMod;
 
     // Field-state ability effects (auras + ruins). The toggles live on
     // RoomConditions; attacker/defender abilities also count as sources.

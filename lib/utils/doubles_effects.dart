@@ -25,11 +25,27 @@ import '../models/weather.dart';
 /// Doubles is on — everything becomes a no-op in that case.
 class DoublesModifiers {
   /// Multiplier applied to move damage / offensive-power output.
+  ///
+  /// NOTE (attacker side): permanently 1.0 for Helping Hand / Power
+  /// Spot / Battery / spread — damage_calculator reads the attacker
+  /// flags directly into its ×4096 fixed-point bpMods chain for
+  /// Showdown-exact rounding. The float product for surfaces without
+  /// an fp chain lives in [offensivePowerMod] instead. Defender-side
+  /// ([computeDefenderDoublesModifiers]) still uses this field for
+  /// Friend Guard.
   final double powerMod;
 
-  /// Multiplier applied to the offensive stat (Attack or Sp.Atk).
-  /// Reserved for Flower Gift / Plus-Minus etc. — unused today.
+  /// Multiplier applied to the offensive stat (Attack or Sp.Atk) —
+  /// Flower Gift / Plus-Minus.
   final double attackMod;
+
+  /// Float product of the attacker's power-affecting doubles toggles
+  /// (Helping Hand ×1.5, Power Spot ×1.3, Battery ×1.3 special-only,
+  /// spread ×0.75). Consumed by the 결정력 path (BattleFacade →
+  /// OffensiveCalculator), which chains plain doubles and has no
+  /// fp-exactness contract. damage_calculator must IGNORE this —
+  /// it applies the same toggles itself, fp-exact.
+  final double offensivePowerMod;
 
   /// Notes to surface in the modifier list (damage tab). Each entry matches
   /// the `move:<key>:×<value>` format so the existing renderer picks them up.
@@ -38,6 +54,7 @@ class DoublesModifiers {
   const DoublesModifiers({
     this.powerMod = 1.0,
     this.attackMod = 1.0,
+    this.offensivePowerMod = 1.0,
     this.notes = const [],
   });
 
@@ -99,30 +116,34 @@ DoublesModifiers computeDoublesModifiers({
 
   double powerMod = 1.0;
   double attackMod = 1.0;
+  double offensivePowerMod = 1.0;
   final notes = <String>[];
 
-  // Spread is now applied to baseDmg in damage_calculator (Showdown
-  // pokeRounds spread on baseDamage before weather/crit, not on the
-  // BP via bpMods). Notes still added here so the modifier list
-  // shows it. The actual ×0.75 happens up in damage_calculator.
+  // Spread / Helping Hand / Power Spot / Battery: the DAMAGE path
+  // applies these itself — spread on baseDamage (Showdown pokeRound
+  // timing) and HH/PS/Battery as individual ×4096 fp entries in the
+  // bpMods chain (collapsing them into one float multiplier loses an
+  // off-by-one ≤ 1 fp unit when two or more stack). So [powerMod]
+  // stays 1.0 for all four here, and this function contributes only
+  // (a) the notes, and (b) [offensivePowerMod] — the plain-float
+  // product the 결정력 path applies, since it has no fp chain of its
+  // own. Keeping the conditions in this one place means the two
+  // surfaces can't drift on WHEN a toggle applies (e.g. Battery's
+  // special-only guard).
   if (attacker.spreadTargets && move.hasTag(MoveTags.spread)) {
+    offensivePowerMod *= kSpreadMultiplier;
     notes.add('move:spread:×$kSpreadMultiplier');
   }
-
-  // Helping Hand / Power Spot / Battery: each one is its own entry
-  // in Showdown's bpMods chain (gen789.ts pushes them sequentially:
-  // 6144 for HH, 5325 for PS, 5325 for Battery). Collapsing them
-  // into one collapsed multiplier loses an off-by-one ≤ 1 fp unit
-  // when two or more chain together, so damage_calculator now reads
-  // the attacker flags directly. Notes still emitted here for the
-  // modifier list.
   if (attacker.helpingHand) {
+    offensivePowerMod *= kHelpingHandMultiplier;
     notes.add('move:helpingHand:×$kHelpingHandMultiplier');
   }
   if (attacker.allyPowerSpot) {
+    offensivePowerMod *= kPowerSpotMultiplier;
     notes.add('move:powerSpot:×$kPowerSpotMultiplier');
   }
   if (attacker.allyBattery && move.category == MoveCategory.special) {
+    offensivePowerMod *= kBatteryMultiplier;
     notes.add('move:battery:×$kBatteryMultiplier');
   }
 
@@ -146,6 +167,7 @@ DoublesModifiers computeDoublesModifiers({
   return DoublesModifiers(
     powerMod: powerMod,
     attackMod: attackMod,
+    offensivePowerMod: offensivePowerMod,
     notes: notes,
   );
 }

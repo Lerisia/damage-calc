@@ -406,6 +406,63 @@ void main() {
       expect(result!, greaterThan(0));
     });
 
+    group('doubles ally toggles in 결정력', () {
+      // Regression: users reported Helping Hand / Power Spot /
+      // Battery applying to the damage tab but NOT to 결정력 —
+      // computeDoublesModifiers stopped filling powerMod when the
+      // damage path moved to direct fp-chain application, and the
+      // facade was still reading the now-always-1.0 field. These
+      // pin the offensivePowerMod path.
+      const tackle = Move(
+        name: 'Tackle', nameKo: '몸통박치기', nameJa: 'たいあたり',
+        type: PokemonType.normal, category: MoveCategory.physical,
+        power: 40, accuracy: 100, pp: 35,
+      );
+      const swift = Move(
+        name: 'Swift', nameKo: '스피드스타', nameJa: 'スピードスター',
+        type: PokemonType.normal, category: MoveCategory.special,
+        power: 60, accuracy: 100, pp: 20,
+      );
+
+      int power(void Function(BattlePokemonState) mutate,
+          {Move move = tackle}) {
+        final s = BattlePokemonState();
+        s.moves[0] = move;
+        mutate(s);
+        return BattleFacade.calcOffensivePower(
+          state: s,
+          moveIndex: 0,
+          weather: Weather.none,
+          terrain: Terrain.none,
+          room: const RoomConditions(),
+        )!;
+      }
+
+      test('Helping Hand boosts 결정력 ~×1.5', () {
+        final off = power((s) {});
+        final on = power((s) => s.helpingHand = true);
+        expect(on, greaterThan(off));
+        expect(on / off, closeTo(1.5, 0.05));
+      });
+
+      test('Power Spot boosts 결정력 ~×1.3', () {
+        final off = power((s) {});
+        final on = power((s) => s.allyPowerSpot = true);
+        expect(on / off, closeTo(1.3, 0.05));
+      });
+
+      test('Battery boosts special 결정력 only', () {
+        final offSpecial = power((s) {}, move: swift);
+        final onSpecial =
+            power((s) => s.allyBattery = true, move: swift);
+        expect(onSpecial / offSpecial, closeTo(1.3, 0.05));
+        // Physical move → Battery is a no-op.
+        final offPhys = power((s) {});
+        final onPhys = power((s) => s.allyBattery = true);
+        expect(onPhys, equals(offPhys));
+      });
+    });
+
     test('STAB is higher than non-STAB', () {
       // Bulbasaur is grass/poison — poison move gets STAB
       final stateStab = BattlePokemonState();
