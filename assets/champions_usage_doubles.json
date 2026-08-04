@@ -2,7 +2,7 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pkmnchamps.com (/api/champions-data action=list)",
     "format": "Regulation reg_mb / 2026-07",
-    "updatedAt": "2026-08-04",
+    "updatedAt": "2026-08-05",
     "curatedBy": "auto: pkmnchamps.com (defaultMoves = top 4 damaging by usage)",
     "notes": "Entries are ordered by descending in-game usage. pct is the raw percentage reported by upstream. Items/moves/natures are capped at the top 10 as returned by the upstream list endpoint."
   },
