@@ -56,17 +56,29 @@ else
   exit 2
 fi
 
-# Refresh from upstream sources. All three tools mutate asset files
-# in place. Network failures bubble up — cron mails the error.
-# Singles pulls first so that the doubles run can copy X/Y/Z mega
-# entries from the just-refreshed singles file.
+# Refresh from upstream sources. All tools mutate asset files in
+# place. Network failures bubble up — cron mails the error.
 #
-# Data source: pkmnchamps.com (see fetch_pkmnchamps.py header).
-# Previously used champs.pokedb.tokyo but that origin nginx-banned our
-# home IP in July 2026; fetch_pokedb_usage.py is kept as .bak in case
-# access is later restored via the operator contact still in flight.
-python3 tools/fetch_pkmnchamps.py --rule 0
-python3 tools/fetch_pkmnchamps.py --rule 1
+# Usage data source: pokechamdb.com (see fetch_pokechamdb.py header).
+# History of the churn: champs.pokedb.tokyo nginx-banned our home IP
+# (July 2026); pkmnchamps.com replaced it but froze at Season M-B /
+# 2026-07. pokechamdb.com tracks the current in-game season (M-5+,
+# daily), so we're on it now. Both predecessors are kept as .bak.
+#
+# pokechamdb has no bulk endpoint — 235 per-Pokémon RSC pages per
+# format — so the fetcher SPREADS requests with randomized delays
+# (default 60–180 s), turning each run into a multi-hour human-looking
+# trickle. Wipe the cache first so every day re-fetches fresh (the
+# cache is keyed by season only, for in-run resume, not cross-day).
+POKECHAMDB_CACHE="${TMPDIR:-/tmp}/pokechamdb_cache"
+rm -rf "$POKECHAMDB_CACHE"
+# Singles: current-season data. Doubles: pokechamdb serves a
+# singles-mirror under format=double for now, so the fetcher's format
+# guard ABORTS the doubles write (exit 3) rather than clobbering the
+# real doubles data we still carry. It auto-enables the day pokechamdb
+# publishes genuine doubles. `|| true` so the guard-abort isn't fatal.
+python3 tools/fetch_pokechamdb.py --rule 0 --cache "$POKECHAMDB_CACHE"
+python3 tools/fetch_pokechamdb.py --rule 1 --cache "$POKECHAMDB_CACHE" || true
 python3 tools/apply_champout_learnsets.py
 # Champions-legal move allowlist (yakkun scrape). Low-churn — the move
 # roster only shifts on a Champions patch — but re-running daily keeps
