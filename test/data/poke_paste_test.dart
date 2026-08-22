@@ -131,6 +131,73 @@ void main() {
     });
   });
 
+  // Regression: our internal species names use parentheses for forms
+  // (`Deoxys (Attack Forme)`), which collide with PokePaste's
+  // nickname syntax (`Nickname (Species)`). Every parenthesised-form
+  // Pokémon must survive an encode → decode round-trip.
+  group('PokePaste form-name round-trip (regression)', () {
+    StoredSample decode(String code) => PokePaste.decodeSample(
+          code,
+          pokemonByName: dexes['byName'],
+          itemDisplayToId: dexes['displayToId'],
+          moveByName: dexes['moves'],
+        );
+
+    String encodeSpecies(String species, {String? nickname}) {
+      final state = BattlePokemonState()
+        ..applyPokemon(dexes['byName'][species] as dynamic);
+      return PokePaste.encodeSample(
+        StoredSample(id: '', name: nickname ?? species, state: state),
+        itemsById: dexes['items'],
+      );
+    }
+
+    const formSpecies = [
+      'Deoxys (Attack Forme)',
+      'Landorus (Therian Forme)',
+      'Urshifu (Rapid Strike Style)',
+      'Meowstic (Female)',
+      'Paldean Tauros (Aqua Breed)',
+      'Floette (Eternal Flower)',
+      'Gourgeist (Super Size)',
+      'Necrozma (Dusk Mane)',
+      'Toxtricity (Low Key Form)',
+      'Zacian (Crowned Sword)',
+    ];
+
+    for (final species in formSpecies) {
+      test('round-trips $species', () {
+        // Only test species that actually exist in the loaded dex, so
+        // a naming drift in this list doesn't masquerade as the bug.
+        if (dexes['byName'][species] == null) {
+          return; // skip — not in dex under this exact name
+        }
+        final decoded = decode(encodeSpecies(species));
+        expect(decoded.state.pokemonName, equals(species));
+      });
+    }
+
+    test('nicknamed form round-trips (nested parens)', () {
+      const species = 'Landorus (Therian Forme)';
+      if (dexes['byName'][species] == null) return;
+      final decoded = decode(encodeSpecies(species, nickname: 'Landy'));
+      expect(decoded.state.pokemonName, equals(species));
+      expect(decoded.name, equals('Landy'));
+    });
+
+    test('a real nickname over a base species still parses as nickname', () {
+      final state = BattlePokemonState()
+        ..applyPokemon(dexes['byName']['Garchomp'] as dynamic);
+      final code = PokePaste.encodeSample(
+        StoredSample(id: '', name: 'Speedy', state: state),
+        itemsById: dexes['items'],
+      );
+      final decoded = decode(code);
+      expect(decoded.state.pokemonName, equals('Garchomp'));
+      expect(decoded.name, equals('Speedy'));
+    });
+  });
+
   group('PokePaste team', () {
     test('round-trip with team header and two members', () {
       final a = buildGarchomp();

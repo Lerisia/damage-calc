@@ -240,21 +240,11 @@ class PokePaste {
     if (lines.isEmpty || lines.first.trim().isEmpty) {
       throw const FormatException('Missing species line');
     }
-    final head = _parseHeaderLine(lines.first.trim());
+    final head = _parseHeaderLine(lines.first.trim(), pokemonByName);
     final species = head.species;
     final nickname = head.nickname ?? species;
 
-    // Species lookup (exact, then case-insensitive fallback).
-    var pokemon = pokemonByName[species];
-    if (pokemon == null) {
-      final lower = species.toLowerCase();
-      for (final entry in pokemonByName.entries) {
-        if (entry.key.toLowerCase() == lower) {
-          pokemon = entry.value;
-          break;
-        }
-      }
-    }
+    final pokemon = _lookupSpecies(pokemonByName, species);
     if (pokemon == null) {
       throw FormatException('Unknown species: $species');
     }
@@ -336,8 +326,20 @@ class PokePaste {
     return StoredSample(id: '', name: nickname, state: state);
   }
 
+  /// Case-insensitive species lookup (exact first).
+  static Pokemon? _lookupSpecies(
+      Map<String, Pokemon> byName, String species) {
+    final exact = byName[species];
+    if (exact != null) return exact;
+    final lower = species.toLowerCase();
+    for (final entry in byName.entries) {
+      if (entry.key.toLowerCase() == lower) return entry.value;
+    }
+    return null;
+  }
+
   static ({String species, String? nickname, Gender? gender, String? item})
-      _parseHeaderLine(String line) {
+      _parseHeaderLine(String line, Map<String, Pokemon> byName) {
     var rest = line;
     String? item;
     final atIdx = rest.lastIndexOf('@');
@@ -346,20 +348,34 @@ class PokePaste {
       rest = rest.substring(0, atIdx).trim();
     }
     Gender? gender;
+    // Gender is a trailing "(M)"/"(F)" — never a form (form names never
+    // parenthesise a bare M/F), so this is unambiguous.
     final gMatch = RegExp(r'\((M|F)\)$').firstMatch(rest);
     if (gMatch != null) {
       gender = gMatch.group(1) == 'M' ? Gender.male : Gender.female;
       rest = rest.substring(0, gMatch.start).trim();
     }
-    final nick = RegExp(r'^(.+?)\s*\((.+)\)$').firstMatch(rest);
-    if (nick != null) {
-      return (
-        species: nick.group(2)!.trim(),
-        nickname: nick.group(1)!.trim(),
-        gender: gender,
-        item: item,
-      );
+
+    // Our internal species names parenthesise the form
+    // ("Deoxys (Attack Forme)"), which collides with PokePaste's
+    // "Nickname (Species)" syntax. Resolve by trying the whole
+    // remaining string as a species FIRST — a form species matches
+    // here and is taken verbatim. Only if that fails do we treat it as
+    // a nickname wrapper, pulling the species from the OUTERMOST
+    // parens (so a nicknamed form "Landy (Landorus (Therian Forme))"
+    // still yields the full parenthesised species).
+    if (_lookupSpecies(byName, rest) != null) {
+      return (species: rest, nickname: null, gender: gender, item: item);
     }
+    final open = rest.indexOf('(');
+    final close = rest.lastIndexOf(')');
+    if (open > 0 && close == rest.length - 1 && close > open) {
+      final inner = rest.substring(open + 1, close).trim();
+      final nick = rest.substring(0, open).trim();
+      return (species: inner, nickname: nick, gender: gender, item: item);
+    }
+    // No parens (or unmatched) — treat the whole thing as the species;
+    // the caller surfaces a clear "Unknown species" if it's bogus.
     return (species: rest.trim(), nickname: null, gender: gender, item: item);
   }
 
