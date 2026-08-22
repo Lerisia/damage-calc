@@ -36,8 +36,7 @@ import '../models/room.dart';
 import '../models/terrain.dart';
 import '../models/weather.dart';
 import '../utils/localization.dart';
-import '../utils/terrain_effects.dart' show abilityTerrainMap;
-import '../utils/weather_effects.dart' show abilityWeatherMap;
+import '../utils/field_sync.dart';
 import '../data/abilitydex.dart';
 import '../data/itemdex.dart';
 import '../utils/url_navigator_stub.dart'
@@ -223,42 +222,18 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
 
     if (!atkChanged && !defChanged) return;
 
-    // Auto-set: a new ability appears that maps to weather/terrain.
-    if (atkChanged && atkAbility != null) {
-      final w = abilityWeatherMap[atkAbility];
-      if (w != null) _weather = w;
-      final t = abilityTerrainMap[atkAbility];
-      if (t != null) _terrain = t;
-    }
-    if (defChanged && defAbility != null) {
-      final w = abilityWeatherMap[defAbility];
-      if (w != null) _weather = w;
-      final t = abilityTerrainMap[defAbility];
-      if (t != null) _terrain = t;
-    }
-
-    // Auto-clear by transition: an ability that *was* justifying the
-    // current weather/terrain got removed, and no replacement justifies
-    // it anymore. Purely user-set values (where no prev ability sourced
-    // it) stay put.
-    if (_weather != Weather.none) {
-      final prevHadSource =
-          (prevAtk != null && abilityWeatherMap[prevAtk] == _weather) ||
-          (prevDef != null && abilityWeatherMap[prevDef] == _weather);
-      final nowHasSource =
-          (atkAbility != null && abilityWeatherMap[atkAbility] == _weather) ||
-          (defAbility != null && abilityWeatherMap[defAbility] == _weather);
-      if (prevHadSource && !nowHasSource) _weather = Weather.none;
-    }
-    if (_terrain != Terrain.none) {
-      final prevHadSource =
-          (prevAtk != null && abilityTerrainMap[prevAtk] == _terrain) ||
-          (prevDef != null && abilityTerrainMap[prevDef] == _terrain);
-      final nowHasSource =
-          (atkAbility != null && abilityTerrainMap[atkAbility] == _terrain) ||
-          (defAbility != null && abilityTerrainMap[defAbility] == _terrain);
-      if (prevHadSource && !nowHasSource) _terrain = Terrain.none;
-    }
+    // Field-sync rule lives in field_sync.dart (pure + tested); the
+    // widget just tracks prev abilities and applies the result.
+    final synced = syncFieldFromAbilities(
+      weather: _weather,
+      terrain: _terrain,
+      prevAtkAbility: prevAtk,
+      prevDefAbility: prevDef,
+      atkAbility: atkAbility,
+      defAbility: defAbility,
+    );
+    _weather = synced.weather;
+    _terrain = synced.terrain;
   }
 
   void _swapSides() {
