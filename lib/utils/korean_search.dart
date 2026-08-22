@@ -94,6 +94,136 @@ int triLanguageScore(String query, {
   return 0;
 }
 
+/// A reusable, prebuilt search corpus over items of type [T].
+///
+/// Consolidates the "empty query → pinned items first + sorted rest;
+/// non-empty query → relevance-ranked matches" skeleton that every
+/// picker/typeahead in the app was re-implementing by hand (move
+/// selector, pokémon selector, ability pickers, …). Build it once
+/// from the item list, then call [query] per keystroke.
+///
+/// Contract:
+///  * **empty query** → `[pins in given order] + [everything else that
+///    passes `allow`, ordered by `restSort`]`. Pins are emitted in the
+///    caller's order and de-duplicated out of the rest.
+///  * **non-empty query** → items with `scoreEntry > 0`, sorted by
+///    descending score (stable within a score). `restSort`/pin order
+///    don't apply — relevance wins.
+///  * `allow` (optional) hard-filters the corpus in BOTH modes, EXCEPT
+///    that pins always survive (e.g. a Pokémon's own ability shows
+///    even when the "pickable" filter would otherwise hide it).
+///
+/// Call-site-specific post-steps that don't generalise cleanly
+/// (learnable-first partition, hoisting the currently-selected item on
+/// a query) stay at the call site — folding them in as yet more knobs
+/// would turn this into a god-function.
+class SearchIndex<T> {
+  final List<SearchEntry<T>> _entries;
+
+  SearchIndex(Iterable<SearchEntry<T>> entries)
+      : _entries = List.of(entries);
+
+  List<T> query(
+    String q, {
+    List<T> pins = const [],
+    bool Function(T item)? allow,
+    Comparator<T>? restSort,
+  }) {
+    final trimmed = q.trim();
+    if (trimmed.isEmpty) {
+      final pinSet = pins.toSet();
+      final rest = <T>[];
+      for (final e in _entries) {
+        final item = e.item;
+        if (pinSet.contains(item)) continue; // pins emitted separately
+        if (allow != null && !allow(item)) continue;
+        rest.add(item);
+      }
+      if (restSort != null) rest.sort(restSort);
+      // Pins keep the caller's order and bypass `allow`.
+      return [...pins, ...rest];
+    }
+
+    final qLower = trimmed.toLowerCase();
+    final qRunes = qLower.runes.toList();
+    final scored = <(T, int)>[];
+    for (final e in _entries) {
+      if (allow != null && !allow(e.item)) continue;
+      final s = scoreEntry(qRunes, qLower, e);
+      if (s > 0) scored.add((e.item, s));
+    }
+    // Stable sort by descending score (Dart's List.sort is not
+    // stable, so break ties by original index to keep it deterministic).
+    final indexOf = {for (var i = 0; i < scored.length; i++) scored[i].$1: i};
+    scored.sort((a, b) {
+      final c = b.$2.compareTo(a.$2);
+      return c != 0 ? c : indexOf[a.$1]!.compareTo(indexOf[b.$1]!);
+    });
+    return [for (final e in scored) e.$1];
+  }
+}
+
+/// Stable partition: items where [first] is true, in their original
+/// relative order, followed by the rest in their original order. Used
+/// for "learnable moves first" without disturbing the search ranking
+/// within each group.
+List<T> stablePartition<T>(List<T> items, bool Function(T) first) {
+  final a = <T>[];
+  final b = <T>[];
+  for (final it in items) {
+    (first(it) ? a : b).add(it);
+  }
+  return [...a, ...b];
+}
+
+/// The one composition every picker/typeahead in the app shares. Wraps
+/// [SearchIndex.query] with the two post-steps that recur across call
+/// sites, so each site is just a parameter set rather than its own
+/// hand-rolled ordering:
+///
+///  * [hoist] — an item forced to the very top in BOTH modes (the
+///    currently-selected value). In empty mode it leads the pins; on a
+///    real query it's lifted to index 0 if it survived the filter.
+///  * [pins] — items floated to the top in EMPTY mode only, after
+///    [hoist] (e.g. a move set's configured slots, champions top-N, or
+///    a Pokémon's own abilities). On a real query these rank by
+///    relevance like anything else — matching current behavior.
+///  * [allow] / [restSort] — passed straight through to [SearchIndex].
+///  * [groupFirst] — a stable partition applied LAST (after hoist), so
+///    e.g. learnable moves lead while preserving search order within
+///    each group. Applied after hoist deliberately: it can pull the
+///    hoisted item down if it fails the predicate, mirroring the
+///    pre-refactor move selector.
+List<T> pickerSuggestions<T>(
+  SearchIndex<T> index,
+  String query, {
+  T? hoist,
+  List<T> pins = const [],
+  bool Function(T item)? allow,
+  Comparator<T>? restSort,
+  bool Function(T item)? groupFirst,
+}) {
+  final trimmed = query.trim();
+  List<T> results;
+  if (trimmed.isEmpty) {
+    results = index.query(
+      '',
+      pins: [if (hoist != null) hoist, ...pins],
+      allow: allow,
+      restSort: restSort,
+    );
+  } else {
+    results = index.query(trimmed, allow: allow);
+    if (hoist != null && results.contains(hoist)) {
+      results = [hoist, ...results.where((e) => e != hoist)];
+    }
+  }
+  if (groupFirst != null) {
+    results = stablePartition(results, groupFirst);
+  }
+  return results;
+}
+
 const _chosung = [
   'ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ',
   'ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ',
