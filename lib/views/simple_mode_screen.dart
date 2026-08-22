@@ -12,7 +12,9 @@ import '../models/pokemon.dart';
 import '../models/room.dart';
 import '../models/stats.dart';
 import '../models/status.dart';
-import '../utils/korean_search.dart' show triLanguageScore;
+import '../utils/korean_search.dart'
+    show triLanguageScore, SearchIndex, pickerSuggestions;
+import '../utils/ability_picker.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
@@ -167,8 +169,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   Map<String, String> get _abilityNames => widget.abilityNameMap;
   Map<String, String> get _itemNames => widget.itemNameMap;
   List<String> _itemKeys = const [];
-  List<String> _atkSortedAbilities = const [];
-  List<String> _defSortedAbilities = const [];
+  // Shared search engine over ability keys; rebuilt when the name map
+  // reference changes. Own abilities are computed per-query from each
+  // side's state, so there's no per-side sorted cache anymore.
+  SearchIndex<String>? _abilityIndex;
+  Map<String, String>? _abilityIndexFor;
   final _atkAbilityCtl = TextEditingController();
   final _atkItemCtl = TextEditingController();
   final _defAbilityCtl = TextEditingController();
@@ -182,8 +187,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void initState() {
     super.initState();
     _itemKeys = _itemNames.keys.toList();
-    _rebuildSortedAbilitiesFor(attacker: true);
-    _rebuildSortedAbilitiesFor(attacker: false);
     _hydrateFromState();
   }
 
@@ -196,8 +199,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         old.itemNameMap != widget.itemNameMap;
     if (mapsChanged) {
       _itemKeys = _itemNames.keys.toList();
-      _rebuildSortedAbilitiesFor(attacker: true);
-      _rebuildSortedAbilitiesFor(attacker: false);
       _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
       _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
       _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
@@ -215,8 +216,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       _defAbilityFocus.unfocus(disposition: UnfocusDisposition.scope);
       _atkItemFocus.unfocus(disposition: UnfocusDisposition.scope);
       _defItemFocus.unfocus(disposition: UnfocusDisposition.scope);
-      _rebuildSortedAbilitiesFor(attacker: true);
-      _rebuildSortedAbilitiesFor(attacker: false);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         _hydrateFromState();
@@ -229,34 +228,32 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     }
   }
 
-  void _rebuildSortedAbilitiesFor({required bool attacker}) {
+  /// Ability suggestions for one side via the shared engine. The mon's
+  /// own abilities (Supreme Overlord expanded) are pinned first and
+  /// always shown; the rest is filtered to mainline-only (pickable) so
+  /// Colosseum/spin-off placeholders don't pollute the list, then
+  /// alpha by localized name; a real query relevance-ranks.
+  List<String> _abilitySuggestions(String query, {required bool attacker}) {
+    if (!identical(_abilityIndexFor, widget.abilityNameMap)) {
+      // No abilitydex here (only the key→localized-name map), so EN
+      // matching falls back to the key and JA is empty — matches the
+      // prior triLanguageScore(nameEn: key) behavior.
+      _abilityIndex = buildAbilityIndex(
+        _abilityNames.keys,
+        koOf: (k) => _abilityNames[k] ?? k,
+      );
+      _abilityIndexFor = widget.abilityNameMap;
+    }
     final state = attacker ? _atk : _def;
-    final own = <String>[];
-    for (final a in state.pokemonAbilities) {
-      if (a == 'Supreme Overlord') {
-        for (int i = 0; i <= 5; i++) {
-          final key = 'Supreme Overlord $i';
-          if (_abilityNames.containsKey(key)) own.add(key);
-        }
-      } else {
-        own.add(a);
-      }
-    }
-    // Pokemon's own abilities are always shown (they're legit
-    // gameplay abilities). The rest-of-world list is filtered to
-    // mainline-only so the Colosseum/spin-off placeholders don't
-    // pollute the typeahead.
-    final pickable = widget.pickableAbilities;
-    final rest = _abilityNames.keys
-        .where((a) => !own.contains(a) && pickable.contains(a))
-        .toList()
-      ..sort((a, b) => (_abilityNames[a] ?? a).compareTo(_abilityNames[b] ?? b));
-    final combined = [...own, ...rest];
-    if (attacker) {
-      _atkSortedAbilities = combined;
-    } else {
-      _defSortedAbilities = combined;
-    }
+    final own = expandAbilities(state.pokemonAbilities, _abilityNames);
+    return pickerSuggestions(
+      _abilityIndex!,
+      query,
+      pins: own,
+      allow: widget.pickableAbilities.contains,
+      restSort: (a, b) =>
+          (_abilityNames[a] ?? a).compareTo(_abilityNames[b] ?? b),
+    );
   }
 
   /// Pull local SP controllers, nature chip state, and ability/item
@@ -364,7 +361,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       // mega forms. Don't overwrite selectedItem here — that wiped
       // out the curated top item (Black Glasses on Kingambit, etc.).
       _atk.applyPokemon(p);
-      _rebuildSortedAbilitiesFor(attacker: true);
       // Re-pull every local controller from the freshly-applied state
       // — applyPokemon now also sets the EV spread, so the SP input
       // fields would otherwise keep showing the previous Pokémon's
@@ -377,7 +373,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void _applyDefenderPokemon(Pokemon p) {
     setState(() {
       _def.applyPokemon(p);
-      _rebuildSortedAbilitiesFor(attacker: false);
       _hydrateFromState();
     });
     widget.onChanged();
@@ -1804,10 +1799,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final controller = attacker ? _atkAbilityCtl : _defAbilityCtl;
     final focus = attacker ? _atkAbilityFocus : _defAbilityFocus;
     final state = attacker ? _atk : _def;
-    // Pokemon's own abilities float to the top, full catalog below —
-    // same ordering Normal Mode uses. Precomputed cache; rebuilt only
-    // on species/language change.
-    final sorted = attacker ? _atkSortedAbilities : _defSortedAbilities;
     // Own ability keys (including Supreme Overlord's numbered variants)
     // — used to gray out entries that don't legitimately belong to this
     // pokemon, same visual language as non-learnable moves.
@@ -1828,23 +1819,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       child: buildTypeAhead<String>(
       controller: controller,
       focusNode: focus,
-      suggestionsCallback: (query) {
-        if (query.isEmpty) return sorted;
-        // Mirror Extended Mode's tri-language search so the chosung
-        // shortcut ("ㅅㅁㄲㄹㄱ" → 심술꾸러기) works here too. The
-        // internal key (English) and the localized display name carry
-        // the EN/KO matching; nameJa is left empty (we don't have it
-        // here without re-loading abilitydex, and the Korean chosung
-        // matcher only needs nameKo).
-        return sorted
-            .where((a) => triLanguageScore(
-                  query,
-                  nameKo: _abilityNames[a] ?? a,
-                  nameEn: a,
-                  internalKey: a,
-                ) > 0)
-            .toList();
-      },
+      suggestionsCallback: (query) =>
+          _abilitySuggestions(query, attacker: attacker),
       decoration: InputDecoration(
         labelText: AppStrings.t('label.ability'),
         isDense: true,
@@ -1883,12 +1859,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       // ability (mirrors Extended Mode's behaviour). Saves a tap.
       onSubmittedPick: (text) {
         if (text.isEmpty) return null;
-        final matches = sorted.where((a) => triLanguageScore(
-              text,
-              nameKo: _abilityNames[a] ?? a,
-              nameEn: a,
-              internalKey: a,
-            ) > 0);
+        final matches = _abilitySuggestions(text, attacker: attacker);
         return matches.isNotEmpty ? matches.first : null;
       },
     ),
