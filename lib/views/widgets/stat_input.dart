@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../../data/abilitydex.dart';
 import '../../data/itemdex.dart';
 import '../../utils/korean_search.dart';
+import '../../utils/ability_picker.dart';
 import '../../models/ability.dart';
 import '../../models/item.dart';
 import '../../models/nature_profile.dart';
@@ -167,8 +168,10 @@ class StatInput extends StatefulWidget {
 class _StatInputState extends State<StatInput> {
   Map<String, String> _abilityNameMap = {};
   static Map<String, Ability> _abilityDataMap = {};
-  List<String> _cachedSortedAbilities = [];
-  List<String> _lastPokemonAbilities = [];
+  // App-wide search engine over the ability keys; rebuilt whenever the
+  // ability map (re)loads. Replaces the old hand-rolled own-first
+  // sort + cache + _listEquals that was duplicated across the pickers.
+  SearchIndex<String>? _abilityIndex;
   int _evResetCounter = 0;
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
@@ -237,7 +240,7 @@ class _StatInputState extends State<StatInput> {
       setState(() {
         _abilityNameMap = _abilityCache!;
         _abilityDataMap = dex;
-        _rebuildSortedAbilities();
+        _buildAbilityIndex();
       });
       return;
     }
@@ -259,7 +262,7 @@ class _StatInputState extends State<StatInput> {
       setState(() {
         _abilityNameMap = map;
         _abilityDataMap = dex;
-        _rebuildSortedAbilities();
+        _buildAbilityIndex();
       });
     } catch (_) {}
   }
@@ -291,44 +294,30 @@ class _StatInputState extends State<StatInput> {
     return _abilityNameMap[englishName] ?? englishName;
   }
 
-  /// Expands abilities that have numbered variants (e.g. Supreme Overlord → 0~5).
-  static List<String> _expandAbilities(List<String> abilities, Map<String, String> nameMap) {
-    final expanded = <String>[];
-    for (final a in abilities) {
-      if (a == 'Supreme Overlord') {
-        for (int i = 0; i <= 5; i++) {
-          final key = 'Supreme Overlord $i';
-          if (nameMap.containsKey(key)) expanded.add(key);
-        }
-      } else {
-        expanded.add(a);
-      }
-    }
-    return expanded;
+  /// (Re)build the ability search index from the current name map.
+  /// Called when the ability dex loads / language changes.
+  void _buildAbilityIndex() {
+    _abilityIndex = buildAbilityIndex(
+      _abilityNameMap.keys,
+      koOf: _abilityKo,
+      enOf: (k) => _abilityDataMap[k]?.nameEn ?? k,
+      jaOf: (k) => _abilityDataMap[k]?.nameJa ?? '',
+    );
   }
 
-  void _rebuildSortedAbilities() {
-    final all = _abilityNameMap.keys.toList();
-    final pokemon = _expandAbilities(widget.pokemonAbilities, _abilityNameMap);
-    final rest = all.where((a) => !pokemon.contains(a)).toList();
-    rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
-    _cachedSortedAbilities = [...pokemon, ...rest];
-    _lastPokemonAbilities = List.of(widget.pokemonAbilities);
-  }
-
-  List<String> _sortedAbilities() {
-    if (!_listEquals(_lastPokemonAbilities, widget.pokemonAbilities)) {
-      _rebuildSortedAbilities();
-    }
-    return _cachedSortedAbilities;
-  }
-
-  bool _listEquals(List<String> a, List<String> b) {
-    if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
+  /// Ability suggestions for [query] via the shared engine: the
+  /// Pokémon's own abilities pinned to the top (empty query), the
+  /// rest alphabetical by localized name, relevance-ranked on a real
+  /// query. Own abilities are computed fresh each call (cheap).
+  List<String> _abilitySuggestions(String query) {
+    final index = _abilityIndex;
+    if (index == null) return const [];
+    final own = expandAbilities(widget.pokemonAbilities, _abilityNameMap);
+    return index.query(
+      query,
+      pins: own,
+      restSort: (a, b) => _abilityKo(a).compareTo(_abilityKo(b)),
+    );
   }
 
   @override
@@ -543,7 +532,6 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _abilityAutocomplete() {
-    final sorted = _sortedAbilities();
     final initialText = widget.selectedAbility != null
         ? _abilityKo(widget.selectedAbility!)
         : '';
@@ -567,16 +555,10 @@ class _StatInputState extends State<StatInput> {
       controller: _abilityController,
       focusNode: _abilityFocusNode,
       suggestionsCallback: (query) {
-        if (query.isEmpty || query == initialText) return sorted;
-        return sorted.where((a) {
-          final data = _abilityDataMap[a];
-          return triLanguageScore(query,
-            nameKo: data?.nameKo ?? _abilityKo(a),
-            nameEn: data?.nameEn ?? a,
-            nameJa: data?.nameJa ?? '',
-            internalKey: a,
-          ) > 0;
-        }).toList();
+        // An unchanged field (showing the current pick) lists the
+        // default own-first order, not a search for the pick's name.
+        if (query == initialText) return _abilitySuggestions('');
+        return _abilitySuggestions(query);
       },
       decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
       itemBuilder: (context, ability) {
@@ -599,15 +581,7 @@ class _StatInputState extends State<StatInput> {
       },
       onSubmittedPick: (text) {
         if (text.isEmpty) return null;
-        final matches = sorted.where((a) {
-          final data = _abilityDataMap[a];
-          return triLanguageScore(text,
-            nameKo: data?.nameKo ?? _abilityKo(a),
-            nameEn: data?.nameEn ?? a,
-            nameJa: data?.nameJa ?? '',
-            internalKey: a,
-          ) > 0;
-        }).toList();
+        final matches = _abilitySuggestions(text);
         return matches.isNotEmpty ? matches.first : null;
       },
     );
