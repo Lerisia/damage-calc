@@ -75,7 +75,7 @@ class _MoveSelectorState extends State<MoveSelector> {
   /// reloading from disk.
   List<Move> _baseMoves = [];
   List<Move> _allMoves = [];
-  List<SearchEntry<Move>> _searchEntries = [];
+  SearchIndex<Move>? _moveIndex;
   Set<String> _learnableMoveIds = {};
   Move? _selected;
   final _controller = TextEditingController();
@@ -151,10 +151,10 @@ class _MoveSelectorState extends State<MoveSelector> {
     }).toList();
     setState(() {
       _allMoves = filtered;
-      _searchEntries = filtered
-          .map((m) => SearchEntry(m, m.nameKo, m.name,
-              nameJa: m.nameJa, aliases: m.aliases))
-          .toList();
+      // Champions/status filtering is baked into this corpus, so the
+      // index needs no `allow` — it's rebuilt whenever the pool changes.
+      _moveIndex = SearchIndex<Move>(filtered.map((m) =>
+          SearchEntry(m, m.nameKo, m.name, nameJa: m.nameJa, aliases: m.aliases)));
       if (_selected == null && widget.initialMoveName != null) {
         final match = _baseMoves.where((m) => m.name == widget.initialMoveName);
         if (match.isNotEmpty) {
@@ -238,62 +238,28 @@ class _MoveSelectorState extends State<MoveSelector> {
   }
 
   List<Move> _sortedOptions(String query) {
-    List<Move> results;
-    if (query.isEmpty) {
-      // Empty-query layout:
-      //   [selected?] → pinned slot moves → champions top-10 → rest.
-      // Pinned = the Pokémon's own configured 4 slots (Simple Mode
-      // passes them); champions priority then surfaces meta picks
-      // beyond the user's current set.
-      final pinned = _resolvedPinnedMoves();
-      final pinnedSet = pinned.toSet();
-      final priority = _championsPriorityMoves(topN: 10)
-          .where((m) => !pinnedSet.contains(m))
-          .toList();
-      final prioritySet = priority.toSet();
-      final rest = _allMoves
-          .where((m) =>
-              m != _selected &&
-              !pinnedSet.contains(m) &&
-              !prioritySet.contains(m))
-          .toList();
-      results = [
-        if (_selected != null) _selected!,
-        ...pinned,
-        ...priority,
-        ...rest,
-      ];
-    } else {
-      final qLower = query.toLowerCase();
-      final qRunes = qLower.runes.toList();
-      final scored = <(Move, int)>[];
-      for (final entry in _searchEntries) {
-        final score = scoreEntry(qRunes, qLower, entry);
-        if (score > 0) scored.add((entry.item, score));
-      }
-      scored.sort((a, b) => b.$2.compareTo(a.$2));
-      results = scored.map((e) => e.$1).toList();
-      if (_selected != null && results.contains(_selected)) {
-        results.remove(_selected);
-        results.insert(0, _selected!);
-      }
-    }
-
-    // Sort learnable moves first (stable: preserves search score order within each group)
-    if (_learnableMoveIds.isNotEmpty) {
-      final learnable = <Move>[];
-      final notLearnable = <Move>[];
-      for (final m in results) {
-        if (_canLearn(m)) {
-          learnable.add(m);
-        } else {
-          notLearnable.add(m);
-        }
-      }
-      results = [...learnable, ...notLearnable];
-    }
-
-    return results;
+    final index = _moveIndex;
+    if (index == null) return const [];
+    // Empty query pins (after the selected move, which is hoisted):
+    //   configured slot moves → champions top-10. On a real query
+    //   these don't force to the top — relevance wins. Champions/status
+    //   filtering is already baked into the index corpus.
+    final pinned = _resolvedPinnedMoves();
+    final pinnedSet = pinned.toSet();
+    final priority = _championsPriorityMoves(topN: 10)
+        .where((m) => !pinnedSet.contains(m))
+        .toList();
+    return pickerSuggestions(
+      index,
+      query,
+      hoist: _selected,
+      pins: [...pinned, ...priority],
+      // Learnable moves first, applied last as a stable partition so
+      // search/pin order is preserved within each group. No-op when
+      // we have no learnset data (treats everything as learnable).
+      groupFirst:
+          _learnableMoveIds.isEmpty ? null : _canLearn,
+    );
   }
 
   @override

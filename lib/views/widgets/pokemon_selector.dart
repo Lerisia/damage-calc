@@ -25,8 +25,7 @@ class PokemonSelector extends StatefulWidget {
 }
 
 class _PokemonSelectorState extends State<PokemonSelector> {
-  List<Pokemon> _allPokemon = [];
-  List<SearchEntry<Pokemon>> _searchEntries = [];
+  SearchIndex<Pokemon>? _index;
   Pokemon? _selected;
   final _controller = TextEditingController();
 
@@ -54,8 +53,8 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     final all = await loadPokedex();
     final visible = all.where((p) => !p.hidden).toList();
     setState(() {
-      _allPokemon = visible;
-      _searchEntries = visible.map((p) => SearchEntry(p, p.nameKo, p.name, nameJa: p.nameJa, aliases: p.aliases)).toList();
+      _index = SearchIndex<Pokemon>(visible.map((p) =>
+          SearchEntry(p, p.nameKo, p.name, nameJa: p.nameJa, aliases: p.aliases)));
       // Empty / null initial name → leave the field blank so callers
       // (e.g. team builder slots) can render a true "no Pokemon" state
       // instead of forcing a Bulbasaur fallback.
@@ -81,32 +80,20 @@ class _PokemonSelectorState extends State<PokemonSelector> {
   }
 
   List<Pokemon> _sortedOptions(String query) {
-    if (query.isEmpty) {
-      final base = _allPokemon.where(_passesFilter).toList();
-      return _selected != null
-          ? [_selected!, ...base.where((p) => p != _selected)]
-          : base;
-    }
-
-    final qLower = query.toLowerCase();
-    final qRunes = qLower.runes.toList();
-    final scored = <(Pokemon, int)>[];
-    for (final entry in _searchEntries) {
-      if (!_passesFilter(entry.item)) continue;
-      final score = scoreEntry(qRunes, qLower, entry);
-      if (score > 0) scored.add((entry.item, score));
-    }
-    scored.sort((a, b) {
-      final cmp = b.$2.compareTo(a.$2);
-      if (cmp != 0) return cmp;
-      return a.$1.localizedName.compareTo(b.$1.localizedName);
-    });
-    final results = scored.map((e) => e.$1).toList();
-    if (_selected != null && results.contains(_selected)) {
-      results.remove(_selected);
-      results.insert(0, _selected!);
-    }
-    return results;
+    final index = _index;
+    if (index == null) return const [];
+    // Selected species pinned first (both modes); champions-only
+    // filter applied to the rest via `allow` — the pinned selection
+    // bypasses it so toggling the filter never strands the field.
+    // Empty-mode rest keeps dex order (no restSort). Equal-relevance
+    // ties fall back to dex order (SearchIndex default) — was
+    // localized-name before; unified with the other pickers.
+    return pickerSuggestions(
+      index,
+      query,
+      hoist: _selected,
+      allow: _passesFilter,
+    );
   }
 
   @override
