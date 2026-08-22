@@ -2456,6 +2456,14 @@ class _MovesTabState extends State<_MovesTab> {
     final ids = widget.learnable;
     final champOnly =
         ChampionsFilterController.instance.championsOnly.value;
+    // Share the app-wide search engine (초성 / alias / prefix scoring)
+    // instead of a bespoke `contains`. Precompute the query runes once;
+    // a positive scoreEntry is the match predicate. Column sort below
+    // is intentionally kept as this tab's ordering (its headers are
+    // tappable), so search only narrows the set — it doesn't reorder.
+    final qLower = _query.toLowerCase();
+    final qRunes = qLower.runes.toList();
+    final searching = _query.isNotEmpty;
     final out = <Move>[];
     for (final m in widget.moveDex.values) {
       // Skip calc-only variants (Magnitude 4-10 etc.) — the canonical
@@ -2467,12 +2475,10 @@ class _MovesTabState extends State<_MovesTab> {
       if (champOnly && !isChampionsMove(m.name)) continue;
       if (_typeFilter != null && m.type != _typeFilter) continue;
       if (_categoryFilter != null && m.category != _categoryFilter) continue;
-      if (_query.isNotEmpty) {
-        final q = _query.toLowerCase();
-        final matches = m.name.toLowerCase().contains(q) ||
-            m.nameKo.toLowerCase().contains(q) ||
-            m.nameJa.toLowerCase().contains(q);
-        if (!matches) continue;
+      if (searching) {
+        final entry = SearchEntry(m, m.nameKo, m.name,
+            nameJa: m.nameJa, aliases: m.aliases);
+        if (scoreEntry(qRunes, qLower, entry) <= 0) continue;
       }
       out.add(m);
     }
