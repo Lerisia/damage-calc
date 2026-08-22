@@ -25,6 +25,7 @@ import '../utils/champions_mode.dart';
 import '../utils/stat_calculator.dart';
 import '../utils/coverage_display_controller.dart';
 import '../utils/korean_search.dart';
+import '../utils/ability_picker.dart';
 import '../utils/party_image_save.dart';
 import '../utils/sample_save_flow.dart';
 import 'widgets/ev_sp_cell.dart';
@@ -2116,8 +2117,11 @@ class _SlotCardState extends State<_SlotCard> {
   // abilities first (sorted by their declaration order), then the
   // rest A→Z by Korean name. Recomputed only when the species'
   // ability list changes.
-  List<String> _cachedSortedAbilities = const [];
-  List<String> _lastPokemonAbilities = const [];
+  // App-wide search engine over the ability keys; built lazily and
+  // rebuilt only when the ability map reference changes. Replaces the
+  // old own-first sort + cache + _listEquals (now shared).
+  SearchIndex<String>? _abilityIndex;
+  Map<String, String>? _abilityIndexFor;
 
   @override
   void dispose() {
@@ -2132,47 +2136,26 @@ class _SlotCardState extends State<_SlotCard> {
   String _itemLabel(String? key) =>
       key == null ? AppStrings.t('team.item.none') : (widget.itemNames[key] ?? key);
 
-  /// Expand Supreme Overlord into its 0–5 stacked variants so all
-  /// six count as "own" abilities for the gray/non-gray split.
-  static List<String> _expandAbilities(
-      List<String> abilities, Map<String, String> nameMap) {
-    final expanded = <String>[];
-    for (final a in abilities) {
-      if (a == 'Supreme Overlord') {
-        for (int i = 0; i <= 5; i++) {
-          final key = 'Supreme Overlord $i';
-          if (nameMap.containsKey(key)) expanded.add(key);
-        }
-      } else {
-        expanded.add(a);
-      }
+  /// Ability suggestions via the shared engine: the mon's own abilities
+  /// (Supreme Overlord expanded) pinned first, the rest A→Z by label,
+  /// relevance-ranked on a real query.
+  List<String> _abilitySuggestions(String query, List<String> pokemonAbilities) {
+    if (!identical(_abilityIndexFor, widget.abilityNames)) {
+      _abilityIndex = buildAbilityIndex(
+        widget.abilityNames.keys,
+        koOf: _abilityLabel,
+        enOf: (k) => widget.abilityDex[k]?.nameEn ?? k,
+        jaOf: (k) => widget.abilityDex[k]?.nameJa ?? '',
+      );
+      _abilityIndexFor = widget.abilityNames;
     }
-    return expanded;
-  }
-
-  void _rebuildSortedAbilities(List<String> pokemonAbilities) {
-    final all = widget.abilityNames.keys.toList();
-    final own = _expandAbilities(pokemonAbilities, widget.abilityNames);
-    final rest = all.where((a) => !own.contains(a)).toList();
-    rest.sort((a, b) => _abilityLabel(a).compareTo(_abilityLabel(b)));
-    _cachedSortedAbilities = [...own, ...rest];
-    _lastPokemonAbilities = List.of(pokemonAbilities);
-  }
-
-  List<String> _sortedAbilities(List<String> pokemonAbilities) {
-    if (!_listEquals(_lastPokemonAbilities, pokemonAbilities) ||
-        _cachedSortedAbilities.isEmpty) {
-      _rebuildSortedAbilities(pokemonAbilities);
-    }
-    return _cachedSortedAbilities;
-  }
-
-  bool _listEquals(List<String> a, List<String> b) {
-    if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) {
-      if (a[i] != b[i]) return false;
-    }
-    return true;
+    final own = expandAbilities(pokemonAbilities, widget.abilityNames);
+    return pickerSuggestions(
+      _abilityIndex!,
+      query,
+      pins: own,
+      restSort: (a, b) => _abilityLabel(a).compareTo(_abilityLabel(b)),
+    );
   }
 
   @override
@@ -2754,7 +2737,6 @@ class _SlotCardState extends State<_SlotCard> {
     if (p == null || widget.abilityNames.isEmpty) {
       return _disabledField(scheme, AppStrings.t('label.ability'));
     }
-    final sorted = _sortedAbilities(p.abilities);
     final initialText = widget.slot.ability != null
         ? _abilityLabel(widget.slot.ability!)
         : '';
@@ -2774,17 +2756,8 @@ class _SlotCardState extends State<_SlotCard> {
       controller: _abilityController,
       focusNode: _abilityFocus,
       suggestionsCallback: (query) {
-        if (query.isEmpty || query == initialText) return sorted;
-        return sorted.where((a) {
-          final data = widget.abilityDex[a];
-          return triLanguageScore(query,
-                nameKo: data?.nameKo ?? _abilityLabel(a),
-                nameEn: data?.nameEn ?? a,
-                nameJa: data?.nameJa ?? '',
-                internalKey: a,
-              ) >
-              0;
-        }).toList();
+        if (query == initialText) return _abilitySuggestions('', p.abilities);
+        return _abilitySuggestions(query, p.abilities);
       },
       decoration: InputDecoration(
         labelText: AppStrings.t('label.ability'),
@@ -2810,16 +2783,7 @@ class _SlotCardState extends State<_SlotCard> {
       },
       onSubmittedPick: (text) {
         if (text.isEmpty) return null;
-        final matches = sorted.where((a) {
-          final data = widget.abilityDex[a];
-          return triLanguageScore(text,
-                nameKo: data?.nameKo ?? _abilityLabel(a),
-                nameEn: data?.nameEn ?? a,
-                nameJa: data?.nameJa ?? '',
-                internalKey: a,
-              ) >
-              0;
-        }).toList();
+        final matches = _abilitySuggestions(text, p.abilities);
         return matches.isNotEmpty ? matches.first : null;
       },
     );
