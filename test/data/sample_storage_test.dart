@@ -499,6 +499,48 @@ void main() {
           equals(['Alpha', 'Beta', 'Gamma']));
     });
 
+    test('team with parenthesised-form species round-trips end to end',
+        () async {
+      // Real UI path: export a party containing regional/paren forms
+      // (+ a nicknamed form) and decode it back. Guards the form-name
+      // vs nickname collision at the sample_storage layer, not just
+      // PokePaste in isolation.
+      final teamId = await SampleStorage.createTeam('Forms');
+      await SampleStorage.savePokemon(
+          name: 'Landorus (Therian Forme)',
+          state: makeState('Landorus (Therian Forme)'),
+          teamId: teamId);
+      await SampleStorage.savePokemon(
+          name: 'Water Boi', // nickname over a form → nested parens
+          state: makeState('Urshifu (Rapid Strike Style)'),
+          teamId: teamId);
+      await SampleStorage.savePokemon(
+          name: 'Deoxys (Attack Forme)',
+          state: makeState('Deoxys (Attack Forme)'),
+          teamId: teamId);
+      final t = (await SampleStorage.loadStore())
+          .teams
+          .firstWhere((x) => x.id == teamId);
+      final members = [
+        for (final id in t.memberIds)
+          (await SampleStorage.loadStore()).sampleById(id)!
+      ];
+
+      final code = await SampleStorage.exportTeamString(t, members);
+      final decoded = await SampleStorage.decodeTeamString(code);
+
+      expect(decoded.name, equals('Forms'));
+      expect(decoded.members.map((m) => m.state.pokemonName).toList(),
+          equals([
+            'Landorus (Therian Forme)',
+            'Urshifu (Rapid Strike Style)',
+            'Deoxys (Attack Forme)',
+          ]));
+      expect(decoded.members.map((m) => m.name).toList(),
+          equals(['Landorus (Therian Forme)', 'Water Boi',
+            'Deoxys (Attack Forme)']));
+    });
+
     test('importTeamString creates a new team and persists members',
         () async {
       final t = await seedTeam('Sweepers', ['Alpha', 'Beta']);
