@@ -2,7 +2,7 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-5 / single",
-    "updatedAt": "2026-08-25",
+    "updatedAt": "2026-08-26",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = top 4 damaging)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo."
   },
@@ -16432,7 +16432,6 @@
     }
   },
   "Alolan Ninetales": {
-    "usageRank": 33,
     "abilities": [
       {
         "name": "Snow Warning",
@@ -20384,7 +20383,6 @@
     }
   },
   "Skeledirge": {
-    "usageRank": 34,
     "abilities": [
       {
         "name": "Unaware",
