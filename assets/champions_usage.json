@@ -2,7 +2,7 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-5 / single",
-    "updatedAt": "2026-08-29",
+    "updatedAt": "2026-08-30",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = top 4 damaging)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo."
   },
