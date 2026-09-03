@@ -46,9 +46,16 @@ class SpeedVariant {
 /// up on about half the roster, at a median of under 5%. Ranking by
 /// position doesn't help either — a top-five cut still let 113 species
 /// through in singles. Threshold on the adoption rate instead, which
-/// keeps its meaning as the data refreshes: 10% brings that to 55, the
-/// Pokémon whose Scarf sets a player would actually plan around.
-const _scarfMinPct = 10.0;
+/// keeps its meaning as the data refreshes.
+///
+/// 40% sits above the crowded middle. Sorted by adoption the values
+/// run nearly continuously up to ~54%, then jump 15 points to the
+/// Pokémon that are simply expected to hold one — the Rotom formes,
+/// Ditto, Hydreigon. Cutting at 40 keeps that group plus the clear
+/// Scarf users just below it (Tyrantrum, Basculegion, Meowscarada,
+/// Excadrill) and drops the long tail of incidental sets: about ten
+/// species per format, versus 55 at a 10% cut.
+const _scarfMinPct = 40.0;
 const _scarfItemId = 'choice-scarf';
 
 /// The speeds [pokemon] should appear at in the realized-value tier

@@ -9,8 +9,8 @@ import 'package:damage_calc/utils/speed_tier_variants.dart';
 ///
 /// Every Pokémon lands on three speeds — no investment, full SP, and
 /// full SP with a boosting nature. Pokémon that actually run a Choice
-/// Scarf (top-5 item in the format being viewed) add a Scarf line for
-/// each of the two invested spreads.
+/// Scarf (40%+ adoption in the format being viewed) add a Scarf line
+/// for each of the two invested spreads.
 void main() {
   late final Map<String, Pokemon> byName;
   setUpAll(() async {
@@ -101,15 +101,30 @@ void main() {
           reason: 'the two formats should not agree on every Scarf user');
     });
 
-    test('require a top-five item, not merely a listed one', () {
+    test('require real adoption, not merely a listed item', () {
+      // The bar is the adoption rate, not the item's rank: Scarf is
+      // listed on half the roster at a median under 5%.
       for (final p in byName.values) {
         final v = speedVariantsFor(p, format: ChampionsFormat.singles);
         if (!v.any((e) => e.kind == SpeedVariantKind.scarfBoosted)) continue;
         final usage =
             championsUsageFor(p.name, format: ChampionsFormat.singles);
-        final top5 = usage!.items.take(5).map((i) => i.name);
-        expect(top5, contains('choice-scarf'), reason: p.name);
+        final scarf =
+            usage!.items.firstWhere((i) => i.name == 'choice-scarf');
+        expect(scarf.pct, isNotNull, reason: p.name);
+        expect(scarf.pct!, greaterThanOrEqualTo(40.0), reason: p.name);
       }
+    });
+
+    test('stay a short list — the tail is excluded', () {
+      final withScarf = byName.values
+          .where((p) => speedVariantsFor(p, format: ChampionsFormat.singles)
+              .any((v) => v.kind == SpeedVariantKind.scarfBoosted))
+          .length;
+      expect(withScarf, lessThan(20),
+          reason: 'a loose cut let 113 species through');
+      expect(withScarf, greaterThan(3),
+          reason: 'the obvious Scarf users must survive');
     });
   });
 
