@@ -70,7 +70,7 @@ Pokemon? togglableMegaFor(String species, String? heldItem) {
   final form = formChangeForStone(heldItem);
   if (form == null) return null;
   if (form.formChange != 'mega' && form.formChange != 'primal') return null;
-  return form.baseSpecies == species ? form : null;
+  return form.allBaseSpecies.contains(species) ? form : null;
 }
 
 /// Every form-item [species] can legally hold — both stones for
@@ -89,7 +89,7 @@ List<String> megaStonesForSpecies(String species) => [
 /// knocked off normally, and Zamazenta cannot claim the Rusted Sword.
 bool isOwnFormItem(String species, String? itemId) {
   final form = formChangeForStone(itemId);
-  return form != null && form.baseSpecies == species;
+  return form != null && form.allBaseSpecies.contains(species);
 }
 
 /// Loads all Pokemon data from assets/pokemon/*.json (cached after first load).
@@ -123,8 +123,9 @@ Future<List<Pokemon>> _doLoad() async {
     if (p.formChange == null) continue;
     final item = p.requiredItem;
     if (item != null) byItem[item] = p;
-    final base = p.baseSpecies;
-    if (base != null) (byBase[base] ??= <Pokemon>[]).add(p);
+    for (final base in p.allBaseSpecies) {
+      (byBase[base] ??= <Pokemon>[]).add(p);
+    }
   }
   _formByItem = byItem;
   _formsByBase = byBase;

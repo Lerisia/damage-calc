@@ -35,15 +35,24 @@ void main() {
       }
     });
 
-    test('every baseSpecies resolves to a real non-mega species', () {
+    test('every base species resolves to a real non-mega species', () {
       final byName = {for (final p in dex) p.name: p};
-      for (final p in dex.where((p) => p.baseSpecies != null)) {
-        final base = byName[p.baseSpecies!];
-        expect(base, isNotNull,
-            reason: '${p.name} → ${p.baseSpecies} does not exist');
-        expect(base!.isMega, isFalse,
-            reason: '${p.name} → ${p.baseSpecies} must not itself be a mega');
+      for (final p in dex.where((p) => p.allBaseSpecies.isNotEmpty)) {
+        for (final name in p.allBaseSpecies) {
+          final base = byName[name];
+          expect(base, isNotNull, reason: '${p.name} → $name does not exist');
+          expect(base!.isMega, isFalse,
+              reason: '${p.name} → $name must not itself be a mega');
+        }
       }
+    });
+
+    test('a mega reverts to its primary base, never an alt', () {
+      // Primary is whichever form actually runs the stone — the
+      // female, in both formats.
+      final meowstic = dex.firstWhere((p) => p.name == 'Mega Meowstic');
+      expect(meowstic.baseSpecies, equals('Meowstic (Female)'));
+      expect(meowstic.altBaseSpecies, contains('Meowstic'));
     });
 
     test('primal formes are classified as primal, not fixed', () {
@@ -118,6 +127,26 @@ void main() {
       expect(togglableMegaFor('Ogerpon', 'wellspring-mask'), isNull);
       expect(togglableMegaFor('Zacian', 'rusted-sword'), isNull);
       expect(togglableMegaFor('Giratina', 'griseous-core'), isNull);
+    });
+
+    test('both Meowstic genders can Mega Evolve', () {
+      expect(togglableMegaFor('Meowstic', 'meowsticite')?.name,
+          equals('Mega Meowstic'));
+      expect(togglableMegaFor('Meowstic (Female)', 'meowsticite')?.name,
+          equals('Mega Meowstic'));
+      expect(isOwnFormItem('Meowstic (Female)', 'meowsticite'), isTrue);
+    });
+
+    test('Mega Zygarde comes from the Complete Forme', () {
+      expect(togglableMegaFor('Zygarde (Complete Forme)', 'zygardite')?.name,
+          equals('Mega Zygarde'));
+      expect(togglableMegaFor('Zygarde (10% Forme)', 'zygardite'), isNull);
+    });
+
+    test('only Eternal Flower Floette can Mega Evolve', () {
+      expect(togglableMegaFor('Floette (Eternal Flower)', 'floettite')?.name,
+          equals('Mega Floette'));
+      expect(togglableMegaFor('Floette', 'floettite'), isNull);
     });
 
     test('megaStonesForSpecies lists a species own stones', () {

@@ -89,6 +89,29 @@ void main() {
       expect(s.selectedItem, equals('charizardite-x'));
     });
 
+    test('either Meowstic gender megas, and both revert to female', () {
+      // One Mega Meowstic entry serves both genders, and a mega picked
+      // straight from the species list has no record of which one it
+      // came from — so revert always lands on the primary base.
+      //
+      // That primary is the female: she runs the stone as her #1 item
+      // in singles and doubles alike, while the male is a Light Clay
+      // screener whose stone doesn't even make his doubles top five.
+      // (Overall usage rank favours the male, which is why it isn't
+      // the signal to pick on.)
+      final female = build('Meowstic (Female)', item: 'meowsticite');
+      expect(female.toggleMegaForm(), isTrue);
+      expect(female.pokemonName, equals('Mega Meowstic'));
+      expect(female.toggleMegaForm(), isTrue);
+      expect(female.pokemonName, equals('Meowstic (Female)'));
+
+      final male = build('Meowstic', item: 'meowsticite');
+      expect(male.toggleMegaForm(), isTrue);
+      expect(male.pokemonName, equals('Mega Meowstic'));
+      expect(male.toggleMegaForm(), isTrue);
+      expect(male.pokemonName, equals('Meowstic (Female)'));
+    });
+
     test('primal reversion works the same way', () {
       final s = build('Groudon', item: 'red-orb');
       expect(s.toggleMegaForm(), isTrue);

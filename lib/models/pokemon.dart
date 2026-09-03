@@ -30,6 +30,19 @@ class Pokemon {
   /// Alolan form). See [megaForStoneId] / [megasForBaseSpecies].
   final String? baseSpecies;
 
+  /// Other forms that reach this same mega. Meowstic Mega Evolves from
+  /// either gender, but there is only one Mega Meowstic entry, so the
+  /// female form lives here while [baseSpecies] stays the male one.
+  ///
+  /// Reverting always lands on [baseSpecies] — the more-used of the
+  /// pair — since a mega picked straight from the species list carries
+  /// no record of which form it came from.
+  final List<String> altBaseSpecies;
+
+  /// Every form that can turn into this one.
+  List<String> get allBaseSpecies =>
+      [if (baseSpecies != null) baseSpecies!, ...altBaseSpecies];
+
   /// How this form is reached, for the entries that need a
   /// [requiredItem]. Null for ordinary species.
   ///
@@ -69,6 +82,7 @@ class Pokemon {
     this.hidden = false,
     this.isMega = false,
     this.baseSpecies,
+    this.altBaseSpecies = const [],
     this.formChange,
     this.aliases = const [],
     this.keyMoves = const [],
@@ -98,6 +112,9 @@ class Pokemon {
       hidden: json['hidden'] as bool? ?? false,
       isMega: json['isMega'] as bool? ?? false,
       baseSpecies: json['baseSpecies'] as String?,
+      altBaseSpecies: json['altBaseSpecies'] != null
+          ? List<String>.from(json['altBaseSpecies'] as List)
+          : const [],
       formChange: json['formChange'] as String?,
       aliases: json['aliases'] != null
           ? List<String>.from(json['aliases'] as List)

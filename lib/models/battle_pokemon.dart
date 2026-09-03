@@ -500,17 +500,16 @@ class BattlePokemonState {
       }
     }
 
-    // Item: mega forms already pinned their stone above; for base
-    // forms, prefer the top non-megastone pick so we don't auto-
-    // transform the species the moment it's loaded.
+    // Item: mega forms already pinned their stone above; base forms
+    // take the community's top pick as-is, Mega Stones included.
+    //
+    // Stones used to be skipped here — before the mega toggle existed
+    // a base form holding one could never actually transform, so the
+    // loader reached past it. Now the toggle makes that state the
+    // honest one: the stone really is the #1 item, and the user taps
+    // the button to Mega Evolve. Loading still leaves the base form.
     if (pokemon.requiredItem == null && usage.items.isNotEmpty) {
-      final stones = megaStoneItemIds();
-      for (final row in usage.items) {
-        if (!stones.contains(row.name)) {
-          selectedItem = row.name;
-          break;
-        }
-      }
+      selectedItem = usage.items.first.name;
     }
 
     if (usage.natures.isNotEmpty) {
