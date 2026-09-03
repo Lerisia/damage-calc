@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/pokedex.dart' show pokedexByName;
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
@@ -2007,6 +2008,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       const SizedBox(width: 4),
       ..._effectiveTypeBadges(state),
       const SizedBox(width: 4),
+      _megaIcon(state),
+      const SizedBox(width: 4),
       _dynamaxIcon(state),
       const SizedBox(width: 4),
       _terastalIcon(state),
@@ -2088,6 +2091,33 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: chip,
+    );
+  }
+
+  /// Mega Evolution / Primal Reversion toggle — mirrors the one in
+  /// pokemon_panel. Shown only when the Pokémon holds its own Mega
+  /// Stone or Primal orb; tapping swaps forms while keeping the build.
+  Widget _megaIcon(BattlePokemonState state) {
+    if (!state.canToggleMegaForm) return const SizedBox(width: 24);
+    final active = state.isMega ||
+        pokedexByName(state.pokemonName)?.formChange == 'primal';
+    return GestureDetector(
+      onTap: () => setState(state.toggleMegaForm),
+      child: SizedBox(
+        width: 26,
+        height: 26,
+        child: Center(
+          child: Image.asset(
+            'assets/mega_symbol.png',
+            width: 24,
+            height: 24,
+            color: active
+                ? Theme.of(context).colorScheme.onSurface
+                : Colors.grey.shade400,
+            filterQuality: FilterQuality.medium,
+          ),
+        ),
+      ),
     );
   }
 

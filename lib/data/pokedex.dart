@@ -33,6 +33,14 @@ Map<String, Pokemon>? _formByItem;
 /// with two stones (Charizard, Absol, …) lists both.
 Map<String, List<Pokemon>>? _formsByBase;
 
+/// name → species, for callers that hold a name and need the entry.
+/// Empty until [loadPokedex] finishes.
+Map<String, Pokemon>? _byName;
+
+/// The species entry called [name], or null when the dex hasn't loaded
+/// or no such name exists.
+Pokemon? pokedexByName(String name) => _byName?[name];
+
 /// Whether [loadPokedex] has finished. The form-item lookups below all
 /// answer "not a form item" before that, which callers must not
 /// mistake for a real answer — see `isUnremovableItemFor`.
@@ -120,6 +128,7 @@ Future<List<Pokemon>> _doLoad() async {
   }
   _formByItem = byItem;
   _formsByBase = byBase;
+  _byName = {for (final p in pokedex) p.name: p};
   return pokedex;
 }
 

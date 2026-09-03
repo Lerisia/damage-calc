@@ -338,6 +338,66 @@ class BattlePokemonState {
   }
 
   /// Apply a Pokemon species selection, updating all relevant fields.
+  /// The form this Pokémon would toggle into — its mega/primal form
+  /// when in base form, or the base species when already transformed.
+  /// Null when the toggle doesn't apply.
+  ///
+  /// Requires a legal stone: the item must be *this* species' own Mega
+  /// Stone or Primal orb. Held-forme items (Ogerpon masks, Rusted
+  /// Sword) are excluded — holding one already *is* the form, so there
+  /// is nothing to toggle.
+  Pokemon? get megaToggleTarget {
+    if (!isPokedexLoaded) return null;
+    final current = pokedexByName(pokemonName);
+    final asForm = current?.formChange;
+    if (asForm == 'mega' || asForm == 'primal') {
+      // Transformed — go back to the species we came from.
+      return pokedexByName(current!.baseSpecies!);
+    }
+    return togglableMegaFor(pokemonName, selectedItem);
+  }
+
+  /// Whether the mega/primal toggle button should be offered.
+  bool get canToggleMegaForm => megaToggleTarget != null;
+
+  /// Toggle between base form and its mega/primal form, keeping the
+  /// build intact.
+  ///
+  /// Unlike [applyPokemon] this preserves moves, EVs, IVs, nature,
+  /// level and the held stone — only species identity and what derives
+  /// from it (stats, typing, ability pool, weight) changes. Mega and
+  /// Dynamax/Terastal are mutually exclusive, so those are cleared.
+  ///
+  /// Returns false when there is nothing to toggle.
+  bool toggleMegaForm() {
+    final target = megaToggleTarget;
+    if (target == null) return false;
+
+    pokemonName = target.name;
+    pokemonNameKo = target.nameKo;
+    pokemonNameJa = target.nameJa;
+    pokemonNameEn = target.nameEn;
+    dexNumber = target.dexNumber;
+    type1 = target.type1;
+    type2 = target.type2;
+    type3 = null;
+    weight = target.weight;
+    baseStats = target.baseStats;
+    pokemonAbilities = target.abilities;
+    selectedAbility = expandAbilityKey(
+        target.abilities.isNotEmpty ? target.abilities.first : null);
+    isMega = target.isMega;
+    canDynamax = target.canDynamax;
+    canGmax = target.canGmax;
+    // A transformed Pokémon can't also Terastallize or Dynamax.
+    if (target.formChange == 'mega' || target.formChange == 'primal') {
+      terastal = const TerastalState();
+      dynamax = DynamaxState.none;
+      zMoves = [false, false, false, false];
+    }
+    return true;
+  }
+
   void applyPokemon(Pokemon pokemon) {
     pokemonName = pokemon.name;
     pokemonNameKo = pokemon.nameKo;

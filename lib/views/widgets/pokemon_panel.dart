@@ -797,6 +797,51 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
+  /// Mega Evolution / Primal Reversion toggle.
+  ///
+  /// Only offered when the Pokémon holds its own Mega Stone or Primal
+  /// orb; the state model decides (see [BattlePokemonState.
+  /// canToggleMegaForm]). Tapping swaps to the form the stone names and
+  /// back again, keeping moves / EVs / nature intact.
+  ///
+  /// Greyscale while in base form, full colour once transformed —
+  /// same inactive/active reading as the Dynamax and Terastal icons.
+  Widget _megaIcon() {
+    if (!s.canToggleMegaForm) {
+      return const SizedBox(width: 24);
+    }
+    final active = s.isMega || _isPrimal;
+    // The asset is a flat alpha silhouette, so tinting it keeps the
+    // icon legible in both themes.
+    final tint = active
+        ? Theme.of(context).colorScheme.onSurface
+        : Colors.grey.shade400;
+    return GestureDetector(
+      onTap: () {
+        setState(s.toggleMegaForm);
+        _notifyParent();
+      },
+      child: SizedBox(
+        width: 26,
+        height: 26,
+        child: Center(
+          child: Image.asset(
+            'assets/mega_symbol.png',
+            width: 24,
+            height: 24,
+            color: tint,
+            filterQuality: FilterQuality.medium,
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Primal Reversion shares the mega toggle; it isn't flagged [isMega]
+  /// (that drives damage-calc behaviour), so detect it by form.
+  bool get _isPrimal =>
+      pokedexByName(s.pokemonName)?.formChange == 'primal';
+
   Widget _dynamaxIcon() {
     if (!s.canDynamax) {
       return const SizedBox(width: 24);
@@ -1094,6 +1139,8 @@ class PokemonPanelState extends State<PokemonPanel>
                 const SizedBox(height: 6),
                 Row(children: [
                   ..._effectiveTypeBadges(),
+                  const SizedBox(width: 4),
+                  _megaIcon(),
                   const SizedBox(width: 4),
                   _dynamaxIcon(),
                   const SizedBox(width: 4),
