@@ -56737,7 +56737,7 @@ return A.w($async$ci,r)},
 T3(a,b,c){var s,r=c==null?this.a:c,q=A.x6(a),p=$.m0().a87(a,B.el)
 if(p!=null)return p
 s=b?"shiny/":""
-return new A.qt("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/"+r.b+"/"+s+q+"."+r.d+"?v=4")},
+return new A.qt("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/"+r.b+"/"+s+q+"."+r.d+"?v=5")},
 aGL(a,b,c){var s,r=this.a
 if(r!==B.n0)return null
 s=A.bfP(a)
@@ -130873,8 +130873,8 @@ B.arU=new A.fW("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
 B.arV=new A.fW("By  Elyss",null,null,null,null,null,null,null,null,null)
 B.apm=new A.A(!0,B.r,null,null,null,null,18,B.w,null,1.5,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.arW=new A.fW("TRAINER CARD",null,B.apm,null,null,null,null,null,null,null)
+B.arX=new A.fW("v1.15.2",null,null,null,null,null,null,null,null,null)
 B.Kf=new A.fW("-",null,null,B.R,null,null,null,null,null,null)
-B.arX=new A.fW("v1.15.1",null,null,null,null,null,null,null,null,null)
 B.arY=new A.fW("-",null,B.aS,B.R,null,null,null,null,null,null)
 B.as_=new A.fW("-",null,B.nf,null,null,null,null,null,null,null)
 B.as0=new A.rj(0,"system")

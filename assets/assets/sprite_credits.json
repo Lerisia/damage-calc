@@ -20992,6 +20992,292 @@
       "icon_artists": [
         "Game Freak / Nintendo (official 40x30 box icons from gen 1-7 ROMs; redistribution via msikma/pokesprite MIT-licensed code, sprites remain Game Freak IP)"
       ]
+    },
+    "rellor": {
+      "raw_name_in_sheet": "Rellor",
+      "dex_num": "953",
+      "bw_artists": [
+        "KingOfThe-X-Roads"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "KingOfThe-X-Roads": [
+          "front"
+        ]
+      },
+      "bw_project": "KingOfThe-X-Roads — Gen 9 Sprites (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/kingofthe-x-roads/art/Gen-9-Sprites-Pokemon-Scarlet-and-Violet-908341834",
+      "bw_license_note": "Used per the artist's stated terms: \"ALL SPRITES ARE FREE FOR NON-PROFIT USE ONLY\" / \"free to use with the proper credits\" (KingOfThe-X-Roads, DeviantArt). Regular from Gen 9 Sprites sheet; shiny from Gen 9 Shiny Pokemon Sprites sheet.",
+      "dex_artists": [
+        "Game Freak / Nintendo (HOME 3D models, official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo (official box icons; redistribution via msikma/pokesprite MIT-licensed code, sprites remain Game Freak IP)"
+      ]
+    },
+    "rabsca": {
+      "raw_name_in_sheet": "Rabsca",
+      "dex_num": "954",
+      "bw_artists": [
+        "KingOfThe-X-Roads"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "KingOfThe-X-Roads": [
+          "front"
+        ]
+      },
+      "bw_project": "KingOfThe-X-Roads — Gen 9 Sprites (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/kingofthe-x-roads/art/Gen-9-Sprites-Pokemon-Scarlet-and-Violet-908341834",
+      "bw_license_note": "Used per the artist's stated terms: \"ALL SPRITES ARE FREE FOR NON-PROFIT USE ONLY\" / \"free to use with the proper credits\" (KingOfThe-X-Roads, DeviantArt). Regular from Gen 9 Sprites sheet; shiny from Gen 9 Shiny Pokemon Sprites sheet.",
+      "dex_artists": [
+        "Game Freak / Nintendo (HOME 3D models, official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo (official box icons; redistribution via msikma/pokesprite MIT-licensed code, sprites remain Game Freak IP)"
+      ]
+    },
+    "zygarde-mega": {
+      "raw_name_in_sheet": "Zygarde",
+      "dex_num": "718",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "heatran-mega": {
+      "raw_name_in_sheet": "Heatran",
+      "dex_num": "485",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "darkrai-mega": {
+      "raw_name_in_sheet": "Darkrai",
+      "dex_num": "491",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "golisopod-mega": {
+      "raw_name_in_sheet": "Golisopod",
+      "dex_num": "768",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "magearna-mega": {
+      "raw_name_in_sheet": "Magearna",
+      "dex_num": "801",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "zeraora-mega": {
+      "raw_name_in_sheet": "Zeraora",
+      "dex_num": "807",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "tatsugiri-mega": {
+      "raw_name_in_sheet": "Tatsugiri",
+      "dex_num": "978",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "baxcalibur-mega": {
+      "raw_name_in_sheet": "Baxcalibur",
+      "dex_num": "998",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "megaabsolz": {
+      "raw_name_in_sheet": "Absol",
+      "dex_num": "359",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "megagarchompz": {
+      "raw_name_in_sheet": "Garchomp",
+      "dex_num": "445",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
+    },
+    "megalucarioz": {
+      "raw_name_in_sheet": "Lucario",
+      "dex_num": "448",
+      "bw_artists": [
+        "RetroNC"
+      ],
+      "bw_qc": [],
+      "bw_artist_roles": {
+        "RetroNC": [
+          "front"
+        ]
+      },
+      "bw_project": "RetroNC — Gen 5 Pokémon Sprite series (DeviantArt)",
+      "bw_project_thread_url": "https://www.deviantart.com/retronc/gallery/99489665/mega-pokemon",
+      "bw_license_note": "Used per the artist's stated terms: \"If used for projects or public works, please credit my Youtube channel.\" Crediting RetroNC + YouTube channel @RetroNC.",
+      "dex_artists": [
+        "Game Freak / Nintendo (official IP)"
+      ],
+      "icon_artists": [
+        "Game Freak / Nintendo"
+      ]
     }
   },
   "by_artist": {
@@ -21606,11 +21892,13 @@
         "eiscue-noice",
         "falinks",
         "farfetchd-galar",
+        "farigiraf",
         "fezandipiti",
         "fluttermane",
         "fuecoco",
         "gimmighoul-wandering",
         "grafaiai",
+        "ironcrown",
         "ironhands",
         "ironmoth",
         "kilowattrel",
@@ -21621,19 +21909,27 @@
         "maschiff",
         "meowth-gmax",
         "munkidori",
+        "naclstack",
         "nickit",
+        "ogerpon",
+        "oinkologne-f",
         "orbeetle",
         "orbeetle-gmax",
         "palkia-origin",
         "pawmi",
+        "pawmo",
+        "poltchageist",
         "ponyta-galar",
         "qwilfish-hisui",
+        "rabsca",
         "rapidash-galar",
+        "rellor",
         "samurott-hisui",
         "sandaconda",
         "sandaconda-gmax",
         "sandyshocks",
         "silicobra",
+        "sinistcha",
         "skeledirge",
         "spectrier",
         "sprigatito",
@@ -21647,6 +21943,7 @@
         "terapagos-terastal",
         "thievul",
         "ting-lu",
+        "toedscruel",
         "ursaluna",
         "ursaluna-bloodmoon",
         "urshifu-rapidstrikegmax",
@@ -21657,12 +21954,15 @@
       ],
       "projects": [
         "Smogon Sprite Project (Sword/Shield+)",
-        "Smogon Sprite Project (Sword/Shield+) — gen 9 sheet"
+        "Smogon Sprite Project (Sword/Shield+) — gen 9 sheet",
+        "KingOfThe-X-Roads — Gen 9 Sprites (DeviantArt)"
       ],
       "thread_urls": [
-        "https://www.smogon.com/forums/threads/sword-shield-sprite-project.3647722/"
+        "https://www.smogon.com/forums/threads/sword-shield-sprite-project.3647722/",
+        "https://www.deviantart.com/kingofthe-x-roads/art/Gen-9-Sprites-Pokemon-Scarlet-and-Violet-908341834",
+        "https://www.deviantart.com/kingofthe-x-roads/art/Gen-9-Shiny-Pokemon-Sprites-937510776"
       ],
-      "permission_note": "Project OPs grant non-profit use with project or individual-artist credit. Per the relevant project license text, this artist consented to redistribution under the project credit by submitting work to the project; per-individual permission was not separately verified."
+      "permission_note": "Project OPs grant non-profit use with project or individual-artist credit. Per the relevant project license text, this artist consented to redistribution under the project credit by submitting work to the project; per-individual permission was not separately verified. Additionally, the Gen 9 base/shiny sprites for Champions-only mons not carried by the Smogon project (e.g. Farigiraf, Ogerpon, Iron Crown, Sinistcha shiny) are taken directly from the artist's DeviantArt Gen 9 (Shiny) Pokemon Sprites sheets, used per their stated \"free for non-profit use with proper credits\" terms."
     },
     "KingOfthe-X-Roads": {
       "contributed_sprites": [
@@ -23037,11 +23337,13 @@
     "RetroNC": {
       "contributed_sprites": [
         "barbaracle-mega",
+        "baxcalibur-mega",
         "chandelure-mega",
         "chesnaught-mega",
         "chimecho-mega",
         "clefable-mega",
         "crabominable-mega",
+        "darkrai-mega",
         "delphox-mega",
         "dragalge-mega",
         "drampa-mega",
@@ -23053,10 +23355,16 @@
         "floette-mega",
         "froslass-mega",
         "glimmora-mega",
+        "golisopod-mega",
         "golurk-mega",
         "greninja-mega",
         "hawlucha-mega",
+        "heatran-mega",
+        "magearna-mega",
         "malamar-mega",
+        "megaabsolz",
+        "megagarchompz",
+        "megalucarioz",
         "meganium-mega",
         "meowstic-mega",
         "pyroar-mega",
@@ -23067,7 +23375,10 @@
         "scrafty-mega",
         "skarmory-mega",
         "staraptor-mega",
-        "starmie-mega"
+        "starmie-mega",
+        "tatsugiri-mega",
+        "zeraora-mega",
+        "zygarde-mega"
       ],
       "projects": [
         "RetroNC Gen 5 Pokémon Sprite series (DeviantArt)"
@@ -23146,6 +23457,13 @@
         "RetroNC"
       ],
       "license_text": "Used per the artist's stated terms on every relevant deviation: \"If used for projects or public works, please credit my YouTube channel.\" Crediting RetroNC and the YouTube channel @RetroNC (https://www.youtube.com/@RetroNC) in this dialog."
+    },
+    "KingOfThe-X-Roads — Gen 9 Sprites (DeviantArt)": {
+      "url": "https://www.deviantart.com/kingofthe-x-roads/art/Gen-9-Sprites-Pokemon-Scarlet-and-Violet-908341834",
+      "lead_artists": [
+        "KingOfThe-X-Roads"
+      ],
+      "license_text": "Used per the artist's stated terms: \"ALL SPRITES ARE FREE FOR NON-PROFIT USE ONLY\" / \"All sprites in this are free to use with the proper credits.\" (KingOfThe-X-Roads, DeviantArt). Regular sprites from the Gen 9 Sprites sheet; shiny sprites from the Gen 9 Shiny Pokemon Sprites sheet."
     }
   }
 }
