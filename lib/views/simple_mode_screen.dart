@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/pokedex.dart' show pokedexByName;
+import '../utils/champions_filter_controller.dart';
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
@@ -189,6 +190,36 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     super.initState();
     _itemKeys = _itemNames.keys.toList();
     _hydrateFromState();
+    // Repaint when the Champions scope is toggled elsewhere — it
+    // decides whether the Dynamax / Terastal controls exist at all.
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_onScopeChanged);
+  }
+
+  void _onScopeChanged() {
+    if (mounted) setState(() {});
+  }
+
+  /// Drop any mechanic the Champions scope hides, so a state carried
+  /// over from extended mode can't keep affecting the damage with no
+  /// visible control. Scheduled off the frame since it runs in build.
+  void _dropHiddenMechanics() {
+    if (!_championsOnly) return;
+    final states = [widget.attacker, widget.defender];
+    if (!states.any((s) =>
+        s.dynamax != DynamaxState.none ||
+        s.terastal.active ||
+        s.zMoves.any((z) => z))) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      var changed = false;
+      for (final s in states) {
+        if (s.clearNonChampionsMechanics()) changed = true;
+      }
+      if (changed) setState(() {});
+    });
   }
 
   @override
@@ -291,6 +322,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   @override
   void dispose() {
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_onScopeChanged);
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
                       _multCtl, _atkAbilityCtl, _atkItemCtl,
@@ -668,6 +701,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   @override
   Widget build(BuildContext context) {
+    _dropHiddenMechanics();
     return GestureDetector(
       // UnfocusDisposition.scope drops focus to the enclosing
       // FocusScope rather than bouncing it back to the previously-
@@ -2094,6 +2128,11 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
+  /// Champions has no Dynamax, Terastal or Z-Moves; their controls are
+  /// hidden while the Champions-only scope is on.
+  bool get _championsOnly =>
+      ChampionsFilterController.instance.championsOnly.value;
+
   /// Mega Evolution / Primal Reversion toggle — mirrors the one in
   /// pokemon_panel. Shown only when the Pokémon holds its own Mega
   /// Stone or Primal orb; tapping swaps forms while keeping the build.
@@ -2122,6 +2161,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   Widget _dynamaxIcon(BattlePokemonState state) {
+    if (_championsOnly) return const SizedBox.shrink();
     if (!state.canDynamax) return const SizedBox(width: 24);
     return GestureDetector(
       onTap: () => setState(() {
@@ -2151,6 +2191,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   Widget _terastalIcon(BattlePokemonState state) {
+    if (_championsOnly) return const SizedBox.shrink();
     if (state.isMega) return const SizedBox(width: 24);
     final isActive = state.terastal.active;
     final teraType = state.terastal.teraType;

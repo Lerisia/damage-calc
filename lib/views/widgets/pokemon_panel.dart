@@ -15,6 +15,7 @@ import '../../data/pokedex.dart';
 import '../../utils/ability_effects.dart' show getAbilityTypeOverride;
 import '../../utils/aura_effects.dart';
 import '../../utils/battle_facade.dart';
+import '../../utils/champions_filter_controller.dart';
 import '../../utils/champions_format_controller.dart';
 import '../../utils/ruin_effects.dart';
 import '../../utils/sprite_service.dart';
@@ -129,7 +130,22 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   @override
+  void initState() {
+    super.initState();
+    // The Champions scope hides Dynamax / Terastal / Z-Move controls,
+    // so the panel has to repaint when it is toggled elsewhere.
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_onScopeChanged);
+  }
+
+  void _onScopeChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   void dispose() {
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_onScopeChanged);
     _scrollController.dispose();
     for (final c in _powerControllers) {
       c.dispose();
@@ -186,6 +202,7 @@ class PokemonPanelState extends State<PokemonPanel>
   Widget build(BuildContext context) {
     super.build(context);
     _updateCachedSpeed();
+    _dropHiddenMechanics();
     return SingleChildScrollView(
       controller: _scrollController,
       padding: const EdgeInsets.fromLTRB(4, 2, 4, 200),
@@ -402,7 +419,9 @@ class PokemonPanelState extends State<PokemonPanel>
           SizedBox(width: 32, child: Text(AppStrings.t('move.category'), style: style, textAlign: TextAlign.center)),
           SizedBox(width: 44, child: Text(AppStrings.t('move.power'), style: style, textAlign: TextAlign.center)),
           SizedBox(width: 28, child: Text(AppStrings.t('move.critical'), style: style, textAlign: TextAlign.center)),
-          SizedBox(width: 28, child: Center(child: SizedBox(width: 14, height: 14, child: CustomPaint(painter: _ZLogoPainter(color: Theme.of(context).colorScheme.onSurface))))),
+          // Z-Moves don't exist in Champions — drop the whole column.
+          if (!_championsOnly)
+            SizedBox(width: 28, child: Center(child: SizedBox(width: 14, height: 14, child: CustomPaint(painter: _ZLogoPainter(color: Theme.of(context).colorScheme.onSurface))))),
           SizedBox(width: 60, child: Text(AppStrings.t('move.offensive'), style: style, textAlign: TextAlign.right)),
         ],
       ),
@@ -643,7 +662,7 @@ class PokemonPanelState extends State<PokemonPanel>
               visualDensity: VisualDensity.compact,
             ),
           ),
-          if (!isSearching) SizedBox(
+          if (!isSearching && !_championsOnly) SizedBox(
             width: 28,
             child: Checkbox(
               value: s.zMoves[index],
@@ -806,6 +825,29 @@ class PokemonPanelState extends State<PokemonPanel>
   ///
   /// Greyscale while in base form, full colour once transformed —
   /// same inactive/active reading as the Dynamax and Terastal icons.
+  /// Champions has no Dynamax, Terastal or Z-Moves, so their controls
+  /// are hidden while the Champions-only scope is on.
+  bool get _championsOnly =>
+      ChampionsFilterController.instance.championsOnly.value;
+
+  /// Drop any mechanic the current scope doesn't have. Runs after the
+  /// frame so it can setState from build; the state settles in one
+  /// extra pass because the second call finds nothing to clear.
+  void _dropHiddenMechanics() {
+    if (!_championsOnly) return;
+    if (s.dynamax == DynamaxState.none &&
+        !s.terastal.active &&
+        !s.zMoves.any((z) => z)) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (!s.clearNonChampionsMechanics()) return;
+      setState(() {});
+      _notifyParent();
+    });
+  }
+
   Widget _megaIcon() {
     if (!s.canToggleMegaForm) {
       return const SizedBox(width: 24);
@@ -843,6 +885,7 @@ class PokemonPanelState extends State<PokemonPanel>
       pokedexByName(s.pokemonName)?.formChange == 'primal';
 
   Widget _dynamaxIcon() {
+    if (_championsOnly) return const SizedBox.shrink();
     if (!s.canDynamax) {
       return const SizedBox(width: 24);
     }
@@ -906,6 +949,7 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   Widget _terastalIcon() {
+    if (_championsOnly) return const SizedBox.shrink();
     // Mega evolutions can't terastal
     if (_isMega) return const SizedBox(width: 24);
 

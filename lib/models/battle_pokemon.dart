@@ -338,6 +338,33 @@ class BattlePokemonState {
   }
 
   /// Apply a Pokemon species selection, updating all relevant fields.
+  /// Turn off the mechanics Pokémon Champions doesn't have: Dynamax,
+  /// Terastal and Z-Moves.
+  ///
+  /// Champions-only mode hides their controls, and a state carried over
+  /// from extended mode (or loaded from a saved sample) could otherwise
+  /// keep applying one with nothing on screen to explain it. The
+  /// chosen Tera type is kept — only the activation is dropped — so
+  /// switching back to extended mode restores the user's pick.
+  ///
+  /// Returns whether anything actually changed.
+  bool clearNonChampionsMechanics() {
+    var changed = false;
+    if (dynamax != DynamaxState.none) {
+      dynamax = DynamaxState.none;
+      changed = true;
+    }
+    if (terastal.active) {
+      terastal = TerastalState(active: false, teraType: terastal.teraType);
+      changed = true;
+    }
+    if (zMoves.any((z) => z)) {
+      zMoves = [false, false, false, false];
+      changed = true;
+    }
+    return changed;
+  }
+
   /// The form this Pokémon would toggle into — its mega/primal form
   /// when in base form, or the base species when already transformed.
   /// Null when the toggle doesn't apply.
