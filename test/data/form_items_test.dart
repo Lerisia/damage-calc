@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/data/pokedex.dart';
 import 'package:damage_calc/models/pokemon.dart';
+import 'package:damage_calc/models/type.dart';
 
 /// Form-change item infrastructure.
 ///
@@ -172,6 +173,22 @@ void main() {
       expect(isOwnFormItem('Pikachu', 'red-orb'), isFalse);
       expect(isOwnFormItem('Zamazenta', 'rusted-sword'), isFalse);
       expect(isOwnFormItem('Charizard', 'leftovers'), isFalse);
+    });
+  });
+
+  group('Champions mega abilities', () {
+    // Champions keeps adding megas; each one's ability is curated by
+    // hand from in-game data, so pin the ones we've confirmed.
+    test('Z megas have their confirmed abilities', () {
+      Pokemon m(String n) => dex.firstWhere((p) => p.name == n);
+      expect(m('Mega Absol Z').abilities, equals(['Sharpness']));
+      expect(m('Mega Garchomp Z').abilities, equals(['Levitate']));
+    });
+
+    test('Mega Garchomp Z drops Ground, matching Levitate', () {
+      final m = dex.firstWhere((p) => p.name == 'Mega Garchomp Z');
+      expect(m.type1, equals(PokemonType.dragon));
+      expect(m.type2, isNull);
     });
   });
 }

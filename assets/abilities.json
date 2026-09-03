@@ -2929,5 +2929,14 @@
     "descKo": "자신과 같은 성별인 상대에게 위력이 1.25배가 되며, 다른 성별인 상대에게는 0.75배가 된다.",
     "descEn": "Becomes competitive: deals 1.25× to same-gender targets and 0.75× to opposite-gender targets.",
     "descJa": "性別が同じ相手には威力が1.25倍に、異なる相手には0.75倍になる。"
+  },
+  {
+    "name": "Aura Guard",
+    "nameKo": "파동의방호",
+    "nameJa": "はどうのぼうご",
+    "nameEn": "Aura Guard",
+    "descEn": "Halves the damage the Pokémon takes from contact moves.",
+    "descKo": "접촉하는 기술로 받는 데미지가 절반이 된다.",
+    "descJa": "接触する　技で　受ける　ダメージが　半分に　なる。"
   }
 ]

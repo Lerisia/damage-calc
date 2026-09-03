@@ -563,6 +563,12 @@ double getDefensiveAbilityDamageMultiplier(String abilityName, {
       if (moveType == PokemonType.fire) m *= 2.0;
       if (move.hasTag(MoveTags.contact)) m *= 0.5;
       return m;
+    case 'Aura Guard':
+      // Mega Lucario Z's signature (Champions M-C). Halves contact
+      // damage with no type clause — unlike Fluffy, which pairs the
+      // same halving with a Fire ×2. Long Reach strips the contact
+      // tag upstream, so a move made non-contact lands in full.
+      return move.hasTag(MoveTags.contact) ? 0.5 : 1.0;
     case 'Punk Rock':
       return move.hasTag(MoveTags.sound) ? 0.5 : 1.0;
     default:
@@ -866,7 +872,7 @@ const Set<String> ignorableAbilities = {
   'Filter', 'Solid Rock',
   // Prism Armor, Shadow Shield, Full Metal Body: NOT ignorable (legendary exclusive)
   'Multiscale',
-  'Fur Coat', 'Ice Scales', 'Fluffy',
+  'Fur Coat', 'Ice Scales', 'Fluffy', 'Aura Guard',
   'Thick Fat', 'Heatproof', 'Water Bubble', 'Purifying Salt',
   'Punk Rock',
   'Friend Guard',
