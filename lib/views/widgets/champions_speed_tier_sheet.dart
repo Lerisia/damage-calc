@@ -264,43 +264,41 @@ class _SpreadMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final spreadLabel = switch (kind) {
-      SpeedVariantKind.neutral => AppStrings.t('speedTier.spread.neutral'),
-      SpeedVariantKind.invested ||
-      SpeedVariantKind.scarfInvested =>
-        AppStrings.t('speedTier.spread.invested'),
-      SpeedVariantKind.boosted ||
-      SpeedVariantKind.scarfBoosted =>
-        AppStrings.t('speedTier.spread.boosted'),
-    };
+    // The icon lives in the sprite pack, so resolve it first — the
+    // label changes when it isn't there.
+    final icon =
+        kind.isScarf ? SpriteService.instance.itemIconFor(_scarfItemId) : null;
     final text = Text(
-      spreadLabel,
+      speedVariantLabel(kind, withIcon: icon != null),
       style: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.w600,
         color: scheme.onSurfaceVariant,
       ),
     );
-    if (!kind.isScarf) return text;
+    if (!kind.isScarf || icon == null) return text;
 
-    // Icon comes from the sprite pack (web: jsDelivr, mobile: the
-    // imported pack). It can be absent — a user who hasn't imported a
-    // pack, or an older pack without items/ — so the label alone has
-    // to remain readable, hence the text stays either way.
-    final icon = SpriteService.instance.itemIconFor(_scarfItemId);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         text,
         const SizedBox(width: 1),
-        if (icon != null)
-          Image(
-            image: icon,
-            width: 16,
-            height: 16,
-            filterQuality: FilterQuality.medium,
-            errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+        Image(
+          image: icon,
+          width: 16,
+          height: 16,
+          filterQuality: FilterQuality.medium,
+          // A web fetch can still fail after we decided to show it;
+          // fall back to the word so the row stays honest.
+          errorBuilder: (_, __, ___) => Text(
+            speedVariantLabel(kind, withIcon: false),
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: scheme.onSurfaceVariant,
+            ),
           ),
+        ),
       ],
     );
   }

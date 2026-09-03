@@ -2247,6 +2247,20 @@ class AppStrings {
       AppLanguage.en: 'Max+',
       AppLanguage.ja: '最速',
     },
+    // Used when the Choice Scarf icon isn't available (no pack
+    // imported, or a pack predating items/) — without the word, a
+    // Scarf line is indistinguishable from the plain spread it
+    // modifies.
+    'speedTier.spread.scarfInvested': {
+      AppLanguage.ko: '준스카프',
+      AppLanguage.en: 'Max Scarf',
+      AppLanguage.ja: '準速スカーフ',
+    },
+    'speedTier.spread.scarfBoosted': {
+      AppLanguage.ko: '극스카프',
+      AppLanguage.en: 'Max+ Scarf',
+      AppLanguage.ja: '最速スカーフ',
+    },
     'speedTier.empty': {
       AppLanguage.ko: '데이터가 아직 로드되지 않았습니다.',
       AppLanguage.en: 'Data is still loading.',

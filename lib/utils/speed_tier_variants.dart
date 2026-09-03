@@ -2,6 +2,7 @@ import '../data/champions_usage.dart';
 import '../models/nature_profile.dart';
 import '../models/pokemon.dart';
 import '../models/stats.dart';
+import 'app_strings.dart';
 import 'champions_format_controller.dart';
 import 'champions_mode.dart';
 import 'stat_calculator.dart';
@@ -39,11 +40,15 @@ class SpeedVariant {
   const SpeedVariant(this.kind, this.speed);
 }
 
-/// Choice Scarf only shows for Pokémon that actually run one. A
-/// listed item isn't enough — the usage tables go ten deep, and Scarf
-/// appears somewhere on half the roster. Top five is the cut that
-/// separates real Scarf users from incidental ones.
-const _scarfTopN = 5;
+/// Choice Scarf only shows for Pokémon that actually run one.
+///
+/// Presence isn't enough: the usage tables go ten deep and Scarf turns
+/// up on about half the roster, at a median of under 5%. Ranking by
+/// position doesn't help either — a top-five cut still let 113 species
+/// through in singles. Threshold on the adoption rate instead, which
+/// keeps its meaning as the data refreshes: 10% brings that to 55, the
+/// Pokémon whose Scarf sets a player would actually plan around.
+const _scarfMinPct = 10.0;
 const _scarfItemId = 'choice-scarf';
 
 /// The speeds [pokemon] should appear at in the realized-value tier
@@ -97,10 +102,35 @@ List<SpeedVariant> speedVariantsFor(
   return variants;
 }
 
+/// Label for a chip on the realized speed table.
+///
+/// Pass [withIcon] false when the Choice Scarf icon can't be shown —
+/// it ships in the sprite pack, so a user without one (or on a pack
+/// predating items/) would otherwise see a Scarf chip reading exactly
+/// like the plain spread it modifies, sitting at a different speed
+/// with nothing to explain the gap. Then the word carries it instead.
+String speedVariantLabel(SpeedVariantKind kind, {required bool withIcon}) {
+  if (kind.isScarf && !withIcon) {
+    return AppStrings.t(kind == SpeedVariantKind.scarfInvested
+        ? 'speedTier.spread.scarfInvested'
+        : 'speedTier.spread.scarfBoosted');
+  }
+  return switch (kind) {
+    SpeedVariantKind.neutral => AppStrings.t('speedTier.spread.neutral'),
+    SpeedVariantKind.invested ||
+    SpeedVariantKind.scarfInvested =>
+      AppStrings.t('speedTier.spread.invested'),
+    SpeedVariantKind.boosted ||
+    SpeedVariantKind.scarfBoosted =>
+      AppStrings.t('speedTier.spread.boosted'),
+  };
+}
+
 bool _runsChoiceScarf(String pokemonName, ChampionsFormat? format) {
   final usage = championsUsageFor(pokemonName, format: format);
   if (usage == null) return false;
-  return usage.items
-      .take(_scarfTopN)
-      .any((i) => i.name == _scarfItemId);
+  for (final i in usage.items) {
+    if (i.name == _scarfItemId) return (i.pct ?? 0) >= _scarfMinPct;
+  }
+  return false;
 }
