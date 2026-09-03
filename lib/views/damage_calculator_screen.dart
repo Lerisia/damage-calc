@@ -340,6 +340,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   // the snooze. Without this guard, a 30-day snooze masks the next
   // sprite refresh too.
   static const _packNagSnoozeForVersionKey = 'spritePackNagSnoozeForVersion';
+  // Permanent "don't show again" — records the pack version the user
+  // dismissed for good. Unlike the timed snooze it has no expiry, but
+  // it IS version-scoped: a future pack bump (kLatestSpritePackVersion
+  // moves past the dismissed value) surfaces the nag again, so a
+  // genuinely-new sprite release isn't silently withheld.
+  static const _packNagDismissedVersionKey = 'spritePackNagDismissedVersion';
   Future<void> _maybeShowSpritePackUpdate() async {
     if (kIsWeb) return;
     final mgr = SpritePackManager.instance;
@@ -352,6 +358,12 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final activeStyle = SpriteService.instance.style;
     if (!mgr.isStyleOutOfDate(activeStyle, kLatestSpritePackVersion)) return;
     final prefs = await SharedPreferences.getInstance();
+    // Permanent dismissal for this exact pack version wins over
+    // everything else.
+    if (prefs.getString(_packNagDismissedVersionKey) ==
+        kLatestSpritePackVersion) {
+      return;
+    }
     final snoozeUntil = prefs.getInt(_packNagSnoozeUntilKey) ?? 0;
     final snoozeFor = prefs.getString(_packNagSnoozeForVersionKey);
     final now = DateTime.now().millisecondsSinceEpoch;
@@ -378,17 +390,20 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
           TextButton(
             onPressed: () async {
-              await snooze(7);
-              if (ctx.mounted) Navigator.pop(ctx);
-            },
-            child: Text(AppStrings.t('action.snoozeWeek')),
-          ),
-          TextButton(
-            onPressed: () async {
               await snooze(30);
               if (ctx.mounted) Navigator.pop(ctx);
             },
             child: Text(AppStrings.t('action.snoozeMonth')),
+          ),
+          // Permanent dismissal for this pack version. Re-surfaces only
+          // when a newer pack ships (dismissed value < latest).
+          TextButton(
+            onPressed: () async {
+              await prefs.setString(
+                  _packNagDismissedVersionKey, kLatestSpritePackVersion);
+              if (ctx.mounted) Navigator.pop(ctx);
+            },
+            child: Text(AppStrings.t('action.dontShowAgain')),
           ),
         ],
       ),
