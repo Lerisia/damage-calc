@@ -2041,9 +2041,12 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       ],
       const SizedBox(width: 4),
       ..._effectiveTypeBadges(state),
-      // Anchored right so a mega's typing change can't slide the
-      // icons out from under the finger mid-toggle.
-      const Spacer(),
+      // No Spacer here, unlike the full panel: the species selector
+      // above is already Expanded, so it absorbs whatever width the
+      // type chips take and the icons stay pinned right on their own.
+      // Adding one splits the free space with the selector and halves
+      // the name / search field.
+      const SizedBox(width: 4),
       _megaIcon(state),
       const SizedBox(width: 4),
       _dynamaxIcon(state),
