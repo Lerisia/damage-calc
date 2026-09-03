@@ -343,9 +343,11 @@ class BattlePokemonState {
   ///
   /// Champions-only mode hides their controls, and a state carried over
   /// from extended mode (or loaded from a saved sample) could otherwise
-  /// keep applying one with nothing on screen to explain it. The
-  /// chosen Tera type is kept — only the activation is dropped — so
-  /// switching back to extended mode restores the user's pick.
+  /// keep applying one with nothing on screen to explain it.
+  ///
+  /// Terastal is reset whole, type included: the picker sets type and
+  /// activation together and its "no Tera" option clears both, so this
+  /// lands exactly where turning Terastal off by hand does.
   ///
   /// Returns whether anything actually changed.
   bool clearNonChampionsMechanics() {
@@ -355,7 +357,7 @@ class BattlePokemonState {
       changed = true;
     }
     if (terastal.active) {
-      terastal = TerastalState(active: false, teraType: terastal.teraType);
+      terastal = const TerastalState();
       changed = true;
     }
     if (zMoves.any((z) => z)) {

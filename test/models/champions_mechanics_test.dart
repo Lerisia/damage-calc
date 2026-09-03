@@ -35,14 +35,15 @@ void main() {
     expect(s.dynamax, equals(DynamaxState.none));
   });
 
-  test('deactivates Terastal but remembers the chosen type', () {
+  test('clears Terastal outright, type included', () {
     final s = charizard()
       ..terastal =
           const TerastalState(active: true, teraType: PokemonType.fire);
     expect(s.clearNonChampionsMechanics(), isTrue);
     expect(s.terastal.active, isFalse);
-    expect(s.terastal.teraType, equals(PokemonType.fire),
-        reason: 'the pick should survive so extended mode restores it');
+    // The picker sets type and activation together, and its "no Tera"
+    // option resets both — so clearing must land in the same place.
+    expect(s.terastal.teraType, isNull);
   });
 
   test('clears Z-Move flags', () {
@@ -56,7 +57,9 @@ void main() {
     expect(s.clearNonChampionsMechanics(), isFalse);
   });
 
-  test('an inactive Terastal type pick is left alone', () {
+  test('an inactive state is left alone', () {
+    // The UI can't produce a type without activation, but a decoded
+    // PokePaste can carry one; it changes no damage, so leave it.
     final s = charizard()
       ..terastal =
           const TerastalState(active: false, teraType: PokemonType.water);
