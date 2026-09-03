@@ -7,6 +7,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../utils/app_strings.dart';
 import '../../utils/korean_search.dart';
+import 'dismiss_keyboard.dart';
 import 'jump_to_search_field.dart';
 import '../../utils/speed_tier_display_controller.dart';
 import '../../utils/speed_tier_variants.dart';
@@ -61,6 +62,12 @@ class _ChampionsSpeedTierSheetState extends State<ChampionsSpeedTierSheet> {
   }
 
   Widget _buildSheet(BuildContext context, SpeedTierDisplayMode mode) {
+    return DismissKeyboard(
+      child: _buildBody(context, mode),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, SpeedTierDisplayMode mode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,

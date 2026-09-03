@@ -11,6 +11,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../utils/app_strings.dart';
 import '../../utils/korean_search.dart';
+import 'dismiss_keyboard.dart';
 import 'jump_to_search_field.dart';
 import '../../utils/champions_format_controller.dart';
 import '../root_shell.dart';
@@ -151,7 +152,8 @@ class _ChampionsUsageRankSheetState extends State<ChampionsUsageRankSheet> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ChampionsFormat>(
       valueListenable: _ctrl.format,
-      builder: (context, format, _) => Column(
+      builder: (context, format, _) => DismissKeyboard(
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -313,7 +315,8 @@ class _ChampionsUsageRankSheetState extends State<ChampionsUsageRankSheet> {
               },
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }
