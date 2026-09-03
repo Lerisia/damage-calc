@@ -237,7 +237,19 @@ class PokemonPanelState extends State<PokemonPanel>
               onLevelChanged: (v) => setState(() { s.level = v; _notifyParent(); }),
               onNatureChanged: (v) => setState(() { s.nature = v; _notifyParent(); }),
               onIvChanged: (v) => setState(() { s.iv = v; }),
-              onEvChanged: (v) => setState(() { s.ev = v; }),
+              // Notifies the parent like the other inputs do. The
+              // opponent's speed comparison and the final speed shown
+              // on the right are computed up there, so a local
+              // setState left them on the previous value while the
+              // user typed (issue #2). Safe to rebuild the parent on
+              // each keystroke: StatInput is keyed by resetCounter,
+              // not by the value, so the focused field isn't remounted
+              // — the failure mode feedback_ev_input_focus_regression
+              // warns about.
+              onEvChanged: (v) {
+                setState(() { s.ev = v; });
+                _notifyParent();
+              },
               onAbilityChanged: (v) => setState(() { s.selectedAbility = v; _notifyParent(); }),
               onItemChanged: (v) => setState(() { s.selectedItem = v; _notifyParent(); }),
               onRankChanged: (v) => setState(() { s.rank = v; _notifyParent(); }),
