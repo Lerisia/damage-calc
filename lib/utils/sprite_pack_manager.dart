@@ -17,7 +17,7 @@ import 'sprite_service.dart';
 /// no marker at all — legacy pre-marker installs), so a user who's
 /// grabbed a newer pack than this build knows about doesn't get
 /// pestered until the app catches up.
-const String kLatestSpritePackVersion = '5';
+const String kLatestSpritePackVersion = '6';
 
 /// Per-style sprite-pack install state for mobile.
 ///
@@ -133,8 +133,21 @@ class SpritePackManager extends ChangeNotifier {
     return '${r.path}/trainers';
   }
 
+  /// Where the held-item icon cache lives — written by
+  /// [installFromZip] when the pack ZIP carries an `items/` subdir
+  /// (starting PACK_VERSION 6). Used wherever the UI marks a held
+  /// item on mobile; web reads the same files from jsDelivr.
+  String? get itemIconsCacheDir {
+    final r = _rootDir;
+    if (r == null) return null;
+    return '${r.path}/items';
+  }
+
   bool _trainersInstalled = false;
   bool get trainersInstalled => _trainersInstalled;
+
+  bool _itemIconsInstalled = false;
+  bool get itemIconsInstalled => _itemIconsInstalled;
 
   /// Probe the FS to refresh install state. Called from app preload
   /// so SpriteService.spriteFor returns FileImages immediately on
@@ -168,6 +181,9 @@ class SpritePackManager extends ChangeNotifier {
     final trainersDir = Directory('${_rootDir!.path}/trainers');
     _trainersInstalled = trainersDir.existsSync() &&
         trainersDir.listSync().any((e) => e is File);
+    final itemsDir = Directory('${_rootDir!.path}/items');
+    _itemIconsInstalled =
+        itemsDir.existsSync() && itemsDir.listSync().any((e) => e is File);
     notifyListeners();
   }
 
@@ -189,6 +205,8 @@ class SpritePackManager extends ChangeNotifier {
     bool zipHasIcons = false;
     final trainersTarget = Directory('${_rootDir!.path}/trainers');
     bool zipHasTrainers = false;
+    final itemsTarget = Directory('${_rootDir!.path}/items');
+    bool zipHasItems = false;
 
     final bytes = await zipFile.readAsBytes();
     final Archive archive;
@@ -200,6 +218,7 @@ class SpritePackManager extends ChangeNotifier {
     var styleWritten = 0;
     var iconsWritten = 0;
     var trainersWritten = 0;
+    var itemIconsWritten = 0;
     String? packVersion;
     for (final entry in archive) {
       if (!entry.isFile) continue;
@@ -247,6 +266,25 @@ class SpritePackManager extends ChangeNotifier {
         trainersWritten++;
         continue;
       }
+      // Held-item icons ride in the same ZIP under items/<id>.png
+      // (PACK_VERSION 6+). Extracted to a shared cache like the box
+      // icons, since they're identical across styles.
+      if (name.startsWith('items/')) {
+        if (!zipHasItems) {
+          if (itemsTarget.existsSync()) {
+            itemsTarget.deleteSync(recursive: true);
+          }
+          itemsTarget.createSync(recursive: true);
+          zipHasItems = true;
+        }
+        final flat = name.substring('items/'.length);
+        if (flat.isEmpty || flat.contains('/')) continue;
+        if (!flat.toLowerCase().endsWith('.png')) continue;
+        File('${itemsTarget.path}/$flat')
+            .writeAsBytesSync(entry.content as List<int>);
+        itemIconsWritten++;
+        continue;
+      }
       // Shiny variants ship inside the same per-style ZIP under
       // shiny/<key>.png — extract to <styleCacheDir>/shiny/<key>.png
       // so SpriteService.spriteFor(..., shiny: true) finds them at
@@ -291,6 +329,7 @@ class SpritePackManager extends ChangeNotifier {
     _installed[style] = true;
     if (iconsWritten > 0) _iconsInstalled = true;
     if (trainersWritten > 0) _trainersInstalled = true;
+    if (itemIconsWritten > 0) _itemIconsInstalled = true;
     notifyListeners();
     return styleWritten;
   }

@@ -2,8 +2,13 @@ import 'dart:ui' show FontFeature;
 import 'package:flutter/material.dart';
 import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
+import '../../models/pokemon.dart';
 import '../../utils/app_strings.dart';
+import '../../utils/speed_tier_display_controller.dart';
+import '../../utils/speed_tier_variants.dart';
+import '../../utils/sprite_service.dart';
 import 'pokemon_sprite.dart';
+import 'segmented_toggle.dart';
 
 /// Quick-reference Champions speed tier table — left column is the
 /// realized Lv50 speed, right column lists every Champions Pokémon
@@ -37,6 +42,13 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ValueListenableBuilder<SpeedTierDisplayMode>(
+      valueListenable: SpeedTierDisplayController.instance.mode,
+      builder: (context, mode, _) => _buildSheet(context, mode),
+    );
+  }
+
+  Widget _buildSheet(BuildContext context, SpeedTierDisplayMode mode) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -57,10 +69,25 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
             ),
           ]),
         ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          child: SegmentedToggle(
+            labels: [
+              AppStrings.t('speedTier.display.base'),
+              AppStrings.t('speedTier.display.realized'),
+            ],
+            selectedIndex: mode == SpeedTierDisplayMode.realized ? 1 : 0,
+            onSelect: (i) => SpeedTierDisplayController.instance.set(
+              i == 1
+                  ? SpeedTierDisplayMode.realized
+                  : SpeedTierDisplayMode.base,
+            ),
+          ),
+        ),
         const Divider(height: 1),
         Flexible(
           child: FutureBuilder<List<_SpeedRow>>(
-            future: _buildRows(),
+            future: _buildRows(mode),
             builder: (context, snap) {
               if (!snap.hasData) {
                 return const Padding(
@@ -90,24 +117,37 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
     );
   }
 
-  /// Build the rendered rows: one per unique BASE speed value that
-  /// has at least one Champions Pokémon, sorted descending. Speed
-  /// shown is the species base stat (종족값), not a Lv50 realized
-  /// value — players compare in base terms, and a realized number
-  /// confusingly mixes in the popular spread / nature.
-  static Future<List<_SpeedRow>> _buildRows() async {
+  /// One row per distinct speed value, descending.
+  ///
+  /// Base mode lists species base Speed — the number players quote at
+  /// each other. Realized mode lists Lv50 values, so a Pokémon shows
+  /// up under each spread it plausibly runs (무보정 / 준보정 / 극보정,
+  /// plus Choice Scarf lines when it actually holds one). That is
+  /// roughly three times as many rows, which is why base stays the
+  /// default.
+  static Future<List<_SpeedRow>> _buildRows(SpeedTierDisplayMode mode) async {
     final pokedex = await loadPokedex();
     await loadChampionsUsage(); // prime cache for isInChampions
     final bySpeed = <int, List<_PokeOnTier>>{};
 
-    for (final p in pokedex) {
-      if (!isInChampions(p.name)) continue;
-      final baseSpeed = p.baseStats.speed;
-      bySpeed.putIfAbsent(baseSpeed, () => []).add(_PokeOnTier(
+    void add(int speed, Pokemon p, [SpeedVariantKind? kind]) {
+      bySpeed.putIfAbsent(speed, () => []).add(_PokeOnTier(
             name: p.name,
             localizedName: p.localizedName,
             dexNumber: p.dexNumber,
+            kind: kind,
           ));
+    }
+
+    for (final p in pokedex) {
+      if (!isInChampions(p.name)) continue;
+      if (mode == SpeedTierDisplayMode.base) {
+        add(p.baseStats.speed, p);
+      } else {
+        for (final v in speedVariantsFor(p)) {
+          add(v.speed, p, v.kind);
+        }
+      }
     }
 
     final speeds = bySpeed.keys.toList()..sort((a, b) => b.compareTo(a));
@@ -134,10 +174,14 @@ class _PokeOnTier {
   final String name;            // English internal name
   final String localizedName;   // User-facing
   final int dexNumber;          // For intra-tier sort
+  /// Which spread put this Pokémon on this speed. Null in base mode,
+  /// where a species appears exactly once.
+  final SpeedVariantKind? kind;
   _PokeOnTier({
     required this.name,
     required this.localizedName,
     required this.dexNumber,
+    this.kind,
   });
 }
 
@@ -171,7 +215,10 @@ class _SpeedRowTile extends StatelessWidget {
               runSpacing: 4,
               children: [
                 for (final p in row.pokemon)
-                  _PokeChip(name: p.name, label: p.localizedName),
+                  _PokeChip(
+                      name: p.name,
+                      label: p.localizedName,
+                      kind: p.kind),
               ],
             ),
           ),
@@ -184,7 +231,8 @@ class _SpeedRowTile extends StatelessWidget {
 class _PokeChip extends StatelessWidget {
   final String name;
   final String label;
-  const _PokeChip({required this.name, required this.label});
+  final SpeedVariantKind? kind;
+  const _PokeChip({required this.name, required this.label, this.kind});
 
   @override
   Widget build(BuildContext context) {
@@ -194,6 +242,65 @@ class _PokeChip extends StatelessWidget {
         PokemonSprite(pokemonName: name, size: 26, useBoxIcon: true),
         const SizedBox(width: 2),
         Text(label, style: const TextStyle(fontSize: 13)),
+        if (kind != null) ...[
+          const SizedBox(width: 3),
+          _SpreadMarker(kind: kind!),
+        ],
+      ],
+    );
+  }
+}
+
+/// Which spread a chip belongs to. The two Scarf tiers carry the
+/// item's own icon rather than a word, so the eye can pick the Scarf
+/// lines out of a dense row at a glance; the icon sits next to the
+/// spread it modifies (준 or 극).
+class _SpreadMarker extends StatelessWidget {
+  final SpeedVariantKind kind;
+  const _SpreadMarker({required this.kind});
+
+  static const _scarfItemId = 'choice-scarf';
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final spreadLabel = switch (kind) {
+      SpeedVariantKind.neutral => AppStrings.t('speedTier.spread.neutral'),
+      SpeedVariantKind.invested ||
+      SpeedVariantKind.scarfInvested =>
+        AppStrings.t('speedTier.spread.invested'),
+      SpeedVariantKind.boosted ||
+      SpeedVariantKind.scarfBoosted =>
+        AppStrings.t('speedTier.spread.boosted'),
+    };
+    final text = Text(
+      spreadLabel,
+      style: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        color: scheme.onSurfaceVariant,
+      ),
+    );
+    if (!kind.isScarf) return text;
+
+    // Icon comes from the sprite pack (web: jsDelivr, mobile: the
+    // imported pack). It can be absent — a user who hasn't imported a
+    // pack, or an older pack without items/ — so the label alone has
+    // to remain readable, hence the text stays either way.
+    final icon = SpriteService.instance.itemIconFor(_scarfItemId);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        text,
+        const SizedBox(width: 1),
+        if (icon != null)
+          Image(
+            image: icon,
+            width: 16,
+            height: 16,
+            filterQuality: FilterQuality.medium,
+            errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+          ),
       ],
     );
   }

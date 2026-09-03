@@ -2219,6 +2219,34 @@ class AppStrings {
       AppLanguage.en: 'Speed tier',
       AppLanguage.ja: 'スピード表',
     },
+    'speedTier.display.base': {
+      AppLanguage.ko: '종족값',
+      AppLanguage.en: 'Base',
+      AppLanguage.ja: '種族値',
+    },
+    'speedTier.display.realized': {
+      AppLanguage.ko: '실수치',
+      AppLanguage.en: 'Actual',
+      AppLanguage.ja: '実数値',
+    },
+    // Speed spreads, in each community's own shorthand. Japanese
+    // players name these by speed (無振り / 準速 / 最速) rather than
+    // by nature, so don't translate the Korean terms literally.
+    'speedTier.spread.neutral': {
+      AppLanguage.ko: '무보정',
+      AppLanguage.en: '0',
+      AppLanguage.ja: '無振り',
+    },
+    'speedTier.spread.invested': {
+      AppLanguage.ko: '준보정',
+      AppLanguage.en: 'Max',
+      AppLanguage.ja: '準速',
+    },
+    'speedTier.spread.boosted': {
+      AppLanguage.ko: '극보정',
+      AppLanguage.en: 'Max+',
+      AppLanguage.ja: '最速',
+    },
     'speedTier.empty': {
       AppLanguage.ko: '데이터가 아직 로드되지 않았습니다.',
       AppLanguage.en: 'Data is still loading.',

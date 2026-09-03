@@ -398,6 +398,28 @@ class SpriteService extends ChangeNotifier {
     return FileImage(file);
   }
 
+  /// Held-item icon (24×24) for marking an item in list views — the
+  /// speed tier table's Choice Scarf lines are the first caller.
+  ///
+  /// Same shape as [iconFor]: jsDelivr on web, the pack's items cache
+  /// on mobile (PACK_VERSION 6+). Returns null when no icon exists —
+  /// Showdown ships standalone icons for roughly 230 of our ~530
+  /// items, with Mega Stones, Z-Crystals, memories and the Champions
+  /// candies absent — so callers must have a text fallback ready.
+  ImageProvider? itemIconFor(String itemId) {
+    if (kIsWeb) {
+      return NetworkImage(
+          'https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/'
+          'sprites/items/$itemId.png?v=$kLatestSpritePackVersion');
+    }
+    if (!SpritePackManager.instance.itemIconsInstalled) return null;
+    final dir = SpritePackManager.instance.itemIconsCacheDir;
+    if (dir == null) return null;
+    final file = File('$dir/$itemId.png');
+    if (!file.existsSync()) return null;
+    return FileImage(file);
+  }
+
   /// Fallback box icon — when a Mega / form key has no curated icon
   /// (ZA Megas, Champions-original entries), serve the base species'
   /// icon instead of the pokéball placeholder. Mirrors the same

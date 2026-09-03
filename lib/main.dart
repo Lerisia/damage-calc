@@ -5,6 +5,7 @@ import 'utils/app_strings.dart';
 import 'utils/champions_filter_controller.dart';
 import 'utils/champions_format_controller.dart';
 import 'utils/coverage_display_controller.dart';
+import 'utils/speed_tier_display_controller.dart';
 import 'utils/move_options_controller.dart';
 import 'utils/simple_mode_controller.dart';
 import 'utils/sprite_override_manager.dart';
@@ -248,6 +249,7 @@ class _AppLoaderState extends State<_AppLoader> {
       ThemeController.instance.load(),
       SimpleModeController.instance.load(),
       CoverageDisplayController.instance.load(),
+      SpeedTierDisplayController.instance.load(),
       MoveOptionsController.instance.load(),
       ChampionsFilterController.instance.load(),
       ChampionsFormatController.instance.load(),
