@@ -11851,7 +11851,7 @@ bx4(a,b){var s,r,q,p,o=A.xp(a,b)
 if(o==null)return!1
 for(s=o.b,r=s.length,q=0;q<r;++q){p=s[q]
 if(p.a==="choice-scarf"){s=p.b
-return(s==null?0:s)>=10}}return!1},
+return(s==null?0:s)>=40}}return!1},
 p0:function p0(a,b){this.a=a
 this.b=b},
 rs:function rs(a,b){this.a=a
