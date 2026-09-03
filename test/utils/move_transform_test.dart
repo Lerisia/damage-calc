@@ -756,7 +756,7 @@ void main() {
       expect(result.move.power, equals(130));
     });
 
-    test('fire move 130 power -> Max Flare (150)', () {
+    test('fire move 130 power -> Max Flare (140)', () {
       const overheat = Move(
         name: 'Overheat', nameKo: '오버히트', nameJa: 'オーバーヒート',
         type: PokemonType.fire, category: MoveCategory.special,
@@ -764,7 +764,8 @@ void main() {
       );
       final result = transformMove(overheat,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      expect(result.move.power, equals(150));
+      // 150 needs base power 150; 130 sits in the 110+ band.
+      expect(result.move.power, equals(140));
     });
 
     // Fighting/Poison reduced power
@@ -1654,19 +1655,21 @@ void main() {
       power: 0, accuracy: 90, pp: 20, tags: [MoveTags.fixed20],
     );
 
-    test('fixed40 move -> Max Guard', () {
+    // Flat-damage moves convert like any other powerless move: 100.
+    // They used to become Max Guard, which contradicted Night Shade
+    // and Seismic Toss right below becoming real Max Moves.
+    test('fixed40 move -> Max Move at 100', () {
       final result = transformMove(dragonRage,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      expect(result.move.name, equals('Max Guard'));
-      expect(result.move.nameKo, equals('다이월'));
-      expect(result.move.power, equals(0));
+      expect(result.move.name, isNot(equals('Max Guard')));
+      expect(result.move.power, equals(100));
     });
 
-    test('fixed20 move -> Max Guard', () {
+    test('fixed20 move -> Max Move at 100', () {
       final result = transformMove(sonicBoom,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      expect(result.move.name, equals('Max Guard'));
-      expect(result.move.power, equals(0));
+      expect(result.move.name, isNot(equals('Max Guard')));
+      expect(result.move.power, equals(100));
     });
   });
 
@@ -1788,10 +1791,11 @@ void main() {
       expect(result.move.power, equals(90));
     });
 
-    test('poison type: 130 -> 100 (reduced)', () {
+    test('poison type: 130 -> 95 (reduced)', () {
       final result = transformMove(makeMove(130, PokemonType.poison),
           const MoveContext(dynamax: DynamaxState.dynamax));
-      expect(result.move.power, equals(100));
+      // 100 is the 150+ band; 130 lands on 95.
+      expect(result.move.power, equals(95));
     });
   });
 
@@ -1837,9 +1841,9 @@ void main() {
       );
       final result = transformMove(lowKick,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      // weightTarget -> fixed 130, but fighting type reduced table doesn't apply
-      // because fixed power bypasses table
-      expect(result.move.power, equals(130));
+      // The game gives Low Kick no Max override, so it converts as a
+      // powerless move: 100, before the Fighting table is consulted.
+      expect(result.move.power, equals(100));
     });
 
     test('powerByTargetHp120 move -> fixed 130 max power', () {
@@ -1850,7 +1854,7 @@ void main() {
       );
       final result = transformMove(crushGrip,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      expect(result.move.power, equals(130));
+      expect(result.move.power, equals(140), reason: 'game override');
     });
 
     test('powerByTargetHp100 move -> fixed 130 max power', () {
@@ -1861,7 +1865,7 @@ void main() {
       );
       final result = transformMove(hardPress,
           const MoveContext(dynamax: DynamaxState.dynamax));
-      expect(result.move.power, equals(130));
+      expect(result.move.power, equals(100), reason: 'no game override');
     });
 
     test('electroSpeed move -> fixed 130 max power', () {

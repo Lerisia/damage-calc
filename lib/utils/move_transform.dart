@@ -169,6 +169,13 @@ class TransformedMove {
 /// 5. Rank-based power (Stored Power, etc.)
 /// 6. Stat selection (Body Press, Photon Geyser, etc.)
 TransformedMove transformMove(Move move, MoveContext context) {
+  // The move's own base power, before anything below adjusts it.
+  // Max Move conversion needs it: a move with no inherent power
+  // (Endeavor, Final Gambit, Reversal, Dragon Rage) gets a flat 100
+  // in the game, and feeding the situational number we compute for it
+  // instead lands it in the "40 or less" band.
+  final int dataBasePower = move.power;
+
   // 1. Type-changing transforms first
   move = _applyWeather(move, context.weather);
   move = _applyTerrain(move, context.terrain, context.attackerGrounded);
@@ -361,7 +368,8 @@ TransformedMove transformMove(Move move, MoveContext context) {
   // current state would map to <Max move BP>". See README note.
   // Z-Move is blocked by Mega/Dynamax/Terastal (3 safety layers).
   if (context.dynamax != DynamaxState.none && move.type != PokemonType.typeless) {
-    move = _applyDynamax(move, context.dynamax, context.pokemonName);
+    move = _applyDynamax(move, context.dynamax, context.pokemonName,
+        dataBasePower: dataBasePower);
   } else if (context.zMove && move.type != PokemonType.typeless &&
       context.dynamax == DynamaxState.none && !context.terastallized &&
       !context.isMega) {
@@ -1234,74 +1242,112 @@ const Map<String, _GmaxMove> _gmaxMoves = {
   'urshifu (rapid strike style)': _GmaxMove('G-Max Rapid Flow', '거다이연격', 'キョダイレンゲキ', PokemonType.water),
 };
 
+/// Max Move base power the game assigns directly, overriding the
+/// conversion table.
+///
+/// These are datamined values, not a formula, and they're irregular:
+/// Icicle Spear is 130 while Arm Thrust has no entry at all, Double
+/// Kick is 80, Multi-Attack is 95. That irregularity is why this is a
+/// table rather than rules over move tags — tags said "multi-hit means
+/// 130" and "HP-scaling means 130", which was wrong for most of these.
+/// Verified against Bulbapedia's Max Move table, which agrees with
+/// Showdown on every entry checked.
+const Map<String, int> _maxMovePowerOverrides = {
+  'Bone Rush': 130,
+  'Bonemerang': 130,
+  'Bullet Seed': 130,
+  'Comet Punch': 100,
+  'Counter': 75,
+  'Crush Grip': 140,
+  'Double Hit': 120,
+  'Double Iron Bash': 140,
+  'Double Kick': 80,
+  'Dragon Darts': 130,
+  'Dual Chop': 130,
+  'Dual Wingbeat': 130,
+  'Electro Ball': 130,
+  'Endeavor': 130,
+  'Fissure': 130,
+  'Flail': 130,
+  'Frustration': 130,
+  'Fury Swipes': 100,
+  'Gear Grind': 130,
+  'Grass Knot': 130,
+  'Guillotine': 130,
+  'Gyro Ball': 130,
+  'Heat Crash': 130,
+  'Heavy Slam': 130,
+  'Horn Drill': 130,
+  'Icicle Spear': 130,
+  'Magnitude': 140,
+  'Multi-Attack': 95,
+  'Natural Gift': 130,
+  'Pin Missile': 130,
+  'Power Trip': 130,
+  'Punishment': 130,
+  'Return': 130,
+  'Rising Voltage': 140,
+  'Rock Blast': 130,
+  'Scale Shot': 130,
+  'Seismic Toss': 75,
+  'Sheer Cold': 130,
+  'Spike Cannon': 120,
+  'Stored Power': 130,
+  'Surging Strikes': 130,
+  'Tachyon Cutter': 140,
+  'Tail Slap': 130,
+  'Terrain Pulse': 130,
+  'Triple Axel': 140,
+  'Triple Kick': 80,
+  'Trump Card': 130,
+  'Twineedle': 100,
+  'Weather Ball': 130,
+  'Wring Out': 140,
+};
+
 /// Standard Max Move power conversion table.
 int _maxMovePower(int basePower, PokemonType type) {
-  // Fighting and Poison types have reduced Max Move power
+  // A move with no base power of its own (Endeavor, Final Gambit,
+  // Fling, Spit Up, …) lands on 100 before type is considered. This
+  // check comes first in the game's own order; treating those as
+  // "40 or less" is what put Endeavor at 90 and Final Gambit at 70.
+  if (basePower <= 0) return 100;
+
+  // Fighting and Poison types have reduced Max Move power.
   final bool reduced = type == PokemonType.fighting || type == PokemonType.poison;
 
+  // Thresholds are lower bounds, not upper: 44 BP is 90, not 100.
   if (reduced) {
-    if (basePower <= 40) return 70;
-    if (basePower <= 50) return 75;
-    if (basePower <= 60) return 80;
-    if (basePower <= 70) return 85;
-    if (basePower <= 100) return 90;
-    if (basePower <= 120) return 95;
-    return 100;
+    if (basePower >= 150) return 100;
+    if (basePower >= 110) return 95;
+    if (basePower >= 75) return 90;
+    if (basePower >= 65) return 85;
+    if (basePower >= 55) return 80;
+    if (basePower >= 45) return 75;
+    return 70;
   }
 
-  if (basePower <= 40) return 90;
-  if (basePower <= 50) return 100;
-  if (basePower <= 60) return 110;
-  if (basePower <= 70) return 120;
-  if (basePower <= 100) return 130;
-  if (basePower <= 120) return 140;
-  return 150;
+  if (basePower >= 150) return 150;
+  if (basePower >= 110) return 140;
+  if (basePower >= 75) return 130;
+  if (basePower >= 65) return 120;
+  if (basePower >= 55) return 110;
+  if (basePower >= 45) return 100;
+  return 90;
 }
 
-/// Returns the fixed Max Move power for special moves (bypasses the table),
-/// or null if the move should use the normal base-power-to-max-power table.
-int? _fixedMaxMovePower(Move move) {
-  // OHKO moves -> fixed 130
-  if (move.hasTag(MoveTags.ohko)) return 130;
-
-  // Half-HP moves (Super Fang, Nature's Madness) -> fixed 100
-  if (move.hasTag(MoveTags.fixedHalfHp)) return 100;
-
-  // Variable power: HP-based, rank-based, speed-based -> fixed 130
-  if (move.hasTag(MoveTags.hpPowerHigh) || move.hasTag(MoveTags.hpPowerLow) ||
-      move.hasTag(MoveTags.rankPower) ||
-      move.hasTag(MoveTags.gyroSpeed) || move.hasTag(MoveTags.electroSpeed)) {
-    return 130;
-  }
-
-  // Weight-based moves -> fixed 130
-  if (move.hasTag(MoveTags.weightRatio) || move.hasTag(MoveTags.weightTarget)) {
-    return 130;
-  }
-
-  // Target HP-based power (Crush Grip, Hard Press) -> fixed 130
-  if (move.hasTag(MoveTags.powerByTargetHp120) || move.hasTag(MoveTags.powerByTargetHp100)) {
-    return 130;
-  }
-
-  // Multi-hit moves -> fixed 130
-  if (move.isMultiHit) return 130;
-
-  return null; // use normal table
-}
+/// The game's own Max Move power for [move], or null when it follows
+/// the conversion table.
+int? _fixedMaxMovePower(Move move) => _maxMovePowerOverrides[move.name];
 
 /// Apply Dynamax/Gigantamax transformation to a move.
-Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
-  // Fixed damage moves that don't coexist with Dynamax -> Max Guard
-  if (move.hasTag(MoveTags.fixed20) || move.hasTag(MoveTags.fixed40)) {
-    return move.copyWith(
-      name: 'Max Guard', nameEn: 'Max Guard', nameKo: '다이월', nameJa: 'ダイウォール',
-      type: PokemonType.normal, power: 0, priority: 0,
-      moveClass: MoveClass.maxMove,
-      tags: const [],
-      minHits: 1, maxHits: 1,
-    );
-  }
+Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName,
+    {required int dataBasePower}) {
+  // Flat-damage moves (Sonic Boom, Dragon Rage) used to become Max
+  // Guard here, which contradicted the branch just below turning the
+  // level-based ones into real Max Moves. They convert like anything
+  // else: no base power of their own, so 100. Only status moves
+  // become Max Guard.
 
   // Level-based fixed damage moves -> proper Max Moves
   // Night Shade: Ghost -> Max Phantasm (100), Seismic Toss: Fighting -> Max Knuckle (75)
@@ -1332,7 +1378,12 @@ Move _applyDynamax(Move move, DynamaxState dynamax, String? pokemonName) {
 
   final type = move.type;
   final fixed = _fixedMaxMovePower(move);
-  final maxPower = fixed ?? _maxMovePower(move.power, type);
+  // Powerless moves take the flat 100 from their own data rather than
+  // the situational power computed above — see [dataBasePower]. Moves
+  // that do have a base power keep using the adjusted one, which is
+  // the deliberate divergence noted at the call site.
+  final maxPower = fixed ??
+      (dataBasePower <= 0 ? 100 : _maxMovePower(move.power, type));
 
   // Check for G-Max move
   if (dynamax == DynamaxState.gigantamax && pokemonName != null) {
