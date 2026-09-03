@@ -7,7 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
 import '../../utils/app_strings.dart';
+import '../../utils/korean_search.dart';
+import 'jump_to_search_field.dart';
 import '../../utils/champions_format_controller.dart';
 import '../root_shell.dart';
 import 'pokemon_sprite.dart';
@@ -126,6 +130,10 @@ class ChampionsUsageRankSheet extends StatefulWidget {
         rank: rank,
         name: poke.name,
         localizedName: poke.localizedName,
+        nameKo: poke.nameKo,
+        nameEn: poke.nameEn ?? poke.name,
+        nameJa: poke.nameJa,
+        aliases: poke.aliases,
       ));
     }
     rows.sort((a, b) => a.rank.compareTo(b.rank));
@@ -135,6 +143,7 @@ class ChampionsUsageRankSheet extends StatefulWidget {
 
 class _ChampionsUsageRankSheetState extends State<ChampionsUsageRankSheet> {
   late bool _big = ChampionsUsageRankSheet._bigSprites;
+  final ItemScrollController _scrollController = ItemScrollController();
 
   ChampionsFormatController get _ctrl => ChampionsFormatController.instance;
 
@@ -266,15 +275,40 @@ class _ChampionsUsageRankSheetState extends State<ChampionsUsageRankSheet> {
                     ),
                   );
                 }
-                return ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: rows.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                  itemBuilder: (_, i) => _RankRowTile(
-                    row: rows[i],
-                    shell: widget.shell,
-                    big: _big,
-                  ),
+                final index = SearchIndex<int>([
+                  for (var i = 0; i < rows.length; i++)
+                    SearchEntry<int>(i, rows[i].nameKo, rows[i].nameEn,
+                        nameJa: rows[i].nameJa, aliases: rows[i].aliases),
+                ]);
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
+                      child: JumpToSearchField(
+                        findMatches: (q) => index.query(q)..sort(),
+                        onJump: (i) => _scrollController.scrollTo(
+                          index: i,
+                          duration: const Duration(milliseconds: 220),
+                          curve: Curves.easeOutCubic,
+                          // Leave a little above so the match doesn't
+                          // sit flush against the header.
+                          alignment: 0.15,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ScrollablePositionedList.separated(
+                        itemScrollController: _scrollController,
+                        itemCount: rows.length,
+                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        itemBuilder: (_, i) => _RankRowTile(
+                          row: rows[i],
+                          shell: widget.shell,
+                          big: _big,
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
@@ -330,10 +364,20 @@ class _RankRow {
   final int rank;
   final String name;            // English internal name
   final String localizedName;   // User-facing
+  // Carried so the jump-to search can match in any language (and by
+  // 초성) through the shared SearchIndex.
+  final String nameKo;
+  final String nameEn;
+  final String nameJa;
+  final List<String> aliases;
   _RankRow({
     required this.rank,
     required this.name,
     required this.localizedName,
+    required this.nameKo,
+    required this.nameEn,
+    required this.nameJa,
+    required this.aliases,
   });
 }
 

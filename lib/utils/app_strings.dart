@@ -2219,6 +2219,12 @@ class AppStrings {
       AppLanguage.en: 'Speed tier',
       AppLanguage.ja: 'スピード表',
     },
+    // Shared by the jump-to-match search on the rank / speed tables.
+    'search.jumpHint': {
+      AppLanguage.ko: '포켓몬 검색 (위치로 이동)',
+      AppLanguage.en: 'Search (jumps to match)',
+      AppLanguage.ja: 'ポケモン検索 (位置へ移動)',
+    },
     'speedTier.display.base': {
       AppLanguage.ko: '종족값',
       AppLanguage.en: 'Base',

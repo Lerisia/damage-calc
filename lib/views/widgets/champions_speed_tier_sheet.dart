@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
 import '../../utils/app_strings.dart';
+import '../../utils/korean_search.dart';
+import 'jump_to_search_field.dart';
 import '../../utils/speed_tier_display_controller.dart';
 import '../../utils/speed_tier_variants.dart';
 import '../../utils/sprite_service.dart';
@@ -18,8 +22,12 @@ import 'segmented_toggle.dart';
 /// (mirrors the team-builder default), so the speed shown matches
 /// what the user actually sees on their own builds. Pokémon without
 /// usage data fall back to base-speed-only (0 EV, neutral nature).
-class ChampionsSpeedTierSheet extends StatelessWidget {
+class ChampionsSpeedTierSheet extends StatefulWidget {
   const ChampionsSpeedTierSheet({super.key});
+
+  @override
+  State<ChampionsSpeedTierSheet> createState() =>
+      _ChampionsSpeedTierSheetState();
 
   static void show(BuildContext context) {
     showDialog<void>(
@@ -39,6 +47,10 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
       },
     );
   }
+}
+
+class _ChampionsSpeedTierSheetState extends State<ChampionsSpeedTierSheet> {
+  final ItemScrollController _scrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -104,11 +116,43 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
                   ),
                 );
               }
-              return ListView.separated(
-                shrinkWrap: true,
-                itemCount: rows.length,
-                separatorBuilder: (_, __) => const Divider(height: 1),
-                itemBuilder: (_, i) => _SpeedRowTile(row: rows[i]),
+              // A row holds everyone sharing that speed, and in
+              // realized mode a Pokémon appears on several rows (one
+              // per spread). Index every (row, member) pair so the
+              // search walks each appearance in list order, top to
+              // bottom, rather than stopping at the first tier.
+              final index = SearchIndex<int>([
+                for (var i = 0; i < rows.length; i++)
+                  for (final p in rows[i].pokemon)
+                    SearchEntry<int>(i, p.nameKo, p.nameEn,
+                        nameJa: p.nameJa, aliases: p.aliases),
+              ]);
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
+                    child: JumpToSearchField(
+                      // Dedupe: two spreads can land on the same speed,
+                      // and one row shouldn't be visited twice.
+                      findMatches: (q) =>
+                          index.query(q).toSet().toList()..sort(),
+                      onJump: (i) => _scrollController.scrollTo(
+                        index: i,
+                        duration: const Duration(milliseconds: 220),
+                        curve: Curves.easeOutCubic,
+                        alignment: 0.15,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ScrollablePositionedList.separated(
+                      itemScrollController: _scrollController,
+                      itemCount: rows.length,
+                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      itemBuilder: (_, i) => _SpeedRowTile(row: rows[i]),
+                    ),
+                  ),
+                ],
               );
             },
           ),
@@ -135,6 +179,10 @@ class ChampionsSpeedTierSheet extends StatelessWidget {
             name: p.name,
             localizedName: p.localizedName,
             dexNumber: p.dexNumber,
+            nameKo: p.nameKo,
+            nameEn: p.nameEn ?? p.name,
+            nameJa: p.nameJa,
+            aliases: p.aliases,
             kind: kind,
           ));
     }
@@ -174,6 +222,11 @@ class _PokeOnTier {
   final String name;            // English internal name
   final String localizedName;   // User-facing
   final int dexNumber;          // For intra-tier sort
+  // Carried so the jump-to search matches in any language and by 초성.
+  final String nameKo;
+  final String nameEn;
+  final String nameJa;
+  final List<String> aliases;
   /// Which spread put this Pokémon on this speed. Null in base mode,
   /// where a species appears exactly once.
   final SpeedVariantKind? kind;
@@ -181,6 +234,10 @@ class _PokeOnTier {
     required this.name,
     required this.localizedName,
     required this.dexNumber,
+    required this.nameKo,
+    required this.nameEn,
+    required this.nameJa,
+    required this.aliases,
     this.kind,
   });
 }

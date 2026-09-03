@@ -139,7 +139,6 @@ class TypeChartSheet extends StatelessWidget {
     // Cell font shrinks with width once we're below the natural cell
     // size — keeps the glyph centred and readable instead of clipping.
     final shrink = (cellCol / _cellColMax).clamp(0.45, 1.0);
-    final cellFont = (13 * shrink).clamp(8.5, 13).toDouble();
     final headerFont = (11 * shrink).clamp(8.0, 11).toDouble();
     final rowH = (cellCol * 0.9).clamp(20.0, 32.0);
     return Table(
@@ -172,7 +171,7 @@ class TypeChartSheet extends StatelessWidget {
               _MultCell(
                 mult: abilityAdjustedDefensiveMultiplier(atk, def, null),
                 height: rowH,
-                fontSize: cellFont,
+                scale: shrink,
                 symbolic: symbolic,
               ),
           ]),
@@ -229,17 +228,29 @@ class _TypeLabelCell extends StatelessWidget {
 class _MultCell extends StatelessWidget {
   final double mult;
   final double height;
-  final double fontSize;
+
+  /// Column-width factor, 1.0 at the natural size. Narrow viewports
+  /// scale the whole matrix down together.
+  final double scale;
   final bool symbolic;
   const _MultCell({
     required this.mult,
     required this.height,
-    required this.fontSize,
+    required this.scale,
     required this.symbolic,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Same per-label sizing as the party matrix, so the two charts
+    // read at one weight. Precomposed fractions (½ ¼) and the symbol
+    // glyphs sit below digit height in most fonts, so the labels that
+    // do render full-height (2×, 무) come down a touch to keep the
+    // grid from looking lopsided. The chart used a flat 13 before,
+    // which left the cells looking half-empty.
+    final isFullHeight =
+        !symbolic && (mult == 4 || mult == 2 || mult == 0);
+    final fontSize = (isFullHeight ? 15.0 : 17.0) * scale;
     return SizedBox(
       height: height,
       child: Center(

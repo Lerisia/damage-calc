@@ -33,6 +33,13 @@ dependencies:
   # Android handles via scoped MediaStore on API 30+, legacy
   # WRITE_EXTERNAL_STORAGE on lower.
   gal: ^2.3.0
+  # Jump-to-index for the rank / speed tables. Their rows are
+  # variable-height (a Wrap of however many chips land on that tier)
+  # and lazily built, so neither a computed scroll offset nor
+  # Scrollable.ensureVisible on an off-screen GlobalKey can reach a
+  # given row. Building all ~180 rows eagerly to work around that
+  # would cost more than the search is worth.
+  scrollable_positioned_list: ^0.3.8
 
 dev_dependencies:
   flutter_test:
