@@ -10033,6 +10033,7 @@ bxl(a,b){var s
 switch(a){case"Ice Scales":return b.f===B.c3?0.5:1
 case"Fluffy":s=b.e===B.V?2:1
 return B.b.l(b.z,"contact")?s*0.5:s
+case"Aura Guard":return B.b.l(b.z,"contact")?0.5:1
 case"Punk Rock":return B.b.l(b.z,"sound")?0.5:1
 default:return 1}},
 bxj(a,b){var s=b.e
@@ -10077,7 +10078,7 @@ case"speed":return B.to
 default:return B.cX}},
 bhp(a,b){if(b==null)return!1
 if(!(a!=null&&B.aky.l(0,a)))return!1
-return B.ra.l(0,b)},
+return B.rb.l(0,b)},
 bxk(a,b,c,d){if(a==null||d)return B.mz
 if(c>1)if(a==="Filter"||a==="Solid Rock"||a==="Prism Armor")return new A.rN(0.75,"ability:"+a+":\xd70.75")
 if(b>=100)if(a==="Multiscale"||a==="Shadow Shield")return new A.rN(0.5,"ability:"+a+":\xd70.5")
@@ -10597,7 +10598,7 @@ q=q.a4p(c3?B.aW:B.c3)
 c0=new A.Ke(q,c3?B.jZ:B.k_)}if(a0&&B.b.l(q.z,"custom:disabled_by_gravity"))return new A.e6(0,0,0,1,0,q.f===B.aW,!1,q,A.a(["gravity:disabled"],r),B.bR,o1)
 g=q.z
 if(B.b.l(g,"custom:requires_def_sleep")&&o8.p2!==B.kl)return new A.e6(0,0,0,1,0,!1,!1,q,A.a(["\uafc8\uba39\uae30: \uc0c1\ub300\uac00 \uc7a0\ub4e6 \uc0c1\ud0dc\uac00 \uc544\ub2c8\uba74 \uc2e4\ud328"],r),B.bR,o1)
-if(!A.bhp(p,o))c4=B.b.l(g,"custom:ignore_ability")&&o!=null&&B.ra.l(0,o)
+if(!A.bhp(p,o))c4=B.b.l(g,"custom:ignore_ability")&&o!=null&&B.rb.l(0,o)
 else c4=!0
 c5=c4?o1:o
 if(B.b.l(g,"custom:ohko"))return A.bm2(o6,o8,c5,q,p5)
@@ -10715,7 +10716,7 @@ if(n)g1.push("ability:Neutralizing Gas:\ud2b9\uc131 \ubb34\ud6a8\ud654")
 B.b.L(g1,m)
 if(d3!=null)g1.push(d3)
 if(c4){g1.push("moldbreaker:"+A.r(o6.ax))
-if(b2&&B.ra.l(0,o))g1.push("moldbreakerBypass:"+o)}if(b4&&b2&&!c4)g1.push("ability:"+o+":\xd7"+A.r(e4))
+if(b2&&B.rb.l(0,o))g1.push("moldbreakerBypass:"+o)}if(b4&&b2&&!c4)g1.push("ability:"+o+":\xd7"+A.r(e4))
 if(b1&&!c4)g1.push("unaware:defender")
 if(b7)g1.push("unaware:attacker")
 B.b.L(g1,e7.c)
@@ -13512,7 +13513,7 @@ r.length===e||(0,A.z)(r);++d}}if(!f)return!1}b=a1.f
 if(b!=null)if(!B.b.l(r,b))return!1
 b=a1.r
 if(b.length!==0){c=a2.h(0,a0.b)
-if(c==null)c=B.rb
+if(c==null)c=B.ra
 switch(a1.w.a){case 0:for(a=b.length,n=0;n<b.length;b.length===a||(0,A.z)(b),++n)if(!c.l(0,b[n]))return!1
 break
 case 1:a=b.length
@@ -57390,7 +57391,7 @@ k=i.gp5()
 i=r.WH(i)
 g=r.f
 h=t.p
-g=A.a([A.mv(B.K,A.j(k+i+" \u2192 "+g.gp5()+r.WH(g),q,q,q,q,B.ii,q,q),B.da),B.cr,A.a9(A.a([r.Ww(r.e),B.arX,r.Ww(r.f)],h),B.m,q,B.eN,B.l,0,q),B.be,A.j("HP "+l+"/"+m+" | "+A.f("section.physBulk")+" "+f.a+" | "+A.f("section.specBulk")+" "+f.b,q,q,q,q,A.a1(q,q,B.a2,q,q,q,q,q,q,q,q,14,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),B.R,q),B.b2,A.a9(A.a([r.Wv(A.f("damage.reflect"),r.f.R8,new A.aEt(r)),B.am0,r.Wv(A.f("damage.lightScreen"),r.f.RG,new A.aEu(r))],h),B.m,q,B.eN,B.l,0,q),B.b2],h)
+g=A.a([A.mv(B.K,A.j(k+i+" \u2192 "+g.gp5()+r.WH(g),q,q,q,q,B.ii,q,q),B.da),B.cr,A.a9(A.a([r.Ww(r.e),B.arW,r.Ww(r.f)],h),B.m,q,B.eN,B.l,0,q),B.be,A.j("HP "+l+"/"+m+" | "+A.f("section.physBulk")+" "+f.a+" | "+A.f("section.specBulk")+" "+f.b,q,q,q,q,A.a1(q,q,B.a2,q,q,q,q,q,q,q,q,14,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),B.R,q),B.b2,A.a9(A.a([r.Wv(A.f("damage.reflect"),r.f.R8,new A.aEt(r)),B.am0,r.Wv(A.f("damage.lightScreen"),r.f.RG,new A.aEu(r))],h),B.m,q,B.eN,B.l,0,q),B.b2],h)
 for(k=p.b,s=0;s<4;++s)g.push(r.aiO(s,f,o,k,n))
 return A.aU(q,A.aM(A.a([A.ad(A.eX(A.aM(g,B.af,B.j,B.l),q,B.u,B.Rz,q,B.a5),1),new A.eq(r.aiR(o,k,n,l,m),q)],h),B.af,B.j,B.l),B.o,j.fx,q,q,q,q,B.j7,q)},
 aiO(b6,b7,b8,b9,c0){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,b0,b1=this,b2=null,b3="damage.physical",b4="damage.special",b5=b1.e.cy[b6]
@@ -58253,7 +58254,7 @@ A.aEE.prototype={
 $1(a){return this.a.$1(a===!0)},
 $S:29}
 A.xs.prototype={
-E(a){var s=null,r=A.j(A.f("app.title"),s,s,s,s,B.fO,s,s),q=t.p,p=A.aM(A.a([B.arV,B.aG,A.j(A.f("about.description"),s,s,s,s,s,s,s),B.aG,A.j(A.f("about.subtitle"),s,s,s,s,B.aS,s,s),B.b2,B.arZ,B.ajZ,B.ak_,B.b2,A.a9(A.a([A.VH(B.wk,A.j(A.f("banner.getAndroid"),s,s,s,s,B.fS,s,s),new A.abn(this),A.aom(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hw,s,s,s,s,B.b7,s,s)),B.Z,A.VH(B.wo,A.j(A.f("banner.getIos"),s,s,s,s,B.fS,s,s),new A.abo(this),A.aom(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hw,s,s,s,s,B.b7,s,s))],q),B.m,s,B.j,B.l,0,s),B.d9,B.R6,B.aG,A.j(A.f("about.beta"),s,s,s,s,B.apW,s,s),B.b2,A.j(A.f("about.disclaimer"),s,s,s,s,B.K9,s,s),B.b2,A.j(A.f("sprite.creditTitle"),s,s,s,s,B.nc,s,s),B.be,A.j(A.f("sprite.creditBody"),s,s,s,s,B.apJ,s,s)],q),B.X,B.j,B.H)
+E(a){var s=null,r=A.j(A.f("app.title"),s,s,s,s,B.fO,s,s),q=t.p,p=A.aM(A.a([B.as0,B.aG,A.j(A.f("about.description"),s,s,s,s,s,s,s),B.aG,A.j(A.f("about.subtitle"),s,s,s,s,B.aS,s,s),B.b2,B.arY,B.ajZ,B.ak_,B.b2,A.a9(A.a([A.VH(B.wk,A.j(A.f("banner.getAndroid"),s,s,s,s,B.fS,s,s),new A.abn(this),A.aom(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hw,s,s,s,s,B.b7,s,s)),B.Z,A.VH(B.wo,A.j(A.f("banner.getIos"),s,s,s,s,B.fS,s,s),new A.abo(this),A.aom(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hw,s,s,s,s,B.b7,s,s))],q),B.m,s,B.j,B.l,0,s),B.d9,B.R6,B.aG,A.j(A.f("about.beta"),s,s,s,s,B.apW,s,s),B.b2,A.j(A.f("about.disclaimer"),s,s,s,s,B.K9,s,s),B.b2,A.j(A.f("sprite.creditTitle"),s,s,s,s,B.nc,s,s),B.be,A.j(A.f("sprite.creditBody"),s,s,s,s,B.apJ,s,s)],q),B.X,B.j,B.H)
 return A.dS(A.a([A.bR(A.j(A.f("action.close"),s,s,s,s,s,s,s),s,s,new A.abp(a),s,s)],q),s,p,s,!1,r,s)}}
 A.abn.prototype={
 $0(){window.location.assign(u.H)
@@ -58279,7 +58280,7 @@ A.a8W.prototype={}
 A.kX.prototype={
 K(){return"_DexSortKey."+this.b}}
 A.nN.prototype={
-a0(){return new A.Lk(B.hK,B.a1Z,B.DN,B.aeY,B.aeZ,B.rb,A.cZ(!0,null,!0,!0,null,null,!1))}}
+a0(){return new A.Lk(B.hK,B.a1Z,B.DN,B.aeY,B.aeZ,B.ra,A.cZ(!0,null,!0,!0,null,null,!1))}}
 A.Lk.prototype={
 aa(){var s,r=this
 r.ao()
@@ -61225,7 +61226,7 @@ if(!(m!=null)){q=A.CY(r)
 m=b
 l=q==null?b:q.b
 if(l!=null&&l.length!==0){k=$.bfQ
-if(k==null)k=B.rb
+if(k==null)k=B.ra
 for(q=l.length,j=0;j<l.length;l.length===q||(0,A.z)(l),++j){i=l[j].a
 if(!k.l(0,i)){m=i
 break}}}}a.c=m
@@ -63093,7 +63094,7 @@ E(a){return new A.hy(new A.abE(this,a),null,new A.kZ(A.a([$.d2().a,$.hZ().a],t.b
 A.abA.prototype={
 $1(a){var s=t.s3
 s=A.P(new A.V(B.xc,new A.abz(this.a,a),s),s.i("ai.E"))
-return A.oI(s,B.arY)},
+return A.oI(s,B.arX)},
 $S:49}
 A.abz.prototype={
 $1(a){var s,r,q=null,p=this.b,o=B.DD.h(0,a)
@@ -64523,7 +64524,7 @@ g.push(A.aC(d,i,32))}if(h){if(f!=null)if(p.f)e=A.j(A.f("move.fixed"),i,i,i,i,B.a
 else if(f.at>1)e=A.j(""+l,i,i,i,i,A.a1(i,i,B.bc,i,i,i,i,i,i,i,i,13,i,i,B.a9,i,i,!0,i,i,i,i,i,i,i,i),B.R,i)
 else{d=f.a
 a2=new A.MZ(l,j.x[a9],j.y,a9,new A.aq8(j,a9),new A.aq9(j,a9),new A.ca("power_"+e+"_"+d,a2))
-e=a2}else e=B.as0
+e=a2}else e=B.as_
 g.push(A.aC(e,i,44))}if(h)g.push(A.aC(A.pI(B.b7,new A.aqa(j,a9),j.a.c.fx[a9],B.ad),i,28))
 if(h&&!$.d2().a.a){e=j.a.c
 d=e.fy[a9]
@@ -68098,7 +68099,7 @@ if(q.length===0)q=A.f("trainerCard.defaultName")
 a2=A.cQ(B.eE,B.q,2)
 p=A.b9(12)
 o=a0.y.c
-n=A.aU(a1,B.as_,B.o,a1,a1,new A.aT(o,a1,a1,A.b9(4),a1,a1,B.z),a1,a1,B.hw,a1)
+n=A.aU(a1,B.arZ,B.o,a1,a1,new A.aT(o,a1,a1,A.b9(4),a1,a1,B.z),a1,a1,B.hw,a1)
 m=t.p
 o=A.a9(A.a([A.aU(a1,a1,B.o,a1,a1,new A.aT(a1,a1,A.cQ(o,B.q,2),a1,a1,a1,B.hc),10,a1,a1,10),B.Z,A.ad(A.j(q,a1,B.ap,a1,a1,B.Ka,a1,a1),1)],m),B.m,a1,B.j,B.l,0,a1)
 l=A.a([],m)
@@ -128069,15 +128070,15 @@ B.CT=new A.h([B.aE,"\u30c0\u30a4\u30a2\u30bf\u30c3\u30af",B.aQ,"\u30c0\u30a4\u30
 B.a6F=new A.h([B.aE,"\uc6b8\ud2b8\ub77c\ub300\uc2dc\uc5b4\ud0dd",B.aQ,"\uc804\ub825\ubb34\uc30d\uaca9\ub82c\uad8c",B.ah,"\ud30c\uc774\ub110\ub2e4\uc774\ube0c\ud074\ub798\uc2dc",B.aB,"\uc560\uc2dc\ub4dc\ud3ec\uc774\uc98c\ub51c\ub9ac\ud2b8",B.aF,"\ub77c\uc774\uc9d5\ub79c\ub4dc\uc624\ubc84",B.as,"\uc6d4\uc988\uc5d4\ub4dc\ud3f4",B.bg,"\uc808\ub300\ud3ec\uc2dd\ud68c\uc804\ucc38",B.aA,"\ubb34\ud55c\uc554\uc57c\ub85c\uc758\uc720\uc778",B.ak,"\ucd08\uc6d4\ub098\uc120\uc5f0\uaca9",B.V,"\ub2e4\uc774\ub0b4\ubbf9\ud480\ud50c\ub808\uc784",B.a_,"\uc288\ud37c\uc544\ucfe0\uc544\ud1a0\ub124\uc774\ub3c4",B.ab,"\ube14\ub8f8\uc0e4\uc778\uc5d1\uc2a4\ud2b8\ub77c",B.at,"\uc2a4\ud30c\ud0b9\uae30\uac00\ubcfc\ud2b8",B.aX,"\ub9e5\uc2dc\uba48\uc0ac\uc774\ube0c\ub808\uc774\ucee4",B.ay,"\ub808\uc774\uc9d5\uc9c0\uc624\ud504\ub9ac\uc988",B.ax,"\uc5bc\ud2f0\uba54\uc774\ud2b8\ub4dc\ub798\uace4\ubc88",B.b1,"\ube14\ub799\ud640\uc774\ud074\ub9bd\uc2a4",B.aP,"\ub7ec\ube14\ub9ac\uc2a4\ud0c0\uc784\ud329\ud2b8"],t.H7)
 B.a6G=new A.h([B.aE,"Breakneck Blitz",B.aQ,"All-Out Pummeling",B.ah,"Supersonic Skystrike",B.aB,"Acid Downpour",B.aF,"Tectonic Rage",B.as,"Continental Crush",B.bg,"Savage Spin-Out",B.aA,"Never-Ending Nightmare",B.ak,"Corkscrew Crash",B.V,"Inferno Overdrive",B.a_,"Hydro Vortex",B.ab,"Bloom Doom",B.at,"Gigavolt Havoc",B.aX,"Shattered Psyche",B.ay,"Subzero Slammer",B.ax,"Devastating Drake",B.b1,"Black Hole Eclipse",B.aP,"Twinkle Tackle"],t.H7)
 B.CU=new A.h([B.aE,"\ub2e4\uc774\uc5b4\ud0dd",B.aQ,"\ub2e4\uc774\ub108\ud074",B.ah,"\ub2e4\uc774\uc81c\ud2b8",B.aB,"\ub2e4\uc774\uc560\uc2dc\ub4dc",B.aF,"\ub2e4\uc774\uc5b4\uc2a4",B.as,"\ub2e4\uc774\ub85d",B.bg,"\ub2e4\uc774\uc6dc",B.aA,"\ub2e4\uc774\ud560\ub85c\uc6b0",B.ak,"\ub2e4\uc774\uc2a4\ud2f8",B.V,"\ub2e4\uc774\ubc88",B.a_,"\ub2e4\uc774\uc2a4\ud2b8\ub9bc",B.ab,"\ub2e4\uc774\uadf8\ub798\uc2a4",B.at,"\ub2e4\uc774\uc36c\ub354",B.aX,"\ub2e4\uc774\uc0ac\uc774\ucf54",B.ay,"\ub2e4\uc774\uc544\uc774\uc2a4",B.ax,"\ub2e4\uc774\ub4dc\ub77c\uad70",B.b1,"\ub2e4\uc774\uc544\ud06c",B.aP,"\ub2e4\uc774\ud398\uc5b4\ub9ac"],t.H7)
-B.agk={reflect:0,reflect_doubles:1,light_screen:2,light_screen_doubles:3,bypass_crit:4,bypass_infiltrator:5}
-B.a6H=new A.ba(B.agk,["note.reflect","note.reflect_doubles","note.lightScreen","note.lightScreen_doubles","note.critBypass","note.infiltrator"],t.li)
-B.aga={Alolan:0,Hisuian:1,Galarian:2,Paldean:3}
-B.mb=new A.ba(B.aga,["alola","hisui","galar","paldea"],t.li)
+B.agl={reflect:0,reflect_doubles:1,light_screen:2,light_screen_doubles:3,bypass_crit:4,bypass_infiltrator:5}
+B.a6H=new A.ba(B.agl,["note.reflect","note.reflect_doubles","note.lightScreen","note.lightScreen_doubles","note.critBypass","note.infiltrator"],t.li)
+B.agb={Alolan:0,Hisuian:1,Galarian:2,Paldean:3}
+B.mb=new A.ba(B.agb,["alola","hisui","galar","paldea"],t.li)
 B.lz=new A.u1(2)
 B.pz=new A.u1(3)
 B.a6J=new A.h([0,B.lz,1,B.pz,2,B.pz],t.xL)
-B.age={in:0,iw:1,ji:2,jw:3,mo:4,aam:5,adp:6,aue:7,ayx:8,bgm:9,bjd:10,ccq:11,cjr:12,cka:13,cmk:14,coy:15,cqu:16,drh:17,drw:18,gav:19,gfx:20,ggn:21,gti:22,guv:23,hrr:24,ibi:25,ilw:26,jeg:27,kgc:28,kgh:29,koj:30,krm:31,ktr:32,kvs:33,kwq:34,kxe:35,kzj:36,kzt:37,lii:38,lmm:39,meg:40,mst:41,mwj:42,myt:43,nad:44,ncp:45,nnx:46,nts:47,oun:48,pcr:49,pmc:50,pmu:51,ppa:52,ppr:53,pry:54,puz:55,sca:56,skk:57,tdu:58,thc:59,thx:60,tie:61,tkk:62,tlw:63,tmp:64,tne:65,tnf:66,tsf:67,uok:68,xba:69,xia:70,xkh:71,xsj:72,ybd:73,yma:74,ymt:75,yos:76,yuu:77}
-B.dF=new A.ba(B.age,["id","he","yi","jv","ro","aas","dz","ktz","nun","bcg","drl","rki","mom","cmr","xch","pij","quh","khk","prs","dev","vaj","gvr","nyc","duz","jal","opa","gal","oyb","tdf","kml","kwv","bmf","dtp","gdj","yam","tvd","dtp","dtp","raq","rmx","cir","mry","vaj","mry","xny","kdz","ngv","pij","vaj","adx","huw","phr","bfy","lcq","prt","pub","hle","oyb","dtp","tpo","oyb","ras","twm","weo","tyj","kak","prs","taj","ema","cax","acn","waw","suj","rki","lrr","mtm","zom","yug"],t.li)
+B.agf={in:0,iw:1,ji:2,jw:3,mo:4,aam:5,adp:6,aue:7,ayx:8,bgm:9,bjd:10,ccq:11,cjr:12,cka:13,cmk:14,coy:15,cqu:16,drh:17,drw:18,gav:19,gfx:20,ggn:21,gti:22,guv:23,hrr:24,ibi:25,ilw:26,jeg:27,kgc:28,kgh:29,koj:30,krm:31,ktr:32,kvs:33,kwq:34,kxe:35,kzj:36,kzt:37,lii:38,lmm:39,meg:40,mst:41,mwj:42,myt:43,nad:44,ncp:45,nnx:46,nts:47,oun:48,pcr:49,pmc:50,pmu:51,ppa:52,ppr:53,pry:54,puz:55,sca:56,skk:57,tdu:58,thc:59,thx:60,tie:61,tkk:62,tlw:63,tmp:64,tne:65,tnf:66,tsf:67,uok:68,xba:69,xia:70,xkh:71,xsj:72,ybd:73,yma:74,ymt:75,yos:76,yuu:77}
+B.dF=new A.ba(B.agf,["id","he","yi","jv","ro","aas","dz","ktz","nun","bcg","drl","rki","mom","cmr","xch","pij","quh","khk","prs","dev","vaj","gvr","nyc","duz","jal","opa","gal","oyb","tdf","kml","kwv","bmf","dtp","gdj","yam","tvd","dtp","dtp","raq","rmx","cir","mry","vaj","mry","xny","kdz","ngv","pij","vaj","adx","huw","phr","bfy","lcq","prt","pub","hle","oyb","dtp","tpo","oyb","ras","twm","weo","tyj","kak","prs","taj","ema","cax","acn","waw","suj","rki","lrr","mtm","zom","yug"],t.li)
 B.dQ=new A.K(0.2,0,0,0,B.k)
 B.MJ=new A.c7(-1,B.am,B.dQ,B.mn,1)
 B.dR=new A.K(0.1411764705882353,0,0,0,B.k)
@@ -128669,8 +128670,8 @@ B.r_=new A.hf(B.cw,B.mF)
 B.a6R=new A.h([B.mS,B.NY,B.mV,B.tR,B.alr,B.tR,B.Jn,B.tS,B.Jo,B.tX,B.Jc,B.tZ,B.ia,B.ajQ,B.ib,B.ajP,B.i8,B.ajS,B.i9,B.ajR,B.kc,B.r_,B.kf,B.mG],t.Fp)
 B.ag2={"Zacian (Crowned Sword)":0,"Zamazenta (Crowned Shield)":1,"Minior (Core Form)":2}
 B.D_=new A.ba(B.ag2,["zacian-crowned","zamazenta-crowned","minior"],t.li)
-B.agd={Abort:0,Again:1,AltLeft:2,AltRight:3,ArrowDown:4,ArrowLeft:5,ArrowRight:6,ArrowUp:7,AudioVolumeDown:8,AudioVolumeMute:9,AudioVolumeUp:10,Backquote:11,Backslash:12,Backspace:13,BracketLeft:14,BracketRight:15,BrightnessDown:16,BrightnessUp:17,BrowserBack:18,BrowserFavorites:19,BrowserForward:20,BrowserHome:21,BrowserRefresh:22,BrowserSearch:23,BrowserStop:24,CapsLock:25,Comma:26,ContextMenu:27,ControlLeft:28,ControlRight:29,Convert:30,Copy:31,Cut:32,Delete:33,Digit0:34,Digit1:35,Digit2:36,Digit3:37,Digit4:38,Digit5:39,Digit6:40,Digit7:41,Digit8:42,Digit9:43,DisplayToggleIntExt:44,Eject:45,End:46,Enter:47,Equal:48,Esc:49,Escape:50,F1:51,F10:52,F11:53,F12:54,F13:55,F14:56,F15:57,F16:58,F17:59,F18:60,F19:61,F2:62,F20:63,F21:64,F22:65,F23:66,F24:67,F3:68,F4:69,F5:70,F6:71,F7:72,F8:73,F9:74,Find:75,Fn:76,FnLock:77,GameButton1:78,GameButton10:79,GameButton11:80,GameButton12:81,GameButton13:82,GameButton14:83,GameButton15:84,GameButton16:85,GameButton2:86,GameButton3:87,GameButton4:88,GameButton5:89,GameButton6:90,GameButton7:91,GameButton8:92,GameButton9:93,GameButtonA:94,GameButtonB:95,GameButtonC:96,GameButtonLeft1:97,GameButtonLeft2:98,GameButtonMode:99,GameButtonRight1:100,GameButtonRight2:101,GameButtonSelect:102,GameButtonStart:103,GameButtonThumbLeft:104,GameButtonThumbRight:105,GameButtonX:106,GameButtonY:107,GameButtonZ:108,Help:109,Home:110,Hyper:111,Insert:112,IntlBackslash:113,IntlRo:114,IntlYen:115,KanaMode:116,KeyA:117,KeyB:118,KeyC:119,KeyD:120,KeyE:121,KeyF:122,KeyG:123,KeyH:124,KeyI:125,KeyJ:126,KeyK:127,KeyL:128,KeyM:129,KeyN:130,KeyO:131,KeyP:132,KeyQ:133,KeyR:134,KeyS:135,KeyT:136,KeyU:137,KeyV:138,KeyW:139,KeyX:140,KeyY:141,KeyZ:142,KeyboardLayoutSelect:143,Lang1:144,Lang2:145,Lang3:146,Lang4:147,Lang5:148,LaunchApp1:149,LaunchApp2:150,LaunchAssistant:151,LaunchControlPanel:152,LaunchMail:153,LaunchScreenSaver:154,MailForward:155,MailReply:156,MailSend:157,MediaFastForward:158,MediaPause:159,MediaPlay:160,MediaPlayPause:161,MediaRecord:162,MediaRewind:163,MediaSelect:164,MediaStop:165,MediaTrackNext:166,MediaTrackPrevious:167,MetaLeft:168,MetaRight:169,MicrophoneMuteToggle:170,Minus:171,NonConvert:172,NumLock:173,Numpad0:174,Numpad1:175,Numpad2:176,Numpad3:177,Numpad4:178,Numpad5:179,Numpad6:180,Numpad7:181,Numpad8:182,Numpad9:183,NumpadAdd:184,NumpadBackspace:185,NumpadClear:186,NumpadClearEntry:187,NumpadComma:188,NumpadDecimal:189,NumpadDivide:190,NumpadEnter:191,NumpadEqual:192,NumpadMemoryAdd:193,NumpadMemoryClear:194,NumpadMemoryRecall:195,NumpadMemoryStore:196,NumpadMemorySubtract:197,NumpadMultiply:198,NumpadParenLeft:199,NumpadParenRight:200,NumpadSubtract:201,Open:202,PageDown:203,PageUp:204,Paste:205,Pause:206,Period:207,Power:208,PrintScreen:209,PrivacyScreenToggle:210,Props:211,Quote:212,Resume:213,ScrollLock:214,Select:215,SelectTask:216,Semicolon:217,ShiftLeft:218,ShiftRight:219,ShowAllWindows:220,Slash:221,Sleep:222,Space:223,Super:224,Suspend:225,Tab:226,Turbo:227,Undo:228,WakeUp:229,ZoomToggle:230}
-B.a6T=new A.ba(B.agd,[458907,458873,458978,458982,458833,458832,458831,458834,458881,458879,458880,458805,458801,458794,458799,458800,786544,786543,786980,786986,786981,786979,786983,786977,786982,458809,458806,458853,458976,458980,458890,458876,458875,458828,458791,458782,458783,458784,458785,458786,458787,458788,458789,458790,65717,786616,458829,458792,458798,458793,458793,458810,458819,458820,458821,458856,458857,458858,458859,458860,458861,458862,458811,458863,458864,458865,458866,458867,458812,458813,458814,458815,458816,458817,458818,458878,18,19,392961,392970,392971,392972,392973,392974,392975,392976,392962,392963,392964,392965,392966,392967,392968,392969,392977,392978,392979,392980,392981,392982,392983,392984,392985,392986,392987,392988,392989,392990,392991,458869,458826,16,458825,458852,458887,458889,458888,458756,458757,458758,458759,458760,458761,458762,458763,458764,458765,458766,458767,458768,458769,458770,458771,458772,458773,458774,458775,458776,458777,458778,458779,458780,458781,787101,458896,458897,458898,458899,458900,786836,786834,786891,786847,786826,786865,787083,787081,787084,786611,786609,786608,786637,786610,786612,786819,786615,786613,786614,458979,458983,24,458797,458891,458835,458850,458841,458842,458843,458844,458845,458846,458847,458848,458849,458839,458939,458968,458969,458885,458851,458836,458840,458855,458963,458962,458961,458960,458964,458837,458934,458935,458838,458868,458830,458827,458877,458824,458807,458854,458822,23,458915,458804,21,458823,458871,786850,458803,458977,458981,787103,458808,65666,458796,17,20,458795,22,458874,65667,786994],t.eL)
+B.age={Abort:0,Again:1,AltLeft:2,AltRight:3,ArrowDown:4,ArrowLeft:5,ArrowRight:6,ArrowUp:7,AudioVolumeDown:8,AudioVolumeMute:9,AudioVolumeUp:10,Backquote:11,Backslash:12,Backspace:13,BracketLeft:14,BracketRight:15,BrightnessDown:16,BrightnessUp:17,BrowserBack:18,BrowserFavorites:19,BrowserForward:20,BrowserHome:21,BrowserRefresh:22,BrowserSearch:23,BrowserStop:24,CapsLock:25,Comma:26,ContextMenu:27,ControlLeft:28,ControlRight:29,Convert:30,Copy:31,Cut:32,Delete:33,Digit0:34,Digit1:35,Digit2:36,Digit3:37,Digit4:38,Digit5:39,Digit6:40,Digit7:41,Digit8:42,Digit9:43,DisplayToggleIntExt:44,Eject:45,End:46,Enter:47,Equal:48,Esc:49,Escape:50,F1:51,F10:52,F11:53,F12:54,F13:55,F14:56,F15:57,F16:58,F17:59,F18:60,F19:61,F2:62,F20:63,F21:64,F22:65,F23:66,F24:67,F3:68,F4:69,F5:70,F6:71,F7:72,F8:73,F9:74,Find:75,Fn:76,FnLock:77,GameButton1:78,GameButton10:79,GameButton11:80,GameButton12:81,GameButton13:82,GameButton14:83,GameButton15:84,GameButton16:85,GameButton2:86,GameButton3:87,GameButton4:88,GameButton5:89,GameButton6:90,GameButton7:91,GameButton8:92,GameButton9:93,GameButtonA:94,GameButtonB:95,GameButtonC:96,GameButtonLeft1:97,GameButtonLeft2:98,GameButtonMode:99,GameButtonRight1:100,GameButtonRight2:101,GameButtonSelect:102,GameButtonStart:103,GameButtonThumbLeft:104,GameButtonThumbRight:105,GameButtonX:106,GameButtonY:107,GameButtonZ:108,Help:109,Home:110,Hyper:111,Insert:112,IntlBackslash:113,IntlRo:114,IntlYen:115,KanaMode:116,KeyA:117,KeyB:118,KeyC:119,KeyD:120,KeyE:121,KeyF:122,KeyG:123,KeyH:124,KeyI:125,KeyJ:126,KeyK:127,KeyL:128,KeyM:129,KeyN:130,KeyO:131,KeyP:132,KeyQ:133,KeyR:134,KeyS:135,KeyT:136,KeyU:137,KeyV:138,KeyW:139,KeyX:140,KeyY:141,KeyZ:142,KeyboardLayoutSelect:143,Lang1:144,Lang2:145,Lang3:146,Lang4:147,Lang5:148,LaunchApp1:149,LaunchApp2:150,LaunchAssistant:151,LaunchControlPanel:152,LaunchMail:153,LaunchScreenSaver:154,MailForward:155,MailReply:156,MailSend:157,MediaFastForward:158,MediaPause:159,MediaPlay:160,MediaPlayPause:161,MediaRecord:162,MediaRewind:163,MediaSelect:164,MediaStop:165,MediaTrackNext:166,MediaTrackPrevious:167,MetaLeft:168,MetaRight:169,MicrophoneMuteToggle:170,Minus:171,NonConvert:172,NumLock:173,Numpad0:174,Numpad1:175,Numpad2:176,Numpad3:177,Numpad4:178,Numpad5:179,Numpad6:180,Numpad7:181,Numpad8:182,Numpad9:183,NumpadAdd:184,NumpadBackspace:185,NumpadClear:186,NumpadClearEntry:187,NumpadComma:188,NumpadDecimal:189,NumpadDivide:190,NumpadEnter:191,NumpadEqual:192,NumpadMemoryAdd:193,NumpadMemoryClear:194,NumpadMemoryRecall:195,NumpadMemoryStore:196,NumpadMemorySubtract:197,NumpadMultiply:198,NumpadParenLeft:199,NumpadParenRight:200,NumpadSubtract:201,Open:202,PageDown:203,PageUp:204,Paste:205,Pause:206,Period:207,Power:208,PrintScreen:209,PrivacyScreenToggle:210,Props:211,Quote:212,Resume:213,ScrollLock:214,Select:215,SelectTask:216,Semicolon:217,ShiftLeft:218,ShiftRight:219,ShowAllWindows:220,Slash:221,Sleep:222,Space:223,Super:224,Suspend:225,Tab:226,Turbo:227,Undo:228,WakeUp:229,ZoomToggle:230}
+B.a6T=new A.ba(B.age,[458907,458873,458978,458982,458833,458832,458831,458834,458881,458879,458880,458805,458801,458794,458799,458800,786544,786543,786980,786986,786981,786979,786983,786977,786982,458809,458806,458853,458976,458980,458890,458876,458875,458828,458791,458782,458783,458784,458785,458786,458787,458788,458789,458790,65717,786616,458829,458792,458798,458793,458793,458810,458819,458820,458821,458856,458857,458858,458859,458860,458861,458862,458811,458863,458864,458865,458866,458867,458812,458813,458814,458815,458816,458817,458818,458878,18,19,392961,392970,392971,392972,392973,392974,392975,392976,392962,392963,392964,392965,392966,392967,392968,392969,392977,392978,392979,392980,392981,392982,392983,392984,392985,392986,392987,392988,392989,392990,392991,458869,458826,16,458825,458852,458887,458889,458888,458756,458757,458758,458759,458760,458761,458762,458763,458764,458765,458766,458767,458768,458769,458770,458771,458772,458773,458774,458775,458776,458777,458778,458779,458780,458781,787101,458896,458897,458898,458899,458900,786836,786834,786891,786847,786826,786865,787083,787081,787084,786611,786609,786608,786637,786610,786612,786819,786615,786613,786614,458979,458983,24,458797,458891,458835,458850,458841,458842,458843,458844,458845,458846,458847,458848,458849,458839,458939,458968,458969,458885,458851,458836,458840,458855,458963,458962,458961,458960,458964,458837,458934,458935,458838,458868,458830,458827,458877,458824,458807,458854,458822,23,458915,458804,21,458823,458871,786850,458803,458977,458981,787103,458808,65666,458796,17,20,458795,22,458874,65667,786994],t.eL)
 B.agy={Drought:0,"Desolate Land":1,Drizzle:2,"Primordial Sea":3,"Sand Stream":4,"Snow Warning":5,"Delta Stream":6,"Orichalcum Pulse":7}
 B.eO=new A.ba(B.agy,[B.ch,B.ct,B.fY,B.fZ,B.ey,B.f1,B.ip,B.ch],A.am("ba<o,dI>"))
 B.agK={contact:0,punch:1,sound:2,bite:3,pulse:4,slice:5,recoil:6,ball:7,powder:8,wind:9}
@@ -129237,13 +129238,13 @@ B.aeO=new A.h([B.bw,"\u306a\u3057",B.ch,"\u306f\u308c",B.fY,"\u3042\u3081",B.ey,
 B.aeP=new A.h([B.bw,"\uc5c6\uc74c",B.ch,"\ucf8c\uccad",B.fY,"\ube44",B.ey,"\ubaa8\ub798\ubc14\ub78c",B.f1,"\ub208",B.ct,"\uac15\ud55c \ud587\uc0b4",B.fZ,"\uac15\ud55c \ube44",B.ip,"\ub09c\uae30\ub958"],t.Cb)
 B.agR={amber:0,red:1,deepOrange:2,pink:3,purple:4,indigo:5,blue:6,teal:7,green:8,brown:9,blueGrey:10,grey:11}
 B.aeS=new A.ba(B.agR,["fire","fire","fire","fairy","ghost","dragon","water","water","grass","ground","steel","normal"],t.li)
-B.agc={Steelworker:0,"Steely Spirit":1,Transistor:2,"Dragon's Maw":3,"Rocky Payload":4,"Fire Mane":5}
+B.agd={Steelworker:0,"Steely Spirit":1,Transistor:2,"Dragon's Maw":3,"Rocky Payload":4,"Fire Mane":5}
 B.Ii=new A.a3(B.ak,1.5)
 B.aiP=new A.a3(B.at,1.3)
 B.ajm=new A.a3(B.ax,1.5)
 B.aiL=new A.a3(B.as,1.5)
 B.aja=new A.a3(B.V,1.5)
-B.DI=new A.ba(B.agc,[B.Ii,B.Ii,B.aiP,B.ajm,B.aiL,B.aja],A.am("ba<o,+(bu,S)>"))
+B.DI=new A.ba(B.agd,[B.Ii,B.Ii,B.aiP,B.ajm,B.aiL,B.aja],A.am("ba<o,+(bu,S)>"))
 B.HZ=new A.a3(B.bZ,B.bC)
 B.I1=new A.a3(B.bZ,B.c_)
 B.I_=new A.a3(B.bZ,B.bS)
@@ -129916,7 +129917,7 @@ B.af2=new A.h([B.eS,B.ajo,B.jV,B.aj0,B.jE,B.aj3,B.jK,B.aj1,B.jR,B.aj2,B.jB,B.HZ,
 B.af3=new A.h([B.bt,"\u306a\u3057",B.dK,"\u30a8\u30ec\u30ad\u30d5\u30a3\u30fc\u30eb\u30c9",B.ig,"\u30b0\u30e9\u30b9\u30d5\u30a3\u30fc\u30eb\u30c9",B.eZ,"\u30b5\u30a4\u30b3\u30d5\u30a3\u30fc\u30eb\u30c9",B.fM,"\u30df\u30b9\u30c8\u30d5\u30a3\u30fc\u30eb\u30c9"],t.cQ)
 B.af4=new A.h([B.bt,"\uc5c6\uc74c",B.dK,"\uc77c\ub809\ud2b8\ub9ad\ud544\ub4dc",B.ig,"\uadf8\ub798\uc2a4\ud544\ub4dc",B.eZ,"\uc0ac\uc774\ucf54\ud544\ub4dc",B.fM,"\ubbf8\uc2a4\ud2b8\ud544\ub4dc"],t.cQ)
 B.af5=new A.h([B.bt,"None",B.dK,"Electric Terrain",B.ig,"Grassy Terrain",B.eZ,"Psychic Terrain",B.fM,"Misty Terrain"],t.cQ)
-B.agg={charizard:0,butterfree:1,pikachu:2,meowth:3,machamp:4,gengar:5,kingler:6,lapras:7,eevee:8,snorlax:9,garbodor:10,melmetal:11,corviknight:12,orbeetle:13,drednaw:14,coalossal:15,flapple:16,appletun:17,sandaconda:18,toxtricity:19,centiskorch:20,hatterene:21,grimmsnarl:22,alcremie:23,copperajah:24,duraludon:25,venusaur:26,blastoise:27,rillaboom:28,cinderace:29,inteleon:30,urshifu:31,"urshifu (rapid strike style)":32}
+B.agh={charizard:0,butterfree:1,pikachu:2,meowth:3,machamp:4,gengar:5,kingler:6,lapras:7,eevee:8,snorlax:9,garbodor:10,melmetal:11,corviknight:12,orbeetle:13,drednaw:14,coalossal:15,flapple:16,appletun:17,sandaconda:18,toxtricity:19,centiskorch:20,hatterene:21,grimmsnarl:22,alcremie:23,copperajah:24,duraludon:25,venusaur:26,blastoise:27,rillaboom:28,cinderace:29,inteleon:30,urshifu:31,"urshifu (rapid strike style)":32}
 B.av4=new A.d0("G-Max Wildfire","\uac70\ub2e4\uc774\uc625\uc5fc","\u30ad\u30e7\u30c0\u30a4\u30b4\u30af\u30a8\u30f3",B.V,null)
 B.auC=new A.d0("G-Max Befuddle","\uac70\ub2e4\uc774\uace0\ud639","\u30ad\u30e7\u30c0\u30a4\u30b3\u30ef\u30af",B.bg,null)
 B.auG=new A.d0("G-Max Volt Crash","\uac70\ub2e4\uc774\ub9cc\ub8b0","\u30ad\u30e7\u30c0\u30a4\u30d0\u30f3\u30e9\u30a4",B.at,null)
@@ -129950,7 +129951,7 @@ B.auR=new A.d0("G-Max Fireball","\uac70\ub2e4\uc774\ud654\uc5fc\uad6c","\u30ad\u
 B.av3=new A.d0("G-Max Hydrosnipe","\uac70\ub2e4\uc774\uc800\uaca9","\u30ad\u30e7\u30c0\u30a4\u30bd\u30b2\u30ad",B.a_,160)
 B.av0=new A.d0("G-Max One Blow","\uac70\ub2e4\uc774\uc77c\uaca9","\u30ad\u30e7\u30c0\u30a4\u30a4\u30c1\u30b2\u30ad",B.b1,null)
 B.auH=new A.d0("G-Max Rapid Flow","\uac70\ub2e4\uc774\uc5f0\uaca9","\u30ad\u30e7\u30c0\u30a4\u30ec\u30f3\u30b2\u30ad",B.a_,null)
-B.af7=new A.ba(B.agg,[B.av4,B.auC,B.auG,B.av_,B.auF,B.auJ,B.auQ,B.auB,B.auX,B.auZ,B.av2,B.auM,B.av1,B.auP,B.auO,B.auL,B.auD,B.auT,B.auE,B.auW,B.auK,B.auz,B.auY,B.auS,B.auN,B.auU,B.auI,B.auV,B.auA,B.auR,B.av3,B.av0,B.auH],A.am("ba<o,d0>"))
+B.af7=new A.ba(B.agh,[B.av4,B.auC,B.auG,B.av_,B.auF,B.auJ,B.auQ,B.auB,B.auX,B.auZ,B.av2,B.auM,B.av1,B.auP,B.auO,B.auL,B.auD,B.auT,B.auE,B.auW,B.auK,B.auz,B.auY,B.auS,B.auN,B.auU,B.auI,B.auV,B.auA,B.auR,B.av3,B.av0,B.auH],A.am("ba<o,d0>"))
 B.qT=new A.vl(0,"none")
 B.hZ=new A.vl(1,"trickRoom")
 B.i_=new A.vl(2,"magicRoom")
@@ -129967,9 +129968,9 @@ B.ajk=new A.a3("slice",1.5)
 B.afb=new A.ba(B.agO,[B.ajw,B.aiT,B.aiW,B.ajn,B.ajk],A.am("ba<o,+(o,S)>"))
 B.ag7={"Nidoran\u2640":0,"Nidoran\u2642":1,"Flab\xe9b\xe9":2,"Mr. Mime":3,"Mr. Rime":4,"Mime Jr.":5,"Farfetch'd":6,"Sirfetch'd":7,"Type: Null":8}
 B.DP=new A.ba(B.ag7,["nidoranf","nidoranm","flabebe","mrmime","mrrime","mimejr","farfetchd","sirfetchd","typenull"],t.li)
-B.agp={"occa-berry":0,"passho-berry":1,"wacan-berry":2,"rindo-berry":3,"yache-berry":4,"chople-berry":5,"kebia-berry":6,"shuca-berry":7,"coba-berry":8,"payapa-berry":9,"tanga-berry":10,"charti-berry":11,"kasib-berry":12,"haban-berry":13,"colbur-berry":14,"babiri-berry":15,"roseli-berry":16,"chilan-berry":17}
-B.afd=new A.ba(B.agp,[B.V,B.a_,B.at,B.ab,B.ay,B.aQ,B.aB,B.aF,B.ah,B.aX,B.bg,B.as,B.aA,B.ax,B.b1,B.ak,B.aP,B.aE],t.qd)
-B.agj={pikachu:0,"pikachu-original":1,"pikachu-hoenn":2,"pikachu-sinnoh":3,"pikachu-unova":4,"pikachu-kalos":5,"pikachu-alola":6,"pikachu-partner":7,"raichu-alola":8,eevee:9,snorlax:10,mew:11,decidueye:12,incineroar:13,primarina:14,lycanroc:15,"lycanroc-midnight":16,"lycanroc-dusk":17,mimikyu:18,"kommo-o":19,"tapu koko":20,"tapu lele":21,"tapu bulu":22,"tapu fini":23,solgaleo:24,"necrozma-dusk-mane":25,lunala:26,"necrozma-dawn-wings":27,"necrozma-ultra":28,marshadow:29}
+B.agq={"occa-berry":0,"passho-berry":1,"wacan-berry":2,"rindo-berry":3,"yache-berry":4,"chople-berry":5,"kebia-berry":6,"shuca-berry":7,"coba-berry":8,"payapa-berry":9,"tanga-berry":10,"charti-berry":11,"kasib-berry":12,"haban-berry":13,"colbur-berry":14,"babiri-berry":15,"roseli-berry":16,"chilan-berry":17}
+B.afd=new A.ba(B.agq,[B.V,B.a_,B.at,B.ab,B.ay,B.aQ,B.aB,B.aF,B.ah,B.aX,B.bg,B.as,B.aA,B.ax,B.b1,B.ak,B.aP,B.aE],t.qd)
+B.agk={pikachu:0,"pikachu-original":1,"pikachu-hoenn":2,"pikachu-sinnoh":3,"pikachu-unova":4,"pikachu-kalos":5,"pikachu-alola":6,"pikachu-partner":7,"raichu-alola":8,eevee:9,snorlax:10,mew:11,decidueye:12,incineroar:13,primarina:14,lycanroc:15,"lycanroc-midnight":16,"lycanroc-dusk":17,mimikyu:18,"kommo-o":19,"tapu koko":20,"tapu lele":21,"tapu bulu":22,"tapu fini":23,solgaleo:24,"necrozma-dusk-mane":25,lunala:26,"necrozma-dawn-wings":27,"necrozma-ultra":28,marshadow:29}
 B.hJ=s(["contact"],t.s)
 B.aus=new A.fC("Volt Tackle","Catastropika","\ud544\uc0b4\ud53c\uce74\uc29b","\u3072\u3063\u3055\u3064\u306e\u30d4\u30ab\u30c1\u30e5\u30fc\u30c8",210,B.hJ)
 B.h0=new A.fC("Thunderbolt","10,000,000 Volt Thunderbolt","1000\ub9cc\ubcfc\ud2b8","\uff11\uff10\uff10\uff10\u307e\u3093\u30dc\u30eb\u30c8",195,B.N)
@@ -129989,23 +129990,23 @@ B.KQ=new A.fC("Sunsteel Strike","Searing Sunraze Smash","\uc120\uc0e4\uc778\uc2a
 B.KP=new A.fC("Moongeist Beam","Menacing Moonraze Maelstrom","\ubb38\ub77c\uc774\ud2b8\ube14\ub798\uc2a4\ud130","\u30e0\u30fc\u30f3\u30e9\u30a4\u30c8\u30d6\u30e9\u30b9\u30bf\u30fc",200,B.N)
 B.aum=new A.fC("Photon Geyser","Light That Burns the Sky","\ud558\ub298\uc744\ud0dc\uc6b0\ub294\uba78\ub9dd\uc758\ube5b","\u3066\u3093\u3053\u304c\u3059\u3081\u3064\u307c\u3046\u306e\u3072\u304b\u308a",200,B.N)
 B.auj=new A.fC("Spectral Thief","Soul-Stealing 7-Star Strike","\uce60\uc131\ud0c8\ud63c\ud1f4","\u3057\u3061\u305b\u3044\u3060\u3063\u3053\u3093\u305f\u3044",195,B.hJ)
-B.afe=new A.ba(B.agj,[B.aus,B.h0,B.h0,B.h0,B.h0,B.h0,B.h0,B.h0,B.aun,B.auk,B.aur,B.aup,B.auq,B.aut,B.auo,B.t7,B.t7,B.t7,B.aul,B.aui,B.nq,B.nq,B.nq,B.nq,B.KQ,B.KQ,B.KP,B.KP,B.aum,B.auj],A.am("ba<o,fC>"))
-B.agr={KeyA:0,KeyB:1,KeyC:2,KeyD:3,KeyE:4,KeyF:5,KeyG:6,KeyH:7,KeyI:8,KeyJ:9,KeyK:10,KeyL:11,KeyM:12,KeyN:13,KeyO:14,KeyP:15,KeyQ:16,KeyR:17,KeyS:18,KeyT:19,KeyU:20,KeyV:21,KeyW:22,KeyX:23,KeyY:24,KeyZ:25,Digit1:26,Digit2:27,Digit3:28,Digit4:29,Digit5:30,Digit6:31,Digit7:32,Digit8:33,Digit9:34,Digit0:35,Minus:36,Equal:37,BracketLeft:38,BracketRight:39,Backslash:40,Semicolon:41,Quote:42,Backquote:43,Comma:44,Period:45,Slash:46}
-B.qw=new A.ba(B.agr,["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0","-","=","[","]","\\",";","'","`",",",".","/"],t.li)
+B.afe=new A.ba(B.agk,[B.aus,B.h0,B.h0,B.h0,B.h0,B.h0,B.h0,B.h0,B.aun,B.auk,B.aur,B.aup,B.auq,B.aut,B.auo,B.t7,B.t7,B.t7,B.aul,B.aui,B.nq,B.nq,B.nq,B.nq,B.KQ,B.KQ,B.KP,B.KP,B.aum,B.auj],A.am("ba<o,fC>"))
+B.ags={KeyA:0,KeyB:1,KeyC:2,KeyD:3,KeyE:4,KeyF:5,KeyG:6,KeyH:7,KeyI:8,KeyJ:9,KeyK:10,KeyL:11,KeyM:12,KeyN:13,KeyO:14,KeyP:15,KeyQ:16,KeyR:17,KeyS:18,KeyT:19,KeyU:20,KeyV:21,KeyW:22,KeyX:23,KeyY:24,KeyZ:25,Digit1:26,Digit2:27,Digit3:28,Digit4:29,Digit5:30,Digit6:31,Digit7:32,Digit8:33,Digit9:34,Digit0:35,Minus:36,Equal:37,BracketLeft:38,BracketRight:39,Backslash:40,Semicolon:41,Quote:42,Backquote:43,Comma:44,Period:45,Slash:46}
+B.qw=new A.ba(B.ags,["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9","0","-","=","[","]","\\",";","'","`",",",".","/"],t.li)
 B.afg=new A.h([0,B.pz,1,B.lz,2,B.lz,3,B.lz],t.xL)
 B.ag1={"Electric Surge":0,"Grassy Surge":1,"Psychic Surge":2,"Misty Surge":3,"Hadron Engine":4}
 B.eP=new A.ba(B.ag1,[B.dK,B.ig,B.eZ,B.fM,B.dK],A.am("ba<o,eb>"))
-B.agm={"zh-Hant":0,"zh-TW":1,"zh-MO":2,"zh-HK":3,ja:4,ko:5,zh:6,"zh-Hans":7,"zh-CN":8}
+B.agn={"zh-Hant":0,"zh-TW":1,"zh-MO":2,"zh-HK":3,ja:4,ko:5,zh:6,"zh-Hans":7,"zh-CN":8}
 B.pZ=s(["Noto Sans TC"],t.s)
 B.a0z=s(["Noto Sans HK","Noto Sans TC"],t.s)
 B.WT=s(["Noto Sans JP"],t.s)
 B.W1=s(["Noto Sans KR"],t.s)
 B.xj=s(["Noto Sans SC"],t.s)
 B.a4F=s(["Noto Sans SC","Noto Sans TC"],t.s)
-B.mi=new A.ba(B.agm,[B.pZ,B.pZ,B.pZ,B.a0z,B.WT,B.W1,B.xj,B.xj,B.a4F],t.VJ)
+B.mi=new A.ba(B.agn,[B.pZ,B.pZ,B.pZ,B.a0z,B.WT,B.W1,B.xj,B.xj,B.a4F],t.VJ)
 B.agL={"Urshifu (Rapid Strike Style)":0,"Lycanroc (Midnight Form)":1,"Lycanroc (Dusk Form)":2,"Indeedee (Female)":3,"Meowstic (Female)":4,"Basculegion (Female)":5,"Oinkologne (Female)":6,"Toxtricity (Low Key Form)":7,"Wormadam (Sandy Cloak)":8,"Wormadam (Trash Cloak)":9,"Shaymin (Sky Forme)":10,"Giratina (Origin Forme)":11,"Tornadus (Therian Forme)":12,"Thundurus (Therian Forme)":13,"Landorus (Therian Forme)":14,"Enamorus (Therian Forme)":15}
 B.DQ=new A.ba(B.agL,["urshifurapidstrike","lycanrocmidnight","lycanrocdusk","indeedeef","meowsticf","basculegionf","oinkolognef","toxtricitylowkey","wormadamsandy","wormadamtrash","shayminsky","giratinaorigin","tornadustherian","thundurustherian","landorustherian","enamorustherian"],t.li)
-B.agb={Abort:0,Again:1,AltLeft:2,AltRight:3,ArrowDown:4,ArrowLeft:5,ArrowRight:6,ArrowUp:7,AudioVolumeDown:8,AudioVolumeMute:9,AudioVolumeUp:10,Backquote:11,Backslash:12,Backspace:13,BracketLeft:14,BracketRight:15,BrightnessDown:16,BrightnessUp:17,BrowserBack:18,BrowserFavorites:19,BrowserForward:20,BrowserHome:21,BrowserRefresh:22,BrowserSearch:23,BrowserStop:24,CapsLock:25,Comma:26,ContextMenu:27,ControlLeft:28,ControlRight:29,Convert:30,Copy:31,Cut:32,Delete:33,Digit0:34,Digit1:35,Digit2:36,Digit3:37,Digit4:38,Digit5:39,Digit6:40,Digit7:41,Digit8:42,Digit9:43,DisplayToggleIntExt:44,Eject:45,End:46,Enter:47,Equal:48,Escape:49,Esc:50,F1:51,F10:52,F11:53,F12:54,F13:55,F14:56,F15:57,F16:58,F17:59,F18:60,F19:61,F2:62,F20:63,F21:64,F22:65,F23:66,F24:67,F3:68,F4:69,F5:70,F6:71,F7:72,F8:73,F9:74,Find:75,Fn:76,FnLock:77,GameButton1:78,GameButton10:79,GameButton11:80,GameButton12:81,GameButton13:82,GameButton14:83,GameButton15:84,GameButton16:85,GameButton2:86,GameButton3:87,GameButton4:88,GameButton5:89,GameButton6:90,GameButton7:91,GameButton8:92,GameButton9:93,GameButtonA:94,GameButtonB:95,GameButtonC:96,GameButtonLeft1:97,GameButtonLeft2:98,GameButtonMode:99,GameButtonRight1:100,GameButtonRight2:101,GameButtonSelect:102,GameButtonStart:103,GameButtonThumbLeft:104,GameButtonThumbRight:105,GameButtonX:106,GameButtonY:107,GameButtonZ:108,Help:109,Home:110,Hyper:111,Insert:112,IntlBackslash:113,IntlRo:114,IntlYen:115,KanaMode:116,KeyA:117,KeyB:118,KeyC:119,KeyD:120,KeyE:121,KeyF:122,KeyG:123,KeyH:124,KeyI:125,KeyJ:126,KeyK:127,KeyL:128,KeyM:129,KeyN:130,KeyO:131,KeyP:132,KeyQ:133,KeyR:134,KeyS:135,KeyT:136,KeyU:137,KeyV:138,KeyW:139,KeyX:140,KeyY:141,KeyZ:142,KeyboardLayoutSelect:143,Lang1:144,Lang2:145,Lang3:146,Lang4:147,Lang5:148,LaunchApp1:149,LaunchApp2:150,LaunchAssistant:151,LaunchControlPanel:152,LaunchMail:153,LaunchScreenSaver:154,MailForward:155,MailReply:156,MailSend:157,MediaFastForward:158,MediaPause:159,MediaPlay:160,MediaPlayPause:161,MediaRecord:162,MediaRewind:163,MediaSelect:164,MediaStop:165,MediaTrackNext:166,MediaTrackPrevious:167,MetaLeft:168,MetaRight:169,MicrophoneMuteToggle:170,Minus:171,NonConvert:172,NumLock:173,Numpad0:174,Numpad1:175,Numpad2:176,Numpad3:177,Numpad4:178,Numpad5:179,Numpad6:180,Numpad7:181,Numpad8:182,Numpad9:183,NumpadAdd:184,NumpadBackspace:185,NumpadClear:186,NumpadClearEntry:187,NumpadComma:188,NumpadDecimal:189,NumpadDivide:190,NumpadEnter:191,NumpadEqual:192,NumpadMemoryAdd:193,NumpadMemoryClear:194,NumpadMemoryRecall:195,NumpadMemoryStore:196,NumpadMemorySubtract:197,NumpadMultiply:198,NumpadParenLeft:199,NumpadParenRight:200,NumpadSubtract:201,Open:202,PageDown:203,PageUp:204,Paste:205,Pause:206,Period:207,Power:208,PrintScreen:209,PrivacyScreenToggle:210,Props:211,Quote:212,Resume:213,ScrollLock:214,Select:215,SelectTask:216,Semicolon:217,ShiftLeft:218,ShiftRight:219,ShowAllWindows:220,Slash:221,Sleep:222,Space:223,Super:224,Suspend:225,Tab:226,Turbo:227,Undo:228,WakeUp:229,ZoomToggle:230}
+B.agc={Abort:0,Again:1,AltLeft:2,AltRight:3,ArrowDown:4,ArrowLeft:5,ArrowRight:6,ArrowUp:7,AudioVolumeDown:8,AudioVolumeMute:9,AudioVolumeUp:10,Backquote:11,Backslash:12,Backspace:13,BracketLeft:14,BracketRight:15,BrightnessDown:16,BrightnessUp:17,BrowserBack:18,BrowserFavorites:19,BrowserForward:20,BrowserHome:21,BrowserRefresh:22,BrowserSearch:23,BrowserStop:24,CapsLock:25,Comma:26,ContextMenu:27,ControlLeft:28,ControlRight:29,Convert:30,Copy:31,Cut:32,Delete:33,Digit0:34,Digit1:35,Digit2:36,Digit3:37,Digit4:38,Digit5:39,Digit6:40,Digit7:41,Digit8:42,Digit9:43,DisplayToggleIntExt:44,Eject:45,End:46,Enter:47,Equal:48,Escape:49,Esc:50,F1:51,F10:52,F11:53,F12:54,F13:55,F14:56,F15:57,F16:58,F17:59,F18:60,F19:61,F2:62,F20:63,F21:64,F22:65,F23:66,F24:67,F3:68,F4:69,F5:70,F6:71,F7:72,F8:73,F9:74,Find:75,Fn:76,FnLock:77,GameButton1:78,GameButton10:79,GameButton11:80,GameButton12:81,GameButton13:82,GameButton14:83,GameButton15:84,GameButton16:85,GameButton2:86,GameButton3:87,GameButton4:88,GameButton5:89,GameButton6:90,GameButton7:91,GameButton8:92,GameButton9:93,GameButtonA:94,GameButtonB:95,GameButtonC:96,GameButtonLeft1:97,GameButtonLeft2:98,GameButtonMode:99,GameButtonRight1:100,GameButtonRight2:101,GameButtonSelect:102,GameButtonStart:103,GameButtonThumbLeft:104,GameButtonThumbRight:105,GameButtonX:106,GameButtonY:107,GameButtonZ:108,Help:109,Home:110,Hyper:111,Insert:112,IntlBackslash:113,IntlRo:114,IntlYen:115,KanaMode:116,KeyA:117,KeyB:118,KeyC:119,KeyD:120,KeyE:121,KeyF:122,KeyG:123,KeyH:124,KeyI:125,KeyJ:126,KeyK:127,KeyL:128,KeyM:129,KeyN:130,KeyO:131,KeyP:132,KeyQ:133,KeyR:134,KeyS:135,KeyT:136,KeyU:137,KeyV:138,KeyW:139,KeyX:140,KeyY:141,KeyZ:142,KeyboardLayoutSelect:143,Lang1:144,Lang2:145,Lang3:146,Lang4:147,Lang5:148,LaunchApp1:149,LaunchApp2:150,LaunchAssistant:151,LaunchControlPanel:152,LaunchMail:153,LaunchScreenSaver:154,MailForward:155,MailReply:156,MailSend:157,MediaFastForward:158,MediaPause:159,MediaPlay:160,MediaPlayPause:161,MediaRecord:162,MediaRewind:163,MediaSelect:164,MediaStop:165,MediaTrackNext:166,MediaTrackPrevious:167,MetaLeft:168,MetaRight:169,MicrophoneMuteToggle:170,Minus:171,NonConvert:172,NumLock:173,Numpad0:174,Numpad1:175,Numpad2:176,Numpad3:177,Numpad4:178,Numpad5:179,Numpad6:180,Numpad7:181,Numpad8:182,Numpad9:183,NumpadAdd:184,NumpadBackspace:185,NumpadClear:186,NumpadClearEntry:187,NumpadComma:188,NumpadDecimal:189,NumpadDivide:190,NumpadEnter:191,NumpadEqual:192,NumpadMemoryAdd:193,NumpadMemoryClear:194,NumpadMemoryRecall:195,NumpadMemoryStore:196,NumpadMemorySubtract:197,NumpadMultiply:198,NumpadParenLeft:199,NumpadParenRight:200,NumpadSubtract:201,Open:202,PageDown:203,PageUp:204,Paste:205,Pause:206,Period:207,Power:208,PrintScreen:209,PrivacyScreenToggle:210,Props:211,Quote:212,Resume:213,ScrollLock:214,Select:215,SelectTask:216,Semicolon:217,ShiftLeft:218,ShiftRight:219,ShowAllWindows:220,Slash:221,Sleep:222,Space:223,Super:224,Suspend:225,Tab:226,Turbo:227,Undo:228,WakeUp:229,ZoomToggle:230}
 B.H1=new A.Q(458907)
 B.GI=new A.Q(458873)
 B.hV=new A.Q(458978)
@@ -130236,7 +130237,7 @@ B.Eq=new A.Q(22)
 B.GJ=new A.Q(458874)
 B.He=new A.Q(65667)
 B.HH=new A.Q(786994)
-B.DR=new A.ba(B.agb,[B.H1,B.GI,B.hV,B.hX,B.G7,B.G6,B.G5,B.G8,B.GQ,B.GO,B.GP,B.FI,B.FF,B.Fy,B.FD,B.FE,B.Hh,B.Hg,B.HC,B.HG,B.HD,B.HB,B.HF,B.HA,B.HE,B.fE,B.FJ,B.Gq,B.hT,B.k3,B.GV,B.GL,B.GK,B.G2,B.Fw,B.Fn,B.Fo,B.Fp,B.Fq,B.Fr,B.Fs,B.Ft,B.Fu,B.Fv,B.Hf,B.Hq,B.G3,B.Fx,B.FC,B.qL,B.qL,B.FM,B.FV,B.FW,B.FX,B.Gt,B.Gu,B.Gv,B.Gw,B.Gx,B.Gy,B.Gz,B.FN,B.GA,B.GB,B.GC,B.GD,B.GE,B.FO,B.FP,B.FQ,B.FR,B.FS,B.FT,B.FU,B.GN,B.k2,B.En,B.Et,B.EC,B.ED,B.EE,B.EF,B.EG,B.EH,B.EI,B.Eu,B.Ev,B.Ew,B.Ex,B.Ey,B.Ez,B.EA,B.EB,B.EJ,B.EK,B.EL,B.EM,B.EN,B.EO,B.EP,B.EQ,B.ER,B.ES,B.ET,B.EU,B.EV,B.EW,B.EX,B.GG,B.G0,B.El,B.G_,B.Gp,B.GS,B.GU,B.GT,B.EY,B.EZ,B.F_,B.F0,B.F1,B.F2,B.F3,B.F4,B.F5,B.F6,B.F7,B.F8,B.F9,B.Fa,B.Fb,B.Fc,B.Fd,B.Fe,B.Ff,B.Fg,B.Fh,B.Fi,B.Fj,B.Fk,B.Fl,B.Fm,B.HL,B.GX,B.GY,B.GZ,B.H_,B.H0,B.Hv,B.Hu,B.Hz,B.Hw,B.Ht,B.Hy,B.HJ,B.HI,B.HK,B.Hl,B.Hj,B.Hi,B.Hr,B.Hk,B.Hm,B.Hs,B.Hp,B.Hn,B.Ho,B.hW,B.k5,B.Es,B.FB,B.GW,B.mr,B.Gn,B.Ge,B.Gf,B.Gg,B.Gh,B.Gi,B.Gj,B.Gk,B.Gl,B.Gm,B.Gc,B.H5,B.Hb,B.Hc,B.GR,B.Go,B.G9,B.Gd,B.Gs,B.H9,B.H8,B.H7,B.H6,B.Ha,B.Ga,B.H3,B.H4,B.Gb,B.GF,B.G4,B.G1,B.GM,B.FZ,B.FK,B.Gr,B.FY,B.Er,B.H2,B.FH,B.Ep,B.mq,B.GH,B.Hx,B.FG,B.hU,B.k4,B.HM,B.FL,B.Hd,B.FA,B.Em,B.Eo,B.Fz,B.Eq,B.GJ,B.He,B.HH],A.am("ba<o,Q>"))
+B.DR=new A.ba(B.agc,[B.H1,B.GI,B.hV,B.hX,B.G7,B.G6,B.G5,B.G8,B.GQ,B.GO,B.GP,B.FI,B.FF,B.Fy,B.FD,B.FE,B.Hh,B.Hg,B.HC,B.HG,B.HD,B.HB,B.HF,B.HA,B.HE,B.fE,B.FJ,B.Gq,B.hT,B.k3,B.GV,B.GL,B.GK,B.G2,B.Fw,B.Fn,B.Fo,B.Fp,B.Fq,B.Fr,B.Fs,B.Ft,B.Fu,B.Fv,B.Hf,B.Hq,B.G3,B.Fx,B.FC,B.qL,B.qL,B.FM,B.FV,B.FW,B.FX,B.Gt,B.Gu,B.Gv,B.Gw,B.Gx,B.Gy,B.Gz,B.FN,B.GA,B.GB,B.GC,B.GD,B.GE,B.FO,B.FP,B.FQ,B.FR,B.FS,B.FT,B.FU,B.GN,B.k2,B.En,B.Et,B.EC,B.ED,B.EE,B.EF,B.EG,B.EH,B.EI,B.Eu,B.Ev,B.Ew,B.Ex,B.Ey,B.Ez,B.EA,B.EB,B.EJ,B.EK,B.EL,B.EM,B.EN,B.EO,B.EP,B.EQ,B.ER,B.ES,B.ET,B.EU,B.EV,B.EW,B.EX,B.GG,B.G0,B.El,B.G_,B.Gp,B.GS,B.GU,B.GT,B.EY,B.EZ,B.F_,B.F0,B.F1,B.F2,B.F3,B.F4,B.F5,B.F6,B.F7,B.F8,B.F9,B.Fa,B.Fb,B.Fc,B.Fd,B.Fe,B.Ff,B.Fg,B.Fh,B.Fi,B.Fj,B.Fk,B.Fl,B.Fm,B.HL,B.GX,B.GY,B.GZ,B.H_,B.H0,B.Hv,B.Hu,B.Hz,B.Hw,B.Ht,B.Hy,B.HJ,B.HI,B.HK,B.Hl,B.Hj,B.Hi,B.Hr,B.Hk,B.Hm,B.Hs,B.Hp,B.Hn,B.Ho,B.hW,B.k5,B.Es,B.FB,B.GW,B.mr,B.Gn,B.Ge,B.Gf,B.Gg,B.Gh,B.Gi,B.Gj,B.Gk,B.Gl,B.Gm,B.Gc,B.H5,B.Hb,B.Hc,B.GR,B.Go,B.G9,B.Gd,B.Gs,B.H9,B.H8,B.H7,B.H6,B.Ha,B.Ga,B.H3,B.H4,B.Gb,B.GF,B.G4,B.G1,B.GM,B.FZ,B.FK,B.Gr,B.FY,B.Er,B.H2,B.FH,B.Ep,B.mq,B.GH,B.Hx,B.FG,B.hU,B.k4,B.HM,B.FL,B.Hd,B.FA,B.Em,B.Eo,B.Fz,B.Eq,B.GJ,B.He,B.HH],A.am("ba<o,Q>"))
 B.agQ={"deleteBackward:":0,"deleteWordBackward:":1,"deleteToBeginningOfLine:":2,"deleteForward:":3,"deleteWordForward:":4,"deleteToEndOfLine:":5,"moveLeft:":6,"moveRight:":7,"moveForward:":8,"moveBackward:":9,"moveUp:":10,"moveDown:":11,"moveLeftAndModifySelection:":12,"moveRightAndModifySelection:":13,"moveUpAndModifySelection:":14,"moveDownAndModifySelection:":15,"moveWordLeft:":16,"moveWordRight:":17,"moveToBeginningOfParagraph:":18,"moveToEndOfParagraph:":19,"moveWordLeftAndModifySelection:":20,"moveWordRightAndModifySelection:":21,"moveParagraphBackwardAndModifySelection:":22,"moveParagraphForwardAndModifySelection:":23,"moveToLeftEndOfLine:":24,"moveToRightEndOfLine:":25,"moveToBeginningOfDocument:":26,"moveToEndOfDocument:":27,"moveToLeftEndOfLineAndModifySelection:":28,"moveToRightEndOfLineAndModifySelection:":29,"moveToBeginningOfDocumentAndModifySelection:":30,"moveToEndOfDocumentAndModifySelection:":31,"transpose:":32,"scrollToBeginningOfDocument:":33,"scrollToEndOfDocument:":34,"scrollPageUp:":35,"scrollPageDown:":36,"pageUpAndModifySelection:":37,"pageDownAndModifySelection:":38,"cancelOperation:":39,"insertTab:":40,"insertBacktab:":41}
 B.Is=new A.oG(!1)
 B.It=new A.oG(!0)
@@ -130447,8 +130448,8 @@ B.XP=s([B.o4],t.p)
 B.ajL=new A.Ib(B.bz,B.eN,B.l,B.m,null,B.cI,null,0,B.XP,null)
 B.ahL=new A.a4(B.RH,B.ajL,null)
 B.aS=new A.B(!0,null,null,null,null,null,13,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.arW=new A.fX("~",null,B.aS,null,null,null,null,null,null,null)
-B.Ej=new A.a4(B.de,B.arW,null)
+B.arV=new A.fX("~",null,B.aS,null,null,null,null,null,null,null)
+B.Ej=new A.a4(B.de,B.arV,null)
 B.Ek=new A.a4(B.eG,B.iJ,null)
 B.qK=new A.uZ(null)
 B.c5=new A.VS(0,"fill")
@@ -130676,25 +130677,23 @@ B.IO=new A.er("_InputDecoratorState.prefixIcon")
 B.I=new A.IP(0,"none")
 B.r7=new A.IP(1,"valid")
 B.r8=new A.IP(2,"invalid")
-B.agh={Plus:0,Minus:1}
-B.akv=new A.co(B.agh,2,t.O)
-B.agi={mailto:0,tel:1,sms:2}
-B.akw=new A.co(B.agi,3,t.O)
+B.agi={Plus:0,Minus:1}
+B.akv=new A.co(B.agi,2,t.O)
+B.agj={mailto:0,tel:1,sms:2}
+B.akw=new A.co(B.agj,3,t.O)
 B.r9=new A.e8([B.dI,B.mp,B.qF],A.am("e8<oh>"))
 B.ag_={"choice-band":0,"choice-specs":1,"choice-scarf":2}
 B.akx=new A.co(B.ag_,3,t.O)
-B.agf={red:0,blue:1,lance:2,steven:3,wallace:4,cynthia:5,alder:6,iris:7,diantha:8,kukui:9,hau:10,leon:11,mustard:12,peony:13,geeta:14,nemona:15,kieran:16,carmine:17,"blue-leader":18}
-B.IP=new A.co(B.agf,19,t.O)
+B.agg={red:0,blue:1,lance:2,steven:3,wallace:4,cynthia:5,alder:6,iris:7,diantha:8,kukui:9,hau:10,leon:11,mustard:12,peony:13,geeta:14,nemona:15,kieran:16,carmine:17,"blue-leader":18}
+B.IP=new A.co(B.agg,19,t.O)
 B.agM={"Mold Breaker":0,Teravolt:1,Turboblaze:2}
 B.aky=new A.co(B.agM,3,t.O)
 B.agU={Fly:0,Dig:1,Dive:2,Bounce:3,"Shadow Force":4,"Phantom Force":5,"Solar Beam":6,"Solar Blade":7,"Sky Attack":8,"Skull Bash":9,"Razor Wind":10,"Ice Burn":11,"Freeze Shock":12,Geomancy:13,"Meteor Beam":14,"Electro Shot":15}
 B.akz=new A.co(B.agU,16,t.O)
-B.agu={Levitate:0,Eelevate:1,"Flash Fire":2,"Lightning Rod":3,"Motor Drive":4,"Volt Absorb":5,"Water Absorb":6,"Sap Sipper":7,"Storm Drain":8,"Dry Skin":9,"Wonder Guard":10,Soundproof:11,Bulletproof:12,Overcoat:13,Filter:14,"Solid Rock":15,Multiscale:16,"Fur Coat":17,"Ice Scales":18,Fluffy:19,"Thick Fat":20,Heatproof:21,"Water Bubble":22,"Purifying Salt":23,"Punk Rock":24,"Friend Guard":25,"Earth Eater":26,"Well-Baked Body":27,"Marvel Scale":28,"Flower Gift":29,"Grass Pelt":30,"Battle Armor":31,"Shell Armor":32,"Sand Veil":33,"Snow Cloak":34,"Clear Body":35,"White Smoke":36,"Hyper Cutter":37,"Big Pecks":38,"Tera Shell":39,"Ice Face":40,"Disguise Disguised":41,"Disguise Busted":42,Sturdy:43,Unaware:44,"Wonder Skin":45,"Shield Dust":46,Damp:47}
-B.ra=new A.co(B.agu,48,t.O)
 B.agV={"Dragon Energy":0,Eruption:1,"Water Spout":2}
 B.akA=new A.co(B.agV,3,t.O)
-B.agq={"Shell Armor":0,"Battle Armor":1}
-B.akB=new A.co(B.agq,2,t.O)
+B.agr={"Shell Armor":0,"Battle Armor":1}
+B.akB=new A.co(B.agr,2,t.O)
 B.agI={"Teraform Zero":0}
 B.i6=new A.co(B.agI,1,t.O)
 B.ag0={"canvaskit.js":0}
@@ -130706,12 +130705,12 @@ B.IR=new A.e8([B.x],t.El)
 B.IS=new A.e8([B.e1,B.cC,B.bD,B.d8,B.cP],t.Lu)
 B.agC={javascript:0}
 B.akE=new A.co(B.agC,1,t.O)
-B.ags={"Cloud Nine":0,"Air Lock":1,"Teraform Zero":2}
-B.i7=new A.co(B.ags,3,t.O)
+B.agt={"Cloud Nine":0,"Air Lock":1,"Teraform Zero":2}
+B.i7=new A.co(B.agt,3,t.O)
 B.agH={click:0,keyup:1,keydown:2,mouseup:3,mousedown:4,pointerdown:5,pointerup:6}
 B.akF=new A.co(B.agH,7,t.O)
-B.agt={maxie:0,archie:1,cyrus:2,ghetsis:3,lysandre:4,guzma:5,lusamine:6,rose:7,colress:8,mars:9,jupiter:10,saturn:11,charon:12,tabitha:13,courtney:14,mable:15,shelly:16,matt:17,archer:18,ariana:19,proton:20,petrel:21,plumeria:22,faba:23,oleana:24,cliff:25,arlo:26,sierra:27,mela:28,giacomo:29,atticus:30,ortega:31,eri:32,volo:33,rocketexecutive:34,rocketexecutivef:35,rocket:36,teamrocket:37,rocketgrunt:38,rocketgruntf:39,teamrocketgruntm:40,teamrocketgruntf:41,rainbowrocketgrunt:42,rainbowrocketgruntf:43,magmagrunt:44,magmagruntf:45,teammagmagruntm:46,teammagmagruntf:47,magmasuit:48,aquagrunt:49,aquagruntf:50,aquasuit:51,teamaquagruntm:52,teamaquagruntf:53,galacticgrunt:54,galacticgruntf:55,flaregrunt:56,flaregruntf:57,skullgrunt:58,skullgruntf:59,plasmagrunt:60,plasmagruntf:61,yellgrunt:62,yellgruntf:63,stargrunt:64,stargruntf:65,aetheremployee:66,aetheremployeef:67,aetherfoundation:68,aetherfoundation2:69,aetherfoundationf:70,wicke:71,bryony:72,xerosic:73,rood:74,zinzolin:75,shadowtriad:76,sordward:77,shielbert:78,nobunaga:79}
-B.IT=new A.co(B.agt,80,t.O)
+B.agu={maxie:0,archie:1,cyrus:2,ghetsis:3,lysandre:4,guzma:5,lusamine:6,rose:7,colress:8,mars:9,jupiter:10,saturn:11,charon:12,tabitha:13,courtney:14,mable:15,shelly:16,matt:17,archer:18,ariana:19,proton:20,petrel:21,plumeria:22,faba:23,oleana:24,cliff:25,arlo:26,sierra:27,mela:28,giacomo:29,atticus:30,ortega:31,eri:32,volo:33,rocketexecutive:34,rocketexecutivef:35,rocket:36,teamrocket:37,rocketgrunt:38,rocketgruntf:39,teamrocketgruntm:40,teamrocketgruntf:41,rainbowrocketgrunt:42,rainbowrocketgruntf:43,magmagrunt:44,magmagruntf:45,teammagmagruntm:46,teammagmagruntf:47,magmasuit:48,aquagrunt:49,aquagruntf:50,aquasuit:51,teamaquagruntm:52,teamaquagruntf:53,galacticgrunt:54,galacticgruntf:55,flaregrunt:56,flaregruntf:57,skullgrunt:58,skullgruntf:59,plasmagrunt:60,plasmagruntf:61,yellgrunt:62,yellgruntf:63,stargrunt:64,stargruntf:65,aetheremployee:66,aetheremployeef:67,aetherfoundation:68,aetherfoundation2:69,aetherfoundationf:70,wicke:71,bryony:72,xerosic:73,rood:74,zinzolin:75,shadowtriad:76,sordward:77,shielbert:78,nobunaga:79}
+B.IT=new A.co(B.agu,80,t.O)
 B.afZ={"Bullet Seed":0,"Icicle Spear":1,"Rock Blast":2,"Pin Missile":3,"Tail Slap":4,"Scale Shot":5,"Population Bomb":6,"Bone Rush":7,"Arm Thrust":8,Barrage:9,"Comet Punch":10,"Double Slap":11,"Fury Attack":12,"Fury Swipes":13,"Spike Cannon":14,"Water Shuriken":15,"Triple Axel":16,"Triple Kick":17,"Triple Dive":18,"Surging Strikes":19,"Double Hit":20,"Double Iron Bash":21,"Dragon Darts":22,"Dual Wingbeat":23,Twineedle:24}
 B.akG=new A.co(B.afZ,25,t.O)
 B.IV=new A.e8([B.b9,B.ac,B.cS],A.am("e8<hD>"))
@@ -130720,7 +130719,7 @@ B.IW=new A.co(B.agA,47,t.O)
 B.akI=new A.co(B.bM,0,A.am("co<ah6<dj>>"))
 B.ax3=new A.co(B.bM,0,A.am("co<bu>"))
 B.akJ=new A.co(B.bM,0,A.am("co<er>"))
-B.rb=new A.co(B.bM,0,t.O)
+B.ra=new A.co(B.bM,0,t.O)
 B.akH=new A.co(B.bM,0,A.am("co<hD>"))
 B.cE=new A.co(B.bM,0,A.am("co<cJ>"))
 B.ag9={brock:0,misty:1,ltsurge:2,erika:3,koga:4,sabrina:5,blaine:6,giovanni:7,janine:8,falkner:9,bugsy:10,whitney:11,morty:12,chuck:13,jasmine:14,pryce:15,clair:16,roxanne:17,brawly:18,wattson:19,flannery:20,norman:21,winona:22,tate:23,liza:24,juan:25,wallace:26,roark:27,gardenia:28,maylene:29,crasher_wake:30,crasherwake:31,fantina:32,byron:33,candice:34,volkner:35,cilan:36,chili:37,cress:38,lenora:39,burgh:40,elesa:41,clay:42,skyla:43,brycen:44,drayden:45,roxie:46,marlon:47,iris:48,viola:49,grant:50,korrina:51,ramos:52,clemont:53,valerie:54,olympia:55,wulfric:56,milo:57,nessa:58,kabu:59,bea:60,allister:61,opal:62,gordie:63,melony:64,piers:65,raihan:66,katy:67,brassius:68,iono:69,kofu:70,larry:71,ryme:72,tulip:73,grusha:74,ilima:75,lana:76,kiawe:77,mallow:78,sophocles:79,acerola:80,mina:81,hala:82,olivia:83,nanu:84,hapu:85}
@@ -130732,6 +130731,8 @@ B.akK=new A.e8([B.B,B.D,B.L],t.El)
 B.akM=new A.e8([9,10,11,12,13,32,5760,8192,8193,8194,8195,8196,8197,8198,8200,8201,8202,8232,8233,8287,12288],A.am("e8<p>"))
 B.agW={Forme:0,Form:1,Mode:2,Mask:3,Cloak:4,Size:5,Style:6,Face:7,Flower:8}
 B.akN=new A.co(B.agW,9,t.O)
+B.aga={Levitate:0,Eelevate:1,"Flash Fire":2,"Lightning Rod":3,"Motor Drive":4,"Volt Absorb":5,"Water Absorb":6,"Sap Sipper":7,"Storm Drain":8,"Dry Skin":9,"Wonder Guard":10,Soundproof:11,Bulletproof:12,Overcoat:13,Filter:14,"Solid Rock":15,Multiscale:16,"Fur Coat":17,"Ice Scales":18,Fluffy:19,"Aura Guard":20,"Thick Fat":21,Heatproof:22,"Water Bubble":23,"Purifying Salt":24,"Punk Rock":25,"Friend Guard":26,"Earth Eater":27,"Well-Baked Body":28,"Marvel Scale":29,"Flower Gift":30,"Grass Pelt":31,"Battle Armor":32,"Shell Armor":33,"Sand Veil":34,"Snow Cloak":35,"Clear Body":36,"White Smoke":37,"Hyper Cutter":38,"Big Pecks":39,"Tera Shell":40,"Ice Face":41,"Disguise Disguised":42,"Disguise Busted":43,Sturdy:44,Unaware:45,"Wonder Skin":46,"Shield Dust":47,Damp:48}
+B.rb=new A.co(B.aga,49,t.O)
 B.ag5={click:0,touchstart:1,touchend:2,pointerdown:3,pointermove:4,pointerup:5}
 B.akP=new A.co(B.ag5,6,t.O)
 B.agS={acetrainer:0,acetrainercouple:1,acetrainerf:2,aromalady:3,artist:4,baker:5,battlegirl:6,beauty:7,bellhop:8,biker:9,"bird-keeper":10,birdkeeper:11,blackbelt:12,boarder:13,breeder:14,breederf:15,bugcatcher:16,bugmaniac:17,burglar:18,cameraman:19,channeler:20,cheerleader:21,chef:22,chic:23,cooltrainer:24,cyclist:25,dancer:26,dragontamer:27,engineer:28,expertm:29,expertf:30,fairy:31,fairytalegirl:32,firebreather:33,fisherman:34,gambler:35,gameboy:36,gentleman:37,guitarist:38,hexmaniac:39,hiker:40,idol:41,jogger:42,juggler:43,kindler:44,lady:45,lass:46,maid:47,medium:48,monk:49,musician:50,ninjaboy:51,oldcouple:52,parasolady:53,picknicker:54,plasmagrunt:55,plasmagruntf:56,pokefan:57,pokefanf:58,pokekid:59,pokemaniac:60,pokemanic:61,policeman:62,preschoolerm:63,preschoolerf:64,pikabro:65,"pikachu-libre":66,punkgirl:67,punkguy:68,reporter:69,researcher:70,richboy:71,roughneck:72,rocketgrunt:73,rocketgruntf:74,magmagrunt:75,magmagruntf:76,aquagrunt:77,aquagruntf:78,galacticgrunt:79,galacticgruntf:80,flaregrunt:81,flaregruntf:82,skullgrunt:83,skullgruntf:84,machogrunt:85,rangerm:86,rangerf:87,aquasuit:88,aetheremployee:89,aetheremployeef:90,aetherfoundation:91,aetherfoundation2:92,aetherfoundationf:93,backers:94,backersf:95,cafemaster:96,caretaker:97,courier:98,freediver:99,harlequin:100,leaguestaff:101,leaguestafff:102,linebacker:103,securitycorps:104,securitycorpsf:105,smasher:106,teammates:107,theroyal:108,ultraforestkartenvoy:109,unknown:110,unknownf:111,youngathlete:112,youngathletef:113,acetrainersnow:114,acetrainersnowf:115,artistf:116,ballguy:117,backpacker:118,backpackerf:119,bodybuilder:120,bodybuilderf:121,butler:122,cabbie:123,camper:124,clerk:125,clerkf:126,clown:127,collector:128,cook:129,cowgirl:130,crushgirl:131,crushkin:132,cueball:133,cyclistf:134,delinquent:135,delinquentf:136,delinquentf2:137,depotagent:138,doctor:139,doctorf:140,doubleteam:141,expert:142,firefighter:143,fisher:144,furisodegirl:145,gamer:146,garcon:147,gardener:148,golfer:149,hooligans:150,hoopster:151,infielder:152,interviewers:153,janitor:154,jrtrainer:155,jrtrainerf:156,kimonogirl:157,kunoichi:158,kunoichi2:159,madame:160,nurse:161,nurseryaide:162,officer:163,officeworker:164,officeworkerf:165,painter:166,parasollady:167,picnicker:168,pilot:169,player:170,playerf:171,pokekidf:172,pokemonbreeder:173,pokemonbreederf:174,pokemoncenterlady:175,pokemonranger:176,pokemonrangerf:177,postman:178,preschooler:179,preschoolers:180,psychic:181,psychicf:182,psychicfjp:183,rancher:184,risingstar:185,risingstarf:186,rollerskater:187,rollerskaterf:188,ruinmaniac:189,schoolkidf:190,scubadiver:191,sightseer:192,sightseerf:193,tourist:194,touristf:195,touristf2:196,skier:197,skytrainer:198,skytrainerf:199,streetthug:200,surfer:201,swimmerf2:202,swimmerfjp:203,swimmerm:204,trialguide:205,trialguidef:206,triathletebiker:207,triathletebikerf:208,triathletebikerm:209,triathleterunner:210,triathleterunnerf:211,triathleterunnerm:212,triathleteswimmer:213,triathleteswimmerf:214,triathleteswimmerm:215,worker2:216,youngn:217,rocker:218,sage:219,sailor:220,schoolboy:221,schoolgirl:222,schoolkid:223,scientist:224,scientistf:225,sisandbro:226,skierm:227,skierf:228,skyer:229,"sr-and-jr":230,srandjr:231,striker:232,supernerd:233,swimmer:234,swimmerf:235,tamer:236,teacher:237,triathlete:238,tuber:239,tuberf:240,twins:241,veteran:242,veteranf:243,waiter:244,waitress:245,worker:246,workerice:247,workerf:248,youngster:249,youngcouple:250}
@@ -130740,15 +130741,15 @@ B.agz={"Queenly Majesty":0,Dazzling:1,"Armor Tail":2}
 B.akQ=new A.co(B.agz,3,t.O)
 B.ag3={"blue-orb":0,"red-orb":1,"rusted-sword":2,"rusted-shield":3,"griseous-core":4,"griseous-orb":5,"adamant-crystal":6,"lustrous-globe":7}
 B.akR=new A.co(B.ag3,8,t.O)
-B.agn={"Revelation Dance":0,Judgment:1,"Nature Power":2,"Techno Blast":3,"Multi-Attack":4,"Natural Gift":5,"Weather Ball":6,"Terrain Pulse":7,Struggle:8}
-B.IZ=new A.co(B.agn,9,t.O)
+B.ago={"Revelation Dance":0,Judgment:1,"Nature Power":2,"Techno Blast":3,"Multi-Attack":4,"Natural Gift":5,"Weather Ball":6,"Terrain Pulse":7,Struggle:8}
+B.IZ=new A.co(B.ago,9,t.O)
 B.akS=new A.e8([B.IJ,B.IE],A.am("e8<hg>"))
-B.ago={"Self-Destruct":0,Explosion:1,"Mind Blown":2,"Misty Explosion":3,Fling:4,"Final Gambit":5,Uproar:6,Rollout:7,"Ice Ball":8,Endeavor:9,Present:10}
-B.akT=new A.co(B.ago,11,t.O)
+B.agp={"Self-Destruct":0,Explosion:1,"Mind Blown":2,"Misty Explosion":3,Fling:4,"Final Gambit":5,Uproar:6,Rollout:7,"Ice Ball":8,Endeavor:9,Present:10}
+B.akT=new A.co(B.agp,11,t.O)
 B.agx={oak:0,elm:1,birch:2,rowan:3,juniper:4,sycamore:5,magnolia:6,burnet:7,sada:8,turo:9,laventon:10,laventon2:11,cedricjuniper:12,fennel:13,jacq:14,willow:15,raifort:16,miriam:17,dendra:18,saguaro:19,tyme:20,salvatore:21,neroli:22,bellis:23,clavell:24,cyrano:25}
 B.J_=new A.co(B.agx,26,t.O)
-B.agl={"Gorilla Tactics":0,"Sheer Force":1}
-B.akV=new A.co(B.agl,2,t.O)
+B.agm={"Gorilla Tactics":0,"Sheer Force":1}
+B.akV=new A.co(B.agm,2,t.O)
 B.J0=new A.e8([B.bD,B.cC,B.e1,B.cP,B.d8],t.Lu)
 B.F=new A.cJ(4,"selected")
 B.J1=new A.e8([B.F],t.El)
@@ -131351,14 +131352,14 @@ B.aqo=new A.B(!0,B.aJ,null,".AppleSystemUIFont",null,null,null,null,null,null,nu
 B.aqK=new A.B(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelMedium",null,null,null,null)
 B.anH=new A.B(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.arU=new A.f0(B.apu,B.aoo,B.apv,B.aq1,B.ao5,B.aod,B.aoI,B.apV,B.aoV,B.aqr,B.anA,B.anS,B.aqo,B.aqK,B.anH)
-B.arV=new A.fX("v1.15.4",null,null,null,null,null,null,null,null,null)
-B.arX=new A.fX("  \u2192  ",null,B.K9,null,null,null,null,null,null,null)
-B.arY=new A.fX("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
-B.arZ=new A.fX("By  Elyss",null,null,null,null,null,null,null,null,null)
+B.arW=new A.fX("  \u2192  ",null,B.K9,null,null,null,null,null,null,null)
+B.arX=new A.fX("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
+B.arY=new A.fX("By  Elyss",null,null,null,null,null,null,null,null,null)
 B.app=new A.B(!0,B.r,null,null,null,null,18,B.w,null,1.5,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.as_=new A.fX("TRAINER CARD",null,B.app,null,null,null,null,null,null,null)
+B.arZ=new A.fX("TRAINER CARD",null,B.app,null,null,null,null,null,null,null)
 B.Kf=new A.fX("-",null,null,B.R,null,null,null,null,null,null)
-B.as0=new A.fX("-",null,B.aS,B.R,null,null,null,null,null,null)
+B.as_=new A.fX("-",null,B.aS,B.R,null,null,null,null,null,null)
+B.as0=new A.fX("v1.15.5",null,null,null,null,null,null,null,null,null)
 B.as2=new A.fX("-",null,B.ne,null,null,null,null,null,null,null)
 B.as3=new A.ro(0,"system")
 B.rM=new A.ro(1,"light")
