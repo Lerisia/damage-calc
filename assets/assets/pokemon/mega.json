@@ -2090,7 +2090,7 @@
     "aliases": [
       "메플라"
     ],
-    "baseSpecies": "Floette",
+    "baseSpecies": "Floette (Eternal Flower)",
     "formChange": "mega"
   },
   {
@@ -2236,7 +2236,7 @@
     "nameEn": "Mega Zygarde",
     "isMega": true,
     "genderRate": -1,
-    "baseSpecies": "Zygarde",
+    "baseSpecies": "Zygarde (Complete Forme)",
     "formChange": "mega"
   },
   {
@@ -2606,8 +2606,11 @@
     "nameEn": "Mega Meowstic",
     "isMega": true,
     "genderRate": 4,
-    "baseSpecies": "Meowstic",
-    "formChange": "mega"
+    "baseSpecies": "Meowstic (Female)",
+    "formChange": "mega",
+    "altBaseSpecies": [
+      "Meowstic"
+    ]
   },
   {
     "name": "Mega Crabominable",
