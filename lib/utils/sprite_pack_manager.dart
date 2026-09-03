@@ -17,7 +17,7 @@ import 'sprite_service.dart';
 /// no marker at all — legacy pre-marker installs), so a user who's
 /// grabbed a newer pack than this build knows about doesn't get
 /// pestered until the app catches up.
-const String kLatestSpritePackVersion = '4';
+const String kLatestSpritePackVersion = '5';
 
 /// Per-style sprite-pack install state for mobile.
 ///
