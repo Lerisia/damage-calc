@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../../models/type.dart';
 import '../../utils/ability_effects.dart' show abilityAdjustedDefensiveMultiplier;
 import '../../utils/app_strings.dart';
+import '../../utils/coverage_display_controller.dart';
 import '../../utils/localization.dart' show KoStrings;
+import 'coverage_display_toggle.dart';
+import 'matchup_badge.dart';
 
 /// Classic Pokémon 18×18 type-effectiveness matrix in the same
 /// `Table` form the team-coverage matrix uses: type labels in the
@@ -54,6 +57,15 @@ class TypeChartSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Rebuild when the notation is flipped — here or in the party
+    // matrix, since both write the same persisted setting.
+    return ValueListenableBuilder<CoverageDisplayMode>(
+      valueListenable: CoverageDisplayController.instance.mode,
+      builder: (context, mode, _) => _buildSheet(context, mode),
+    );
+  }
+
+  Widget _buildSheet(BuildContext context, CoverageDisplayMode mode) {
     final scheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -78,10 +90,17 @@ class TypeChartSheet extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
-          child: Text(
-            AppStrings.t('typeChart.legend'),
-            style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
-          ),
+          child: Row(children: [
+            Expanded(
+              child: Text(
+                AppStrings.t('typeChart.legend'),
+                style: TextStyle(fontSize: 11, color: scheme.onSurfaceVariant),
+              ),
+            ),
+            const SizedBox(width: 8),
+            // Same toggle, same persisted setting as the party matrix.
+            CoverageDisplayToggle(mode: mode),
+          ]),
         ),
         const Divider(height: 1),
         Flexible(
@@ -103,6 +122,7 @@ class TypeChartSheet extends StatelessWidget {
                   scheme,
                   labelCol: _labelColMax,
                   cellCol: _cellColMax,
+                  symbolic: mode == CoverageDisplayMode.symbolic,
                 ),
               ),
             ),
@@ -113,7 +133,9 @@ class TypeChartSheet extends StatelessWidget {
   }
 
   Widget _buildTable(ColorScheme scheme,
-      {required double labelCol, required double cellCol}) {
+      {required double labelCol,
+      required double cellCol,
+      required bool symbolic}) {
     // Cell font shrinks with width once we're below the natural cell
     // size — keeps the glyph centred and readable instead of clipping.
     final shrink = (cellCol / _cellColMax).clamp(0.45, 1.0);
@@ -151,6 +173,7 @@ class TypeChartSheet extends StatelessWidget {
                 mult: abilityAdjustedDefensiveMultiplier(atk, def, null),
                 height: rowH,
                 fontSize: cellFont,
+                symbolic: symbolic,
               ),
           ]),
       ],
@@ -199,32 +222,36 @@ class _TypeLabelCell extends StatelessWidget {
   }
 }
 
+/// One matrix cell — a thin wrapper around [MatchupBadge], the same
+/// widget the party-coverage matrix and the dex matchup chart use, so
+/// all three read identically: same fractions, symbols, colours and
+/// pill backgrounds.
 class _MultCell extends StatelessWidget {
   final double mult;
   final double height;
   final double fontSize;
-  const _MultCell(
-      {required this.mult, required this.height, required this.fontSize});
+  final bool symbolic;
+  const _MultCell({
+    required this.mult,
+    required this.height,
+    required this.fontSize,
+    required this.symbolic,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final (bg, label, fg) = _styleFor(mult);
-    return Container(
+    return SizedBox(
       height: height,
-      color: bg,
-      alignment: Alignment.center,
-      child: Text(
-        label,
-        style: TextStyle(
-            color: fg, fontSize: fontSize, fontWeight: FontWeight.w700),
+      child: Center(
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: MatchupBadge(
+            multiplier: mult,
+            symbolic: symbolic,
+            fontSize: fontSize,
+          ),
+        ),
       ),
     );
-  }
-
-  static (Color, String, Color) _styleFor(double m) {
-    if (m == 0.0) return (Colors.grey.shade800, '0', Colors.white);
-    if (m == 0.5) return (Colors.green.shade600, '½', Colors.white);
-    if (m == 2.0) return (Colors.red.shade600,   '2', Colors.white);
-    return (Colors.transparent, '', Colors.black);
   }
 }

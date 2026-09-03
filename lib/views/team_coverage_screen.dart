@@ -30,6 +30,7 @@ import '../utils/party_image_save.dart';
 import '../utils/sample_save_flow.dart';
 import 'widgets/ev_sp_cell.dart';
 import 'widgets/matchup_badge.dart';
+import 'widgets/coverage_display_toggle.dart';
 import 'widgets/trainer_card_dialog.dart';
 import '../utils/localization.dart';
 import '../utils/page_routes.dart';
@@ -1403,7 +1404,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
                   onToggle: _toggleLineupMode,
                 ),
                 const SizedBox(width: 8),
-                _DisplayModeToggle(mode: mode),
+                CoverageDisplayToggle(mode: mode),
               ],
             ),
           ),
@@ -3688,78 +3689,6 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
-}
-
-/// Compact two-button toggle that flips the matrix between numeric
-/// and symbolic notation. Tied to [CoverageDisplayController] which
-/// persists the choice to SharedPreferences (same lifecycle as the
-/// language and theme settings).
-class _DisplayModeToggle extends StatelessWidget {
-  final CoverageDisplayMode mode;
-  const _DisplayModeToggle({required this.mode});
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: scheme.outlineVariant),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _modeBtn(
-              context,
-              label: AppStrings.t('team.matrix.display.numeric'),
-              selected: mode == CoverageDisplayMode.numeric,
-              target: CoverageDisplayMode.numeric,
-            ),
-            Container(
-              width: 1,
-              height: 20,
-              color: scheme.outlineVariant,
-            ),
-            _modeBtn(
-              context,
-              label: AppStrings.t('team.matrix.display.symbolic'),
-              selected: mode == CoverageDisplayMode.symbolic,
-              target: CoverageDisplayMode.symbolic,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _modeBtn(BuildContext context, {
-    required String label,
-    required bool selected,
-    required CoverageDisplayMode target,
-  }) {
-    final scheme = Theme.of(context).colorScheme;
-    return InkWell(
-      onTap: () => CoverageDisplayController.instance.set(target),
-      child: Container(
-        color: selected
-            ? scheme.surfaceContainerHighest
-            : Colors.transparent,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-            color: selected
-                ? scheme.onSurface
-                : scheme.onSurface.withValues(alpha: 0.5),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 /// "선출 보기" switch — single-line right-aligned switch row tied
