@@ -28,7 +28,9 @@
     "isMega": true,
     "aliases": [
       "메상해꽃"
-    ]
+    ],
+    "baseSpecies": "Venusaur",
+    "formChange": "mega"
   },
   {
     "dexNumber": 6,
@@ -59,7 +61,9 @@
       "엑자몽"
     ],
     "nameEn": "Mega Charizard X",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Charizard",
+    "formChange": "mega"
   },
   {
     "dexNumber": 6,
@@ -90,7 +94,9 @@
       "와자몽"
     ],
     "nameEn": "Mega Charizard Y",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Charizard",
+    "formChange": "mega"
   },
   {
     "dexNumber": 9,
@@ -120,7 +126,9 @@
     "isMega": true,
     "aliases": [
       "메북왕"
-    ]
+    ],
+    "baseSpecies": "Blastoise",
+    "formChange": "mega"
   },
   {
     "dexNumber": 65,
@@ -150,7 +158,9 @@
       "메후딘"
     ],
     "nameEn": "Mega Alakazam",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Alakazam",
+    "formChange": "mega"
   },
   {
     "dexNumber": 94,
@@ -181,7 +191,9 @@
     "isMega": true,
     "aliases": [
       "메팬"
-    ]
+    ],
+    "baseSpecies": "Gengar",
+    "formChange": "mega"
   },
   {
     "dexNumber": 115,
@@ -211,7 +223,9 @@
     "isMega": true,
     "aliases": [
       "메캥"
-    ]
+    ],
+    "baseSpecies": "Kangaskhan",
+    "formChange": "mega"
   },
   {
     "dexNumber": 127,
@@ -239,7 +253,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Pinsir",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Pinsir",
+    "formChange": "mega"
   },
   {
     "dexNumber": 130,
@@ -270,7 +286,9 @@
     "isMega": true,
     "aliases": [
       "메갸라"
-    ]
+    ],
+    "baseSpecies": "Gyarados",
+    "formChange": "mega"
   },
   {
     "dexNumber": 142,
@@ -301,7 +319,9 @@
       "메테라"
     ],
     "nameEn": "Mega Aerodactyl",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Aerodactyl",
+    "formChange": "mega"
   },
   {
     "dexNumber": 150,
@@ -329,7 +349,9 @@
     "genderRate": -1,
     "canDynamax": false,
     "nameEn": "Mega Mewtwo X",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Mewtwo",
+    "formChange": "mega"
   },
   {
     "dexNumber": 150,
@@ -356,7 +378,9 @@
     "genderRate": -1,
     "canDynamax": false,
     "nameEn": "Mega Mewtwo Y",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Mewtwo",
+    "formChange": "mega"
   },
   {
     "dexNumber": 181,
@@ -384,7 +408,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Ampharos",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Ampharos",
+    "formChange": "mega"
   },
   {
     "dexNumber": 212,
@@ -415,7 +441,9 @@
     "isMega": true,
     "aliases": [
       "메핫삼"
-    ]
+    ],
+    "baseSpecies": "Scizor",
+    "formChange": "mega"
   },
   {
     "dexNumber": 214,
@@ -446,7 +474,9 @@
       "메헤라"
     ],
     "nameEn": "Mega Heracross",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Heracross",
+    "formChange": "mega"
   },
   {
     "dexNumber": 229,
@@ -474,7 +504,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Houndoom",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Houndoom",
+    "formChange": "mega"
   },
   {
     "dexNumber": 248,
@@ -505,7 +537,9 @@
     "isMega": true,
     "aliases": [
       "메마기"
-    ]
+    ],
+    "baseSpecies": "Tyranitar",
+    "formChange": "mega"
   },
   {
     "dexNumber": 257,
@@ -537,7 +571,9 @@
     "aliases": [
       "메번코",
       "메치코"
-    ]
+    ],
+    "baseSpecies": "Blaziken",
+    "formChange": "mega"
   },
   {
     "dexNumber": 282,
@@ -565,7 +601,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Gardevoir",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Gardevoir",
+    "formChange": "mega"
   },
   {
     "dexNumber": 303,
@@ -596,7 +634,9 @@
     "isMega": true,
     "aliases": [
       "메치트"
-    ]
+    ],
+    "baseSpecies": "Mawile",
+    "formChange": "mega"
   },
   {
     "dexNumber": 306,
@@ -623,7 +663,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Aggron",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Aggron",
+    "formChange": "mega"
   },
   {
     "dexNumber": 308,
@@ -651,7 +693,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Medicham",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Medicham",
+    "formChange": "mega"
   },
   {
     "dexNumber": 310,
@@ -678,7 +722,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Manectric",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Manectric",
+    "formChange": "mega"
   },
   {
     "dexNumber": 354,
@@ -705,7 +751,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Banette",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Banette",
+    "formChange": "mega"
   },
   {
     "dexNumber": 359,
@@ -732,7 +780,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Absol",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Absol",
+    "formChange": "mega"
   },
   {
     "dexNumber": 445,
@@ -763,7 +813,9 @@
     "isMega": true,
     "aliases": [
       "메한카"
-    ]
+    ],
+    "baseSpecies": "Garchomp",
+    "formChange": "mega"
   },
   {
     "dexNumber": 448,
@@ -794,7 +846,9 @@
     "isMega": true,
     "aliases": [
       "메루카"
-    ]
+    ],
+    "baseSpecies": "Lucario",
+    "formChange": "mega"
   },
   {
     "dexNumber": 460,
@@ -822,7 +876,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Abomasnow",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Abomasnow",
+    "formChange": "mega"
   },
   {
     "dexNumber": 380,
@@ -850,7 +906,9 @@
     "genderRate": 8,
     "canDynamax": false,
     "nameEn": "Mega Latias",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Latias",
+    "formChange": "mega"
   },
   {
     "dexNumber": 381,
@@ -878,7 +936,9 @@
     "genderRate": 0,
     "canDynamax": false,
     "nameEn": "Mega Latios",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Latios",
+    "formChange": "mega"
   },
   {
     "dexNumber": 260,
@@ -909,7 +969,9 @@
     "isMega": true,
     "aliases": [
       "메짱이"
-    ]
+    ],
+    "baseSpecies": "Swampert",
+    "formChange": "mega"
   },
   {
     "dexNumber": 254,
@@ -940,7 +1002,9 @@
     "isMega": true,
     "aliases": [
       "메무킹"
-    ]
+    ],
+    "baseSpecies": "Sceptile",
+    "formChange": "mega"
   },
   {
     "dexNumber": 302,
@@ -971,7 +1035,9 @@
       "메까미"
     ],
     "nameEn": "Mega Sableye",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Sableye",
+    "formChange": "mega"
   },
   {
     "dexNumber": 334,
@@ -999,7 +1065,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Altaria",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Altaria",
+    "formChange": "mega"
   },
   {
     "dexNumber": 475,
@@ -1030,7 +1098,9 @@
     "isMega": true,
     "aliases": [
       "메엘레"
-    ]
+    ],
+    "baseSpecies": "Gallade",
+    "formChange": "mega"
   },
   {
     "dexNumber": 531,
@@ -1058,7 +1128,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Audino",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Audino",
+    "formChange": "mega"
   },
   {
     "dexNumber": 319,
@@ -1089,7 +1161,9 @@
       "메크니아"
     ],
     "nameEn": "Mega Sharpedo",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Sharpedo",
+    "formChange": "mega"
   },
   {
     "dexNumber": 80,
@@ -1120,7 +1194,9 @@
       "메도란"
     ],
     "nameEn": "Mega Slowbro",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Slowbro",
+    "formChange": "mega"
   },
   {
     "dexNumber": 208,
@@ -1148,7 +1224,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Steelix",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Steelix",
+    "formChange": "mega"
   },
   {
     "dexNumber": 18,
@@ -1176,7 +1254,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Pidgeot",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Pidgeot",
+    "formChange": "mega"
   },
   {
     "dexNumber": 362,
@@ -1203,7 +1283,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Glalie",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Glalie",
+    "formChange": "mega"
   },
   {
     "dexNumber": 719,
@@ -1231,7 +1313,9 @@
     "genderRate": -1,
     "canDynamax": false,
     "nameEn": "Mega Diancie",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Diancie",
+    "formChange": "mega"
   },
   {
     "dexNumber": 376,
@@ -1262,7 +1346,9 @@
     "isMega": true,
     "aliases": [
       "메메타"
-    ]
+    ],
+    "baseSpecies": "Metagross",
+    "formChange": "mega"
   },
   {
     "dexNumber": 384,
@@ -1289,7 +1375,9 @@
     "genderRate": -1,
     "canDynamax": false,
     "nameEn": "Mega Rayquaza",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Rayquaza",
+    "formChange": "mega"
   },
   {
     "dexNumber": 323,
@@ -1317,7 +1405,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Camerupt",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Camerupt",
+    "formChange": "mega"
   },
   {
     "dexNumber": 428,
@@ -1348,7 +1438,9 @@
     "isMega": true,
     "aliases": [
       "메어롭"
-    ]
+    ],
+    "baseSpecies": "Lopunny",
+    "formChange": "mega"
   },
   {
     "dexNumber": 373,
@@ -1376,7 +1468,9 @@
     "genderRate": 4,
     "canDynamax": false,
     "nameEn": "Mega Salamence",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Salamence",
+    "formChange": "mega"
   },
   {
     "dexNumber": 15,
@@ -1407,7 +1501,9 @@
       "메침붕"
     ],
     "nameEn": "Mega Beedrill",
-    "isMega": true
+    "isMega": true,
+    "baseSpecies": "Beedrill",
+    "formChange": "mega"
   },
   {
     "name": "Mega Clefable",
@@ -1437,7 +1533,9 @@
     "genderRate": 6,
     "aliases": [
       "메픽시"
-    ]
+    ],
+    "baseSpecies": "Clefable",
+    "formChange": "mega"
   },
   {
     "name": "Mega Victreebel",
@@ -1467,7 +1565,9 @@
     "genderRate": 4,
     "aliases": [
       "메츠보트"
-    ]
+    ],
+    "baseSpecies": "Victreebel",
+    "formChange": "mega"
   },
   {
     "name": "Mega Starmie",
@@ -1497,7 +1597,9 @@
     "genderRate": -1,
     "aliases": [
       "메쿠스타"
-    ]
+    ],
+    "baseSpecies": "Starmie",
+    "formChange": "mega"
   },
   {
     "name": "Mega Dragonite",
@@ -1527,7 +1629,9 @@
     "genderRate": 4,
     "aliases": [
       "메망나"
-    ]
+    ],
+    "baseSpecies": "Dragonite",
+    "formChange": "mega"
   },
   {
     "name": "Mega Meganium",
@@ -1557,7 +1661,9 @@
     "genderRate": 1,
     "aliases": [
       "기가니움"
-    ]
+    ],
+    "baseSpecies": "Meganium",
+    "formChange": "mega"
   },
   {
     "name": "Mega Feraligatr",
@@ -1587,7 +1693,9 @@
     ],
     "nameEn": "Mega Feraligatr",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "baseSpecies": "Feraligatr",
+    "formChange": "mega"
   },
   {
     "name": "Mega Skarmory",
@@ -1617,7 +1725,9 @@
     "genderRate": 4,
     "aliases": [
       "메장조"
-    ]
+    ],
+    "baseSpecies": "Skarmory",
+    "formChange": "mega"
   },
   {
     "name": "Mega Froslass",
@@ -1647,7 +1757,9 @@
     "genderRate": 8,
     "aliases": [
       "메여아"
-    ]
+    ],
+    "baseSpecies": "Froslass",
+    "formChange": "mega"
   },
   {
     "name": "Mega Emboar",
@@ -1674,7 +1786,9 @@
     "requiredItem": "emboarite",
     "nameEn": "Mega Emboar",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "baseSpecies": "Emboar",
+    "formChange": "mega"
   },
   {
     "name": "Mega Excadrill",
@@ -1701,7 +1815,9 @@
     "requiredItem": "excadrite",
     "nameEn": "Mega Excadrill",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Excadrill",
+    "formChange": "mega"
   },
   {
     "name": "Mega Scolipede",
@@ -1717,7 +1833,9 @@
       "spDefense": 99,
       "speed": 62
     },
-    "abilities": ["Shell Armor"],
+    "abilities": [
+      "Shell Armor"
+    ],
     "weight": 230.5,
     "height": 3.2,
     "dexNumber": 545,
@@ -1726,7 +1844,9 @@
     "requiredItem": "scolipite",
     "nameEn": "Mega Scolipede",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Scolipede",
+    "formChange": "mega"
   },
   {
     "name": "Mega Scrafty",
@@ -1742,7 +1862,9 @@
       "spDefense": 135,
       "speed": 68
     },
-    "abilities": ["Intimidate"],
+    "abilities": [
+      "Intimidate"
+    ],
     "weight": 31.0,
     "height": 1.1,
     "dexNumber": 560,
@@ -1754,7 +1876,9 @@
     "genderRate": 4,
     "aliases": [
       "메곤율"
-    ]
+    ],
+    "baseSpecies": "Scrafty",
+    "formChange": "mega"
   },
   {
     "name": "Mega Eelektross",
@@ -1780,7 +1904,9 @@
     "requiredItem": "eelektrossite",
     "nameEn": "Mega Eelektross",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Eelektross",
+    "formChange": "mega"
   },
   {
     "name": "Mega Chandelure",
@@ -1807,7 +1933,9 @@
     "requiredItem": "chandelurite",
     "nameEn": "Mega Chandelure",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Chandelure",
+    "formChange": "mega"
   },
   {
     "name": "Mega Chesnaught",
@@ -1837,7 +1965,9 @@
     ],
     "nameEn": "Mega Chesnaught",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "baseSpecies": "Chesnaught",
+    "formChange": "mega"
   },
   {
     "name": "Mega Delphox",
@@ -1867,7 +1997,9 @@
     "genderRate": 1,
     "aliases": [
       "메폭시"
-    ]
+    ],
+    "baseSpecies": "Delphox",
+    "formChange": "mega"
   },
   {
     "name": "Mega Greninja",
@@ -1897,7 +2029,9 @@
     "genderRate": 1,
     "aliases": [
       "메개닌"
-    ]
+    ],
+    "baseSpecies": "Greninja",
+    "formChange": "mega"
   },
   {
     "name": "Mega Pyroar",
@@ -1924,7 +2058,9 @@
     "requiredItem": "pyroarite",
     "nameEn": "Mega Pyroar",
     "isMega": true,
-    "genderRate": 7
+    "genderRate": 7,
+    "baseSpecies": "Pyroar",
+    "formChange": "mega"
   },
   {
     "name": "Mega Floette",
@@ -1953,7 +2089,9 @@
     "genderRate": 8,
     "aliases": [
       "메플라"
-    ]
+    ],
+    "baseSpecies": "Floette",
+    "formChange": "mega"
   },
   {
     "name": "Mega Malamar",
@@ -1969,7 +2107,9 @@
       "spDefense": 120,
       "speed": 88
     },
-    "abilities": ["Contrary"],
+    "abilities": [
+      "Contrary"
+    ],
     "weight": 69.8,
     "height": 2.9,
     "dexNumber": 687,
@@ -1978,7 +2118,9 @@
     "requiredItem": "malamarite",
     "nameEn": "Mega Malamar",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Malamar",
+    "formChange": "mega"
   },
   {
     "name": "Mega Barbaracle",
@@ -1994,7 +2136,9 @@
       "spDefense": 106,
       "speed": 88
     },
-    "abilities": ["Tough Claws"],
+    "abilities": [
+      "Tough Claws"
+    ],
     "weight": 100.0,
     "height": 2.2,
     "dexNumber": 689,
@@ -2003,7 +2147,9 @@
     "requiredItem": "barbaracite",
     "nameEn": "Mega Barbaracle",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Barbaracle",
+    "formChange": "mega"
   },
   {
     "name": "Mega Dragalge",
@@ -2019,7 +2165,9 @@
       "spDefense": 163,
       "speed": 44
     },
-    "abilities": ["Regenerator"],
+    "abilities": [
+      "Regenerator"
+    ],
     "weight": 100.3,
     "height": 2.1,
     "dexNumber": 691,
@@ -2028,7 +2176,9 @@
     "requiredItem": "dragalgite",
     "nameEn": "Mega Dragalge",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Dragalge",
+    "formChange": "mega"
   },
   {
     "name": "Mega Hawlucha",
@@ -2058,7 +2208,9 @@
     ],
     "nameEn": "Mega Hawlucha",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Hawlucha",
+    "formChange": "mega"
   },
   {
     "name": "Mega Zygarde",
@@ -2083,7 +2235,9 @@
     "requiredItem": "zygardite",
     "nameEn": "Mega Zygarde",
     "isMega": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "baseSpecies": "Zygarde",
+    "formChange": "mega"
   },
   {
     "name": "Mega Drampa",
@@ -2110,7 +2264,9 @@
     "requiredItem": "drampanite",
     "nameEn": "Mega Drampa",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Drampa",
+    "formChange": "mega"
   },
   {
     "name": "Mega Falinks",
@@ -2125,7 +2281,9 @@
       "spDefense": 65,
       "speed": 100
     },
-    "abilities": ["Defiant"],
+    "abilities": [
+      "Defiant"
+    ],
     "weight": 99.0,
     "height": 1.6,
     "dexNumber": 870,
@@ -2134,7 +2292,9 @@
     "requiredItem": "falinksite",
     "nameEn": "Mega Falinks",
     "isMega": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "baseSpecies": "Falinks",
+    "formChange": "mega"
   },
   {
     "name": "Mega Raichu X",
@@ -2163,7 +2323,9 @@
     "genderRate": 4,
     "aliases": [
       "엑스츄"
-    ]
+    ],
+    "baseSpecies": "Raichu",
+    "formChange": "mega"
   },
   {
     "name": "Mega Raichu Y",
@@ -2192,7 +2354,9 @@
     "genderRate": 4,
     "aliases": [
       "와이츄"
-    ]
+    ],
+    "baseSpecies": "Raichu",
+    "formChange": "mega"
   },
   {
     "name": "Mega Chimecho",
@@ -2219,7 +2383,9 @@
     "requiredItem": "chimechite",
     "nameEn": "Mega Chimecho",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Chimecho",
+    "formChange": "mega"
   },
   {
     "name": "Mega Absol Z",
@@ -2244,7 +2410,9 @@
     "requiredItem": "absolite-z",
     "nameEn": "Mega Absol Z",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Absol",
+    "formChange": "mega"
   },
   {
     "name": "Mega Staraptor",
@@ -2260,7 +2428,9 @@
       "spDefense": 90,
       "speed": 110
     },
-    "abilities": ["Contrary"],
+    "abilities": [
+      "Contrary"
+    ],
     "weight": 50.0,
     "height": 1.9,
     "dexNumber": 398,
@@ -2272,7 +2442,9 @@
     "genderRate": 4,
     "aliases": [
       "메찌호"
-    ]
+    ],
+    "baseSpecies": "Staraptor",
+    "formChange": "mega"
   },
   {
     "name": "Mega Garchomp Z",
@@ -2296,7 +2468,9 @@
     "requiredItem": "garchompite-z",
     "nameEn": "Mega Garchomp Z",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Garchomp",
+    "formChange": "mega"
   },
   {
     "name": "Mega Lucario Z",
@@ -2321,7 +2495,9 @@
     "requiredItem": "lucarionite-z",
     "nameEn": "Mega Lucario Z",
     "isMega": true,
-    "genderRate": 1
+    "genderRate": 1,
+    "baseSpecies": "Lucario",
+    "formChange": "mega"
   },
   {
     "name": "Mega Heatran",
@@ -2346,7 +2522,9 @@
     "requiredItem": "heatranite",
     "nameEn": "Mega Heatran",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Heatran",
+    "formChange": "mega"
   },
   {
     "name": "Mega Darkrai",
@@ -2370,7 +2548,9 @@
     "requiredItem": "darkranite",
     "nameEn": "Mega Darkrai",
     "isMega": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "baseSpecies": "Darkrai",
+    "formChange": "mega"
   },
   {
     "name": "Mega Golurk",
@@ -2397,7 +2577,9 @@
     "requiredItem": "golurkite",
     "nameEn": "Mega Golurk",
     "isMega": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "baseSpecies": "Golurk",
+    "formChange": "mega"
   },
   {
     "name": "Mega Meowstic",
@@ -2423,7 +2605,9 @@
     "requiredItem": "meowsticite",
     "nameEn": "Mega Meowstic",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Meowstic",
+    "formChange": "mega"
   },
   {
     "name": "Mega Crabominable",
@@ -2453,7 +2637,9 @@
     ],
     "nameEn": "Mega Crabominable",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Crabominable",
+    "formChange": "mega"
   },
   {
     "name": "Mega Golisopod",
@@ -2478,7 +2664,9 @@
     "requiredItem": "golisopite",
     "nameEn": "Mega Golisopod",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Golisopod",
+    "formChange": "mega"
   },
   {
     "name": "Mega Magearna",
@@ -2503,7 +2691,9 @@
     "requiredItem": "magearnite",
     "nameEn": "Mega Magearna",
     "isMega": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "baseSpecies": "Magearna",
+    "formChange": "mega"
   },
   {
     "name": "Mega Zeraora",
@@ -2527,7 +2717,9 @@
     "requiredItem": "zeraorite",
     "nameEn": "Mega Zeraora",
     "isMega": true,
-    "genderRate": -1
+    "genderRate": -1,
+    "baseSpecies": "Zeraora",
+    "formChange": "mega"
   },
   {
     "name": "Mega Scovillain",
@@ -2554,7 +2746,9 @@
     "requiredItem": "scovillainite",
     "nameEn": "Mega Scovillain",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Scovillain",
+    "formChange": "mega"
   },
   {
     "name": "Mega Glimmora",
@@ -2584,7 +2778,9 @@
     "genderRate": 4,
     "aliases": [
       "메킬플"
-    ]
+    ],
+    "baseSpecies": "Glimmora",
+    "formChange": "mega"
   },
   {
     "name": "Mega Tatsugiri",
@@ -2609,7 +2805,9 @@
     "requiredItem": "tatsugirinite",
     "nameEn": "Mega Tatsugiri",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Tatsugiri",
+    "formChange": "mega"
   },
   {
     "name": "Mega Baxcalibur",
@@ -2634,6 +2832,8 @@
     "requiredItem": "baxcalibrite",
     "nameEn": "Mega Baxcalibur",
     "isMega": true,
-    "genderRate": 4
+    "genderRate": 4,
+    "baseSpecies": "Baxcalibur",
+    "formChange": "mega"
   }
 ]

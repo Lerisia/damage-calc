@@ -1,0 +1,148 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:damage_calc/data/pokedex.dart';
+import 'package:damage_calc/models/pokemon.dart';
+
+/// Form-change item infrastructure.
+///
+/// `requiredItem` in the dex mixes two mechanically different things:
+///
+///  * **Toggled in battle** — Mega Stones and the Primal orbs. The
+///    Pokémon exists as its base species and transforms mid-battle.
+///    These drive the mega/primal toggle button.
+///  * **Fixed while held** — Ogerpon masks, Rusted Sword/Shield, the
+///    Origin-forme items. The form is simply what the species *is*
+///    while holding it; there is nothing to toggle.
+///
+/// Both kinds share one rule that matters for damage: Knock Off gets
+/// no boost only when the holder is the species the item belongs to.
+/// A Charizard holding Gyaradosite is knocked off normally.
+void main() {
+  late final List<Pokemon> dex;
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    dex = await loadPokedex();
+  });
+
+  group('data integrity', () {
+    test('every mega entry declares baseSpecies and formChange mega', () {
+      final megas = dex.where((p) => p.isMega).toList();
+      expect(megas.length, greaterThan(80));
+      for (final m in megas) {
+        expect(m.baseSpecies, isNotNull,
+            reason: '${m.name} is missing baseSpecies');
+        expect(m.formChange, equals('mega'),
+            reason: '${m.name} should be formChange=mega');
+      }
+    });
+
+    test('every baseSpecies resolves to a real non-mega species', () {
+      final byName = {for (final p in dex) p.name: p};
+      for (final p in dex.where((p) => p.baseSpecies != null)) {
+        final base = byName[p.baseSpecies!];
+        expect(base, isNotNull,
+            reason: '${p.name} → ${p.baseSpecies} does not exist');
+        expect(base!.isMega, isFalse,
+            reason: '${p.name} → ${p.baseSpecies} must not itself be a mega');
+      }
+    });
+
+    test('primal formes are classified as primal, not fixed', () {
+      for (final name in ['Primal Groudon', 'Primal Kyogre']) {
+        final p = dex.firstWhere((p) => p.name == name);
+        expect(p.formChange, equals('primal'), reason: name);
+        expect(p.baseSpecies, equals(name.replaceFirst('Primal ', '')));
+      }
+    });
+
+    test('held-forme items are classified fixed (not togglable)', () {
+      const fixed = {
+        'Ogerpon (Wellspring Mask)': 'Ogerpon',
+        'Zacian (Crowned Sword)': 'Zacian',
+        'Giratina (Origin Forme)': 'Giratina',
+        'Dialga (Origin Forme)': 'Dialga',
+      };
+      fixed.forEach((name, base) {
+        final p = dex.firstWhere((p) => p.name == name);
+        expect(p.formChange, equals('fixed'), reason: name);
+        expect(p.baseSpecies, equals(base), reason: name);
+      });
+    });
+
+    test('one stone maps to exactly one form', () {
+      final seen = <String, String>{};
+      for (final p in dex.where((p) => p.formChange != null)) {
+        final item = p.requiredItem;
+        if (item == null) continue; // Mega Rayquaza has no stone
+        expect(seen.containsKey(item), isFalse,
+            reason: '$item claimed by both ${seen[item]} and ${p.name}');
+        seen[item] = p.name;
+      }
+    });
+  });
+
+  group('lookup API', () {
+    test('formChangeForStone finds the mega a stone produces', () {
+      expect(formChangeForStone('charizardite-x')?.name,
+          equals('Mega Charizard X'));
+      expect(formChangeForStone('charizardite-y')?.name,
+          equals('Mega Charizard Y'));
+      // Champions-era Z stones must resolve too — a suffix heuristic
+      // (`endsWith('ite')`) misses these.
+      expect(formChangeForStone('absolite-z')?.name, equals('Mega Absol Z'));
+      expect(formChangeForStone('garchompite-z')?.name,
+          equals('Mega Garchomp Z'));
+      expect(formChangeForStone('lucarionite-z')?.name,
+          equals('Mega Lucario Z'));
+      expect(formChangeForStone('red-orb')?.name, equals('Primal Groudon'));
+      expect(formChangeForStone('leftovers'), isNull);
+    });
+
+    test('togglableMegaFor requires the holder to own the stone', () {
+      expect(togglableMegaFor('Charizard', 'charizardite-x')?.name,
+          equals('Mega Charizard X'));
+      expect(togglableMegaFor('Charizard', 'charizardite-y')?.name,
+          equals('Mega Charizard Y'));
+      // Someone else's stone does nothing.
+      expect(togglableMegaFor('Charizard', 'gyaradosite'), isNull);
+      // A regional form is a different species and cannot mega.
+      expect(togglableMegaFor('Alolan Raichu', 'raichunite-x'), isNull);
+      expect(togglableMegaFor('Raichu', 'raichunite-x')?.name,
+          equals('Mega Raichu X'));
+      expect(togglableMegaFor('Groudon', 'red-orb')?.name,
+          equals('Primal Groudon'));
+      expect(togglableMegaFor('Charizard', null), isNull);
+    });
+
+    test('togglableMegaFor excludes fixed (held) formes', () {
+      // Holding a mask makes you that form already — nothing to toggle.
+      expect(togglableMegaFor('Ogerpon', 'wellspring-mask'), isNull);
+      expect(togglableMegaFor('Zacian', 'rusted-sword'), isNull);
+      expect(togglableMegaFor('Giratina', 'griseous-core'), isNull);
+    });
+
+    test('megaStonesForSpecies lists a species own stones', () {
+      expect(megaStonesForSpecies('Charizard'),
+          containsAll(['charizardite-x', 'charizardite-y']));
+      expect(megaStonesForSpecies('Absol'),
+          containsAll(['absolite', 'absolite-z']));
+      expect(megaStonesForSpecies('Pikachu'), isEmpty);
+    });
+  });
+
+  group('isOwnFormItem', () {
+    test('true only for the species the item belongs to', () {
+      expect(isOwnFormItem('Charizard', 'charizardite-x'), isTrue);
+      expect(isOwnFormItem('Charizard', 'charizardite-y'), isTrue);
+      expect(isOwnFormItem('Absol', 'absolite-z'), isTrue);
+      expect(isOwnFormItem('Groudon', 'red-orb'), isTrue);
+      // Fixed formes count too — the item is still unremovable.
+      expect(isOwnFormItem('Ogerpon', 'wellspring-mask'), isTrue);
+      expect(isOwnFormItem('Zacian', 'rusted-sword'), isTrue);
+
+      expect(isOwnFormItem('Charizard', 'gyaradosite'), isFalse);
+      expect(isOwnFormItem('Pikachu', 'red-orb'), isFalse);
+      expect(isOwnFormItem('Zamazenta', 'rusted-sword'), isFalse);
+      expect(isOwnFormItem('Charizard', 'leftovers'), isFalse);
+    });
+  });
+}

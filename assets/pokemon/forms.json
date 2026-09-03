@@ -175,7 +175,9 @@
     "finalEvo": true,
     "requiredItem": "griseous-core",
     "genderRate": -1,
-    "nameEn": "Giratina (Origin Forme)"
+    "nameEn": "Giratina (Origin Forme)",
+    "baseSpecies": "Giratina",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 479,
@@ -726,7 +728,9 @@
     "requiredItem": "blue-orb",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Primal Kyogre"
+    "nameEn": "Primal Kyogre",
+    "baseSpecies": "Kyogre",
+    "formChange": "primal"
   },
   {
     "dexNumber": 383,
@@ -753,7 +757,9 @@
     "requiredItem": "red-orb",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Primal Groudon"
+    "nameEn": "Primal Groudon",
+    "baseSpecies": "Groudon",
+    "formChange": "primal"
   },
   {
     "dexNumber": 720,
@@ -1161,7 +1167,9 @@
     "requiredItem": "rusted-sword",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Zacian (Crowned Sword)"
+    "nameEn": "Zacian (Crowned Sword)",
+    "baseSpecies": "Zacian",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 889,
@@ -1188,7 +1196,9 @@
     "requiredItem": "rusted-shield",
     "genderRate": -1,
     "canDynamax": false,
-    "nameEn": "Zamazenta (Crowned Shield)"
+    "nameEn": "Zamazenta (Crowned Shield)",
+    "baseSpecies": "Zamazenta",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 892,
@@ -1429,7 +1439,9 @@
       "물거폰"
     ],
     "nameEn": "Ogerpon (Wellspring Mask)",
-    "requiredItem": "wellspring-mask"
+    "requiredItem": "wellspring-mask",
+    "baseSpecies": "Ogerpon",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 1017,
@@ -1458,7 +1470,9 @@
       "불거폰"
     ],
     "nameEn": "Ogerpon (Hearthflame Mask)",
-    "requiredItem": "hearthflame-mask"
+    "requiredItem": "hearthflame-mask",
+    "baseSpecies": "Ogerpon",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 1017,
@@ -1487,7 +1501,9 @@
       "돌거폰"
     ],
     "nameEn": "Ogerpon (Cornerstone Mask)",
-    "requiredItem": "cornerstone-mask"
+    "requiredItem": "cornerstone-mask",
+    "baseSpecies": "Ogerpon",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 1024,
@@ -1564,7 +1580,9 @@
     "finalEvo": true,
     "requiredItem": "adamant-crystal",
     "genderRate": -1,
-    "nameEn": "Dialga (Origin Forme)"
+    "nameEn": "Dialga (Origin Forme)",
+    "baseSpecies": "Dialga",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 484,
@@ -1591,7 +1609,9 @@
     "finalEvo": true,
     "requiredItem": "lustrous-globe",
     "genderRate": -1,
-    "nameEn": "Palkia (Origin Forme)"
+    "nameEn": "Palkia (Origin Forme)",
+    "baseSpecies": "Palkia",
+    "formChange": "fixed"
   },
   {
     "dexNumber": 670,

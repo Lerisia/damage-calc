@@ -24,10 +24,65 @@ List<Pokemon>? _cache;
 Set<String>? _megaStoneIds;
 Future<List<Pokemon>>? _loading;
 
+/// `requiredItem` → the form that item produces, for every entry that
+/// declares a [Pokemon.formChange] (mega / primal / fixed). Built once
+/// in [_doLoad]. Mega Rayquaza has no stone and is absent.
+Map<String, Pokemon>? _formByItem;
+
+/// base species name → the forms it can reach via an item. A species
+/// with two stones (Charizard, Absol, …) lists both.
+Map<String, List<Pokemon>>? _formsByBase;
+
+/// Whether [loadPokedex] has finished. The form-item lookups below all
+/// answer "not a form item" before that, which callers must not
+/// mistake for a real answer — see `isUnremovableItemFor`.
+bool get isPokedexLoaded => _cache != null;
+
 /// Set of item IDs that force Mega Evolution (any `requiredItem` on a
 /// Mega form). Populated during [loadPokedex]. Returns empty set until
 /// the pokedex has loaded.
 Set<String> megaStoneItemIds() => _megaStoneIds ?? const {};
+
+/// The form [stoneId] produces, regardless of who holds it — e.g.
+/// `charizardite-x` → Mega Charizard X, `red-orb` → Primal Groudon,
+/// `wellspring-mask` → Ogerpon (Wellspring Mask). Null for ordinary
+/// items. Data-driven, so Champions-era stones that break the old
+/// `endsWith('ite')` heuristic (`absolite-z`) resolve correctly.
+Pokemon? formChangeForStone(String? stoneId) =>
+    stoneId == null ? null : _formByItem?[stoneId];
+
+/// The mega/primal form [species] would turn into while holding
+/// [heldItem], or null when the toggle doesn't apply.
+///
+/// Returns null when the item isn't a form item, when it belongs to a
+/// different species (Charizard holding Gyaradosite), or when the form
+/// is `fixed` — holding an Ogerpon mask *is* the form, so there is
+/// nothing to toggle.
+Pokemon? togglableMegaFor(String species, String? heldItem) {
+  final form = formChangeForStone(heldItem);
+  if (form == null) return null;
+  if (form.formChange != 'mega' && form.formChange != 'primal') return null;
+  return form.baseSpecies == species ? form : null;
+}
+
+/// Every form-item [species] can legally hold — both stones for
+/// Charizard, both Absol stones (regular + Z), and so on. Empty for
+/// species with no form item.
+List<String> megaStonesForSpecies(String species) => [
+      for (final f in _formsByBase?[species] ?? const <Pokemon>[])
+        if (f.requiredItem != null) f.requiredItem!,
+    ];
+
+/// Whether [itemId] is *this* species' own form item — its Mega Stone,
+/// Primal orb, or held-forme item.
+///
+/// This is the ownership test the Knock Off rule needs: only the
+/// rightful holder keeps the item. A Charizard holding Gyaradosite is
+/// knocked off normally, and Zamazenta cannot claim the Rusted Sword.
+bool isOwnFormItem(String species, String? itemId) {
+  final form = formChangeForStone(itemId);
+  return form != null && form.baseSpecies == species;
+}
 
 /// Loads all Pokemon data from assets/pokemon/*.json (cached after first load).
 /// Uses parallel loading for faster startup.
@@ -52,6 +107,19 @@ Future<List<Pokemon>> _doLoad() async {
     for (final p in pokedex)
       if (p.requiredItem != null) p.requiredItem!,
   };
+  // Form-item indexes. Only entries that declare a formChange take
+  // part, so an ordinary held item never looks like a form item.
+  final byItem = <String, Pokemon>{};
+  final byBase = <String, List<Pokemon>>{};
+  for (final p in pokedex) {
+    if (p.formChange == null) continue;
+    final item = p.requiredItem;
+    if (item != null) byItem[item] = p;
+    final base = p.baseSpecies;
+    if (base != null) (byBase[base] ??= <Pokemon>[]).add(p);
+  }
+  _formByItem = byItem;
+  _formsByBase = byBase;
   return pokedex;
 }
 

@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import '../data/pokedex.dart'
+    show formChangeForStone, isOwnFormItem, isPokedexLoaded;
 import '../models/battle_pokemon.dart';
 import '../models/dynamax.dart';
 import '../models/gender.dart';
@@ -251,29 +253,78 @@ class DamageResult {
 ///
 /// Takes [BattlePokemonState] for both sides and battle conditions.
 
-/// Items that can't be removed by Knock Off (no power boost).
-bool isUnremovableItem(String itemName) {
-  // Z-Crystals
-  if (itemName.endsWith('--held')) return true;
-  // Eviolite is removable despite ending in "ite" — explicit
-  // exception keeps the suffix-based mega-stone check simple.
+/// Items that can't be removed by Knock Off (no power boost), judged
+/// on the item name alone.
+///
+/// Prefer [isUnremovableItemFor], which also knows *who* is holding the
+/// item. Only an item's rightful owner keeps it: a Charizard holding
+/// Gyaradosite is knocked off normally. This name-only form stays for
+/// callers that have no species on hand, and deliberately errs on the
+/// side of "unremovable" for the species-bound families.
+bool isUnremovableItem(String itemName) =>
+    isUnremovableItemFor(null, itemName);
+
+/// Silvally's Memories and Arceus's Plates are bound to one species
+/// each, the same way a Mega Stone is bound to its own line.
+const _memoryOwner = 'Silvally';
+const _plateOwner = 'Arceus';
+
+/// Name-shape guess for a form item, used only before the dex has
+/// loaded. Deliberately conservative — it over-matches (any `*ite`) so
+/// an unloaded dex never *grants* a Knock Off boost it shouldn't. Once
+/// the dex is up, [formChangeForStone] answers exactly.
+bool _looksLikeFormItemByName(String itemName) {
   if (itemName == 'eviolite') return false;
-  // Mega stones
-  if (itemName.endsWith('ite') || itemName.endsWith('ite-x') || itemName.endsWith('ite-y')) {
+  if (itemName.endsWith('ite') ||
+      itemName.endsWith('ite-x') ||
+      itemName.endsWith('ite-y') ||
+      itemName.endsWith('ite-z')) {
     return true;
   }
-  // Silvally Memory items
-  if (itemName.endsWith('-memory')) return true;
-  // Arceus Plates
-  if (itemName.endsWith('-plate')) return true;
-  // Primal orbs, Griseous, Rusted items, Origin forme items
-  // Ogerpon masks
   if (itemName.endsWith('-mask')) return true;
-  const fixedItems = {
+  const orbsAndRelics = {
     'blue-orb', 'red-orb', 'rusted-sword', 'rusted-shield',
     'griseous-core', 'griseous-orb', 'adamant-crystal', 'lustrous-globe',
   };
-  if (fixedItems.contains(itemName)) return true;
+  return orbsAndRelics.contains(itemName);
+}
+
+/// Whether [itemName] survives Knock Off in the hands of [species].
+///
+/// Species-bound items — Mega Stones, Primal orbs, held-forme items
+/// (Ogerpon masks, Rusted Sword/Shield, Origin items), Arceus's Plates
+/// and Silvally's Memories — are only unremovable for the species they
+/// belong to. Everyone else loses them, and Knock Off gets its ×1.5.
+///
+/// Pass null for [species] when the holder isn't known; the
+/// species-bound families then resolve to "unremovable", preserving
+/// the historical name-only behaviour.
+///
+/// Form items are matched against the dex ([isOwnFormItem]) rather than
+/// by name suffix. The old `endsWith('ite')` heuristic silently missed
+/// the Champions Z stones (`absolite-z`, `garchompite-z`,
+/// `lucarionite-z`), handing Knock Off a boost it should never get.
+bool isUnremovableItemFor(String? species, String itemName) {
+  // Z-Crystals are never knocked off, whoever holds them.
+  if (itemName.endsWith('--held')) return true;
+
+  // Mega Stones, Primal orbs and held-forme items.
+  final form = formChangeForStone(itemName);
+  if (form != null) {
+    return species == null || isOwnFormItem(species, itemName);
+  }
+  // The dex may not be loaded yet (the indexes are built in
+  // loadPokedex). Falling through would treat a Mega Stone as an
+  // ordinary item and hand Knock Off a boost it must not get, so keep
+  // the old name-based rule as a floor until the data is available.
+  if (!isPokedexLoaded && _looksLikeFormItemByName(itemName)) return true;
+
+  if (itemName.endsWith('-memory')) {
+    return species == null || species == _memoryOwner;
+  }
+  if (itemName.endsWith('-plate')) {
+    return species == null || species == _plateOwner;
+  }
   return false;
 }
 
@@ -1174,7 +1225,7 @@ class DamageCalculator {
     // Knock Off power boost is applied via move_transform (so the display
     // shows the boosted power). Here we only emit the note.
     if (effectiveMove.hasTag(MoveTags.knockOff) && defender.selectedItem != null &&
-        !isUnremovableItem(defender.selectedItem!)) {
+        !isUnremovableItemFor(defender.pokemonName, defender.selectedItem!)) {
       notes.add('move:knock_off:×$kKnockOffBoost');
     }
     if (effectiveMove.hasTag(MoveTags.doubleOnStatus) && defender.status != StatusCondition.none) {
@@ -1371,7 +1422,8 @@ class DamageCalculator {
     // Apple + Gravity, and Expanding Force + Psychic terrain — they
     // are mutually exclusive with Knock Off (different move names)
     // and all push 6144 in Showdown's `calculateBpModsSMSSSV`.
-    if (isKnockOffBoostApplicable(effectiveMove, defender.selectedItem) ||
+    if (isKnockOffBoostApplicable(effectiveMove, defender.selectedItem,
+            opponentSpecies: defender.pokemonName) ||
         isMistyExplosionBoostApplicable(effectiveMove, terrain, atkGroundedEarly) ||
         isGravApplyBoostApplicable(effectiveMove, room.gravity) ||
         isExpandingForceBoostApplicable(effectiveMove, terrain, atkGroundedEarly)) {

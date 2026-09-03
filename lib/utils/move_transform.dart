@@ -10,7 +10,7 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart' show isParentalBondEligible, isParentalBondFixedFullPower;
-import 'damage_calculator.dart' show isUnremovableItem, kKnockOffBoost;
+import 'damage_calculator.dart' show isUnremovableItemFor, kKnockOffBoost;
 
 /// Which stat the move should use for offense
 enum OffensiveStat {
@@ -921,10 +921,14 @@ Move _applyKnockOff(Move move, String? opponentItem) {
 
 /// Whether Knock Off's 1.5 × power bonus should apply. Mirrors
 /// @smogon/calc's `move.named('Knock Off') && !resistedKnockOffDamage`.
-bool isKnockOffBoostApplicable(Move move, String? opponentItem) {
+/// [opponentSpecies] decides ownership: a species-bound item (Mega
+/// Stone, Primal orb, forme item, Plate, Memory) is only safe in its
+/// owner's hands. Pass null when the holder isn't known.
+bool isKnockOffBoostApplicable(Move move, String? opponentItem,
+    {String? opponentSpecies}) {
   if (!move.hasTag(MoveTags.knockOff)) return false;
   if (opponentItem == null) return false;
-  if (isUnremovableItem(opponentItem)) return false;
+  if (isUnremovableItemFor(opponentSpecies, opponentItem)) return false;
   return true;
 }
 

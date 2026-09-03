@@ -22,6 +22,27 @@ class Pokemon {
   final bool canGmax;
   final bool hidden; // 검색 목록에서 숨김 (e.g. 테라파고스 노말폼)
   final bool isMega; // 메가진화 폼
+  /// For mega entries only: the exact display `name` of the base species
+  /// this mega evolves from (e.g. "Mega Charizard X" → "Charizard",
+  /// "Mega Raichu X" → "Raichu"). Null for non-mega entries. Makes the
+  /// base↔mega link explicit data instead of a fragile dexNumber join
+  /// (dexNumber is ambiguous — e.g. Mega Raichu shares dex 26 with the
+  /// Alolan form). See [megaForStoneId] / [megasForBaseSpecies].
+  final String? baseSpecies;
+
+  /// How this form is reached, for the entries that need a
+  /// [requiredItem]. Null for ordinary species.
+  ///
+  ///  * `mega`   — Mega Stone, toggled during battle.
+  ///  * `primal` — Primal orb; same in-battle toggle as mega.
+  ///  * `fixed`  — the form you simply *are* while holding the item
+  ///               (Ogerpon masks, Rusted Sword/Shield, Origin formes).
+  ///               Nothing to toggle, but the item is still bound to
+  ///               its owner for Knock Off purposes.
+  ///
+  /// `mega`/`primal` drive the mega toggle button; all three make the
+  /// item unremovable *for their own species* (see [isOwnFormItem]).
+  final String? formChange;
   final List<String> aliases; // 별명 (e.g. 불거폰, 랜드)
   /// Ordered list of representative attacking moves (by English
   /// `Move.name`) used by the dex's 결정력 table. Curated per species;
@@ -47,6 +68,8 @@ class Pokemon {
     this.canGmax = false,
     this.hidden = false,
     this.isMega = false,
+    this.baseSpecies,
+    this.formChange,
     this.aliases = const [],
     this.keyMoves = const [],
   });
@@ -74,6 +97,8 @@ class Pokemon {
       canGmax: json['canGmax'] as bool? ?? false,
       hidden: json['hidden'] as bool? ?? false,
       isMega: json['isMega'] as bool? ?? false,
+      baseSpecies: json['baseSpecies'] as String?,
+      formChange: json['formChange'] as String?,
       aliases: json['aliases'] != null
           ? List<String>.from(json['aliases'] as List)
           : const [],
