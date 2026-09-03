@@ -2041,7 +2041,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       ],
       const SizedBox(width: 4),
       ..._effectiveTypeBadges(state),
-      const SizedBox(width: 4),
+      // Anchored right so a mega's typing change can't slide the
+      // icons out from under the finger mid-toggle.
+      const Spacer(),
       _megaIcon(state),
       const SizedBox(width: 4),
       _dynamaxIcon(state),

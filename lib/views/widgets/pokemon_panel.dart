@@ -1183,7 +1183,11 @@ class PokemonPanelState extends State<PokemonPanel>
                 const SizedBox(height: 6),
                 Row(children: [
                   ..._effectiveTypeBadges(),
-                  const SizedBox(width: 4),
+                  // Pin the mechanic icons to the right edge. Type
+                  // chips change width when a mega swaps typing, and
+                  // left-packed icons slid out from under the finger
+                  // mid-toggle. Anchored right they hold still.
+                  const Spacer(),
                   _megaIcon(),
                   const SizedBox(width: 4),
                   _dynamaxIcon(),
