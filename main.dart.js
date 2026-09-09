@@ -37227,7 +37227,7 @@ e=c5===B.ii&&a3===B.aX&&!b4&&!B.b.l(a2.z,"custom:facade")?0.5:1
 d=B.b.l(a2.z,"custom:parental_bond")?1.25:1
 r=a2.e
 c=A.bi1(r,a5)
-if(b5)b=1.5
+if(b5)b=1.5*(a4==="Sniper"?1.5:1)
 else b=1
 q=l.a
 p=c.a
@@ -38094,7 +38094,7 @@ $S:3}
 A.b2s.prototype={
 $1(a){var s=A.ef().b
 s=s==null?null:s.canvasKitBaseUrl
-return(s==null?"https://www.gstatic.com/flutter-canvaskit/a804b261645ef8c13eb3d5c44a5c2fb0340c5539/":s)+a},
+return(s==null?"https://www.gstatic.com/flutter-canvaskit/06a2e2a110089dff50fe635cffd2a61e1b24fbcd/":s)+a},
 $S:16}
 A.Vv.prototype={
 gF(a){var s=this.a
