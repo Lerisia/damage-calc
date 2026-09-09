@@ -10,10 +10,16 @@
 //      then Fighting / Poison take a reduced table and everything
 //      else the standard one.
 //
-// Emits {moveName: maxPower} for every damaging move, keyed by
+// Emits {moveName: {bp, max}} for every damaging move, keyed by
 // Showdown's display name so the Dart side can look ours up by
 // `Move.name`. Z-moves and Max moves are skipped — they can't be the
 // base move of a Max Move.
+//
+// `bp` is Showdown's base power for the move. The Dart test compares
+// it against our own dex and skips the move when they disagree:
+// Champions rebalanced a handful of base powers (Beak Blast, Trop
+// Kick, Mountain Gale, …), and for those Showdown's Max power no
+// longer describes the same move.
 //
 // Usage: node gen_maxmove.mjs > /tmp/max_move_power.json
 import {Generations} from '@smogon/calc';
@@ -22,16 +28,16 @@ const gen = Generations.get(9);
 const out = {};
 
 for (const move of gen.moves) {
-  if (!move.bp && move.category === 'Status') continue;
+  if (!move.basePower && move.category === 'Status') continue;
   if (move.isMax || move.isZ) continue;
   const maxBp = move.maxMove?.basePower;
   if (maxBp) {
-    out[move.name] = maxBp;
+    out[move.name] = {bp: move.basePower, max: maxBp};
     continue;
   }
   if (move.category === 'Status') continue;
-  if (!move.bp) {
-    out[move.name] = 100;
+  if (!move.basePower) {
+    out[move.name] = {bp: move.basePower, max: 100};
     continue;
   }
   const reduced = move.type === 'Fighting' || move.type === 'Poison';
@@ -40,9 +46,9 @@ for (const move of gen.moves) {
     : [[150, 150], [110, 140], [75, 130], [65, 120], [55, 110], [45, 100]];
   let power = reduced ? 70 : 90;
   for (const [threshold, value] of table) {
-    if (move.bp >= threshold) { power = value; break; }
+    if (move.basePower >= threshold) { power = value; break; }
   }
-  out[move.name] = power;
+  out[move.name] = {bp: move.basePower, max: power};
 }
 
 console.log(JSON.stringify(out, null, 2));

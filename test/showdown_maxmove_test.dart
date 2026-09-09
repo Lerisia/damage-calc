@@ -68,6 +68,11 @@ void main() {
       // other move in that class has a base power of 0 and is now
       // pinned to the game's value instead.
       if (entry.key == 'Acrobatics') continue;
+      // Struggle can't be the base of a Max Move — a Dynamaxed Pokémon
+      // out of PP just uses Struggle. Showdown still carries a nominal
+      // 100 for it; our transform leaves it at 50, which is what the
+      // game does.
+      if (entry.key == 'Struggle') continue;
       final got = maxPowerOf(m);
       final want = row['max'] as int;
       if (got != want) {
