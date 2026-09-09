@@ -182,8 +182,14 @@ class OffensiveCalculator {
       state: auraState,
     );
 
+    // Sniper's extra ×1.5 is applied here from the ability name — the
+    // damage calculator routes it through finalMods and the ability
+    // lookup deliberately carries no criticalOverride, so without this
+    // the 결정력 for a Sniper crit came out ×1.5 short.
     final double critMult = isCritical
-        ? (criticalOverride ?? kCriticalMultiplier) : 1.0;
+        ? (criticalOverride ?? kCriticalMultiplier) *
+            (attackerAbility == 'Sniper' ? 1.5 : 1.0)
+        : 1.0;
     final double raw = modifiedStat *
         ruin.atkMod *
         doublesAttackMod *

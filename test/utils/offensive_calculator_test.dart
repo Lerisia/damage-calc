@@ -614,12 +614,12 @@ void main() {
       expect(result, equals(3588));
     });
 
-    test('Sniper crit no longer overrides via ability effect', () {
-      // Sniper's +50 % crit damage moved out of criticalOverride
-      // and into damage_calculator's finalMods chain. The ability
-      // lookup itself returns no criticalOverride, so this isolated
-      // offensive-calc path falls back to the default crit ×1.5.
-      // floor(69 * 40 * 1.5) = 4140.
+    test('Sniper: crit is ×2.25 in the 결정력 path too', () {
+      // Sniper's extra ×1.5 lives in damage_calculator's finalMods
+      // chain; the ability lookup carries no criticalOverride. The
+      // offensive calc has to apply it from the ability name, or the
+      // 결정력 shown for a Sniper crit is ×1.5 short — users reported
+      // exactly that on 2026-09-09. floor(69 * 40 * 1.5 * 1.5) = 6210.
       final effect = getAbilityEffect('Sniper', move: tackle);
       expect(effect.criticalOverride, isNull);
       final result = OffensiveCalculator.calculate(
@@ -629,8 +629,18 @@ void main() {
         type1: PokemonType.grass, type2: PokemonType.poison,
         isCritical: true,
         criticalOverride: effect.criticalOverride,
+        attackerAbility: 'Sniper',
       );
-      expect(result, equals(4140));
+      expect(result, equals(6210));
+      // Without a crit, Sniper does nothing.
+      final noCrit = OffensiveCalculator.calculate(
+        baseStats: baseStats, iv: maxIv, ev: zeroEv,
+        nature: NatureProfile.fromNature(Nature.hardy), level: 50,
+        transformed: _transform(tackle),
+        type1: PokemonType.grass, type2: PokemonType.poison,
+        attackerAbility: 'Sniper',
+      );
+      expect(noCrit, equals(2760));
     });
 
     test('Guts ×1.5 + burn negation (folded into powerMod)', () {
