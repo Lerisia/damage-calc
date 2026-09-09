@@ -48798,7 +48798,7 @@
     ],
     "moves": [
       {
-        "name": "Expanding Force"
+        "name": "Psychic"
       },
       {
         "name": "Dazzling Gleam"
@@ -48813,12 +48813,12 @@
         "name": "Calm Mind"
       },
       {
-        "name": "Protect"
+        "name": "Trick Room"
       }
     ],
     "defaultMoves": [
       {
-        "name": "Expanding Force"
+        "name": "Psychic"
       },
       {
         "name": "Dazzling Gleam"
