@@ -31,12 +31,17 @@ from __future__ import annotations
 import argparse
 import html as htmlmod
 import json
+import random
 import re
+import sys
 import tempfile
 import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fetch_pokechamdb import compute_default_moves, load_lookups, mirror_megas  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 SINGLES_USAGE_PATH = REPO / "assets" / "champions_usage.json"
@@ -115,8 +120,20 @@ def http_get(url: str, timeout: int = 15) -> bytes:
         "Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1",
     })
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            return r.read()
+    except urllib.error.HTTPError as e:
+        if e.code in (403, 429):
+            # This site banned the previous home IP in July 2026. A
+            # 403/429 is the ban signal — stop immediately rather than
+            # keep knocking; every extra request makes it stickier.
+            raise Blocked(f"HTTP {e.code} from pokedb — aborting run") from e
+        raise
+
+
+class Blocked(RuntimeError):
+    pass
 
 
 # ─── Ranking-page parsing (gets {id: jp_name} for all ranked Pokémon) ─
@@ -458,14 +475,18 @@ def mirror_megas_from_base(
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--season", type=int, default=3,
-                    help="Season number (3 = Reg M-B)")
-    ap.add_argument("--rule", type=int, default=0,
-                    help="0 = singles, 1 = doubles")
+    ap.add_argument("--season", type=int, required=True,
+                    help="pokedb season number (5 = Season M-5)")
+    ap.add_argument("--rule", type=int, default=1,
+                    help="0 = singles, 1 = doubles (this tool exists for doubles; "
+                         "singles come from pokechamdb)")
     ap.add_argument("--cache", default=None,
                     help="Directory to cache downloaded HTML")
-    ap.add_argument("--sleep", type=float, default=2.0,
-                    help="Per-fetch politeness delay (seconds)")
+    ap.add_argument("--sleep", type=float, default=60.0,
+                    help="Mean delay between detail fetches (seconds); "
+                         "±25%% jitter is applied")
+    ap.add_argument("--limit", type=int, default=0,
+                    help="Fetch at most N detail pages (smoke tests)")
     args = ap.parse_args()
 
     cache_dir = Path(args.cache) if args.cache else Path(tempfile.mkdtemp(prefix="pokedb_"))
@@ -495,10 +516,16 @@ def main() -> int:
             url = f"{BASE}/pokemon/show/{pid}?season={args.season}&rule={args.rule}"
             try:
                 cache_file.write_bytes(http_get(url))
+            except Blocked as e:
+                print(f"  [{i:>3}/{len(ids)}] {pid} ({jp}) {e}")
+                return 3
             except Exception as e:
                 print(f"  [{i:>3}/{len(ids)}] {pid} ({jp}) fetch ERROR: {e}")
                 continue
-            time.sleep(args.sleep)
+            time.sleep(args.sleep * random.uniform(0.75, 1.25))
+        if args.limit and i >= args.limit:
+            print(f"  --limit {args.limit} reached")
+            break
         try:
             entry = parse_detail(cache_file.read_text(encoding="utf-8"), maps)
             if entry:
@@ -522,10 +549,14 @@ def main() -> int:
         id_to_en[pid] for pid in parsed.keys() if id_to_en[pid]
     }
 
+    lookups = load_lookups()
     for pid, entry in parsed.items():
         en = id_to_en[pid]
         existing = usage.get(en)
         new_entry = to_usage_entry(entry, existing, rank=pid_to_rank.get(pid))
+        new_entry["defaultMoves"] = compute_default_moves(
+            new_entry["moves"], lookups["pokemon_types"].get(en, []),
+            lookups["move_meta"])
         if existing is None:
             added += 1
         elif existing == new_entry:
@@ -570,18 +601,17 @@ def main() -> int:
     # Mirror single-Mega entries from their refreshed base forms.
     # X/Y/Z split megas (user-curated, mirrored from singles above)
     # are left alone.
-    mega_index = load_mega_index(REPO)
-    mirrored, skipped_xyz = mirror_megas_from_base(usage, mega_index)
+    mirrored, skipped_xyz = mirror_megas(usage, lookups["mega_index"])
     print(f"mega mirror: mirrored={mirrored} skipped_xyz={skipped_xyz}")
 
     if "_meta" in usage:
         usage["_meta"]["source"] = (
             "Pokemon Champions in-game Battle Data via champs.pokedb.tokyo"
         )
-        usage["_meta"]["format"] = f"Regulation M-B / Season M-{args.season}"
+        usage["_meta"]["format"] = f"Season M-{args.season} / {'double' if args.rule == 1 else 'single'}"
         usage["_meta"]["updatedAt"] = time.strftime("%Y-%m-%d")
         usage["_meta"]["curatedBy"] = (
-            "auto: champs.pokedb.tokyo (defaultMoves = top 4 by usage)"
+            "auto: champs.pokedb.tokyo (defaultMoves = role/group rule of 2026-04-30)"
         )
         usage["_meta"]["notes"] = (
             "Entries are ordered by descending in-game usage. pct is "

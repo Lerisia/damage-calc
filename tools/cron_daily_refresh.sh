@@ -78,7 +78,6 @@ rm -rf "$POKECHAMDB_CACHE"
 # real doubles data we still carry. It auto-enables the day pokechamdb
 # publishes genuine doubles. `|| true` so the guard-abort isn't fatal.
 python3 tools/fetch_pokechamdb.py --rule 0 --cache "$POKECHAMDB_CACHE"
-python3 tools/fetch_pokechamdb.py --rule 1 --cache "$POKECHAMDB_CACHE" || true
 python3 tools/apply_champout_learnsets.py
 # Champions-legal move allowlist (yakkun scrape). Low-churn — the move
 # roster only shifts on a Champions patch — but re-running daily keeps
