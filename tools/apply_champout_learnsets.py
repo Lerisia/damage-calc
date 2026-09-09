@@ -39,6 +39,8 @@ LEARNSETS = ROOT / "assets" / "learnsets.json"
 MANUAL_REMOVALS: dict[str, frozenset[str]] = {
     # M-C (2026-09-09): Archaludon lost Metal Burst and Mirror Coat.
     "archaludon": frozenset({"metalburst", "mirrorcoat"}),
+    # M-C: Indeedee (Female) lost Expanding Force (keeps Trick Room).
+    "indeedeef": frozenset({"expandingforce"}),
 }
 CHAMPOUT_URL = (
     "https://raw.githubusercontent.com/projectpokemon/champout/main/"
