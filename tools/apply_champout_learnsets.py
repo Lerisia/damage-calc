@@ -32,6 +32,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LEARNSETS = ROOT / "assets" / "learnsets.json"
+
+# Moves the game has removed from a species but champout still lists.
+# Applied after the champout merge so the daily run can't resurrect
+# them. Drop an entry once champout catches up. Showdown-style ids.
+MANUAL_REMOVALS: dict[str, frozenset[str]] = {
+    # M-C (2026-09-09): Archaludon lost Metal Burst and Mirror Coat.
+    "archaludon": frozenset({"metalburst", "mirrorcoat"}),
+}
 CHAMPOUT_URL = (
     "https://raw.githubusercontent.com/projectpokemon/champout/main/"
     "parse/species_with_move.txt"
@@ -183,6 +191,14 @@ def main() -> int:
             added += 1
             unmapped.append(f"{sp_name} -> {key}")
         learnsets[key] = move_ids
+
+    removed = 0
+    for key, gone in MANUAL_REMOVALS.items():
+        if key in learnsets:
+            before = len(learnsets[key])
+            learnsets[key] = [m for m in learnsets[key] if m not in gone]
+            removed += before - len(learnsets[key])
+    print(f"manual removals: {removed}")
 
     LEARNSETS.write_text(
         json.dumps(learnsets, separators=(",", ":"), ensure_ascii=False),
