@@ -728,7 +728,7 @@ const _flingPower = <String, int>{
   'power-lens': 100,
   'power-weight': 100,
   // 90
-  'stick': 90,
+  'leek': 60,
   // 80
   'assault-vest': 80,
   'choice-band': 80,
