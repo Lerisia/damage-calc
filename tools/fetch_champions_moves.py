@@ -43,6 +43,20 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 MOVES_DIR = REPO / "assets" / "moves"
 OUT_PATH = REPO / "assets" / "champions_moves.json"
+
+# Moves that are legal in Champions but absent from yakkun's roster.
+# When a species joins Champions mid-season its signature moves come
+# with it, and yakkun's list lags the game. Unioned into the output so
+# the daily refresh doesn't strip them; drop a name once yakkun
+# carries it. Names are our movedex display names.
+MANUAL_ADDITIONS: frozenset[str] = frozenset({
+    # M-C (2026-09-09): Cinderace, Rillaboom, Baxcalibur, Sirfetch'd,
+    # Grapploct, Inteleon, Toxtricity
+    "Pyro Ball", "Court Change", "Drum Beating", "Glaive Rush",
+    "Meteor Assault", "Octolock", "Snipe Shot", "Overdrive",
+    # shared signatures: Pincurchin (Zing Zap), Grapploct (Octazooka)
+    "Zing Zap", "Octazooka",
+})
 URL = "https://yakkun.com/ch/move_list.htm"
 
 # Below this, assume the scrape broke (markup drift, partial page) and
@@ -110,6 +124,8 @@ def main() -> int:
               f"movedex (will be omitted):")
         for u in sorted(unmatched):
             print(f"  {u}")
+
+    english.update(MANUAL_ADDITIONS)
 
     payload = {
         "_meta": {

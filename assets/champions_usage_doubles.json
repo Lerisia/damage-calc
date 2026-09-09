@@ -41452,5 +41452,2067 @@
         "pct": 0.0
       }
     ]
+  },
+  "Wigglytuff": {
+    "abilities": [
+      {
+        "name": "Competitive"
+      },
+      {
+        "name": "Frisk"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Ice Beam"
+      },
+      {
+        "name": "Wish"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Ice Beam"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Calm"
+      },
+      {
+        "name": "Bold"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 2,
+      "spa": 0,
+      "spd": 32,
+      "spe": 0
+    }
+  },
+  "Persian": {
+    "abilities": [
+      {
+        "name": "Technician"
+      },
+      {
+        "name": "Limber"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      },
+      {
+        "name": "silk-scarf"
+      },
+      {
+        "name": "choice-band"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Fake Out"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Hypnosis"
+      },
+      {
+        "name": "Body Slam"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Fake Out"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "U-turn"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      },
+      {
+        "name": "Adamant"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Alolan Persian": {
+    "abilities": [
+      {
+        "name": "Fur Coat"
+      },
+      {
+        "name": "Technician"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "sitrus-berry"
+      },
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Foul Play"
+      },
+      {
+        "name": "Fake Out"
+      },
+      {
+        "name": "Snarl"
+      },
+      {
+        "name": "Parting Shot"
+      },
+      {
+        "name": "Taunt"
+      },
+      {
+        "name": "Knock Off"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Foul Play"
+      },
+      {
+        "name": "Snarl"
+      },
+      {
+        "name": "Fake Out"
+      },
+      {
+        "name": "Parting Shot"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Bold"
+      },
+      {
+        "name": "Timid"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Perrserker": {
+    "abilities": [
+      {
+        "name": "Tough Claws"
+      },
+      {
+        "name": "Steely Spirit"
+      }
+    ],
+    "items": [
+      {
+        "name": "assault-vest"
+      },
+      {
+        "name": "choice-band"
+      },
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Iron Head"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Fake Out"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Crunch"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Iron Head"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Fake Out"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Brave"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Farfetch'd": {
+    "abilities": [
+      {
+        "name": "Defiant"
+      },
+      {
+        "name": "Inner Focus"
+      }
+    ],
+    "items": [
+      {
+        "name": "leek"
+      },
+      {
+        "name": "focus-sash"
+      },
+      {
+        "name": "choice-band"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "First Impression"
+      },
+      {
+        "name": "Swords Dance"
+      },
+      {
+        "name": "Quick Attack"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "First Impression"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Jolly"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Swalot": {
+    "abilities": [
+      {
+        "name": "Sticky Hold"
+      },
+      {
+        "name": "Gluttony"
+      }
+    ],
+    "items": [
+      {
+        "name": "black-sludge"
+      },
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Sludge Bomb"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Beam"
+      },
+      {
+        "name": "Body Press"
+      },
+      {
+        "name": "Yawn"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Sludge Bomb"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Ice Beam"
+      },
+      {
+        "name": "Body Press"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Bold"
+      },
+      {
+        "name": "Calm"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Salamence": {
+    "abilities": [
+      {
+        "name": "Intimidate"
+      },
+      {
+        "name": "Moxie"
+      }
+    ],
+    "items": [
+      {
+        "name": "salamencite"
+      },
+      {
+        "name": "life-orb"
+      },
+      {
+        "name": "choice-band"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Dragon Dance"
+      },
+      {
+        "name": "Dual Wingbeat"
+      },
+      {
+        "name": "Outrage"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Claw"
+      },
+      {
+        "name": "Roost"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Outrage"
+      },
+      {
+        "name": "Dual Wingbeat"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Dance"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      },
+      {
+        "name": "Adamant"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Gogoat": {
+    "abilities": [
+      {
+        "name": "Sap Sipper"
+      },
+      {
+        "name": "Grass Pelt"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "sitrus-berry"
+      },
+      {
+        "name": "assault-vest"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Horn Leech"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Bulk Up"
+      },
+      {
+        "name": "Synthesis"
+      },
+      {
+        "name": "Rock Slide"
+      },
+      {
+        "name": "Wild Charge"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Horn Leech"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Bulk Up"
+      },
+      {
+        "name": "Synthesis"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Impish"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    }
+  },
+  "Golisopod": {
+    "abilities": [
+      {
+        "name": "Emergency Exit"
+      }
+    ],
+    "items": [
+      {
+        "name": "golisopite"
+      },
+      {
+        "name": "choice-band"
+      },
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "First Impression"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Leech Life"
+      },
+      {
+        "name": "Aqua Jet"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Swords Dance"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "First Impression"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Leech Life"
+      },
+      {
+        "name": "Aqua Jet"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Brave"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Rillaboom": {
+    "abilities": [
+      {
+        "name": "Grassy Surge"
+      },
+      {
+        "name": "Overgrow"
+      }
+    ],
+    "items": [
+      {
+        "name": "assault-vest"
+      },
+      {
+        "name": "choice-band"
+      },
+      {
+        "name": "miracle-seed"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Grassy Glide"
+      },
+      {
+        "name": "Wood Hammer"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Drum Beating"
+      },
+      {
+        "name": "Fake Out"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Wood Hammer"
+      },
+      {
+        "name": "Grassy Glide"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "U-turn"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Jolly"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Cinderace": {
+    "abilities": [
+      {
+        "name": "Libero"
+      },
+      {
+        "name": "Blaze"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      },
+      {
+        "name": "choice-band"
+      },
+      {
+        "name": "heavy-duty-boots"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Pyro Ball"
+      },
+      {
+        "name": "High Jump Kick"
+      },
+      {
+        "name": "Gunk Shot"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Court Change"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Pyro Ball"
+      },
+      {
+        "name": "High Jump Kick"
+      },
+      {
+        "name": "Gunk Shot"
+      },
+      {
+        "name": "U-turn"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      },
+      {
+        "name": "Adamant"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Inteleon": {
+    "abilities": [
+      {
+        "name": "Sniper"
+      },
+      {
+        "name": "Torrent"
+      }
+    ],
+    "items": [
+      {
+        "name": "choice-specs"
+      },
+      {
+        "name": "choice-scarf"
+      },
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Hydro Pump"
+      },
+      {
+        "name": "Ice Beam"
+      },
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Snipe Shot"
+      },
+      {
+        "name": "Air Slash"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Hydro Pump"
+      },
+      {
+        "name": "Ice Beam"
+      },
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "U-turn"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Modest"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Thievul": {
+    "abilities": [
+      {
+        "name": "Stakeout Inactive"
+      },
+      {
+        "name": "Unburden"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      },
+      {
+        "name": "life-orb"
+      },
+      {
+        "name": "choice-specs"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "Psychic"
+      },
+      {
+        "name": "Grass Knot"
+      },
+      {
+        "name": "Nasty Plot"
+      },
+      {
+        "name": "Foul Play"
+      },
+      {
+        "name": "U-turn"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "Psychic"
+      },
+      {
+        "name": "Grass Knot"
+      },
+      {
+        "name": "Nasty Plot"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Modest"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Toxtricity": {
+    "abilities": [
+      {
+        "name": "Punk Rock"
+      },
+      {
+        "name": "Technician"
+      }
+    ],
+    "items": [
+      {
+        "name": "choice-specs"
+      },
+      {
+        "name": "throat-spray"
+      },
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Overdrive"
+      },
+      {
+        "name": "Sludge Bomb"
+      },
+      {
+        "name": "Volt Switch"
+      },
+      {
+        "name": "Boomburst"
+      },
+      {
+        "name": "Snarl"
+      },
+      {
+        "name": "Drain Punch"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Overdrive"
+      },
+      {
+        "name": "Sludge Bomb"
+      },
+      {
+        "name": "Volt Switch"
+      },
+      {
+        "name": "Boomburst"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Modest"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Toxtricity (Low Key Form)": {
+    "abilities": [
+      {
+        "name": "Punk Rock"
+      },
+      {
+        "name": "Technician"
+      }
+    ],
+    "items": [
+      {
+        "name": "choice-specs"
+      },
+      {
+        "name": "throat-spray"
+      },
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Overdrive"
+      },
+      {
+        "name": "Sludge Bomb"
+      },
+      {
+        "name": "Volt Switch"
+      },
+      {
+        "name": "Boomburst"
+      },
+      {
+        "name": "Snarl"
+      },
+      {
+        "name": "Drain Punch"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Overdrive"
+      },
+      {
+        "name": "Sludge Bomb"
+      },
+      {
+        "name": "Volt Switch"
+      },
+      {
+        "name": "Boomburst"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Modest"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Grapploct": {
+    "abilities": [
+      {
+        "name": "Technician"
+      },
+      {
+        "name": "Limber"
+      }
+    ],
+    "items": [
+      {
+        "name": "assault-vest"
+      },
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Circle Throw"
+      },
+      {
+        "name": "Octolock"
+      },
+      {
+        "name": "Octazooka"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Octolock"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Brave"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Sirfetch'd": {
+    "abilities": [
+      {
+        "name": "Scrappy"
+      },
+      {
+        "name": "Steadfast"
+      }
+    ],
+    "items": [
+      {
+        "name": "leek"
+      },
+      {
+        "name": "choice-band"
+      },
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "First Impression"
+      },
+      {
+        "name": "Meteor Assault"
+      },
+      {
+        "name": "Swords Dance"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "First Impression"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Jolly"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Pincurchin": {
+    "abilities": [
+      {
+        "name": "Electric Surge"
+      },
+      {
+        "name": "Lightning Rod"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "terrain-extender"
+      },
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Discharge"
+      },
+      {
+        "name": "Scald"
+      },
+      {
+        "name": "Recover"
+      },
+      {
+        "name": "Spikes"
+      },
+      {
+        "name": "Zing Zap"
+      },
+      {
+        "name": "Sucker Punch"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Discharge"
+      },
+      {
+        "name": "Scald"
+      },
+      {
+        "name": "Recover"
+      },
+      {
+        "name": "Spikes"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Bold"
+      },
+      {
+        "name": "Calm"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Indeedee (Female)": {
+    "abilities": [
+      {
+        "name": "Psychic Surge"
+      },
+      {
+        "name": "Own Tempo"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "sitrus-berry"
+      },
+      {
+        "name": "psychic-seed"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Expanding Force"
+      },
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Psyshock"
+      },
+      {
+        "name": "Shadow Ball"
+      },
+      {
+        "name": "Calm Mind"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Expanding Force"
+      },
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Shadow Ball"
+      },
+      {
+        "name": "Calm Mind"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Calm"
+      },
+      {
+        "name": "Bold"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 2,
+      "spa": 0,
+      "spd": 32,
+      "spe": 0
+    }
+  },
+  "Indeedee": {
+    "abilities": [
+      {
+        "name": "Psychic Surge"
+      },
+      {
+        "name": "Inner Focus"
+      }
+    ],
+    "items": [
+      {
+        "name": "choice-specs"
+      },
+      {
+        "name": "life-orb"
+      },
+      {
+        "name": "focus-sash"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Expanding Force"
+      },
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Shadow Ball"
+      },
+      {
+        "name": "Psyshock"
+      },
+      {
+        "name": "Calm Mind"
+      },
+      {
+        "name": "Trick"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Expanding Force"
+      },
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Shadow Ball"
+      },
+      {
+        "name": "Calm Mind"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Modest"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Arboliva": {
+    "abilities": [
+      {
+        "name": "Seed Sower"
+      },
+      {
+        "name": "Harvest"
+      }
+    ],
+    "items": [
+      {
+        "name": "leftovers"
+      },
+      {
+        "name": "sitrus-berry"
+      },
+      {
+        "name": "assault-vest"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Giga Drain"
+      },
+      {
+        "name": "Earth Power"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Leech Seed"
+      },
+      {
+        "name": "Strength Sap"
+      },
+      {
+        "name": "Energy Ball"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Giga Drain"
+      },
+      {
+        "name": "Hyper Voice"
+      },
+      {
+        "name": "Earth Power"
+      },
+      {
+        "name": "Leech Seed"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Modest"
+      },
+      {
+        "name": "Quiet"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Squawkabilly": {
+    "abilities": [
+      {
+        "name": "Guts"
+      },
+      {
+        "name": "Hustle"
+      }
+    ],
+    "items": [
+      {
+        "name": "flame-orb"
+      },
+      {
+        "name": "life-orb"
+      },
+      {
+        "name": "choice-band"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Facade"
+      },
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "U-turn"
+      },
+      {
+        "name": "Quick Attack"
+      },
+      {
+        "name": "Double-Edge"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Facade"
+      },
+      {
+        "name": "Brave Bird"
+      },
+      {
+        "name": "Quick Attack"
+      },
+      {
+        "name": "U-turn"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Jolly"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Mabosstiff": {
+    "abilities": [
+      {
+        "name": "Intimidate"
+      },
+      {
+        "name": "Guard Dog"
+      }
+    ],
+    "items": [
+      {
+        "name": "choice-band"
+      },
+      {
+        "name": "assault-vest"
+      },
+      {
+        "name": "sitrus-berry"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Psychic Fangs"
+      },
+      {
+        "name": "Fire Fang"
+      },
+      {
+        "name": "Wild Charge"
+      },
+      {
+        "name": "Protect"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Crunch"
+      },
+      {
+        "name": "Play Rough"
+      },
+      {
+        "name": "Psychic Fangs"
+      },
+      {
+        "name": "Fire Fang"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Jolly"
+      }
+    ],
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    }
+  },
+  "Baxcalibur": {
+    "abilities": [
+      {
+        "name": "Thermal Exchange"
+      },
+      {
+        "name": "Ice Body"
+      }
+    ],
+    "items": [
+      {
+        "name": "baxcalibrite"
+      },
+      {
+        "name": "loaded-dice"
+      },
+      {
+        "name": "life-orb"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Glaive Rush"
+      },
+      {
+        "name": "Icicle Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Dance"
+      },
+      {
+        "name": "Ice Shard"
+      },
+      {
+        "name": "Scale Shot"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Glaive Rush"
+      },
+      {
+        "name": "Icicle Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Dance"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Jolly"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Mega Absol Z": {
+    "abilities": [
+      {
+        "name": "Sharpness"
+      }
+    ],
+    "items": [
+      {
+        "name": "absolite-z"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Night Slash"
+      },
+      {
+        "name": "Shadow Claw"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Swords Dance"
+      },
+      {
+        "name": "Psycho Cut"
+      },
+      {
+        "name": "X-Scissor"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Night Slash"
+      },
+      {
+        "name": "Shadow Claw"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Swords Dance"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      },
+      {
+        "name": "Adamant"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Mega Garchomp Z": {
+    "abilities": [
+      {
+        "name": "Levitate"
+      }
+    ],
+    "items": [
+      {
+        "name": "garchompite-z"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Draco Meteor"
+      },
+      {
+        "name": "Earth Power"
+      },
+      {
+        "name": "Fire Blast"
+      },
+      {
+        "name": "Dragon Pulse"
+      },
+      {
+        "name": "Stealth Rock"
+      },
+      {
+        "name": "Scale Shot"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Draco Meteor"
+      },
+      {
+        "name": "Earth Power"
+      },
+      {
+        "name": "Fire Blast"
+      },
+      {
+        "name": "Stealth Rock"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Modest"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Mega Lucario Z": {
+    "abilities": [
+      {
+        "name": "Aura Guard"
+      }
+    ],
+    "items": [
+      {
+        "name": "lucarionite-z"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Aura Sphere"
+      },
+      {
+        "name": "Flash Cannon"
+      },
+      {
+        "name": "Vacuum Wave"
+      },
+      {
+        "name": "Nasty Plot"
+      },
+      {
+        "name": "Dark Pulse"
+      },
+      {
+        "name": "Psychic"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Aura Sphere"
+      },
+      {
+        "name": "Flash Cannon"
+      },
+      {
+        "name": "Vacuum Wave"
+      },
+      {
+        "name": "Nasty Plot"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Modest"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    }
+  },
+  "Mega Salamence": {
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [
+      {
+        "name": "Aerilate"
+      }
+    ],
+    "items": [
+      {
+        "name": "salamencite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Dragon Dance"
+      },
+      {
+        "name": "Dual Wingbeat"
+      },
+      {
+        "name": "Outrage"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Claw"
+      },
+      {
+        "name": "Roost"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Outrage"
+      },
+      {
+        "name": "Dual Wingbeat"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Dance"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      },
+      {
+        "name": "Adamant"
+      }
+    ]
+  },
+  "Mega Golisopod": {
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    },
+    "abilities": [],
+    "items": [
+      {
+        "name": "golisopite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "First Impression"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Leech Life"
+      },
+      {
+        "name": "Aqua Jet"
+      },
+      {
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Swords Dance"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "First Impression"
+      },
+      {
+        "name": "Liquidation"
+      },
+      {
+        "name": "Leech Life"
+      },
+      {
+        "name": "Aqua Jet"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Brave"
+      }
+    ]
+  },
+  "Mega Baxcalibur": {
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "abilities": [],
+    "items": [
+      {
+        "name": "baxcalibrite"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Glaive Rush"
+      },
+      {
+        "name": "Icicle Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Dance"
+      },
+      {
+        "name": "Ice Shard"
+      },
+      {
+        "name": "Scale Shot"
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Glaive Rush"
+      },
+      {
+        "name": "Icicle Crash"
+      },
+      {
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Dance"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Adamant"
+      },
+      {
+        "name": "Jolly"
+      }
+    ]
   }
 }

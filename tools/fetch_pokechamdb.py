@@ -147,7 +147,20 @@ SLUG_TO_NAME: dict[str, str] = {
     "tauros-paldea-combat": "Paldean Tauros (Combat Breed)",
     "tauros-paldea-blaze":  "Paldean Tauros (Blaze Breed)",
     "tauros-paldea-aqua":   "Paldean Tauros (Aqua Breed)",
+    # M-C entrants that share a dexNo with another form. Without these
+    # the dexNo fallback in key_for would file their stats under the
+    # base form's key — silently, since the fallback succeeds. Slugs
+    # follow the site's pattern above (raichu-alola, meowstic-female);
+    # Toxtricity Low Key is left out until its slug shows up in the log.
+    "persian-alola":        "Alolan Persian",
+    "indeedee-female":      "Indeedee (Female)",
 }
+
+# Base species whose slug happens to contain a hyphen. Anything else
+# hyphenated that isn't in SLUG_TO_NAME is probably a form we haven't
+# mapped, and key_for would otherwise resolve it via dexNo without a
+# word. Extend when the warning below names a genuine base species.
+HYPHENATED_BASE_SLUGS: frozenset[str] = frozenset({"kommo-o", "mr-rime"})
 
 MEGA_BASE_OVERRIDES: dict[str, str] = {
     "Mega Floette": "Floette (Eternal Flower)",
@@ -396,6 +409,9 @@ def key_for(detail: dict, lookups: dict) -> str | None:
     if slug in SLUG_TO_NAME:
         return SLUG_TO_NAME[slug]
     dex = detail.get("dexNo")
+    if "-" in slug and slug not in HYPHENATED_BASE_SLUGS:
+        print(f"  WARN form slug {slug!r} not in SLUG_TO_NAME — "
+              f"falling back to dexNo {dex} (base form key)")
     return lookups["pid_to_base"].get(int(dex)) if dex is not None else None
 
 

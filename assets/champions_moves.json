@@ -2,7 +2,7 @@
   "_meta": {
     "source": "yakkun.com/ch/move_list.htm (Champions move roster)",
     "updatedAt": "2026-09-09",
-    "count": 497
+    "count": 507
   },
   "moves": [
     "Accelerock",
@@ -89,6 +89,7 @@
     "Cotton Guard",
     "Cotton Spore",
     "Counter",
+    "Court Change",
     "Covet",
     "Crabhammer",
     "Cross Chop",
@@ -123,6 +124,7 @@
     "Draining Kiss",
     "Drill Peck",
     "Drill Run",
+    "Drum Beating",
     "Dual Wingbeat",
     "Dynamic Punch",
     "Earth Power",
@@ -186,6 +188,7 @@
     "Giga Drain",
     "Giga Impact",
     "Gigaton Hammer",
+    "Glaive Rush",
     "Glare",
     "Grass Knot",
     "Grassy Glide",
@@ -274,6 +277,7 @@
     "Memento",
     "Metal Burst",
     "Metal Sound",
+    "Meteor Assault",
     "Meteor Beam",
     "Meteor Mash",
     "Minimize",
@@ -296,7 +300,10 @@
     "No Retreat",
     "Noble Roar",
     "Nuzzle",
+    "Octazooka",
+    "Octolock",
     "Outrage",
+    "Overdrive",
     "Overheat",
     "Pain Split",
     "Parabolic Charge",
@@ -332,6 +339,7 @@
     "Psycho Cut",
     "Psyshield Bash",
     "Psyshock",
+    "Pyro Ball",
     "Quash",
     "Quick Attack",
     "Quick Guard",
@@ -395,6 +403,7 @@
     "Smart Strike",
     "Snap Trap",
     "Snarl",
+    "Snipe Shot",
     "Snore",
     "Snowscape",
     "Soak",
@@ -501,6 +510,7 @@
     "X-Scissor",
     "Yawn",
     "Zap Cannon",
-    "Zen Headbutt"
+    "Zen Headbutt",
+    "Zing Zap"
   ]
 }
