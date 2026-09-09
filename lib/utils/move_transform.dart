@@ -727,8 +727,6 @@ const _flingPower = <String, int>{
   'power-bracer': 100,
   'power-lens': 100,
   'power-weight': 100,
-  // 90
-  'leek': 60,
   // 80
   'assault-vest': 80,
   'choice-band': 80,
@@ -783,6 +781,7 @@ const _flingPower = <String, int>{
   'shock-drive': 70,
   'sticky-barb': 70,
   // 60 — type-boost items, incenses
+  'leek': 60,
   'black-belt': 60,
   'black-glasses': 60,
   'charcoal': 60,
