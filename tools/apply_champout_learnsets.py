@@ -42,6 +42,13 @@ MANUAL_REMOVALS: dict[str, frozenset[str]] = {
     # M-C: Indeedee (Female) lost Expanding Force (keeps Trick Room).
     "indeedeef": frozenset({"expandingforce"}),
 }
+
+# Moves the game grants but champout doesn't list yet. Same lifecycle
+# as MANUAL_REMOVALS.
+MANUAL_ADDITIONS: dict[str, frozenset[str]] = {
+    # M-C: Inteleon gained Focus Energy.
+    "inteleon": frozenset({"focusenergy"}),
+}
 CHAMPOUT_URL = (
     "https://raw.githubusercontent.com/projectpokemon/champout/main/"
     "parse/species_with_move.txt"
@@ -201,6 +208,13 @@ def main() -> int:
             learnsets[key] = [m for m in learnsets[key] if m not in gone]
             removed += before - len(learnsets[key])
     print(f"manual removals: {removed}")
+    added_manual = 0
+    for key, extra in MANUAL_ADDITIONS.items():
+        if key in learnsets:
+            missing = sorted(extra - set(learnsets[key]))
+            learnsets[key] = sorted(learnsets[key] + missing)
+            added_manual += len(missing)
+    print(f"manual additions: {added_manual}")
 
     LEARNSETS.write_text(
         json.dumps(learnsets, separators=(",", ":"), ensure_ascii=False),
