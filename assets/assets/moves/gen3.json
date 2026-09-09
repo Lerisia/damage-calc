@@ -485,7 +485,8 @@
     "nameEn": "Magic Coat",
     "descKo": "상대가 상태 이상이 되는 기술이나 씨뿌리기 등을 썼을 때 되받아친다.",
     "descEn": "Moves like Leech Seed and moves that inflict status conditions are blocked by a barrier and reflected back to the user of those moves.",
-    "descJa": "状態異常に　なる　技や やどりぎのタネ　などを だされたとき　相手に　跳ね返す。"
+    "descJa": "状態異常に　なる　技や やどりぎのタネ　などを だされたとき　相手に　跳ね返す。",
+    "priority": 4
   },
   {
     "name": "Mud Shot",

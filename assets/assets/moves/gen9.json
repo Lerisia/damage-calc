@@ -872,7 +872,7 @@
     "power": 65,
     "accuracy": 100,
     "pp": 15,
-    "priority": 1,
+    "priority": 3,
     "tags": [
       "contact",
       "custom:has_secondary"

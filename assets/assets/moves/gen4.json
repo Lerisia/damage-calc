@@ -548,7 +548,7 @@
     "power": 0,
     "accuracy": 100,
     "pp": 10,
-    "priority": -5,
+    "priority": 0,
     "tags": [],
     "nameEn": "Metal Burst",
     "zPower": 100,
