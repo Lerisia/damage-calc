@@ -2664,7 +2664,9 @@
       "spDefense": 120,
       "speed": 40
     },
-    "abilities": [],
+    "abilities": [
+      "Tough Claws"
+    ],
     "weight": 148.0,
     "height": 2.3,
     "dexNumber": 768,

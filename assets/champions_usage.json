@@ -49459,7 +49459,11 @@
       "spd": 2,
       "spe": 0
     },
-    "abilities": [],
+    "abilities": [
+      {
+        "name": "Tough Claws"
+      }
+    ],
     "items": [
       {
         "name": "golisopite"
