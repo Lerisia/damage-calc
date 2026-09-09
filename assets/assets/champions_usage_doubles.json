@@ -43514,5 +43514,76 @@
         "name": "Jolly"
       }
     ]
+  },
+  "Pawmot": {
+    "abilities": [
+      {
+        "name": "Iron Fist"
+      },
+      {
+        "name": "Volt Absorb"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      },
+      {
+        "name": "choice-band"
+      },
+      {
+        "name": "air-balloon"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Double Shock"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Knock Off"
+      },
+      {
+        "name": "Revival Blessing"
+      },
+      {
+        "name": "Fake Out"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Jolly"
+      },
+      {
+        "name": "Adamant"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "defaultMoves": [
+      {
+        "name": "Double Shock"
+      },
+      {
+        "name": "Close Combat"
+      },
+      {
+        "name": "Ice Punch"
+      },
+      {
+        "name": "Knock Off"
+      }
+    ]
   }
 }

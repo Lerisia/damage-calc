@@ -2,7 +2,7 @@
   "_meta": {
     "source": "yakkun.com/ch/move_list.htm (Champions move roster)",
     "updatedAt": "2026-09-09",
-    "count": 507
+    "count": 509
   },
   "moves": [
     "Accelerock",
@@ -110,6 +110,7 @@
     "Discharge",
     "Dive",
     "Double Hit",
+    "Double Shock",
     "Double Team",
     "Double-Edge",
     "Draco Meteor",
@@ -357,6 +358,7 @@
     "Reflect Type",
     "Rest",
     "Reversal",
+    "Revival Blessing",
     "Rising Voltage",
     "Roar",
     "Rock Blast",
