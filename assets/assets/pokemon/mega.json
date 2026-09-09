@@ -2664,7 +2664,9 @@
       "spDefense": 120,
       "speed": 40
     },
-    "abilities": [],
+    "abilities": [
+      "Tough Claws"
+    ],
     "weight": 148.0,
     "height": 2.3,
     "dexNumber": 768,
@@ -2832,7 +2834,9 @@
       "spDefense": 101,
       "speed": 87
     },
-    "abilities": [],
+    "abilities": [
+      "Thermal Exchange"
+    ],
     "weight": 315.0,
     "height": 2.1,
     "dexNumber": 998,
