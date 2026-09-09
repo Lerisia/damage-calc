@@ -56,6 +56,8 @@ MANUAL_ADDITIONS: frozenset[str] = frozenset({
     "Meteor Assault", "Octolock", "Snipe Shot", "Overdrive",
     # shared signatures: Pincurchin (Zing Zap), Grapploct (Octazooka)
     "Zing Zap", "Octazooka",
+    # Pawmot (added to M-C after the datamine)
+    "Double Shock", "Revival Blessing",
 })
 URL = "https://yakkun.com/ch/move_list.htm"
 

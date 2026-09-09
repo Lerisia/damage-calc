@@ -18,7 +18,7 @@ void main() {
     for (final m in const [
       'Pyro Ball', 'Court Change', 'Drum Beating', 'Glaive Rush',
       'Meteor Assault', 'Octolock', 'Snipe Shot', 'Overdrive',
-      'Zing Zap', 'Octazooka',
+      'Zing Zap', 'Octazooka', 'Double Shock', 'Revival Blessing',
     ]) {
       expect(legal, contains(m));
     }
