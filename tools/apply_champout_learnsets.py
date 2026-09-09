@@ -41,6 +41,8 @@ MANUAL_REMOVALS: dict[str, frozenset[str]] = {
     "archaludon": frozenset({"metalburst", "mirrorcoat"}),
     # M-C: Indeedee (Female) lost Expanding Force (keeps Trick Room).
     "indeedeef": frozenset({"expandingforce"}),
+    # M-C: Politoed lost Pound.
+    "politoed": frozenset({"pound"}),
 }
 
 # Moves the game grants but champout doesn't list yet. Same lifecycle
