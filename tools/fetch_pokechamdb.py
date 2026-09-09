@@ -252,19 +252,33 @@ def load_lookups() -> dict:
     for it in load(REPO / "assets/items.json"):
         if it.get("nameJa"):
             items[norm(it["nameJa"])] = it["name"]
+    # JA → EN move names for the scrape, and per-move metadata for the
+    # auto-default rule (role classification + STAB) — one pass.
     moves = {}
-    damaging = set()
-    for f in sorted(MOVES_DIR.glob("*.json")):
-        for m in load(f):
+    move_meta: dict[str, dict] = {}
+    for path in sorted((REPO / "assets/moves").glob("*.json")):
+        for m in load(path):
             if m.get("nameJa"):
-                moves[norm(m["nameJa"])] = m["name"]
-            cat = m.get("category", "")
-            power = m.get("power") or m.get("bp") or 0
-            if cat != "Status" and (power or m["name"] in {
-                "Seismic Toss", "Night Shade", "Dragon Rage",
-                "Sonic Boom", "Endeavor", "Super Fang",
-            }):
-                damaging.add(m["name"])
+                moves.setdefault(norm(m["nameJa"]), m["name"])
+            en = m.get("name")
+            if not en or en in move_meta:
+                continue
+            move_meta[en] = {
+                "en": en,
+                "type": m.get("type"),
+                "cat": m.get("category"),
+                "prio": m.get("priority", 0) or 0,
+                "tags": m.get("tags") or [],
+                "pow": m.get("power", 0) or 0,
+                "max_hits": m.get("maxHits") or 1,
+            }
+
+    pokemon_types: dict[str, list[str]] = {}
+    for path in sorted((REPO / "assets/pokemon").glob("*.json")):
+        for p in load(path):
+            pokemon_types[p["name"]] = [
+                t for t in (p.get("type1"), p.get("type2")) if t
+            ]
 
     pid_to_base = {}
     for gen in ("gen1", "gen2", "gen3", "gen4", "gen5",
@@ -279,9 +293,100 @@ def load_lookups() -> dict:
 
     return {
         "abil": abil, "items": items, "moves": moves,
-        "damaging": damaging, "pid_to_base": pid_to_base,
+        "move_meta": move_meta, "pokemon_types": pokemon_types,
+        "pid_to_base": pid_to_base,
         "mega_index": mega_index,
     }
+
+
+# ─── Auto-default moves (rule of 2026-04-30) ────────────────────────
+# Ported verbatim from the user's refresh_usage.py, which was never
+# committed (it lives at ~/scripts/damage-calc-refresh/). The pokedb
+# fetcher (June 2026) replaced it with "top four by rate, attacking
+# first" and the pkmnchamps fetcher (2026-07-30) with "first four
+# attacking" — both silently. Restored 2026-09-09.
+
+def _move_role(meta: dict) -> str:
+    """status / priority / switch / utility / main.
+
+    - status:   category == status
+    - priority: priority > 0 (Sucker Punch, Aqua Jet, …)
+    - switch:   tagged custom:switch_out (U-turn, Volt Switch, …)
+    - utility:  power < 60 and not multi-hit (Mud Shot, Flame Charge) —
+                a side-effect hit, not an offensive role
+    - main:     everything else — the actual damage moves
+    """
+    if meta["cat"] == "status":
+        return "status"
+    if meta["prio"] > 0:
+        return "priority"
+    if "custom:switch_out" in meta["tags"]:
+        return "switch"
+    if meta["pow"] < 60 and meta["max_hits"] <= 1:
+        return "utility"
+    return "main"
+
+
+def compute_default_moves(
+    rows: list[dict],
+    pokemon_types: list[str],
+    move_meta: dict[str, dict],
+) -> list[dict]:
+    """Pick the four default moves from a species' usage rows.
+
+    1. Classify each move (main / priority / switch / utility / status).
+    2. Group main moves by (type, category); a group's score is the sum
+       of its members' use rates, its representative the highest one.
+    3. Candidates = main groups + every non-main move individually,
+       sorted by score descending; take the top four.
+    4. Order: STAB attacking → non-STAB attacking → status. Attacking
+       partitions sort by group score (Sludge Bomb + Sludge Wave
+       outrank a lone Giga Drain); status sorts by individual rate.
+
+    `rows` are {"name": EN, "pct": float} in descending use-rate
+    order. Rows with no pct (hand-written entries) score by position,
+    so the writer's ordering stands in for the statistics.
+    """
+    pt = {t.lower() for t in pokemon_types}
+    cands: list[dict] = []
+    n = len(rows)
+    for i, it in enumerate(rows):
+        meta = move_meta.get(it.get("name", ""))
+        if not meta:
+            continue
+        rate = it.get("pct")
+        rate = float(rate) if rate is not None else float(n - i)
+        cands.append({**meta, "use_rate": rate, "role": _move_role(meta)})
+
+    groups: dict[tuple[str, str], list[dict]] = {}
+    for c in cands:
+        if c["role"] == "main":
+            groups.setdefault((c["type"], c["cat"]), []).append(c)
+
+    finals: list[dict] = []
+    seen: set[tuple[str, str]] = set()
+    for c in cands:
+        if c["role"] == "main":
+            key = (c["type"], c["cat"])
+            if key in seen:
+                continue
+            seen.add(key)
+            grp = groups[key]
+            best = max(grp, key=lambda x: x["use_rate"])
+            finals.append({"rep": best, "sort_key": sum(x["use_rate"] for x in grp)})
+        else:
+            finals.append({"rep": c, "sort_key": c["use_rate"]})
+
+    finals.sort(key=lambda x: -x["sort_key"])
+    picks = finals[:4]
+
+    stab = [f for f in picks if f["rep"]["cat"] != "status" and f["rep"]["type"] in pt]
+    nonstab = [f for f in picks if f["rep"]["cat"] != "status" and f["rep"]["type"] not in pt]
+    status = [f for f in picks if f["rep"]["cat"] == "status"]
+    stab.sort(key=lambda x: -x["sort_key"])
+    nonstab.sort(key=lambda x: -x["sort_key"])
+    status.sort(key=lambda x: -x["rep"]["use_rate"])
+    return [{"name": f["rep"]["en"]} for f in stab + nonstab + status]
 
 
 # ─── Conversion ─────────────────────────────────────────────────────
@@ -300,7 +405,7 @@ def map_ja(name: str, table: dict) -> str | None:
     return table.get(key)
 
 
-def convert(detail: dict, lookups: dict, unmapped: dict) -> dict:
+def convert(detail: dict, lookups: dict, unmapped: dict, key: str) -> dict:
     def rows(cat: str, table: dict | None, is_item=False):
         out = []
         for r in detail.get(cat, []):
@@ -332,10 +437,10 @@ def convert(detail: dict, lookups: dict, unmapped: dict) -> dict:
     entry["natures"] = nats
     entry["teras"] = []
 
-    dmg = lookups["damaging"]
-    entry["defaultMoves"] = [
-        {"name": m["name"]} for m in entry["moves"] if m["name"] in dmg
-    ][:4]
+    entry["defaultMoves"] = compute_default_moves(
+        entry["moves"], lookups["pokemon_types"].get(key, []),
+        lookups["move_meta"],
+    )
 
     evs = detail.get("evs") or []
     if evs:
@@ -459,7 +564,7 @@ def main() -> int:
                   f"dex={detail.get('dexNo')}")
             continue
         ranked_keys.add(key)
-        entry = convert(detail, lookups, unmapped)
+        entry = convert(detail, lookups, unmapped, key)
         if key in usage:
             replaced += 1
         else:
@@ -499,7 +604,7 @@ def main() -> int:
     meta["source"] = "Pokemon Champions in-game Battle Data via pokechamdb.com"
     meta["format"] = f"Season {season} / {fmt}"
     meta["updatedAt"] = time.strftime("%Y-%m-%d")
-    meta["curatedBy"] = "auto: pokechamdb.com (defaultMoves = top 4 damaging)"
+    meta["curatedBy"] = "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)"
     meta["notes"] = (
         "Entries ordered by descending in-game usage. Fetched via "
         "spread scraping of pokechamdb's RSC payloads; names mapped "

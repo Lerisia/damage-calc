@@ -3,7 +3,7 @@
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-5 / single",
     "updatedAt": "2026-09-09",
-    "curatedBy": "auto: pokechamdb.com (defaultMoves = top 4 damaging)",
+    "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo."
   },
   "Garchomp": {
@@ -147,16 +147,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Earthquake"
-      },
-      {
         "name": "Scale Shot"
       },
       {
-        "name": "Dragon Tail"
+        "name": "Earthquake"
       },
       {
-        "name": "Outrage"
+        "name": "Rock Tomb"
+      },
+      {
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -231,16 +231,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Earthquake"
-      },
-      {
         "name": "Scale Shot"
       },
       {
-        "name": "Dragon Tail"
+        "name": "Earthquake"
       },
       {
-        "name": "Outrage"
+        "name": "Rock Tomb"
+      },
+      {
+        "name": "Stealth Rock"
       }
     ],
     "natures": [
@@ -436,7 +436,7 @@
         "name": "Aqua Jet"
       },
       {
-        "name": "Flip Turn"
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -589,9 +589,6 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Solar Beam"
-      },
-      {
         "name": "Flamethrower"
       },
       {
@@ -599,6 +596,9 @@
       },
       {
         "name": "Flare Blitz"
+      },
+      {
+        "name": "Solar Beam"
       }
     ],
     "defaultSp": {
@@ -885,10 +885,10 @@
         "name": "Body Press"
       },
       {
-        "name": "Brave Bird"
+        "name": "Roost"
       },
       {
-        "name": "Iron Head"
+        "name": "Iron Defense"
       }
     ],
     "defaultSp": {
@@ -1054,7 +1054,7 @@
         "name": "Thunderbolt"
       },
       {
-        "name": "Aura Sphere"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -1210,13 +1210,13 @@
         "name": "Earthquake"
       },
       {
-        "name": "Ice Fang"
+        "name": "Yawn"
       },
       {
-        "name": "Stone Edge"
+        "name": "Stealth Rock"
       },
       {
-        "name": "Rock Tomb"
+        "name": "Whirlwind"
       }
     ],
     "defaultSp": {
@@ -1371,10 +1371,10 @@
         "name": "Sludge Wave"
       },
       {
-        "name": "Icy Wind"
+        "name": "Destiny Bond"
       },
       {
-        "name": "Focus Blast"
+        "name": "Protect"
       }
     ],
     "defaultSp": {
@@ -1455,10 +1455,10 @@
         "name": "Sludge Wave"
       },
       {
-        "name": "Icy Wind"
+        "name": "Destiny Bond"
       },
       {
-        "name": "Focus Blast"
+        "name": "Protect"
       }
     ],
     "natures": [
@@ -1655,10 +1655,10 @@
         "name": "U-turn"
       },
       {
-        "name": "Knock Off"
+        "name": "Swords Dance"
       },
       {
-        "name": "Close Combat"
+        "name": "Roost"
       }
     ],
     "defaultSp": {
@@ -1739,10 +1739,10 @@
         "name": "U-turn"
       },
       {
-        "name": "Knock Off"
+        "name": "Swords Dance"
       },
       {
-        "name": "Close Combat"
+        "name": "Roost"
       }
     ],
     "natures": [
@@ -1934,7 +1934,7 @@
         "name": "Sacred Sword"
       },
       {
-        "name": "Shadow Ball"
+        "name": "King’s Shield"
       }
     ],
     "defaultSp": {
@@ -2239,16 +2239,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Flamethrower"
+        "name": "Draco Meteor"
       },
       {
-        "name": "Draco Meteor"
+        "name": "Flamethrower"
       },
       {
         "name": "Extreme Speed"
       },
       {
-        "name": "Air Slash"
+        "name": "Roost"
       }
     ],
     "defaultSp": {
@@ -2323,16 +2323,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Flamethrower"
+        "name": "Draco Meteor"
       },
       {
-        "name": "Draco Meteor"
+        "name": "Flamethrower"
       },
       {
         "name": "Extreme Speed"
       },
       {
-        "name": "Air Slash"
+        "name": "Roost"
       }
     ],
     "natures": [
@@ -2522,10 +2522,10 @@
         "name": "Flower Trick"
       },
       {
-        "name": "Triple Axel"
+        "name": "Knock Off"
       },
       {
-        "name": "Knock Off"
+        "name": "Triple Axel"
       },
       {
         "name": "U-turn"
@@ -2854,13 +2854,13 @@
         "name": "Aqua Jet"
       },
       {
+        "name": "Surf"
+      },
+      {
         "name": "Shadow Ball"
       },
       {
         "name": "Ice Beam"
-      },
-      {
-        "name": "Surf"
       }
     ],
     "defaultSp": {
@@ -3026,7 +3026,7 @@
         "name": "Iron Head"
       },
       {
-        "name": "Brick Break"
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -3184,7 +3184,7 @@
         "name": "Shadow Claw"
       },
       {
-        "name": "Wood Hammer"
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -3341,13 +3341,13 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Triple Axel"
+        "name": "Fake Out"
       },
       {
         "name": "Close Combat"
       },
       {
-        "name": "Fake Out"
+        "name": "Triple Axel"
       },
       {
         "name": "Mach Punch"
@@ -3425,13 +3425,13 @@
     ],
     "defaultMoves": [
       {
-        "name": "Triple Axel"
+        "name": "Fake Out"
       },
       {
         "name": "Close Combat"
       },
       {
-        "name": "Fake Out"
+        "name": "Triple Axel"
       },
       {
         "name": "Mach Punch"
@@ -3623,10 +3623,10 @@
         "name": "Draco Meteor"
       },
       {
-        "name": "U-turn"
+        "name": "Flamethrower"
       },
       {
-        "name": "Flamethrower"
+        "name": "U-turn"
       }
     ],
     "defaultSp": {
@@ -3784,7 +3784,7 @@
         "name": "Thunderbolt"
       },
       {
-        "name": "Discharge"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -3940,13 +3940,13 @@
         "name": "Power Gem"
       },
       {
-        "name": "Earth Power"
-      },
-      {
         "name": "Sludge Wave"
       },
       {
-        "name": "Energy Ball"
+        "name": "Earth Power"
+      },
+      {
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -4024,13 +4024,13 @@
         "name": "Power Gem"
       },
       {
-        "name": "Earth Power"
-      },
-      {
         "name": "Sludge Wave"
       },
       {
-        "name": "Energy Ball"
+        "name": "Earth Power"
+      },
+      {
+        "name": "Stealth Rock"
       }
     ],
     "natures": [
@@ -4220,7 +4220,13 @@
         "name": "Foul Play"
       },
       {
-        "name": "Snarl"
+        "name": "Protect"
+      },
+      {
+        "name": "Wish"
+      },
+      {
+        "name": "Toxic"
       }
     ],
     "defaultSp": {
@@ -4378,7 +4384,7 @@
         "name": "Dazzling Gleam"
       },
       {
-        "name": "Psyshock"
+        "name": "Nasty Plot"
       }
     ],
     "defaultSp": {
@@ -4462,7 +4468,7 @@
         "name": "Dazzling Gleam"
       },
       {
-        "name": "Psyshock"
+        "name": "Nasty Plot"
       }
     ],
     "natures": [
@@ -4662,7 +4668,7 @@
         "name": "Extreme Speed"
       },
       {
-        "name": "Bullet Punch"
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -4746,7 +4752,7 @@
         "name": "Extreme Speed"
       },
       {
-        "name": "Bullet Punch"
+        "name": "Swords Dance"
       }
     ],
     "natures": [
@@ -4933,16 +4939,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Weather Ball"
+        "name": "Solar Beam"
       },
       {
-        "name": "Solar Beam"
+        "name": "Weather Ball"
       },
       {
         "name": "Dazzling Gleam"
       },
       {
-        "name": "Earth Power"
+        "name": "Synthesis"
       }
     ],
     "defaultSp": {
@@ -5017,16 +5023,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Weather Ball"
+        "name": "Solar Beam"
       },
       {
-        "name": "Solar Beam"
+        "name": "Weather Ball"
       },
       {
         "name": "Dazzling Gleam"
       },
       {
-        "name": "Earth Power"
+        "name": "Synthesis"
       }
     ],
     "natures": [
@@ -5213,16 +5219,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Earthquake"
-      },
-      {
         "name": "Waterfall"
       },
       {
-        "name": "Power Whip"
+        "name": "Earthquake"
       },
       {
         "name": "Ice Fang"
+      },
+      {
+        "name": "Dragon Dance"
       }
     ],
     "defaultSp": {
@@ -5297,16 +5303,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Earthquake"
-      },
-      {
         "name": "Waterfall"
       },
       {
-        "name": "Power Whip"
+        "name": "Earthquake"
       },
       {
         "name": "Ice Fang"
+      },
+      {
+        "name": "Dragon Dance"
       }
     ],
     "natures": [
@@ -5493,16 +5499,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Ice Beam"
-      },
-      {
         "name": "Dark Pulse"
       },
       {
-        "name": "Sludge Wave"
+        "name": "Water Shuriken"
       },
       {
-        "name": "Water Shuriken"
+        "name": "Ice Beam"
+      },
+      {
+        "name": "Sludge Wave"
       }
     ],
     "defaultSp": {
@@ -5577,16 +5583,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Ice Beam"
-      },
-      {
         "name": "Dark Pulse"
       },
       {
-        "name": "Sludge Wave"
+        "name": "Water Shuriken"
       },
       {
-        "name": "Water Shuriken"
+        "name": "Ice Beam"
+      },
+      {
+        "name": "Sludge Wave"
       }
     ],
     "natures": [
@@ -5777,6 +5783,9 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Body Slam"
+      },
+      {
         "name": "Earthquake"
       },
       {
@@ -5784,9 +5793,6 @@
       },
       {
         "name": "Sucker Punch"
-      },
-      {
-        "name": "Fake Out"
       }
     ],
     "defaultSp": {
@@ -5861,6 +5867,9 @@
     ],
     "defaultMoves": [
       {
+        "name": "Body Slam"
+      },
+      {
         "name": "Earthquake"
       },
       {
@@ -5868,9 +5877,6 @@
       },
       {
         "name": "Sucker Punch"
-      },
-      {
-        "name": "Fake Out"
       }
     ],
     "natures": [
@@ -6268,16 +6274,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Earth Power"
+        "name": "Sludge Bomb"
       },
       {
         "name": "Giga Drain"
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Earth Power"
       },
       {
-        "name": "Sludge Wave"
+        "name": "Synthesis"
       }
     ],
     "defaultSp": {
@@ -6352,16 +6358,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Earth Power"
+        "name": "Sludge Bomb"
       },
       {
         "name": "Giga Drain"
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Earth Power"
       },
       {
-        "name": "Sludge Wave"
+        "name": "Synthesis"
       }
     ],
     "natures": [
@@ -6714,16 +6720,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Giga Drain"
-      },
-      {
         "name": "Fiery Dance"
       },
       {
-        "name": "Bug Buzz"
+        "name": "Giga Drain"
       },
       {
-        "name": "Psychic"
+        "name": "Quiver Dance"
+      },
+      {
+        "name": "Morning Sun"
       }
     ],
     "defaultSp": {
@@ -6882,10 +6888,10 @@
         "name": "Stored Power"
       },
       {
-        "name": "Flamethrower"
+        "name": "Moonlight"
       },
       {
-        "name": "Mystical Fire"
+        "name": "Cosmic Power"
       }
     ],
     "defaultSp": {
@@ -6966,10 +6972,10 @@
         "name": "Stored Power"
       },
       {
-        "name": "Flamethrower"
+        "name": "Moonlight"
       },
       {
-        "name": "Mystical Fire"
+        "name": "Cosmic Power"
       }
     ],
     "natures": [
@@ -7161,7 +7167,7 @@
         "name": "Thunderbolt"
       },
       {
-        "name": "Discharge"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -7314,16 +7320,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Knock Off"
+        "name": "Stone Edge"
       },
       {
-        "name": "Stone Edge"
+        "name": "Knock Off"
       },
       {
         "name": "Earthquake"
       },
       {
-        "name": "Ice Punch"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -7398,16 +7404,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Knock Off"
+        "name": "Stone Edge"
       },
       {
-        "name": "Stone Edge"
+        "name": "Knock Off"
       },
       {
         "name": "Earthquake"
       },
       {
-        "name": "Ice Punch"
+        "name": "Stealth Rock"
       }
     ],
     "natures": [
@@ -7600,10 +7606,10 @@
         "name": "Liquidation"
       },
       {
-        "name": "Ice Spinner"
+        "name": "Flip Turn"
       },
       {
-        "name": "Flip Turn"
+        "name": "Ice Spinner"
       }
     ],
     "defaultSp": {
@@ -7684,10 +7690,10 @@
         "name": "Liquidation"
       },
       {
-        "name": "Ice Spinner"
+        "name": "Flip Turn"
       },
       {
-        "name": "Flip Turn"
+        "name": "Ice Spinner"
       }
     ],
     "natures": [
@@ -7877,13 +7883,13 @@
         "name": "Hyper Voice"
       },
       {
-        "name": "Mystical Fire"
+        "name": "Yawn"
       },
       {
-        "name": "Quick Attack"
+        "name": "Wish"
       },
       {
-        "name": "Hyper Beam"
+        "name": "Protect"
       }
     ],
     "defaultSp": {
@@ -8039,13 +8045,13 @@
         "name": "Close Combat"
       },
       {
+        "name": "Flare Blitz"
+      },
+      {
         "name": "Mach Punch"
       },
       {
         "name": "Thunder Punch"
-      },
-      {
-        "name": "Flare Blitz"
       }
     ],
     "defaultSp": {
@@ -8485,10 +8491,13 @@
         "name": "Scald"
       },
       {
-        "name": "Flip Turn"
+        "name": "Wish"
       },
       {
-        "name": "Ice Beam"
+        "name": "Acid Armor"
+      },
+      {
+        "name": "Calm Mind"
       }
     ],
     "defaultSp": {
@@ -8644,13 +8653,13 @@
         "name": "Shadow Ball"
       },
       {
-        "name": "Stored Power"
+        "name": "Shell Smash"
       },
       {
-        "name": "Giga Drain"
+        "name": "Baton Pass"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Strength Sap"
       }
     ],
     "defaultSp": {
@@ -8807,13 +8816,13 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Mach Punch"
-      },
-      {
         "name": "Ice Hammer"
       },
       {
         "name": "Drain Punch"
+      },
+      {
+        "name": "Mach Punch"
       },
       {
         "name": "Thunder Punch"
@@ -8891,13 +8900,13 @@
     ],
     "defaultMoves": [
       {
-        "name": "Mach Punch"
-      },
-      {
         "name": "Ice Hammer"
       },
       {
         "name": "Drain Punch"
+      },
+      {
+        "name": "Mach Punch"
       },
       {
         "name": "Thunder Punch"
@@ -9259,10 +9268,10 @@
         "name": "Volt Switch"
       },
       {
-        "name": "Surf"
+        "name": "Grass Knot"
       },
       {
-        "name": "Focus Blast"
+        "name": "Shed Tail"
       }
     ],
     "defaultSp": {
@@ -9428,7 +9437,7 @@
         "name": "Stone Edge"
       },
       {
-        "name": "Acrobatics"
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -9512,7 +9521,7 @@
         "name": "Stone Edge"
       },
       {
-        "name": "Acrobatics"
+        "name": "Swords Dance"
       }
     ],
     "natures": [
@@ -9702,13 +9711,13 @@
         "name": "Poison Jab"
       },
       {
-        "name": "Drill Run"
-      },
-      {
         "name": "U-turn"
       },
       {
         "name": "Fell Stinger"
+      },
+      {
+        "name": "Drill Run"
       }
     ],
     "defaultSp": {
@@ -9786,13 +9795,13 @@
         "name": "Poison Jab"
       },
       {
-        "name": "Drill Run"
-      },
-      {
         "name": "U-turn"
       },
       {
         "name": "Fell Stinger"
+      },
+      {
+        "name": "Drill Run"
       }
     ],
     "natures": [
@@ -9985,10 +9994,10 @@
         "name": "Ice Fang"
       },
       {
-        "name": "Close Combat"
+        "name": "Protect"
       },
       {
-        "name": "Liquidation"
+        "name": "Destiny Bond"
       }
     ],
     "defaultSp": {
@@ -10069,10 +10078,10 @@
         "name": "Ice Fang"
       },
       {
-        "name": "Close Combat"
+        "name": "Protect"
       },
       {
-        "name": "Liquidation"
+        "name": "Destiny Bond"
       }
     ],
     "natures": [
@@ -10264,6 +10273,15 @@
     "defaultMoves": [
       {
         "name": "Foul Play"
+      },
+      {
+        "name": "Will-O-Wisp"
+      },
+      {
+        "name": "Encore"
+      },
+      {
+        "name": "Recover"
       }
     ],
     "defaultSp": {
@@ -10339,6 +10357,15 @@
     "defaultMoves": [
       {
         "name": "Foul Play"
+      },
+      {
+        "name": "Will-O-Wisp"
+      },
+      {
+        "name": "Encore"
+      },
+      {
+        "name": "Recover"
       }
     ],
     "natures": [
@@ -10531,10 +10558,10 @@
         "name": "Close Combat"
       },
       {
-        "name": "Triple Axel"
+        "name": "Aqua Jet"
       },
       {
-        "name": "Aqua Jet"
+        "name": "Triple Axel"
       }
     ],
     "defaultSp": {
@@ -10693,10 +10720,10 @@
         "name": "Aqua Jet"
       },
       {
-        "name": "Ice Punch"
+        "name": "Double-Edge"
       },
       {
-        "name": "Earthquake"
+        "name": "Dragon Dance"
       }
     ],
     "defaultSp": {
@@ -10777,10 +10804,10 @@
         "name": "Aqua Jet"
       },
       {
-        "name": "Ice Punch"
+        "name": "Double-Edge"
       },
       {
-        "name": "Earthquake"
+        "name": "Dragon Dance"
       }
     ],
     "natures": [
@@ -11135,10 +11162,10 @@
         "name": "Shadow Ball"
       },
       {
-        "name": "Scald"
+        "name": "Strength Sap"
       },
       {
-        "name": "Hex"
+        "name": "Calm Mind"
       }
     ],
     "defaultSp": {
@@ -11295,16 +11322,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Heavy Slam"
+      },
+      {
         "name": "Body Press"
       },
       {
         "name": "Earthquake"
       },
       {
-        "name": "Iron Head"
-      },
-      {
-        "name": "Avalanche"
+        "name": "Iron Defense"
       }
     ],
     "defaultSp": {
@@ -11379,16 +11406,16 @@
     ],
     "defaultMoves": [
       {
+        "name": "Heavy Slam"
+      },
+      {
         "name": "Body Press"
       },
       {
         "name": "Earthquake"
       },
       {
-        "name": "Iron Head"
-      },
-      {
-        "name": "Avalanche"
+        "name": "Iron Defense"
       }
     ],
     "natures": [
@@ -11585,10 +11612,10 @@
         "name": "Body Press"
       },
       {
-        "name": "Ice Beam"
+        "name": "Slack Off"
       },
       {
-        "name": "Psychic"
+        "name": "Iron Defense"
       }
     ],
     "defaultSp": {
@@ -11669,10 +11696,10 @@
         "name": "Body Press"
       },
       {
-        "name": "Ice Beam"
+        "name": "Slack Off"
       },
       {
-        "name": "Psychic"
+        "name": "Iron Defense"
       }
     ],
     "natures": [
@@ -11859,16 +11886,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Heavy Slam"
+      },
+      {
         "name": "Body Press"
       },
       {
-        "name": "Rock Tomb"
+        "name": "Shed Tail"
       },
       {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Iron Head"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -12026,7 +12053,7 @@
         "name": "Wave Crash"
       },
       {
-        "name": "Ice Punch"
+        "name": "Close Combat"
       }
     ],
     "defaultSp": {
@@ -12311,16 +12338,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Extreme Speed"
-      },
-      {
         "name": "Flare Blitz"
       },
       {
-        "name": "Play Rough"
+        "name": "Extreme Speed"
       },
       {
-        "name": "Flamethrower"
+        "name": "Will-O-Wisp"
+      },
+      {
+        "name": "Morning Sun"
       }
     ],
     "defaultSp": {
@@ -12480,13 +12507,13 @@
         "name": "Dual Wingbeat"
       },
       {
+        "name": "Rock Slide"
+      },
+      {
         "name": "Earthquake"
       },
       {
         "name": "Ice Fang"
-      },
-      {
-        "name": "Rock Slide"
       }
     ],
     "defaultSp": {
@@ -12564,13 +12591,13 @@
         "name": "Dual Wingbeat"
       },
       {
+        "name": "Rock Slide"
+      },
+      {
         "name": "Earthquake"
       },
       {
         "name": "Ice Fang"
-      },
-      {
-        "name": "Rock Slide"
       }
     ],
     "natures": [
@@ -12759,10 +12786,10 @@
         "name": "Earthquake"
       },
       {
-        "name": "Wood Hammer"
+        "name": "Synthesis"
       },
       {
-        "name": "Knock Off"
+        "name": "Iron Defense"
       }
     ],
     "defaultSp": {
@@ -12843,10 +12870,10 @@
         "name": "Earthquake"
       },
       {
-        "name": "Wood Hammer"
+        "name": "Synthesis"
       },
       {
-        "name": "Knock Off"
+        "name": "Iron Defense"
       }
     ],
     "natures": [
@@ -13161,7 +13188,11 @@
       }
     ],
     "teras": [],
-    "defaultMoves": [],
+    "defaultMoves": [
+      {
+        "name": "Transform"
+      }
+    ],
     "defaultSp": {
       "hp": 32,
       "atk": 0,
@@ -13316,16 +13347,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Flamethrower"
+      },
+      {
         "name": "Shadow Ball"
       },
       {
         "name": "Energy Ball"
       },
       {
-        "name": "Flamethrower"
-      },
-      {
-        "name": "Overheat"
+        "name": "Psychic"
       }
     ],
     "defaultSp": {
@@ -13400,16 +13431,16 @@
     ],
     "defaultMoves": [
       {
+        "name": "Flamethrower"
+      },
+      {
         "name": "Shadow Ball"
       },
       {
         "name": "Energy Ball"
       },
       {
-        "name": "Flamethrower"
-      },
-      {
-        "name": "Overheat"
+        "name": "Psychic"
       }
     ],
     "natures": [
@@ -13596,16 +13627,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Armor Cannon"
-      },
-      {
         "name": "Psychic"
       },
       {
-        "name": "Expanding Force"
+        "name": "Armor Cannon"
       },
       {
-        "name": "Energy Ball"
+        "name": "Destiny Bond"
+      },
+      {
+        "name": "Psychic Terrain"
       }
     ],
     "defaultSp": {
@@ -13768,10 +13799,10 @@
         "name": "Play Rough"
       },
       {
-        "name": "Knock Off"
+        "name": "Encore"
       },
       {
-        "name": "Ice Hammer"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -13928,16 +13959,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Flamethrower"
-      },
-      {
         "name": "Sludge Bomb"
       },
       {
         "name": "Psychic Noise"
       },
       {
-        "name": "Psychic"
+        "name": "Chilly Reception"
+      },
+      {
+        "name": "Slack Off"
       }
     ],
     "defaultSp": {
@@ -14094,16 +14125,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Rock Blast"
-      },
-      {
         "name": "Close Combat"
       },
       {
-        "name": "Bullet Seed"
+        "name": "Pin Missile"
       },
       {
-        "name": "Pin Missile"
+        "name": "Rock Blast"
+      },
+      {
+        "name": "Bullet Seed"
       }
     ],
     "defaultSp": {
@@ -14178,16 +14209,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Rock Blast"
-      },
-      {
         "name": "Close Combat"
       },
       {
-        "name": "Bullet Seed"
+        "name": "Pin Missile"
       },
       {
-        "name": "Pin Missile"
+        "name": "Rock Blast"
+      },
+      {
+        "name": "Bullet Seed"
       }
     ],
     "natures": [
@@ -14377,13 +14408,13 @@
         "name": "Ceaseless Edge"
       },
       {
-        "name": "Sacred Sword"
-      },
-      {
         "name": "Sucker Punch"
       },
       {
         "name": "Razor Shell"
+      },
+      {
+        "name": "Sacred Sword"
       }
     ],
     "defaultSp": {
@@ -14709,13 +14740,13 @@
         "name": "Scald"
       },
       {
+        "name": "Mirror Coat"
+      },
+      {
         "name": "Ice Beam"
       },
       {
-        "name": "Flip Turn"
-      },
-      {
-        "name": "Alluring Voice"
+        "name": "Recover"
       }
     ],
     "defaultSp": {
@@ -14874,7 +14905,10 @@
         "name": "Dragon Pulse"
       },
       {
-        "name": "Giga Drain"
+        "name": "Glare"
+      },
+      {
+        "name": "Taunt"
       }
     ],
     "defaultSp": {
@@ -15037,10 +15071,10 @@
         "name": "Shadow Sneak"
       },
       {
-        "name": "Gunk Shot"
+        "name": "Destiny Bond"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -15121,10 +15155,10 @@
         "name": "Shadow Sneak"
       },
       {
-        "name": "Gunk Shot"
+        "name": "Destiny Bond"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Encore"
       }
     ],
     "natures": [
@@ -15320,7 +15354,7 @@
         "name": "Fake Out"
       },
       {
-        "name": "Drain Punch"
+        "name": "Parting Shot"
       }
     ],
     "defaultSp": {
@@ -15477,16 +15511,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Mystical Fire"
-      },
-      {
         "name": "Psychic"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Misty Explosion"
       },
       {
-        "name": "Misty Explosion"
+        "name": "Mystical Fire"
+      },
+      {
+        "name": "Trick Room"
       }
     ],
     "defaultSp": {
@@ -15644,7 +15678,7 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Focus Blast"
       }
     ],
     "defaultSp": {
@@ -16087,10 +16121,10 @@
         "name": "Leech Life"
       },
       {
-        "name": "Lunge"
+        "name": "Mirror Coat"
       },
       {
-        "name": "Surf"
+        "name": "Sticky Web"
       }
     ],
     "defaultSp": {
@@ -16250,10 +16284,13 @@
         "name": "Moonblast"
       },
       {
-        "name": "Endeavor"
+        "name": "Encore"
       },
       {
-        "name": "Giga Drain"
+        "name": "Tailwind"
+      },
+      {
+        "name": "Leech Seed"
       }
     ],
     "defaultSp": {
@@ -16575,13 +16612,13 @@
         "name": "Freeze-Dry"
       },
       {
-        "name": "Blizzard"
-      },
-      {
         "name": "Moonblast"
       },
       {
-        "name": "Ice Shard"
+        "name": "Aurora Veil"
+      },
+      {
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -16747,7 +16784,7 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Shelter"
       }
     ],
     "defaultSp": {
@@ -16904,16 +16941,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Vacuum Wave"
-      },
-      {
-        "name": "Hyper Voice"
+        "name": "Psychic"
       },
       {
         "name": "Moonblast"
       },
       {
-        "name": "Psychic"
+        "name": "Vacuum Wave"
+      },
+      {
+        "name": "Hyper Voice"
       }
     ],
     "defaultSp": {
@@ -16988,16 +17025,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Vacuum Wave"
-      },
-      {
-        "name": "Hyper Voice"
+        "name": "Psychic"
       },
       {
         "name": "Moonblast"
       },
       {
-        "name": "Psychic"
+        "name": "Vacuum Wave"
+      },
+      {
+        "name": "Hyper Voice"
       }
     ],
     "natures": [
@@ -17190,10 +17227,10 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Leaf Storm"
+        "name": "Protect"
       },
       {
-        "name": "Burning Jealousy"
+        "name": "Leech Seed"
       }
     ],
     "defaultSp": {
@@ -17274,10 +17311,10 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Leaf Storm"
+        "name": "Protect"
       },
       {
-        "name": "Burning Jealousy"
+        "name": "Leech Seed"
       }
     ],
     "natures": [
@@ -17473,7 +17510,7 @@
         "name": "Thunderbolt"
       },
       {
-        "name": "Ice Shard"
+        "name": "Aurora Veil"
       }
     ],
     "defaultSp": {
@@ -17557,7 +17594,7 @@
         "name": "Thunderbolt"
       },
       {
-        "name": "Ice Shard"
+        "name": "Aurora Veil"
       }
     ],
     "natures": [
@@ -17751,13 +17788,13 @@
         "name": "Brave Bird"
       },
       {
-        "name": "Iron Head"
+        "name": "Roost"
       },
       {
-        "name": "Body Press"
+        "name": "Stealth Rock"
       },
       {
-        "name": "Drill Run"
+        "name": "Whirlwind"
       }
     ],
     "defaultSp": {
@@ -17835,13 +17872,13 @@
         "name": "Brave Bird"
       },
       {
-        "name": "Iron Head"
+        "name": "Roost"
       },
       {
-        "name": "Body Press"
+        "name": "Stealth Rock"
       },
       {
-        "name": "Drill Run"
+        "name": "Whirlwind"
       }
     ],
     "natures": [
@@ -18037,7 +18074,7 @@
         "name": "Poltergeist"
       },
       {
-        "name": "Close Combat"
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -18203,7 +18240,7 @@
         "name": "Rock Slide"
       },
       {
-        "name": "Brick Break"
+        "name": "Horn Drill"
       }
     ],
     "defaultSp": {
@@ -18287,7 +18324,7 @@
         "name": "Rock Slide"
       },
       {
-        "name": "Brick Break"
+        "name": "Horn Drill"
       }
     ],
     "natures": [
@@ -18477,13 +18514,13 @@
         "name": "Giga Drain"
       },
       {
-        "name": "Sucker Punch"
-      },
-      {
         "name": "Sludge Bomb"
       },
       {
-        "name": "Knock Off"
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Strength Sap"
       }
     ],
     "defaultSp": {
@@ -18561,13 +18598,13 @@
         "name": "Giga Drain"
       },
       {
-        "name": "Sucker Punch"
-      },
-      {
         "name": "Sludge Bomb"
       },
       {
-        "name": "Knock Off"
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Strength Sap"
       }
     ],
     "natures": [
@@ -18754,16 +18791,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Water Pulse"
+      },
+      {
         "name": "Aura Sphere"
       },
       {
         "name": "Dark Pulse"
       },
       {
-        "name": "Water Pulse"
-      },
-      {
-        "name": "Ice Beam"
+        "name": "Shell Smash"
       }
     ],
     "defaultSp": {
@@ -18838,16 +18875,16 @@
     ],
     "defaultMoves": [
       {
+        "name": "Water Pulse"
+      },
+      {
         "name": "Aura Sphere"
       },
       {
         "name": "Dark Pulse"
       },
       {
-        "name": "Water Pulse"
-      },
-      {
-        "name": "Ice Beam"
+        "name": "Shell Smash"
       }
     ],
     "natures": [
@@ -19043,7 +19080,7 @@
         "name": "Vacuum Wave"
       },
       {
-        "name": "Flash Cannon"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -19200,16 +19237,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Self-Destruct"
+      },
+      {
         "name": "Earthquake"
       },
       {
-        "name": "Smack Down"
+        "name": "Fissure"
       },
       {
-        "name": "Ice Punch"
-      },
-      {
-        "name": "Self-Destruct"
+        "name": "Rest"
       }
     ],
     "defaultSp": {
@@ -19369,10 +19406,10 @@
         "name": "Earthquake"
       },
       {
-        "name": "Ice Punch"
+        "name": "Quick Attack"
       },
       {
-        "name": "Quick Attack"
+        "name": "Ice Punch"
       },
       {
         "name": "Thunder Punch"
@@ -19541,7 +19578,7 @@
         "name": "Icicle Spear"
       },
       {
-        "name": "Icicle Crash"
+        "name": "Rock Tomb"
       }
     ],
     "defaultSp": {
@@ -19701,13 +19738,13 @@
         "name": "Parabolic Charge"
       },
       {
-        "name": "Volt Switch"
+        "name": "Soak"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Slack Off"
       },
       {
-        "name": "Acid Spray"
+        "name": "Toxic"
       }
     ],
     "defaultSp": {
@@ -19867,13 +19904,13 @@
         "name": "Hurricane"
       },
       {
+        "name": "Surf"
+      },
+      {
         "name": "U-turn"
       },
       {
         "name": "Ice Beam"
-      },
-      {
-        "name": "Weather Ball"
       }
     ],
     "defaultSp": {
@@ -20039,7 +20076,7 @@
         "name": "Liquidation"
       },
       {
-        "name": "Superpower"
+        "name": "Belly Drum"
       }
     ],
     "defaultSp": {
@@ -20199,13 +20236,13 @@
         "name": "Lumina Crash"
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Protect"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Baton Pass"
       },
       {
-        "name": "Energy Ball"
+        "name": "Calm Mind"
       }
     ],
     "defaultSp": {
@@ -20365,13 +20402,13 @@
         "name": "Infestation"
       },
       {
-        "name": "Liquidation"
+        "name": "Recover"
       },
       {
-        "name": "Chilling Water"
+        "name": "Toxic"
       },
       {
-        "name": "Payback"
+        "name": "Haze"
       }
     ],
     "defaultSp": {
@@ -20530,10 +20567,10 @@
         "name": "Shadow Ball"
       },
       {
-        "name": "Hex"
+        "name": "Slack Off"
       },
       {
-        "name": "Earth Power"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -20696,10 +20733,10 @@
         "name": "Shadow Ball"
       },
       {
-        "name": "U-turn"
+        "name": "Phantom Force"
       },
       {
-        "name": "Phantom Force"
+        "name": "U-turn"
       }
     ],
     "defaultSp": {
@@ -20854,10 +20891,10 @@
         "name": "Draining Kiss"
       },
       {
-        "name": "Light of Ruin"
+        "name": "Calm Mind"
       },
       {
-        "name": "Psychic"
+        "name": "Synthesis"
       }
     ],
     "defaultSp": {
@@ -21023,7 +21060,7 @@
         "name": "Rock Blast"
       },
       {
-        "name": "U-turn"
+        "name": "Roost"
       }
     ],
     "defaultSp": {
@@ -21182,10 +21219,10 @@
         "name": "Infernal Parade"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Focus Blast"
       },
       {
-        "name": "Focus Blast"
+        "name": "Extrasensory"
       }
     ],
     "defaultSp": {
@@ -21337,13 +21374,13 @@
         "name": "Stored Power"
       },
       {
-        "name": "Boomburst"
-      },
-      {
         "name": "Psychic Noise"
       },
       {
-        "name": "Flash Cannon"
+        "name": "Recover"
+      },
+      {
+        "name": "Cosmic Power"
       }
     ],
     "defaultSp": {
@@ -21421,13 +21458,13 @@
         "name": "Stored Power"
       },
       {
-        "name": "Boomburst"
-      },
-      {
         "name": "Psychic Noise"
       },
       {
-        "name": "Flash Cannon"
+        "name": "Recover"
+      },
+      {
+        "name": "Cosmic Power"
       }
     ],
     "natures": [
@@ -21624,10 +21661,10 @@
         "name": "Body Press"
       },
       {
-        "name": "Earthquake"
+        "name": "Recover"
       },
       {
-        "name": "Explosion"
+        "name": "Iron Defense"
       }
     ],
     "defaultSp": {
@@ -21784,16 +21821,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Quick Attack"
+        "name": "Body Slam"
       },
       {
-        "name": "Body Slam"
+        "name": "Quick Attack"
       },
       {
         "name": "Storm Throw"
       },
       {
-        "name": "Earthquake"
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -21868,16 +21905,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Quick Attack"
+        "name": "Body Slam"
       },
       {
-        "name": "Body Slam"
+        "name": "Quick Attack"
       },
       {
         "name": "Storm Throw"
       },
       {
-        "name": "Earthquake"
+        "name": "Swords Dance"
       }
     ],
     "natures": [
@@ -22074,10 +22111,10 @@
         "name": "Bite"
       },
       {
-        "name": "Bullet Seed"
+        "name": "Tidy Up"
       },
       {
-        "name": "Crunch"
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -22230,16 +22267,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Flare Blitz"
-      },
-      {
         "name": "Brave Bird"
       },
       {
-        "name": "U-turn"
+        "name": "Flare Blitz"
       },
       {
-        "name": "Acrobatics"
+        "name": "Will-O-Wisp"
+      },
+      {
+        "name": "Taunt"
       }
     ],
     "defaultSp": {
@@ -22399,13 +22436,13 @@
         "name": "Hurricane"
       },
       {
-        "name": "Bug Buzz"
+        "name": "Sleep Powder"
       },
       {
-        "name": "Giga Drain"
+        "name": "Quiver Dance"
       },
       {
-        "name": "Air Slash"
+        "name": "Substitute"
       }
     ],
     "defaultSp": {
@@ -22561,13 +22598,13 @@
         "name": "Blizzard"
       },
       {
-        "name": "Earth Power"
-      },
-      {
         "name": "Giga Drain"
       },
       {
         "name": "Ice Shard"
+      },
+      {
+        "name": "Earth Power"
       }
     ],
     "defaultSp": {
@@ -22645,13 +22682,13 @@
         "name": "Blizzard"
       },
       {
-        "name": "Earth Power"
-      },
-      {
         "name": "Giga Drain"
       },
       {
         "name": "Ice Shard"
+      },
+      {
+        "name": "Earth Power"
       }
     ],
     "natures": [
@@ -22845,10 +22882,10 @@
         "name": "Shell Side Arm"
       },
       {
-        "name": "Ice Beam"
+        "name": "Psychic"
       },
       {
-        "name": "Psychic"
+        "name": "Ice Beam"
       },
       {
         "name": "Flamethrower"
@@ -23009,7 +23046,7 @@
         "name": "Endeavor"
       },
       {
-        "name": "Drill Run"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -23172,7 +23209,10 @@
         "name": "Body Press"
       },
       {
-        "name": "Smack Down"
+        "name": "Stealth Rock"
+      },
+      {
+        "name": "Roar"
       }
     ],
     "defaultSp": {
@@ -23321,13 +23361,13 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Close Combat"
+      },
+      {
         "name": "Flare Blitz"
       },
       {
         "name": "Sucker Punch"
-      },
-      {
-        "name": "Close Combat"
       },
       {
         "name": "Earthquake"
@@ -23405,13 +23445,13 @@
     ],
     "defaultMoves": [
       {
+        "name": "Close Combat"
+      },
+      {
         "name": "Flare Blitz"
       },
       {
         "name": "Sucker Punch"
-      },
-      {
-        "name": "Close Combat"
       },
       {
         "name": "Earthquake"
@@ -23605,10 +23645,10 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Volt Switch"
+        "name": "Thunderbolt"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Volt Switch"
       },
       {
         "name": "Overheat"
@@ -23689,10 +23729,10 @@
     ],
     "defaultMoves": [
       {
-        "name": "Volt Switch"
+        "name": "Thunderbolt"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Volt Switch"
       },
       {
         "name": "Overheat"
@@ -23890,7 +23930,7 @@
         "name": "Thunderbolt"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -24049,10 +24089,10 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Body Slam"
+        "name": "Roost"
       },
       {
-        "name": "Earthquake"
+        "name": "Cotton Guard"
       }
     ],
     "defaultSp": {
@@ -24133,10 +24173,10 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Body Slam"
+        "name": "Roost"
       },
       {
-        "name": "Earthquake"
+        "name": "Cotton Guard"
       }
     ],
     "natures": [
@@ -24333,10 +24373,10 @@
         "name": "Dual Wingbeat"
       },
       {
-        "name": "Knock Off"
+        "name": "Toxic"
       },
       {
-        "name": "U-turn"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -24658,13 +24698,13 @@
         "name": "Thunderbolt"
       },
       {
+        "name": "Volt Switch"
+      },
+      {
         "name": "Alluring Voice"
       },
       {
         "name": "Shadow Ball"
-      },
-      {
-        "name": "Volt Switch"
       }
     ],
     "defaultSp": {
@@ -24824,13 +24864,13 @@
         "name": "Hurricane"
       },
       {
-        "name": "Heat Wave"
-      },
-      {
         "name": "Hyper Beam"
       },
       {
         "name": "Quick Attack"
+      },
+      {
+        "name": "Heat Wave"
       }
     ],
     "defaultSp": {
@@ -24908,13 +24948,13 @@
         "name": "Hurricane"
       },
       {
-        "name": "Heat Wave"
-      },
-      {
         "name": "Hyper Beam"
       },
       {
         "name": "Quick Attack"
+      },
+      {
+        "name": "Heat Wave"
       }
     ],
     "natures": [
@@ -25269,10 +25309,10 @@
         "name": "Endeavor"
       },
       {
-        "name": "Overheat"
+        "name": "Toxic"
       },
       {
-        "name": "Sludge Wave"
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -25597,10 +25637,10 @@
         "name": "Wood Hammer"
       },
       {
-        "name": "Earthquake"
+        "name": "Rock Blast"
       },
       {
-        "name": "Rock Blast"
+        "name": "Shell Smash"
       }
     ],
     "defaultSp": {
@@ -25753,16 +25793,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Dragon Pulse"
-      },
-      {
         "name": "Parabolic Charge"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Dragon Pulse"
       },
       {
-        "name": "Power Gem"
+        "name": "Cotton Guard"
+      },
+      {
+        "name": "Charge"
       }
     ],
     "defaultSp": {
@@ -25837,16 +25877,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Dragon Pulse"
-      },
-      {
         "name": "Parabolic Charge"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Dragon Pulse"
       },
       {
-        "name": "Power Gem"
+        "name": "Cotton Guard"
+      },
+      {
+        "name": "Charge"
       }
     ],
     "natures": [
@@ -26032,10 +26072,13 @@
         "name": "Earthquake"
       },
       {
-        "name": "Poltergeist"
+        "name": "Stealth Rock"
       },
       {
-        "name": "Body Press"
+        "name": "Will-O-Wisp"
+      },
+      {
+        "name": "Trick Room"
       }
     ],
     "defaultSp": {
@@ -26194,10 +26237,10 @@
         "name": "Ice Shard"
       },
       {
-        "name": "Mud Shot"
+        "name": "Mirror Coat"
       },
       {
-        "name": "Ice Beam"
+        "name": "Yawn"
       }
     ],
     "defaultSp": {
@@ -26363,7 +26406,7 @@
         "name": "Aura Sphere"
       },
       {
-        "name": "Flamethrower"
+        "name": "Clangorous Soul"
       }
     ],
     "defaultSp": {
@@ -26520,16 +26563,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Self-Destruct"
-      },
-      {
         "name": "Overheat"
       },
       {
-        "name": "Solar Beam"
+        "name": "Self-Destruct"
       },
       {
-        "name": "Eruption"
+        "name": "Stealth Rock"
+      },
+      {
+        "name": "Yawn"
       }
     ],
     "defaultSp": {
@@ -26691,7 +26734,7 @@
         "name": "Explosion"
       },
       {
-        "name": "Volt Switch"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -26857,7 +26900,7 @@
         "name": "Close Combat"
       },
       {
-        "name": "Gunk Shot"
+        "name": "Rock Slide"
       }
     ],
     "defaultSp": {
@@ -27013,13 +27056,13 @@
         "name": "Close Combat"
       },
       {
+        "name": "Zen Headbutt"
+      },
+      {
         "name": "Bullet Punch"
       },
       {
         "name": "Fake Out"
-      },
-      {
-        "name": "Zen Headbutt"
       }
     ],
     "defaultSp": {
@@ -27097,13 +27140,13 @@
         "name": "Close Combat"
       },
       {
+        "name": "Zen Headbutt"
+      },
+      {
         "name": "Bullet Punch"
       },
       {
         "name": "Fake Out"
-      },
-      {
-        "name": "Zen Headbutt"
       }
     ],
     "natures": [
@@ -27297,13 +27340,13 @@
         "name": "Earthquake"
       },
       {
+        "name": "Heavy Slam"
+      },
+      {
         "name": "Body Press"
       },
       {
-        "name": "Dragon Tail"
-      },
-      {
-        "name": "Iron Head"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -27381,13 +27424,13 @@
         "name": "Earthquake"
       },
       {
+        "name": "Heavy Slam"
+      },
+      {
         "name": "Body Press"
       },
       {
-        "name": "Dragon Tail"
-      },
-      {
-        "name": "Iron Head"
+        "name": "Stealth Rock"
       }
     ],
     "natures": [
@@ -27578,13 +27621,13 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Trop Kick"
+      },
+      {
         "name": "Triple Axel"
       },
       {
         "name": "High Jump Kick"
-      },
-      {
-        "name": "Trop Kick"
       },
       {
         "name": "Rapid Spin"
@@ -27750,10 +27793,10 @@
         "name": "Weather Ball"
       },
       {
-        "name": "Earth Power"
+        "name": "Encore"
       },
       {
-        "name": "Surf"
+        "name": "Perish Song"
       }
     ],
     "defaultSp": {
@@ -27902,13 +27945,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Body Press"
-      },
-      {
         "name": "Hex"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Body Press"
+      },
+      {
+        "name": "Will-O-Wisp"
+      },
+      {
+        "name": "Trick Room"
       }
     ],
     "defaultSp": {
@@ -28227,16 +28273,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Flamethrower"
-      },
-      {
         "name": "Draco Meteor"
       },
       {
         "name": "Hyper Voice"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Roost"
       }
     ],
     "defaultSp": {
@@ -28311,16 +28357,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Flamethrower"
-      },
-      {
         "name": "Draco Meteor"
       },
       {
         "name": "Hyper Voice"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Roost"
       }
     ],
     "natures": [
@@ -28514,13 +28560,13 @@
         "name": "Freeze-Dry"
       },
       {
-        "name": "Blizzard"
-      },
-      {
         "name": "Ice Shard"
       },
       {
-        "name": "Flash Cannon"
+        "name": "Taunt"
+      },
+      {
+        "name": "Aurora Veil"
       }
     ],
     "defaultSp": {
@@ -28673,16 +28719,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Endeavor"
-      },
-      {
         "name": "Dazzling Gleam"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Endeavor"
       },
       {
-        "name": "Misty Explosion"
+        "name": "Sticky Web"
+      },
+      {
+        "name": "Yawn"
       }
     ],
     "defaultSp": {
@@ -28848,7 +28894,7 @@
         "name": "Flamethrower"
       },
       {
-        "name": "U-turn"
+        "name": "Taunt"
       }
     ],
     "defaultSp": {
@@ -29008,13 +29054,13 @@
         "name": "Sucker Punch"
       },
       {
-        "name": "Close Combat"
-      },
-      {
         "name": "Knock Off"
       },
       {
-        "name": "Night Slash"
+        "name": "Close Combat"
+      },
+      {
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -29092,13 +29138,13 @@
         "name": "Sucker Punch"
       },
       {
-        "name": "Close Combat"
-      },
-      {
         "name": "Knock Off"
       },
       {
-        "name": "Night Slash"
+        "name": "Close Combat"
+      },
+      {
+        "name": "Swords Dance"
       }
     ],
     "natures": [
@@ -29295,10 +29341,10 @@
         "name": "Sucker Punch"
       },
       {
-        "name": "Knock Off"
+        "name": "Sticky Web"
       },
       {
-        "name": "Poison Jab"
+        "name": "Toxic Thread"
       }
     ],
     "defaultSp": {
@@ -29458,13 +29504,13 @@
         "name": "Freeze-Dry"
       },
       {
-        "name": "Explosion"
+        "name": "Sheer Cold"
       },
       {
-        "name": "Earthquake"
+        "name": "Protect"
       },
       {
-        "name": "Ice Shard"
+        "name": "Substitute"
       }
     ],
     "defaultSp": {
@@ -29542,13 +29588,13 @@
         "name": "Freeze-Dry"
       },
       {
-        "name": "Explosion"
+        "name": "Sheer Cold"
       },
       {
-        "name": "Earthquake"
+        "name": "Protect"
       },
       {
-        "name": "Ice Shard"
+        "name": "Substitute"
       }
     ],
     "natures": [
@@ -29742,13 +29788,13 @@
         "name": "Scald"
       },
       {
-        "name": "Ice Beam"
+        "name": "Chilly Reception"
       },
       {
-        "name": "Psychic"
+        "name": "Yawn"
       },
       {
-        "name": "Surf"
+        "name": "Slack Off"
       }
     ],
     "defaultSp": {
@@ -29908,13 +29954,13 @@
         "name": "Mountain Gale"
       },
       {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Body Press"
-      },
-      {
         "name": "Rock Blast"
+      },
+      {
+        "name": "Mirror Coat"
+      },
+      {
+        "name": "Earthquake"
       }
     ],
     "defaultSp": {
@@ -30066,13 +30112,13 @@
         "name": "Water Pulse"
       },
       {
+        "name": "Aqua Jet"
+      },
+      {
         "name": "Aura Sphere"
       },
       {
         "name": "Dark Pulse"
-      },
-      {
-        "name": "Aqua Jet"
       }
     ],
     "defaultSp": {
@@ -30224,13 +30270,13 @@
         "name": "Night Daze"
       },
       {
+        "name": "Sucker Punch"
+      },
+      {
         "name": "Flamethrower"
       },
       {
         "name": "Sludge Bomb"
-      },
-      {
-        "name": "Sucker Punch"
       }
     ],
     "defaultSp": {
@@ -30390,13 +30436,13 @@
         "name": "Earthquake"
       },
       {
+        "name": "Rock Blast"
+      },
+      {
         "name": "Ice Punch"
       },
       {
-        "name": "Supercell Slam"
-      },
-      {
-        "name": "Rock Blast"
+        "name": "Metal Burst"
       }
     ],
     "defaultSp": {
@@ -30553,16 +30599,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Body Press"
-      },
-      {
         "name": "Icicle Spear"
       },
       {
-        "name": "Avalanche"
+        "name": "Body Press"
       },
       {
-        "name": "Earthquake"
+        "name": "Recover"
+      },
+      {
+        "name": "Iron Defense"
       }
     ],
     "defaultSp": {
@@ -30722,10 +30768,10 @@
         "name": "Fickle Beam"
       },
       {
-        "name": "Earth Power"
+        "name": "Giga Drain"
       },
       {
-        "name": "Giga Drain"
+        "name": "Earth Power"
       },
       {
         "name": "Sucker Punch"
@@ -30884,13 +30930,13 @@
         "name": "Steel Beam"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Reflect"
       },
       {
-        "name": "Foul Play"
+        "name": "Light Screen"
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Thunder Wave"
       }
     ],
     "defaultSp": {
@@ -31050,13 +31096,13 @@
         "name": "Psychic"
       },
       {
-        "name": "Twin Beam"
-      },
-      {
         "name": "Dazzling Gleam"
       },
       {
         "name": "Thunderbolt"
+      },
+      {
+        "name": "Trick Room"
       }
     ],
     "defaultSp": {
@@ -31212,13 +31258,13 @@
         "name": "Volt Tackle"
       },
       {
+        "name": "Thunderbolt"
+      },
+      {
         "name": "Quick Attack"
       },
       {
         "name": "Fake Out"
-      },
-      {
-        "name": "Thunderbolt"
       }
     ],
     "defaultSp": {
@@ -31374,10 +31420,13 @@
         "name": "Foul Play"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Will-O-Wisp"
       },
       {
-        "name": "Poltergeist"
+        "name": "Trick Room"
+      },
+      {
+        "name": "Curse"
       }
     ],
     "defaultSp": {
@@ -31534,6 +31583,9 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Leaf Storm"
+      },
+      {
         "name": "Sludge Bomb"
       },
       {
@@ -31541,9 +31593,6 @@
       },
       {
         "name": "Shadow Ball"
-      },
-      {
-        "name": "Leaf Storm"
       }
     ],
     "defaultSp": {
@@ -31701,7 +31750,7 @@
         "name": "Quick Attack"
       },
       {
-        "name": "Fake Out"
+        "name": "Protect"
       }
     ],
     "defaultSp": {
@@ -31858,16 +31907,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Poltergeist"
-      },
-      {
         "name": "Headlong Rush"
       },
       {
-        "name": "Ice Punch"
+        "name": "Poltergeist"
       },
       {
         "name": "Drain Punch"
+      },
+      {
+        "name": "Ice Punch"
       }
     ],
     "defaultSp": {
@@ -31942,16 +31991,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Poltergeist"
-      },
-      {
         "name": "Headlong Rush"
       },
       {
-        "name": "Ice Punch"
+        "name": "Poltergeist"
       },
       {
         "name": "Drain Punch"
+      },
+      {
+        "name": "Ice Punch"
       }
     ],
     "natures": [
@@ -32142,16 +32191,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Dark Pulse"
+        "name": "Flamethrower"
       },
       {
-        "name": "Flamethrower"
+        "name": "Dark Pulse"
       },
       {
         "name": "Sucker Punch"
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Destiny Bond"
       }
     ],
     "defaultSp": {
@@ -32226,16 +32275,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Dark Pulse"
+        "name": "Flamethrower"
       },
       {
-        "name": "Flamethrower"
+        "name": "Dark Pulse"
       },
       {
         "name": "Sucker Punch"
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Destiny Bond"
       }
     ],
     "natures": [
@@ -32425,13 +32474,13 @@
         "name": "Alluring Voice"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Calm Mind"
       },
       {
-        "name": "Mystical Fire"
+        "name": "Acid Armor"
       },
       {
-        "name": "Stored Power"
+        "name": "Recover"
       }
     ],
     "defaultSp": {
@@ -32594,10 +32643,10 @@
         "name": "Endeavor"
       },
       {
-        "name": "Rock Tomb"
+        "name": "Glare"
       },
       {
-        "name": "Stone Edge"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -32754,16 +32803,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Psychic"
+      },
+      {
         "name": "Focus Blast"
       },
       {
         "name": "Shadow Ball"
       },
       {
-        "name": "Psychic"
-      },
-      {
-        "name": "Psychic Noise"
+        "name": "Trick Room"
       }
     ],
     "defaultSp": {
@@ -32923,10 +32972,10 @@
         "name": "Close Combat"
       },
       {
-        "name": "Raging Bull"
+        "name": "Aqua Jet"
       },
       {
-        "name": "Aqua Jet"
+        "name": "Raging Bull"
       },
       {
         "name": "Wild Charge"
@@ -33081,13 +33130,13 @@
         "name": "Blizzard"
       },
       {
-        "name": "Volt Switch"
-      },
-      {
         "name": "Thunderbolt"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Volt Switch"
+      },
+      {
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -33250,7 +33299,10 @@
         "name": "Alluring Voice"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Reflect"
+      },
+      {
+        "name": "Light Screen"
       }
     ],
     "defaultSp": {
@@ -33403,16 +33455,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Solar Beam"
-      },
-      {
         "name": "Flamethrower"
       },
       {
-        "name": "Mystical Fire"
+        "name": "Solar Beam"
       },
       {
-        "name": "Overheat"
+        "name": "Encore"
+      },
+      {
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -33574,7 +33626,7 @@
         "name": "Shadow Ball"
       },
       {
-        "name": "Burn Up"
+        "name": "Focus Blast"
       }
     ],
     "defaultSp": {
@@ -33734,13 +33786,13 @@
         "name": "Close Combat"
       },
       {
-        "name": "Sucker Punch"
-      },
-      {
         "name": "Poison Jab"
       },
       {
-        "name": "Gunk Shot"
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Fake Out"
       }
     ],
     "defaultSp": {
@@ -33896,13 +33948,13 @@
         "name": "Blizzard"
       },
       {
-        "name": "Freeze-Dry"
-      },
-      {
         "name": "Ancient Power"
       },
       {
-        "name": "Earth Power"
+        "name": "Aurora Veil"
+      },
+      {
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -34059,16 +34111,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Earth Power"
-      },
-      {
         "name": "Thunderbolt"
       },
       {
-        "name": "Discharge"
+        "name": "Earth Power"
       },
       {
-        "name": "Scald"
+        "name": "Stealth Rock"
+      },
+      {
+        "name": "Yawn"
       }
     ],
     "defaultSp": {
@@ -34228,10 +34280,13 @@
         "name": "Horn Leech"
       },
       {
-        "name": "Poltergeist"
+        "name": "Leech Seed"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Protect"
+      },
+      {
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -34387,13 +34442,13 @@
         "name": "Head Smash"
       },
       {
-        "name": "Earthquake"
-      },
-      {
         "name": "Outrage"
       },
       {
-        "name": "Ice Fang"
+        "name": "Earthquake"
+      },
+      {
+        "name": "Dragon Dance"
       }
     ],
     "defaultSp": {
@@ -34553,10 +34608,10 @@
         "name": "Supercell Slam"
       },
       {
-        "name": "Ice Fang"
+        "name": "Volt Switch"
       },
       {
-        "name": "Volt Switch"
+        "name": "Ice Fang"
       },
       {
         "name": "Psychic Fangs"
@@ -34716,16 +34771,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Eruption"
+      },
+      {
         "name": "Earth Power"
       },
       {
         "name": "Ancient Power"
       },
       {
-        "name": "Eruption"
-      },
-      {
-        "name": "Flamethrower"
+        "name": "Flash Cannon"
       }
     ],
     "defaultSp": {
@@ -34800,16 +34855,16 @@
     ],
     "defaultMoves": [
       {
+        "name": "Eruption"
+      },
+      {
         "name": "Earth Power"
       },
       {
         "name": "Ancient Power"
       },
       {
-        "name": "Eruption"
-      },
-      {
-        "name": "Flamethrower"
+        "name": "Flash Cannon"
       }
     ],
     "natures": [
@@ -35000,16 +35055,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Bullet Punch"
-      },
-      {
         "name": "Drain Punch"
       },
       {
         "name": "Darkest Lariat"
       },
       {
-        "name": "Close Combat"
+        "name": "Bullet Punch"
+      },
+      {
+        "name": "Ice Punch"
       }
     ],
     "defaultSp": {
@@ -35168,10 +35223,10 @@
         "name": "Knock Off"
       },
       {
-        "name": "Solar Blade"
+        "name": "Swords Dance"
       },
       {
-        "name": "X-Scissor"
+        "name": "Leech Seed"
       }
     ],
     "defaultSp": {
@@ -35330,10 +35385,10 @@
         "name": "Air Slash"
       },
       {
-        "name": "Volt Switch"
+        "name": "Encore"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Taunt"
       }
     ],
     "defaultSp": {
@@ -35495,7 +35550,7 @@
         "name": "Quick Attack"
       },
       {
-        "name": "Flame Charge"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -35657,7 +35712,7 @@
         "name": "Shadow Sneak"
       },
       {
-        "name": "Poltergeist"
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -35816,10 +35871,10 @@
         "name": "Draining Kiss"
       },
       {
-        "name": "Giga Drain"
+        "name": "Calm Mind"
       },
       {
-        "name": "Psychic Noise"
+        "name": "Synthesis"
       }
     ],
     "defaultSp": {
@@ -35972,10 +36027,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Metal Burst"
+      },
+      {
         "name": "Body Press"
       },
       {
-        "name": "Foul Play"
+        "name": "Fissure"
+      },
+      {
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -36134,10 +36195,10 @@
         "name": "Focus Blast"
       },
       {
-        "name": "Volt Switch"
+        "name": "Grass Knot"
       },
       {
-        "name": "Fake Out"
+        "name": "Nasty Plot"
       }
     ],
     "defaultSp": {
@@ -36292,10 +36353,10 @@
         "name": "Psychic"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Electric Terrain"
       },
       {
-        "name": "Surf"
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -36461,7 +36522,7 @@
         "name": "Thunderbolt"
       },
       {
-        "name": "Dark Pulse"
+        "name": "Nasty Plot"
       }
     ],
     "defaultSp": {
@@ -36542,7 +36603,10 @@
         "name": "Alluring Voice"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Reflect"
+      },
+      {
+        "name": "Light Screen"
       }
     ],
     "natures": [
@@ -36739,10 +36803,10 @@
         "name": "Power Whip"
       },
       {
-        "name": "Explosion"
+        "name": "Will-O-Wisp"
       },
       {
-        "name": "Shadow Sneak"
+        "name": "Leech Seed"
       }
     ],
     "defaultSp": {
@@ -37064,13 +37128,13 @@
         "name": "Apple Acid"
       },
       {
-        "name": "Body Press"
+        "name": "Recover"
       },
       {
-        "name": "Draco Meteor"
+        "name": "Leech Seed"
       },
       {
-        "name": "Dragon Pulse"
+        "name": "Iron Defense"
       }
     ],
     "defaultSp": {
@@ -37236,7 +37300,7 @@
         "name": "Lunge"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Trick Room"
       }
     ],
     "defaultSp": {
@@ -37402,7 +37466,7 @@
         "name": "Super Fang"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Charm"
       }
     ],
     "defaultSp": {
@@ -37562,13 +37626,13 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Healing Wish"
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Trick Room"
       },
       {
-        "name": "Ice Beam"
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -37646,13 +37710,13 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Healing Wish"
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Trick Room"
       },
       {
-        "name": "Ice Beam"
+        "name": "Encore"
       }
     ],
     "natures": [
@@ -37844,7 +37908,7 @@
         "name": "Volt Switch"
       },
       {
-        "name": "Discharge"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -37996,13 +38060,13 @@
         "name": "Snap Trap"
       },
       {
-        "name": "Earthquake"
+        "name": "Fissure"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Yawn"
       },
       {
-        "name": "Foul Play"
+        "name": "Stealth Rock"
       }
     ],
     "defaultSp": {
@@ -38162,13 +38226,13 @@
         "name": "Accelerock"
       },
       {
+        "name": "Rock Slide"
+      },
+      {
         "name": "Close Combat"
       },
       {
         "name": "Endeavor"
-      },
-      {
-        "name": "Rock Slide"
       }
     ],
     "defaultSp": {
@@ -38331,10 +38395,10 @@
         "name": "Psychic"
       },
       {
-        "name": "Ice Shard"
+        "name": "Sheer Cold"
       },
       {
-        "name": "Rapid Spin"
+        "name": "Ice Shard"
       }
     ],
     "defaultSp": {
@@ -38491,16 +38555,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Dragon Tail"
-      },
-      {
         "name": "Gunk Shot"
       },
       {
-        "name": "Knock Off"
+        "name": "Dragon Tail"
       },
       {
-        "name": "Earthquake"
+        "name": "Glare"
+      },
+      {
+        "name": "Toxic Spikes"
       }
     ],
     "defaultSp": {
@@ -38818,13 +38882,13 @@
         "name": "Ice Fang"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Cotton Guard"
       },
       {
-        "name": "Psychic Fangs"
+        "name": "Thunder Wave"
       },
       {
-        "name": "Last Resort"
+        "name": "Roar"
       }
     ],
     "defaultSp": {
@@ -38984,7 +39048,13 @@
         "name": "Foul Play"
       },
       {
-        "name": "Fake Out"
+        "name": "Encore"
+      },
+      {
+        "name": "Copycat"
+      },
+      {
+        "name": "Protect"
       }
     ],
     "defaultSp": {
@@ -39144,13 +39214,13 @@
         "name": "Grav Apple"
       },
       {
-        "name": "Sucker Punch"
-      },
-      {
         "name": "Outrage"
       },
       {
-        "name": "U-turn"
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Dragon Dance"
       }
     ],
     "defaultSp": {
@@ -39307,16 +39377,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Explosion"
-      },
-      {
         "name": "Gunk Shot"
       },
       {
-        "name": "Stomping Tantrum"
+        "name": "Explosion"
       },
       {
-        "name": "Drain Punch"
+        "name": "Toxic Spikes"
+      },
+      {
+        "name": "Pain Split"
       }
     ],
     "defaultSp": {
@@ -39482,7 +39552,7 @@
         "name": "Close Combat"
       },
       {
-        "name": "Iron Tail"
+        "name": "Counter"
       }
     ],
     "defaultSp": {
@@ -39635,16 +39705,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Surf"
+      },
+      {
         "name": "Ice Beam"
       },
       {
         "name": "Vacuum Wave"
       },
       {
-        "name": "Surf"
-      },
-      {
-        "name": "Hydro Pump"
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -39801,13 +39871,13 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Raging Bull"
+      },
+      {
         "name": "Iron Head"
       },
       {
         "name": "Earthquake"
-      },
-      {
-        "name": "Raging Bull"
       },
       {
         "name": "Rock Slide"
@@ -39970,13 +40040,13 @@
         "name": "Psychic"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Trick Room"
       },
       {
-        "name": "Foul Play"
+        "name": "Instruct"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Yawn"
       }
     ],
     "defaultSp": {
@@ -40129,16 +40199,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Ice Beam"
+        "name": "Hydro Pump"
       },
       {
-        "name": "Hydro Pump"
+        "name": "Ice Beam"
       },
       {
         "name": "Focus Blast"
       },
       {
-        "name": "Scald"
+        "name": "Grass Knot"
       }
     ],
     "defaultSp": {
@@ -40294,10 +40364,10 @@
         "name": "Drain Punch"
       },
       {
-        "name": "Close Combat"
+        "name": "Earthquake"
       },
       {
-        "name": "Earthquake"
+        "name": "Rock Slide"
       },
       {
         "name": "Knock Off"
@@ -40456,13 +40526,13 @@
         "name": "Moonblast"
       },
       {
-        "name": "Misty Explosion"
-      },
-      {
         "name": "Thunderbolt"
       },
       {
-        "name": "Energy Ball"
+        "name": "Trick Room"
+      },
+      {
+        "name": "Encore"
       }
     ],
     "defaultSp": {
@@ -40618,7 +40688,7 @@
         "name": "Overheat"
       },
       {
-        "name": "Flamethrower"
+        "name": "Grass Knot"
       },
       {
         "name": "Scorching Sands"
@@ -40784,13 +40854,13 @@
         "name": "Super Fang"
       },
       {
+        "name": "Double-Edge"
+      },
+      {
         "name": "Ice Punch"
       },
       {
         "name": "Thunder Punch"
-      },
-      {
-        "name": "Double-Edge"
       }
     ],
     "defaultSp": {
@@ -40943,16 +41013,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Fake Out"
+        "name": "Leaf Storm"
       },
       {
-        "name": "Leaf Storm"
+        "name": "Seed Bomb"
       },
       {
         "name": "Rock Slide"
       },
       {
-        "name": "Seed Bomb"
+        "name": "Fake Out"
       }
     ],
     "defaultSp": {
@@ -41101,16 +41171,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Volt Switch"
-      },
-      {
         "name": "Shadow Ball"
       },
       {
         "name": "Thunderbolt"
       },
       {
-        "name": "Hex"
+        "name": "Volt Switch"
+      },
+      {
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -41425,6 +41495,9 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Close Combat"
+      },
+      {
         "name": "Raging Bull"
       },
       {
@@ -41432,9 +41505,6 @@
       },
       {
         "name": "Iron Head"
-      },
-      {
-        "name": "Close Combat"
       }
     ],
     "defaultSp": {
@@ -41699,10 +41769,10 @@
         "name": "Sludge Bomb"
       },
       {
-        "name": "Acid Spray"
+        "name": "Strength Sap"
       },
       {
-        "name": "Moonblast"
+        "name": "Leech Seed"
       }
     ],
     "defaultSp": {
@@ -41865,10 +41935,10 @@
         "name": "Flip Turn"
       },
       {
-        "name": "Liquidation"
+        "name": "Destiny Bond"
       },
       {
-        "name": "Aqua Jet"
+        "name": "Toxic Spikes"
       }
     ],
     "defaultSp": {
@@ -42021,16 +42091,16 @@
     "teras": [],
     "defaultMoves": [
       {
+        "name": "Leaf Storm"
+      },
+      {
         "name": "Dragon Pulse"
       },
       {
         "name": "Earth Power"
       },
       {
-        "name": "Leaf Storm"
-      },
-      {
-        "name": "Vacuum Wave"
+        "name": "Shed Tail"
       }
     ],
     "defaultSp": {
@@ -42105,16 +42175,16 @@
     ],
     "defaultMoves": [
       {
+        "name": "Leaf Storm"
+      },
+      {
         "name": "Dragon Pulse"
       },
       {
         "name": "Earth Power"
       },
       {
-        "name": "Leaf Storm"
-      },
-      {
-        "name": "Vacuum Wave"
+        "name": "Shed Tail"
       }
     ],
     "natures": [
@@ -42307,10 +42377,10 @@
         "name": "Close Combat"
       },
       {
-        "name": "Thunder Punch"
+        "name": "Swords Dance"
       },
       {
-        "name": "High Jump Kick"
+        "name": "Protect"
       }
     ],
     "defaultSp": {
@@ -42391,10 +42461,10 @@
         "name": "Close Combat"
       },
       {
-        "name": "Thunder Punch"
+        "name": "Swords Dance"
       },
       {
-        "name": "High Jump Kick"
+        "name": "Protect"
       }
     ],
     "natures": [
@@ -42587,10 +42657,10 @@
         "name": "Wave Crash"
       },
       {
-        "name": "Ice Punch"
+        "name": "Flip Turn"
       },
       {
-        "name": "Flip Turn"
+        "name": "Ice Punch"
       }
     ],
     "defaultSp": {
@@ -42671,10 +42741,10 @@
         "name": "Wave Crash"
       },
       {
-        "name": "Ice Punch"
+        "name": "Flip Turn"
       },
       {
-        "name": "Flip Turn"
+        "name": "Ice Punch"
       }
     ],
     "natures": [
@@ -42868,13 +42938,13 @@
         "name": "Play Rough"
       },
       {
-        "name": "Sucker Punch"
-      },
-      {
         "name": "Iron Head"
       },
       {
-        "name": "Thunder Punch"
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -42952,13 +43022,13 @@
         "name": "Play Rough"
       },
       {
-        "name": "Sucker Punch"
-      },
-      {
         "name": "Iron Head"
       },
       {
-        "name": "Thunder Punch"
+        "name": "Sucker Punch"
+      },
+      {
+        "name": "Swords Dance"
       }
     ],
     "natures": [
@@ -43425,16 +43495,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Close Combat"
+        "name": "Brave Bird"
       },
       {
-        "name": "Brave Bird"
+        "name": "Close Combat"
       },
       {
         "name": "Blaze Kick"
       },
       {
-        "name": "U-turn"
+        "name": "Roost"
       }
     ],
     "defaultSp": {
@@ -43509,16 +43579,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Close Combat"
+        "name": "Brave Bird"
       },
       {
-        "name": "Brave Bird"
+        "name": "Close Combat"
       },
       {
         "name": "Blaze Kick"
       },
       {
-        "name": "U-turn"
+        "name": "Roost"
       }
     ],
     "natures": [
@@ -43712,13 +43782,13 @@
         "name": "Moonblast"
       },
       {
-        "name": "Psychic"
+        "name": "Trick Room"
       },
       {
-        "name": "Misty Explosion"
+        "name": "Healing Wish"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Yawn"
       }
     ],
     "defaultSp": {
@@ -43874,13 +43944,13 @@
         "name": "Leech Life"
       },
       {
-        "name": "Earthquake"
-      },
-      {
         "name": "Poison Jab"
       },
       {
-        "name": "Gunk Shot"
+        "name": "Earthquake"
+      },
+      {
+        "name": "Swords Dance"
       }
     ],
     "defaultSp": {
@@ -43958,13 +44028,13 @@
         "name": "Leech Life"
       },
       {
-        "name": "Earthquake"
-      },
-      {
         "name": "Poison Jab"
       },
       {
-        "name": "Gunk Shot"
+        "name": "Earthquake"
+      },
+      {
+        "name": "Swords Dance"
       }
     ],
     "natures": [
@@ -44151,16 +44221,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Drain Punch"
+        "name": "Knock Off"
       },
       {
-        "name": "Knock Off"
+        "name": "Drain Punch"
       },
       {
         "name": "Ice Punch"
       },
       {
-        "name": "Poison Jab"
+        "name": "Dragon Dance"
       }
     ],
     "defaultSp": {
@@ -44235,16 +44305,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Drain Punch"
+        "name": "Knock Off"
       },
       {
-        "name": "Knock Off"
+        "name": "Drain Punch"
       },
       {
         "name": "Ice Punch"
       },
       {
-        "name": "Poison Jab"
+        "name": "Dragon Dance"
       }
     ],
     "natures": [
@@ -44432,7 +44502,7 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Coil"
       }
     ],
     "defaultSp": {
@@ -44516,7 +44586,7 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Coil"
       }
     ],
     "natures": [
@@ -44710,13 +44780,13 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Overheat"
-      },
-      {
         "name": "Hyper Voice"
       },
       {
         "name": "Scorching Sands"
+      },
+      {
+        "name": "Yawn"
       }
     ],
     "defaultSp": {
@@ -44794,13 +44864,13 @@
         "name": "Flamethrower"
       },
       {
-        "name": "Overheat"
-      },
-      {
         "name": "Hyper Voice"
       },
       {
         "name": "Scorching Sands"
+      },
+      {
+        "name": "Yawn"
       }
     ],
     "natures": [
@@ -44987,13 +45057,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Superpower"
-      },
-      {
         "name": "Knock Off"
       },
       {
-        "name": "Psycho Cut"
+        "name": "Superpower"
+      },
+      {
+        "name": "Baton Pass"
+      },
+      {
+        "name": "Topsy-Turvy"
       }
     ],
     "defaultSp": {
@@ -45068,13 +45141,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Superpower"
-      },
-      {
         "name": "Knock Off"
       },
       {
-        "name": "Psycho Cut"
+        "name": "Superpower"
+      },
+      {
+        "name": "Baton Pass"
+      },
+      {
+        "name": "Topsy-Turvy"
       }
     ],
     "natures": [
@@ -45265,16 +45341,16 @@
     "teras": [],
     "defaultMoves": [
       {
-        "name": "Close Combat"
-      },
-      {
         "name": "Rock Blast"
       },
       {
-        "name": "Earthquake"
+        "name": "Liquidation"
       },
       {
-        "name": "Liquidation"
+        "name": "Close Combat"
+      },
+      {
+        "name": "Shell Smash"
       }
     ],
     "defaultSp": {
@@ -45349,16 +45425,16 @@
     ],
     "defaultMoves": [
       {
-        "name": "Close Combat"
-      },
-      {
         "name": "Rock Blast"
       },
       {
-        "name": "Earthquake"
+        "name": "Liquidation"
       },
       {
-        "name": "Liquidation"
+        "name": "Close Combat"
+      },
+      {
+        "name": "Shell Smash"
       }
     ],
     "natures": [
@@ -45552,13 +45628,13 @@
         "name": "Spirit Break"
       },
       {
-        "name": "Foul Play"
+        "name": "Reflect"
       },
       {
-        "name": "Sucker Punch"
+        "name": "Light Screen"
       },
       {
-        "name": "Fake Out"
+        "name": "Parting Shot"
       }
     ],
     "defaultSp": {
@@ -45720,7 +45796,7 @@
         "name": "Iron Head"
       },
       {
-        "name": "First Impression"
+        "name": "No Retreat"
       }
     ],
     "defaultSp": {
@@ -45804,7 +45880,7 @@
         "name": "Iron Head"
       },
       {
-        "name": "First Impression"
+        "name": "No Retreat"
       }
     ],
     "natures": [
@@ -46000,7 +46076,7 @@
         "name": "Play Rough"
       },
       {
-        "name": "Body Press"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -46163,10 +46239,10 @@
         "name": "Drain Punch"
       },
       {
-        "name": "Ice Punch"
+        "name": "Bulk Up"
       },
       {
-        "name": "Close Combat"
+        "name": "Taunt"
       }
     ],
     "defaultSp": {
@@ -46321,10 +46397,10 @@
         "name": "Make It Rain"
       },
       {
-        "name": "Thunderbolt"
+        "name": "Nasty Plot"
       },
       {
-        "name": "Power Gem"
+        "name": "Recover"
       }
     ],
     "defaultSp": {
@@ -46480,13 +46556,13 @@
         "name": "Draco Meteor"
       },
       {
-        "name": "Flip Turn"
-      },
-      {
         "name": "Sludge Wave"
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Flip Turn"
+      },
+      {
+        "name": "Toxic"
       }
     ],
     "defaultSp": {
@@ -46564,13 +46640,13 @@
         "name": "Draco Meteor"
       },
       {
-        "name": "Flip Turn"
-      },
-      {
         "name": "Sludge Wave"
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Flip Turn"
+      },
+      {
+        "name": "Toxic"
       }
     ],
     "natures": [
@@ -46767,10 +46843,10 @@
         "name": "Power Whip"
       },
       {
-        "name": "Explosion"
+        "name": "Will-O-Wisp"
       },
       {
-        "name": "Shadow Sneak"
+        "name": "Trick"
       }
     ],
     "defaultSp": {
@@ -46933,10 +47009,10 @@
         "name": "Power Whip"
       },
       {
-        "name": "Shadow Sneak"
+        "name": "Leech Seed"
       },
       {
-        "name": "Explosion"
+        "name": "Will-O-Wisp"
       }
     ],
     "defaultSp": {
@@ -47191,7 +47267,10 @@
         "name": "Barb Barrage"
       },
       {
-        "name": "Crunch"
+        "name": "Minimize"
+      },
+      {
+        "name": "Substitute"
       }
     ],
     "defaultSp": {
@@ -47354,10 +47433,10 @@
         "name": "Power Whip"
       },
       {
-        "name": "Explosion"
+        "name": "Will-O-Wisp"
       },
       {
-        "name": "Shadow Sneak"
+        "name": "Leech Seed"
       }
     ],
     "defaultSp": {
