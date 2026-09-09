@@ -49521,7 +49521,11 @@
       "spd": 0,
       "spe": 32
     },
-    "abilities": [],
+    "abilities": [
+      {
+        "name": "Thermal Exchange"
+      }
+    ],
     "items": [
       {
         "name": "baxcalibrite"

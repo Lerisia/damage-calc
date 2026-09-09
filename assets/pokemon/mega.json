@@ -2834,7 +2834,9 @@
       "spDefense": 101,
       "speed": 87
     },
-    "abilities": [],
+    "abilities": [
+      "Thermal Exchange"
+    ],
     "weight": 315.0,
     "height": 2.1,
     "dexNumber": 998,
