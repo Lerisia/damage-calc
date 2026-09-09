@@ -42547,9 +42547,6 @@
       },
       {
         "name": "Octolock"
-      },
-      {
-        "name": "Octazooka"
       }
     ],
     "defaultMoves": [
@@ -43591,6 +43588,77 @@
       },
       {
         "name": "Knock Off"
+      }
+    ]
+  },
+  "Mr. Mime": {
+    "abilities": [
+      {
+        "name": "Filter"
+      },
+      {
+        "name": "Technician"
+      }
+    ],
+    "items": [
+      {
+        "name": "focus-sash"
+      },
+      {
+        "name": "light-clay"
+      },
+      {
+        "name": "leftovers"
+      }
+    ],
+    "moves": [
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Psychic"
+      },
+      {
+        "name": "Fake Out"
+      },
+      {
+        "name": "Encore"
+      },
+      {
+        "name": "Nasty Plot"
+      },
+      {
+        "name": "Light Screen"
+      }
+    ],
+    "natures": [
+      {
+        "name": "Timid"
+      },
+      {
+        "name": "Calm"
+      }
+    ],
+    "defaultSp": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 0,
+      "spe": 32
+    },
+    "defaultMoves": [
+      {
+        "name": "Dazzling Gleam"
+      },
+      {
+        "name": "Psychic"
+      },
+      {
+        "name": "Fake Out"
+      },
+      {
+        "name": "Encore"
       }
     ]
   }

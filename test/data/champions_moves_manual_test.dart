@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// The Champions move allowlist is rebuilt daily from yakkun, which lags
-/// the game when a species joins mid-season. fetch_champions_moves.py
-/// unions MANUAL_ADDITIONS into its output; this pins that the asset
-/// actually carries them, so a refresh that drops the union fails here
-/// instead of silently hiding Pyro Ball from Cinderace.
+/// The Champions move allowlist is rebuilt daily from the ROM dump. This
+/// pins the M-C signature moves so a source or parser change that drops
+/// them fails here instead of silently hiding Pyro Ball from Cinderace.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -18,7 +16,7 @@ void main() {
     for (final m in const [
       'Pyro Ball', 'Court Change', 'Drum Beating', 'Glaive Rush',
       'Meteor Assault', 'Octolock', 'Snipe Shot', 'Overdrive',
-      'Zing Zap', 'Octazooka', 'Double Shock', 'Revival Blessing',
+      'Zing Zap', 'Double Shock', 'Revival Blessing',
     ]) {
       expect(legal, contains(m));
     }

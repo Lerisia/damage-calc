@@ -1,20 +1,12 @@
 #!/usr/bin/env python3
-"""Build the Champions-legal move allowlist from yakkun's move list.
+"""Build the Champions-legal move allowlist from the game's own data.
 
-Champions (the game) ships a restricted move roster — a subset of the
-national-dex movepool. Neither pkmnchamps' API nor our champions_usage
-data expose the legal set: the API's `allowed` list is items-only, and
-usage data only surfaces moves people actually ran (a legal-but-unused
-move never appears). yakkun's /ch/move_list.htm is the one source that
-enumerates the full Champions move roster (~497 moves), so we scrape it
-into an allowlist asset the app reads to hide non-Champions moves when
-"Champions only" is on.
-
-Match strategy: yakkun lists moves by Japanese name; we map those to
-our English move keys via each move's `nameJa` in assets/moves/*.json.
-NFKC normalization folds full-width digits/latin (１０まんボルト →
-10まんボルト) so the join is exact — verified 497/497 with zero
-ambiguity at authoring time.
+Champions ships a restricted move roster — a subset of the national-dex
+movepool. projectpokemon/champout dumps it straight from the ROM as
+parse/move_availability.txt (one `<id>\\t<English name>` per line), so
+the allowlist is exact and updates the same day a patch lands. Until
+2026-09-09 this scraped yakkun's move list instead, which lagged the
+game by days and needed a hand-maintained additions list.
 
 Output: assets/champions_moves.json
   {
@@ -25,18 +17,16 @@ Output: assets/champions_moves.json
 Usage:
     python3 tools/fetch_champions_moves.py
 
-Re-run after a Champions patch changes the move roster. If yakkun's
-markup shifts and the scrape yields an implausibly small set, the
-tool aborts rather than shipping a truncated allowlist that would
-hide legal moves.
+Names are matched to our movedex by exact English name; a name that
+doesn't match is reported and omitted, and an implausibly short list
+aborts rather than shipping a truncated allowlist that would hide legal
+moves.
 """
 from __future__ import annotations
 
 import json
-import re
 import sys
 import time
-import unicodedata
 import urllib.request
 from pathlib import Path
 
@@ -44,104 +34,60 @@ REPO = Path(__file__).resolve().parent.parent
 MOVES_DIR = REPO / "assets" / "moves"
 OUT_PATH = REPO / "assets" / "champions_moves.json"
 
-# Moves that are legal in Champions but absent from yakkun's roster.
-# When a species joins Champions mid-season its signature moves come
-# with it, and yakkun's list lags the game. Unioned into the output so
-# the daily refresh doesn't strip them; drop a name once yakkun
-# carries it. Names are our movedex display names.
-MANUAL_ADDITIONS: frozenset[str] = frozenset({
-    # M-C (2026-09-09): Cinderace, Rillaboom, Baxcalibur, Sirfetch'd,
-    # Grapploct, Inteleon, Toxtricity
-    "Pyro Ball", "Court Change", "Drum Beating", "Glaive Rush",
-    "Meteor Assault", "Octolock", "Snipe Shot", "Overdrive",
-    # shared signatures: Pincurchin (Zing Zap), Grapploct (Octazooka)
-    "Zing Zap", "Octazooka",
-    # Pawmot (added to M-C after the datamine)
-    "Double Shock", "Revival Blessing",
-})
-URL = "https://yakkun.com/ch/move_list.htm"
-
-# Below this, assume the scrape broke (markup drift, partial page) and
-# refuse to overwrite — hiding legal moves is worse than a stale list.
-MIN_PLAUSIBLE = 400
+URL = ("https://raw.githubusercontent.com/projectpokemon/champout/main/"
+       "parse/move_availability.txt")
+MIN_PLAUSIBLE = 450
 
 
-def norm(s: str) -> str:
-    """NFKC so full-width digits/latin fold to half-width, matching
-    across yakkun's and our own JP spellings."""
-    return unicodedata.normalize("NFKC", s).strip()
+def fetch_rom_names() -> list[str]:
+    req = urllib.request.Request(URL, headers={"User-Agent": "damage-calc/1"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        text = r.read().decode("utf-8")
+    names = []
+    for line in text.splitlines():
+        if "\t" in line:
+            names.append(line.split("\t", 1)[1].strip())
+    return names
 
 
-def fetch_yakkun_ja() -> set[str]:
-    req = urllib.request.Request(
-        URL,
-        headers={
-            "User-Agent": (
-                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                "AppleWebKit/605.1.15 (KHTML, like Gecko) "
-                "Version/17.4 Safari/605.1.15"
-            ),
-            "Accept": "text/html",
-            "Accept-Language": "ja",
-        },
-    )
-    # yakkun serves EUC-JP.
-    html = urllib.request.urlopen(req, timeout=20).read().decode(
-        "euc-jp", errors="ignore")
-    rows = re.findall(r'search/\?move=\d+"[^>]*>([^<]+)</a>', html)
-    return {norm(name) for name in rows}
-
-
-def build_ja_to_english() -> dict[str, list[str]]:
-    out: dict[str, list[str]] = {}
+def movedex_names() -> set[str]:
+    out: set[str] = set()
     for f in sorted(MOVES_DIR.glob("*.json")):
         for m in json.loads(f.read_text(encoding="utf-8")):
-            ja = m.get("nameJa")
-            if ja:
-                out.setdefault(norm(ja), []).append(m["name"])
+            out.add(m["name"])
     return out
 
 
 def main() -> int:
     print(f"fetching {URL} …")
-    yakkun = fetch_yakkun_ja()
-    print(f"yakkun champions moves: {len(yakkun)}")
-    if len(yakkun) < MIN_PLAUSIBLE:
-        print(f"ABORT: only {len(yakkun)} moves scraped (< {MIN_PLAUSIBLE}). "
-              "yakkun markup likely changed — not overwriting.")
+    rom = fetch_rom_names()
+    print(f"ROM move roster: {len(rom)}")
+    if len(rom) < MIN_PLAUSIBLE:
+        print(f"ABORT: only {len(rom)} moves (< {MIN_PLAUSIBLE}) — "
+              "file format likely changed, not overwriting.")
         return 1
 
-    ja_to_en = build_ja_to_english()
-    english: set[str] = set()
-    unmatched: list[str] = []
-    for ja in yakkun:
-        hit = ja_to_en.get(ja)
-        if hit:
-            english.update(hit)
-        else:
-            unmatched.append(ja)
-
+    known = movedex_names()
+    english = sorted(n for n in rom if n in known)
+    unmatched = sorted(n for n in rom if n not in known)
     if unmatched:
-        print(f"WARN {len(unmatched)} yakkun moves didn't map to our "
-              f"movedex (will be omitted):")
-        for u in sorted(unmatched):
+        print(f"WARN {len(unmatched)} ROM moves not in our movedex (omitted):")
+        for u in unmatched:
             print(f"  {u}")
-
-    english.update(MANUAL_ADDITIONS)
 
     payload = {
         "_meta": {
-            "source": "yakkun.com/ch/move_list.htm (Champions move roster)",
+            "source": "projectpokemon/champout parse/move_availability.txt (ROM)",
             "updatedAt": time.strftime("%Y-%m-%d"),
             "count": len(english),
         },
-        "moves": sorted(english),
+        "moves": english,
     }
     OUT_PATH.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(f"\nwrote {OUT_PATH}  ({len(english)} moves)")
+    print(f"wrote {OUT_PATH} ({len(english)} moves)")
     return 0
 
 

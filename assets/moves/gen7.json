@@ -638,7 +638,8 @@
     "zPower": 180,
     "descKo": "먼저 부리를 가열시킨 다음 공격을 날린다. 가열 중에 만지면 화상을 입는다.",
     "descEn": "The user first heats up its beak, and then it attacks the target. Making direct contact with the user while it's heating up its beak results in a burn.",
-    "descJa": "最初に　クチバシを　加熱してから 攻撃を　くりだす。 加熱中に　さわると　やけどする。"
+    "descJa": "最初に　クチバシを　加熱してから 攻撃を　くりだす。 加熱中に　さわると　やけどする。",
+    "priority": -3
   },
   {
     "name": "Stomping Tantrum",
@@ -1216,7 +1217,7 @@
     "power": 40,
     "accuracy": 100,
     "pp": 20,
-    "priority": 2,
+    "priority": 1,
     "tags": [
       "contact"
     ],
