@@ -109,11 +109,22 @@ python3 tools/apply_champout_learnsets.py
 # a truncated allowlist that would hide legal moves.
 python3 tools/fetch_champions_moves.py || \
   echo "champions moves refresh failed (non-fatal) — keeping existing allowlist"
-# Move-flag audit against the ROM (punch/sound/slice/contact …). Report
-# only — a mismatch means a Champions patch changed a flag and someone
-# should run `tools/audit_move_flags.py --apply` and ship it.
-python3 tools/audit_move_flags.py || \
-  echo "move flag audit found mismatches — see above"
+# Move-flag audit against the ROM (punch/sound/slice/contact …), but
+# only when the ROM dump actually changed: patches are months apart,
+# so compare champout's latest waza.json commit to the one we last
+# audited and skip otherwise. Report only — a mismatch means a patch
+# changed a flag; run `tools/audit_move_flags.py --apply` and ship it.
+WAZA_SHA_FILE="$HOME/.cache/damage-calc/champout_waza_sha"
+mkdir -p "$(dirname "$WAZA_SHA_FILE")"
+WAZA_SHA=$(curl -sS --max-time 20 \
+  "https://api.github.com/repos/projectpokemon/champout/commits?path=masterdata/waza.json&per_page=1" \
+  | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0]['sha'] if d else '')" 2>/dev/null || true)
+if [[ -n "$WAZA_SHA" && "$WAZA_SHA" != "$(cat "$WAZA_SHA_FILE" 2>/dev/null)" ]]; then
+  echo "ROM move data changed (champout $WAZA_SHA) — auditing move flags"
+  python3 tools/audit_move_flags.py || \
+    echo "move flag audit found mismatches — see above"
+  echo "$WAZA_SHA" > "$WAZA_SHA_FILE"
+fi
 
 if git diff --quiet assets/; then
   echo "No upstream changes — done."
