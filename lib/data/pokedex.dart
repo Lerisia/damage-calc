@@ -37,9 +37,19 @@ Map<String, List<Pokemon>>? _formsByBase;
 /// Empty until [loadPokedex] finishes.
 Map<String, Pokemon>? _byName;
 
+/// Base species → its in-battle form (Aegislash → Blade Forme, Palafin
+/// → Hero Form, Morpeko → Hangry Mode). Built from `formChange:
+/// 'battle'` entries in forms.json. Only forms the player switches into
+/// during a battle belong here — weather forms (Castform) change on
+/// their own and item-locked forms are `fixed`.
+Map<String, Pokemon>? _battleFormByBase;
+
 /// The species entry called [name], or null when the dex hasn't loaded
 /// or no such name exists.
 Pokemon? pokedexByName(String name) => _byName?[name];
+
+/// The in-battle form [species] can switch into, or null.
+Pokemon? battleFormFor(String species) => _battleFormByBase?[species];
 
 /// Whether [loadPokedex] has finished. The form-item lookups below all
 /// answer "not a form item" before that, which callers must not
@@ -130,6 +140,10 @@ Future<List<Pokemon>> _doLoad() async {
   _formByItem = byItem;
   _formsByBase = byBase;
   _byName = {for (final p in pokedex) p.name: p};
+  _battleFormByBase = {
+    for (final p in pokedex)
+      if (p.formChange == 'battle' && p.baseSpecies != null) p.baseSpecies!: p,
+  };
   return pokedex;
 }
 

@@ -861,9 +861,12 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   Widget _megaIcon() {
-    if (!s.canToggleMegaForm) {
+    if (!s.canToggleForm) {
       return const SizedBox(width: 24);
     }
+    // In-battle forms (Aegislash, Palafin, Morpeko) share the slot with
+    // Mega Evolution; the stone wins when both would apply.
+    if (!s.canToggleMegaForm) return _battleFormIcon();
     final active = s.isMega || _isPrimal;
     // The asset is a flat alpha silhouette, so tinting it keeps the
     // icon legible in both themes.
@@ -886,6 +889,27 @@ class PokemonPanelState extends State<PokemonPanel>
             color: tint,
             filterQuality: FilterQuality.medium,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _battleFormIcon() {
+    final active = s.isBattleForm;
+    return GestureDetector(
+      onTap: () {
+        setState(s.toggleForm);
+        _notifyParent();
+      },
+      child: SizedBox(
+        width: 26,
+        height: 26,
+        child: Icon(
+          Icons.change_circle_outlined,
+          size: 24,
+          color: active
+              ? Theme.of(context).colorScheme.onSurface
+              : Colors.grey.shade400,
         ),
       ),
     );

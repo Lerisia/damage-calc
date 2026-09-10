@@ -389,6 +389,29 @@ class BattlePokemonState {
   /// Whether the mega/primal toggle button should be offered.
   bool get canToggleMegaForm => megaToggleTarget != null;
 
+  /// The in-battle form this Pokémon switches to or back from
+  /// (Aegislash ↔ Blade Forme …); null when it has none.
+  Pokemon? get battleFormToggleTarget {
+    if (!isPokedexLoaded) return null;
+    final current = pokedexByName(pokemonName);
+    if (current?.formChange == 'battle') {
+      return pokedexByName(current!.baseSpecies!);
+    }
+    return battleFormFor(pokemonName);
+  }
+
+  /// True while the Pokémon is in its in-battle form.
+  bool get isBattleForm => pokedexByName(pokemonName)?.formChange == 'battle';
+
+  /// Whatever form toggle applies: Mega/Primal takes the slot when the
+  /// held stone allows it, otherwise an in-battle form change.
+  Pokemon? get formToggleTarget => megaToggleTarget ?? battleFormToggleTarget;
+  bool get canToggleForm => formToggleTarget != null;
+
+  /// Switch to [formToggleTarget] with the same contract as
+  /// [toggleMegaForm]: the build stays, the species changes.
+  bool toggleForm() => _switchTo(formToggleTarget);
+
   /// Toggle between base form and its mega/primal form, keeping the
   /// build intact.
   ///
@@ -398,8 +421,9 @@ class BattlePokemonState {
   /// Dynamax/Terastal are mutually exclusive, so those are cleared.
   ///
   /// Returns false when there is nothing to toggle.
-  bool toggleMegaForm() {
-    final target = megaToggleTarget;
+  bool toggleMegaForm() => _switchTo(megaToggleTarget);
+
+  bool _switchTo(Pokemon? target) {
     if (target == null) return false;
 
     pokemonName = target.name;

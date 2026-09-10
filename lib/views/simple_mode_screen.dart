@@ -2142,7 +2142,24 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// pokemon_panel. Shown only when the Pokémon holds its own Mega
   /// Stone or Primal orb; tapping swaps forms while keeping the build.
   Widget _megaIcon(BattlePokemonState state) {
-    if (!state.canToggleMegaForm) return const SizedBox(width: 24);
+    if (!state.canToggleForm) return const SizedBox(width: 24);
+    if (!state.canToggleMegaForm) {
+      // In-battle form (Aegislash, Palafin, Morpeko) — same slot.
+      return GestureDetector(
+        onTap: () => setState(state.toggleForm),
+        child: SizedBox(
+          width: 26,
+          height: 26,
+          child: Icon(
+            Icons.change_circle_outlined,
+            size: 24,
+            color: state.isBattleForm
+                ? Theme.of(context).colorScheme.onSurface
+                : Colors.grey.shade400,
+          ),
+        ),
+      );
+    }
     final active = state.isMega ||
         pokedexByName(state.pokemonName)?.formChange == 'primal';
     return GestureDetector(
