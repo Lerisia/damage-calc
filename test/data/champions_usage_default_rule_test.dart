@@ -42,7 +42,10 @@ void main() {
         ranked++;
         if (defaults.any((m) => statusMoves.contains(m['name']))) withStatus++;
       }
-      expect(ranked, greaterThan(150), reason: 'usage table looks truncated');
+      // A season's first days rank only the species with enough battles
+      // (70 on M-6 day one), so the floor is low; it only has to catch
+      // an empty or mangled table.
+      expect(ranked, greaterThan(40), reason: 'usage table looks truncated');
       // 159/235 singles, 209/257 doubles on 2026-09-09. A rewrite that
       // filters to damaging moves drives this to exactly zero, so the
       // bar is deliberately loose — it only has to catch that.
