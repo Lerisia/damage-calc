@@ -56460,6 +56460,7 @@ s=a.CW
 q.k4=s
 q.id=B.ai
 q.k1=B.ci
+q.p1=100
 if(s)q.fy=A.a([!1,!1,!1,!1],t.HZ)
 s=q.w=a.at
 if(s===-1)q.r=B.wn
@@ -58639,7 +58640,7 @@ A.aFo.prototype={
 $1(a){return this.a.$1(a===!0)},
 $S:29}
 A.xP.prototype={
-E(a){var s=null,r=A.j(A.f("app.title"),s,s,s,s,B.fR,s,s),q=t.p,p=A.aL(A.a([B.asD,B.aF,A.j(A.f("about.description"),s,s,s,s,s,s,s),B.aF,A.j(A.f("about.subtitle"),s,s,s,s,B.aR,s,s),B.b5,B.asB,B.akC,B.akD,B.b5,A.a7(A.a([A.Wi(B.wD,A.j(A.f("banner.getAndroid"),s,s,s,s,B.fV,s,s),new A.ac4(this),A.aoT(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s)),B.Z,A.Wi(B.wG,A.j(A.f("banner.getIos"),s,s,s,s,B.fV,s,s),new A.ac5(this),A.aoT(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s))],q),B.m,s,B.j,B.l,0,s),B.da,B.Ru,B.aF,A.j(A.f("about.beta"),s,s,s,s,B.aqz,s,s),B.b5,A.j(A.f("about.disclaimer"),s,s,s,s,B.Kw,s,s),B.b5,A.j(A.f("sprite.creditTitle"),s,s,s,s,B.ni,s,s),B.bg,A.j(A.f("sprite.creditBody"),s,s,s,s,B.aqm,s,s)],q),B.a_,B.j,B.F)
+E(a){var s=null,r=A.j(A.f("app.title"),s,s,s,s,B.fR,s,s),q=t.p,p=A.aL(A.a([B.asG,B.aF,A.j(A.f("about.description"),s,s,s,s,s,s,s),B.aF,A.j(A.f("about.subtitle"),s,s,s,s,B.aR,s,s),B.b5,B.asB,B.akC,B.akD,B.b5,A.a7(A.a([A.Wi(B.wD,A.j(A.f("banner.getAndroid"),s,s,s,s,B.fV,s,s),new A.ac4(this),A.aoT(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s)),B.Z,A.Wi(B.wG,A.j(A.f("banner.getIos"),s,s,s,s,B.fV,s,s),new A.ac5(this),A.aoT(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s))],q),B.m,s,B.j,B.l,0,s),B.da,B.Ru,B.aF,A.j(A.f("about.beta"),s,s,s,s,B.aqz,s,s),B.b5,A.j(A.f("about.disclaimer"),s,s,s,s,B.Kw,s,s),B.b5,A.j(A.f("sprite.creditTitle"),s,s,s,s,B.ni,s,s),B.bg,A.j(A.f("sprite.creditBody"),s,s,s,s,B.aqm,s,s)],q),B.a_,B.j,B.F)
 return A.dU(A.a([A.bS(A.j(A.f("action.close"),s,s,s,s,s,s,s),s,s,new A.ac6(a),s,s)],q),s,p,s,!1,r,s)}}
 A.ac4.prototype={
 $0(){window.location.assign(u.H)
@@ -65027,7 +65028,7 @@ g.push(A.aA(d,i,32))}if(h){if(f!=null)if(p.f)e=A.j(A.f("move.fixed"),i,i,i,i,B.a
 else if(f.at>1)e=A.j(""+l,i,i,i,i,A.a2(i,i,B.be,i,i,i,i,i,i,i,i,13,i,i,B.aa,i,i,!0,i,i,i,i,i,i,i,i),B.R,i)
 else{d=f.a
 a2=new A.Nt(l,j.x[a9],j.y,a9,new A.aqE(j,a9),new A.aqF(j,a9),new A.c7("power_"+e+"_"+d,a2))
-e=a2}else e=B.asE
+e=a2}else e=B.asD
 g.push(A.aA(e,i,44))}if(h)g.push(A.aA(A.q_(B.ba,new A.aqG(j,a9),j.a.c.fx[a9],B.a7),i,28))
 if(h&&!$.d6().a.a){e=j.a.c
 d=e.fy[a9]
@@ -67606,7 +67607,7 @@ E(a2){var s,r,q,p,o,n,m,l,k,j,i,h,g=this,f=null,e="label.status",d=g.a,c=d.r,b=d
 d=g.a
 a0=A.aA(new A.MJ(d.c,d.at,f),f,48)
 if(g.d.a!==0){d=d.x
-d=new A.fx(g.aAh(),new A.c7("ability_"+A.t(d),t.c))}else d=A.kz(f,B.asG,A.cK(f,f,f,f,f,f,f,f,!0,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,!0,f,f,A.f("label.ability"),!0,!0,!1,f,f,f,f,f,f,f,f,f,f,f,f,f,f),!1,!1,!1,!1,f,f)
+d=new A.fx(g.aAh(),new A.c7("ability_"+A.t(d),t.c))}else d=A.kz(f,B.asF,A.cK(f,f,f,f,f,f,f,f,!0,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,!0,f,f,A.f("label.ability"),!0,!0,!1,f,f,f,f,f,f,f,f,f,f,f,f,f,f),!1,!1,!1,!1,f,f)
 d=A.ad(d,1)
 c=g.a.as
 b=A.f(e)
@@ -127953,8 +127954,8 @@ B.OT=new A.Eo(null,null,null,null,null,null)
 B.oc=new A.tK(null,null,null)
 B.iN=new A.kl(B.K,null,null,B.oc,null)
 B.nk=new A.C(!0,B.Q,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.asF=new A.fl("\u2198",null,B.nk,null,null,null,null,null,null,null)
-B.OU=new A.kl(B.K,null,null,B.asF,null)
+B.asE=new A.fl("\u2198",null,B.nk,null,null,null,null,null,null,null)
+B.OU=new A.kl(B.K,null,null,B.asE,null)
 B.fe=new A.h7(0,"singles")
 B.cO=new A.h7(1,"doubles")
 B.OV=new A.Ep(null)
@@ -132527,10 +132528,10 @@ B.asA=new A.fl("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
 B.asB=new A.fl("By  Elyss",null,null,null,null,null,null,null,null,null)
 B.aq2=new A.C(!0,B.t,null,null,null,null,18,B.x,null,1.5,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.asC=new A.fl("TRAINER CARD",null,B.aq2,null,null,null,null,null,null,null)
-B.asD=new A.fl("v1.16.4",null,null,null,null,null,null,null,null,null)
 B.KC=new A.fl("-",null,null,B.R,null,null,null,null,null,null)
-B.asE=new A.fl("-",null,B.aR,B.R,null,null,null,null,null,null)
-B.asG=new A.fl("-",null,B.nk,null,null,null,null,null,null,null)
+B.asD=new A.fl("-",null,B.aR,B.R,null,null,null,null,null,null)
+B.asF=new A.fl("-",null,B.nk,null,null,null,null,null,null,null)
+B.asG=new A.fl("v1.16.5",null,null,null,null,null,null,null,null,null)
 B.asH=new A.pa(0,"system")
 B.t1=new A.pa(1,"light")
 B.ip=new A.pa(2,"dark")
