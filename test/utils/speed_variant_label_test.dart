@@ -5,8 +5,8 @@ import 'package:damage_calc/utils/speed_tier_variants.dart';
 /// The Choice Scarf icon ships in the sprite pack, so it can be
 /// missing — a user who never imported a pack, or one on a pack from
 /// before items/ existed. When it is, the label has to say "Scarf"
-/// itself: otherwise a 준스카프 chip reads exactly like the plain
-/// 준보정 chip sitting at a different speed, and the table quietly
+/// itself: otherwise a 준속 스카프 chip reads exactly like the plain
+/// 준속 chip sitting at a different speed, and the table quietly
 /// lies about which spread reaches that number.
 void main() {
   setUpAll(() {
@@ -17,18 +17,18 @@ void main() {
   group('with the icon present', () {
     test('scarf tiers show only the spread, the icon carries the rest', () {
       expect(speedVariantLabel(SpeedVariantKind.scarfInvested, withIcon: true),
-          equals('준보정'));
+          equals('준속'));
       expect(speedVariantLabel(SpeedVariantKind.scarfBoosted, withIcon: true),
-          equals('극보정'));
+          equals('최속'));
     });
   });
 
   group('without the icon', () {
     test('scarf tiers name the Scarf', () {
       expect(speedVariantLabel(SpeedVariantKind.scarfInvested, withIcon: false),
-          equals('준스카프'));
+          equals('준속 스카프'));
       expect(speedVariantLabel(SpeedVariantKind.scarfBoosted, withIcon: false),
-          equals('극스카프'));
+          equals('최속 스카프'));
     });
 
     test('scarf labels stay distinct from their unscarfed spreads', () {
