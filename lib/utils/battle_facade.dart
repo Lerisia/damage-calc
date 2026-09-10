@@ -591,6 +591,8 @@ class BattleFacade {
       move: transformed.move,
       isDoubles: true,
       weather: atkWeather,
+      terrain: terrain,
+      attackerGrounded: attackerGrounded,
     );
     // Surface each doubles-ally contribution by name in the 결정력
     // breakdown (도우미 / 배터리 / 파워스폿 / 플라워기프트 /

@@ -18,7 +18,9 @@
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
+import '../models/terrain.dart';
 import '../models/weather.dart';
+import 'move_transform.dart';
 
 /// Bundled multipliers returned by the doubles logic. Values default to 1.0
 /// so callers can blindly apply them when the caller isn't sure whether
@@ -111,6 +113,8 @@ DoublesModifiers computeDoublesModifiers({
   required Move move,
   required bool isDoubles,
   Weather weather = Weather.none,
+  Terrain terrain = Terrain.none,
+  bool attackerGrounded = true,
 }) {
   if (!isDoubles) return DoublesModifiers.identity;
 
@@ -130,7 +134,13 @@ DoublesModifiers computeDoublesModifiers({
   // own. Keeping the conditions in this one place means the two
   // surfaces can't drift on WHEN a toggle applies (e.g. Battery's
   // special-only guard).
-  if (attacker.spreadTargets && move.hasTag(MoveTags.spread)) {
+  // Expanding Force only spreads on Psychic Terrain (grounded user) and
+  // carries no spread tag, so ask the terrain rule — the same one the
+  // damage path uses — or 결정력 keeps the full value while the damage
+  // takes the ×0.75 (user-reported on 2026-09-10).
+  final spreadNow = move.hasTag(MoveTags.spread) ||
+      isExpandingForceBoostApplicable(move, terrain, attackerGrounded);
+  if (attacker.spreadTargets && spreadNow) {
     offensivePowerMod *= kSpreadMultiplier;
     notes.add('move:spread:×$kSpreadMultiplier');
   }
