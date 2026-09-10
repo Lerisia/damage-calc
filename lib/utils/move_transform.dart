@@ -165,7 +165,8 @@ class TransformedMove {
 /// 1. Type-changing transforms (Weather Ball, Terrain Pulse)
 /// 2. Ability type transforms (-ate skins: only affects Normal moves)
 /// 3. Conditional power changes (Acrobatics, HP-based)
-/// 4. Field-based power boosts (Rising Voltage, etc.)
+/// 4. Field-conditional move transforms (Expanding Force target,
+///    Rising Voltage power, etc.)
 /// 5. Rank-based power (Stored Power, etc.)
 /// 6. Stat selection (Body Press, Photon Geyser, etc.)
 TransformedMove transformMove(Move move, MoveContext context) {
@@ -322,7 +323,10 @@ TransformedMove transformMove(Move move, MoveContext context) {
   move = _applyKnockOff(move, context.opponentItem);
   move = _applyFlingPower(move, context.heldItem);
 
-  // 4. Field-based power boosts
+  // 4. Field-conditional transforms owned by the move itself: the
+  //    terrain only decides WHETHER the move's own change happens.
+  move = _applyTerrainTargetChange(move, context.terrain,
+      attackerGrounded: context.attackerGrounded);
   move = _applyTerrainPowerBoost(move, context.terrain,
       attackerGrounded: context.attackerGrounded,
       defenderGrounded: context.defenderGrounded);
@@ -1077,6 +1081,27 @@ Move _applyTargetHpPower(Move move, double? opponentHpPercent,
 ///   damage_calculator (Showdown's chainMods rounds differently
 ///   from a direct `*1.5).floor()` at certain BPs).
 /// - Earthquake/Bulldoze/Magnitude: 0.5x in Grassy Terrain
+/// Expanding Force's own target change: on Psychic Terrain (user
+/// grounded) it hits both foes instead of one (Showdown
+/// `onModifyMove`). The terrain is only the trigger — the transform
+/// belongs to the move, keyed by its tag like Rising Voltage below.
+/// Becoming multi-target is what makes it a spread move, so the
+/// result carries [MoveTags.spread]; damage, 결정력 and notes read
+/// that tag and never re-derive the terrain condition. The matching
+/// ×1.5 BP boost is a bpMods entry, not a transform (see
+/// [isExpandingForceBoostApplicable]).
+Move _applyTerrainTargetChange(Move move, Terrain terrain, {
+  bool attackerGrounded = true,
+}) {
+  if (move.hasTag(MoveTags.terrainBoostPsychic) &&
+      terrain == Terrain.psychic &&
+      attackerGrounded &&
+      !move.hasTag(MoveTags.spread)) {
+    return move.copyWith(tags: [...move.tags, MoveTags.spread]);
+  }
+  return move;
+}
+
 Move _applyTerrainPowerBoost(Move move, Terrain terrain, {
   bool attackerGrounded = true,
   bool defenderGrounded = true,

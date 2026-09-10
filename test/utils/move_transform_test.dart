@@ -438,6 +438,30 @@ void main() {
           expandingForce, Terrain.none, true), isFalse);
     });
 
+    // Psychic Terrain also changes the move's TARGET (single foe →
+    // both foes; Showdown `onModifyMove`). That is a move transform
+    // like any other, so transformMove adds the spread tag itself and
+    // every consumer (damage, 결정력, notes) just reads `spread`.
+    test('Expanding Force gains the spread tag on Psychic Terrain', () {
+      final result = transformMove(expandingForce,
+          const MoveContext(terrain: Terrain.psychic));
+      expect(result.move.hasTag(MoveTags.spread), isTrue);
+    });
+
+    test('Expanding Force stays single-target off Psychic Terrain', () {
+      expect(transformMove(expandingForce, const MoveContext(terrain: Terrain.none))
+          .move.hasTag(MoveTags.spread), isFalse);
+      expect(transformMove(expandingForce,
+              const MoveContext(terrain: Terrain.electric))
+          .move.hasTag(MoveTags.spread), isFalse);
+    });
+
+    test('Expanding Force stays single-target when the user is airborne', () {
+      expect(transformMove(expandingForce,
+              const MoveContext(terrain: Terrain.psychic, attackerGrounded: false))
+          .move.hasTag(MoveTags.spread), isFalse);
+    });
+
     test('Misty Explosion routing helper on Misty Terrain', () {
       final result = transformMove(mistyExplosion,
           const MoveContext(terrain: Terrain.misty));
