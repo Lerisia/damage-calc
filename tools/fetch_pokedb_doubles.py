@@ -496,6 +496,10 @@ def main() -> int:
                          "source; early in a season it ranks fewer species "
                          "than pokedb). Existing ranks are kept, the "
                          "fill-ins are ranked after them.")
+    ap.add_argument("--exclude-names", default=None,
+                    help="only-missing: file with one English species name per "
+                         "line to treat as already ranked (e.g. the primary "
+                         "source's live ranking while it is still being fetched)")
     ap.add_argument("--limit", type=int, default=0,
                     help="Fetch at most N detail pages (smoke tests)")
     args = ap.parse_args()
@@ -522,6 +526,8 @@ def main() -> int:
         current = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
         have = {k for k, v in current.items()
                 if k != "_meta" and isinstance(v, dict) and v.get("usageRank")}
+        if args.exclude_names:
+            have |= {l.strip() for l in Path(args.exclude_names).read_text(encoding="utf-8").splitlines() if l.strip()}
         base_rank = max((v["usageRank"] for k, v in current.items()
                          if k in have), default=0)
         ids = {pid: jp for pid, jp in ids.items()
@@ -576,6 +582,19 @@ def main() -> int:
     }
 
     lookups = load_lookups()
+    if args.only_missing:
+        # The primary source may have written while we were fetching:
+        # re-check against the file just loaded and rank after its
+        # current last entry.
+        ranked_now = {k for k, v in usage.items()
+                      if k != "_meta" and isinstance(v, dict) and v.get("usageRank")}
+        base_now = max((usage[k]["usageRank"] for k in ranked_now), default=0)
+        keep = [pid for pid in parsed if id_to_en[pid] not in ranked_now]
+        skipped_late = len(parsed) - len(keep)
+        parsed = {pid: parsed[pid] for pid in keep}
+        pid_to_rank = {pid: base_now + i for i, pid in enumerate(keep, 1)}
+        print(f"only-missing merge: {skipped_late} ranked meanwhile by the primary "
+              f"source and skipped; filling {len(keep)} from rank {base_now + 1}")
     for pid, entry in parsed.items():
         en = id_to_en[pid]
         existing = usage.get(en)

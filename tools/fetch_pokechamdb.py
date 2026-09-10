@@ -154,6 +154,7 @@ SLUG_TO_NAME: dict[str, str] = {
     # Toxtricity Low Key is left out until its slug shows up in the log.
     "persian-alola":        "Alolan Persian",
     "indeedee-female":      "Indeedee (Female)",
+    "toxtricity-low-key":   "Toxtricity (Low Key Form)",   # seen live 2026-09-10
 }
 
 # Base species whose slug happens to contain a hyphen. Anything else
