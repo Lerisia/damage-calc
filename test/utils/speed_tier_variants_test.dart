@@ -3,6 +3,8 @@ import 'package:damage_calc/data/champions_usage.dart';
 import 'package:damage_calc/data/pokedex.dart';
 import 'package:damage_calc/models/pokemon.dart';
 import 'package:damage_calc/utils/champions_format_controller.dart';
+import 'package:damage_calc/data/abilitydex.dart';
+import 'package:damage_calc/utils/app_strings.dart';
 import 'package:damage_calc/utils/speed_tier_variants.dart';
 
 /// Realized-speed variants for the Champions speed tier sheet.
@@ -19,6 +21,7 @@ void main() {
     byName = {for (final p in dex) p.name: p};
     await loadChampionsUsage(format: ChampionsFormat.singles);
     await loadChampionsUsage(format: ChampionsFormat.doubles);
+    await loadAbilitydex();
   });
 
   List<SpeedVariant> variantsOf(String species,
@@ -130,9 +133,52 @@ void main() {
 
   test('a Pokémon with no usage entry still gets its three tiers', () {
     final unlisted = byName.values.firstWhere(
-      (p) => championsUsageFor(p.name, format: ChampionsFormat.singles) == null,
+      (p) => championsUsageFor(p.name, format: ChampionsFormat.singles) == null &&
+          !p.abilities.any((a) => speedAbilityMultiplier(a) != null),
     );
     expect(speedVariantsFor(unlisted, format: ChampionsFormat.singles).length,
         equals(3));
+  });
+
+  group('speed-ability lines', () {
+    Pokemon holderOf(String ability) =>
+        byName.values.firstWhere((p) => p.abilities.contains(ability));
+
+    test('a Swift Swim holder gets 준/극 lines at ×2', () {
+      final p = holderOf('Swift Swim');
+      final v = speedVariantsFor(p);
+      final inv = v.firstWhere((e) => e.kind == SpeedVariantKind.invested).speed;
+      final bst = v.firstWhere((e) => e.kind == SpeedVariantKind.boosted).speed;
+      final ai = v.firstWhere((e) => e.kind == SpeedVariantKind.abilityInvested);
+      final ab = v.firstWhere((e) => e.kind == SpeedVariantKind.abilityBoosted);
+      expect(ai.ability, 'Swift Swim');
+      expect(ai.speed, inv * 2);
+      expect(ab.speed, bst * 2);
+    });
+
+    test('Quick Feet is ×1.5, floored', () {
+      final p = holderOf('Quick Feet');
+      final v = speedVariantsFor(p);
+      final inv = v.firstWhere((e) => e.kind == SpeedVariantKind.invested).speed;
+      final ai = v.firstWhere((e) => e.kind == SpeedVariantKind.abilityInvested && e.ability == 'Quick Feet');
+      expect(ai.speed, (inv * 1.5).floor());
+    });
+
+    test('no speed ability, no extra lines', () {
+      expect(variantsOf('Blissey').any((e) => e.kind.isAbility), isFalse);
+    });
+
+    test('multiplier comes from the calculator table', () {
+      expect(speedAbilityMultiplier('Unburden'), 2.0);
+      expect(speedAbilityMultiplier('Chlorophyll'), 2.0);
+      expect(speedAbilityMultiplier('Quick Feet'), 1.5);
+      expect(speedAbilityMultiplier('Intimidate'), isNull);
+    });
+
+    test('label reads "<spread> <ability>" in the app language', () {
+      AppStrings.setLanguageForTest(AppLanguage.ko);
+      expect(speedVariantLabel(SpeedVariantKind.abilityBoosted, withIcon: false, ability: 'Swift Swim'),
+          '${AppStrings.t('speedTier.spread.boosted')} 쓱쓱');
+    });
   });
 }

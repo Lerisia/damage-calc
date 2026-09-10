@@ -1,5 +1,10 @@
+import '../data/abilitydex.dart';
 import '../data/champions_usage.dart';
 import '../models/nature_profile.dart';
+import '../models/status.dart';
+import '../models/terrain.dart';
+import '../models/weather.dart';
+import 'ability_effects.dart';
 import '../models/pokemon.dart';
 import '../models/stats.dart';
 import 'app_strings.dart';
@@ -23,12 +28,23 @@ enum SpeedVariantKind {
 
   /// 극스카프 — [boosted] under a Choice Scarf.
   scarfBoosted,
+
+  /// 준보정 + 스피드 특성 — [invested] with a speed ability active
+  /// (Swift Swim in rain, Unburden after the item is gone, …).
+  abilityInvested,
+
+  /// 극보정 + 스피드 특성 — [boosted] with a speed ability active.
+  abilityBoosted,
 }
 
 extension SpeedVariantKindX on SpeedVariantKind {
   bool get isScarf =>
       this == SpeedVariantKind.scarfInvested ||
       this == SpeedVariantKind.scarfBoosted;
+
+  bool get isAbility =>
+      this == SpeedVariantKind.abilityInvested ||
+      this == SpeedVariantKind.abilityBoosted;
 }
 
 class SpeedVariant {
@@ -37,7 +53,38 @@ class SpeedVariant {
   /// Realized Lv50 Speed.
   final int speed;
 
-  const SpeedVariant(this.kind, this.speed);
+  /// The speed ability behind an [SpeedVariantKind.isAbility] line
+  /// (English key); null for every other kind.
+  final String? ability;
+
+  const SpeedVariant(this.kind, this.speed, {this.ability});
+}
+
+/// Speed abilities the table lists extra lines for, each with the
+/// context that switches it on. The multiplier itself comes from
+/// [getAbilityEffect] — the same table the calculator uses — so the
+/// two can't drift apart. Speed Boost is deliberately absent: it is a
+/// per-turn rank change, not a fixed multiplier.
+const _speedAbilityContexts = <String, ({Weather weather, Terrain terrain, StatusCondition status, String? item})>{
+  'Swift Swim':   (weather: Weather.rain,      terrain: Terrain.none,     status: StatusCondition.none,      item: 'x'),
+  'Chlorophyll':  (weather: Weather.sun,       terrain: Terrain.none,     status: StatusCondition.none,      item: 'x'),
+  'Sand Rush':    (weather: Weather.sandstorm, terrain: Terrain.none,     status: StatusCondition.none,      item: 'x'),
+  'Slush Rush':   (weather: Weather.snow,      terrain: Terrain.none,     status: StatusCondition.none,      item: 'x'),
+  'Surge Surfer': (weather: Weather.none,      terrain: Terrain.electric, status: StatusCondition.none,      item: 'x'),
+  'Quick Feet':   (weather: Weather.none,      terrain: Terrain.none,     status: StatusCondition.paralysis, item: 'x'),
+  'Unburden':     (weather: Weather.none,      terrain: Terrain.none,     status: StatusCondition.none,      item: null),
+};
+
+/// Active-state speed multiplier of [ability], or null when it isn't a
+/// speed ability this table lists.
+double? speedAbilityMultiplier(String ability) {
+  final ctx = _speedAbilityContexts[ability];
+  if (ctx == null) return null;
+  final m = getAbilityEffect(ability,
+          weather: ctx.weather, terrain: ctx.terrain, status: ctx.status,
+          heldItem: ctx.item)
+      .statModifiers.speed;
+  return m == 1.0 ? null : m;
 }
 
 /// Choice Scarf only shows for Pokémon that actually run one.
@@ -106,6 +153,17 @@ List<SpeedVariant> speedVariantsFor(
     variants.add(SpeedVariant(
         SpeedVariantKind.scarfBoosted, (boosted * 1.5).floor()));
   }
+  // Speed abilities: one 준/극 pair per ability the species can have,
+  // gated on the dex (not on adoption) — the user asked for every
+  // holder, and unlike a Scarf the ability is a fixed trait.
+  for (final a in pokemon.abilities) {
+    final m = speedAbilityMultiplier(a);
+    if (m == null) continue;
+    variants.add(SpeedVariant(SpeedVariantKind.abilityInvested,
+        (invested * m).floor(), ability: a));
+    variants.add(SpeedVariant(SpeedVariantKind.abilityBoosted,
+        (boosted * m).floor(), ability: a));
+  }
   return variants;
 }
 
@@ -116,7 +174,18 @@ List<SpeedVariant> speedVariantsFor(
 /// predating items/) would otherwise see a Scarf chip reading exactly
 /// like the plain spread it modifies, sitting at a different speed
 /// with nothing to explain the gap. Then the word carries it instead.
-String speedVariantLabel(SpeedVariantKind kind, {required bool withIcon}) {
+String speedVariantLabel(SpeedVariantKind kind,
+    {required bool withIcon, String? ability}) {
+  if (kind.isAbility) {
+    final spread = AppStrings.t(kind == SpeedVariantKind.abilityInvested
+        ? 'speedTier.spread.invested'
+        : 'speedTier.spread.boosted');
+    final ab = ability == null ? null : abilityByNameSync(ability);
+    final name = ab == null
+        ? (ability ?? '')
+        : AppStrings.name(nameKo: ab.nameKo, nameEn: ab.nameEn, nameJa: ab.nameJa, name: ab.name);
+    return '$spread $name';
+  }
   if (kind.isScarf && !withIcon) {
     return AppStrings.t(kind == SpeedVariantKind.scarfInvested
         ? 'speedTier.spread.scarfInvested'
@@ -125,10 +194,12 @@ String speedVariantLabel(SpeedVariantKind kind, {required bool withIcon}) {
   return switch (kind) {
     SpeedVariantKind.neutral => AppStrings.t('speedTier.spread.neutral'),
     SpeedVariantKind.invested ||
-    SpeedVariantKind.scarfInvested =>
+    SpeedVariantKind.scarfInvested ||
+    SpeedVariantKind.abilityInvested =>
       AppStrings.t('speedTier.spread.invested'),
     SpeedVariantKind.boosted ||
-    SpeedVariantKind.scarfBoosted =>
+    SpeedVariantKind.scarfBoosted ||
+    SpeedVariantKind.abilityBoosted =>
       AppStrings.t('speedTier.spread.boosted'),
   };
 }

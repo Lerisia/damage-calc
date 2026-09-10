@@ -18,3 +18,6 @@ Future<Map<String, Ability>> loadAbilitydex() async {
   };
   return _cache!;
 }
+
+/// Sync lookup once [loadAbilitydex] has run; null before that.
+Ability? abilityByNameSync(String name) => _cache?[name];

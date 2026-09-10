@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:damage_calc/data/abilitydex.dart';
 import 'package:damage_calc/data/champions_usage.dart';
 import 'package:damage_calc/data/pokedex.dart';
 import 'package:damage_calc/utils/speed_tier_display_controller.dart';
@@ -24,6 +25,7 @@ void main() {
     await tester.runAsync(() async {
       await loadPokedex();
       await loadChampionsUsage();
+      await loadAbilitydex();
     });
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(body: ChampionsSpeedTierSheet()),
