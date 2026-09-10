@@ -3845,96 +3845,65 @@
     ]
   },
   "Floette (Eternal Flower)": {
+    "usageRank": 38,
     "abilities": [
       {
         "name": "Flower Veil",
-        "pct": 96.05
-      },
-      {
-        "name": "Symbiosis",
-        "pct": 2.41
+        "pct": 100.0
       }
     ],
     "items": [
       {
         "name": "floettite",
-        "pct": 94.82
+        "pct": 83.3
       },
       {
         "name": "choice-scarf",
-        "pct": 2.01
-      },
-      {
-        "name": "life-orb",
-        "pct": 0.05
-      },
-      {
-        "name": "focus-sash",
-        "pct": 0.0
-      },
-      {
-        "name": "sitrus-berry",
-        "pct": 0.8
+        "pct": 16.7
       }
     ],
     "moves": [
       {
         "name": "Moonblast",
-        "pct": 89.32
+        "pct": 100.0
       },
       {
         "name": "Calm Mind",
-        "pct": 88.29
-      },
-      {
-        "name": "Draining Kiss",
-        "pct": 78.84
-      },
-      {
-        "name": "Light of Ruin",
-        "pct": 68.86
-      },
-      {
-        "name": "Psychic",
-        "pct": 24.16
+        "pct": 83.3
       },
       {
         "name": "Synthesis",
-        "pct": 16.17
-      },
-      {
-        "name": "Substitute",
-        "pct": 8.41
-      },
-      {
-        "name": "Trick",
-        "pct": 2.13
-      },
-      {
-        "name": "Giga Drain",
-        "pct": 1.76
+        "pct": 58.3
       },
       {
         "name": "Charm",
-        "pct": 3.26
+        "pct": 50.0
+      },
+      {
+        "name": "Draining Kiss",
+        "pct": 33.3
+      },
+      {
+        "name": "Psychic",
+        "pct": 33.3
+      },
+      {
+        "name": "Light of Ruin",
+        "pct": 25.0
+      },
+      {
+        "name": "Trick",
+        "pct": 16.7
       }
     ],
     "natures": [
       {
         "name": "Timid",
-        "pct": 65.38
+        "pct": 58.3
       },
       {
         "name": "Modest",
-        "pct": 29.58
-      },
-      {
-        "name": "Bold",
-        "pct": 5.12
-      },
-      {
-        "name": "Calm",
-        "pct": 0.96
+        "pct": 41.7
       }
     ],
     "teras": [],
@@ -3943,30 +3912,30 @@
         "name": "Moonblast"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Calm Mind"
       },
       {
-        "name": "Light of Ruin"
+        "name": "Synthesis"
       },
       {
-        "name": "Psychic"
+        "name": "Charm"
       }
     ],
     "defaultSp": {
-      "hp": 0,
+      "hp": 2,
       "atk": 0,
-      "def": 6,
-      "spa": 28,
+      "def": 32,
+      "spa": 0,
       "spd": 0,
       "spe": 32
     }
   },
   "Mega Floette": {
     "defaultSp": {
-      "hp": 0,
+      "hp": 2,
       "atk": 0,
-      "def": 6,
-      "spa": 28,
+      "def": 32,
+      "spa": 0,
       "spd": 0,
       "spe": 32
     },
@@ -3983,43 +3952,35 @@
     "moves": [
       {
         "name": "Moonblast",
-        "pct": 89.32
+        "pct": 100.0
       },
       {
         "name": "Calm Mind",
-        "pct": 88.29
-      },
-      {
-        "name": "Draining Kiss",
-        "pct": 78.84
-      },
-      {
-        "name": "Light of Ruin",
-        "pct": 68.86
-      },
-      {
-        "name": "Psychic",
-        "pct": 24.16
+        "pct": 83.3
       },
       {
         "name": "Synthesis",
-        "pct": 16.17
-      },
-      {
-        "name": "Substitute",
-        "pct": 8.41
-      },
-      {
-        "name": "Trick",
-        "pct": 2.13
-      },
-      {
-        "name": "Giga Drain",
-        "pct": 1.76
+        "pct": 58.3
       },
       {
         "name": "Charm",
-        "pct": 3.26
+        "pct": 50.0
+      },
+      {
+        "name": "Draining Kiss",
+        "pct": 33.3
+      },
+      {
+        "name": "Psychic",
+        "pct": 33.3
+      },
+      {
+        "name": "Light of Ruin",
+        "pct": 25.0
+      },
+      {
+        "name": "Trick",
+        "pct": 16.7
       }
     ],
     "defaultMoves": [
@@ -4027,31 +3988,23 @@
         "name": "Moonblast"
       },
       {
-        "name": "Draining Kiss"
+        "name": "Calm Mind"
       },
       {
-        "name": "Light of Ruin"
+        "name": "Synthesis"
       },
       {
-        "name": "Psychic"
+        "name": "Charm"
       }
     ],
     "natures": [
       {
         "name": "Timid",
-        "pct": 65.38
+        "pct": 58.3
       },
       {
         "name": "Modest",
-        "pct": 29.58
-      },
-      {
-        "name": "Bold",
-        "pct": 5.12
-      },
-      {
-        "name": "Calm",
-        "pct": 0.96
+        "pct": 41.7
       }
     ]
   },
@@ -5458,6 +5411,7 @@
       "spd": 1,
       "spe": 0
     },
+    "usageRank": 188,
     "abilities": [
       {
         "name": "Hyper Cutter",
@@ -5772,6 +5726,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 172,
     "abilities": [
       {
         "name": "Unburden",
@@ -6002,6 +5957,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 217,
     "abilities": [
       {
         "name": "Sniper",
@@ -6148,6 +6104,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 169,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -6608,6 +6565,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 186,
     "abilities": [
       {
         "name": "Sheer Force",
@@ -7712,6 +7670,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 182,
     "abilities": [
       {
         "name": "Unnerve",
@@ -12543,7 +12502,6 @@
     }
   },
   "Floette": {
-    "usageRank": 38,
     "abilities": [
       {
         "name": "Flower Veil",
@@ -13051,6 +13009,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 203,
     "abilities": [
       {
         "name": "Moxie",
@@ -13267,6 +13226,7 @@
       "spd": 2,
       "spe": 0
     },
+    "usageRank": 168,
     "abilities": [
       {
         "name": "Flame Body",
@@ -13731,6 +13691,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 171,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -13827,6 +13788,7 @@
       "spd": 2,
       "spe": 0
     },
+    "usageRank": 201,
     "abilities": [
       {
         "name": "Stamina",
@@ -13927,6 +13889,7 @@
       "spd": 1,
       "spe": 0
     },
+    "usageRank": 185,
     "abilities": [
       {
         "name": "Reckless",
@@ -14125,6 +14088,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 199,
     "abilities": [
       {
         "name": "Lightning Rod",
@@ -14295,6 +14259,7 @@
       "spd": 0,
       "spe": 1
     },
+    "usageRank": 183,
     "abilities": [
       {
         "name": "Levitate",
@@ -14743,6 +14708,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 212,
     "abilities": [
       {
         "name": "Volt Absorb",
@@ -14847,6 +14813,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 210,
     "abilities": [
       {
         "name": "Big Pecks",
@@ -15149,6 +15116,7 @@
       "spd": 2,
       "spe": 0
     },
+    "usageRank": 202,
     "abilities": [
       {
         "name": "No Guard",
@@ -15491,6 +15459,7 @@
       "spd": 2,
       "spe": 0
     },
+    "usageRank": 180,
     "abilities": [
       {
         "name": "Wandering Spirit",
@@ -15619,6 +15588,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 181,
     "abilities": [
       {
         "name": "Ice Body",
@@ -15789,6 +15759,7 @@
       "spd": 2,
       "spe": 0
     },
+    "usageRank": 166,
     "abilities": [
       {
         "name": "Drought",
@@ -15953,6 +15924,7 @@
       "spd": 3,
       "spe": 0
     },
+    "usageRank": 173,
     "abilities": [
       {
         "name": "Sturdy",
@@ -16327,6 +16299,7 @@
     ]
   },
   "Steelix": {
+    "usageRank": 189,
     "abilities": [
       {
         "name": "Sturdy",
@@ -16457,6 +16430,7 @@
     ]
   },
   "Tsareena": {
+    "usageRank": 224,
     "abilities": [
       {
         "name": "Queenly Majesty",
@@ -16807,6 +16781,7 @@
     }
   },
   "Drampa": {
+    "usageRank": 251,
     "abilities": [
       {
         "name": "Berserk",
@@ -16995,6 +16970,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 167,
     "abilities": [
       {
         "name": "Unburden",
@@ -17115,6 +17091,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 170,
     "abilities": [
       {
         "name": "Infiltrator",
@@ -17387,6 +17364,7 @@
     ]
   },
   "Ariados": {
+    "usageRank": 206,
     "abilities": [
       {
         "name": "Insomnia",
@@ -17713,6 +17691,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 209,
     "abilities": [
       {
         "name": "Sturdy",
@@ -17801,6 +17780,7 @@
       "spd": 0,
       "spe": 0
     },
+    "usageRank": 179,
     "abilities": [
       {
         "name": "Mega Launcher",
@@ -17893,6 +17873,7 @@
     ]
   },
   "Zoroark": {
+    "usageRank": 187,
     "abilities": [
       {
         "name": "Illusion",
@@ -18071,6 +18052,7 @@
       "spd": 2,
       "spe": 0
     },
+    "usageRank": 190,
     "abilities": [
       {
         "name": "Sturdy",
@@ -18253,6 +18235,7 @@
       "spd": 2,
       "spe": 0
     },
+    "usageRank": 175,
     "abilities": [
       {
         "name": "Prankster",
@@ -18357,6 +18340,7 @@
     ]
   },
   "Farigiraf": {
+    "usageRank": 252,
     "abilities": [
       {
         "name": "Armor Tail",
@@ -18437,6 +18421,7 @@
       "spd": 1,
       "spe": 32
     },
+    "usageRank": 178,
     "abilities": [
       {
         "name": "Lightning Rod",
@@ -18533,6 +18518,7 @@
     ]
   },
   "Spiritomb": {
+    "usageRank": 211,
     "abilities": [
       {
         "name": "Pressure",
@@ -18735,6 +18721,7 @@
       "spd": 1,
       "spe": 32
     },
+    "usageRank": 214,
     "abilities": [
       {
         "name": "Hunger Switch",
@@ -18807,6 +18794,7 @@
     ]
   },
   "Golurk": {
+    "usageRank": 193,
     "abilities": [
       {
         "name": "Iron Fist",
@@ -19073,6 +19061,7 @@
     ]
   },
   "Alcremie": {
+    "usageRank": 216,
     "abilities": [
       {
         "name": "Aroma Veil",
@@ -19165,6 +19154,7 @@
     ]
   },
   "Sandaconda": {
+    "usageRank": 225,
     "abilities": [
       {
         "name": "Sand Spit",
@@ -19351,6 +19341,7 @@
       "spd": 0,
       "spe": 0
     },
+    "usageRank": 191,
     "abilities": [
       {
         "name": "Intimidate",
@@ -19463,6 +19454,7 @@
     ]
   },
   "Frost Rotom": {
+    "usageRank": 219,
     "abilities": [
       {
         "name": "Levitate",
@@ -19707,6 +19699,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 218,
     "abilities": [
       {
         "name": "Flash Fire",
@@ -19807,6 +19800,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 239,
     "abilities": [
       {
         "name": "Poison Touch",
@@ -19953,6 +19947,7 @@
       "spd": 32,
       "spe": 0
     },
+    "usageRank": 200,
     "abilities": [
       {
         "name": "Static",
@@ -20017,6 +20012,7 @@
     ]
   },
   "Trevenant": {
+    "usageRank": 215,
     "abilities": [
       {
         "name": "Natural Cure",
@@ -20097,6 +20093,7 @@
     ]
   },
   "Tyrantrum": {
+    "usageRank": 235,
     "abilities": [
       {
         "name": "Rock Head",
@@ -20161,6 +20158,7 @@
     ]
   },
   "Luxray": {
+    "usageRank": 196,
     "abilities": [
       {
         "name": "Intimidate",
@@ -20229,6 +20227,7 @@
     ]
   },
   "Camerupt": {
+    "usageRank": 222,
     "abilities": [
       {
         "name": "Solid Rock",
@@ -20531,6 +20530,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 220,
     "abilities": [
       {
         "name": "Motor Drive",
@@ -20615,6 +20615,7 @@
       "spd": 1,
       "spe": 32
     },
+    "usageRank": 228,
     "abilities": [
       {
         "name": "Flash Fire",
@@ -20687,6 +20688,7 @@
     ]
   },
   "Decidueye": {
+    "usageRank": 250,
     "abilities": [
       {
         "name": "Long Reach",
@@ -20751,6 +20753,7 @@
     ]
   },
   "Florges": {
+    "usageRank": 230,
     "abilities": [
       {
         "name": "Flower Veil",
@@ -20831,6 +20834,7 @@
     ]
   },
   "Bastiodon": {
+    "usageRank": 195,
     "abilities": [
       {
         "name": "Sturdy",
@@ -21029,6 +21033,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 192,
     "abilities": [
       {
         "name": "Surge Surfer",
@@ -21121,6 +21126,7 @@
     ]
   },
   "Meowstic (Female)": {
+    "usageRank": 232,
     "abilities": [
       {
         "name": "Competitive",
@@ -21279,6 +21285,7 @@
     ]
   },
   "Gourgeist (Small Size)": {
+    "usageRank": 242,
     "abilities": [
       {
         "name": "Frisk",
@@ -21516,6 +21523,7 @@
     }
   },
   "Appletun": {
+    "usageRank": 245,
     "abilities": [
       {
         "name": "Thick Fat",
@@ -21568,6 +21576,7 @@
     ]
   },
   "Wyrdeer": {
+    "usageRank": 238,
     "abilities": [
       {
         "name": "Intimidate",
@@ -21620,6 +21629,7 @@
     ]
   },
   "Dedenne": {
+    "usageRank": 249,
     "abilities": [
       {
         "name": "Cheek Pouch",
@@ -21700,6 +21710,7 @@
     ]
   },
   "Audino": {
+    "usageRank": 177,
     "abilities": [
       {
         "name": "Regenerator",
@@ -21918,6 +21929,7 @@
     ]
   },
   "Fan Rotom": {
+    "usageRank": 223,
     "abilities": [
       {
         "name": "Levitate",
@@ -22018,6 +22030,7 @@
     ]
   },
   "Galarian Stunfisk": {
+    "usageRank": 243,
     "abilities": [
       {
         "name": "Mimicry",
@@ -22094,6 +22107,7 @@
     ]
   },
   "Lycanroc": {
+    "usageRank": 244,
     "abilities": [
       {
         "name": "Sand Rush",
@@ -22178,6 +22192,7 @@
     ]
   },
   "Mr. Rime": {
+    "usageRank": 233,
     "abilities": [
       {
         "name": "Screen Cleaner",
@@ -22254,6 +22269,7 @@
     ]
   },
   "Arbok": {
+    "usageRank": 246,
     "abilities": [
       {
         "name": "Intimidate",
@@ -22314,6 +22330,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 221,
     "abilities": [
       {
         "name": "Swift Swim",
@@ -22418,6 +22435,7 @@
     ]
   },
   "Furfrou": {
+    "usageRank": 229,
     "abilities": [
       {
         "name": "Fur Coat",
@@ -22482,6 +22500,7 @@
     ]
   },
   "Liepard": {
+    "usageRank": 236,
     "abilities": [
       {
         "name": "Unburden",
@@ -22727,6 +22746,7 @@
     }
   },
   "Garbodor": {
+    "usageRank": 241,
     "abilities": [
       {
         "name": "Aftermath",
@@ -23137,6 +23157,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 247,
     "abilities": [
       {
         "name": "Sheer Force",
@@ -23213,6 +23234,7 @@
     ]
   },
   "Oranguru": {
+    "usageRank": 226,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -23281,6 +23303,7 @@
     ]
   },
   "Simipour": {
+    "usageRank": 237,
     "abilities": [
       {
         "name": "Torrent",
@@ -23345,6 +23368,7 @@
     ]
   },
   "Passimian": {
+    "usageRank": 207,
     "abilities": [
       {
         "name": "Defiant",
@@ -23739,6 +23763,7 @@
     }
   },
   "Watchog": {
+    "usageRank": 253,
     "abilities": [
       {
         "name": "Analytic",
@@ -23791,6 +23816,7 @@
     ]
   },
   "Simisage": {
+    "usageRank": 231,
     "abilities": [
       {
         "name": "Overgrow",
@@ -23843,6 +23869,7 @@
     ]
   },
   "Rotom": {
+    "usageRank": 240,
     "abilities": [
       {
         "name": "Levitate",
@@ -23895,6 +23922,7 @@
     ]
   },
   "Castform": {
+    "usageRank": 234,
     "abilities": [
       {
         "name": "Forecast",
@@ -24340,6 +24368,7 @@
       "spd": 0,
       "spe": 2
     },
+    "usageRank": 227,
     "abilities": [
       {
         "name": "Intimidate",
@@ -25404,6 +25433,7 @@
     ]
   },
   "Musharna": {
+    "usageRank": 194,
     "abilities": [
       {
         "name": "Synchronize",
@@ -26302,6 +26332,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 176,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -26590,6 +26621,7 @@
     }
   },
   "Falinks": {
+    "usageRank": 213,
     "abilities": [
       {
         "name": "Defiant",
@@ -27419,6 +27451,7 @@
     }
   },
   "Gourgeist (Super Size)": {
+    "usageRank": 208,
     "abilities": [
       {
         "name": "Insomnia",
@@ -27833,6 +27866,7 @@
     }
   },
   "Persian": {
+    "usageRank": 204,
     "abilities": [
       {
         "name": "Unnerve",
@@ -27991,6 +28025,7 @@
     }
   },
   "Perrserker": {
+    "usageRank": 197,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -28373,6 +28408,7 @@
     }
   },
   "Gogoat": {
+    "usageRank": 248,
     "abilities": [
       {
         "name": "Sap Sipper",
@@ -29175,6 +29211,7 @@
       "spd": 0,
       "spe": 0
     },
+    "usageRank": 184,
     "abilities": [
       {
         "name": "Technician",
@@ -29833,6 +29870,7 @@
       "spd": 0,
       "spe": 32
     },
+    "usageRank": 174,
     "abilities": [
       {
         "name": "Intimidate",
@@ -29913,6 +29951,7 @@
     ]
   },
   "Mabosstiff": {
+    "usageRank": 198,
     "abilities": [
       {
         "name": "Guard Dog",
@@ -30633,6 +30672,7 @@
     }
   },
   "Mr. Mime": {
+    "usageRank": 205,
     "abilities": [
       {
         "name": "Technician",

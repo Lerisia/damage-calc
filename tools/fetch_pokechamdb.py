@@ -155,6 +155,7 @@ SLUG_TO_NAME: dict[str, str] = {
     "persian-alola":        "Alolan Persian",
     "indeedee-female":      "Indeedee (Female)",
     "toxtricity-low-key":   "Toxtricity (Low Key Form)",   # seen live 2026-09-10
+    "floette-eternal":      "Floette (Eternal Flower)",    # Champions only has the Eternal Flower one
 }
 
 # Base species whose slug happens to contain a hyphen. Anything else
