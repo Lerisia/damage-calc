@@ -520,7 +520,8 @@
     "pp": 35,
     "tags": [
       "contact",
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "slice"
     ],
     "nameEn": "Metal Claw",
     "aliases": [

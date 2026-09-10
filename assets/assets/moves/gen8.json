@@ -100,7 +100,8 @@
     "pp": 15,
     "tags": [
       "contact",
-      "custom:has_secondary"
+      "custom:has_secondary",
+      "slice"
     ],
     "nameEn": "Dire Claw",
     "zPower": 160,

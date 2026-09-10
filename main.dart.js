@@ -57815,7 +57815,7 @@ k=i.gp7()
 i=r.WV(i)
 g=r.f
 h=t.p
-g=A.a([A.lx(B.K,A.i(k+i+" \u2192 "+g.gp7()+r.WV(g),q,q,q,q,B.im,q,q),B.d6),B.cs,A.a7(A.a([r.WK(r.e),B.asC,r.WK(r.f)],h),B.m,q,B.eQ,B.l,0,q),B.bg,A.i("HP "+l+"/"+m+" | "+A.f("section.physBulk")+" "+f.a+" | "+A.f("section.specBulk")+" "+f.b,q,q,q,q,A.a2(q,q,B.a3,q,q,q,q,q,q,q,q,14,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),B.R,q),B.b6,A.a7(A.a([r.WJ(A.f("damage.reflect"),r.f.R8,new A.aFg(r)),B.amG,r.WJ(A.f("damage.lightScreen"),r.f.RG,new A.aFh(r))],h),B.m,q,B.eQ,B.l,0,q),B.b6],h)
+g=A.a([A.lx(B.K,A.i(k+i+" \u2192 "+g.gp7()+r.WV(g),q,q,q,q,B.im,q,q),B.d6),B.cs,A.a7(A.a([r.WK(r.e),B.asB,r.WK(r.f)],h),B.m,q,B.eQ,B.l,0,q),B.bg,A.i("HP "+l+"/"+m+" | "+A.f("section.physBulk")+" "+f.a+" | "+A.f("section.specBulk")+" "+f.b,q,q,q,q,A.a2(q,q,B.a3,q,q,q,q,q,q,q,q,14,q,q,q,q,q,!0,q,q,q,q,q,q,q,q),B.R,q),B.b6,A.a7(A.a([r.WJ(A.f("damage.reflect"),r.f.R8,new A.aFg(r)),B.amG,r.WJ(A.f("damage.lightScreen"),r.f.RG,new A.aFh(r))],h),B.m,q,B.eQ,B.l,0,q),B.b6],h)
 for(k=p.b,s=0;s<4;++s)g.push(r.ajb(s,f,o,k,n))
 return A.aU(q,A.aL(A.a([A.ad(A.f0(A.aL(g,B.ag,B.j,B.l),q,B.u,B.RX,q,B.Y),1),new A.et(r.ajf(o,k,n,l,m),q)],h),B.ag,B.j,B.l),B.o,j.fx,q,q,q,q,B.ja,q)},
 ajb(b6,b7,b8,b9,c0){var s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,b0,b1=this,b2=null,b3="damage.physical",b4="damage.special",b5=b1.e.cy[b6]
@@ -58678,7 +58678,7 @@ A.aFr.prototype={
 $1(a){return this.a.$1(a===!0)},
 $S:29}
 A.xP.prototype={
-E(a){var s=null,r=A.i(A.f("app.title"),s,s,s,s,B.fS,s,s),q=t.p,p=A.aL(A.a([B.asB,B.aF,A.i(A.f("about.description"),s,s,s,s,s,s,s),B.aF,A.i(A.f("about.subtitle"),s,s,s,s,B.aR,s,s),B.b6,B.asE,B.akE,B.akF,B.b6,A.a7(A.a([A.Wj(B.wE,A.i(A.f("banner.getAndroid"),s,s,s,s,B.fV,s,s),new A.ac5(this),A.aoV(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s)),B.X,A.Wj(B.wH,A.i(A.f("banner.getIos"),s,s,s,s,B.fV,s,s),new A.ac6(this),A.aoV(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s))],q),B.m,s,B.j,B.l,0,s),B.rF,A.i(A.f("about.support"),s,s,s,s,B.f0,s,s),B.aZ,A.c3(s,A.b6p("assets/bmc_button.png",s,B.dg,s,220),B.u,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.ac7(this),s,s,s,s,s,s),B.da,B.Ru,B.aF,A.i(A.f("about.beta"),s,s,s,s,B.aqB,s,s),B.b6,A.i(A.f("about.disclaimer"),s,s,s,s,B.Kw,s,s),B.b6,A.i(A.f("sprite.creditTitle"),s,s,s,s,B.ni,s,s),B.bg,A.i(A.f("sprite.creditBody"),s,s,s,s,B.aqo,s,s)],q),B.a_,B.j,B.F)
+E(a){var s=null,r=A.i(A.f("app.title"),s,s,s,s,B.fS,s,s),q=t.p,p=A.aL(A.a([B.asF,B.aF,A.i(A.f("about.description"),s,s,s,s,s,s,s),B.aF,A.i(A.f("about.subtitle"),s,s,s,s,B.aR,s,s),B.b6,B.asD,B.akE,B.akF,B.b6,A.a7(A.a([A.Wj(B.wE,A.i(A.f("banner.getAndroid"),s,s,s,s,B.fV,s,s),new A.ac5(this),A.aoV(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s)),B.X,A.Wj(B.wH,A.i(A.f("banner.getIos"),s,s,s,s,B.fV,s,s),new A.ac6(this),A.aoV(s,s,s,s,s,s,s,s,s,s,s,B.P,B.hz,s,s,s,s,B.ba,s,s))],q),B.m,s,B.j,B.l,0,s),B.rF,A.i(A.f("about.support"),s,s,s,s,B.f0,s,s),B.aZ,A.c3(s,A.b6p("assets/bmc_button.png",s,B.dg,s,220),B.u,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.ac7(this),s,s,s,s,s,s),B.da,B.Ru,B.aF,A.i(A.f("about.beta"),s,s,s,s,B.aqB,s,s),B.b6,A.i(A.f("about.disclaimer"),s,s,s,s,B.Kw,s,s),B.b6,A.i(A.f("sprite.creditTitle"),s,s,s,s,B.ni,s,s),B.bg,A.i(A.f("sprite.creditBody"),s,s,s,s,B.aqo,s,s)],q),B.a_,B.j,B.F)
 return A.dV(A.a([A.bS(A.i(A.f("action.close"),s,s,s,s,s,s,s),s,s,new A.ac8(a),s,s)],q),s,p,s,!1,r,s)}}
 A.ac5.prototype={
 $0(){window.location.assign(u.H)
@@ -63511,7 +63511,7 @@ E(a){return new A.hF(new A.acn(this,a),null,new A.l8(A.a([$.d6().a,$.i8().a,$.Rj
 A.acj.prototype={
 $1(a){var s=t.s3
 s=A.P(new A.Y(B.xv,new A.aci(this.a,a),s),s.i("al.E"))
-return A.oZ(s,B.asD)},
+return A.oZ(s,B.asC)},
 $S:44}
 A.aci.prototype={
 $1(a){var s,r,q=null,p=this.b,o=B.DX.h(0,a)
@@ -68681,7 +68681,7 @@ if(q.length===0)q=A.f("trainerCard.defaultName")
 a2=A.cS(B.eH,B.q,2)
 p=A.ba(12)
 o=a0.y.c
-n=A.aU(a1,B.asF,B.o,a1,a1,new A.aT(o,a1,a1,A.ba(4),a1,a1,B.A),a1,a1,B.hz,a1)
+n=A.aU(a1,B.asE,B.o,a1,a1,new A.aT(o,a1,a1,A.ba(4),a1,a1,B.A),a1,a1,B.hz,a1)
 m=t.p
 o=A.a7(A.a([A.aU(a1,a1,B.o,a1,a1,new A.aT(a1,a1,A.cS(o,B.q,2),a1,a1,a1,B.hd),10,a1,a1,10),B.X,A.ad(A.i(q,a1,B.ap,a1,a1,B.Kx,a1,a1),1)],m),B.m,a1,B.j,B.l,0,a1)
 l=A.a([],m)
@@ -132568,12 +132568,12 @@ B.ar3=new A.C(!0,B.aI,null,".AppleSystemUIFont",null,null,null,null,null,null,nu
 B.arp=new A.C(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelMedium",null,null,null,null)
 B.aom=new A.C(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.asz=new A.f2(B.aq9,B.ap3,B.aqa,B.aqH,B.aoL,B.aoT,B.apn,B.aqA,B.apA,B.ar6,B.aof,B.aox,B.ar3,B.arp,B.aom)
-B.asB=new A.fm("v1.16.8",null,null,null,null,null,null,null,null,null)
-B.asC=new A.fm("  \u2192  ",null,B.Kw,null,null,null,null,null,null,null)
-B.asD=new A.fm("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
-B.asE=new A.fm("By  Elyss",null,null,null,null,null,null,null,null,null)
+B.asB=new A.fm("  \u2192  ",null,B.Kw,null,null,null,null,null,null,null)
+B.asC=new A.fm("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
+B.asD=new A.fm("By  Elyss",null,null,null,null,null,null,null,null,null)
 B.aq4=new A.C(!0,B.t,null,null,null,null,18,B.x,null,1.5,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.asF=new A.fm("TRAINER CARD",null,B.aq4,null,null,null,null,null,null,null)
+B.asE=new A.fm("TRAINER CARD",null,B.aq4,null,null,null,null,null,null,null)
+B.asF=new A.fm("v1.16.9",null,null,null,null,null,null,null,null,null)
 B.KC=new A.fm("-",null,null,B.R,null,null,null,null,null,null)
 B.asG=new A.fm("-",null,B.aR,B.R,null,null,null,null,null,null)
 B.asI=new A.fm("-",null,B.nk,null,null,null,null,null,null,null)
