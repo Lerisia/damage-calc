@@ -31123,43 +31123,87 @@
     }
   },
   "Alolan Persian": {
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "usageRank": 116,
     "abilities": [
       {
-        "name": "Fur Coat"
+        "name": "Fur Coat",
+        "pct": 83.6
       },
       {
-        "name": "Technician"
+        "name": "Technician",
+        "pct": 16.4
       }
     ],
     "items": [
       {
-        "name": "leftovers"
+        "name": "roseli-berry",
+        "pct": 38.2
       },
       {
-        "name": "sitrus-berry"
+        "name": "focus-sash",
+        "pct": 25.5
       },
       {
-        "name": "focus-sash"
+        "name": "grassy-seed",
+        "pct": 16.4
+      },
+      {
+        "name": "chople-berry",
+        "pct": 10.9
+      },
+      {
+        "name": "sitrus-berry",
+        "pct": 9.1
       }
     ],
     "moves": [
       {
-        "name": "Foul Play"
+        "name": "Fake Out",
+        "pct": 83.6
       },
       {
-        "name": "Fake Out"
+        "name": "Taunt",
+        "pct": 61.8
       },
       {
-        "name": "Snarl"
+        "name": "Parting Shot",
+        "pct": 61.8
       },
       {
-        "name": "Parting Shot"
+        "name": "Foul Play",
+        "pct": 52.7
       },
       {
-        "name": "Taunt"
+        "name": "Fake Tears",
+        "pct": 41.8
       },
       {
-        "name": "Knock Off"
+        "name": "Knock Off",
+        "pct": 30.9
+      },
+      {
+        "name": "Endeavor",
+        "pct": 21.8
+      },
+      {
+        "name": "Snarl",
+        "pct": 21.8
+      },
+      {
+        "name": "Icy Wind",
+        "pct": 10.9
+      },
+      {
+        "name": "Protect",
+        "pct": 5.5
       }
     ],
     "defaultMoves": [
@@ -31167,10 +31211,10 @@
         "name": "Foul Play"
       },
       {
-        "name": "Snarl"
+        "name": "Fake Out"
       },
       {
-        "name": "Fake Out"
+        "name": "Taunt"
       },
       {
         "name": "Parting Shot"
@@ -31178,20 +31222,18 @@
     ],
     "natures": [
       {
-        "name": "Bold"
+        "name": "Jolly",
+        "pct": 47.3
       },
       {
-        "name": "Timid"
+        "name": "Timid",
+        "pct": 45.5
+      },
+      {
+        "name": "Careful",
+        "pct": 7.3
       }
-    ],
-    "defaultSp": {
-      "hp": 32,
-      "atk": 0,
-      "def": 32,
-      "spa": 0,
-      "spd": 2,
-      "spe": 0
-    }
+    ]
   },
   "Perrserker": {
     "usageRank": 125,
@@ -32357,43 +32399,95 @@
     ]
   },
   "Toxtricity (Low Key Form)": {
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 0,
+      "spa": 32,
+      "spd": 2,
+      "spe": 0
+    },
+    "usageRank": 95,
     "abilities": [
       {
-        "name": "Punk Rock"
+        "name": "Punk Rock",
+        "pct": 93.2
       },
       {
-        "name": "Technician"
+        "name": "Technician",
+        "pct": 6.8
       }
     ],
     "items": [
       {
-        "name": "choice-specs"
+        "name": "focus-sash",
+        "pct": 47.3
       },
       {
-        "name": "throat-spray"
+        "name": "psychic-seed",
+        "pct": 16.2
       },
       {
-        "name": "focus-sash"
+        "name": "choice-scarf",
+        "pct": 10.8
+      },
+      {
+        "name": "magnet",
+        "pct": 9.5
+      },
+      {
+        "name": "life-orb",
+        "pct": 9.5
+      },
+      {
+        "name": "air-balloon",
+        "pct": 5.4
+      },
+      {
+        "name": "expert-belt",
+        "pct": 1.4
       }
     ],
     "moves": [
       {
-        "name": "Overdrive"
+        "name": "Overdrive",
+        "pct": 100
       },
       {
-        "name": "Sludge Bomb"
+        "name": "Protect",
+        "pct": 89.2
       },
       {
-        "name": "Volt Switch"
+        "name": "Boomburst",
+        "pct": 58.1
       },
       {
-        "name": "Boomburst"
+        "name": "Sludge Wave",
+        "pct": 54.1
       },
       {
-        "name": "Snarl"
+        "name": "Sludge Bomb",
+        "pct": 45.9
       },
       {
-        "name": "Drain Punch"
+        "name": "Snarl",
+        "pct": 35.1
+      },
+      {
+        "name": "Volt Switch",
+        "pct": 9.5
+      },
+      {
+        "name": "Rising Voltage",
+        "pct": 2.7
+      },
+      {
+        "name": "Helping Hand",
+        "pct": 1.4
+      },
+      {
+        "name": "Electroweb",
+        "pct": 1.4
       }
     ],
     "defaultMoves": [
@@ -32401,31 +32495,25 @@
         "name": "Overdrive"
       },
       {
-        "name": "Sludge Bomb"
-      },
-      {
-        "name": "Volt Switch"
+        "name": "Sludge Wave"
       },
       {
         "name": "Boomburst"
+      },
+      {
+        "name": "Protect"
       }
     ],
     "natures": [
       {
-        "name": "Timid"
+        "name": "Modest",
+        "pct": 90.5
       },
       {
-        "name": "Modest"
+        "name": "Timid",
+        "pct": 9.5
       }
-    ],
-    "defaultSp": {
-      "hp": 2,
-      "atk": 0,
-      "def": 0,
-      "spa": 32,
-      "spd": 0,
-      "spe": 32
-    }
+    ]
   },
   "Grapploct": {
     "defaultSp": {
@@ -32775,43 +32863,103 @@
     ]
   },
   "Indeedee (Female)": {
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    },
+    "usageRank": 7,
     "abilities": [
       {
-        "name": "Psychic Surge"
+        "name": "Psychic Surge",
+        "pct": 100.0
       },
       {
-        "name": "Own Tempo"
+        "name": "Synchronize",
+        "pct": 0.0
       }
     ],
     "items": [
       {
-        "name": "leftovers"
+        "name": "psychic-seed",
+        "pct": 31.3
       },
       {
-        "name": "sitrus-berry"
+        "name": "rocky-helmet",
+        "pct": 25.4
       },
       {
-        "name": "psychic-seed"
+        "name": "colbur-berry",
+        "pct": 16.4
+      },
+      {
+        "name": "sitrus-berry",
+        "pct": 16.1
+      },
+      {
+        "name": "focus-sash",
+        "pct": 4.0
+      },
+      {
+        "name": "eject-button",
+        "pct": 2.3
+      },
+      {
+        "name": "mental-herb",
+        "pct": 1.8
+      },
+      {
+        "name": "wide-lens",
+        "pct": 0.6
+      },
+      {
+        "name": "white-herb",
+        "pct": 0.6
       }
     ],
     "moves": [
       {
-        "name": "Psychic"
+        "name": "Follow Me",
+        "pct": 99.6
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Trick Room",
+        "pct": 90.4
       },
       {
-        "name": "Psyshock"
+        "name": "Helping Hand",
+        "pct": 79.5
       },
       {
-        "name": "Shadow Ball"
+        "name": "Psychic",
+        "pct": 57
       },
       {
-        "name": "Calm Mind"
+        "name": "Protect",
+        "pct": 18.9
       },
       {
-        "name": "Trick Room"
+        "name": "Terrain Pulse",
+        "pct": 15
+      },
+      {
+        "name": "Imprison",
+        "pct": 14.4
+      },
+      {
+        "name": "Dazzling Gleam",
+        "pct": 8.8
+      },
+      {
+        "name": "Heal Pulse",
+        "pct": 2.5
+      },
+      {
+        "name": "Hyper Voice",
+        "pct": 2.2
       }
     ],
     "defaultMoves": [
@@ -32819,31 +32967,57 @@
         "name": "Psychic"
       },
       {
-        "name": "Dazzling Gleam"
+        "name": "Follow Me"
       },
       {
-        "name": "Shadow Ball"
+        "name": "Trick Room"
       },
       {
-        "name": "Calm Mind"
+        "name": "Helping Hand"
       }
     ],
     "natures": [
       {
-        "name": "Calm"
+        "name": "Bold",
+        "pct": 47.8
       },
       {
-        "name": "Bold"
+        "name": "Relaxed",
+        "pct": 42.2
+      },
+      {
+        "name": "Calm",
+        "pct": 3.9
+      },
+      {
+        "name": "Sassy",
+        "pct": 2.2
+      },
+      {
+        "name": "Quiet",
+        "pct": 1.1
+      },
+      {
+        "name": "Modest",
+        "pct": 1.1
+      },
+      {
+        "name": "Impish",
+        "pct": 0.7
+      },
+      {
+        "name": "Timid",
+        "pct": 0.4
+      },
+      {
+        "name": "Bashful",
+        "pct": 0.4
+      },
+      {
+        "name": "Gentle",
+        "pct": 0.3
       }
-    ],
-    "defaultSp": {
-      "hp": 32,
-      "atk": 0,
-      "def": 2,
-      "spa": 0,
-      "spd": 32,
-      "spe": 0
-    }
+    ]
   },
   "Indeedee": {
     "defaultSp": {
