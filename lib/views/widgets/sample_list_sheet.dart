@@ -334,7 +334,7 @@ class _SampleListSheetState extends State<SampleListSheet> {
                   minLines: 2,
                   style: const TextStyle(fontSize: 12),
                   decoration: InputDecoration(
-                    hintText: 'damacalc:…',
+                    hintText: 'Garchomp @ Focus Sash\nAbility: Rough Skin\n- Earthquake …',
                     errorText: errorText,
                     isDense: true,
                   ),

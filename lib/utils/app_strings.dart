@@ -2188,9 +2188,9 @@ class AppStrings {
       AppLanguage.ja: '共有コードのインポート',
     },
     'sample.share.import.hint': {
-      AppLanguage.ko: 'damacalc:… 으로 시작하는 포켓몬/파티 코드를 붙여넣으십시오.',
-      AppLanguage.en: 'Paste a Pokémon or team code starting with damacalc:…',
-      AppLanguage.ja: 'damacalc:… で始まるポケモン／パーティーコードを貼り付けてください。',
+      AppLanguage.ko: '다른 기기에서 "공유 코드 복사"로 복사한 텍스트를 그대로 붙여넣으십시오. 코드는 포켓몬 이름(또는 === 파티 이름 ===)으로 시작합니다.',
+      AppLanguage.en: 'Paste the text copied with "Copy share code" on the other device as-is. It starts with a Pokémon name (or === team name ===).',
+      AppLanguage.ja: '別の端末で「共有コードをコピー」した文字列をそのまま貼り付けてください。コードはポケモン名（または === パーティー名 ===）で始まります。',
     },
     'sample.share.import.paste': {
       AppLanguage.ko: '클립보드에서 붙여넣기',

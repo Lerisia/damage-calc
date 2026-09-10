@@ -173,10 +173,48 @@ class PokePaste {
   static bool looksLikePokePasteTeam(String text) {
     final t = text.trim();
     if (t.startsWith('===')) return true;
-    final blocks = t.split(RegExp(r'\n\s*\n'))
-        .where((b) => b.trim().isNotEmpty)
-        .toList();
+    final blocks = splitSets(t);
     return blocks.length > 1 && looksLikePokePaste(blocks.first);
+  }
+
+  /// Lines that continue a set rather than start one. Anything else
+  /// that is non-blank is a species/header line.
+  static bool _isFieldLine(String l) {
+    final t = l.trim();
+    return t.startsWith('Ability:') ||
+        t.startsWith('Level:') ||
+        t.startsWith('EVs:') ||
+        t.startsWith('IVs:') ||
+        t.startsWith('Tera Type:') ||
+        t.startsWith('Shiny:') ||
+        t.startsWith('Happiness:') ||
+        t.startsWith('Gigantamax:') ||
+        t.startsWith('Dynamax Level:') ||
+        t.startsWith('- ') ||
+        t.endsWith(' Nature');
+  }
+
+  /// Split team text into per-set blocks. A blank line ends a set, and
+  /// so does a species line showing up while a set is already open —
+  /// messengers and note apps routinely collapse blank lines, and the
+  /// old blank-line-only split then read a whole party as one set
+  /// (the first Pokémon imported, the other five silently dropped).
+  static List<String> splitSets(String text) {
+    final blocks = <String>[];
+    var cur = <String>[];
+    void flush() {
+      final b = cur.join('\n').trim();
+      if (b.isNotEmpty) blocks.add(b);
+      cur = <String>[];
+    }
+    for (final raw in text.split('\n')) {
+      final line = raw.trimRight();
+      if (line.trim().isEmpty) { flush(); continue; }
+      if (cur.isNotEmpty && !_isFieldLine(line)) flush();
+      cur.add(line);
+    }
+    flush();
+    return blocks;
   }
 
   // ── Decode ─────────────────────────────────────────────────────────
@@ -211,11 +249,7 @@ class PokePaste {
       teamName = header.group(1);
       body = body.substring(header.end).trim();
     }
-    final blocks = body
-        .split(RegExp(r'\n\s*\n'))
-        .map((b) => b.trim())
-        .where((b) => b.isNotEmpty)
-        .toList();
+    final blocks = splitSets(body);
     if (blocks.isEmpty) {
       throw const FormatException('No sets found in team text');
     }
