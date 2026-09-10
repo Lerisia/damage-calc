@@ -1458,8 +1458,11 @@ class DamageCalculator {
     // concept. Guarding on the format flag prevents stale
     // `spreadTargets = true` state from a prior doubles session
     // silently docking 25% off singles-mode damage.
-    if (doubles && attacker.spreadTargets &&
-        effectiveMove.hasTag(MoveTags.spread)) {
+    // Expanding Force is single-target until Psychic Terrain makes it
+    // hit both foes; it has no spread tag, so ask the terrain rule.
+    final spreadNow = effectiveMove.hasTag(MoveTags.spread) ||
+        isExpandingForceBoostApplicable(effectiveMove, terrain, atkGrounded);
+    if (doubles && attacker.spreadTargets && spreadNow) {
       baseDmg = _applyChainMod(baseDmg, _kFP_0_75);
     }
     if (weatherMod != 1.0) {
