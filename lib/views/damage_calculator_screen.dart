@@ -6,6 +6,7 @@ import '../data/pokedex.dart';
 import '../models/move.dart';
 import '../models/pokemon.dart';
 import '../utils/app_strings.dart';
+import '../utils/session_restore_controller.dart';
 import '../models/move_tags.dart';
 import '../utils/aura_effects.dart';
 import '../utils/battle_facade.dart';
@@ -489,6 +490,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   /// Simple Mode so their text controllers hydrate from the restored
   /// state instead of showing stale defaults.
   Future<void> _restoreSession() async {
+    // Opt-out: some people want a clean sheet on every launch.
+    if (!SessionRestoreController.instance.enabled.value) return;
     final session = await CalcSessionStore.load();
     if (session == null || !mounted) return;
     await _ensureDataCaches();

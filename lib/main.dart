@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show FontLoader, rootBundle;
 import 'utils/app_strings.dart';
 import 'utils/champions_filter_controller.dart';
+import 'utils/session_restore_controller.dart';
 import 'utils/champions_format_controller.dart';
 import 'utils/coverage_display_controller.dart';
 import 'utils/speed_tier_display_controller.dart';
@@ -252,6 +253,7 @@ class _AppLoaderState extends State<_AppLoader> {
       SpeedTierDisplayController.instance.load(),
       MoveOptionsController.instance.load(),
       ChampionsFilterController.instance.load(),
+      SessionRestoreController.instance.load(),
       ChampionsFormatController.instance.load(),
       ChampionsUsageRankSheet.load(),
       SpriteService.instance.load(),

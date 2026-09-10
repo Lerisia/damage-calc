@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/app_strings.dart';
+import '../../utils/session_restore_controller.dart';
 import '../../utils/champions_filter_controller.dart';
 import '../../utils/champions_format_controller.dart';
 import '../../utils/theme_controller.dart';
@@ -87,11 +88,13 @@ class AppSettingsMenu extends StatelessWidget {
       listenable: Listenable.merge([
         ChampionsFilterController.instance.championsOnly,
         ChampionsFormatController.instance.format,
+        SessionRestoreController.instance.enabled,
       ]),
       builder: (ctx, _) {
         final champOn =
             ChampionsFilterController.instance.championsOnly.value;
         final fmt = ChampionsFormatController.instance.format.value;
+        final restoreOn = SessionRestoreController.instance.enabled.value;
         return PopupMenuButton<String>(
           icon: const Icon(Icons.settings),
           tooltip: '',
@@ -143,6 +146,18 @@ class AppSettingsMenu extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(AppStrings.t('dex.championsOnly')),
+              ]),
+            ),
+            // Restore-last-session toggle — same inline checkbox style.
+            PopupMenuItem(
+              value: 'restoreSession',
+              child: Row(children: [
+                Icon(
+                  restoreOn ? Icons.check_box : Icons.check_box_outline_blank,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(AppStrings.t('app.restoreSession')),
               ]),
             ),
             // Format switcher — labels itself with the DESTINATION
@@ -204,6 +219,8 @@ class AppSettingsMenu extends StatelessWidget {
                 showSpriteStyleDialog(context);
               case 'championsOnly':
                 ChampionsFilterController.instance.set(!champOn);
+              case 'restoreSession':
+                SessionRestoreController.instance.set(!restoreOn);
               case 'championsFormatToggle':
                 ChampionsFormatController.instance.set(
                   fmt == ChampionsFormat.doubles

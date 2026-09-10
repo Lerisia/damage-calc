@@ -1167,6 +1167,12 @@ class AppStrings {
       AppLanguage.en: 'Champions only',
       AppLanguage.ja: 'チャンピオンズのみ',
     },
+    // Settings: restore the calculator's last session on launch.
+    'app.restoreSession': {
+      AppLanguage.ko: '종료 시 상태 유지',
+      AppLanguage.en: 'Keep state between launches',
+      AppLanguage.ja: '終了時の状態を保持',
+    },
     'tag.contact': {
       AppLanguage.ko: '접촉',
       AppLanguage.en: 'Contact',
