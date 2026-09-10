@@ -16,6 +16,14 @@ REPO="/home/elyss/damage-calc"
 MARKER="/tmp/pokedb_blocked"
 cd "$REPO"
 
+# Never overlap with a run already in flight (a manual pull, or a
+# previous cron still walking the list) — two runs would double the
+# request rate on the one IP that still works.
+if pgrep -f "fetch_pokedb_doubles.py" >/dev/null; then
+  echo "a pokedb doubles fetch is already running — skipping."
+  exit 0
+fi
+
 if [[ -f "$MARKER" ]]; then
   echo "pokedb blocked marker present ($(cat "$MARKER")) — not running. Remove $MARKER to re-enable."
   exit 0
