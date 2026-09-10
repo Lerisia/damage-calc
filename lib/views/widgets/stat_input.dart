@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../../data/abilitydex.dart';
 import '../../data/itemdex.dart';
 import '../../utils/korean_search.dart';
+import '../../utils/hp_percent_input.dart';
 import '../../utils/ability_picker.dart';
 import '../../models/ability.dart';
 import '../../models/item.dart';
@@ -1026,14 +1027,8 @@ class _StatInputState extends State<StatInput> {
                 suffixStyle: TextStyle(fontSize: 11),
               ),
               onChanged: (text) {
-                if (text.isEmpty) {
-                  widget.onHpPercentChanged(100.0);
-                  return;
-                }
-                final parsed = double.tryParse(text);
-                if (parsed != null) {
-                  widget.onHpPercentChanged(parsed.clamp(0.0, 999.0));
-                }
+                final v = hpPercentFromInput(text);
+                if (v != null) widget.onHpPercentChanged(v);
               },
             ),
           ),

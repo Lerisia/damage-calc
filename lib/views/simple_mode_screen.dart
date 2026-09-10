@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/pokedex.dart' show pokedexByName;
 import '../utils/champions_filter_controller.dart';
+import '../utils/hp_percent_input.dart';
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
@@ -1566,10 +1567,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             suffixText: '%',
             isDense: true,
           ),
-          onSubmitted: (text) {
-            final v = double.tryParse(text);
-            Navigator.pop(ctx, v?.clamp(0.0, 999.0));
-          },
+          onSubmitted: (text) => Navigator.pop(ctx, hpPercentFromInput(text)),
         ),
         actions: [
           TextButton(
@@ -1577,10 +1575,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
             child: Text(AppStrings.t('action.cancel')),
           ),
           TextButton(
-            onPressed: () {
-              final v = double.tryParse(controller.text);
-              Navigator.pop(ctx, v?.clamp(0.0, 999.0));
-            },
+            onPressed: () =>
+                Navigator.pop(ctx, hpPercentFromInput(controller.text)),
             child: Text(AppStrings.t('action.confirm')),
           ),
         ],
