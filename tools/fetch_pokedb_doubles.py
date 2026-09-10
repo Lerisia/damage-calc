@@ -95,6 +95,11 @@ SPECIAL_FORMS: dict[str, str] = {
     "0745-01": "Lycanroc (Midnight Form)",
     "0745-02": "Lycanroc (Dusk Form)",
     "0902-01": "Basculegion (Female)",
+    # M-C entrants (2026-09-09). 0925-01 (Maushold family variant) and
+    # 0931-02 (Squawkabilly plumage) are cosmetic and stay unmapped.
+    "0053-01": "Alolan Persian",
+    "0849-01": "Toxtricity (Low Key Form)",
+    "0876-01": "Indeedee (Female)",
 }
 
 STAT_LETTER_TO_KEY = {"H": "hp", "A": "atk", "B": "def", "C": "spa", "D": "spd", "S": "spe"}
