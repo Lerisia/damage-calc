@@ -2553,6 +2553,7 @@ class AppAboutDialog extends StatelessWidget {
       'https://play.google.com/store/apps/details?id=com.elyss.damagecalc';
   static const _appStoreUrl =
       'https://apps.apple.com/kr/app/id6761017449';
+  static const _buyMeACoffeeUrl = 'https://buymeacoffee.com/elyss';
 
   /// See MobileInstallPrompt.open — bypass url_launcher entirely
   /// and assign window.location directly via the conditional-import
@@ -2609,6 +2610,18 @@ class AppAboutDialog extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: () => _open(_buyMeACoffeeUrl),
+            icon: const Icon(Icons.local_cafe_outlined, size: 16),
+            label: Text(AppStrings.t('about.support'),
+                style: const TextStyle(fontSize: 12)),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
           ),
           const SizedBox(height: 16),
           const Divider(),
