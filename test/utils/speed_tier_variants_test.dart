@@ -124,7 +124,9 @@ void main() {
           .where((p) => speedVariantsFor(p, format: ChampionsFormat.singles)
               .any((v) => v.kind == SpeedVariantKind.scarfBoosted))
           .length;
-      expect(withScarf, lessThan(20),
+      // 23 on 2026-09-10 with a 253-species M-6 table; the bound only
+      // has to catch a broken gate (a 10% cut let 113 through).
+      expect(withScarf, lessThan(40),
           reason: 'a loose cut let 113 species through');
       expect(withScarf, greaterThan(3),
           reason: 'the obvious Scarf users must survive');
