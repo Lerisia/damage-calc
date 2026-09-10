@@ -19,10 +19,10 @@ enum SpeedVariantKind {
   /// 무보정 — neutral nature, no SP.
   neutral,
 
-  /// 준보정 — neutral nature, full SP.
+  /// 준속 — neutral nature, full SP.
   invested,
 
-  /// 극보정 — boosting nature, full SP.
+  /// 최속 — boosting nature, full SP.
   boosted,
 
   /// 준스카프 — [invested] under a Choice Scarf.
@@ -31,17 +31,17 @@ enum SpeedVariantKind {
   /// 극스카프 — [boosted] under a Choice Scarf.
   scarfBoosted,
 
-  /// 준보정 + 스피드 특성 — [invested] with a speed ability active
+  /// 준속 + 스피드 특성 — [invested] with a speed ability active
   /// (Swift Swim in rain, Unburden after the item is gone, …).
   abilityInvested,
 
-  /// 극보정 + 스피드 특성 — [boosted] with a speed ability active.
+  /// 최속 + 스피드 특성 — [boosted] with a speed ability active.
   abilityBoosted,
 
-  /// 준보정 + N가속 — [invested] after N Speed Boost stages.
+  /// 준속 + N가속 — [invested] after N Speed Boost stages.
   rankInvested,
 
-  /// 극보정 + N가속 — [boosted] after N Speed Boost stages.
+  /// 최속 + N가속 — [boosted] after N Speed Boost stages.
   rankBoosted,
 }
 

@@ -2244,12 +2244,12 @@ class AppStrings {
       AppLanguage.ja: '無振り',
     },
     'speedTier.spread.invested': {
-      AppLanguage.ko: '준보정',
+      AppLanguage.ko: '준속',
       AppLanguage.en: 'Max',
       AppLanguage.ja: '準速',
     },
     'speedTier.spread.boosted': {
-      AppLanguage.ko: '극보정',
+      AppLanguage.ko: '최속',
       AppLanguage.en: 'Max+',
       AppLanguage.ja: '最速',
     },
