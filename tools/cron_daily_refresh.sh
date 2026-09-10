@@ -78,6 +78,29 @@ rm -rf "$POKECHAMDB_CACHE"
 # real doubles data we still carry. It auto-enables the day pokechamdb
 # publishes genuine doubles. `|| true` so the guard-abort isn't fatal.
 python3 tools/fetch_pokechamdb.py --rule 0 --cache "$POKECHAMDB_CACHE"
+# Singles fill-in from champs.pokedb.tokyo: early in a season pokechamdb
+# ranks far fewer species than pokedb, and the merge above strips the
+# ranks of anything it didn't rank — so the fill has to run right
+# after it, not at 13:00 with doubles, or the web shows the smaller
+# table all morning. Same ban rules as tools/cron_doubles_refresh.sh:
+# home IP only, ~30 s between requests, a 403 drops the marker file.
+POKEDB_MARKER="/tmp/pokedb_blocked"
+if [[ -f "$POKEDB_MARKER" ]]; then
+  echo "pokedb blocked marker present — skipping singles fill"
+else
+  SEASON=$(python3 -c "import json,re; m=json.load(open('assets/champions_usage.json'))['_meta']['format']; print(re.search(r'M-(\d+)', m).group(1))")
+  set +e
+  python3 tools/fetch_pokedb_doubles.py --season "$SEASON" --rule 0 --only-missing \
+    --sleep 30 --cache "/tmp/pokedb_cache_m${SEASON}_singles"
+  rc=$?
+  set -e
+  if [[ $rc -eq 3 ]]; then
+    date -u +"%Y-%m-%dT%H:%MZ blocked (HTTP 403/429)" > "$POKEDB_MARKER"
+    echo "pokedb blocked during singles fill — wrote $POKEDB_MARKER"
+  elif [[ $rc -ne 0 ]]; then
+    echo "singles fill failed (rc=$rc) — keeping pokechamdb-only table"
+  fi
+fi
 python3 tools/apply_champout_learnsets.py
 # Champions-legal move allowlist (yakkun scrape). Low-churn — the move
 # roster only shifts on a Champions patch — but re-running daily keeps
