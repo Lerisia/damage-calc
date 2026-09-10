@@ -109,6 +109,11 @@ python3 tools/apply_champout_learnsets.py
 # a truncated allowlist that would hide legal moves.
 python3 tools/fetch_champions_moves.py || \
   echo "champions moves refresh failed (non-fatal) — keeping existing allowlist"
+# Move-flag audit against the ROM (punch/sound/slice/contact …). Report
+# only — a mismatch means a Champions patch changed a flag and someone
+# should run `tools/audit_move_flags.py --apply` and ship it.
+python3 tools/audit_move_flags.py || \
+  echo "move flag audit found mismatches — see above"
 
 if git diff --quiet assets/; then
   echo "No upstream changes — done."

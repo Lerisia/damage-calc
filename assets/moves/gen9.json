@@ -224,7 +224,8 @@
     "accuracy": 100,
     "pp": 5,
     "tags": [
-      "contact"
+      "contact",
+      "punch"
     ],
     "nameEn": "Double Shock",
     "zPower": 190,
@@ -891,7 +892,9 @@
     "power": 0,
     "accuracy": 0,
     "pp": 15,
-    "tags": [],
+    "tags": [
+      "sound"
+    ],
     "nameEn": "Dragon Cheer",
     "descKo": "용의 북돋움으로 사기를 높여서 같은 편의 기술이 급소에 맞기 쉬워진다. 드래곤타입이면 더욱더 사기가 북돋는다.",
     "descEn": "The user raises its allies’ morale with a draconic cry so that their future attacks have a heightened chance of landing critical hits. This rouses Dragon types more."
