@@ -528,8 +528,8 @@ def main() -> int:
                 if k != "_meta" and isinstance(v, dict) and v.get("usageRank")}
         if args.exclude_names:
             have |= {l.strip() for l in Path(args.exclude_names).read_text(encoding="utf-8").splitlines() if l.strip()}
-        base_rank = max((v["usageRank"] for k, v in current.items()
-                         if k in have), default=0)
+        base_rank = max((v.get("usageRank") or 0 for k, v in current.items()
+                         if k in have and isinstance(v, dict)), default=0)
         ids = {pid: jp for pid, jp in ids.items()
                if id_to_en.get(pid) and id_to_en[pid] not in have}
         # Ranks continue after the primary source's last rank, in
