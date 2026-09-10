@@ -490,6 +490,12 @@ def main() -> int:
     ap.add_argument("--sleep", type=float, default=60.0,
                     help="Mean delay between detail fetches (seconds); "
                          "±25%% jitter is applied")
+    ap.add_argument("--only-missing", action="store_true",
+                    help="Fill in only species the on-disk file has no "
+                         "usageRank for (pokechamdb is the primary singles "
+                         "source; early in a season it ranks fewer species "
+                         "than pokedb). Existing ranks are kept, the "
+                         "fill-ins are ranked after them.")
     ap.add_argument("--limit", type=int, default=0,
                     help="Fetch at most N detail pages (smoke tests)")
     args = ap.parse_args()
@@ -510,6 +516,21 @@ def main() -> int:
 
     # pid → 1-based rank in the live ranking page
     pid_to_rank: dict[str, int] = {pid: i for i, pid in enumerate(ids.keys(), 1)}
+
+    if args.only_missing:
+        path = usage_path_for(args.rule)
+        current = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+        have = {k for k, v in current.items()
+                if k != "_meta" and isinstance(v, dict) and v.get("usageRank")}
+        base_rank = max((v["usageRank"] for k, v in current.items()
+                         if k in have), default=0)
+        ids = {pid: jp for pid, jp in ids.items()
+               if id_to_en.get(pid) and id_to_en[pid] not in have}
+        # Ranks continue after the primary source's last rank, in
+        # pokedb's own order — these are the lower-usage tail anyway.
+        pid_to_rank = {pid: base_rank + i for i, pid in enumerate(ids.keys(), 1)}
+        print(f"only-missing: {len(have)} already ranked, {len(ids)} to fill "
+              f"(ranks {base_rank + 1}…)")
 
     # Fetch detail pages
     parsed: dict[str, dict] = {}
@@ -574,16 +595,17 @@ def main() -> int:
     # current ranking (their old rank is provably wrong now). Skip Megas —
     # pokedb never ranks them, so they never had a "real" rank anyway.
     dropped_rank = 0
-    for en, ent in usage.items():
-        if en == "_meta" or not isinstance(ent, dict):
-            continue
-        if en.startswith("Mega "):
-            continue
-        if en in ranked_en:
-            continue
-        if "usageRank" in ent:
-            del ent["usageRank"]
-            dropped_rank += 1
+    if not args.only_missing:  # a fill-in run must not touch the primary's ranks
+        for en, ent in usage.items():
+            if en == "_meta" or not isinstance(ent, dict):
+                continue
+            if en.startswith("Mega "):
+                continue
+            if en in ranked_en:
+                continue
+            if "usageRank" in ent:
+                del ent["usageRank"]
+                dropped_rank += 1
     print(f"dropped stale usageRank from {dropped_rank} dropout entries")
 
     # X/Y/Z split megas are always user-curated, and per user request
@@ -609,7 +631,12 @@ def main() -> int:
     mirrored, skipped_xyz = mirror_megas(usage, lookups["mega_index"])
     print(f"mega mirror: mirrored={mirrored} skipped_xyz={skipped_xyz}")
 
-    if "_meta" in usage:
+    if "_meta" in usage and args.only_missing:
+        usage["_meta"]["fillFrom"] = (
+            "champs.pokedb.tokyo — species the primary source had not "
+            "ranked yet, ranked after its last entry")
+        usage["_meta"]["fillUpdatedAt"] = time.strftime("%Y-%m-%d")
+    elif "_meta" in usage:
         usage["_meta"]["source"] = (
             "Pokemon Champions in-game Battle Data via champs.pokedb.tokyo"
         )

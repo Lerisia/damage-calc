@@ -55,12 +55,28 @@ elif [[ $rc -ne 0 ]]; then
   exit $rc
 fi
 
-if git diff --quiet assets/champions_usage_doubles.json; then
+# Singles fill-in: pokechamdb (03:00) ranks fewer species early in a
+# season than pokedb does; fetch only the ones it hasn't ranked. Same
+# abort rules; a few dozen requests once the season settles.
+set +e
+python3 tools/fetch_pokedb_doubles.py --season "$SEASON" --rule 0 --only-missing \
+  --sleep 30 --cache "/tmp/pokedb_cache_m${SEASON}_singles"
+rc=$?
+set -e
+if [[ $rc -eq 3 ]]; then
+  date -u +"%Y-%m-%dT%H:%MZ blocked (HTTP 403/429)" > "$MARKER"
+  echo "pokedb blocked during singles fill — wrote $MARKER"
+  exit 3
+elif [[ $rc -ne 0 ]]; then
+  echo "singles fill failed (rc=$rc) — keeping existing file"
+fi
+
+if git diff --quiet assets/champions_usage_doubles.json assets/champions_usage.json; then
   echo "No change — done."
   exit 0
 fi
-git add assets/champions_usage_doubles.json
+git add assets/champions_usage_doubles.json assets/champions_usage.json
 git -c user.email="cron@home" -c user.name="home-cron" \
-  commit -m "chore(data): doubles refresh from pokedb ($(date -u +%Y-%m-%d))"
+  commit -m "chore(data): pokedb refresh — doubles + singles fill-in ($(date -u +%Y-%m-%d))"
 git push origin main
 echo "Pushed doubles refresh. GH Actions deploy-web will pick it up."
