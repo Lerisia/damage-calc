@@ -1,5 +1,7 @@
 import '../data/abilitydex.dart';
 import '../data/champions_usage.dart';
+import '../data/pokedex.dart';
+import '../models/rank.dart';
 import '../models/nature_profile.dart';
 import '../models/status.dart';
 import '../models/terrain.dart';
@@ -35,6 +37,12 @@ enum SpeedVariantKind {
 
   /// 극보정 + 스피드 특성 — [boosted] with a speed ability active.
   abilityBoosted,
+
+  /// 준보정 + N가속 — [invested] after N Speed Boost stages.
+  rankInvested,
+
+  /// 극보정 + N가속 — [boosted] after N Speed Boost stages.
+  rankBoosted,
 }
 
 extension SpeedVariantKindX on SpeedVariantKind {
@@ -45,6 +53,10 @@ extension SpeedVariantKindX on SpeedVariantKind {
   bool get isAbility =>
       this == SpeedVariantKind.abilityInvested ||
       this == SpeedVariantKind.abilityBoosted;
+
+  bool get isRank =>
+      this == SpeedVariantKind.rankInvested ||
+      this == SpeedVariantKind.rankBoosted;
 }
 
 class SpeedVariant {
@@ -57,7 +69,31 @@ class SpeedVariant {
   /// (English key); null for every other kind.
   final String? ability;
 
-  const SpeedVariant(this.kind, this.speed, {this.ability});
+  /// Speed stages behind an [SpeedVariantKind.isRank] line; null
+  /// otherwise.
+  final int? rank;
+
+  const SpeedVariant(this.kind, this.speed, {this.ability, this.rank});
+}
+
+/// Speed Boost stages the table lists. Two is where the boost
+/// stops mattering for a tier chart — past +2 almost everything is
+/// outsped anyway.
+const _speedBoostStages = [1, 2];
+
+/// Whether [pokemon] enters battle able to accrue Speed Boost. A Mega
+/// whose base form has it counts too: the stages are gained before
+/// Mega Evolving and stay — Mega Scolipede without Speed Boost is
+/// still a Scolipede that boosted on turn one.
+bool _canSpeedBoost(Pokemon pokemon) {
+  if (pokemon.abilities.contains('Speed Boost')) return true;
+  if (!pokemon.isMega) return false;
+  for (final b in pokemon.allBaseSpecies) {
+    if (pokedexByName(b)?.abilities.contains('Speed Boost') ?? false) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /// Speed abilities the table lists extra lines for, each with the
@@ -164,6 +200,15 @@ List<SpeedVariant> speedVariantsFor(
     variants.add(SpeedVariant(SpeedVariantKind.abilityBoosted,
         (boosted * m).floor(), ability: a));
   }
+  if (_canSpeedBoost(pokemon)) {
+    for (final n in _speedBoostStages) {
+      final m = Rank(speed: n).speedMultiplier;
+      variants.add(SpeedVariant(SpeedVariantKind.rankInvested,
+          (invested * m).floor(), ability: 'Speed Boost', rank: n));
+      variants.add(SpeedVariant(SpeedVariantKind.rankBoosted,
+          (boosted * m).floor(), ability: 'Speed Boost', rank: n));
+    }
+  }
   return variants;
 }
 
@@ -175,7 +220,13 @@ List<SpeedVariant> speedVariantsFor(
 /// like the plain spread it modifies, sitting at a different speed
 /// with nothing to explain the gap. Then the word carries it instead.
 String speedVariantLabel(SpeedVariantKind kind,
-    {required bool withIcon, String? ability}) {
+    {required bool withIcon, String? ability, int? rank}) {
+  if (kind.isRank) {
+    final spread = AppStrings.t(kind == SpeedVariantKind.rankInvested
+        ? 'speedTier.spread.invested'
+        : 'speedTier.spread.boosted');
+    return '$spread ${AppStrings.t('speedTier.spread.speedBoost').replaceAll('{n}', '${rank ?? 1}')}';
+  }
   if (kind.isAbility) {
     final spread = AppStrings.t(kind == SpeedVariantKind.abilityInvested
         ? 'speedTier.spread.invested'
@@ -195,11 +246,13 @@ String speedVariantLabel(SpeedVariantKind kind,
     SpeedVariantKind.neutral => AppStrings.t('speedTier.spread.neutral'),
     SpeedVariantKind.invested ||
     SpeedVariantKind.scarfInvested ||
-    SpeedVariantKind.abilityInvested =>
+    SpeedVariantKind.abilityInvested ||
+    SpeedVariantKind.rankInvested =>
       AppStrings.t('speedTier.spread.invested'),
     SpeedVariantKind.boosted ||
     SpeedVariantKind.scarfBoosted ||
-    SpeedVariantKind.abilityBoosted =>
+    SpeedVariantKind.abilityBoosted ||
+    SpeedVariantKind.rankBoosted =>
       AppStrings.t('speedTier.spread.boosted'),
   };
 }

@@ -2267,6 +2267,12 @@ class AppStrings {
       AppLanguage.en: 'Max+ Scarf',
       AppLanguage.ja: '最速スカーフ',
     },
+    // Speed Boost lines on the realized speed table: "{n}가속".
+    'speedTier.spread.speedBoost': {
+      AppLanguage.ko: '{n}가속',
+      AppLanguage.en: 'Speed +{n}',
+      AppLanguage.ja: '加速{n}',
+    },
     'speedTier.empty': {
       AppLanguage.ko: '데이터가 아직 로드되지 않았습니다.',
       AppLanguage.en: 'Data is still loading.',

@@ -181,4 +181,40 @@ void main() {
           '${AppStrings.t('speedTier.spread.boosted')} 쓱쓱');
     });
   });
+
+  group('Speed Boost lines', () {
+    test('a holder gets 준/극 × (+1, +2) at ×1.5 and ×2', () {
+      final p = byName.values.firstWhere((p) => p.abilities.contains('Speed Boost') && !p.isMega);
+      final v = speedVariantsFor(p);
+      final inv = v.firstWhere((e) => e.kind == SpeedVariantKind.invested).speed;
+      final bst = v.firstWhere((e) => e.kind == SpeedVariantKind.boosted).speed;
+      final r = v.where((e) => e.kind.isRank).toList();
+      expect(r.map((e) => (e.kind, e.rank)), [
+        (SpeedVariantKind.rankInvested, 1), (SpeedVariantKind.rankBoosted, 1),
+        (SpeedVariantKind.rankInvested, 2), (SpeedVariantKind.rankBoosted, 2),
+      ]);
+      expect(r[0].speed, (inv * 1.5).floor());
+      expect(r[1].speed, (bst * 1.5).floor());
+      expect(r[2].speed, inv * 2);
+      expect(r[3].speed, bst * 2);
+    });
+
+    test('a Mega whose base form has Speed Boost keeps the lines', () {
+      // Scolipede boosts on turn one, then Mega Evolves into an
+      // ability that isn't Speed Boost — the stages stay.
+      final mega = byName['Mega Scolipede']!;
+      expect(mega.abilities.contains('Speed Boost'), isFalse, reason: 'guard');
+      expect(speedVariantsFor(mega).where((e) => e.kind.isRank).length, 4);
+    });
+
+    test('no Speed Boost anywhere in the line, no lines', () {
+      expect(variantsOf('Blissey').any((e) => e.kind.isRank), isFalse);
+    });
+
+    test('label reads "<spread> N가속"', () {
+      AppStrings.setLanguageForTest(AppLanguage.ko);
+      expect(speedVariantLabel(SpeedVariantKind.rankBoosted, withIcon: false, ability: 'Speed Boost', rank: 2),
+          '${AppStrings.t('speedTier.spread.boosted')} 2가속');
+    });
+  });
 }

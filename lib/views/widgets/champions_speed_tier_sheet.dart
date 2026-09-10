@@ -183,7 +183,7 @@ class _ChampionsSpeedTierSheetState extends State<ChampionsSpeedTierSheet> {
     await loadAbilitydex(); // ability-line labels read it synchronously
     final bySpeed = <int, List<_PokeOnTier>>{};
 
-    void add(int speed, Pokemon p, [SpeedVariantKind? kind, String? ability]) {
+    void add(int speed, Pokemon p, [SpeedVariantKind? kind, String? ability, int? rank]) {
       bySpeed.putIfAbsent(speed, () => []).add(_PokeOnTier(
             name: p.name,
             localizedName: p.localizedName,
@@ -194,6 +194,7 @@ class _ChampionsSpeedTierSheetState extends State<ChampionsSpeedTierSheet> {
             aliases: p.aliases,
             kind: kind,
             ability: ability,
+            rank: rank,
           ));
     }
 
@@ -203,7 +204,7 @@ class _ChampionsSpeedTierSheetState extends State<ChampionsSpeedTierSheet> {
         add(p.baseStats.speed, p);
       } else {
         for (final v in speedVariantsFor(p)) {
-          add(v.speed, p, v.kind, v.ability);
+          add(v.speed, p, v.kind, v.ability, v.rank);
         }
       }
     }
@@ -241,6 +242,7 @@ class _PokeOnTier {
   /// where a species appears exactly once.
   final SpeedVariantKind? kind;
   final String? ability;
+  final int? rank;
   _PokeOnTier({
     required this.name,
     required this.localizedName,
@@ -251,6 +253,7 @@ class _PokeOnTier {
     required this.aliases,
     this.kind,
     this.ability,
+    this.rank,
   });
 }
 
@@ -288,7 +291,8 @@ class _SpeedRowTile extends StatelessWidget {
                       name: p.name,
                       label: p.localizedName,
                       kind: p.kind,
-                      ability: p.ability),
+                      ability: p.ability,
+                      rank: p.rank),
               ],
             ),
           ),
@@ -303,7 +307,8 @@ class _PokeChip extends StatelessWidget {
   final String label;
   final SpeedVariantKind? kind;
   final String? ability;
-  const _PokeChip({required this.name, required this.label, this.kind, this.ability});
+  final int? rank;
+  const _PokeChip({required this.name, required this.label, this.kind, this.ability, this.rank});
 
   @override
   Widget build(BuildContext context) {
@@ -315,7 +320,7 @@ class _PokeChip extends StatelessWidget {
         Text(label, style: const TextStyle(fontSize: 13)),
         if (kind != null) ...[
           const SizedBox(width: 3),
-          _SpreadMarker(kind: kind!, ability: ability),
+          _SpreadMarker(kind: kind!, ability: ability, rank: rank),
         ],
       ],
     );
@@ -329,7 +334,8 @@ class _PokeChip extends StatelessWidget {
 class _SpreadMarker extends StatelessWidget {
   final SpeedVariantKind kind;
   final String? ability;
-  const _SpreadMarker({required this.kind, this.ability});
+  final int? rank;
+  const _SpreadMarker({required this.kind, this.ability, this.rank});
 
   static const _scarfItemId = 'choice-scarf';
 
@@ -341,7 +347,7 @@ class _SpreadMarker extends StatelessWidget {
     final icon =
         kind.isScarf ? SpriteService.instance.itemIconFor(_scarfItemId) : null;
     final text = Text(
-      speedVariantLabel(kind, withIcon: icon != null, ability: ability),
+      speedVariantLabel(kind, withIcon: icon != null, ability: ability, rank: rank),
       style: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.w600,
