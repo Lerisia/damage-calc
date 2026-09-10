@@ -2258,12 +2258,12 @@ class AppStrings {
     // Scarf line is indistinguishable from the plain spread it
     // modifies.
     'speedTier.spread.scarfInvested': {
-      AppLanguage.ko: '준스카프',
+      AppLanguage.ko: '준속 스카프',
       AppLanguage.en: 'Max Scarf',
       AppLanguage.ja: '準速スカーフ',
     },
     'speedTier.spread.scarfBoosted': {
-      AppLanguage.ko: '극스카프',
+      AppLanguage.ko: '최속 스카프',
       AppLanguage.en: 'Max+ Scarf',
       AppLanguage.ja: '最速スカーフ',
     },
