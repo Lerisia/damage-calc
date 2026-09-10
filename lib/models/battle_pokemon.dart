@@ -463,6 +463,9 @@ class BattlePokemonState {
     isMega = pokemon.isMega;
     dynamax = DynamaxState.none;
     terastal = const TerastalState();
+    // A newly picked Pokémon enters at full HP; the previous one's
+    // slider position must not carry over.
+    hpPercent = 100.0;
     if (isMega) {
       zMoves = [false, false, false, false];
     }
