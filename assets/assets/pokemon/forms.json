@@ -539,7 +539,9 @@
     "height": 1.7,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Aegislash (Blade Forme)"
+    "nameEn": "Aegislash (Blade Forme)",
+    "formChange": "battle",
+    "baseSpecies": "Aegislash"
   },
   {
     "dexNumber": 710,
@@ -1381,7 +1383,9 @@
     "height": 1.8,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Palafin (Hero Form)"
+    "nameEn": "Palafin (Hero Form)",
+    "formChange": "battle",
+    "baseSpecies": "Palafin"
   },
   {
     "dexNumber": 901,
@@ -1691,6 +1695,8 @@
     "height": 0.3,
     "finalEvo": true,
     "genderRate": 4,
-    "nameEn": "Morpeko (Hangry Mode)"
+    "nameEn": "Morpeko (Hangry Mode)",
+    "formChange": "battle",
+    "baseSpecies": "Morpeko"
   }
 ]
