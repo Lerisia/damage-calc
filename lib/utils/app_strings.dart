@@ -1460,9 +1460,9 @@ class AppStrings {
     },
     // About dialog — link to the developer's Buy Me a Coffee page.
     'about.support': {
-      AppLanguage.ko: '개발자에게 커피 한 잔',
-      AppLanguage.en: 'Buy me a coffee',
-      AppLanguage.ja: '開発者にコーヒーをおごる',
+      AppLanguage.ko: '후원하기',
+      AppLanguage.en: 'Support',
+      AppLanguage.ja: '支援する',
     },
     'dex.noMovesMatch': {
       AppLanguage.ko: '검색 결과 없음',

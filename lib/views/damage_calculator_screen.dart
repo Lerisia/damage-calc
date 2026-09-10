@@ -2611,16 +2611,17 @@ class AppAboutDialog extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            onPressed: () => _open(_buyMeACoffeeUrl),
-            icon: const Icon(Icons.local_cafe_outlined, size: 16),
-            label: Text(AppStrings.t('about.support'),
-                style: const TextStyle(fontSize: 12)),
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          const SizedBox(height: 14),
+          Text(AppStrings.t('about.support'),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          // Official Buy Me a Coffee button, bundled so it works offline.
+          GestureDetector(
+            onTap: () => _open(_buyMeACoffeeUrl),
+            child: Image.asset(
+              'assets/bmc_button.png',
+              width: 220,
+              filterQuality: FilterQuality.medium,
             ),
           ),
           const SizedBox(height: 16),
