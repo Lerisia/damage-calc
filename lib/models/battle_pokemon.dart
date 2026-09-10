@@ -463,9 +463,13 @@ class BattlePokemonState {
     isMega = pokemon.isMega;
     dynamax = DynamaxState.none;
     terastal = const TerastalState();
-    // A newly picked Pokémon enters at full HP; the previous one's
-    // slider position must not carry over.
+    // A newly picked Pokémon enters fresh: full HP, no stat stages, no
+    // status, no charge. Side conditions (screens, Tailwind, ally
+    // flags) belong to the side and stay.
     hpPercent = 100.0;
+    rank = const Rank();
+    status = StatusCondition.none;
+    charge = false;
     if (isMega) {
       zMoves = [false, false, false, false];
     }
