@@ -45,7 +45,7 @@ const double kScreenReduction = 0.5;
 // user's Champions format setting so the same battle state produces
 // singles-correct or doubles-correct numbers depending on scope.
 const double kScreenReductionDoubles = 2 / 3;
-const double kExpertBeltBoost = 1.2;
+const double kExpertBeltBoost = kFp1_2;
 const double kTeraShellReduction = 0.5;
 const double kChargePowerBoost = 2.0;
 
@@ -1167,7 +1167,7 @@ class DamageCalculator {
     double expertBeltMod = 1.0;
     if (effectiveItem == 'expert-belt' && isSuperEffective) {
       expertBeltMod = kExpertBeltBoost;
-      notes.add('item:expert-belt:×$kExpertBeltBoost');
+      notes.add('item:expert-belt:×1.2');
     }
 
     // --- Screens (Reflect / Light Screen) ---
