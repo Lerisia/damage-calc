@@ -109,6 +109,10 @@ python3 tools/apply_champout_learnsets.py
 # a truncated allowlist that would hide legal moves.
 python3 tools/fetch_champions_moves.py || \
   echo "champions moves refresh failed (non-fatal) — keeping existing allowlist"
+# Champions-legal held-item allowlist, same ROM source (item table +
+# English name text). Same self-abort on an implausibly short roster.
+python3 tools/fetch_champions_items.py || \
+  echo "champions items refresh failed (non-fatal) — keeping existing allowlist"
 # Move-flag audit against the ROM (punch/sound/slice/contact …), but
 # only when the ROM dump actually changed: patches are months apart,
 # so compare champout's latest waza.json commit to the one we last
@@ -134,7 +138,7 @@ fi
 # Stage only the files this pipeline owns so a stray edit in the
 # tree (somehow snuck in despite the reset above) can't tag along.
 git add assets/champions_usage.json assets/champions_usage_doubles.json \
-        assets/champions_moves.json assets/learnsets.json
+        assets/champions_moves.json assets/champions_items.json assets/learnsets.json
 git -c user.email="cron@home" -c user.name="home-cron" \
   commit -m "chore(data): daily auto-refresh ($(date -u +%Y-%m-%d))"
 git push origin main

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/pokedex.dart' show pokedexByName;
+import '../data/champions_items.dart';
 import '../utils/champions_filter_controller.dart';
 import '../utils/hp_percent_input.dart';
 import '../models/battle_pokemon.dart';
@@ -189,7 +190,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   @override
   void initState() {
     super.initState();
-    _itemKeys = _itemNames.keys.toList();
+    _itemKeys = _pickableItemKeys();
     _hydrateFromState();
     // Repaint when the Champions scope is toggled elsewhere — it
     // decides whether the Dynamax / Terastal controls exist at all.
@@ -198,8 +199,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   void _onScopeChanged() {
-    if (mounted) setState(() {});
+    if (mounted) setState(() => _itemKeys = _pickableItemKeys());
   }
+
+  /// Held items the item fields offer — Champions-legal only while the
+  /// scope is on. Each field re-adds its own current pick on top.
+  List<String> _pickableItemKeys() => filterItemKeysForChampions(
+      _itemNames.keys,
+      championsOnly: ChampionsFilterController.instance.championsOnly.value);
 
   /// Drop any mechanic the Champions scope hides, so a state carried
   /// over from extended mode can't keep affecting the damage with no
@@ -231,7 +238,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final mapsChanged = old.abilityNameMap != widget.abilityNameMap ||
         old.itemNameMap != widget.itemNameMap;
     if (mapsChanged) {
-      _itemKeys = _itemNames.keys.toList();
+      _itemKeys = _pickableItemKeys();
       _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
       _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
       _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
@@ -1900,7 +1907,10 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   Widget _itemField({required bool attacker}) {
     final controller = attacker ? _atkItemCtl : _defItemCtl;
     final focus = attacker ? _atkItemFocus : _defItemFocus;
-    final allItems = _itemKeys;
+    final selected = attacker ? _atk.selectedItem : _def.selectedItem;
+    final allItems = selected != null && !_itemKeys.contains(selected)
+        ? [selected, ..._itemKeys]
+        : _itemKeys;
 
     return KeyedSubtree(
       key: ValueKey('atk_${attacker}_item_${widget.resetCounter}'),

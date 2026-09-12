@@ -20,6 +20,8 @@ import '../../utils/ability_effects.dart';
 import '../../utils/item_effects.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
+import '../../data/champions_items.dart';
+import '../../utils/champions_filter_controller.dart';
 import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import 'typeahead_helpers.dart';
@@ -189,6 +191,14 @@ class _StatInputState extends State<StatInput> {
     super.initState();
     _loadAbilities();
     _loadItems();
+    // The Champions scope decides which held items the picker offers;
+    // it can flip from the settings menu while this field is alive.
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_onScopeChanged);
+  }
+
+  void _onScopeChanged() {
+    if (mounted) setState(() {});
   }
 
   @override
@@ -222,6 +232,8 @@ class _StatInputState extends State<StatInput> {
 
   @override
   void dispose() {
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_onScopeChanged);
     _abilityController.dispose();
     _itemController.dispose();
     _abilityFocusNode.dispose();
@@ -278,7 +290,7 @@ class _StatInputState extends State<StatInput> {
       final dex = await loadItemdex();
       final map = <String, String>{};
       for (final entry in dex.entries) {
-        if (entry.value.battle) {
+        if (entry.value.held) {
           map[entry.key] = entry.value.localizedName;
         }
       }
@@ -594,7 +606,14 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _itemAutocomplete() {
-    final allItems = ['', ..._itemNameMap.keys];
+    // Champions scope: only Champions-legal items (the current pick is
+    // exempt so it never vanishes from its own field).
+    final allItems = [
+      '',
+      ...filterItemKeysForChampions(_itemNameMap.keys,
+          championsOnly: ChampionsFilterController.instance.championsOnly.value,
+          keep: widget.selectedItem),
+    ];
     if (widget.selectedItem != null && allItems.contains(widget.selectedItem)) {
       allItems.remove(widget.selectedItem);
       allItems.insert(0, widget.selectedItem!);

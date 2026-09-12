@@ -19,6 +19,7 @@ import 'models/ability.dart';
 import 'models/item.dart';
 import 'data/movedex.dart';
 import 'data/pokedex.dart';
+import 'data/champions_items.dart';
 import 'data/champions_moves.dart';
 import 'data/champions_usage.dart';
 import 'views/root_shell.dart';
@@ -276,6 +277,7 @@ class _AppLoaderState extends State<_AppLoader> {
       loadChampionsUsage(format: ChampionsFormat.singles),
       loadChampionsUsage(format: ChampionsFormat.doubles),
       loadChampionsMoves(),
+      loadChampionsItems(),
     ]);
 
     // Build name maps from loaded data
@@ -291,7 +293,7 @@ class _AppLoaderState extends State<_AppLoader> {
     final items = results[3] as Map<String, Item>;
     final iMap = <String, String>{};
     for (final e in items.values) {
-      if (e.battle) {
+      if (e.held) {
         iMap[e.name] = e.localizedName;
       }
     }

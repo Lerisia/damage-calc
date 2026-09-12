@@ -15,6 +15,8 @@ import '../../utils/battle_facade.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/speed_tier.dart';
 import 'typeahead_helpers.dart';
+import '../../data/champions_items.dart';
+import '../../utils/champions_filter_controller.dart';
 import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
@@ -125,6 +127,8 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     _defAbilityFocus.dispose();
     _defItemFocus.dispose();
     _defNatureFocus.dispose();
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_onScopeChanged);
     super.dispose();
   }
 
@@ -138,6 +142,12 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   void initState() {
     super.initState();
     _loadData();
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_onScopeChanged);
+  }
+
+  void _onScopeChanged() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _loadData() async {
@@ -689,7 +699,12 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   }
 
   Widget _itemAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
-    final allKeys = ['', ..._itemNameMap.keys];
+    final allKeys = [
+      '',
+      ...filterItemKeysForChampions(_itemNameMap.keys,
+          championsOnly: ChampionsFilterController.instance.championsOnly.value,
+          keep: state.selectedItem),
+    ];
     final allItems = state.selectedItem != null
         ? [state.selectedItem!, ...allKeys.where((k) => k != state.selectedItem)]
         : allKeys;

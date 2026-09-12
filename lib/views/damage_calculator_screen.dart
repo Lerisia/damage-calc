@@ -454,7 +454,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       final dex = await loadItemdex();
       final map = <String, String>{};
       for (final entry in dex.entries) {
-        if (entry.value.battle) {
+        if (entry.value.held) {
           map[entry.key] = entry.value.localizedName;
         }
       }

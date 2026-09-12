@@ -6,14 +6,19 @@ class Item {
   final String nameKo;
   final String nameJa;
   final String? nameEn;
-  final bool battle;
+
+  /// True for items a Pokémon can hold to some effect in battle — the
+  /// ones the item pickers offer. Candies, Poké Balls, medicine and
+  /// the like are false. This says nothing about Champions legality;
+  /// see `isChampionsItem` for that.
+  final bool held;
 
   const Item({
     required this.name,
     required this.nameKo,
     required this.nameJa,
     this.nameEn,
-    this.battle = false,
+    this.held = false,
   });
 
   String get localizedName => AppStrings.name(nameKo: nameKo, nameEn: nameEn, nameJa: nameJa, name: name);
@@ -24,7 +29,7 @@ class Item {
       nameKo: json['nameKo'] as String,
       nameJa: json['nameJa'] as String,
       nameEn: json['nameEn'] as String?,
-      battle: json['battle'] as bool? ?? false,
+      held: json['held'] as bool? ?? false,
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import '../data/abilitydex.dart';
+import '../data/champions_items.dart';
 import '../data/champions_usage.dart';
 import '../data/itemdex.dart';
 import '../data/movedex.dart';
@@ -21,6 +22,7 @@ import '../models/stats.dart';
 import '../models/type.dart';
 import '../utils/app_strings.dart';
 import '../utils/calc_handoff.dart';
+import '../utils/champions_filter_controller.dart';
 import '../utils/champions_mode.dart';
 import '../utils/stat_calculator.dart';
 import '../utils/coverage_display_controller.dart';
@@ -209,7 +211,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
       }
       final iNames = <String, String>{};
       for (final e in iDex.entries) {
-        if (e.value.battle) iNames[e.key] = e.value.localizedName;
+        if (e.value.held) iNames[e.key] = e.value.localizedName;
       }
       _abilityDex = aDex;
       _itemDex = iDex;
@@ -2125,7 +2127,20 @@ class _SlotCardState extends State<_SlotCard> {
   Map<String, String>? _abilityIndexFor;
 
   @override
+  void initState() {
+    super.initState();
+    ChampionsFilterController.instance.championsOnly
+        .addListener(_onScopeChanged);
+  }
+
+  void _onScopeChanged() {
+    if (mounted) setState(() {});
+  }
+
+  @override
   void dispose() {
+    ChampionsFilterController.instance.championsOnly
+        .removeListener(_onScopeChanged);
     _abilityController.dispose();
     _itemController.dispose();
     _abilityFocus.dispose();
@@ -2797,7 +2812,12 @@ class _SlotCardState extends State<_SlotCard> {
     if (p == null || widget.itemNames.isEmpty) {
       return _disabledField(scheme, AppStrings.t('label.item'));
     }
-    final allItems = ['', ...widget.itemNames.keys];
+    final allItems = [
+      '',
+      ...filterItemKeysForChampions(widget.itemNames.keys,
+          championsOnly: ChampionsFilterController.instance.championsOnly.value,
+          keep: widget.slot.heldItem),
+    ];
     if (widget.slot.heldItem != null && allItems.contains(widget.slot.heldItem)) {
       allItems.remove(widget.slot.heldItem);
       allItems.insert(0, widget.slot.heldItem!);
