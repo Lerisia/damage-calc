@@ -18,14 +18,13 @@ import '../utils/page_routes.dart';
 import 'root_shell.dart';
 import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
-import 'widgets/type_filter_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
+import 'widgets/move_table_controls.dart';
 
 /// Sort column for the Move Dex list. Mirrors the same enum in
 /// [_MovesTabState] (Pokémon Dex) — duplicated rather than shared
 /// because the file-private scope keeps each dex's sort state from
 /// leaking across screens.
-enum _MoveSortKey { name, type, category, power, accuracy }
 
 /// Move dictionary screen. Mirrors the Pokémon dex screen's split layout
 /// — search list on the left, selected-move detail on the right (wide)
@@ -97,7 +96,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   // order (the order they ship in the JSON files, which is roughly
   // chronological by introduction). Tapping a column header cycles
   // through default-direction → opposite-direction → back to null.
-  _MoveSortKey? _sortKey;
+  MoveSortKey? _sortKey;
   bool _sortAsc = true;
 
   @override
@@ -220,31 +219,12 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     return out;
   }
 
-  int _compare(Move a, Move b) {
-    int cmp;
-    switch (_sortKey!) {
-      case _MoveSortKey.name:
-        cmp = a.localizedName.compareTo(b.localizedName);
-      case _MoveSortKey.type:
-        cmp = KoStrings.getTypeName(a.type)
-            .compareTo(KoStrings.getTypeName(b.type));
-      case _MoveSortKey.category:
-        cmp = a.category.index.compareTo(b.category.index);
-      case _MoveSortKey.power:
-        cmp = a.power.compareTo(b.power);
-      case _MoveSortKey.accuracy:
-        cmp = a.accuracy.compareTo(b.accuracy);
-    }
-    if (cmp == 0 && _sortKey != _MoveSortKey.name) {
-      cmp = a.localizedName.compareTo(b.localizedName);
-    }
-    return _sortAsc ? cmp : -cmp;
-  }
+  int _compare(Move a, Move b) =>
+      compareMoves(a, b, _sortKey!, asc: _sortAsc);
 
-  bool _defaultAsc(_MoveSortKey key) =>
-      !(key == _MoveSortKey.power || key == _MoveSortKey.accuracy);
+  bool _defaultAsc(MoveSortKey key) => moveSortDefaultAsc(key);
 
-  void _toggleSort(_MoveSortKey key) {
+  void _toggleSort(MoveSortKey key) {
     setState(() {
       final defaultAsc = _defaultAsc(key);
       if (_sortKey != key) {
@@ -566,186 +546,24 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     );
   }
 
-  Widget _typeDropdown() {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () async {
-        final picked = await showTypeFilterDialog(
-          context: context,
-          current: _typeFilter,
-        );
-        if (!mounted || identical(picked, kTypeFilterDismissed)) return;
-        setState(() => _typeFilter = picked as PokemonType?);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        // Stack with an invisible "all" placeholder keeps the chip
-        // width steady across selections so the row doesn't jitter.
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Text(AppStrings.t('dex.allTypes'),
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.transparent)),
-            Text(
-              _typeFilter == null
-                  ? AppStrings.t('dex.allTypes')
-                  : KoStrings.getTypeName(_typeFilter!),
-              style: TextStyle(
-                  fontSize: 12,
-                  color: _typeFilter != null
-                      ? KoStrings.getTypeColor(_typeFilter!)
-                      : null,
-                  fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _categoryDropdown() {
-    String label(MoveCategory? c) {
-      if (c == null) return AppStrings.t('dex.allCategories');
-      switch (c) {
-        case MoveCategory.physical:
-          return AppStrings.t('damage.physical');
-        case MoveCategory.special:
-          return AppStrings.t('damage.special');
-        case MoveCategory.status:
-          return AppStrings.t('damage.status');
-      }
-    }
-
-    const allSentinel = -1;
-    return PopupMenuButton<int>(
-      tooltip: AppStrings.t('dex.allCategories'),
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Text(label(null),
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.transparent)),
-            Text(label(_categoryFilter),
-                style: const TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.w600)),
-          ],
-        ),
-      ),
-      itemBuilder: (_) => [
-        PopupMenuItem(
-          value: allSentinel,
-          child: Text(label(null), style: const TextStyle(fontSize: 13)),
-        ),
-        for (final c in MoveCategory.values)
-          PopupMenuItem(
-            value: c.index,
-            child: Text(label(c), style: const TextStyle(fontSize: 13)),
-          ),
-      ],
-      onSelected: (v) => setState(() {
-        _categoryFilter = v == allSentinel ? null : MoveCategory.values[v];
-      }),
-    );
-  }
-
-  Widget _sortHeader() {
-    Widget headerCell({
-      required _MoveSortKey key,
-      required String label,
-      required Widget Function(Widget child) wrap,
-    }) {
-      final active = _sortKey == key;
-      // Hide the arrow when a search query is active — relevance
-      // sort overrides column sort, and showing both is misleading.
-      final searching = _searchCtl.text.isNotEmpty;
-      final arrow = (active && !searching) ? (_sortAsc ? ' ↑' : ' ↓') : '';
-      return InkWell(
-        onTap: () => _toggleSort(key),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: wrap(
-            Text(
-              '$label$arrow',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: (active && !searching)
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.grey.shade700,
-              ),
-            ),
-          ),
-        ),
+  Widget _typeDropdown() => TypeFilterChip(
+        value: _typeFilter,
+        onChanged: (t) => setState(() => _typeFilter = t),
       );
-    }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 5,
-            child: headerCell(
-              key: _MoveSortKey.name,
-              label: AppStrings.t('move.name'),
-              wrap: (c) => Align(alignment: Alignment.centerLeft, child: c),
-            ),
-          ),
-          SizedBox(
-            width: 50,
-            child: headerCell(
-              key: _MoveSortKey.type,
-              label: AppStrings.t('move.type'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-          const SizedBox(width: 6),
-          SizedBox(
-            width: 36,
-            child: headerCell(
-              key: _MoveSortKey.category,
-              label: AppStrings.t('move.category'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-          SizedBox(
-            width: 36,
-            child: headerCell(
-              key: _MoveSortKey.power,
-              label: AppStrings.t('move.power'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-          SizedBox(
-            width: 36,
-            child: headerCell(
-              key: _MoveSortKey.accuracy,
-              label: AppStrings.t('move.accuracy'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget _categoryDropdown() => CategoryFilterChip(
+        value: _categoryFilter,
+        onChanged: (c) => setState(() => _categoryFilter = c),
+      );
+
+  Widget _sortHeader() => MoveSortHeader(
+        sortKey: _sortKey,
+        asc: _sortAsc,
+        // Relevance sort overrides column sort while a query is typed;
+        // showing both would mislead.
+        showArrow: _searchCtl.text.isEmpty,
+        onTap: _toggleSort,
+      );
 
   /// Renders the move detail content. When [move] is supplied, that
   /// move is shown directly — used by narrow's pushed sub-screen so it

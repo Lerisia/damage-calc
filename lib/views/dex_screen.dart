@@ -34,9 +34,9 @@ import 'widgets/dex_search_filter_dialog.dart';
 import 'widgets/matchup_badge.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
-import 'widgets/type_filter_dialog.dart';
 import '../data/ability_variants.dart';
 import 'widgets/type_chip.dart';
+import 'widgets/move_table_controls.dart';
 
 /// Pokédex screen — browse Pokémon and see species info, abilities,
 /// type matchups, and learnable moves. Reuses KoStrings for type
@@ -2251,13 +2251,12 @@ class _MovesTab extends StatefulWidget {
   State<_MovesTab> createState() => _MovesTabState();
 }
 
-enum _MoveSortKey { name, type, category, power, accuracy }
 
 class _MovesTabState extends State<_MovesTab> {
   String _query = '';
   PokemonType? _typeFilter;
   MoveCategory? _categoryFilter;
-  _MoveSortKey _sortKey = _MoveSortKey.name;
+  MoveSortKey _sortKey = MoveSortKey.name;
   bool _sortAsc = true;
 
   @override
@@ -2325,7 +2324,7 @@ class _MovesTabState extends State<_MovesTab> {
     return out;
   }
 
-  void _toggleSort(_MoveSortKey key) {
+  void _toggleSort(MoveSortKey key) {
     setState(() {
       if (_sortKey == key) {
         _sortAsc = !_sortAsc;
@@ -2333,33 +2332,13 @@ class _MovesTabState extends State<_MovesTab> {
         _sortKey = key;
         // Power/accuracy default to descending (big → small) since
         // that's almost always what you want when ranking moves.
-        _sortAsc = !(key == _MoveSortKey.power || key == _MoveSortKey.accuracy);
+        _sortAsc = moveSortDefaultAsc(key);
       }
     });
   }
 
-  int _compare(Move a, Move b) {
-    int cmp;
-    switch (_sortKey) {
-      case _MoveSortKey.name:
-        cmp = a.localizedName.compareTo(b.localizedName);
-      case _MoveSortKey.type:
-        cmp = KoStrings.getTypeName(a.type)
-            .compareTo(KoStrings.getTypeName(b.type));
-      case _MoveSortKey.category:
-        cmp = a.category.index.compareTo(b.category.index);
-      case _MoveSortKey.power:
-        cmp = a.power.compareTo(b.power);
-      case _MoveSortKey.accuracy:
-        // Treat 0 (—) as "no miss" → highest when sorting descending,
-        // lowest when sorting ascending. Simplest: leave as-is.
-        cmp = a.accuracy.compareTo(b.accuracy);
-    }
-    if (cmp == 0 && _sortKey != _MoveSortKey.name) {
-      cmp = a.localizedName.compareTo(b.localizedName);
-    }
-    return _sortAsc ? cmp : -cmp;
-  }
+  int _compare(Move a, Move b) =>
+      compareMoves(a, b, _sortKey, asc: _sortAsc);
 
   List<Move> _filtered() {
     if (widget.pokemon == null) return [];
@@ -2461,188 +2440,20 @@ class _MovesTabState extends State<_MovesTab> {
     );
   }
 
-  Widget _typeDropdown() {
-    final avail = _availableTypes();
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () async {
-        final picked = await showTypeFilterDialog(
-          context: context,
-          current: _typeFilter,
-          available: avail,
-        );
-        if (!mounted || identical(picked, kTypeFilterDismissed)) return;
-        setState(() => _typeFilter = picked as PokemonType?);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        // Stack with an invisible "all" label so the chip width stays
-        // constant regardless of which type is picked — otherwise the
-        // chip jumps around between long ("전기"/"격투") and short
-        // ("물"/"불") selections.
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Text(AppStrings.t('dex.allTypes'),
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.transparent)),
-            Text(
-              _typeFilter == null
-                  ? AppStrings.t('dex.allTypes')
-                  : KoStrings.getTypeName(_typeFilter!),
-              style: TextStyle(
-                  fontSize: 12,
-                  color: _typeFilter != null
-                      ? KoStrings.getTypeColor(_typeFilter!)
-                      : null,
-                  fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _categoryDropdown() {
-    String label(MoveCategory? c) {
-      if (c == null) return AppStrings.t('dex.allCategories');
-      switch (c) {
-        case MoveCategory.physical: return AppStrings.t('damage.physical');
-        case MoveCategory.special: return AppStrings.t('damage.special');
-        case MoveCategory.status: return AppStrings.t('damage.status');
-      }
-    }
-
-    // Same sentinel trick as _typeDropdown — PopupMenuButton swallows
-    // null selections, so encode "all" as -1.
-    const allSentinel = -1;
-    final avail = _availableCategories();
-    return PopupMenuButton<int>(
-      tooltip: AppStrings.t('dex.allCategories'),
-      popUpAnimationStyle:
-          const AnimationStyle(duration: Duration(milliseconds: 100)),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        // Stack with invisible "all categories" placeholder keeps the
-        // chip width constant across selections.
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Text(label(null),
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.transparent)),
-            Text(label(_categoryFilter),
-                style: const TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.w600)),
-          ],
-        ),
-      ),
-      itemBuilder: (_) => [
-        PopupMenuItem(
-          value: allSentinel,
-          child: Text(label(null), style: const TextStyle(fontSize: 13)),
-        ),
-        for (final c in MoveCategory.values)
-          if (avail.contains(c))
-            PopupMenuItem(
-              value: c.index,
-              child: Text(label(c), style: const TextStyle(fontSize: 13)),
-            ),
-      ],
-      onSelected: (v) => setState(() {
-        _categoryFilter = v == allSentinel ? null : MoveCategory.values[v];
-      }),
-    );
-  }
-
-  Widget _sortHeader() {
-    Widget headerCell({
-      required _MoveSortKey key,
-      required String label,
-      required Widget Function(Widget child) wrap,
-    }) {
-      final active = _sortKey == key;
-      final arrow = active ? (_sortAsc ? ' ↑' : ' ↓') : '';
-      return InkWell(
-        onTap: () => _toggleSort(key),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: wrap(
-            Text(
-              '$label$arrow',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade700,
-              ),
-            ),
-          ),
-        ),
+  Widget _typeDropdown() => TypeFilterChip(
+        value: _typeFilter,
+        available: _availableTypes(),
+        onChanged: (t) => setState(() => _typeFilter = t),
       );
-    }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 5,
-            child: headerCell(
-              key: _MoveSortKey.name,
-              label: AppStrings.t('move.name'),
-              wrap: (c) => Align(alignment: Alignment.centerLeft, child: c),
-            ),
-          ),
-          SizedBox(
-            width: 50,
-            child: headerCell(
-              key: _MoveSortKey.type,
-              label: AppStrings.t('move.type'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-          const SizedBox(width: 6),
-          SizedBox(
-            width: 36,
-            child: headerCell(
-              key: _MoveSortKey.category,
-              label: AppStrings.t('move.category'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-          SizedBox(
-            width: 36,
-            child: headerCell(
-              key: _MoveSortKey.power,
-              label: AppStrings.t('move.power'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-          SizedBox(
-            width: 36,
-            child: headerCell(
-              key: _MoveSortKey.accuracy,
-              label: AppStrings.t('move.accuracy'),
-              wrap: (c) => Center(child: c),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget _categoryDropdown() => CategoryFilterChip(
+        value: _categoryFilter,
+        available: _availableCategories(),
+        onChanged: (c) => setState(() => _categoryFilter = c),
+      );
+
+  Widget _sortHeader() => MoveSortHeader(
+        sortKey: _sortKey, asc: _sortAsc, onTap: _toggleSort);
 
   Widget _moveRow(Move m) {
     final categoryLabel = switch (m.category) {
