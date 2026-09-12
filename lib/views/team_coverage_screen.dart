@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import '../data/abilitydex.dart';
-import '../data/champions_items.dart';
 import '../data/champions_usage.dart';
 import '../data/itemdex.dart';
 import '../data/movedex.dart';
@@ -51,6 +50,7 @@ import 'widgets/sample_list_sheet.dart';
 import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 import '../data/ability_variants.dart';
+import '../utils/item_picker.dart';
 
 /// One slot in the team-builder. We keep just the bits that affect
 /// type matchups — full BattlePokemonState is overkill here and would
@@ -2124,6 +2124,8 @@ class _SlotCardState extends State<_SlotCard> {
   // old own-first sort + cache + _listEquals (now shared).
   SearchIndex<String>? _abilityIndex;
   Map<String, String>? _abilityIndexFor;
+  SearchIndex<String>? _itemIndex;
+  Map<String, String>? _itemIndexFor;
 
   @override
   void initState() {
@@ -2802,15 +2804,11 @@ class _SlotCardState extends State<_SlotCard> {
     if (p == null || widget.itemNames.isEmpty) {
       return _disabledField(scheme, AppStrings.t('label.item'));
     }
-    final allItems = [
-      '',
-      ...filterItemKeysForChampions(widget.itemNames.keys,
-          championsOnly: ChampionsFilterController.instance.championsOnly.value,
-          keep: widget.slot.heldItem),
-    ];
-    if (widget.slot.heldItem != null && allItems.contains(widget.slot.heldItem)) {
-      allItems.remove(widget.slot.heldItem);
-      allItems.insert(0, widget.slot.heldItem!);
+    // Shared item engine (same as the calculator's pickers).
+    if (!identical(_itemIndexFor, widget.itemNames)) {
+      _itemIndex = buildItemIndex(widget.itemNames,
+          itemDex: widget.itemDex, noneLabel: AppStrings.t('team.item.none'));
+      _itemIndexFor = widget.itemNames;
     }
     final initialText = _itemLabel(widget.slot.heldItem);
     if (!_itemFocus.hasFocus) {
@@ -2820,19 +2818,13 @@ class _SlotCardState extends State<_SlotCard> {
     return buildTypeAhead<String>(
       controller: _itemController,
       focusNode: _itemFocus,
-      suggestionsCallback: (text) {
-        if (text.isEmpty || text == initialText) return allItems;
-        return allItems.where((key) {
-          final data = widget.itemDex[key];
-          return triLanguageScore(text,
-                nameKo: data?.nameKo ?? _itemLabel(key.isEmpty ? null : key),
-                nameEn: data?.nameEn ?? '',
-                nameJa: data?.nameJa ?? '',
-                internalKey: key,
-              ) >
-              0;
-        }).toList();
-      },
+      suggestionsCallback: (text) => itemSuggestions(
+        _itemIndex!,
+        text == initialText ? '' : text,
+        selected: widget.slot.heldItem,
+        championsOnly: ChampionsFilterController.instance.championsOnly.value,
+        labelOf: (k) => _itemLabel(k.isEmpty ? null : k),
+      ),
       decoration: InputDecoration(
         labelText: AppStrings.t('label.item'),
         isDense: true,

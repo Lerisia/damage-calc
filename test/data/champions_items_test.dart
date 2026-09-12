@@ -51,26 +51,4 @@ void main() {
       expect(isChampionsItem('choice-specs'), isFalse);
     });
   });
-
-  group('filterItemKeysForChampions', () {
-    const keys = ['leftovers', 'choice-specs', 'life-orb'];
-    bool champ(String k) => k != 'choice-specs';
-
-    test('passes everything through when the scope is off', () {
-      expect(filterItemKeysForChampions(keys, championsOnly: false, isChampions: champ),
-          keys);
-    });
-
-    test('drops non-Champions items when the scope is on', () {
-      expect(filterItemKeysForChampions(keys, championsOnly: true, isChampions: champ),
-          ['leftovers', 'life-orb']);
-    });
-
-    test('keeps the currently selected item even if it is not legal', () {
-      expect(
-          filterItemKeysForChampions(keys,
-              championsOnly: true, isChampions: champ, keep: 'choice-specs'),
-          ['leftovers', 'choice-specs', 'life-orb']);
-    });
-  });
 }

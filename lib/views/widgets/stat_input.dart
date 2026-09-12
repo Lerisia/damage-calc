@@ -18,12 +18,12 @@ import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
-import '../../data/champions_items.dart';
 import '../../utils/champions_filter_controller.dart';
 import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import 'typeahead_helpers.dart';
 import '../../data/ability_variants.dart';
+import '../../utils/item_picker.dart';
 
 class ClampingFormatter extends TextInputFormatter {
   final int min;
@@ -180,6 +180,7 @@ class _StatInputState extends State<StatInput> {
   // ability map (re)loads. Replaces the old hand-rolled own-first
   // sort + cache + _listEquals that was duplicated across the pickers.
   SearchIndex<String>? _abilityIndex;
+  SearchIndex<String>? _itemIndex;
   int _evResetCounter = 0;
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
@@ -288,7 +289,7 @@ class _StatInputState extends State<StatInput> {
   Future<void> _loadItems() async {
     if (_itemCache != null && _itemCacheLang == AppStrings.current) {
       final dex = await loadItemdex();
-      setState(() { _itemNameMap = _itemCache!; _itemDataMap = dex; });
+      setState(() { _itemNameMap = _itemCache!; _itemDataMap = dex; _buildItemIndex(); });
       return;
     }
     try {
@@ -303,7 +304,7 @@ class _StatInputState extends State<StatInput> {
       _itemCacheLang = AppStrings.current;
       setState(() {
         _itemNameMap = map;
-        _itemDataMap = dex;
+        _itemDataMap = dex; _buildItemIndex();
       });
     } catch (_) {}
   }
@@ -314,6 +315,11 @@ class _StatInputState extends State<StatInput> {
 
   /// (Re)build the ability search index from the current name map.
   /// Called when the ability dex loads / language changes.
+  void _buildItemIndex() {
+    _itemIndex = buildItemIndex(_itemNameMap,
+        itemDex: _itemDataMap, noneLabel: AppStrings.t('label.none'));
+  }
+
   void _buildAbilityIndex() {
     _abilityIndex = buildAbilityIndex(
       _abilityNameMap.keys,
@@ -603,22 +609,20 @@ class _StatInputState extends State<StatInput> {
   }
 
   Widget _itemAutocomplete() {
-    // Champions scope: only Champions-legal items (the current pick is
-    // exempt so it never vanishes from its own field).
-    final allItems = [
-      '',
-      ...filterItemKeysForChampions(_itemNameMap.keys,
-          championsOnly: ChampionsFilterController.instance.championsOnly.value,
-          keep: widget.selectedItem),
-    ];
-    if (widget.selectedItem != null && allItems.contains(widget.selectedItem)) {
-      allItems.remove(widget.selectedItem);
-      allItems.insert(0, widget.selectedItem!);
-    }
-
     final initialText = _itemDisplayName(widget.selectedItem);
     if (!_itemFocusNode.hasFocus) {
       _itemController.text = initialText;
+    }
+    // Shared item engine: current pick, "no item", then ranked / A→Z;
+    // Champions scope handled inside. An unchanged field (showing the
+    // current pick) lists the default order, not a search for its name.
+    List<String> suggest(String text) {
+      final index = _itemIndex;
+      if (index == null) return const [];
+      return itemSuggestions(index, text == initialText ? '' : text,
+          selected: widget.selectedItem,
+          championsOnly: ChampionsFilterController.instance.championsOnly.value,
+          labelOf: (k) => _itemDisplayName(k.isEmpty ? null : k));
     }
 
     return KeyedSubtree(
@@ -626,18 +630,7 @@ class _StatInputState extends State<StatInput> {
       child: buildTypeAhead<String>(
         controller: _itemController,
         focusNode: _itemFocusNode,
-        suggestionsCallback: (text) {
-          if (text.isEmpty || text == initialText) return allItems;
-          return allItems.where((key) {
-            final data = _itemDataMap[key];
-            return triLanguageScore(text,
-              nameKo: data?.nameKo ?? _itemDisplayName(key.isEmpty ? null : key),
-              nameEn: data?.nameEn ?? '',
-              nameJa: data?.nameJa ?? '',
-              internalKey: key,
-            ) > 0;
-          }).toList();
-        },
+        suggestionsCallback: suggest,
         decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
         itemBuilder: (context, key) {
           return Padding(

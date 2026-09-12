@@ -55,21 +55,3 @@ bool isChampionsItem(String itemKey) {
   if (c == null || c.isEmpty) return true;
   return c.contains(itemKey);
 }
-
-/// The item keys a picker should offer: all of [keys] when the
-/// Champions scope is off; otherwise only the Champions-legal ones,
-/// plus [keep] (the currently selected item) so a pick loaded from a
-/// paste or an older session never vanishes from its own field.
-/// [isChampions] defaults to [isChampionsItem]; injectable for tests.
-List<String> filterItemKeysForChampions(
-  Iterable<String> keys, {
-  required bool championsOnly,
-  String? keep,
-  bool Function(String) isChampions = isChampionsItem,
-}) {
-  if (!championsOnly) return keys.toList();
-  return [
-    for (final k in keys)
-      if (k == keep || isChampions(k)) k,
-  ];
-}

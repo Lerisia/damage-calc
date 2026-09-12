@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/pokedex.dart' show pokedexByName;
-import '../data/champions_items.dart';
 import '../utils/champions_filter_controller.dart';
 import '../utils/hp_percent_input.dart';
 import '../models/battle_pokemon.dart';
@@ -16,8 +15,7 @@ import '../models/pokemon.dart';
 import '../models/room.dart';
 import '../models/stats.dart';
 import '../models/status.dart';
-import '../utils/korean_search.dart'
-    show triLanguageScore, SearchIndex, pickerSuggestions;
+import '../utils/korean_search.dart' show SearchIndex, pickerSuggestions;
 import '../utils/ability_picker.dart';
 import '../models/terrain.dart';
 import '../models/type.dart';
@@ -46,6 +44,7 @@ import 'widgets/typeahead_helpers.dart';
 import '../data/ability_variants.dart';
 import '../utils/entry_hazards.dart';
 import 'widgets/entry_hazard_buttons.dart';
+import '../utils/item_picker.dart';
 
 /// Compact in-battle calculator. Shares the attacker/defender state
 /// with Normal Mode — the user flip-flopping between the two sees the
@@ -175,7 +174,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   // language change.
   Map<String, String> get _abilityNames => widget.abilityNameMap;
   Map<String, String> get _itemNames => widget.itemNameMap;
-  List<String> _itemKeys = const [];
+  SearchIndex<String>? _itemIndex;
+  Map<String, String>? _itemIndexFor;
   // Shared search engine over ability keys; rebuilt when the name map
   // reference changes. Own abilities are computed per-query from each
   // side's state, so there's no per-side sorted cache anymore.
@@ -193,7 +193,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   @override
   void initState() {
     super.initState();
-    _itemKeys = _pickableItemKeys();
     _hydrateFromState();
     // Repaint when the Champions scope is toggled elsewhere — it
     // decides whether the Dynamax / Terastal controls exist at all.
@@ -202,14 +201,9 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   }
 
   void _onScopeChanged() {
-    if (mounted) setState(() => _itemKeys = _pickableItemKeys());
+    if (mounted) setState(() {});
   }
 
-  /// Held items the item fields offer — Champions-legal only while the
-  /// scope is on. Each field re-adds its own current pick on top.
-  List<String> _pickableItemKeys() => filterItemKeysForChampions(
-      _itemNames.keys,
-      championsOnly: ChampionsFilterController.instance.championsOnly.value);
 
   /// Drop any mechanic the Champions scope hides, so a state carried
   /// over from extended mode can't keep affecting the damage with no
@@ -241,7 +235,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final mapsChanged = old.abilityNameMap != widget.abilityNameMap ||
         old.itemNameMap != widget.itemNameMap;
     if (mapsChanged) {
-      _itemKeys = _pickableItemKeys();
       _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
       _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
       _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
@@ -1921,26 +1914,26 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     final controller = attacker ? _atkItemCtl : _defItemCtl;
     final focus = attacker ? _atkItemFocus : _defItemFocus;
     final selected = attacker ? _atk.selectedItem : _def.selectedItem;
-    final allItems = selected != null && !_itemKeys.contains(selected)
-        ? [selected, ..._itemKeys]
-        : _itemKeys;
+    // Shared item engine (same as Extended Mode). Only the label map is
+    // available here, so EN matching falls back to the key.
+    if (!identical(_itemIndexFor, widget.itemNameMap)) {
+      _itemIndex = buildItemIndex(_itemNames,
+          noneLabel: AppStrings.t('label.none'));
+      _itemIndexFor = widget.itemNameMap;
+    }
 
     return KeyedSubtree(
       key: ValueKey('atk_${attacker}_item_${widget.resetCounter}'),
       child: buildTypeAhead<String>(
       controller: controller,
       focusNode: focus,
-      suggestionsCallback: (query) {
-        if (query.isEmpty) return ['', ...allItems];
-        // Same tri-language search as the ability field — pulls
-        // chosung shortcuts ("ㅊㄱㅂㄹ" → 차가운바위) in line with
-        // Extended Mode.
-        return allItems.where((k) => triLanguageScore(
-              query,
-              nameKo: _itemNames[k] ?? k,
-              internalKey: k,
-            ) > 0).toList();
-      },
+      suggestionsCallback: (query) => itemSuggestions(
+        _itemIndex!,
+        query,
+        selected: selected,
+        championsOnly: ChampionsFilterController.instance.championsOnly.value,
+        labelOf: _itemDisplayText,
+      ),
       decoration: InputDecoration(
         labelText: AppStrings.t('label.item'),
         isDense: true,

@@ -15,7 +15,6 @@ import '../../utils/battle_facade.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/speed_tier.dart';
 import 'typeahead_helpers.dart';
-import '../../data/champions_items.dart';
 import '../../utils/champions_filter_controller.dart';
 import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
@@ -23,6 +22,7 @@ import '../../utils/room_effects.dart';
 import '../widgets/pokemon_selector.dart';
 import '../../data/ability_variants.dart';
 import '../../utils/ability_picker.dart';
+import '../../utils/item_picker.dart';
 
 /// See equivalent enum in stat_input.dart for the rationale — Flutter's
 /// [PopupMenuButton.onSelected] silently skips null-valued selections,
@@ -139,6 +139,34 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   Map<String, String> get _itemNameMap => widget.itemNameMap;
   Map<String, Ability> _abilityDataMap = {};
   Map<String, Item> _itemDataMap = {};
+  // Shared search engines, rebuilt when the label maps (language) or
+  // the loaded dexes change.
+  SearchIndex<String>? _abilityIndex;
+  Map<String, String>? _abilityIndexFor;
+  SearchIndex<String>? _itemIndex;
+  Map<String, String>? _itemIndexFor;
+
+  SearchIndex<String> _ensureAbilityIndex() {
+    if (_abilityIndex == null || !identical(_abilityIndexFor, _abilityNameMap)) {
+      _abilityIndex = buildAbilityIndex(
+        _abilityNameMap.keys,
+        koOf: _abilityKo,
+        enOf: (k) => _abilityDataMap[k]?.nameEn ?? k,
+        jaOf: (k) => _abilityDataMap[k]?.nameJa ?? '',
+      );
+      _abilityIndexFor = _abilityNameMap;
+    }
+    return _abilityIndex!;
+  }
+
+  SearchIndex<String> _ensureItemIndex() {
+    if (_itemIndex == null || !identical(_itemIndexFor, _itemNameMap)) {
+      _itemIndex = buildItemIndex(_itemNameMap,
+          itemDex: _itemDataMap, noneLabel: AppStrings.t('label.none'));
+      _itemIndexFor = _itemNameMap;
+    }
+    return _itemIndex!;
+  }
 
   @override
   void initState() {
@@ -155,7 +183,10 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   Future<void> _loadData() async {
     final abilities = await loadAbilitydex();
     final items = await loadItemdex();
-    if (mounted) setState(() { _abilityDataMap = abilities; _itemDataMap = items; });
+    if (mounted) setState(() {
+      _abilityDataMap = abilities; _itemDataMap = items;
+      _abilityIndex = null; _itemIndex = null;
+    });
   }
 
   int _calcEffectiveSpeed(BattlePokemonState s) {
@@ -485,23 +516,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
-  /// Returns all abilities sorted: pokemon's own abilities first, then the rest
-  /// alphabetically by Korean name. Only includes abilities with Korean names.
-  List<String> _sortedAbilities(BattlePokemonState state) {
-    if (_abilityNameMap.isEmpty) return state.pokemonAbilities;
-    final pokemon = expandAbilities(state.pokemonAbilities, _abilityNameMap);
-    final pokemonSet = state.pokemonAbilities.toSet();
-    final rest = _abilityNameMap.keys
-        .where((a) => !pokemonSet.contains(a) && !pokemon.contains(a))
-        .where((a) {
-          final data = _abilityDataMap[a];
-          return data != null && !data.nonMainline;
-        })
-        .toList();
-    rest.sort((a, b) => _abilityKo(a).compareTo(_abilityKo(b)));
-    return [...pokemon, ...rest];
-  }
-
   /// Same two-dropdown nature picker used in Extended Mode — ↑ slot
   /// and ↓ slot, each with a 'none' option plus the five battle
   /// stats. Kept consistent across tabs so the user sees one way to
@@ -621,7 +635,16 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   }
 
   Widget _abilityAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
-    final sorted = _sortedAbilities(state);
+    // Shared ability engine (same as StatInput / Simple Mode / team
+    // builder): own abilities pinned first, non-mainline hidden, the
+    // rest A→Z by label, relevance-ranked on a real query.
+    List<String> suggest(String query) => pickerSuggestions(
+          _ensureAbilityIndex(),
+          query,
+          pins: expandAbilities(state.pokemonAbilities, _abilityNameMap),
+          allow: (a) => !(_abilityDataMap[a]?.nonMainline ?? false),
+          restSort: (a, b) => _abilityKo(a).compareTo(_abilityKo(b)),
+        );
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
     if (!focusNode.hasFocus) controller.text = initialText;
     // Own abilities (with Supreme Overlord's stacked variants expanded)
@@ -636,18 +659,8 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
       child: buildTypeAhead<String>(
         controller: controller,
         focusNode: focusNode,
-        suggestionsCallback: (query) {
-          if (query.isEmpty || query == initialText) return sorted;
-          return sorted.where((a) {
-            final data = _abilityDataMap[a];
-            return triLanguageScore(query,
-              nameKo: data?.nameKo ?? _abilityKo(a),
-              nameEn: data?.nameEn ?? a,
-              nameJa: data?.nameJa ?? '',
-              internalKey: a,
-            ) > 0;
-          }).toList();
-        },
+        suggestionsCallback: (query) =>
+            suggest(query == initialText ? '' : query),
         decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
         itemBuilder: (context, ability) {
           final isOwn = ownSet.contains(ability);
@@ -673,15 +686,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   }
 
   Widget _itemAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
-    final allKeys = [
-      '',
-      ...filterItemKeysForChampions(_itemNameMap.keys,
-          championsOnly: ChampionsFilterController.instance.championsOnly.value,
-          keep: state.selectedItem),
-    ];
-    final allItems = state.selectedItem != null
-        ? [state.selectedItem!, ...allKeys.where((k) => k != state.selectedItem)]
-        : allKeys;
     final initialText = _itemKo(state.selectedItem);
     if (!focusNode.hasFocus) controller.text = initialText;
 
@@ -690,18 +694,13 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
       child: buildTypeAhead<String>(
         controller: controller,
         focusNode: focusNode,
-        suggestionsCallback: (text) {
-          if (text.isEmpty || text == initialText) return allItems;
-          return allItems.where((key) {
-            final data = _itemDataMap[key];
-            return triLanguageScore(text,
-              nameKo: data?.nameKo ?? _itemKo(key.isEmpty ? null : key),
-              nameEn: data?.nameEn ?? '',
-              nameJa: data?.nameJa ?? '',
-              internalKey: key,
-            ) > 0;
-          }).toList();
-        },
+        suggestionsCallback: (text) => itemSuggestions(
+          _ensureItemIndex(),
+          text == initialText ? '' : text,
+          selected: state.selectedItem,
+          championsOnly: ChampionsFilterController.instance.championsOnly.value,
+          labelOf: (k) => _itemKo(k.isEmpty ? null : k),
+        ),
         decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
         itemBuilder: (context, key) {
           return Padding(
