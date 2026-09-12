@@ -923,7 +923,8 @@
       "speed": 65
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Drought"
     ],
     "weight": 9.9,
@@ -947,7 +948,8 @@
       "speed": 100
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Drought"
     ],
     "weight": 19.9,
@@ -1454,7 +1456,8 @@
     },
     "abilities": [
       "Intimidate",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Justified"
     ],
     "weight": 19.0,
@@ -1479,7 +1482,8 @@
     },
     "abilities": [
       "Intimidate",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Justified"
     ],
     "weight": 155.0,
@@ -1936,7 +1940,8 @@
     },
     "abilities": [
       "Run Away",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Flame Body"
     ],
     "weight": 30.0,
@@ -1961,7 +1966,8 @@
     },
     "abilities": [
       "Run Away",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Flame Body"
     ],
     "weight": 95.0,
@@ -3422,7 +3428,8 @@
       "speed": 65
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Guts"
     ],
     "weight": 25.0,

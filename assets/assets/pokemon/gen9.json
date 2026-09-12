@@ -733,7 +733,8 @@
       "speed": 35
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Flame Body"
     ],
     "weight": 10.5,
@@ -757,7 +758,8 @@
       "speed": 75
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Weak Armor"
     ],
     "weight": 85.0,
@@ -782,7 +784,8 @@
       "speed": 85
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Weak Armor"
     ],
     "weight": 62.0,
@@ -1487,7 +1490,8 @@
     },
     "abilities": [
       "Overcoat",
-      "Slow Start"
+      "Slow Start Active",
+      "Slow Start Ended"
     ],
     "weight": 35.0,
     "height": 1.0,

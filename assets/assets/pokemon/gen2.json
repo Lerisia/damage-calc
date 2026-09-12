@@ -87,7 +87,8 @@
     },
     "abilities": [
       "Blaze",
-      "Flash Fire"
+      "Flash Fire Inactive",
+      "Flash Fire Active"
     ],
     "weight": 7.9,
     "height": 0.5,
@@ -111,7 +112,8 @@
     },
     "abilities": [
       "Blaze",
-      "Flash Fire"
+      "Flash Fire Inactive",
+      "Flash Fire Active"
     ],
     "weight": 19.0,
     "height": 0.9,
@@ -135,7 +137,8 @@
     },
     "abilities": [
       "Blaze",
-      "Flash Fire"
+      "Flash Fire Inactive",
+      "Flash Fire Active"
     ],
     "weight": 79.5,
     "height": 1.7,
@@ -1930,7 +1933,8 @@
     },
     "abilities": [
       "Early Bird",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Unnerve"
     ],
     "weight": 10.8,
@@ -1956,7 +1960,8 @@
     },
     "abilities": [
       "Early Bird",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Unnerve"
     ],
     "weight": 35.0,

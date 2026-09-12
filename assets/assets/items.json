@@ -27,7 +27,7 @@
     "name": "gardevoirite",
     "nameKo": "가디안나이트",
     "nameJa": "サーナイトナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Gardevoirite"
   },
   {
@@ -40,63 +40,63 @@
     "name": "steelium-z--held",
     "nameKo": "강철Z",
     "nameJa": "ハガネＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Steelium Z"
   },
   {
     "name": "steelixite",
     "nameKo": "강철톤나이트",
     "nameJa": "ハガネールナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Steelixite"
   },
   {
     "name": "iron-plate",
     "nameKo": "강철플레이트",
     "nameJa": "こうてつプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Iron Plate"
   },
   {
     "name": "gyaradosite",
     "nameKo": "갸라도스나이트",
     "nameJa": "ギャラドスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Gyaradosite"
   },
   {
     "name": "blastoisinite",
     "nameKo": "거북왕나이트",
     "nameJa": "カメックスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Blastoisinite"
   },
   {
     "name": "black-belt",
     "nameKo": "검은띠",
     "nameJa": "くろおび",
-    "battle": true,
+    "held": true,
     "nameEn": "Black Belt"
   },
   {
     "name": "black-glasses",
     "nameKo": "검은안경",
     "nameJa": "くろいメガネ",
-    "battle": true,
+    "held": true,
     "nameEn": "Black Glasses"
   },
   {
     "name": "black-sludge",
     "nameKo": "검은진흙",
     "nameJa": "くろいヘドロ",
-    "battle": true,
+    "held": true,
     "nameEn": "Black Sludge"
   },
   {
     "name": "iron-ball",
     "nameKo": "검은철구",
     "nameJa": "くろいてっきゅう",
-    "battle": true,
+    "held": true,
     "nameEn": "Iron Ball"
   },
   {
@@ -109,7 +109,7 @@
     "name": "fightinium-z--held",
     "nameKo": "격투Z",
     "nameJa": "カクトウＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Fightinium Z"
   },
   {
@@ -122,7 +122,7 @@
     "name": "icicle-plate",
     "nameKo": "고드름플레이트",
     "nameJa": "つららのプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Icicle Plate"
   },
   {
@@ -135,14 +135,14 @@
     "name": "ghostium-z--held",
     "nameKo": "고스트Z",
     "nameJa": "ゴーストＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Ghostium Z"
   },
   {
     "name": "ghost-memory",
     "nameKo": "고스트메모리",
     "nameJa": "ゴーストメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Ghost Memory"
   },
   {
@@ -155,35 +155,35 @@
     "name": "dread-plate",
     "nameKo": "공포플레이트",
     "nameJa": "こわもてプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Dread Plate"
   },
   {
     "name": "leppa-berry",
     "nameKo": "과사열매",
     "nameJa": "ヒメリのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Leppa Berry"
   },
   {
     "name": "wide-lens",
     "nameKo": "광각렌즈",
     "nameJa": "こうかくレンズ",
-    "battle": true,
+    "held": true,
     "nameEn": "Wide Lens"
   },
   {
     "name": "odd-incense",
     "nameKo": "괴상한향로",
     "nameJa": "あやしいおこう",
-    "battle": true,
+    "held": true,
     "nameEn": "Odd Incense"
   },
   {
     "name": "macho-brace",
     "nameKo": "교정깁스",
     "nameJa": "きょうせいギプス",
-    "battle": true,
+    "held": true,
     "nameEn": "Macho Brace"
   },
   {
@@ -196,77 +196,77 @@
     "name": "choice-band",
     "nameKo": "구애머리띠",
     "nameJa": "こだわりハチマキ",
-    "battle": true,
+    "held": true,
     "nameEn": "Choice Band"
   },
   {
     "name": "choice-scarf",
     "nameKo": "구애스카프",
     "nameJa": "こだわりスカーフ",
-    "battle": true,
+    "held": true,
     "nameEn": "Choice Scarf"
   },
   {
     "name": "choice-specs",
     "nameKo": "구애안경",
     "nameJa": "こだわりメガネ",
-    "battle": true,
+    "held": true,
     "nameEn": "Choice Specs"
   },
   {
     "name": "thick-club",
     "nameKo": "굵은뼈",
     "nameJa": "ふといホネ",
-    "battle": true,
+    "held": true,
     "nameEn": "Thick Club"
   },
   {
     "name": "apicot-berry",
     "nameKo": "규살열매",
     "nameJa": "ズアのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Apicot Berry"
   },
   {
     "name": "ground-memory",
     "nameKo": "그라운드메모리",
     "nameJa": "グラウンドメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Ground Memory"
   },
   {
     "name": "grass-memory",
     "nameKo": "그래스메모리",
     "nameJa": "グラスメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Grass Memory"
   },
   {
     "name": "grassy-seed",
     "nameKo": "그래스시드",
     "nameJa": "グラスシード",
-    "battle": true,
+    "held": true,
     "nameEn": "Grassy Seed"
   },
   {
     "name": "adamant-orb",
     "nameKo": "금강옥",
     "nameJa": "こんごうだま",
-    "battle": true,
+    "held": true,
     "nameEn": "Adamant Orb"
   },
   {
     "name": "metal-coat",
     "nameKo": "금속코트",
     "nameJa": "メタルコート",
-    "battle": true,
+    "held": true,
     "nameEn": "Metal Coat"
   },
   {
     "name": "metal-powder",
     "nameKo": "금속파우더",
     "nameJa": "メタルパウダー",
-    "battle": true,
+    "held": true,
     "nameEn": "Metal Powder"
   },
   {
@@ -285,28 +285,28 @@
     "name": "miracle-seed",
     "nameKo": "기적의씨",
     "nameJa": "きせきのタネ",
-    "battle": true,
+    "held": true,
     "nameEn": "Miracle Seed"
   },
   {
     "name": "focus-sash",
     "nameKo": "기합의띠",
     "nameJa": "きあいのタスキ",
-    "battle": true,
+    "held": true,
     "nameEn": "Focus Sash"
   },
   {
     "name": "focus-band",
     "nameKo": "기합의머리띠",
     "nameJa": "きあいのハチマキ",
-    "battle": true,
+    "held": true,
     "nameEn": "Focus Band"
   },
   {
     "name": "sablenite",
     "nameKo": "깜까미나이트",
     "nameJa": "ヤミラミナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Sablenite"
   },
   {
@@ -337,42 +337,42 @@
     "name": "passho-berry",
     "nameKo": "꼬시개열매",
     "nameJa": "イトケのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Passho Berry"
   },
   {
     "name": "rose-incense",
     "nameKo": "꽃향로",
     "nameJa": "おはなのおこう",
-    "battle": true,
+    "held": true,
     "nameEn": "Rose Incense"
   },
   {
     "name": "grip-claw",
     "nameKo": "끈기갈고리손톱",
     "nameJa": "ねばりのかぎづめ",
-    "battle": true,
+    "held": true,
     "nameEn": "Grip Claw"
   },
   {
     "name": "sticky-barb",
     "nameKo": "끈적끈적바늘",
     "nameJa": "くっつきバリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Sticky Barb"
   },
   {
     "name": "berry-juice",
     "nameKo": "나무열매쥬스",
     "nameJa": "きのみジュース",
-    "battle": true,
+    "held": true,
     "nameEn": "Berry Juice"
   },
   {
     "name": "sceptilite",
     "nameKo": "나무킹나이트",
     "nameJa": "ジュカインナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Sceptilite"
   },
   {
@@ -415,56 +415,56 @@
     "name": "normalium-z--held",
     "nameKo": "노말Z",
     "nameJa": "ノーマルＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Normalium Z"
   },
   {
     "name": "normal-gem",
     "nameKo": "노말주얼",
     "nameJa": "ノーマルジュエル",
-    "battle": true,
+    "held": true,
     "nameEn": "Normal Gem"
   },
   {
     "name": "rusted-sword",
     "nameKo": "녹슨검",
     "nameJa": "くちたけん",
-    "battle": true,
+    "held": true,
     "nameEn": "Rusted Sword"
   },
   {
     "name": "rusted-shield",
     "nameKo": "녹슨방패",
     "nameJa": "くちたたて",
-    "battle": true,
+    "held": true,
     "nameEn": "Rusted Shield"
   },
   {
     "name": "never-melt-ice",
     "nameKo": "녹지않는얼음",
     "nameJa": "とけないこおり",
-    "battle": true,
+    "held": true,
     "nameEn": "Never Melt Ice"
   },
   {
     "name": "primarium-z--held",
     "nameKo": "누리레느Z",
     "nameJa": "アシレーヌＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Primarium Z"
   },
   {
     "name": "abomasite",
     "nameKo": "눈설왕나이트",
     "nameJa": "ユキノオナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Abomasite"
   },
   {
     "name": "lagging-tail",
     "nameKo": "느림보꼬리",
     "nameJa": "こうこうのしっぽ",
-    "battle": true,
+    "held": true,
     "nameEn": "Lagging Tail"
   },
   {
@@ -483,7 +483,7 @@
     "name": "audinite",
     "nameKo": "다부니나이트",
     "nameJa": "タブンネナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Audinite"
   },
   {
@@ -496,7 +496,7 @@
     "name": "dark-memory",
     "nameKo": "다크메모리",
     "nameJa": "ダークメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Dark Memory"
   },
   {
@@ -509,28 +509,28 @@
     "name": "banettite",
     "nameKo": "다크펫나이트",
     "nameJa": "ジュペッタナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Banettite"
   },
   {
     "name": "expert-belt",
     "nameKo": "달인의띠",
     "nameJa": "たつじんのおび",
-    "battle": true,
+    "held": true,
     "nameEn": "Expert Belt"
   },
   {
     "name": "earth-plate",
     "nameKo": "대지플레이트",
     "nameJa": "だいちのプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Earth Plate"
   },
   {
     "name": "swampertite",
     "nameKo": "대짱이나이트",
     "nameJa": "ラグラージナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Swampertite"
   },
   {
@@ -543,28 +543,28 @@
     "name": "poisonium-z--held",
     "nameKo": "독Z",
     "nameJa": "ドクＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Poisonium Z"
   },
   {
     "name": "poison-barb",
     "nameKo": "독바늘",
     "nameJa": "どくバリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Poison Barb"
   },
   {
     "name": "beedrillite",
     "nameKo": "독침붕나이트",
     "nameJa": "スピアナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Beedrillite"
   },
   {
     "name": "assault-vest",
     "nameKo": "돌격조끼",
     "nameJa": "とつげきチョッキ",
-    "battle": true,
+    "held": true,
     "nameEn": "Assault Vest"
   },
   {
@@ -577,14 +577,14 @@
     "name": "dragonium-z--held",
     "nameKo": "드래곤Z",
     "nameJa": "ドラゴンＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Dragonium Z"
   },
   {
     "name": "dragon-memory",
     "nameKo": "드래곤메모리",
     "nameJa": "ドラゴンメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Dragon Memory"
   },
   {
@@ -597,7 +597,7 @@
     "name": "diancite",
     "nameKo": "디안시나이트",
     "nameJa": "ディアンシナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Diancite"
   },
   {
@@ -610,14 +610,14 @@
     "name": "hard-stone",
     "nameKo": "딱딱한돌",
     "nameJa": "かたいいし",
-    "battle": true,
+    "held": true,
     "nameEn": "Hard Stone"
   },
   {
     "name": "groundium-z--held",
     "nameKo": "땅Z",
     "nameJa": "ジメンＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Groundium Z"
   },
   {
@@ -637,20 +637,20 @@
     "nameKo": "뜨거운바위",
     "nameJa": "あついいわ",
     "nameEn": "Heat Rock",
-    "battle": true
+    "held": true
   },
   {
     "name": "latiasite",
     "nameKo": "라티아스나이트",
     "nameJa": "ラティアスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Latiasite"
   },
   {
     "name": "latiosite",
     "nameKo": "라티오스나이트",
     "nameJa": "ラティオスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Latiosite"
   },
   {
@@ -663,14 +663,14 @@
     "name": "rock-memory",
     "nameKo": "락메모리",
     "nameJa": "ロックメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Rock Memory"
   },
   {
     "name": "lansat-berry",
     "nameKo": "랑사열매",
     "nameJa": "サンのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Lansat Berry"
   },
   {
@@ -689,28 +689,28 @@
     "name": "lucky-punch",
     "nameKo": "럭키펀치",
     "nameJa": "ラッキーパンチ",
-    "battle": true,
+    "held": true,
     "nameEn": "Lucky Punch"
   },
   {
     "name": "red-card",
     "nameKo": "레드카드",
     "nameJa": "レッドカード",
-    "battle": true,
+    "held": true,
     "nameEn": "Red Card"
   },
   {
     "name": "roseli-berry",
     "nameKo": "로셀열매",
     "nameJa": "ロゼルのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Roseli Berry"
   },
   {
     "name": "chople-berry",
     "nameKo": "로플열매",
     "nameJa": "ヨプのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Chople Berry"
   },
   {
@@ -723,7 +723,7 @@
     "name": "charti-berry",
     "nameKo": "루미열매",
     "nameJa": "ヨロギのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Charti Berry"
   },
   {
@@ -736,14 +736,14 @@
     "name": "lucarionite",
     "nameKo": "루카리오나이트",
     "nameJa": "ルカリオナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Lucarionite"
   },
   {
     "name": "room-service",
     "nameKo": "룸서비스",
     "nameJa": "ルームサービス",
-    "battle": true,
+    "held": true,
     "nameEn": "Room Service"
   },
   {
@@ -756,28 +756,28 @@
     "name": "lum-berry",
     "nameKo": "리샘열매",
     "nameJa": "ラムのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Lum Berry"
   },
   {
     "name": "charizardite-x",
     "nameKo": "리자몽나이트X",
     "nameJa": "リザードナイトＸ",
-    "battle": true,
+    "held": true,
     "nameEn": "Charizardite X"
   },
   {
     "name": "charizardite-y",
     "nameKo": "리자몽나이트Y",
     "nameJa": "リザードナイトＹ",
-    "battle": true,
+    "held": true,
     "nameEn": "Charizardite Y"
   },
   {
     "name": "tanga-berry",
     "nameKo": "리체열매",
     "nameJa": "タンガのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Tanga Berry"
   },
   {
@@ -790,14 +790,14 @@
     "name": "rindo-berry",
     "nameKo": "린드열매",
     "nameJa": "リンドのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Rindo Berry"
   },
   {
     "name": "mago-berry",
     "nameKo": "마고열매",
     "nameJa": "マゴのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Mago Berry"
   },
   {
@@ -810,7 +810,7 @@
     "name": "tyranitarite",
     "nameKo": "마기라스나이트",
     "nameJa": "バンギラスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Tyranitarite"
   },
   {
@@ -823,7 +823,7 @@
     "name": "marshadium-z--held",
     "nameKo": "마샤도Z",
     "nameJa": "マーシャドーＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Marshadium Z"
   },
   {
@@ -836,7 +836,7 @@
     "name": "soul-dew",
     "nameKo": "마음의물방울",
     "nameJa": "こころのしずく",
-    "battle": true,
+    "held": true,
     "nameEn": "Soul Dew"
   },
   {
@@ -849,7 +849,7 @@
     "name": "colbur-berry",
     "nameKo": "마코열매",
     "nameJa": "ナモのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Colbur Berry"
   },
   {
@@ -868,7 +868,7 @@
     "name": "full-incense",
     "nameKo": "만복향로",
     "nameJa": "まんぷくおこう",
-    "battle": true,
+    "held": true,
     "nameEn": "Full Incense"
   },
   {
@@ -893,28 +893,28 @@
     "name": "toxic-orb",
     "nameKo": "맹독구슬",
     "nameJa": "どくどくだま",
-    "battle": true,
+    "held": true,
     "nameEn": "Toxic Orb"
   },
   {
     "name": "toxic-plate",
     "nameKo": "맹독플레이트",
     "nameJa": "もうどくプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Toxic Plate"
   },
   {
     "name": "leftovers",
     "nameKo": "먹다남은음식",
     "nameJa": "たべのこし",
-    "battle": true,
+    "held": true,
     "nameEn": "Leftovers"
   },
   {
     "name": "metagrossite",
     "nameKo": "메타그로스나이트",
     "nameJa": "メタグロスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Metagrossite"
   },
   {
@@ -927,14 +927,14 @@
     "name": "metronome",
     "nameKo": "메트로놈",
     "nameJa": "メトロノーム",
-    "battle": true,
+    "held": true,
     "nameEn": "Metronome"
   },
   {
     "name": "mental-herb",
     "nameKo": "멘탈허브",
     "nameJa": "メンタルハーブ",
-    "battle": true,
+    "held": true,
     "nameEn": "Mental Herb"
   },
   {
@@ -959,21 +959,21 @@
     "name": "decidium-z--held",
     "nameKo": "모크나이퍼Z",
     "nameJa": "ジュナイパーＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Decidium Z"
   },
   {
     "name": "throat-spray",
     "nameKo": "목스프레이",
     "nameJa": "のどスプレー",
-    "battle": true,
+    "held": true,
     "nameEn": "Throat Spray"
   },
   {
     "name": "charcoal",
     "nameKo": "목탄",
     "nameJa": "もくたん",
-    "battle": true,
+    "held": true,
     "nameEn": "Charcoal"
   },
   {
@@ -986,35 +986,35 @@
     "name": "lax-incense",
     "nameKo": "무사태평향로",
     "nameJa": "のんきのおこう",
-    "battle": true,
+    "held": true,
     "nameEn": "Lax Incense"
   },
   {
     "name": "figy-berry",
     "nameKo": "무화열매",
     "nameJa": "フィラのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Figy Berry"
   },
   {
     "name": "waterium-z--held",
     "nameKo": "물Z",
     "nameJa": "ミズＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Waterium Z"
   },
   {
     "name": "splash-plate",
     "nameKo": "물방울플레이트",
     "nameJa": "しずくプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Splash Plate"
   },
   {
     "name": "mewnium-z--held",
     "nameKo": "뮤Z",
     "nameJa": "ミュウＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Mewnium Z"
   },
   {
@@ -1027,14 +1027,14 @@
     "name": "mewtwonite-x",
     "nameKo": "뮤츠나이트X",
     "nameJa": "ミュウツナイトＸ",
-    "battle": true,
+    "held": true,
     "nameEn": "Mewtwonite X"
   },
   {
     "name": "mewtwonite-y",
     "nameKo": "뮤츠나이트Y",
     "nameJa": "ミュウツナイトＹ",
-    "battle": true,
+    "held": true,
     "nameEn": "Mewtwonite Y"
   },
   {
@@ -1059,63 +1059,63 @@
     "name": "mirror-herb",
     "nameKo": "흉내허브",
     "nameJa": "ものまねハーブ",
-    "battle": true,
+    "held": true,
     "nameEn": "Mirror Herb"
   },
   {
     "name": "misty-seed",
     "nameKo": "미스트시드",
     "nameJa": "ミストシード",
-    "battle": true,
+    "held": true,
     "nameEn": "Misty Seed"
   },
   {
     "name": "micle-berry",
     "nameKo": "미클열매",
     "nameJa": "ミクルのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Micle Berry"
   },
   {
     "name": "sea-incense",
     "nameKo": "바닷물향로",
     "nameJa": "うしおのおこう",
-    "battle": true,
+    "held": true,
     "nameEn": "Sea Incense"
   },
   {
     "name": "babiri-berry",
     "nameKo": "바리비열매",
     "nameJa": "リリバのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Babiri Berry"
   },
   {
     "name": "rockium-z--held",
     "nameKo": "바위Z",
     "nameJa": "イワＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Rockium Z"
   },
   {
     "name": "coba-berry",
     "nameKo": "바코열매",
     "nameJa": "バコウのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Coba Berry"
   },
   {
     "name": "wise-glasses",
     "nameKo": "박식안경",
     "nameJa": "ものしりメガネ",
-    "battle": true,
+    "held": true,
     "nameEn": "Wise Glasses"
   },
   {
     "name": "bright-powder",
     "nameKo": "반짝가루",
     "nameJa": "ひかりのこな",
-    "battle": true,
+    "held": true,
     "nameEn": "Bright Powder"
   },
   {
@@ -1128,49 +1128,49 @@
     "name": "safety-goggles",
     "nameKo": "방진고글",
     "nameJa": "ぼうじんゴーグル",
-    "battle": true,
+    "held": true,
     "nameEn": "Safety Goggles"
   },
   {
     "name": "aspear-berry",
     "nameKo": "배리열매",
     "nameJa": "ナナシのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Aspear Berry"
   },
   {
     "name": "lustrous-orb",
     "nameKo": "백옥",
     "nameJa": "しらたま",
-    "battle": true,
+    "held": true,
     "nameEn": "Lustrous Orb"
   },
   {
     "name": "bug-memory",
     "nameKo": "버그메모리",
     "nameJa": "バグメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Bug Memory"
   },
   {
     "name": "cheri-berry",
     "nameKo": "버치열매",
     "nameJa": "クラボのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Cheri Berry"
   },
   {
     "name": "blazikenite",
     "nameKo": "번치코나이트",
     "nameJa": "バシャーモナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Blazikenite"
   },
   {
     "name": "buginium-z--held",
     "nameKo": "벌레Z",
     "nameJa": "ムシＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Buginium Z"
   },
   {
@@ -1189,7 +1189,7 @@
     "name": "salamencite",
     "nameKo": "보만다나이트",
     "nameJa": "ボーマンダナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Salamencite"
   },
   {
@@ -1197,41 +1197,41 @@
     "nameKo": "보송보송바위",
     "nameJa": "さらさらいわ",
     "nameEn": "Smooth Rock",
-    "battle": true
+    "held": true
   },
   {
     "name": "aggronite",
     "nameKo": "보스로라나이트",
     "nameJa": "ボスゴドラナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Aggronite"
   },
   {
     "name": "rawst-berry",
     "nameKo": "복분열매",
     "nameJa": "チーゴのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Rawst Berry"
   },
   {
     "name": "pecha-berry",
     "nameKo": "복슝열매",
     "nameJa": "モモンのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Pecha Berry"
   },
   {
     "name": "soft-sand",
     "nameKo": "부드러운모래",
     "nameJa": "やわらかいすな",
-    "battle": true,
+    "held": true,
     "nameEn": "Soft Sand"
   },
   {
     "name": "booster-energy",
     "nameKo": "부스트에너지",
     "nameJa": "ブーストエナジー",
-    "battle": true,
+    "held": true,
     "nameEn": "Booster Energy"
   },
   {
@@ -1256,42 +1256,42 @@
     "name": "flame-plate",
     "nameKo": "불구슬플레이트",
     "nameJa": "ひのたまプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Flame Plate"
   },
   {
     "name": "firium-z--held",
     "nameKo": "불꽃Z",
     "nameJa": "ホノオＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Firium Z"
   },
   {
     "name": "insect-plate",
     "nameKo": "비단벌레플레이트",
     "nameJa": "たまむしプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Insect Plate"
   },
   {
     "name": "flyinium-z--held",
     "nameKo": "비행Z",
     "nameJa": "ヒコウＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Flyinium Z"
   },
   {
     "name": "light-clay",
     "nameKo": "빛의점토",
     "nameJa": "ひかりのねんど",
-    "battle": true,
+    "held": true,
     "nameEn": "Light Clay"
   },
   {
     "name": "destiny-knot",
     "nameKo": "빨간실",
     "nameJa": "あかいいと",
-    "battle": true,
+    "held": true,
     "nameEn": "Destiny Knot"
   },
   {
@@ -1322,7 +1322,7 @@
     "name": "pinsirite",
     "nameKo": "쁘사이저나이트",
     "nameJa": "カイロスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Pinsirite"
   },
   {
@@ -1347,14 +1347,14 @@
     "name": "psychic-seed",
     "nameKo": "사이코시드",
     "nameJa": "サイコシード",
-    "battle": true,
+    "held": true,
     "nameEn": "Psychic Seed"
   },
   {
     "name": "psychic-memory",
     "nameKo": "사이킥메모리",
     "nameJa": "サイキックメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Psychic Memory"
   },
   {
@@ -1379,21 +1379,21 @@
     "name": "life-orb",
     "nameKo": "생명의구슬",
     "nameJa": "いのちのたま",
-    "battle": true,
+    "held": true,
     "nameEn": "Life Orb"
   },
   {
     "name": "sharpedonite",
     "nameKo": "샤크니아나이트",
     "nameJa": "サメハダナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Sharpedonite"
   },
   {
     "name": "quick-claw",
     "nameKo": "선제공격손톱",
     "nameJa": "せんせいのツメ",
-    "battle": true,
+    "held": true,
     "nameEn": "Quick Claw"
   },
   {
@@ -1412,14 +1412,14 @@
     "name": "loaded-dice",
     "nameKo": "속임수주사위",
     "nameJa": "いかさまダイス",
-    "battle": true,
+    "held": true,
     "nameEn": "Loaded Dice"
   },
   {
     "name": "kasib-berry",
     "nameKo": "수불열매",
     "nameJa": "カシブのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Kasib Berry"
   },
   {
@@ -1450,7 +1450,7 @@
     "name": "shuca-berry",
     "nameKo": "슈캐열매",
     "nameJa": "シュカのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Shuca Berry"
   },
   {
@@ -1463,14 +1463,14 @@
     "name": "starf-berry",
     "nameKo": "스타열매",
     "nameJa": "スターのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Starf Berry"
   },
   {
     "name": "steel-memory",
     "nameKo": "스틸메모리",
     "nameJa": "スチールメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Steel Memory"
   },
   {
@@ -1495,7 +1495,7 @@
     "name": "quick-powder",
     "nameKo": "스피드파우더",
     "nameJa": "スピードパウダー",
-    "battle": true,
+    "held": true,
     "nameEn": "Quick Powder"
   },
   {
@@ -1514,7 +1514,7 @@
     "name": "persim-berry",
     "nameKo": "시몬열매",
     "nameJa": "キーのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Persim Berry"
   },
   {
@@ -1527,42 +1527,42 @@
     "name": "mystic-water",
     "nameKo": "신비의물방울",
     "nameJa": "しんぴのしずく",
-    "battle": true,
+    "held": true,
     "nameEn": "Mystic Water"
   },
   {
     "name": "silk-scarf",
     "nameKo": "실크스카프",
     "nameJa": "シルクのスカーフ",
-    "battle": true,
+    "held": true,
     "nameEn": "Silk Scarf"
   },
   {
     "name": "fairy-feather",
     "nameKo": "요정의깃털",
     "nameJa": "ようせいのはね",
-    "battle": true,
+    "held": true,
     "nameEn": "Fairy Feather"
   },
   {
     "name": "deep-sea-scale",
     "nameKo": "심해의비늘",
     "nameJa": "しんかいのウロコ",
-    "battle": true,
+    "held": true,
     "nameEn": "Deep Sea Scale"
   },
   {
     "name": "deep-sea-tooth",
     "nameKo": "심해의이빨",
     "nameJa": "しんかいのキバ",
-    "battle": true,
+    "held": true,
     "nameEn": "Deep Sea Tooth"
   },
   {
     "name": "manectite",
     "nameKo": "썬더볼트나이트",
     "nameJa": "ライボルトナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Manectite"
   },
   {
@@ -1587,14 +1587,14 @@
     "name": "shed-shell",
     "nameKo": "아름다운허물",
     "nameJa": "きれいなぬけがら",
-    "battle": true,
+    "held": true,
     "nameEn": "Shed Shell"
   },
   {
     "name": "aguav-berry",
     "nameKo": "아바열매",
     "nameJa": "バンジのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Aguav Berry"
   },
   {
@@ -1607,28 +1607,28 @@
     "name": "ice-memory",
     "nameKo": "아이스메모리",
     "nameJa": "アイスメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Ice Memory"
   },
   {
     "name": "darkinium-z--held",
     "nameKo": "악Z",
     "nameJa": "アクＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Darkinium Z"
   },
   {
     "name": "kee-berry",
     "nameKo": "악키열매",
     "nameJa": "アッキのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Kee Berry"
   },
   {
     "name": "aloraichium-z--held",
     "nameKo": "알로라이Z",
     "nameJa": "アロライＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Aloraichium Z"
   },
   {
@@ -1653,42 +1653,42 @@
     "name": "stone-plate",
     "nameKo": "암석플레이트",
     "nameJa": "がんせきプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Stone Plate"
   },
   {
     "name": "rock-incense",
     "nameKo": "암석향로",
     "nameJa": "がんせきおこう",
-    "battle": true,
+    "held": true,
     "nameEn": "Rock Incense"
   },
   {
     "name": "custap-berry",
     "nameKo": "애슈열매",
     "nameJa": "イバンのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Custap Berry"
   },
   {
     "name": "rowap-berry",
     "nameKo": "애터열매",
     "nameJa": "レンブのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Rowap Berry"
   },
   {
     "name": "absolite",
     "nameKo": "앱솔나이트",
     "nameJa": "アブソルナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Absolite"
   },
   {
     "name": "slowbronite",
     "nameKo": "야도란나이트",
     "nameJa": "ヤドランナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Slowbronite"
   },
   {
@@ -1701,42 +1701,42 @@
     "name": "petaya-berry",
     "nameKo": "야타비열매",
     "nameJa": "ヤタピのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Petaya Berry"
   },
   {
     "name": "payapa-berry",
     "nameKo": "야파열매",
     "nameJa": "ウタンのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Payapa Berry"
   },
   {
     "name": "weakness-policy",
     "nameKo": "약점보험",
     "nameJa": "じゃくてんほけん",
-    "battle": true,
+    "held": true,
     "nameEn": "Weakness Policy"
   },
   {
     "name": "incinium-z--held",
     "nameKo": "어흥염Z",
     "nameJa": "ガオガエンＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Incinium Z"
   },
   {
     "name": "icium-z--held",
     "nameKo": "얼음Z",
     "nameJa": "コオリＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Icium Z"
   },
   {
     "name": "glalitite",
     "nameKo": "얼음귀신나이트",
     "nameJa": "オニゴーリナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Glalitite"
   },
   {
@@ -1761,21 +1761,21 @@
     "name": "psychium-z--held",
     "nameKo": "에스퍼Z",
     "nameJa": "エスパーＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Psychium Z"
   },
   {
     "name": "galladite",
     "nameKo": "엘레이드나이트",
     "nameJa": "エルレイドナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Galladite"
   },
   {
     "name": "linking-cord",
     "nameKo": "연결의끈",
     "nameJa": "つながりのヒモ",
-    "battle": true,
+    "held": true,
     "nameEn": "Linking Cord"
   },
   {
@@ -1788,35 +1788,35 @@
     "name": "sharp-beak",
     "nameKo": "예리한부리",
     "nameJa": "するどいくちばし",
-    "battle": true,
+    "held": true,
     "nameEn": "Sharp Beak"
   },
   {
     "name": "razor-claw",
     "nameKo": "예리한손톱",
     "nameJa": "するどいツメ",
-    "battle": true,
+    "held": true,
     "nameEn": "Razor Claw"
   },
   {
     "name": "razor-fang",
     "nameKo": "예리한이빨",
     "nameJa": "するどいキバ",
-    "battle": true,
+    "held": true,
     "nameEn": "Razor Fang"
   },
   {
     "name": "oran-berry",
     "nameKo": "오랭열매",
     "nameJa": "オレンのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Oran Berry"
   },
   {
     "name": "occa-berry",
     "nameKo": "오카열매",
     "nameJa": "オッカのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Occa Berry"
   },
   {
@@ -1829,21 +1829,21 @@
     "name": "kings-rock",
     "nameKo": "왕의징표석",
     "nameJa": "おうじゃのしるし",
-    "battle": true,
+    "held": true,
     "nameEn": "King's Rock"
   },
   {
     "name": "medichamite",
     "nameKo": "요가램나이트",
     "nameJa": "チャーレムナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Medichamite"
   },
   {
     "name": "ganlon-berry",
     "nameKo": "용아열매",
     "nameJa": "リュガのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Ganlon Berry"
   },
   {
@@ -1856,91 +1856,91 @@
     "name": "dragon-fang",
     "nameKo": "용의이빨",
     "nameJa": "りゅうのキバ",
-    "battle": true,
+    "held": true,
     "nameEn": "Dragon Fang"
   },
   {
     "name": "draco-plate",
     "nameKo": "용의플레이트",
     "nameJa": "りゅうのプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Draco Plate"
   },
   {
     "name": "zap-plate",
     "nameKo": "우뢰플레이트",
     "nameJa": "いかずちプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Zap Plate"
   },
   {
     "name": "rocky-helmet",
     "nameKo": "울퉁불퉁멧",
     "nameJa": "ゴツゴツメット",
-    "battle": true,
+    "held": true,
     "nameEn": "Rocky Helmet"
   },
   {
     "name": "water-memory",
     "nameKo": "워터메모리",
     "nameJa": "ウオーターメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Water Memory"
   },
   {
     "name": "spooky-plate",
     "nameKo": "원령플레이트",
     "nameJa": "もののけプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Spooky Plate"
   },
   {
     "name": "wiki-berry",
     "nameKo": "위키열매",
     "nameJa": "ウイのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Wiki Berry"
   },
   {
     "name": "chesto-berry",
     "nameKo": "유루열매",
     "nameJa": "カゴのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Chesto Berry"
   },
   {
     "name": "kebia-berry",
     "nameKo": "으름열매",
     "nameJa": "ビアーのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Kebia Berry"
   },
   {
     "name": "covert-cloak",
     "nameKo": "은밀망토",
     "nameJa": "おんみつマント",
-    "battle": true,
+    "held": true,
     "nameEn": "Covert Cloak"
   },
   {
     "name": "silver-powder",
     "nameKo": "은빛가루",
     "nameJa": "ぎんのこな",
-    "battle": true,
+    "held": true,
     "nameEn": "Silver Powder"
   },
   {
     "name": "enigma-berry",
     "nameKo": "의문열매",
     "nameJa": "ナゾのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Enigma Berry"
   },
   {
     "name": "eevium-z--held",
     "nameKo": "이브이Z",
     "nameJa": "イーブイＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Eevium Z"
   },
   {
@@ -1959,14 +1959,14 @@
     "name": "mind-plate",
     "nameKo": "이상한플레이트",
     "nameJa": "ふしぎのプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Mind Plate"
   },
   {
     "name": "venusaurite",
     "nameKo": "이상해꽃나이트",
     "nameJa": "フシギバナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Venusaurite"
   },
   {
@@ -1979,7 +1979,7 @@
     "name": "lopunnite",
     "nameKo": "이어롭나이트",
     "nameJa": "ミミロップナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Lopunnite"
   },
   {
@@ -1992,21 +1992,21 @@
     "name": "electric-memory",
     "nameKo": "일렉트릭메모리",
     "nameJa": "エレクトロメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Electric Memory"
   },
   {
     "name": "electric-seed",
     "nameKo": "일렉트릭시드",
     "nameJa": "エレキシード",
-    "battle": true,
+    "held": true,
     "nameEn": "Electric Seed"
   },
   {
     "name": "mawilite",
     "nameKo": "입치트나이트",
     "nameJa": "クチートナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Mawilite"
   },
   {
@@ -2019,28 +2019,28 @@
     "name": "sitrus-berry",
     "nameKo": "자뭉열매",
     "nameJa": "オボンのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Sitrus Berry"
   },
   {
     "name": "jaboca-berry",
     "nameKo": "자보열매",
     "nameJa": "ジャポのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Jaboca Berry"
   },
   {
     "name": "magnet",
     "nameKo": "자석",
     "nameJa": "じしゃく",
-    "battle": true,
+    "held": true,
     "nameEn": "Magnet"
   },
   {
     "name": "wave-incense",
     "nameKo": "잔물결향로",
     "nameJa": "さざなみのおこう",
-    "battle": true,
+    "held": true,
     "nameEn": "Wave Incense"
   },
   {
@@ -2059,7 +2059,7 @@
     "name": "snorlium-z--held",
     "nameKo": "잠만보Z",
     "nameJa": "カビゴンＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Snorlium Z"
   },
   {
@@ -2072,42 +2072,42 @@
     "name": "spell-tag",
     "nameKo": "저주의부적",
     "nameJa": "のろいのおふだ",
-    "battle": true,
+    "held": true,
     "nameEn": "Spell Tag"
   },
   {
     "name": "electrium-z--held",
     "nameKo": "전기Z",
     "nameJa": "デンキＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Electrium Z"
   },
   {
     "name": "light-ball",
     "nameKo": "전기구슬",
     "nameJa": "でんきだま",
-    "battle": true,
+    "held": true,
     "nameEn": "Light Ball"
   },
   {
     "name": "ampharosite",
     "nameKo": "전룡나이트",
     "nameJa": "デンリュウナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Ampharosite"
   },
   {
     "name": "pixie-plate",
     "nameKo": "정령플레이트",
     "nameJa": "せいれいプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Pixie Plate"
   },
   {
     "name": "shell-bell",
     "nameKo": "조개껍질방울",
     "nameJa": "かいがらのすず",
-    "battle": true,
+    "held": true,
     "nameEn": "Shell Bell"
   },
   {
@@ -2120,7 +2120,7 @@
     "name": "fist-plate",
     "nameKo": "주먹플레이트",
     "nameJa": "こぶしのプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Fist Plate"
   },
   {
@@ -2133,7 +2133,7 @@
     "name": "red-orb",
     "nameKo": "주홍구슬",
     "nameJa": "べにいろのたま",
-    "battle": true,
+    "held": true,
     "nameEn": "Red Orb"
   },
   {
@@ -2146,14 +2146,14 @@
     "name": "pikashunium-z--held",
     "nameKo": "지우피카Z",
     "nameJa": "サトピカＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Pikashunium Z"
   },
   {
     "name": "eviolite",
     "nameKo": "진화의휘석",
     "nameJa": "しんかのきせき",
-    "battle": true,
+    "held": true,
     "nameEn": "Eviolite"
   },
   {
@@ -2166,7 +2166,7 @@
     "name": "blue-orb",
     "nameKo": "쪽빛구슬",
     "nameJa": "あいいろのたま",
-    "battle": true,
+    "held": true,
     "nameEn": "Blue Orb"
   },
   {
@@ -2180,13 +2180,13 @@
     "nameKo": "차가운바위",
     "nameJa": "つめたいいわ",
     "nameEn": "Icy Rock",
-    "battle": true
+    "held": true
   },
   {
     "name": "wacan-berry",
     "nameKo": "초나열매",
     "nameJa": "ソクノのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Wacan Berry"
   },
   {
@@ -2199,14 +2199,14 @@
     "name": "meadow-plate",
     "nameKo": "초록플레이트",
     "nameJa": "みどりのプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Meadow Plate"
   },
   {
     "name": "scope-lens",
     "nameKo": "초점렌즈",
     "nameJa": "ピントレンズ",
-    "battle": true,
+    "held": true,
     "nameEn": "Scope Lens"
   },
   {
@@ -2214,34 +2214,34 @@
     "nameKo": "축축한바위",
     "nameJa": "しめったいわ",
     "nameEn": "Damp Rock",
-    "battle": true
+    "held": true
   },
   {
     "name": "liechi-berry",
     "nameKo": "치리열매",
     "nameJa": "チイラのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Liechi Berry"
   },
   {
     "name": "chilan-berry",
     "nameKo": "카리열매",
     "nameJa": "ホズのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Chilan Berry"
   },
   {
     "name": "tapunium-z--held",
     "nameKo": "카푸Z",
     "nameJa": "カプＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Tapunium Z"
   },
   {
     "name": "salac-berry",
     "nameKo": "캄라열매",
     "nameJa": "カムラのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Salac Berry"
   },
   {
@@ -2260,7 +2260,7 @@
     "name": "kangaskhanite",
     "nameKo": "캥카나이트",
     "nameJa": "ガルーラナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Kangaskhanite"
   },
   {
@@ -2315,35 +2315,35 @@
     "name": "adamant-crystal",
     "nameKo": "큰금강옥",
     "nameJa": "だいこんごうだま",
-    "battle": true,
+    "held": true,
     "nameEn": "Adamant Crystal"
   },
   {
     "name": "griseous-core",
     "nameKo": "큰백금옥",
     "nameJa": "だいはっきんだま",
-    "battle": true,
+    "held": true,
     "nameEn": "Griseous Core"
   },
   {
     "name": "lustrous-globe",
     "nameKo": "큰백옥",
     "nameJa": "だいしらたま",
-    "battle": true,
+    "held": true,
     "nameEn": "Lustrous Globe"
   },
   {
     "name": "big-root",
     "nameKo": "큰뿌리",
     "nameJa": "おおきなねっこ",
-    "battle": true,
+    "held": true,
     "nameEn": "Big Root"
   },
   {
     "name": "clear-amulet",
     "nameKo": "클리어참",
     "nameJa": "クリアチャーム",
-    "battle": true,
+    "held": true,
     "nameEn": "Clear Amulet"
   },
   {
@@ -2356,7 +2356,7 @@
     "name": "maranga-berry",
     "nameKo": "타라프열매",
     "nameJa": "タラプのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Maranga Berry"
   },
   {
@@ -2375,14 +2375,14 @@
     "name": "eject-button",
     "nameKo": "탈출버튼",
     "nameJa": "だっしゅつボタン",
-    "battle": true,
+    "held": true,
     "nameEn": "Eject Button"
   },
   {
     "name": "eject-pack",
     "nameKo": "탈출팩",
     "nameJa": "だっしゅつパック",
-    "battle": true,
+    "held": true,
     "nameEn": "Eject Pack"
   },
   {
@@ -2395,7 +2395,7 @@
     "name": "heavy-duty-boots",
     "nameKo": "통굽부츠",
     "nameJa": "あつぞこブーツ",
-    "battle": true,
+    "held": true,
     "nameEn": "Heavy-Duty Boots"
   },
   {
@@ -2408,7 +2408,7 @@
     "name": "ability-shield",
     "nameKo": "특성가드",
     "nameJa": "とくせいガード",
-    "battle": true,
+    "held": true,
     "nameEn": "Ability Shield"
   },
   {
@@ -2439,14 +2439,14 @@
     "name": "altarianite",
     "nameKo": "파비코리나이트",
     "nameJa": "チルタリスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Altarianite"
   },
   {
     "name": "iapapa-berry",
     "nameKo": "파야열매",
     "nameJa": "イアのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Iapapa Berry"
   },
   {
@@ -2459,49 +2459,49 @@
     "name": "power-lens",
     "nameKo": "파워렌즈",
     "nameJa": "パワーレンズ",
-    "battle": true,
+    "held": true,
     "nameEn": "Power Lens"
   },
   {
     "name": "power-bracer",
     "nameKo": "파워리스트",
     "nameJa": "パワーリスト",
-    "battle": true,
+    "held": true,
     "nameEn": "Power Bracer"
   },
   {
     "name": "power-band",
     "nameKo": "파워밴드",
     "nameJa": "パワーバンド",
-    "battle": true,
+    "held": true,
     "nameEn": "Power Band"
   },
   {
     "name": "power-belt",
     "nameKo": "파워벨트",
     "nameJa": "パワーベルト",
-    "battle": true,
+    "held": true,
     "nameEn": "Power Belt"
   },
   {
     "name": "power-anklet",
     "nameKo": "파워앵클릿",
     "nameJa": "パワーアンクル",
-    "battle": true,
+    "held": true,
     "nameEn": "Power Anklet"
   },
   {
     "name": "power-weight",
     "nameKo": "파워웨이트",
     "nameJa": "パワーウエイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Power Weight"
   },
   {
     "name": "power-herb",
     "nameKo": "파워풀허브",
     "nameJa": "パワフルハーブ",
-    "battle": true,
+    "held": true,
     "nameEn": "Power Herb"
   },
   {
@@ -2514,7 +2514,7 @@
     "name": "fire-memory",
     "nameKo": "파이어메모리",
     "nameJa": "ファイヤーメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Fire Memory"
   },
   {
@@ -2527,35 +2527,35 @@
     "name": "fighting-memory",
     "nameKo": "파이팅메모리",
     "nameJa": "ファイトメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Fighting Memory"
   },
   {
     "name": "gengarite",
     "nameKo": "팬텀나이트",
     "nameJa": "ゲンガナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Gengarite"
   },
   {
     "name": "punching-glove",
     "nameKo": "펀치글러브",
     "nameJa": "パンチグローブ",
-    "battle": true,
+    "held": true,
     "nameEn": "Punching Glove"
   },
   {
     "name": "fairium-z--held",
     "nameKo": "페어리Z",
     "nameJa": "フェアリーＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Fairium Z"
   },
   {
     "name": "fairy-memory",
     "nameKo": "페어리메모리",
     "nameJa": "フェアリーメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Fairy Memory"
   },
   {
@@ -2574,7 +2574,7 @@
     "name": "poison-memory",
     "nameKo": "포이즌메모리",
     "nameJa": "ポイズンメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Poison Memory"
   },
   {
@@ -2593,14 +2593,14 @@
     "name": "zoom-lens",
     "nameKo": "포커스렌즈",
     "nameJa": "フォーカスレンズ",
-    "battle": true,
+    "held": true,
     "nameEn": "Zoom Lens"
   },
   {
     "name": "cameruptite",
     "nameKo": "폭타나이트",
     "nameJa": "バクーダナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Cameruptite"
   },
   {
@@ -2613,7 +2613,7 @@
     "name": "sky-plate",
     "nameKo": "푸른하늘플레이트",
     "nameJa": "あおぞらプレート",
-    "battle": true,
+    "held": true,
     "nameEn": "Sky Plate"
   },
   {
@@ -2626,7 +2626,7 @@
     "name": "grassium-z--held",
     "nameKo": "풀Z",
     "nameJa": "クサＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Grassium Z"
   },
   {
@@ -2639,7 +2639,7 @@
     "name": "air-balloon",
     "nameKo": "풍선",
     "nameJa": "ふうせん",
-    "battle": true,
+    "held": true,
     "nameEn": "Air Balloon"
   },
   {
@@ -2664,7 +2664,7 @@
     "name": "aerodactylite",
     "nameKo": "프테라나이트",
     "nameJa": "プテラナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Aerodactylite"
   },
   {
@@ -2677,7 +2677,7 @@
     "name": "flying-memory",
     "nameKo": "플라잉메모리",
     "nameJa": "フライングメモリ",
-    "battle": true,
+    "held": true,
     "nameEn": "Flying Memory"
   },
   {
@@ -2690,21 +2690,21 @@
     "name": "yache-berry",
     "nameKo": "플카열매",
     "nameJa": "ヤチェのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Yache Berry"
   },
   {
     "name": "pidgeotite",
     "nameKo": "피죤투나이트",
     "nameJa": "ピジョットナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Pidgeotite"
   },
   {
     "name": "pikanium-z--held",
     "nameKo": "피카츄Z",
     "nameJa": "ピカチュウＺ",
-    "battle": true,
+    "held": true,
     "nameEn": "Pikanium Z"
   },
   {
@@ -2717,7 +2717,7 @@
     "name": "haban-berry",
     "nameKo": "하반열매",
     "nameJa": "ハバンのみ",
-    "battle": true,
+    "held": true,
     "nameEn": "Haban Berry"
   },
   {
@@ -2730,7 +2730,7 @@
     "name": "white-herb",
     "nameKo": "하양허브",
     "nameJa": "しろいハーブ",
-    "battle": true,
+    "held": true,
     "nameEn": "White Herb"
   },
   {
@@ -2749,14 +2749,14 @@
     "name": "garchompite",
     "nameKo": "한카리아스나이트",
     "nameJa": "ガブリアスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Garchompite"
   },
   {
     "name": "scizorite",
     "nameKo": "핫삼나이트",
     "nameJa": "ハッサムナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Scizorite"
   },
   {
@@ -2781,21 +2781,21 @@
     "name": "blunder-policy",
     "nameKo": "허탕보험",
     "nameJa": "からぶりほけん",
-    "battle": true,
+    "held": true,
     "nameEn": "Blunder Policy"
   },
   {
     "name": "heracronite",
     "nameKo": "헤라크로스나이트",
     "nameJa": "ヘラクロスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Heracronite"
   },
   {
     "name": "houndoominite",
     "nameKo": "헬가나이트",
     "nameJa": "ヘルガナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Houndoominite"
   },
   {
@@ -2814,7 +2814,7 @@
     "name": "flame-orb",
     "nameKo": "화염구슬",
     "nameJa": "かえんだま",
-    "battle": true,
+    "held": true,
     "nameEn": "Flame Orb"
   },
   {
@@ -2827,7 +2827,7 @@
     "name": "alakazite",
     "nameKo": "후디나이트",
     "nameJa": "フーディナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Alakazite"
   },
   {
@@ -2840,7 +2840,7 @@
     "name": "twisted-spoon",
     "nameKo": "휘어진스푼",
     "nameJa": "まがったスプーン",
-    "battle": true,
+    "held": true,
     "nameEn": "Twisted Spoon"
   },
   {
@@ -2859,7 +2859,7 @@
     "name": "muscle-band",
     "nameKo": "힘의머리띠",
     "nameJa": "ちからのハチマキ",
-    "battle": true,
+    "held": true,
     "nameEn": "Muscle Band"
   },
   {
@@ -2872,315 +2872,315 @@
     "name": "absolite-z",
     "nameKo": "앱솔나이트Z",
     "nameJa": "アブソルナイトZ",
-    "battle": true,
+    "held": true,
     "nameEn": "Absolite Z"
   },
   {
     "name": "barbaracite",
     "nameKo": "거북손데스나이트",
     "nameJa": "ガメノデスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Barbaracite"
   },
   {
     "name": "baxcalibrite",
     "nameKo": "드닐레이브나이트",
     "nameJa": "セグレイブナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Baxcalibrite"
   },
   {
     "name": "chandelurite",
     "nameKo": "샹델라나이트",
     "nameJa": "シャンデラナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Chandelurite"
   },
   {
     "name": "chesnaughtite",
     "nameKo": "브리가론나이트",
     "nameJa": "ブリガロナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Chesnaughtite"
   },
   {
     "name": "chimechite",
     "nameKo": "치렁나이트",
     "nameJa": "チリーンナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Chimechite"
   },
   {
     "name": "clefablite",
     "nameKo": "픽시나이트",
     "nameJa": "ピクシナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Clefablite"
   },
   {
     "name": "crabominite",
     "nameKo": "모단단게나이트",
     "nameJa": "ケケンカニナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Crabominite"
   },
   {
     "name": "darkranite",
     "nameKo": "다크라이나이트",
     "nameJa": "ダークライナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Darkranite"
   },
   {
     "name": "delphoxite",
     "nameKo": "마폭시나이트",
     "nameJa": "マフォクシナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Delphoxite"
   },
   {
     "name": "dragalgite",
     "nameKo": "드래캄나이트",
     "nameJa": "ドラミドナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Dragalgite"
   },
   {
     "name": "dragoninite",
     "nameKo": "망나뇽나이트",
     "nameJa": "カイリュナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Dragoninite"
   },
   {
     "name": "drampanite",
     "nameKo": "할비롱나이트",
     "nameJa": "ジジーロナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Drampanite"
   },
   {
     "name": "eelektrossite",
     "nameKo": "저리더프나이트",
     "nameJa": "シビルドナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Eelektrossite"
   },
   {
     "name": "emboarite",
     "nameKo": "염무왕나이트",
     "nameJa": "エンブオナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Emboarite"
   },
   {
     "name": "excadrite",
     "nameKo": "몰드류나이트",
     "nameJa": "ドリュウズナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Excadrite"
   },
   {
     "name": "falinksite",
     "nameKo": "대여르나이트",
     "nameJa": "タイレーツナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Falinksite"
   },
   {
     "name": "feraligite",
     "nameKo": "장크로다일나이트",
     "nameJa": "オーダイルナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Feraligite"
   },
   {
     "name": "floettite",
     "nameKo": "플라엣테나이트",
     "nameJa": "フラエッテナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Floettite"
   },
   {
     "name": "froslassite",
     "nameKo": "눈여아나이트",
     "nameJa": "ユキメノコナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Froslassite"
   },
   {
     "name": "garchompite-z",
     "nameKo": "한카리아스나이트Z",
     "nameJa": "ガブリアスナイトZ",
-    "battle": true,
+    "held": true,
     "nameEn": "Garchompite Z"
   },
   {
     "name": "glimmoranite",
     "nameKo": "킬라플로르나이트",
     "nameJa": "キラフロルナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Glimmoranite"
   },
   {
     "name": "golisopite",
     "nameKo": "갑주무사나이트",
     "nameJa": "グソクムシャナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Golisopite"
   },
   {
     "name": "golurkite",
     "nameKo": "골루그나이트",
     "nameJa": "ゴルーグナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Golurkite"
   },
   {
     "name": "greninjite",
     "nameKo": "개굴닌자나이트",
     "nameJa": "ゲッコウガナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Greninjite"
   },
   {
     "name": "hawluchanite",
     "nameKo": "루차불나이트",
     "nameJa": "ルチャブルナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Hawluchanite"
   },
   {
     "name": "heatranite",
     "nameKo": "히드런나이트",
     "nameJa": "ヒードランナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Heatranite"
   },
   {
     "name": "lucarionite-z",
     "nameKo": "루카리오나이트Z",
     "nameJa": "ルカリオナイトZ",
-    "battle": true,
+    "held": true,
     "nameEn": "Lucarionite Z"
   },
   {
     "name": "magearnite",
     "nameKo": "마기아나나이트",
     "nameJa": "マギアナナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Magearnite"
   },
   {
     "name": "malamarite",
     "nameKo": "칼라마네로나이트",
     "nameJa": "カラマネナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Malamarite"
   },
   {
     "name": "meganiumite",
     "nameKo": "메가니움나이트",
     "nameJa": "メガニウムナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Meganiumite"
   },
   {
     "name": "meowsticite",
     "nameKo": "냐오닉스나이트",
     "nameJa": "ニャオニクスナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Meowsticite"
   },
   {
     "name": "pyroarite",
     "nameKo": "화염레오나이트",
     "nameJa": "カエンジシナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Pyroarite"
   },
   {
     "name": "raichunite-x",
     "nameKo": "라이츄나이트X",
     "nameJa": "ライチュウナイトX",
-    "battle": true,
+    "held": true,
     "nameEn": "Raichunite X"
   },
   {
     "name": "raichunite-y",
     "nameKo": "라이츄나이트Y",
     "nameJa": "ライチュウナイトY",
-    "battle": true,
+    "held": true,
     "nameEn": "Raichunite Y"
   },
   {
     "name": "scolipite",
     "nameKo": "펜드라나이트",
     "nameJa": "ペンドラナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Scolipite"
   },
   {
     "name": "scovillainite",
     "nameKo": "스코빌런나이트",
     "nameJa": "スコヴィラナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Scovillainite"
   },
   {
     "name": "scraftinite",
     "nameKo": "곤율거니나이트",
     "nameJa": "ズルズキナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Scraftinite"
   },
   {
     "name": "skarmorite",
     "nameKo": "무장조나이트",
     "nameJa": "エアームドナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Skarmorite"
   },
   {
     "name": "staraptite",
     "nameKo": "찌르호크나이트",
     "nameJa": "ムクホークナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Staraptite"
   },
   {
     "name": "starminite",
     "nameKo": "아쿠스타나이트",
     "nameJa": "スターミナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Starminite"
   },
   {
     "name": "tatsugirinite",
     "nameKo": "싸리용나이트",
     "nameJa": "ミガルーサナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Tatsugirinite"
   },
   {
     "name": "victreebelite",
     "nameKo": "우츠보트나이트",
     "nameJa": "ウツボットナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Victreebelite"
   },
   {
     "name": "zeraorite",
     "nameKo": "제라오라나이트",
     "nameJa": "ゼラオラナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Zeraorite"
   },
   {
     "name": "zygardite",
     "nameKo": "지가르데나이트",
     "nameJa": "ジガルデナイト",
-    "battle": true,
+    "held": true,
     "nameEn": "Zygardite"
   },
   {
@@ -3188,48 +3188,48 @@
     "nameKo": "우물의가면",
     "nameJa": "いどのめん",
     "nameEn": "Wellspring Mask",
-    "battle": true
+    "held": true
   },
   {
     "name": "hearthflame-mask",
     "nameKo": "화덕의가면",
     "nameJa": "かまどのめん",
     "nameEn": "Hearthflame Mask",
-    "battle": true
+    "held": true
   },
   {
     "name": "cornerstone-mask",
     "nameKo": "주춧돌의가면",
     "nameJa": "いしずえのめん",
     "nameEn": "Cornerstone Mask",
-    "battle": true
+    "held": true
   },
   {
     "name": "griseous-orb",
     "nameKo": "백금옥",
     "nameJa": "はっきんだま",
     "nameEn": "Griseous Orb",
-    "battle": true
+    "held": true
   },
   {
     "name": "leek",
     "nameKo": "대파",
     "nameJa": "ながねぎ",
     "nameEn": "Leek",
-    "battle": true
+    "held": true
   },
   {
     "name": "terrain-extender",
     "nameKo": "그라운드코트",
     "nameJa": "グラウンドコート",
     "nameEn": "Terrain Extender",
-    "battle": true
+    "held": true
   },
   {
     "name": "binding-band",
     "nameKo": "조임밴드",
     "nameJa": "しめつけバンド",
-    "battle": true,
+    "held": true,
     "nameEn": "Binding Band"
   }
 ]
