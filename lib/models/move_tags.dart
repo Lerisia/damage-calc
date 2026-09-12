@@ -1,4 +1,17 @@
 /// Constants for move tag strings used across the codebase.
+///
+/// Three kinds live here, and `test/models/move_tags_test.dart` keeps
+/// them honest against `assets/moves/*.json`:
+///  * **Data flags** — present in the move data and read by the calc
+///    (everything up to the runtime section).
+///  * **Data-only flags** ([dataOnly]) — present in the move data and
+///    maintained by tooling (ROM flag audit, default-move roles, spread
+///    tagging) but not read by the calculator itself.
+///  * **Runtime markers** ([runtimeMarkers]) — never in the data;
+///    attached to a move by `transformMove` so later stages (bpMods
+///    chain, fixed-damage paths) can see what an earlier step decided.
+///    [spread] is both: a data flag for always-spread moves and a
+///    runtime marker for Expanding Force on Psychic Terrain.
 class MoveTags {
   MoveTags._();
 
@@ -75,22 +88,11 @@ class MoveTags {
   // Move disabled by Gravity
   static const String disabledByGravity = 'custom:disabled_by_gravity';
 
-  // Fixed damage: 75% of target's current HP (Guardian of Alola)
-  static const String fixedThreeQuarterHp = 'custom:fixed_three_quarter_hp';
-
   // Move requires defender to be asleep (Dream Eater)
   static const String requiresDefSleep = 'custom:requires_def_sleep';
 
   // OHKO move that Ice-types are immune to (Sheer Cold)
   static const String ohkoIceImmune = 'custom:ohko_ice_immune';
-
-  // Wind-related moves
-  static const String wind = 'wind';
-
-  // Parental Bond (Mega Kangaskhan): move becomes 2-hit, 2nd hit at 0.25x power.
-  static const String parentalBond = 'custom:parental_bond';
-  // Parental Bond on fixed-damage moves: 2nd hit does full damage (no 0.25x).
-  static const String parentalBondFixed = 'custom:parental_bond_fixed';
 
   // Shell Side Arm: physical / special chosen by comparing A*SpD vs C*Def
   // using modified stats (rank stages applied).
@@ -100,16 +102,6 @@ class MoveTags {
   // indicates 2-target hit, damage is multiplied by 0.75. Covers both
   // foes-only (Rock Slide, Heat Wave) and all-adjacent (Earthquake, Surf).
   static const String spread = 'custom:spread';
-  // Hits the ally too when allAdjacent — used by Earthquake/Surf/etc. Only
-  // meaningful when a full ally slot exists; set but otherwise inert for now.
-  static const String spreadHitsAlly = 'custom:spread_hits_ally';
-
-  // User switches out after using the move. Covers damaging pivots
-  // (U-turn / Volt Switch / Flip Turn) and status pivots (Parting Shot /
-  // Baton Pass / Teleport / Chilly Reception / Shed Tail). Used to
-  // classify moves as a distinct role from main-attack and priority for
-  // default-move ordering and dex display.
-  static const String switchOut = 'custom:switch_out';
 
   // Move dex visibility flags. Some moves exist in the calc as multiple
   // numeric variants (Magnitude 4-10, etc.) for power picking, but the
@@ -119,6 +111,38 @@ class MoveTags {
   //                entry, never picked by the calc directly)
   static const String dexHidden = 'custom:dex_hidden';
   static const String dexOnly = 'custom:dex_only';
+
+  // ───────────────────────────────────────────────────────────────────
+  // Data-only flags: in assets/moves, not consumed by the calculator.
+  // ───────────────────────────────────────────────────────────────────
+
+  // Wind moves (Wind Rider / Wind Power targets). Maintained by
+  // tools/audit_move_flags.py from the ROM's classification codes.
+  static const String wind = 'wind';
+
+  // Hits the ally too when allAdjacent (Earthquake / Surf / …). Written by
+  // tools/apply_spread_tags.py for future 2v2 logic; inert today.
+  static const String spreadHitsAlly = 'custom:spread_hits_ally';
+
+  // User switches out after the move (U-turn / Volt Switch / Parting
+  // Shot / …). Read by tools/fetch_pokechamdb.py to classify the
+  // "switch" role in default-move ordering.
+  static const String switchOut = 'custom:switch_out';
+
+  static const Set<String> dataOnly = {wind, spreadHitsAlly, switchOut};
+
+  // ───────────────────────────────────────────────────────────────────
+  // Runtime markers: attached by transformMove, never present in data.
+  // ───────────────────────────────────────────────────────────────────
+
+  // Parental Bond (Mega Kangaskhan): move becomes 2-hit, 2nd hit at 0.25x power.
+  static const String parentalBond = 'custom:parental_bond';
+  // Parental Bond on fixed-damage moves: 2nd hit does full damage (no 0.25x).
+  static const String parentalBondFixed = 'custom:parental_bond_fixed';
+
+  // Fixed damage: 75% of target's current HP. Attached by the Z-Move
+  // table for Guardian of Alola (Tapu exclusives).
+  static const String fixedThreeQuarterHp = 'custom:fixed_three_quarter_hp';
 
   /// Set by `_applySkin` when an `-ate` ability (Aerilate / Pixilate /
   /// Refrigerate / Galvanize) successfully retypes a Normal move.
@@ -131,4 +155,8 @@ class MoveTags {
   /// pre-BP zero would silently drop the boost. Max moves never get
   /// the tag (Showdown gates the boost on `!move.isMax`).
   static const String ateBoosted = 'custom:ate_boosted';
+
+  static const Set<String> runtimeMarkers = {
+    parentalBond, parentalBondFixed, fixedThreeQuarterHp, ateBoosted,
+  };
 }
