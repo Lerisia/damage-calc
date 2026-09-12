@@ -66,7 +66,6 @@ class MoveSelector extends StatefulWidget {
 }
 
 class _MoveSelectorState extends State<MoveSelector> {
-  static List<Move>? _movesCache;
   static Map<String, Set<String>> _learnsetCache = {};
 
   /// All selectable moves (non-G-Max etc. already stripped). The
@@ -79,7 +78,6 @@ class _MoveSelectorState extends State<MoveSelector> {
   Set<String> _learnableMoveIds = {};
   Move? _selected;
   final _controller = TextEditingController();
-  bool _isFocused = false;
 
   @override
   void initState() {
@@ -285,7 +283,6 @@ class _MoveSelectorState extends State<MoveSelector> {
           selected: _selected,
           onTap: widget.onTap,
           onFocusChanged: (hasFocus) {
-            _isFocused = hasFocus;
             widget.onFocusChanged?.call(hasFocus);
           },
           // Enter follows the app-wide typeahead rule; the pick lands

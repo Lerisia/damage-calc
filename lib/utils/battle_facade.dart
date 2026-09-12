@@ -221,7 +221,7 @@ class BattleFacade {
         baseStats: state.baseStats, iv: state.iv, ev: state.ev,
         nature: state.nature, level: state.level, rank: state.rank);
       final usePhysical =
-          atkRanked.attack * opponentSpDefense! > atkRanked.spAttack * opponentDefense!;
+          atkRanked.attack * opponentSpDefense > atkRanked.spAttack * opponentDefense;
       resolvedCategory = usePhysical ? MoveCategory.physical : MoveCategory.special;
     }
     final effectiveCategory = state.categoryOverrides[moveIndex] ?? resolvedCategory;

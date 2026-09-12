@@ -722,6 +722,21 @@ class AppStrings {
       AppLanguage.ja: '技',
     },
     // ── Sample storage / party folders (load + save sheets) ──────
+    'sample.deleteConfirm': {
+      AppLanguage.ko: '"{name}" 삭제',
+      AppLanguage.en: 'Delete "{name}"',
+      AppLanguage.ja: '"{name}" を削除',
+    },
+    'speed.trickRoomActive': {
+      AppLanguage.ko: '트릭룸 적용 중',
+      AppLanguage.en: 'Trick Room active',
+      AppLanguage.ja: 'トリックルーム適用中',
+    },
+    'team.defaultName': {
+      AppLanguage.ko: '파티 {n}',
+      AppLanguage.en: 'Party {n}',
+      AppLanguage.ja: 'パーティ {n}',
+    },
     'sample.team.add': {
       AppLanguage.ko: '파티 추가',
       AppLanguage.en: 'Add party',

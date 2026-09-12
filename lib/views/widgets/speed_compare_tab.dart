@@ -273,7 +273,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
                     if (widget.room.trickRoom)
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
-                        child: Text('트릭룸 적용 중', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+                        child: Text(AppStrings.t('speed.trickRoomActive'), style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
                       ),
                   ],
                 ),
@@ -741,7 +741,6 @@ class _SpeedNumInput extends StatefulWidget {
   final int min;
   final int max;
   final bool signed;
-  final String? label;
   final ValueChanged<int> onChanged;
 
   const _SpeedNumInput({
@@ -749,7 +748,6 @@ class _SpeedNumInput extends StatefulWidget {
     required this.min,
     required this.max,
     this.signed = false,
-    this.label,
     required this.onChanged,
   });
 
@@ -812,7 +810,7 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.label != null ? null : 32,
+      height: 32,
       child: TextFormField(
         controller: _controller,
         focusNode: _focusNode,
@@ -824,8 +822,7 @@ class _SpeedNumInputState extends State<_SpeedNumInput> {
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           isDense: true,
-          labelText: widget.label,
-          contentPadding: widget.label != null ? null : const EdgeInsets.symmetric(vertical: 6),
+          contentPadding: const EdgeInsets.symmetric(vertical: 6),
         ),
         onChanged: (text) {
           final parsed = int.tryParse(text);

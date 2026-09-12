@@ -103,7 +103,7 @@ class ChampionsUsageRankSheet extends StatefulWidget {
           : 'assets/champions_usage.json';
       final raw = _rawCache[format] ??=
           jsonDecode(await rootBundle.loadString(asset)) as Map<String, dynamic>;
-      final meta = raw!['_meta'];
+      final meta = raw['_meta'];
       if (meta is Map && meta['updatedAt'] is String) {
         return meta['updatedAt'] as String;
       }

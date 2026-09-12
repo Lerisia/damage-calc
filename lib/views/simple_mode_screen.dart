@@ -464,19 +464,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   /// Whether the attacker is currently treated as a special attacker
   /// for UI purposes. When a move is picked the move's category is
-  /// authoritative; otherwise we pick the higher of base Atk / base
-  /// SpA, with ability overrides for physical-forcing abilities
-  /// (Huge Power / Pure Power / Tough Claws) pushing the default
-  /// back to physical regardless of base stats.
+  /// authoritative; otherwise the higher of base Atk / base SpA. (An
+  /// earlier version also guessed from ability names — Huge Power etc.
+  /// — which re-implemented calculator knowledge in the UI; with no
+  /// move picked there is no damage to show, so the guess bought
+  /// nothing.)
   bool get _effectiveIsSpecial {
     final move = _atk.moves[0];
     if (move != null) return move.category == MoveCategory.special;
-    final ability = _atk.selectedAbility;
-    if (ability == 'Huge Power' ||
-        ability == 'Pure Power' ||
-        ability == 'Tough Claws') {
-      return false;
-    }
     return _atk.baseStats.spAttack > _atk.baseStats.attack;
   }
 
@@ -2387,7 +2382,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       onTap: () => showOffensivePowerBreakdown(
         context,
         power: offensivePower,
-        moveDisplayName: result.move?.localizedName ?? '',
+        moveDisplayName: result.move.localizedName,
         notes: offensiveNotes,
         abilityNameMap: _abilityNames,
         itemNameMap: _itemNames,

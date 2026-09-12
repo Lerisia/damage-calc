@@ -272,23 +272,6 @@ class PokemonPanelState extends State<PokemonPanel>
           ),
           const SizedBox(height: 12),
 
-          // 기타 보정 (순풍/충전) - hidden for simplicity
-          // _sectionCard(
-          //   title: '기타 보정',
-          //   child: Row(
-          //     children: [
-          //       Expanded(child: _compactCheck('순풍', s.tailwind, (v) {
-          //         setState(() { s.tailwind = v; _notifyParent(); });
-          //       })),
-          //       if (widget.isAttacker)
-          //         Expanded(child: _compactCheck('충전', s.charge, (v) {
-          //           setState(() { s.charge = v; });
-          //         }))
-          //       else
-          //         const Expanded(child: SizedBox()),
-          //     ],
-          //   ),
-          // ),
 
           if (widget.isAttacker) ...[
             _sectionCard(
@@ -719,34 +702,6 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  Widget _compactCheck(String label, bool value, ValueChanged<bool> onChanged) {
-    return InkWell(
-      onTap: () => onChanged(!value),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 22, height: 22,
-              child: Checkbox(
-                value: value,
-                onChanged: (v) => onChanged(v ?? false),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity: VisualDensity.compact,
-              ),
-            ),
-            const SizedBox(width: 4),
-            Flexible(child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(label, style: const TextStyle(fontSize: 14)),
-            )),
-          ],
-        ),
-      ),
-    );
-  }
-
   List<Widget> _effectiveTypeBadges() {
     // Terastal overrides everything for defensive purposes — show a
     // single Tera-styled chip and lock editing while Tera is active.
@@ -1128,12 +1083,6 @@ class PokemonPanelState extends State<PokemonPanel>
       ),
     );
   }
-
-  /// True when a field-state ability (Aura / Aura Break / Ruin) is
-  /// already active via either side's selected ability — the checkbox
-  /// should be locked ON so the user never sees a contradictory "off".
-  bool _abilityForced(String ability) =>
-      s.selectedAbility == ability || widget.opponentAbility == ability;
 
   Widget _doublesCheck(String label, bool value, ValueChanged<bool> onChanged,
       {bool forced = false}) {

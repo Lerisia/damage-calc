@@ -70,17 +70,12 @@ const int _kFP = 4096;
 
 /// 4096-fp mod constants used throughout the damage chain. Centralising
 /// them keeps the routing readable and matches Showdown's table.
-const int _kFP_0_25 = 1024;   // 0.25
 const int _kFP_0_5 = 2048;    // 0.5
 const int _kFP_0_75 = 3072;   // 0.75
-const int _kFP_1 = 4096;      // 1.0
-const int _kFP_1_1 = 4506;    // 1.1 (Muscle Band / Wise Glasses / Punching Glove)
 const int _kFP_1_2 = 4915;    // 1.2 (Expert Belt / type-boost items)
-const int _kFP_1_25 = 5120;   // 1.25 (Dry Skin)
 const int _kFP_1_3 = 5325;    // 1.3 (Life Orb / Normal Gem, Sheer Force, Terrain boost)
 const int _kFP_1_5 = 6144;    // 1.5 (STAB, Choice Band/Specs, Sun×Fire, Rain×Water)
 const int _kFP_1_3333 = 5461; // 4/3 (Collision Course / Electro Drift on SE)
-const int _kFP_2 = 8192;      // 2.0 (Huge Power / Pure Power / Tera STAB)
 
 /// Convert a floating-point multiplier to 4096-fp. Used at boundaries
 /// where existing helpers still return doubles (weather / terrain /

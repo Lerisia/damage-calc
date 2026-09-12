@@ -224,11 +224,6 @@ List<T> pickerSuggestions<T>(
   return results;
 }
 
-const _chosung = [
-  'ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ',
-  'ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ',
-];
-
 /// Returns true if [c] is a Korean syllable block (가-힣).
 bool _isSyllable(int c) => c >= 0xAC00 && c <= 0xD7A3;
 
@@ -240,12 +235,6 @@ int _chosungIndex(int syllableCode) => (syllableCode - 0xAC00) ~/ 588;
 
 /// Extracts the 종성 index (0=none, 1-27) from a syllable code point.
 int _jongsungIndex(int syllableCode) => (syllableCode - 0xAC00) % 28;
-
-/// Returns the 초성 character for a syllable, or the char itself if not a syllable.
-String _getChosung(int code) {
-  if (_isSyllable(code)) return _chosung[_chosungIndex(code)];
-  return String.fromCharCode(code);
-}
 
 /// Maps a Compatibility Jamo (ㄱ-ㅎ) to its 초성 index, or -1.
 int _jamoToChosungIndex(int code) {

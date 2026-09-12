@@ -16,8 +16,6 @@ import '../../utils/localization.dart';
 import '../../models/room.dart';
 import '../../models/terrain.dart';
 import '../../models/weather.dart';
-import '../../utils/ability_effects.dart';
-import '../../utils/item_effects.dart';
 import '../../utils/speed_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../../data/champions_items.dart';

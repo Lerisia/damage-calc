@@ -176,8 +176,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     }
 
     // Repair Pokemon data (base stats, types, abilities)
-    if (_pokemonCache != null && state.pokemonName != null) {
-      final canonical = _pokemonCache![state.pokemonName!];
+    if (_pokemonCache != null) {
+      final canonical = _pokemonCache![state.pokemonName];
       if (canonical != null) {
         state.baseStats = canonical.baseStats;
         state.type1 = canonical.type1;
@@ -915,13 +915,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  /// Abilities that force a field-state (aura/ruin) ON regardless of the
-  /// user's toggle. If either Pokemon has one, the field is active.
-  static const _auraRuinAbilities = {
-    'Fairy Aura', 'Dark Aura', 'Aura Break',
-    'Tablets of Ruin', 'Sword of Ruin', 'Vessel of Ruin', 'Beads of Ruin',
-  };
-
   /// Names of every currently-active battle condition, in display order:
   /// weather → terrain → rooms → auras → ruins. Ability-forced entries
   /// (e.g. Chien-Pao for Sword of Ruin) are included.
@@ -942,8 +935,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     if (_ruins.beadsOfRuin || _abilityPresent('Beads of Ruin')) names.add(AppStrings.t('damage.allyBeadsOfRuin'));
     return names;
   }
-
-  bool get _hasActiveConditions => _activeConditionNames.isNotEmpty;
 
   /// Mobile: battle conditions button. When no condition is active,
   /// shows the "배틀환경" label; as soon as something is on, replaces
@@ -2385,21 +2376,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type2!), fontWeight: FontWeight.bold)));
     }
     return Text.rich(TextSpan(children: parts));
-  }
-
-  Widget _dmgTypeBadge(PokemonType type) {
-    final color = KoStrings.getTypeColor(type);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(3),
-      ),
-      child: Text(
-        KoStrings.getTypeName(type),
-        style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
   }
 
   Widget _dmgCheck(String label, bool value, ValueChanged<bool> onChanged) {

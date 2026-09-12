@@ -163,7 +163,7 @@ class _SampleListSheetState extends State<SampleListSheet> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        content: Text('"${s.name}" 삭제'),
+        content: Text(AppStrings.t('sample.deleteConfirm').replaceAll('{name}', s.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),

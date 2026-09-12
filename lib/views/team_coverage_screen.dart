@@ -45,7 +45,6 @@ import 'widgets/champions_speed_tier_sheet.dart';
 import 'widgets/champions_usage_rank_sheet.dart';
 import 'widgets/type_chart_sheet.dart';
 import 'widgets/move_selector.dart';
-import 'widgets/stat_input.dart' show ClampingFormatter, SelectAllField;
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
@@ -811,7 +810,7 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
     // edits triggers the natural overwrite path). Falls back to
     // "파티 N" using the next number for first-time saves.
     final defaultName = _TeamCoverageStore.loadedPartyName ??
-        '파티 ${store.teams.length + 1}';
+        AppStrings.t('team.defaultName').replaceAll('{n}', '${store.teams.length + 1}');
     final teamName = await _promptText(
       title: AppStrings.t('team.save.title'),
       initial: defaultName,
@@ -2087,7 +2086,6 @@ class _SlotCard extends StatefulWidget {
   final ValueChanged<int> onSendToCalc;
 
   const _SlotCard({
-    super.key,
     required this.index,
     required this.slot,
     required this.abilityDex,

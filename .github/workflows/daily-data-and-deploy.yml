@@ -81,8 +81,14 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git config user.name  "github-actions[bot]"
             git add -A
-            git commit -m "deploy: from ${GITHUB_SHA:0:7}"
-            git push origin gh-pages )
+            # A queued run for a commit another run already published
+            # finds nothing to commit; that is a no-op, not a failure.
+            if git diff --cached --quiet; then
+              echo "gh-pages already up to date — nothing to deploy"
+            else
+              git commit -m "deploy: from ${GITHUB_SHA:0:7}"
+              git push origin gh-pages
+            fi )
           {
             echo "## ✅ Web deployed"
             echo ""

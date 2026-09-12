@@ -10,7 +10,7 @@ import '../models/terrain.dart';
 import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart' show isParentalBondEligible, isParentalBondFixedFullPower;
-import 'damage_calculator.dart' show isUnremovableItemFor, kKnockOffBoost;
+import 'damage_calculator.dart' show isUnremovableItemFor;
 
 /// Which stat the move should use for offense
 enum OffensiveStat {
