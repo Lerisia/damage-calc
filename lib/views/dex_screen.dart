@@ -36,13 +36,6 @@ import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_filter_dialog.dart';
 
-/// Result produced when the user taps "공격측으로" / "방어측으로" in
-/// the dex header — the dex pops with this payload so the calculator
-/// can apply the Pokemon to the chosen side.
-///
-/// `side`: 0 = attacker, 1 = defender.
-typedef DexPickResult = ({int side, Pokemon pokemon});
-
 /// Pokédex screen — browse Pokémon and see species info, abilities,
 /// type matchups, and learnable moves. Reuses KoStrings for type
 /// colors / names so the visual language matches the calculator.
@@ -240,39 +233,6 @@ class _DexScreenState extends State<DexScreen> {
     return _buildBrowse();
   }
 
-  /// Pop the dex returning the current species for a calc side
-  /// (0 = attacker, 1 = defender). Shared by the app bar's send
-  /// buttons and (in browse mode) the future header tap target.
-  void _sendToSide(int side) {
-    final p = _selected;
-    if (p == null) return;
-    Navigator.of(context).pop<DexPickResult>((side: side, pokemon: p));
-  }
-
-  /// Attacker / defender send buttons for the app bar. Empty list
-  /// when nothing's selected yet — keeps the bar uncluttered before
-  /// the user picks a species. Moved out of the species-info card
-  /// because that card now hosts the 80×80 sprite and the buttons
-  /// were squeezing the name into a 1-char-wide stub on small
-  /// screens.
-  List<Widget> _appBarSendButtons() {
-    if (_selected == null) return const [];
-    return [
-      _dexSendButton(
-        label: AppStrings.t('dex.sendToAttacker'),
-        color: Colors.red.shade600,
-        onPressed: () => _sendToSide(0),
-      ),
-      const SizedBox(width: 6),
-      _dexSendButton(
-        label: AppStrings.t('dex.sendToDefender'),
-        color: Colors.blue.shade600,
-        onPressed: () => _sendToSide(1),
-      ),
-      const SizedBox(width: 4),
-    ];
-  }
-
   Widget _buildCrossLink() {
     // Wide viewports: show Main + Moves side by side so users don't
     // need to swap tabs. Threshold chosen to roughly match the calc's
@@ -330,8 +290,7 @@ class _DexScreenState extends State<DexScreen> {
             ),
             title: const SizedBox.shrink(),
             actions: [
-              ..._appBarSendButtons(),
-              AppSettingsMenu(onLanguageChanged: () => setState(() {})),
+                  AppSettingsMenu(onLanguageChanged: () => setState(() {})),
             ],
             bottom: wide
                 ? null
@@ -429,8 +388,7 @@ class _DexScreenState extends State<DexScreen> {
             title: Text(AppStrings.t('dex.title'),
                 style: const TextStyle(fontSize: 18)),
             actions: [
-              ..._appBarSendButtons(),
-              AppSettingsMenu(onLanguageChanged: () => setState(() {})),
+                  AppSettingsMenu(onLanguageChanged: () => setState(() {})),
             ],
           ),
         ),
@@ -1161,31 +1119,6 @@ class _CalcAbilityPicker extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Tonal pill button for the dex's attacker / defender send actions.
-/// Top-level so both app bars (browse + cross-link) can share it
-/// without each pulling in the entire _Header class.
-Widget _dexSendButton({
-  required String label,
-  required Color color,
-  required VoidCallback onPressed,
-}) {
-  return FilledButton.tonal(
-    onPressed: onPressed,
-    style: FilledButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: color,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      minimumSize: Size.zero,
-      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-      ),
-    ),
-    child: Text(label,
-        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
-  );
 }
 
 class _Header extends StatelessWidget {

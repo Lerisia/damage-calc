@@ -136,19 +136,6 @@ class RootShellState extends State<RootShell> {
     });
   }
 
-  /// Calc's "open dex to pick a pokémon" flow. The picker is a modal
-  /// dex push on the ROOT navigator (above the IndexedStack), not a
-  /// tab switch — the user expects to return to calc with the picked
-  /// [DexPickResult], not land on the dex tab. The dex tab's own
-  /// state stays untouched by this overlay.
-  Future<DexPickResult?> openDexAsPicker({String? initialName}) {
-    return Navigator.of(context, rootNavigator: true).push<DexPickResult>(
-      fadeRoute<DexPickResult>(
-        (_) => DexScreen(initialPokemonName: initialName),
-      ),
-    );
-  }
-
   Widget _buildTabNavigator(AppNavTab t) {
     return Navigator(
       key: _navKeys[t],

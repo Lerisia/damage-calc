@@ -20,10 +20,8 @@ import '../utils/simple_mode_controller.dart';
 import 'root_shell.dart';
 import 'widgets/app_settings_menu.dart';
 import 'widgets/first_launch_scope_dialog.dart';
-import 'widgets/reverse_calc_dialog.dart';
 import '../utils/sprite_pack_manager.dart';
 import '../utils/sprite_service.dart';
-import 'dex_screen.dart' show DexPickResult;
 import 'simple_mode_screen.dart';
 import '../utils/damage_calculator.dart';
 import '../utils/speed_calculator.dart';
@@ -679,38 +677,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       ),
       ),
     );
-  }
-
-  /// Open the Pokédex screen, optionally focused on a specific
-  /// Pokemon. [initialName] mirrors [BattlePokemonState.pokemonName]
-  /// when invoked from the per-side panel "open in dex" button.
-  ///
-  /// If the user taps one of the dex header's "To attacker" /
-  /// "To defender" buttons, the dex pops with a [DexPickResult] and
-  /// we apply the picked Pokemon to the chosen side, bumping
-  /// [_resetCounter] so Simple Mode re-hydrates its per-side UI. In
-  /// the narrow extended layout we also switch the tab so the user
-  /// lands on the side they just populated.
-  Future<void> _openDex({String? initialName}) async {
-    // Stays as a root-navigator modal push (NOT a tab switch) because
-    // the user expects to pick a Pokémon and return to calc with the
-    // result, not land on the dex tab. RootShell.openDexAsPicker
-    // pushes on the root navigator above the IndexedStack, so the
-    // dex tab's own state is unaffected by this overlay.
-    final result =
-        await RootShell.of(context).openDexAsPicker(initialName: initialName);
-    if (!mounted || result == null) return;
-    final target = result.side == 0 ? _attacker : _defender;
-    setState(() {
-      target.applyPokemon(result.pokemon);
-      _resetCounter++;
-    });
-    _onPanelChanged();
-    if (!_simpleMode) {
-      // Narrow layout has tabs 0=attacker, 1=defender, …; wide layouts
-      // ignore tab changes, so this is a no-op there.
-      _tabController.animateTo(result.side);
-    }
   }
 
 
@@ -2111,11 +2077,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             ? Border.all(color: scheme.primary, width: 1.5)
             : null,
       ),
-      // 역산 chip + Stack/Positioned scaffolding intentionally
-      // omitted for 1.9.x — the reverse-calc feature is deferred
-      // to 1.10. Module and dialog code (reverse_calc.dart,
-      // reverse_calc_dialog.dart) are kept on main so we can
-      // re-enable later without re-writing.
       child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -2210,61 +2171,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           )
         : card;
     return RepaintBoundary(child: wrapped);
-  }
-
-  /// Inline "역산" chip living in each damage card's percent row.
-  /// Wrapped in a 32-pt OutlinedButton so the row stays vertically
-  /// balanced with the KO text alongside it. Tap → opens the
-  /// [ReverseCalcDialog] with the current attacker/defender/move
-  /// context pre-filled; user types the damage they actually took
-  /// and gets the attacker (Atk/SpA EV, nature) candidates back.
-  Widget _reverseChip(int moveIndex) {
-    return SizedBox(
-      height: 28,
-      child: OutlinedButton(
-        onPressed: () => _openReverseCalc(moveIndex),
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          visualDensity: VisualDensity.compact,
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        child: Text(
-          AppStrings.t('reverse.chip'),
-          style:
-              const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-        ),
-      ),
-    );
-  }
-
-  void _openReverseCalc(int moveIndex) {
-    final move = _attacker.moves[moveIndex];
-    showDialog(
-      context: context,
-      builder: (_) => ReverseCalcDialog(
-        attacker: _attacker,
-        defender: _defender,
-        moveIndex: moveIndex,
-        weather: _weather,
-        terrain: _terrain,
-        room: _room,
-        auras: _auras,
-        ruins: _ruins,
-        onApply: move == null
-            ? null
-            : (candidate) {
-                setState(() {
-                  applyReverseCalcCandidate(
-                      _attacker, candidate, move.category);
-                  // Bumping the reset counter forces the attacker
-                  // panel's SelectAllField cells to re-pick up the
-                  // new EV value (their controllers only re-seed
-                  // when their key changes).
-                  _resetCounter++;
-                });
-              },
-      ),
-    );
   }
 
   /// Compact sticky-feeling footer block at the bottom of the damage
