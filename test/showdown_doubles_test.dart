@@ -9,21 +9,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/data/movedex.dart';
 import 'package:damage_calc/data/pokedex.dart';
 import 'package:damage_calc/models/battle_pokemon.dart';
-import 'package:damage_calc/models/move.dart';
-import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/nature.dart';
 import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/room.dart';
 import 'package:damage_calc/models/stats.dart';
-import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/weather.dart';
-import 'package:damage_calc/utils/damage_calculator.dart';
-import 'package:damage_calc/utils/aura_effects.dart';
-import 'package:damage_calc/utils/ruin_effects.dart';
 import 'package:damage_calc/utils/battle_facade.dart';
-import 'package:damage_calc/utils/stat_calculator.dart';
 
 const _weatherMap = {
   'Sun': Weather.sun, 'Rain': Weather.rain,
@@ -76,10 +69,11 @@ void main() {
         ..helpingHand = s['helpingHand'] == true
         ..allyPowerSpot = s['powerSpot'] == true
         ..allyBattery = s['battery'] == true
-        // Spread auto-applies in @smogon/calc Doubles for moves tagged
-        // allAdjacent / allAdjacentFoes. We pass spreadTargets when the
-        // move has the spread tag in our movedex.
-        ..spreadTargets = move.hasTag(MoveTags.spread);
+        // @smogon/calc Doubles applies spread by the move's (possibly
+        // terrain-modified) target; our calc gates it on the user's
+        // "hitting both foes" toggle AND the transformed move's spread
+        // tag, so "both foes" is always on here and the tag decides.
+        ..spreadTargets = true;
       final def = BattlePokemonState()
         ..applyPokemon(defP)
         ..ev = Stats(
@@ -93,21 +87,16 @@ void main() {
       final weather = _weatherMap[s['weather']] ?? Weather.none;
       final terrain = _terrainMap[s['terrain']] ?? Terrain.none;
       final room = const RoomConditions();
-      final atkSpeed = BattleFacade.calcSpeed(
-          state: atk, weather: weather, terrain: terrain, room: room);
-      final defSpeed = BattleFacade.calcSpeed(
-          state: def, weather: weather, terrain: terrain, room: room);
-      final defStatsForFP = StatCalculator.calculate(
-        baseStats: def.baseStats, iv: def.iv, ev: def.ev,
-        nature: def.nature, level: def.level, rank: def.rank,
-      );
-      final result = DamageCalculator.calculate(
+      // Through the facade, like the screens — and in the doubles
+      // format, which is what gates the ×0.75 spread step. The harness
+      // used to call DamageCalculator directly without `doubles`, so
+      // every spread scenario silently mismatched and the count was
+      // only printed, never asserted (that is how Expanding Force's
+      // spread bug slipped through).
+      final result = BattleFacade.calcDamage(
         attacker: atk, defender: def, moveIndex: 0,
         weather: weather, terrain: terrain, room: room,
-        myEffectiveSpeed: atkSpeed,
-        opponentSpeed: defSpeed,
-        opponentAttack: defStatsForFP.attack,
-        auras: const AuraToggles(), ruins: const RuinToggles(),
+        doubles: true,
       );
       final ours = result.allRolls;
       final theirs = (s['rolls'] as List).cast<int>();
@@ -124,6 +113,9 @@ void main() {
     }
     // ignore: avoid_print
     print('doubles matched=$matched / total=$total');
+    // Every scenario must match — a printed count nobody reads let the
+    // Expanding Force spread bug through (2026-09-10).
+    expect(matched, total, reason: 'Showdown mismatches — see the diffs above');
     if (diffs.isNotEmpty) {
       // ignore: avoid_print
       print('First 5 diffs:');

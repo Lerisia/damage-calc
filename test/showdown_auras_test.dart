@@ -136,6 +136,9 @@ void main() {
     }
     // ignore: avoid_print
     print('aura matched=$matched / total=$total');
+    // Every scenario must match — a printed count nobody reads let the
+    // Expanding Force spread bug through (2026-09-10).
+    expect(matched, total, reason: 'Showdown mismatches — see the diffs above');
     if (diffs.isNotEmpty) {
       // ignore: avoid_print
       print('First 10 diffs:');

@@ -207,6 +207,9 @@ void main() {
       }
     }
     print('matched=$matched / total=$total');
+    // Every scenario must match — a printed count nobody reads let the
+    // Expanding Force spread bug through (2026-09-10).
+    expect(matched, total, reason: 'Showdown mismatches — see the diffs above');
     if (diffs.isNotEmpty) {
       print('First 10 diffs:');
       for (final d in diffs.take(10)) {

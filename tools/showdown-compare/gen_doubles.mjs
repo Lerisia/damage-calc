@@ -23,6 +23,9 @@ const MOVES = [
   'Psychic','Shadow Ball','Moonblast','Dragon Pulse','Thunderbolt',
   'Iron Head','Play Rough','Crunch','Stone Edge','Brave Bird',
   'Outrage','Hyper Voice','Aura Sphere','Earth Power','Fire Blast',
+  // Conditional spread: single-target until Psychic Terrain makes it
+  // hit both foes (×1.5 BP and ×0.75 spread together).
+  'Expanding Force',
 ];
 const ITEMS = [
   '','Choice Band','Choice Specs','Life Orb',
@@ -129,5 +132,17 @@ while (out.length < COUNT && attempted < COUNT * 6) {
   const rolls = showdownRolls(s);
   if (!rolls || rolls.length !== 16 || rolls.every(d => d === 0)) continue;
   out.push({...s, rolls});
+}
+// Guaranteed coverage of Expanding Force on Psychic Terrain (the case
+// that slipped through on 2026-09-10): a grounded user with and without
+// Helping Hand, plus the no-terrain control.
+for (const [terrain, helpingHand] of [['Psychic', false], ['Psychic', true], ['', false]]) {
+  const s = {
+    ...buildScenario(rand),
+    atkSpec: 'Gengar', defSpec: 'Toxapex', move: 'Expanding Force',
+    item: '', terrain, helpingHand, isCrit: false,
+  };
+  const rolls = showdownRolls(s);
+  if (rolls && rolls.length === 16) out.push({...s, rolls});
 }
 console.log(JSON.stringify(out, null, 2));
