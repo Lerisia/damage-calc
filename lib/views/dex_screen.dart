@@ -36,6 +36,7 @@ import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_filter_dialog.dart';
 import '../data/ability_variants.dart';
+import 'widgets/type_chip.dart';
 
 /// Pokédex screen — browse Pokémon and see species info, abilities,
 /// type matchups, and learnable moves. Reuses KoStrings for type
@@ -1210,8 +1211,8 @@ class _Header extends StatelessWidget {
           spacing: 6,
           runSpacing: 4,
           children: [
-            _typeChip(pokemon.type1),
-            if (pokemon.type2 != null) _typeChip(pokemon.type2!),
+            TypeChip(pokemon.type1),
+            if (pokemon.type2 != null) TypeChip(pokemon.type2!),
           ],
         ),
       ],
@@ -1276,19 +1277,6 @@ class _Header extends StatelessWidget {
         ),
         Flexible(child: Text(value)),
       ],
-    );
-  }
-
-  static Widget _typeChip(PokemonType type) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: KoStrings.getTypeColor(type),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(KoStrings.getTypeName(type),
-          style: const TextStyle(
-              fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold)),
     );
   }
 

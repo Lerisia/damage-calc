@@ -51,6 +51,9 @@ import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
 import '../data/ability_variants.dart';
 import '../utils/item_picker.dart';
+import 'widgets/nature_pick_menu.dart';
+import 'widgets/type_chip.dart';
+import 'widgets/champions_scope_listener.dart';
 
 /// One slot in the team-builder. We keep just the bits that affect
 /// type matchups — full BattlePokemonState is overkill here and would
@@ -1771,15 +1774,15 @@ class _SlotSummaryCard extends StatelessWidget {
                   ),
                   if (slot.effectiveType1 != null) ...[
                     const SizedBox(width: 4),
-                    _typeChip(slot.effectiveType1!),
+                    TypeChip(slot.effectiveType1!, dense: true),
                   ],
                   if (slot.effectiveType2 != null) ...[
                     const SizedBox(width: 2),
-                    _typeChip(slot.effectiveType2!),
+                    TypeChip(slot.effectiveType2!, dense: true),
                   ],
                   if (slot.effectiveType3 != null) ...[
                     const SizedBox(width: 2),
-                    _typeChip(slot.effectiveType3!),
+                    TypeChip(slot.effectiveType3!, dense: true),
                   ],
                 ],
               ),
@@ -1854,24 +1857,6 @@ class _SlotSummaryCard extends StatelessWidget {
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-    );
-  }
-
-  Widget _typeChip(PokemonType t) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: KoStrings.getTypeColor(t),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        KoStrings.getTypeName(t),
-        style: const TextStyle(
-          fontSize: 11,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 
@@ -2045,11 +2030,6 @@ class _SlotSummaryCard extends StatelessWidget {
 // _LabeledField removed — the ability + item line now uses inline
 // Text.rich rendering (see _abilityItemLine).
 
-/// Picker enum used by [_naturePicker]. PopupMenuButton.onSelected
-/// is NOT called when the selected value is null — Flutter routes
-/// that to onCanceled instead — so we use a non-null enum and
-/// translate `none` back to a real null when emitting.
-enum _NaturePick { none, atk, def, spa, spd, spe }
 
 // _EvCell extracted to widgets/ev_sp_cell.dart so the focus-
 // persistence contract is covered by a dedicated widget test.
@@ -2109,7 +2089,8 @@ class _SlotCard extends StatefulWidget {
   State<_SlotCard> createState() => _SlotCardState();
 }
 
-class _SlotCardState extends State<_SlotCard> {
+class _SlotCardState extends State<_SlotCard>
+    with ChampionsScopeListener {
   final _abilityController = TextEditingController();
   final _itemController = TextEditingController();
   final _abilityFocus = FocusNode();
@@ -2128,20 +2109,7 @@ class _SlotCardState extends State<_SlotCard> {
   Map<String, String>? _itemIndexFor;
 
   @override
-  void initState() {
-    super.initState();
-    ChampionsFilterController.instance.championsOnly
-        .addListener(_onScopeChanged);
-  }
-
-  void _onScopeChanged() {
-    if (mounted) setState(() {});
-  }
-
-  @override
   void dispose() {
-    ChampionsFilterController.instance.championsOnly
-        .removeListener(_onScopeChanged);
     _abilityController.dispose();
     _itemController.dispose();
     _abilityFocus.dispose();
@@ -2385,14 +2353,14 @@ class _SlotCardState extends State<_SlotCard> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (widget.slot.effectiveType1 != null)
-                        _typeChip(widget.slot.effectiveType1!),
+                        TypeChip(widget.slot.effectiveType1!, dense: true),
                       if (widget.slot.effectiveType2 != null) ...[
                         const SizedBox(width: 2),
-                        _typeChip(widget.slot.effectiveType2!),
+                        TypeChip(widget.slot.effectiveType2!, dense: true),
                       ],
                       if (widget.slot.effectiveType3 != null) ...[
                         const SizedBox(width: 2),
-                        _typeChip(widget.slot.effectiveType3!),
+                        TypeChip(widget.slot.effectiveType3!, dense: true),
                       ],
                     ],
                   ),
@@ -2557,98 +2525,20 @@ class _SlotCardState extends State<_SlotCard> {
     );
   }
 
-  Widget _naturePicker(NatureProfile nature, {required bool isUp}) {
-    final value = isUp ? nature.up : nature.down;
-    final tint = isUp ? Colors.red : Colors.blue;
-    final label = value == null
-        ? AppStrings.t('nature.none')
-        : _natureStatLabel(value);
-    final textColor = value == null ? Colors.grey : tint;
-    return PopupMenuButton<_NaturePick>(
-      tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
-      itemBuilder: (_) => [
-        PopupMenuItem<_NaturePick>(
-          value: _NaturePick.none,
-          child: Text(AppStrings.t('nature.none'),
-              style: const TextStyle(fontSize: 14, color: Colors.grey)),
-        ),
-        for (final s in NatureStat.values)
-          PopupMenuItem<_NaturePick>(
-            value: _pickFromStat(s),
-            child: Text(_natureStatLabel(s),
-                style: TextStyle(fontSize: 14, color: tint)),
-          ),
-      ],
-      onSelected: (v) {
-        final stat = _statFromPick(v);
-        widget.onNatureChanged(isUp
-            ? nature.copyWith(up: stat, clearUp: stat == null)
-            : nature.copyWith(down: stat, clearDown: stat == null));
-        // Parent's setState rebuilds the host screen, but the dialog
-        // we're inside lives on the Navigator overlay and doesn't
-        // see that — trigger our own rebuild so the picker label
-        // updates immediately.
-        setState(() {});
-      },
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText:
-              AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-          isDense: true,
-        ),
-        child: Text(label, style: TextStyle(fontSize: 14, color: textColor)),
-      ),
-    );
-  }
-
-  String _natureStatLabel(NatureStat s) {
-    switch (s) {
-      case NatureStat.atk:
-        return AppStrings.t('stat.attack');
-      case NatureStat.def:
-        return AppStrings.t('stat.defense');
-      case NatureStat.spa:
-        return AppStrings.t('stat.spAttack');
-      case NatureStat.spd:
-        return AppStrings.t('stat.spDefense');
-      case NatureStat.spe:
-        return AppStrings.t('stat.speed');
-    }
-  }
-
-  _NaturePick _pickFromStat(NatureStat s) {
-    switch (s) {
-      case NatureStat.atk:
-        return _NaturePick.atk;
-      case NatureStat.def:
-        return _NaturePick.def;
-      case NatureStat.spa:
-        return _NaturePick.spa;
-      case NatureStat.spd:
-        return _NaturePick.spd;
-      case NatureStat.spe:
-        return _NaturePick.spe;
-    }
-  }
-
-  NatureStat? _statFromPick(_NaturePick p) {
-    switch (p) {
-      case _NaturePick.none:
-        return null;
-      case _NaturePick.atk:
-        return NatureStat.atk;
-      case _NaturePick.def:
-        return NatureStat.def;
-      case _NaturePick.spa:
-        return NatureStat.spa;
-      case _NaturePick.spd:
-        return NatureStat.spd;
-      case _NaturePick.spe:
-        return NatureStat.spe;
-    }
-  }
+  Widget _naturePicker(NatureProfile nature, {required bool isUp}) =>
+      NaturePickMenu(
+        nature: nature,
+        isUp: isUp,
+        labelFontSize: 14,
+        onNatureChanged: (n) {
+          widget.onNatureChanged(n);
+          // Parent's setState rebuilds the host screen, but the dialog
+          // we're inside lives on the Navigator overlay and doesn't
+          // see that — trigger our own rebuild so the picker label
+          // updates immediately.
+          setState(() {});
+        },
+      );
 
   Widget _moveGrid(ColorScheme scheme, Pokemon? p) {
     // 2 × 2 grid that now spans the full popup width (the grid
@@ -2708,21 +2598,6 @@ class _SlotCardState extends State<_SlotCard> {
       // this screen) so users don't need to flip the global show-
       // status preference to pick e.g. 자기재생.
       forceShowStatus: true,
-    );
-  }
-
-  Widget _typeChip(PokemonType type) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: KoStrings.getTypeColor(type),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        KoStrings.getTypeName(type),
-        style: const TextStyle(
-            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
     );
   }
 

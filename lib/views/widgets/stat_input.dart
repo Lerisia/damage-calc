@@ -24,6 +24,8 @@ import '../../utils/stat_calculator.dart';
 import 'typeahead_helpers.dart';
 import '../../data/ability_variants.dart';
 import '../../utils/item_picker.dart';
+import 'nature_pick_menu.dart';
+import 'champions_scope_listener.dart';
 
 class ClampingFormatter extends TextInputFormatter {
   final int min;
@@ -54,34 +56,6 @@ class ClampingFormatter extends TextInputFormatter {
       );
     }
     return newValue;
-  }
-}
-
-/// Non-nullable enum used purely as the [PopupMenuButton] value type
-/// for nature pickers. [PopupMenuButton.onSelected] swallows null
-/// selections (routing them to [onCanceled]), so we can't use
-/// `PopupMenuButton<NatureStat?>` directly — we'd never learn when
-/// the user picked "None".
-enum _NaturePick { none, atk, def, spa, spd, spe }
-
-_NaturePick _pickFromStat(NatureStat s) {
-  switch (s) {
-    case NatureStat.atk: return _NaturePick.atk;
-    case NatureStat.def: return _NaturePick.def;
-    case NatureStat.spa: return _NaturePick.spa;
-    case NatureStat.spd: return _NaturePick.spd;
-    case NatureStat.spe: return _NaturePick.spe;
-  }
-}
-
-NatureStat? _statFromPick(_NaturePick p) {
-  switch (p) {
-    case _NaturePick.none: return null;
-    case _NaturePick.atk: return NatureStat.atk;
-    case _NaturePick.def: return NatureStat.def;
-    case _NaturePick.spa: return NatureStat.spa;
-    case _NaturePick.spd: return NatureStat.spd;
-    case _NaturePick.spe: return NatureStat.spe;
   }
 }
 
@@ -173,7 +147,8 @@ class StatInput extends StatefulWidget {
   State<StatInput> createState() => _StatInputState();
 }
 
-class _StatInputState extends State<StatInput> {
+class _StatInputState extends State<StatInput>
+    with ChampionsScopeListener {
   Map<String, String> _abilityNameMap = {};
   static Map<String, Ability> _abilityDataMap = {};
   // App-wide search engine over the ability keys; rebuilt whenever the
@@ -197,14 +172,6 @@ class _StatInputState extends State<StatInput> {
     super.initState();
     _loadAbilities();
     _loadItems();
-    // The Champions scope decides which held items the picker offers;
-    // it can flip from the settings menu while this field is alive.
-    ChampionsFilterController.instance.championsOnly
-        .addListener(_onScopeChanged);
-  }
-
-  void _onScopeChanged() {
-    if (mounted) setState(() {});
   }
 
   @override
@@ -238,8 +205,6 @@ class _StatInputState extends State<StatInput> {
 
   @override
   void dispose() {
-    ChampionsFilterController.instance.championsOnly
-        .removeListener(_onScopeChanged);
     _abilityController.dispose();
     _itemController.dispose();
     _abilityFocusNode.dispose();
@@ -493,68 +458,11 @@ class _StatInputState extends State<StatInput> {
     );
   }
 
-  Widget _naturePicker(NatureStat? value, bool isUp) {
-    final tint = isUp ? Colors.red : Colors.blue;
-    final label = value == null
-        ? AppStrings.t('nature.none')
-        : _statLabel(value);
-    final textColor = value == null ? Colors.grey : tint;
-    // PopupMenuButton.onSelected is NOT called when the selected
-    // value is null — Flutter routes that to onCanceled instead. So
-    // we use a non-nullable [_NaturePick] enum here and translate
-    // _NaturePick.none back into a real null when emitting the new
-    // [NatureProfile]. Without this workaround, users can't pick
-    // 'None' after they've chosen a stat.
-    final pickValue = value == null ? _NaturePick.none : _pickFromStat(value);
-    return PopupMenuButton<_NaturePick>(
-      initialValue: pickValue,
-      tooltip: AppStrings.t(isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-      popUpAnimationStyle:
-          AnimationStyle(duration: const Duration(milliseconds: 100)),
-      itemBuilder: (_) => [
-        PopupMenuItem<_NaturePick>(
-          value: _NaturePick.none,
-          child: Text(AppStrings.t('nature.none'),
-              style: const TextStyle(fontSize: 14, color: Colors.grey)),
-        ),
-        for (final s in NatureStat.values)
-          PopupMenuItem<_NaturePick>(
-            value: _pickFromStat(s),
-            child: Text(_statLabel(s),
-                style: TextStyle(fontSize: 14, color: tint)),
-          ),
-      ],
-      onSelected: (v) {
-        final stat = _statFromPick(v);
-        widget.onNatureChanged(isUp
-            ? widget.nature.copyWith(up: stat, clearUp: stat == null)
-            : widget.nature.copyWith(down: stat, clearDown: stat == null));
-      },
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: AppStrings.t(
-              isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-          isDense: true,
-        ),
-        // Match the item typeahead's rendered body size (Material
-        // default bodyLarge ~ 16) so baselines align. The theme-
-        // inherited size was coming out smaller here because
-        // InputDecorator's fallback style is bodyMedium, not
-        // bodyLarge like TextField.
-        child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
-      ),
-    );
-  }
-
-  String _statLabel(NatureStat s) {
-    switch (s) {
-      case NatureStat.atk: return AppStrings.t('stat.attack');
-      case NatureStat.def: return AppStrings.t('stat.defense');
-      case NatureStat.spa: return AppStrings.t('stat.spAttack');
-      case NatureStat.spd: return AppStrings.t('stat.spDefense');
-      case NatureStat.spe: return AppStrings.t('stat.speed');
-    }
-  }
+  Widget _naturePicker(NatureStat? value, bool isUp) => NaturePickMenu(
+        nature: widget.nature,
+        isUp: isUp,
+        onNatureChanged: widget.onNatureChanged,
+      );
 
   Widget _abilityAutocomplete() {
     final initialText = widget.selectedAbility != null

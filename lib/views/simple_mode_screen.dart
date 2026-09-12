@@ -45,6 +45,7 @@ import '../data/ability_variants.dart';
 import '../utils/entry_hazards.dart';
 import 'widgets/entry_hazard_buttons.dart';
 import '../utils/item_picker.dart';
+import 'widgets/champions_scope_listener.dart';
 
 /// Compact in-battle calculator. Shares the attacker/defender state
 /// with Normal Mode — the user flip-flopping between the two sees the
@@ -128,7 +129,8 @@ class _SpRangeFormatter extends TextInputFormatter {
   }
 }
 
-class _SimpleModeViewState extends State<SimpleModeView> {
+class _SimpleModeViewState extends State<SimpleModeView>
+    with ChampionsScopeListener {
   // Shared with Normal Mode — mutations are echoed to the parent via
   // [widget.onChanged] so weather/terrain auto-set and every other
   // normal-mode side-effect stays in sync.
@@ -194,14 +196,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   void initState() {
     super.initState();
     _hydrateFromState();
-    // Repaint when the Champions scope is toggled elsewhere — it
-    // decides whether the Dynamax / Terastal controls exist at all.
-    ChampionsFilterController.instance.championsOnly
-        .addListener(_onScopeChanged);
-  }
-
-  void _onScopeChanged() {
-    if (mounted) setState(() {});
   }
 
 
@@ -326,8 +320,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
 
   @override
   void dispose() {
-    ChampionsFilterController.instance.championsOnly
-        .removeListener(_onScopeChanged);
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
                       _multCtl, _atkAbilityCtl, _atkItemCtl,

@@ -32,6 +32,7 @@ import 'pokemon_selector.dart';
 import 'stat_input.dart';
 import '../../utils/entry_hazards.dart';
 import 'entry_hazard_buttons.dart';
+import 'champions_scope_listener.dart';
 
 /// A reusable panel for configuring one side of a battle (attacker or defender).
 class PokemonPanel extends StatefulWidget {
@@ -107,7 +108,7 @@ class PokemonPanel extends StatefulWidget {
 }
 
 class PokemonPanelState extends State<PokemonPanel>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, ChampionsScopeListener {
   @override
   bool get wantKeepAlive => true;
   final _movesSectionKey = GlobalKey();
@@ -132,22 +133,7 @@ class PokemonPanelState extends State<PokemonPanel>
   }
 
   @override
-  void initState() {
-    super.initState();
-    // The Champions scope hides Dynamax / Terastal / Z-Move controls,
-    // so the panel has to repaint when it is toggled elsewhere.
-    ChampionsFilterController.instance.championsOnly
-        .addListener(_onScopeChanged);
-  }
-
-  void _onScopeChanged() {
-    if (mounted) setState(() {});
-  }
-
-  @override
   void dispose() {
-    ChampionsFilterController.instance.championsOnly
-        .removeListener(_onScopeChanged);
     _scrollController.dispose();
     for (final c in _powerControllers) {
       c.dispose();

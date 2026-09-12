@@ -23,32 +23,8 @@ import '../widgets/pokemon_selector.dart';
 import '../../data/ability_variants.dart';
 import '../../utils/ability_picker.dart';
 import '../../utils/item_picker.dart';
-
-/// See equivalent enum in stat_input.dart for the rationale — Flutter's
-/// [PopupMenuButton.onSelected] silently skips null-valued selections,
-/// so nature pickers need a non-nullable wrapper enum.
-enum _NaturePick { none, atk, def, spa, spd, spe }
-
-_NaturePick _pickFromStat(NatureStat s) {
-  switch (s) {
-    case NatureStat.atk: return _NaturePick.atk;
-    case NatureStat.def: return _NaturePick.def;
-    case NatureStat.spa: return _NaturePick.spa;
-    case NatureStat.spd: return _NaturePick.spd;
-    case NatureStat.spe: return _NaturePick.spe;
-  }
-}
-
-NatureStat? _statFromPick(_NaturePick p) {
-  switch (p) {
-    case _NaturePick.none: return null;
-    case _NaturePick.atk: return NatureStat.atk;
-    case _NaturePick.def: return NatureStat.def;
-    case _NaturePick.spa: return NatureStat.spa;
-    case _NaturePick.spd: return NatureStat.spd;
-    case _NaturePick.spe: return NatureStat.spe;
-  }
-}
+import 'nature_pick_menu.dart';
+import 'champions_scope_listener.dart';
 
 /// Self-contained speed comparison tab with keep-alive.
 class SpeedCompareTab extends StatefulWidget {
@@ -84,7 +60,7 @@ class SpeedCompareTab extends StatefulWidget {
 }
 
 class SpeedCompareTabState extends State<SpeedCompareTab>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, ChampionsScopeListener {
   @override
   bool get wantKeepAlive => true;
 
@@ -129,8 +105,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     _defAbilityFocus.dispose();
     _defItemFocus.dispose();
     _defNatureFocus.dispose();
-    ChampionsFilterController.instance.championsOnly
-        .removeListener(_onScopeChanged);
     super.dispose();
   }
 
@@ -172,12 +146,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   void initState() {
     super.initState();
     _loadData();
-    ChampionsFilterController.instance.championsOnly
-        .addListener(_onScopeChanged);
-  }
-
-  void _onScopeChanged() {
-    if (mounted) setState(() {});
   }
 
   Future<void> _loadData() async {
@@ -567,53 +535,14 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   }
 
   Widget _natureDropdownsFor(BattlePokemonState state) {
-    Widget pick(NatureStat? value, bool isUp) {
-      final tint = isUp ? Colors.red : Colors.blue;
-      final textColor = value == null ? Colors.grey : tint;
-      final label = value == null
-          ? AppStrings.t('nature.none')
-          : _natureStatLabel(value);
-      final pickValue = value == null ? _NaturePick.none : _pickFromStat(value);
-      return PopupMenuButton<_NaturePick>(
-        initialValue: pickValue,
-        tooltip: AppStrings.t(
-            isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-        popUpAnimationStyle:
-            AnimationStyle(duration: const Duration(milliseconds: 100)),
-        itemBuilder: (_) => [
-          PopupMenuItem<_NaturePick>(
-            value: _NaturePick.none,
-            child: Text(AppStrings.t('nature.none'),
-                style: const TextStyle(fontSize: 14, color: Colors.grey)),
-          ),
-          for (final s in NatureStat.values)
-            PopupMenuItem<_NaturePick>(
-              value: _pickFromStat(s),
-              child: Text(_natureStatLabel(s),
-                  style: TextStyle(fontSize: 14, color: tint)),
-            ),
-        ],
-        onSelected: (v) {
-          final stat = _statFromPick(v);
-          setState(() {
-            state.nature = isUp
-                ? state.nature.copyWith(up: stat, clearUp: stat == null)
-                : state.nature.copyWith(down: stat, clearDown: stat == null);
-          });
-          _notify();
-        },
-        child: InputDecorator(
-          decoration: InputDecoration(
-            labelText: AppStrings.t(
-                isUp ? 'nature.buffLabel' : 'nature.nerfLabel'),
-            isDense: true,
-          ),
-          // fontSize 16 to match TextField's bodyLarge default used
-          // by the item typeahead on the same row.
-          child: Text(label, style: TextStyle(fontSize: 16, color: textColor)),
-        ),
-      );
-    }
+    Widget pick(NatureStat? value, bool isUp) => NaturePickMenu(
+          nature: state.nature,
+          isUp: isUp,
+          onNatureChanged: (n) {
+            setState(() => state.nature = n);
+            _notify();
+          },
+        );
 
     return Row(
       children: [
@@ -622,16 +551,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
         Expanded(child: pick(state.nature.down, false)),
       ],
     );
-  }
-
-  String _natureStatLabel(NatureStat s) {
-    switch (s) {
-      case NatureStat.atk: return AppStrings.t('stat.attack');
-      case NatureStat.def: return AppStrings.t('stat.defense');
-      case NatureStat.spa: return AppStrings.t('stat.spAttack');
-      case NatureStat.spd: return AppStrings.t('stat.spDefense');
-      case NatureStat.spe: return AppStrings.t('stat.speed');
-    }
   }
 
   Widget _abilityAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
