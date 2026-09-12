@@ -8,6 +8,7 @@ import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/models/weather.dart';
 import 'package:damage_calc/utils/ability_effects.dart';
+import 'package:damage_calc/utils/fp_multipliers.dart';
 import 'package:damage_calc/utils/move_transform.dart';
 
 void main() {
@@ -141,12 +142,12 @@ void main() {
 
   group('Tag-based power abilities', () {
     test('Tough Claws boosts contact moves by 1.3x', () {
-      expect(getAbilityEffect('Tough Claws', move: physicalNormal).powerModifier, equals(1.3));
+      expect(getAbilityEffect('Tough Claws', move: physicalNormal).powerModifier, equals(kFp1_3));
       expect(getAbilityEffect('Tough Claws', move: physicalGround).powerModifier, equals(1.0));
     });
 
     test('Iron Fist boosts punch moves by 1.2x', () {
-      expect(getAbilityEffect('Iron Fist', move: punchMove).powerModifier, equals(1.2));
+      expect(getAbilityEffect('Iron Fist', move: punchMove).powerModifier, equals(kFp1_2));
       expect(getAbilityEffect('Iron Fist', move: physicalNormal).powerModifier, equals(1.0));
     });
 
@@ -163,11 +164,11 @@ void main() {
     });
 
     test('Reckless boosts recoil moves by 1.2x', () {
-      expect(getAbilityEffect('Reckless', move: recoilMove).powerModifier, equals(1.2));
+      expect(getAbilityEffect('Reckless', move: recoilMove).powerModifier, equals(kFp1_2));
     });
 
     test('Punk Rock boosts sound moves by 1.3x', () {
-      expect(getAbilityEffect('Punk Rock', move: soundMove).powerModifier, equals(1.3));
+      expect(getAbilityEffect('Punk Rock', move: soundMove).powerModifier, equals(kFp1_3));
     });
 
     test('Technician boosts moves with power <= 60', () {
@@ -176,7 +177,7 @@ void main() {
     });
 
     test('Sheer Force boosts moves with secondary effects', () {
-      expect(getAbilityEffect('Sheer Force', move: secondaryMove).powerModifier, equals(1.3));
+      expect(getAbilityEffect('Sheer Force', move: secondaryMove).powerModifier, equals(kFp1_3));
       expect(getAbilityEffect('Sheer Force', move: physicalGround).powerModifier, equals(1.0));
     });
   });
@@ -195,8 +196,8 @@ void main() {
     });
 
     test('Transistor boosts electric moves by 1.3x (atMods)', () {
-      expect(getAbilityEffect('Transistor', move: electricMove).statModifiers.attack, equals(1.3));
-      expect(getAbilityEffect('Transistor', move: electricMove).statModifiers.spAttack, equals(1.3));
+      expect(getAbilityEffect('Transistor', move: electricMove).statModifiers.attack, equals(kFp1_3));
+      expect(getAbilityEffect('Transistor', move: electricMove).statModifiers.spAttack, equals(kFp1_3));
     });
 
     test("Dragon's Maw boosts dragon moves by 1.5x (atMods)", () {
@@ -221,8 +222,8 @@ void main() {
     });
 
     test('Sand Force boosts ground/rock/steel in sandstorm', () {
-      expect(getAbilityEffect('Sand Force', move: physicalGround, weather: Weather.sandstorm).powerModifier, equals(1.3));
-      expect(getAbilityEffect('Sand Force', move: steelMove, weather: Weather.sandstorm).powerModifier, equals(1.3));
+      expect(getAbilityEffect('Sand Force', move: physicalGround, weather: Weather.sandstorm).powerModifier, equals(kFp1_3));
+      expect(getAbilityEffect('Sand Force', move: steelMove, weather: Weather.sandstorm).powerModifier, equals(kFp1_3));
       expect(getAbilityEffect('Sand Force', move: specialFire, weather: Weather.sandstorm).powerModifier, equals(1.0));
       expect(getAbilityEffect('Sand Force', move: physicalGround, weather: Weather.sun).powerModifier, equals(1.0));
     });
@@ -392,7 +393,7 @@ void main() {
       final effect = getAbilityEffect('Analytic', move: physicalNormal,
           actualStats: const Stats(hp: 100, attack: 100, defense: 100, spAttack: 100, spDefense: 100, speed: 80),
           opponentSpeed: 100);
-      expect(effect.powerModifier, equals(1.3));
+      expect(effect.powerModifier, equals(kFp1_3));
     });
 
     test('no effect when strictly faster, active at equal speed', () {
@@ -405,7 +406,7 @@ void main() {
       final same = getAbilityEffect('Analytic', move: physicalNormal,
           actualStats: const Stats(hp: 100, attack: 100, defense: 100, spAttack: 100, spDefense: 100, speed: 100),
           opponentSpeed: 100);
-      expect(same.powerModifier, equals(1.3));
+      expect(same.powerModifier, equals(kFp1_3));
     });
   });
 

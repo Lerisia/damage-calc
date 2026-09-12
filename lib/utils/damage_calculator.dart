@@ -26,13 +26,14 @@ import 'stat_calculator.dart';
 import 'terrain_effects.dart';
 import 'type_effectiveness.dart';
 import 'weather_effects.dart';
+import 'fp_multipliers.dart';
 
 // ====== Damage formula constants ======
 
 /// STAB multipliers
 const double kStandardStab = 1.5;
 const double kStellarStabMatching = 2.0;
-const double kStellarStabNonMatching = 1.2;
+const double kStellarStabNonMatching = kFp1_2;
 const double kTeraStabBonus = 0.5;
 
 /// Combat modifiers

@@ -19,6 +19,7 @@ import '../models/battle_pokemon.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
 import '../models/weather.dart';
+import 'fp_multipliers.dart';
 
 /// Bundled multipliers returned by the doubles logic. Values default to 1.0
 /// so callers can blindly apply them when the caller isn't sure whether
@@ -68,10 +69,10 @@ const double kSpreadMultiplier = 0.75;
 const double kHelpingHandMultiplier = 1.5;
 
 /// Multiplier from the ally's Power Spot ability (all moves).
-const double kPowerSpotMultiplier = 1.3;
+const double kPowerSpotMultiplier = kFp1_3;
 
 /// Multiplier from the ally's Battery ability (special moves only).
-const double kBatteryMultiplier = 1.3;
+const double kBatteryMultiplier = kFp1_3;
 
 /// Attack-stat multiplier from the ally's Flower Gift (in Sun, physical).
 const double kFlowerGiftAttackMultiplier = 1.5;

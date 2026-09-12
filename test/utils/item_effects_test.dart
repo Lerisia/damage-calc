@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/models/move.dart';
 import 'package:damage_calc/models/move_tags.dart';
 import 'package:damage_calc/models/type.dart';
+import 'package:damage_calc/utils/fp_multipliers.dart';
 import 'package:damage_calc/utils/item_effects.dart';
 
 void main() {
@@ -138,12 +139,12 @@ void main() {
 
     test('adamant-orb boosts dialga dragon moves', () {
       final effect = getItemEffect('adamant-orb', move: dragonPulse, pokemonName: 'dialga');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('adamant-orb boosts dialga steel moves', () {
       final effect = getItemEffect('adamant-orb', move: flashCannon, pokemonName: 'dialga');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('adamant-orb does not boost dialga other type moves', () {
@@ -158,17 +159,17 @@ void main() {
 
     test('lustrous-orb boosts palkia dragon/water', () {
       final effect = getItemEffect('lustrous-orb', move: surf, pokemonName: 'palkia');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('soul-dew boosts latios dragon/psychic', () {
       final effect = getItemEffect('soul-dew', move: dragonPulse, pokemonName: 'latios');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('soul-dew boosts latias psychic', () {
       final effect = getItemEffect('soul-dew', move: psychic, pokemonName: 'latias');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     // --- Type-boost items (1.2×): one row per (item, sample matching
@@ -229,7 +230,7 @@ void main() {
     for (final c in typeBoosts) {
       test('${c.$1} boosts ${c.$2.type.name} moves by 1.2×', () {
         final effect = getItemEffect(c.$1, move: c.$2);
-        expect(effect.powerModifier, equals(1.2));
+        expect(effect.powerModifier, equals(kFp1_2));
       });
     }
 
@@ -251,7 +252,7 @@ void main() {
     // gets its own pair instead of joining the 1.2× table.
     test('normal-gem boosts Normal moves by 1.3×', () {
       final effect = getItemEffect('normal-gem', move: tackle);
-      expect(effect.powerModifier, equals(1.3));
+      expect(effect.powerModifier, equals(kFp1_3));
     });
 
     test('normal-gem does not boost non-Normal moves', () {
@@ -277,7 +278,7 @@ void main() {
 
     test('griseous-orb boosts giratina dragon moves', () {
       final effect = getItemEffect('griseous-orb', move: dragonPulse, pokemonName: 'giratina');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('griseous-orb boosts giratina ghost moves', () {
@@ -287,7 +288,7 @@ void main() {
         power: 80, accuracy: 100, pp: 15,
       );
       final effect = getItemEffect('griseous-orb', move: shadowBall, pokemonName: 'giratina');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('griseous-orb does not boost giratina other type moves', () {
@@ -302,12 +303,12 @@ void main() {
 
     test('griseous-core boosts giratina dragon moves', () {
       final effect = getItemEffect('griseous-core', move: dragonPulse, pokemonName: 'giratina');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('lustrous-orb boosts palkia dragon moves', () {
       final effect = getItemEffect('lustrous-orb', move: dragonPulse, pokemonName: 'palkia');
-      expect(effect.powerModifier, equals(1.2));
+      expect(effect.powerModifier, equals(kFp1_2));
     });
 
     test('lustrous-orb does not boost palkia other type moves', () {

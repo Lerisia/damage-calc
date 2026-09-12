@@ -1,6 +1,7 @@
 import '../models/move.dart';
 import '../models/move_tags.dart';
 import '../models/type.dart';
+import 'fp_multipliers.dart';
 
 // ---------------------------------------------------------------------------
 // Item multiplier constants
@@ -16,24 +17,24 @@ const double kLifeOrbPower = 5324.0 / 4096.0;
 /// Stored as the exact 4096-fp ratio Showdown uses so the chainMods
 /// path lands on identical fp integers — generic _toFP(1.1) rounds to
 /// 4506, which produces a ±1 mismatch.
-const double kBandGlassesPower = 4505.0 / 4096.0;
+const double kBandGlassesPower = kFp1_1;
 
 /// Punching Glove: 4506/4096 (~1.1001). Subtly different fp constant
 /// from Muscle Band / Wise Glasses — quirk preserved from the game ROM.
 const double kPunchingGlovePower = 4506.0 / 4096.0;
 
 /// Normal Gem: 1.3x power for a single Normal-type move.
-const double kNormalGemPower = 1.3;
+const double kNormalGemPower = kFp1_3;
 
 /// Type-boosting held items (Charcoal, Plates, Incenses, etc.): 1.2x power.
-const double kTypeBoostPower = 1.2;
+const double kTypeBoostPower = kFp1_2;
 
 /// Light Ball (Pikachu), Thick Club (Cubone/Marowak),
 /// Deep Sea Tooth (Clamperl): 2.0x to the relevant stat.
 const double kPokemonSpecificStatBoost = 2.0;
 
 /// Legendary signature items (Adamant Orb, Lustrous Orb, etc.): 1.2x power.
-const double kLegendaryItemPower = 1.2;
+const double kLegendaryItemPower = kFp1_2;
 
 /// Eviolite: 1.5x Def and SpDef for non-final evolutions.
 const double kEvioliteBulkBoost = 1.5;

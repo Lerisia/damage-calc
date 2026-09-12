@@ -11,20 +11,21 @@ import '../models/type.dart';
 import '../models/weather.dart';
 import 'type_effectiveness.dart';
 import 'move_transform.dart';
+import 'fp_multipliers.dart';
 
 // ====== Ability modifier constants ======
 
 /// Stat multiplier constants
 const double kDoubleStatBoost = 2.0;
 const double kMajorStatBoost = 1.5;
-const double kMinorStatBoost = 1.3;
+const double kMinorStatBoost = kFp1_3;
 const double kHalfStat = 0.5;
 
 /// Power multiplier constants
 const double kDoublePower = 2.0;
 const double kMajorPowerBoost = 1.5;
-const double kMediumPowerBoost = 1.3;
-const double kMinorPowerBoost = 1.2;
+const double kMediumPowerBoost = kFp1_3;
+const double kMinorPowerBoost = kFp1_2;
 const double kParentalBondSecondHit = 0.25; // Gen 7+: 2nd hit power multiplier
 const double kRivalrySameGender = 1.25;
 const double kRivalryOppositeGender = 0.75;
@@ -451,11 +452,12 @@ AbilityEffect getAbilityEffect(String abilityName, {
 
     // --- Supreme Overlord (총대장): +10% per fainted ally ---
     case 'Supreme Overlord 0': return _defaultEffect;
-    case 'Supreme Overlord 1': return const AbilityEffect(powerModifier: 1.1);
-    case 'Supreme Overlord 2': return const AbilityEffect(powerModifier: 1.2);
-    case 'Supreme Overlord 3': return const AbilityEffect(powerModifier: 1.3);
-    case 'Supreme Overlord 4': return const AbilityEffect(powerModifier: 1.4);
-    case 'Supreme Overlord 5': return const AbilityEffect(powerModifier: 1.5);
+    // 4096 + 410 per fallen ally, not a flat +0.1 (Showdown chainModify).
+    case 'Supreme Overlord 1': return AbilityEffect(powerModifier: supremeOverlordMultiplier(1));
+    case 'Supreme Overlord 2': return AbilityEffect(powerModifier: supremeOverlordMultiplier(2));
+    case 'Supreme Overlord 3': return AbilityEffect(powerModifier: supremeOverlordMultiplier(3));
+    case 'Supreme Overlord 4': return AbilityEffect(powerModifier: supremeOverlordMultiplier(4));
+    case 'Supreme Overlord 5': return AbilityEffect(powerModifier: supremeOverlordMultiplier(5));
 
     // --- Aura abilities (Fairy Aura / Dark Aura) ---
     // Aura is a field effect handled entirely by getAuraEffect (in
