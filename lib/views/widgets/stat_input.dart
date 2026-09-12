@@ -148,9 +148,9 @@ class StatInput extends StatefulWidget {
   /// Side identity — drives accent color for toggles like EV↔SP.
   final bool isAttacker;
 
-  /// Defender-side Stealth Rock button (스록), rendered right
-  /// under the HP row; null on the attacker side. Built by the owner
-  /// so this table stays ignorant of the one-shot bookkeeping.
+  /// Defender-side Stealth Rock button (스록), rendered inside the HP
+  /// row's label cell next to "HP"; null on the attacker side. Built by
+  /// the owner so this table stays ignorant of what a tap does.
   final Widget? hazardButtons;
 
   final VoidCallback? onItemTap;
@@ -429,12 +429,8 @@ class _StatInputState extends State<StatInput> {
             actualStats.hp, null, 0, (newIv, newEv, _) {
           widget.onIvChanged(_copyIv(hpVal: newIv));
           widget.onEvChanged(_copyEv(hpVal: newEv));
-        }, rankIndex: -1, dynamaxHp: widget.isDynamaxed),
-        if (widget.hazardButtons != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: Align(alignment: Alignment.centerRight, child: widget.hazardButtons),
-          ),
+        }, rankIndex: -1, dynamaxHp: widget.isDynamaxed,
+            labelTrailing: widget.hazardButtons),
         _statRow(context, AppStrings.t('stat.attack'), widget.baseStats.attack, widget.iv.attack,
             widget.ev.attack, actualStats.attack, widget.nature.attackModifier,
             widget.rank.attack, (newIv, newEv, newRank) {
@@ -808,6 +804,7 @@ class _StatInputState extends State<StatInput> {
     void Function(int newIv, int newEv, int? newRank) onChanged, {
     required int rankIndex,
     bool dynamaxHp = false,
+    Widget? labelTrailing,
   }) {
     final isWide = MediaQuery.of(context).size.width >= 600;
     Color? actualColor;
@@ -818,7 +815,26 @@ class _StatInputState extends State<StatInput> {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         children: [
-          Expanded(flex: 3, child: Text(label, style: const TextStyle(fontSize: 14))),
+          Expanded(
+            flex: 3,
+            child: labelTrailing == null
+                ? Text(label, style: const TextStyle(fontSize: 14))
+                // Label + trailing control share the cell; on the
+                // narrowest phones the pair scales down a touch rather
+                // than wrapping or pushing the row taller.
+                : FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(label, style: const TextStyle(fontSize: 14)),
+                        const SizedBox(width: 4),
+                        labelTrailing,
+                      ],
+                    ),
+                  ),
+          ),
           Expanded(flex: 2, child: Text('$base', textAlign: TextAlign.center, style: const TextStyle(fontSize: 14))),
           Expanded(flex: isWide ? 2 : 3, child: _miniInput(ivVal, 0, 31, (v) => onChanged(v, evVal, null))),
           Expanded(

@@ -1522,27 +1522,40 @@ class _SimpleModeViewState extends State<SimpleModeView> {
         // The pencil icon + outlined chip styling makes the tap
         // affordance obvious; without it users assumed the label
         // was a passive readout.
+        // Fixed-width chip: the slider is Expanded, so if this chip
+        // grew with its digits ("94%" → "6.25%" → "50.29%") the track
+        // would change length on every edit. Wide enough for
+        // "100.00%"; anything longer scales down inside the box.
         InkWell(
           onTap: _editHpPercent,
           borderRadius: BorderRadius.circular(6),
           child: Container(
+            width: 74,
             padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
             decoration: BoxDecoration(
               border: Border.all(
                   color: Theme.of(context).colorScheme.outlineVariant),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  '$pctText%',
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.visible,
-                  style: const TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w600),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '$pctText%',
+                      maxLines: 1,
+                      softWrap: false,
+                      style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          fontFeatures: [FontFeature.tabularFigures()]),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 4),
                 Icon(Icons.edit,
