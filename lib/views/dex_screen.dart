@@ -35,6 +35,7 @@ import 'widgets/matchup_badge.dart';
 import 'widgets/move_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_filter_dialog.dart';
+import '../data/ability_variants.dart';
 
 /// Pokédex screen — browse Pokémon and see species info, abilities,
 /// type matchups, and learnable moves. Reuses KoStrings for type
@@ -1377,19 +1378,6 @@ class _AbilitiesSection extends StatelessWidget {
 
   const _AbilitiesSection({required this.pokemon, required this.abilityDex});
 
-  /// Map a variant key (Supreme Overlord 0, Disguise Busted, Rivalry
-  /// Same, …) back to its base entry name. Returns null when the key
-  /// is already a base or doesn't have a base counterpart.
-  static String? _baseAbilityFor(String key) {
-    if (key.startsWith('Supreme Overlord ')) return 'Supreme Overlord';
-    if (key.startsWith('Disguise ')) return 'Disguise';
-    if (key.startsWith('Rivalry ')) return 'Rivalry';
-    if (key.startsWith('Slow Start ')) return 'Slow Start';
-    if (key.startsWith('Stakeout ')) return 'Stakeout';
-    if (key.startsWith('Flash Fire ')) return 'Flash Fire';
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final abs = pokemon.abilities;
@@ -1445,7 +1433,7 @@ class _AbilitiesSection extends StatelessWidget {
     // of their own. Fall back to the base entry — added with
     // descriptionOnly: true — so the dex shows the canonical name +
     // explanation instead of "총대장 ×0" + nothing.
-    final base = _baseAbilityFor(key);
+    final base = abilityBaseFor(key);
     final baseAb = base != null ? abilityDex[base] : null;
     final name = baseAb?.localizedName ?? ab?.localizedName ?? key;
     final desc =

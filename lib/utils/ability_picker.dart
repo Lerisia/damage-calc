@@ -1,3 +1,4 @@
+import '../data/ability_variants.dart';
 import 'korean_search.dart';
 
 /// Shared helpers for the ability typeahead pickers (StatInput, Simple
@@ -6,24 +7,17 @@ import 'korean_search.dart';
 /// rest → relevance search" logic; this centralises it on the app-wide
 /// [SearchIndex] engine.
 
-/// Expands abilities that ship as numbered variants into their concrete
-/// keys. Currently just Supreme Overlord (0–5 fallen allies); [nameMap]
-/// gates which variants actually exist so we don't invent keys the
-/// ability dex doesn't carry.
+/// Expands a species' ability list into the concrete keys a picker can
+/// offer: a stateful base (Supreme Overlord) becomes every state the
+/// registry lists; [nameMap] gates which keys actually exist in the
+/// loaded dex so we never offer a key it doesn't carry.
 List<String> expandAbilities(
     List<String> abilities, Map<String, String> nameMap) {
-  final expanded = <String>[];
-  for (final a in abilities) {
-    if (a == 'Supreme Overlord') {
-      for (int i = 0; i <= 5; i++) {
-        final key = 'Supreme Overlord $i';
-        if (nameMap.containsKey(key)) expanded.add(key);
-      }
-    } else {
-      expanded.add(a);
-    }
-  }
-  return expanded;
+  return [
+    for (final a in abilities)
+      for (final key in expandAbilityStates(a))
+        if (nameMap.containsKey(key)) key,
+  ];
 }
 
 /// Builds a [SearchIndex] over ability keys. [keys] is the full ability

@@ -21,6 +21,8 @@ import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import '../../utils/room_effects.dart';
 import '../widgets/pokemon_selector.dart';
+import '../../data/ability_variants.dart';
+import '../../utils/ability_picker.dart';
 
 /// See equivalent enum in stat_input.dart for the rationale — Flutter's
 /// [PopupMenuButton.onSelected] silently skips null-valued selections,
@@ -487,18 +489,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   /// alphabetically by Korean name. Only includes abilities with Korean names.
   List<String> _sortedAbilities(BattlePokemonState state) {
     if (_abilityNameMap.isEmpty) return state.pokemonAbilities;
-    // Expand Supreme Overlord → Supreme Overlord 0~5
-    final pokemon = <String>[];
-    for (final a in state.pokemonAbilities) {
-      if (a == 'Supreme Overlord') {
-        for (int i = 0; i <= 5; i++) {
-          final key = 'Supreme Overlord $i';
-          if (_abilityNameMap.containsKey(key)) pokemon.add(key);
-        }
-      } else if (_abilityNameMap.containsKey(a)) {
-        pokemon.add(a);
-      }
-    }
+    final pokemon = expandAbilities(state.pokemonAbilities, _abilityNameMap);
     final pokemonSet = state.pokemonAbilities.toSet();
     final rest = _abilityNameMap.keys
         .where((a) => !pokemonSet.contains(a) && !pokemon.contains(a))
@@ -637,11 +628,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     // are rendered full-color; everything else is gray, matching the
     // move picker's learnable/unlearnable convention.
     final ownSet = <String>{
-      for (final a in state.pokemonAbilities)
-        if (a == 'Supreme Overlord')
-          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
-        else
-          a,
+      for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
     };
 
     return KeyedSubtree(

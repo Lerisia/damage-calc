@@ -43,6 +43,7 @@ import 'widgets/pokemon_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
+import '../data/ability_variants.dart';
 
 /// Compact in-battle calculator. Shares the attacker/defender state
 /// with Normal Mode — the user flip-flopping between the two sees the
@@ -1836,11 +1837,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // — used to gray out entries that don't legitimately belong to this
     // pokemon, same visual language as non-learnable moves.
     final ownSet = <String>{
-      for (final a in state.pokemonAbilities)
-        if (a == 'Supreme Overlord')
-          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
-        else
-          a,
+      for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
     };
 
     // Key ties TypeAhead instance to resetCounter so any swap/reset

@@ -50,6 +50,7 @@ import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/type_picker_dialog.dart';
 import 'widgets/typeahead_helpers.dart';
+import '../data/ability_variants.dart';
 
 /// One slot in the team-builder. We keep just the bits that affect
 /// type matchups — full BattlePokemonState is overkill here and would
@@ -2759,11 +2760,7 @@ class _SlotCardState extends State<_SlotCard> {
     }
 
     final ownSet = <String>{
-      for (final a in p.abilities)
-        if (a == 'Supreme Overlord')
-          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
-        else
-          a,
+      for (final a in p.abilities) ...expandAbilityStates(a),
     };
 
     return buildTypeAhead<String>(

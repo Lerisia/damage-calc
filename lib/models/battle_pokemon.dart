@@ -16,6 +16,7 @@ import 'rank.dart';
 import 'stats.dart';
 import 'status.dart';
 import 'type.dart';
+import '../data/ability_variants.dart' as variants;
 
 /// Holds all configuration state for one side of a battle (attacker or defender)
 class BattlePokemonState {
@@ -592,12 +593,8 @@ class BattlePokemonState {
   }
 
   /// Map an ability group key (as stored in `pokemon.abilities`) to the
-  /// expanded variant the ability picker / damage calc expects.
-  static String? expandAbilityKey(String? key) {
-    if (key == null) return null;
-    if (key == 'Supreme Overlord') return 'Supreme Overlord 0';
-    if (key == 'Rivalry') return 'Rivalry Same';
-    if (key == 'Flash Fire') return 'Flash Fire Inactive';
-    return key;
-  }
+  /// state key the ability picker / damage calc expects. Null-tolerant
+  /// wrapper over the registry's [variants.expandAbilityKey].
+  static String? expandAbilityKey(String? key) =>
+      key == null ? null : variants.expandAbilityKey(key);
 }

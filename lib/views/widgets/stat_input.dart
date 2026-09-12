@@ -23,6 +23,7 @@ import '../../utils/champions_filter_controller.dart';
 import '../../utils/champions_mode.dart';
 import '../../utils/stat_calculator.dart';
 import 'typeahead_helpers.dart';
+import '../../data/ability_variants.dart';
 
 class ClampingFormatter extends TextInputFormatter {
   final int min;
@@ -556,11 +557,7 @@ class _StatInputState extends State<StatInput> {
     // rendered gray so the picker reads like the move list's
     // learnable / unlearnable split.
     final ownSet = <String>{
-      for (final a in widget.pokemonAbilities)
-        if (a == 'Supreme Overlord')
-          for (int i = 0; i <= 5; i++) 'Supreme Overlord $i'
-        else
-          a,
+      for (final a in widget.pokemonAbilities) ...expandAbilityStates(a),
     };
     return buildTypeAhead<String>(
       controller: _abilityController,
