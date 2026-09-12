@@ -277,7 +277,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         isDense: true,
       ),
       onTap: widget.onTap,
-      builder: (context, controller, focusNode) {
+      builder: (context, controller, focusNode, onSubmitted) {
         return _MoveTextField(
           controller: controller,
           focusNode: focusNode,
@@ -288,16 +288,9 @@ class _MoveSelectorState extends State<MoveSelector> {
             _isFocused = hasFocus;
             widget.onFocusChanged?.call(hasFocus);
           },
-          onSubmitted: () {
-            final results = _sortedOptions(controller.text);
-            if (results.isNotEmpty) {
-              final pick = results.first;
-              setState(() => _selected = pick);
-              widget.onSelected(pick);
-              controller.text = pick.localizedName;
-              focusNode.unfocus();
-            }
-          },
+          // Enter follows the app-wide typeahead rule; the pick lands
+          // in onSelected below like a tapped suggestion.
+          onSubmitted: onSubmitted,
         );
       },
       itemBuilder: (context, move) {
@@ -353,7 +346,7 @@ class _MoveTextField extends StatefulWidget {
   final Move? selected;
   final VoidCallback? onTap;
   final ValueChanged<bool> onFocusChanged;
-  final VoidCallback onSubmitted;
+  final ValueChanged<String> onSubmitted;
 
   const _MoveTextField({
     required this.controller,
@@ -428,7 +421,7 @@ class _MoveTextFieldState extends State<_MoveTextField> {
       textInputAction: TextInputAction.done,
       maxLength: 30,
       buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
-      onSubmitted: (_) => widget.onSubmitted(),
+      onSubmitted: widget.onSubmitted,
       style: widget.displayNameOverride != null
           ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
           : const TextStyle(fontSize: 14),

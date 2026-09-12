@@ -1085,12 +1085,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
               // Re-focus so the user can immediately add another.
               _addFilterFocus.requestFocus();
             },
-            // Enter-to-pick: if the current text matches a suggestion,
-            // grab the top result.
-            onSubmittedPick: (text) {
-              final hits = suggestionsFor(text);
-              return hits.isEmpty ? null : hits.first;
-            },
           ),
       ],
     );

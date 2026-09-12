@@ -681,19 +681,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           setState(() => state.selectedAbility = v);
           _notify();
         },
-        onSubmittedPick: (text) {
-          if (text.isEmpty) return null;
-          final matches = sorted.where((a) {
-            final data = _abilityDataMap[a];
-            return triLanguageScore(text,
-              nameKo: data?.nameKo ?? _abilityKo(a),
-              nameEn: data?.nameEn ?? a,
-              nameJa: data?.nameJa ?? '',
-              internalKey: a,
-            ) > 0;
-          }).toList();
-          return matches.isNotEmpty ? matches.first : null;
-        },
       ),
     );
   }
@@ -740,19 +727,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           focusNode.unfocus();
           setState(() => state.selectedItem = v.isEmpty ? null : v);
           _notify();
-        },
-        onSubmittedPick: (text) {
-          if (text.isEmpty) return null;
-          final scored = <(String, int)>[];
-          for (final key in allItems) {
-            final ko = _itemKo(key.isEmpty ? null : key);
-            final s = koreanMatchScore(text, ko);
-            final e = key.isNotEmpty && key.toLowerCase().contains(text.toLowerCase()) ? 20 : 0;
-            final best = s > e ? s : e;
-            if (best > 0) scored.add((key, best));
-          }
-          scored.sort((a, b) => b.$2.compareTo(a.$2));
-          return scored.isNotEmpty ? scored.first.$1 : null;
         },
       ),
     );

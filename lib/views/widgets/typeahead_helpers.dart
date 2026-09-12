@@ -128,6 +128,15 @@ void selectAllOnTap(TextEditingController controller) {
   });
 }
 
+/// The app-wide Enter rule for search→pick fields: the first suggestion
+/// currently shown for [text], or nothing for an empty query. This is
+/// what [buildTypeAhead] wires to Enter unless a caller overrides it.
+T? typeAheadPickTop<T>(String text, List<T> Function(String) suggestions) {
+  if (text.trim().isEmpty) return null;
+  final hits = suggestions(text);
+  return hits.isEmpty ? null : hits.first;
+}
+
 TypeAheadField<T> buildTypeAhead<T>({
   required TextEditingController controller,
   required List<T> Function(String) suggestionsCallback,
@@ -136,9 +145,18 @@ TypeAheadField<T> buildTypeAhead<T>({
   required InputDecoration decoration,
   bool hideOnEmpty = false,
   double maxHeight = 200,
-  Widget Function(BuildContext, TextEditingController, FocusNode)? builder,
+  /// Custom text field. Receives the Enter handler already bound to the
+  /// app-wide rule (or [onSubmittedPick]) — wire it to the field's
+  /// `onSubmitted` rather than implementing a pick locally.
+  Widget Function(BuildContext, TextEditingController, FocusNode,
+      ValueChanged<String> onSubmitted)? builder,
   VoidCallback? onTap,
   FocusNode? focusNode,
+  /// What Enter picks. Defaults to the one rule every search→pick
+  /// field in the app follows: the first suggestion currently shown
+  /// for the typed text, and nothing for an empty query. Override
+  /// only when a field's Enter target genuinely differs from its
+  /// dropdown — not to re-implement the same rule locally.
   T? Function(String)? onSubmittedPick,
 }) {
   // Stamp the global pick timestamp before delegating, so the focus-
@@ -148,6 +166,13 @@ TypeAheadField<T> buildTypeAhead<T>({
   void onSelectedWrapped(T v) {
     _lastTypeAheadPickAt = DateTime.now();
     onSelected(v);
+  }
+
+  final submittedPick =
+      onSubmittedPick ?? (text) => typeAheadPickTop(text, suggestionsCallback);
+  void submit(String text) {
+    final result = submittedPick(text);
+    if (result != null) onSelectedWrapped(result);
   }
 
   return TypeAheadField<T>(
@@ -175,18 +200,14 @@ TypeAheadField<T> buildTypeAhead<T>({
       );
     },
     suggestionsCallback: suggestionsCallback,
-    builder: builder ?? (context, controller, focusNode) {
+    builder: (context, controller, focusNode) {
+      if (builder != null) return builder(context, controller, focusNode, submit);
       return _TypeAheadTextField(
         controller: controller,
         focusNode: focusNode,
         decoration: decoration,
         onTap: onTap,
-        onSubmittedPick: onSubmittedPick != null
-            ? (text) {
-                final result = onSubmittedPick(text);
-                if (result != null) onSelectedWrapped(result);
-              }
-            : null,
+        onSubmittedPick: submit,
       );
     },
     itemBuilder: itemBuilder,

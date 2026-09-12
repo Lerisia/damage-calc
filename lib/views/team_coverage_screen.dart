@@ -2797,11 +2797,6 @@ class _SlotCardState extends State<_SlotCard> {
         _abilityFocus.unfocus();
         widget.onAbilitySelected(v);
       },
-      onSubmittedPick: (text) {
-        if (text.isEmpty) return null;
-        final matches = _abilitySuggestions(text, p.abilities);
-        return matches.isNotEmpty ? matches.first : null;
-      },
     );
   }
 
@@ -2860,20 +2855,6 @@ class _SlotCardState extends State<_SlotCard> {
         _itemController.text = _itemLabel(v.isEmpty ? null : v);
         _itemFocus.unfocus();
         widget.onItemSelected(v.isEmpty ? null : v);
-      },
-      onSubmittedPick: (text) {
-        if (text.isEmpty) return null;
-        final matches = allItems.where((key) {
-          final data = widget.itemDex[key];
-          return triLanguageScore(text,
-                nameKo: data?.nameKo ?? _itemLabel(key.isEmpty ? null : key),
-                nameEn: data?.nameEn ?? '',
-                nameJa: data?.nameJa ?? '',
-                internalKey: key,
-              ) >
-              0;
-        }).toList();
-        return matches.isNotEmpty ? matches.first : null;
       },
     );
   }

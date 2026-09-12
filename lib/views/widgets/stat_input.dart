@@ -592,11 +592,6 @@ class _StatInputState extends State<StatInput> {
         _abilityFocusNode.unfocus();
         widget.onAbilityChanged(v);
       },
-      onSubmittedPick: (text) {
-        if (text.isEmpty) return null;
-        final matches = _abilitySuggestions(text);
-        return matches.isNotEmpty ? matches.first : null;
-      },
     );
   }
 
@@ -652,19 +647,6 @@ class _StatInputState extends State<StatInput> {
           _itemController.text = _itemDisplayName(v.isEmpty ? null : v);
           _itemFocusNode.unfocus();
           widget.onItemChanged(v.isEmpty ? null : v);
-        },
-        onSubmittedPick: (text) {
-          if (text.isEmpty) return null;
-          final matches = allItems.where((key) {
-            final data = _itemDataMap[key];
-            return triLanguageScore(text,
-              nameKo: data?.nameKo ?? _itemDisplayName(key.isEmpty ? null : key),
-              nameEn: data?.nameEn ?? '',
-              nameJa: data?.nameJa ?? '',
-              internalKey: key,
-            ) > 0;
-          }).toList();
-          return matches.isNotEmpty ? matches.first : null;
         },
       ),
     );

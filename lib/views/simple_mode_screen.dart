@@ -1895,11 +1895,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       },
       // Enter on the ability field auto-picks the first matching
       // ability (mirrors Extended Mode's behaviour). Saves a tap.
-      onSubmittedPick: (text) {
-        if (text.isEmpty) return null;
-        final matches = _abilitySuggestions(text, attacker: attacker);
-        return matches.isNotEmpty ? matches.first : null;
-      },
     ),
     );
   }
@@ -1958,15 +1953,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       },
       // Enter on the item field auto-picks the first matching item
       // (mirrors Extended Mode + the ability field above).
-      onSubmittedPick: (text) {
-        if (text.isEmpty) return null;
-        final matches = allItems.where((k) => triLanguageScore(
-              text,
-              nameKo: _itemNames[k] ?? k,
-              internalKey: k,
-            ) > 0);
-        return matches.isNotEmpty ? matches.first : null;
-      },
     ),
     );
   }

@@ -126,10 +126,6 @@ class _PokemonSelectorState extends State<PokemonSelector> {
         FocusManager.instance.primaryFocus?.unfocus();
         widget.onSelected(pokemon);
       },
-      onSubmittedPick: (text) {
-        final results = _sortedOptions(text);
-        return results.isNotEmpty ? results.first : null;
-      },
       maxHeight: 250,
     );
   }
