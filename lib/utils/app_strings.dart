@@ -722,6 +722,26 @@ class AppStrings {
       AppLanguage.ja: '技',
     },
     // ── Sample storage / party folders (load + save sheets) ──────
+    'hazard.stealthRock': {
+      AppLanguage.ko: '스록',
+      AppLanguage.en: 'SR',
+      AppLanguage.ja: 'ステロ',
+    },
+    'hazard.spikes': {
+      AppLanguage.ko: '압정',
+      AppLanguage.en: 'Spikes',
+      AppLanguage.ja: 'まきびし',
+    },
+    'hazard.stealthRockFull': {
+      AppLanguage.ko: '스텔스록 입장 피해를 HP에서 뺍니다',
+      AppLanguage.en: 'Subtract Stealth Rock switch-in damage from HP',
+      AppLanguage.ja: 'ステルスロックの登場ダメージをHPから引きます',
+    },
+    'hazard.spikesFull': {
+      AppLanguage.ko: '압정뿌리기 입장 피해를 HP에서 뺍니다 (탭할 때마다 1층 추가)',
+      AppLanguage.en: 'Subtract Spikes switch-in damage from HP (one layer per tap)',
+      AppLanguage.ja: 'まきびしの登場ダメージをHPから引きます（タップごとに1層追加）',
+    },
     'sample.deleteConfirm': {
       AppLanguage.ko: '"{name}" 삭제',
       AppLanguage.en: 'Delete "{name}"',

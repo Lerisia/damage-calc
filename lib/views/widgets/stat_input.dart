@@ -142,10 +142,16 @@ class StatInput extends StatefulWidget {
     this.useSpMode = false,
     this.onSpModeChanged,
     this.isAttacker = true,
+    this.hazardButtons,
   });
 
   /// Side identity — drives accent color for toggles like EV↔SP.
   final bool isAttacker;
+
+  /// Defender-side entry-hazard buttons (스록 / 압정), rendered right
+  /// under the HP row; null on the attacker side. Built by the owner
+  /// so this table stays ignorant of the one-shot bookkeeping.
+  final Widget? hazardButtons;
 
   final VoidCallback? onItemTap;
   final VoidCallback? onAbilityTap;
@@ -424,6 +430,11 @@ class _StatInputState extends State<StatInput> {
           widget.onIvChanged(_copyIv(hpVal: newIv));
           widget.onEvChanged(_copyEv(hpVal: newEv));
         }, rankIndex: -1, dynamaxHp: widget.isDynamaxed),
+        if (widget.hazardButtons != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Align(alignment: Alignment.centerRight, child: widget.hazardButtons),
+          ),
         _statRow(context, AppStrings.t('stat.attack'), widget.baseStats.attack, widget.iv.attack,
             widget.ev.attack, actualStats.attack, widget.nature.attackModifier,
             widget.rank.attack, (newIv, newEv, newRank) {
