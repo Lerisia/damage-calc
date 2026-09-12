@@ -24,6 +24,7 @@ import 'data/champions_moves.dart';
 import 'data/champions_usage.dart';
 import 'views/root_shell.dart';
 import 'views/widgets/champions_usage_rank_sheet.dart';
+import 'data/name_maps.dart';
 
 void main() {
   runApp(const DamageCalcApp());
@@ -281,22 +282,12 @@ class _AppLoaderState extends State<_AppLoader> {
     ]);
 
     // Build name maps from loaded data
+    // Display maps; which abilities may actually be picked is decided
+    // by pickableAbilityKeys at the picker.
     final abilities = results[2] as Map<String, Ability>;
-    final aMap = <String, String>{};
-    for (final e in abilities.values) {
-      // Skip non-mainline (spin-off) abilities — ability picker only
-      // wants the ones real players actually encounter.
-      if (e.nonMainline) continue;
-      aMap[e.name] = e.localizedName;
-    }
-
+    final aMap = abilityNames(abilities, pickableOnly: false);
     final items = results[3] as Map<String, Item>;
-    final iMap = <String, String>{};
-    for (final e in items.values) {
-      if (e.held) {
-        iMap[e.name] = e.localizedName;
-      }
-    }
+    final iMap = heldItemNames(items);
 
     if (mounted) {
       setState(() {

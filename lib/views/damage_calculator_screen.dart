@@ -48,6 +48,7 @@ import 'widgets/modifier_note.dart';
 import 'widgets/pokemon_panel.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/speed_compare_tab.dart';
+import '../data/name_maps.dart';
 
 /// TabController that defaults to a 180 ms transition instead of
 /// Material's 300 ms — this calc runs inside a 1-minute battle
@@ -434,12 +435,10 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Future<void> _loadAbilities() async {
     try {
       final dex = await loadAbilitydex();
-      final map = <String, String>{};
-      final pickable = <String>{};
-      for (final entry in dex.entries) {
-        map[entry.key] = entry.value.localizedName;
-        if (!entry.value.nonMainline) pickable.add(entry.key);
-      }
+      // Display map keeps every name (usage tables and pastes carry
+      // group keys like "Flash Fire"); picking is gated separately.
+      final map = abilityNames(dex, pickableOnly: false);
+      final pickable = pickableAbilityKeys(dex);
       if (mounted) setState(() {
         _abilityNameMap = map;
         _pickableAbilities = pickable;
@@ -450,13 +449,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   Future<void> _loadItems() async {
     try {
       final dex = await loadItemdex();
-      final map = <String, String>{};
-      for (final entry in dex.entries) {
-        if (entry.value.held) {
-          map[entry.key] = entry.value.localizedName;
-        }
-      }
-      if (mounted) setState(() => _itemNameMap = map);
+      if (mounted) setState(() => _itemNameMap = heldItemNames(dex));
     } catch (_) {}
   }
 

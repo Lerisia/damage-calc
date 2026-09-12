@@ -26,6 +26,7 @@ import '../../data/ability_variants.dart';
 import '../../utils/item_picker.dart';
 import 'nature_pick_menu.dart';
 import 'champions_scope_listener.dart';
+import '../../data/name_maps.dart';
 
 class ClampingFormatter extends TextInputFormatter {
   final int min;
@@ -230,17 +231,7 @@ class _StatInputState extends State<StatInput>
     }
     try {
       final dex = await loadAbilitydex();
-      final map = <String, String>{};
-      for (final entry in dex.entries) {
-        // Skip non-mainline (spin-off / Colosseum) abilities — their
-        // names would otherwise show up in the picker and confuse
-        // users. The explicit flag replaces the old "nameKo has no
-        // Hangul" heuristic, which was ambiguous and produced edge
-        // cases.
-        if (entry.value.nonMainline) continue;
-        if (entry.value.descriptionOnly) continue;
-        map[entry.key] = entry.value.localizedName;
-      }
+      final map = abilityNames(dex);
       _abilityCache = map;
       _abilityCacheLang = AppStrings.current;
       setState(() {
@@ -259,12 +250,7 @@ class _StatInputState extends State<StatInput>
     }
     try {
       final dex = await loadItemdex();
-      final map = <String, String>{};
-      for (final entry in dex.entries) {
-        if (entry.value.held) {
-          map[entry.key] = entry.value.localizedName;
-        }
-      }
+      final map = heldItemNames(dex);
       _itemCache = map;
       _itemCacheLang = AppStrings.current;
       setState(() {

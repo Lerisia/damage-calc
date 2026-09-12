@@ -54,6 +54,7 @@ import '../utils/item_picker.dart';
 import 'widgets/nature_pick_menu.dart';
 import 'widgets/type_chip.dart';
 import 'widgets/champions_scope_listener.dart';
+import '../data/name_maps.dart';
 
 /// One slot in the team-builder. We keep just the bits that affect
 /// type matchups — full BattlePokemonState is overkill here and would
@@ -203,19 +204,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
       final aDex = await loadAbilitydex();
       final iDex = await loadItemdex();
       final allMoves = await loadAllMoves();
-      // Same filters StatInput applies — non-mainline abilities are
-      // spin-off / Colosseum entries that just confuse the picker;
-      // non-battle items don't matter for coverage decisions.
-      final aNames = <String, String>{};
-      for (final e in aDex.entries) {
-        if (e.value.nonMainline) continue;
-        if (e.value.descriptionOnly) continue;
-        aNames[e.key] = e.value.localizedName;
-      }
-      final iNames = <String, String>{};
-      for (final e in iDex.entries) {
-        if (e.value.held) iNames[e.key] = e.value.localizedName;
-      }
+      final aNames = abilityNames(aDex);
+      final iNames = heldItemNames(iDex);
       _abilityDex = aDex;
       _itemDex = iDex;
       _abilityNames = aNames;
