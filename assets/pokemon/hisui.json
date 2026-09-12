@@ -16,7 +16,8 @@
     },
     "abilities": [
       "Intimidate",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Rock Head"
     ],
     "weight": 22.7,
@@ -43,7 +44,8 @@
     },
     "abilities": [
       "Intimidate",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Rock Head"
     ],
     "weight": 168.0,

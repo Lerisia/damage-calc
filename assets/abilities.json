@@ -2390,9 +2390,24 @@
     "nameKo": "타오르는불꽃",
     "nameJa": "もらいび",
     "nameEn": "Flash Fire",
+    "descriptionOnly": true,
     "descKo": "불꽃타입의 기술을 받으면 불꽃을 받아서 자신이 사용하는 불꽃타입의 기술이 강해진다.",
     "descEn": "If hit by a Fire-type move, the Pokémon absorbs the flames and uses them to power up its own Fire-type moves.",
     "descJa": "ほのおタイプの　技を　受けると 炎を　もらい　自分が　出す ほのおタイプの　技が　強くなる。"
+  },
+  {
+    "name": "Flash Fire Inactive",
+    "nameKo": "타오르는불꽃 (미발동)",
+    "nameJa": "もらいび (不発動)",
+    "nameEn": "Flash Fire (Inactive)",
+    "descKo": "아직 불꽃타입 기술을 받지 않은 상태. 불꽃타입 기술에 면역이다."
+  },
+  {
+    "name": "Flash Fire Active",
+    "nameKo": "타오르는불꽃 (발동)",
+    "nameJa": "もらいび (発動)",
+    "nameEn": "Flash Fire (Active)",
+    "descKo": "불꽃타입 기술을 받아 발동한 상태. 자신의 불꽃타입 기술 위력이 1.5배가 된다."
   },
   {
     "name": "Disguise Busted",

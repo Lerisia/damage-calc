@@ -597,6 +597,7 @@ class BattlePokemonState {
     if (key == null) return null;
     if (key == 'Supreme Overlord') return 'Supreme Overlord 0';
     if (key == 'Rivalry') return 'Rivalry Same';
+    if (key == 'Flash Fire') return 'Flash Fire Inactive';
     return key;
   }
 }

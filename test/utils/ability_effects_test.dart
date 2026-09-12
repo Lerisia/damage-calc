@@ -471,6 +471,36 @@ void main() {
     });
   });
 
+  group('Flash Fire', () {
+    // Flash Fire: once the user has absorbed a Fire move ('Flash Fire
+    // Active'), its own Fire moves get ×1.5 on the offensive stat
+    // (@smogon/calc atMods 6144, physical and special alike). Before
+    // that ('Flash Fire Inactive') it only grants the Fire immunity.
+    test('Flash Fire Active boosts Fire moves by 1.5 on Atk and Sp.Atk', () {
+      final e = getAbilityEffect('Flash Fire Active', move: specialFire);
+      expect(e.statModifiers.attack, equals(1.5));
+      expect(e.statModifiers.spAttack, equals(1.5));
+    });
+
+    test('Flash Fire Active leaves non-Fire moves alone', () {
+      final e = getAbilityEffect('Flash Fire Active', move: physicalNormal);
+      expect(e.statModifiers.attack, equals(1.0));
+      expect(e.statModifiers.spAttack, equals(1.0));
+    });
+
+    test('Flash Fire Inactive has no offensive effect', () {
+      final e = getAbilityEffect('Flash Fire Inactive', move: specialFire);
+      expect(e.statModifiers.attack, equals(1.0));
+      expect(e.statModifiers.spAttack, equals(1.0));
+    });
+
+    test('both states stay immune to Fire', () {
+      expect(isAbilityTypeImmune('Flash Fire Inactive', PokemonType.fire), isTrue);
+      expect(isAbilityTypeImmune('Flash Fire Active', PokemonType.fire), isTrue);
+      expect(isAbilityTypeImmune('Flash Fire Active', PokemonType.water), isFalse);
+    });
+  });
+
   group('Speed ability modifiers', () {
     test('Swift Swim doubles speed in rain/heavy rain', () {
       expect(getSpeedAbilityModifier('Swift Swim', weather: Weather.rain), equals(2.0));

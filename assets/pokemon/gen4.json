@@ -2467,7 +2467,8 @@
       "speed": 77
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Flame Body"
     ],
     "weight": 430.0,

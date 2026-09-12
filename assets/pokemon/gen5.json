@@ -2848,7 +2848,8 @@
       "speed": 20
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Flame Body",
       "Infiltrator"
     ],
@@ -2874,7 +2875,8 @@
       "speed": 55
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Flame Body",
       "Infiltrator"
     ],
@@ -2900,7 +2902,8 @@
       "speed": 80
     },
     "abilities": [
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "Flame Body",
       "Infiltrator"
     ],
@@ -3465,7 +3468,8 @@
     },
     "abilities": [
       "Gluttony",
-      "Flash Fire",
+      "Flash Fire Inactive",
+      "Flash Fire Active",
       "White Smoke"
     ],
     "weight": 58.0,

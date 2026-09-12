@@ -142,6 +142,22 @@ void main() {
     });
   });
 
+  group('Flash Fire', () {
+    test('Flash Fire Active gives Fire moves ×1.5 over Inactive', () {
+      final active = calc(move: ember, atkAbility: 'Flash Fire Active');
+      final inactive = calc(move: ember, atkAbility: 'Flash Fire Inactive');
+      expect(active.maxDamage, greaterThan(inactive.maxDamage));
+      expect(active.maxDamage,
+          closeTo(inactive.maxDamage * 1.5, inactive.maxDamage * 0.1));
+    });
+
+    test('Flash Fire Active does not touch non-Fire moves', () {
+      final active = calc(move: tackle, atkAbility: 'Flash Fire Active');
+      final inactive = calc(move: tackle, atkAbility: 'Flash Fire Inactive');
+      expect(active.maxDamage, equals(inactive.maxDamage));
+    });
+  });
+
   group('Basic damage', () {
     test('physical move deals positive damage', () {
       final result = calc();

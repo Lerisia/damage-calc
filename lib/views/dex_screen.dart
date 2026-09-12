@@ -1453,6 +1453,7 @@ class _AbilitiesSection extends StatelessWidget {
     if (key.startsWith('Rivalry ')) return 'Rivalry';
     if (key.startsWith('Slow Start ')) return 'Slow Start';
     if (key.startsWith('Stakeout ')) return 'Stakeout';
+    if (key.startsWith('Flash Fire ')) return 'Flash Fire';
     return null;
   }
 

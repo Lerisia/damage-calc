@@ -420,6 +420,23 @@ AbilityEffect getAbilityEffect(String abilityName, {
     case 'Stakeout Inactive':
       return _defaultEffect;
 
+    // --- Flash Fire (Heatran, Arcanine, Chandelure, …) ---
+    // Two states like Stakeout: 'Flash Fire Active' once the user has
+    // absorbed a Fire move, 'Flash Fire Inactive' before. Active gives
+    // the user's own Fire moves ×1.5 on the offensive stat — Showdown
+    // keeps it in the `flashfire` volatile's onModifyAtk / onModifySpA
+    // (@smogon/calc: atMods 6144), so it rides the stat, not the BP.
+    // Both states keep the Fire immunity (see `isAbilityTypeImmune`).
+    case 'Flash Fire Active':
+      if (move != null && move.type == PokemonType.fire) {
+        return const AbilityEffect(
+          statModifiers: AbilityStatModifiers(
+            attack: kMajorStatBoost, spAttack: kMajorStatBoost));
+      }
+      return _defaultEffect;
+    case 'Flash Fire Inactive':
+      return _defaultEffect;
+
     // --- Speed stat modifiers ---
     case 'Swift Swim':
       return (weather == Weather.rain || weather == Weather.heavyRain)
@@ -629,7 +646,11 @@ bool isAbilityTypeImmune(String abilityName, PokemonType moveType) {
     'Water Absorb': PokemonType.water,
     'Storm Drain': PokemonType.water,
     'Dry Skin': PokemonType.water,
+    // Both Flash Fire states absorb Fire; the bare key stays for
+    // sessions / pastes saved before the split.
     'Flash Fire': PokemonType.fire,
+    'Flash Fire Inactive': PokemonType.fire,
+    'Flash Fire Active': PokemonType.fire,
     'Well-Baked Body': PokemonType.fire,
     'Sap Sipper': PokemonType.grass,
     'Earth Eater': PokemonType.ground,
@@ -865,7 +886,8 @@ String? resolveAbilityWithGas({
 /// This covers immunities, damage reduction, and defensive stat boosts.
 const Set<String> ignorableAbilities = {
   // Type immunities
-  'Levitate', 'Eelevate', 'Flash Fire', 'Lightning Rod', 'Motor Drive',
+  'Levitate', 'Eelevate', 'Flash Fire', 'Flash Fire Inactive',
+  'Flash Fire Active', 'Lightning Rod', 'Motor Drive',
   'Volt Absorb', 'Water Absorb', 'Sap Sipper', 'Storm Drain',
   'Dry Skin', 'Wonder Guard',
   // Move-based immunities

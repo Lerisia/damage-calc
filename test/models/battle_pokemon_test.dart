@@ -37,4 +37,15 @@ void main() {
       expect(state.terastal.active, isFalse);
     });
   });
+
+  group('expandAbilityKey', () {
+    // Species data lists the concrete states, but an older session or a
+    // Showdown paste can still carry the bare group key.
+    test('maps stateful bases to their default state', () {
+      expect(BattlePokemonState.expandAbilityKey('Flash Fire'), 'Flash Fire Inactive');
+      expect(BattlePokemonState.expandAbilityKey('Rivalry'), 'Rivalry Same');
+      expect(BattlePokemonState.expandAbilityKey('Supreme Overlord'), 'Supreme Overlord 0');
+      expect(BattlePokemonState.expandAbilityKey('Blaze'), 'Blaze');
+    });
+  });
 }
