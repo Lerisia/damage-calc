@@ -42,6 +42,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch_pokechamdb import compute_default_moves, load_lookups, mirror_megas  # noqa: E402
+from namemap import NATURE_JA_TO_EN, ja_to_en_maps, map_ja, norm_ja  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 SINGLES_USAGE_PATH = REPO / "assets" / "champions_usage.json"
@@ -245,34 +246,16 @@ def _ev_spreads(section_html: str) -> list[dict]:
 
 def build_lookups(repo_root: Path) -> dict[str, dict[str, str]]:
     import glob
-    moves_ja2en: dict[str, str] = {}
+    # JA → EN for moves / abilities / items via the shared namemap
+    # (fold + fixups; look up with map_ja). Natures: NATURE_JA_TO_EN.
+    ja = ja_to_en_maps(repo_root)
+    moves_ja2en, abi_ja2en, items_ja2en = ja["moves"], ja["abilities"], ja["items"]
+    nat_ja2en = NATURE_JA_TO_EN
     move_category: dict[str, str] = {}   # English name → 'physical'/'special'/'status'
     for path in glob.glob(str(repo_root / "assets/moves/*.json")):
         for e in json.load(open(path)):
-            if e.get("nameJa") and e.get("name"):
-                moves_ja2en[e["nameJa"]] = e["name"]
             if e.get("name") and e.get("category"):
                 move_category[e["name"]] = e["category"]
-
-    abi_ja2en: dict[str, str] = {}
-    for e in json.load(open(repo_root / "assets/abilities.json")):
-        if e.get("nameJa") and e.get("name"):
-            abi_ja2en[e["nameJa"]] = e["name"]
-
-    items_data = json.load(open(repo_root / "assets/items.json"))
-    items_iter = items_data if isinstance(items_data, list) else list(items_data.values())
-    items_ja2en: dict[str, str] = {}
-    for e in items_iter:
-        if isinstance(e, dict) and e.get("nameJa") and e.get("name"):
-            items_ja2en[e["nameJa"]] = e["name"]
-
-    # Nature JA → English enum (from lib/models/nature.dart constant map)
-    nat_text = (repo_root / "lib/models/nature.dart").read_text(encoding="utf-8")
-    raw = re.findall(r"(\w+):\s*'([^']+)'", nat_text)
-    nat_ja2en: dict[str, str] = {}
-    for en, ja in raw:
-        if any("぀" <= c <= "ヿ" for c in ja):
-            nat_ja2en[ja] = en[0].upper() + en[1:]
 
     # Pokemon dex → base English name
     dex_to_base: dict[int, str] = {}
@@ -328,24 +311,24 @@ def parse_detail(html: str, maps: dict) -> dict | None:
     moves_en = [
         {"name": en, "rate": m["rate"]}
         for m in _moves_from_data_attrs(html)
-        if (en := maps["moves"].get(m["name_ja"]))
+        if (en := map_ja(m["name_ja"], maps["moves"]))
     ]
     abilities_en = [
         {"name": en, "rate": rate}
         for name, rate in _rows(_section(html, "特性"))
-        if (en := maps["abilities"].get(name))
+        if (en := map_ja(name, maps["abilities"]))
     ]
     natures_en = []
     for raw_name, rate in _rows(_section(html, "能力補正")):
         m = NATURE_NAME_RE.match(raw_name)
         if not m:
             continue
-        if (en := maps["natures"].get(m.group(1))):
+        if (en := maps["natures"].get(norm_ja(m.group(1)))):
             natures_en.append({"name": en, "rate": rate})
     items_en = [
         {"name": en, "rate": rate}
         for name, rate in _rows(_section(html, "持ち物"))
-        if (en := maps["items"].get(name))
+        if (en := map_ja(name, maps["items"]))
     ]
     spreads = _ev_spreads(_section(html, "能力ポイント"))
     default_sp = spreads[0]["sp"] if spreads else None

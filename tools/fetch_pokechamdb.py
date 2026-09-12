@@ -48,7 +48,6 @@ import random
 import re
 import sys
 import time
-import unicodedata
 import urllib.request
 from pathlib import Path
 
@@ -70,51 +69,10 @@ def api_format(rule: int) -> str:
 
 
 # ─── Name-mapping tables ────────────────────────────────────────────
-
-def norm(s: str) -> str:
-    """NFKC (folds full-width digits/latin) + katakana→hiragana so
-    the two sites' kana spellings join. pokechamdb and our own data
-    disagree on kana casing for a bunch of names (どくのトゲ vs
-    どくのとげ, ゲップ vs げっぷ, ようせいのはね vs ようせいのハネ):
-    folding katakana to hiragana makes those exact without a per-name
-    table. Genuine spelling variants (ヴィ vs ビ etc.) still need
-    [JA_NAME_FIXUPS]."""
-    s = unicodedata.normalize("NFKC", s).strip()
-    # Katakana block U+30A1–U+30F6 → hiragana (−0x60). Leaves the
-    # long-vowel mark ー and punctuation untouched.
-    out = []
-    for ch in s:
-        o = ord(ch)
-        if 0x30A1 <= o <= 0x30F6:
-            out.append(chr(o - 0x60))
-        else:
-            out.append(ch)
-    return "".join(out)
-
-
-# pokechamdb's JP spelling → our JP spelling, for the handful of names
-# where their data has a typo/variant our nameJa doesn't match. Extend
-# as the "UNMAPPED" log surfaces new ones.
-# Keyed by the katakana→hiragana-folded form (see norm), so only
-# genuine spelling variants land here — not mere kana-casing diffs.
-JA_NAME_FIXUPS: dict[str, str] = {
-    "すなかくれ": "すながくれ",       # Sand Veil (pokechamdb typo)
-    "へびーめたる": "へゔぃめたる",   # Heavy Metal (ビ vs ヴィ)
-    "きょうそうしん": "かちき",        # Competitive (alt JP name)
-}
-
-# Nature JP → our English (capitalized) name. Fixed 25-value set.
-NATURE_JA_TO_EN: dict[str, str] = {
-    "がんばりや": "Hardy", "さみしがり": "Lonely", "いじっぱり": "Adamant",
-    "やんちゃ": "Naughty", "ゆうかん": "Brave", "ずぶとい": "Bold",
-    "すなお": "Docile", "わんぱく": "Impish", "のうてんき": "Lax",
-    "のんき": "Relaxed", "ひかえめ": "Modest", "おっとり": "Mild",
-    "てれや": "Bashful", "うっかりや": "Rash", "れいせい": "Quiet",
-    "おだやか": "Calm", "おとなしい": "Gentle", "しんちょう": "Careful",
-    "きまぐれ": "Quirky", "なまいき": "Sassy", "おくびょう": "Timid",
-    "せっかち": "Hasty", "ようき": "Jolly", "むじゃき": "Naive",
-    "まじめ": "Serious",
-}
+# JA → EN normalisation, fixups and the nature table live in
+# tools/namemap.py, shared with the other scrapers.
+from namemap import (JA_NAME_FIXUPS, NATURE_JA_TO_EN, ja_to_en_maps,  # noqa: E402
+                     map_ja, norm_ja as norm)
 
 # pokechamdb form/region slug → our champions_usage.json key. Base
 # species (even hyphenated slugs like kommo-o, mr-rime) resolve via
@@ -259,22 +217,13 @@ def load_lookups() -> dict:
     def load(fn: Path):
         return json.loads(fn.read_text(encoding="utf-8"))
 
-    abil = {}
-    for a in load(REPO / "assets/abilities.json"):
-        if a.get("nameJa"):
-            abil[norm(a["nameJa"])] = a["name"]
-    items = {}
-    for it in load(REPO / "assets/items.json"):
-        if it.get("nameJa"):
-            items[norm(it["nameJa"])] = it["name"]
-    # JA → EN move names for the scrape, and per-move metadata for the
-    # auto-default rule (role classification + STAB) — one pass.
-    moves = {}
+    ja = ja_to_en_maps(REPO)
+    abil, items, moves = ja["abilities"], ja["items"], ja["moves"]
+    # Per-move metadata for the auto-default rule (role classification
+    # + STAB).
     move_meta: dict[str, dict] = {}
     for path in sorted((REPO / "assets/moves").glob("*.json")):
         for m in load(path):
-            if m.get("nameJa"):
-                moves.setdefault(norm(m["nameJa"]), m["name"])
             en = m.get("name")
             if not en or en in move_meta:
                 continue
@@ -415,12 +364,6 @@ def key_for(detail: dict, lookups: dict) -> str | None:
         print(f"  WARN form slug {slug!r} not in SLUG_TO_NAME — "
               f"falling back to dexNo {dex} (base form key)")
     return lookups["pid_to_base"].get(int(dex)) if dex is not None else None
-
-
-def map_ja(name: str, table: dict) -> str | None:
-    key = norm(name)
-    key = norm(JA_NAME_FIXUPS.get(key, key))
-    return table.get(key)
 
 
 def convert(detail: dict, lookups: dict, unmapped: dict, key: str) -> dict:
