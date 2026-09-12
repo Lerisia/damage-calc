@@ -157,40 +157,14 @@ class PokemonPanelState extends State<PokemonPanel>
 
   /// Propagate to parent — triggers full screen rebuild.
   /// Use only for changes that affect the OTHER panel (speed, pokemon switch, gender).
-  // One-shot entry-hazard bookkeeping for the defender's HP field:
-  // which species the taps belong to, whether Stealth Rock was already
-  // applied, and how many Spikes layers. Reset on species change or a
-  // manual HP edit — the taps are edits to the HP %, not stored state.
-  String? _hazardSpecies;
-  bool _srApplied = false;
-  int _spikesLayers = 0;
-
-  void _resetHazards() {
-    _srApplied = false;
-    _spikesLayers = 0;
-  }
-
-  Widget _hazardButtons() {
-    if (_hazardSpecies != s.pokemonName) {
-      _hazardSpecies = s.pokemonName;
-      _resetHazards();
-    }
-    return EntryHazardButtons(
-      stealthRockApplied: _srApplied,
-      spikesLayers: _spikesLayers,
-      onTap: (h) => setState(() {
-        if (h == EntryHazard.stealthRock) {
-          _srApplied = true;
-          applyEntryHazard(s, h, gravity: widget.room.gravity);
-        } else {
-          _spikesLayers++;
-          applyEntryHazard(s, h,
-              spikesLayers: _spikesLayers, gravity: widget.room.gravity);
-        }
-        _notifyParent();
-      }),
-    );
-  }
+  /// Defender-side 스록: each tap is one Stealth Rock switch-in off the
+  /// HP % — an edit to the field, not stored state.
+  Widget _hazardButtons() => StealthRockButton(
+        onTap: () => setState(() {
+          applyStealthRock(s);
+          _notifyParent();
+        }),
+      );
 
   void _notifyParent() {
     widget.onChanged();
@@ -298,7 +272,7 @@ class PokemonPanelState extends State<PokemonPanel>
               weather: widget.weather,
               terrain: widget.terrain,
               room: widget.room,
-              onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _resetHazards(); _notifyParent(); }),
+              onHpPercentChanged: (v) => setState(() { s.hpPercent = v; _notifyParent(); }),
               onStatusChanged: (v) => setState(() { s.status = v; _notifyParent(); }),
               onItemTap: null,
               onAbilityTap: null,

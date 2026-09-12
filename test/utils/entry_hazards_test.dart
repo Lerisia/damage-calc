@@ -4,19 +4,18 @@ import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/utils/entry_hazards.dart';
 
-/// Entry hazards as one-shot HP deductions on the defender (user
-/// decision 2026-09-13: buttons that knock the HP % field, no stored
-/// field state). Stealth Rock: 1/8 of max HP × Rock effectiveness.
-/// Spikes: 1/8, 1/6, 1/4 of max HP for 1, 2, 3 layers, grounded
-/// targets only. Magic Guard blocks both. Damage floors like the game.
+/// Stealth Rock as a one-shot, repeatable HP deduction on the defender
+/// (user decision 2026-09-13: a button that knocks the HP % once per
+/// tap, no stored field state). 1/8 of max HP × Rock effectiveness,
+/// floored like the game; Magic Guard blocks it.
 void main() {
   BattlePokemonState mon({
-    required PokemonType type1, PokemonType? type2, String? ability, String? item,
-    int baseHp = 100, double hp = 100,
+    required PokemonType type1, PokemonType? type2, String? ability,
+    double hp = 100,
   }) => BattlePokemonState(
       pokemonName: 'Test', type1: type1, type2: type2,
-      baseStats: Stats(hp: baseHp, attack: 100, defense: 100, spAttack: 100, spDefense: 100, speed: 100),
-      selectedAbility: ability ?? 'Blaze', selectedItem: item,
+      baseStats: const Stats(hp: 100, attack: 100, defense: 100, spAttack: 100, spDefense: 100, speed: 100),
+      selectedAbility: ability ?? 'Blaze',
       iv: const Stats(hp: 31, attack: 31, defense: 31, spAttack: 31, spDefense: 31, speed: 31),
       ev: const Stats(hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0),
       hpPercent: hp);
@@ -35,46 +34,21 @@ void main() {
     });
   });
 
-  group('spikesDamage', () {
-    test('1/8, 1/6, 1/4 by layer count', () {
-      final m = mon(type1: PokemonType.normal);
-      expect(spikesDamage(m, layers: 1), 21); // 21.875
-      expect(spikesDamage(m, layers: 2), 29); // 29.16
-      expect(spikesDamage(m, layers: 3), 43); // 43.75
-    });
-    test('ungrounded targets are untouched; Gravity grounds them', () {
-      expect(spikesDamage(mon(type1: PokemonType.flying), layers: 1), 0);
-      expect(spikesDamage(mon(type1: PokemonType.normal, ability: 'Levitate'), layers: 1), 0);
-      expect(spikesDamage(mon(type1: PokemonType.normal, item: 'air-balloon'), layers: 1), 0);
-      expect(spikesDamage(mon(type1: PokemonType.flying), layers: 1, gravity: true), 21);
-    });
-    test('Magic Guard takes nothing', () {
-      expect(spikesDamage(mon(type1: PokemonType.normal, ability: 'Magic Guard'), layers: 3), 0);
-    });
-  });
-
-  group('applyEntryHazard (one-shot on the HP % field)', () {
-    test('Stealth Rock knocks the HP % by its damage share', () {
+  group('applyStealthRock (one switch-in per tap, repeatable)', () {
+    test('knocks the HP % by the damage share, every tap', () {
       final m = mon(type1: PokemonType.fire, type2: PokemonType.flying);
-      applyEntryHazard(m, EntryHazard.stealthRock);
+      applyStealthRock(m);
       expect(m.hpPercent, closeTo(50.29, 0.01)); // (175-87)/175
+      applyStealthRock(m);
+      expect(m.hpPercent, closeTo(0.57, 0.01)); // (88-87)/175
     });
-    test('each Spikes tap adds one layer: the delta between layer totals', () {
-      final m = mon(type1: PokemonType.normal);
-      applyEntryHazard(m, EntryHazard.spikes, spikesLayers: 1); // −21
-      expect(m.hpPercent, closeTo(88.0, 0.01));
-      applyEntryHazard(m, EntryHazard.spikes, spikesLayers: 2); // −(29−21)
-      expect(m.hpPercent, closeTo(83.43, 0.01));
-      applyEntryHazard(m, EntryHazard.spikes, spikesLayers: 3); // −(43−29)
-      expect(m.hpPercent, closeTo(75.43, 0.01));
-    });
-    test('never drops below 0 and leaves an immune target alone', () {
+    test('never drops below 0; Magic Guard target is left alone', () {
       final low = mon(type1: PokemonType.fire, type2: PokemonType.flying, hp: 10);
-      applyEntryHazard(low, EntryHazard.stealthRock);
+      applyStealthRock(low);
       expect(low.hpPercent, 0);
-      final bird = mon(type1: PokemonType.flying);
-      applyEntryHazard(bird, EntryHazard.spikes, spikesLayers: 1);
-      expect(bird.hpPercent, 100);
+      final mg = mon(type1: PokemonType.normal, ability: 'Magic Guard');
+      applyStealthRock(mg);
+      expect(mg.hpPercent, 100);
     });
   });
 }

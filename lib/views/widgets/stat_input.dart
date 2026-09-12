@@ -148,7 +148,7 @@ class StatInput extends StatefulWidget {
   /// Side identity — drives accent color for toggles like EV↔SP.
   final bool isAttacker;
 
-  /// Defender-side entry-hazard buttons (스록 / 압정), rendered right
+  /// Defender-side Stealth Rock button (스록), rendered right
   /// under the HP row; null on the attacker side. Built by the owner
   /// so this table stays ignorant of the one-shot bookkeeping.
   final Widget? hazardButtons;

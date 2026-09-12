@@ -1396,38 +1396,14 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  // One-shot entry-hazard bookkeeping for the defender's HP field —
-  // same rules as PokemonPanel: reset on species change or manual edit.
-  String? _defHazardSpecies;
-  bool _defSrApplied = false;
-  int _defSpikesLayers = 0;
-
-  void _resetDefHazards() {
-    _defSrApplied = false;
-    _defSpikesLayers = 0;
-  }
-
-  Widget _defHazardButtons() {
-    if (_defHazardSpecies != _def.pokemonName) {
-      _defHazardSpecies = _def.pokemonName;
-      _resetDefHazards();
-    }
-    return EntryHazardButtons(
-      stealthRockApplied: _defSrApplied,
-      spikesLayers: _defSpikesLayers,
-      onTap: (h) => setState(() {
-        if (h == EntryHazard.stealthRock) {
-          _defSrApplied = true;
-          applyEntryHazard(_def, h, gravity: widget.room.gravity);
-        } else {
-          _defSpikesLayers++;
-          applyEntryHazard(_def, h,
-              spikesLayers: _defSpikesLayers, gravity: widget.room.gravity);
-        }
-        widget.onChanged();
-      }),
-    );
-  }
+  /// Defender-side 스록: each tap is one Stealth Rock switch-in off the
+  /// HP % (same widget and rule as the extended panel).
+  Widget _defHazardButtons() => StealthRockButton(
+        onTap: () => setState(() {
+          applyStealthRock(_def);
+          widget.onChanged();
+        }),
+      );
 
   Widget _hpPercentField() {
     final pct = _def.hpPercent;
@@ -1530,7 +1506,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
                           var rounded = v.round();
                           if ((rounded - 100).abs() <= 2) rounded = 100;
                           setState(
-                              () { _def.hpPercent = rounded.toDouble(); _resetDefHazards(); });
+                              () => _def.hpPercent = rounded.toDouble());
                           widget.onChanged();
                         },
                       ),
@@ -1624,7 +1600,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
     controller.dispose();
     if (result == null) return;
-    setState(() { _def.hpPercent = result; _resetDefHazards(); });
+    setState(() => _def.hpPercent = result);
     widget.onChanged();
   }
 

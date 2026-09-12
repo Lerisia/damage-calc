@@ -727,20 +727,10 @@ class AppStrings {
       AppLanguage.en: 'SR',
       AppLanguage.ja: 'ステロ',
     },
-    'hazard.spikes': {
-      AppLanguage.ko: '압정',
-      AppLanguage.en: 'Spikes',
-      AppLanguage.ja: 'まきびし',
-    },
     'hazard.stealthRockFull': {
-      AppLanguage.ko: '스텔스록 입장 피해를 HP에서 뺍니다',
-      AppLanguage.en: 'Subtract Stealth Rock switch-in damage from HP',
-      AppLanguage.ja: 'ステルスロックの登場ダメージをHPから引きます',
-    },
-    'hazard.spikesFull': {
-      AppLanguage.ko: '압정뿌리기 입장 피해를 HP에서 뺍니다 (탭할 때마다 1층 추가)',
-      AppLanguage.en: 'Subtract Spikes switch-in damage from HP (one layer per tap)',
-      AppLanguage.ja: 'まきびしの登場ダメージをHPから引きます（タップごとに1層追加）',
+      AppLanguage.ko: '스텔스록 입장 피해(1/8×바위 상성)를 HP에서 뺍니다. 누를 때마다 한 번씩',
+      AppLanguage.en: 'Subtract Stealth Rock switch-in damage (1/8 × Rock effectiveness) from HP, once per tap',
+      AppLanguage.ja: 'ステルスロックの登場ダメージ(1/8×いわ相性)をHPから引きます。タップごとに1回',
     },
     'sample.deleteConfirm': {
       AppLanguage.ko: '"{name}" 삭제',
