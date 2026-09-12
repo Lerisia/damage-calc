@@ -1349,39 +1349,32 @@ class _SimpleModeViewState extends State<SimpleModeView> {
   /// the move deals no damage (status / immunity). Same calculation
   /// path as the result panel; computing it twice per frame is fine
   /// — simple mode is not on a hot path.
+  /// Damage of the attacker's (only) move against the defender, via the
+  /// facade — the same entry point Extended Mode uses.
+  DamageResult _calcDamage() => BattleFacade.calcDamage(
+        attacker: _atk,
+        defender: _def,
+        moveIndex: 0,
+        weather: widget.weather,
+        terrain: widget.terrain,
+        room: widget.room,
+        auras: widget.auras,
+        ruins: widget.ruins,
+        doubles: ChampionsFormatController.instance.format.value
+            == ChampionsFormat.doubles,
+      );
+
   ({double minPct, double maxPct})? _defenderDamageRangePct() {
     final move = _atk.moves[0];
     if (move == null) return null;
-    final defActualStats = StatCalculator.calculate(
-      baseStats: _def.baseStats, iv: _def.iv, ev: _def.ev,
-      nature: _def.nature, level: _def.level, rank: _def.rank);
-    final atkEffSpeed = BattleFacade.calcSpeed(
-      state: _atk, weather: widget.weather, terrain: widget.terrain, room: widget.room);
-    final defEffSpeed = BattleFacade.calcSpeed(
-      state: _def, weather: widget.weather, terrain: widget.terrain, room: widget.room);
-    final baseResult = DamageCalculator.calculate(
-      attacker: _atk,
-      defender: _def,
-      moveIndex: 0,
-      weather: widget.weather,
-      terrain: widget.terrain,
-      room: widget.room,
-      auras: widget.auras,
-      ruins: widget.ruins,
-      opponentAttack: defActualStats.attack,
-      opponentSpeed: defEffSpeed,
-      myEffectiveSpeed: atkEffSpeed,
-      opponentGender: _def.gender,
-      doubles: ChampionsFormatController.instance.format.value
-          == ChampionsFormat.doubles,
-    );
+    final baseResult = _calcDamage();
     // Apply the user's 기타 보정 (Helping Hand / Charge / anything
     // the calc doesn't model). Feeds both this damage-range readout
     // and the main result panel below via the same _applyMultiplier
     // path so they always agree.
     final result = _applyMultiplier(baseResult, _parseMultiplier());
     if (result.maxDamage == 0) return null;
-    final defMaxHp = _defenderHp();
+    final defMaxHp = BattleFacade.maxHp(_def);
     if (defMaxHp <= 0) return null;
     return (
       minPct: result.minDamage / defMaxHp * 100,
@@ -2306,6 +2299,8 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     // Full opponent context — same inputs Normal Mode feeds the
     // calculators, so moves whose power scales with the opponent
     // (Gyro Ball, Low Kick, Heavy Slam, Foul Play, …) compute right.
+    // 결정력 below still needs the defender context the facade
+    // derives for damage internally.
     final defActualStats = StatCalculator.calculate(
       baseStats: _def.baseStats, iv: _def.iv, ev: _def.ev,
       nature: _def.nature, level: _def.level, rank: _def.rank);
@@ -2315,22 +2310,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       state: _def, weather: widget.weather, terrain: widget.terrain, room: widget.room);
     final defWeight = BattleFacade.effectiveWeight(_def);
 
-    final baseResult = DamageCalculator.calculate(
-      attacker: _atk,
-      defender: _def,
-      moveIndex: 0,
-      weather: widget.weather,
-      terrain: widget.terrain,
-      room: widget.room,
-      auras: widget.auras,
-      ruins: widget.ruins,
-      opponentAttack: defActualStats.attack,
-      opponentSpeed: defEffSpeed,
-      myEffectiveSpeed: atkEffSpeed,
-      opponentGender: _def.gender,
-      doubles: ChampionsFormatController.instance.format.value
-          == ChampionsFormat.doubles,
-    );
+    final baseResult = _calcDamage();
     // Apply extra multiplier by rescaling min/max; rebuilds a
     // DamageResult so the shared panel's KO / percent rendering stays
     // consistent with the scaled numbers.
@@ -2368,7 +2348,7 @@ class _SimpleModeViewState extends State<SimpleModeView> {
       ruins: widget.ruins,
       opponentAbility: _atk.selectedAbility,
     );
-    final defMaxHp = _defenderHp();
+    final defMaxHp = BattleFacade.maxHp(_def);
     final defCurrentHp = (defMaxHp * _def.hpPercent / 100).floor();
 
     final panel = DamageResultPanel(
@@ -2431,13 +2411,6 @@ class _SimpleModeViewState extends State<SimpleModeView> {
     );
   }
 
-  int _defenderHp() {
-    final base = _def.baseStats.hp;
-    final iv = _def.iv.hp;
-    final ev = _def.ev.hp;
-    final level = _def.level;
-    return (((2 * base + iv + ev ~/ 4) * level) ~/ 100) + level + 10;
-  }
 }
 
 /// Slider track shape that paints the standard rounded active/

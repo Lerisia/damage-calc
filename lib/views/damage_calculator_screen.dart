@@ -1694,11 +1694,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  DamageResult _calcDamage(int moveIndex,
-      {required int atkSpeed,
-      required int defSpeed,
-      required int defAttack}) {
-    return DamageCalculator.calculate(
+  DamageResult _calcDamage(int moveIndex) {
+    return BattleFacade.calcDamage(
       attacker: _attacker,
       defender: _defender,
       moveIndex: moveIndex,
@@ -1707,10 +1704,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       room: _room,
       auras: _auras,
       ruins: _ruins,
-      opponentAttack: defAttack,
-      opponentSpeed: defSpeed,
-      myEffectiveSpeed: atkSpeed,
-      opponentGender: _defender.gender,
       // Format-scope math (currently: screen reduction 1/2 → 2/3).
       // RootShell listens on the format controller and setStates on
       // flip, so the calc re-runs with the fresh value automatically.
@@ -1994,8 +1987,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       return const SizedBox.shrink();
     }
 
-    final result = _calcDamage(index,
-        atkSpeed: atkSpeed, defSpeed: defSpeed, defAttack: defAttack);
+    final result = _calcDamage(index);
     final effectiveType = result.move.type == PokemonType.typeless
         ? null : result.move.type;
     final offLabel = result.isPhysical ? AppStrings.t('damage.physical') : AppStrings.t('damage.special');
@@ -2205,8 +2197,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     for (final entry in _summedSlots.entries) {
       final slot = entry.key;
       final count = entry.value;
-      final res = _calcDamage(slot,
-          atkSpeed: atkSpeed, defSpeed: defSpeed, defAttack: defAttack);
+      final res = _calcDamage(slot);
       entries.add((slot: slot, count: count, result: res));
       for (int i = 0; i < count; i++) {
         if (res.perHitAllRolls != null) {

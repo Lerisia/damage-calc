@@ -13,6 +13,7 @@ import '../models/type.dart';
 import '../models/weather.dart';
 import 'ability_effects.dart';
 import 'aura_effects.dart';
+import 'damage_calculator.dart';
 import 'doubles_effects.dart';
 import 'grounded.dart';
 import 'item_effects.dart';
@@ -730,6 +731,48 @@ class BattleFacade {
 
   /// Computes rank-less base stats for [state]. Use this single result
   /// across MoveContext, ability effects, etc. to avoid redundant calls.
+  /// Damage for [attacker]'s move [moveIndex] against [defender]: the
+  /// screens' single entry point. Owns the recipe around the two
+  /// states that [DamageCalculator.calculate] expects — the defender's
+  /// rank-adjusted Attack (Foul Play), both effective speeds (Gyro
+  /// Ball, Electro Ball, turn order), the defender's gender (Rivalry)
+  /// — so no screen re-derives it. [doubles] is the user's active
+  /// Champions format (screen reduction 1/2 → 2/3, spread, …).
+  static DamageResult calcDamage({
+    required BattlePokemonState attacker,
+    required BattlePokemonState defender,
+    required int moveIndex,
+    required Weather weather,
+    required Terrain terrain,
+    required RoomConditions room,
+    AuraToggles auras = AuraToggles.inactive,
+    RuinToggles ruins = RuinToggles.inactive,
+    required bool doubles,
+  }) {
+    final defStats = StatCalculator.calculate(
+      baseStats: defender.baseStats, iv: defender.iv, ev: defender.ev,
+      nature: defender.nature, level: defender.level, rank: defender.rank,
+    );
+    return DamageCalculator.calculate(
+      attacker: attacker,
+      defender: defender,
+      moveIndex: moveIndex,
+      weather: weather,
+      terrain: terrain,
+      room: room,
+      auras: auras,
+      ruins: ruins,
+      opponentAttack: defStats.attack,
+      opponentSpeed: calcSpeed(state: defender, weather: weather, terrain: terrain, room: room),
+      myEffectiveSpeed: calcSpeed(state: attacker, weather: weather, terrain: terrain, room: room),
+      opponentGender: defender.gender,
+      doubles: doubles,
+    );
+  }
+
+  /// Max HP of [state] (stat formula; nature and rank don't touch HP).
+  static int maxHp(BattlePokemonState state) => _baseActualStats(state).hp;
+
   static Stats _baseActualStats(BattlePokemonState state) {
     return StatCalculator.calculate(
       baseStats: state.baseStats,
