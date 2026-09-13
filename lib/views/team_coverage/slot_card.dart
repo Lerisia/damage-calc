@@ -598,10 +598,6 @@ class _SlotCardState extends State<_SlotCard>
     final initialText = widget.slot.ability != null
         ? _abilityLabel(widget.slot.ability!)
         : '';
-    if (!_abilityFocus.hasFocus) {
-      _abilityController.text = initialText;
-    }
-
     final ownSet = <String>{
       for (final a in p.abilities) ...expandAbilityStates(a),
     };
@@ -609,6 +605,7 @@ class _SlotCardState extends State<_SlotCard>
     return buildTypeAhead<String>(
       controller: _abilityController,
       focusNode: _abilityFocus,
+      idleText: initialText,
       suggestionsCallback: (query) {
         if (query == initialText) return _abilitySuggestions('', p.abilities);
         return _abilitySuggestions(query, p.abilities);
@@ -652,13 +649,11 @@ class _SlotCardState extends State<_SlotCard>
       _itemIndexFor = widget.itemNames;
     }
     final initialText = _itemLabel(widget.slot.heldItem);
-    if (!_itemFocus.hasFocus) {
-      _itemController.text = initialText;
-    }
 
     return buildTypeAhead<String>(
       controller: _itemController,
       focusNode: _itemFocus,
+      idleText: initialText,
       suggestionsCallback: (text) => itemSuggestions(
         _itemIndex!,
         text == initialText ? '' : text,

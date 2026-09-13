@@ -384,7 +384,11 @@ class _MoveTextFieldState extends State<_MoveTextField> {
       _last = widget.suggestions.focusState;
       widget.suggestions.addListener(_onSuggestionsChanged);
     }
-    if (!widget.focusNode.hasFocus && widget.displayNameOverride != null && widget.selected != null) {
+    // Idle-only, keyed on the session (not the FocusNode): while the
+    // user is in the list the FocusNode has no focus but the query
+    // must stay — same rule as _TypeAheadTextField.idleText.
+    if (_last == SuggestionsFocusState.blur &&
+        widget.displayNameOverride != null && widget.selected != null) {
       widget.controller.text = widget.displayNameOverride!;
     }
   }

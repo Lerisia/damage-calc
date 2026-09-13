@@ -454,10 +454,6 @@ class _StatInputState extends State<StatInput>
     final initialText = widget.selectedAbility != null
         ? _abilityKo(widget.selectedAbility!)
         : '';
-    if (!_abilityFocusNode.hasFocus) {
-      _abilityController.text = initialText;
-    }
-
     // Abilities this Pokemon legitimately owns — mirrored from the
     // data's pokemonAbilities with Supreme Overlord's stacked variants
     // expanded so all six count as "own". Anything outside this set is
@@ -469,6 +465,7 @@ class _StatInputState extends State<StatInput>
     return buildTypeAhead<String>(
       controller: _abilityController,
       focusNode: _abilityFocusNode,
+      idleText: initialText,
       suggestionsCallback: (query) {
         // An unchanged field (showing the current pick) lists the
         // default own-first order, not a search for the pick's name.
@@ -504,9 +501,6 @@ class _StatInputState extends State<StatInput>
 
   Widget _itemAutocomplete() {
     final initialText = _itemDisplayName(widget.selectedItem);
-    if (!_itemFocusNode.hasFocus) {
-      _itemController.text = initialText;
-    }
     // Shared item engine: current pick, "no item", then ranked / A→Z;
     // Champions scope handled inside. An unchanged field (showing the
     // current pick) lists the default order, not a search for its name.
@@ -524,6 +518,7 @@ class _StatInputState extends State<StatInput>
       child: buildTypeAhead<String>(
         controller: _itemController,
         focusNode: _itemFocusNode,
+        idleText: initialText,
         suggestionsCallback: suggest,
         decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
         itemBuilder: (context, key) {

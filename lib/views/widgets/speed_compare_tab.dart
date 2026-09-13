@@ -565,7 +565,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
           restSort: (a, b) => _abilityKo(a).compareTo(_abilityKo(b)),
         );
     final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
-    if (!focusNode.hasFocus) controller.text = initialText;
     // Own abilities (with Supreme Overlord's stacked variants expanded)
     // are rendered full-color; everything else is gray, matching the
     // move picker's learnable/unlearnable convention.
@@ -578,6 +577,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
       child: buildTypeAhead<String>(
         controller: controller,
         focusNode: focusNode,
+        idleText: initialText,
         suggestionsCallback: (query) =>
             suggest(query == initialText ? '' : query),
         decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
@@ -606,13 +606,13 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
 
   Widget _itemAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
     final initialText = _itemKo(state.selectedItem);
-    if (!focusNode.hasFocus) controller.text = initialText;
 
     return KeyedSubtree(
       key: ValueKey('speed_item_${state.selectedItem}'),
       child: buildTypeAhead<String>(
         controller: controller,
         focusNode: focusNode,
+        idleText: initialText,
         suggestionsCallback: (text) => itemSuggestions(
           _ensureItemIndex(),
           text == initialText ? '' : text,

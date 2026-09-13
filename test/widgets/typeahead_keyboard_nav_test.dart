@@ -34,9 +34,11 @@ void main() {
   late TextEditingController ctl;
   late List<String> picked;
 
-  Widget host() => MaterialApp(
+  Widget host({bool atBottom = false}) => MaterialApp(
         home: Scaffold(
-          body: buildTypeAhead<String>(
+          body: Column(children: [
+            if (atBottom) const Spacer(),
+            buildTypeAhead<String>(
             controller: ctl,
             suggestionsCallback: (q) =>
                 ['apple', 'apricot', 'banana'].where((s) => s.startsWith(q)).toList(),
@@ -47,7 +49,8 @@ void main() {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             decoration: const InputDecoration(),
-          ),
+            ),
+          ]),
         ),
       );
 
@@ -56,8 +59,8 @@ void main() {
     picked = [];
   });
 
-  Future<void> typeQuery(WidgetTester tester) async {
-    await tester.pumpWidget(host());
+  Future<void> typeQuery(WidgetTester tester, {bool atBottom = false}) async {
+    await tester.pumpWidget(host(atBottom: atBottom));
     await tester.tap(find.byType(TextField));
     await pump(tester);
     await tester.enterText(find.byType(TextField), 'ap');
@@ -91,6 +94,37 @@ void main() {
     expect(ctl.text, 'ap');
     expect(find.text('apple'), findsOneWidget);
     expect(FocusManager.instance.primaryFocus?.context?.widget, isA<Focus>());
+  });
+
+  testWidgets('list flipped ABOVE the field: ↓ still enters it and Enter picks',
+      (tester) async {
+    await typeQuery(tester, atBottom: true);
+    final field = tester.getRect(find.byType(TextField));
+    final item = tester.getRect(find.text('apple'));
+    expect(item.top, lessThan(field.top), reason: 'test needs the box above');
+    await key(tester, LogicalKeyboardKey.arrowDown);
+    expect(ctl.text, 'ap');
+    await key(tester, LogicalKeyboardKey.enter);
+    expect(picked, ['apple'], reason: '↓ enters the list whichever way it opened, at the top hit');
+  });
+
+  testWidgets('list flipped ABOVE: the arrow away from the field walks down the ranking',
+      (tester) async {
+    await typeQuery(tester, atBottom: true);
+    await key(tester, LogicalKeyboardKey.arrowDown);
+    await key(tester, LogicalKeyboardKey.arrowUp); // away from the field
+    await key(tester, LogicalKeyboardKey.enter);
+    expect(picked, ['apricot']);
+  });
+
+  testWidgets('list flipped ABOVE: ↓ at the nearest item returns to the field',
+      (tester) async {
+    await typeQuery(tester, atBottom: true);
+    await key(tester, LogicalKeyboardKey.arrowDown);
+    await key(tester, LogicalKeyboardKey.arrowDown);
+    expect(ctl.text, 'ap');
+    expect(FocusManager.instance.primaryFocus?.context?.widget, isA<Focus>());
+    expect(find.text('apple'), findsOneWidget);
   });
 
   testWidgets('tapping away without a pick still restores the previous value', (tester) async {

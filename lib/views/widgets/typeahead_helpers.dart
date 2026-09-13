@@ -34,6 +34,14 @@ class _TypeAheadTextField extends StatefulWidget {
   final InputDecoration decoration;
   final VoidCallback? onTap;
   final ValueChanged<String>? onSubmittedPick;
+  /// The label the field shows while no search session is open (the
+  /// current pick). Written into the controller on mount and whenever
+  /// it changes while idle — never during a session, so a parent
+  /// rebuild while focus is in the suggestions list can't replace the
+  /// query. Hosts used to do this write themselves in build() guarded
+  /// by `!focusNode.hasFocus`, which is exactly true while the list has
+  /// focus; that killed ↓ navigation in every field that did it.
+  final String? idleText;
 
   const _TypeAheadTextField({
     required this.controller,
@@ -42,6 +50,7 @@ class _TypeAheadTextField extends StatefulWidget {
     required this.decoration,
     this.onTap,
     this.onSubmittedPick,
+    this.idleText,
   });
 
   @override
@@ -55,11 +64,14 @@ class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
   DateTime? _sessionStart;
   SuggestionsFocusState _last = SuggestionsFocusState.blur;
 
+  bool get _inSession => _sessionStart != null;
+
   @override
   void initState() {
     super.initState();
     _last = widget.suggestions.focusState;
     widget.suggestions.addListener(_onSuggestionsChanged);
+    _syncIdleText();
   }
 
   @override
@@ -70,6 +82,18 @@ class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
       _last = widget.suggestions.focusState;
       widget.suggestions.addListener(_onSuggestionsChanged);
     }
+    if (old.idleText != widget.idleText) _syncIdleText();
+  }
+
+  /// Show [idleText] — only while idle; a session owns the text.
+  void _syncIdleText() {
+    final text = widget.idleText;
+    if (text == null || _inSession) return;
+    if (widget.controller.text == text) return;
+    widget.controller.value = TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
   }
 
   void _onSuggestionsChanged() {
@@ -92,10 +116,12 @@ class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
       // session and change nothing.
       final picked = _sessionStart != null &&
           _lastTypeAheadPickAt.isAfter(_sessionStart!);
-      if (!picked && _savedText != null) {
-        widget.controller.text = _savedText!;
-        widget.controller.selection =
-            TextSelection.collapsed(offset: _savedText!.length);
+      final restore = widget.idleText ?? _savedText;
+      if (!picked && restore != null) {
+        widget.controller.value = TextEditingValue(
+          text: restore,
+          selection: TextSelection.collapsed(offset: restore.length),
+        );
       }
       _savedText = null;
       _sessionStart = null;
@@ -118,6 +144,113 @@ class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
       buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
       decoration: widget.decoration,
       onSubmitted: widget.onSubmittedPick,
+    );
+  }
+}
+
+/// Keyboard entry into the suggestions list, the same for every field
+/// (default or custom text field) — wraps whatever [buildTypeAhead]'s
+/// builder returns.
+///
+/// 1. ↓ and ↑ both enter the list whichever side it opened on. The
+///    package only enters on the key matching `effectiveDirection` (↓
+///    for a list below, ↑ for one auto-flipped above) and ignores the
+///    other, which then fell through to the app's text-editing
+///    shortcuts. This Focus sits above the text field's node, so it
+///    sees exactly the arrows the package declined.
+/// 2. Entering a list flipped above lands on the item nearest the field
+///    (the top hit — the flipped list is reversed), not the farthest,
+///    which is where the package's "first child" focus put it. So
+///    "type, ↓, Enter" picks the top hit in both directions, and the
+///    next arrow away from the field walks down the ranking.
+class _TypeAheadEntryGuard extends StatefulWidget {
+  final SuggestionsController suggestions;
+  final Widget child;
+  const _TypeAheadEntryGuard({required this.suggestions, required this.child});
+
+  @override
+  State<_TypeAheadEntryGuard> createState() => _TypeAheadEntryGuardState();
+}
+
+class _TypeAheadEntryGuardState extends State<_TypeAheadEntryGuard> {
+  SuggestionsFocusState _last = SuggestionsFocusState.blur;
+
+  @override
+  void initState() {
+    super.initState();
+    _last = widget.suggestions.focusState;
+    widget.suggestions.addListener(_onChanged);
+  }
+
+  @override
+  void didUpdateWidget(_TypeAheadEntryGuard old) {
+    super.didUpdateWidget(old);
+    if (!identical(old.suggestions, widget.suggestions)) {
+      old.suggestions.removeListener(_onChanged);
+      _last = widget.suggestions.focusState;
+      widget.suggestions.addListener(_onChanged);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.suggestions.removeListener(_onChanged);
+    super.dispose();
+  }
+
+  void _onChanged() {
+    final now = widget.suggestions.focusState;
+    if (now == _last) return;
+    _last = now;
+    if (now == SuggestionsFocusState.box &&
+        widget.suggestions.effectiveDirection == VerticalDirection.up) {
+      // The box's own connector focuses its first child in the same
+      // notification (it registered after us); retarget once that has
+      // been applied.
+      WidgetsBinding.instance.addPostFrameCallback((_) => _focusNearestItem());
+    }
+  }
+
+  void _focusNearestItem() {
+    if (!mounted) return;
+    if (widget.suggestions.focusState != SuggestionsFocusState.box) return;
+    final focused = FocusManager.instance.primaryFocus;
+    final scope = focused?.enclosingScope;
+    if (focused == null || scope == null) return;
+    FocusNode? nearest;
+    var nearestTop = double.negativeInfinity;
+    for (final n in scope.traversalDescendants) {
+      if (!n.canRequestFocus) continue;
+      final top = n.rect.top;
+      if (top > nearestTop) {
+        nearestTop = top;
+        nearest = n;
+      }
+    }
+    if (nearest != null && nearest != focused) nearest.requestFocus();
+  }
+
+  KeyEventResult _onKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent) return KeyEventResult.ignored;
+    final k = event.logicalKey;
+    if (k != LogicalKeyboardKey.arrowDown && k != LogicalKeyboardKey.arrowUp) {
+      return KeyEventResult.ignored;
+    }
+    final s = widget.suggestions;
+    if (!s.isOpen || (s.suggestions?.isEmpty ?? true)) {
+      return KeyEventResult.ignored;
+    }
+    s.focusBox();
+    return KeyEventResult.handled;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+      canRequestFocus: false,
+      skipTraversal: true,
+      onKeyEvent: _onKeyEvent,
+      child: widget.child,
     );
   }
 }
@@ -169,6 +302,11 @@ TypeAheadField<T> buildTypeAhead<T>({
       ValueChanged<String> onSubmitted, SuggestionsController<T> suggestions)? builder,
   VoidCallback? onTap,
   FocusNode? focusNode,
+  /// The label to show while the field is idle (its current pick).
+  /// Pass this instead of writing the label into [controller] from the
+  /// host's build(): the helper writes it on mount and on change, but
+  /// never while a search session (field or list focused) is open.
+  String? idleText,
   /// What Enter picks. Defaults to the one rule every search→pick
   /// field in the app follows: the first suggestion currently shown
   /// for the typed text, and nothing for an empty query. Override
@@ -251,17 +389,21 @@ TypeAheadField<T> buildTypeAhead<T>({
     builder: (_, controller, focusNode) => Builder(
       builder: (context) {
         final suggestions = SuggestionsController.of<T>(context);
+        final Widget field;
         if (builder != null) {
-          return builder(context, controller, focusNode, submit, suggestions);
+          field = builder(context, controller, focusNode, submit, suggestions);
+        } else {
+          field = _TypeAheadTextField(
+            controller: controller,
+            focusNode: focusNode,
+            suggestions: suggestions,
+            decoration: decoration,
+            onTap: onTap,
+            onSubmittedPick: submit,
+            idleText: idleText,
+          );
         }
-        return _TypeAheadTextField(
-          controller: controller,
-          focusNode: focusNode,
-          suggestions: suggestions,
-          decoration: decoration,
-          onTap: onTap,
-          onSubmittedPick: submit,
-        );
+        return _TypeAheadEntryGuard(suggestions: suggestions, child: field);
       },
     ),
     itemBuilder: itemBuilder,
