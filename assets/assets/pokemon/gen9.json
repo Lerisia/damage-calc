@@ -1942,7 +1942,12 @@
     },
     "abilities": [
       "Defiant",
-      "Supreme Overlord",
+      "Supreme Overlord 0",
+      "Supreme Overlord 1",
+      "Supreme Overlord 2",
+      "Supreme Overlord 3",
+      "Supreme Overlord 4",
+      "Supreme Overlord 5",
       "Pressure"
     ],
     "weight": 120.0,
