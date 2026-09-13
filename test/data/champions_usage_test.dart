@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/data/champions_usage.dart';
-import 'package:damage_calc/utils/champions_mode.dart';
+import 'package:damage_calc/calc/champions_mode.dart';
 
 void main() {
   group('ChampionsUsageEntry.defaultSp', () {

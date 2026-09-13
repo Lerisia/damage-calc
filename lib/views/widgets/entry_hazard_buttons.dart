@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 /// The 스록 mini-button next to the defender's HP % input, shared by the
 /// extended stat table and Simple Mode so both behave the same.

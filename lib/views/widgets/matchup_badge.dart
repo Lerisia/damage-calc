@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 /// Single-cell rendering of a defensive type multiplier — the visual
 /// language shared between the team-coverage matrix and the dex

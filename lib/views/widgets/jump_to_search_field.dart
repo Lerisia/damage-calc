@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 /// Search box that moves the list to a match instead of filtering it.
 ///

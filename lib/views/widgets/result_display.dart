@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 class ResultDisplay extends StatelessWidget {
   final int? result;

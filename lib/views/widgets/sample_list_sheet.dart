@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/sample_storage.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/korean_search.dart';
+import '../../i18n/app_strings.dart';
+import '../../search/korean_search.dart';
 
 /// Bottom sheet that surfaces the saved-pokemon storage as a folder
 /// tree: parties (groups of up to 6) at the top, loose samples below.

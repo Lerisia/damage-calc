@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../utils/champions_filter_controller.dart';
+import '../../controllers/champions_filter_controller.dart';
 
 /// Rebuilds the host State whenever the global "Champions only" scope
 /// flips — pickers filter on it, panels hide non-Champions mechanics on

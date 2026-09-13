@@ -16,9 +16,9 @@ import 'package:damage_calc/models/room.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/weather.dart';
-import 'package:damage_calc/utils/aura_effects.dart';
-import 'package:damage_calc/utils/damage_calculator.dart';
-import 'package:damage_calc/utils/ruin_effects.dart';
+import 'package:damage_calc/calc/aura_effects.dart';
+import 'package:damage_calc/calc/damage_calculator.dart';
+import 'package:damage_calc/calc/ruin_effects.dart';
 
 const _weatherMap = {
   'Sun': Weather.sun, 'Rain': Weather.rain,

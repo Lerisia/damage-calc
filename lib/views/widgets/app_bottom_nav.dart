@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 import '../root_shell.dart';
 
 /// Indices for the bottom-nav tabs — each top-level screen is one

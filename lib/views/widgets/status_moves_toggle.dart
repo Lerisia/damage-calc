@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/move_options_controller.dart';
+import '../../i18n/app_strings.dart';
+import '../../controllers/move_options_controller.dart';
 
 /// Compact "변화기 보기" toggle. Listens to the global
 /// [MoveOptionsController] so flipping it in one place (calculator

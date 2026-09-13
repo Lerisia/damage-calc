@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/app_strings.dart';
-import '../../utils/url_navigator_stub.dart'
-    if (dart.library.html) '../../utils/url_navigator_web.dart' as nav;
+import '../../i18n/app_strings.dart';
+import '../../platform/url_navigator_stub.dart'
+    if (dart.library.html) '../../platform/url_navigator_web.dart' as nav;
 
 /// Popup shown to mobile-web visitors nudging them toward the native
 /// app. Pops on every launch until the user opts out via "다시 보지

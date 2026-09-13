@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_strings.dart';
-import '../../utils/coverage_display_controller.dart';
+import '../../i18n/app_strings.dart';
+import '../../controllers/coverage_display_controller.dart';
 import 'segmented_toggle.dart';
 
 /// Flips a matchup table between numeric ("4×", "½", …) and symbolic

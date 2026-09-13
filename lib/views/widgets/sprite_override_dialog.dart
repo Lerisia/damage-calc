@@ -5,9 +5,9 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/sprite_override_manager.dart';
-import '../../utils/sprite_service.dart';
+import '../../i18n/app_strings.dart';
+import '../../platform/sprite_override_manager.dart';
+import '../../platform/sprite_service.dart';
 import 'pokemon_selector.dart';
 
 /// Open the per-Pokémon sprite override manager.

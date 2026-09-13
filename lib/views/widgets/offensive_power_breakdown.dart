@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 import 'modifier_note.dart';
 
 /// Bottom-sheet popup that shows the modifiers feeding a 결정력

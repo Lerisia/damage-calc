@@ -14,10 +14,10 @@ import '../../data/trainer_aliases.dart';
 import '../../data/trainer_keys.dart';
 import '../../models/pokemon.dart';
 import '../../models/type.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/localization.dart';
-import '../../utils/party_image_save.dart';
-import '../../utils/sprite_pack_manager.dart';
+import '../../i18n/app_strings.dart';
+import '../../i18n/localization.dart';
+import '../../platform/party_image_save.dart';
+import '../../platform/sprite_pack_manager.dart';
 import 'pokemon_sprite.dart';
 
 /// Resolve a trainer sprite key to an ImageProvider. We don't bundle

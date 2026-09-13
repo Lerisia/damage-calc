@@ -9,11 +9,11 @@ import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../../utils/app_strings.dart';
-import '../../utils/korean_search.dart';
+import '../../i18n/app_strings.dart';
+import '../../search/korean_search.dart';
 import 'dismiss_keyboard.dart';
 import 'jump_to_search_field.dart';
-import '../../utils/champions_format_controller.dart';
+import '../../controllers/champions_format_controller.dart';
 import '../root_shell.dart';
 import 'pokemon_sprite.dart';
 

@@ -4,9 +4,9 @@ import '../../models/battle_pokemon.dart';
 import '../../models/dynamax.dart';
 import '../../models/move.dart';
 import '../../models/type.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/damage_calculator.dart';
-import '../../utils/localization.dart';
+import '../../i18n/app_strings.dart';
+import '../../calc/damage_calculator.dart';
+import '../../i18n/localization.dart';
 import 'modifier_note.dart';
 
 /// Pixel-for-pixel reuse of the main Damage tab's per-move result card

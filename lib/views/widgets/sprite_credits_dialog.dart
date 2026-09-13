@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as ul;
 
 import '../../data/sprite_credits.dart';
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 Future<void> showSpriteCreditsDialog(BuildContext context) {
   return showDialog<void>(

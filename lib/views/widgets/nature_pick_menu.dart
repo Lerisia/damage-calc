@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/nature_profile.dart';
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 /// One half of a nature picker — the ↑ or ↓ stat — as a popup menu.
 /// Shared by StatInput, the speed tab and the team builder, which each

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../models/move.dart';
 import '../../models/type.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/localization.dart';
+import '../../i18n/app_strings.dart';
+import '../../i18n/localization.dart';
 import 'type_filter_dialog.dart';
 
 /// The controls both move tables share — the Pokédex detail's learnset

@@ -1,9 +1,9 @@
 import '../data/champions_usage.dart';
 import '../data/movedex.dart';
 import '../data/pokedex.dart';
-import '../utils/app_strings.dart';
-import '../utils/champions_mode.dart';
-import '../utils/stacking_moves.dart';
+import '../i18n/app_strings.dart';
+import '../calc/champions_mode.dart';
+import '../calc/stacking_moves.dart';
 import 'dynamax.dart';
 import 'move_tags.dart';
 import 'gender.dart';

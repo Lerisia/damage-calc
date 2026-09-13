@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_strings.dart';
-import '../../utils/session_restore_controller.dart';
-import '../../utils/champions_filter_controller.dart';
-import '../../utils/champions_format_controller.dart';
-import '../../utils/theme_controller.dart';
+import '../../i18n/app_strings.dart';
+import '../../controllers/session_restore_controller.dart';
+import '../../controllers/champions_filter_controller.dart';
+import '../../controllers/champions_format_controller.dart';
+import '../../controllers/theme_controller.dart';
 import '../damage_calculator_screen.dart' show AppAboutDialog;
 import 'champions_speed_tier_sheet.dart';
 import 'champions_usage_rank_sheet.dart';

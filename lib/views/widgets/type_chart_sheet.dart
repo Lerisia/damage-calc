@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../models/type.dart';
-import '../../utils/ability_effects.dart' show abilityAdjustedDefensiveMultiplier;
-import '../../utils/app_strings.dart';
-import '../../utils/coverage_display_controller.dart';
-import '../../utils/localization.dart' show KoStrings;
+import '../../calc/ability_effects.dart' show abilityAdjustedDefensiveMultiplier;
+import '../../i18n/app_strings.dart';
+import '../../controllers/coverage_display_controller.dart';
+import '../../i18n/localization.dart' show KoStrings;
 import 'coverage_display_toggle.dart';
 import 'matchup_badge.dart';
 

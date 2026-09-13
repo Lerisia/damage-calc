@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../models/stats.dart';
-import '../utils/champions_format_controller.dart';
+import '../controllers/champions_format_controller.dart';
 
-export '../utils/champions_format_controller.dart' show ChampionsFormat;
+export '../controllers/champions_format_controller.dart' show ChampionsFormat;
 
 /// Usage-stats payload for a single Pokémon species, sourced from the
 /// Pokémon Champions in-game Battle Data (Singles) menu. Curated by

@@ -1,4 +1,4 @@
-import '../utils/app_strings.dart';
+import '../i18n/app_strings.dart';
 import 'move_tags.dart';
 import 'type.dart';
 

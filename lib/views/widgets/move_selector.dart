@@ -2,16 +2,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../data/champions_moves.dart';
 import '../../data/champions_usage.dart';
-import '../../utils/champions_filter_controller.dart';
+import '../../controllers/champions_filter_controller.dart';
 import '../../data/movedex.dart';
 import '../../data/learnsetdex.dart';
 import '../../models/move.dart';
 import '../../models/move_tags.dart';
-import '../../utils/korean_search.dart';
-import '../../utils/move_options_controller.dart';
+import '../../search/korean_search.dart';
+import '../../controllers/move_options_controller.dart';
 import 'typeahead_helpers.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/localization.dart';
+import '../../i18n/app_strings.dart';
+import '../../i18n/localization.dart';
 
 class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;

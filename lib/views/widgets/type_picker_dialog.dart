@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/type.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/localization.dart';
+import '../../i18n/app_strings.dart';
+import '../../i18n/localization.dart';
 import '../../data/pokedex.dart';
 
 /// Result returned by [showTypePickerDialog].

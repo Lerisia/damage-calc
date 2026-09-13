@@ -6,13 +6,13 @@ import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../../utils/app_strings.dart';
-import '../../utils/korean_search.dart';
+import '../../i18n/app_strings.dart';
+import '../../search/korean_search.dart';
 import 'dismiss_keyboard.dart';
 import 'jump_to_search_field.dart';
-import '../../utils/speed_tier_display_controller.dart';
-import '../../utils/speed_tier_variants.dart';
-import '../../utils/sprite_service.dart';
+import '../../controllers/speed_tier_display_controller.dart';
+import '../../calc/speed_tier_variants.dart';
+import '../../platform/sprite_service.dart';
 import 'pokemon_sprite.dart';
 import 'segmented_toggle.dart';
 

@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart' as ul;
 
-import '../../utils/app_strings.dart';
-import '../../utils/sprite_pack_manager.dart';
-import '../../utils/sprite_service.dart';
+import '../../i18n/app_strings.dart';
+import '../../platform/sprite_pack_manager.dart';
+import '../../platform/sprite_service.dart';
 import 'sprite_credits_dialog.dart';
 import 'sprite_override_dialog.dart';
 

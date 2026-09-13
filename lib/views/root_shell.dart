@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemNavigator;
 
-import '../utils/champions_format_controller.dart';
-import '../utils/page_routes.dart';
+import '../controllers/champions_format_controller.dart';
+import '../platform/page_routes.dart';
 import 'damage_calculator_screen.dart';
 import 'dex_screen.dart';
 import 'move_dex_screen.dart';

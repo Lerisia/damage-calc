@@ -4,7 +4,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:damage_calc/data/abilitydex.dart';
 import 'package:damage_calc/data/champions_usage.dart';
 import 'package:damage_calc/data/pokedex.dart';
-import 'package:damage_calc/utils/speed_tier_display_controller.dart';
+import 'package:damage_calc/controllers/speed_tier_display_controller.dart';
 import 'package:damage_calc/views/widgets/champions_speed_tier_sheet.dart';
 import 'package:damage_calc/views/widgets/jump_to_search_field.dart';
 

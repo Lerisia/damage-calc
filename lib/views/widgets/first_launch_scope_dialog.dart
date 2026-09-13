@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_strings.dart';
-import '../../utils/champions_filter_controller.dart';
-import '../../utils/champions_format_controller.dart';
-import '../../utils/simple_mode_controller.dart';
+import '../../i18n/app_strings.dart';
+import '../../controllers/champions_filter_controller.dart';
+import '../../controllers/champions_format_controller.dart';
+import '../../controllers/simple_mode_controller.dart';
 
 /// First-launch (including existing users) onboarding prompt. Two
 /// blocking questions, no defaults — the user must explicitly pick

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/type.dart';
-import '../../utils/localization.dart';
+import '../../i18n/localization.dart';
 
 /// A type badge: type colour, white bold name. [dense] is the smaller
 /// variant used inside slot cards; the default is the dex header size.

@@ -5,10 +5,10 @@ import '../../models/ability.dart';
 import '../../models/move.dart';
 import '../../models/pokemon.dart';
 import '../../models/type.dart';
-import '../../utils/ability_effects.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/korean_search.dart';
-import '../../utils/localization.dart';
+import '../../calc/ability_effects.dart';
+import '../../i18n/app_strings.dart';
+import '../../search/korean_search.dart';
+import '../../i18n/localization.dart';
 import 'typeahead_helpers.dart';
 
 /// Defensive-relation toggle used by the "약점/등배/내성/면역" filter row.

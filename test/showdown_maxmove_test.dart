@@ -9,7 +9,7 @@ import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/weather.dart';
-import 'package:damage_calc/utils/move_transform.dart';
+import 'package:damage_calc/calc/move_transform.dart';
 
 /// Max Move base power, compared against Showdown.
 ///

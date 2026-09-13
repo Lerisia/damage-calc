@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
-import '../../utils/app_strings.dart';
-import '../../utils/champions_filter_controller.dart';
-import '../../utils/korean_search.dart';
+import '../../i18n/app_strings.dart';
+import '../../controllers/champions_filter_controller.dart';
+import '../../search/korean_search.dart';
 import 'typeahead_helpers.dart';
 
 class PokemonSelector extends StatefulWidget {

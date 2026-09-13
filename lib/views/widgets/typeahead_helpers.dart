@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 export 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 /// Timestamp of the most recent `onSelected` callback fired by **any**
 /// typeahead in the app. Combined with each instance's `_focusGainAt`,

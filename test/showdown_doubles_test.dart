@@ -16,7 +16,7 @@ import 'package:damage_calc/models/room.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/weather.dart';
-import 'package:damage_calc/utils/battle_facade.dart';
+import 'package:damage_calc/calc/battle_facade.dart';
 
 const _weatherMap = {
   'Sun': Weather.sun, 'Rain': Weather.rain,

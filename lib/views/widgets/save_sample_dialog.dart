@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/sample_storage.dart';
-import '../../utils/app_strings.dart';
+import '../../i18n/app_strings.dart';
 
 /// Result returned by [SaveSampleDialog]. Either [teamId] is set
 /// (existing team), or [newTeamName] is set (will be created on

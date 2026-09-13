@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:damage_calc/utils/coverage_display_controller.dart';
+import 'package:damage_calc/controllers/coverage_display_controller.dart';
 import 'package:damage_calc/views/widgets/coverage_display_toggle.dart';
 import 'package:damage_calc/views/widgets/matchup_badge.dart';
 import 'package:damage_calc/views/widgets/type_chart_sheet.dart';

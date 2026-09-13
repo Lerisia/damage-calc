@@ -1,4 +1,4 @@
-import '../utils/app_strings.dart';
+import '../i18n/app_strings.dart';
 
 /// A Pokemon ability
 class Ability {
