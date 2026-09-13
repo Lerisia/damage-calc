@@ -99,7 +99,7 @@ void main() {
             itemBuilder: (_, s) => Text(s),
             onSelected: (s) => picked = s,
             decoration: const InputDecoration(),
-            builder: (context, controller, focusNode, onSubmitted) => TextField(
+            builder: (context, controller, focusNode, onSubmitted, _) => TextField(
               controller: controller,
               focusNode: focusNode,
               onSubmitted: onSubmitted,

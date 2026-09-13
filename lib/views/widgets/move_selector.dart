@@ -275,10 +275,11 @@ class _MoveSelectorState extends State<MoveSelector> {
         isDense: true,
       ),
       onTap: widget.onTap,
-      builder: (context, controller, focusNode, onSubmitted) {
+      builder: (context, controller, focusNode, onSubmitted, suggestions) {
         return _MoveTextField(
           controller: controller,
           focusNode: focusNode,
+          suggestions: suggestions,
           displayNameOverride: widget.displayNameOverride,
           selected: _selected,
           onTap: widget.onTap,
@@ -339,6 +340,7 @@ class _MoveSelectorState extends State<MoveSelector> {
 class _MoveTextField extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
+  final SuggestionsController<Move> suggestions;
   final String? displayNameOverride;
   final Move? selected;
   final VoidCallback? onTap;
@@ -348,6 +350,7 @@ class _MoveTextField extends StatefulWidget {
   const _MoveTextField({
     required this.controller,
     required this.focusNode,
+    required this.suggestions,
     this.displayNameOverride,
     this.selected,
     this.onTap,
@@ -360,40 +363,43 @@ class _MoveTextField extends StatefulWidget {
 }
 
 class _MoveTextFieldState extends State<_MoveTextField> {
-  bool _listenerAdded = false;
+  // Search session keyed on the suggestions controller's focus state
+  // (blur ↔ field/box), not the FocusNode — moving into the suggestion
+  // list with ↓ must not count as leaving. Same rule as the shared
+  // _TypeAheadTextField in typeahead_helpers.dart.
+  SuggestionsFocusState _last = SuggestionsFocusState.blur;
 
   @override
   void initState() {
     super.initState();
-    _addListener();
+    _last = widget.suggestions.focusState;
+    widget.suggestions.addListener(_onSuggestionsChanged);
   }
 
   @override
   void didUpdateWidget(_MoveTextField old) {
     super.didUpdateWidget(old);
-    if (old.focusNode != widget.focusNode) {
-      old.focusNode.removeListener(_onFocusChange);
-      _listenerAdded = false;
-      _addListener();
+    if (!identical(old.suggestions, widget.suggestions)) {
+      old.suggestions.removeListener(_onSuggestionsChanged);
+      _last = widget.suggestions.focusState;
+      widget.suggestions.addListener(_onSuggestionsChanged);
     }
     if (!widget.focusNode.hasFocus && widget.displayNameOverride != null && widget.selected != null) {
       widget.controller.text = widget.displayNameOverride!;
     }
   }
 
-  void _addListener() {
-    if (!_listenerAdded) {
-      widget.focusNode.addListener(_onFocusChange);
-      _listenerAdded = true;
-    }
-  }
-
-  void _onFocusChange() {
-    if (widget.focusNode.hasFocus) {
+  void _onSuggestionsChanged() {
+    final now = widget.suggestions.focusState;
+    if (now == _last) return;
+    final wasBlur = _last == SuggestionsFocusState.blur;
+    final isBlur = now == SuggestionsFocusState.blur;
+    _last = now;
+    if (wasBlur && !isBlur) {
       widget.onFocusChanged(true);
       widget.controller.clear();
       widget.onTap?.call();
-    } else {
+    } else if (!wasBlur && isBlur) {
       widget.onFocusChanged(false);
       if (widget.controller.text.isEmpty && widget.selected != null) {
         widget.controller.text = widget.displayNameOverride ?? widget.selected!.localizedName;
@@ -406,7 +412,7 @@ class _MoveTextFieldState extends State<_MoveTextField> {
 
   @override
   void dispose() {
-    widget.focusNode.removeListener(_onFocusChange);
+    widget.suggestions.removeListener(_onSuggestionsChanged);
     super.dispose();
   }
 

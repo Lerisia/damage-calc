@@ -13,10 +13,23 @@ import '../../i18n/app_strings.dart';
 /// typeahead doesn't count toward the next one's accounting).
 DateTime _lastTypeAheadPickAt = DateTime.fromMillisecondsSinceEpoch(0);
 
-/// Stateful TextField that registers focusNode listener exactly once.
+/// The text field inside every [buildTypeAhead] typeahead.
+///
+/// Owns one "search session": on entry the current label is saved and
+/// the field cleared for typing; on exit the saved label is restored
+/// unless a pick happened in between (so a stray query never masquerades
+/// as the selection). The session is scoped to the suggestions
+/// controller's focus state — `blur → (field | box)` opens it,
+/// `(field | box) → blur` closes it — NOT to the raw FocusNode. That
+/// matters because flutter_typeahead moves focus into the suggestions
+/// box on ↓ (its items are focusable) and back on ↑; keyed on the
+/// FocusNode alone, entering the list looked like "tapped away", the
+/// query got restored, the search re-ran and the list changed under the
+/// cursor — keyboard navigation never worked (fixed 2026-09-13).
 class _TypeAheadTextField extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
+  final SuggestionsController suggestions;
   final InputDecoration decoration;
   final VoidCallback? onTap;
   final ValueChanged<String>? onSubmittedPick;
@@ -24,6 +37,7 @@ class _TypeAheadTextField extends StatefulWidget {
   const _TypeAheadTextField({
     required this.controller,
     required this.focusNode,
+    required this.suggestions,
     required this.decoration,
     this.onTap,
     this.onSubmittedPick,
@@ -35,62 +49,61 @@ class _TypeAheadTextField extends StatefulWidget {
 
 class _TypeAheadTextFieldState extends State<_TypeAheadTextField> {
   String? _savedText;
-  // Set when the user focuses the field; cleared on focus loss. Used
-  // as the cutoff against `_lastTypeAheadPickAt` to decide whether
-  // *this* focus session ended in a pick.
-  DateTime? _focusGainAt;
-  bool _listenerAdded = false;
+  // Set when a session opens; the cutoff against `_lastTypeAheadPickAt`
+  // to decide whether *this* session ended in a pick.
+  DateTime? _sessionStart;
+  SuggestionsFocusState _last = SuggestionsFocusState.blur;
 
   @override
   void initState() {
     super.initState();
-    _addListener();
+    _last = widget.suggestions.focusState;
+    widget.suggestions.addListener(_onSuggestionsChanged);
   }
 
   @override
   void didUpdateWidget(_TypeAheadTextField old) {
     super.didUpdateWidget(old);
-    if (old.focusNode != widget.focusNode) {
-      old.focusNode.removeListener(_onFocusChange);
-      _listenerAdded = false;
-      _addListener();
+    if (!identical(old.suggestions, widget.suggestions)) {
+      old.suggestions.removeListener(_onSuggestionsChanged);
+      _last = widget.suggestions.focusState;
+      widget.suggestions.addListener(_onSuggestionsChanged);
     }
   }
 
-  void _addListener() {
-    if (!_listenerAdded) {
-      widget.focusNode.addListener(_onFocusChange);
-      _listenerAdded = true;
-    }
-  }
-
-  void _onFocusChange() {
-    if (widget.focusNode.hasFocus) {
-      _focusGainAt = DateTime.now();
+  void _onSuggestionsChanged() {
+    final now = widget.suggestions.focusState;
+    if (now == _last) return;
+    final wasBlur = _last == SuggestionsFocusState.blur;
+    final isBlur = now == SuggestionsFocusState.blur;
+    _last = now;
+    if (wasBlur && !isBlur) {
+      // Session opens: remember the label, clear for typing.
+      _sessionStart = DateTime.now();
       _savedText = widget.controller.text;
       widget.controller.clear();
       widget.onTap?.call();
-    } else {
-      // A pick during *this* focus session means the parent has set
-      // controller.text to the picked label; we keep it. Otherwise the
-      // user typed (or cleared) and tapped away — restore the saved
-      // value so the field doesn't deceptively show the search query
-      // as if it were the current selection.
-      final pickedThisFocus = _focusGainAt != null &&
-          _lastTypeAheadPickAt.isAfter(_focusGainAt!);
-      if (!pickedThisFocus && _savedText != null) {
+    } else if (!wasBlur && isBlur) {
+      // Session closes. A pick during it means the parent already set
+      // the picked label; otherwise the user typed (or cleared) and
+      // left — put the saved label back so the query doesn't pose as
+      // the selection. Field ↔ box moves in between are the same
+      // session and change nothing.
+      final picked = _sessionStart != null &&
+          _lastTypeAheadPickAt.isAfter(_sessionStart!);
+      if (!picked && _savedText != null) {
         widget.controller.text = _savedText!;
         widget.controller.selection =
             TextSelection.collapsed(offset: _savedText!.length);
       }
       _savedText = null;
-      _focusGainAt = null;
+      _sessionStart = null;
     }
   }
 
   @override
   void dispose() {
-    widget.focusNode.removeListener(_onFocusChange);
+    widget.suggestions.removeListener(_onSuggestionsChanged);
     super.dispose();
   }
 
@@ -147,9 +160,12 @@ TypeAheadField<T> buildTypeAhead<T>({
   double maxHeight = 200,
   /// Custom text field. Receives the Enter handler already bound to the
   /// app-wide rule (or [onSubmittedPick]) — wire it to the field's
-  /// `onSubmitted` rather than implementing a pick locally.
+  /// `onSubmitted` rather than implementing a pick locally — and the
+  /// typeahead's [SuggestionsController], whose `focusState` is what a
+  /// custom field must key its clear/restore behaviour on (see
+  /// [_TypeAheadTextField]).
   Widget Function(BuildContext, TextEditingController, FocusNode,
-      ValueChanged<String> onSubmitted)? builder,
+      ValueChanged<String> onSubmitted, SuggestionsController<T> suggestions)? builder,
   VoidCallback? onTap,
   FocusNode? focusNode,
   /// What Enter picks. Defaults to the one rule every search→pick
@@ -200,16 +216,26 @@ TypeAheadField<T> buildTypeAhead<T>({
       );
     },
     suggestionsCallback: suggestionsCallback,
-    builder: (context, controller, focusNode) {
-      if (builder != null) return builder(context, controller, focusNode, submit);
-      return _TypeAheadTextField(
-        controller: controller,
-        focusNode: focusNode,
-        decoration: decoration,
-        onTap: onTap,
-        onSubmittedPick: submit,
-      );
-    },
+    // The package calls this builder with the TypeAheadField's own
+    // context, which sits ABOVE its SuggestionsControllerProvider; the
+    // widget we return is placed below it. So resolve the controller
+    // from a Builder inside the returned subtree.
+    builder: (_, controller, focusNode) => Builder(
+      builder: (context) {
+        final suggestions = SuggestionsController.of<T>(context);
+        if (builder != null) {
+          return builder(context, controller, focusNode, submit, suggestions);
+        }
+        return _TypeAheadTextField(
+          controller: controller,
+          focusNode: focusNode,
+          suggestions: suggestions,
+          decoration: decoration,
+          onTap: onTap,
+          onSubmittedPick: submit,
+        );
+      },
+    ),
     itemBuilder: itemBuilder,
     onSelected: onSelectedWrapped,
   );
