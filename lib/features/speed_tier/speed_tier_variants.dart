@@ -1,18 +1,18 @@
-import '../data/abilitydex.dart';
-import '../data/champions_usage.dart';
-import '../data/pokedex.dart';
-import '../models/rank.dart';
-import '../models/nature_profile.dart';
-import '../models/status.dart';
-import '../models/terrain.dart';
-import '../models/weather.dart';
-import 'ability_effects.dart';
-import '../models/pokemon.dart';
-import '../models/stats.dart';
-import '../i18n/app_strings.dart';
-import '../controllers/champions_format_controller.dart';
-import 'champions_mode.dart';
-import 'stat_calculator.dart';
+import '../../data/abilitydex.dart';
+import '../../data/champions_usage.dart';
+import '../../data/pokedex.dart';
+import '../../models/rank.dart';
+import '../../models/nature_profile.dart';
+import '../../models/status.dart';
+import '../../models/terrain.dart';
+import '../../models/weather.dart';
+import '../../calc/ability_effects.dart';
+import '../../models/pokemon.dart';
+import '../../models/stats.dart';
+import '../../i18n/app_strings.dart';
+import '../../controllers/champions_format_controller.dart';
+import '../../calc/champions_mode.dart';
+import '../../calc/stat_calculator.dart';
 
 /// The spreads a Champions speed tier lists a Pokémon under.
 enum SpeedVariantKind {

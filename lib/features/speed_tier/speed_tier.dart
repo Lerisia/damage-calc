@@ -1,7 +1,7 @@
-import '../i18n/app_strings.dart';
-import 'stat_calculator.dart';
-import '../models/nature_profile.dart';
-import '../models/stats.dart';
+import '../../i18n/app_strings.dart';
+import '../../calc/stat_calculator.dart';
+import '../../models/nature_profile.dart';
+import '../../models/stats.dart';
 
 /// Precomputed speed tier table for a given level.
 /// Maps base speed → (최속, 준속) actual speed values.

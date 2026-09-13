@@ -23,14 +23,8 @@ void main() {
 
   test('outward references (data loaders, i18n, controllers) stay on the known list', () {
     const known = {
+      // Form / Mega Stone ownership for Knock Off & co. reads the dex.
       'damage_calculator.dart': {'../data/pokedex.dart'},
-      'move_transform.dart': {'../data/fling_powers.dart'},
-      'speed_tier.dart': {'../i18n/app_strings.dart'},
-      'speed_tier_variants.dart': {
-        '../data/abilitydex.dart', '../data/champions_usage.dart',
-        '../data/pokedex.dart', '../i18n/app_strings.dart',
-        '../controllers/champions_format_controller.dart',
-      },
     };
     for (final f in files) {
       final name = f.uri.pathSegments.last;

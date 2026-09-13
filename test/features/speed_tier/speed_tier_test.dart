@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:damage_calc/calc/speed_tier.dart';
+import 'package:damage_calc/features/speed_tier/speed_tier.dart';
 import 'package:damage_calc/i18n/app_strings.dart';
 
 void main() {

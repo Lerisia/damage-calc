@@ -13,7 +13,7 @@ import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../calc/battle_facade.dart';
 import '../../calc/speed_calculator.dart';
-import '../../calc/speed_tier.dart';
+import '../../features/speed_tier/speed_tier.dart';
 import 'typeahead_helpers.dart';
 import '../../controllers/champions_filter_controller.dart';
 import '../../calc/champions_mode.dart';

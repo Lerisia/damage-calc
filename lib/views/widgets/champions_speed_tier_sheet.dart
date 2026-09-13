@@ -11,7 +11,7 @@ import '../../search/korean_search.dart';
 import 'dismiss_keyboard.dart';
 import 'jump_to_search_field.dart';
 import '../../controllers/speed_tier_display_controller.dart';
-import '../../calc/speed_tier_variants.dart';
+import '../../features/speed_tier/speed_tier_variants.dart';
 import '../../platform/sprite_service.dart';
 import 'pokemon_sprite.dart';
 import 'segmented_toggle.dart';

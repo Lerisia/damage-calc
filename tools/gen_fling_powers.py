@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate lib/data/fling_powers.dart from Pokémon Showdown's item data.
+"""Generate lib/calc/fling_powers.dart from Pokémon Showdown's item data.
 
 Fling's base power is a per-item property (Iron Ball 130, Rocky Helmet
 60, Choice Scarf 10, …) and items without a `fling` entry — Mega Stones,
@@ -13,7 +13,7 @@ Usage:
     python3 tools/gen_fling_powers.py            # fetch items.ts from GitHub
     python3 tools/gen_fling_powers.py --src X.ts # use a local copy
 
-Output: lib/data/fling_powers.dart — a const map items.json slug → power
+Output: lib/calc/fling_powers.dart — a const map items.json slug → power
 for every held item Showdown lists as flingable. Held items with no
 entry are unflingable; the move transform treats them as power 0.
 """
@@ -29,7 +29,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 ITEMS_PATH = REPO / "assets" / "items.json"
-OUT_PATH = REPO / "lib" / "data" / "fling_powers.dart"
+OUT_PATH = REPO / "lib" / "calc" / "fling_powers.dart"
 URL = "https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/items.ts"
 MIN_PLAUSIBLE = 200
 
