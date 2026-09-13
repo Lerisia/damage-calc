@@ -57405,7 +57405,7 @@ return A.v($async$bK,r)},
 Tj(a,b,c){var s,r=c==null?this.a:c,q=A.xA(a),p=$.mh().a8v(a,B.ep)
 if(p!=null)return p
 s=b?"shiny/":""
-return new A.oz("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/"+r.b+"/"+s+q+"."+r.d+"?v=6")},
+return new A.oz("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/"+r.b+"/"+s+q+"."+r.d+"?v=7")},
 aHS(a,b,c){var s,r=this.a
 if(r!==B.n1)return null
 s=A.bhd(a)
@@ -57414,7 +57414,7 @@ return this.Tj(s,b,r)},
 a6Y(a){var s=A.xA(a),r=$.mh().a8v(a,B.eV)
 if(r!=null)return r
 return new A.oz("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/icons/"+s+".png")},
-aKv(a){return new A.oz("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/items/"+a+".png?v=6")},
+aKv(a){return new A.oz("https://cdn.jsdelivr.net/gh/Lerisia/damage-calc-sprite-pack@main/sprites/items/"+a+".png?v=7")},
 aHR(a){var s=A.bhd(a)
 if(s==null)return null
 return this.a6Y(s)}}
@@ -132224,7 +132224,7 @@ B.ar4=new A.C(!0,B.aG,null,".AppleSystemUIFont",null,null,null,null,null,null,nu
 B.arr=new A.C(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.o,null,null,null,"blackRedwoodCity labelMedium",null,null,null,null)
 B.aoj=new A.C(!0,B.v,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.o,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.asB=new A.f1(B.aqa,B.ap1,B.aqb,B.aqI,B.aoJ,B.aoR,B.apn,B.aqB,B.apB,B.ar7,B.aoc,B.aou,B.ar4,B.arr,B.aoj)
-B.asD=new A.fl("v1.16.14",null,null,null,null,null,null,null,null,null)
+B.asD=new A.fl("v1.16.15",null,null,null,null,null,null,null,null,null)
 B.asE=new A.fl("  \u2192  ",null,B.Kw,null,null,null,null,null,null,null)
 B.asF=new A.fl("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
 B.asG=new A.fl("By  Elyss",null,null,null,null,null,null,null,null,null)
