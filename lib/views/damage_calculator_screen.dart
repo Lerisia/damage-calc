@@ -51,6 +51,9 @@ import 'widgets/speed_compare_tab.dart';
 import '../data/name_maps.dart';
 
 part 'calculator/about_dialog.dart';
+part 'calculator/battle_conditions_dialog.dart';
+part 'calculator/field_menus.dart';
+part 'calculator/sum_footer.dart';
 
 /// TabController that defaults to a 180 ms transition instead of
 /// Material's 300 ms — this calc runs inside a 1-minute battle
@@ -676,234 +679,20 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
   // Language / sprite-style / about helpers moved to AppSettingsMenu.
   // _showAboutDialog stays — the footer credit-line still opens it.
 
-  /// Chip for a field-state ability (aura/ruin) in the battle conditions
-  /// dialog. Auto-locked to ON when either the attacker or defender has
-  /// the ability — its field-state is then inevitable and user-toggling
-  /// would be misleading.
-  Widget _envFieldChip({
-    required String label,
-    required String ability,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    final forced = _attacker.selectedAbility == ability ||
-        _defender.selectedAbility == ability;
-    return FilterChip(
-      showCheckmark: false,
-      label: Text(label, style: const TextStyle(fontSize: 13)),
-      selected: forced || value,
-      onSelected: forced ? null : onChanged,
-      visualDensity: VisualDensity.compact,
-    );
-  }
-
   void _showBattleConditionsDialog() {
     showDialog(
       context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setDialogState) {
-          return AlertDialog(
-            // Redundant header dropped — the button the user tapped
-            // already said "배틀환경"; repeating it inside wastes
-            // vertical space on short screens.
-            contentPadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-            content: SingleChildScrollView(
-              // Scroll when the chip list is taller than the viewport
-              // leaves room for it (small phones / landscape). Without
-              // this the column just overflows off the bottom of the
-              // dialog.
-              child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Weather (radio - single select)
-                Text(AppStrings.t('toolbar.weather'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                Wrap(
-                  spacing: 4,
-                  children: Weather.values.where((w) => w != Weather.none).map((w) {
-                    final selected = _weather == w;
-                    final label = KoStrings.getWeatherName(w);
-                    return ChoiceChip(
-                      showCheckmark: false,
-                      label: Text(label, style: const TextStyle(fontSize: 13)),
-                      selected: selected,
-                      onSelected: (_) {
-                        setState(() => _weather = selected ? Weather.none : w);
-                        setDialogState(() {});
-                      },
-                      visualDensity: VisualDensity.compact,
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 12),
-                // Terrain (radio - single select)
-                Text(AppStrings.t('toolbar.terrain'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                Wrap(
-                  spacing: 4,
-                  children: Terrain.values.where((t) => t != Terrain.none).map((t) {
-                    final selected = _terrain == t;
-                    final label = KoStrings.getTerrainName(t);
-                    return ChoiceChip(
-                      showCheckmark: false,
-                      label: Text(label, style: const TextStyle(fontSize: 13)),
-                      selected: selected,
-                      onSelected: (_) {
-                        setState(() => _terrain = selected ? Terrain.none : t);
-                        setDialogState(() {});
-                      },
-                      visualDensity: VisualDensity.compact,
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 12),
-                // Room + Gravity (checkboxes - multi select)
-                Text(AppStrings.t('toolbar.room'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                Wrap(
-                  spacing: 4,
-                  children: [
-                    FilterChip(
-                      showCheckmark: false,
-                      label: Text(KoStrings.getRoomName(Room.trickRoom), style: const TextStyle(fontSize: 13)),
-                      selected: _room.trickRoom,
-                      onSelected: (v) {
-                        setState(() => _room = _room.copyWith(trickRoom: v));
-                        setDialogState(() {});
-                      },
-                      visualDensity: VisualDensity.compact,
-                    ),
-                    FilterChip(
-                      showCheckmark: false,
-                      label: Text(KoStrings.getRoomName(Room.magicRoom), style: const TextStyle(fontSize: 13)),
-                      selected: _room.magicRoom,
-                      onSelected: (v) {
-                        setState(() => _room = _room.copyWith(magicRoom: v));
-                        setDialogState(() {});
-                      },
-                      visualDensity: VisualDensity.compact,
-                    ),
-                    FilterChip(
-                      showCheckmark: false,
-                      label: Text(KoStrings.getRoomName(Room.wonderRoom), style: const TextStyle(fontSize: 13)),
-                      selected: _room.wonderRoom,
-                      onSelected: (v) {
-                        setState(() => _room = _room.copyWith(wonderRoom: v));
-                        setDialogState(() {});
-                      },
-                      visualDensity: VisualDensity.compact,
-                    ),
-                    FilterChip(
-                      showCheckmark: false,
-                      label: Text(KoStrings.gravityName, style: const TextStyle(fontSize: 13)),
-                      selected: _room.gravity,
-                      onSelected: (v) {
-                        setState(() => _room = _room.copyWith(gravity: v));
-                        setDialogState(() {});
-                      },
-                      visualDensity: VisualDensity.compact,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // Aura — forced ON when either side's ability matches
-                Text(AppStrings.t('section.aura'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                Wrap(
-                  spacing: 4,
-                  children: [
-                    _envFieldChip(
-                      label: AppStrings.t('damage.allyFairyAura'),
-                      ability: 'Fairy Aura',
-                      value: _auras.fairyAura,
-                      onChanged: (v) {
-                        setState(() => _auras = _auras.copyWith(fairyAura: v));
-                        setDialogState(() {});
-                      },
-                    ),
-                    _envFieldChip(
-                      label: AppStrings.t('damage.allyDarkAura'),
-                      ability: 'Dark Aura',
-                      value: _auras.darkAura,
-                      onChanged: (v) {
-                        setState(() => _auras = _auras.copyWith(darkAura: v));
-                        setDialogState(() {});
-                      },
-                    ),
-                    _envFieldChip(
-                      label: AppStrings.t('damage.allyAuraBreak'),
-                      ability: 'Aura Break',
-                      value: _auras.auraBreak,
-                      onChanged: (v) {
-                        setState(() => _auras = _auras.copyWith(auraBreak: v));
-                        setDialogState(() {});
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                // Ruin — dex order: Tablets → Sword → Vessel → Beads
-                Text(AppStrings.t('section.ruin'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                Wrap(
-                  spacing: 4,
-                  children: [
-                    _envFieldChip(
-                      label: AppStrings.t('damage.allyTabletsOfRuin'),
-                      ability: 'Tablets of Ruin',
-                      value: _ruins.tabletsOfRuin,
-                      onChanged: (v) {
-                        setState(() => _ruins = _ruins.copyWith(tabletsOfRuin: v));
-                        setDialogState(() {});
-                      },
-                    ),
-                    _envFieldChip(
-                      label: AppStrings.t('damage.allySwordOfRuin'),
-                      ability: 'Sword of Ruin',
-                      value: _ruins.swordOfRuin,
-                      onChanged: (v) {
-                        setState(() => _ruins = _ruins.copyWith(swordOfRuin: v));
-                        setDialogState(() {});
-                      },
-                    ),
-                    _envFieldChip(
-                      label: AppStrings.t('damage.allyVesselOfRuin'),
-                      ability: 'Vessel of Ruin',
-                      value: _ruins.vesselOfRuin,
-                      onChanged: (v) {
-                        setState(() => _ruins = _ruins.copyWith(vesselOfRuin: v));
-                        setDialogState(() {});
-                      },
-                    ),
-                    _envFieldChip(
-                      label: AppStrings.t('damage.allyBeadsOfRuin'),
-                      ability: 'Beads of Ruin',
-                      value: _ruins.beadsOfRuin,
-                      onChanged: (v) {
-                        setState(() => _ruins = _ruins.copyWith(beadsOfRuin: v));
-                        setDialogState(() {});
-                      },
-                    ),
-                  ],
-                ),
-              ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    _weather = Weather.none;
-                    _terrain = Terrain.none;
-                    _room = const RoomConditions();
-                  });
-                  setDialogState(() {});
-                },
-                child: Text(AppStrings.t('toolbar.conditionsReset')),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: Text(AppStrings.t('action.close')),
-              ),
-            ],
-          );
-        },
+      builder: (_) => _BattleConditionsDialog(
+        initial: _FieldConditions(
+            weather: _weather, terrain: _terrain, room: _room, auras: _auras, ruins: _ruins),
+        abilityPresent: _abilityPresent,
+        onChanged: (c) => setState(() {
+          _weather = c.weather;
+          _terrain = c.terrain;
+          _room = c.room;
+          _auras = c.auras;
+          _ruins = c.ruins;
+        }),
       ),
     );
   }
@@ -1038,50 +827,34 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     );
   }
 
-  Widget _roomDropdown(double fontSize) {
-    return PopupMenuButton<String>(
-      tooltip: '${AppStrings.t('toolbar.room')}',
-      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(AppStrings.t('toolbar.room'), style: TextStyle(
-              fontSize: fontSize,
-              color: _room.hasAny
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey.shade500,
-              fontWeight: _room.hasAny ? FontWeight.bold : FontWeight.normal,
-            )),
-            const Icon(Icons.arrow_drop_down, size: 16),
-          ],
-        ),
-      ),
-      itemBuilder: (_) => [
-        _stickyCheckItem(
-          label: KoStrings.getRoomName(Room.trickRoom),
-          getValue: () => _room.trickRoom,
-          onToggle: () => setState(() => _room = _room.copyWith(trickRoom: !_room.trickRoom)),
-        ),
-        _stickyCheckItem(
-          label: KoStrings.getRoomName(Room.magicRoom),
-          getValue: () => _room.magicRoom,
-          onToggle: () => setState(() => _room = _room.copyWith(magicRoom: !_room.magicRoom)),
-        ),
-        _stickyCheckItem(
-          label: KoStrings.getRoomName(Room.wonderRoom),
-          getValue: () => _room.wonderRoom,
-          onToggle: () => setState(() => _room = _room.copyWith(wonderRoom: !_room.wonderRoom)),
-        ),
-        _stickyCheckItem(
-          label: KoStrings.gravityName,
-          getValue: () => _room.gravity,
-          onToggle: () => setState(() => _room = _room.copyWith(gravity: !_room.gravity)),
-        ),
-      ],
-    );
-  }
+  Widget _roomDropdown(double fontSize) => _StickyCheckMenu(
+        label: AppStrings.t('toolbar.room'),
+        tooltip: AppStrings.t('toolbar.room'),
+        active: _room.hasAny,
+        fontSize: fontSize,
+        items: [
+          _StickyCheckItem(
+            label: KoStrings.getRoomName(Room.trickRoom),
+            getValue: () => _room.trickRoom,
+            onToggle: () => setState(() => _room = _room.copyWith(trickRoom: !_room.trickRoom)),
+          ),
+          _StickyCheckItem(
+            label: KoStrings.getRoomName(Room.magicRoom),
+            getValue: () => _room.magicRoom,
+            onToggle: () => setState(() => _room = _room.copyWith(magicRoom: !_room.magicRoom)),
+          ),
+          _StickyCheckItem(
+            label: KoStrings.getRoomName(Room.wonderRoom),
+            getValue: () => _room.wonderRoom,
+            onToggle: () => setState(() => _room = _room.copyWith(wonderRoom: !_room.wonderRoom)),
+          ),
+          _StickyCheckItem(
+            label: KoStrings.gravityName,
+            getValue: () => _room.gravity,
+            onToggle: () => setState(() => _room = _room.copyWith(gravity: !_room.gravity)),
+          ),
+        ],
+      );
 
   /// True when either side's selected ability matches [ability] — the
   /// corresponding field-state toggle should be locked ON.
@@ -1089,99 +862,29 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       _attacker.selectedAbility == ability ||
       _defender.selectedAbility == ability;
 
-  /// Checkbox menu entry that DOESN'T close the parent popup on tap —
-  /// wraps the body in a non-interactive PopupMenuItem (so Flutter's
-  /// built-in close-on-select doesn't fire) and uses a StatefulBuilder
-  /// to reflect live state changes inside the still-open popup.
-  PopupMenuEntry<String> _stickyCheckItem({
-    required String label,
-    required bool Function() getValue,
-    required VoidCallback onToggle,
-    bool enabled = true,
-  }) {
-    // Force text color to normal onSurface — [PopupMenuItem] with
-    // `enabled: false` otherwise dims every child via DefaultTextStyle.
-    final scheme = Theme.of(context).colorScheme;
-    return PopupMenuItem<String>(
-      enabled: false,
-      padding: EdgeInsets.zero,
-      child: StatefulBuilder(
-        builder: (ctx, setLocal) {
-          final value = getValue();
-          return InkWell(
-            onTap: enabled ? () { onToggle(); setLocal(() {}); } : null,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 24, height: 24,
-                    child: Checkbox(
-                      value: value,
-                      onChanged: enabled
-                          ? (_) { onToggle(); setLocal(() {}); }
-                          : null,
-                      visualDensity: VisualDensity.compact,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      color: enabled
-                          ? scheme.onSurface
-                          : scheme.onSurface.withValues(alpha: 0.4),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
   Widget _auraDropdown(double fontSize) {
     final fairyForced = _abilityPresent('Fairy Aura');
     final darkForced = _abilityPresent('Dark Aura');
     final breakForced = _abilityPresent('Aura Break');
-    final anyActive = fairyForced || darkForced || breakForced ||
-        _auras.hasAny;
-    return PopupMenuButton<String>(
+    return _StickyCheckMenu(
+      label: AppStrings.t('section.aura'),
       tooltip: AppStrings.t('section.aura'),
-      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(AppStrings.t('section.aura'), style: TextStyle(
-              fontSize: fontSize,
-              color: anyActive
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey.shade500,
-              fontWeight: anyActive ? FontWeight.bold : FontWeight.normal,
-            )),
-            const Icon(Icons.arrow_drop_down, size: 16),
-          ],
-        ),
-      ),
-      itemBuilder: (_) => [
-        _stickyCheckItem(
+      active: fairyForced || darkForced || breakForced || _auras.hasAny,
+      fontSize: fontSize,
+      items: [
+        _StickyCheckItem(
           label: AppStrings.t('damage.allyFairyAura'),
           getValue: () => fairyForced || _auras.fairyAura,
           onToggle: () => setState(() => _auras = _auras.copyWith(fairyAura: !_auras.fairyAura)),
           enabled: !fairyForced,
         ),
-        _stickyCheckItem(
+        _StickyCheckItem(
           label: AppStrings.t('damage.allyDarkAura'),
           getValue: () => darkForced || _auras.darkAura,
           onToggle: () => setState(() => _auras = _auras.copyWith(darkAura: !_auras.darkAura)),
           enabled: !darkForced,
         ),
-        _stickyCheckItem(
+        _StickyCheckItem(
           label: AppStrings.t('damage.allyAuraBreak'),
           getValue: () => breakForced || _auras.auraBreak,
           onToggle: () => setState(() => _auras = _auras.copyWith(auraBreak: !_auras.auraBreak)),
@@ -1196,47 +899,31 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final swordForced = _abilityPresent('Sword of Ruin');
     final vesselForced = _abilityPresent('Vessel of Ruin');
     final beadsForced = _abilityPresent('Beads of Ruin');
-    final anyActive = tabletsForced || swordForced || vesselForced ||
-        beadsForced || _ruins.hasAny;
-    return PopupMenuButton<String>(
+    return _StickyCheckMenu(
+      label: AppStrings.t('section.ruin'),
       tooltip: AppStrings.t('section.ruin'),
-      popUpAnimationStyle: AnimationStyle(duration: const Duration(milliseconds: 100)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(AppStrings.t('section.ruin'), style: TextStyle(
-              fontSize: fontSize,
-              color: anyActive
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey.shade500,
-              fontWeight: anyActive ? FontWeight.bold : FontWeight.normal,
-            )),
-            const Icon(Icons.arrow_drop_down, size: 16),
-          ],
-        ),
-      ),
-      itemBuilder: (_) => [
-        _stickyCheckItem(
+      active: tabletsForced || swordForced || vesselForced || beadsForced || _ruins.hasAny,
+      fontSize: fontSize,
+      items: [
+        _StickyCheckItem(
           label: AppStrings.t('damage.allyTabletsOfRuin'),
           getValue: () => tabletsForced || _ruins.tabletsOfRuin,
           onToggle: () => setState(() => _ruins = _ruins.copyWith(tabletsOfRuin: !_ruins.tabletsOfRuin)),
           enabled: !tabletsForced,
         ),
-        _stickyCheckItem(
+        _StickyCheckItem(
           label: AppStrings.t('damage.allySwordOfRuin'),
           getValue: () => swordForced || _ruins.swordOfRuin,
           onToggle: () => setState(() => _ruins = _ruins.copyWith(swordOfRuin: !_ruins.swordOfRuin)),
           enabled: !swordForced,
         ),
-        _stickyCheckItem(
+        _StickyCheckItem(
           label: AppStrings.t('damage.allyVesselOfRuin'),
           getValue: () => vesselForced || _ruins.vesselOfRuin,
           onToggle: () => setState(() => _ruins = _ruins.copyWith(vesselOfRuin: !_ruins.vesselOfRuin)),
           enabled: !vesselForced,
         ),
-        _stickyCheckItem(
+        _StickyCheckItem(
           label: AppStrings.t('damage.allyBeadsOfRuin'),
           getValue: () => beadsForced || _ruins.beadsOfRuin,
           onToggle: () => setState(() => _ruins = _ruins.copyWith(beadsOfRuin: !_ruins.beadsOfRuin)),
@@ -1947,9 +1634,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           // doesn't drag it through the rasterizer every frame.
           RepaintBoundary(
             child: _buildSumFooter(
-              atkSpeed: atkSpeed,
-              defSpeed: defSpeed,
-              defAttack: defStats.attack,
               defenderHp: defCurrentHp,
               defenderMaxHp: defMaxHp,
             ),
@@ -2148,49 +1832,29 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     return RepaintBoundary(child: wrapped);
   }
 
-  /// Compact sticky-feeling footer block at the bottom of the damage
-  /// tab. Empty state is a thin one-line hint; populated state shows
-  /// the per-slot chips with × counts, the convolved damage range,
-  /// and the resulting KO probability against the defender's current HP.
   Widget _buildSumFooter({
-    required int atkSpeed,
-    required int defSpeed,
-    required int defAttack,
     required int defenderHp,
     required int defenderMaxHp,
   }) {
-    final scheme = Theme.of(context).colorScheme;
     final total = _summedTotal;
-
     if (total == 0) {
-      // Compact empty state — small dashed-feel text, no big chrome.
-      // SafeArea pushes the hint above the iOS home-indicator bar so
-      // the swipe gesture handle isn't sitting on top of the text.
-      return SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 12, 10, 8),
-          child: Text(
-            AppStrings.t('damage.sum.emptyHint'),
-            style: TextStyle(fontSize: 12, color: Colors.grey[500]),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      );
+      return _SumFooter(
+          total: 0, max: _kSumMax, chips: const [], minPct: 0, maxPct: 0,
+          minDmg: 0, maxDmg: 0, koText: '', koColor: Colors.grey,
+          onReset: _resetSum, onRemove: _removeSumEntry);
     }
-
-    // Build the joint distribution by concatenating every selected
-    // shot (single-hit = 1 shot, multi-hit = N shots) and convolving
-    // through the existing helper. This way a single-hit Tackle and a
-    // multi-hit Bullet Seed contribute the same way: each shot is a
-    // 16-roll uniform distribution.
+    // Joint distribution of every selected shot (single-hit = 1 shot,
+    // multi-hit = N shots), each a 16-roll uniform distribution.
     final allShots = <List<int>>[];
-    final entries = <({int slot, int count, DamageResult result})>[];
+    final chips = <({int slot, String label})>[];
     for (final entry in _summedSlots.entries) {
       final slot = entry.key;
       final count = entry.value;
       final res = _calcDamage(slot);
-      entries.add((slot: slot, count: count, result: res));
+      final move = _attacker.moves[slot];
+      if (move != null) {
+        chips.add((slot: slot, label: count > 1 ? '${move.localizedName} ×$count' : move.localizedName));
+      }
       for (int i = 0; i < count; i++) {
         if (res.perHitAllRolls != null) {
           allShots.addAll(res.perHitAllRolls!);
@@ -2199,7 +1863,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
         }
       }
     }
-
     final oneSetDist = RandomFactor.multiHitDistributionFromRolls(allShots);
     int minDmg = 1 << 30, maxDmg = 0;
     for (final e in oneSetDist.entries) {
@@ -2207,105 +1870,16 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       if (e.key > maxDmg) maxDmg = e.key;
     }
     if (oneSetDist.isEmpty) { minDmg = 0; maxDmg = 0; }
-
     final minPct = defenderMaxHp > 0 ? minDmg / defenderMaxHp * 100 : 0.0;
     final maxPct = defenderMaxHp > 0 ? maxDmg / defenderMaxHp * 100 : 0.0;
-
-    // N-set KO: how many full repetitions of this combo are needed
-    // to KO. Mirrors a single move's "1타 / 2타" pattern but the unit
-    // is "세트" (one application of the user's selected combo).
-    // Cap at 5 — beyond that the answer is rarely actionable in
-    // practice, and convolution depth grows with N.
-    final (koText, koColor) = _setKoLabel(
-      oneSetDist, defenderHp,
-      minDmg: minDmg, maxDmg: maxDmg,
-    );
-
-    return SafeArea(
-      top: false,
-      // Push the populated footer above the iOS home-indicator bar
-      // too — otherwise the disclaimer / KO line ends up under the
-      // swipe gesture handle on devices with no physical home button.
-      child: Container(
-      margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: scheme.outlineVariant, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                '${AppStrings.t('damage.sum.title')} ($total/$_kSumMax)',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-              ),
-              const Spacer(),
-              IconButton(
-                tooltip: AppStrings.t('damage.sum.reset'),
-                onPressed: _resetSum,
-                icon: const Icon(Icons.refresh, size: 18),
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: [
-              for (final e in entries)
-                if (_attacker.moves[e.slot] != null)
-                  InputChip(
-                    label: Text(
-                      e.count > 1
-                          ? '${_attacker.moves[e.slot]!.localizedName} ×${e.count}'
-                          : _attacker.moves[e.slot]!.localizedName,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                    onDeleted: () => _removeSumEntry(e.slot),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                  ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                Text(
-                  '${minPct.toStringAsFixed(1)}~${maxPct.toStringAsFixed(1)}%',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 8),
-                Text('($minDmg~$maxDmg)',
-                    style: TextStyle(fontSize: 13, color: Colors.grey[600])),
-                if (koText.isNotEmpty) ...[
-                  const SizedBox(width: 12),
-                  Text(koText,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: koColor,
-                          fontWeight: FontWeight.bold)),
-                ],
-              ],
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            AppStrings.t('damage.sum.disclaimer'),
-            style: TextStyle(fontSize: 11, color: Colors.grey[600]),
-          ),
-        ],
-      ),
-      ),
+    // N-set KO: full repetitions of the selected combo needed to KO
+    // ("N세트"), capped at 5 inside _setKoLabel.
+    final (koText, koColor) = _setKoLabel(oneSetDist, defenderHp, minDmg: minDmg, maxDmg: maxDmg);
+    return _SumFooter(
+      total: total, max: _kSumMax, chips: chips,
+      minPct: minPct, maxPct: maxPct, minDmg: minDmg, maxDmg: maxDmg,
+      koText: koText, koColor: koColor,
+      onReset: _resetSum, onRemove: _removeSumEntry,
     );
   }
 

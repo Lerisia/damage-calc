@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/i18n/app_strings.dart';
-import 'package:damage_calc/calc/speed_tier_variants.dart';
+import 'package:damage_calc/features/speed_tier/speed_tier_variants.dart';
 
 /// The Choice Scarf icon ships in the sprite pack, so it can be
 /// missing — a user who never imported a pack, or one on a pack from

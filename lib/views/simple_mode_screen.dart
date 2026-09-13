@@ -48,6 +48,7 @@ import '../search/item_picker.dart';
 import 'widgets/champions_scope_listener.dart';
 
 part 'simple_mode/damage_range_track_shape.dart';
+part 'simple_mode/defender_hp_field.dart';
 
 /// Compact in-battle calculator. Shares the attacker/defender state
 /// with Normal Mode — the user flip-flopping between the two sees the
@@ -1383,171 +1384,16 @@ class _SimpleModeViewState extends State<SimpleModeView>
         }),
       );
 
-  Widget _hpPercentField() {
-    final pct = _def.hpPercent;
-    final dmg = _defenderDamageRangePct();
-    // Tint the slider green → orange → red as HP drops, to match
-    // what players see in-game at a glance. Above 100 % (e.g.
-    // Dynamax HP doubling, Pollen Puff heals, residual mid-turn
-    // damage estimates) we tint cyan to make it obvious the bar
-    // is above the normal cap.
-    final Color color = pct > 100
-        ? Colors.cyan
-        : pct >= 50
-            ? Colors.green
-            : pct >= 20
-                ? Colors.orange
-                : Colors.red;
-    const sliderMax = 150;
-    // Display whole percents as `94%` (no trailing `.0`); decimal
-    // entries (e.g. 6.25 % for 1/16 chip damage) render with up to
-    // two trailing digits, dropping a redundant trailing zero
-    // (`6.5 %` not `6.50 %`).
-    final pctText = pct == pct.roundToDouble()
-        ? pct.toStringAsFixed(0)
-        : (() {
-            final s = pct.toStringAsFixed(2);
-            return s.endsWith('0') ? s.substring(0, s.length - 1) : s;
-          })();
-    // Visual marker for the 100 % anchor sits at this fraction of
-    // the track. RoundSliderThumbShape radius (8) is the horizontal
-    // padding the slider reserves on each side for the thumb.
-    const thumbRadius = 8.0;
-    const hundredFraction = 100 / sliderMax;
-    // Damage-range overlay is painted inside the slider's track —
-    // see [_DamageRangeTrackShape]. Painting it as part of the
-    // track means (a) the thumb sits ON TOP of it (user direction:
-    // 원 아래로 뜨게 해주세요 — the active-track region right under
-    // the thumb stays its normal colour, only further-left damage
-    // shows), and (b) the overlay is positioned RELATIVE TO the
-    // thumb's interpolated centre, so during drag the red moves in
-    // lockstep with the thumb instead of jittering one snap-point
-    // behind (the previous Stack/Positioned approach computed
-    // overlay positions from the snapped `pct` while the slider's
-    // thumb visually interpolated between snaps — that's what felt
-    // "기괴").
-    final double minDmgFrac =
-        dmg == null ? 0 : (dmg.minPct / sliderMax).clamp(0.0, 1.0);
-    final double maxDmgFrac =
-        dmg == null ? 0 : (dmg.maxPct / sliderMax).clamp(0.0, 1.0);
-    final bool hasDmgOverlay = dmg != null && pct > 0 && dmg.maxPct > 0;
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: 28,
-            child: LayoutBuilder(
-              builder: (ctx, c) {
-                final trackWidth = c.maxWidth - thumbRadius * 2;
-                final markerLeft = thumbRadius + hundredFraction * trackWidth;
-                return Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.center,
-                  children: [
-                    Positioned(
-                      left: markerLeft - 1,
-                      top: (c.maxHeight - 12) / 2,
-                      child: IgnorePointer(
-                        child: Container(
-                          width: 2,
-                          height: 12,
-                          color: Theme.of(context).colorScheme.outline,
-                        ),
-                      ),
-                    ),
-                    SliderTheme(
-                      data: SliderTheme.of(context).copyWith(
-                        trackHeight: 6,
-                        overlayShape: SliderComponentShape.noOverlay,
-                        thumbShape:
-                            const RoundSliderThumbShape(enabledThumbRadius: 8),
-                        activeTrackColor: color,
-                        inactiveTrackColor: color.withValues(alpha: 0.25),
-                        thumbColor: color,
-                        trackShape: hasDmgOverlay
-                            ? _DamageRangeTrackShape(
-                                minDmgFraction: minDmgFrac,
-                                maxDmgFraction: maxDmgFrac,
-                              )
-                            : null,
-                      ),
-                      child: Slider(
-                        value: pct.clamp(0, sliderMax).toDouble(),
-                        min: 0,
-                        max: sliderMax.toDouble(),
-                        // 1 % steps — landing on a precise sub-percent
-                        // value via the slider is too fiddly. For
-                        // chip-damage fractions (1/16 = 6.25 %, …),
-                        // the user taps the % label and types it.
-                        divisions: sliderMax,
-                        onChanged: (v) {
-                          var rounded = v.round();
-                          if ((rounded - 100).abs() <= 2) rounded = 100;
-                          setState(
-                              () => _def.hpPercent = rounded.toDouble());
-                          widget.onChanged();
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ),
-        // Tappable % label — the slider can only do 1 % steps so
-        // chip-damage fractions like 6.25 % go through this editor.
-        // The pencil icon + outlined chip styling makes the tap
-        // affordance obvious; without it users assumed the label
-        // was a passive readout.
-        // Fixed-width chip: the slider is Expanded, so if this chip
-        // grew with its digits ("94%" → "6.25%" → "50.29%") the track
-        // would change length on every edit. Wide enough for
-        // "100.00%"; anything longer scales down inside the box.
-        InkWell(
-          onTap: _editHpPercent,
-          borderRadius: BorderRadius.circular(6),
-          child: Container(
-            width: 74,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: Theme.of(context).colorScheme.outlineVariant),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Flexible(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '$pctText%',
-                      maxLines: 1,
-                      softWrap: false,
-                      style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          fontFeatures: [FontFeature.tabularFigures()]),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Icon(Icons.edit,
-                    size: 12,
-                    color: Theme.of(context).colorScheme.outline),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(width: 6),
-        _defHazardButtons(),
-      ],
-    );
-  }
+  Widget _hpPercentField() => _DefenderHpField(
+        pct: _def.hpPercent,
+        damageRange: _defenderDamageRangePct(),
+        onChanged: (v) {
+          setState(() => _def.hpPercent = v);
+          widget.onChanged();
+        },
+        onEdit: _editHpPercent,
+        trailing: _defHazardButtons(),
+      );
 
   /// Tap-to-edit dialog for fine HP control — the slider snaps to
   /// 1 % steps, so chip-damage fractions like 1/16 (6.25 %) need a

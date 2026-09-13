@@ -5,7 +5,7 @@ import 'package:damage_calc/models/pokemon.dart';
 import 'package:damage_calc/controllers/champions_format_controller.dart';
 import 'package:damage_calc/data/abilitydex.dart';
 import 'package:damage_calc/i18n/app_strings.dart';
-import 'package:damage_calc/calc/speed_tier_variants.dart';
+import 'package:damage_calc/features/speed_tier/speed_tier_variants.dart';
 
 /// Realized-speed variants for the Champions speed tier sheet.
 ///
