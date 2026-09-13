@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart';
 export 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -210,9 +211,36 @@ TypeAheadField<T> buildTypeAhead<T>({
     // that sends the dropdown to the top of the screen on autoFlip.
     // Instead, apply maxHeight via decorationBuilder.
     decorationBuilder: (context, child) {
-      return ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: maxHeight),
-        child: Material(elevation: 4, child: child),
+      return Focus(
+        canRequestFocus: false,
+        skipTraversal: true,
+        // ↑/↓ between suggestions. The package leaves in-list movement
+        // to Flutter's default arrow-key focus traversal, which the
+        // WEB app shortcuts don't map (arrows scroll there), so on
+        // damage-calc.com ↓ entered the list and then went dead. Move
+        // focus ourselves; when there is no neighbour in that direction
+        // return `ignored` so the package's scope handler still hands
+        // focus back to the text field at the list's edge.
+        onKeyEvent: (node, event) {
+          if (event is! KeyDownEvent) return KeyEventResult.ignored;
+          final TraversalDirection dir;
+          if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+            dir = TraversalDirection.down;
+          } else if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+            dir = TraversalDirection.up;
+          } else {
+            return KeyEventResult.ignored;
+          }
+          final focused = FocusManager.instance.primaryFocus;
+          if (focused == null) return KeyEventResult.ignored;
+          return focused.focusInDirection(dir)
+              ? KeyEventResult.handled
+              : KeyEventResult.ignored;
+        },
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: maxHeight),
+          child: Material(elevation: 4, child: child),
+        ),
       );
     },
     suggestionsCallback: suggestionsCallback,
