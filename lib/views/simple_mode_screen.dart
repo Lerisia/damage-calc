@@ -955,47 +955,50 @@ class _SimpleModeViewState extends State<SimpleModeView>
     );
   }
 
-  /// Bottom-of-screen speed readout. No arrows — just "공격측이
-  /// 방어측보다 n 빠름" style text so it reads clearly.
+  /// Bottom-of-screen speed readout: "한카리아스(135)가 카디나르마(95)보다
+  /// 40 빠름" — each side's effective speed right after its name (user
+  /// request 2026-09-14), so the sentence and the numbers can't
+  /// disagree. A mirror match falls back to 공격측 / 방어측 as the
+  /// names. Scale-down keeps the single-line height above the bottom
+  /// nav.
   Widget _speedResultRow() {
     final atkSpeed = BattleFacade.calcSpeed(
       state: _atk, weather: widget.weather, terrain: widget.terrain, room: widget.room);
     final defSpeed = BattleFacade.calcSpeed(
       state: _def, weather: widget.weather, terrain: widget.terrain, room: widget.room);
     final diff = (atkSpeed - defSpeed).abs();
-    // Mirror match: fall back to 공격측/방어측 so the line isn't
-    // ambiguous. Otherwise show the actual species names.
     final mirror = _atk.pokemonName == _def.pokemonName;
-    String namedFasterBy(BattlePokemonState faster, BattlePokemonState slower) {
-      final a = faster.localizedPokemonName;
-      final b = slower.localizedPokemonName;
-      return AppStrings.t('simple.namedFasterBy')
-          .replaceAll('{a}', a)
-          .replaceAll('{p}', AppStrings.koSubjectParticle(a))
-          .replaceAll('{b}', b)
-          .replaceAll('{n}', '$diff');
-    }
+    final atkName = mirror ? AppStrings.t('tab.attacker') : _atk.localizedPokemonName;
+    final defName = mirror ? AppStrings.t('tab.defender') : _def.localizedPokemonName;
+    // The Korean particle is chosen on the bare name, then the speed
+    // is appended: 한카리아스(135)가, 공격측(135)이.
+    String fasterBy(String a, int aSpeed, String b, int bSpeed) =>
+        AppStrings.t('simple.namedFasterBy')
+            .replaceAll('{a}', '$a($aSpeed)')
+            .replaceAll('{p}', AppStrings.koSubjectParticle(a))
+            .replaceAll('{b}', '$b($bSpeed)')
+            .replaceAll('{n}', '$diff');
 
     final String label;
     final Color color;
     if (atkSpeed > defSpeed) {
-      label = mirror
-          ? AppStrings.t('simple.atkFasterBy').replaceAll('{n}', '$diff')
-          : namedFasterBy(_atk, _def);
+      label = fasterBy(atkName, atkSpeed, defName, defSpeed);
       color = Colors.red;
     } else if (atkSpeed < defSpeed) {
-      label = mirror
-          ? AppStrings.t('simple.defFasterBy').replaceAll('{n}', '$diff')
-          : namedFasterBy(_def, _atk);
+      label = fasterBy(defName, defSpeed, atkName, atkSpeed);
       color = Colors.blue;
     } else {
-      label = AppStrings.t('simple.tiedSpeed');
+      label = '${AppStrings.t('simple.tiedSpeed')} ($atkSpeed)';
       color = Colors.grey;
     }
     return Center(
-      child: Text(label, style: TextStyle(
-        fontSize: 13, fontWeight: FontWeight.w600, color: color,
-      )),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(label, style: TextStyle(
+          fontSize: 13, fontWeight: FontWeight.w600, color: color,
+          fontFeatures: const [FontFeature.tabularFigures()],
+        )),
+      ),
     );
   }
 
