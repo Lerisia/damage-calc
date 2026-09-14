@@ -60,7 +60,10 @@ class _MainTabState extends State<_MainTab> {
       if (p.abilities.contains(first)) picked = first;
     }
     picked ??= p.abilities.isNotEmpty ? p.abilities.first : null;
-    _selectedAbility = picked;
+    // Always a concrete calc key (a state for stateful abilities) so
+    // it compares equal to what the chips emit.
+    _selectedAbility =
+        picked == null ? null : BattlePokemonState.expandAbilityKey(picked);
   }
 
   @override
@@ -207,19 +210,20 @@ class _CalcAbilityPicker extends StatelessWidget {
               spacing: 6,
               runSpacing: 4,
               children: [
-                // Stateful ability bases (Supreme Overlord, Rivalry)
-                // get mapped to a default variant ("Supreme Overlord
-                // 0", "Rivalry Same") so the chip carries a key the
-                // damage calc actually understands. Mirrors what
-                // applyPokemon does on the calc side.
-                for (final raw in pokemon.abilities)
+                // One chip per ability, labelled with the base name.
+                // Stateful abilities (Supreme Overlord 0–5, Flash Fire
+                // Inactive / Active, …) fold onto their base for the
+                // chip and emit the default state ("Supreme Overlord
+                // 0", "Flash Fire Inactive") — the key the damage calc
+                // understands. Mirrors applyPokemon on the calc side;
+                // the calculator itself still picks states.
+                for (final base in collapseAbilityVariants(pokemon.abilities))
                   _AbilityChip(
-                    label: _label(
-                        BattlePokemonState.expandAbilityKey(raw) ?? raw),
+                    label: _label(base),
                     selected: selected ==
-                        (BattlePokemonState.expandAbilityKey(raw) ?? raw),
+                        BattlePokemonState.expandAbilityKey(base),
                     onTap: () => onChanged(
-                        BattlePokemonState.expandAbilityKey(raw) ?? raw),
+                        BattlePokemonState.expandAbilityKey(base)),
                   ),
                 // "특성 없음" — lets the user remove the ability so
                 // the type matchup chart and downstream calc tables

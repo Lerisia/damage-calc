@@ -13,6 +13,21 @@ import 'package:damage_calc/data/ability_variants.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  test('collapseAbilityVariants folds states onto bases, once, in order', () {
+    expect(
+        collapseAbilityVariants([
+          'Supreme Overlord 0', 'Supreme Overlord 1', 'Supreme Overlord 2',
+          'Supreme Overlord 3', 'Supreme Overlord 4', 'Supreme Overlord 5',
+          'Defiant',
+        ]),
+        ['Supreme Overlord', 'Defiant']);
+    expect(collapseAbilityVariants(['Levitate', 'Flash Fire Inactive', 'Flash Fire Active']),
+        ['Levitate', 'Flash Fire']);
+    expect(collapseAbilityVariants(['Sand Veil', 'Rough Skin']), ['Sand Veil', 'Rough Skin']);
+    expect(collapseAbilityVariants(['Flash Fire']), ['Flash Fire'],
+        reason: 'a bare base stays a base');
+  });
+
   test('registry and abilities.json agree on which entries are bases', () async {
     final dex = await loadAbilitydex();
     final registered = {for (final v in kAbilityVariants) v.base};

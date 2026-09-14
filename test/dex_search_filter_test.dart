@@ -379,6 +379,29 @@ void main() {
               movesByPokemon: empty),
           false);
     });
+
+    test('a stateful ability matches by its base key', () {
+      // Species data lists the states; the picker offers the base.
+      final h = _p(
+        name: 'Heatran',
+        t1: PokemonType.fire,
+        t2: PokemonType.steel,
+        abilities: ['Flash Fire Inactive', 'Flash Fire Active', 'Flame Body'],
+      );
+      expect(
+          matchesDexFilter(h, const DexSearchFilter(abilityKey: 'Flash Fire'),
+              movesByPokemon: empty),
+          true);
+      expect(
+          matchesDexFilter(h, const DexSearchFilter(abilityKey: 'Flash Fire Active'),
+              movesByPokemon: empty),
+          true,
+          reason: 'an older saved filter may still hold a state key');
+      expect(
+          matchesDexFilter(p, const DexSearchFilter(abilityKey: 'Flash Fire'),
+              movesByPokemon: empty),
+          false);
+    });
   });
 
   group('matchesDexFilter — moves', () {

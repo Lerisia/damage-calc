@@ -6,6 +6,7 @@ import '../../models/move.dart';
 import '../../models/pokemon.dart';
 import '../../models/type.dart';
 import '../../calc/ability_effects.dart';
+import '../../data/ability_variants.dart';
 import '../../i18n/app_strings.dart';
 import '../../search/korean_search.dart';
 import '../../i18n/localization.dart';
@@ -250,9 +251,15 @@ bool matchesDexFilter(
     if (!any) return false;
   }
 
-  // Ability — match if any potential ability (regular or hidden) equals.
+  // Ability — match if any potential ability (regular or hidden)
+  // equals, comparing base keys: species carry state keys ("Flash
+  // Fire Inactive") while the picker offers the base ("Flash Fire"),
+  // and an older saved filter may still hold a state.
   if (filter.abilityKey != null) {
-    if (!p.abilities.contains(filter.abilityKey!)) return false;
+    final want = abilityBaseFor(filter.abilityKey!) ?? filter.abilityKey!;
+    if (!p.abilities.any((a) => (abilityBaseFor(a) ?? a) == want)) {
+      return false;
+    }
   }
 
   // Moves — AND requires all 4; OR requires at least one.
@@ -414,8 +421,11 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
       return TextEditingController(text: label);
     });
 
+    // One entry per ability: the description-only base of a stateful
+    // ability is offered, its state keys are not (matching folds
+    // species' state keys onto the base, see matchesDexFilter).
     _selectableAbilities = widget.abilityDex.values
-        .where((a) => !a.nonMainline && !a.descriptionOnly)
+        .where((a) => !a.nonMainline && abilityBaseFor(a.name) == null)
         .toList()
       ..sort((a, b) => a.localizedName.compareTo(b.localizedName));
     _abilityEntries = [

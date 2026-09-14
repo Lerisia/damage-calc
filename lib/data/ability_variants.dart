@@ -58,3 +58,16 @@ String? abilityBaseFor(String key) => _byState[key]?.base;
 /// A base key → all of its states; any other key → `[key]`.
 List<String> expandAbilityStates(String key) =>
     _byBase[key]?.states ?? [key];
+
+/// Species ability lists with every state key folded onto its base,
+/// deduplicated, order preserved: `[Flash Fire Inactive, Flash Fire
+/// Active, Levitate]` → `[Flash Fire, Levitate]`. For the dex, which
+/// describes an ability once; the calculator keeps the states.
+List<String> collapseAbilityVariants(Iterable<String> keys) {
+  final out = <String>[];
+  for (final k in keys) {
+    final base = abilityBaseFor(k) ?? k;
+    if (!out.contains(base)) out.add(base);
+  }
+  return out;
+}

@@ -8,7 +8,12 @@ class _AbilitiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final abs = pokemon.abilities;
+    // One row per ability: state keys (Flash Fire Inactive / Active,
+    // Supreme Overlord 0–5, …) fold onto their base so the dex
+    // describes the ability once. The hidden-ability guess below has
+    // to run on the folded list, or a two-state ability at the end
+    // would put the '*' on its second state.
+    final abs = collapseAbilityVariants(pokemon.abilities);
     // Convention: last ability in the list is the hidden one when 3
     // are listed (PokeAPI convention is preserved in our data). We
     // tag with '*' when this looks like a HA pattern.
