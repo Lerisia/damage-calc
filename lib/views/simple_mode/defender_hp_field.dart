@@ -1,14 +1,13 @@
 part of '../simple_mode_screen.dart';
 
 /// The defender's HP row in Simple Mode: colour-coded slider with the
-/// damage-range overlay, the fixed-width tappable % chip, and a
-/// trailing slot for the Stealth Rock button.
+/// 100 % anchor and the damage-range overlay, the fixed-width tappable
+/// HP chip, and a trailing slot for the Stealth Rock button.
 ///
-/// The slider reads as a percent but moves in whole HP: its range is
-/// 0…[maxHp] with one division per HP, so it can only land on shares
-/// a real HP produces. The chip shows the share of the current
-/// integer; tapping it edits the real value (see the screen's
-/// `_editHp`).
+/// The slider reads as a percent (0…150 %, anchor at 100 %) but moves
+/// in whole HP — one division per HP — so it can only land on values
+/// a real HP produces. The chip shows the current HP as an integer;
+/// tapping it edits that value (see the screen's `_editHp`).
 class _DefenderHpField extends StatelessWidget {
   final int currentHp;
   final int maxHp;
@@ -26,70 +25,92 @@ class _DefenderHpField extends StatelessWidget {
     required this.trailing,
   });
 
-  /// `94%` for whole percents; decimals (6.25 % chip damage) keep up to
-  /// two digits with a redundant trailing zero dropped (`6.5` not `6.50`).
-  static String formatPct(double pct) {
-    if (pct == pct.roundToDouble()) return pct.toStringAsFixed(0);
-    final s = pct.toStringAsFixed(2);
-    return s.endsWith('0') ? s.substring(0, s.length - 1) : s;
-  }
-
   @override
   Widget build(BuildContext context) {
     final dmg = damageRange;
     final pct = hpPercentOf(maxHp, currentHp);
-    // Green → orange → red as HP drops, like the in-game bar.
-    final Color color = pct >= 50
-        ? Colors.green
-        : pct >= 20
-            ? Colors.orange
-            : Colors.red;
+    // Green → orange → red as HP drops, like the in-game bar; cyan above
+    // 100 % (Dynamax, heals, mid-turn estimates) so the overflow is obvious.
+    final Color color = currentHp > maxHp
+        ? Colors.cyan
+        : pct >= 50
+            ? Colors.green
+            : pct >= 20
+                ? Colors.orange
+                : Colors.red;
+    // Track spans 0…150 % of max HP in whole-HP steps; the 100 %
+    // marker sits at max HP.
+    final int sliderMax = maxCurrentHp(maxHp < 1 ? 1 : maxHp);
+    // Thumb radius (8) is the horizontal padding the slider reserves
+    // on each side; the 100 % marker sits at this fraction of the track.
+    const thumbRadius = 8.0;
+    final double hundredFraction = maxHp / sliderMax;
     // The damage overlay is painted as part of the track (see
     // [_DamageRangeTrackShape]) so the thumb sits on top of it and the
-    // overlay moves in lockstep with the thumb during a drag. The
-    // track spans 0…100 % of max HP, so the overlay's percents map
-    // straight onto track fractions.
+    // overlay moves in lockstep with the thumb during a drag.
     final double minDmgFrac =
-        dmg == null ? 0 : (dmg.minPct / 100).clamp(0.0, 1.0);
+        dmg == null ? 0 : (dmg.minPct / 100 * hundredFraction).clamp(0.0, 1.0);
     final double maxDmgFrac =
-        dmg == null ? 0 : (dmg.maxPct / 100).clamp(0.0, 1.0);
+        dmg == null ? 0 : (dmg.maxPct / 100 * hundredFraction).clamp(0.0, 1.0);
     final bool hasDmgOverlay = dmg != null && currentHp > 0 && dmg.maxPct > 0;
-    final int sliderMax = maxHp < 1 ? 1 : maxHp;
     return Row(
       children: [
         Expanded(
           child: SizedBox(
             height: 28,
-            child: SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                trackHeight: 6,
-                overlayShape: SliderComponentShape.noOverlay,
-                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-                activeTrackColor: color,
-                inactiveTrackColor: color.withValues(alpha: 0.25),
-                thumbColor: color,
-                trackShape: hasDmgOverlay
-                    ? _DamageRangeTrackShape(
-                        minDmgFraction: minDmgFrac,
-                        maxDmgFraction: maxDmgFrac,
-                      )
-                    : null,
-              ),
-              child: Slider(
-                value: currentHp.clamp(0, sliderMax).toDouble(),
-                min: 0,
-                max: sliderMax.toDouble(),
-                // One division per HP: every thumb position is a real
-                // HP value, so no unreachable share can be dialled in.
-                divisions: sliderMax,
-                onChanged: maxHp < 1 ? null : (v) => onChanged(v.round()),
-              ),
+            child: LayoutBuilder(
+              builder: (ctx, c) {
+                final trackWidth = c.maxWidth - thumbRadius * 2;
+                final markerLeft = thumbRadius + hundredFraction * trackWidth;
+                return Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned(
+                      left: markerLeft - 1,
+                      top: (c.maxHeight - 12) / 2,
+                      child: IgnorePointer(
+                        child: Container(
+                          width: 2,
+                          height: 12,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        trackHeight: 6,
+                        overlayShape: SliderComponentShape.noOverlay,
+                        thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+                        activeTrackColor: color,
+                        inactiveTrackColor: color.withValues(alpha: 0.25),
+                        thumbColor: color,
+                        trackShape: hasDmgOverlay
+                            ? _DamageRangeTrackShape(
+                                minDmgFraction: minDmgFrac,
+                                maxDmgFraction: maxDmgFrac,
+                              )
+                            : null,
+                      ),
+                      child: Slider(
+                        value: currentHp.clamp(0, sliderMax).toDouble(),
+                        min: 0,
+                        max: sliderMax.toDouble(),
+                        // One division per HP: every thumb position is
+                        // a real HP value.
+                        divisions: sliderMax,
+                        onChanged: maxHp < 1 ? null : (v) => onChanged(v.round()),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
-        // Fixed-width tappable % chip: the slider is Expanded, so a chip
+        // Fixed-width tappable HP chip: the slider is Expanded, so a chip
         // that grew with its digits would change the track length on
-        // every edit. Wide enough for "100.00%"; longer scales down.
+        // every edit. Wide enough for three digits; longer scales down.
         InkWell(
           onTap: onEdit,
           borderRadius: BorderRadius.circular(6),
@@ -109,7 +130,7 @@ class _DefenderHpField extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '${formatPct(pct)}%',
+                      '$currentHp',
                       maxLines: 1,
                       softWrap: false,
                       style: const TextStyle(

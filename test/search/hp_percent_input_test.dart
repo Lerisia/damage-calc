@@ -6,16 +6,18 @@ void main() {
     expect(currentHpFromInput('', 187), 187);
     expect(currentHpFromInput('  ', 187), 187);
   });
-  test('a plain number is real HP, clamped to max', () {
+  test('a plain number is real HP, clamped to 150 % of max', () {
     expect(currentHpFromInput('94', 187), 94);
     expect(currentHpFromInput('0', 187), 0);
-    expect(currentHpFromInput('999', 187), 187);
+    expect(currentHpFromInput('224', 187), 224);
+    expect(currentHpFromInput('999', 187), 280);
     expect(currentHpFromInput('93.6', 187), 94);
   });
   test('a trailing % is a share, snapped to the nearest HP', () {
     expect(currentHpFromInput('40%', 187), 75);
     expect(currentHpFromInput('50 %', 175), 88);
-    expect(currentHpFromInput('150%', 187), 187);
+    expect(currentHpFromInput('150%', 187), 280);
+    expect(currentHpFromInput('200%', 187), 280);
   });
   test('garbage leaves the value alone', () {
     expect(currentHpFromInput('abc', 187), isNull);

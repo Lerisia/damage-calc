@@ -13,9 +13,16 @@
 /// rounding here is only about mapping a typed share onto HP.
 library;
 
+/// HP may sit above max — up to 150 % — for Sitrus / heal estimates
+/// and mid-turn what-ifs (user decision 2026-09-14); the cap is the
+/// largest integer within that share.
+const double kHpOverflowFactor = 1.5;
+
+int maxCurrentHp(int maxHp) => (maxHp * kHpOverflowFactor).floor();
+
 int currentHpOf(int maxHp, double hpPercent) {
   if (maxHp <= 0) return 0;
-  return (maxHp * hpPercent / 100).round().clamp(0, maxHp);
+  return (maxHp * hpPercent / 100).round().clamp(0, maxCurrentHp(maxHp));
 }
 
 double hpPercentOf(int maxHp, int currentHp) =>

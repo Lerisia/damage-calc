@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/calc/battle_facade.dart';
+import 'package:damage_calc/calc/hp.dart';
 import 'package:damage_calc/models/battle_pokemon.dart';
 import 'package:damage_calc/models/dynamax.dart';
 
@@ -28,11 +29,12 @@ void main() {
     expect(BattleFacade.currentHp(s), lessThanOrEqualTo(max));
   });
 
-  test('setCurrentHp clamps to the max the mon has right now', () {
+  test('setCurrentHp keeps up to 150 % of the max the mon has right now', () {
     final s = BattlePokemonState();
     final max = BattleFacade.maxHp(s);
     BattleFacade.setCurrentHp(s, 10 * max);
-    expect(BattleFacade.currentHp(s), max);
-    expect(BattleFacade.effectiveHpPercent(s), 100);
+    expect(BattleFacade.currentHp(s), maxCurrentHp(max));
+    BattleFacade.setCurrentHp(s, max + 10);
+    expect(BattleFacade.currentHp(s), max + 10);
   });
 }

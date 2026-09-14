@@ -794,10 +794,11 @@ class BattleFacade {
   static double effectiveHpPercent(BattlePokemonState state) =>
       hpPercentOf(effectiveMaxHp(state), currentHp(state));
 
-  /// Store a real HP value (against [effectiveMaxHp]) as the share.
+  /// Store a real HP value (against [effectiveMaxHp]) as the share;
+  /// values up to 150 % of max are kept (see calc/hp.dart).
   static void setCurrentHp(BattlePokemonState state, int hp) {
     final max = effectiveMaxHp(state);
-    state.hpPercent = hpPercentOf(max, hp.clamp(0, max));
+    state.hpPercent = hpPercentOf(max, hp.clamp(0, maxCurrentHp(max)));
   }
 
   static Stats _baseActualStats(BattlePokemonState state) {

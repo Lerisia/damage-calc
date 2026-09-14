@@ -13,8 +13,11 @@ void main() {
     expect(currentHpOf(187, 0), 0);
   });
 
-  test('clamps to 0…max and tolerates a zero max', () {
-    expect(currentHpOf(187, 150), 187);
+  test('clamps to 0…150 % of max and tolerates a zero max', () {
+    expect(maxCurrentHp(187), 280); // 280.5 → 280
+    expect(currentHpOf(187, 150), 280);
+    expect(currentHpOf(187, 999), 280);
+    expect(currentHpOf(187, 120), 224); // heals / Dynamax what-ifs stay
     expect(currentHpOf(187, -5), 0);
     expect(currentHpOf(0, 50), 0);
     expect(hpPercentOf(0, 0), 100);

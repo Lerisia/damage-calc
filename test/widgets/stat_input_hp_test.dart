@@ -9,9 +9,10 @@ import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/views/widgets/stat_input.dart';
 
 /// Extended Mode's HP field takes a real value (user decision
-/// 2026-09-14): the box shows the current HP integer, the next column
-/// shows max HP with the share it is, and what reaches the parent is
-/// the share of the typed integer — never a share no HP can produce.
+/// 2026-09-14): the box shows the current HP integer (no percent
+/// anywhere in this mode), and what reaches the parent is the share
+/// of the typed integer — never a share no HP can produce. Up to
+/// 150 % of max is allowed for heal / Dynamax what-ifs.
 void main() {
   const base = Stats(hp: 108, attack: 130, defense: 95, spAttack: 80, spDefense: 85, speed: 102);
   const iv = Stats(hp: 31, attack: 31, defense: 31, spAttack: 31, spDefense: 31, speed: 31);
@@ -59,12 +60,12 @@ void main() {
 
   final field = find.byKey(const ValueKey('hp_cur'));
 
-  testWidgets('shows the current HP integer and the share next to max', (tester) async {
-    hpPercent = 33; // of 183 → 60 HP = 32.79 %
+  testWidgets('shows the current HP integer, no percent', (tester) async {
+    hpPercent = 33; // of 183 → 60 HP
     await tester.pumpWidget(host());
     expect(maxHp, 183);
     expect(find.descendant(of: field, matching: find.text('60')), findsOneWidget);
-    expect(find.text(' 32.79%'), findsOneWidget);
+    expect(find.textContaining('%'), findsNothing);
   });
 
   testWidgets('a typed real value reaches the parent as its share', (tester) async {
@@ -82,10 +83,12 @@ void main() {
     expect(reported.last, 100);
   });
 
-  testWidgets('a value above max clamps to max', (tester) async {
+  testWidgets('values above max are kept up to 150 %', (tester) async {
     await tester.pumpWidget(host());
+    await tester.enterText(field, '220');
+    expect(currentHpOf(maxHp, reported.last), 220);
     await tester.enterText(field, '999');
-    expect(currentHpOf(maxHp, reported.last), maxHp);
+    expect(currentHpOf(maxHp, reported.last), maxCurrentHp(maxHp)); // 274
   });
 
   testWidgets('Dynamaxed: the range is the doubled max and the share is kept', (tester) async {
@@ -93,7 +96,7 @@ void main() {
     hpPercent = hpPercentOf(2 * maxHp, 300); // typed 300/366 while Dynamaxed
     await tester.pumpWidget(host());
     expect(find.descendant(of: field, matching: find.text('300')), findsOneWidget);
-    expect(find.text('366'), findsOneWidget);
+    expect(find.text('(×2)'), findsOneWidget);
     await tester.enterText(field, '350');
     expect(currentHpOf(2 * maxHp, reported.last), 350);
     // Dynamax ends: the same share on the normal max, like the game.

@@ -733,43 +733,19 @@ class _StatInputState extends State<StatInput>
           Expanded(
             flex: 3,
             child: dynamaxHp
-              // Dynamaxed: the HP the mon has right now is the doubled
-              // max, and the input above works against it; the share
-              // is kept across Dynamax on / off like the game does.
               ? FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Text('${actual * 2}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
+                      Text('$actual', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
                       Text('(×2)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
-                      Text(' ${_formatHpPct(snapHpPercent(actual * 2, widget.hpPercent))}%',
-                          style: TextStyle(fontSize: 10, color: Colors.grey.shade600)),
                     ],
                   ),
                 )
-              : rankIndex < 0
-                  // HP row: max HP plus the share the current HP is
-                  // of it — derived from the integer, so it is always
-                  // a share a real HP can produce.
-                  ? FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Text('$actual', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
-                          Text(' ${_formatHpPct(snapHpPercent(actual, widget.hpPercent))}%',
-                              style: TextStyle(fontSize: 10, color: Colors.grey.shade600)),
-                        ],
-                      ),
-                    )
-                  : Text('$actual', textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
+              : Text('$actual', textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
           ),
         ],
       ),
@@ -931,10 +907,10 @@ class _StatInputState extends State<StatInput>
     );
   }
 
-  /// Current HP as a real value (the max sits in the next column,
-  /// with the share). `40%` is accepted too and snaps to the nearest
-  /// HP; the parent still stores the share (see calc/hp.dart), so the
-  /// value survives EV / level edits as "the same fraction".
+  /// Current HP as a real value (the max sits in the next column).
+  /// `40%` is accepted too and snaps to the nearest HP; the parent
+  /// still stores the share (see calc/hp.dart), so the value survives
+  /// EV / level edits as "the same fraction". Up to 150 % of max.
   Widget _hpControl({required int maxHp}) {
     return Row(
       children: [
@@ -966,15 +942,6 @@ class _StatInputState extends State<StatInput>
     );
   }
 
-  /// Whole numbers render without a trailing `.0` so the common case
-  /// (100 %) doesn't suddenly read as `100.00 %` after the input
-  /// gained decimal precision.
-  static String _formatHpPct(double v) {
-    if (v == v.roundToDouble()) return v.toStringAsFixed(0);
-    final s = v.toStringAsFixed(2);
-    // Trim a trailing zero on the second decimal: 6.25 stays, 6.50 -> 6.5.
-    return s.endsWith('0') ? s.substring(0, s.length - 1) : s;
-  }
 
   Widget _flexButton(String text, VoidCallback? onPressed) {
     return SizedBox(
