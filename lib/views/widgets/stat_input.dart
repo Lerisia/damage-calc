@@ -20,6 +20,7 @@ import '../../calc/speed_calculator.dart';
 import '../../calc/room_effects.dart';
 import '../../controllers/champions_filter_controller.dart';
 import '../../calc/champions_mode.dart';
+import '../../calc/hp.dart';
 import '../../calc/stat_calculator.dart';
 import 'typeahead_helpers.dart';
 import '../../data/ability_variants.dart';
@@ -727,24 +728,48 @@ class _StatInputState extends State<StatInput>
             flex: 3,
             child: rankIndex >= 0
                 ? _rankControl(rankVal, (v) => onChanged(ivVal, evVal, v))
-                : _hpPercentControl(),
+                : _hpControl(maxHp: dynamaxHp ? actual * 2 : actual),
           ),
           Expanded(
             flex: 3,
             child: dynamaxHp
+              // Dynamaxed: the HP the mon has right now is the doubled
+              // max, and the input above works against it; the share
+              // is kept across Dynamax on / off like the game does.
               ? FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Text('$actual', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
+                      Text('${actual * 2}', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: actualColor)),
                       Text('(×2)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
+                      Text(' ${_formatHpPct(snapHpPercent(actual * 2, widget.hpPercent))}%',
+                          style: TextStyle(fontSize: 10, color: Colors.grey.shade600)),
                     ],
                   ),
                 )
-              : Text('$actual', textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
+              : rankIndex < 0
+                  // HP row: max HP plus the share the current HP is
+                  // of it — derived from the integer, so it is always
+                  // a share a real HP can produce.
+                  ? FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text('$actual', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
+                          Text(' ${_formatHpPct(snapHpPercent(actual, widget.hpPercent))}%',
+                              style: TextStyle(fontSize: 10, color: Colors.grey.shade600)),
+                        ],
+                      ),
+                    )
+                  : Text('$actual', textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: actualColor)),
           ),
         ],
       ),
@@ -906,34 +931,33 @@ class _StatInputState extends State<StatInput>
     );
   }
 
-  Widget _hpPercentControl() {
+  /// Current HP as a real value (the max sits in the next column,
+  /// with the share). `40%` is accepted too and snaps to the nearest
+  /// HP; the parent still stores the share (see calc/hp.dart), so the
+  /// value survives EV / level edits as "the same fraction".
+  Widget _hpControl({required int maxHp}) {
     return Row(
       children: [
         Expanded(
           child: SizedBox(
             height: 28,
             child: SelectAllField(
-              key: const ValueKey('hp_pct'),
-              initialText: _formatHpPct(widget.hpPercent),
+              key: const ValueKey('hp_cur'),
+              initialText: '${currentHpOf(maxHp, widget.hpPercent)}',
               textAlign: TextAlign.center,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               inputFormatters: [
-                // Up to 2 decimals — matches the precision needed to
-                // express 1/16 chip damage exactly (6.25 %).
-                FilteringTextInputFormatter.allow(RegExp(r'^\d{0,3}(\.\d{0,2})?')),
+                FilteringTextInputFormatter.allow(RegExp(r'^\d{0,4}%?')),
               ],
               style: const TextStyle(fontSize: 14),
               decoration: const InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-                suffixText: '%',
-                suffixStyle: TextStyle(fontSize: 11),
               ),
               onChanged: (text) {
-                final v = hpPercentFromInput(text);
-                if (v != null) widget.onHpPercentChanged(v);
+                final hp = currentHpFromInput(text, maxHp);
+                if (hp != null) widget.onHpPercentChanged(hpPercentOf(maxHp, hp));
               },
             ),
           ),

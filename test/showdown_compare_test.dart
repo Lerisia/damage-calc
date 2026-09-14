@@ -19,7 +19,9 @@ import 'package:damage_calc/models/terastal.dart';
 import 'package:damage_calc/models/type.dart';
 import 'package:damage_calc/calc/aura_effects.dart';
 import 'package:damage_calc/calc/ruin_effects.dart';
+import 'dart:math' as math;
 import 'package:damage_calc/calc/battle_facade.dart';
+import 'package:damage_calc/calc/hp.dart';
 import 'package:damage_calc/calc/stat_calculator.dart';
 
 const _weatherMap = {
@@ -77,6 +79,16 @@ const _natureMap = {
 String _itemSlug(String name) {
   if (name.isEmpty) return '';
   return name.toLowerCase().replaceAll(' ', '-');
+}
+
+/// Fixtures carry an integer percent and derive Showdown's curHP with
+/// floor; give our calc the share of THAT integer, so both sides run
+/// on the same HP (our own conversion rounds — see calc/hp.dart).
+void _matchFixtureHp(BattlePokemonState s, num? pct) {
+  final p = (pct ?? 100).toDouble();
+  final max = BattleFacade.maxHp(s);
+  final hp = p < 100 ? math.max(1, (max * p / 100).floor()) : max;
+  s.hpPercent = hpPercentOf(max, hp);
 }
 
 void main() {
@@ -164,6 +176,8 @@ void main() {
       if (defAbility.isNotEmpty) {
         def.selectedAbility = BattlePokemonState.expandAbilityKey(defAbility);
       }
+      _matchFixtureHp(atk, s['atkHpPct'] as num?);
+      _matchFixtureHp(def, s['defHpPct'] as num?);
       final weather = _weatherMap[s['weather']] ?? Weather.none;
       final terrain = _terrainMap[s['terrain']] ?? Terrain.none;
       final room = RoomConditions(

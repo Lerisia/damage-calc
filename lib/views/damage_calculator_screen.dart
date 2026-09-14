@@ -1328,7 +1328,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
             opponentSpDefense: opponentStats.spDefense,
             opponentGender: opponent.gender,
             opponentWeight: BattleFacade.effectiveWeight(opponent),
-            opponentHpPercent: opponent.hpPercent,
+            opponentHpPercent: BattleFacade.effectiveHpPercent(opponent),
             opponentItem: opponent.selectedItem,
             opponentAbility: opponent.selectedAbility,
             useSpMode: _useSpMode,
@@ -1355,7 +1355,7 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
       opponentAttack: defAttack,
       opponentGender: _defender.gender,
       opponentWeight: BattleFacade.effectiveWeight(_defender),
-      opponentHpPercent: _defender.hpPercent,
+      opponentHpPercent: BattleFacade.effectiveHpPercent(_defender),
       opponentItem: _defender.selectedItem,
       opponentAbility: _defender.selectedAbility,
     );
@@ -1552,8 +1552,8 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
     final atkSpeed = _calcEffectiveSpeed(_attacker);
     final defSpeed = _calcEffectiveSpeed(_defender);
 
-    final defMaxHp = defStats.hp;
-    final defCurrentHp = (defMaxHp * _defender.hpPercent / 100).floor();
+    final defMaxHp = BattleFacade.effectiveMaxHp(_defender);
+    final defCurrentHp = BattleFacade.currentHp(_defender);
     final bulk = _getDefensiveBulk();
 
     // Stat / item / weather changes flow through naturally because we

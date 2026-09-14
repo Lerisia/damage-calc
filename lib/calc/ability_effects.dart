@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import '../models/gender.dart';
+import 'hp.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
 import '../models/rank.dart';
@@ -295,7 +296,7 @@ AbilityEffect getAbilityEffect(String abilityName, {
       // (Surf) — the move's category picks the relevant slot in
       // the atMods chain.
       final pinchType = _pinchAbilityTypes[abilityName];
-      return (pinchType != null && hpPercent <= kPinchHpThreshold &&
+      return (pinchType != null && hpAtOrBelowThird(hpPercent) &&
               move != null && move.type == pinchType)
           ? const AbilityEffect(
               statModifiers: AbilityStatModifiers(

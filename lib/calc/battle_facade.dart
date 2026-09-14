@@ -22,6 +22,7 @@ import 'offensive_calculator.dart';
 import 'defensive_calculator.dart';
 import 'ruin_effects.dart';
 import 'speed_calculator.dart';
+import 'hp.dart';
 import 'stat_calculator.dart';
 import 'terrain_effects.dart';
 import 'weather_effects.dart';
@@ -488,7 +489,7 @@ class BattleFacade {
         ? getAbilityEffect(effectiveAbility,
             move: transformed.move,
             originalBasePower: isDmaxed ? null : move.power,
-            hpPercent: state.hpPercent,
+            hpPercent: effectiveHpPercent(state),
             weather: atkWeather,
             terrain: terrain,
             status: state.status,
@@ -771,7 +772,33 @@ class BattleFacade {
   }
 
   /// Max HP of [state] (stat formula; nature and rank don't touch HP).
+  /// Max HP of the un-Dynamaxed mon (the stat line).
   static int maxHp(BattlePokemonState state) => _baseActualStats(state).hp;
+
+  /// Max HP the mon has right now: doubled while Dynamaxed (Dynamax
+  /// Level 10, the @smogon/calc convention the damage core uses too).
+  /// Current HP, the HP inputs and the KO line all work against this.
+  static int effectiveMaxHp(BattlePokemonState state) =>
+      state.dynamax != DynamaxState.none ? maxHp(state) * 2 : maxHp(state);
+
+  /// Current HP as the integer every calculation uses (see calc/hp.dart).
+  /// The stored share is kept across Dynamax on / off — the game's own
+  /// rule ("adjusted to retain the same percentage") — so this reads
+  /// 101/350 while Dynamaxed and 51/175 once it ends.
+  static int currentHp(BattlePokemonState state) =>
+      currentHpOf(effectiveMaxHp(state), state.hpPercent);
+
+  /// The share [currentHp] actually is of [effectiveMaxHp] — what the
+  /// UI shows and what HP-conditional effects read, never the raw
+  /// stored share.
+  static double effectiveHpPercent(BattlePokemonState state) =>
+      hpPercentOf(effectiveMaxHp(state), currentHp(state));
+
+  /// Store a real HP value (against [effectiveMaxHp]) as the share.
+  static void setCurrentHp(BattlePokemonState state, int hp) {
+    final max = effectiveMaxHp(state);
+    state.hpPercent = hpPercentOf(max, hp.clamp(0, max));
+  }
 
   static Stats _baseActualStats(BattlePokemonState state) {
     return StatCalculator.calculate(
@@ -825,7 +852,7 @@ class BattleFacade {
       weather: weather,
       terrain: terrain,
       rank: state.rank,
-      hpPercent: state.hpPercent,
+      hpPercent: effectiveHpPercent(state),
       hasItem: state.selectedItem != null,
       ability: state.selectedAbility,
       status: state.status,

@@ -22,6 +22,7 @@ import 'grounded.dart';
 import 'item_effects.dart';
 import 'move_transform.dart';
 import 'random_factor.dart';
+import 'hp.dart';
 import 'stat_calculator.dart';
 import 'terrain_effects.dart';
 import 'type_effectiveness.dart';
@@ -440,21 +441,30 @@ class DamageCalculator {
     );
     final int defRawHp = defStatsForCtx.hp;
     final int atkRawHp = atkBaseStats.hp;
-    final int defRawCurHp = (defRawHp * defender.hpPercent / 100).floor().clamp(1, defRawHp);
-    final int atkRawCurHp = (atkRawHp * attacker.hpPercent / 100).floor().clamp(1, atkRawHp);
+    // The stored share becomes an integer HP exactly once (nearest
+    // achievable value, see calc/hp.dart) — on the HP the mon has
+    // RIGHT NOW: Dynamax doubles max and current alike and keeps the
+    // share (the game's own rule on entering / leaving), so a value
+    // typed while Dynamaxed is exact against the doubled max. Every
+    // HP-conditional below reads the share of THAT integer, so a typed
+    // "33 %" on 175 max HP is 58 HP = 33.14 % everywhere, never two
+    // different numbers. (@smogon/calc ceil-scales curHP on Dynamax;
+    // with the ×2 factor that is the same integer.)
     final int defMaxHpForCtx = defender.dynamax != DynamaxState.none
         ? defRawHp * 2 : defRawHp;
     final int atkMaxHpForCtx = attacker.dynamax != DynamaxState.none
         ? atkRawHp * 2 : atkRawHp;
-    final int defCurHpForCtx = defender.dynamax != DynamaxState.none
-        ? (defRawCurHp * 2) : defRawCurHp;
-    final int atkCurHpForCtx = attacker.dynamax != DynamaxState.none
-        ? (atkRawCurHp * 2) : atkRawCurHp;
+    final int defCurHpForCtx =
+        currentHpOf(defMaxHpForCtx, defender.hpPercent).clamp(1, defMaxHpForCtx);
+    final int atkCurHpForCtx =
+        currentHpOf(atkMaxHpForCtx, attacker.hpPercent).clamp(1, atkMaxHpForCtx);
+    final double defHpPct = hpPercentOf(defMaxHpForCtx, defCurHpForCtx);
+    final double atkHpPct = hpPercentOf(atkMaxHpForCtx, atkCurHpForCtx);
     final moveCtx = MoveContext(
       weather: atkWeather,
       terrain: terrain,
       rank: attacker.rank,
-      hpPercent: attacker.hpPercent,
+      hpPercent: atkHpPct,
       hasItem: attacker.selectedItem != null,
       ability: atkAbilityRaw,
       status: attacker.status,
@@ -466,7 +476,7 @@ class DamageCalculator {
       actualSpAttack: atkBaseStats.spAttack,
       myWeight: BattleFacade.effectiveWeight(attacker),
       opponentWeight: BattleFacade.effectiveWeight(defender),
-      opponentHpPercent: defender.hpPercent,
+      opponentHpPercent: defHpPct,
       myMaxHp: atkMaxHpForCtx,
       myCurHp: atkCurHpForCtx,
       opponentMaxHp: defMaxHpForCtx,
@@ -652,7 +662,7 @@ class DamageCalculator {
     final abilityEffect = effectiveAbility != null
         ? getAbilityEffect(effectiveAbility, move: effectiveMove,
             originalBasePower: isDmaxed ? null : move.power,
-            hpPercent: attacker.hpPercent, weather: weather,
+            hpPercent: atkHpPct, weather: weather,
             terrain: terrain, status: attacker.status,
             heldItem: effectiveItem,
             opponentSpeed: opponentSpeed,
@@ -1043,7 +1053,7 @@ class DamageCalculator {
     final double preTeraShellEffectiveness = effectiveness;
     final teraShellResult = applyTeraShell(
       defenderAbility: defAbilityName,
-      defenderHpPercent: defender.hpPercent,
+      defenderHpPercent: defHpPct,
       effectiveness: effectiveness,
     );
     if (teraShellResult != effectiveness) {
@@ -1160,7 +1170,7 @@ class DamageCalculator {
     // Defender ability damage modifier (Filter, Solid Rock, Multiscale, etc.)
     final defAbilityDmg = getDefensiveAbilityDamageModifier(
       defenderAbility: defAbilityName, effectiveness: effectiveness,
-      defenderHpPercent: defender.hpPercent, moldBreaks: moldBreaks);
+      defenderHpPercent: defHpPct, moldBreaks: moldBreaks);
     if (defAbilityDmg.note != null) notes.add(defAbilityDmg.note!);
 
     // Item: Expert Belt (super effective -> x1.2)
@@ -1233,7 +1243,7 @@ class DamageCalculator {
       movePowerMod *= kDoubleMovePower;
       notes.add('move:venoshock:×$kDoubleMovePower');
     }
-    if (effectiveMove.hasTag(MoveTags.doubleOnHalfHp) && defender.hpPercent <= 50) {
+    if (effectiveMove.hasTag(MoveTags.doubleOnHalfHp) && defHpPct <= 50) {
       movePowerMod *= kDoubleMovePower;
       notes.add('move:brine:×$kDoubleMovePower');
     }
@@ -1591,10 +1601,10 @@ class DamageCalculator {
     if (hitCount > 1) {
       // Determine which modifiers change after the first hit
       final bool hasMultiscale = defAbilityDmg.multiplier < 1.0 &&
-          defender.hpPercent >= 100 &&
+          defHpPct >= 100 &&
           (defAbilityName == 'Multiscale' || defAbilityName == 'Shadow Shield');
       final bool hasTeraShell = defAbilityName == 'Tera Shell' &&
-          defender.hpPercent >= 100 && effectiveness < 1.0;
+          defHpPct >= 100 && effectiveness < 1.0;
       final bool hasBerry = berryMod != 1.0;
 
       // On-hit stat-change effects on defender, split into:
@@ -1787,8 +1797,9 @@ class DamageCalculator {
       maxDamage = singleHitRolls.reduce(math.max);
     }
 
-    // Use current HP (based on hpPercent) for KO calculations
-    final int currentHp = (defMaxHp * defender.hpPercent / 100).floor();
+    // Current HP for KO calculations: the same integer the HP
+    // conditionals above used.
+    final int currentHp = currentHpOf(defMaxHp, defender.hpPercent);
 
     // Add Disguise note when active
     if (disguiseActive) {

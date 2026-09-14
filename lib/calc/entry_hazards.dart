@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import '../models/battle_pokemon.dart';
 import '../models/type.dart';
+import 'hp.dart';
 import 'stat_calculator.dart';
 import 'type_effectiveness.dart';
 
@@ -34,6 +35,6 @@ void applyStealthRock(BattlePokemonState s) {
   if (maxHp <= 0) return;
   final damage = stealthRockDamage(s);
   if (damage <= 0) return;
-  final curHp = (maxHp * s.hpPercent / 100).floor();
-  s.hpPercent = math.max(0, curHp - damage) / maxHp * 100;
+  final curHp = currentHpOf(maxHp, s.hpPercent);
+  s.hpPercent = hpPercentOf(maxHp, math.max(0, curHp - damage));
 }

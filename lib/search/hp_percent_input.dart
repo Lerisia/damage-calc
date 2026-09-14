@@ -1,12 +1,20 @@
-/// Parses what the user typed into an HP % box.
+import '../calc/hp.dart';
+
+/// Parses what the user typed into a current-HP box.
 ///
-/// Empty means "back to full" — clearing the box and confirming is how
-/// people reset it, and treating it as a cancel left the old value in
-/// place. Non-numeric input is null (leave the value alone); numbers
-/// clamp to the 0–999 % range the slider and chip damage math accept.
-double? hpPercentFromInput(String text) {
+/// Real value by default (`94` → 94 HP, clamped to 0…[maxHp]); a
+/// trailing `%` reads as a share and lands on the nearest achievable
+/// HP (`40%` of 187 → 75). Empty means "back to full" — clearing the
+/// box and confirming is how people reset it. Non-numeric input is
+/// null (leave the value alone).
+int? currentHpFromInput(String text, int maxHp) {
   final t = text.trim();
-  if (t.isEmpty) return 100.0;
-  final v = double.tryParse(t);
-  return v?.clamp(0.0, 999.0);
+  if (t.isEmpty) return maxHp;
+  if (t.endsWith('%')) {
+    final pct = double.tryParse(t.substring(0, t.length - 1).trim());
+    if (pct == null) return null;
+    return currentHpOf(maxHp, pct.clamp(0.0, 100.0));
+  }
+  final v = int.tryParse(t) ?? double.tryParse(t)?.round();
+  return v?.clamp(0, maxHp);
 }

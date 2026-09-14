@@ -11,7 +11,9 @@ import 'package:damage_calc/models/terrain.dart';
 import 'package:damage_calc/models/room.dart';
 import 'package:damage_calc/models/dynamax.dart';
 import 'package:damage_calc/models/terastal.dart';
+import 'package:damage_calc/calc/battle_facade.dart';
 import 'package:damage_calc/calc/damage_calculator.dart';
+import 'package:damage_calc/calc/hp.dart';
 
 void main() {
   // Reusable moves
@@ -1193,10 +1195,23 @@ void main() {
       expect(half.maxDamage, greaterThan(full.maxDamage));
     });
 
-    // Fractional HP (= 1/16 chip) — Multiscale's `>= 100` threshold
-    // must NOT fire at 99.99 %, otherwise users who set chip-damage
-    // HP would silently get the half-damage bonus.
-    test('Multiscale at 99.99% HP does not trigger', () {
+    // One HP below full — Multiscale's `>= 100` threshold must NOT
+    // fire, otherwise users who set chip-damage HP would silently get
+    // the half-damage bonus. (A share like 99.99 % is no real HP: it
+    // rounds to full, and full IS Multiscale — see calc/hp.dart.)
+    test('a value typed while Dynamaxed is the HP the calc uses', () {
+      final maxHp = BattleFacade.maxHp(BattlePokemonState());
+      final r = calc(
+        move: tackle,
+        defType1: PokemonType.normal, defType2: null,
+        defDynamax: DynamaxState.dynamax,
+        defHpPercent: hpPercentOf(2 * maxHp, 101),
+      );
+      expect(r.defenderHp, 101);
+    });
+
+    test('Multiscale one HP below full does not trigger', () {
+      final maxHp = BattleFacade.maxHp(BattlePokemonState());
       final fullHp = calc(
         move: tackle,
         defType1: PokemonType.normal, defType2: null,
@@ -1207,7 +1222,7 @@ void main() {
         move: tackle,
         defType1: PokemonType.normal, defType2: null,
         defAbility: 'Multiscale',
-        defHpPercent: 99.99,
+        defHpPercent: hpPercentOf(maxHp, maxHp - 1),
       );
       // chipped HP should take ~2× the damage that full-HP Multiscale
       // would block.

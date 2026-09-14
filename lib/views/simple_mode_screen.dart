@@ -23,6 +23,7 @@ import '../models/weather.dart';
 import '../i18n/app_strings.dart';
 import '../calc/aura_effects.dart';
 import '../calc/battle_facade.dart';
+import '../calc/hp.dart';
 import '../controllers/champions_format_controller.dart';
 import '../calc/champions_mode.dart';
 import '../calc/stacking_moves.dart';
@@ -911,7 +912,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
                     opponentWeight: BattleFacade.effectiveWeight(_def),
                     opponentAbility: _def.selectedAbility,
                     opponentItem: _def.selectedItem,
-                    opponentHpPercent: _def.hpPercent,
+                    opponentHpPercent: BattleFacade.effectiveHpPercent(_def),
                   ))
                 : const SizedBox.shrink(),
           ),
@@ -1385,42 +1386,41 @@ class _SimpleModeViewState extends State<SimpleModeView>
       );
 
   Widget _hpPercentField() => _DefenderHpField(
-        pct: _def.hpPercent,
+        currentHp: BattleFacade.currentHp(_def),
+        maxHp: BattleFacade.effectiveMaxHp(_def),
         damageRange: _defenderDamageRangePct(),
-        onChanged: (v) {
-          setState(() => _def.hpPercent = v);
+        onChanged: (hp) {
+          setState(() => BattleFacade.setCurrentHp(_def, hp));
           widget.onChanged();
         },
-        onEdit: _editHpPercent,
+        onEdit: _editHp,
         trailing: _defHazardButtons(),
       );
 
-  /// Tap-to-edit dialog for fine HP control — the slider snaps to
-  /// 1 % steps, so chip-damage fractions like 1/16 (6.25 %) need a
-  /// keyboard entry path.
-  Future<void> _editHpPercent() async {
-    final controller = TextEditingController(
-      text: _def.hpPercent == _def.hpPercent.roundToDouble()
-          ? _def.hpPercent.toStringAsFixed(0)
-          : _def.hpPercent.toStringAsFixed(2),
-    );
-    final result = await showDialog<double>(
+  /// Tap-to-edit dialog: the exact current HP as a real value (the
+  /// slider is for "about this much"). `40%` is accepted too and
+  /// snaps to the nearest HP.
+  Future<void> _editHp() async {
+    final maxHp = BattleFacade.effectiveMaxHp(_def);
+    final controller =
+        TextEditingController(text: '${BattleFacade.currentHp(_def)}');
+    final result = await showDialog<int>(
       context: context,
       builder: (ctx) => AlertDialog(
         content: TextField(
           controller: controller,
           autofocus: true,
           textAlign: TextAlign.center,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          keyboardType: TextInputType.number,
           inputFormatters: [
-            FilteringTextInputFormatter.allow(
-                RegExp(r'^\d{0,3}(\.\d{0,2})?')),
+            FilteringTextInputFormatter.allow(RegExp(r'^\d{0,4}%?')),
           ],
-          decoration: const InputDecoration(
-            suffixText: '%',
+          decoration: InputDecoration(
+            suffixText: '/$maxHp',
             isDense: true,
           ),
-          onSubmitted: (text) => Navigator.pop(ctx, hpPercentFromInput(text)),
+          onSubmitted: (text) =>
+              Navigator.pop(ctx, currentHpFromInput(text, maxHp)),
         ),
         actions: [
           TextButton(
@@ -1429,7 +1429,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
           ),
           TextButton(
             onPressed: () =>
-                Navigator.pop(ctx, hpPercentFromInput(controller.text)),
+                Navigator.pop(ctx, currentHpFromInput(controller.text, maxHp)),
             child: Text(AppStrings.t('action.confirm')),
           ),
         ],
@@ -1437,7 +1437,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
     );
     controller.dispose();
     if (result == null) return;
-    setState(() => _def.hpPercent = result);
+    setState(() => BattleFacade.setCurrentHp(_def, result));
     widget.onChanged();
   }
 
@@ -2168,7 +2168,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
       opponentGender: _def.gender,
       myEffectiveSpeed: atkEffSpeed,
       opponentWeight: defWeight,
-      opponentHpPercent: _def.hpPercent,
+      opponentHpPercent: BattleFacade.effectiveHpPercent(_def),
       opponentItem: _def.selectedItem,
       opponentAbility: _def.selectedAbility,
       notesOut: offensiveNotes,
@@ -2186,8 +2186,8 @@ class _SimpleModeViewState extends State<SimpleModeView>
       ruins: widget.ruins,
       opponentAbility: _atk.selectedAbility,
     );
-    final defMaxHp = BattleFacade.maxHp(_def);
-    final defCurrentHp = (defMaxHp * _def.hpPercent / 100).floor();
+    final defMaxHp = BattleFacade.effectiveMaxHp(_def);
+    final defCurrentHp = BattleFacade.currentHp(_def);
 
     final panel = DamageResultPanel(
       attacker: _atk,
