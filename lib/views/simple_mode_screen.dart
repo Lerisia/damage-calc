@@ -24,6 +24,7 @@ import '../i18n/app_strings.dart';
 import '../calc/aura_effects.dart';
 import '../calc/battle_facade.dart';
 import '../calc/hp.dart';
+import '../controllers/hp_display_controller.dart';
 import '../controllers/champions_format_controller.dart';
 import '../calc/champions_mode.dart';
 import '../calc/stacking_moves.dart';
@@ -1388,25 +1389,34 @@ class _SimpleModeViewState extends State<SimpleModeView>
         }),
       );
 
-  Widget _hpPercentField() => _DefenderHpField(
-        currentHp: BattleFacade.currentHp(_def),
-        maxHp: BattleFacade.effectiveMaxHp(_def),
-        damageRange: _defenderDamageRangePct(),
-        onChanged: (hp) {
-          setState(() => BattleFacade.setCurrentHp(_def, hp));
-          widget.onChanged();
-        },
-        onEdit: _editHp,
-        trailing: _defHazardButtons(),
+  Widget _hpPercentField() => ValueListenableBuilder<HpDisplayMode>(
+        valueListenable: HpDisplayController.instance.mode,
+        builder: (context, mode, _) => _DefenderHpField(
+          currentHp: BattleFacade.currentHp(_def),
+          maxHp: BattleFacade.effectiveMaxHp(_def),
+          showPercent: mode == HpDisplayMode.percent,
+          damageRange: _defenderDamageRangePct(),
+          onChanged: (hp) {
+            setState(() => BattleFacade.setCurrentHp(_def, hp));
+            widget.onChanged();
+          },
+          onEdit: _editHp,
+          trailing: _defHazardButtons(),
+        ),
       );
 
-  /// Tap-to-edit dialog: the exact current HP as a real value (the
-  /// slider is for "about this much"). `40%` is accepted too and
-  /// snaps to the nearest HP.
+  /// Tap-to-edit dialog for the exact HP (the slider is for "about
+  /// this much"): a percent of max by default, the real value when
+  /// the setting says so. Either way it lands on a real HP — a typed
+  /// percent snaps to the nearest one.
   Future<void> _editHp() async {
     final maxHp = BattleFacade.effectiveMaxHp(_def);
-    final controller =
-        TextEditingController(text: '${BattleFacade.currentHp(_def)}');
+    final current = BattleFacade.currentHp(_def);
+    final asValue = HpDisplayController.instance.showsValue;
+    final controller = TextEditingController(
+        text: asValue
+            ? '$current'
+            : formatHpPercent(hpPercentOf(maxHp, current)));
     final result = await showDialog<int>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -1414,16 +1424,20 @@ class _SimpleModeViewState extends State<SimpleModeView>
           controller: controller,
           autofocus: true,
           textAlign: TextAlign.center,
-          keyboardType: TextInputType.number,
+          keyboardType: asValue
+              ? TextInputType.number
+              : const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'^\d{0,4}%?')),
+            FilteringTextInputFormatter.allow(asValue
+                ? RegExp(r'^\d{0,4}%?')
+                : RegExp(r'^\d{0,3}(\.\d{0,2})?%?')),
           ],
           decoration: InputDecoration(
-            suffixText: '/$maxHp',
+            suffixText: asValue ? '/$maxHp' : '%',
             isDense: true,
           ),
-          onSubmitted: (text) =>
-              Navigator.pop(ctx, currentHpFromInput(text, maxHp)),
+          onSubmitted: (text) => Navigator.pop(
+              ctx, currentHpFromInput(text, maxHp, percent: !asValue)),
         ),
         actions: [
           TextButton(
@@ -1431,8 +1445,8 @@ class _SimpleModeViewState extends State<SimpleModeView>
             child: Text(AppStrings.t('action.cancel')),
           ),
           TextButton(
-            onPressed: () =>
-                Navigator.pop(ctx, currentHpFromInput(controller.text, maxHp)),
+            onPressed: () => Navigator.pop(ctx,
+                currentHpFromInput(controller.text, maxHp, percent: !asValue)),
             child: Text(AppStrings.t('action.confirm')),
           ),
         ],

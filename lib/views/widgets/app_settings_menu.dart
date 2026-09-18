@@ -4,6 +4,7 @@ import '../../i18n/app_strings.dart';
 import '../../controllers/session_restore_controller.dart';
 import '../../controllers/champions_filter_controller.dart';
 import '../../controllers/champions_format_controller.dart';
+import '../../controllers/hp_display_controller.dart';
 import '../../controllers/theme_controller.dart';
 import '../damage_calculator_screen.dart' show AppAboutDialog;
 import 'champions_speed_tier_sheet.dart';
@@ -89,12 +90,14 @@ class AppSettingsMenu extends StatelessWidget {
         ChampionsFilterController.instance.championsOnly,
         ChampionsFormatController.instance.format,
         SessionRestoreController.instance.enabled,
+        HpDisplayController.instance.mode,
       ]),
       builder: (ctx, _) {
         final champOn =
             ChampionsFilterController.instance.championsOnly.value;
         final fmt = ChampionsFormatController.instance.format.value;
         final restoreOn = SessionRestoreController.instance.enabled.value;
+        final hpAsValue = HpDisplayController.instance.showsValue;
         return PopupMenuButton<String>(
           icon: const Icon(Icons.settings),
           tooltip: '',
@@ -160,6 +163,19 @@ class AppSettingsMenu extends StatelessWidget {
                 Text(AppStrings.t('app.restoreSession')),
               ]),
             ),
+            // HP inputs as real values instead of percent — same
+            // inline checkbox style.
+            PopupMenuItem(
+              value: 'hpAsValue',
+              child: Row(children: [
+                Icon(
+                  hpAsValue ? Icons.check_box : Icons.check_box_outline_blank,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(AppStrings.t('app.hpAsValue')),
+              ]),
+            ),
             // Format switcher — labels itself with the DESTINATION
             // ("싱글 모드로 / 더블 모드로") so the current state is
             // self-evident (if the item offers "더블 모드로", you're
@@ -221,6 +237,9 @@ class AppSettingsMenu extends StatelessWidget {
                 ChampionsFilterController.instance.set(!champOn);
               case 'restoreSession':
                 SessionRestoreController.instance.set(!restoreOn);
+              case 'hpAsValue':
+                HpDisplayController.instance.set(
+                    hpAsValue ? HpDisplayMode.percent : HpDisplayMode.value);
               case 'championsFormatToggle':
                 ChampionsFormatController.instance.set(
                   fmt == ChampionsFormat.doubles

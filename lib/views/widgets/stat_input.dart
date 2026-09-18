@@ -19,6 +19,7 @@ import '../../models/weather.dart';
 import '../../calc/speed_calculator.dart';
 import '../../calc/room_effects.dart';
 import '../../controllers/champions_filter_controller.dart';
+import '../../controllers/hp_display_controller.dart';
 import '../../calc/champions_mode.dart';
 import '../../calc/hp.dart';
 import '../../calc/stat_calculator.dart';
@@ -907,38 +908,58 @@ class _StatInputState extends State<StatInput>
     );
   }
 
-  /// Current HP as a real value (the max sits in the next column).
-  /// `40%` is accepted too and snaps to the nearest HP; the parent
-  /// still stores the share (see calc/hp.dart), so the value survives
-  /// EV / level edits as "the same fraction". Up to 150 % of max.
+  /// Current HP, as a percent of max (default) or as the real value
+  /// (settings: "HP를 실수치로 입력"). Either way the parent stores the
+  /// share of an integer HP (see calc/hp.dart): a typed percent lands
+  /// on the nearest real HP and, once the field loses focus, shows
+  /// that HP's share — never a percent no HP can produce. `%` is
+  /// accepted in value mode too. Up to 150 % of max.
   Widget _hpControl({required int maxHp}) {
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: 28,
-            child: SelectAllField(
-              key: const ValueKey('hp_cur'),
-              initialText: '${currentHpOf(maxHp, widget.hpPercent)}',
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.next,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d{0,4}%?')),
-              ],
-              style: const TextStyle(fontSize: 14),
-              decoration: const InputDecoration(
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+    return ValueListenableBuilder<HpDisplayMode>(
+      valueListenable: HpDisplayController.instance.mode,
+      builder: (context, mode, _) {
+        final asValue = mode == HpDisplayMode.value;
+        final current = currentHpOf(maxHp, widget.hpPercent);
+        return Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 28,
+                child: SelectAllField(
+                  // Keyed per mode so a toggle remounts with the
+                  // other representation instead of editing in place.
+                  key: ValueKey(asValue ? 'hp_cur' : 'hp_pct'),
+                  initialText: asValue
+                      ? '$current'
+                      : formatHpPercent(hpPercentOf(maxHp, current)),
+                  textAlign: TextAlign.center,
+                  keyboardType: asValue
+                      ? TextInputType.number
+                      : const TextInputType.numberWithOptions(decimal: true),
+                  textInputAction: TextInputAction.next,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(asValue
+                        ? RegExp(r'^\d{0,4}%?')
+                        : RegExp(r'^\d{0,3}(\.\d{0,2})?%?')),
+                  ],
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                    suffixText: asValue ? null : '%',
+                    suffixStyle: const TextStyle(fontSize: 11),
+                  ),
+                  onChanged: (text) {
+                    final hp = currentHpFromInput(text, maxHp, percent: !asValue);
+                    if (hp != null) widget.onHpPercentChanged(hpPercentOf(maxHp, hp));
+                  },
+                ),
               ),
-              onChanged: (text) {
-                final hp = currentHpFromInput(text, maxHp);
-                if (hp != null) widget.onHpPercentChanged(hpPercentOf(maxHp, hp));
-              },
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 

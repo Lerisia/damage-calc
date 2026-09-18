@@ -1133,6 +1133,11 @@ class AppStrings {
       AppLanguage.en: 'Keep state between launches',
       AppLanguage.ja: '終了時の状態を保持',
     },
+    'app.hpAsValue': {
+      AppLanguage.ko: 'HP를 실수치로 입력',
+      AppLanguage.en: 'Enter HP as a value',
+      AppLanguage.ja: 'HPを実数値で入力',
+    },
     'tag.contact': {
       AppLanguage.ko: '접촉',
       AppLanguage.en: 'Contact',

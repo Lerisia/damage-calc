@@ -23,4 +23,18 @@ void main() {
     expect(currentHpFromInput('abc', 187), isNull);
     expect(currentHpFromInput('%', 187), isNull);
   });
+  test('percent mode: a plain number is a share, snapped to a real HP', () {
+    expect(currentHpFromInput('33', 175, percent: true), 58); // 57.75
+    expect(currentHpFromInput('50', 175, percent: true), 88);
+    expect(currentHpFromInput('6.25', 160, percent: true), 10);
+    expect(currentHpFromInput('', 175, percent: true), 175);
+    expect(currentHpFromInput('150', 187, percent: true), 280);
+    expect(currentHpFromInput('999', 187, percent: true), 280);
+  });
+  test('formatHpPercent trims like the old chip did', () {
+    expect(formatHpPercent(94), '94');
+    expect(formatHpPercent(6.25), '6.25');
+    expect(formatHpPercent(6.5), '6.5');
+    expect(formatHpPercent(32.7869), '32.79');
+  });
 }

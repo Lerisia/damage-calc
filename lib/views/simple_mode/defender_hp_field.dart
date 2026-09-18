@@ -11,6 +11,8 @@ part of '../simple_mode_screen.dart';
 class _DefenderHpField extends StatelessWidget {
   final int currentHp;
   final int maxHp;
+  /// Chip shows the share of max (default) or the integer HP.
+  final bool showPercent;
   final ({double minPct, double maxPct})? damageRange;
   final ValueChanged<int> onChanged;
   final VoidCallback onEdit;
@@ -19,6 +21,7 @@ class _DefenderHpField extends StatelessWidget {
   const _DefenderHpField({
     required this.currentHp,
     required this.maxHp,
+    required this.showPercent,
     required this.damageRange,
     required this.onChanged,
     required this.onEdit,
@@ -110,7 +113,7 @@ class _DefenderHpField extends StatelessWidget {
         ),
         // Fixed-width tappable HP chip: the slider is Expanded, so a chip
         // that grew with its digits would change the track length on
-        // every edit. Wide enough for three digits; longer scales down.
+        // every edit. Wide enough for "100.00%"; longer scales down.
         InkWell(
           onTap: onEdit,
           borderRadius: BorderRadius.circular(6),
@@ -130,7 +133,7 @@ class _DefenderHpField extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '$currentHp',
+                      showPercent ? '${formatHpPercent(pct)}%' : '$currentHp',
                       maxLines: 1,
                       softWrap: false,
                       style: const TextStyle(

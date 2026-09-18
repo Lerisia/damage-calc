@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/calc/hp.dart';
 import 'package:damage_calc/calc/stat_calculator.dart';
+import 'package:damage_calc/controllers/hp_display_controller.dart';
 import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/status.dart';
 import 'package:damage_calc/views/widgets/stat_input.dart';
 
-/// Extended Mode's HP field takes a real value (user decision
-/// 2026-09-14): the box shows the current HP integer (no percent
-/// anywhere in this mode), and what reaches the parent is the share
-/// of the typed integer — never a share no HP can produce. Up to
-/// 150 % of max is allowed for heal / Dynamax what-ifs.
+/// Extended Mode's HP field: a percent of max by default, the real
+/// value when the "HP를 실수치로 입력" setting is on (user decision
+/// 2026-09-18). Either way what reaches the parent is the share of an
+/// integer HP — never a share no HP can produce — and up to 150 % of
+/// max is allowed for heal / Dynamax what-ifs.
 void main() {
   const base = Stats(hp: 108, attack: 130, defense: 95, spAttack: 80, spDefense: 85, speed: 102);
   const iv = Stats(hp: 31, attack: 31, defense: 31, spAttack: 31, spDefense: 31, speed: 31);
@@ -56,9 +57,14 @@ void main() {
     reported = [];
     hpPercent = 100;
     dynamaxed = false;
+    HpDisplayController.instance.mode.value = HpDisplayMode.value;
+  });
+  tearDown(() {
+    HpDisplayController.instance.mode.value = HpDisplayMode.percent;
   });
 
   final field = find.byKey(const ValueKey('hp_cur'));
+  final pctField = find.byKey(const ValueKey('hp_pct'));
 
   testWidgets('shows the current HP integer, no percent', (tester) async {
     hpPercent = 33; // of 183 → 60 HP
@@ -101,5 +107,36 @@ void main() {
     expect(currentHpOf(2 * maxHp, reported.last), 350);
     // Dynamax ends: the same share on the normal max, like the game.
     expect(currentHpOf(maxHp, reported.last), 175); // 350/366 of 183 = 174.9…
+  });
+
+  group('percent mode (default)', () {
+    setUp(() => HpDisplayController.instance.mode.value = HpDisplayMode.percent);
+
+    testWidgets('shows the share of the integer HP, with a % suffix', (tester) async {
+      hpPercent = 33; // of 183 → 60 HP = 32.79 %
+      await tester.pumpWidget(host());
+      expect(field, findsNothing);
+      expect(find.descendant(of: pctField, matching: find.text('32.79')), findsOneWidget);
+      expect(tester.widget<TextField>(find.descendant(of: pctField, matching: find.byType(TextField)))
+          .decoration?.suffixText, '%');
+    });
+
+    testWidgets('a typed percent lands on the nearest real HP', (tester) async {
+      await tester.pumpWidget(host());
+      await tester.enterText(pctField, '33');
+      expect(currentHpOf(maxHp, reported.last), 60);
+      expect(reported.last, hpPercentOf(maxHp, 60));
+      await tester.enterText(pctField, '');
+      expect(reported.last, 100);
+    });
+
+    testWidgets('toggling the setting swaps the field in place', (tester) async {
+      await tester.pumpWidget(host());
+      expect(pctField, findsOneWidget);
+      HpDisplayController.instance.mode.value = HpDisplayMode.value;
+      await tester.pump();
+      expect(pctField, findsNothing);
+      expect(find.descendant(of: field, matching: find.text('$maxHp')), findsOneWidget);
+    });
   });
 }
