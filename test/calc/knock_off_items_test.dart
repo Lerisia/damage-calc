@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:damage_calc/data/pokedex.dart';
 import 'package:damage_calc/calc/damage_calculator.dart';
+import 'package:damage_calc/calc/move_transform.dart';
+import 'package:damage_calc/models/move.dart';
+import 'package:damage_calc/models/move_tags.dart';
+import 'package:damage_calc/models/type.dart';
 
 /// Knock Off's ×1.5 boost is skipped only for items the *holder itself*
 /// cannot lose: its own Mega Stone / Primal orb / forme item, Arceus's
@@ -27,6 +31,22 @@ void main() {
       expect(isUnremovableItemFor('Absol', 'absolite-z'), isTrue);
       expect(isUnremovableItemFor('Garchomp', 'garchompite-z'), isTrue);
       expect(isUnremovableItemFor('Lucario', 'lucarionite-z'), isTrue);
+    });
+
+    test('the mega-evolved form keeps exactly the stone that made it', () {
+      // Regression: Mega Garchomp holding Garchompite got the ×1.5.
+      expect(isUnremovableItemFor('Mega Garchomp', 'garchompite'), isTrue);
+      expect(isUnremovableItemFor('Mega Garchomp Z', 'garchompite-z'), isTrue);
+      expect(isUnremovableItemFor('Mega Absol Z', 'absolite-z'), isTrue);
+      expect(isUnremovableItemFor('Primal Groudon', 'red-orb'), isTrue);
+      // The wrong stone of its own line is just a wrong item.
+      expect(isUnremovableItemFor('Mega Garchomp Z', 'garchompite'), isFalse);
+      expect(isUnremovableItemFor('Mega Garchomp', 'garchompite-z'), isFalse);
+      expect(isUnremovableItemFor('Mega Charizard X', 'charizardite-y'), isFalse);
+      // Still a stranger to someone else's stone.
+      expect(isUnremovableItemFor('Mega Garchomp', 'gyaradosite'), isFalse);
+      // The base species owns every stone of its line.
+      expect(isUnremovableItemFor('Charizard', 'charizardite-y'), isTrue);
     });
 
     test('primal orbs and fixed forme items', () {
@@ -68,6 +88,25 @@ void main() {
       expect(isUnremovableItemFor('Charizard', 'choice-scarf'), isFalse);
       // Eviolite ends in "ite" but is a normal held item.
       expect(isUnremovableItemFor('Chansey', 'eviolite'), isFalse);
+    });
+  });
+
+  group('Knock Off boost on a mega-evolved defender', () {
+    const knockOff = Move(
+      name: 'Knock Off', nameKo: '탁쳐서떨어뜨리기', nameJa: 'はたきおとす',
+      type: PokemonType.dark, category: MoveCategory.physical,
+      power: 65, accuracy: 100, pp: 20,
+      tags: [MoveTags.knockOff, MoveTags.contact],
+    );
+    test('no boost against its own stone, boost against anything else', () {
+      expect(isKnockOffBoostApplicable(knockOff, 'garchompite',
+          opponentSpecies: 'Mega Garchomp'), isFalse);
+      expect(isKnockOffBoostApplicable(knockOff, 'garchompite',
+          opponentSpecies: 'Garchomp'), isFalse);
+      expect(isKnockOffBoostApplicable(knockOff, 'leftovers',
+          opponentSpecies: 'Mega Garchomp'), isTrue);
+      expect(isKnockOffBoostApplicable(knockOff, 'garchompite',
+          opponentSpecies: 'Mega Lucario'), isTrue);
     });
   });
 }

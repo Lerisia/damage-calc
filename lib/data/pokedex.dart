@@ -97,9 +97,18 @@ List<String> megaStonesForSpecies(String species) => [
 /// This is the ownership test the Knock Off rule needs: only the
 /// rightful holder keeps the item. A Charizard holding Gyaradosite is
 /// knocked off normally, and Zamazenta cannot claim the Rusted Sword.
+///
+/// The already-evolved form owns exactly the stone that produced it:
+/// Mega Garchomp keeps Garchompite, Mega Garchomp Z keeps Garchompite
+/// Z — and Mega Garchomp Z holding plain Garchompite is the wrong
+/// item, knocked off like any other (user decision 2026-09-22). The
+/// base species owns every stone of its line (Charizard, both
+/// Charizardites). Before this fix a mega-evolved defender was seen as
+/// a stranger to its own stone and Knock Off got ×1.5.
 bool isOwnFormItem(String species, String? itemId) {
   final form = formChangeForStone(itemId);
-  return form != null && form.allBaseSpecies.contains(species);
+  if (form == null) return false;
+  return form.name == species || form.allBaseSpecies.contains(species);
 }
 
 /// Loads all Pokemon data from assets/pokemon/*.json (cached after first load).
