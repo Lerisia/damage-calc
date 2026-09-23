@@ -31,6 +31,9 @@
     "name": "Paldean Tauros (Blaze Breed)",
     "nameKo": "켄타로스 (팔데아의 모습/블레이즈종)",
     "nameJa": "ケンタロス (パルデアのすがた)",
+    "aliases": [
+      "불켄타"
+    ],
     "type1": "fighting",
     "baseStats": {
       "hp": 75,
@@ -58,6 +61,9 @@
     "name": "Paldean Tauros (Aqua Breed)",
     "nameKo": "켄타로스 (팔데아의 모습/워터종)",
     "nameJa": "ケンタロス (パルデアのすがた)",
+    "aliases": [
+      "물켄타"
+    ],
     "type1": "fighting",
     "baseStats": {
       "hp": 75,

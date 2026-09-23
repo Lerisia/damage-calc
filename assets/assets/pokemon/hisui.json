@@ -118,6 +118,9 @@
     "name": "Hisuian Typhlosion",
     "nameKo": "블레이범 (히스이의 모습)",
     "nameJa": "バクフーン (ヒスイのすがた)",
+    "aliases": [
+      "히블범"
+    ],
     "type1": "fire",
     "baseStats": {
       "hp": 73,
@@ -391,6 +394,9 @@
     "name": "Hisuian Avalugg",
     "nameKo": "크레베이스 (히스이의 모습)",
     "nameJa": "クレベース (ヒスイのすがた)",
+    "aliases": [
+      "히크레"
+    ],
     "type1": "ice",
     "baseStats": {
       "hp": 95,
@@ -418,6 +424,9 @@
     "name": "Hisuian Decidueye",
     "nameKo": "모크나이퍼 (히스이의 모습)",
     "nameJa": "ジュナイパー (ヒスイのすがた)",
+    "aliases": [
+      "히뫀나"
+    ],
     "type1": "grass",
     "baseStats": {
       "hp": 88,

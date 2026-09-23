@@ -233,6 +233,9 @@
     "name": "Mega Pinsir",
     "nameKo": "메가쁘사이저",
     "nameJa": "メガカイロス",
+    "aliases": [
+      "메쁘사"
+    ],
     "type1": "bug",
     "baseStats": {
       "hp": 65,
@@ -388,6 +391,9 @@
     "name": "Mega Ampharos",
     "nameKo": "메가전룡",
     "nameJa": "メガデンリュウ",
+    "aliases": [
+      "메전룡"
+    ],
     "type1": "electric",
     "baseStats": {
       "hp": 90,
@@ -484,6 +490,9 @@
     "name": "Mega Houndoom",
     "nameKo": "메가헬가",
     "nameJa": "メガヘルガー",
+    "aliases": [
+      "메헬가"
+    ],
     "type1": "dark",
     "baseStats": {
       "hp": 75,
@@ -581,6 +590,9 @@
     "name": "Mega Gardevoir",
     "nameKo": "메가가디안",
     "nameJa": "メガサーナイト",
+    "aliases": [
+      "메디안"
+    ],
     "type1": "psychic",
     "baseStats": {
       "hp": 68,
@@ -673,6 +685,9 @@
     "name": "Mega Medicham",
     "nameKo": "메가요가램",
     "nameJa": "メガチャーレム",
+    "aliases": [
+      "메가램"
+    ],
     "type1": "fighting",
     "baseStats": {
       "hp": 60,
@@ -703,6 +718,9 @@
     "name": "Mega Manectric",
     "nameKo": "메가썬더볼트",
     "nameJa": "メガライボルト",
+    "aliases": [
+      "메썬볼"
+    ],
     "type1": "electric",
     "baseStats": {
       "hp": 70,
@@ -732,6 +750,9 @@
     "name": "Mega Banette",
     "nameKo": "메가다크펫",
     "nameJa": "メガジュペッタ",
+    "aliases": [
+      "메크펫"
+    ],
     "type1": "ghost",
     "baseStats": {
       "hp": 64,
@@ -761,6 +782,9 @@
     "name": "Mega Absol",
     "nameKo": "메가앱솔",
     "nameJa": "メガアブソル",
+    "aliases": [
+      "메앱솔"
+    ],
     "type1": "dark",
     "baseStats": {
       "hp": 65,
@@ -856,6 +880,9 @@
     "name": "Mega Abomasnow",
     "nameKo": "메가눈설왕",
     "nameJa": "メガユキノオー",
+    "aliases": [
+      "메설왕"
+    ],
     "type1": "grass",
     "baseStats": {
       "hp": 90,
@@ -1204,6 +1231,9 @@
     "name": "Mega Steelix",
     "nameKo": "메가강철톤",
     "nameJa": "メガハガネール",
+    "aliases": [
+      "메철톤"
+    ],
     "type1": "steel",
     "baseStats": {
       "hp": 75,
@@ -1234,6 +1264,9 @@
     "name": "Mega Pidgeot",
     "nameKo": "메가피죤투",
     "nameJa": "メガピジョット",
+    "aliases": [
+      "메죤투"
+    ],
     "type1": "normal",
     "baseStats": {
       "hp": 83,
@@ -1264,6 +1297,9 @@
     "name": "Mega Glalie",
     "nameKo": "메가얼음귀신",
     "nameJa": "メガオニゴーリ",
+    "aliases": [
+      "메얼귀"
+    ],
     "type1": "ice",
     "baseStats": {
       "hp": 80,
@@ -1385,6 +1421,9 @@
     "name": "Mega Camerupt",
     "nameKo": "메가폭타",
     "nameJa": "メガバクーダ",
+    "aliases": [
+      "메폭타"
+    ],
     "type1": "fire",
     "baseStats": {
       "hp": 70,
@@ -1448,6 +1487,9 @@
     "name": "Mega Salamence",
     "nameKo": "메가보만다",
     "nameJa": "メガボーマンダ",
+    "aliases": [
+      "메만다"
+    ],
     "type1": "dragon",
     "baseStats": {
       "hp": 95,
@@ -1765,6 +1807,9 @@
     "name": "Mega Emboar",
     "nameKo": "메가염무왕",
     "nameJa": "メガエンブオー",
+    "aliases": [
+      "메염무"
+    ],
     "type1": "fire",
     "type2": "fighting",
     "baseStats": {
@@ -1794,6 +1839,9 @@
     "name": "Mega Excadrill",
     "nameKo": "메가몰드류",
     "nameJa": "メガドリュウズ",
+    "aliases": [
+      "메드류"
+    ],
     "type1": "ground",
     "type2": "steel",
     "baseStats": {
@@ -2243,6 +2291,9 @@
     "name": "Mega Drampa",
     "nameKo": "메가할비롱",
     "nameJa": "メガジジーロン",
+    "aliases": [
+      "메비롱"
+    ],
     "type1": "normal",
     "type2": "dragon",
     "baseStats": {
@@ -2362,6 +2413,9 @@
     "name": "Mega Chimecho",
     "nameKo": "메가치렁",
     "nameJa": "メガチリーン",
+    "aliases": [
+      "메치렁"
+    ],
     "type1": "psychic",
     "type2": "steel",
     "baseStats": {
@@ -2391,6 +2445,9 @@
     "name": "Mega Absol Z",
     "nameKo": "메가앱솔Z",
     "nameJa": "メガアブソルZ",
+    "aliases": [
+      "젯앱솔"
+    ],
     "type1": "dark",
     "type2": "ghost",
     "baseStats": {
@@ -2452,6 +2509,9 @@
     "name": "Mega Garchomp Z",
     "nameKo": "메가한카리아스Z",
     "nameJa": "メガガブリアスZ",
+    "aliases": [
+      "젯한카"
+    ],
     "type1": "dragon",
     "baseStats": {
       "hp": 108,
@@ -2480,6 +2540,9 @@
     "name": "Mega Lucario Z",
     "nameKo": "메가루카리오Z",
     "nameJa": "メガルカリオZ",
+    "aliases": [
+      "젯루카"
+    ],
     "type1": "fighting",
     "type2": "steel",
     "baseStats": {
@@ -2654,6 +2717,10 @@
     "name": "Mega Golisopod",
     "nameKo": "메가갑주무사",
     "nameJa": "メガグソクムシャ",
+    "aliases": [
+      "메갑주",
+      "메갑무"
+    ],
     "type1": "bug",
     "type2": "steel",
     "baseStats": {
@@ -2824,6 +2891,9 @@
     "name": "Mega Baxcalibur",
     "nameKo": "메가드닐레이브",
     "nameJa": "メガセグレイブ",
+    "aliases": [
+      "메드닐"
+    ],
     "type1": "dragon",
     "type2": "ice",
     "baseStats": {
