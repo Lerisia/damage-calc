@@ -59,6 +59,9 @@
     "name": "Alolan Raichu",
     "nameKo": "라이츄 (알로라의 모습)",
     "nameJa": "ライチュウ (アローラのすがた)",
+    "aliases": [
+      "알라이츄"
+    ],
     "type1": "electric",
     "baseStats": {
       "hp": 60,

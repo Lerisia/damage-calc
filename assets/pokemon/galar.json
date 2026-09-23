@@ -110,6 +110,9 @@
     "name": "Galarian Slowbro",
     "nameKo": "야도란 (가라르의 모습)",
     "nameJa": "ヤドラン (ガラルのすがた)",
+    "aliases": [
+      "가도란"
+    ],
     "type1": "poison",
     "baseStats": {
       "hp": 95,
