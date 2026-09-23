@@ -2,36 +2,36 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-6 / single",
-    "updatedAt": "2026-09-22",
+    "updatedAt": "2026-09-23",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo.",
     "fillFrom": "champs.pokedb.tokyo — species the primary source had not ranked yet, ranked after its last entry",
-    "fillUpdatedAt": "2026-09-22"
+    "fillUpdatedAt": "2026-09-23"
   },
   "Garchomp": {
     "usageRank": 2,
     "abilities": [
       {
         "name": "Rough Skin",
-        "pct": 99.1
+        "pct": 99.0
       },
       {
         "name": "Sand Veil",
-        "pct": 0.9
+        "pct": 1.0
       }
     ],
     "items": [
       {
         "name": "garchompite-z",
-        "pct": 35.4
+        "pct": 36.1
       },
       {
         "name": "choice-scarf",
-        "pct": 19.0
+        "pct": 17.9
       },
       {
         "name": "focus-sash",
-        "pct": 16.6
+        "pct": 16.3
       },
       {
         "name": "sitrus-berry",
@@ -39,91 +39,91 @@
       },
       {
         "name": "rocky-helmet",
-        "pct": 10.3
+        "pct": 10.6
       },
       {
         "name": "lum-berry",
-        "pct": 1.9
+        "pct": 1.8
       },
       {
         "name": "life-orb",
-        "pct": 1.3
+        "pct": 1.4
       },
       {
         "name": "chesto-berry",
-        "pct": 1.1
+        "pct": 1.2
       },
       {
         "name": "garchompite",
-        "pct": 0.5
+        "pct": 0.6
       },
       {
         "name": "haban-berry",
-        "pct": 0.3
+        "pct": 0.4
       }
     ],
     "moves": [
       {
         "name": "Earthquake",
-        "pct": 67.0
+        "pct": 66.2
       },
       {
         "name": "Stealth Rock",
-        "pct": 39.6
+        "pct": 39.3
       },
       {
         "name": "Draco Meteor",
-        "pct": 30.1
+        "pct": 30.9
       },
       {
         "name": "Flamethrower",
-        "pct": 27.3
+        "pct": 28.4
       },
       {
         "name": "Dragon Tail",
-        "pct": 26.7
+        "pct": 26.8
       },
       {
         "name": "Earth Power",
-        "pct": 25.9
+        "pct": 25.6
       },
       {
         "name": "Outrage",
-        "pct": 25.7
+        "pct": 24.8
       },
       {
         "name": "Rock Tomb",
-        "pct": 19.7
+        "pct": 19.4
       },
       {
         "name": "Power Gem",
-        "pct": 19.1
+        "pct": 18.7
       },
       {
         "name": "Scale Shot",
-        "pct": 17.3
+        "pct": 17.8
       }
     ],
     "natures": [
       {
         "name": "Jolly",
-        "pct": 24.2
-      },
-      {
-        "name": "Adamant",
-        "pct": 21.0
+        "pct": 24.3
       },
       {
         "name": "Timid",
-        "pct": 19.8
+        "pct": 20.3
+      },
+      {
+        "name": "Adamant",
+        "pct": 20.1
       },
       {
         "name": "Impish",
-        "pct": 17.0
+        "pct": 16.8
       },
       {
         "name": "Modest",
-        "pct": 11.7
+        "pct": 11.5
       },
       {
         "name": "Careful",
@@ -131,14 +131,14 @@
       },
       {
         "name": "Naive",
-        "pct": 1.8
+        "pct": 2.1
       },
       {
         "name": "Hasty",
         "pct": 0.5
       },
       {
-        "name": "Bold",
+        "name": "Naughty",
         "pct": 0.4
       },
       {
@@ -192,43 +192,43 @@
     "moves": [
       {
         "name": "Earthquake",
-        "pct": 67.0
+        "pct": 66.2
       },
       {
         "name": "Stealth Rock",
-        "pct": 39.6
+        "pct": 39.3
       },
       {
         "name": "Draco Meteor",
-        "pct": 30.1
+        "pct": 30.9
       },
       {
         "name": "Flamethrower",
-        "pct": 27.3
+        "pct": 28.4
       },
       {
         "name": "Dragon Tail",
-        "pct": 26.7
+        "pct": 26.8
       },
       {
         "name": "Earth Power",
-        "pct": 25.9
+        "pct": 25.6
       },
       {
         "name": "Outrage",
-        "pct": 25.7
+        "pct": 24.8
       },
       {
         "name": "Rock Tomb",
-        "pct": 19.7
+        "pct": 19.4
       },
       {
         "name": "Power Gem",
-        "pct": 19.1
+        "pct": 18.7
       },
       {
         "name": "Scale Shot",
-        "pct": 17.3
+        "pct": 17.8
       }
     ],
     "defaultMoves": [
@@ -248,23 +248,23 @@
     "natures": [
       {
         "name": "Jolly",
-        "pct": 24.2
-      },
-      {
-        "name": "Adamant",
-        "pct": 21.0
+        "pct": 24.3
       },
       {
         "name": "Timid",
-        "pct": 19.8
+        "pct": 20.3
+      },
+      {
+        "name": "Adamant",
+        "pct": 20.1
       },
       {
         "name": "Impish",
-        "pct": 17.0
+        "pct": 16.8
       },
       {
         "name": "Modest",
-        "pct": 11.7
+        "pct": 11.5
       },
       {
         "name": "Careful",
@@ -272,14 +272,14 @@
       },
       {
         "name": "Naive",
-        "pct": 1.8
+        "pct": 2.1
       },
       {
         "name": "Hasty",
         "pct": 0.5
       },
       {
-        "name": "Bold",
+        "name": "Naughty",
         "pct": 0.4
       },
       {
@@ -293,11 +293,11 @@
     "abilities": [
       {
         "name": "Torrent",
-        "pct": 96.2
+        "pct": 96.1
       },
       {
         "name": "Liquid Voice",
-        "pct": 3.8
+        "pct": 3.9
       }
     ],
     "items": [
@@ -307,31 +307,31 @@
       },
       {
         "name": "leftovers",
-        "pct": 26.8
+        "pct": 30.5
       },
       {
         "name": "chesto-berry",
-        "pct": 10.5
+        "pct": 9.4
       },
       {
         "name": "mystic-water",
-        "pct": 7.8
+        "pct": 6.6
       },
       {
         "name": "lum-berry",
-        "pct": 4.0
+        "pct": 3.6
       },
       {
         "name": "focus-sash",
-        "pct": 3.7
+        "pct": 3.1
       },
       {
         "name": "grassy-seed",
-        "pct": 1.3
+        "pct": 1.1
       },
       {
         "name": "life-orb",
-        "pct": 1.2
+        "pct": 1.1
       },
       {
         "name": "fairy-feather",
@@ -345,69 +345,65 @@
     "moves": [
       {
         "name": "Moonblast",
-        "pct": 98.0
+        "pct": 97.9
       },
       {
         "name": "Sparkling Aria",
-        "pct": 92.1
+        "pct": 91.2
       },
       {
         "name": "Aqua Jet",
-        "pct": 67.0
+        "pct": 66.6
       },
       {
         "name": "Encore",
-        "pct": 48.7
+        "pct": 49.9
       },
       {
         "name": "Calm Mind",
-        "pct": 35.0
+        "pct": 35.9
       },
       {
         "name": "Flip Turn",
-        "pct": 17.3
+        "pct": 16.1
       },
       {
         "name": "Rest",
-        "pct": 10.7
+        "pct": 9.5
       },
       {
         "name": "Surf",
-        "pct": 5.5
+        "pct": 6.2
       },
       {
         "name": "Ice Beam",
-        "pct": 5.4
+        "pct": 5.6
       },
       {
         "name": "Misty Terrain",
-        "pct": 4.2
+        "pct": 3.9
       }
     ],
     "natures": [
       {
         "name": "Modest",
-        "pct": 70.4
+        "pct": 70.7
       },
       {
         "name": "Bold",
-        "pct": 12.0
+        "pct": 12.2
       },
       {
         "name": "Quiet",
-        "pct": 10.7
+        "pct": 10.1
       },
       {
         "name": "Calm",
-        "pct": 3.2
+        "pct": 3.3
       },
       {
         "name": "Relaxed",
-        "pct": 1.6
-      },
-      {
-        "name": "Mild",
-        "pct": 0.6
+        "pct": 1.7
       },
       {
         "name": "Timid",
@@ -415,6 +411,10 @@
       },
       {
         "name": "Sassy",
+        "pct": 0.6
+      },
+      {
+        "name": "Mild",
         "pct": 0.6
       },
       {
@@ -907,11 +907,11 @@
     "abilities": [
       {
         "name": "Stamina",
-        "pct": 81.4
+        "pct": 81.7
       },
       {
         "name": "Sturdy",
-        "pct": 18.5
+        "pct": 18.3
       },
       {
         "name": "Stalwart",
@@ -921,39 +921,39 @@
     "items": [
       {
         "name": "sitrus-berry",
-        "pct": 35.2
+        "pct": 37.2
       },
       {
         "name": "leftovers",
-        "pct": 21.5
-      },
-      {
-        "name": "choice-scarf",
-        "pct": 10.1
+        "pct": 22.2
       },
       {
         "name": "white-herb",
-        "pct": 10.1
+        "pct": 9.4
+      },
+      {
+        "name": "choice-scarf",
+        "pct": 9.3
       },
       {
         "name": "rocky-helmet",
-        "pct": 8.6
+        "pct": 7.3
       },
       {
         "name": "air-balloon",
-        "pct": 4.1
+        "pct": 3.9
       },
       {
         "name": "chesto-berry",
-        "pct": 2.1
-      },
-      {
-        "name": "scope-lens",
-        "pct": 2.0
+        "pct": 2.2
       },
       {
         "name": "red-card",
-        "pct": 1.3
+        "pct": 1.8
+      },
+      {
+        "name": "scope-lens",
+        "pct": 1.8
       },
       {
         "name": "shuca-berry",
@@ -963,43 +963,43 @@
     "moves": [
       {
         "name": "Draco Meteor",
-        "pct": 69.9
+        "pct": 70.2
       },
       {
         "name": "Flash Cannon",
-        "pct": 64.4
-      },
-      {
-        "name": "Thunderbolt",
-        "pct": 62.0
+        "pct": 64.2
       },
       {
         "name": "Stealth Rock",
-        "pct": 61.3
+        "pct": 62.2
+      },
+      {
+        "name": "Thunderbolt",
+        "pct": 62.1
       },
       {
         "name": "Roar",
-        "pct": 31.3
+        "pct": 29.5
       },
       {
         "name": "Dragon Tail",
-        "pct": 22.5
+        "pct": 23.1
       },
       {
         "name": "Aura Sphere",
-        "pct": 17.4
+        "pct": 16.6
       },
       {
         "name": "Electro Shot",
-        "pct": 14.8
+        "pct": 14.9
       },
       {
         "name": "Dark Pulse",
-        "pct": 11.0
+        "pct": 11.9
       },
       {
         "name": "Dragon Pulse",
-        "pct": 9.6
+        "pct": 10.0
       }
     ],
     "natures": [
@@ -1013,27 +1013,27 @@
       },
       {
         "name": "Calm",
-        "pct": 19.1
+        "pct": 19.4
       },
       {
         "name": "Timid",
-        "pct": 12.5
+        "pct": 12.4
       },
       {
         "name": "Impish",
-        "pct": 2.9
+        "pct": 2.6
       },
       {
         "name": "Careful",
-        "pct": 2.1
+        "pct": 1.9
       },
       {
         "name": "Relaxed",
-        "pct": 1.1
+        "pct": 1.2
       },
       {
         "name": "Sassy",
-        "pct": 0.8
+        "pct": 0.9
       },
       {
         "name": "Quiet",
@@ -1083,19 +1083,19 @@
     "items": [
       {
         "name": "sitrus-berry",
-        "pct": 66.8
+        "pct": 65.3
       },
       {
         "name": "rocky-helmet",
-        "pct": 17.8
+        "pct": 18.4
       },
       {
         "name": "leftovers",
-        "pct": 14.1
+        "pct": 14.8
       },
       {
         "name": "smooth-rock",
-        "pct": 0.3
+        "pct": 0.4
       },
       {
         "name": "red-card",
@@ -1103,11 +1103,11 @@
       },
       {
         "name": "lum-berry",
-        "pct": 0.1
+        "pct": 0.2
       },
       {
         "name": "mental-herb",
-        "pct": 0.1
+        "pct": 0.2
       },
       {
         "name": "expert-belt",
@@ -1118,46 +1118,46 @@
         "pct": 0.1
       },
       {
-        "name": "passho-berry",
-        "pct": 0.0
+        "name": "focus-sash",
+        "pct": 0.1
       }
     ],
     "moves": [
       {
         "name": "Earthquake",
-        "pct": 97.7
+        "pct": 97.5
       },
       {
         "name": "Yawn",
-        "pct": 96.3
+        "pct": 96.2
       },
       {
         "name": "Stealth Rock",
-        "pct": 92.5
+        "pct": 91.0
       },
       {
         "name": "Whirlwind",
-        "pct": 62.2
+        "pct": 61.6
       },
       {
         "name": "Slack Off",
-        "pct": 37.5
+        "pct": 37.9
       },
       {
         "name": "Ice Fang",
-        "pct": 4.0
+        "pct": 5.0
       },
       {
         "name": "Protect",
-        "pct": 3.1
+        "pct": 3.4
       },
       {
         "name": "Roar",
-        "pct": 3.0
+        "pct": 3.3
       },
       {
         "name": "Rock Tomb",
-        "pct": 1.3
+        "pct": 1.4
       },
       {
         "name": "Fissure",
@@ -1167,19 +1167,19 @@
     "natures": [
       {
         "name": "Impish",
-        "pct": 58.2
+        "pct": 58.6
       },
       {
         "name": "Careful",
-        "pct": 32.4
+        "pct": 31.5
       },
       {
         "name": "Relaxed",
-        "pct": 5.0
+        "pct": 5.4
       },
       {
         "name": "Sassy",
-        "pct": 2.1
+        "pct": 2.0
       },
       {
         "name": "Bold",
@@ -1187,7 +1187,7 @@
       },
       {
         "name": "Adamant",
-        "pct": 0.6
+        "pct": 0.7
       },
       {
         "name": "Calm",
@@ -1195,11 +1195,11 @@
       },
       {
         "name": "Brave",
-        "pct": 0.1
+        "pct": 0.2
       },
       {
         "name": "Naughty",
-        "pct": 0.0
+        "pct": 0.1
       },
       {
         "name": "Jolly",
@@ -4525,29 +4525,29 @@
     ]
   },
   "Lucario": {
-    "usageRank": 6,
+    "usageRank": 7,
     "abilities": [
       {
         "name": "Inner Focus",
-        "pct": 80.7
+        "pct": 80.8
       },
       {
         "name": "Steadfast",
-        "pct": 12.8
+        "pct": 12.6
       },
       {
         "name": "Justified",
-        "pct": 6.5
+        "pct": 6.7
       }
     ],
     "items": [
       {
         "name": "lucarionite-z",
-        "pct": 90.6
+        "pct": 90.3
       },
       {
         "name": "lucarionite",
-        "pct": 8.7
+        "pct": 9.0
       },
       {
         "name": "focus-sash",
@@ -4562,19 +4562,19 @@
         "pct": 0.0
       },
       {
-        "name": "air-balloon",
-        "pct": 0.0
-      },
-      {
         "name": "expert-belt",
         "pct": 0.0
       },
       {
-        "name": "shuca-berry",
+        "name": "air-balloon",
         "pct": 0.0
       },
       {
-        "name": "quick-claw",
+        "name": "lum-berry",
+        "pct": 0.0
+      },
+      {
+        "name": "shuca-berry",
         "pct": 0.0
       },
       {
@@ -4585,61 +4585,61 @@
     "moves": [
       {
         "name": "Nasty Plot",
-        "pct": 79.5
-      },
-      {
-        "name": "Aura Sphere",
-        "pct": 76.2
+        "pct": 78.6
       },
       {
         "name": "Dark Pulse",
-        "pct": 75.9
+        "pct": 77.9
       },
       {
         "name": "Flash Cannon",
-        "pct": 74.6
+        "pct": 74.3
+      },
+      {
+        "name": "Aura Sphere",
+        "pct": 73.2
       },
       {
         "name": "Vacuum Wave",
-        "pct": 34.5
+        "pct": 36.8
       },
       {
         "name": "Steel Beam",
-        "pct": 20.1
+        "pct": 20.2
       },
       {
         "name": "Close Combat",
-        "pct": 5.5
-      },
-      {
-        "name": "Focus Blast",
-        "pct": 4.5
+        "pct": 5.7
       },
       {
         "name": "Swords Dance",
         "pct": 4.5
       },
       {
+        "name": "Focus Blast",
+        "pct": 4.1
+      },
+      {
         "name": "Meteor Mash",
-        "pct": 3.9
+        "pct": 4.0
       }
     ],
     "natures": [
       {
         "name": "Timid",
-        "pct": 69.9
+        "pct": 67.5
       },
       {
         "name": "Modest",
-        "pct": 22.6
+        "pct": 24.9
       },
       {
         "name": "Jolly",
-        "pct": 3.8
+        "pct": 3.9
       },
       {
         "name": "Adamant",
-        "pct": 2.1
+        "pct": 2.0
       },
       {
         "name": "Naive",
@@ -4662,8 +4662,8 @@
         "pct": 0.1
       },
       {
-        "name": "Mild",
-        "pct": 0.0
+        "name": "Naughty",
+        "pct": 0.1
       }
     ],
     "teras": [],
@@ -4712,43 +4712,43 @@
     "moves": [
       {
         "name": "Nasty Plot",
-        "pct": 79.5
-      },
-      {
-        "name": "Aura Sphere",
-        "pct": 76.2
+        "pct": 78.6
       },
       {
         "name": "Dark Pulse",
-        "pct": 75.9
+        "pct": 77.9
       },
       {
         "name": "Flash Cannon",
-        "pct": 74.6
+        "pct": 74.3
+      },
+      {
+        "name": "Aura Sphere",
+        "pct": 73.2
       },
       {
         "name": "Vacuum Wave",
-        "pct": 34.5
+        "pct": 36.8
       },
       {
         "name": "Steel Beam",
-        "pct": 20.1
+        "pct": 20.2
       },
       {
         "name": "Close Combat",
-        "pct": 5.5
-      },
-      {
-        "name": "Focus Blast",
-        "pct": 4.5
+        "pct": 5.7
       },
       {
         "name": "Swords Dance",
         "pct": 4.5
       },
       {
+        "name": "Focus Blast",
+        "pct": 4.1
+      },
+      {
         "name": "Meteor Mash",
-        "pct": 3.9
+        "pct": 4.0
       }
     ],
     "defaultMoves": [
@@ -4768,19 +4768,19 @@
     "natures": [
       {
         "name": "Timid",
-        "pct": 69.9
+        "pct": 67.5
       },
       {
         "name": "Modest",
-        "pct": 22.6
+        "pct": 24.9
       },
       {
         "name": "Jolly",
-        "pct": 3.8
+        "pct": 3.9
       },
       {
         "name": "Adamant",
-        "pct": 2.1
+        "pct": 2.0
       },
       {
         "name": "Naive",
@@ -4803,8 +4803,8 @@
         "pct": 0.1
       },
       {
-        "name": "Mild",
-        "pct": 0.0
+        "name": "Naughty",
+        "pct": 0.1
       }
     ]
   },
@@ -48455,36 +48455,36 @@
     "abilities": [
       {
         "name": "Intimidate",
-        "pct": 99.3
+        "pct": 99.2
       },
       {
         "name": "Moxie",
-        "pct": 0.7
+        "pct": 0.8
       }
     ],
     "items": [
       {
         "name": "salamencite",
-        "pct": 97.7
+        "pct": 97.6
       },
       {
         "name": "choice-scarf",
-        "pct": 0.8
+        "pct": 0.9
       },
       {
         "name": "life-orb",
-        "pct": 0.6
+        "pct": 0.5
       },
       {
         "name": "rocky-helmet",
         "pct": 0.3
       },
       {
-        "name": "leftovers",
+        "name": "focus-sash",
         "pct": 0.1
       },
       {
-        "name": "focus-sash",
+        "name": "leftovers",
         "pct": 0.1
       },
       {
@@ -48492,11 +48492,11 @@
         "pct": 0.1
       },
       {
-        "name": "expert-belt",
-        "pct": 0.0
+        "name": "sitrus-berry",
+        "pct": 0.1
       },
       {
-        "name": "sitrus-berry",
+        "name": "expert-belt",
         "pct": 0.0
       },
       {
@@ -48507,61 +48507,61 @@
     "moves": [
       {
         "name": "Double-Edge",
-        "pct": 76.1
-      },
-      {
-        "name": "Dragon Dance",
-        "pct": 73.0
+        "pct": 77.2
       },
       {
         "name": "Earthquake",
-        "pct": 71.0
+        "pct": 72.3
+      },
+      {
+        "name": "Dragon Dance",
+        "pct": 71.4
       },
       {
         "name": "Roost",
-        "pct": 65.1
+        "pct": 62.6
       },
       {
         "name": "Draco Meteor",
-        "pct": 26.4
+        "pct": 28.5
       },
       {
         "name": "Fire Blast",
-        "pct": 16.5
+        "pct": 18.8
       },
       {
         "name": "Flamethrower",
-        "pct": 16.0
-      },
-      {
-        "name": "Hyper Voice",
         "pct": 15.3
       },
       {
+        "name": "Hyper Voice",
+        "pct": 14.1
+      },
+      {
         "name": "Outrage",
-        "pct": 7.7
+        "pct": 7.4
       },
       {
         "name": "Temper Flare",
-        "pct": 7.1
+        "pct": 6.5
       }
     ],
     "natures": [
       {
         "name": "Adamant",
-        "pct": 50.9
+        "pct": 49.2
       },
       {
         "name": "Jolly",
-        "pct": 16.3
+        "pct": 16.1
       },
       {
         "name": "Naive",
-        "pct": 10.7
+        "pct": 13.5
       },
       {
         "name": "Modest",
-        "pct": 9.7
+        "pct": 8.5
       },
       {
         "name": "Timid",
@@ -48569,23 +48569,23 @@
       },
       {
         "name": "Naughty",
-        "pct": 2.2
+        "pct": 2.3
       },
       {
         "name": "Careful",
-        "pct": 1.2
+        "pct": 1.1
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.7
       },
       {
         "name": "Impish",
         "pct": 0.6
       },
       {
-        "name": "Hasty",
-        "pct": 0.6
-      },
-      {
         "name": "Rash",
-        "pct": 0.3
+        "pct": 0.4
       }
     ],
     "teras": [],
@@ -48785,7 +48785,7 @@
     "items": [
       {
         "name": "golisopite",
-        "pct": 98.6
+        "pct": 98.2
       },
       {
         "name": "life-orb",
@@ -48793,7 +48793,7 @@
       },
       {
         "name": "rocky-helmet",
-        "pct": 0.3
+        "pct": 0.5
       },
       {
         "name": "sitrus-berry",
@@ -48805,6 +48805,10 @@
       },
       {
         "name": "leftovers",
+        "pct": 0.1
+      },
+      {
+        "name": "eject-button",
         "pct": 0.0
       },
       {
@@ -48812,76 +48816,72 @@
         "pct": 0.0
       },
       {
-        "name": "eject-button",
+        "name": "quick-claw",
         "pct": 0.0
       },
       {
         "name": "lum-berry",
-        "pct": 0.0
-      },
-      {
-        "name": "quick-claw",
         "pct": 0.0
       }
     ],
     "moves": [
       {
         "name": "Iron Head",
-        "pct": 77.5
+        "pct": 76.1
       },
       {
         "name": "First Impression",
-        "pct": 71.8
+        "pct": 66.9
       },
       {
         "name": "Sucker Punch",
-        "pct": 57.6
+        "pct": 60.7
       },
       {
         "name": "U-turn",
-        "pct": 43.0
+        "pct": 39.0
       },
       {
         "name": "Leech Life",
-        "pct": 32.5
+        "pct": 37.8
       },
       {
         "name": "Drill Run",
-        "pct": 29.6
-      },
-      {
-        "name": "Close Combat",
-        "pct": 21.8
+        "pct": 29.3
       },
       {
         "name": "Swords Dance",
-        "pct": 20.0
+        "pct": 22.9
+      },
+      {
+        "name": "Close Combat",
+        "pct": 20.9
       },
       {
         "name": "Aqua Jet",
-        "pct": 17.9
+        "pct": 17.3
       },
       {
         "name": "Bulk Up",
-        "pct": 12.0
+        "pct": 12.7
       }
     ],
     "natures": [
       {
         "name": "Adamant",
-        "pct": 81.8
+        "pct": 82.2
       },
       {
         "name": "Brave",
-        "pct": 14.3
+        "pct": 13.2
       },
       {
         "name": "Careful",
-        "pct": 1.6
+        "pct": 1.8
       },
       {
         "name": "Impish",
-        "pct": 1.2
+        "pct": 1.5
       },
       {
         "name": "Relaxed",
@@ -48889,11 +48889,11 @@
       },
       {
         "name": "Sassy",
-        "pct": 0.2
+        "pct": 0.3
       },
       {
         "name": "Jolly",
-        "pct": 0.2
+        "pct": 0.3
       },
       {
         "name": "Naughty",
@@ -48901,7 +48901,7 @@
       },
       {
         "name": "Lonely",
-        "pct": 0.0
+        "pct": 0.1
       },
       {
         "name": "Quiet",
@@ -51209,7 +51209,7 @@
     }
   },
   "Baxcalibur": {
-    "usageRank": 7,
+    "usageRank": 6,
     "abilities": [
       {
         "name": "Thermal Exchange",
@@ -51223,39 +51223,39 @@
     "items": [
       {
         "name": "baxcalibrite",
-        "pct": 48.8
+        "pct": 42.1
       },
       {
         "name": "focus-sash",
-        "pct": 28.8
+        "pct": 38.6
       },
       {
         "name": "life-orb",
-        "pct": 9.4
+        "pct": 8.1
       },
       {
         "name": "choice-scarf",
-        "pct": 5.0
+        "pct": 4.0
       },
       {
         "name": "lum-berry",
-        "pct": 3.3
+        "pct": 2.7
       },
       {
         "name": "never-melt-ice",
-        "pct": 1.1
-      },
-      {
-        "name": "sitrus-berry",
         "pct": 1.0
       },
       {
+        "name": "sitrus-berry",
+        "pct": 0.9
+      },
+      {
         "name": "expert-belt",
-        "pct": 0.5
+        "pct": 0.4
       },
       {
         "name": "haban-berry",
-        "pct": 0.5
+        "pct": 0.4
       },
       {
         "name": "leftovers",
@@ -51265,53 +51265,53 @@
     "moves": [
       {
         "name": "Earthquake",
-        "pct": 90.8
+        "pct": 91.1
       },
       {
         "name": "Ice Shard",
-        "pct": 87.8
+        "pct": 90.2
       },
       {
         "name": "Glaive Rush",
-        "pct": 77.3
+        "pct": 80.8
       },
       {
         "name": "Icicle Crash",
-        "pct": 44.2
+        "pct": 48.8
       },
       {
         "name": "Swords Dance",
-        "pct": 35.0
+        "pct": 31.7
       },
       {
         "name": "Dragon Dance",
-        "pct": 32.4
+        "pct": 28.0
       },
       {
         "name": "Icicle Spear",
-        "pct": 18.4
+        "pct": 16.0
       },
       {
         "name": "Thunder Fang",
-        "pct": 4.0
+        "pct": 3.8
       },
       {
         "name": "Iron Head",
-        "pct": 3.1
+        "pct": 2.7
       },
       {
         "name": "Scale Shot",
-        "pct": 2.3
+        "pct": 1.9
       }
     ],
     "natures": [
       {
         "name": "Adamant",
-        "pct": 74.0
+        "pct": 74.5
       },
       {
         "name": "Jolly",
-        "pct": 23.7
+        "pct": 23.1
       },
       {
         "name": "Impish",
@@ -51334,11 +51334,11 @@
         "pct": 0.2
       },
       {
-        "name": "Hasty",
+        "name": "Naive",
         "pct": 0.1
       },
       {
-        "name": "Naive",
+        "name": "Hasty",
         "pct": 0.1
       },
       {
@@ -51578,43 +51578,43 @@
     "moves": [
       {
         "name": "Double-Edge",
-        "pct": 76.1
-      },
-      {
-        "name": "Dragon Dance",
-        "pct": 73.0
+        "pct": 77.2
       },
       {
         "name": "Earthquake",
-        "pct": 71.0
+        "pct": 72.3
+      },
+      {
+        "name": "Dragon Dance",
+        "pct": 71.4
       },
       {
         "name": "Roost",
-        "pct": 65.1
+        "pct": 62.6
       },
       {
         "name": "Draco Meteor",
-        "pct": 26.4
+        "pct": 28.5
       },
       {
         "name": "Fire Blast",
-        "pct": 16.5
+        "pct": 18.8
       },
       {
         "name": "Flamethrower",
-        "pct": 16.0
-      },
-      {
-        "name": "Hyper Voice",
         "pct": 15.3
       },
       {
+        "name": "Hyper Voice",
+        "pct": 14.1
+      },
+      {
         "name": "Outrage",
-        "pct": 7.7
+        "pct": 7.4
       },
       {
         "name": "Temper Flare",
-        "pct": 7.1
+        "pct": 6.5
       }
     ],
     "defaultMoves": [
@@ -51634,19 +51634,19 @@
     "natures": [
       {
         "name": "Adamant",
-        "pct": 50.9
+        "pct": 49.2
       },
       {
         "name": "Jolly",
-        "pct": 16.3
+        "pct": 16.1
       },
       {
         "name": "Naive",
-        "pct": 10.7
+        "pct": 13.5
       },
       {
         "name": "Modest",
-        "pct": 9.7
+        "pct": 8.5
       },
       {
         "name": "Timid",
@@ -51654,23 +51654,23 @@
       },
       {
         "name": "Naughty",
-        "pct": 2.2
+        "pct": 2.3
       },
       {
         "name": "Careful",
-        "pct": 1.2
+        "pct": 1.1
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.7
       },
       {
         "name": "Impish",
         "pct": 0.6
       },
       {
-        "name": "Hasty",
-        "pct": 0.6
-      },
-      {
         "name": "Rash",
-        "pct": 0.3
+        "pct": 0.4
       }
     ]
   },
@@ -51696,43 +51696,43 @@
     "moves": [
       {
         "name": "Iron Head",
-        "pct": 77.5
+        "pct": 76.1
       },
       {
         "name": "First Impression",
-        "pct": 71.8
+        "pct": 66.9
       },
       {
         "name": "Sucker Punch",
-        "pct": 57.6
+        "pct": 60.7
       },
       {
         "name": "U-turn",
-        "pct": 43.0
+        "pct": 39.0
       },
       {
         "name": "Leech Life",
-        "pct": 32.5
+        "pct": 37.8
       },
       {
         "name": "Drill Run",
-        "pct": 29.6
-      },
-      {
-        "name": "Close Combat",
-        "pct": 21.8
+        "pct": 29.3
       },
       {
         "name": "Swords Dance",
-        "pct": 20.0
+        "pct": 22.9
+      },
+      {
+        "name": "Close Combat",
+        "pct": 20.9
       },
       {
         "name": "Aqua Jet",
-        "pct": 17.9
+        "pct": 17.3
       },
       {
         "name": "Bulk Up",
-        "pct": 12.0
+        "pct": 12.7
       }
     ],
     "defaultMoves": [
@@ -51752,19 +51752,19 @@
     "natures": [
       {
         "name": "Adamant",
-        "pct": 81.8
+        "pct": 82.2
       },
       {
         "name": "Brave",
-        "pct": 14.3
+        "pct": 13.2
       },
       {
         "name": "Careful",
-        "pct": 1.6
+        "pct": 1.8
       },
       {
         "name": "Impish",
-        "pct": 1.2
+        "pct": 1.5
       },
       {
         "name": "Relaxed",
@@ -51772,11 +51772,11 @@
       },
       {
         "name": "Sassy",
-        "pct": 0.2
+        "pct": 0.3
       },
       {
         "name": "Jolly",
-        "pct": 0.2
+        "pct": 0.3
       },
       {
         "name": "Naughty",
@@ -51784,7 +51784,7 @@
       },
       {
         "name": "Lonely",
-        "pct": 0.0
+        "pct": 0.1
       },
       {
         "name": "Quiet",
@@ -51814,43 +51814,43 @@
     "moves": [
       {
         "name": "Earthquake",
-        "pct": 90.8
+        "pct": 91.1
       },
       {
         "name": "Ice Shard",
-        "pct": 87.8
+        "pct": 90.2
       },
       {
         "name": "Glaive Rush",
-        "pct": 77.3
+        "pct": 80.8
       },
       {
         "name": "Icicle Crash",
-        "pct": 44.2
+        "pct": 48.8
       },
       {
         "name": "Swords Dance",
-        "pct": 35.0
+        "pct": 31.7
       },
       {
         "name": "Dragon Dance",
-        "pct": 32.4
+        "pct": 28.0
       },
       {
         "name": "Icicle Spear",
-        "pct": 18.4
+        "pct": 16.0
       },
       {
         "name": "Thunder Fang",
-        "pct": 4.0
+        "pct": 3.8
       },
       {
         "name": "Iron Head",
-        "pct": 3.1
+        "pct": 2.7
       },
       {
         "name": "Scale Shot",
-        "pct": 2.3
+        "pct": 1.9
       }
     ],
     "defaultMoves": [
@@ -51870,11 +51870,11 @@
     "natures": [
       {
         "name": "Adamant",
-        "pct": 74.0
+        "pct": 74.5
       },
       {
         "name": "Jolly",
-        "pct": 23.7
+        "pct": 23.1
       },
       {
         "name": "Impish",
@@ -51897,11 +51897,11 @@
         "pct": 0.2
       },
       {
-        "name": "Hasty",
+        "name": "Naive",
         "pct": 0.1
       },
       {
-        "name": "Naive",
+        "name": "Hasty",
         "pct": 0.1
       },
       {
