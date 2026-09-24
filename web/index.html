@@ -38,22 +38,28 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <!-- Trilingual description: search engines (Bing, Naver, etc. that
-       don't run JS) and the Googlebot first-render see a snippet that
-       has matching keywords for KR / EN / JA queries. Goes in one
-       <meta> rather than three locale-tagged ones because Google
-       treats lang-tagged duplicates as ambiguous. -->
-  <meta name="description" content="Pokémon damage calculator — competitive battle tool. 결정력 계산기, 대미지·스피드 비교, 테라스탈/다이맥스/메가진화/Z-A 지원. ポケモン対戦のダメージ計算機。テラスタル・ダイマックス・メガシンカ対応。">
+  <!-- Search-snippet description stays trilingual (Bing, Naver and the
+       Googlebot first render match KR / EN / JA queries on it), but
+       short: one clause per language. Chat-app link previews read the
+       Open Graph tags below, which are Korean-only — the trilingual
+       string used to appear verbatim in every KakaoTalk / Discord
+       unfurl. One <meta> rather than three locale-tagged ones because
+       Google treats lang-tagged duplicates as ambiguous. -->
+  <meta name="description" content="포켓몬 챔피언스 결정력·대미지 계산기. Pokémon Champions damage calculator. ポケモンチャンピオンズのダメージ計算機。">
   <meta name="keywords" content="포켓몬, 포켓몬스터, 포켓몬 계산기, 결정력 계산기, 대미지 계산기, 실전 배틀, VGC, 포켓몬스터 챔피언스, 레전드 ZA, 메가진화, 테라스탈, 다이맥스, 스피드 비교, Pokemon, Pokemon damage calculator, competitive battle, damage calc, VGC calculator, Mega Evolution, Terastal, Dynamax, speed comparison, Legends ZA, Pokemon Champions, ポケモン, ポケットモンスター, ダメージ計算機, 火力計算, 耐久計算, 対戦ツール, メガシンカ, テラスタル, ダイマックス, すばやさ比較, レジェンズZA, ポケモンチャンピオンズ">
   <meta name="author" content="Elyss">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://damage-calc.com/">
 
-  <!-- Open Graph: trilingual title to match search-result rendering on
-       Bing/Naver/Yahoo (the EN+JA copy reaches users whose locale
-       doesn't match the JS-based runtime title swap). -->
-  <meta property="og:title" content="Pokémon Damage Calculator | 결정력 계산기 | ダメージ計算機">
-  <meta property="og:description" content="Competitive battle damage calculator — Terastal / Dynamax / Mega Evolution / Z-A. 결정력·스피드 비교. 対戦用ダメージ計算機。">
+  <!-- Open Graph: what KakaoTalk / Discord / Slack previews show. Korean
+       only — the site's primary audience — so a shared link reads as
+       one sentence, not three languages in a row. site_name keeps
+       previews from repeating the title in the site-name slot. Search
+       engines don't use these; the <title> and description above
+       carry the multilingual keywords. -->
+  <meta property="og:site_name" content="damage-calc.com">
+  <meta property="og:title" content="결정력 계산기">
+  <meta property="og:description" content="포켓몬 챔피언스 결정력·대미지 계산기. 스피드 비교, 테라스탈·다이맥스·메가진화 지원.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://damage-calc.com/">
   <meta property="og:image" content="https://damage-calc.com/og-image.png">
@@ -72,8 +78,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Pokémon Damage Calculator | 결정력 계산기 | ダメージ計算機">
-  <meta name="twitter:description" content="Competitive battle damage calculator — Terastal / Dynamax / Mega Evolution / Z-A.">
+  <meta name="twitter:title" content="결정력 계산기">
+  <meta name="twitter:description" content="포켓몬 챔피언스 결정력·대미지 계산기. 스피드 비교, 테라스탈·다이맥스·메가진화 지원.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
