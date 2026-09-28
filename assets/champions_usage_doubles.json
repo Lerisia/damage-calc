@@ -2,7 +2,7 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via champs.pokedb.tokyo",
     "format": "Season M-6 / double",
-    "updatedAt": "2026-09-27",
+    "updatedAt": "2026-09-28",
     "curatedBy": "auto: champs.pokedb.tokyo (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries are ordered by descending in-game usage. pct is optional and left null when only rank order was recorded. Items/moves/natures with <1% usage are omitted from newer entries to reduce noise."
   },
@@ -2297,7 +2297,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 33,
+    "usageRank": 32,
     "abilities": [
       {
         "name": "Prankster",
@@ -2784,7 +2784,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 41,
+    "usageRank": 40,
     "abilities": [
       {
         "name": "Unnerve",
@@ -3271,7 +3271,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 43,
+    "usageRank": 42,
     "abilities": [
       {
         "name": "Prankster",
@@ -3714,7 +3714,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 42,
+    "usageRank": 43,
     "abilities": [
       {
         "name": "Chlorophyll",
@@ -5300,7 +5300,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 91,
+    "usageRank": 89,
     "abilities": [
       {
         "name": "Scrappy",
@@ -7450,7 +7450,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 40,
+    "usageRank": 41,
     "abilities": [
       {
         "name": "Toxic Debris",
@@ -8891,7 +8891,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 79,
+    "usageRank": 80,
     "abilities": [
       {
         "name": "Technician",
@@ -9511,7 +9511,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 86,
+    "usageRank": 87,
     "abilities": [
       {
         "name": "Overgrow",
@@ -9624,7 +9624,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 90,
+    "usageRank": 91,
     "abilities": [
       {
         "name": "Oblivious",
@@ -10437,7 +10437,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 97,
+    "usageRank": 98,
     "abilities": [
       {
         "name": "Adaptability",
@@ -10747,7 +10747,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 82,
+    "usageRank": 81,
     "abilities": [
       {
         "name": "Disguise",
@@ -11210,7 +11210,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 112,
+    "usageRank": 113,
     "abilities": [
       {
         "name": "Drought",
@@ -11838,7 +11838,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 77,
+    "usageRank": 78,
     "abilities": [
       {
         "name": "Stance Change",
@@ -12160,7 +12160,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 89,
+    "usageRank": 90,
     "abilities": [
       {
         "name": "Protean",
@@ -12808,7 +12808,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 80,
+    "usageRank": 79,
     "abilities": [
       {
         "name": "Contrary",
@@ -12973,7 +12973,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 98,
+    "usageRank": 97,
     "abilities": [
       {
         "name": "Thick Fat",
@@ -13440,7 +13440,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 127,
+    "usageRank": 126,
     "abilities": [
       {
         "name": "Huge Power",
@@ -13597,7 +13597,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 32,
+    "usageRank": 33,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -13762,7 +13762,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 102,
+    "usageRank": 104,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -14394,7 +14394,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 75,
+    "usageRank": 76,
     "abilities": [
       {
         "name": "Flash Fire",
@@ -14716,7 +14716,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 146,
+    "usageRank": 145,
     "abilities": [
       {
         "name": "Iron Fist",
@@ -15030,7 +15030,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 130,
+    "usageRank": 131,
     "abilities": [
       {
         "name": "Snow Warning",
@@ -15175,7 +15175,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 129,
+    "usageRank": 133,
     "abilities": [
       {
         "name": "Hyper Cutter",
@@ -15618,7 +15618,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 113,
+    "usageRank": 112,
     "abilities": [
       {
         "name": "Limber",
@@ -15916,7 +15916,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 103,
+    "usageRank": 102,
     "abilities": [
       {
         "name": "Electromorphosis",
@@ -16073,7 +16073,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 134,
+    "usageRank": 132,
     "abilities": [
       {
         "name": "Sturdy",
@@ -16226,7 +16226,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 76,
+    "usageRank": 75,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -16371,7 +16371,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 137,
+    "usageRank": 136,
     "abilities": [
       {
         "name": "Dry Skin",
@@ -16520,7 +16520,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 124,
+    "usageRank": 125,
     "abilities": [
       {
         "name": "Unburden",
@@ -16810,7 +16810,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 121,
+    "usageRank": 122,
     "abilities": [
       {
         "name": "Unaware",
@@ -16959,7 +16959,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 151,
+    "usageRank": 147,
     "abilities": [
       {
         "name": "Contrary",
@@ -17821,7 +17821,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 131,
+    "usageRank": 129,
     "abilities": [
       {
         "name": "Static",
@@ -18107,7 +18107,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 145,
+    "usageRank": 146,
     "abilities": [
       {
         "name": "Iron Fist",
@@ -18264,7 +18264,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 133,
+    "usageRank": 128,
     "abilities": [
       {
         "name": "Hyper Cutter",
@@ -18707,7 +18707,7 @@
       "spd": 2,
       "spe": 32
     },
-    "usageRank": 136,
+    "usageRank": 137,
     "abilities": [
       {
         "name": "Imposter",
@@ -18976,7 +18976,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 162,
+    "usageRank": 161,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -19133,7 +19133,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 125,
+    "usageRank": 124,
     "abilities": [
       {
         "name": "Infiltrator",
@@ -19596,7 +19596,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 161,
+    "usageRank": 162,
     "abilities": [
       {
         "name": "Mummy",
@@ -19741,7 +19741,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 217,
+    "usageRank": 218,
     "abilities": [
       {
         "name": "Levitate",
@@ -20015,7 +20015,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 179,
+    "usageRank": 178,
     "abilities": [
       {
         "name": "Screen Cleaner",
@@ -20168,7 +20168,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 104,
+    "usageRank": 103,
     "abilities": [
       {
         "name": "Cloud Nine",
@@ -20825,7 +20825,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 128,
+    "usageRank": 130,
     "abilities": [
       {
         "name": "Oblivious",
@@ -21119,7 +21119,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 218,
+    "usageRank": 220,
     "abilities": [
       {
         "name": "Levitate",
@@ -21985,7 +21985,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 188,
+    "usageRank": 187,
     "abilities": [
       {
         "name": "Prankster",
@@ -22573,7 +22573,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 122,
+    "usageRank": 121,
     "abilities": [
       {
         "name": "Mega Launcher",
@@ -22855,7 +22855,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 153,
+    "usageRank": 151,
     "abilities": [
       {
         "name": "Blaze",
@@ -23548,7 +23548,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 147,
+    "usageRank": 150,
     "abilities": [
       {
         "name": "Lightning Rod",
@@ -23806,7 +23806,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 181,
+    "usageRank": 182,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -24044,7 +24044,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 178,
+    "usageRank": 180,
     "abilities": [
       {
         "name": "Aroma Veil",
@@ -24181,7 +24181,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 233,
+    "usageRank": 232,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -24286,7 +24286,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 126,
+    "usageRank": 127,
     "abilities": [
       {
         "name": "Healer",
@@ -24729,7 +24729,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 157,
+    "usageRank": 158,
     "abilities": [
       {
         "name": "Corrosion",
@@ -25003,7 +25003,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 219,
+    "usageRank": 217,
     "abilities": [
       {
         "name": "Telepathy",
@@ -25140,7 +25140,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 158,
+    "usageRank": 157,
     "abilities": [
       {
         "name": "Magic Bounce",
@@ -25285,7 +25285,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 195,
+    "usageRank": 196,
     "abilities": [
       {
         "name": "Dry Skin",
@@ -25406,7 +25406,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 194,
+    "usageRank": 195,
     "abilities": [
       {
         "name": "Purifying Salt",
@@ -25555,7 +25555,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 187,
+    "usageRank": 188,
     "abilities": [
       {
         "name": "Frisk",
@@ -25676,7 +25676,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 209,
+    "usageRank": 208,
     "abilities": [
       {
         "name": "Levitate",
@@ -25777,7 +25777,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 180,
+    "usageRank": 179,
     "abilities": [
       {
         "name": "Intimidate",
@@ -25930,7 +25930,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 182,
+    "usageRank": 181,
     "abilities": [
       {
         "name": "Lightning Rod",
@@ -26051,7 +26051,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 213,
+    "usageRank": 212,
     "abilities": [
       {
         "name": "Harvest",
@@ -26438,7 +26438,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 210,
+    "usageRank": 211,
     "abilities": [
       {
         "name": "Chlorophyll",
@@ -26845,7 +26845,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 198,
+    "usageRank": 197,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -27083,7 +27083,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 212,
+    "usageRank": 213,
     "abilities": [
       {
         "name": "Chlorophyll",
@@ -27196,7 +27196,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 192,
+    "usageRank": 191,
     "abilities": [
       {
         "name": "Hunger Switch",
@@ -27434,7 +27434,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 211,
+    "usageRank": 210,
     "abilities": [
       {
         "name": "Sap Sipper",
@@ -27595,7 +27595,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 216,
+    "usageRank": 215,
     "abilities": [
       {
         "name": "Sturdy",
@@ -27736,7 +27736,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 184,
+    "usageRank": 183,
     "abilities": [
       {
         "name": "Keen Eye",
@@ -28059,7 +28059,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 220,
+    "usageRank": 219,
     "abilities": [
       {
         "name": "Skill Link",
@@ -28583,7 +28583,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 183,
+    "usageRank": 184,
     "abilities": [
       {
         "name": "Sniper",
@@ -29103,7 +29103,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 224,
+    "usageRank": 225,
     "abilities": [
       {
         "name": "Huge Power",
@@ -29212,7 +29212,7 @@
       "spd": 1,
       "spe": 0
     },
-    "usageRank": 240,
+    "usageRank": 241,
     "abilities": [
       {
         "name": "Insomnia",
@@ -29341,7 +29341,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 132,
+    "usageRank": 134,
     "abilities": [
       {
         "name": "Surge Surfer",
@@ -29482,7 +29482,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 197,
+    "usageRank": 198,
     "abilities": [
       {
         "name": "Illusion",
@@ -29817,7 +29817,7 @@
     ]
   },
   "Sandaconda": {
-    "usageRank": 241,
+    "usageRank": 240,
     "abilities": [
       {
         "name": "Sand Veil",
@@ -30019,7 +30019,7 @@
     ]
   },
   "Appletun": {
-    "usageRank": 246,
+    "usageRank": 244,
     "abilities": [
       {
         "name": "Thick Fat",
@@ -30116,7 +30116,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 236,
+    "usageRank": 237,
     "abilities": [
       {
         "name": "Hustle",
@@ -30229,7 +30229,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 223,
+    "usageRank": 224,
     "abilities": [
       {
         "name": "Frisk",
@@ -30617,7 +30617,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 225,
+    "usageRank": 223,
     "abilities": [
       {
         "name": "Soundproof",
@@ -30988,7 +30988,7 @@
     ]
   },
   "Flareon": {
-    "usageRank": 232,
+    "usageRank": 233,
     "abilities": [
       {
         "name": "Flash Fire",
@@ -31182,7 +31182,7 @@
     ]
   },
   "Qwilfish": {
-    "usageRank": 244,
+    "usageRank": 245,
     "abilities": [
       {
         "name": "Intimidate",
@@ -31404,7 +31404,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 245,
+    "usageRank": 246,
     "abilities": [
       {
         "name": "No Guard",
@@ -32058,7 +32058,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 237,
+    "usageRank": 236,
     "abilities": [
       {
         "name": "Forecast",
@@ -32159,7 +32159,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 254,
+    "usageRank": 251,
     "abilities": [
       {
         "name": "Aftermath",
@@ -32540,7 +32540,7 @@
     ]
   },
   "Galarian Stunfisk": {
-    "usageRank": 251,
+    "usageRank": 253,
     "abilities": [
       {
         "name": "Mimicry",
@@ -32694,7 +32694,7 @@
     ]
   },
   "Simisage": {
-    "usageRank": 253,
+    "usageRank": 254,
     "abilities": [
       {
         "name": "Overgrow",
@@ -32775,7 +32775,7 @@
     ]
   },
   "Simisear": {
-    "usageRank": 259,
+    "usageRank": 260,
     "abilities": [
       {
         "name": "Blaze",
@@ -32852,7 +32852,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 260,
+    "usageRank": 259,
     "abilities": [
       {
         "name": "Analytic",
@@ -40877,7 +40877,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 164,
+    "usageRank": 163,
     "abilities": [
       {
         "name": "Competitive",
@@ -41151,7 +41151,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 163,
+    "usageRank": 164,
     "abilities": [
       {
         "name": "Fur Coat",
@@ -41312,7 +41312,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 150,
+    "usageRank": 153,
     "abilities": [
       {
         "name": "Steely Spirit",
@@ -41465,7 +41465,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 208,
+    "usageRank": 209,
     "abilities": [
       {
         "name": "Defiant",
@@ -41602,7 +41602,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 215,
+    "usageRank": 216,
     "abilities": [
       {
         "name": "Liquid Ooze",
@@ -42822,7 +42822,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 81,
+    "usageRank": 82,
     "abilities": [
       {
         "name": "Punk Rock",
@@ -43140,7 +43140,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 87,
+    "usageRank": 86,
     "abilities": [
       {
         "name": "Technician",
@@ -43450,7 +43450,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 78,
+    "usageRank": 77,
     "abilities": [
       {
         "name": "Electric Surge",
@@ -44078,7 +44078,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 191,
+    "usageRank": 192,
     "abilities": [
       {
         "name": "Intimidate",
