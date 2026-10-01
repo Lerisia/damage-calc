@@ -424,7 +424,6 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
   /// True while the scratch selector has focus. Drives the layout
   /// swap — picking widens the selector back to full row, collapsing
   /// to the fused 4-column layout on blur.
-  bool _scratchFocused = false;
 
   @override
   void initState() {
@@ -657,7 +656,7 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
     // to flex 3 (matching the column-1 width) once a move is set and
     // focus is lost so the results line up with the main table.
     final fuseWithValues =
-        !_scratchFocused && custom != null && custom.power > 0;
+        custom != null && custom.power > 0;
     final scratchArea = Container(
       decoration: BoxDecoration(
         color: scheme.surfaceContainerHighest.withValues(alpha: 0.25),
@@ -679,11 +678,6 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
                     pokemonName: widget.pokemon.name,
                     pokemonNameKo: widget.pokemon.nameKo,
                     dexNumber: widget.pokemon.dexNumber,
-                    onFocusChanged: (f) {
-                      if (_scratchFocused != f) {
-                        setState(() => _scratchFocused = f);
-                      }
-                    },
                     onSelected: (m) => setState(() {
                       _customMove = m;
                       _customHits = m.isMultiHit ? m.maxHits : 1;

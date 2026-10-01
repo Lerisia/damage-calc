@@ -1,7 +1,7 @@
 import '../data/ability_variants.dart';
 import 'korean_search.dart';
 
-/// Shared helpers for the ability typeahead pickers (StatInput, Simple
+/// Shared helpers for the ability pickers (StatInput, Simple
 /// Mode, Team Coverage). These three surfaces were each re-implementing
 /// the same "expand numbered variants → own-first, filtered, sorted
 /// rest → relevance search" logic; this centralises it on the app-wide

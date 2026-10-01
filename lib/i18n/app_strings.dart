@@ -2610,6 +2610,16 @@ class AppStrings {
       AppLanguage.en: 'Move Name',
       AppLanguage.ja: 'わざ名',
     },
+    'search.moveQuery': {
+      AppLanguage.ko: '기술 검색',
+      AppLanguage.en: 'Search moves',
+      AppLanguage.ja: 'わざ検索',
+    },
+    'search.ability': {
+      AppLanguage.ko: '특성 검색',
+      AppLanguage.en: 'Search abilities',
+      AppLanguage.ja: '特性検索',
+    },
     'search.item': {
       AppLanguage.ko: '아이템 검색',
       AppLanguage.en: 'Search items',

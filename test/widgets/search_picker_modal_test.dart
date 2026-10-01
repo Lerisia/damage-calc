@@ -201,4 +201,61 @@ void main() {
     }), isEmpty);
     expect(tester.getSize(find.byType(Dialog)), before);
   });
+
+  group('list-row extras', () {
+    SearchPickerConfig<String> rich({bool recents = true}) =>
+        SearchPickerConfig<String>(
+          kind: 'fruit',
+          hintText: 'Search fruit',
+          suggestions: (q) => corpus,
+          labelOf: (s) => s,
+          idOf: (s) => s,
+          fromId: (id) => corpus.contains(id) ? id : null,
+          descriptionOf: (s) => s == 'apple' ? 'keeps the doctor away' : null,
+          trailingOf: (context, s) => Text('T:$s'),
+          showRecents: recents,
+        );
+
+    Future<void> openRich(WidgetTester tester, {bool recents = true}) async {
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => ElevatedButton(
+              onPressed: () async {
+                result = await showSearchPicker<String>(
+                    context, rich(recents: recents));
+              },
+              child: const Text('open'),
+            ),
+          ),
+        ),
+      ));
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('a description line and a trailing widget render on the row',
+        (tester) async {
+      await openRich(tester);
+      expect(find.text('keeps the doctor away'), findsOneWidget);
+      expect(find.text('T:banana'), findsOneWidget);
+      // The description sits under its label, inside the same row.
+      final row = tester.getRect(tile('apple'));
+      final desc = tester.getRect(find.text('keeps the doctor away'));
+      expect(desc.top, greaterThan(tester.getRect(find.text('apple')).top));
+      expect(desc.bottom, lessThanOrEqualTo(row.bottom));
+    });
+
+    testWidgets('showRecents: false — no strip, and picks are not recorded',
+        (tester) async {
+      await openRich(tester, recents: false);
+      await tester.tap(tile('cherry'));
+      await tester.pumpAndSettle();
+      expect(result, 'cherry');
+      expect(SearchPickerPrefs.instance.recents('fruit'), isEmpty);
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+      expect(recent('cherry'), findsNothing);
+    });
+  });
 }

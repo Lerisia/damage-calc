@@ -114,8 +114,6 @@ class PokemonPanelState extends State<PokemonPanel>
   final _movesSectionKey = GlobalKey();
   final _statsSectionKey = GlobalKey();
   final _scrollController = ScrollController();
-  int? _focusedMoveIndex;
-  final List<GlobalKey> _moveRowKeys = List.generate(4, (_) => GlobalKey());
 
   // Power input controllers — one per move slot.
   // Using controllers instead of initialValue + key avoids rebuilding
@@ -455,113 +453,103 @@ class PokemonPanelState extends State<PokemonPanel>
     final displayPower = info.effectivePower;
     final result = info.offensivePower;
 
-    final isSearching = _focusedMoveIndex == index;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
           Expanded(
             flex: 3,
-            child: Focus(
-              key: _moveRowKeys[index],
-              onFocusChange: (hasFocus) {
-                setState(() => _focusedMoveIndex = hasFocus ? index : null);
-              },
-              child: Row(
-                children: [
-                  Expanded(
-                    child: MoveSelector(
-                      key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}_${s.zMoves[index]}_${s.pokemonName}'),
-                      initialMoveName: s.moves[index]?.name,
-                      displayNameOverride: (displayName != null && displayName != move?.localizedName) ? displayName : null,
-                      pokemonName: s.pokemonName,
-                      pokemonNameKo: s.pokemonNameKo,
-                      dexNumber: s.dexNumber,
-                      onTap: null,
-                      onSelected: (m) {
-                        FocusScope.of(context).unfocus();
-                        setState(() {
-                          _focusedMoveIndex = null;
-                          s.moves[index] = m;
-                          s.typeOverrides[index] = null;
-                          s.categoryOverrides[index] = null;
-                          // Stacking-power moves: seed the default tier
-                          // (Last Respects ×3, Rage Fist ×1) so the
-                          // calc matches the chip's display on load.
-                          s.powerOverrides[index] = isStackingPower(m)
-                              ? stackingPower(m, stackingDefaultTier(m))
-                              : null;
-                          s.hitOverrides[index] = null;
-                          s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
-                        });
-                        _notifyParent();
-                      },
-                    ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: MoveSelector(
+                    key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}_${s.zMoves[index]}_${s.pokemonName}'),
+                    initialMoveName: s.moves[index]?.name,
+                    displayNameOverride: (displayName != null && displayName != move?.localizedName) ? displayName : null,
+                    pokemonName: s.pokemonName,
+                    pokemonNameKo: s.pokemonNameKo,
+                    dexNumber: s.dexNumber,
+                    onSelected: (m) {
+                      FocusScope.of(context).unfocus();
+                      setState(() {
+                        s.moves[index] = m;
+                        s.typeOverrides[index] = null;
+                        s.categoryOverrides[index] = null;
+                        // Stacking-power moves: seed the default tier
+                        // (Last Respects ×3, Rage Fist ×1) so the
+                        // calc matches the chip's display on load.
+                        s.powerOverrides[index] = isStackingPower(m)
+                            ? stackingPower(m, stackingDefaultTier(m))
+                            : null;
+                        s.hitOverrides[index] = null;
+                        s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
+                      });
+                      _notifyParent();
+                    },
                   ),
-                  if (!isSearching && move != null &&
-                      (info.isMultiHit || isStackingPower(move))) ...[
-                    () {
-                      final stacking = isStackingPower(move);
-                      final stackMaxVal = stackingMax(move);
-                      final (lo, hi) = stacking
-                          ? (1, stackMaxVal!)
-                          : (info.minHits, info.maxHits);
-                      final current = stacking
-                          ? currentStackingTier(move, s.powerOverrides[index])
-                          : (s.hitOverrides[index] ?? info.maxHits);
-                      final customized = stacking
-                          ? current != stackingDefaultTier(move)
-                          : s.hitOverrides[index] != null;
-                      return GestureDetector(
-                        onTap: (!stacking && info.minHits == info.maxHits)
-                            ? null
-                            : () async {
-                                final h = await showDialog<int>(
-                                  context: context,
-                                  builder: (ctx) => SimpleDialog(
-                                    children: [
-                                      for (int h = lo; h <= hi; h++)
-                                        SimpleDialogOption(
-                                          onPressed: () => Navigator.pop(ctx, h),
-                                          child: Text('×$h',
-                                              style: const TextStyle(fontSize: 14)),
-                                        ),
-                                    ],
-                                  ),
-                                );
-                                if (h != null) {
-                                  setState(() {
-                                    if (stacking) {
-                                      s.powerOverrides[index] =
-                                          stackingPower(move, h);
-                                    } else {
-                                      s.hitOverrides[index] = h;
-                                    }
-                                  });
-                                  _notifyParent();
-                                }
-                              },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 2),
-                          child: Text(
-                            '×$current',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: customized
-                                  ? Colors.orange
-                                  : Colors.grey[600],
-                            ),
+                ),
+                if (move != null &&
+                    (info.isMultiHit || isStackingPower(move))) ...[
+                  () {
+                    final stacking = isStackingPower(move);
+                    final stackMaxVal = stackingMax(move);
+                    final (lo, hi) = stacking
+                        ? (1, stackMaxVal!)
+                        : (info.minHits, info.maxHits);
+                    final current = stacking
+                        ? currentStackingTier(move, s.powerOverrides[index])
+                        : (s.hitOverrides[index] ?? info.maxHits);
+                    final customized = stacking
+                        ? current != stackingDefaultTier(move)
+                        : s.hitOverrides[index] != null;
+                    return GestureDetector(
+                      onTap: (!stacking && info.minHits == info.maxHits)
+                          ? null
+                          : () async {
+                              final h = await showDialog<int>(
+                                context: context,
+                                builder: (ctx) => SimpleDialog(
+                                  children: [
+                                    for (int h = lo; h <= hi; h++)
+                                      SimpleDialogOption(
+                                        onPressed: () => Navigator.pop(ctx, h),
+                                        child: Text('×$h',
+                                            style: const TextStyle(fontSize: 14)),
+                                      ),
+                                  ],
+                                ),
+                              );
+                              if (h != null) {
+                                setState(() {
+                                  if (stacking) {
+                                    s.powerOverrides[index] =
+                                        stackingPower(move, h);
+                                  } else {
+                                    s.hitOverrides[index] = h;
+                                  }
+                                });
+                                _notifyParent();
+                              }
+                            },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 2),
+                        child: Text(
+                          '×$current',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: customized
+                                ? Colors.orange
+                                : Colors.grey[600],
                           ),
                         ),
-                      );
-                    }(),
-                  ],
+                      ),
+                    );
+                  }(),
                 ],
-              ),
+              ],
             ),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 40,
             child: move != null
                 ? effectiveType != null
@@ -592,7 +580,7 @@ class PokemonPanelState extends State<PokemonPanel>
                   : Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.grey))
                 : const Text('-', textAlign: TextAlign.center),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 32,
             child: move != null
                 ? GestureDetector(
@@ -621,7 +609,7 @@ class PokemonPanelState extends State<PokemonPanel>
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 44,
             child: move != null
                 ? info.isFixedDamage
@@ -647,7 +635,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       )
                 : const Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 28,
             child: Checkbox(
               value: s.criticals[index],
@@ -656,7 +644,7 @@ class PokemonPanelState extends State<PokemonPanel>
               visualDensity: VisualDensity.compact,
             ),
           ),
-          if (!isSearching && !_championsOnly) SizedBox(
+          if (!_championsOnly) SizedBox(
             width: 28,
             child: Checkbox(
               value: s.zMoves[index],
@@ -667,7 +655,7 @@ class PokemonPanelState extends State<PokemonPanel>
               visualDensity: VisualDensity.compact,
             ),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 60,
             // Tap on the 결정력 number → breakdown popup.
             // No affordance per design — discoverable on tap.

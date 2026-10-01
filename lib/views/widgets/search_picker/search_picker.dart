@@ -54,6 +54,19 @@ class SearchPickerConfig<T> {
   /// Secondary text at the end of a list row (type, power, …).
   final String? Function(T item)? subtitleOf;
 
+  /// A richer end-of-row widget than [subtitleOf] can express (a move's
+  /// type in its colour, …). List rows only.
+  final Widget Function(BuildContext context, T item)? trailingOf;
+
+  /// A second, smaller line under the label (an ability's effect).
+  /// When set, list rows are a little taller. List rows only.
+  final String? Function(T item)? descriptionOf;
+
+  /// Whether the recent-picks strip is shown (and picks recorded).
+  /// Off for kinds where the default list already leads with what the
+  /// user wants — a species' own abilities.
+  final bool showRecents;
+
   /// Greyed-out entries (an ability the species doesn't own, a move it
   /// can't learn) — still pickable.
   final bool Function(T item)? dimmed;
@@ -70,6 +83,9 @@ class SearchPickerConfig<T> {
     this.imagesAvailable = true,
     this.defaultView = PickerViewMode.list,
     this.subtitleOf,
+    this.trailingOf,
+    this.descriptionOf,
+    this.showRecents = true,
     this.dimmed,
   });
 
@@ -93,7 +109,7 @@ Future<T?> showSearchPicker<T>(
     transitionDuration: Duration.zero,
     pageBuilder: (ctx, _, __) => SearchPickerModal<T>(config: config),
   );
-  if (picked != null) {
+  if (picked != null && config.showRecents) {
     // Recorded in memory at once; the write to storage is not awaited
     // (and may fail) — a pick must never wait on, or be lost to, the
     // preferences store.

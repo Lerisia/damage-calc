@@ -98,7 +98,7 @@ int triLanguageScore(String query, {
 ///
 /// Consolidates the "empty query → pinned items first + sorted rest;
 /// non-empty query → relevance-ranked matches" skeleton that every
-/// picker/typeahead in the app was re-implementing by hand (move
+/// picker in the app was re-implementing by hand (move
 /// selector, pokémon selector, ability pickers, …). Build it once
 /// from the item list, then call [query] per keystroke.
 ///
@@ -176,7 +176,7 @@ List<T> stablePartition<T>(List<T> items, bool Function(T) first) {
   return [...a, ...b];
 }
 
-/// The one composition every picker/typeahead in the app shares. Wraps
+/// The one composition every picker in the app shares. Wraps
 /// [SearchIndex.query] with the two post-steps that recur across call
 /// sites, so each site is just a parameter set rather than its own
 /// hand-rolled ordering:

@@ -10,7 +10,7 @@ import '../../data/ability_variants.dart';
 import '../../i18n/app_strings.dart';
 import '../../search/korean_search.dart';
 import '../../i18n/localization.dart';
-import 'typeahead_helpers.dart';
+import 'search_picker/search_picker.dart';
 
 /// Defensive-relation toggle used by the "약점/등배/내성/면역" filter row.
 /// `immunity` is strictly type-chart 0× (Normal vs Ghost, etc.) — it is
@@ -372,7 +372,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
   late final TextEditingController _abilityCtl;
   late final List<TextEditingController> _moveCtls;
 
-  // Cached search index for ability typeahead — built once per dialog
+  // Cached search index for the ability picker — built once per dialog
   // open from the (filtered) ability list so we don't reallocate every
   // suggestion-callback invocation while the user types.
   late final List<Ability> _selectableAbilities;
@@ -931,10 +931,8 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
   }
 
   Widget _abilityField() {
-    return buildTypeAhead<Ability>(
-      controller: _abilityCtl,
-      hideOnEmpty: true,
-      maxHeight: 220,
+    return SearchPickerField(
+      text: _abilityCtl.text,
       decoration: InputDecoration(
         hintText: AppStrings.t('dex.advAbilityHint'),
         isDense: true,
@@ -951,27 +949,34 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
               )
             : null,
       ),
-      suggestionsCallback: (q) => _searchAbilities(q),
-      itemBuilder: (context, ab) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(ab.localizedName, style: const TextStyle(fontSize: 14)),
-      ),
-      onSelected: (ab) {
+      onTap: () async {
+        final ab = await showSearchPicker<Ability>(
+          context,
+          SearchPickerConfig<Ability>(
+            kind: 'ability',
+            hintText: AppStrings.t('dex.advAbilityHint'),
+            selected: _draft.abilityKey == null
+                ? null
+                : widget.abilityDex[_draft.abilityKey!],
+            suggestions: _searchAbilities,
+            labelOf: (a) => a.localizedName,
+            idOf: (a) => a.name,
+            fromId: (_) => null,
+            showRecents: false,
+            descriptionOf: (a) => a.localizedDescription,
+          ),
+        );
+        if (ab == null || !mounted) return;
         setState(() {
           _draft = _draft.copyWith(abilityKey: ab.name);
           _abilityCtl.text = ab.localizedName;
-          _abilityCtl.selection =
-              TextSelection.collapsed(offset: _abilityCtl.text.length);
         });
-        FocusManager.instance.primaryFocus?.unfocus();
       },
     );
   }
 
   List<Ability> _searchAbilities(String q) {
-    if (q.trim().isEmpty) {
-      return _selectableAbilities.take(50).toList();
-    }
+    if (q.trim().isEmpty) return _selectableAbilities;
     final qLower = q.toLowerCase();
     final qRunes = qLower.runes.toList();
     final scored = <(Ability, int)>[];
@@ -1007,10 +1012,8 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
 
   Widget _moveField(int slot) {
     final c = _moveCtls[slot];
-    return buildTypeAhead<Move>(
-      controller: c,
-      hideOnEmpty: true,
-      maxHeight: 220,
+    return SearchPickerField(
+      text: c.text,
       decoration: InputDecoration(
         hintText: AppStrings.t('dex.advMoveSlot'),
         isDense: true,
@@ -1024,12 +1027,22 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
               )
             : null,
       ),
-      suggestionsCallback: (q) => _searchMoves(q),
-      itemBuilder: (context, m) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(m.localizedName, style: const TextStyle(fontSize: 14)),
-      ),
-      onSelected: (m) {
+      onTap: () async {
+        final byName = {for (final m in widget.allMoves) m.name: m};
+        final m = await showSearchPicker<Move>(
+          context,
+          SearchPickerConfig<Move>(
+            kind: 'move',
+            hintText: AppStrings.t('dex.advMoveSlot'),
+            suggestions: _searchMoves,
+            labelOf: (m) => m.localizedName,
+            idOf: (m) => m.name,
+            fromId: (id) => byName[id],
+            subtitleOf: (m) =>
+                '${KoStrings.getTypeName(m.type)} ${KoStrings.getCategoryName(m.category)} ${m.power}',
+          ),
+        );
+        if (m == null || !mounted) return;
         setState(() {
           final id = _toShowdownId(m.name);
           final ids = List<String>.from(_draft.moveIds);
@@ -1053,9 +1066,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
           }
           _draft = _draft.copyWith(moveIds: ids);
           c.text = m.localizedName;
-          c.selection = TextSelection.collapsed(offset: c.text.length);
         });
-        FocusManager.instance.primaryFocus?.unfocus();
       },
     );
   }
@@ -1076,9 +1087,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
   }
 
   List<Move> _searchMoves(String q) {
-    if (q.trim().isEmpty) {
-      return widget.allMoves.take(50).toList();
-    }
+    if (q.trim().isEmpty) return widget.allMoves;
     final qLower = q.toLowerCase();
     final qRunes = qLower.runes.toList();
     final scored = <(Move, int)>[];

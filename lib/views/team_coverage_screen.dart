@@ -47,10 +47,10 @@ import 'widgets/pokemon_sprite.dart';
 import 'widgets/pokemon_selector.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/type_picker_dialog.dart';
-import 'widgets/typeahead_helpers.dart';
 import '../data/ability_variants.dart';
 import '../search/item_picker.dart';
 import 'widgets/nature_pick_menu.dart';
+import 'widgets/search_picker/ability_picker_field.dart';
 import 'widgets/search_picker/item_picker_field.dart';
 import 'widgets/type_chip.dart';
 import 'widgets/champions_scope_listener.dart';
@@ -1495,11 +1495,8 @@ class _TeamCoverageScreenState extends State<TeamCoverageScreen>
           ],
         ),
       ),
-      // Tap on empty space → unfocus the active typeahead so its
-      // overlay dismisses. flutter_typeahead's `hideOnUnfocus: true`
-      // only fires on real focus changes, not on bare taps, so we
-      // route every body tap through FocusManager. Same pattern as
-      // dex_screen.
+      // Tap on empty space → drop focus, so an open keyboard (an EV
+      // / SP field) closes. Same pattern as dex_screen.
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         behavior: HitTestBehavior.translucent,

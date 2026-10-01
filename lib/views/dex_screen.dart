@@ -310,9 +310,8 @@ class _DexScreenState extends State<DexScreen> {
           ),
         ),
         body: GestureDetector(
-          // Tap outside the typeahead → blur it. Without this the
-          // suggestion box stays mounted because flutter_typeahead's
-          // hideOnUnfocus needs an actual focus change.
+          // Tap on empty space → drop focus, so an open keyboard (the
+          // dex search box) closes.
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           behavior: HitTestBehavior.translucent,
           child: wide

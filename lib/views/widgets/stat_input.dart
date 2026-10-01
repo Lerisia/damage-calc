@@ -22,10 +22,10 @@ import '../../controllers/hp_display_controller.dart';
 import '../../calc/champions_mode.dart';
 import '../../calc/hp.dart';
 import '../../calc/stat_calculator.dart';
-import 'typeahead_helpers.dart';
 import '../../data/ability_variants.dart';
 import '../../search/item_picker.dart';
 import 'nature_pick_menu.dart';
+import 'search_picker/ability_picker_field.dart';
 import 'search_picker/item_picker_field.dart';
 import 'champions_scope_listener.dart';
 import '../../data/name_maps.dart';
@@ -165,8 +165,6 @@ class _StatInputState extends State<StatInput>
   SearchIndex<String>? _abilityIndex;
   SearchIndex<String>? _itemIndex;
   int _evResetCounter = 0;
-  final _abilityController = TextEditingController();
-  final _abilityFocusNode = FocusNode();
 
   Map<String, String> _itemNameMap = {};
   static Map<String, Item> _itemDataMap = {};
@@ -207,13 +205,6 @@ class _StatInputState extends State<StatInput>
     // re-pulling initialText into its controller when not focused.
     // The bump was redundant for that path; only the typing race
     // it caused was unique to this code.
-  }
-
-  @override
-  void dispose() {
-    _abilityController.dispose();
-    _abilityFocusNode.dispose();
-    super.dispose();
   }
 
 
@@ -454,46 +445,18 @@ class _StatInputState extends State<StatInput>
       );
 
   Widget _abilityAutocomplete() {
-    final initialText = widget.selectedAbility != null
-        ? _abilityKo(widget.selectedAbility!)
-        : '';
-    // Abilities this Pokemon legitimately owns — mirrored from the
-    // data's pokemonAbilities with Supreme Overlord's stacked variants
-    // expanded so all six count as "own". Anything outside this set is
-    // rendered gray so the picker reads like the move list's
-    // learnable / unlearnable split.
-    final ownSet = <String>{
-      for (final a in widget.pokemonAbilities) ...expandAbilityStates(a),
-    };
-    return buildTypeAhead<String>(
-      controller: _abilityController,
-      focusNode: _abilityFocusNode,
-      idleText: initialText,
-      suggestionsCallback: (query) {
-        // An unchanged field (showing the current pick) lists the
-        // default own-first order, not a search for the pick's name.
-        if (query == initialText) return _abilitySuggestions('');
-        return _abilitySuggestions(query);
+    return AbilityPickerField(
+      selected: widget.selectedAbility,
+      labelText: AppStrings.t('label.ability'),
+      suggestions: _abilityIndex == null ? null : _abilitySuggestions,
+      labelOf: _abilityKo,
+      // Abilities this Pokemon legitimately owns — state variants
+      // (Supreme Overlord 0–5, …) expanded so all count as "own".
+      // Anything else is greyed, like an unlearnable move.
+      own: {
+        for (final a in widget.pokemonAbilities) ...expandAbilityStates(a),
       },
-      decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
-      itemBuilder: (context, ability) {
-        final isOwn = ownSet.contains(ability);
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(
-            _abilityKo(ability),
-            style: TextStyle(
-              fontSize: 14,
-              color: isOwn ? null : Colors.grey,
-            ),
-          ),
-        );
-      },
-      onSelected: (v) {
-        _abilityController.text = _abilityKo(v);
-        _abilityFocusNode.unfocus();
-        widget.onAbilityChanged(v);
-      },
+      onChanged: widget.onAbilityChanged,
     );
   }
 

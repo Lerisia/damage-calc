@@ -14,7 +14,6 @@ import '../../models/weather.dart';
 import '../../calc/battle_facade.dart';
 import '../../calc/speed_calculator.dart';
 import '../../features/speed_tier/speed_tier.dart';
-import 'typeahead_helpers.dart';
 import '../../calc/champions_mode.dart';
 import '../../calc/stat_calculator.dart';
 import '../../calc/room_effects.dart';
@@ -23,6 +22,7 @@ import '../../data/ability_variants.dart';
 import '../../search/ability_picker.dart';
 import '../../search/item_picker.dart';
 import 'nature_pick_menu.dart';
+import 'search_picker/ability_picker_field.dart';
 import 'search_picker/item_picker_field.dart';
 import 'champions_scope_listener.dart';
 
@@ -71,13 +71,9 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   final _atkItemRowKey = GlobalKey();
   final _defAbilityRowKey = GlobalKey();
   final _defItemRowKey = GlobalKey();
-  final _atkAbilityController = TextEditingController();
   final _atkNatureController = TextEditingController();
-  final _defAbilityController = TextEditingController();
   final _defNatureController = TextEditingController();
-  final _atkAbilityFocus = FocusNode();
   final _atkNatureFocus = FocusNode();
-  final _defAbilityFocus = FocusNode();
   final _defNatureFocus = FocusNode();
 
   void scrollToTop() {
@@ -89,13 +85,9 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   @override
   void dispose() {
     _scrollController.dispose();
-    _atkAbilityController.dispose();
     _atkNatureController.dispose();
-    _defAbilityController.dispose();
     _defNatureController.dispose();
-    _atkAbilityFocus.dispose();
     _atkNatureFocus.dispose();
-    _defAbilityFocus.dispose();
     _defNatureFocus.dispose();
     super.dispose();
   }
@@ -246,7 +238,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               // pixels so iOS scroll fling becomes layer translation
               // instead of full re-paint of both panels every frame.
               RepaintBoundary(
-                child: KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, natureController: _atkNatureController, abilityFocus: _atkAbilityFocus, natureFocus: _atkNatureFocus)),
+                child: KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, natureController: _atkNatureController, natureFocus: _atkNatureFocus)),
               ),
               const SizedBox(height: 8),
               Container(
@@ -267,7 +259,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               ),
               const SizedBox(height: 8),
               RepaintBoundary(
-                child: KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, natureController: _defNatureController, abilityFocus: _defAbilityFocus, natureFocus: _defNatureFocus)),
+                child: KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, natureController: _defNatureController, natureFocus: _defNatureFocus)),
               ),
             ],
           ),
@@ -282,9 +274,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     required int effSpeed,
     required GlobalKey abilityRowKey,
     required GlobalKey itemRowKey,
-    required TextEditingController abilityController,
     required TextEditingController natureController,
-    required FocusNode abilityFocus,
     required FocusNode natureFocus,
   }) {
     final rawSpeed = StatCalculator.calculate(
@@ -401,7 +391,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               // uses Lv50. The main-screen StatInput still has it for
               // the rare non-50 battle. Space freed by removing it is
               // used for the Tailwind toggle at the end of this row.
-              Expanded(flex: 3, child: _abilityAutocomplete(state, abilityController, abilityFocus)),
+              Expanded(flex: 3, child: _abilityPicker(state)),
               const SizedBox(width: 8),
               Expanded(flex: 2, child: PopupMenuButton<StatusCondition>(
                 initialValue: state.status,
@@ -537,54 +527,30 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
-  Widget _abilityAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
-    // Shared ability engine (same as StatInput / Simple Mode / team
-    // builder): own abilities pinned first, non-mainline hidden, the
-    // rest A→Z by label, relevance-ranked on a real query.
-    List<String> suggest(String query) => pickerSuggestions(
-          _ensureAbilityIndex(),
-          query,
-          pins: expandAbilities(state.pokemonAbilities, _abilityNameMap),
-          allow: (a) => !(_abilityDataMap[a]?.nonMainline ?? false),
-          restSort: (a, b) => _abilityKo(a).compareTo(_abilityKo(b)),
-        );
-    final initialText = state.selectedAbility != null ? _abilityKo(state.selectedAbility!) : '';
-    // Own abilities (with Supreme Overlord's stacked variants expanded)
-    // are rendered full-color; everything else is gray, matching the
-    // move picker's learnable/unlearnable convention.
-    final ownSet = <String>{
-      for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
-    };
-
-    return KeyedSubtree(
-      key: ValueKey('speed_ability_${state.selectedAbility}_${state.pokemonName}'),
-      child: buildTypeAhead<String>(
-        controller: controller,
-        focusNode: focusNode,
-        idleText: initialText,
-        suggestionsCallback: (query) =>
-            suggest(query == initialText ? '' : query),
-        decoration: InputDecoration(labelText: AppStrings.t('label.ability'), isDense: true),
-        itemBuilder: (context, ability) {
-          final isOwn = ownSet.contains(ability);
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Text(
-              _abilityKo(ability),
-              style: TextStyle(
-                fontSize: 14,
-                color: isOwn ? null : Colors.grey,
+  Widget _abilityPicker(BattlePokemonState state) {
+    return AbilityPickerField(
+      selected: state.selectedAbility,
+      labelText: AppStrings.t('label.ability'),
+      // Shared ability engine (same as StatInput / Simple Mode / team
+      // builder): own abilities pinned first, non-mainline hidden, the
+      // rest A→Z by label, relevance-ranked on a real query.
+      suggestions: _abilityNameMap.isEmpty
+          ? null
+          : (query) => pickerSuggestions(
+                _ensureAbilityIndex(),
+                query,
+                pins: expandAbilities(state.pokemonAbilities, _abilityNameMap),
+                allow: (a) => !(_abilityDataMap[a]?.nonMainline ?? false),
+                restSort: (a, b) => _abilityKo(a).compareTo(_abilityKo(b)),
               ),
-            ),
-          );
-        },
-        onSelected: (v) {
-          controller.text = _abilityKo(v);
-          focusNode.unfocus();
-          setState(() => state.selectedAbility = v);
-          _notify();
-        },
-      ),
+      labelOf: _abilityKo,
+      own: {
+        for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
+      },
+      onChanged: (key) {
+        setState(() => state.selectedAbility = key);
+        _notify();
+      },
     );
   }
 

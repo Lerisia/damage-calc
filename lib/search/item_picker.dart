@@ -3,7 +3,7 @@ import '../data/champions_usage.dart';
 import '../models/item.dart';
 import 'korean_search.dart';
 
-/// Shared helpers for the held-item typeahead pickers (StatInput, Simple
+/// Shared helpers for the held-item pickers (StatInput, Simple
 /// Mode, the speed tab, the team builder). Until 2026-09-13 each of the
 /// six fields re-implemented its own `where(triLanguageScore(...) > 0)`
 /// filter — unranked, so results came out in items.json order and Enter

@@ -32,7 +32,8 @@ class SearchPickerModal<T> extends StatefulWidget {
 }
 
 class _SearchPickerModalState<T> extends State<SearchPickerModal<T>> {
-  static const double _rowExtent = 44;
+  /// List rows grow a little when they carry a description line.
+  double get _rowExtent => _c.descriptionOf == null ? 44 : 52;
   static const double _tileExtent = 86;
   static const double _tileMinWidth = 80;
   static const double _gridPadding = 8;
@@ -135,10 +136,12 @@ class _SearchPickerModalState<T> extends State<SearchPickerModal<T>> {
 
   // ── Build ──────────────────────────────────────────────────────
 
-  List<T> _recentItems() => [
-        for (final id in SearchPickerPrefs.instance.recents(_c.kind))
-          if (_c.fromId(id) case final T item) item,
-      ];
+  List<T> _recentItems() => _c.showRecents
+      ? [
+          for (final id in SearchPickerPrefs.instance.recents(_c.kind))
+            if (_c.fromId(id) case final T item) item,
+        ]
+      : const [];
 
   @override
   Widget build(BuildContext context) {
@@ -265,6 +268,18 @@ class _SearchPickerModalState<T> extends State<SearchPickerModal<T>> {
         final item = _results[i];
         final dim = _c.dimmed?.call(item) ?? false;
         final sub = _c.subtitleOf?.call(item);
+        final description = _c.descriptionOf?.call(item);
+        final label = Text(
+          _c.labelOf(item),
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: 14,
+            color: dim ? Colors.grey : null,
+            fontWeight: _isSelected(item) ? FontWeight.w700 : null,
+          ),
+        );
         return Material(
           color: _tileColor(i, item, scheme),
           child: InkWell(
@@ -283,24 +298,37 @@ class _SearchPickerModalState<T> extends State<SearchPickerModal<T>> {
                     const SizedBox(width: 10),
                   ],
                   Expanded(
-                    child: Text(
-                      _c.labelOf(item),
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: dim ? Colors.grey : null,
-                        fontWeight:
-                            _isSelected(item) ? FontWeight.w700 : null,
-                      ),
-                    ),
+                    child: description == null || description.isEmpty
+                        ? label
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              label,
+                              Text(
+                                description,
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: dim
+                                      ? Colors.grey
+                                      : scheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
                   if (sub != null && sub.isNotEmpty) ...[
                     const SizedBox(width: 8),
                     Text(sub,
                         style: TextStyle(
                             fontSize: 12, color: scheme.onSurfaceVariant)),
+                  ],
+                  if (_c.trailingOf != null) ...[
+                    const SizedBox(width: 8),
+                    _c.trailingOf!(context, item),
                   ],
                 ],
               ),

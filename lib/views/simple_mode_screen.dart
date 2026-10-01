@@ -25,6 +25,7 @@ import '../calc/aura_effects.dart';
 import '../calc/battle_facade.dart';
 import '../calc/hp.dart';
 import '../controllers/hp_display_controller.dart';
+import 'widgets/search_picker/ability_picker_field.dart';
 import 'widgets/search_picker/item_picker_field.dart';
 import '../controllers/champions_format_controller.dart';
 import '../calc/champions_mode.dart';
@@ -43,7 +44,6 @@ import 'widgets/pokemon_panel.dart' show DynamaxPainter, TerastalPainter;
 import 'widgets/pokemon_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_picker_dialog.dart';
-import 'widgets/typeahead_helpers.dart';
 import '../data/ability_variants.dart';
 import '../calc/entry_hazards.dart';
 import 'widgets/entry_hazard_buttons.dart';
@@ -161,12 +161,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
 
   final _multCtl = TextEditingController(text: '1.0');
 
-  // True while the attacker's move field has focus (user is typing to
-  // search). Drives the hit-count chip's collapse — that chip only
-  // renders for multi-hit / stacking-power moves, and when a search
-  // is in progress it eats the width the user needs to see suggestions.
-  bool _atkMoveSearching = false;
-
   // Per-controller focus nodes for the SP / multiplier fields. Lazy-
   // created via [_focusFor] so we don't hard-code one node per
   // controller; the listener selects the controller's full text on
@@ -189,10 +183,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
   // side's state, so there's no per-side sorted cache anymore.
   SearchIndex<String>? _abilityIndex;
   Map<String, String>? _abilityIndexFor;
-  final _atkAbilityCtl = TextEditingController();
-  final _defAbilityCtl = TextEditingController();
-  final _atkAbilityFocus = FocusNode();
-  final _defAbilityFocus = FocusNode();
 
   @override
   void initState() {
@@ -225,30 +215,13 @@ class _SimpleModeViewState extends State<SimpleModeView>
   @override
   void didUpdateWidget(SimpleModeView old) {
     super.didUpdateWidget(old);
-    // Parent may have swapped in a new name map (first async load, or
-    // language change). Re-derive the derived caches in that case.
-    final mapsChanged = old.abilityNameMap != widget.abilityNameMap ||
-        old.itemNameMap != widget.itemNameMap;
-    if (mapsChanged) {
-      _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
-      _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
-    }
     // Reset/language bump also re-hydrates per-side controllers.
     if (old.resetCounter != widget.resetCounter) {
-      // Default unfocus tries to hand focus to the "previously
-      // focused child", which on swap bounces it from the attacker's
-      // ability typeahead straight into the defender's — triggering
-      // its gained-focus listener (clears text, opens dropdown).
-      // Using UnfocusDisposition.scope drops focus to the enclosing
-      // FocusScope so no specific widget gets it.
-      _atkAbilityFocus.unfocus(disposition: UnfocusDisposition.scope);
-      _defAbilityFocus.unfocus(disposition: UnfocusDisposition.scope);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         _hydrateFromState();
         // Belt-and-suspenders: after hydrate, force-drop any focus
-        // that might have snuck back in (TypeAhead's internal
-        // controllers occasionally re-focus during the remount).
+        // that might have snuck back in during the remount.
         FocusManager.instance.primaryFocus?.unfocus(
             disposition: UnfocusDisposition.scope);
       });
@@ -295,24 +268,14 @@ class _SimpleModeViewState extends State<SimpleModeView>
     _defDefSpCtl.text = '${ChampionsMode.evToSp(_def.ev.defense)}';
     _defSpdSpCtl.text = '${ChampionsMode.evToSp(_def.ev.spDefense)}';
     _defSpeSpCtl.text = '${ChampionsMode.evToSp(_def.ev.speed)}';
-    _atkAbilityCtl.text = _abilityNames[_atk.selectedAbility ?? ''] ?? '';
-    _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
-  }
-
-  String _abilityLabel(String? key) {
-    if (key == null || key.isEmpty) return '';
-    return _abilityNames[key] ?? key;
   }
 
   @override
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
-                      _multCtl, _atkAbilityCtl, _defAbilityCtl]) {
+                      _multCtl]) {
       c.dispose();
-    }
-    for (final f in [_atkAbilityFocus, _defAbilityFocus]) {
-      f.dispose();
     }
     for (final f in _spFocusNodes.values) {
       f.dispose();
@@ -811,15 +774,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
                   // Extended-built moveset (or the auto-seeded
                   // champions defaults) is one tap away here.
                   pinnedMoves: _atk.moves,
-                  // Collapse the hit-count chip while the field is
-                  // focused so the ×N pill doesn't eat search width
-                  // on multi-hit moves like Rock Blast / Bullet Seed.
-                  // Setting this every focus in/out is cheap and
-                  // scoped to the attacker row only.
-                  onFocusChanged: (hasFocus) {
-                    if (_atkMoveSearching == hasFocus) return;
-                    setState(() => _atkMoveSearching = hasFocus);
-                  },
                   onSelected: (m) {
                     setState(() {
                       _atk.moves[0] = m;
@@ -854,12 +808,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
               // hint text is a low-contrast '1.0'), so the user sees
               // the modifier slot at a glance instead of mistaking it
               // for whitespace between the crit/spread checks.
-              // Collapse the mult field during move search too — it's
-              // useless while the user is typing to find a new move
-              // and eats width the typeahead needs to show suggestions.
-              _atkMoveSearching
-                  ? const SizedBox.shrink()
-                  : SizedBox(width: 70, child: _multiplierField()),
+              SizedBox(width: 70, child: _multiplierField()),
               const SizedBox(width: 6),
               _criticalCheck(),
               const SizedBox(width: 4),
@@ -991,12 +940,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
   /// [BattlePokemonState.powerOverrides] so the calc picks up the
   /// boosted power without having to teach transformMove a new case.
   Widget _hitCountChip() {
-    // Hide while the move field is focused so the typeahead search
-    // slot gets full width. The chip reappears the moment the user
-    // picks a suggestion / taps out. Without this, multi-hit moves
-    // (Rock Blast / Bullet Seed / …) permanently reserved a ~40px
-    // slice that the search visibly needed on narrow phones.
-    if (_atkMoveSearching) return const SizedBox.shrink();
     final move = _atk.moves[0];
     if (move == null) return const SizedBox.shrink();
     final stacking = isStackingPower(move);
@@ -1678,64 +1621,22 @@ class _SimpleModeViewState extends State<SimpleModeView>
   }
 
   Widget _abilityField({required bool attacker}) {
-    final controller = attacker ? _atkAbilityCtl : _defAbilityCtl;
-    final focus = attacker ? _atkAbilityFocus : _defAbilityFocus;
     final state = attacker ? _atk : _def;
-    // Own ability keys (including Supreme Overlord's numbered variants)
-    // — used to gray out entries that don't legitimately belong to this
-    // pokemon, same visual language as non-learnable moves.
-    final ownSet = <String>{
-      for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
-    };
-
-    // Key ties TypeAhead instance to resetCounter so any swap/reset
-    // tears down the widget (dropping its internal SuggestionsController
-    // state) and rebuilds it fresh — no leftover "dropdown open"
-    // state across the transition.
-    return KeyedSubtree(
-      key: ValueKey('atk_${attacker}_ability_${widget.resetCounter}'),
-      child: buildTypeAhead<String>(
-      controller: controller,
-      focusNode: focus,
-      suggestionsCallback: (query) =>
-          _abilitySuggestions(query, attacker: attacker),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.ability'),
-        isDense: true,
-      ),
-      itemBuilder: (context, ability) {
-        final isOwn = ownSet.contains(ability);
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(
-            _abilityNames[ability] ?? ability,
-            style: TextStyle(
-              fontSize: 14,
-              color: isOwn ? null : Colors.grey,
-            ),
-          ),
-        );
+    return AbilityPickerField(
+      selected: state.selectedAbility,
+      labelText: AppStrings.t('label.ability'),
+      suggestions: (query) => _abilitySuggestions(query, attacker: attacker),
+      labelOf: (key) => _abilityNames[key] ?? key,
+      // Own ability keys (including Supreme Overlord's numbered
+      // variants) — anything else is greyed, same visual language as
+      // non-learnable moves.
+      own: {
+        for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
       },
-      onSelected: (v) {
-        setState(() {
-          if (attacker) {
-            _atk.selectedAbility = v;
-          } else {
-            _def.selectedAbility = v;
-          }
-          final text = _abilityNames[v] ?? v;
-          controller.text = text;
-          // Collapse the selection — without this, TypeAhead re-selects
-          // the whole field after picking, making the field look stuck
-          // in "select all" mode.
-          controller.selection = TextSelection.collapsed(offset: text.length);
-          focus.unfocus();
-        });
+      onChanged: (key) {
+        setState(() => state.selectedAbility = key);
         widget.onChanged();
       },
-      // Enter on the ability field auto-picks the first matching
-      // ability (mirrors Extended Mode's behaviour). Saves a tap.
-    ),
     );
   }
 

@@ -20,6 +20,14 @@ class SearchPickerField extends StatelessWidget {
   /// with or without it.
   final Widget? leading;
 
+  /// Style of the pick's text; defaults to the text-field style.
+  final TextStyle? textStyle;
+
+  /// Replaces the default decoration (underline + [labelText] /
+  /// [hintText]) — for fields that had an outlined box, a clear
+  /// button, a prefix icon. [labelText] / [hintText] are ignored then.
+  final InputDecoration? decoration;
+
   const SearchPickerField({
     super.key,
     required this.text,
@@ -27,6 +35,8 @@ class SearchPickerField extends StatelessWidget {
     this.hintText,
     required this.onTap,
     this.leading,
+    this.textStyle,
+    this.decoration,
   });
 
   @override
@@ -37,22 +47,23 @@ class SearchPickerField extends StatelessWidget {
       maxLines: 1,
       softWrap: false,
       overflow: TextOverflow.ellipsis,
-      style: theme.textTheme.bodyLarge,
+      style: textStyle ?? theme.textTheme.bodyLarge,
     );
     return Semantics(
       button: true,
-      label: labelText ?? hintText,
+      label: labelText ?? hintText ?? decoration?.labelText ?? decoration?.hintText,
       value: text,
       child: InkWell(
         onTap: onTap,
         child: InputDecorator(
           isEmpty: text.isEmpty,
-          decoration: InputDecoration(
-            labelText: labelText,
-            hintText: hintText,
-            isDense: true,
-            enabled: onTap != null,
-          ),
+          decoration: decoration ??
+              InputDecoration(
+                labelText: labelText,
+                hintText: hintText,
+                isDense: true,
+                enabled: onTap != null,
+              ),
           child: leading == null
               ? label
               : Row(
