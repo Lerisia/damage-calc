@@ -10,6 +10,13 @@ class AppAboutDialog extends StatelessWidget {
       'https://apps.apple.com/kr/app/id6761017449';
   static const _buyMeACoffeeUrl = 'https://buymeacoffee.com/elyss';
 
+  /// 참혈's YouTube channel (youtube.com/@참혈). The permanent channel
+  /// address rather than the handle: it is plain ASCII, so the web
+  /// (`window.location`) and the apps (`url_launcher`) open the same
+  /// thing, and it survives a handle rename.
+  static const _designReviewUrl =
+      'https://www.youtube.com/channel/UCosEFmvzPgbzLWZhKYE4fkw';
+
   /// See MobileInstallPrompt.open — bypass url_launcher entirely
   /// and assign window.location directly via the conditional-import
   /// helper. CanvasKit's synthesized clicks aren't seen as user
@@ -34,6 +41,28 @@ class AppAboutDialog extends StatelessWidget {
           Text(AppStrings.t('about.subtitle'), style: const TextStyle(fontSize: 13)),
           const SizedBox(height: 12),
           const Text('By  Elyss'),
+          // The design reviewer works on the app with the developer, so
+          // the line sits here among the makers, at body size — not down
+          // in the small grey source credits where the sprite providers
+          // are. A role, not a thank-you. If the role grows into full
+          // design, the label becomes 'Design'.
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Design review  '),
+              InkWell(
+                onTap: () => _open(_designReviewUrl),
+                child: Text(
+                  '참혈',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+            ],
+          ),
           const SelectableText('Web  damage-calc.com'),
           const SelectableText('GitHub  github.com/Lerisia/damage-calc'),
           const SizedBox(height: 12),
