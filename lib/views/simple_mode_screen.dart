@@ -817,42 +817,56 @@ class _SimpleModeViewState extends State<SimpleModeView>
               _spreadCheck(),
             ],
           ),
-          // Reserve a fixed slot for move-info so picking a move doesn't
-          // jerk the rest of the layout down. Info uses the transformed
-          // move so Hidden Power / Tera Blast / Gyro Ball etc. show the
+          // Reserve a slot for move-info so picking a move doesn't jerk
+          // the rest of the layout down. Info uses the transformed move
+          // so Hidden Power / Tera Blast / Gyro Ball etc. show the
           // effective type/category/power rather than the raw defaults.
-          const SizedBox(height: 4),
-          SizedBox(
-            height: 16,
-            child: move != null
-                ? _moveInfoRow(BattleFacade.getMoveSlotInfo(
-                    state: _atk,
-                    moveIndex: 0,
-                    weather: widget.weather,
-                    terrain: widget.terrain,
-                    room: widget.room,
-                    auras: widget.auras,
-                    ruins: widget.ruins,
-                    // Weight-based (Low Kick, Heavy Slam) and
-                    // speed-based (Gyro Ball) moves need the full
-                    // opponent context to compute effective power.
-                    opponentSpeed: BattleFacade.calcSpeed(
-                      state: _def, weather: widget.weather,
-                      terrain: widget.terrain, room: widget.room),
-                    myEffectiveSpeed: BattleFacade.calcSpeed(
-                      state: _atk, weather: widget.weather,
-                      terrain: widget.terrain, room: widget.room),
-                    opponentWeight: BattleFacade.effectiveWeight(_def),
-                    opponentAbility: _def.selectedAbility,
-                    opponentItem: _def.selectedItem,
-                    opponentHpPercent: BattleFacade.effectiveHpPercent(_def),
-                  ))
-                : const SizedBox.shrink(),
+          //
+          // The slot is as tall as a type chip: an invisible one sets
+          // the height, so the visible chip is never squeezed and the
+          // row is the same height with or without a move. (It used to
+          // be a fixed 16 px, sized for a line of text — the chip, 20 px
+          // tall, got squashed into it.)
+          const SizedBox(height: 3),
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              const Visibility(
+                visible: false,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: TypeChip.dense(PokemonType.normal),
+              ),
+              if (move != null)
+                _moveInfoRow(BattleFacade.getMoveSlotInfo(
+                      state: _atk,
+                      moveIndex: 0,
+                      weather: widget.weather,
+                      terrain: widget.terrain,
+                      room: widget.room,
+                      auras: widget.auras,
+                      ruins: widget.ruins,
+                      // Weight-based (Low Kick, Heavy Slam) and
+                      // speed-based (Gyro Ball) moves need the full
+                      // opponent context to compute effective power.
+                      opponentSpeed: BattleFacade.calcSpeed(
+                        state: _def, weather: widget.weather,
+                        terrain: widget.terrain, room: widget.room),
+                      myEffectiveSpeed: BattleFacade.calcSpeed(
+                        state: _atk, weather: widget.weather,
+                        terrain: widget.terrain, room: widget.room),
+                      opponentWeight: BattleFacade.effectiveWeight(_def),
+                      opponentAbility: _def.selectedAbility,
+                      opponentItem: _def.selectedItem,
+                      opponentHpPercent: BattleFacade.effectiveHpPercent(_def),
+                    )),
+            ],
           ),
-          // Tighter gap below the move-info row (풀 특수 120 etc.) —
-          // user feedback: the previous 10px of slack made the move
-          // group feel detached from the stats below.
-          const SizedBox(height: 2),
+          // Tight gap below the move-info row (풀 특수 120 etc.) — user
+          // feedback: slack here made the move group feel detached
+          // from the stats below.
+          const SizedBox(height: 1),
           // Offensive stat (Atk↔SpA auto) + Speed share one row. Extra
           // vertical padding around the row enlarges the vertical tap
           // zone around each mini-button without growing the row

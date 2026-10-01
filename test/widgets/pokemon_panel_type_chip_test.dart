@@ -72,6 +72,11 @@ void main() {
     expect(all.skip(2).map((c) => c.type), moveTypes);
     expect(all.map((c) => c.size).toSet(), {TypeChipSize.dense});
     expect(all.every((c) => c.dotColor == null), isTrue);
+    // None of them is squeezed by its cell: every chip is as tall as the
+    // species chips, and the move chips share one column width.
+    final sizes = [for (final e in find.byType(TypeChip).evaluate()) e.size!];
+    expect(sizes.map((s) => s.height).toSet(), hasLength(1));
+    expect(sizes.skip(2).map((s) => s.width).toSet(), {40.0});
   });
 
   testWidgets('a move\'s chip opens the chip dialog; the pick overrides the type and is marked',
