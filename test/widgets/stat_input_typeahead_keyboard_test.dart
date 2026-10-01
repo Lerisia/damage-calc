@@ -9,9 +9,12 @@ import 'package:damage_calc/models/nature_profile.dart';
 import 'package:damage_calc/models/rank.dart';
 import 'package:damage_calc/models/stats.dart';
 import 'package:damage_calc/models/status.dart';
+import 'package:damage_calc/views/widgets/search_picker/item_picker_field.dart';
 import 'package:damage_calc/views/widgets/stat_input.dart';
 
 /// Keyboard navigation in the Extended Mode ability / item pickers.
+/// (The item field moved onto the search modal on 2026-10-01; the
+/// ability field is still a typeahead.)
 ///
 /// The species picker got ↓ / Enter working on 2026-09-13; these two
 /// fields host the same typeahead but the parent's build() used to
@@ -73,21 +76,34 @@ void main() {
     expect(_Host.pickedAbilities, ['Intimidate']);
   });
 
-  testWidgets('item: ↓↓ then Enter picks the second hit', (tester) async {
+  testWidgets('item: the field opens the search modal; ↓ then Enter picks the second hit',
+      (tester) async {
     await prime(tester);
-    final field = fieldLabeled('label.item');
-    await open(tester, field, 'choice');
-    final hits = tester
-        .widgetList<Text>(find.descendant(of: find.byType(ListView), matching: find.byType(Text)))
-        .map((t) => t.data)
-        .toList();
-    expect(hits.length, greaterThan(2));
+    await tester.pumpWidget(const MaterialApp(home: Scaffold(body: _Host())));
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+    await pump(tester, 2);
+    // The item field is no longer a text box with a dropdown: a tap
+    // opens the shared search modal with the cursor in its search box.
+    await tester.tap(find.byType(ItemPickerField));
+    await pump(tester, 2);
+    final input = find.byKey(const Key('search_picker_input'));
+    expect(input, findsOneWidget);
+    await tester.enterText(input, 'choice');
+    await pump(tester, 2);
+    final ids = [
+      for (final e in find.byType(InkWell).evaluate())
+        if (e.widget.key case ValueKey<String>(value: final v)
+            when v.startsWith('search_picker_item_'))
+          v.substring('search_picker_item_'.length),
+    ];
+    expect(ids.length, greaterThan(2));
     await key(tester, LogicalKeyboardKey.arrowDown);
-    await key(tester, LogicalKeyboardKey.arrowDown);
-    expect(tester.widget<TextField>(field).controller!.text, 'choice');
-    await key(tester, LogicalKeyboardKey.enter);
-    expect(_Host.pickedItems.length, 1);
-    expect(itemKo[_Host.pickedItems.single], hits[1]);
+    await tester.testTextInput.receiveAction(TextInputAction.done);
+    await pump(tester, 2);
+    expect(_Host.pickedItems, [ids[1]]);
+    expect(itemKo[ids[1]], isNotNull);
+    expect(find.text(itemKo[ids[1]]!), findsOneWidget,
+        reason: 'the closed field shows the new pick');
   });
 }
 

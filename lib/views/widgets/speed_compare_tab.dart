@@ -15,7 +15,6 @@ import '../../calc/battle_facade.dart';
 import '../../calc/speed_calculator.dart';
 import '../../features/speed_tier/speed_tier.dart';
 import 'typeahead_helpers.dart';
-import '../../controllers/champions_filter_controller.dart';
 import '../../calc/champions_mode.dart';
 import '../../calc/stat_calculator.dart';
 import '../../calc/room_effects.dart';
@@ -24,6 +23,7 @@ import '../../data/ability_variants.dart';
 import '../../search/ability_picker.dart';
 import '../../search/item_picker.dart';
 import 'nature_pick_menu.dart';
+import 'search_picker/item_picker_field.dart';
 import 'champions_scope_listener.dart';
 
 /// Self-contained speed comparison tab with keep-alive.
@@ -72,16 +72,12 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   final _defAbilityRowKey = GlobalKey();
   final _defItemRowKey = GlobalKey();
   final _atkAbilityController = TextEditingController();
-  final _atkItemController = TextEditingController();
   final _atkNatureController = TextEditingController();
   final _defAbilityController = TextEditingController();
-  final _defItemController = TextEditingController();
   final _defNatureController = TextEditingController();
   final _atkAbilityFocus = FocusNode();
-  final _atkItemFocus = FocusNode();
   final _atkNatureFocus = FocusNode();
   final _defAbilityFocus = FocusNode();
-  final _defItemFocus = FocusNode();
   final _defNatureFocus = FocusNode();
 
   void scrollToTop() {
@@ -94,16 +90,12 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   void dispose() {
     _scrollController.dispose();
     _atkAbilityController.dispose();
-    _atkItemController.dispose();
     _atkNatureController.dispose();
     _defAbilityController.dispose();
-    _defItemController.dispose();
     _defNatureController.dispose();
     _atkAbilityFocus.dispose();
-    _atkItemFocus.dispose();
     _atkNatureFocus.dispose();
     _defAbilityFocus.dispose();
-    _defItemFocus.dispose();
     _defNatureFocus.dispose();
     super.dispose();
   }
@@ -175,12 +167,6 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
   String _speedTierDescription(int level, int effSpeed) {
     final table = getSpeedTierTable(level);
     return table.describe(effSpeed);
-  }
-
-  String _itemKo(String? key) {
-    if (key == null || key.isEmpty) return AppStrings.t('label.none');
-    if (_itemNameMap.isEmpty) return '...';
-    return _itemNameMap[key] ?? key;
   }
 
   String _abilityKo(String key) {
@@ -260,7 +246,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               // pixels so iOS scroll fling becomes layer translation
               // instead of full re-paint of both panels every frame.
               RepaintBoundary(
-                child: KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, itemController: _atkItemController, natureController: _atkNatureController, abilityFocus: _atkAbilityFocus, itemFocus: _atkItemFocus, natureFocus: _atkNatureFocus)),
+                child: KeyedSubtree(key: _atkPanelKey, child: _speedPanel(label: AppStrings.t('tab.attacker'), color: Colors.red, state: atk, effSpeed: atkEffSpeed, abilityRowKey: _atkAbilityRowKey, itemRowKey: _atkItemRowKey, abilityController: _atkAbilityController, natureController: _atkNatureController, abilityFocus: _atkAbilityFocus, natureFocus: _atkNatureFocus)),
               ),
               const SizedBox(height: 8),
               Container(
@@ -281,7 +267,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
               ),
               const SizedBox(height: 8),
               RepaintBoundary(
-                child: KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, itemController: _defItemController, natureController: _defNatureController, abilityFocus: _defAbilityFocus, itemFocus: _defItemFocus, natureFocus: _defNatureFocus)),
+                child: KeyedSubtree(key: _defPanelKey, child: _speedPanel(label: AppStrings.t('tab.defender'), color: Colors.blue, state: def, effSpeed: defEffSpeed, abilityRowKey: _defAbilityRowKey, itemRowKey: _defItemRowKey, abilityController: _defAbilityController, natureController: _defNatureController, abilityFocus: _defAbilityFocus, natureFocus: _defNatureFocus)),
               ),
             ],
           ),
@@ -297,10 +283,8 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     required GlobalKey abilityRowKey,
     required GlobalKey itemRowKey,
     required TextEditingController abilityController,
-    required TextEditingController itemController,
     required TextEditingController natureController,
     required FocusNode abilityFocus,
-    required FocusNode itemFocus,
     required FocusNode natureFocus,
   }) {
     final rawSpeed = StatCalculator.calculate(
@@ -443,7 +427,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
             children: [
               Expanded(flex: 3, child: _natureAutocomplete(state, natureController, natureFocus)),
               const SizedBox(width: 8),
-              Expanded(flex: 2, child: _itemAutocomplete(state, itemController, itemFocus)),
+              Expanded(flex: 2, child: _itemPicker(state)),
             ],
           ),
           // 순풍 - hidden for simplicity
@@ -604,38 +588,20 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
     );
   }
 
-  Widget _itemAutocomplete(BattlePokemonState state, TextEditingController controller, FocusNode focusNode) {
-    final initialText = _itemKo(state.selectedItem);
-
-    return KeyedSubtree(
-      key: ValueKey('speed_item_${state.selectedItem}'),
-      child: buildTypeAhead<String>(
-        controller: controller,
-        focusNode: focusNode,
-        idleText: initialText,
-        suggestionsCallback: (text) => itemSuggestions(
-          _ensureItemIndex(),
-          text == initialText ? '' : text,
-          selected: state.selectedItem,
-          championsOnly: ChampionsFilterController.instance.championsOnly.value,
-          labelOf: (k) => _itemKo(k.isEmpty ? null : k),
-        ),
-        decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
-        itemBuilder: (context, key) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Text(_itemKo(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
-          );
-        },
-        onSelected: (v) {
-          controller.text = _itemKo(v.isEmpty ? null : v);
-          focusNode.unfocus();
-          setState(() => state.selectedItem = v.isEmpty ? null : v);
-          _notify();
-        },
-      ),
+  Widget _itemPicker(BattlePokemonState state) {
+    return ItemPickerField(
+      selected: state.selectedItem,
+      index: _itemNameMap.isEmpty ? null : _ensureItemIndex(),
+      names: _itemNameMap,
+      noneLabel: AppStrings.t('label.none'),
+      labelText: AppStrings.t('label.item'),
+      onChanged: (key) {
+        setState(() => state.selectedItem = key);
+        _notify();
+      },
     );
   }
+
 }
 
 /// Numeric input that maintains its own controller so parent rebuilds

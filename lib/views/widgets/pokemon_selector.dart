@@ -1,12 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../data/champions_usage.dart';
 import '../../data/pokedex.dart';
 import '../../models/pokemon.dart';
 import '../../i18n/app_strings.dart';
 import '../../controllers/champions_filter_controller.dart';
+import '../../platform/sprite_pack_manager.dart';
 import '../../search/korean_search.dart';
-import 'typeahead_helpers.dart';
+import 'pokemon_sprite.dart';
+import 'search_picker/search_picker.dart';
 
+/// The species field: shows the current Pokémon and opens the search
+/// modal on tap (grid of sprites by default, list on request).
 class PokemonSelector extends StatefulWidget {
   final void Function(Pokemon pokemon) onSelected;
   /// Pokemon name to seed the field with, or `null` for an empty
@@ -27,30 +32,16 @@ class PokemonSelector extends StatefulWidget {
 class _PokemonSelectorState extends State<PokemonSelector> {
   SearchIndex<Pokemon>? _index;
   Pokemon? _selected;
-  final _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadPokemon();
-    // The global "Champions only" toggle can flip between dex visits;
-    // listen so the suggestions list refilters on the fly.
-    ChampionsFilterController.instance.championsOnly.addListener(_onFilterChanged);
-  }
-
-  @override
-  void dispose() {
-    ChampionsFilterController.instance.championsOnly.removeListener(_onFilterChanged);
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onFilterChanged() {
-    if (mounted) setState(() {});
   }
 
   Future<void> _loadPokemon() async {
     final all = await loadPokedex();
+    if (!mounted) return;
     final visible = all.where((p) => !p.hidden).toList();
     setState(() {
       _index = SearchIndex<Pokemon>(visible.map((p) =>
@@ -65,16 +56,15 @@ class _PokemonSelectorState extends State<PokemonSelector> {
           (p) => p.name == seed,
           orElse: () => all.firstWhere((p) => p.dexNumber == 1, orElse: () => all.first),
         );
-        _controller.text = _selected?.localizedName ?? '';
       }
     });
   }
 
   bool _passesFilter(Pokemon p) {
     // Global champions-only filter — controlled from AppSettingsMenu.
-    // Selected species always passes (handled by _sortedOptions' pinning
-    // of the current pick at the top) so toggling the filter never
-    // strands the field on a hidden value.
+    // Read when the modal opens. The selected species always passes
+    // (hoisted in _sortedOptions) so toggling the filter never strands
+    // the field on a hidden value.
     if (!ChampionsFilterController.instance.championsOnly.value) return true;
     return isInChampions(p.name);
   }
@@ -86,8 +76,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     // filter applied to the rest via `allow` — the pinned selection
     // bypasses it so toggling the filter never strands the field.
     // Empty-mode rest keeps dex order (no restSort). Equal-relevance
-    // ties fall back to dex order (SearchIndex default) — was
-    // localized-name before; unified with the other pickers.
+    // ties fall back to dex order (SearchIndex default).
     return pickerSuggestions(
       index,
       query,
@@ -96,37 +85,41 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     );
   }
 
+  Future<void> _open() async {
+    final picked = await showSearchPicker<Pokemon>(
+      context,
+      SearchPickerConfig<Pokemon>(
+        kind: 'pokemon',
+        hintText: AppStrings.t('search.pokemon'),
+        selected: _selected,
+        suggestions: _sortedOptions,
+        labelOf: (p) => p.localizedName,
+        idOf: (p) => p.name,
+        fromId: (id) {
+          final p = pokedexByName(id);
+          return p != null && !p.hidden && _passesFilter(p) ? p : null;
+        },
+        // The sprite's placeholder has its own tap handler (opens the
+        // sprite settings); inside a picker tile the tap must pick.
+        imageOf: (context, p, size) => IgnorePointer(
+          child: PokemonSprite(
+              pokemonName: p.name, size: size, useBoxIcon: size <= 32),
+        ),
+        imagesAvailable: kIsWeb || SpritePackManager.instance.hasAnyInstalled,
+        defaultView: PickerViewMode.grid,
+      ),
+    );
+    if (picked == null || !mounted) return;
+    setState(() => _selected = picked);
+    widget.onSelected(picked);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return buildTypeAhead<Pokemon>(
-      controller: _controller,
-      suggestionsCallback: (query) {
-        if (query == _selected?.localizedName) return _sortedOptions('');
-        return _sortedOptions(query);
-      },
-      decoration: InputDecoration(
-        hintText: _selected?.localizedName ?? AppStrings.t('search.pokemon'),
-        isDense: true,
-      ),
-      itemBuilder: (context, pokemon) {
-        return ListTile(
-          dense: true,
-          visualDensity: VisualDensity.compact,
-          title: Text(pokemon.localizedName, style: const TextStyle(fontSize: 14)),
-        );
-      },
-      onSelected: (pokemon) {
-        setState(() => _selected = pokemon);
-        _controller.text = pokemon.localizedName;
-        // Move caret to the end so the field doesn't stay in a
-        // "select all" state after picking.
-        _controller.selection = TextSelection.collapsed(offset: _controller.text.length);
-        // Dismiss the on-screen keyboard — users expect mobile to
-        // collapse the keyboard after a typeahead pick.
-        FocusManager.instance.primaryFocus?.unfocus();
-        widget.onSelected(pokemon);
-      },
-      maxHeight: 250,
+    return SearchPickerField(
+      text: _selected?.localizedName ?? '',
+      hintText: AppStrings.t('search.pokemon'),
+      onTap: _index == null ? null : _open,
     );
   }
 }

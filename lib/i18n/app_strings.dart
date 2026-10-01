@@ -2610,6 +2610,26 @@ class AppStrings {
       AppLanguage.en: 'Move Name',
       AppLanguage.ja: 'わざ名',
     },
+    'search.item': {
+      AppLanguage.ko: '아이템 검색',
+      AppLanguage.en: 'Search items',
+      AppLanguage.ja: 'もちもの検索',
+    },
+    'picker.recent': {
+      AppLanguage.ko: '최근',
+      AppLanguage.en: 'Recent',
+      AppLanguage.ja: '最近',
+    },
+    'picker.viewList': {
+      AppLanguage.ko: '목록으로 보기',
+      AppLanguage.en: 'List view',
+      AppLanguage.ja: 'リスト表示',
+    },
+    'picker.viewGrid': {
+      AppLanguage.ko: '그리드로 보기',
+      AppLanguage.en: 'Grid view',
+      AppLanguage.ja: 'グリッド表示',
+    },
     'search.noResults': {
       AppLanguage.ko: '검색 결과 없음',
       AppLanguage.en: 'No results',

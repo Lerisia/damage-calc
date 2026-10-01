@@ -58,9 +58,7 @@ class _SlotCard extends StatefulWidget {
 class _SlotCardState extends State<_SlotCard>
     with ChampionsScopeListener {
   final _abilityController = TextEditingController();
-  final _itemController = TextEditingController();
   final _abilityFocus = FocusNode();
-  final _itemFocus = FocusNode();
 
   // Cached sorted ability list. Same approach as StatInput — own
   // abilities first (sorted by their declaration order), then the
@@ -77,15 +75,11 @@ class _SlotCardState extends State<_SlotCard>
   @override
   void dispose() {
     _abilityController.dispose();
-    _itemController.dispose();
     _abilityFocus.dispose();
-    _itemFocus.dispose();
     super.dispose();
   }
 
   String _abilityLabel(String key) => widget.abilityNames[key] ?? key;
-  String _itemLabel(String? key) =>
-      key == null ? AppStrings.t('team.item.none') : (widget.itemNames[key] ?? key);
 
   /// Ability suggestions via the shared engine: the mon's own abilities
   /// (Supreme Overlord expanded) pinned first, the rest A→Z by label,
@@ -648,37 +642,13 @@ class _SlotCardState extends State<_SlotCard>
           itemDex: widget.itemDex, noneLabel: AppStrings.t('team.item.none'));
       _itemIndexFor = widget.itemNames;
     }
-    final initialText = _itemLabel(widget.slot.heldItem);
-
-    return buildTypeAhead<String>(
-      controller: _itemController,
-      focusNode: _itemFocus,
-      idleText: initialText,
-      suggestionsCallback: (text) => itemSuggestions(
-        _itemIndex!,
-        text == initialText ? '' : text,
-        selected: widget.slot.heldItem,
-        championsOnly: ChampionsFilterController.instance.championsOnly.value,
-        labelOf: (k) => _itemLabel(k.isEmpty ? null : k),
-      ),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.item'),
-        isDense: true,
-      ),
-      itemBuilder: (context, key) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(
-            _itemLabel(key.isEmpty ? null : key),
-            style: const TextStyle(fontSize: 14),
-          ),
-        );
-      },
-      onSelected: (v) {
-        _itemController.text = _itemLabel(v.isEmpty ? null : v);
-        _itemFocus.unfocus();
-        widget.onItemSelected(v.isEmpty ? null : v);
-      },
+    return ItemPickerField(
+      selected: widget.slot.heldItem,
+      index: _itemIndex,
+      names: widget.itemNames,
+      noneLabel: AppStrings.t('team.item.none'),
+      labelText: AppStrings.t('label.item'),
+      onChanged: widget.onItemSelected,
     );
   }
 

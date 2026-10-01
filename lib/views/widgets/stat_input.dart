@@ -18,7 +18,6 @@ import '../../models/terrain.dart';
 import '../../models/weather.dart';
 import '../../calc/speed_calculator.dart';
 import '../../calc/room_effects.dart';
-import '../../controllers/champions_filter_controller.dart';
 import '../../controllers/hp_display_controller.dart';
 import '../../calc/champions_mode.dart';
 import '../../calc/hp.dart';
@@ -27,6 +26,7 @@ import 'typeahead_helpers.dart';
 import '../../data/ability_variants.dart';
 import '../../search/item_picker.dart';
 import 'nature_pick_menu.dart';
+import 'search_picker/item_picker_field.dart';
 import 'champions_scope_listener.dart';
 import '../../data/name_maps.dart';
 
@@ -161,9 +161,7 @@ class _StatInputState extends State<StatInput>
   SearchIndex<String>? _itemIndex;
   int _evResetCounter = 0;
   final _abilityController = TextEditingController();
-  final _itemController = TextEditingController();
   final _abilityFocusNode = FocusNode();
-  final _itemFocusNode = FocusNode();
 
   Map<String, String> _itemNameMap = {};
   static Map<String, Item> _itemDataMap = {};
@@ -209,9 +207,7 @@ class _StatInputState extends State<StatInput>
   @override
   void dispose() {
     _abilityController.dispose();
-    _itemController.dispose();
     _abilityFocusNode.dispose();
-    _itemFocusNode.dispose();
     super.dispose();
   }
 
@@ -496,45 +492,14 @@ class _StatInputState extends State<StatInput>
     );
   }
 
-  String _itemDisplayName(String? key) {
-    if (key == null || key.isEmpty) return AppStrings.t('label.none');
-    return _itemNameMap[key] ?? key;
-  }
-
   Widget _itemAutocomplete() {
-    final initialText = _itemDisplayName(widget.selectedItem);
-    // Shared item engine: current pick, "no item", then ranked / A→Z;
-    // Champions scope handled inside. An unchanged field (showing the
-    // current pick) lists the default order, not a search for its name.
-    List<String> suggest(String text) {
-      final index = _itemIndex;
-      if (index == null) return const [];
-      return itemSuggestions(index, text == initialText ? '' : text,
-          selected: widget.selectedItem,
-          championsOnly: ChampionsFilterController.instance.championsOnly.value,
-          labelOf: (k) => _itemDisplayName(k.isEmpty ? null : k));
-    }
-
-    return KeyedSubtree(
-      key: ValueKey('item_${widget.selectedItem}'),
-      child: buildTypeAhead<String>(
-        controller: _itemController,
-        focusNode: _itemFocusNode,
-        idleText: initialText,
-        suggestionsCallback: suggest,
-        decoration: InputDecoration(labelText: AppStrings.t('label.item'), isDense: true),
-        itemBuilder: (context, key) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Text(_itemDisplayName(key.isEmpty ? null : key), style: const TextStyle(fontSize: 14)),
-          );
-        },
-        onSelected: (v) {
-          _itemController.text = _itemDisplayName(v.isEmpty ? null : v);
-          _itemFocusNode.unfocus();
-          widget.onItemChanged(v.isEmpty ? null : v);
-        },
-      ),
+    return ItemPickerField(
+      selected: widget.selectedItem,
+      index: _itemIndex,
+      names: _itemNameMap,
+      noneLabel: AppStrings.t('label.none'),
+      labelText: AppStrings.t('label.item'),
+      onChanged: widget.onItemChanged,
     );
   }
 

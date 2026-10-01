@@ -25,6 +25,7 @@ import '../calc/aura_effects.dart';
 import '../calc/battle_facade.dart';
 import '../calc/hp.dart';
 import '../controllers/hp_display_controller.dart';
+import 'widgets/search_picker/item_picker_field.dart';
 import '../controllers/champions_format_controller.dart';
 import '../calc/champions_mode.dart';
 import '../calc/stacking_moves.dart';
@@ -189,13 +190,9 @@ class _SimpleModeViewState extends State<SimpleModeView>
   SearchIndex<String>? _abilityIndex;
   Map<String, String>? _abilityIndexFor;
   final _atkAbilityCtl = TextEditingController();
-  final _atkItemCtl = TextEditingController();
   final _defAbilityCtl = TextEditingController();
-  final _defItemCtl = TextEditingController();
   final _atkAbilityFocus = FocusNode();
-  final _atkItemFocus = FocusNode();
   final _defAbilityFocus = FocusNode();
-  final _defItemFocus = FocusNode();
 
   @override
   void initState() {
@@ -235,8 +232,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
     if (mapsChanged) {
       _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
       _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
-      _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
-      _defItemCtl.text = _itemDisplayText(_def.selectedItem);
     }
     // Reset/language bump also re-hydrates per-side controllers.
     if (old.resetCounter != widget.resetCounter) {
@@ -248,8 +243,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
       // FocusScope so no specific widget gets it.
       _atkAbilityFocus.unfocus(disposition: UnfocusDisposition.scope);
       _defAbilityFocus.unfocus(disposition: UnfocusDisposition.scope);
-      _atkItemFocus.unfocus(disposition: UnfocusDisposition.scope);
-      _defItemFocus.unfocus(disposition: UnfocusDisposition.scope);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         _hydrateFromState();
@@ -304,16 +297,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
     _defSpeSpCtl.text = '${ChampionsMode.evToSp(_def.ev.speed)}';
     _atkAbilityCtl.text = _abilityNames[_atk.selectedAbility ?? ''] ?? '';
     _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
-    _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
-    _defItemCtl.text = _itemDisplayText(_def.selectedItem);
-  }
-
-  /// Display text for an item key — "없음" for null/empty, localized
-  /// item name otherwise. Mirrors the normal-mode StatInput behavior
-  /// so the empty state reads as "없음" rather than a blank field.
-  String _itemDisplayText(String? key) {
-    if (key == null || key.isEmpty) return AppStrings.t('label.none');
-    return _itemNames[key] ?? key;
   }
 
   String _abilityLabel(String? key) {
@@ -325,12 +308,10 @@ class _SimpleModeViewState extends State<SimpleModeView>
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
-                      _multCtl, _atkAbilityCtl, _atkItemCtl,
-                      _defAbilityCtl, _defItemCtl]) {
+                      _multCtl, _atkAbilityCtl, _defAbilityCtl]) {
       c.dispose();
     }
-    for (final f in [_atkAbilityFocus, _atkItemFocus,
-                      _defAbilityFocus, _defItemFocus]) {
+    for (final f in [_atkAbilityFocus, _defAbilityFocus]) {
       f.dispose();
     }
     for (final f in _spFocusNodes.values) {
@@ -1759,9 +1740,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
   }
 
   Widget _itemField({required bool attacker}) {
-    final controller = attacker ? _atkItemCtl : _defItemCtl;
-    final focus = attacker ? _atkItemFocus : _defItemFocus;
-    final selected = attacker ? _atk.selectedItem : _def.selectedItem;
     // Shared item engine (same as Extended Mode). Only the label map is
     // available here, so EN matching falls back to the key.
     if (!identical(_itemIndexFor, widget.itemNameMap)) {
@@ -1769,50 +1747,22 @@ class _SimpleModeViewState extends State<SimpleModeView>
           noneLabel: AppStrings.t('label.none'));
       _itemIndexFor = widget.itemNameMap;
     }
-
-    return KeyedSubtree(
-      key: ValueKey('atk_${attacker}_item_${widget.resetCounter}'),
-      child: buildTypeAhead<String>(
-      controller: controller,
-      focusNode: focus,
-      suggestionsCallback: (query) => itemSuggestions(
-        _itemIndex!,
-        query,
-        selected: selected,
-        championsOnly: ChampionsFilterController.instance.championsOnly.value,
-        labelOf: _itemDisplayText,
-      ),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.item'),
-        isDense: true,
-      ),
-      itemBuilder: (context, key) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(
-          key.isEmpty
-              ? AppStrings.t('label.none')
-              : (_itemNames[key] ?? key),
-          style: const TextStyle(fontSize: 14),
-        ),
-      ),
-      onSelected: (v) {
+    return ItemPickerField(
+      selected: attacker ? _atk.selectedItem : _def.selectedItem,
+      index: _itemIndex,
+      names: _itemNames,
+      noneLabel: AppStrings.t('label.none'),
+      labelText: AppStrings.t('label.item'),
+      onChanged: (key) {
         setState(() {
-          final effective = v.isEmpty ? null : v;
           if (attacker) {
-            _atk.selectedItem = effective;
+            _atk.selectedItem = key;
           } else {
-            _def.selectedItem = effective;
+            _def.selectedItem = key;
           }
-          final text = _itemDisplayText(effective);
-          controller.text = text;
-          controller.selection = TextSelection.collapsed(offset: text.length);
-          focus.unfocus();
         });
         widget.onChanged();
       },
-      // Enter on the item field auto-picks the first matching item
-      // (mirrors Extended Mode + the ability field above).
-    ),
     );
   }
 
