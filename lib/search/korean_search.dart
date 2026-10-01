@@ -17,6 +17,7 @@ class SearchEntry<T> {
   final List<int> koRunes;
   final List<int> chosungIndices; // 초성 index per syllable
   final List<String> aliasesLower; // 별명 (lowercase)
+  final List<List<int>> aliasRunes; // 별명, as runes — same matching as the name
 
   SearchEntry(this.item, String nameKo, String nameEn, {String nameJa = '', List<String> aliases = const []})
       : koLower = nameKo.toLowerCase(),
@@ -25,7 +26,9 @@ class SearchEntry<T> {
         koRunes = nameKo.toLowerCase().runes.toList(),
         chosungIndices = nameKo.runes.map((c) =>
             _isSyllable(c) ? (c - 0xAC00) ~/ 588 : -1).toList(),
-        aliasesLower = aliases.map((a) => a.toLowerCase()).toList();
+        aliasesLower = aliases.map((a) => a.toLowerCase()).toList(),
+        aliasRunes =
+            aliases.map((a) => a.toLowerCase().runes.toList()).toList();
 }
 
 /// Scores a pre-computed entry against a pre-computed query.
@@ -39,29 +42,23 @@ int scoreEntry(List<int> qRunes, String qLower, SearchEntry entry) {
     qLower = String.fromCharCodes(expanded);
   }
 
-  // 1. Exact match
-  if (qLower == entry.koLower) return 100;
+  // 1–5. The Korean name: exact 100, prefix 80, contains 60, 초성
+  // prefix 50, 초성 contains 30.
+  var best = _scoreKorean(qRunes, qLower, entry.koLower, entry.koRunes,
+      exact: 100, prefix: 80, contains: 60, chosungPrefix: 50, chosungContains: 30);
 
-  // 2. Prefix match (with syllable-prefix on last char)
-  if (qRunes.length <= entry.koRunes.length &&
-      _prefixMatchRunes(qRunes, entry.koRunes)) return 80;
-
-  // 3. Contains match
-  if (entry.koLower.contains(qLower)) return 60;
-
-  // 4. 초성/mixed prefix match
-  if (qRunes.length <= entry.koRunes.length &&
-      _chosungPrefixMatchRunes(qRunes, entry.koRunes)) return 50;
-
-  // 5. 초성/mixed contains match
-  if (_chosungContainsMatchRunes(qRunes, entry.koRunes)) return 30;
-
-  // 6. Alias match (별명)
-  for (final alias in entry.aliasesLower) {
-    if (qLower == alias) return 95;
-    if (alias.startsWith(qLower)) return 75;
-    if (alias.contains(qLower)) return 55;
+  // 6. Nicknames (별명), matched the same way — 초성, a half-typed last
+  // syllable, mixed input — each tier five points under the name's so
+  // a name hit of the same kind still ranks first. The better of name
+  // and nickname wins: typing a nickname exactly (95) beats a name
+  // that merely contains the same letters (60).
+  for (var i = 0; i < entry.aliasesLower.length; i++) {
+    final s = _scoreKorean(
+        qRunes, qLower, entry.aliasesLower[i], entry.aliasRunes[i],
+        exact: 95, prefix: 75, contains: 55, chosungPrefix: 45, chosungContains: 25);
+    if (s > best) best = s;
   }
+  if (best > 0) return best;
 
   // 7. Japanese match
   if (entry.jaLower.isNotEmpty) {
@@ -73,6 +70,32 @@ int scoreEntry(List<int> qRunes, String qLower, SearchEntry entry) {
   // 8. English fallback
   if (entry.enLower.contains(qLower)) return 20;
 
+  return 0;
+}
+
+/// One Korean target (a name or a nickname) against the query, on the
+/// five-tier ladder: exact, prefix (the last query syllable may be
+/// half-typed), contains, 초성 / mixed prefix, 초성 / mixed contains.
+/// 0 when nothing matches.
+int _scoreKorean(
+  List<int> qRunes,
+  String qLower,
+  String targetLower,
+  List<int> targetRunes, {
+  required int exact,
+  required int prefix,
+  required int contains,
+  required int chosungPrefix,
+  required int chosungContains,
+}) {
+  if (qLower == targetLower) return exact;
+  final fits = qRunes.length <= targetRunes.length;
+  if (fits && _prefixMatchRunes(qRunes, targetRunes)) return prefix;
+  if (targetLower.contains(qLower)) return contains;
+  if (fits && _chosungPrefixMatchRunes(qRunes, targetRunes)) {
+    return chosungPrefix;
+  }
+  if (_chosungContainsMatchRunes(qRunes, targetRunes)) return chosungContains;
   return 0;
 }
 
