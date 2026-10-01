@@ -80,8 +80,7 @@ class ItemPickerField extends StatelessWidget {
             ? id
             : null,
         imageOf: (context, key, size) => ItemIcon(itemId: key, size: size),
-        imagesAvailable:
-            kIsWeb || SpritePackManager.instance.itemIconsInstalled,
+        imagesAvailable: _iconsAvailable,
         defaultView: PickerViewMode.list,
       ),
     );
@@ -89,14 +88,28 @@ class ItemPickerField extends StatelessWidget {
     onChanged(picked.isEmpty ? null : picked);
   }
 
+  /// Icons come from the sprite pack on mobile; without one the field
+  /// (and the modal) is text-only.
+  static bool get _iconsAvailable =>
+      kIsWeb || SpritePackManager.instance.itemIconsInstalled;
+
   @override
   Widget build(BuildContext context) {
     return SearchPickerField(
       text: _label(selected ?? kNoItemKey),
       labelText: labelText,
+      // The picked item's icon, left of its name. "No item" keeps the
+      // slot with its own mark so the label doesn't shift sideways
+      // when an item is picked or removed.
+      leading: _iconsAvailable
+          ? ItemIcon(itemId: selected ?? kNoItemKey, size: _fieldIconSize)
+          : null,
       onTap: index == null ? null : () => _open(context),
     );
   }
+
+  /// Fits inside the field's text line, so the field keeps its height.
+  static const double _fieldIconSize = 20;
 }
 
 /// A held item's icon in a fixed [size] slot. Sprite pack 8 covers

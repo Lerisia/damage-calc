@@ -15,17 +15,30 @@ class SearchPickerField extends StatelessWidget {
   /// Null disables the field (data still loading).
   final VoidCallback? onTap;
 
+  /// Shown left of the pick (the picked item's icon). Sized by the
+  /// caller to fit the text line, so the field's height is the same
+  /// with or without it.
+  final Widget? leading;
+
   const SearchPickerField({
     super.key,
     required this.text,
     this.labelText,
     this.hintText,
     required this.onTap,
+    this.leading,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final label = Text(
+      text,
+      maxLines: 1,
+      softWrap: false,
+      overflow: TextOverflow.ellipsis,
+      style: theme.textTheme.bodyLarge,
+    );
     return Semantics(
       button: true,
       label: labelText ?? hintText,
@@ -40,13 +53,15 @@ class SearchPickerField extends StatelessWidget {
             isDense: true,
             enabled: onTap != null,
           ),
-          child: Text(
-            text,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.bodyLarge,
-          ),
+          child: leading == null
+              ? label
+              : Row(
+                  children: [
+                    leading!,
+                    const SizedBox(width: 6),
+                    Expanded(child: label),
+                  ],
+                ),
         ),
       ),
     );
