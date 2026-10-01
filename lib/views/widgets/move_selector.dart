@@ -9,28 +9,26 @@ import '../../models/move.dart';
 import '../../models/move_tags.dart';
 import '../../search/korean_search.dart';
 import '../../controllers/move_options_controller.dart';
-import 'typeahead_helpers.dart';
+import 'move_meta.dart';
+import 'search_picker/search_picker.dart';
 import '../../i18n/app_strings.dart';
-import '../../i18n/localization.dart';
 
+/// A move slot: shows the current move and opens the search modal on
+/// tap. The list is the same one the old dropdown showed — current
+/// move, the Pokémon's configured slots, its Champions top moves, then
+/// the rest, learnable moves first — with type / category / power at
+/// the end of each row and unlearnable moves greyed.
 class MoveSelector extends StatefulWidget {
   final void Function(Move move) onSelected;
-  final VoidCallback? onTap;
   final String? initialMoveName;
+
+  /// Shown instead of the move's own name (Max / Z-Move names), in the
+  /// accent colour.
   final String? displayNameOverride;
   /// Pokemon name for learnset-based move highlighting/sorting.
   final String? pokemonName;
   final String? pokemonNameKo;
   final int? dexNumber;
-  /// Fires whenever the inner text field gains/loses focus. Useful
-  /// for parents that want to expand layout while the user is picking
-  /// and collapse it after.
-  final ValueChanged<bool>? onFocusChanged;
-  /// `true` → drop the type / category / power suffix from each
-  /// suggestion row, leaving only the name + learnable/unlearnable
-  /// gray. Used in tight layouts (party-coverage move grid) where
-  /// the extra metadata doesn't fit on phone widths.
-  final bool compact;
   /// When `false`, status-category moves are always hidden from the
   /// search list regardless of the global "변화기 보기" toggle. Simple
   /// Mode forces this off — its compact UI doesn't need them. Extended
@@ -59,7 +57,7 @@ class MoveSelector extends StatefulWidget {
   /// no pinning (all other call sites).
   final List<Move?>? pinnedMoves;
 
-  const MoveSelector({super.key, required this.onSelected, this.onTap, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.onFocusChanged, this.compact = false, this.allowStatus = true, this.forceShowStatus = false, this.labelText, this.pinnedMoves});
+  const MoveSelector({super.key, required this.onSelected, this.initialMoveName, this.displayNameOverride, this.pokemonName, this.pokemonNameKo, this.dexNumber, this.allowStatus = true, this.forceShowStatus = false, this.labelText, this.pinnedMoves});
 
   @override
   State<MoveSelector> createState() => _MoveSelectorState();
@@ -77,7 +75,6 @@ class _MoveSelectorState extends State<MoveSelector> {
   SearchIndex<Move>? _moveIndex;
   Set<String> _learnableMoveIds = {};
   Move? _selected;
-  final _controller = TextEditingController();
 
   @override
   void initState() {
@@ -110,7 +107,6 @@ class _MoveSelectorState extends State<MoveSelector> {
     }
     ChampionsFilterController.instance.championsOnly
         .removeListener(_rebuildEntries);
-    _controller.dispose();
     super.dispose();
   }
 
@@ -157,8 +153,6 @@ class _MoveSelectorState extends State<MoveSelector> {
         final match = _baseMoves.where((m) => m.name == widget.initialMoveName);
         if (match.isNotEmpty) {
           _selected = match.first;
-          _controller.text =
-              widget.displayNameOverride ?? _selected!.localizedName;
         }
       }
     });
@@ -260,183 +254,41 @@ class _MoveSelectorState extends State<MoveSelector> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return buildTypeAhead<Move>(
-      controller: _controller,
-      suggestionsCallback: (query) {
-        if (_selected != null && query == _selected!.localizedName) return _sortedOptions('');
-        return _sortedOptions(query);
-      },
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        hintText: _selected?.localizedName ?? AppStrings.t('search.move'),
-        hintStyle: const TextStyle(fontSize: 14),
-        isDense: true,
+  Future<void> _open() async {
+    final byName = {for (final m in _allMoves) m.name: m};
+    final picked = await showSearchPicker<Move>(
+      context,
+      SearchPickerConfig<Move>(
+        kind: 'move',
+        hintText: AppStrings.t('search.moveQuery'),
+        selected: _selected,
+        suggestions: _sortedOptions,
+        labelOf: (m) => m.localizedName,
+        idOf: (m) => m.name,
+        fromId: (id) => byName[id],
+        dimmed: (m) => !_canLearn(m),
+        trailingOf: (context, m) => MoveMeta(m, dimmed: !_canLearn(m)),
       ),
-      onTap: widget.onTap,
-      builder: (context, controller, focusNode, onSubmitted, suggestions) {
-        return _MoveTextField(
-          controller: controller,
-          focusNode: focusNode,
-          suggestions: suggestions,
-          displayNameOverride: widget.displayNameOverride,
-          selected: _selected,
-          onTap: widget.onTap,
-          onFocusChanged: (hasFocus) {
-            widget.onFocusChanged?.call(hasFocus);
-          },
-          // Enter follows the app-wide typeahead rule; the pick lands
-          // in onSelected below like a tapped suggestion.
-          onSubmitted: onSubmitted,
-        );
-      },
-      itemBuilder: (context, move) {
-        final learnable = _canLearn(move);
-        final nameColor = learnable ? null : Colors.grey;
-        // Compact mode: name only (+ learnable gray) so the suggestion
-        // list fits in tight grids like the party-coverage move 2x2.
-        if (widget.compact) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Text(
-              move.localizedName,
-              style: TextStyle(fontSize: 14, color: nameColor),
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
-        }
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Row(
-            children: [
-              Flexible(
-                child: Text(move.localizedName, style: TextStyle(fontSize: 14, color: nameColor),
-                    overflow: TextOverflow.ellipsis),
-              ),
-              const SizedBox(width: 8),
-              Text.rich(TextSpan(children: [
-                TextSpan(text: KoStrings.getTypeName(move.type),
-                    style: TextStyle(fontSize: 12, color: learnable ? KoStrings.getTypeColor(move.type) : Colors.grey[400])),
-                TextSpan(text: ' ${KoStrings.getCategoryName(move.category)} ${move.power}',
-                    style: TextStyle(fontSize: 12, color: learnable ? Colors.grey[600] : Colors.grey[400])),
-              ])),
-            ],
-          ),
-        );
-      },
-      onSelected: (move) {
-        setState(() => _selected = move);
-        _controller.text = move.localizedName;
-        _controller.selection = TextSelection.collapsed(offset: _controller.text.length);
-        FocusManager.instance.primaryFocus?.unfocus();
-        widget.onSelected(move);
-      },
-      maxHeight: 200,
     );
-  }
-}
-
-class _MoveTextField extends StatefulWidget {
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final SuggestionsController<Move> suggestions;
-  final String? displayNameOverride;
-  final Move? selected;
-  final VoidCallback? onTap;
-  final ValueChanged<bool> onFocusChanged;
-  final ValueChanged<String> onSubmitted;
-
-  const _MoveTextField({
-    required this.controller,
-    required this.focusNode,
-    required this.suggestions,
-    this.displayNameOverride,
-    this.selected,
-    this.onTap,
-    required this.onFocusChanged,
-    required this.onSubmitted,
-  });
-
-  @override
-  State<_MoveTextField> createState() => _MoveTextFieldState();
-}
-
-class _MoveTextFieldState extends State<_MoveTextField> {
-  // Search session keyed on the suggestions controller's focus state
-  // (blur ↔ field/box), not the FocusNode — moving into the suggestion
-  // list with ↓ must not count as leaving. Same rule as the shared
-  // _TypeAheadTextField in typeahead_helpers.dart.
-  SuggestionsFocusState _last = SuggestionsFocusState.blur;
-
-  @override
-  void initState() {
-    super.initState();
-    _last = widget.suggestions.focusState;
-    widget.suggestions.addListener(_onSuggestionsChanged);
-  }
-
-  @override
-  void didUpdateWidget(_MoveTextField old) {
-    super.didUpdateWidget(old);
-    if (!identical(old.suggestions, widget.suggestions)) {
-      old.suggestions.removeListener(_onSuggestionsChanged);
-      _last = widget.suggestions.focusState;
-      widget.suggestions.addListener(_onSuggestionsChanged);
-    }
-    // Idle-only, keyed on the session (not the FocusNode): while the
-    // user is in the list the FocusNode has no focus but the query
-    // must stay — same rule as _TypeAheadTextField.idleText.
-    if (_last == SuggestionsFocusState.blur &&
-        widget.displayNameOverride != null && widget.selected != null) {
-      widget.controller.text = widget.displayNameOverride!;
-    }
-  }
-
-  void _onSuggestionsChanged() {
-    final now = widget.suggestions.focusState;
-    if (now == _last) return;
-    final wasBlur = _last == SuggestionsFocusState.blur;
-    final isBlur = now == SuggestionsFocusState.blur;
-    _last = now;
-    if (wasBlur && !isBlur) {
-      widget.onFocusChanged(true);
-      widget.controller.clear();
-      widget.onTap?.call();
-    } else if (!wasBlur && isBlur) {
-      widget.onFocusChanged(false);
-      if (widget.controller.text.isEmpty && widget.selected != null) {
-        widget.controller.text = widget.displayNameOverride ?? widget.selected!.localizedName;
-      }
-      if (widget.displayNameOverride != null && widget.selected != null) {
-        widget.controller.text = widget.displayNameOverride!;
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    widget.suggestions.removeListener(_onSuggestionsChanged);
-    super.dispose();
+    if (picked == null || !mounted) return;
+    setState(() => _selected = picked);
+    widget.onSelected(picked);
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: widget.controller,
-      focusNode: widget.focusNode,
-      textInputAction: TextInputAction.done,
-      maxLength: 30,
-      buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
-      onSubmitted: widget.onSubmitted,
-      style: widget.displayNameOverride != null
-          ? TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.w500, fontSize: 14)
+    final override = widget.displayNameOverride;
+    return SearchPickerField(
+      text: override ?? _selected?.localizedName ?? '',
+      labelText: widget.labelText,
+      hintText: AppStrings.t('search.move'),
+      textStyle: override != null
+          ? TextStyle(
+              color: Colors.red.shade700,
+              fontWeight: FontWeight.w500,
+              fontSize: 14)
           : const TextStyle(fontSize: 14),
-      decoration: InputDecoration(
-        hintText: widget.selected?.localizedName ?? AppStrings.t('search.move'),
-        hintStyle: const TextStyle(fontSize: 14),
-        isDense: true,
-      ),
+      onTap: _moveIndex == null ? null : _open,
     );
   }
 }

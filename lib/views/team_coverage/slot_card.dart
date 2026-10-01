@@ -57,10 +57,6 @@ class _SlotCard extends StatefulWidget {
 
 class _SlotCardState extends State<_SlotCard>
     with ChampionsScopeListener {
-  final _abilityController = TextEditingController();
-  final _itemController = TextEditingController();
-  final _abilityFocus = FocusNode();
-  final _itemFocus = FocusNode();
 
   // Cached sorted ability list. Same approach as StatInput — own
   // abilities first (sorted by their declaration order), then the
@@ -74,18 +70,7 @@ class _SlotCardState extends State<_SlotCard>
   SearchIndex<String>? _itemIndex;
   Map<String, String>? _itemIndexFor;
 
-  @override
-  void dispose() {
-    _abilityController.dispose();
-    _itemController.dispose();
-    _abilityFocus.dispose();
-    _itemFocus.dispose();
-    super.dispose();
-  }
-
   String _abilityLabel(String key) => widget.abilityNames[key] ?? key;
-  String _itemLabel(String? key) =>
-      key == null ? AppStrings.t('team.item.none') : (widget.itemNames[key] ?? key);
 
   /// Ability suggestions via the shared engine: the mon's own abilities
   /// (Supreme Overlord expanded) pinned first, the rest A→Z by label,
@@ -319,14 +304,14 @@ class _SlotCardState extends State<_SlotCard>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (widget.slot.effectiveType1 != null)
-                        TypeChip(widget.slot.effectiveType1!, dense: true),
+                        TypeChip.dense(widget.slot.effectiveType1!),
                       if (widget.slot.effectiveType2 != null) ...[
                         const SizedBox(width: 2),
-                        TypeChip(widget.slot.effectiveType2!, dense: true),
+                        TypeChip.dense(widget.slot.effectiveType2!),
                       ],
                       if (widget.slot.effectiveType3 != null) ...[
                         const SizedBox(width: 2),
-                        TypeChip(widget.slot.effectiveType3!, dense: true),
+                        TypeChip.dense(widget.slot.effectiveType3!),
                       ],
                     ],
                   ),
@@ -556,10 +541,6 @@ class _SlotCardState extends State<_SlotCard>
       dexNumber: p.dexNumber,
       initialMoveName: current?.name,
       onSelected: (m) => widget.onMoveChanged(moveIndex, m),
-      // 4×1 vertical layout → each picker spans the full popup
-      // width, so we can show the type/category/power suffix in
-      // the suggestion rows (compact: false).
-      compact: false,
       // Team builder always surfaces status moves (no toggle UI on
       // this screen) so users don't need to flip the global show-
       // status preference to pick e.g. 자기재생.
@@ -589,55 +570,25 @@ class _SlotCardState extends State<_SlotCard>
     );
   }
 
-  // ─── Ability typeahead — same pattern as StatInput._abilityAutocomplete:
+  // ─── Ability field — the shared AbilityPickerField, same as StatInput:
   // own abilities sorted to the top, others gray, tri-language search.
   Widget _abilityField(ColorScheme scheme, Pokemon? p) {
     if (p == null || widget.abilityNames.isEmpty) {
       return _disabledField(scheme, AppStrings.t('label.ability'));
     }
-    final initialText = widget.slot.ability != null
-        ? _abilityLabel(widget.slot.ability!)
-        : '';
-    final ownSet = <String>{
-      for (final a in p.abilities) ...expandAbilityStates(a),
-    };
-
-    return buildTypeAhead<String>(
-      controller: _abilityController,
-      focusNode: _abilityFocus,
-      idleText: initialText,
-      suggestionsCallback: (query) {
-        if (query == initialText) return _abilitySuggestions('', p.abilities);
-        return _abilitySuggestions(query, p.abilities);
+    return AbilityPickerField(
+      selected: widget.slot.ability,
+      labelText: AppStrings.t('label.ability'),
+      suggestions: (query) => _abilitySuggestions(query, p.abilities),
+      labelOf: _abilityLabel,
+      own: {
+        for (final a in p.abilities) ...expandAbilityStates(a),
       },
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.ability'),
-        isDense: true,
-      ),
-      itemBuilder: (context, ability) {
-        final isOwn = ownSet.contains(ability);
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(
-            _abilityLabel(ability),
-            style: TextStyle(
-              fontSize: 14,
-              color: isOwn ? null : Colors.grey,
-            ),
-          ),
-        );
-      },
-      onSelected: (v) {
-        _abilityController.text = _abilityLabel(v);
-        _abilityFocus.unfocus();
-        widget.onAbilitySelected(v);
-      },
+      onChanged: widget.onAbilitySelected,
     );
   }
 
-  // ─── Item typeahead — same pattern as StatInput._itemAutocomplete:
-  // empty key '' represents "no item" and sits at the top, currently
-  // selected item bubbles to the front, tri-language search.
+  // ─── Item field — the shared ItemPickerField over the shared engine.
   Widget _itemField(ColorScheme scheme, Pokemon? p) {
     if (p == null || widget.itemNames.isEmpty) {
       return _disabledField(scheme, AppStrings.t('label.item'));
@@ -648,37 +599,14 @@ class _SlotCardState extends State<_SlotCard>
           itemDex: widget.itemDex, noneLabel: AppStrings.t('team.item.none'));
       _itemIndexFor = widget.itemNames;
     }
-    final initialText = _itemLabel(widget.slot.heldItem);
-
-    return buildTypeAhead<String>(
-      controller: _itemController,
-      focusNode: _itemFocus,
-      idleText: initialText,
-      suggestionsCallback: (text) => itemSuggestions(
-        _itemIndex!,
-        text == initialText ? '' : text,
-        selected: widget.slot.heldItem,
-        championsOnly: ChampionsFilterController.instance.championsOnly.value,
-        labelOf: (k) => _itemLabel(k.isEmpty ? null : k),
-      ),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.item'),
-        isDense: true,
-      ),
-      itemBuilder: (context, key) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(
-            _itemLabel(key.isEmpty ? null : key),
-            style: const TextStyle(fontSize: 14),
-          ),
-        );
-      },
-      onSelected: (v) {
-        _itemController.text = _itemLabel(v.isEmpty ? null : v);
-        _itemFocus.unfocus();
-        widget.onItemSelected(v.isEmpty ? null : v);
-      },
+    return ItemPickerField(
+      selected: widget.slot.heldItem,
+      index: _itemIndex,
+      names: widget.itemNames,
+      noneLabel: AppStrings.t('team.item.none'),
+      preferred: usageItemsFor(p.name),
+      labelText: AppStrings.t('label.item'),
+      onChanged: widget.onItemSelected,
     );
   }
 

@@ -25,6 +25,10 @@ import '../calc/aura_effects.dart';
 import '../calc/battle_facade.dart';
 import '../calc/hp.dart';
 import '../controllers/hp_display_controller.dart';
+import 'widgets/search_picker/ability_picker_field.dart';
+import 'widgets/type_chip.dart';
+import 'widgets/type_filter_dialog.dart';
+import 'widgets/search_picker/item_picker_field.dart';
 import '../controllers/champions_format_controller.dart';
 import '../calc/champions_mode.dart';
 import '../calc/stacking_moves.dart';
@@ -42,7 +46,6 @@ import 'widgets/pokemon_panel.dart' show DynamaxPainter, TerastalPainter;
 import 'widgets/pokemon_selector.dart';
 import 'widgets/pokemon_sprite.dart';
 import 'widgets/type_picker_dialog.dart';
-import 'widgets/typeahead_helpers.dart';
 import '../data/ability_variants.dart';
 import '../calc/entry_hazards.dart';
 import 'widgets/entry_hazard_buttons.dart';
@@ -160,12 +163,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
 
   final _multCtl = TextEditingController(text: '1.0');
 
-  // True while the attacker's move field has focus (user is typing to
-  // search). Drives the hit-count chip's collapse — that chip only
-  // renders for multi-hit / stacking-power moves, and when a search
-  // is in progress it eats the width the user needs to see suggestions.
-  bool _atkMoveSearching = false;
-
   // Per-controller focus nodes for the SP / multiplier fields. Lazy-
   // created via [_focusFor] so we don't hard-code one node per
   // controller; the listener selects the controller's full text on
@@ -188,14 +185,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
   // side's state, so there's no per-side sorted cache anymore.
   SearchIndex<String>? _abilityIndex;
   Map<String, String>? _abilityIndexFor;
-  final _atkAbilityCtl = TextEditingController();
-  final _atkItemCtl = TextEditingController();
-  final _defAbilityCtl = TextEditingController();
-  final _defItemCtl = TextEditingController();
-  final _atkAbilityFocus = FocusNode();
-  final _atkItemFocus = FocusNode();
-  final _defAbilityFocus = FocusNode();
-  final _defItemFocus = FocusNode();
 
   @override
   void initState() {
@@ -228,34 +217,13 @@ class _SimpleModeViewState extends State<SimpleModeView>
   @override
   void didUpdateWidget(SimpleModeView old) {
     super.didUpdateWidget(old);
-    // Parent may have swapped in a new name map (first async load, or
-    // language change). Re-derive the derived caches in that case.
-    final mapsChanged = old.abilityNameMap != widget.abilityNameMap ||
-        old.itemNameMap != widget.itemNameMap;
-    if (mapsChanged) {
-      _atkAbilityCtl.text = _abilityLabel(_atk.selectedAbility);
-      _defAbilityCtl.text = _abilityLabel(_def.selectedAbility);
-      _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
-      _defItemCtl.text = _itemDisplayText(_def.selectedItem);
-    }
     // Reset/language bump also re-hydrates per-side controllers.
     if (old.resetCounter != widget.resetCounter) {
-      // Default unfocus tries to hand focus to the "previously
-      // focused child", which on swap bounces it from the attacker's
-      // ability typeahead straight into the defender's — triggering
-      // its gained-focus listener (clears text, opens dropdown).
-      // Using UnfocusDisposition.scope drops focus to the enclosing
-      // FocusScope so no specific widget gets it.
-      _atkAbilityFocus.unfocus(disposition: UnfocusDisposition.scope);
-      _defAbilityFocus.unfocus(disposition: UnfocusDisposition.scope);
-      _atkItemFocus.unfocus(disposition: UnfocusDisposition.scope);
-      _defItemFocus.unfocus(disposition: UnfocusDisposition.scope);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         _hydrateFromState();
         // Belt-and-suspenders: after hydrate, force-drop any focus
-        // that might have snuck back in (TypeAhead's internal
-        // controllers occasionally re-focus during the remount).
+        // that might have snuck back in during the remount.
         FocusManager.instance.primaryFocus?.unfocus(
             disposition: UnfocusDisposition.scope);
       });
@@ -302,36 +270,14 @@ class _SimpleModeViewState extends State<SimpleModeView>
     _defDefSpCtl.text = '${ChampionsMode.evToSp(_def.ev.defense)}';
     _defSpdSpCtl.text = '${ChampionsMode.evToSp(_def.ev.spDefense)}';
     _defSpeSpCtl.text = '${ChampionsMode.evToSp(_def.ev.speed)}';
-    _atkAbilityCtl.text = _abilityNames[_atk.selectedAbility ?? ''] ?? '';
-    _defAbilityCtl.text = _abilityNames[_def.selectedAbility ?? ''] ?? '';
-    _atkItemCtl.text = _itemDisplayText(_atk.selectedItem);
-    _defItemCtl.text = _itemDisplayText(_def.selectedItem);
-  }
-
-  /// Display text for an item key — "없음" for null/empty, localized
-  /// item name otherwise. Mirrors the normal-mode StatInput behavior
-  /// so the empty state reads as "없음" rather than a blank field.
-  String _itemDisplayText(String? key) {
-    if (key == null || key.isEmpty) return AppStrings.t('label.none');
-    return _itemNames[key] ?? key;
-  }
-
-  String _abilityLabel(String? key) {
-    if (key == null || key.isEmpty) return '';
-    return _abilityNames[key] ?? key;
   }
 
   @override
   void dispose() {
     for (final c in [_atkAtkSpCtl, _atkDefSpCtl, _atkSpaSpCtl, _atkSpeSpCtl,
                       _defHpSpCtl, _defAtkSpCtl, _defDefSpCtl, _defSpdSpCtl, _defSpeSpCtl,
-                      _multCtl, _atkAbilityCtl, _atkItemCtl,
-                      _defAbilityCtl, _defItemCtl]) {
+                      _multCtl]) {
       c.dispose();
-    }
-    for (final f in [_atkAbilityFocus, _atkItemFocus,
-                      _defAbilityFocus, _defItemFocus]) {
-      f.dispose();
     }
     for (final f in _spFocusNodes.values) {
       f.dispose();
@@ -830,15 +776,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
                   // Extended-built moveset (or the auto-seeded
                   // champions defaults) is one tap away here.
                   pinnedMoves: _atk.moves,
-                  // Collapse the hit-count chip while the field is
-                  // focused so the ×N pill doesn't eat search width
-                  // on multi-hit moves like Rock Blast / Bullet Seed.
-                  // Setting this every focus in/out is cheap and
-                  // scoped to the attacker row only.
-                  onFocusChanged: (hasFocus) {
-                    if (_atkMoveSearching == hasFocus) return;
-                    setState(() => _atkMoveSearching = hasFocus);
-                  },
                   onSelected: (m) {
                     setState(() {
                       _atk.moves[0] = m;
@@ -873,54 +810,63 @@ class _SimpleModeViewState extends State<SimpleModeView>
               // hint text is a low-contrast '1.0'), so the user sees
               // the modifier slot at a glance instead of mistaking it
               // for whitespace between the crit/spread checks.
-              // Collapse the mult field during move search too — it's
-              // useless while the user is typing to find a new move
-              // and eats width the typeahead needs to show suggestions.
-              _atkMoveSearching
-                  ? const SizedBox.shrink()
-                  : SizedBox(width: 70, child: _multiplierField()),
+              SizedBox(width: 70, child: _multiplierField()),
               const SizedBox(width: 6),
               _criticalCheck(),
               const SizedBox(width: 4),
               _spreadCheck(),
             ],
           ),
-          // Reserve a fixed slot for move-info so picking a move doesn't
-          // jerk the rest of the layout down. Info uses the transformed
-          // move so Hidden Power / Tera Blast / Gyro Ball etc. show the
+          // Reserve a slot for move-info so picking a move doesn't jerk
+          // the rest of the layout down. Info uses the transformed move
+          // so Hidden Power / Tera Blast / Gyro Ball etc. show the
           // effective type/category/power rather than the raw defaults.
-          const SizedBox(height: 4),
-          SizedBox(
-            height: 16,
-            child: move != null
-                ? _moveInfoRow(BattleFacade.getMoveSlotInfo(
-                    state: _atk,
-                    moveIndex: 0,
-                    weather: widget.weather,
-                    terrain: widget.terrain,
-                    room: widget.room,
-                    auras: widget.auras,
-                    ruins: widget.ruins,
-                    // Weight-based (Low Kick, Heavy Slam) and
-                    // speed-based (Gyro Ball) moves need the full
-                    // opponent context to compute effective power.
-                    opponentSpeed: BattleFacade.calcSpeed(
-                      state: _def, weather: widget.weather,
-                      terrain: widget.terrain, room: widget.room),
-                    myEffectiveSpeed: BattleFacade.calcSpeed(
-                      state: _atk, weather: widget.weather,
-                      terrain: widget.terrain, room: widget.room),
-                    opponentWeight: BattleFacade.effectiveWeight(_def),
-                    opponentAbility: _def.selectedAbility,
-                    opponentItem: _def.selectedItem,
-                    opponentHpPercent: BattleFacade.effectiveHpPercent(_def),
-                  ))
-                : const SizedBox.shrink(),
+          //
+          // The slot is as tall as a type chip: an invisible one sets
+          // the height, so the visible chip is never squeezed and the
+          // row is the same height with or without a move. (It used to
+          // be a fixed 16 px, sized for a line of text — the chip, 20 px
+          // tall, got squashed into it.)
+          const SizedBox(height: 3),
+          Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              const Visibility(
+                visible: false,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: TypeChip.dense(PokemonType.normal),
+              ),
+              if (move != null)
+                _moveInfoRow(BattleFacade.getMoveSlotInfo(
+                      state: _atk,
+                      moveIndex: 0,
+                      weather: widget.weather,
+                      terrain: widget.terrain,
+                      room: widget.room,
+                      auras: widget.auras,
+                      ruins: widget.ruins,
+                      // Weight-based (Low Kick, Heavy Slam) and
+                      // speed-based (Gyro Ball) moves need the full
+                      // opponent context to compute effective power.
+                      opponentSpeed: BattleFacade.calcSpeed(
+                        state: _def, weather: widget.weather,
+                        terrain: widget.terrain, room: widget.room),
+                      myEffectiveSpeed: BattleFacade.calcSpeed(
+                        state: _atk, weather: widget.weather,
+                        terrain: widget.terrain, room: widget.room),
+                      opponentWeight: BattleFacade.effectiveWeight(_def),
+                      opponentAbility: _def.selectedAbility,
+                      opponentItem: _def.selectedItem,
+                      opponentHpPercent: BattleFacade.effectiveHpPercent(_def),
+                    )),
+            ],
           ),
-          // Tighter gap below the move-info row (풀 특수 120 etc.) —
-          // user feedback: the previous 10px of slack made the move
-          // group feel detached from the stats below.
-          const SizedBox(height: 2),
+          // Tight gap below the move-info row (풀 특수 120 etc.) — user
+          // feedback: slack here made the move group feel detached
+          // from the stats below.
+          const SizedBox(height: 1),
           // Offensive stat (Atk↔SpA auto) + Speed share one row. Extra
           // vertical padding around the row enlarges the vertical tap
           // zone around each mini-button without growing the row
@@ -1010,12 +956,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
   /// [BattlePokemonState.powerOverrides] so the calc picks up the
   /// boosted power without having to teach transformMove a new case.
   Widget _hitCountChip() {
-    // Hide while the move field is focused so the typeahead search
-    // slot gets full width. The chip reappears the moment the user
-    // picks a suggestion / taps out. Without this, multi-hit moves
-    // (Rock Blast / Bullet Seed / …) permanently reserved a ~40px
-    // slice that the search visibly needed on narrow phones.
-    if (_atkMoveSearching) return const SizedBox.shrink();
     final move = _atk.moves[0];
     if (move == null) return const SizedBox.shrink();
     final stacking = isStackingPower(move);
@@ -1697,71 +1637,26 @@ class _SimpleModeViewState extends State<SimpleModeView>
   }
 
   Widget _abilityField({required bool attacker}) {
-    final controller = attacker ? _atkAbilityCtl : _defAbilityCtl;
-    final focus = attacker ? _atkAbilityFocus : _defAbilityFocus;
     final state = attacker ? _atk : _def;
-    // Own ability keys (including Supreme Overlord's numbered variants)
-    // — used to gray out entries that don't legitimately belong to this
-    // pokemon, same visual language as non-learnable moves.
-    final ownSet = <String>{
-      for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
-    };
-
-    // Key ties TypeAhead instance to resetCounter so any swap/reset
-    // tears down the widget (dropping its internal SuggestionsController
-    // state) and rebuilds it fresh — no leftover "dropdown open"
-    // state across the transition.
-    return KeyedSubtree(
-      key: ValueKey('atk_${attacker}_ability_${widget.resetCounter}'),
-      child: buildTypeAhead<String>(
-      controller: controller,
-      focusNode: focus,
-      suggestionsCallback: (query) =>
-          _abilitySuggestions(query, attacker: attacker),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.ability'),
-        isDense: true,
-      ),
-      itemBuilder: (context, ability) {
-        final isOwn = ownSet.contains(ability);
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(
-            _abilityNames[ability] ?? ability,
-            style: TextStyle(
-              fontSize: 14,
-              color: isOwn ? null : Colors.grey,
-            ),
-          ),
-        );
+    return AbilityPickerField(
+      selected: state.selectedAbility,
+      labelText: AppStrings.t('label.ability'),
+      suggestions: (query) => _abilitySuggestions(query, attacker: attacker),
+      labelOf: (key) => _abilityNames[key] ?? key,
+      // Own ability keys (including Supreme Overlord's numbered
+      // variants) — anything else is greyed, same visual language as
+      // non-learnable moves.
+      own: {
+        for (final a in state.pokemonAbilities) ...expandAbilityStates(a),
       },
-      onSelected: (v) {
-        setState(() {
-          if (attacker) {
-            _atk.selectedAbility = v;
-          } else {
-            _def.selectedAbility = v;
-          }
-          final text = _abilityNames[v] ?? v;
-          controller.text = text;
-          // Collapse the selection — without this, TypeAhead re-selects
-          // the whole field after picking, making the field look stuck
-          // in "select all" mode.
-          controller.selection = TextSelection.collapsed(offset: text.length);
-          focus.unfocus();
-        });
+      onChanged: (key) {
+        setState(() => state.selectedAbility = key);
         widget.onChanged();
       },
-      // Enter on the ability field auto-picks the first matching
-      // ability (mirrors Extended Mode's behaviour). Saves a tap.
-    ),
     );
   }
 
   Widget _itemField({required bool attacker}) {
-    final controller = attacker ? _atkItemCtl : _defItemCtl;
-    final focus = attacker ? _atkItemFocus : _defItemFocus;
-    final selected = attacker ? _atk.selectedItem : _def.selectedItem;
     // Shared item engine (same as Extended Mode). Only the label map is
     // available here, so EN matching falls back to the key.
     if (!identical(_itemIndexFor, widget.itemNameMap)) {
@@ -1769,57 +1664,29 @@ class _SimpleModeViewState extends State<SimpleModeView>
           noneLabel: AppStrings.t('label.none'));
       _itemIndexFor = widget.itemNameMap;
     }
-
-    return KeyedSubtree(
-      key: ValueKey('atk_${attacker}_item_${widget.resetCounter}'),
-      child: buildTypeAhead<String>(
-      controller: controller,
-      focusNode: focus,
-      suggestionsCallback: (query) => itemSuggestions(
-        _itemIndex!,
-        query,
-        selected: selected,
-        championsOnly: ChampionsFilterController.instance.championsOnly.value,
-        labelOf: _itemDisplayText,
-      ),
-      decoration: InputDecoration(
-        labelText: AppStrings.t('label.item'),
-        isDense: true,
-      ),
-      itemBuilder: (context, key) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(
-          key.isEmpty
-              ? AppStrings.t('label.none')
-              : (_itemNames[key] ?? key),
-          style: const TextStyle(fontSize: 14),
-        ),
-      ),
-      onSelected: (v) {
+    return ItemPickerField(
+      selected: attacker ? _atk.selectedItem : _def.selectedItem,
+      index: _itemIndex,
+      names: _itemNames,
+      noneLabel: AppStrings.t('label.none'),
+      preferred: usageItemsFor((attacker ? _atk : _def).pokemonName),
+      labelText: AppStrings.t('label.item'),
+      onChanged: (key) {
         setState(() {
-          final effective = v.isEmpty ? null : v;
           if (attacker) {
-            _atk.selectedItem = effective;
+            _atk.selectedItem = key;
           } else {
-            _def.selectedItem = effective;
+            _def.selectedItem = key;
           }
-          final text = _itemDisplayText(effective);
-          controller.text = text;
-          controller.selection = TextSelection.collapsed(offset: text.length);
-          focus.unfocus();
         });
         widget.onChanged();
       },
-      // Enter on the item field auto-picks the first matching item
-      // (mirrors Extended Mode + the ability field above).
-    ),
     );
   }
 
   Widget _moveInfoRow(MoveSlotInfo slot) {
     final type = slot.effectiveType;
     final category = slot.effectiveCategory;
-    final typeName = type != null ? KoStrings.getTypeName(type) : '—';
     final categoryName = category == MoveCategory.physical
         ? AppStrings.t('damage.physical')
         : category == MoveCategory.special
@@ -1830,20 +1697,17 @@ class _SimpleModeViewState extends State<SimpleModeView>
       fontSize: 12,
       color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
     );
+    // The type is the same chip as everywhere else; category and power
+    // follow as text.
     return Row(children: [
-      Container(
-        width: 10, height: 10,
-        decoration: BoxDecoration(
-          color: type != null ? _typeColor(type) : Colors.grey,
-          shape: BoxShape.circle,
-        ),
-      ),
-      const SizedBox(width: 6),
-      Text('$typeName · $categoryName · $power', style: style),
+      if (type != null) ...[
+        TypeChip.dense(type),
+        const SizedBox(width: 6),
+        Text('$categoryName · $power', style: style),
+      ] else
+        Text('— · $categoryName · $power', style: style),
     ]);
   }
-
-  Color _typeColor(PokemonType t) => KoStrings.getTypeColor(t);
 
   /// Species row: PokemonSelector + effective type badges + Dynamax
   /// toggle + Terastal toggle. Mirrors the normal mode's header.
@@ -1912,7 +1776,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
     // pointless until Tera is turned off.
     final teraActive = state.terastal.active && state.terastal.teraType != null;
     if (teraActive) {
-      return [_typeChipBadge(state.terastal.teraType!, isTera: true)];
+      return [TypeChip.dense(state.terastal.teraType!, ringColor: Colors.white)];
     }
     final override = getAbilityTypeOverride(
       ability: state.selectedAbility,
@@ -1927,14 +1791,14 @@ class _SimpleModeViewState extends State<SimpleModeView>
     final type3 = override != null ? null : state.type3;
     final tap = overridden ? null : () => _openTypePicker(state);
     return [
-      _typeChipBadge(type1, onTap: tap),
+      TypeChip.dense(type1, onTap: tap),
       if (type2 != null) ...[
         const SizedBox(width: 2),
-        _typeChipBadge(type2, onTap: tap),
+        TypeChip.dense(type2, onTap: tap),
       ],
       if (type3 != null) ...[
         const SizedBox(width: 2),
-        _typeChipBadge(type3, onTap: tap),
+        TypeChip.dense(type3, onTap: tap),
       ],
     ];
   }
@@ -1954,34 +1818,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
       state.type3 = result.type3;
     });
     widget.onChanged();
-  }
-
-  Widget _typeChipBadge(PokemonType type, {bool isTera = false, VoidCallback? onTap}) {
-    final color = type == PokemonType.typeless
-        ? Theme.of(context).colorScheme.outline
-        : KoStrings.getTypeColor(type);
-    final label = type == PokemonType.typeless
-        ? AppStrings.t('type.none')
-        : KoStrings.getTypeName(type);
-    final chip = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(4),
-        border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
-    if (onTap == null) return chip;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: chip,
-    );
   }
 
   /// Champions has no Dynamax, Terastal or Z-Moves; their controls are
@@ -2084,49 +1920,27 @@ class _SimpleModeViewState extends State<SimpleModeView>
     );
   }
 
-  void _showTeraPicker(BattlePokemonState state) {
-    // Compact type grid. Tapping a type toggles Terastal on; tapping
-    // the currently-active type turns it off.
-    showDialog(
+  Future<void> _showTeraPicker(BattlePokemonState state) async {
+    // The shared type dialog. Picking the active type again turns
+    // Terastal off, as does the "none" row.
+    final current = state.terastal.active ? state.terastal.teraType : null;
+    final picked = await showTypeFilterDialog(
       context: context,
-      builder: (ctx) => Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Wrap(
-            spacing: 6, runSpacing: 6,
-            children: [
-              for (final t in PokemonType.values
-                  .where((t) => t != PokemonType.typeless))
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      final already = state.terastal.active &&
-                          state.terastal.teraType == t;
-                      state.terastal = already
-                          ? const TerastalState()
-                          : TerastalState(active: true, teraType: t);
-                      // Terastal and Dynamax are mutually exclusive.
-                      if (!already) state.dynamax = DynamaxState.none;
-                    });
-                    Navigator.pop(ctx);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: KoStrings.getTypeColor(t),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      KoStrings.getTypeName(t),
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
+      title: AppStrings.t('label.terastal'),
+      noneLabel: AppStrings.t('label.noTera'),
+      current: current,
+      options: kTeraTypes,
     );
+    if (!mounted || identical(picked, kTypeFilterDismissed)) return;
+    setState(() {
+      if (picked is PokemonType && picked != current) {
+        state.terastal = TerastalState(active: true, teraType: picked);
+        // Terastal and Dynamax are mutually exclusive.
+        state.dynamax = DynamaxState.none;
+      } else {
+        state.terastal = const TerastalState();
+      }
+    });
   }
 
   // ────────────────────────────────────────────────────────────────────────

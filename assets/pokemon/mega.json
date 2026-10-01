@@ -2446,7 +2446,8 @@
     "nameKo": "메가앱솔Z",
     "nameJa": "メガアブソルZ",
     "aliases": [
-      "젯앱솔"
+      "젯앱솔",
+      "메앱솔Z"
     ],
     "type1": "dark",
     "type2": "ghost",
@@ -2510,7 +2511,8 @@
     "nameKo": "메가한카리아스Z",
     "nameJa": "メガガブリアスZ",
     "aliases": [
-      "젯한카"
+      "젯한카",
+      "메한카Z"
     ],
     "type1": "dragon",
     "baseStats": {
@@ -2541,7 +2543,8 @@
     "nameKo": "메가루카리오Z",
     "nameJa": "メガルカリオZ",
     "aliases": [
-      "젯루카"
+      "젯루카",
+      "메루카Z"
     ],
     "type1": "fighting",
     "type2": "steel",

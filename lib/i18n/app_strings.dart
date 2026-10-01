@@ -2042,6 +2042,11 @@ class AppStrings {
       AppLanguage.en: 'Clear',
       AppLanguage.ja: '選択解除',
     },
+    'type.pick': {
+      AppLanguage.ko: '타입 선택',
+      AppLanguage.en: 'Pick a type',
+      AppLanguage.ja: 'タイプを選択',
+    },
     'type.none': {
       AppLanguage.ko: '없음',
       AppLanguage.en: 'None',
@@ -2609,6 +2614,36 @@ class AppStrings {
       AppLanguage.ko: '기술 이름',
       AppLanguage.en: 'Move Name',
       AppLanguage.ja: 'わざ名',
+    },
+    'search.moveQuery': {
+      AppLanguage.ko: '기술 검색',
+      AppLanguage.en: 'Search moves',
+      AppLanguage.ja: 'わざ検索',
+    },
+    'search.ability': {
+      AppLanguage.ko: '특성 검색',
+      AppLanguage.en: 'Search abilities',
+      AppLanguage.ja: '特性検索',
+    },
+    'search.item': {
+      AppLanguage.ko: '아이템 검색',
+      AppLanguage.en: 'Search items',
+      AppLanguage.ja: 'もちもの検索',
+    },
+    'picker.recent': {
+      AppLanguage.ko: '최근',
+      AppLanguage.en: 'Recent',
+      AppLanguage.ja: '最近',
+    },
+    'picker.viewList': {
+      AppLanguage.ko: '목록으로 보기',
+      AppLanguage.en: 'List view',
+      AppLanguage.ja: 'リスト表示',
+    },
+    'picker.viewGrid': {
+      AppLanguage.ko: '그리드로 보기',
+      AppLanguage.en: 'Grid view',
+      AppLanguage.ja: 'グリッド表示',
     },
     'search.noResults': {
       AppLanguage.ko: '검색 결과 없음',

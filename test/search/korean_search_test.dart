@@ -290,4 +290,65 @@ void main() {
       expect(r.first, 'Gardevoir'); // selected + matches → guaranteed top
     });
   });
+
+  // Nicknames (별명) are matched like names: 초성, a half-typed last
+  // syllable, mixed input. They used to be compared as plain strings
+  // (equal / startsWith / contains), so "ㅁㅎㅋ" never found 메한카 and
+  // the hit flickered away while "메한카" was being typed (메한ㅋ).
+  group('aliases', () {
+    int score(String q, SearchEntry<String> e) {
+      final lower = q.toLowerCase();
+      return scoreEntry(lower.runes.toList(), lower, e);
+    }
+
+    final mega = SearchEntry<String>('Mega Garchomp', '메가한카리아스', 'Mega Garchomp',
+        aliases: const ['메한카']);
+    final megaZ = SearchEntry<String>('Mega Garchomp Z', '메가한카리아스Z', 'Mega Garchomp Z',
+        aliases: const ['젯한카', '메한카Z']);
+
+    test('plain text: exact 95, prefix 75, contains 55 (unchanged)', () {
+      expect(score('메한카', mega), 95);
+      expect(score('메한', mega), 75);
+      expect(score('한카', megaZ), greaterThanOrEqualTo(55));
+      expect(score('젯한카', megaZ), 95);
+    });
+
+    test('초성 finds a nickname', () {
+      expect(score('ㅁㅎㅋ', mega), 45);
+      expect(score('ㅈㅎㅋ', megaZ), 45);
+      expect(score('ㅈㅎ', megaZ), 45);
+      // Inside a nickname, not at its start.
+      expect(score('ㅎㅋ', SearchEntry<String>('x', '가나다', 'x', aliases: const ['메한카'])), 25);
+    });
+
+    test('a half-typed last syllable and mixed input keep matching', () {
+      expect(score('메한ㅋ', mega), greaterThan(0));
+      expect(score('메하', mega), 75); // 하 → 한 while typing
+      expect(score('젯ㅎㅋ', megaZ), greaterThan(0));
+    });
+
+    test('the better of name and nickname wins', () {
+      // The name merely contains the query; the nickname IS the query.
+      final e = SearchEntry<String>('x', '가나다라', 'x', aliases: const ['나다']);
+      expect(score('나다', e), 95);
+      // A name hit is not dragged down by a weaker nickname hit.
+      expect(score('메가한', mega), 80);
+    });
+
+    test('no false hits', () {
+      expect(score('ㅋㅎㅁ', mega), 0);
+      expect(score('젯한카', mega), 0);
+    });
+
+    test('through SearchIndex: 초성 of a nickname surfaces the entry', () {
+      final index = SearchIndex<String>([
+        SearchEntry('Garchomp', '한카리아스', 'Garchomp'),
+        mega,
+        megaZ,
+        SearchEntry('Pikachu', '피카츄', 'Pikachu'),
+      ]);
+      expect(index.query('ㅁㅎㅋ'), ['Mega Garchomp', 'Mega Garchomp Z']);
+      expect(index.query('ㅈㅎㅋ'), ['Mega Garchomp Z']);
+    });
+  });
 }

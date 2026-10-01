@@ -44,6 +44,42 @@ void main() {
         ['choice-scarf']);
   });
 
+  group("the holder's most-used items", () {
+    test('lead the default list in usage order, then "no item", then A→Z', () {
+      expect(
+          itemSuggestions(index, '',
+              preferred: ['life-orb', 'choice-scarf'],
+              championsOnly: false, labelOf: label),
+          ['life-orb', 'choice-scarf', '', 'choice-specs', 'leftovers']);
+    });
+
+    test('the current pick is not moved — the ranking reads the same every time', () {
+      expect(
+          itemSuggestions(index, '',
+              selected: 'leftovers',
+              preferred: ['life-orb', 'choice-scarf'],
+              championsOnly: false, labelOf: label),
+          ['life-orb', 'choice-scarf', '', 'choice-specs', 'leftovers']);
+    });
+
+    test('a typed query ignores the usage block and ranks by relevance', () {
+      expect(
+          itemSuggestions(index, '구애',
+              selected: 'choice-specs',
+              preferred: ['life-orb', 'choice-scarf'],
+              championsOnly: false, labelOf: label),
+          ['choice-specs', 'choice-scarf']);
+    });
+
+    test('without usage data the old order applies', () {
+      expect(
+          itemSuggestions(index, '',
+              selected: 'life-orb', preferred: const [],
+              championsOnly: false, labelOf: label),
+          ['life-orb', '', 'choice-scarf', 'choice-specs', 'leftovers']);
+    });
+  });
+
   test('"no item" is searchable by its label', () {
     expect(itemSuggestions(index, '없', championsOnly: false, labelOf: label), ['']);
   });

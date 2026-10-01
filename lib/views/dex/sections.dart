@@ -155,27 +155,13 @@ class _TypeMatchupsSection extends StatelessWidget {
         .toList();
     if (activeKeys.isEmpty) return const SizedBox.shrink();
 
-    // Responsive chip font: shrink as more columns are visible / on
-    // narrow phones.
+    // Responsive chips: the whole chip shrinks, uniformly, as more
+    // columns are visible / on narrow phones.
     final width = MediaQuery.of(context).size.width;
     final colCount = activeKeys.length;
     final tightFactor = (width / (colCount * 70)).clamp(0.7, 1.0);
-    final fontSize = 11.0 * tightFactor;
-    final padH = (6 * tightFactor).clamp(3.0, 6.0);
-    final padV = (2 * tightFactor).clamp(1.5, 2.0);
 
-    Widget chip(PokemonType t) => Container(
-          padding: EdgeInsets.symmetric(horizontal: padH, vertical: padV),
-          decoration: BoxDecoration(
-            color: KoStrings.getTypeColor(t),
-            borderRadius: BorderRadius.circular(3),
-          ),
-          child: Text(KoStrings.getTypeName(t),
-              style: TextStyle(
-                  fontSize: fontSize,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold)),
-        );
+    Widget chip(PokemonType t) => TypeChip.dense(t, scale: tightFactor);
 
     Widget column(double key) {
       final types = buckets[key]!;
@@ -424,7 +410,6 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
   /// True while the scratch selector has focus. Drives the layout
   /// swap — picking widens the selector back to full row, collapsing
   /// to the fused 4-column layout on blur.
-  bool _scratchFocused = false;
 
   @override
   void initState() {
@@ -657,7 +642,7 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
     // to flex 3 (matching the column-1 width) once a move is set and
     // focus is lost so the results line up with the main table.
     final fuseWithValues =
-        !_scratchFocused && custom != null && custom.power > 0;
+        custom != null && custom.power > 0;
     final scratchArea = Container(
       decoration: BoxDecoration(
         color: scheme.surfaceContainerHighest.withValues(alpha: 0.25),
@@ -679,11 +664,6 @@ class _DecisivePowerSectionState extends State<_DecisivePowerSection> {
                     pokemonName: widget.pokemon.name,
                     pokemonNameKo: widget.pokemon.nameKo,
                     dexNumber: widget.pokemon.dexNumber,
-                    onFocusChanged: (f) {
-                      if (_scratchFocused != f) {
-                        setState(() => _scratchFocused = f);
-                      }
-                    },
                     onSelected: (m) => setState(() {
                       _customMove = m;
                       _customHits = m.isMultiHit ? m.maxHits : 1;

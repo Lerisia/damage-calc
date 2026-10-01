@@ -1,66 +1,107 @@
 import 'package:flutter/material.dart';
 import '../../models/type.dart';
 import '../../i18n/app_strings.dart';
-import '../../i18n/localization.dart';
+import 'type_chip.dart';
 
-/// Single-select type picker used by the Pokémon / Move dex filters.
-///
-/// Returns the chosen type, or `null` for the "전체 / All types" option.
-/// Dismissing the dialog without picking returns the special
-/// [kTypeFilterDismissed] sentinel — callers can distinguish that from
-/// an explicit "all types" pick (both bind to `null` filter state, but
-/// dismissal should leave the previous filter untouched).
-///
-/// Picking a chip applies and closes immediately — no confirm button —
-/// because each slot is a single-value filter.
-///
-/// `available`, if non-null, restricts which type chips appear (and
-/// dims the ones not in the set). The Pokémon-dex moves tab uses this
-/// to hide types the current Pokémon can't learn moves of.
+/// Returned when a type dialog is closed without a pick.
 const Object kTypeFilterDismissed = Object();
 
+/// The 18 regular types in dex order — no Stellar, no typeless.
+const List<PokemonType> kMainTypes = <PokemonType>[
+  PokemonType.normal,
+  PokemonType.fire,
+  PokemonType.water,
+  PokemonType.electric,
+  PokemonType.grass,
+  PokemonType.ice,
+  PokemonType.fighting,
+  PokemonType.poison,
+  PokemonType.ground,
+  PokemonType.flying,
+  PokemonType.psychic,
+  PokemonType.bug,
+  PokemonType.rock,
+  PokemonType.ghost,
+  PokemonType.dragon,
+  PokemonType.dark,
+  PokemonType.steel,
+  PokemonType.fairy,
+];
+
+/// The one single-choice type dialog: a grid of [TypeChip] options,
+/// with an optional "none" row above it. Every place that asks for one
+/// type opens this — the dex / move filters, the Terastal pickers of
+/// both calculator modes, a move's type override, the dex filter's
+/// attack type — so a type is picked from the same chips everywhere.
+/// (Until 2026-10-02 three of those were plain text lists.)
+///
+/// Returns the chosen type, `null` for the "none" row, or
+/// [kTypeFilterDismissed] when closed without a pick — callers leave
+/// their value untouched on that one.
+///
+/// A tap applies and closes immediately; there is no confirm button.
+///
+///  * [title] defaults to the filter's "타입으로 검색".
+///  * [noneLabel] defaults to "모든 타입"; [offerNone] false drops the
+///    row.
+///  * [options] defaults to [kMainTypes].
+///  * [available], if non-null, dims the options outside the set (they
+///    stay tappable — the grid doesn't reflow, and picking one just
+///    matches nothing).
 Future<Object?> showTypeFilterDialog({
   required BuildContext context,
   required PokemonType? current,
   Set<PokemonType>? available,
+  String? title,
+  String? noneLabel,
+  bool offerNone = true,
+  List<PokemonType> options = kMainTypes,
 }) {
   return showDialog<Object?>(
     context: context,
-    builder: (ctx) => _TypeFilterDialog(
+    builder: (ctx) => _TypeChoiceDialog(
       current: current,
       available: available,
+      title: title ?? AppStrings.t('dex.filterByType'),
+      noneLabel: offerNone ? (noneLabel ?? AppStrings.t('dex.allTypes')) : null,
+      options: options,
     ),
   );
 }
 
-class _TypeFilterDialog extends StatelessWidget {
+/// Pick one of [options] — no "none" row. Null when dismissed.
+Future<PokemonType?> showTypeChoiceDialog({
+  required BuildContext context,
+  required String title,
+  PokemonType? current,
+  List<PokemonType> options = kMainTypes,
+}) async {
+  final picked = await showTypeFilterDialog(
+    context: context,
+    current: current,
+    title: title,
+    offerNone: false,
+    options: options,
+  );
+  return picked is PokemonType ? picked : null;
+}
+
+class _TypeChoiceDialog extends StatelessWidget {
   final PokemonType? current;
   final Set<PokemonType>? available;
+  final String title;
 
-  const _TypeFilterDialog({required this.current, this.available});
+  /// Null hides the "none" row.
+  final String? noneLabel;
+  final List<PokemonType> options;
 
-  /// 18 main types in dex order — typeless is excluded since no real
-  /// Pokémon / move filters on it.
-  static const _options = <PokemonType>[
-    PokemonType.normal,
-    PokemonType.fire,
-    PokemonType.water,
-    PokemonType.electric,
-    PokemonType.grass,
-    PokemonType.ice,
-    PokemonType.fighting,
-    PokemonType.poison,
-    PokemonType.ground,
-    PokemonType.flying,
-    PokemonType.psychic,
-    PokemonType.bug,
-    PokemonType.rock,
-    PokemonType.ghost,
-    PokemonType.dragon,
-    PokemonType.dark,
-    PokemonType.steel,
-    PokemonType.fairy,
-  ];
+  const _TypeChoiceDialog({
+    required this.current,
+    required this.title,
+    required this.noneLabel,
+    required this.options,
+    this.available,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +113,7 @@ class _TypeFilterDialog extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              AppStrings.t('dex.filterByType'),
+              title,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
           ),
@@ -89,27 +130,27 @@ class _TypeFilterDialog extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // "전체" lives in its own row so users always have a
-              // one-tap path back to no-filter, regardless of how many
-              // type chips fill the grid below.
-              _AllTypesChip(
-                selected: current == null,
-                onTap: () => Navigator.pop(context, null),
-                surfaceColor: scheme.onSurface,
-              ),
-              const SizedBox(height: 10),
+              // The "none" entry lives in its own row so there is
+              // always a one-tap path back to no type, however many
+              // chips fill the grid below.
+              if (noneLabel != null) ...[
+                _NoneChip(
+                  label: noneLabel!,
+                  selected: current == null,
+                  onTap: () => Navigator.pop(context, null),
+                  surfaceColor: scheme.onSurface,
+                ),
+                const SizedBox(height: 10),
+              ],
               Wrap(
                 spacing: 6,
                 runSpacing: 6,
                 children: [
-                  for (final t in _options)
-                    _TypeFilterChip(
-                      type: t,
+                  for (final t in options)
+                    TypeChip.option(
+                      t,
+                      key: ValueKey('type_option_${t.name}'),
                       selected: current == t,
-                      // Dimmed but still tappable — the grid layout
-                      // stays stable across Pokémon (vs hiding chips
-                      // entirely, which would reflow the rows), and
-                      // picking a missing type just shows zero rows.
                       dimmed: available != null && !available!.contains(t),
                       onTap: () => Navigator.pop(context, t),
                     ),
@@ -123,11 +164,13 @@ class _TypeFilterDialog extends StatelessWidget {
   }
 }
 
-class _AllTypesChip extends StatelessWidget {
+class _NoneChip extends StatelessWidget {
+  final String label;
   final bool selected;
   final VoidCallback onTap;
   final Color surfaceColor;
-  const _AllTypesChip({
+  const _NoneChip({
+    required this.label,
     required this.selected,
     required this.onTap,
     required this.surfaceColor,
@@ -136,6 +179,7 @@ class _AllTypesChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: const ValueKey('type_option_none'),
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: Container(
@@ -150,7 +194,7 @@ class _AllTypesChip extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          AppStrings.t('dex.allTypes'),
+          label,
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w700,
@@ -164,50 +208,9 @@ class _AllTypesChip extends StatelessWidget {
   }
 }
 
-class _TypeFilterChip extends StatelessWidget {
-  final PokemonType type;
-  final bool selected;
-  final bool dimmed;
-  final VoidCallback onTap;
-
-  const _TypeFilterChip({
-    required this.type,
-    required this.selected,
-    required this.dimmed,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final color = KoStrings.getTypeColor(type);
-    // Dimmed chips fade fill and label opacity together so the chip
-    // still reads as the right type but visibly secondary.
-    final fillAlpha = selected ? 1.0 : (dimmed ? 0.04 : 0.08);
-    final borderAlpha = selected ? 1.0 : (dimmed ? 0.25 : 0.55);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: selected ? color : color.withValues(alpha: fillAlpha),
-          border: Border.all(
-            color: selected ? color : color.withValues(alpha: borderAlpha),
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Text(
-          KoStrings.getTypeName(type),
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: selected
-                ? Colors.white
-                : color.withValues(alpha: dimmed ? 0.55 : 1.0),
-          ),
-        ),
-      ),
-    );
-  }
-}
+/// Types a Pokémon can Terastallize into: the 18 regular types plus
+/// Stellar.
+const List<PokemonType> kTeraTypes = <PokemonType>[
+  ...kMainTypes,
+  PokemonType.stellar,
+];

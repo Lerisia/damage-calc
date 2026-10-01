@@ -1,8 +1,9 @@
 import '../data/champions_items.dart';
+import '../data/champions_usage.dart';
 import '../models/item.dart';
 import 'korean_search.dart';
 
-/// Shared helpers for the held-item typeahead pickers (StatInput, Simple
+/// Shared helpers for the held-item pickers (StatInput, Simple
 /// Mode, the speed tab, the team builder). Until 2026-09-13 each of the
 /// six fields re-implemented its own `where(triLanguageScore(...) > 0)`
 /// filter — unranked, so results came out in items.json order and Enter
@@ -35,29 +36,53 @@ SearchIndex<String> buildItemIndex(
   ]);
 }
 
-/// Item suggestions for [query]: the current [selected] item first, then
-/// "no item", then the rest — A→Z by [labelOf] on an empty query,
-/// relevance-ranked otherwise. With [championsOnly] on, items outside
-/// the Champions roster are dropped, except the current pick so a value
-/// loaded from a paste or an older session never vanishes from its own
-/// field. [isChampions] defaults to [isChampionsItem]; injectable for
-/// tests.
+/// Item suggestions for [query].
+///
+/// Empty query, with [preferred] (the holder's most-used items, best
+/// first — see [usageItemsFor]): those lead in that order, then "no
+/// item", then the rest A→Z by [labelOf]. The current [selected] item
+/// is not moved; the picker highlights it where it stands, so the
+/// usage ranking reads the same every time.
+///
+/// Empty query without [preferred]: the current pick, "no item", then
+/// A→Z — the pre-usage order, for species with no usage data.
+///
+/// A typed query is relevance-ranked, the current pick lifted to the
+/// top when it matches.
+///
+/// With [championsOnly] on, items outside the Champions roster are
+/// dropped, except the current pick so a value loaded from a paste or
+/// an older session never vanishes from its own field. [isChampions]
+/// defaults to [isChampionsItem]; injectable for tests.
 List<String> itemSuggestions(
   SearchIndex<String> index,
   String query, {
   String? selected,
+  List<String> preferred = const [],
   required bool championsOnly,
   required String Function(String key) labelOf,
   bool Function(String key) isChampions = isChampionsItem,
 }) {
   bool allow(String k) =>
       k == kNoItemKey || k == selected || !championsOnly || isChampions(k);
+  final defaultList = query.trim().isEmpty;
   return pickerSuggestions(
     index,
     query,
-    hoist: selected,
-    pins: const [kNoItemKey],
+    hoist: defaultList && preferred.isNotEmpty ? null : selected,
+    pins: [...preferred, kNoItemKey],
     allow: allow,
     restSort: (a, b) => labelOf(a).compareTo(labelOf(b)),
   );
+}
+
+/// The items [pokemonName] holds most in the Champions usage table
+/// (current singles / doubles setting), most used first. Empty when
+/// the species is unknown or has no usage data. A Mega's entry lists
+/// its stone.
+List<String> usageItemsFor(String? pokemonName) {
+  if (pokemonName == null || pokemonName.isEmpty) return const [];
+  final entry = championsUsageFor(pokemonName);
+  if (entry == null) return const [];
+  return [for (final row in entry.items) row.name];
 }

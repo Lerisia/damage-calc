@@ -29,6 +29,8 @@ import 'offensive_power_breakdown.dart';
 import 'pokemon_sprite.dart';
 import 'status_moves_toggle.dart';
 import 'pokemon_selector.dart';
+import 'type_chip.dart';
+import 'type_filter_dialog.dart';
 import 'stat_input.dart';
 import '../../calc/entry_hazards.dart';
 import 'entry_hazard_buttons.dart';
@@ -114,8 +116,6 @@ class PokemonPanelState extends State<PokemonPanel>
   final _movesSectionKey = GlobalKey();
   final _statsSectionKey = GlobalKey();
   final _scrollController = ScrollController();
-  int? _focusedMoveIndex;
-  final List<GlobalKey> _moveRowKeys = List.generate(4, (_) => GlobalKey());
 
   // Power input controllers — one per move slot.
   // Using controllers instead of initialValue + key avoids rebuilding
@@ -220,6 +220,7 @@ class PokemonPanelState extends State<PokemonPanel>
             title: AppStrings.t('section.stats'),
             child: StatInput(
               key: ValueKey('stats_${widget.resetCounter}'),
+              pokemonName: s.pokemonName,
               level: s.level,
               nature: s.nature,
               iv: s.iv,
@@ -454,144 +455,127 @@ class PokemonPanelState extends State<PokemonPanel>
     final displayPower = info.effectivePower;
     final result = info.offensivePower;
 
-    final isSearching = _focusedMoveIndex == index;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
           Expanded(
             flex: 3,
-            child: Focus(
-              key: _moveRowKeys[index],
-              onFocusChange: (hasFocus) {
-                setState(() => _focusedMoveIndex = hasFocus ? index : null);
-              },
-              child: Row(
-                children: [
-                  Expanded(
-                    child: MoveSelector(
-                      key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}_${s.zMoves[index]}_${s.pokemonName}'),
-                      initialMoveName: s.moves[index]?.name,
-                      displayNameOverride: (displayName != null && displayName != move?.localizedName) ? displayName : null,
-                      pokemonName: s.pokemonName,
-                      pokemonNameKo: s.pokemonNameKo,
-                      dexNumber: s.dexNumber,
-                      onTap: null,
-                      onSelected: (m) {
-                        FocusScope.of(context).unfocus();
-                        setState(() {
-                          _focusedMoveIndex = null;
-                          s.moves[index] = m;
-                          s.typeOverrides[index] = null;
-                          s.categoryOverrides[index] = null;
-                          // Stacking-power moves: seed the default tier
-                          // (Last Respects ×3, Rage Fist ×1) so the
-                          // calc matches the chip's display on load.
-                          s.powerOverrides[index] = isStackingPower(m)
-                              ? stackingPower(m, stackingDefaultTier(m))
-                              : null;
-                          s.hitOverrides[index] = null;
-                          s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
-                        });
-                        _notifyParent();
-                      },
-                    ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: MoveSelector(
+                    key: ValueKey('move_${index}_${widget.resetCounter}_${s.moves[index]?.name}_${s.dynamax}_${s.zMoves[index]}_${s.pokemonName}'),
+                    initialMoveName: s.moves[index]?.name,
+                    displayNameOverride: (displayName != null && displayName != move?.localizedName) ? displayName : null,
+                    pokemonName: s.pokemonName,
+                    pokemonNameKo: s.pokemonNameKo,
+                    dexNumber: s.dexNumber,
+                    onSelected: (m) {
+                      FocusScope.of(context).unfocus();
+                      setState(() {
+                        s.moves[index] = m;
+                        s.typeOverrides[index] = null;
+                        s.categoryOverrides[index] = null;
+                        // Stacking-power moves: seed the default tier
+                        // (Last Respects ×3, Rage Fist ×1) so the
+                        // calc matches the chip's display on load.
+                        s.powerOverrides[index] = isStackingPower(m)
+                            ? stackingPower(m, stackingDefaultTier(m))
+                            : null;
+                        s.hitOverrides[index] = null;
+                        s.criticals[index] = m.hasTag(MoveTags.alwaysCrit);
+                      });
+                      _notifyParent();
+                    },
                   ),
-                  if (!isSearching && move != null &&
-                      (info.isMultiHit || isStackingPower(move))) ...[
-                    () {
-                      final stacking = isStackingPower(move);
-                      final stackMaxVal = stackingMax(move);
-                      final (lo, hi) = stacking
-                          ? (1, stackMaxVal!)
-                          : (info.minHits, info.maxHits);
-                      final current = stacking
-                          ? currentStackingTier(move, s.powerOverrides[index])
-                          : (s.hitOverrides[index] ?? info.maxHits);
-                      final customized = stacking
-                          ? current != stackingDefaultTier(move)
-                          : s.hitOverrides[index] != null;
-                      return GestureDetector(
-                        onTap: (!stacking && info.minHits == info.maxHits)
-                            ? null
-                            : () async {
-                                final h = await showDialog<int>(
-                                  context: context,
-                                  builder: (ctx) => SimpleDialog(
-                                    children: [
-                                      for (int h = lo; h <= hi; h++)
-                                        SimpleDialogOption(
-                                          onPressed: () => Navigator.pop(ctx, h),
-                                          child: Text('×$h',
-                                              style: const TextStyle(fontSize: 14)),
-                                        ),
-                                    ],
-                                  ),
-                                );
-                                if (h != null) {
-                                  setState(() {
-                                    if (stacking) {
-                                      s.powerOverrides[index] =
-                                          stackingPower(move, h);
-                                    } else {
-                                      s.hitOverrides[index] = h;
-                                    }
-                                  });
-                                  _notifyParent();
-                                }
-                              },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 2),
-                          child: Text(
-                            '×$current',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: customized
-                                  ? Colors.orange
-                                  : Colors.grey[600],
-                            ),
+                ),
+                if (move != null &&
+                    (info.isMultiHit || isStackingPower(move))) ...[
+                  () {
+                    final stacking = isStackingPower(move);
+                    final stackMaxVal = stackingMax(move);
+                    final (lo, hi) = stacking
+                        ? (1, stackMaxVal!)
+                        : (info.minHits, info.maxHits);
+                    final current = stacking
+                        ? currentStackingTier(move, s.powerOverrides[index])
+                        : (s.hitOverrides[index] ?? info.maxHits);
+                    final customized = stacking
+                        ? current != stackingDefaultTier(move)
+                        : s.hitOverrides[index] != null;
+                    return GestureDetector(
+                      onTap: (!stacking && info.minHits == info.maxHits)
+                          ? null
+                          : () async {
+                              final h = await showDialog<int>(
+                                context: context,
+                                builder: (ctx) => SimpleDialog(
+                                  children: [
+                                    for (int h = lo; h <= hi; h++)
+                                      SimpleDialogOption(
+                                        onPressed: () => Navigator.pop(ctx, h),
+                                        child: Text('×$h',
+                                            style: const TextStyle(fontSize: 14)),
+                                      ),
+                                  ],
+                                ),
+                              );
+                              if (h != null) {
+                                setState(() {
+                                  if (stacking) {
+                                    s.powerOverrides[index] =
+                                        stackingPower(move, h);
+                                  } else {
+                                    s.hitOverrides[index] = h;
+                                  }
+                                });
+                                _notifyParent();
+                              }
+                            },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 2),
+                        child: Text(
+                          '×$current',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: customized
+                                ? Colors.orange
+                                : Colors.grey[600],
                           ),
                         ),
-                      );
-                    }(),
-                  ],
+                      ),
+                    );
+                  }(),
                 ],
-              ),
+              ],
             ),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 40,
             child: move != null
                 ? effectiveType != null
-                  ? GestureDetector(
+                  // The move's type as the same chip the species
+                  // header uses. An orange dot marks a manual
+                  // override, like the orange category text next to it.
+                  ? TypeChip.dense(
+                      effectiveType,
+                      width: 40,
+                      dotColor: s.typeOverrides[index] != null ? Colors.orange : null,
                       onTap: () async {
-                        final t = await showDialog<PokemonType>(
+                        final t = await showTypeChoiceDialog(
                           context: context,
-                          builder: (ctx) => SimpleDialog(
-                            children: PokemonType.values.map((t) =>
-                              SimpleDialogOption(
-                                onPressed: () => Navigator.pop(ctx, t),
-                                child: Text(KoStrings.getTypeName(t), style: const TextStyle(fontSize: 14)),
-                              ),
-                            ).toList(),
-                          ),
+                          title: AppStrings.t('type.pick'),
+                          current: effectiveType,
+                          options: PokemonType.values,
                         );
                         if (t != null) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); }
                       },
-                      child: Text(
-                        KoStrings.getTypeName(effectiveType),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: s.typeOverrides[index] != null ? Colors.orange : null,
-                        ),
-                      ),
                     )
                   : Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.grey))
                 : const Text('-', textAlign: TextAlign.center),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 32,
             child: move != null
                 ? GestureDetector(
@@ -620,7 +604,7 @@ class PokemonPanelState extends State<PokemonPanel>
                   )
                 : const Text('-', textAlign: TextAlign.center),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 44,
             child: move != null
                 ? info.isFixedDamage
@@ -646,7 +630,7 @@ class PokemonPanelState extends State<PokemonPanel>
                       )
                 : const Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 28,
             child: Checkbox(
               value: s.criticals[index],
@@ -655,7 +639,7 @@ class PokemonPanelState extends State<PokemonPanel>
               visualDensity: VisualDensity.compact,
             ),
           ),
-          if (!isSearching && !_championsOnly) SizedBox(
+          if (!_championsOnly) SizedBox(
             width: 28,
             child: Checkbox(
               value: s.zMoves[index],
@@ -666,7 +650,7 @@ class PokemonPanelState extends State<PokemonPanel>
               visualDensity: VisualDensity.compact,
             ),
           ),
-          if (!isSearching) SizedBox(
+          SizedBox(
             width: 60,
             // Tap on the 결정력 number → breakdown popup.
             // No affordance per design — discoverable on tap.
@@ -705,7 +689,7 @@ class PokemonPanelState extends State<PokemonPanel>
     // single Tera-styled chip and lock editing while Tera is active.
     final teraActive = s.terastal.active && s.terastal.teraType != null;
     if (teraActive) {
-      return [_typeBadge(s.terastal.teraType!, isTera: true)];
+      return [TypeChip.dense(s.terastal.teraType!, ringColor: Colors.white)];
     }
     final override = getAbilityTypeOverride(
       ability: s.selectedAbility,
@@ -723,14 +707,14 @@ class PokemonPanelState extends State<PokemonPanel>
     final type3 = override != null ? null : s.type3;
 
     final chips = [
-      _typeBadge(type1, onTap: overridden ? null : _openTypePicker),
+      TypeChip.dense(type1, onTap: overridden ? null : _openTypePicker),
       if (type2 != null) ...[
         const SizedBox(width: 2),
-        _typeBadge(type2, onTap: overridden ? null : _openTypePicker),
+        TypeChip.dense(type2, onTap: overridden ? null : _openTypePicker),
       ],
       if (type3 != null) ...[
         const SizedBox(width: 2),
-        _typeBadge(type3, onTap: overridden ? null : _openTypePicker),
+        TypeChip.dense(type3, onTap: overridden ? null : _openTypePicker),
       ],
     ];
     return chips;
@@ -751,34 +735,6 @@ class PokemonPanelState extends State<PokemonPanel>
       s.type3 = result.type3;
     });
     _notifyParent();
-  }
-
-  Widget _typeBadge(PokemonType type, {bool isTera = false, VoidCallback? onTap}) {
-    final color = type == PokemonType.typeless
-        ? Theme.of(context).colorScheme.outline
-        : KoStrings.getTypeColor(type);
-    final label = type == PokemonType.typeless
-        ? AppStrings.t('type.none')
-        : KoStrings.getTypeName(type);
-    final chip = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(4),
-        border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
-    if (onTap == null) return chip;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: chip,
-    );
   }
 
   /// Mega Evolution / Primal Reversion toggle.
@@ -978,7 +934,7 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  void _showTeraTypePicker() {
+  Future<void> _showTeraTypePicker() async {
     // Terapagos Terastal: only Stellar type, auto-switch to Stellar Form
     if (_isTerapagosTerastal) {
       setState(() {
@@ -999,38 +955,24 @@ class PokemonPanelState extends State<PokemonPanel>
       return;
     }
 
-    showDialog(
+    final picked = await showTypeFilterDialog(
       context: context,
-      builder: (ctx) => SimpleDialog(
-        title: Text(AppStrings.t('label.terastal')),
-        children: PokemonType.values.map((t) {
-          final name = KoStrings.typeEn[t]; // use typeEn to check if valid type
-          if (name == null) return const SizedBox.shrink();
-          return SimpleDialogOption(
-            onPressed: () {
-              setState(() {
-                s.terastal = TerastalState(active: true, teraType: t);
-                s.dynamax = DynamaxState.none;
-                s.zMoves = [false, false, false, false];
-              });
-              _notifyParent();
-              Navigator.pop(ctx);
-            },
-            child: Text(KoStrings.getTypeName(t)),
-          );
-        }).toList()
-          ..insert(0, SimpleDialogOption(
-            onPressed: () {
-              setState(() {
-                s.terastal = const TerastalState();
-              });
-              _notifyParent();
-              Navigator.pop(ctx);
-            },
-            child: Text(AppStrings.t('label.noTera'), style: const TextStyle(color: Colors.grey)),
-          )),
-      ),
+      title: AppStrings.t('label.terastal'),
+      noneLabel: AppStrings.t('label.noTera'),
+      current: s.terastal.active ? s.terastal.teraType : null,
+      options: kTeraTypes,
     );
+    if (!mounted || identical(picked, kTypeFilterDismissed)) return;
+    setState(() {
+      if (picked is PokemonType) {
+        s.terastal = TerastalState(active: true, teraType: picked);
+        s.dynamax = DynamaxState.none;
+        s.zMoves = [false, false, false, false];
+      } else {
+        s.terastal = const TerastalState();
+      }
+    });
+    _notifyParent();
   }
 
   /// Doubles-only attacker scenario toggles. Visibility is driven by

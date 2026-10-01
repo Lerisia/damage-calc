@@ -7,6 +7,8 @@ import '../../models/type.dart';
 import '../../i18n/app_strings.dart';
 import '../../calc/damage_calculator.dart';
 import '../../i18n/localization.dart';
+import 'battler_type_chips.dart';
+import 'type_chip.dart';
 import 'modifier_note.dart';
 
 /// Pixel-for-pixel reuse of the main Damage tab's per-move result card
@@ -75,9 +77,9 @@ class DamageResultPanel extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _dmgTypeText(attacker),
+            BattlerTypeChips(attacker),
             const Text('  →  ', style: TextStyle(fontSize: 12, color: Colors.grey)),
-            _dmgTypeText(defender),
+            BattlerTypeChips(defender),
           ],
         ),
         const SizedBox(height: 4),
@@ -172,8 +174,9 @@ class DamageResultPanel extends StatelessWidget {
                 )),
               ),
               const SizedBox(width: 8),
-              Text(effectiveType != null ? KoStrings.getTypeName(effectiveType) : '-',
-                  style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
+              effectiveType != null
+                  ? TypeChip(effectiveType)
+                  : const Text('-', style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold)),
               const SizedBox(width: 8),
               Flexible(
                 child: Text(effLabel,
@@ -261,28 +264,6 @@ class DamageResultPanel extends StatelessWidget {
   // ────────────────────────────────────────────────────────────────────────
   // Helpers (mirrors damage_calculator_screen's private versions)
   // ────────────────────────────────────────────────────────────────────────
-
-  Widget _dmgTypeText(BattlePokemonState state) {
-    if (state.terastal.active && state.terastal.teraType != null &&
-        state.terastal.teraType != PokemonType.stellar) {
-      final t = state.terastal.teraType!;
-      return Text.rich(TextSpan(children: [
-        TextSpan(text: KoStrings.getTypeName(t),
-          style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(t), fontWeight: FontWeight.bold)),
-        TextSpan(text: ' (${AppStrings.t('label.terastalShort')})', style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
-      ]));
-    }
-    final parts = <InlineSpan>[
-      TextSpan(text: KoStrings.getTypeName(state.type1),
-        style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type1), fontWeight: FontWeight.bold)),
-    ];
-    if (state.type2 != null) {
-      parts.add(TextSpan(text: '/', style: TextStyle(fontSize: 13, color: Colors.grey.shade400)));
-      parts.add(TextSpan(text: KoStrings.getTypeName(state.type2!),
-        style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type2!), fontWeight: FontWeight.bold)));
-    }
-    return Text.rich(TextSpan(children: parts));
-  }
 
   String _dynamaxLabel(BattlePokemonState state) {
     switch (state.dynamax) {

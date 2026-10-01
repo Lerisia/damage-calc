@@ -18,7 +18,9 @@ import '../platform/page_routes.dart';
 import 'root_shell.dart';
 import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
-import 'widgets/typeahead_helpers.dart';
+import 'widgets/move_meta.dart';
+import 'widgets/search_picker/search_picker.dart';
+import 'widgets/type_chip.dart';
 import 'widgets/move_table_controls.dart';
 
 /// Sort column for the Move Dex list. Mirrors the same enum in
@@ -86,8 +88,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   // pattern next door.
   static const int _kMaxFilterMoves = 3;
   final _filterMoves = ValueNotifier<List<Move>>(const []);
-  final _addFilterCtl = TextEditingController();
-  final _addFilterFocus = FocusNode();
 
   // Filters + sort, mirroring the Pokémon Dex's Moves tab.
   PokemonType? _typeFilter;
@@ -122,8 +122,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     _searchCtl.dispose();
     _searchFocus.dispose();
     _learnersSearchCtl.dispose();
-    _addFilterCtl.dispose();
-    _addFilterFocus.dispose();
     _filterMoves.dispose();
     super.dispose();
   }
@@ -488,23 +486,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w600)),
                 ),
-                SizedBox(
-                  width: 50,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: KoStrings.getTypeColor(m.type),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    child: Text(KoStrings.getTypeName(m.type),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
+                TypeChip.dense(m.type, width: 50),
                 const SizedBox(width: 6),
                 SizedBox(
                   width: 36,
@@ -600,7 +582,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              _typePill(m.type, big: true),
+              TypeChip(m.type),
               const SizedBox(width: 6),
               Text('/ ${_categoryShort(m.category)}',
                   style: TextStyle(
@@ -777,7 +759,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
 
   /// "함께 배우는 기술" — AND-filter UI sitting above the learners
   /// chip list. Renders the current filter chips (removable) and a
-  /// move-name typeahead while there's room for more. The actual
+  /// move-name search field while there's room for more. The actual
   /// intersection happens in [_applyFilterMoves]; this widget only
   /// reads/writes [_filterMoves].
   Widget _alsoLearnsSection({
@@ -786,12 +768,8 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
   }) {
     final canAddMore = filterMoves.length < _kMaxFilterMoves;
 
-    // The TypeAheadField caches its callbacks on first build, so a
-    // closure that captures `filterMoves` from the parameter would
-    // see the stale list (only the snapshot at first show). That
-    // caused 2nd-add via Enter to read filterMoves=[] and overwrite
-    // the existing chip. Read `_filterMoves.value` and `primary`
-    // through helpers that resolve the LIVE state on every call.
+    // Read `_filterMoves.value` and `primary` through helpers that
+    // resolve the LIVE state on every call, not the build-time list.
     Set<String> currentPickedIds() => {
           toShowdownMoveId(primary.name),
           for (final m in _filterMoves.value) toShowdownMoveId(m.name),
@@ -806,10 +784,12 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
       bool eligible(Move m) =>
           !pickedIds.contains(toShowdownMoveId(m.name));
       if (q.isEmpty) {
-        // Empty query → no suggestions; the user types to discover.
-        // (The main typeahead returns everything on empty; here that
-        // would be a 900-row dropdown, useless.)
-        return const [];
+        // Empty query → every eligible move, in list order; the modal
+        // scrolls, and the user usually types to narrow it down.
+        return [
+          for (final e in _searchEntries)
+            if (eligible(e.item)) e.item,
+        ];
       }
       final qLower = q.toLowerCase();
       final qRunes = qLower.runes.toList();
@@ -856,41 +836,39 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           const SizedBox(height: 6),
         ],
         if (canAddMore)
-          buildTypeAhead<Move>(
-            controller: _addFilterCtl,
-            focusNode: _addFilterFocus,
-            suggestionsCallback: suggestionsFor,
+          SearchPickerField(
+            text: '',
             decoration: InputDecoration(
               hintText: AppStrings.t('dex.move.addFilterHint'),
               prefixIcon: const Icon(Icons.add, size: 18),
               isDense: true,
               border: const OutlineInputBorder(),
             ),
-            hideOnEmpty: true,
-            maxHeight: 240,
-            itemBuilder: (context, move) {
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Text(move.localizedName,
-                          style: const TextStyle(fontSize: 14),
-                          overflow: TextOverflow.ellipsis),
-                    ),
-                    const SizedBox(width: 8),
-                    _typePill(move.type),
-                  ],
+            onTap: () async {
+              final byName = {for (final e in _searchEntries) e.item.name: e.item};
+              final move = await showSearchPicker<Move>(
+                context,
+                SearchPickerConfig<Move>(
+                  kind: 'move',
+                  hintText: AppStrings.t('dex.move.addFilterHint'),
+                  suggestions: suggestionsFor,
+                  labelOf: (m) => m.localizedName,
+                  idOf: (m) => m.name,
+                  // A recent move that is already picked can't be
+                  // picked again.
+                  fromId: (id) {
+                    final m = byName[id];
+                    return m != null &&
+                            !currentPickedIds().contains(toShowdownMoveId(m.name))
+                        ? m
+                        : null;
+                  },
+                  trailingOf: (context, m) => MoveMeta(m),
                 ),
               );
-            },
-            onSelected: (move) {
+              if (move == null || !mounted) return;
               // Read the LIVE list (`_filterMoves.value`), not the
-              // captured-at-build-time `filterMoves` parameter — the
-              // typeahead reuses its initial closure on subsequent
-              // picks, which made the second add overwrite the first
-              // instead of appending.
+              // captured-at-build-time `filterMoves` parameter.
               final next = [..._filterMoves.value];
               if (next.length >= _kMaxFilterMoves) return;
               if (next.any((m) =>
@@ -899,28 +877,9 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                 return;
               }
               _filterMoves.value = [...next, move];
-              _addFilterCtl.clear();
-              // Re-focus so the user can immediately add another.
-              _addFilterFocus.requestFocus();
             },
           ),
       ],
-    );
-  }
-
-  Widget _typePill(PokemonType t, {bool big = false}) {
-    final color = KoStrings.getTypeColor(t);
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: big ? 8 : 6, vertical: big ? 3 : 2),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(KoStrings.getTypeName(t),
-          style: TextStyle(
-              fontSize: big ? 12 : 10,
-              color: Colors.white,
-              fontWeight: FontWeight.bold)),
     );
   }
 
@@ -1010,7 +969,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
     // new move's learner list. Same for the "also learns" AND-filter:
     // the extras only made sense relative to the previous primary.
     _learnersSearchCtl.clear();
-    _addFilterCtl.clear();
     _filterMoves.value = const [];
     if (push) {
       // Pass the move explicitly to _detailPane so we don't have to
@@ -1023,7 +981,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
           // Tap-anywhere-outside drops keyboard focus, mirroring the
           // outer screen's body wrapper at line ~294. Without it the
           // pushed detail route has no way to dismiss the learner /
-          // "also learns" typeahead focus on mobile.
+          // "also learns" field focus on mobile.
           body: GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             behavior: HitTestBehavior.translucent,

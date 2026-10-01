@@ -45,7 +45,9 @@ import 'widgets/champions_usage_rank_sheet.dart';
 import 'widgets/type_chart_sheet.dart';
 import 'widgets/mobile_install_banner.dart';
 import 'widgets/modifier_note.dart';
+import 'widgets/battler_type_chips.dart';
 import 'widgets/pokemon_panel.dart';
+import 'widgets/type_chip.dart';
 import 'widgets/sample_list_sheet.dart';
 import 'widgets/speed_compare_tab.dart';
 import '../data/name_maps.dart';
@@ -1593,9 +1595,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _dmgTypeText(_attacker),
+                        BattlerTypeChips(_attacker),
                         const Text('  →  ', style: TextStyle(fontSize: 12, color: Colors.grey)),
-                        _dmgTypeText(_defender),
+                        BattlerTypeChips(_defender),
                       ],
                     ),
                     const SizedBox(height: 4),
@@ -1751,8 +1753,9 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
                       )),
                     ),
                     const SizedBox(width: 8),
-                    Text(effectiveType != null ? KoStrings.getTypeName(effectiveType) : '-',
-                        style: TextStyle(fontSize: 14, color: typeColor, fontWeight: FontWeight.bold)),
+                    effectiveType != null
+                        ? TypeChip(effectiveType)
+                        : const Text('-', style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.bold)),
                     const SizedBox(width: 8),
                     Text(effLabel,
                         style: TextStyle(fontSize: 14, color: effColor, fontWeight: FontWeight.bold)),
@@ -1909,30 +1912,6 @@ class _DamageCalculatorScreenState extends State<DamageCalculatorScreen>
           ),
         ),
     ];
-  }
-
-  Widget _dmgTypeText(BattlePokemonState state) {
-    // Terastal: show tera type only (overrides original)
-    if (state.terastal.active && state.terastal.teraType != null &&
-        state.terastal.teraType != PokemonType.stellar) {
-      final t = state.terastal.teraType!;
-      return Text.rich(TextSpan(children: [
-        TextSpan(text: KoStrings.getTypeName(t),
-          style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(t), fontWeight: FontWeight.bold)),
-        TextSpan(text: ' (${AppStrings.t('label.terastalShort')})', style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
-      ]));
-    }
-    // Normal: type1/type2
-    final parts = <InlineSpan>[
-      TextSpan(text: KoStrings.getTypeName(state.type1),
-        style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type1), fontWeight: FontWeight.bold)),
-    ];
-    if (state.type2 != null) {
-      parts.add(TextSpan(text: '/', style: TextStyle(fontSize: 13, color: Colors.grey.shade400)));
-      parts.add(TextSpan(text: KoStrings.getTypeName(state.type2!),
-        style: TextStyle(fontSize: 13, color: KoStrings.getTypeColor(state.type2!), fontWeight: FontWeight.bold)));
-    }
-    return Text.rich(TextSpan(children: parts));
   }
 
   Widget _dmgCheck(String label, bool value, ValueChanged<bool> onChanged) {

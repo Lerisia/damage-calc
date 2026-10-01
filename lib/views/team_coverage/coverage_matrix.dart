@@ -682,26 +682,10 @@ class _CoverageMatrix extends StatelessWidget {
     );
   }
 
-  Widget _attackTypeChip(PokemonType type) {
-    return ClipRect(
-      child: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 2),
-        decoration: BoxDecoration(
-          color: KoStrings.getTypeColor(type),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Text(
-          KoStrings.getTypeName(type),
-          maxLines: 1,
-          softWrap: false,
-          overflow: TextOverflow.clip,
-          style: const TextStyle(
-              fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
+  /// The row's attack type, filling the 48 px column. A long name
+  /// (English) scales down inside the chip instead of being clipped.
+  Widget _attackTypeChip(PokemonType type) =>
+      TypeChip(type, width: double.infinity);
 
   /// Background tint for the weak/resist halves of the summary cell —
   /// gets denser the more team members fall into that bucket. 0 is
