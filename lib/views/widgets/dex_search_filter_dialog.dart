@@ -9,8 +9,10 @@ import '../../calc/ability_effects.dart';
 import '../../data/ability_variants.dart';
 import '../../i18n/app_strings.dart';
 import '../../search/korean_search.dart';
-import '../../i18n/localization.dart';
+import 'move_meta.dart';
 import 'search_picker/search_picker.dart';
+import 'type_chip.dart';
+import 'type_filter_dialog.dart';
 
 /// Defensive-relation toggle used by the "약점/등배/내성/면역" filter row.
 /// `immunity` is strictly type-chart 0× (Normal vs Ghost, etc.) — it is
@@ -810,32 +812,14 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
               if (picked == null || picked == entry.type) return;
               _updateDefenseEntry(index, entry.copyWith(type: picked));
             },
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              decoration: BoxDecoration(
-                color: KoStrings.getTypeColor(entry.type)
-                    .withValues(alpha: 0.12),
-                border: Border.all(
-                  color: KoStrings.getTypeColor(entry.type)
-                      .withValues(alpha: 0.6),
-                ),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      KoStrings.getTypeName(entry.type),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: KoStrings.getTypeColor(entry.type),
-                      ),
-                    ),
-                  ),
-                  const Icon(Icons.arrow_drop_down, size: 16),
-                ],
+            // The type is the chip itself, filling the cell: on a
+            // phone this column is ~42 px, too narrow for a framed
+            // label plus a dropdown arrow. Tap to change, like the
+            // type chips next to a species.
+            child: SizedBox(
+              height: 30,
+              child: Center(
+                child: TypeChip.dense(entry.type, width: double.infinity),
               ),
             ),
           ),
@@ -871,31 +855,10 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
     final options =
         _TypeChipGrid._options.where((t) => !exclude.contains(t)).toList();
     if (options.isEmpty) return Future.value(null);
-    return showDialog<PokemonType>(
+    return showTypeChoiceDialog(
       context: context,
-      builder: (ctx) => SimpleDialog(
-        title: Text(AppStrings.t('dex.advDefenseTypePick')),
-        children: [
-          for (final t in options)
-            SimpleDialogOption(
-              onPressed: () => Navigator.pop(ctx, t),
-              child: Row(
-                children: [
-                  Container(
-                    width: 14,
-                    height: 14,
-                    decoration: BoxDecoration(
-                      color: KoStrings.getTypeColor(t),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(KoStrings.getTypeName(t)),
-                ],
-              ),
-            ),
-        ],
-      ),
+      title: AppStrings.t('dex.advDefenseTypePick'),
+      options: options,
     );
   }
 
@@ -1038,8 +1001,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
             labelOf: (m) => m.localizedName,
             idOf: (m) => m.name,
             fromId: (id) => byName[id],
-            subtitleOf: (m) =>
-                '${KoStrings.getTypeName(m.type)} ${KoStrings.getCategoryName(m.category)} ${m.power}',
+            trailingOf: (context, m) => MoveMeta(m),
           ),
         );
         if (m == null || !mounted) return;
@@ -1101,26 +1063,7 @@ class _DexSearchFilterDialogState extends State<_DexSearchFilterDialog> {
 }
 
 class _TypeChipGrid extends StatelessWidget {
-  static const _options = <PokemonType>[
-    PokemonType.normal,
-    PokemonType.fire,
-    PokemonType.water,
-    PokemonType.electric,
-    PokemonType.grass,
-    PokemonType.ice,
-    PokemonType.fighting,
-    PokemonType.poison,
-    PokemonType.ground,
-    PokemonType.flying,
-    PokemonType.psychic,
-    PokemonType.bug,
-    PokemonType.rock,
-    PokemonType.ghost,
-    PokemonType.dragon,
-    PokemonType.dark,
-    PokemonType.steel,
-    PokemonType.fairy,
-  ];
+  static const _options = kMainTypes;
 
   final List<PokemonType> selected;
   final ValueChanged<PokemonType> onTap;
@@ -1135,8 +1078,8 @@ class _TypeChipGrid extends StatelessWidget {
       runSpacing: 6,
       children: [
         for (final t in _options)
-          _TypeChip(
-            type: t,
+          TypeChip.option(
+            t,
             selected: selected.contains(t),
             // At the 2-type cap, only the already-selected chips stay
             // tappable (to deselect). Newly-tapping a third type is a
@@ -1145,52 +1088,6 @@ class _TypeChipGrid extends StatelessWidget {
             onTap: () => onTap(t),
           ),
       ],
-    );
-  }
-}
-
-class _TypeChip extends StatelessWidget {
-  final PokemonType type;
-  final bool selected;
-  final bool dimmed;
-  final VoidCallback onTap;
-
-  const _TypeChip({
-    required this.type,
-    required this.selected,
-    required this.dimmed,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final color = KoStrings.getTypeColor(type);
-    final fillAlpha = selected ? 1.0 : (dimmed ? 0.04 : 0.08);
-    final borderAlpha = selected ? 1.0 : (dimmed ? 0.25 : 0.55);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: selected ? color : color.withValues(alpha: fillAlpha),
-          border: Border.all(
-            color: selected ? color : color.withValues(alpha: borderAlpha),
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: Text(
-          KoStrings.getTypeName(type),
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: selected
-                ? Colors.white
-                : color.withValues(alpha: dimmed ? 0.55 : 1.0),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -22,7 +22,6 @@ import '../calc/battle_facade.dart';
 import '../controllers/champions_filter_controller.dart';
 import '../search/korean_search.dart';
 import '../platform/page_routes.dart';
-import '../i18n/localization.dart';
 import '../calc/stacking_moves.dart';
 import '../calc/terrain_effects.dart' show abilityTerrainMap;
 import '../calc/ability_effects.dart';
@@ -557,23 +556,14 @@ class _DexScreenState extends State<DexScreen> {
   /// two-line rows). The leftmost slot of each row now holds a sprite,
   /// so the old vertical type column is gone.
   Widget _typeChipsRow(Pokemon p) {
-    Widget chip(PokemonType t) => Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
-          decoration: BoxDecoration(
-            color: KoStrings.getTypeColor(t),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(KoStrings.getTypeName(t),
-              style: const TextStyle(
-                  fontSize: 11,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold)),
-        );
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        chip(p.type1),
-        if (p.type2 != null) ...[const SizedBox(width: 3), chip(p.type2!)],
+        TypeChip.dense(p.type1),
+        if (p.type2 != null) ...[
+          const SizedBox(width: 3),
+          TypeChip.dense(p.type2!),
+        ],
       ],
     );
   }

@@ -304,14 +304,14 @@ class _SlotCardState extends State<_SlotCard>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (widget.slot.effectiveType1 != null)
-                        TypeChip(widget.slot.effectiveType1!, dense: true),
+                        TypeChip.dense(widget.slot.effectiveType1!),
                       if (widget.slot.effectiveType2 != null) ...[
                         const SizedBox(width: 2),
-                        TypeChip(widget.slot.effectiveType2!, dense: true),
+                        TypeChip.dense(widget.slot.effectiveType2!),
                       ],
                       if (widget.slot.effectiveType3 != null) ...[
                         const SizedBox(width: 2),
-                        TypeChip(widget.slot.effectiveType3!, dense: true),
+                        TypeChip.dense(widget.slot.effectiveType3!),
                       ],
                     ],
                   ),

@@ -247,23 +247,7 @@ class _MovesTabState extends State<_MovesTab> {
                     style: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.w600)),
               ),
-              SizedBox(
-                width: 50,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: KoStrings.getTypeColor(m.type),
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                  child: Text(KoStrings.getTypeName(m.type),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold)),
-                ),
-              ),
+              TypeChip.dense(m.type, width: 50),
               const SizedBox(width: 6),
               SizedBox(
                 width: 36,

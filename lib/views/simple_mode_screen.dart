@@ -26,6 +26,8 @@ import '../calc/battle_facade.dart';
 import '../calc/hp.dart';
 import '../controllers/hp_display_controller.dart';
 import 'widgets/search_picker/ability_picker_field.dart';
+import 'widgets/type_chip.dart';
+import 'widgets/type_filter_dialog.dart';
 import 'widgets/search_picker/item_picker_field.dart';
 import '../controllers/champions_format_controller.dart';
 import '../calc/champions_mode.dart';
@@ -1671,7 +1673,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
   Widget _moveInfoRow(MoveSlotInfo slot) {
     final type = slot.effectiveType;
     final category = slot.effectiveCategory;
-    final typeName = type != null ? KoStrings.getTypeName(type) : '—';
     final categoryName = category == MoveCategory.physical
         ? AppStrings.t('damage.physical')
         : category == MoveCategory.special
@@ -1682,20 +1683,17 @@ class _SimpleModeViewState extends State<SimpleModeView>
       fontSize: 12,
       color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
     );
+    // The type is the same chip as everywhere else; category and power
+    // follow as text.
     return Row(children: [
-      Container(
-        width: 10, height: 10,
-        decoration: BoxDecoration(
-          color: type != null ? _typeColor(type) : Colors.grey,
-          shape: BoxShape.circle,
-        ),
-      ),
-      const SizedBox(width: 6),
-      Text('$typeName · $categoryName · $power', style: style),
+      if (type != null) ...[
+        TypeChip.dense(type),
+        const SizedBox(width: 6),
+        Text('$categoryName · $power', style: style),
+      ] else
+        Text('— · $categoryName · $power', style: style),
     ]);
   }
-
-  Color _typeColor(PokemonType t) => KoStrings.getTypeColor(t);
 
   /// Species row: PokemonSelector + effective type badges + Dynamax
   /// toggle + Terastal toggle. Mirrors the normal mode's header.
@@ -1764,7 +1762,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
     // pointless until Tera is turned off.
     final teraActive = state.terastal.active && state.terastal.teraType != null;
     if (teraActive) {
-      return [_typeChipBadge(state.terastal.teraType!, isTera: true)];
+      return [TypeChip.dense(state.terastal.teraType!, ringColor: Colors.white)];
     }
     final override = getAbilityTypeOverride(
       ability: state.selectedAbility,
@@ -1779,14 +1777,14 @@ class _SimpleModeViewState extends State<SimpleModeView>
     final type3 = override != null ? null : state.type3;
     final tap = overridden ? null : () => _openTypePicker(state);
     return [
-      _typeChipBadge(type1, onTap: tap),
+      TypeChip.dense(type1, onTap: tap),
       if (type2 != null) ...[
         const SizedBox(width: 2),
-        _typeChipBadge(type2, onTap: tap),
+        TypeChip.dense(type2, onTap: tap),
       ],
       if (type3 != null) ...[
         const SizedBox(width: 2),
-        _typeChipBadge(type3, onTap: tap),
+        TypeChip.dense(type3, onTap: tap),
       ],
     ];
   }
@@ -1806,34 +1804,6 @@ class _SimpleModeViewState extends State<SimpleModeView>
       state.type3 = result.type3;
     });
     widget.onChanged();
-  }
-
-  Widget _typeChipBadge(PokemonType type, {bool isTera = false, VoidCallback? onTap}) {
-    final color = type == PokemonType.typeless
-        ? Theme.of(context).colorScheme.outline
-        : KoStrings.getTypeColor(type);
-    final label = type == PokemonType.typeless
-        ? AppStrings.t('type.none')
-        : KoStrings.getTypeName(type);
-    final chip = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(4),
-        border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
-    if (onTap == null) return chip;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: chip,
-    );
   }
 
   /// Champions has no Dynamax, Terastal or Z-Moves; their controls are
@@ -1936,49 +1906,27 @@ class _SimpleModeViewState extends State<SimpleModeView>
     );
   }
 
-  void _showTeraPicker(BattlePokemonState state) {
-    // Compact type grid. Tapping a type toggles Terastal on; tapping
-    // the currently-active type turns it off.
-    showDialog(
+  Future<void> _showTeraPicker(BattlePokemonState state) async {
+    // The shared type dialog. Picking the active type again turns
+    // Terastal off, as does the "none" row.
+    final current = state.terastal.active ? state.terastal.teraType : null;
+    final picked = await showTypeFilterDialog(
       context: context,
-      builder: (ctx) => Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Wrap(
-            spacing: 6, runSpacing: 6,
-            children: [
-              for (final t in PokemonType.values
-                  .where((t) => t != PokemonType.typeless))
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      final already = state.terastal.active &&
-                          state.terastal.teraType == t;
-                      state.terastal = already
-                          ? const TerastalState()
-                          : TerastalState(active: true, teraType: t);
-                      // Terastal and Dynamax are mutually exclusive.
-                      if (!already) state.dynamax = DynamaxState.none;
-                    });
-                    Navigator.pop(ctx);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: KoStrings.getTypeColor(t),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      KoStrings.getTypeName(t),
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
+      title: AppStrings.t('label.terastal'),
+      noneLabel: AppStrings.t('label.noTera'),
+      current: current,
+      options: kTeraTypes,
     );
+    if (!mounted || identical(picked, kTypeFilterDismissed)) return;
+    setState(() {
+      if (picked is PokemonType && picked != current) {
+        state.terastal = TerastalState(active: true, teraType: picked);
+        // Terastal and Dynamax are mutually exclusive.
+        state.dynamax = DynamaxState.none;
+      } else {
+        state.terastal = const TerastalState();
+      }
+    });
   }
 
   // ────────────────────────────────────────────────────────────────────────

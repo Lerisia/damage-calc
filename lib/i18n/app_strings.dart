@@ -2042,6 +2042,11 @@ class AppStrings {
       AppLanguage.en: 'Clear',
       AppLanguage.ja: '選択解除',
     },
+    'type.pick': {
+      AppLanguage.ko: '타입 선택',
+      AppLanguage.en: 'Pick a type',
+      AppLanguage.ja: 'タイプを選択',
+    },
     'type.none': {
       AppLanguage.ko: '없음',
       AppLanguage.en: 'None',

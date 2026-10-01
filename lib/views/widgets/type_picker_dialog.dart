@@ -3,6 +3,7 @@ import '../../models/type.dart';
 import '../../i18n/app_strings.dart';
 import '../../i18n/localization.dart';
 import '../../data/pokedex.dart';
+import 'type_chip.dart';
 
 /// Result returned by [showTypePickerDialog].
 class TypePickerResult {
@@ -197,15 +198,12 @@ class _TypeOptionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Fixed surface color for typeless — the theme outline read as
-    // disabled, which made the chip look untappable.
+    // The order badge takes the chip's colour (typeless: the text
+    // colour, like the chip itself).
     final scheme = Theme.of(context).colorScheme;
     final color = type == PokemonType.typeless
         ? scheme.onSurface
         : KoStrings.getTypeColor(type);
-    final label = type == PokemonType.typeless
-        ? AppStrings.t('type.none')
-        : KoStrings.getTypeName(type);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -215,26 +213,7 @@ class _TypeOptionChip extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: selected ? color : color.withValues(alpha: 0.08),
-              // Constant 1.5px border so picking doesn't grow the box.
-              border: Border.all(
-                color: selected ? color : color.withValues(alpha: 0.55),
-                width: 1.5,
-              ),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: selected ? Colors.white : color,
-              ),
-            ),
-          ),
+          TypeChip.option(type, selected: selected),
           if (selected)
             Positioned(
               top: -6,

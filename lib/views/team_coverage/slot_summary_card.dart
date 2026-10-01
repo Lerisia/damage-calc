@@ -120,15 +120,15 @@ class _SlotSummaryCard extends StatelessWidget {
                   ),
                   if (slot.effectiveType1 != null) ...[
                     const SizedBox(width: 4),
-                    TypeChip(slot.effectiveType1!, dense: true),
+                    TypeChip.dense(slot.effectiveType1!),
                   ],
                   if (slot.effectiveType2 != null) ...[
                     const SizedBox(width: 2),
-                    TypeChip(slot.effectiveType2!, dense: true),
+                    TypeChip.dense(slot.effectiveType2!),
                   ],
                   if (slot.effectiveType3 != null) ...[
                     const SizedBox(width: 2),
-                    TypeChip(slot.effectiveType3!, dense: true),
+                    TypeChip.dense(slot.effectiveType3!),
                   ],
                 ],
               ),

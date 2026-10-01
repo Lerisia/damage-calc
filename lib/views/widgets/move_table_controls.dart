@@ -4,6 +4,7 @@ import '../../models/move.dart';
 import '../../models/type.dart';
 import '../../i18n/app_strings.dart';
 import '../../i18n/localization.dart';
+import 'type_chip.dart';
 import 'type_filter_dialog.dart';
 
 /// The controls both move tables share — the Pokédex detail's learnset
@@ -143,6 +144,10 @@ class _FilterChipFrame extends StatelessWidget {
   final Widget label;
   const _FilterChipFrame({required this.placeholder, required this.label});
 
+  /// How far the label may reach into the frame's vertical padding (a
+  /// chip is a little taller than the placeholder's text line).
+  static const double _overhang = 3;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,15 +156,25 @@ class _FilterChipFrame extends StatelessWidget {
         border: Border.all(color: Colors.grey.withValues(alpha: 0.5)),
         borderRadius: BorderRadius.circular(4),
       ),
+      // The invisible placeholder alone sizes the frame; the label is
+      // laid over it and scales down if it is wider (a type chip with
+      // a long English name), so the frame never changes size.
       child: Stack(
         alignment: Alignment.center,
+        clipBehavior: Clip.none,
         children: [
           Text(placeholder,
               style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: Colors.transparent)),
-          label,
+          Positioned(
+            left: 0,
+            right: 0,
+            top: -_overhang,
+            bottom: -_overhang,
+            child: FittedBox(fit: BoxFit.scaleDown, child: label),
+          ),
         ],
       ),
     );
@@ -196,15 +211,12 @@ class TypeFilterChip extends StatelessWidget {
       },
       child: _FilterChipFrame(
         placeholder: AppStrings.t('dex.allTypes'),
-        label: Text(
-          value == null
-              ? AppStrings.t('dex.allTypes')
-              : KoStrings.getTypeName(value!),
-          style: TextStyle(
-              fontSize: 12,
-              color: value != null ? KoStrings.getTypeColor(value!) : null,
-              fontWeight: FontWeight.w600),
-        ),
+        // The chosen type as the chip itself; "all types" stays text.
+        label: value == null
+            ? Text(AppStrings.t('dex.allTypes'),
+                style:
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.w600))
+            : TypeChip.dense(value!),
       ),
     );
   }

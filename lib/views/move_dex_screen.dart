@@ -18,7 +18,9 @@ import '../platform/page_routes.dart';
 import 'root_shell.dart';
 import 'widgets/app_bottom_nav.dart' show AppNavTab;
 import 'widgets/app_settings_menu.dart';
+import 'widgets/move_meta.dart';
 import 'widgets/search_picker/search_picker.dart';
+import 'widgets/type_chip.dart';
 import 'widgets/move_table_controls.dart';
 
 /// Sort column for the Move Dex list. Mirrors the same enum in
@@ -484,23 +486,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.w600)),
                 ),
-                SizedBox(
-                  width: 50,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: KoStrings.getTypeColor(m.type),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    child: Text(KoStrings.getTypeName(m.type),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                ),
+                TypeChip.dense(m.type, width: 50),
                 const SizedBox(width: 6),
                 SizedBox(
                   width: 36,
@@ -596,7 +582,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                 ),
               ),
               const SizedBox(width: 12),
-              _typePill(m.type, big: true),
+              TypeChip(m.type),
               const SizedBox(width: 6),
               Text('/ ${_categoryShort(m.category)}',
                   style: TextStyle(
@@ -877,7 +863,7 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
                         ? m
                         : null;
                   },
-                  trailingOf: (context, m) => _typePill(m.type),
+                  trailingOf: (context, m) => MoveMeta(m),
                 ),
               );
               if (move == null || !mounted) return;
@@ -894,22 +880,6 @@ class _MoveDexScreenState extends State<MoveDexScreen> {
             },
           ),
       ],
-    );
-  }
-
-  Widget _typePill(PokemonType t, {bool big = false}) {
-    final color = KoStrings.getTypeColor(t);
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: big ? 8 : 6, vertical: big ? 3 : 2),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(KoStrings.getTypeName(t),
-          style: TextStyle(
-              fontSize: big ? 12 : 10,
-              color: Colors.white,
-              fontWeight: FontWeight.bold)),
     );
   }
 

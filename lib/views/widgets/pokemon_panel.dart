@@ -29,6 +29,8 @@ import 'offensive_power_breakdown.dart';
 import 'pokemon_sprite.dart';
 import 'status_moves_toggle.dart';
 import 'pokemon_selector.dart';
+import 'type_chip.dart';
+import 'type_filter_dialog.dart';
 import 'stat_input.dart';
 import '../../calc/entry_hazards.dart';
 import 'entry_hazard_buttons.dart';
@@ -553,29 +555,22 @@ class PokemonPanelState extends State<PokemonPanel>
             width: 40,
             child: move != null
                 ? effectiveType != null
-                  ? GestureDetector(
+                  // The move's type as the same chip the species
+                  // header uses. An orange dot marks a manual
+                  // override, like the orange category text next to it.
+                  ? TypeChip.dense(
+                      effectiveType,
+                      width: 40,
+                      dotColor: s.typeOverrides[index] != null ? Colors.orange : null,
                       onTap: () async {
-                        final t = await showDialog<PokemonType>(
+                        final t = await showTypeChoiceDialog(
                           context: context,
-                          builder: (ctx) => SimpleDialog(
-                            children: PokemonType.values.map((t) =>
-                              SimpleDialogOption(
-                                onPressed: () => Navigator.pop(ctx, t),
-                                child: Text(KoStrings.getTypeName(t), style: const TextStyle(fontSize: 14)),
-                              ),
-                            ).toList(),
-                          ),
+                          title: AppStrings.t('type.pick'),
+                          current: effectiveType,
+                          options: PokemonType.values,
                         );
                         if (t != null) { setState(() { s.typeOverrides[index] = t; }); _notifyParent(); }
                       },
-                      child: Text(
-                        KoStrings.getTypeName(effectiveType),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: s.typeOverrides[index] != null ? Colors.orange : null,
-                        ),
-                      ),
                     )
                   : Text('-', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.grey))
                 : const Text('-', textAlign: TextAlign.center),
@@ -694,7 +689,7 @@ class PokemonPanelState extends State<PokemonPanel>
     // single Tera-styled chip and lock editing while Tera is active.
     final teraActive = s.terastal.active && s.terastal.teraType != null;
     if (teraActive) {
-      return [_typeBadge(s.terastal.teraType!, isTera: true)];
+      return [TypeChip.dense(s.terastal.teraType!, ringColor: Colors.white)];
     }
     final override = getAbilityTypeOverride(
       ability: s.selectedAbility,
@@ -712,14 +707,14 @@ class PokemonPanelState extends State<PokemonPanel>
     final type3 = override != null ? null : s.type3;
 
     final chips = [
-      _typeBadge(type1, onTap: overridden ? null : _openTypePicker),
+      TypeChip.dense(type1, onTap: overridden ? null : _openTypePicker),
       if (type2 != null) ...[
         const SizedBox(width: 2),
-        _typeBadge(type2, onTap: overridden ? null : _openTypePicker),
+        TypeChip.dense(type2, onTap: overridden ? null : _openTypePicker),
       ],
       if (type3 != null) ...[
         const SizedBox(width: 2),
-        _typeBadge(type3, onTap: overridden ? null : _openTypePicker),
+        TypeChip.dense(type3, onTap: overridden ? null : _openTypePicker),
       ],
     ];
     return chips;
@@ -740,34 +735,6 @@ class PokemonPanelState extends State<PokemonPanel>
       s.type3 = result.type3;
     });
     _notifyParent();
-  }
-
-  Widget _typeBadge(PokemonType type, {bool isTera = false, VoidCallback? onTap}) {
-    final color = type == PokemonType.typeless
-        ? Theme.of(context).colorScheme.outline
-        : KoStrings.getTypeColor(type);
-    final label = type == PokemonType.typeless
-        ? AppStrings.t('type.none')
-        : KoStrings.getTypeName(type);
-    final chip = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(4),
-        border: isTera ? Border.all(color: Colors.white, width: 1.5) : null,
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-            fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
-    if (onTap == null) return chip;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      child: chip,
-    );
   }
 
   /// Mega Evolution / Primal Reversion toggle.
@@ -967,7 +934,7 @@ class PokemonPanelState extends State<PokemonPanel>
     );
   }
 
-  void _showTeraTypePicker() {
+  Future<void> _showTeraTypePicker() async {
     // Terapagos Terastal: only Stellar type, auto-switch to Stellar Form
     if (_isTerapagosTerastal) {
       setState(() {
@@ -988,38 +955,24 @@ class PokemonPanelState extends State<PokemonPanel>
       return;
     }
 
-    showDialog(
+    final picked = await showTypeFilterDialog(
       context: context,
-      builder: (ctx) => SimpleDialog(
-        title: Text(AppStrings.t('label.terastal')),
-        children: PokemonType.values.map((t) {
-          final name = KoStrings.typeEn[t]; // use typeEn to check if valid type
-          if (name == null) return const SizedBox.shrink();
-          return SimpleDialogOption(
-            onPressed: () {
-              setState(() {
-                s.terastal = TerastalState(active: true, teraType: t);
-                s.dynamax = DynamaxState.none;
-                s.zMoves = [false, false, false, false];
-              });
-              _notifyParent();
-              Navigator.pop(ctx);
-            },
-            child: Text(KoStrings.getTypeName(t)),
-          );
-        }).toList()
-          ..insert(0, SimpleDialogOption(
-            onPressed: () {
-              setState(() {
-                s.terastal = const TerastalState();
-              });
-              _notifyParent();
-              Navigator.pop(ctx);
-            },
-            child: Text(AppStrings.t('label.noTera'), style: const TextStyle(color: Colors.grey)),
-          )),
-      ),
+      title: AppStrings.t('label.terastal'),
+      noneLabel: AppStrings.t('label.noTera'),
+      current: s.terastal.active ? s.terastal.teraType : null,
+      options: kTeraTypes,
     );
+    if (!mounted || identical(picked, kTypeFilterDismissed)) return;
+    setState(() {
+      if (picked is PokemonType) {
+        s.terastal = TerastalState(active: true, teraType: picked);
+        s.dynamax = DynamaxState.none;
+        s.zMoves = [false, false, false, false];
+      } else {
+        s.terastal = const TerastalState();
+      }
+    });
+    _notifyParent();
   }
 
   /// Doubles-only attacker scenario toggles. Visibility is driven by

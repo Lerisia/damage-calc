@@ -9,9 +9,9 @@ import '../../models/move.dart';
 import '../../models/move_tags.dart';
 import '../../search/korean_search.dart';
 import '../../controllers/move_options_controller.dart';
+import 'move_meta.dart';
 import 'search_picker/search_picker.dart';
 import '../../i18n/app_strings.dart';
-import '../../i18n/localization.dart';
 
 /// A move slot: shows the current move and opens the search modal on
 /// tap. The list is the same one the old dropdown showed — current
@@ -267,23 +267,7 @@ class _MoveSelectorState extends State<MoveSelector> {
         idOf: (m) => m.name,
         fromId: (id) => byName[id],
         dimmed: (m) => !_canLearn(m),
-        trailingOf: (context, m) {
-          final learnable = _canLearn(m);
-          return Text.rich(TextSpan(children: [
-            TextSpan(
-                text: KoStrings.getTypeName(m.type),
-                style: TextStyle(
-                    fontSize: 12,
-                    color: learnable
-                        ? KoStrings.getTypeColor(m.type)
-                        : Colors.grey[400])),
-            TextSpan(
-                text: ' ${KoStrings.getCategoryName(m.category)} ${m.power}',
-                style: TextStyle(
-                    fontSize: 12,
-                    color: learnable ? Colors.grey[600] : Colors.grey[400])),
-          ]));
-        },
+        trailingOf: (context, m) => MoveMeta(m, dimmed: !_canLearn(m)),
       ),
     );
     if (picked == null || !mounted) return;

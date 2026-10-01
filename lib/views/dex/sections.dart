@@ -155,27 +155,13 @@ class _TypeMatchupsSection extends StatelessWidget {
         .toList();
     if (activeKeys.isEmpty) return const SizedBox.shrink();
 
-    // Responsive chip font: shrink as more columns are visible / on
-    // narrow phones.
+    // Responsive chips: the whole chip shrinks, uniformly, as more
+    // columns are visible / on narrow phones.
     final width = MediaQuery.of(context).size.width;
     final colCount = activeKeys.length;
     final tightFactor = (width / (colCount * 70)).clamp(0.7, 1.0);
-    final fontSize = 11.0 * tightFactor;
-    final padH = (6 * tightFactor).clamp(3.0, 6.0);
-    final padV = (2 * tightFactor).clamp(1.5, 2.0);
 
-    Widget chip(PokemonType t) => Container(
-          padding: EdgeInsets.symmetric(horizontal: padH, vertical: padV),
-          decoration: BoxDecoration(
-            color: KoStrings.getTypeColor(t),
-            borderRadius: BorderRadius.circular(3),
-          ),
-          child: Text(KoStrings.getTypeName(t),
-              style: TextStyle(
-                  fontSize: fontSize,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold)),
-        );
+    Widget chip(PokemonType t) => TypeChip.dense(t, scale: tightFactor);
 
     Widget column(double key) {
       final types = buckets[key]!;
