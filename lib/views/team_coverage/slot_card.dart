@@ -647,6 +647,7 @@ class _SlotCardState extends State<_SlotCard>
       index: _itemIndex,
       names: widget.itemNames,
       noneLabel: AppStrings.t('team.item.none'),
+      preferred: usageItemsFor(p.name),
       labelText: AppStrings.t('label.item'),
       onChanged: widget.onItemSelected,
     );

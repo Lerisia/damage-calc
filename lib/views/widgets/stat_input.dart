@@ -71,6 +71,10 @@ class StatInput extends StatefulWidget {
   final List<String> pokemonAbilities;
   final String? selectedAbility;
   final String? selectedItem;
+
+  /// Species name, for the item picker's "most used by this Pokémon"
+  /// block. Null → plain A→Z.
+  final String? pokemonName;
   final Rank rank;
   final double hpPercent;
   final StatusCondition status;
@@ -94,6 +98,7 @@ class StatInput extends StatefulWidget {
     required this.pokemonAbilities,
     this.selectedAbility,
     this.selectedItem,
+    this.pokemonName,
     required this.rank,
     required this.hpPercent,
     required this.status,
@@ -498,6 +503,7 @@ class _StatInputState extends State<StatInput>
       index: _itemIndex,
       names: _itemNameMap,
       noneLabel: AppStrings.t('label.none'),
+      preferred: usageItemsFor(widget.pokemonName),
       labelText: AppStrings.t('label.item'),
       onChanged: widget.onItemChanged,
     );

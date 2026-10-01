@@ -220,6 +220,7 @@ class PokemonPanelState extends State<PokemonPanel>
             title: AppStrings.t('section.stats'),
             child: StatInput(
               key: ValueKey('stats_${widget.resetCounter}'),
+              pokemonName: s.pokemonName,
               level: s.level,
               nature: s.nature,
               iv: s.iv,

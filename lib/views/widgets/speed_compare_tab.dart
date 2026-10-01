@@ -594,6 +594,7 @@ class SpeedCompareTabState extends State<SpeedCompareTab>
       index: _itemNameMap.isEmpty ? null : _ensureItemIndex(),
       names: _itemNameMap,
       noneLabel: AppStrings.t('label.none'),
+      preferred: usageItemsFor(state.pokemonName),
       labelText: AppStrings.t('label.item'),
       onChanged: (key) {
         setState(() => state.selectedItem = key);

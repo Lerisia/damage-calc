@@ -1752,6 +1752,7 @@ class _SimpleModeViewState extends State<SimpleModeView>
       index: _itemIndex,
       names: _itemNames,
       noneLabel: AppStrings.t('label.none'),
+      preferred: usageItemsFor((attacker ? _atk : _def).pokemonName),
       labelText: AppStrings.t('label.item'),
       onChanged: (key) {
         setState(() {

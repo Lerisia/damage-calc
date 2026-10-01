@@ -60,21 +60,34 @@ void main() {
     expect(input, findsNothing);
   });
 
-  testWidgets('the current species leads the default list; a pick is remembered as recent',
+  testWidgets('default list: current species, its megas, then the usage ranking; a pick is remembered',
       (tester) async {
     await pumpSelector(tester);
+    // The best-ranked species other than the current one — read from
+    // the live usage table, which changes daily.
+    final next = (await tester.runAsync(loadPokedex))!
+        .where((p) => p.name != 'Garchomp' && championsUsageFor(p.name)?.usageRank != null)
+        .reduce((a, b) => championsUsageFor(a.name)!.usageRank! <=
+                championsUsageFor(b.name)!.usageRank!
+            ? a
+            : b)
+        .name;
     await tester.tap(find.byType(PokemonSelector));
     await tester.pumpAndSettle();
-    final first = tester.getTopLeft(find.byKey(const ValueKey('search_picker_item_Garchomp')));
-    final second = tester.getTopLeft(find.byKey(const ValueKey('search_picker_item_Charizard')));
-    expect(first.dy, lessThan(second.dy));
-    await tester.tap(find.byKey(const ValueKey('search_picker_item_Charizard')));
+    double top(String name) =>
+        tester.getTopLeft(find.byKey(ValueKey('search_picker_item_$name'))).dy;
+    // Usage order with megas beside their base: Garchomp's megas come
+    // before the next ranked species.
+    expect(top('Garchomp'), lessThan(top('Mega Garchomp')));
+    expect(top('Mega Garchomp'), lessThan(top('Mega Garchomp Z')));
+    expect(top('Mega Garchomp Z'), lessThan(top(next)));
+    await tester.tap(find.byKey(ValueKey('search_picker_item_$next')));
     await tester.pumpAndSettle();
-    expect(picked.single.name, 'Charizard');
+    expect(picked.single.name, next);
 
     await tester.tap(find.byType(PokemonSelector));
     await tester.pumpAndSettle();
-    expect(find.byKey(const ValueKey('search_picker_recent_Charizard')), findsOneWidget);
+    expect(find.byKey(ValueKey('search_picker_recent_$next')), findsOneWidget);
   });
 
   testWidgets('an empty slot shows the hint and still opens', (tester) async {

@@ -7,6 +7,7 @@ import '../../i18n/app_strings.dart';
 import '../../controllers/champions_filter_controller.dart';
 import '../../platform/sprite_pack_manager.dart';
 import '../../search/korean_search.dart';
+import '../../search/pokemon_order.dart';
 import 'pokemon_sprite.dart';
 import 'search_picker/search_picker.dart';
 
@@ -31,7 +32,12 @@ class PokemonSelector extends StatefulWidget {
 
 class _PokemonSelectorState extends State<PokemonSelector> {
   SearchIndex<Pokemon>? _index;
+  List<Pokemon> _visible = const [];
   Pokemon? _selected;
+
+  /// Default-list position by name, rebuilt each time the modal opens
+  /// (the usage table follows the singles / doubles setting).
+  Map<String, int> _order = const {};
 
   @override
   void initState() {
@@ -44,6 +50,7 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     if (!mounted) return;
     final visible = all.where((p) => !p.hidden).toList();
     setState(() {
+      _visible = visible;
       _index = SearchIndex<Pokemon>(visible.map((p) =>
           SearchEntry(p, p.nameKo, p.name, nameJa: p.nameJa, aliases: p.aliases)));
       // Empty / null initial name → leave the field blank so callers
@@ -75,17 +82,22 @@ class _PokemonSelectorState extends State<PokemonSelector> {
     // Selected species pinned first (both modes); champions-only
     // filter applied to the rest via `allow` — the pinned selection
     // bypasses it so toggling the filter never strands the field.
-    // Empty-mode rest keeps dex order (no restSort). Equal-relevance
-    // ties fall back to dex order (SearchIndex default).
+    // Empty-mode rest follows Champions usage rank with Megas next to
+    // their base species (see usageOrder). Equal-relevance ties on a
+    // query fall back to dex order (SearchIndex default).
     return pickerSuggestions(
       index,
       query,
       hoist: _selected,
       allow: _passesFilter,
+      restSort: (a, b) =>
+          (_order[a.name] ?? 0).compareTo(_order[b.name] ?? 0),
     );
   }
 
   Future<void> _open() async {
+    _order = usageOrder(
+        _visible, (name) => championsUsageFor(name)?.usageRank);
     final picked = await showSearchPicker<Pokemon>(
       context,
       SearchPickerConfig<Pokemon>(
