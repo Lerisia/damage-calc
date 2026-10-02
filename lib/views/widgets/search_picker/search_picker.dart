@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../controllers/search_picker_prefs.dart';
+import 'keyboard_primer.dart';
 import 'search_picker_modal.dart';
 
 export '../../../controllers/search_picker_prefs.dart' show PickerViewMode;
@@ -99,16 +100,26 @@ class SearchPickerConfig<T> {
 /// The search box has the cursor the moment the modal is up, so the tap
 /// that opened it is the only tap before typing. No transition — this
 /// calculator runs inside a one-minute battle timer.
+///
+/// Call it straight from the tap handler, before any `await`: on the
+/// web the keyboard only comes up for a focus made during the tap (see
+/// [KeyboardPrimer]).
 Future<T?> showSearchPicker<T>(
     BuildContext context, SearchPickerConfig<T> config) async {
-  final picked = await showGeneralDialog<T>(
-    context: context,
-    barrierDismissible: true,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    barrierColor: Colors.black54,
-    transitionDuration: Duration.zero,
-    pageBuilder: (ctx, _, __) => SearchPickerModal<T>(config: config),
-  );
+  final keyboard = KeyboardPrimer.prime(context);
+  final T? picked;
+  try {
+    picked = await showGeneralDialog<T>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black54,
+      transitionDuration: Duration.zero,
+      pageBuilder: (ctx, _, __) => SearchPickerModal<T>(config: config),
+    );
+  } finally {
+    keyboard?.release();
+  }
   if (picked != null && config.showRecents) {
     // Recorded in memory at once; the write to storage is not awaited
     // (and may fail) — a pick must never wait on, or be lost to, the
