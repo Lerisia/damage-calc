@@ -2,7 +2,7 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via champs.pokedb.tokyo",
     "format": "Season M-6 / double",
-    "updatedAt": "2026-10-07",
+    "updatedAt": "2026-10-08",
     "curatedBy": "auto: champs.pokedb.tokyo (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries are ordered by descending in-game usage. pct is optional and left null when only rank order was recorded. Items/moves/natures with <1% usage are omitted from newer entries to reduce noise."
   },
@@ -5763,7 +5763,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 106,
+    "usageRank": 105,
     "abilities": [
       {
         "name": "Unnerve",
@@ -14873,7 +14873,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 105,
+    "usageRank": 106,
     "abilities": [
       {
         "name": "Water Bubble",
@@ -20700,7 +20700,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 174,
+    "usageRank": 175,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -21848,7 +21848,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 175,
+    "usageRank": 174,
     "abilities": [
       {
         "name": "No Guard",
