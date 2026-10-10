@@ -8378,19 +8378,21 @@ UF:function UF(a,b){var _=this
 _.a=a
 _.b=null
 _.c=b
-_.e=_.d=0},
+_.f=_.e=0},
 RR:function RR(a,b){this.a=a
 this.b=b},
-b3Y(a,b,c,d){var s,r,q=new A.ak5(b)
+b3Y(a,b,c,d){var s,r,q,p,o=new A.ak5(b)
 if(d==null)d=0
-if(c==null)c=a.length-d
-s=a.length
-if(d+c>s)c=s-d
-r=t.H3.b(a)?a:new Uint8Array(A.m3(a))
-s=J.hY(B.ad.gc_(r),r.byteOffset+d,c)
-q.b=s
-q.d=s.length
-return q},
+if(d<0)d=0
+else{s=a.length
+if(d>s)d=s}r=a.length-d
+if(c==null)c=r
+if(c<0||c>r)c=r
+q=t.H3.b(a)?a:new Uint8Array(A.m3(a))
+p=J.hY(B.ad.gc_(q),q.byteOffset+d,c)
+o.b=p
+o.d=p.length
+return o},
 ak5:function ak5(a){var _=this
 _.b=null
 _.c=0
@@ -54930,7 +54932,7 @@ if(s==null)return s
 s.d===$&&A.b()
 return s},
 Yf(){var s,r,q=this
-q.e=q.d=0
+q.f=q.e=0
 if(q.glv()==null)return
 for(;;){s=q.glv()
 r=s.c
@@ -54955,7 +54957,7 @@ break
 default:return!1}return(q&1)===0},
 jK(a){var s,r,q,p,o=this
 if(a===0)return 0
-while(s=o.e,s<a){s=o.glv()
+while(s=o.f,s<a){s=o.glv()
 r=s.c
 s=s.d
 s===$&&A.b()
@@ -54964,18 +54966,18 @@ s=o.glv()
 r=s.b
 r.toString
 q=r[s.c++]
-s=o.d
-r=o.e
-o.d=(s|B.i.vV(q,r))>>>0
-o.e=r+8}r=o.d
+s=o.e
+r=o.f
+o.e=(s|B.i.vV(q,r))>>>0
+o.f=r+8}r=o.e
 p=B.i.LY(1,a)
-o.d=B.i.D7(r,a)
-o.e=s-a
+o.e=B.i.D7(r,a)
+o.f=s-a
 return(r&p-1)>>>0},
 Lt(a){var s,r,q,p,o,n,m=this,l=a.a
 l===$&&A.b()
 s=a.b
-while(r=m.e,r<s){r=m.glv()
+while(r=m.f,r<s){r=m.glv()
 q=r.c
 r=r.d
 r===$&&A.b()
@@ -54984,18 +54986,18 @@ r=m.glv()
 q=r.b
 q.toString
 p=q[r.c++]
-r=m.d
-q=m.e
-m.d=(r|B.i.vV(p,q))>>>0
-m.e=q+8}q=m.d
+r=m.e
+q=m.f
+m.e=(r|B.i.vV(p,q))>>>0
+m.f=q+8}q=m.e
 o=l[(q&B.i.vV(1,s)-1)>>>0]
 n=o>>>16
 if(n===0)return-1
-m.d=B.i.D7(q,n)
-m.e=r-n
+m.e=B.i.D7(q,n)
+m.f=r-n
 return o&65535},
 avh(){var s,r,q=this
-q.e=q.d=0
+q.f=q.e=0
 s=q.jK(16)
 r=q.jK(16)
 if(s!==0&&s!==(r^65535)>>>0)return-1
@@ -55039,7 +55041,7 @@ n=l.Lt(b)
 if(n<0||n>29)return-1
 m=B.a46[n]+l.jK(B.Zv[n])
 if(m<1||m>s.b)return-1
-s.aNZ(m,q+p)}while(s=l.e,s>=8){l.e=s-8
+s.aNZ(m,q+p)}while(s=l.f,s>=8){l.f=s-8
 s=l.glv()
 q=--s.c
 p=s.d
