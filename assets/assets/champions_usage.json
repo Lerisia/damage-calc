@@ -2,11 +2,11 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-7 / single",
-    "updatedAt": "2026-10-10",
+    "updatedAt": "2026-10-11",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo.",
     "fillFrom": "champs.pokedb.tokyo — species the primary source had not ranked yet, ranked after its last entry",
-    "fillUpdatedAt": "2026-10-10"
+    "fillUpdatedAt": "2026-10-11"
   },
   "Garchomp": {
     "usageRank": 1,
@@ -30019,93 +30019,114 @@
     }
   },
   "Leafeon": {
-    "usageRank": 260,
+    "usageRank": 231,
     "abilities": [
       {
         "name": "Chlorophyll",
-        "pct": 100.0
+        "pct": 56.3
+      },
+      {
+        "name": "Leaf Guard",
+        "pct": 43.8
       }
     ],
     "items": [
       {
         "name": "focus-sash",
-        "pct": 91.7
+        "pct": 87.5
+      },
+      {
+        "name": "rocky-helmet",
+        "pct": 6.3
       },
       {
         "name": "sitrus-berry",
-        "pct": 8.3
+        "pct": 3.1
+      },
+      {
+        "name": "life-orb",
+        "pct": 3.1
       }
     ],
     "moves": [
       {
+        "name": "Leaf Blade",
+        "pct": 53.1
+      },
+      {
+        "name": "Knock Off",
+        "pct": 46.9
+      },
+      {
+        "name": "Quick Attack",
+        "pct": 46.9
+      },
+      {
+        "name": "Charm",
+        "pct": 43.8
+      },
+      {
         "name": "Yawn",
-        "pct": 91.7
-      },
-      {
-        "name": "Sunny Day",
-        "pct": 83.3
-      },
-      {
-        "name": "Weather Ball",
-        "pct": 83.3
+        "pct": 43.8
       },
       {
         "name": "Solar Blade",
-        "pct": 83.3
+        "pct": 43.8
       },
       {
-        "name": "Focus Energy",
-        "pct": 8.3
+        "name": "Sunny Day",
+        "pct": 40.6
+      },
+      {
+        "name": "Weather Ball",
+        "pct": 40.6
       },
       {
         "name": "Protect",
-        "pct": 8.3
-      },
-      {
-        "name": "Endure",
-        "pct": 8.3
+        "pct": 9.4
       },
       {
         "name": "Synthesis",
-        "pct": 8.3
-      },
-      {
-        "name": "Leaf Blade",
-        "pct": 8.3
-      },
-      {
-        "name": "Leech Seed",
-        "pct": 8.3
-      }
-    ],
-    "defaultMoves": [
-      {
-        "name": "Solar Blade"
-      },
-      {
-        "name": "Weather Ball"
-      },
-      {
-        "name": "Yawn"
-      },
-      {
-        "name": "Sunny Day"
+        "pct": 9.4
       }
     ],
     "natures": [
       {
+        "name": "Impish",
+        "pct": 53.1
+      },
+      {
         "name": "Naughty",
-        "pct": 83.3
+        "pct": 40.6
       },
       {
         "name": "Adamant",
-        "pct": 8.3
+        "pct": 6.3
+      }
+    ],
+    "teras": [],
+    "defaultMoves": [
+      {
+        "name": "Leaf Blade"
       },
       {
-        "name": "Impish",
-        "pct": 8.3
+        "name": "Knock Off"
+      },
+      {
+        "name": "Quick Attack"
+      },
+      {
+        "name": "Charm"
       }
-    ]
+    ],
+    "defaultSp": {
+      "hp": 31,
+      "atk": 5,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 30
+    }
   },
   "Emolga": {
     "usageRank": 166,
@@ -38698,7 +38719,7 @@
     }
   },
   "Gourgeist (Super Size)": {
-    "usageRank": 261,
+    "usageRank": 260,
     "abilities": [
       {
         "name": "Insomnia",
