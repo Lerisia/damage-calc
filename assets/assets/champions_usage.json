@@ -2,11 +2,11 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-7 / single",
-    "updatedAt": "2026-10-16",
+    "updatedAt": "2026-10-17",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo.",
     "fillFrom": "champs.pokedb.tokyo — species the primary source had not ranked yet, ranked after its last entry",
-    "fillUpdatedAt": "2026-10-16"
+    "fillUpdatedAt": "2026-10-17"
   },
   "Garchomp": {
     "usageRank": 1,
@@ -30239,19 +30239,11 @@
     }
   },
   "Rhyperior": {
-    "defaultSp": {
-      "hp": 32,
-      "atk": 32,
-      "def": 2,
-      "spa": 0,
-      "spd": 0,
-      "spe": 0
-    },
-    "usageRank": 263,
+    "usageRank": 175,
     "abilities": [
       {
         "name": "Solid Rock",
-        "pct": 87.8
+        "pct": 87.9
       },
       {
         "name": "Reckless",
@@ -30265,23 +30257,23 @@
     "items": [
       {
         "name": "life-orb",
-        "pct": 18.4
-      },
-      {
-        "name": "focus-sash",
-        "pct": 15.6
+        "pct": 17.9
       },
       {
         "name": "sitrus-berry",
-        "pct": 15.3
+        "pct": 15.5
+      },
+      {
+        "name": "focus-sash",
+        "pct": 15.5
       },
       {
         "name": "quick-claw",
-        "pct": 12.7
+        "pct": 12.8
       },
       {
         "name": "expert-belt",
-        "pct": 5.7
+        "pct": 5.4
       },
       {
         "name": "rindo-berry",
@@ -30289,41 +30281,41 @@
       },
       {
         "name": "leftovers",
-        "pct": 3.3
-      },
-      {
-        "name": "rocky-helmet",
-        "pct": 2.9
-      },
-      {
-        "name": "passho-berry",
-        "pct": 2.7
+        "pct": 3.4
       },
       {
         "name": "chople-berry",
+        "pct": 2.9
+      },
+      {
+        "name": "rocky-helmet",
         "pct": 2.6
+      },
+      {
+        "name": "lum-berry",
+        "pct": 2.3
       }
     ],
     "moves": [
       {
         "name": "Earthquake",
-        "pct": 85.1
+        "pct": 85.0
       },
       {
         "name": "Ice Punch",
-        "pct": 42.3
+        "pct": 43.4
       },
       {
         "name": "Supercell Slam",
-        "pct": 32
+        "pct": 32.8
       },
       {
         "name": "Rock Blast",
-        "pct": 31.5
+        "pct": 32.7
       },
       {
         "name": "Stone Edge",
-        "pct": 29.6
+        "pct": 29.4
       },
       {
         "name": "Metal Burst",
@@ -30331,21 +30323,60 @@
       },
       {
         "name": "Avalanche",
-        "pct": 18.3
+        "pct": 17.8
       },
       {
         "name": "Horn Drill",
-        "pct": 16.8
+        "pct": 17.0
       },
       {
         "name": "Temper Flare",
-        "pct": 16.6
+        "pct": 16.0
       },
       {
         "name": "Stealth Rock",
-        "pct": 12.8
+        "pct": 12.9
       }
     ],
+    "natures": [
+      {
+        "name": "Adamant",
+        "pct": 60.8
+      },
+      {
+        "name": "Brave",
+        "pct": 23.2
+      },
+      {
+        "name": "Impish",
+        "pct": 6.0
+      },
+      {
+        "name": "Careful",
+        "pct": 3.7
+      },
+      {
+        "name": "Relaxed",
+        "pct": 3.0
+      },
+      {
+        "name": "Sassy",
+        "pct": 1.3
+      },
+      {
+        "name": "Jolly",
+        "pct": 1.0
+      },
+      {
+        "name": "Naughty",
+        "pct": 0.5
+      },
+      {
+        "name": "Timid",
+        "pct": 0.4
+      }
+    ],
+    "teras": [],
     "defaultMoves": [
       {
         "name": "Earthquake"
@@ -30360,48 +30391,14 @@
         "name": "Supercell Slam"
       }
     ],
-    "natures": [
-      {
-        "name": "Adamant",
-        "pct": 59.6
-      },
-      {
-        "name": "Brave",
-        "pct": 23.0
-      },
-      {
-        "name": "Impish",
-        "pct": 6.3
-      },
-      {
-        "name": "Careful",
-        "pct": 4.0
-      },
-      {
-        "name": "Relaxed",
-        "pct": 3.5
-      },
-      {
-        "name": "Sassy",
-        "pct": 1.5
-      },
-      {
-        "name": "Jolly",
-        "pct": 0.9
-      },
-      {
-        "name": "Timid",
-        "pct": 0.6
-      },
-      {
-        "name": "Naughty",
-        "pct": 0.4
-      },
-      {
-        "name": "Quiet",
-        "pct": 0.2
-      }
-    ]
+    "defaultSp": {
+      "hp": 32,
+      "atk": 32,
+      "def": 2,
+      "spa": 0,
+      "spd": 0,
+      "spe": 0
+    }
   },
   "Avalugg": {
     "usageRank": 202,
