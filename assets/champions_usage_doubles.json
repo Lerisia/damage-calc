@@ -2,7 +2,7 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via champs.pokedb.tokyo",
     "format": "Season M-7 / double",
-    "updatedAt": "2026-10-16",
+    "updatedAt": "2026-10-17",
     "curatedBy": "auto: champs.pokedb.tokyo (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries are ordered by descending in-game usage. pct is optional and left null when only rank order was recorded. Items/moves/natures with <1% usage are omitted from newer entries to reduce noise."
   },
@@ -792,7 +792,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 8,
+    "usageRank": 9,
     "abilities": [
       {
         "name": "Defiant",
@@ -2153,7 +2153,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 21,
+    "usageRank": 23,
     "abilities": [
       {
         "name": "Prankster",
@@ -2310,7 +2310,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 10,
+    "usageRank": 8,
     "abilities": [
       {
         "name": "Lightning Rod",
@@ -3430,7 +3430,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 22,
+    "usageRank": 20,
     "abilities": [
       {
         "name": "Chlorophyll",
@@ -3740,7 +3740,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 23,
+    "usageRank": 22,
     "abilities": [
       {
         "name": "Competitive",
@@ -4328,7 +4328,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 79,
+    "usageRank": 77,
     "abilities": [
       {
         "name": "Levitate",
@@ -4981,7 +4981,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 42,
+    "usageRank": 43,
     "abilities": [
       {
         "name": "Defiant",
@@ -5259,7 +5259,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 77,
+    "usageRank": 78,
     "abilities": [
       {
         "name": "Unnerve",
@@ -5356,7 +5356,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 56,
+    "usageRank": 54,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -5493,7 +5493,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 40,
+    "usageRank": 39,
     "abilities": [
       {
         "name": "Cursed Body",
@@ -5711,7 +5711,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 43,
+    "usageRank": 42,
     "abilities": [
       {
         "name": "Liquid Voice",
@@ -6489,7 +6489,7 @@
     ]
   },
   "Eelektross": {
-    "usageRank": 140,
+    "usageRank": 137,
     "abilities": [
       {
         "name": "Levitate",
@@ -6989,7 +6989,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 97,
+    "usageRank": 96,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -7489,7 +7489,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 91,
+    "usageRank": 92,
     "abilities": [
       {
         "name": "Moody",
@@ -7735,7 +7735,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 90,
+    "usageRank": 89,
     "abilities": [
       {
         "name": "Technician",
@@ -7997,7 +7997,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 72,
+    "usageRank": 70,
     "abilities": [
       {
         "name": "Illusion",
@@ -8304,7 +8304,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 98,
+    "usageRank": 99,
     "abilities": [
       {
         "name": "Oblivious",
@@ -8417,7 +8417,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 92,
+    "usageRank": 93,
     "abilities": [
       {
         "name": "Unaware",
@@ -8969,7 +8969,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 39,
+    "usageRank": 40,
     "abilities": [
       {
         "name": "Swift Swim",
@@ -9098,7 +9098,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 151,
+    "usageRank": 152,
     "abilities": [
       {
         "name": "Adaptability",
@@ -9199,7 +9199,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 82,
+    "usageRank": 84,
     "abilities": [
       {
         "name": "Disguise",
@@ -9304,7 +9304,7 @@
     ]
   },
   "Gyarados": {
-    "usageRank": 104,
+    "usageRank": 103,
     "abilities": [
       {
         "name": "Intimidate",
@@ -9518,7 +9518,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 86,
+    "usageRank": 87,
     "abilities": [
       {
         "name": "Drought",
@@ -9631,7 +9631,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 165,
+    "usageRank": 162,
     "abilities": [
       {
         "name": "Chlorophyll",
@@ -9849,7 +9849,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 75,
+    "usageRank": 76,
     "abilities": [
       {
         "name": "Cloud Nine",
@@ -9990,7 +9990,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 106,
+    "usageRank": 105,
     "abilities": [
       {
         "name": "Stance Change",
@@ -10292,7 +10292,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 84,
+    "usageRank": 83,
     "abilities": [
       {
         "name": "Protean",
@@ -10421,7 +10421,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 20,
+    "usageRank": 21,
     "abilities": [
       {
         "name": "Flame Body",
@@ -10691,7 +10691,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 105,
+    "usageRank": 107,
     "abilities": [
       {
         "name": "Snow Warning",
@@ -10800,7 +10800,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 99,
+    "usageRank": 97,
     "abilities": [
       {
         "name": "Contrary",
@@ -11227,7 +11227,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 93,
+    "usageRank": 91,
     "abilities": [
       {
         "name": "Pickpocket",
@@ -11340,7 +11340,7 @@
       "spd": 1,
       "spe": 0
     },
-    "usageRank": 124,
+    "usageRank": 121,
     "abilities": [
       {
         "name": "Huge Power",
@@ -11941,7 +11941,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 103,
+    "usageRank": 104,
     "abilities": [
       {
         "name": "Sharpness",
@@ -12058,7 +12058,7 @@
       "spd": 1,
       "spe": 0
     },
-    "usageRank": 87,
+    "usageRank": 85,
     "abilities": [
       {
         "name": "Flash Fire",
@@ -12344,7 +12344,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 137,
+    "usageRank": 139,
     "abilities": [
       {
         "name": "Iron Fist",
@@ -12659,7 +12659,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 158,
+    "usageRank": 160,
     "abilities": [
       {
         "name": "Hyper Cutter",
@@ -12845,7 +12845,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 70,
+    "usageRank": 72,
     "abilities": [
       {
         "name": "Sharpness",
@@ -13063,7 +13063,7 @@
     ]
   },
   "Arcanine": {
-    "usageRank": 130,
+    "usageRank": 131,
     "abilities": [
       {
         "name": "Intimidate",
@@ -13204,7 +13204,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 119,
+    "usageRank": 118,
     "abilities": [
       {
         "name": "Electromorphosis",
@@ -13317,7 +13317,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 146,
+    "usageRank": 147,
     "abilities": [
       {
         "name": "Sturdy",
@@ -13410,7 +13410,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 54,
+    "usageRank": 56,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -13979,7 +13979,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 149,
+    "usageRank": 148,
     "abilities": [
       {
         "name": "Contrary",
@@ -14096,7 +14096,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 142,
+    "usageRank": 143,
     "abilities": [
       {
         "name": "Sand Rush",
@@ -14205,7 +14205,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 141,
+    "usageRank": 142,
     "abilities": [
       {
         "name": "Zero to Hero",
@@ -14314,7 +14314,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 125,
+    "usageRank": 122,
     "abilities": [
       {
         "name": "Volt Absorb",
@@ -14415,7 +14415,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 89,
+    "usageRank": 90,
     "abilities": [
       {
         "name": "Shell Armor",
@@ -14560,7 +14560,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 96,
+    "usageRank": 98,
     "abilities": [
       {
         "name": "Competitive",
@@ -14689,7 +14689,7 @@
     ]
   },
   "Ampharos": {
-    "usageRank": 143,
+    "usageRank": 141,
     "abilities": [
       {
         "name": "Static",
@@ -14786,7 +14786,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 111,
+    "usageRank": 112,
     "abilities": [
       {
         "name": "Prankster",
@@ -14911,7 +14911,7 @@
       "spd": 3,
       "spe": 0
     },
-    "usageRank": 164,
+    "usageRank": 163,
     "abilities": [
       {
         "name": "Guts",
@@ -15169,7 +15169,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 166,
+    "usageRank": 164,
     "abilities": [
       {
         "name": "Solid Rock",
@@ -15270,7 +15270,7 @@
     ]
   },
   "Reuniclus": {
-    "usageRank": 180,
+    "usageRank": 182,
     "abilities": [
       {
         "name": "Magic Guard",
@@ -15375,7 +15375,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 131,
+    "usageRank": 133,
     "abilities": [
       {
         "name": "Imposter",
@@ -15463,7 +15463,7 @@
       "spd": 1,
       "spe": 1
     },
-    "usageRank": 126,
+    "usageRank": 120,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -15576,7 +15576,7 @@
       "spd": 3,
       "spe": 0
     },
-    "usageRank": 153,
+    "usageRank": 155,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -15685,7 +15685,7 @@
     ]
   },
   "Spiritomb": {
-    "usageRank": 122,
+    "usageRank": 124,
     "abilities": [
       {
         "name": "Infiltrator",
@@ -15798,7 +15798,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 147,
+    "usageRank": 146,
     "abilities": [
       {
         "name": "Scrappy",
@@ -15895,7 +15895,7 @@
     ]
   },
   "Wyrdeer": {
-    "usageRank": 133,
+    "usageRank": 128,
     "abilities": [
       {
         "name": "Intimidate",
@@ -15996,7 +15996,7 @@
     ]
   },
   "Cofagrigus": {
-    "usageRank": 168,
+    "usageRank": 167,
     "abilities": [
       {
         "name": "Mummy",
@@ -16097,7 +16097,7 @@
     ]
   },
   "Frost Rotom": {
-    "usageRank": 194,
+    "usageRank": 201,
     "abilities": [
       {
         "name": "Levitate",
@@ -16190,7 +16190,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 83,
+    "usageRank": 82,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -16299,7 +16299,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 193,
+    "usageRank": 188,
     "abilities": [
       {
         "name": "Screen Cleaner",
@@ -16622,7 +16622,7 @@
     ]
   },
   "Glaceon": {
-    "usageRank": 155,
+    "usageRank": 153,
     "abilities": [
       {
         "name": "Snow Cloak",
@@ -16707,7 +16707,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 120,
+    "usageRank": 123,
     "abilities": [
       {
         "name": "Sturdy",
@@ -16812,7 +16812,7 @@
     ]
   },
   "Scolipede": {
-    "usageRank": 205,
+    "usageRank": 204,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -16901,7 +16901,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 128,
+    "usageRank": 130,
     "abilities": [
       {
         "name": "Oblivious",
@@ -17022,7 +17022,7 @@
     ]
   },
   "Hydrapple": {
-    "usageRank": 199,
+    "usageRank": 196,
     "abilities": [
       {
         "name": "Regenerator",
@@ -17095,7 +17095,7 @@
     ]
   },
   "Mow Rotom": {
-    "usageRank": 228,
+    "usageRank": 230,
     "abilities": [
       {
         "name": "Levitate",
@@ -17176,7 +17176,7 @@
     ]
   },
   "Paldean Tauros (Aqua Breed)": {
-    "usageRank": 187,
+    "usageRank": 183,
     "abilities": [
       {
         "name": "Intimidate",
@@ -17257,7 +17257,7 @@
     ]
   },
   "Orthworm": {
-    "usageRank": 204,
+    "usageRank": 206,
     "abilities": [
       {
         "name": "Earth Eater",
@@ -17427,7 +17427,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 138,
+    "usageRank": 140,
     "abilities": [
       {
         "name": "Intimidate",
@@ -17664,7 +17664,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 179,
+    "usageRank": 170,
     "abilities": [
       {
         "name": "Prankster",
@@ -17741,7 +17741,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 148,
+    "usageRank": 149,
     "abilities": [
       {
         "name": "Frisk",
@@ -17834,7 +17834,7 @@
       "spd": 32,
       "spe": 1
     },
-    "usageRank": 121,
+    "usageRank": 125,
     "abilities": [
       {
         "name": "Bulletproof",
@@ -18125,7 +18125,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 107,
+    "usageRank": 108,
     "abilities": [
       {
         "name": "Sand Stream",
@@ -18258,7 +18258,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 152,
+    "usageRank": 151,
     "abilities": [
       {
         "name": "Iron Fist",
@@ -18351,7 +18351,7 @@
     ]
   },
   "Runerigus": {
-    "usageRank": 195,
+    "usageRank": 192,
     "abilities": [
       {
         "name": "Wandering Spirit",
@@ -18456,7 +18456,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 178,
+    "usageRank": 181,
     "abilities": [
       {
         "name": "Snow Warning",
@@ -18784,7 +18784,7 @@
     ]
   },
   "Slowking": {
-    "usageRank": 198,
+    "usageRank": 195,
     "abilities": [
       {
         "name": "Regenerator",
@@ -18845,7 +18845,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 171,
+    "usageRank": 176,
     "abilities": [
       {
         "name": "Inner Focus",
@@ -18910,7 +18910,7 @@
     ]
   },
   "Typhlosion": {
-    "usageRank": 191,
+    "usageRank": 180,
     "abilities": [
       {
         "name": "Flash Fire",
@@ -19003,7 +19003,7 @@
     ]
   },
   "Aromatisse": {
-    "usageRank": 188,
+    "usageRank": 190,
     "abilities": [
       {
         "name": "Aroma Veil",
@@ -19092,7 +19092,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 230,
+    "usageRank": 228,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -19157,7 +19157,7 @@
     ]
   },
   "Audino": {
-    "usageRank": 118,
+    "usageRank": 119,
     "abilities": [
       {
         "name": "Healer",
@@ -19262,7 +19262,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 163,
+    "usageRank": 165,
     "abilities": [
       {
         "name": "Overgrow",
@@ -19379,7 +19379,7 @@
       "spd": 1,
       "spe": 32
     },
-    "usageRank": 157,
+    "usageRank": 156,
     "abilities": [
       {
         "name": "Pure Power",
@@ -19472,7 +19472,7 @@
     ]
   },
   "Salazzle": {
-    "usageRank": 184,
+    "usageRank": 178,
     "abilities": [
       {
         "name": "Oblivious",
@@ -19537,7 +19537,7 @@
     ]
   },
   "Vaporeon": {
-    "usageRank": 190,
+    "usageRank": 187,
     "abilities": [
       {
         "name": "Water Absorb",
@@ -19900,7 +19900,7 @@
     ]
   },
   "Garganacl": {
-    "usageRank": 210,
+    "usageRank": 211,
     "abilities": [
       {
         "name": "Clear Body",
@@ -20054,7 +20054,7 @@
     ]
   },
   "Chimecho": {
-    "usageRank": 203,
+    "usageRank": 199,
     "abilities": [
       {
         "name": "Levitate",
@@ -20147,7 +20147,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 173,
+    "usageRank": 175,
     "abilities": [
       {
         "name": "Intimidate",
@@ -20450,7 +20450,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 181,
+    "usageRank": 184,
     "abilities": [
       {
         "name": "Sand Rush",
@@ -20519,7 +20519,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 192,
+    "usageRank": 194,
     "abilities": [
       {
         "name": "Moxie",
@@ -20724,7 +20724,7 @@
       "spd": 2,
       "spe": 32
     },
-    "usageRank": 185,
+    "usageRank": 186,
     "abilities": [
       {
         "name": "Sheer Force",
@@ -20817,7 +20817,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 123,
+    "usageRank": 126,
     "abilities": [
       {
         "name": "Flash Fire",
@@ -20914,7 +20914,7 @@
     ]
   },
   "Sharpedo": {
-    "usageRank": 182,
+    "usageRank": 174,
     "abilities": [
       {
         "name": "Speed Boost",
@@ -21003,7 +21003,7 @@
     ]
   },
   "Beartic": {
-    "usageRank": 208,
+    "usageRank": 203,
     "abilities": [
       {
         "name": "Swift Swim",
@@ -21176,7 +21176,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 175,
+    "usageRank": 173,
     "abilities": [
       {
         "name": "Hunger Switch",
@@ -21277,7 +21277,7 @@
       "spd": 0,
       "spe": 2
     },
-    "usageRank": 170,
+    "usageRank": 177,
     "abilities": [
       {
         "name": "Blaze",
@@ -21366,7 +21366,7 @@
     ]
   },
   "Goodra": {
-    "usageRank": 206,
+    "usageRank": 205,
     "abilities": [
       {
         "name": "Sap Sipper",
@@ -21451,7 +21451,7 @@
     ]
   },
   "Hisuian Avalugg": {
-    "usageRank": 207,
+    "usageRank": 209,
     "abilities": [
       {
         "name": "Sturdy",
@@ -21524,7 +21524,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 200,
+    "usageRank": 207,
     "abilities": [
       {
         "name": "Big Pecks",
@@ -21686,7 +21686,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 78,
+    "usageRank": 80,
     "abilities": [
       {
         "name": "Competitive",
@@ -21899,7 +21899,7 @@
     ]
   },
   "Tyrantrum": {
-    "usageRank": 209,
+    "usageRank": 208,
     "abilities": [
       {
         "name": "Strong Jaw",
@@ -22161,7 +22161,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 162,
+    "usageRank": 166,
     "abilities": [
       {
         "name": "Sniper",
@@ -22242,7 +22242,7 @@
     ]
   },
   "Pangoro": {
-    "usageRank": 196,
+    "usageRank": 198,
     "abilities": [
       {
         "name": "Scrappy",
@@ -22335,7 +22335,7 @@
     ]
   },
   "Florges": {
-    "usageRank": 220,
+    "usageRank": 213,
     "abilities": [
       {
         "name": "Flower Veil",
@@ -22436,7 +22436,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 53,
+    "usageRank": 55,
     "abilities": [
       {
         "name": "Justified",
@@ -22541,7 +22541,7 @@
     ]
   },
   "Diggersby": {
-    "usageRank": 227,
+    "usageRank": 223,
     "abilities": [
       {
         "name": "Huge Power",
@@ -22762,7 +22762,7 @@
       "spd": 2,
       "spe": 32
     },
-    "usageRank": 156,
+    "usageRank": 158,
     "abilities": [
       {
         "name": "Surge Surfer",
@@ -22819,7 +22819,7 @@
     ]
   },
   "Zoroark": {
-    "usageRank": 167,
+    "usageRank": 168,
     "abilities": [
       {
         "name": "Illusion",
@@ -23326,7 +23326,7 @@
     ]
   },
   "Flapple": {
-    "usageRank": 239,
+    "usageRank": 238,
     "abilities": [
       {
         "name": "Hustle",
@@ -23391,7 +23391,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 222,
+    "usageRank": 227,
     "abilities": [
       {
         "name": "Frisk",
@@ -23476,7 +23476,7 @@
     ]
   },
   "Decidueye": {
-    "usageRank": 231,
+    "usageRank": 232,
     "abilities": [
       {
         "name": "Overgrow",
@@ -23669,7 +23669,7 @@
     ]
   },
   "Bastiodon": {
-    "usageRank": 223,
+    "usageRank": 224,
     "abilities": [
       {
         "name": "Soundproof",
@@ -23830,7 +23830,7 @@
     ]
   },
   "Passimian": {
-    "usageRank": 234,
+    "usageRank": 233,
     "abilities": [
       {
         "name": "Defiant",
@@ -23975,7 +23975,7 @@
     ]
   },
   "Forretress": {
-    "usageRank": 238,
+    "usageRank": 240,
     "abilities": [
       {
         "name": "Sturdy",
@@ -24032,7 +24032,7 @@
     ]
   },
   "Qwilfish": {
-    "usageRank": 260,
+    "usageRank": 258,
     "abilities": [
       {
         "name": "Intimidate",
@@ -24085,7 +24085,7 @@
     ]
   },
   "Dedenne": {
-    "usageRank": 226,
+    "usageRank": 234,
     "abilities": [
       {
         "name": "Pickup",
@@ -24138,7 +24138,7 @@
     ]
   },
   "Lycanroc (Midnight Form)": {
-    "usageRank": 247,
+    "usageRank": 244,
     "abilities": [
       {
         "name": "No Guard",
@@ -24303,7 +24303,7 @@
     ]
   },
   "Arbok": {
-    "usageRank": 240,
+    "usageRank": 239,
     "abilities": [
       {
         "name": "Intimidate",
@@ -24433,7 +24433,7 @@
     ]
   },
   "Simipour": {
-    "usageRank": 259,
+    "usageRank": 260,
     "abilities": [
       {
         "name": "Torrent",
@@ -24486,7 +24486,7 @@
     ]
   },
   "Slurpuff": {
-    "usageRank": 211,
+    "usageRank": 210,
     "abilities": [
       {
         "name": "Unburden",
@@ -24775,7 +24775,7 @@
     ]
   },
   "Paldean Tauros (Combat Breed)": {
-    "usageRank": 248,
+    "usageRank": 251,
     "abilities": [
       {
         "name": "Anger Point",
@@ -24832,7 +24832,7 @@
     ]
   },
   "Gourgeist": {
-    "usageRank": 261,
+    "usageRank": 262,
     "abilities": [
       {
         "name": "Frisk",
@@ -25290,7 +25290,7 @@
     ]
   },
   "Watchog": {
-    "usageRank": 245,
+    "usageRank": 247,
     "abilities": [
       {
         "name": "Analytic",
@@ -32147,7 +32147,7 @@
       "spd": 1,
       "spe": 0
     },
-    "usageRank": 189,
+    "usageRank": 193,
     "abilities": [
       {
         "name": "Competitive",
@@ -32372,7 +32372,7 @@
       "spd": 2,
       "spe": 32
     },
-    "usageRank": 174,
+    "usageRank": 172,
     "abilities": [
       {
         "name": "Fur Coat",
@@ -32477,7 +32477,7 @@
       "spd": 0,
       "spe": 0
     },
-    "usageRank": 183,
+    "usageRank": 189,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -32594,7 +32594,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 221,
+    "usageRank": 222,
     "abilities": [
       {
         "name": "Defiant",
@@ -32655,7 +32655,7 @@
     ]
   },
   "Swalot": {
-    "usageRank": 225,
+    "usageRank": 229,
     "abilities": [
       {
         "name": "Liquid Ooze",
@@ -32893,7 +32893,7 @@
     ]
   },
   "Gogoat": {
-    "usageRank": 216,
+    "usageRank": 220,
     "abilities": [
       {
         "name": "Grass Pelt",
@@ -33248,7 +33248,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 80,
+    "usageRank": 79,
     "abilities": [
       {
         "name": "Libero",
@@ -33377,7 +33377,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 85,
+    "usageRank": 86,
     "abilities": [
       {
         "name": "Sniper",
@@ -33571,7 +33571,7 @@
     ]
   },
   "Toxtricity": {
-    "usageRank": 112,
+    "usageRank": 111,
     "abilities": [
       {
         "name": "Punk Rock",
@@ -33680,7 +33680,7 @@
     ]
   },
   "Toxtricity (Low Key Form)": {
-    "usageRank": 139,
+    "usageRank": 138,
     "abilities": [
       {
         "name": "Punk Rock",
@@ -33785,7 +33785,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 76,
+    "usageRank": 75,
     "abilities": [
       {
         "name": "Technician",
@@ -33918,7 +33918,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 108,
+    "usageRank": 106,
     "abilities": [
       {
         "name": "Scrappy",
@@ -34136,7 +34136,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 9,
+    "usageRank": 10,
     "abilities": [
       {
         "name": "Psychic Surge",
@@ -34426,7 +34426,7 @@
     ]
   },
   "Arboliva": {
-    "usageRank": 160,
+    "usageRank": 157,
     "abilities": [
       {
         "name": "Harvest",
@@ -34515,7 +34515,7 @@
       "spd": 2,
       "spe": 32
     },
-    "usageRank": 177,
+    "usageRank": 185,
     "abilities": [
       {
         "name": "Intimidate",
@@ -34604,7 +34604,7 @@
     ]
   },
   "Mabosstiff": {
-    "usageRank": 219,
+    "usageRank": 221,
     "abilities": [
       {
         "name": "Guard Dog",
