@@ -2,11 +2,11 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-7 / single",
-    "updatedAt": "2026-11-03",
+    "updatedAt": "2026-11-04",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo.",
     "fillFrom": "champs.pokedb.tokyo — species the primary source had not ranked yet, ranked after its last entry",
-    "fillUpdatedAt": "2026-11-03"
+    "fillUpdatedAt": "2026-11-04"
   },
   "Garchomp": {
     "usageRank": 1,
@@ -47661,52 +47661,60 @@
     }
   },
   "Persian": {
-    "usageRank": 247,
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "usageRank": 263,
     "abilities": [
       {
         "name": "Technician",
-        "pct": 51.3
+        "pct": 52.3
       },
       {
         "name": "Limber",
-        "pct": 44.1
+        "pct": 43.3
       },
       {
         "name": "Unnerve",
-        "pct": 4.6
+        "pct": 4.4
       }
     ],
     "items": [
       {
         "name": "meowsticite",
-        "pct": 41.9
+        "pct": 41.1
       },
       {
         "name": "focus-sash",
-        "pct": 20.9
+        "pct": 21.0
       },
       {
         "name": "normal-gem",
-        "pct": 9.5
-      },
-      {
-        "name": "choice-scarf",
-        "pct": 6.7
+        "pct": 10.0
       },
       {
         "name": "life-orb",
         "pct": 6.4
       },
       {
+        "name": "choice-scarf",
+        "pct": 5.9
+      },
+      {
         "name": "silk-scarf",
         "pct": 4.8
       },
       {
-        "name": "kings-rock",
-        "pct": 1.9
+        "name": "expert-belt",
+        "pct": 2.5
       },
       {
-        "name": "expert-belt",
+        "name": "kings-rock",
         "pct": 1.8
       },
       {
@@ -47715,95 +47723,55 @@
       },
       {
         "name": "rocky-helmet",
-        "pct": 0.7
+        "pct": 0.6
       }
     ],
     "moves": [
       {
         "name": "Power Gem",
-        "pct": 45.4
+        "pct": 45.3
       },
       {
         "name": "Shadow Ball",
-        "pct": 42.2
+        "pct": 41.5
       },
       {
         "name": "Thunder",
-        "pct": 42.1
-      },
-      {
-        "name": "Dark Pulse",
-        "pct": 34.8
+        "pct": 41.4
       },
       {
         "name": "Fake Out",
-        "pct": 33.8
+        "pct": 36.1
+      },
+      {
+        "name": "Dark Pulse",
+        "pct": 35.1
       },
       {
         "name": "Icy Wind",
-        "pct": 25.8
+        "pct": 24.7
       },
       {
         "name": "Water Pulse",
-        "pct": 19.3
+        "pct": 17.5
       },
       {
         "name": "Feint",
-        "pct": 16.9
+        "pct": 16.3
       },
       {
         "name": "Endeavor",
-        "pct": 14.9
+        "pct": 14.2
       },
       {
         "name": "Covet",
-        "pct": 12.4
+        "pct": 11.8
       }
     ],
-    "natures": [
-      {
-        "name": "Serious",
-        "pct": 42.3
-      },
-      {
-        "name": "Jolly",
-        "pct": 15.5
-      },
-      {
-        "name": "Timid",
-        "pct": 15.3
-      },
-      {
-        "name": "Adamant",
-        "pct": 12.7
-      },
-      {
-        "name": "Hasty",
-        "pct": 4.8
-      },
-      {
-        "name": "Naive",
-        "pct": 4.4
-      },
-      {
-        "name": "Naughty",
-        "pct": 1.6
-      },
-      {
-        "name": "Modest",
-        "pct": 1.1
-      },
-      {
-        "name": "Lonely",
-        "pct": 0.7
-      },
-      {
-        "name": "Brave",
-        "pct": 0.5
-      }
-    ],
-    "teras": [],
     "defaultMoves": [
+      {
+        "name": "Fake Out"
+      },
       {
         "name": "Power Gem"
       },
@@ -47812,19 +47780,50 @@
       },
       {
         "name": "Thunder"
-      },
-      {
-        "name": "Dark Pulse"
       }
     ],
-    "defaultSp": {
-      "hp": 1,
-      "atk": 2,
-      "def": 3,
-      "spa": 4,
-      "spd": 5,
-      "spe": 6
-    }
+    "natures": [
+      {
+        "name": "Serious",
+        "pct": 41.4
+      },
+      {
+        "name": "Jolly",
+        "pct": 15.9
+      },
+      {
+        "name": "Timid",
+        "pct": 14.2
+      },
+      {
+        "name": "Adamant",
+        "pct": 14.1
+      },
+      {
+        "name": "Hasty",
+        "pct": 4.7
+      },
+      {
+        "name": "Naive",
+        "pct": 4.1
+      },
+      {
+        "name": "Naughty",
+        "pct": 1.6
+      },
+      {
+        "name": "Modest",
+        "pct": 1.2
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.9
+      },
+      {
+        "name": "Brave",
+        "pct": 0.7
+      }
+    ]
   },
   "Alolan Persian": {
     "usageRank": 146,
