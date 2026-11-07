@@ -2,11 +2,11 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-8 / single",
-    "updatedAt": "2026-11-06",
+    "updatedAt": "2026-11-07",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo.",
     "fillFrom": "champs.pokedb.tokyo — species the primary source had not ranked yet, ranked after its last entry",
-    "fillUpdatedAt": "2026-11-06"
+    "fillUpdatedAt": "2026-11-07"
   },
   "Garchomp": {
     "usageRank": 1,
@@ -289,109 +289,140 @@
     ]
   },
   "Primarina": {
-    "defaultSp": {
-      "hp": 2,
-      "atk": 0,
-      "def": 0,
-      "spa": 32,
-      "spd": 0,
-      "spe": 32
-    },
-    "usageRank": 227,
+    "usageRank": 2,
     "abilities": [
       {
         "name": "Torrent",
-        "pct": 96.7
+        "pct": 95.5
       },
       {
         "name": "Liquid Voice",
-        "pct": 3.3
+        "pct": 4.5
       }
     ],
     "items": [
       {
         "name": "sitrus-berry",
-        "pct": 54.6
+        "pct": 51.6
       },
       {
         "name": "leftovers",
-        "pct": 15.0
-      },
-      {
-        "name": "chesto-berry",
-        "pct": 7.8
+        "pct": 14.1
       },
       {
         "name": "air-balloon",
-        "pct": 7.6
+        "pct": 11.2
       },
       {
         "name": "focus-sash",
-        "pct": 6.0
+        "pct": 7.5
+      },
+      {
+        "name": "chesto-berry",
+        "pct": 6.9
       },
       {
         "name": "mystic-water",
-        "pct": 4.1
+        "pct": 5.0
       },
       {
         "name": "lum-berry",
-        "pct": 2.5
+        "pct": 1.1
       },
       {
         "name": "life-orb",
-        "pct": 0.9
+        "pct": 1.0
       },
       {
-        "name": "choice-scarf",
+        "name": "rindo-berry",
         "pct": 0.4
       },
       {
-        "name": "fairy-feather",
-        "pct": 0.2
+        "name": "rocky-helmet",
+        "pct": 0.3
       }
     ],
     "moves": [
       {
         "name": "Moonblast",
-        "pct": 98.5
+        "pct": 98.8
       },
       {
         "name": "Sparkling Aria",
-        "pct": 75
+        "pct": 76.8
       },
       {
         "name": "Aqua Jet",
-        "pct": 63.1
+        "pct": 61.3
       },
       {
         "name": "Encore",
-        "pct": 49.4
+        "pct": 50.7
       },
       {
         "name": "Calm Mind",
-        "pct": 30.9
+        "pct": 30.1
       },
       {
         "name": "Surf",
-        "pct": 21.6
+        "pct": 18.7
       },
       {
         "name": "Flip Turn",
-        "pct": 14.5
-      },
-      {
-        "name": "Substitute",
-        "pct": 9.7
+        "pct": 15.6
       },
       {
         "name": "Psychic Noise",
-        "pct": 8.3
+        "pct": 9.9
+      },
+      {
+        "name": "Substitute",
+        "pct": 9.3
       },
       {
         "name": "Rest",
-        "pct": 7.9
+        "pct": 6.7
       }
     ],
+    "natures": [
+      {
+        "name": "Modest",
+        "pct": 79.8
+      },
+      {
+        "name": "Bold",
+        "pct": 8.9
+      },
+      {
+        "name": "Quiet",
+        "pct": 6.2
+      },
+      {
+        "name": "Timid",
+        "pct": 1.5
+      },
+      {
+        "name": "Calm",
+        "pct": 1.3
+      },
+      {
+        "name": "Relaxed",
+        "pct": 1.2
+      },
+      {
+        "name": "Hardy",
+        "pct": 0.5
+      },
+      {
+        "name": "Mild",
+        "pct": 0.4
+      },
+      {
+        "name": "Rash",
+        "pct": 0.3
+      }
+    ],
+    "teras": [],
     "defaultMoves": [
       {
         "name": "Moonblast"
@@ -406,48 +437,14 @@
         "name": "Encore"
       }
     ],
-    "natures": [
-      {
-        "name": "Modest",
-        "pct": 78.4
-      },
-      {
-        "name": "Bold",
-        "pct": 8.8
-      },
-      {
-        "name": "Quiet",
-        "pct": 6.5
-      },
-      {
-        "name": "Timid",
-        "pct": 2.1
-      },
-      {
-        "name": "Calm",
-        "pct": 2.0
-      },
-      {
-        "name": "Relaxed",
-        "pct": 1.4
-      },
-      {
-        "name": "Mild",
-        "pct": 0.5
-      },
-      {
-        "name": "Sassy",
-        "pct": 0.1
-      },
-      {
-        "name": "Hardy",
-        "pct": 0.1
-      },
-      {
-        "name": "Rash",
-        "pct": 0.1
-      }
-    ]
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 20,
+      "spa": 14,
+      "spd": 0,
+      "spe": 0
+    }
   },
   "Charizard": {
     "usageRank": 6,
@@ -16022,7 +16019,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 235,
+    "usageRank": 233,
     "abilities": [
       {
         "name": "Blaze",
@@ -19095,7 +19092,7 @@
       "spd": 2,
       "spe": 0
     },
-    "usageRank": 228,
+    "usageRank": 227,
     "abilities": [
       {
         "name": "Sturdy",
@@ -19678,105 +19675,66 @@
     ]
   },
   "Tsareena": {
-    "defaultSp": {
-      "hp": 0,
-      "atk": 32,
-      "def": 0,
-      "spa": 0,
-      "spd": 1,
-      "spe": 32
-    },
-    "usageRank": 230,
+    "usageRank": 224,
     "abilities": [
       {
         "name": "Sweet Veil",
-        "pct": 60.5
-      },
-      {
-        "name": "Queenly Majesty",
-        "pct": 39.5
+        "pct": 100.0
       }
     ],
     "items": [
       {
         "name": "wide-lens",
-        "pct": 73.3
-      },
-      {
-        "name": "sitrus-berry",
-        "pct": 23.3
-      },
-      {
-        "name": "choice-scarf",
-        "pct": 2.3
-      },
-      {
-        "name": "lum-berry",
-        "pct": 1.2
+        "pct": 100.0
       }
     ],
     "moves": [
       {
-        "name": "Triple Axel",
-        "pct": 100
-      },
-      {
         "name": "High Jump Kick",
-        "pct": 98.8
+        "pct": 100.0
       },
       {
         "name": "Rapid Spin",
-        "pct": 84.9
+        "pct": 100.0
       },
       {
         "name": "Power Whip",
-        "pct": 75.6
+        "pct": 100.0
       },
       {
-        "name": "Trop Kick",
-        "pct": 23.3
-      },
-      {
-        "name": "U-turn",
-        "pct": 9.3
-      },
-      {
-        "name": "Knock Off",
-        "pct": 7
-      },
-      {
-        "name": "Low Kick",
-        "pct": 1.2
+        "name": "Triple Axel",
+        "pct": 100.0
       }
     ],
+    "natures": [
+      {
+        "name": "Careful",
+        "pct": 100.0
+      }
+    ],
+    "teras": [],
     "defaultMoves": [
       {
         "name": "Power Whip"
-      },
-      {
-        "name": "Triple Axel"
       },
       {
         "name": "High Jump Kick"
       },
       {
         "name": "Rapid Spin"
+      },
+      {
+        "name": "Triple Axel"
       }
     ],
-    "natures": [
-      {
-        "name": "Jolly",
-        "pct": 58.1
-      },
-      {
-        "name": "Adamant",
-        "pct": 40.7
-      },
-      {
-        "name": "Careful",
-        "pct": 1.2
-      }
-    ]
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 0,
+      "spa": 0,
+      "spd": 32,
+      "spe": 2
+    }
   },
   "Politoed": {
     "usageRank": 86,
@@ -20727,7 +20685,7 @@
     ]
   },
   "Ariados": {
-    "usageRank": 238,
+    "usageRank": 236,
     "abilities": [
       {
         "name": "Insomnia",
@@ -21118,7 +21076,7 @@
     }
   },
   "Hisuian Avalugg": {
-    "usageRank": 243,
+    "usageRank": 241,
     "abilities": [
       {
         "name": "Sturdy",
@@ -22592,7 +22550,7 @@
       "spd": 2,
       "spe": 32
     },
-    "usageRank": 232,
+    "usageRank": 230,
     "abilities": [
       {
         "name": "Cud Chew",
@@ -22689,7 +22647,7 @@
     ]
   },
   "Frost Rotom": {
-    "usageRank": 237,
+    "usageRank": 235,
     "abilities": [
       {
         "name": "Levitate",
@@ -23278,7 +23236,7 @@
       "spd": 32,
       "spe": 0
     },
-    "usageRank": 231,
+    "usageRank": 229,
     "abilities": [
       {
         "name": "Harvest",
@@ -23379,7 +23337,7 @@
     ]
   },
   "Tyrantrum": {
-    "usageRank": 257,
+    "usageRank": 255,
     "abilities": [
       {
         "name": "Rock Head",
@@ -24402,7 +24360,7 @@
     }
   },
   "Meowstic (Female)": {
-    "usageRank": 256,
+    "usageRank": 254,
     "abilities": [
       {
         "name": "Keen Eye",
@@ -24536,7 +24494,7 @@
     ]
   },
   "Gourgeist (Small Size)": {
-    "usageRank": 245,
+    "usageRank": 243,
     "abilities": [
       {
         "name": "Insomnia",
@@ -24609,7 +24567,7 @@
     ]
   },
   "Rampardos": {
-    "usageRank": 247,
+    "usageRank": 245,
     "abilities": [
       {
         "name": "Sheer Force",
@@ -24682,7 +24640,7 @@
     ]
   },
   "Appletun": {
-    "usageRank": 239,
+    "usageRank": 237,
     "abilities": [
       {
         "name": "Thick Fat",
@@ -24739,7 +24697,7 @@
     ]
   },
   "Wyrdeer": {
-    "usageRank": 254,
+    "usageRank": 252,
     "abilities": [
       {
         "name": "Intimidate",
@@ -25646,7 +25604,7 @@
     }
   },
   "Flapple": {
-    "usageRank": 258,
+    "usageRank": 256,
     "abilities": [
       {
         "name": "Ripen",
@@ -25761,7 +25719,7 @@
     }
   },
   "Lycanroc (Midnight Form)": {
-    "usageRank": 252,
+    "usageRank": 250,
     "abilities": [
       {
         "name": "No Guard",
@@ -25814,7 +25772,7 @@
     ]
   },
   "Samurott": {
-    "usageRank": 240,
+    "usageRank": 238,
     "abilities": [
       {
         "name": "Shell Armor",
@@ -25867,7 +25825,7 @@
     ]
   },
   "Tauros": {
-    "usageRank": 234,
+    "usageRank": 232,
     "abilities": [
       {
         "name": "Sheer Force",
@@ -26179,7 +26137,7 @@
     }
   },
   "Passimian": {
-    "usageRank": 253,
+    "usageRank": 251,
     "abilities": [
       {
         "name": "Defiant",
@@ -26368,7 +26326,7 @@
     }
   },
   "Watchog": {
-    "usageRank": 255,
+    "usageRank": 253,
     "abilities": [
       {
         "name": "Illuminate",
@@ -28442,7 +28400,7 @@
     ]
   },
   "Musharna": {
-    "usageRank": 244,
+    "usageRank": 242,
     "abilities": [
       {
         "name": "Forewarn",
@@ -29805,7 +29763,7 @@
       "spd": 1,
       "spe": 32
     },
-    "usageRank": 236,
+    "usageRank": 234,
     "abilities": [
       {
         "name": "Defiant",
@@ -30550,7 +30508,7 @@
     ]
   },
   "Gourgeist (Large Size)": {
-    "usageRank": 246,
+    "usageRank": 244,
     "abilities": [
       {
         "name": "Insomnia",
@@ -30631,7 +30589,7 @@
       "spd": 3,
       "spe": 0
     },
-    "usageRank": 233,
+    "usageRank": 231,
     "abilities": [
       {
         "name": "Insomnia",
@@ -31329,7 +31287,7 @@
     }
   },
   "Perrserker": {
-    "usageRank": 248,
+    "usageRank": 246,
     "abilities": [
       {
         "name": "Tough Claws",
@@ -31386,7 +31344,7 @@
     ]
   },
   "Farfetch'd": {
-    "usageRank": 250,
+    "usageRank": 248,
     "abilities": [
       {
         "name": "Defiant",
@@ -31436,7 +31394,7 @@
     ]
   },
   "Swalot": {
-    "usageRank": 241,
+    "usageRank": 239,
     "abilities": [
       {
         "name": "Liquid Ooze",
@@ -31671,7 +31629,7 @@
     }
   },
   "Gogoat": {
-    "usageRank": 251,
+    "usageRank": 249,
     "abilities": [
       {
         "name": "Sap Sipper",
@@ -32503,7 +32461,7 @@
       "spd": 0,
       "spe": 32
     },
-    "usageRank": 229,
+    "usageRank": 228,
     "abilities": [
       {
         "name": "Punk Rock",
@@ -33306,7 +33264,7 @@
     }
   },
   "Mabosstiff": {
-    "usageRank": 249,
+    "usageRank": 247,
     "abilities": [
       {
         "name": "Stakeout",
@@ -34151,7 +34109,7 @@
     }
   },
   "Mr. Mime": {
-    "usageRank": 242,
+    "usageRank": 240,
     "abilities": [
       {
         "name": "Filter",
