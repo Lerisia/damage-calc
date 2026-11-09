@@ -2,11 +2,11 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-8 / single",
-    "updatedAt": "2026-11-08",
+    "updatedAt": "2026-11-09",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo.",
     "fillFrom": "champs.pokedb.tokyo — species the primary source had not ranked yet, ranked after its last entry",
-    "fillUpdatedAt": "2026-11-08"
+    "fillUpdatedAt": "2026-11-09"
   },
   "Garchomp": {
     "usageRank": 1,
@@ -30601,122 +30601,57 @@
     }
   },
   "Tyrantrum": {
-    "usageRank": 241,
+    "usageRank": 264,
     "abilities": [
       {
         "name": "Rock Head",
-        "pct": 70.8
-      },
-      {
-        "name": "Strong Jaw",
-        "pct": 29.2
+        "pct": 100.0
       }
     ],
     "items": [
       {
-        "name": "wide-lens",
-        "pct": 35.4
-      },
-      {
-        "name": "expert-belt",
-        "pct": 25.0
-      },
-      {
         "name": "choice-scarf",
-        "pct": 20.8
-      },
-      {
-        "name": "life-orb",
-        "pct": 18.8
+        "pct": 100.0
       }
     ],
     "moves": [
       {
-        "name": "Head Smash",
-        "pct": 95.8
-      },
-      {
-        "name": "Earthquake",
-        "pct": 60.4
-      },
-      {
-        "name": "Ice Fang",
-        "pct": 43.8
-      },
-      {
-        "name": "Psychic Fangs",
-        "pct": 43.8
-      },
-      {
         "name": "Outrage",
-        "pct": 31.3
+        "pct": 100
       },
       {
         "name": "Horn Drill",
-        "pct": 31.3
+        "pct": 100
       },
       {
-        "name": "Poison Fang",
-        "pct": 29.2
+        "name": "Head Smash",
+        "pct": 100
       },
       {
-        "name": "Fire Fang",
-        "pct": 25.0
+        "name": "Earthquake",
+        "pct": 100
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Outrage"
       },
       {
-        "name": "Dragon Dance",
-        "pct": 14.6
+        "name": "Head Smash"
       },
       {
-        "name": "Curse",
-        "pct": 10.4
+        "name": "Horn Drill"
+      },
+      {
+        "name": "Earthquake"
       }
     ],
     "natures": [
       {
         "name": "Adamant",
-        "pct": 31.3
-      },
-      {
-        "name": "Careful",
-        "pct": 25.0
-      },
-      {
-        "name": "Jolly",
-        "pct": 18.8
-      },
-      {
-        "name": "Lonely",
-        "pct": 14.6
-      },
-      {
-        "name": "Brave",
-        "pct": 10.4
+        "pct": 100.0
       }
-    ],
-    "teras": [],
-    "defaultMoves": [
-      {
-        "name": "Head Smash"
-      },
-      {
-        "name": "Earthquake"
-      },
-      {
-        "name": "Ice Fang"
-      },
-      {
-        "name": "Psychic Fangs"
-      }
-    ],
-    "defaultSp": {
-      "hp": 2,
-      "atk": 32,
-      "def": 0,
-      "spa": 0,
-      "spd": 0,
-      "spe": 32
-    }
+    ]
   },
   "Luxray": {
     "usageRank": 253,
@@ -42402,7 +42337,6 @@
     }
   },
   "Thievul": {
-    "usageRank": 243,
     "abilities": [
       {
         "name": "Stakeout",
@@ -43762,112 +43696,61 @@
     }
   },
   "Mabosstiff": {
-    "usageRank": 226,
+    "usageRank": 263,
     "abilities": [
       {
         "name": "Stakeout",
-        "pct": 85.7
+        "pct": 75.0
       },
       {
         "name": "Guard Dog",
-        "pct": 9.2
-      },
-      {
-        "name": "Intimidate",
-        "pct": 5.1
+        "pct": 25.0
       }
     ],
     "items": [
       {
         "name": "red-card",
-        "pct": 72.4
-      },
-      {
-        "name": "focus-sash",
-        "pct": 12.2
+        "pct": 75.0
       },
       {
         "name": "leftovers",
-        "pct": 6.1
-      },
-      {
-        "name": "eject-button",
-        "pct": 5.1
-      },
-      {
-        "name": "sitrus-berry",
-        "pct": 2.0
-      },
-      {
-        "name": "black-glasses",
-        "pct": 1.0
-      },
-      {
-        "name": "air-balloon",
-        "pct": 1.0
+        "pct": 25.0
       }
     ],
     "moves": [
       {
         "name": "Jaw Lock",
-        "pct": 52.0
-      },
-      {
-        "name": "Destiny Bond",
-        "pct": 50.0
-      },
-      {
-        "name": "Wild Charge",
-        "pct": 50.0
-      },
-      {
-        "name": "Roar",
-        "pct": 48.0
-      },
-      {
-        "name": "Taunt",
-        "pct": 41.8
-      },
-      {
-        "name": "Play Rough",
-        "pct": 38.8
-      },
-      {
-        "name": "Crunch",
-        "pct": 24.5
+        "pct": 100
       },
       {
         "name": "Curse",
-        "pct": 23.5
+        "pct": 75
       },
       {
-        "name": "Lash Out",
-        "pct": 23.5
+        "name": "Wild Charge",
+        "pct": 75
       },
       {
-        "name": "Trailblaze",
-        "pct": 22.4
+        "name": "Roar",
+        "pct": 50
+      },
+      {
+        "name": "Scary Face",
+        "pct": 25
+      },
+      {
+        "name": "Destiny Bond",
+        "pct": 25
+      },
+      {
+        "name": "Taunt",
+        "pct": 25
+      },
+      {
+        "name": "Comeuppance",
+        "pct": 25
       }
     ],
-    "natures": [
-      {
-        "name": "Adamant",
-        "pct": 58.2
-      },
-      {
-        "name": "Careful",
-        "pct": 22.4
-      },
-      {
-        "name": "Jolly",
-        "pct": 17.3
-      },
-      {
-        "name": "Impish",
-        "pct": 2.0
-      }
-    ],
-    "teras": [],
     "defaultMoves": [
       {
         "name": "Jaw Lock"
@@ -43876,20 +43759,18 @@
         "name": "Wild Charge"
       },
       {
-        "name": "Destiny Bond"
+        "name": "Curse"
       },
       {
         "name": "Roar"
       }
     ],
-    "defaultSp": {
-      "hp": 32,
-      "atk": 32,
-      "def": 2,
-      "spa": 0,
-      "spd": 0,
-      "spe": 0
-    }
+    "natures": [
+      {
+        "name": "Adamant",
+        "pct": 100.0
+      }
+    ]
   },
   "Baxcalibur": {
     "usageRank": 20,
