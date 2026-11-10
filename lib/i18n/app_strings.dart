@@ -2428,6 +2428,11 @@ class AppStrings {
       AppLanguage.en: 'Battery',
       AppLanguage.ja: 'バッテリー',
     },
+    'damage.allySteelySpirit': {
+      AppLanguage.ko: '강철정신',
+      AppLanguage.en: 'Steely Spirit',
+      AppLanguage.ja: 'はがねのせいしん',
+    },
     'damage.allyFlowerGift': {
       AppLanguage.ko: '플라워기프트',
       AppLanguage.en: 'Flower Gift',
@@ -2771,6 +2776,11 @@ class AppStrings {
       AppLanguage.ko: '배터리',
       AppLanguage.en: 'Battery',
       AppLanguage.ja: 'バッテリー',
+    },
+    'note.steelySpirit': {
+      AppLanguage.ko: '강철정신',
+      AppLanguage.en: 'Steely Spirit',
+      AppLanguage.ja: 'はがねのせいしん',
     },
     'note.flowerGift': {
       AppLanguage.ko: '플라워기프트',

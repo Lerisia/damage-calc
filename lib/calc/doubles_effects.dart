@@ -18,6 +18,7 @@
 import '../models/battle_pokemon.dart';
 import '../models/move.dart';
 import '../models/move_tags.dart';
+import '../models/type.dart';
 import '../models/weather.dart';
 import 'fp_multipliers.dart';
 
@@ -42,7 +43,7 @@ class DoublesModifiers {
 
   /// Float product of the attacker's power-affecting doubles toggles
   /// (Helping Hand ×1.5, Power Spot ×1.3, Battery ×1.3 special-only,
-  /// spread ×0.75). Consumed by the 결정력 path (BattleFacade →
+  /// Steely Spirit ×1.5 Steel-only, spread ×0.75). Consumed by the 결정력 path (BattleFacade →
   /// OffensiveCalculator), which chains plain doubles and has no
   /// fp-exactness contract. damage_calculator must IGNORE this —
   /// it applies the same toggles itself, fp-exact.
@@ -73,6 +74,10 @@ const double kPowerSpotMultiplier = kFp1_3;
 
 /// Multiplier from the ally's Battery ability (special moves only).
 const double kBatteryMultiplier = kFp1_3;
+
+/// Multiplier from the ally's Steely Spirit ability (Steel moves only;
+/// stacks with the attacker's own Steely Spirit).
+const double kSteelySpiritMultiplier = 1.5;
 
 /// Attack-stat multiplier from the ally's Flower Gift (in Sun, physical).
 const double kFlowerGiftAttackMultiplier = 1.5;
@@ -149,6 +154,11 @@ DoublesModifiers computeDoublesModifiers({
   if (attacker.allyBattery && move.category == MoveCategory.special) {
     offensivePowerMod *= kBatteryMultiplier;
     notes.add('move:battery:×$kBatteryMultiplier');
+  }
+  // [move] is post-transform, so a Tera Steel Tera Blast counts.
+  if (attacker.allySteelySpirit && move.type == PokemonType.steel) {
+    offensivePowerMod *= kSteelySpiritMultiplier;
+    notes.add('move:steelySpirit:×$kSteelySpiritMultiplier');
   }
 
   // Flower Gift (ally Cherrim): in Sun, ally's Attack × 1.5 (physical only).

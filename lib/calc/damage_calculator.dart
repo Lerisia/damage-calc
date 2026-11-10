@@ -1405,12 +1405,20 @@ class DamageCalculator {
       bpMods.add(_kFP_1_2);
       notes.add('ability:${attacker.selectedAbility}:×1.2');
     }
-    // 5. Doubles ally abilities Battery / Power Spot.
+    // 5. Doubles ally abilities Battery / Power Spot / Steely Spirit.
     if (attacker.allyBattery &&
         effectiveMove.category == MoveCategory.special) {
       bpMods.add(_kFP_1_3);
     }
     if (attacker.allyPowerSpot) bpMods.add(_kFP_1_3);
+    // Steely Spirit is Showdown's `onAllyBasePower` ×1.5 on Steel moves
+    // with no self exclusion: one ×1.5 per holder on the side. The
+    // attacker's own copy already rides in as abilityEffect.powerModifier
+    // (step 4), so with both it is ×2.25.
+    if (attacker.allySteelySpirit &&
+        effectiveMove.type == PokemonType.steel) {
+      bpMods.add(_kFP_1_5);
+    }
     // 6. Collision Course / Electro Drift on super-effective.
     if (isSuperEffective &&
         effectiveMove.hasTag(MoveTags.superEffectiveBoost)) {

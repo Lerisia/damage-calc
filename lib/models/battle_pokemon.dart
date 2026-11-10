@@ -86,6 +86,9 @@ class BattlePokemonState {
   bool allyPowerSpot;
   /// Ally has Battery → attacker's special moves × 1.3.
   bool allyBattery;
+  /// Ally has Steely Spirit → attacker's Steel moves × 1.5 (stacks with
+  /// the attacker's own Steely Spirit).
+  bool allySteelySpirit;
   /// Ally has Friend Guard → attacker takes 0.75× incoming (defender side).
   bool allyFriendGuard;
   /// Ally has Flower Gift → in Sun, attacker Attack × 1.5, ally SpDef × 1.5.
@@ -144,6 +147,7 @@ class BattlePokemonState {
     this.helpingHand = false,
     this.allyPowerSpot = false,
     this.allyBattery = false,
+    this.allySteelySpirit = false,
     this.allyFriendGuard = false,
     this.allyFlowerGift = false,
     this.allyPlusMinus = false,
@@ -211,6 +215,7 @@ class BattlePokemonState {
     'helpingHand': helpingHand,
     'allyPowerSpot': allyPowerSpot,
     'allyBattery': allyBattery,
+    'allySteelySpirit': allySteelySpirit,
     'allyFriendGuard': allyFriendGuard,
     'allyFlowerGift': allyFlowerGift,
     'allyPlusMinus': allyPlusMinus,
@@ -274,6 +279,7 @@ class BattlePokemonState {
       helpingHand: json['helpingHand'] as bool? ?? false,
       allyPowerSpot: json['allyPowerSpot'] as bool? ?? false,
       allyBattery: json['allyBattery'] as bool? ?? false,
+      allySteelySpirit: json['allySteelySpirit'] as bool? ?? false,
       allyFriendGuard: json['allyFriendGuard'] as bool? ?? false,
       allyFlowerGift: json['allyFlowerGift'] as bool? ?? false,
       allyPlusMinus: json['allyPlusMinus'] as bool? ?? false,
@@ -332,6 +338,7 @@ class BattlePokemonState {
     helpingHand = false;
     allyPowerSpot = false;
     allyBattery = false;
+    allySteelySpirit = false;
     allyFriendGuard = false;
     allyFlowerGift = false;
     allyPlusMinus = false;

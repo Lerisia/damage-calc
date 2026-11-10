@@ -95,6 +95,7 @@ String formatModifierNote(
         'helpingHand': 'note.helpingHand',
         'powerSpot': 'note.powerSpot',
         'battery': 'note.battery',
+        'steelySpirit': 'note.steelySpirit',
         'flowerGift': 'note.flowerGift',
         'plusMinus': 'note.plusMinus',
         'friendGuard': 'note.friendGuard',
