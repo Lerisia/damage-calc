@@ -2,11 +2,11 @@
   "_meta": {
     "source": "Pokemon Champions in-game Battle Data via pokechamdb.com",
     "format": "Season M-8 / single",
-    "updatedAt": "2026-11-16",
+    "updatedAt": "2026-11-17",
     "curatedBy": "auto: pokechamdb.com (defaultMoves = role/group rule of 2026-04-30)",
     "notes": "Entries ordered by descending in-game usage. Fetched via spread scraping of pokechamdb's RSC payloads; names mapped JP→EN via nameJa/dexNo.",
     "fillFrom": "champs.pokedb.tokyo — species the primary source had not ranked yet, ranked after its last entry",
-    "fillUpdatedAt": "2026-11-16"
+    "fillUpdatedAt": "2026-11-17"
   },
   "Garchomp": {
     "usageRank": 1,
@@ -17136,15 +17136,23 @@
     ]
   },
   "Scovillain": {
-    "usageRank": 50,
+    "defaultSp": {
+      "hp": 32,
+      "atk": 0,
+      "def": 32,
+      "spa": 0,
+      "spd": 2,
+      "spe": 0
+    },
+    "usageRank": 264,
     "abilities": [
       {
         "name": "Moody",
-        "pct": 71.7
+        "pct": 71.6
       },
       {
         "name": "Insomnia",
-        "pct": 22.6
+        "pct": 22.5
       },
       {
         "name": "Chlorophyll",
@@ -17154,11 +17162,11 @@
     "items": [
       {
         "name": "scovillainite",
-        "pct": 49.9
+        "pct": 50.2
       },
       {
         "name": "leftovers",
-        "pct": 41.5
+        "pct": 41.3
       },
       {
         "name": "life-orb",
@@ -17208,23 +17216,23 @@
       },
       {
         "name": "Giga Drain",
-        "pct": 46.4
+        "pct": 46.7
       },
       {
         "name": "Substitute",
-        "pct": 43.8
+        "pct": 43.7
       },
       {
         "name": "Leaf Storm",
-        "pct": 24.0
+        "pct": 23.7
       },
       {
         "name": "Overheat",
-        "pct": 9.6
+        "pct": 9.5
       },
       {
         "name": "Burning Jealousy",
-        "pct": 9.0
+        "pct": 8.8
       },
       {
         "name": "Solar Beam",
@@ -17232,7 +17240,21 @@
       },
       {
         "name": "Super Fang",
-        "pct": 1.7
+        "pct": 1.8
+      }
+    ],
+    "defaultMoves": [
+      {
+        "name": "Flamethrower"
+      },
+      {
+        "name": "Giga Drain"
+      },
+      {
+        "name": "Protect"
+      },
+      {
+        "name": "Leech Seed"
       }
     ],
     "natures": [
@@ -17250,11 +17272,11 @@
       },
       {
         "name": "Calm",
-        "pct": 12.9
+        "pct": 12.8
       },
       {
         "name": "Quiet",
-        "pct": 0.4
+        "pct": 0.5
       },
       {
         "name": "Relaxed",
@@ -17266,49 +17288,26 @@
       },
       {
         "name": "Careful",
-        "pct": 0.2
+        "pct": 0.3
       },
       {
         "name": "Naive",
-        "pct": 0.1
+        "pct": 0.2
       },
       {
         "name": "Jolly",
         "pct": 0.1
       }
-    ],
-    "teras": [],
-    "defaultMoves": [
-      {
-        "name": "Flamethrower"
-      },
-      {
-        "name": "Giga Drain"
-      },
-      {
-        "name": "Protect"
-      },
-      {
-        "name": "Leech Seed"
-      }
-    ],
-    "defaultSp": {
-      "hp": 5,
-      "atk": 0,
-      "def": 32,
-      "spa": 0,
-      "spd": 18,
-      "spe": 11
-    }
+    ]
   },
   "Mega Scovillain": {
     "defaultSp": {
-      "hp": 5,
+      "hp": 32,
       "atk": 0,
       "def": 32,
       "spa": 0,
-      "spd": 18,
-      "spe": 11
+      "spd": 2,
+      "spe": 0
     },
     "abilities": [
       {
@@ -17335,23 +17334,23 @@
       },
       {
         "name": "Giga Drain",
-        "pct": 46.4
+        "pct": 46.7
       },
       {
         "name": "Substitute",
-        "pct": 43.8
+        "pct": 43.7
       },
       {
         "name": "Leaf Storm",
-        "pct": 24.0
+        "pct": 23.7
       },
       {
         "name": "Overheat",
-        "pct": 9.6
+        "pct": 9.5
       },
       {
         "name": "Burning Jealousy",
-        "pct": 9.0
+        "pct": 8.8
       },
       {
         "name": "Solar Beam",
@@ -17359,7 +17358,7 @@
       },
       {
         "name": "Super Fang",
-        "pct": 1.7
+        "pct": 1.8
       }
     ],
     "defaultMoves": [
@@ -17391,11 +17390,11 @@
       },
       {
         "name": "Calm",
-        "pct": 12.9
+        "pct": 12.8
       },
       {
         "name": "Quiet",
-        "pct": 0.4
+        "pct": 0.5
       },
       {
         "name": "Relaxed",
@@ -17407,11 +17406,11 @@
       },
       {
         "name": "Careful",
-        "pct": 0.2
+        "pct": 0.3
       },
       {
         "name": "Naive",
-        "pct": 0.1
+        "pct": 0.2
       },
       {
         "name": "Jolly",
@@ -17984,15 +17983,23 @@
     ]
   },
   "Ceruledge": {
-    "usageRank": 49,
+    "defaultSp": {
+      "hp": 2,
+      "atk": 32,
+      "def": 0,
+      "spa": 0,
+      "spd": 0,
+      "spe": 32
+    },
+    "usageRank": 263,
     "abilities": [
       {
         "name": "Weak Armor",
-        "pct": 54.1
+        "pct": 54.3
       },
       {
         "name": "Flash Fire",
-        "pct": 45.9
+        "pct": 45.7
       }
     ],
     "items": [
@@ -18002,7 +18009,7 @@
       },
       {
         "name": "life-orb",
-        "pct": 14.3
+        "pct": 14.2
       },
       {
         "name": "leftovers",
@@ -18021,11 +18028,11 @@
         "pct": 2.2
       },
       {
-        "name": "choice-scarf",
+        "name": "shuca-berry",
         "pct": 1.4
       },
       {
-        "name": "shuca-berry",
+        "name": "choice-scarf",
         "pct": 1.3
       },
       {
@@ -18034,13 +18041,13 @@
       },
       {
         "name": "charcoal",
-        "pct": 0.6
+        "pct": 0.7
       }
     ],
     "moves": [
       {
         "name": "Bitter Blade",
-        "pct": 97.0
+        "pct": 97.1
       },
       {
         "name": "Shadow Sneak",
@@ -18048,11 +18055,11 @@
       },
       {
         "name": "Poltergeist",
-        "pct": 82.2
+        "pct": 82.1
       },
       {
         "name": "Swords Dance",
-        "pct": 63.4
+        "pct": 63.2
       },
       {
         "name": "Close Combat",
@@ -18060,11 +18067,11 @@
       },
       {
         "name": "Bulk Up",
-        "pct": 16.0
+        "pct": 15.9
       },
       {
         "name": "Destiny Bond",
-        "pct": 7.6
+        "pct": 7.7
       },
       {
         "name": "Will-O-Wisp",
@@ -18079,49 +18086,6 @@
         "pct": 1.2
       }
     ],
-    "natures": [
-      {
-        "name": "Adamant",
-        "pct": 82.0
-      },
-      {
-        "name": "Jolly",
-        "pct": 11.0
-      },
-      {
-        "name": "Impish",
-        "pct": 3.4
-      },
-      {
-        "name": "Careful",
-        "pct": 1.7
-      },
-      {
-        "name": "Hasty",
-        "pct": 0.5
-      },
-      {
-        "name": "Lonely",
-        "pct": 0.3
-      },
-      {
-        "name": "Naughty",
-        "pct": 0.3
-      },
-      {
-        "name": "Naive",
-        "pct": 0.2
-      },
-      {
-        "name": "Brave",
-        "pct": 0.2
-      },
-      {
-        "name": "Timid",
-        "pct": 0.1
-      }
-    ],
-    "teras": [],
     "defaultMoves": [
       {
         "name": "Bitter Blade"
@@ -18136,14 +18100,48 @@
         "name": "Swords Dance"
       }
     ],
-    "defaultSp": {
-      "hp": 2,
-      "atk": 32,
-      "def": 0,
-      "spa": 0,
-      "spd": 0,
-      "spe": 32
-    }
+    "natures": [
+      {
+        "name": "Adamant",
+        "pct": 81.8
+      },
+      {
+        "name": "Jolly",
+        "pct": 11.1
+      },
+      {
+        "name": "Impish",
+        "pct": 3.5
+      },
+      {
+        "name": "Careful",
+        "pct": 1.8
+      },
+      {
+        "name": "Hasty",
+        "pct": 0.4
+      },
+      {
+        "name": "Lonely",
+        "pct": 0.3
+      },
+      {
+        "name": "Naughty",
+        "pct": 0.3
+      },
+      {
+        "name": "Brave",
+        "pct": 0.2
+      },
+      {
+        "name": "Naive",
+        "pct": 0.2
+      },
+      {
+        "name": "Timid",
+        "pct": 0.1
+      }
+    ]
   },
   "Excadrill": {
     "usageRank": 54,
@@ -40605,57 +40603,170 @@
     }
   },
   "Watchog": {
-    "usageRank": 263,
+    "usageRank": 256,
     "abilities": [
       {
+        "name": "Analytic",
+        "pct": 74.1
+      },
+      {
+        "name": "Keen Eye",
+        "pct": 18.5
+      },
+      {
         "name": "Illuminate",
-        "pct": 100.0
+        "pct": 7.3
       }
     ],
     "items": [
       {
+        "name": "expert-belt",
+        "pct": 30.4
+      },
+      {
+        "name": "focus-sash",
+        "pct": 25.2
+      },
+      {
+        "name": "black-belt",
+        "pct": 14.0
+      },
+      {
+        "name": "normal-gem",
+        "pct": 7.3
+      },
+      {
+        "name": "life-orb",
+        "pct": 4.5
+      },
+      {
+        "name": "leftovers",
+        "pct": 3.9
+      },
+      {
+        "name": "red-card",
+        "pct": 3.9
+      },
+      {
+        "name": "scope-lens",
+        "pct": 2.5
+      },
+      {
+        "name": "sitrus-berry",
+        "pct": 2.2
+      },
+      {
         "name": "zoom-lens",
-        "pct": 100.0
+        "pct": 1.6
       }
     ],
     "moves": [
       {
+        "name": "Ice Punch",
+        "pct": 46.9
+      },
+      {
         "name": "Super Fang",
-        "pct": 100
+        "pct": 41.1
       },
       {
-        "name": "Baton Pass",
-        "pct": 100
+        "name": "Crunch",
+        "pct": 31.0
       },
       {
-        "name": "Nasty Plot",
-        "pct": 100
+        "name": "Gunk Shot",
+        "pct": 30.4
       },
       {
-        "name": "Hypnosis",
-        "pct": 100
+        "name": "Thunder Punch",
+        "pct": 24.8
+      },
+      {
+        "name": "Flamethrower",
+        "pct": 21.2
+      },
+      {
+        "name": "Thunder Wave",
+        "pct": 21.2
+      },
+      {
+        "name": "Grass Knot",
+        "pct": 21.0
+      },
+      {
+        "name": "Giga Impact",
+        "pct": 18.2
+      },
+      {
+        "name": "Confuse Ray",
+        "pct": 17.8
       }
     ],
+    "natures": [
+      {
+        "name": "Brave",
+        "pct": 30.5
+      },
+      {
+        "name": "Quiet",
+        "pct": 21.2
+      },
+      {
+        "name": "Adamant",
+        "pct": 21.2
+      },
+      {
+        "name": "Jolly",
+        "pct": 17.8
+      },
+      {
+        "name": "Careful",
+        "pct": 3.0
+      },
+      {
+        "name": "Bold",
+        "pct": 1.9
+      },
+      {
+        "name": "Relaxed",
+        "pct": 1.4
+      },
+      {
+        "name": "Timid",
+        "pct": 1.1
+      },
+      {
+        "name": "Calm",
+        "pct": 0.8
+      },
+      {
+        "name": "Impish",
+        "pct": 0.8
+      }
+    ],
+    "teras": [],
     "defaultMoves": [
       {
         "name": "Super Fang"
       },
       {
-        "name": "Baton Pass"
+        "name": "Ice Punch"
       },
       {
-        "name": "Nasty Plot"
+        "name": "Crunch"
       },
       {
-        "name": "Hypnosis"
+        "name": "Gunk Shot"
       }
     ],
-    "natures": [
-      {
-        "name": "Relaxed",
-        "pct": 100.0
-      }
-    ]
+    "defaultSp": {
+      "hp": 24,
+      "atk": 17,
+      "def": 0,
+      "spa": 0,
+      "spd": 25,
+      "spe": 0
+    }
   },
   "Simisage": {
     "usageRank": 246,
