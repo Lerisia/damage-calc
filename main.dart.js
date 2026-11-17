@@ -58323,7 +58323,7 @@ if(q!==0)return q
 return B.j.aS(o[3],r[3])},
 $S:65}
 A.xP.prototype={
-G(a){var s=this,r=null,q=A.l(A.f("app.title"),r,r,r,r,B.fT,r,r),p=t.p,o=A.aH(A.a([B.atQ,B.aE,A.l(A.f("about.description"),r,r,r,r,r,r,r),B.aE,A.l(A.f("about.subtitle"),r,r,r,r,B.bi,r,r),B.b2,B.atU,A.a5(A.a([B.atP,A.bP(!1,r,!0,A.l("\ucc38\ud608",r,r,r,r,A.a6(r,r,A.B(a).ax.b,r,B.kw,A.B(a).ax.b,r,r,r,r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r),r,!0,r,r,r,r,r,r,r,r,r,new A.ac1(s),r,r,r,r,r,r,r)],p),B.n,r,B.k,B.B,0,r),B.alq,B.alr,B.b2,A.a5(A.a([A.Wb(B.wQ,A.l(A.f("banner.getAndroid"),r,r,r,r,B.f1,r,r),new A.ac2(s),A.Wc(r,r,r,r,r,r,r,r,r,r,r,B.Q,B.hv,r,r,r,r,B.b6,r,r)),B.a_,A.Wb(B.wT,A.l(A.f("banner.getIos"),r,r,r,r,B.f1,r,r),new A.ac3(s),A.Wc(r,r,r,r,r,r,r,r,r,r,r,B.Q,B.hv,r,r,r,r,B.b6,r,r))],p),B.n,r,B.k,B.m,0,r),B.rU,A.l(A.f("about.support"),r,r,r,r,B.fU,r,r),B.aX,A.cb(r,A.b4h("assets/bmc_button.png",r,B.d6,r,220),B.v,!1,r,r,r,r,r,r,r,r,r,r,r,r,r,r,new A.ac4(s),r,r,r,r,r,r),B.dc,B.RS,B.aE,A.l(A.f("about.beta"),r,r,r,r,B.arP,r,r),B.b2,A.l(A.f("about.disclaimer"),r,r,r,r,B.KW,r,r),B.b2,A.l(A.f("sprite.creditTitle"),r,r,r,r,B.nf,r,r),B.bh,A.l(A.f("sprite.creditBody"),r,r,r,r,B.arC,r,r)],p),B.Y,B.k,B.B)
+G(a){var s=this,r=null,q=A.l(A.f("app.title"),r,r,r,r,B.fT,r,r),p=t.p,o=A.aH(A.a([B.atR,B.aE,A.l(A.f("about.description"),r,r,r,r,r,r,r),B.aE,A.l(A.f("about.subtitle"),r,r,r,r,B.bi,r,r),B.b2,B.atU,A.a5(A.a([B.atP,A.bP(!1,r,!0,A.l("\ucc38\ud608",r,r,r,r,A.a6(r,r,A.B(a).ax.b,r,B.kw,A.B(a).ax.b,r,r,r,r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r),r,!0,r,r,r,r,r,r,r,r,r,new A.ac1(s),r,r,r,r,r,r,r)],p),B.n,r,B.k,B.B,0,r),B.alq,B.alr,B.b2,A.a5(A.a([A.Wb(B.wQ,A.l(A.f("banner.getAndroid"),r,r,r,r,B.f1,r,r),new A.ac2(s),A.Wc(r,r,r,r,r,r,r,r,r,r,r,B.Q,B.hv,r,r,r,r,B.b6,r,r)),B.a_,A.Wb(B.wT,A.l(A.f("banner.getIos"),r,r,r,r,B.f1,r,r),new A.ac3(s),A.Wc(r,r,r,r,r,r,r,r,r,r,r,B.Q,B.hv,r,r,r,r,B.b6,r,r))],p),B.n,r,B.k,B.m,0,r),B.rU,A.l(A.f("about.support"),r,r,r,r,B.fU,r,r),B.aX,A.cb(r,A.b4h("assets/bmc_button.png",r,B.d6,r,220),B.v,!1,r,r,r,r,r,r,r,r,r,r,r,r,r,r,new A.ac4(s),r,r,r,r,r,r),B.dc,B.RS,B.aE,A.l(A.f("about.beta"),r,r,r,r,B.arP,r,r),B.b2,A.l(A.f("about.disclaimer"),r,r,r,r,B.KW,r,r),B.b2,A.l(A.f("sprite.creditTitle"),r,r,r,r,B.nf,r,r),B.bh,A.l(A.f("sprite.creditBody"),r,r,r,r,B.arC,r,r)],p),B.Y,B.k,B.B)
 return A.dL(A.a([A.bT(A.l(A.f("action.close"),r,r,r,r,r,r,r),r,r,new A.ac5(a),r,r)],p),r,o,r,!1,q,r)}}
 A.ac1.prototype={
 $0(){window.location.assign("https://www.youtube.com/channel/UCosEFmvzPgbzLWZhKYE4fkw")
@@ -131390,8 +131390,8 @@ B.aj6=new A.Wg(1,"rootOverlay")
 B.UW=new A.bO(B.fs,14,null,null,null)
 B.aj7=new A.a9(B.hw,B.UW,null)
 B.bi=new A.C(!0,null,null,null,null,null,13,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.atR=new A.eQ("~",null,B.bi,null,null,null,null,null,null,null)
-B.ET=new A.a9(B.di,B.atR,null)
+B.atQ=new A.eQ("~",null,B.bi,null,null,null,null,null,null,null)
+B.ET=new A.a9(B.di,B.atQ,null)
 B.EU=new A.a9(B.eH,B.iL,null)
 B.ra=new A.vl(null)
 B.c2=new A.Wn(0,"fill")
@@ -132287,7 +132287,7 @@ B.asE=new A.C(!0,B.w,null,".AppleSystemUIFont",null,null,null,null,null,null,nul
 B.apy=new A.C(!0,B.w,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.p,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.atO=new A.f3(B.arp,B.aqg,B.arq,B.arV,B.apY,B.aq5,B.aqB,B.arO,B.aqP,B.ask,B.apr,B.apJ,B.ash,B.asE,B.apy)
 B.atP=new A.eQ("Design review  ",null,null,null,null,null,null,null,null,null)
-B.atQ=new A.eQ("v1.17.0",null,null,null,null,null,null,null,null,null)
+B.atR=new A.eQ("v1.17.1",null,null,null,null,null,null,null,null,null)
 B.atS=new A.eQ("  \u2192  ",null,B.KW,null,null,null,null,null,null,null)
 B.atT=new A.eQ("\ud83c\udf10",null,null,null,null,null,null,null,null,null)
 B.atU=new A.eQ("By  Elyss",null,null,null,null,null,null,null,null,null)
